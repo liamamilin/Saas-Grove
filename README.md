@@ -77,6 +77,9 @@ blueprints/<模板名>/
 | 路径 | 内容 |
 |---|---|
 | `blueprints/` | 模板。第一个：`ai-research-assistant/`（草稿，等待审批 spec 和验收） |
+| `harness/` | 构建与验收工具：A 组按模板分阶段构建，B 组不用模板；用户模拟；见 `harness/README.md` |
+| `experiments/` | 对比实验的固定输入（例如冻结的用户需求） |
+| `runs/` | 每次构建的运行目录（不入库） |
 | `research/` | 调研素材。是事实输入，不是规范 |
 | `references/` | 第三方代码的本地参考副本，不是底座 |
 | `harness-proposals/` | 另一个会话起草的 delegate-impl 工具（待决定是否安装；其中项目配置仍指向已删除的 `factory-impl/`） |
