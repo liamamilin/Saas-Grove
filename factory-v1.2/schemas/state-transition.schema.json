@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/state-transition.schema.json",
+  "title": "state-transition",
+  "description": "CF-7 fix. One canonical transition record with one canonical role enum. from/to use the single canonical job-state vocabulary; the legacy aliases PACKAGE_CANDIDATE and 'payload freeze' are documented as STAGING_ARTIFACT, not separate states.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "jobId",
+    "attemptId",
+    "from",
+    "to",
+    "actor",
+    "role",
+    "reason",
+    "evidenceIds",
+    "idempotencyKey",
+    "timestamp"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attemptId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "from": {
+      "$ref": "#/$defs/jobState"
+    },
+    "to": {
+      "$ref": "#/$defs/jobState"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "PRODUCT_OWNER",
+        "DISCOVERY_AGENT",
+        "BUILDER_AGENT",
+        "VALIDATOR",
+        "SECURITY_LICENSE_REVIEWER",
+        "RELEASE_APPROVER"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 0
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checkpointId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactSha256": {
+      "type": "string",
+      "pattern": "^([a-f0-9]{64}|UNBUILT)$"
+    }
+  },
+  "$defs": {
+    "jobState": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "DISCOVERING",
+        "EVALUATING",
+        "AWAITING_SELECTION",
+        "PLAN_APPROVED",
+        "TRANSFORMING",
+        "CALIBRATING",
+        "STAGING_ARTIFACT",
+        "VALIDATING",
+        "AWAITING_RELEASE_APPROVAL",
+        "PUBLISHING",
+        "REGISTERED",
+        "REJECTED",
+        "BLOCKED",
+        "PAUSED",
+        "STOPPED_FOR_REVIEW",
+        "RECHECK",
+        "CANCELED"
+      ]
+    }
+  }
+}

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Template Factory — read-only console</title>
+  <style>
+    :root {
+      --bg: #0f1115; --panel: #171a21; --line: #2a2f3a; --fg: #e6e9ef;
+      --muted: #98a1b3; --accent: #6ea8fe; --ok: #4ade80; --blocked: #f87171;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    header { padding: 20px 24px; border-bottom: 1px solid var(--line); }
+    h1 { margin: 0 0 6px; font-size: 18px; }
+    .note { color: var(--muted); font-size: 12px; max-width: 78ch; }
+    main { padding: 20px 24px; display: grid; gap: 20px; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+    section > h2 {
+      margin: 0; padding: 12px 16px; font-size: 13px; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line);
+    }
+    .body { padding: 12px 16px; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px;
+            border: 1px solid var(--line); }
+    .pill.ok { color: var(--ok); border-color: #1f5136; }
+    .pill.blocked { color: var(--blocked); border-color: #5b2626; }
+    .muted { color: var(--muted); }
+    .err { color: var(--blocked); }
+    button { background: #232838; color: var(--fg); border: 1px solid var(--line);
+             border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+    button:hover { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Template Factory — read-only console</h1>
+    <p class="note">
+      Metadata consistency only. This is not a build, security, license or
+      signature verification, and not a commercial certification. This UI is
+      read-only: it can inspect the normative transition table, jobs, schemas and
+      registry index, but it cannot release anything.
+    </p>
+  </header>
+  <main>
+    <section>
+      <h2>Health</h2>
+      <div class="body" id="health">loading…</div>
+    </section>
+    <section>
+      <h2>Normative transition table (doc 07)</h2>
+      <div class="body" id="transitions">loading…</div>
+    </section>
+    <section>
+      <h2>Jobs</h2>
+      <div class="body" id="jobs">loading…</div>
+    </section>
+    <section>
+      <h2>Batches</h2>
+      <div class="body" id="batches">loading…</div>
+    </section>
+    <section>
+      <h2>Registry index</h2>
+      <div class="body" id="registry">loading…</div>
+    </section>
+    <section>
+      <h2>Schemas</h2>
+      <div class="body" id="schemas">loading…</div>
+    </section>
+  </main>
+
+  <script>
+    const esc = (s) => String(s).replace(/[&<>"']/g, c =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    async function getJSON(path) {
+      const r = await fetch(path, { headers: { accept: "application/json" } });
+      if (!r.ok && r.status !== 409) throw new Error(`${path}: HTTP ${r.status}`);
+      return r.json();
+    }
+
+    async function health() {
+      const el = document.getElementById("health");
+      try {
+        const d = await getJSON("../health");
+        el.innerHTML =
+          `<div>status: <span class="pill ok">${esc(d.status)}</span></div>` +
+          `<div class="muted">factory ${esc(d.factoryVersion)} · root ${esc(d.root)}</div>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    async function transitions() {
+      const el = document.getElementById("transitions");
+      try {
+        const { transitions } = await getJSON("../transitions");
+        const rows = transitions.map(t => `
+          <tr>
+            <td>${t.number}</td>
+            <td>${esc(t.from)} &rarr; ${esc(t.to)}</td>
+            <td>${esc(t.roles.join(", "))}</td>
+            <td>${t.cosigners.length ? esc(t.cosigners.join(", ")) : "<span class='muted'>—</span>"}</td>
+            <td class="muted">${esc(t.requires)}</td>
+          </tr>`).join("");
+        el.innerHTML = `<table><thead><tr>
+            <th>#</th><th>from &rarr; to</th><th>roles</th><th>co-sign</th><th>requires</th>
+          </tr></thead><tbody>${rows}</tbody></table>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    async function jobs() {
+      const el = document.getElementById("jobs");
+      try {
+        const { jobs } = await getJSON("../jobs");
+        if (!jobs.length) { el.innerHTML = `<span class="muted">no jobs yet</span>`; return; }
+        const rows = jobs.map(j => `
+          <tr>
+            <td>${esc(j.jobId)}</td>
+            <td>${esc(j.state)}</td>
+            <td>${esc(j.riskClass)}</td>
+            <td class="muted">${esc(j.attemptId)}</td>
+            <td class="muted">${esc(j.targetId)}</td>
+          </tr>`).join("");
+        el.innerHTML = `<table><thead><tr>
+            <th>jobId</th><th>state</th><th>riskClass</th><th>attemptId</th><th>targetId</th>
+          </tr></thead><tbody>${rows}</tbody></table>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    async function batches() {
+      const el = document.getElementById("batches");
+      try {
+        const { batches } = await getJSON("../batches");
+        if (!batches.length) { el.innerHTML = `<span class="muted">no batches yet</span>`; return; }
+        const details = await Promise.all(batches.map(b => getJSON(`../batches/${encodeURIComponent(b.batchId)}`)));
+        const rows = details.map(d => {
+          const b = d.data.batch;
+          const counts = Object.entries(b.counts).map(([k, n]) => `${esc(k)}: ${n}`).join(" · ");
+          const stop = b.stopReason
+            ? `<span class="pill blocked">${esc(b.stopReason)}</span>`
+            : `<span class="muted">—</span>`;
+          return `<tr>
+            <td>${esc(b.batchId)}</td>
+            <td>${esc(b.executionMode)}</td>
+            <td>${counts}</td>
+            <td>$${esc(b.usdSpent)} / $${esc(b.limits.maxUsd)}</td>
+            <td>${stop}</td>
+          </tr>`;
+        }).join("");
+        el.innerHTML = `<table><thead><tr>
+            <th>batch</th><th>mode</th><th>jobs by status</th><th>spend / budget</th><th>stopped</th>
+          </tr></thead><tbody>${rows}</tbody></table>
+          <div class="muted">Counts per status only — never a completion percentage (doc 11).</div>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    async function registry() {
+      const el = document.getElementById("registry");
+      try {
+        const { resources } = await getJSON("../registry");
+        if (!resources.length) { el.innerHTML = `<span class="muted">registry is empty</span>`; return; }
+        const rows = resources.map(r => `
+          <tr>
+            <td>${esc(r.key)}</td>
+            <td>${esc(r.state ? r.state.qualityLevel : "—")}</td>
+            <td>${esc(r.state ? r.state.verificationStatus : "—")}</td>
+            <td>${esc(r.state ? r.state.publicationStatus : "—")}</td>
+          </tr>`).join("");
+        el.innerHTML = `<table><thead><tr><th>resource</th><th>qualityLevel</th>
+          <th>verificationStatus</th><th>publicationStatus</th>
+          </tr></thead><tbody>${rows}</tbody></table>
+          <div class="muted">qualityLevel is a display snapshot; it is not a production admission.</div>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    async function schemas() {
+      const el = document.getElementById("schemas");
+      try {
+        const { schemas, count } = await getJSON("../schemas");
+        el.innerHTML = `<div class="muted">${count} schemas</div>` +
+          `<div>${schemas.map(s => `<code>${esc(s)}</code>`).join(" · ")}</div>`;
+      } catch (e) { el.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    }
+
+    health(); transitions(); jobs(); batches(); registry(); schemas();
+  </script>
+</body>
+</html>

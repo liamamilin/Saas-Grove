@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/production-job.schema.json",
+  "title": "production-job",
+  "description": "CF-8 fix. Schema for the ProductionJob tracked object named in 01/02/07/11.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "jobId",
+    "targetId",
+    "catalogRevision",
+    "attemptId",
+    "state",
+    "riskClass",
+    "inputSha",
+    "workspaceId",
+    "checkpointId",
+    "owner",
+    "ownerRole",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "catalogRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attemptId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "DISCOVERING",
+        "EVALUATING",
+        "AWAITING_SELECTION",
+        "PLAN_APPROVED",
+        "TRANSFORMING",
+        "CALIBRATING",
+        "STAGING_ARTIFACT",
+        "VALIDATING",
+        "AWAITING_RELEASE_APPROVAL",
+        "PUBLISHING",
+        "REGISTERED",
+        "REJECTED",
+        "BLOCKED",
+        "PAUSED",
+        "STOPPED_FOR_REVIEW",
+        "RECHECK",
+        "CANCELED"
+      ]
+    },
+    "riskClass": {
+      "type": "string",
+      "enum": [
+        "READ_ONLY",
+        "SANDBOX_CODE",
+        "EXTERNAL_SANDBOX_API",
+        "PRODUCTION_SENSITIVE"
+      ]
+    },
+    "inputSha": {
+      "type": "string",
+      "pattern": "^([a-f0-9]{64}|UNSELECTED)$"
+    },
+    "workspaceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpointId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budgetRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ownerRole": {
+      "type": "string",
+      "enum": [
+        "PRODUCT_OWNER",
+        "DISCOVERY_AGENT",
+        "BUILDER_AGENT",
+        "VALIDATOR",
+        "SECURITY_LICENSE_REVIEWER",
+        "RELEASE_APPROVER"
+      ]
+    },
+    "parentJobId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

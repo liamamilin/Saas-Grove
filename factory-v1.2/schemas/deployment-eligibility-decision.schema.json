@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/deployment-eligibility-decision.schema.json",
+  "title": "deployment-eligibility-decision",
+  "description": "CF-4 fix. Single source of truth for usePolicy. usePolicy is never derived from qualityLevel and never stored in the payload manifest or the resource-state; the state only references this decision by id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "decisionId",
+    "resourceId",
+    "resourceVersion",
+    "artifactSha256",
+    "scopeId",
+    "usePolicy",
+    "approvalId",
+    "decidedBy",
+    "decidedByRole",
+    "decidedAt",
+    "rationale"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "decisionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactSha256": {
+      "type": "string",
+      "pattern": "^([a-f0-9]{64}|UNBUILT)$"
+    },
+    "scopeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "usePolicy": {
+      "type": "string",
+      "enum": [
+        "RESEARCH_ONLY",
+        "SANDBOX_ONLY",
+        "INTERNAL_ONLY",
+        "PRODUCTION_ELIGIBLE"
+      ]
+    },
+    "approvalId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decidedBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decidedByRole": {
+      "type": "string",
+      "enum": [
+        "PRODUCT_OWNER",
+        "DISCOVERY_AGENT",
+        "BUILDER_AGENT",
+        "VALIDATOR",
+        "SECURITY_LICENSE_REVIEWER",
+        "RELEASE_APPROVER"
+      ]
+    },
+    "decidedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "usePolicy": {
+            "const": "PRODUCTION_ELIGIBLE"
+          }
+        },
+        "required": [
+          "usePolicy"
+        ]
+      },
+      "then": {
+        "properties": {
+          "approvalId": {
+            "minLength": 1
+          },
+          "decidedByRole": {
+            "const": "RELEASE_APPROVER"
+          }
+        }
+      }
+    }
+  ]
+}

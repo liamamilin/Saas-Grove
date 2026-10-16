@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.2",
+  "catalogRevision": "catalog-v0.2-sample",
+  "targets": [
+    {
+      "id": "saas.payments.wechat",
+      "name": "微信支付适配器（Sandbox Only）",
+      "resourceType": "saas-core-module",
+      "capabilitiesRequired": [
+        "payment.create",
+        "payment.query",
+        "payment.verify-webhook",
+        "payment.idempotency"
+      ],
+      "scope": {
+        "deployment": "isolated test only",
+        "region": "CN",
+        "userScenario": "sandbox order payment simulation; no real funds",
+        "exclusions": [
+          "live charge",
+          "production credentials",
+          "automatic recurring charges"
+        ]
+      },
+      "targetQualityLevel": "L1",
+      "priority": "P0",
+      "licensePolicy": "permissive-preferred",
+      "acceptanceProfileId": "profile.billing.sandbox.v1",
+      "sourceStrategy": "discover",
+      "constraints": {
+        "stack": [
+          "typescript",
+          "node>=20"
+        ],
+        "distribution": "internal-only",
+        "environments": [
+          "sandbox"
+        ],
+        "deadline": "2026-12-31",
+        "notes": "No live merchant credentials in this phase."
+      },
+      "maxCandidates": 5,
+      "selectionPolicy": {
+        "mode": "MULTI_SOURCE_COMPARISON_REQUIRED",
+        "ruleRef": "03_DISCOVERY_SELECTION.md#candidate-matrix"
+      },
+      "batchTags": [
+        "pilot-a",
+        "payments",
+        "read-only-first"
+      ],
+      "budget": {
+        "maxUsd": 15,
+        "maxAttempts": 3
+      },
+      "owner": "product-owner",
+      "dependencies": [],
+      "externalDependencies": [
+        {
+          "id": "saas.billing-core",
+          "origin": "internal planned module",
+          "lockedRevision": "UNSELECTED",
+          "status": "UNVERIFIED"
+        }
+      ]
+    },
+    {
+      "id": "business.crm",
+      "name": "CRM 业务应用",
+      "resourceType": "business-saas-template",
+      "capabilitiesRequired": [
+        "customer.create",
+        "customer.list",
+        "contact.list",
+        "opportunity.list",
+        "opportunity.move-stage"
+      ],
+      "scope": {
+        "deployment": "self-hosted test instance",
+        "region": "multi",
+        "userScenario": "customer and opportunity management with user authorization",
+        "exclusions": [
+          "full ERP",
+          "marketing campaign automation"
+        ]
+      },
+      "targetQualityLevel": "L2",
+      "priority": "P0",
+      "licensePolicy": "permissive-preferred",
+      "acceptanceProfileId": "profile.business.crm.v1",
+      "sourceStrategy": "discover",
+      "constraints": {
+        "stack": [
+          "typescript",
+          "postgres",
+          "nextjs"
+        ],
+        "distribution": "not-decided",
+        "environments": [
+          "sandbox",
+          "self-hosted-trial"
+        ],
+        "deadline": "2027-03-31"
+      },
+      "maxCandidates": 6,
+      "selectionPolicy": {
+        "mode": "MULTI_SOURCE_COMPARISON_REQUIRED",
+        "ruleRef": "03_DISCOVERY_SELECTION.md#candidate-matrix"
+      },
+      "batchTags": [
+        "pilot-b",
+        "business-app",
+        "multi-candidate"
+      ],
+      "budget": {
+        "maxUsd": 25,
+        "maxAttempts": 3
+      },
+      "owner": "product-owner",
+      "prototypeRequirements": {
+        "targetCount": 2,
+        "implementationLevel": "integrated"
+      }
+    },
+    {
+      "id": "ai.workflow",
+      "name": "AI Workflow App",
+      "resourceType": "ai-native-template",
+      "capabilitiesRequired": [
+        "workflow.create",
+        "workflow.execute",
+        "workflow.retry",
+        "artifact.read"
+      ],
+      "scope": {
+        "deployment": "sandbox self-hosted",
+        "region": "multi",
+        "userScenario": "input multi-step execution and secure artifact",
+        "exclusions": [
+          "unbounded autonomous tool actions",
+          "production PII"
+        ]
+      },
+      "targetQualityLevel": "L2",
+      "priority": "P0",
+      "licensePolicy": "permissive-preferred",
+      "acceptanceProfileId": "profile.ai.workflow.v1",
+      "sourceStrategy": "discover",
+      "constraints": {
+        "stack": [
+          "typescript",
+          "node>=20",
+          "queue"
+        ],
+        "distribution": "not-decided",
+        "environments": [
+          "sandbox"
+        ],
+        "notes": "Model provider terms are UNKNOWN and must be audited before any LIVE channel."
+      },
+      "selectionPolicy": {
+        "mode": "MULTI_SOURCE_COMPARISON_REQUIRED",
+        "ruleRef": "03_DISCOVERY_SELECTION.md#candidate-matrix"
+      },
+      "batchTags": [
+        "pilot-c",
+        "ai",
+        "no-live-model"
+      ],
+      "budget": {
+        "maxUsd": 25,
+        "maxAttempts": 3
+      },
+      "owner": "product-owner",
+      "prototypeRequirements": {
+        "targetCount": 1,
+        "implementationLevel": "integrated"
+      }
+    }
+  ]
+}

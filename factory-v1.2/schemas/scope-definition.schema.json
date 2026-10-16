@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/scope-definition.schema.json",
+  "title": "scope-definition",
+  "description": "CF-8 fix. The immutable ScopeDefinition that scopeId must point to (16_SCOPE_ATTESTATION_MODEL.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "scopeId",
+    "deploymentMode",
+    "runtime",
+    "database",
+    "tenantModel",
+    "region",
+    "regulatoryEnvironment",
+    "capabilitySet",
+    "thirdPartyChannels",
+    "exclusions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "scopeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deploymentMode": {
+      "type": "string",
+      "enum": [
+        "LOCAL",
+        "SELF_HOSTED",
+        "MANAGED",
+        "HYBRID"
+      ]
+    },
+    "runtime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "database": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tenantModel": {
+      "type": "string",
+      "enum": [
+        "SINGLE_TENANT",
+        "MULTI_TENANT",
+        "HYBRID"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "minLength": 1
+    },
+    "regulatoryEnvironment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilitySet": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "thirdPartyChannels": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "channel"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "MOCK",
+              "SANDBOX",
+              "LIVE"
+            ]
+          }
+        }
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    }
+  }
+}

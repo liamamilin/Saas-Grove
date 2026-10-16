@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/resource-manifest.schema.json",
+  "title": "resource-manifest (payload content only)",
+  "description": "CF-5 fix. The resource manifest is PAYLOAD CONTENT ONLY. It is frozen before VALIDATE and therefore cannot contain anything produced during or after validation: no qualityLevel, verificationStatus, usePolicy, publicationStatus, evidenceIds, attestationRefs, deploymentEligibilityRef, defaultScopeId or artifactSha256. Certification/registry data lives in artifact-freeze / scoped-attestation / resource-state / deployment-eligibility-decision, joined by digest.",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceType": {
+      "type": "string",
+      "enum": [
+        "saas-core-module",
+        "business-saas-template",
+        "ai-native-template",
+        "saas-ai-module"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "maintainer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilitiesProvided": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "deliveryForm": {
+      "type": "string",
+      "enum": [
+        "NATIVE",
+        "FORK",
+        "INTEGRATION"
+      ]
+    },
+    "originStrategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "REUSE",
+            "INTEGRATE",
+            "BUILD_FROM_SPEC"
+          ]
+        },
+        "upstreamUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lockedRevision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "licenseTextRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "licenseDistributionPermitted": {
+          "type": "boolean"
+        },
+        "externalSystemTermsRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "externalSystemSeparate": {
+          "type": "boolean"
+        },
+        "deliversThirdPartySource": {
+          "type": "boolean"
+        },
+        "specRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "firstParty": {
+          "type": "boolean"
+        },
+        "sourceEvidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "acceptanceRequirementRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "strategy": {
+                "const": "REUSE"
+              }
+            },
+            "required": [
+              "strategy"
+            ]
+          },
+          "then": {
+            "required": [
+              "upstreamUrl",
+              "lockedRevision",
+              "licenseTextRef",
+              "licenseDistributionPermitted",
+              "acceptanceRequirementRef"
+            ],
+            "not": {
+              "required": [
+                "specRef"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "strategy": {
+                "const": "INTEGRATE"
+              }
+            },
+            "required": [
+              "strategy"
+            ]
+          },
+          "then": {
+            "required": [
+              "upstreamUrl",
+              "externalSystemTermsRef",
+              "externalSystemSeparate",
+              "deliversThirdPartySource",
+              "acceptanceRequirementRef"
+            ],
+            "properties": {
+              "externalSystemSeparate": {
+                "const": true
+              },
+              "deliversThirdPartySource": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "strategy": {
+                "const": "BUILD_FROM_SPEC"
+              }
+            },
+            "required": [
+              "strategy"
+            ]
+          },
+          "then": {
+            "required": [
+              "specRef",
+              "firstParty",
+              "acceptanceRequirementRef"
+            ],
+            "properties": {
+              "firstParty": {
+                "const": true
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "upstreamUrl"
+                  ]
+                },
+                {
+                  "required": [
+                    "lockedRevision"
+                  ]
+                },
+                {
+                  "required": [
+                    "licenseTextRef"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "origins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "usage": {
+            "type": "string",
+            "enum": [
+              "vendored",
+              "dependency",
+              "integration",
+              "reference",
+              "first-party"
+            ]
+          },
+          "licenseStatus": {
+            "type": "string",
+            "enum": [
+              "APPROVED",
+              "REVIEW_REQUIRED",
+              "BLOCKED",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "revision",
+          "usage",
+          "licenseStatus"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "prototypeResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "versionRange": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementationLevel": {
+            "type": "string",
+            "enum": [
+              "design-only",
+              "interactive-mock",
+              "integrated"
+            ]
+          },
+          "coverage": {
+            "type": "string",
+            "enum": [
+              "full-app",
+              "page",
+              "flow"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "versionRange",
+          "implementationLevel",
+          "coverage"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "knownLimitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "licenseReport": {
+      "type": "string",
+      "minLength": 1
+    },
+    "installGuide": {
+      "type": "string",
+      "minLength": 1
+    },
+    "testPlan": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "resourceType",
+    "version",
+    "maintainer",
+    "capabilitiesProvided",
+    "deliveryForm",
+    "originStrategy",
+    "origins",
+    "knownLimitations",
+    "licenseReport",
+    "installGuide",
+    "testPlan"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.1/scoped-attestation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "attestationId",
+    "resourceId",
+    "resourceVersion",
+    "artifactSha256",
+    "scopeId",
+    "profileId",
+    "profileVersion",
+    "requestedLevel",
+    "attestedLevel",
+    "attestationStatus",
+    "gateEvidenceIds",
+    "issuedAt",
+    "expiresAt",
+    "reviewerId",
+    "reviewDecisionId",
+    "limitations"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.1"
+    },
+    "attestationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactSha256": {
+      "pattern": "^([a-f0-9]{64}|UNBUILT)$",
+      "type": "string"
+    },
+    "scopeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profileId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profileVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requestedLevel": {
+      "enum": [
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "attestedLevel": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        null
+      ]
+    },
+    "attestationStatus": {
+      "enum": [
+        "DRAFT",
+        "ACTIVE",
+        "REVIEW_DUE",
+        "REVOKED",
+        "SUPERSEDED"
+      ]
+    },
+    "gateEvidenceIds": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewerId": {
+      "type": "string"
+    },
+    "reviewDecisionId": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "attestationStatus": {
+            "const": "ACTIVE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "artifactSha256": {
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "attestedLevel": {
+            "type": "string"
+          },
+          "reviewerId": {
+            "minLength": 1
+          },
+          "reviewDecisionId": {
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

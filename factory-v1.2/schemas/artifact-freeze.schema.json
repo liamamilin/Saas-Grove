@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/factory/v1.2/artifact-freeze.schema.json",
+  "title": "artifact-freeze",
+  "description": "CF-5 fix. Records the freeze event that closes the payload before VALIDATE. The freeze binds the immutable payload bytes (artifactSha256) and the frozen manifest payload view (payloadManifestSha256). Nothing about certification is stored here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "freezeId",
+    "resourceId",
+    "resourceVersion",
+    "artifactSha256",
+    "payloadManifestSha256",
+    "frozenAt",
+    "frozenBy",
+    "fileList",
+    "immutable"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.2"
+      ]
+    },
+    "freezeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "payloadManifestSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "frozenAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "frozenBy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fileList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "immutable": {
+      "const": true
+    }
+  }
+}
