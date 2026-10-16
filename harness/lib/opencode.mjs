@@ -13,7 +13,7 @@ export function sessionId(...parts) {
  * Run one agent turn. Resolves when opencode exits.
  * The JSON event stream goes to `logFile`; the agent's final text is returned.
  */
-export function runAgent({ cwd, agent, model, session, message, logFile, timeoutMs = 3 * 60 * 60 * 1000 }) {
+export function runAgent({ cwd, agent, model, session, message, logFile, sandbox, timeoutMs = 3 * 60 * 60 * 1000 }) {
   // --standalone: a private server per turn, so the run's freshly written agent config is
   // always read (the shared background service caches configuration).
   const args = ["run", "--standalone", "--format", "json", "--auto", "--session", session, "--agent", agent];
@@ -24,7 +24,9 @@ export function runAgent({ cwd, agent, model, session, message, logFile, timeout
     const out = fs.openSync(logFile, "a");
     // opencode locates the project from $PWD, not from the process cwd, so a
     // child started with `cwd` alone would look for agents in the parent's dir.
-    const child = spawn("opencode", args, { cwd, env: { ...process.env, PWD: cwd }, stdio: ["ignore", "pipe", "pipe"] });
+    const env = { ...process.env, PWD: cwd, NEXT_TELEMETRY_DISABLED: "1" };
+    const [cmd, argv] = sandbox ? ["/usr/bin/sandbox-exec", ["-f", sandbox, "opencode", ...args]] : ["opencode", args];
+    const child = spawn(cmd, argv, { cwd, env, stdio: ["ignore", "pipe", "pipe"] });
     let texts = [];
     let errors = [];
     let buffer = "";
@@ -64,27 +66,30 @@ export function runAgent({ cwd, agent, model, session, message, logFile, timeout
   });
 }
 
-/** Token totals of a session, from `opencode session export`. */
-export function sessionUsage(cwd, session) {
-  try {
-    const raw = execFileSync("opencode", ["session", "export", "--standalone", session], {
-      cwd,
-      env: { ...process.env, PWD: cwd },
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-      maxBuffer: 512 * 1024 * 1024,
-    });
-    const info = JSON.parse(raw).info ?? {};
-    const t = info.tokens ?? {};
-    return {
-      input: t.input ?? 0,
-      output: t.output ?? 0,
-      reasoning: t.reasoning ?? 0,
-      cacheRead: t.cache?.read ?? 0,
-      cacheWrite: t.cache?.write ?? 0,
-      cost: info.cost ?? 0,
-    };
-  } catch {
-    return null;
+/** Token totals of a session, from `opencode session export`; null if unavailable. */
+export function sessionUsage(cwd, session, attempts = 3) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const raw = execFileSync("opencode", ["session", "export", "--standalone", session], {
+        cwd,
+        env: { ...process.env, PWD: cwd },
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+        maxBuffer: 512 * 1024 * 1024,
+      });
+      const info = JSON.parse(raw).info ?? {};
+      const t = info.tokens ?? {};
+      return {
+        input: t.input ?? 0,
+        output: t.output ?? 0,
+        reasoning: t.reasoning ?? 0,
+        cacheRead: t.cache?.read ?? 0,
+        cacheWrite: t.cache?.write ?? 0,
+        cost: info.cost ?? 0,
+      };
+    } catch {
+      if (i < attempts) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2000 * i);
+    }
   }
+  return null;
 }

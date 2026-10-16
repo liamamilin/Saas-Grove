@@ -1,15 +1,19 @@
-// Run directories: one per build, each its own git repository.
+// Run directories: one per build.
 //
-//   runs/<id>/
-//     app/            the product the agent builds (the only place it may edit)
-//     blueprint/      a copy of the blueprint for the agent to read (read-only by policy)
-//     brief/          inputs that are not the blueprint (user brief, test contract)
-//     .opencode/      agent definitions, rewritten by the harness before every turn
-//     opencode.jsonc  project policy, rewritten likewise
-//     harness/        the harness's own records (journal, logs, verify reports, reviews)
+//   $HARNESS_RUNS_DIR/<id>/   (default /Users/Shared/saas-template-runs)
+//     project/          the agent's world, its own git repository (snapshots)
+//       app/            the product the agent builds (the only place it may edit)
+//       blueprint/      a copy of the blueprint for the agent to read (A only)
+//       brief/          the user brief, and for B the test contract
+//       .opencode/      agent definitions, rewritten before every turn
+//       opencode.jsonc  project policy, rewritten likewise
+//     records/          the harness's own records: state, journal, logs,
+//                       verification reports, reviews, sandbox profile
 //
-// Verification never uses runs/<id>/blueprint: it runs the pristine copy in the
-// main repository, so whatever the agent does to its copy changes nothing.
+// Agent turns run in a sandbox that can reach <id>/project and nothing else of
+// the runs directory or of $HOME, so records, other runs, the repository (the
+// pristine blueprint, the acceptance tests, .env) are out of the agent's reach. Verification always runs the
+// pristine blueprint in the main repository against project/app.
 
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -18,7 +22,11 @@ import { fileURLToPath } from "node:url";
 
 export const HARNESS = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const REPO = path.dirname(HARNESS);
-export const RUNS = path.join(REPO, "runs");
+// Outside the home directory on purpose: opencode resolves every ancestor of
+// its project directory at startup, and the sandbox denies everything under
+// $HOME, so runs inside the repository could not start. Override with
+// HARNESS_RUNS_DIR.
+export const RUNS = process.env.HARNESS_RUNS_DIR ?? "/Users/Shared/saas-template-runs";
 
 export const MODELS = {
   builder: "open-design/deepseek-v4.1-flash",
@@ -38,14 +46,18 @@ export function loadTemplate(id) {
 
 export function runPaths(runId) {
   const root = path.join(RUNS, runId);
+  const project = path.join(root, "project");
+  const records = path.join(root, "records");
   return {
     root,
-    app: path.join(root, "app"),
-    blueprint: path.join(root, "blueprint"),
-    brief: path.join(root, "brief"),
-    records: path.join(root, "harness"),
-    journal: path.join(root, "harness", "journal.jsonl"),
-    state: path.join(root, "harness", "state.json"),
+    project,
+    app: path.join(project, "app"),
+    blueprint: path.join(project, "blueprint"),
+    brief: path.join(project, "brief"),
+    records,
+    journal: path.join(records, "journal.jsonl"),
+    state: path.join(records, "state.json"),
+    sandbox: path.join(records, "sandbox.sb"),
   };
 }
 
@@ -53,15 +65,17 @@ function git(cwd, ...args) {
   return execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
 }
 
-/** Copy a blueprint without its installed or generated files. */
+/**
+ * Copy a blueprint, including the acceptance suite's installed dependencies as
+ * real files (relative symlinks inside node_modules kept as they are). Nothing
+ * in the copy points back into the main repository.
+ */
 function copyBlueprint(src, dest) {
   fs.cpSync(src, dest, {
     recursive: true,
-    filter: (p) => !/(^|\/)(node_modules|acceptance-results|\.DS_Store)(\/|$)/.test(p),
+    verbatimSymlinks: true,
+    filter: (p) => !/(^|\/)(acceptance-results|\.DS_Store)(\/|$)/.test(p),
   });
-  // Let the agent run the acceptance suite from its copy without installing anything.
-  const modules = path.join(src, "acceptance", "node_modules");
-  if (fs.existsSync(modules)) fs.symlinkSync(modules, path.join(dest, "acceptance", "node_modules"));
 }
 
 export function createRun({ runId, kind, blueprint }) {
@@ -72,27 +86,27 @@ export function createRun({ runId, kind, blueprint }) {
   fs.mkdirSync(p.records, { recursive: true });
   if (kind === "template") copyBlueprint(blueprintDir(blueprint), p.blueprint);
   fs.writeFileSync(
-    path.join(p.root, ".gitignore"),
-    ["node_modules/", ".next/", "acceptance-results/", "blueprint/acceptance/node_modules", "harness/", ".DS_Store", ""].join("\n"),
+    path.join(p.project, ".gitignore"),
+    ["node_modules/", ".next/", "acceptance-results/", ".DS_Store", ""].join("\n"),
   );
   fs.writeFileSync(path.join(p.app, ".keep"), "");
-  git(p.root, "init", "-q", "-b", "main");
+  git(p.project, "init", "-q", "-b", "main");
   return p;
 }
 
 /** Write the project policy and agent definitions for this run (every turn). */
 export function writeAgentConfig(runId) {
   const p = runPaths(runId);
-  fs.mkdirSync(path.join(p.root, ".opencode", "agents"), { recursive: true });
-  fs.copyFileSync(path.join(HARNESS, "agents", "opencode.jsonc"), path.join(p.root, "opencode.jsonc"));
+  fs.mkdirSync(path.join(p.project, ".opencode", "agents"), { recursive: true });
+  fs.copyFileSync(path.join(HARNESS, "agents", "opencode.jsonc"), path.join(p.project, "opencode.jsonc"));
   for (const name of ["builder.md", "reviewer.md"]) {
-    fs.copyFileSync(path.join(HARNESS, "agents", name), path.join(p.root, ".opencode", "agents", name));
+    fs.copyFileSync(path.join(HARNESS, "agents", name), path.join(p.project, ".opencode", "agents", name));
   }
 }
 
-/** Commit the run's current files as a snapshot; returns the commit id. */
+/** Commit the run's project as a snapshot; returns the commit id. */
 export function snapshot(runId, message) {
-  const root = runPaths(runId).root;
+  const root = runPaths(runId).project;
   git(root, "add", "-A");
   try {
     git(root, "-c", "user.name=harness", "-c", "user.email=harness@localhost", "commit", "-q", "--allow-empty", "-m", message);

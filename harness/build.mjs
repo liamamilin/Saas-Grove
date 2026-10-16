@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Group A: build a product from a blueprint, stage by stage.
 //
-//   node harness/build.mjs new --blueprint <id> --brief <file> [--run <run-id>]
-//   node harness/build.mjs step --run <run-id> [--max-attempts 6] [--auto-approve]
+//   node harness/build.mjs new --blueprint <id> --brief <file> [--run <run-id>] [--max-attempts 6]
+//   node harness/build.mjs step --run <run-id> [--auto-approve]
 //   node harness/build.mjs approve --run <run-id>
 //   node harness/build.mjs feedback --run <run-id> (--notes <file> | --review)
 //   node harness/build.mjs status --run <run-id>
@@ -31,7 +31,7 @@ import { agentTurn, describeFailures, verify, writeStatus } from "./lib/steps.mj
 
 function args(argv) {
   const [command, ...rest] = argv;
-  const opts = { command, maxAttempts: 6 };
+  const opts = { command };
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i];
     const next = () => rest[++i];
@@ -43,6 +43,9 @@ function args(argv) {
     else if (a === "--max-attempts") opts.maxAttempts = Number(next());
     else if (a === "--auto-approve") opts.autoApprove = true;
     else throw new Error(`unknown argument ${a}`);
+  }
+  if (opts.maxAttempts !== undefined && command !== "new") {
+    throw new Error("--max-attempts is fixed when the run is created (build.mjs new)");
   }
   return opts;
 }
@@ -67,16 +70,24 @@ function cmdNew(opts) {
     phase: "build",
     attempt: 0,
     lastVerify: null,
+    // Fixed for the whole run so every stage gets the same allowance.
+    maxAttempts: opts.maxAttempts ?? 6,
   };
   saveState(runId, state);
-  journal(runId, "run.created", { kind: "template", blueprint: opts.blueprint, brief: opts.brief, models: MODELS });
+  journal(runId, "run.created", {
+    kind: "template",
+    blueprint: opts.blueprint,
+    brief: opts.brief,
+    models: MODELS,
+    maxAttempts: state.maxAttempts,
+  });
   snapshot(runId, "run created");
   writeStatus(runId, state);
   console.log(`harness: created run ${runId} at ${p.root}`);
   console.log(`next: node harness/build.mjs step --run ${runId}`);
 }
 
-async function buildUntilPass(runId, state, opts, firstMessage) {
+async function buildUntilPass(runId, state, firstMessage) {
   const stage = state.stages[state.stageIndex];
   let message = firstMessage;
   for (;;) {
@@ -98,7 +109,7 @@ async function buildUntilPass(runId, state, opts, firstMessage) {
       saveState(runId, state);
       return true;
     }
-    if (state.attempt >= opts.maxAttempts) {
+    if (state.attempt >= state.maxAttempts) {
       state.phase = "stuck";
       saveState(runId, state);
       journal(runId, "stage.stuck", { stage, attempts: state.attempt });
@@ -152,7 +163,7 @@ async function cmdStep(opts) {
     }
     if (state.phase === "build") {
       const brief = fs.readFileSync(path.join(runPaths(runId).brief, "user-brief.md"), "utf8").trim();
-      await buildUntilPass(runId, state, opts, prompt("stage", { brief, stage, stageDoc: stageDoc(state, stage) }));
+      await buildUntilPass(runId, state, prompt("stage", { brief, stage, stageDoc: stageDoc(state, stage) }));
       continue;
     }
     if (state.phase === "review") {
@@ -203,9 +214,13 @@ async function cmdFeedback(opts) {
   const stage = state.stages[state.stageIndex];
   journal(runId, "human.feedback", { stage, source: opts.useReview ? "review" : notesFile });
   state.phase = "build";
-  if (state.attempt >= opts.maxAttempts) state.attempt = 0; // a human intervention grants a new allowance
+  if (state.attempt >= state.maxAttempts) {
+    // A human intervention grants a fresh allowance; recorded so it is visible.
+    journal(runId, "attempts.reset", { stage, after: state.attempt });
+    state.attempt = 0;
+  }
   saveState(runId, state);
-  await buildUntilPass(runId, state, opts, prompt("feedback", { stage, notes }));
+  await buildUntilPass(runId, state, prompt("feedback", { stage, notes }));
   await cmdStep(opts);
 }
 

@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { runAgent, sessionId, sessionUsage } from "./opencode.mjs";
 import { blueprintDir, journal, readJournal, runPaths, writeAgentConfig } from "./run.mjs";
+import { assertSandboxAvailable, writeProfile } from "./sandbox.mjs";
 
 /** One agent turn in a run, journaled with time and token deltas. */
 export async function agentTurn(runId, { role, agent, model, sessionKey, message, label }) {
@@ -20,11 +21,18 @@ export async function agentTurn(runId, { role, agent, model, sessionKey, message
   fs.mkdirSync(logDir, { recursive: true });
   const logFile = path.join(logDir, `${label}.jsonl`);
   console.log(`harness: ${role} turn "${label}" (${model}) …`);
-  const result = await runAgent({ cwd: p.root, agent, model, session, message, logFile });
-  const after = sessionUsage(p.root, session);
+  assertSandboxAvailable();
+  const sandbox = writeProfile(p.sandbox, p.project);
+  const result = await runAgent({ cwd: p.project, agent, model, session, message, logFile, sandbox });
+  const after = sessionUsage(p.project, session);
   const tokens = after
     ? Object.fromEntries(Object.entries(after).map(([k, v]) => [k, v - (before?.[k] ?? 0)]))
     : null;
+  if (!after) {
+    // Never silently undercount: a turn without usage is visible in STATUS.md.
+    journal(runId, "usage.missing", { label, session });
+    console.log(`harness: WARNING token usage of "${label}" could not be read`);
+  }
   journal(runId, "agent.turn", {
     role,
     label,
@@ -58,7 +66,7 @@ export function verify(runId, { blueprint, stage, label }) {
     fs.mkdirSync(path.join(p.records, "verify"), { recursive: true });
     const log = fs.openSync(path.join(p.records, "verify", `${label}.log`), "w");
     const child = spawn("node", [runner, "--app", p.app, "--stage", stage, "--out", out], {
-      cwd: p.root,
+      cwd: p.records,
       stdio: ["ignore", log, log],
     });
     child.on("exit", (code) => {
@@ -125,11 +133,13 @@ export function writeStatus(runId, state) {
     `# Run ${runId}`,
     "",
     `- kind: ${state.kind}`,
+    ...(state.maxAttempts ? [`- attempts allowed per stage: ${state.maxAttempts}`] : []),
     `- blueprint: ${state.blueprint}`,
     `- phase: **${state.phase}**${state.stages ? ` (stage ${state.stages[state.stageIndex] ?? "—"})` : ""}`,
     `- agent turns: ${turns.length} (builder ${turns.filter((t) => t.role === "builder").length}, reviewer ${turns.filter((t) => t.role === "reviewer").length})`,
     `- agent time: ${minutes(turns.reduce((t, e) => t + e.ms, 0))} min; verification time: ${minutes(verifies.reduce((t, e) => t + e.ms, 0))} min`,
     `- tokens: input ${sum(turns, "input")}, output ${sum(turns, "output")}, reasoning ${sum(turns, "reasoning")}, cache read ${sum(turns, "cacheRead")}`,
+    `- turns whose token usage could not be read: ${turns.filter((t) => !t.tokens).length}${turns.some((t) => !t.tokens) ? " (totals above are a LOWER bound)" : ""}`,
     `- human interventions: ${human.length}`,
     "",
     "| verification | stage | passed | failed | started |",

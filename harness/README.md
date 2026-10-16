@@ -20,7 +20,10 @@ node harness/baseline.mjs new --blueprint ai-research-assistant --brief experime
 node harness/baseline.mjs go  --run <run-id>                   # 一直跑到 agent 说 DONE（最多 6 轮），然后用 S4 验收打分
 ```
 
-记录都在 `runs/<run-id>/harness/` 下：`journal.jsonl`（每一次 agent 调用和验收的耗时、token、结果）、`STATUS.md`（汇总）、`logs/`（agent 的完整事件流和回复）、`verify/`（验收报告和应用日志）、`reviews/`（独立审查报告）。
+运行目录默认在 `/Users/Shared/saas-template-runs/<run-id>/`（可以用 `HARNESS_RUNS_DIR` 改）。之所以放在家目录之外，见下面的"隔离"一节。每个运行目录下有两部分：
+
+- `project/`：agent 的工作范围，本身是一个 git 仓库，用来存快照；里面有 `app/`（产品）、`blueprint/`（模板副本，A 组才有）、`brief/`（用户需求，B 组还有测试接口约定）；
+- `records/`：harness 自己的记录，agent 看不到。包括 `state.json`、`journal.jsonl`（每次 agent 调用和验收的耗时、token、结果）、`STATUS.md`（汇总）、`logs/`（agent 的完整事件流和回复）、`verify/`（验收报告和应用日志）、`reviews/`（独立审查报告）、`sandbox.sb`（这次用的沙箱配置）。
 
 ## A 组每个阶段的流程
 
@@ -39,19 +42,38 @@ B 组拿到用户需求，外加模板的**可测性契约**（`api.yaml` 和 `a
 
 ## 隔离
 
-- 每个运行目录都是一个独立的 git 仓库。agent 的权限配置（`.opencode/`、`opencode.jsonc`）由 harness 在每次调用前重新写入，agent 改了也不会生效。
-- builder 只能用编辑工具改 `app/`；读不到 `.env`、`*.pem`、`*.key`；不能访问运行目录之外的路径；不能联网查资料（安装 npm 包除外）；不能 `git push`、`sudo`、`brew`。
-- reviewer 不能编辑、不能执行任何命令。
-- 验收永远用主仓库里的模板原件，agent 改动自己那份副本没有任何作用。
+opencode 的工具权限只管它自己的文件工具，管不住 shell，而 agent 必须能执行 shell（装依赖、跑验收）。所以真正的隔离靠 **macOS 沙箱（`sandbox-exec`）**：每一次 agent 调用，包括它启动的所有 shell 命令，都在沙箱里运行（配置见 `lib/sandbox.mjs`）。
 
-**已知局限**：builder 可以执行 shell 命令，而 shell 不受编辑权限的限制，理论上能写到 `app/` 以外的地方。这一点靠"验收用原件"兜底，没有沙箱隔离。
+- **家目录里的内容一律不可读写**，只有工具链需要的目录例外：nvm、npm 缓存、opencode 自己的目录、`~/.cache`、`~/Library/Caches`、`~/.gitconfig`、`~/.pyenv`；其中可写的只有缓存和 opencode 的数据目录。主仓库在家目录里，所以模板原件、验收测试、`.env` 都读不到，也写不进。
+- **运行目录根下的内容一律不可读写**，只有本次运行的 `project/` 例外。因此 harness 的记录读不到，**其他运行**也读不到。比如 B 组读不到 A 组的模板副本。
+- 验收用的测试依赖是**真实拷贝**，不链接回原件，所以 agent 怎么折腾自己那份都碰不到原件。
+- 在此之上，opencode 的工具权限再加一层：builder 只能用编辑工具改 `app/`，不能联网查资料，不能 `git push`、`sudo`、`brew`；reviewer 不能编辑、不能执行任何命令。agent 的配置在每次调用前都由 harness 重新写入。
+
+**沙箱挡不住的**（已知，暂时接受）：
+- 网络是通的（`npm install` 需要联网），agent 可以用 `curl` 访问外网。
+- opencode 运行时必须读取自己的配置和凭证（`~/.config/opencode`、`~/.local/share/opencode/auth.json`），所以 agent 能读到它正在使用的那个 provider 的 key。
+- opencode 启动时要解析家目录、`~/.claude`、`~/.agents` 和运行目录根，所以 agent 能看到这几个目录里有哪些文件和文件夹的**名字**，但读不到内容。
+- 这只是防止"越界看到、越界写坏"，不是用来关押恶意代码的沙箱。
 
 ## 已经踩过的坑（都已在代码里处理）
 
 - opencode 用 `$PWD` 而不是进程的工作目录来定位项目。用 Node 启动子进程时必须同时设置 `PWD`，否则它会去父目录找 agent，报 `Agent not found`。
-- 共享的后台服务会缓存配置，而且由它创建的会话会一直绑在旧配置上。所以 harness 的所有 opencode 调用都用 `--standalone`，也不会在第一次调用之前先导出会话。
+- 共享的后台服务会缓存配置，而且由它创建的会话会一直绑在旧配置上。所以 harness 的所有 opencode 调用都用 `--standalone`。
 - 会话 ID 必须以 `ses` 开头。
+- opencode 启动时会对项目目录的**每一级上层目录**都做 realpath。放在家目录里的运行目录，进了沙箱后会因此启动失败（报 `UnexpectedStatus: 500`），这就是运行目录要放到家目录之外的原因。
 
-## 验证过的事
+## 验证过的事（2026-10-17）
 
-2026-10-17 做过一次金丝雀测试，以 opencode 记录下来的工具调用结果为准，不看 agent 自己怎么说：builder 往 `app/` 写文件成功；用编辑工具改 `blueprint/` 被拒绝（`Permission denied: edit`）；读运行目录之外的 `.env` 被拒绝（`Permission denied: external_directory`）。reviewer 的生效权限是"禁止一切编辑和 shell"（用 `opencode debug agents` 核对）。验收管道能用模板原件跑空应用、得到报告，并把失败原因整理成修复提示。
+以下结果都以系统和 opencode 自己的记录为准，不看 agent 自己怎么说：
+
+- **固定检查（不调用模型）**：在沙箱里，读模板原件、读验收测试、读主仓库 `.env`、读 harness 记录、写记录、写家目录、读 `~/.claude` 的内容、列 `~/.ssh`，全部被拒绝；读自己的模板副本、写 `app/`、运行 node/npm/git/psql/opencode、`npm install`、**在沙箱里完整跑一次验收**（建库、启动应用、vitest、Playwright），全部正常。
+- **带模型的测试**：builder 在沙箱里用 shell 写 `app/` 成功；用 shell 读模板原件、`.env` 和 harness 记录，都得到 `Operation not permitted`；token 用量正常记录。
+- 第一轮测试（还没加沙箱时）：builder 用编辑工具改模板副本被拒绝，读运行目录之外的文件被拒绝。reviewer 的生效权限是"禁止一切编辑和 shell"。
+
+## 独立审查
+
+harness v0 交给一个独立 agent 只读审查过。它指出的问题都已修复：
+- 加沙箱之前，shell 可以绕过所有读取限制，B 组能读到模板和测试，`.env` 也会泄露；
+- 测试依赖用软链接指回原件，有被写坏的风险；
+- token 导出失败时会悄悄漏算：现在会重试，仍然失败就记一条 `usage.missing`，并在 `STATUS.md` 里标出"总数是下限"；
+- 最大重试次数没有保存进运行状态：现在在 `new` 时固定，后面的命令不能再改。
