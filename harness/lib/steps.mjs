@@ -143,7 +143,8 @@ export function writeStatus(runId, state) {
     `- agent time: ${minutes(turns.reduce((t, e) => t + e.ms, 0))} min; verification time: ${minutes(verifies.reduce((t, e) => t + e.ms, 0))} min`,
     `- tokens: input ${sum(turns, "input")}, output ${sum(turns, "output")}, reasoning ${sum(turns, "reasoning")}, cache read ${sum(turns, "cacheRead")}`,
     `- turns whose token usage could not be read: ${turns.filter((t) => !t.tokens).length}${turns.some((t) => !t.tokens) ? " (totals above are a LOWER bound)" : ""}`,
-    `- human interventions: ${human.length}`,
+    // Approvals are checkpoints; feedback rounds are interventions that change the work.
+    `- human approvals: ${human.filter((e) => e.event === "human.approve").length}; human feedback rounds (interventions): ${human.filter((e) => e.event === "human.feedback").length}`,
     "",
     "| verification | stage | passed | failed | started |",
     "|---|---|---|---|---|",
