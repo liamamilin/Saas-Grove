@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Group B: build the same product WITHOUT the blueprint.
 //
-//   node harness/baseline.mjs new --blueprint <id> --brief <file> [--run <run-id>]
+//   node harness/baseline.mjs new --blueprint <id> --brief <file> [--run <run-id>] [--with-tests]
 //   node harness/baseline.mjs go --run <run-id> [--max-rounds 6]
 //   node harness/baseline.mjs review --run <run-id>   (normally part of `go`; runs the final review alone)
 //   node harness/baseline.mjs status --run <run-id>
@@ -20,6 +20,7 @@ import path from "node:path";
 import {
   MODELS,
   blueprintDir,
+  copyAcceptanceOnly,
   createRun,
   journal,
   loadState,
@@ -42,6 +43,7 @@ function args(argv) {
     else if (a === "--brief") opts.brief = path.resolve(next());
     else if (a === "--run") opts.run = next();
     else if (a === "--max-rounds") opts.maxRounds = Number(next());
+    else if (a === "--with-tests") opts.withTests = true;
     else throw new Error(`unknown argument ${a}`);
   }
   return opts;
@@ -69,7 +71,9 @@ function cmdNew(opts) {
   fs.mkdirSync(path.join(p.brief, "contract"), { recursive: true });
   fs.copyFileSync(path.join(blueprintDir(opts.blueprint), "spec", "api.yaml"), path.join(p.brief, "contract", "api.yaml"));
   fs.writeFileSync(path.join(p.brief, "contract", "testability.md"), testabilityExtract(opts.blueprint));
-  const state = { kind: "baseline", blueprint: opts.blueprint, phase: "build", round: 0, done: false };
+  // --with-tests: the builder also gets the runnable acceptance suite (and nothing else of the blueprint).
+  if (opts.withTests) copyAcceptanceOnly(opts.blueprint, runId);
+  const state = { kind: "baseline", blueprint: opts.blueprint, phase: "build", round: 0, done: false, withTests: !!opts.withTests };
   saveState(runId, state);
   journal(runId, "run.created", { kind: "baseline", blueprint: opts.blueprint, brief: opts.brief, models: MODELS });
   snapshot(runId, "run created");
@@ -94,6 +98,9 @@ async function reviewFinal(runId, state) {
     message: prompt("review-baseline", {
       stage,
       stageDoc,
+      given: state.withTests
+        ? "用户需求、测试接口约定和一套可以自己运行的验收测试"
+        : "用户需求和测试接口约定",
       passed: state.finalTotals?.passed ?? "?",
       failed: state.finalTotals?.failed ?? "?",
     }),
@@ -118,7 +125,10 @@ async function cmdGo(opts) {
       agent: "builder",
       model: MODELS.builder,
       sessionKey: "baseline",
-      message: state.round === 1 ? prompt("baseline", { brief }) : prompt("baseline-continue", {}),
+      message:
+        state.round === 1
+          ? prompt(state.withTests ? "baseline-tests" : "baseline", { brief })
+          : prompt(state.withTests ? "baseline-tests-continue" : "baseline-continue", {}),
       label: `round-${state.round}`,
     });
     snapshot(runId, `round ${state.round}`);

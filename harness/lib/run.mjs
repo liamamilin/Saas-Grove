@@ -78,6 +78,25 @@ function copyBlueprint(src, dest) {
   });
 }
 
+/**
+ * Copy only the acceptance suite of a blueprint (tests, runner and installed dependencies) into
+ * `project/blueprint/acceptance`, so the builder can run it with the same command group A uses.
+ * Nothing else of the blueprint is copied: no spec, no stages, no template instructions, and not
+ * the suite's own README (which talks about the spec).
+ */
+export function copyAcceptanceOnly(blueprintId, runId) {
+  const dest = path.join(runPaths(runId).blueprint, "acceptance");
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.cpSync(path.join(blueprintDir(blueprintId), "acceptance"), dest, {
+    recursive: true,
+    verbatimSymlinks: true,
+    // Dependencies are copied as they are; only the suite's own files are filtered.
+    filter: (p) =>
+      p.includes("node_modules") ||
+      (!/(^|\/)(acceptance-results|\.DS_Store)(\/|$)/.test(p) && path.basename(p) !== "README.md"),
+  });
+}
+
 export function createRun({ runId, kind, blueprint }) {
   const p = runPaths(runId);
   if (fs.existsSync(p.root)) throw new Error(`run ${runId} already exists`);
