@@ -4,7 +4,7 @@
 //   node harness/build.mjs new --blueprint <id> --brief <file> [--run <run-id>] [--max-attempts 6]
 //   node harness/build.mjs step --run <run-id> [--auto-approve]
 //   node harness/build.mjs approve --run <run-id>
-//   node harness/build.mjs feedback --run <run-id> (--notes <file> | --review)
+//   node harness/build.mjs feedback --run <run-id> (--notes <file> | --review)   (also reopens a finished run)
 //   node harness/build.mjs status --run <run-id>
 //
 // `step` loops build -> snapshot -> verify (pristine blueprint) -> fix, until
@@ -207,6 +207,16 @@ function cmdApprove(opts) {
 async function cmdFeedback(opts) {
   const runId = opts.run;
   const state = loadState(runId);
+  if (state.phase === "done") {
+    // The last stage was approved, and a late round (for example one that works through the backlog
+    // of findings) is still wanted: reopen the last stage. It is recorded, and it counts as one more
+    // feedback round and one more approval, exactly like any other intervention.
+    state.stageIndex = state.stages.length - 1;
+    state.attempt = 0;
+    state.lastVerify = null;
+    journal(runId, "run.reopened", { stage: state.stages[state.stageIndex] });
+    state.phase = "checkpoint";
+  }
   if (!["checkpoint", "stuck"].includes(state.phase)) throw new Error(`feedback applies at a checkpoint or when stuck, not in ${state.phase}`);
   const notesFile = opts.useReview ? state.lastReview : opts.notes;
   if (!notesFile || !fs.existsSync(notesFile)) throw new Error("feedback needs --notes <file> or --review");
