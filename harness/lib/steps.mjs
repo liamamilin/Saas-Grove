@@ -65,7 +65,10 @@ export function verify(runId, { blueprint, stage, label }) {
   return new Promise((resolve) => {
     fs.mkdirSync(path.join(p.records, "verify"), { recursive: true });
     const log = fs.openSync(path.join(p.records, "verify", `${label}.log`), "w");
-    const child = spawn("node", [runner, "--app", p.app, "--stage", stage, "--out", out], {
+    // The product's own code (build, start script) runs in the same sandbox as the
+    // agent, so the code being judged cannot reach the tests that judge it.
+    const sandbox = writeProfile(p.sandbox, p.project);
+    const child = spawn("node", [runner, "--app", p.app, "--stage", stage, "--out", out, "--app-sandbox", sandbox], {
       cwd: p.records,
       stdio: ["ignore", log, log],
     });

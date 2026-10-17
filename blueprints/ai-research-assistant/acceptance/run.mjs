@@ -8,7 +8,15 @@
 //
 //   node run.mjs --app <product-dir> [--stage S1|S2|S3|S4] [--out <dir>]
 //                [--pg-admin <postgres-url>] [--startup-timeout <seconds>]
-//                [--filter <test-name-pattern>] [--keep-db]
+//                [--filter <test-name-pattern>] [--keep-db] [--app-sandbox <profile.sb>]
+//
+// Before the first start the product is built from its current sources
+// (`npm run build`, when package.json has a build script), so the suite never
+// scores a stale build. Restarts during the run do not rebuild.
+//
+// --app-sandbox runs the product's own code (build and start script) under
+// macOS sandbox-exec with the given profile. A harness uses it so the code
+// being judged cannot reach the tests that judge it.
 //   node run.mjs --self-check
 //
 // --self-check runs every test against fixtures/empty-app (healthy, nothing
@@ -46,6 +54,7 @@ function parseArgs(argv) {
     else if (a === "--startup-timeout") opts.startupTimeout = Number(next());
     else if (a === "--filter") opts.filter = next();
     else if (a === "--keep-db") opts.keepDb = true;
+    else if (a === "--app-sandbox") opts.appSandbox = path.resolve(next());
     else if (a === "--self-check") opts.selfCheck = true;
     else fail(3, `unknown argument ${a}`);
   }
@@ -103,11 +112,12 @@ function dropDatabase(adminUrl, name) {
 // --- the product process -------------------------------------------------------------
 
 class App {
-  constructor({ dir, env, logPath, startupTimeout }) {
+  constructor({ dir, env, logPath, startupTimeout, sandbox }) {
     this.dir = dir;
     this.env = env;
     this.logPath = logPath;
     this.startupTimeout = startupTimeout;
+    this.sandbox = sandbox;
     this.child = null;
     this.base = `http://127.0.0.1:${env.PORT}`;
   }
@@ -116,9 +126,9 @@ class App {
     const log = fs.openSync(this.logPath, "a");
     fs.writeSync(log, `\n===== start ${new Date().toISOString()} =====\n`);
     const script = path.join(this.dir, "scripts", "acceptance-start.sh");
-    this.child = spawn("bash", [script], {
+    this.child = spawn(...this.command("bash", [script]), {
       cwd: this.dir,
-      env: { ...process.env, ...this.env },
+      env: { ...process.env, ...this.env, PWD: this.dir },
       detached: true,
       stdio: ["ignore", log, log],
     });
@@ -138,6 +148,40 @@ class App {
       await sleep(500);
     }
     throw new Error(`not healthy within ${this.startupTimeout}s`);
+  }
+
+  /** [cmd, args], wrapped in sandbox-exec when a profile was given. */
+  command(cmd, args) {
+    return this.sandbox ? ["/usr/bin/sandbox-exec", ["-f", this.sandbox, cmd, ...args]] : [cmd, args];
+  }
+
+  /** Build from current sources if the product declares a build script. */
+  async build() {
+    let pkg;
+    try {
+      pkg = JSON.parse(fs.readFileSync(path.join(this.dir, "package.json"), "utf8"));
+    } catch {
+      return null; // no package.json: nothing to build
+    }
+    if (!pkg.scripts?.build) return null;
+    const log = fs.openSync(this.logPath, "a");
+    fs.writeSync(log, `\n===== build ${new Date().toISOString()} =====\n`);
+    const started = Date.now();
+    const code = await new Promise((resolve) => {
+      const child = spawn(...this.command("npm", ["run", "build"]), {
+        cwd: this.dir,
+        env: { ...process.env, ...this.env, PWD: this.dir },
+        stdio: ["ignore", log, log],
+      });
+      const timer = setTimeout(() => child.kill("SIGTERM"), 15 * 60 * 1000);
+      child.on("exit", (c) => {
+        clearTimeout(timer);
+        resolve(c ?? 1);
+      });
+    });
+    fs.closeSync(log);
+    if (code !== 0) throw new Error(`npm run build failed (exit ${code}); see the app log`);
+    return (Date.now() - started) / 1000;
   }
 
   async stop() {
@@ -262,6 +306,7 @@ async function main() {
     dir: opts.app,
     logPath: report.appLog,
     startupTimeout: opts.startupTimeout,
+    sandbox: opts.appSandbox,
     env: {
       PORT: String(port),
       DATABASE_URL: db.url,
@@ -285,8 +330,9 @@ async function main() {
   });
 
   try {
+    const buildSeconds = await app.build();
     const seconds = await app.start();
-    report.startup = { ok: true, seconds };
+    report.startup = { ok: true, seconds, buildSeconds, sandboxed: Boolean(opts.appSandbox) };
     console.log(`acceptance: app healthy on ${app.base} after ${seconds.toFixed(1)}s; running ${stageDirs.join(" ")}`);
     const jsonPath = path.join(opts.out, "vitest.json");
     await runVitest({

@@ -12,9 +12,10 @@ node run.mjs --self-check                     # 辅助检查：对空应用必�
 
 runner 会：
 1. 通过 `psql` 新建一个空数据库（默认连接 `postgresql://localhost:5432/postgres`，可以用 `--pg-admin` 或 `PG_ADMIN_URL` 修改）；
-2. 用 `scripts/acceptance-start.sh` 启动产品，并等待 `/api/health` 返回 200；
-3. 跑到指定阶段为止的全部测试，测试过程中可以通过控制接口重启产品；
-4. 停止产品、删除数据库，把 `report.json` 和 `app.log` 写到 `acceptance-results/` 下。
+2. 如果产品的 `package.json` 里有 `build` 脚本，先执行 `npm run build`，保证测的是当前源码；
+3. 用 `scripts/acceptance-start.sh` 启动产品，并等待 `/api/health` 返回 200。如果传了 `--app-sandbox <配置>`，构建和启动都在 macOS 沙箱里进行（harness 会这样用，让被测代码碰不到测试本身）；
+4. 跑到指定阶段为止的全部测试，测试过程中可以通过控制接口重启产品（重启时不重新构建）；
+5. 停止产品、删除数据库，把 `report.json` 和 `app.log` 写到 `acceptance-results/` 下。
 
 退出码：0 表示全部通过；1 表示有测试失败；2 表示产品没能启动；3 表示用法或环境有问题。
 
