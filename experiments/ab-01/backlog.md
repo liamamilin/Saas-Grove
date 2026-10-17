@@ -37,6 +37,13 @@
 22. 追问没有引用时自动补的"依据："是硬编码的中文（`chat/service.ts`），回答是英文时会混语言。
 23. （同第 8、15 条）S4 新增的查询基本都带了 `workspace_id`；审查指出的剩余几处与第 15 条相同，合并处理。
 
+## 来自集中修复轮之后的复审（S4-r2，2026-10-18；第 24、25 条已在代码中核实）
+
+24. **[高，修复轮引入的回归]** 修第 19 条时加的"恢复失败后每 2 秒重试"会和已经启动的 worker 并发：恢复失败后 `startTicking()` 先启动并把任务 claim 成 `running`，随后重试的 `recoverStale()` 又把所有 `running` 行改回 `queued`，并把进行中的预留按 error 结算，于是同一个任务被二次执行、二次计费，账本重复（`engine.ts:340-440`，`budget.ts` 的 `recoverReservations`）。只在启动时恢复失败（比如数据库瞬断）时才会触发，验收测不到。建议：恢复成功之前不启动 worker，或者恢复和 claim 共用同一把 advisory lock。
+25. **[中，第 4 条没修完]** 文件上传先 `request.formData()` + `file.arrayBuffer()` 整个读进内存，之后才检查 10 MB（`app/api/workspaces/[ws]/documents/route.ts:30-45`）。修复轮只给 JSON 请求体加了字节上限（`lib/http.ts`），multipart 没有。注册是开放的，所以任何人都可以注册账号后上传超大文件耗尽内存。建议：先看 `Content-Length`，并在流式读取时计数，超过上限就中止。
+26. 删除工作区时，`in_flight` 的预留被直接丢掉，只结算了 `unsettled` 的（`workspaces/service.ts:238-265`），违反"花了钱的调用不能既没有账本又没有预留"。
+27. 预算判定不一致：`engine.ts:163` 用 `spent + reserved >= budget`，`budget.ts:156` 用 `>`。
+
 ## 来自 S1 第 1 轮审查（暂缓）
 
 6. 按邮箱限流可能被人恶意刷到锁号。对应 agent 提出的 Q3，需要先决定反向代理怎么传递客户端 IP。
