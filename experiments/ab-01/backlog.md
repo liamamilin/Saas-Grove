@@ -10,6 +10,15 @@
 4. 请求体没有大小上限，超大的 JSON 可能耗尽内存（`server/lib/http.ts:93`）。建议读取前先检查 `Content-Length`，例如超过 1 MB 就拒绝。
 5. 邀请时"是否已是成员"的检查在事务外面；邮件在事务提交后才发送，发送失败了邀请却还在（`server/workspaces/service.ts:219-246`）。建议把检查移进事务；发送失败时记录告警，或撤销这次邀请。
 
+## 来自 S2 第 1 轮审查（已在代码中核实第 1、3 条）
+
+7. **[优先]** 取消的结果会被"成功"覆盖：`finishSucceeded`（`server/jobs/engine.ts:656-670`）无条件把状态写成 `succeeded`，失败分支有"已取消就不覆盖"的保护（:641），成功分支却没有。如果在 synthesize 调用刚返回时取消，任务会变回成功，报告也会被保存。建议给 UPDATE 加上 `AND status <> 'canceled'`，并在写报告之前再检查一次状态。
+8. **[优先]** `citationsOf(reportId)` 只按 reportId 查询，没带 `workspace_id`（`server/jobs/engine.ts:864`），违反 architecture §3 的"必须"。目前两个调用方都先经过按工作区校验的 `getReportRow`，所以不会泄露，但这是个潜在隐患。建议加上 `workspaceId` 参数和条件。
+9. analyze 阶段的进度不随子问题推进：`completed` 是用循环外的快照算的（`engine.ts:562/583`），进度一直停在第一个子问题的位置。
+10. `document_chunks` 没有 `(document_id, idx)` 唯一约束。重启恢复和新建资料的后台处理同时进行时，可能插入重复的块（`schema.ts:126-138`、`service.ts:122-147`）。
+11. `recoverStale` 里的文档恢复 SQL 实际上什么也没改，却会把所有处于 processing 状态的资料重新处理一遍，包括正在正常处理的（`engine.ts:286-294`）。
+12. 真实模型输出 `[1,2]` 这种多编号引用时，系统不会为它生成引用记录，但前端会照样显示这个标记（`engine.ts:757` 和 `markdown.tsx:17` 的解析规则不一致）。假模型只输出单个编号，所以验收测不到。
+
 ## 来自 S1 第 1 轮审查（暂缓）
 
 6. 按邮箱限流可能被人恶意刷到锁号。对应 agent 提出的 Q3，需要先决定反向代理怎么传递客户端 IP。
