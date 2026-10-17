@@ -3,6 +3,7 @@
 //
 //   node harness/baseline.mjs new --blueprint <id> --brief <file> [--run <run-id>]
 //   node harness/baseline.mjs go --run <run-id> [--max-rounds 6]
+//   node harness/baseline.mjs review --run <run-id>   (normally part of `go`; runs the final review alone)
 //   node harness/baseline.mjs status --run <run-id>
 //
 // The builder gets the user's brief plus the blueprint's *test contract* only:
@@ -29,6 +30,7 @@ import {
   snapshot,
 } from "./lib/run.mjs";
 import { agentTurn, verify, writeStatus } from "./lib/steps.mjs";
+import { loadTemplate } from "./lib/run.mjs";
 
 function args(argv) {
   const [command, ...rest] = argv;
@@ -76,6 +78,34 @@ function cmdNew(opts) {
   console.log(`next: node harness/baseline.mjs go --run ${runId}`);
 }
 
+async function reviewFinal(runId, state) {
+  const p = runPaths(runId);
+  const src = blueprintDir(state.blueprint);
+  for (const dir of ["spec", "stages"]) {
+    fs.cpSync(path.join(src, dir), path.join(p.blueprint, dir), { recursive: true });
+  }
+  const stage = "S4";
+  const stageDoc = loadTemplate(state.blueprint).stages.find((x) => x.id === stage).doc;
+  const turn = await agentTurn(runId, {
+    role: "reviewer",
+    agent: "reviewer",
+    model: MODELS.reviewer,
+    sessionKey: "reviewfinal",
+    message: prompt("review-baseline", {
+      stage,
+      stageDoc,
+      passed: state.finalTotals?.passed ?? "?",
+      failed: state.finalTotals?.failed ?? "?",
+    }),
+    label: "final-review",
+  });
+  const dir = path.join(p.records, "reviews");
+  fs.mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, "final-r1.md");
+  fs.writeFileSync(file, turn.finalText || turn.allText || "(reviewer produced no text)\n");
+  state.lastReview = file;
+}
+
 async function cmdGo(opts) {
   const runId = opts.run;
   const state = loadState(runId);
@@ -102,7 +132,17 @@ async function cmdGo(opts) {
   }
   if (state.phase === "score") {
     // Scored once, on every stage at once, with the tests it never saw.
-    await verify(runId, { blueprint: state.blueprint, stage: "S4", label: "final-S4" });
+    const v = await verify(runId, { blueprint: state.blueprint, stage: "S4", label: "final-S4" });
+    state.finalTotals = v.totals ?? null;
+    state.phase = "review";
+    saveState(runId, state);
+  }
+  if (state.phase === "review") {
+    // Group A is reviewed at every checkpoint; "review findings" is one of the metrics we compare,
+    // so B gets the same reviewer, the same model and the same prompt (apart from one sentence
+    // saying the product was not built from the template), once, on the final code. The standard it
+    // is held against is copied in only now: the builder is finished and can no longer see it.
+    await reviewFinal(runId, state);
     state.phase = "scored";
     saveState(runId, state);
   }
@@ -114,6 +154,12 @@ async function main() {
   if (opts.command === "new") return cmdNew(opts);
   if (!opts.run) throw new Error(`${opts.command} needs --run <run-id>`);
   if (opts.command === "go") return cmdGo(opts);
+  if (opts.command === "review") {
+    const state = loadState(opts.run);
+    await reviewFinal(opts.run, state);
+    saveState(opts.run, state);
+    return console.log(`harness: review written to ${state.lastReview}`);
+  }
   if (opts.command === "status") return console.log(writeStatus(opts.run, loadState(opts.run)));
   throw new Error("usage: baseline.mjs new|go|status (see the header of this file)");
 }

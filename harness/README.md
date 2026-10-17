@@ -17,7 +17,8 @@ node harness/build.mjs status   --run <run-id>
 
 # B 组：不给模板，只给用户需求和可测性契约
 node harness/baseline.mjs new --blueprint ai-research-assistant --brief experiments/<实验>/user-brief.md
-node harness/baseline.mjs go  --run <run-id>                   # 一直跑到 agent 说 DONE（最多 6 轮），然后用 S4 验收打分
+node harness/baseline.mjs go  --run <run-id>                   # 一直跑到 agent 说 DONE（最多 6 轮），然后用 S4 验收打分，再由同一个审查员审一遍最终代码
+node harness/baseline.mjs review --run <run-id>                # 单独重跑最终审查（`go` 里已包含）
 ```
 
 运行目录默认在 `/Users/Shared/saas-template-runs/<run-id>/`（可以用 `HARNESS_RUNS_DIR` 改）。之所以放在家目录之外，见下面的"隔离"一节。每个运行目录下有两部分：
@@ -37,6 +38,8 @@ node harness/baseline.mjs go  --run <run-id>                   # 一直跑到 ag
 ## B 组的输入为什么是这样
 
 B 组拿到用户需求，外加模板的**可测性契约**（`api.yaml` 和 `architecture.md` 的 §5–§8：假模型、测试接口、启动约定、界面锚点）。没有这份契约，任何黑盒测试都没法给它打分。B 组拿不到的是：成熟产品定义、容易做错的地方、难点设计、分阶段计划、品类认知，以及验收测试本身。
+
+B 组做完并验收之后，harness 才把 `spec/` 和 `stages/` 拷进它的 `blueprint/` 目录，让审查员对照审查；审查员和提示与 A 组相同（只改一句话，说明产品不是照模板做的）。这样“审查发现数”可以直接比较。注意 A 组每个阶段审一次、共 5 次，B 组只审最终代码一次。
 
 契约里列出了全部接口，等于把功能清单透露给了 B 组，所以这样测出来的 A/B 差距是模板价值的**下限**。
 

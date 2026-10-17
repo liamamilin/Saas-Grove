@@ -30,7 +30,7 @@
 
 ## 来自 S4 第 1 轮审查（已在代码中核实第 1 条；第 3 条按 H2 不算缺陷）
 
-18. **[优先]** 真实模式下已付费的调用可能没记进账本，破坏"已花费不超过预算"：(a) 模型调用成功后若 `input.signal.aborted`，直接抛 `ModelCanceled` 并释放预留，没写用量行（`engine.ts:546`、`chat/service.ts` 的 `signal.aborted` 分支）；(b) 记账写库失败时只释放预留再重抛（`engine.ts:550-573`），聊天里 `recordUsage` 失败则连预留都不释放；(c) 启动时 `releaseAllReservations()` 删光所有预留（`budget.ts:170`），正在进行的已付费调用既没有 spent 也没有 reserved。fake 模型下测不到。与第 14 条一起处理：调用成功就必须先记账，记账失败要保留预留并在恢复时补记。
+18. **[优先]** 真实模式下已付费的调用可能没记进账本，破坏"已花费不超过预算"：(a) 模型调用成功后若 `input.signal.aborted`，直接抛 `ModelCanceled` 并释放预留，没写用量行（`engine.ts:546`、`chat/service.ts` 的 `signal.aborted` 分支）；(b) 研究任务里记账写库失败时只释放预留再重抛（`engine.ts:550-573`）；聊天里 `recordUsage` 失败时预留保持不动，这是保守的做法，不要改成释放，但要让重启恢复时能把它补记成一行用量；(c) 启动时 `releaseAllReservations()` 删光所有预留（`budget.ts:170`），正在进行的已付费调用既没有 spent 也没有 reserved。fake 模型下测不到。与第 14 条一起处理：调用成功就必须先记账，记账失败要保留预留（研究任务里也一样，不要释放），恢复时补记，而不是启动时一律删除。
 19. 恢复失败后 worker 照常启动，且不再重试恢复：`ensureWorker` 先置 `started = true`，`recoverStale()` 失败后残留的 `running` 任务永远不会被恢复（`engine.ts:369-387`）。
 20. 多次请求重置密码会并存多个有效令牌，旧链接在新令牌签发后仍可用，直到有人真正重置才清理（`auth/service.ts:126-172`）。
 21. 删除是软删除：删除资料只清掉 chunks 并打 `deleted_at`，`extracted_text` 还留在行里；删除工作区只打 `deleted_at` 并删成员关系，资料、报告、消息、用量全部原样保留（`documents/service.ts:209-241`、`workspaces/service.ts:211-256`）。验收只要求"不可访问"，所以通过了，但 S4 阶段目标写的是"删除的东西真的删掉了"。如果以后要面向别人使用，需要物理清除或带保留期的定时清除，并把"数据库里不再有文本"写进验收。
