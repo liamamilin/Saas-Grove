@@ -8,7 +8,7 @@ import { MockModel, realModeEnv, replyCostUsd, type MockReply } from "../../lib/
 
 const KEY = "mock-key-3c9e51a7b2d8f604";
 const PRICES = { inputPerMTok: 1, outputPerMTok: 10 };
-const BUDGET_USD = 0.02; // a cap of 4096 output tokens costs $0.04096 and cannot fit; a cap of 1000 costs $0.01 and can
+const BUDGET_USD = 0.015; // a cap of 4096 output tokens ($0.04096) or of 2000 ($0.02) cannot fit; a cap of 1000 ($0.01) can
 
 describe("S3 budget in real mode", () => {
   it("never sends a call whose output cap the remaining budget cannot pay for", async () => {
@@ -24,7 +24,7 @@ describe("S3 budget in real mode", () => {
       // A model that uses everything it is allowed: the worst case a reservation has to cover.
       const reply: MockReply = {
         content: r.callNo === 1 ? JSON.stringify(["First question?", "Second question?", "Third question?"]) : "The documents support this [1].",
-        promptTokens: 500,
+        promptTokens: 1, // next to nothing: this test is about the output cap, not about estimating the prompt
         completionTokens: r.cap ?? 1_000_000,
       };
       spent += replyCostUsd(reply, PRICES.inputPerMTok, PRICES.outputPerMTok);

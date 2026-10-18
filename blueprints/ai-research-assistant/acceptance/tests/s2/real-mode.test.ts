@@ -38,15 +38,18 @@ describe("S2 real model mode", () => {
         ["MODEL_INPUT_USD_PER_MTOK missing (it must not bill at 0)", { MODEL_INPUT_USD_PER_MTOK: null }],
         ["MODEL_OUTPUT_USD_PER_MTOK missing (it must not bill at 0)", { MODEL_OUTPUT_USD_PER_MTOK: null }],
       ];
+      // Refusing is quick, but "never healthy" only counts as a refusal after a window well beyond the
+      // time the complete configuration needed, so a slow starter cannot pass by being slow.
+      const window = Math.min(90, Math.max(30, Math.ceil(good.seconds * 3)));
       for (const [what, change] of incomplete) {
-        const attempt = await launch({ ...complete, ...change }, 20);
+        const attempt = await launch({ ...complete, ...change }, window);
         if (attempt.id) await stopInstance(attempt.id);
         expect(attempt.healthy, `the product must refuse to start outside test mode with ${what}, but it served /api/health`).toBe(false);
       }
     } finally {
       await idle.close();
     }
-  }, 300_000);
+  }, 700_000);
 
   it("bills every call by the usage the model reports", async () => {
     // Each reply reports different token counts, so a flat or estimated price cannot match them all.
