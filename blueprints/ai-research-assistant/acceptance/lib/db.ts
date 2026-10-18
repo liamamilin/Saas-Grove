@@ -61,13 +61,20 @@ export function whereStored(needle: string, skipTable: (table: string) => boolea
 }
 
 /**
- * Number of stored values that are password hashes in a format this blueprint accepts:
- * argon2id (`$argon2id$…`) or bcrypt (`$2a$`, `$2b$`, `$2y$` followed by the cost). A value is a
- * hash only if a JSON string starts with it.
+ * Password hashes found in the database, by what they are:
+ *  - `accepted`: argon2id (`$argon2id$…`), or bcrypt (`$2a$`, `$2b$`, `$2y$`) with cost 12 or more;
+ *  - `weakBcrypt`: bcrypt with cost 0–11.
+ * A value is a hash only if a JSON string starts with it; rows are counted, not values.
  */
-export function countAcceptedPasswordHashes(): number {
-  const pattern = '"\\$argon2id\\$|"\\$2[aby]\\$[0-9]{2}\\$';
-  const parts = tables().map(({ schema, table }) => `SELECT 1 FROM ${ident(schema)}.${ident(table)} t WHERE row_to_json(t)::text ~ '${pattern}'`);
-  if (!parts.length) return 0;
-  return Number(psql(`SELECT count(*) FROM (${parts.join(" UNION ALL ")}) hits`));
+export function passwordHashes(): { accepted: number; weakBcrypt: number } {
+  const accepted = '"\\$argon2id\\$|"\\$2[aby]\\$(1[2-9]|[2-3][0-9])\\$';
+  const weak = '"\\$2[aby]\\$(0[0-9]|1[01])\\$';
+  const parts = tables().map(({ schema, table }) => `SELECT row_to_json(t)::text AS j FROM ${ident(schema)}.${ident(table)} t`);
+  if (!parts.length) return { accepted: 0, weakBcrypt: 0 };
+  const [a, w] = psql(
+    `SELECT count(*) FILTER (WHERE j ~ '${accepted}'), count(*) FILTER (WHERE j ~ '${weak}') FROM (${parts.join(" UNION ALL ")}) rows`,
+  )
+    .split("\t")
+    .map(Number);
+  return { accepted: a, weakBcrypt: w };
 }

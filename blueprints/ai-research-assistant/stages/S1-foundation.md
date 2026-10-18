@@ -21,7 +21,7 @@
 
 界面：从注册到建好第一个工作区；已有用户登录后进入引导页。
 
-存储安全（`security.test.ts`，3 条，见 `spec/architecture.md` §9）：产品的数据确实在注入的 `DATABASE_URL` 里；会话、邀请、重置令牌和密码在库里（outbox 表除外）找不到明文；密码是 argon2id 或 bcrypt 哈希。
+存储安全（`security.test.ts`，3 条，见 `spec/architecture.md` §9）：产品的数据确实在注入的 `DATABASE_URL` 里；会话、邀请、重置令牌和密码在库里（outbox 表除外）找不到明文；密码是 argon2id，或 cost 至少 12 的 bcrypt 哈希（注册和重置密码两条写入路径都查）。
 
 ## 完成条件
 

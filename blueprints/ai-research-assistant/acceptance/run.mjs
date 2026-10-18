@@ -17,6 +17,14 @@
 // --app-sandbox runs the product's own code (build and start script) under
 // macOS sandbox-exec with the given profile. A harness uses it so the code
 // being judged cannot reach the tests that judge it.
+//
+// Control API (ACCEPTANCE_CONTROL_URL): POST /restart restarts the product on the same database;
+// POST /instances starts a further instance on its own port and brand-new database, with exactly the
+// environment the test sends ({ env: { NAME: "value" | null }, startupTimeout }), and answers when it is
+// healthy, has exited or the time is up; DELETE /instances/<id> stops it. Instances do not inherit
+// TEST_MODE, MODEL_*, EMBEDDING_*, FAKE_* or MAIL_* from this process, run under the same --app-sandbox,
+// and are stopped and dropped at the end of the run at the latest.
+//
 //   node run.mjs --self-check
 //
 // --self-check runs every test against fixtures/empty-app (healthy, nothing
@@ -112,9 +120,11 @@ function dropDatabase(adminUrl, name) {
 // --- the product process -------------------------------------------------------------
 
 class App {
-  constructor({ dir, env, logPath, startupTimeout, sandbox }) {
+  /** `inherit` is the environment the start script starts from (the runner's own, unless a caller scrubbed it). */
+  constructor({ dir, env, logPath, startupTimeout, sandbox, inherit = process.env }) {
     this.dir = dir;
     this.env = env;
+    this.inherit = inherit;
     this.logPath = logPath;
     this.startupTimeout = startupTimeout;
     this.sandbox = sandbox;
@@ -122,13 +132,14 @@ class App {
     this.base = `http://127.0.0.1:${env.PORT}`;
   }
 
-  async start() {
+  /** Start the script and wait until the product is healthy, exits, or the time is up. Never throws for those. */
+  async probe() {
     const log = fs.openSync(this.logPath, "a");
     fs.writeSync(log, `\n===== start ${new Date().toISOString()} =====\n`);
     const script = path.join(this.dir, "scripts", "acceptance-start.sh");
     this.child = spawn(...this.command("bash", [script]), {
       cwd: this.dir,
-      env: { ...process.env, ...this.env, PWD: this.dir },
+      env: { ...this.inherit, ...this.env, PWD: this.dir },
       detached: true,
       stdio: ["ignore", log, log],
     });
@@ -137,16 +148,24 @@ class App {
 
     const deadline = Date.now() + this.startupTimeout * 1000;
     const started = Date.now();
+    const seconds = () => (Date.now() - started) / 1000;
     while (Date.now() < deadline) {
-      if (exited) throw new Error(`start script exited (${JSON.stringify(exited)}) before becoming healthy`);
+      if (exited) return { healthy: false, exited, timedOut: false, seconds: seconds() };
       try {
         const res = await fetch(`${this.base}/api/health`);
-        if (res.status === 200) return (Date.now() - started) / 1000;
+        if (res.status === 200) return { healthy: true, exited: null, timedOut: false, seconds: seconds() };
       } catch {
         // not listening yet
       }
       await sleep(500);
     }
+    return { healthy: false, exited: null, timedOut: true, seconds: seconds() };
+  }
+
+  async start() {
+    const result = await this.probe();
+    if (result.healthy) return result.seconds;
+    if (result.exited) throw new Error(`start script exited (${JSON.stringify(result.exited)}) before becoming healthy`);
     throw new Error(`not healthy within ${this.startupTimeout}s`);
   }
 
@@ -205,19 +224,88 @@ class App {
   }
 }
 
-function controlServer(app) {
-  // Lets a test restart the product mid-run (same database) to check recovery.
+/** Environment names a second instance never inherits from the runner: it gets exactly what the test passes. */
+const SCRUBBED = /^(TEST_MODE|MODEL_|EMBEDDING_|FAKE_|MAIL_)/;
+
+function readJson(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", (c) => chunks.push(c));
+    req.on("end", () => {
+      try {
+        resolve(chunks.length ? JSON.parse(Buffer.concat(chunks).toString("utf8")) : {});
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
+
+function reply(res, status, body) {
+  res.writeHead(status, { "content-type": "application/json" }).end(JSON.stringify(body));
+}
+
+function controlServer(app, { opts, instances }) {
+  // Lets a test restart the product mid-run (same database) to check recovery, and start further
+  // instances of it, each on its own port and brand-new database, with an environment of the test's choosing.
+  let counter = 0;
   const server = http.createServer(async (req, res) => {
-    if (req.method !== "POST" || req.url !== "/restart") {
-      res.writeHead(404).end();
-      return;
-    }
     try {
-      await app.stop();
-      const seconds = await app.start();
-      res.writeHead(200, { "content-type": "application/json" }).end(JSON.stringify({ ok: true, seconds }));
+      if (req.method === "POST" && req.url === "/restart") {
+        await app.stop();
+        const seconds = await app.start();
+        return reply(res, 200, { ok: true, seconds });
+      }
+      if (req.method === "POST" && req.url === "/instances") {
+        const { env: overrides = {}, startupTimeout = 60 } = await readJson(req);
+        for (const reserved of ["PORT", "DATABASE_URL", "APP_SECRET", "APP_BASE_URL"]) {
+          if (reserved in overrides) return reply(res, 400, { ok: false, error: `${reserved} is set by the runner` });
+        }
+        const id = String(++counter);
+        const db = createDatabase(opts.pgAdmin);
+        const port = await freePort();
+        const inherit = Object.fromEntries(Object.entries(process.env).filter(([k]) => !SCRUBBED.test(k)));
+        const env = {
+          PORT: String(port),
+          DATABASE_URL: db.url,
+          APP_SECRET: crypto.randomBytes(32).toString("hex"),
+          APP_BASE_URL: `http://127.0.0.1:${port}`,
+        };
+        for (const [k, v] of Object.entries(overrides)) {
+          if (v === null) delete inherit[k];
+          else env[k] = String(v);
+        }
+        const logPath = path.join(opts.out, `instance-${id}.log`);
+        const instance = new App({ dir: opts.app, env, logPath, startupTimeout, sandbox: opts.appSandbox, inherit });
+        instance.db = db;
+        const result = await instance.probe();
+        if (result.healthy) {
+          instances.set(id, instance);
+          return reply(res, 200, { ok: true, id, base: instance.base, ...result });
+        }
+        await instance.stop();
+        dropDatabase(opts.pgAdmin, db.name);
+        let logTail = "";
+        try {
+          logTail = fs.readFileSync(logPath, "utf8").split("\n").slice(-20).join("\n");
+        } catch {
+          // no log
+        }
+        return reply(res, 200, { ok: true, id: null, base: null, ...result, logTail });
+      }
+      const stopMatch = req.method === "DELETE" && req.url.match(/^\/instances\/(\d+)$/);
+      if (stopMatch) {
+        const instance = instances.get(stopMatch[1]);
+        if (instance) {
+          instances.delete(stopMatch[1]);
+          await instance.stop();
+          dropDatabase(opts.pgAdmin, instance.db.name);
+        }
+        return reply(res, 200, { ok: true });
+      }
+      res.writeHead(404).end();
     } catch (e) {
-      res.writeHead(500, { "content-type": "application/json" }).end(JSON.stringify({ ok: false, error: e.message }));
+      reply(res, 500, { ok: false, error: e.message });
     }
   });
   return new Promise((resolve) => server.listen(0, "127.0.0.1", () => resolve(server)));
@@ -316,10 +404,16 @@ async function main() {
       APP_BASE_URL: `http://127.0.0.1:${port}`,
     },
   });
-  const control = await controlServer(app);
+  const instances = new Map();
+  const control = await controlServer(app, { opts, instances });
   let exitCode = 0;
 
   const cleanup = async () => {
+    for (const instance of instances.values()) {
+      await instance.stop();
+      dropDatabase(opts.pgAdmin, instance.db.name);
+    }
+    instances.clear();
     await app.stop();
     control.close();
     if (!opts.keepDb) dropDatabase(opts.pgAdmin, db.name);

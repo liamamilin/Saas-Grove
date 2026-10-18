@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PASSWORD, expectStatus, invite, newEmail, outbox, owner, signup } from "../../lib/helpers";
 import { Client } from "../../lib/client";
-import { countAcceptedPasswordHashes, whereStored } from "../../lib/db";
+import { passwordHashes, whereStored } from "../../lib/db";
 
 // The only table that may hold a token in plain text is the test-mode mailbox behind
 // GET /api/__test__/outbox (spec/architecture.md §6): its name contains "outbox". It holds the two
@@ -58,11 +58,23 @@ describe("S1 secrets at rest", () => {
     expect(whereStored(PASSWORD), "the password is stored in plain text, even in the mailbox").toEqual([]);
   });
 
-  it("hashes passwords with argon2id or bcrypt", async () => {
-    await signup();
-    expect(
-      countAcceptedPasswordHashes(),
-      "no stored value looks like an argon2id or bcrypt hash ($argon2id$… or $2a$/$2b$/$2y$…), stored as text",
-    ).toBeGreaterThan(0);
+  it("hashes passwords with argon2id, or bcrypt at cost 12 or more", async () => {
+    // Every path that writes a password: sign-up, then a password reset.
+    const account = await signup();
+    expectHashesStrong("after sign-up");
+
+    expectStatus(await new Client().post("/api/auth/password-reset/request", { email: account.email }), 202);
+    const { token } = await outbox(account.email, "password_reset");
+    expectStatus(await new Client().post("/api/auth/password-reset/confirm", { token, password: "another-long-password-77" }), 204);
+    expectHashesStrong("after a password reset");
   });
 });
+
+function expectHashesStrong(when: string) {
+  const { accepted, weakBcrypt } = passwordHashes();
+  expect(
+    accepted,
+    `${when}: no stored value looks like an argon2id hash ($argon2id$…) or a bcrypt hash of cost 12 or more ($2a$/$2b$/$2y$ then 12–31), stored as text`,
+  ).toBeGreaterThan(0);
+  expect(weakBcrypt, `${when}: a bcrypt hash with cost below 12 is stored`).toBe(0);
+}

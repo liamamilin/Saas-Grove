@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Independent review of a blueprint change (tests + spec), by the read-only reviewer.
 //
-//   node harness/review-blueprint.mjs --blueprint <id> --since <git-ref> --why <file> [--run <run-id>]
+//   node harness/review-blueprint.mjs --blueprint <id> --since <git-ref> --why <file> [--focus <file>] [--run <run-id>]
+//
+// --focus is a Markdown list of the things to check; the default is prompts/review-blueprint-focus.md.
 //
 // Builds a throwaway run whose blueprint/ is the current working tree (without installed dependencies), a
 // CHANGES.diff against <git-ref>, and the reason for the changes. The report is written to
@@ -10,7 +12,7 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { MODELS, REPO, blueprintDir, createRun, newRunId, prompt, runPaths, snapshot, saveState } from "./lib/run.mjs";
+import { HARNESS, MODELS, REPO, blueprintDir, createRun, newRunId, prompt, runPaths, snapshot, saveState } from "./lib/run.mjs";
 import { agentTurn } from "./lib/steps.mjs";
 
 const opts = {};
@@ -20,6 +22,7 @@ for (let i = 0; i < argv.length; i++) {
   if (a === "--blueprint") opts.blueprint = argv[++i];
   else if (a === "--since") opts.since = argv[++i];
   else if (a === "--why") opts.why = path.resolve(argv[++i]);
+  else if (a === "--focus") opts.focus = path.resolve(argv[++i]);
   else if (a === "--run") opts.run = argv[++i];
   else throw new Error(`unknown argument ${a}`);
 }
@@ -47,7 +50,7 @@ const turn = await agentTurn(runId, {
   agent: "reviewer",
   model: MODELS.reviewer,
   sessionKey: "blueprintreview",
-  message: prompt("review-blueprint", {}),
+  message: prompt("review-blueprint", { focus: fs.readFileSync(opts.focus ?? path.join(HARNESS, "prompts", "review-blueprint-focus.md"), "utf8").trim() }),
   label: "blueprint-review",
 });
 const dir = path.join(p.records, "reviews");
