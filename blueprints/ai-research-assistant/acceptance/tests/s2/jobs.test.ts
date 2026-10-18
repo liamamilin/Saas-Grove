@@ -98,7 +98,14 @@ describe("S2 research jobs", () => {
       what: "plan to finish",
       timeout: 20_000,
     });
-    await sleep(600);
+    // Cancel while that call is waiting: once the job reports analyze as running (not every product reports
+    // it promptly, so only wait a little), plus a moment for the call itself to start. Well inside the 3 s.
+    const waitingSince = Date.now();
+    while (Date.now() - waitingSince < 1_500) {
+      if ((await getJob(team.client, team.ws.id, job.id)).stages?.[1]?.status === "running") break;
+      await sleep(100);
+    }
+    await sleep(500);
 
     expectStatus(await team.client.post(`/api/workspaces/${team.ws.id}/research-jobs/${job.id}/cancel`), 202);
     await waitForJob(team.client, team.ws.id, job.id, (j) => j.status === "canceled", 10_000);

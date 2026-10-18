@@ -12,7 +12,7 @@ const DATABASE_URL = process.env.ACCEPTANCE_DATABASE_URL;
 
 function psql(sql: string): string {
   if (!DATABASE_URL) throw new Error("ACCEPTANCE_DATABASE_URL is not set; run the suite through run.mjs");
-  return execFileSync("psql", [DATABASE_URL, "-X", "-A", "-t", "-v", "ON_ERROR_STOP=1", "-c", sql], {
+  return execFileSync("psql", [DATABASE_URL, "-X", "-A", "-t", "-F", "\t", "-v", "ON_ERROR_STOP=1", "-c", sql], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   }).trim();
@@ -22,23 +22,40 @@ function ident(name: string): string {
   return `"${name.replace(/"/g, '""')}"`;
 }
 
-/** Values that go into SQL literals are checked, not escaped: only plain token/email/password characters. */
-function literal(value: string): string {
-  if (!/^[A-Za-z0-9_\-.~+/=%@:$ ]+$/.test(value)) throw new Error(`refusing to put ${JSON.stringify(value.slice(0, 8))}… into SQL`);
-  return `'${value}'`;
+/** The needle goes into SQL as hex, so any characters a token or password may contain are safe. */
+function hex(value: string): string {
+  return Buffer.from(value, "utf8").toString("hex");
 }
 
-function tables(): string[] {
-  return psql(`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE' ORDER BY 1`)
+/** Every base table in every schema except the system ones (the product may use its own, or a job queue's). */
+function tables(): { schema: string; table: string }[] {
+  return psql(
+    `SELECT table_schema, table_name FROM information_schema.tables
+     WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema') AND table_schema NOT LIKE 'pg\\_%'
+     ORDER BY 1, 2`,
+  )
     .split("\n")
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((line) => {
+      const [schema, table] = line.split("\t");
+      return { schema, table };
+    });
 }
 
-/** Tables (other than those `skipTable` filters out) that have a row containing `needle` as stored text. */
+/**
+ * Tables (other than those `skipTable` filters out, which is given the bare table name) that have a row
+ * containing `needle`: as text, in a JSON value, or as the bytes of a bytea column (which Postgres
+ * renders as hex). Tables outside `public` come back as `schema.table`.
+ */
 export function whereStored(needle: string, skipTable: (table: string) => boolean = () => false): string[] {
+  const n = hex(needle);
   const parts = tables()
-    .filter((table) => !skipTable(table))
-    .map((table) => `SELECT '${table.replace(/'/g, "''")}' AS hit FROM ${ident(table)} t WHERE strpos(row_to_json(t)::text, ${literal(needle)}) > 0`);
+    .filter(({ table }) => !skipTable(table))
+    .map(({ schema, table }) => {
+      const label = (schema === "public" ? table : `${schema}.${table}`).replace(/'/g, "''");
+      return `SELECT '${label}' AS hit FROM ${ident(schema)}.${ident(table)} t, LATERAL (SELECT row_to_json(t)::text AS j) r
+              WHERE strpos(r.j, convert_from(decode('${n}', 'hex'), 'UTF8')) > 0 OR strpos(r.j, '${n}') > 0`;
+    });
   if (!parts.length) return [];
   return [...new Set(psql(parts.join(" UNION ALL ")).split("\n").filter(Boolean))];
 }
@@ -50,7 +67,7 @@ export function whereStored(needle: string, skipTable: (table: string) => boolea
  */
 export function countAcceptedPasswordHashes(): number {
   const pattern = '"\\$argon2id\\$|"\\$2[aby]\\$[0-9]{2}\\$';
-  const parts = tables().map((table) => `SELECT 1 FROM ${ident(table)} t WHERE row_to_json(t)::text ~ '${pattern}'`);
+  const parts = tables().map(({ schema, table }) => `SELECT 1 FROM ${ident(schema)}.${ident(table)} t WHERE row_to_json(t)::text ~ '${pattern}'`);
   if (!parts.length) return 0;
   return Number(psql(`SELECT count(*) FROM (${parts.join(" UNION ALL ")}) hits`));
 }

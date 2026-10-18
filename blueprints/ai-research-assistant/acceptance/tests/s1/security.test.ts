@@ -4,7 +4,8 @@ import { Client } from "../../lib/client";
 import { countAcceptedPasswordHashes, whereStored } from "../../lib/db";
 
 // The only table that may hold a token in plain text is the test-mode mailbox behind
-// GET /api/__test__/outbox (spec/architecture.md §6): its name contains "outbox".
+// GET /api/__test__/outbox (spec/architecture.md §6): its name contains "outbox". It holds the two
+// mailed tokens (invitation, password reset) only.
 const allowedPlain = (table: string) => /outbox/i.test(table);
 
 /** Pieces of a cookie value that are long enough to be a credential. */
@@ -50,7 +51,9 @@ describe("S1 secrets at rest", () => {
     expect(secrets.filter((s) => s.what === "session cookie").length, "no session cookie was set").toBeGreaterThan(0);
 
     for (const { what, value } of secrets) {
-      expect(whereStored(value, allowedPlain), `the ${what} is stored in plain text`).toEqual([]);
+      // Only the two tokens that are mailed out may sit in the mailbox; a session token never belongs there.
+      const mailed = what !== "session cookie";
+      expect(whereStored(value, mailed ? allowedPlain : undefined), `the ${what} is stored in plain text`).toEqual([]);
     }
     expect(whereStored(PASSWORD), "the password is stored in plain text, even in the mailbox").toEqual([]);
   });
