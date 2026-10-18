@@ -52,7 +52,7 @@ worker 可以和 Web 跑在同一个进程里（启动时一起拉起 pg-boss）
 ### 4.2 研究任务状态机（必须）
 - 阶段固定为三个：`plan` → `analyze` → `synthesize`。每个阶段的输出都持久化在 `job_stages` 里。
 - `analyze` 阶段**按顺序**逐个处理子问题（不并行）。这样费用、故障和恢复的行为都是确定的，验收依赖这一点。
-- **取消**：先把状态改为 `canceled`；worker 每次调用模型之前都要检查状态；正在进行的调用用 `AbortController` 中止。取消生效后，不能再产生新的用量记录。
+- **取消**：先把状态改为 `canceled`；worker 每次调用模型之前都要检查状态；正在进行的调用用 `AbortController` 中止（假模型的等待同样要能被中止，见 §5）。取消生效后，不能再产生新的用量记录。
 - **自动重试**：可重试的模型错误（429、5xx、超时），同一次调用**最多尝试 3 次**（不多不少）。第 2 次尝试前至少等 200 ms，之后每次等待时间加倍。仍然失败，或者遇到不可重试的错误，任务就进入 `failed`，`error.code = "model_error"`。
 - **手动重试**：只允许对 `failed` 和 `budget_exceeded` 状态的任务重试。从第一个没有成功的阶段继续，已成功的阶段不重新执行。
 - **步骤级幂等**：`analyze` 阶段里，每个子问题的分析结果完成后立即持久化。重试或重启后，只补做没完成的子问题，**同一个子问题不付两次钱**。
@@ -81,7 +81,7 @@ worker 可以和 Web 跑在同一个进程里（启动时一起拉起 pg-boss）
 | 追问 | 每条消息 **1 次**聊天调用，以**至少 2 段**增量流式返回，相邻两段之间间隔 `latencyMs`；回答中至少包含 1 处引用。服务端必须每产生一段就立刻发出，不能攒齐了再发 |
 | 费用 | 每次成功的聊天调用费用为 `FAKE_CHAT_CALL_COST_USD`（默认 `0.01`）；失败的调用记录为 `status: "error"`、`costUsd: 0` |
 | 向量化 | 确定性的本地算法（例如把词哈希到 256 维）；可以记为 `kind: "embedding"`，`costUsd: 0` |
-| 延迟 | 每次聊天调用前等待 `latencyMs`（默认 20 ms），可以通过测试接口调整 |
+| 延迟 | 每次聊天调用前等待 `latencyMs`（默认 20 ms），可以通过测试接口调整。**这个等待必须能被中止**：任务被取消、或追问的连接断开时，正在等待的调用立即结束，并且**不产生任何用量记录**（既不是 `ok`，也不是 `error`） |
 | 故障注入 | 通过测试接口设置，按阶段计次：`transient` 是可重试错误，该阶段接下来的 `times` 次调用尝试失败，之后恢复；`permanent` 是不可重试错误，该阶段的每次调用都失败，直到重置 |
 
 每条 `kind: "chat"` 的用量记录都必须带 `stage`，取值为 `plan` / `analyze` / `synthesize` / `chat`，还要带 `jobId`（任务里的调用）或 `reportId`（追问的调用）。
@@ -107,6 +107,8 @@ worker 可以和 Web 跑在同一个进程里（启动时一起拉起 pg-boss）
 | `DELETE /api/__test__/fake-model` | 把延迟和全部故障恢复为默认值，返回 204（验收会在每条测试前后调用它） |
 
 非测试模式下，这些路由**必须**返回 404。
+
+如果测试邮件存在数据库里，存放它的表的名字必须包含 `outbox`，并且只在 `TEST_MODE=1` 时写入。邀请令牌和重置令牌的明文只允许出现在这张表里（见 §9）。
 
 ## 7. 启动约定（必须）
 
@@ -137,9 +139,17 @@ worker 可以和 Web 跑在同一个进程里（启动时一起拉起 pg-boss）
 | 登录页 | `login-email`、`login-password`、`login-submit` |
 | 没有工作区时的引导页 | `workspace-create-name`、`workspace-create-submit` |
 | 工作区首页 | `workspace-name`（显示名称）、`nav-research`、`nav-usage`、`report-link`（每份报告一个链接，指向报告页） |
-| 发起研究 | `document-text-title`、`document-text-body`、`document-text-submit`（粘贴文本作为资料）；`document-item`（每份资料一个，文本中包含它的状态，例如 `ready`）；`research-question`、`research-submit` |
+| 发起研究 | `document-text-title`、`document-text-body`、`document-text-submit`（粘贴文本作为资料）；`document-item`（每份资料一个，文本中包含它的状态值，原文就是 API 里的 `processing` / `ready` / `failed`）；`research-question`、`research-submit` |
 | 任务页 | `job-status`（文本为状态值）、`job-progress`；成功后直接显示 `report-content`，或者提供 `open-report` 链接跳到报告页 |
 | 报告页 | `report-content`、`chat-input`、`chat-submit`、`chat-message-assistant` |
 | 用量页 | `usage-spent` |
 
 发起研究时，界面默认选中当前工作区里所有 `ready` 状态的资料。
+
+## 9. 验收会检查产品存了什么
+
+验收会直接连到注入给产品的那个 `DATABASE_URL`，查看里面存了什么。下面这些规则都是**必须**：
+
+- 产品的业务数据（用户、工作区、资料、任务、用量等）必须存在 `DATABASE_URL` 指向的 Postgres 里。验收会先确认新注册用户的邮箱出现在这个库里，找不到就判定失败，而不是跳过后面的检查。
+- 会话令牌、邀请令牌、密码重置令牌，在库里只能以**哈希**保存。验收会用 Cookie 和 outbox 里拿到的令牌明文，在库里所有文本列（含 JSON 和字节列）里搜索，找到就失败。名字含 `outbox` 的表除外（§6）。
+- 密码以 **argon2id 或 bcrypt** 保存，存成**文本列**，格式是标准的 `$argon2id$…` 或 `$2a$` / `$2b$` / `$2y$…`。库里的任何地方（包括 outbox）都不得出现密码明文。

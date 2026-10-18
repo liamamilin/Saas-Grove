@@ -339,7 +339,12 @@ async function main() {
       stageDirs,
       jsonPath,
       filter: opts.filter,
-      env: { ACCEPTANCE_BASE_URL: app.base, ACCEPTANCE_CONTROL_URL: `http://127.0.0.1:${control.address().port}` },
+      env: {
+        ACCEPTANCE_BASE_URL: app.base,
+        ACCEPTANCE_CONTROL_URL: `http://127.0.0.1:${control.address().port}`,
+        // Only for the few tests that look at what the product stored (secrets at rest).
+        ACCEPTANCE_DATABASE_URL: db.url,
+      },
     });
     Object.assign(report, summarise(jsonPath));
     exitCode = report.totals.failed > 0 || report.tests.length === 0 ? 1 : 0;

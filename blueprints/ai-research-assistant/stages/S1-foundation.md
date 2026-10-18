@@ -13,13 +13,15 @@
 - 测试模式接口：`/api/__test__/outbox`；`/api/__test__/fake-model` 可以先实现为空操作（`PUT` 和 `DELETE` 都返回 204），S2 再补全。
 - 界面：注册页、登录页、没有工作区时的引导页、工作区首页（显示名称）。`data-testid` 见 `spec/architecture.md` §8。
 
-## 验收（`acceptance/tests/s1/`，共 21 条）
+## 验收（`acceptance/tests/s1/`，共 24 条）
 
 账号与会话：注册后的用户信息不含任何密钥类字段；会话 Cookie 是 HttpOnly + SameSite；邮箱唯一性不区分大小写；非法注册返回 `validation_error`；登录错误不暴露邮箱是否存在；登出后旧 Cookie 失效；同一邮箱连续失败 10 次后限流（不影响其他账号）；重置密码令牌只能用一次，并让其他会话失效；未登录访问返回 401。
 
 工作区与角色：创建者是 owner；非成员看不到工作区（404）；可以邀请还没注册的邮箱，对方注册后再接受；邀请只能由被邀请的邮箱接受、只能用一次；member 不能管理成员；admin 可以邀请和移除成员，但不能改角色、不能移除 owner；owner 可以改角色，但永远不会出现没有 owner 的工作区；被移除的成员立即失去访问权限。
 
 界面：从注册到建好第一个工作区；已有用户登录后进入引导页。
+
+存储安全（`security.test.ts`，3 条，见 `spec/architecture.md` §9）：产品的数据确实在注入的 `DATABASE_URL` 里；会话、邀请、重置令牌和密码在库里（outbox 表除外）找不到明文；密码是 argon2id 或 bcrypt 哈希。
 
 ## 完成条件
 

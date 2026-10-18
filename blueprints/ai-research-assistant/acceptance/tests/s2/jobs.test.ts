@@ -88,6 +88,30 @@ describe("S2 research jobs", () => {
     expect((await getJob(team.client, team.ws.id, job.id)).status).toBe("canceled");
   });
 
+  it("aborts the call in flight when a job is canceled", async () => {
+    const team = await owner();
+    const docs = await twoDocs(team.client, team.ws.id);
+    await fakeModel.set({ latencyMs: 3_000 });
+    const job = await startJob(team.client, team.ws.id, docs.map((d) => d.id));
+    // The plan call finishes after its 3 s wait; the first analyze call then starts waiting.
+    await waitFor(async () => (await callsByStage(team.client, team.ws.id, job.id)).plan === 1, {
+      what: "plan to finish",
+      timeout: 20_000,
+    });
+    await sleep(600);
+
+    expectStatus(await team.client.post(`/api/workspaces/${team.ws.id}/research-jobs/${job.id}/cancel`), 202);
+    await waitForJob(team.client, team.ws.id, job.id, (j) => j.status === "canceled", 10_000);
+    await sleep(400);
+    const atCancel = (await usageRecords(team.client, team.ws.id, { jobId: job.id })).length;
+
+    // Longer than the latency: an analyze call that was not aborted finishes now and is recorded.
+    await sleep(4_000);
+    const later = await usageRecords(team.client, team.ws.id, { jobId: job.id });
+    expect(later.length, "a call that was running when the job was canceled still produced a usage record").toBe(atCancel);
+    expect((await callsByStage(team.client, team.ws.id, job.id)).analyze ?? 0).toBe(0);
+  });
+
   it("cancels a queued job before it ever runs", async () => {
     const team = await owner();
     const docs = await twoDocs(team.client, team.ws.id);

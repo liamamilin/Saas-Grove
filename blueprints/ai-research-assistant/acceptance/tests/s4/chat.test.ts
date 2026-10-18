@@ -75,11 +75,15 @@ describe("S4 follow-up chat", () => {
     const ours = await addText(team.client, team.ws.id, COFFEE);
     const job = await finishedJob(team.client, team.ws.id, [ours.id]);
     const url = `/api/workspaces/${team.ws.id}/reports/${job.reportId}/messages`;
-    const res = await team.client.sse(url, { content: `What does the ${SECRET_PHRASE} say about beacon logs?` });
+    // The question carries the secret phrase but none of the other words of the memo, so a leak shows
+    // up as one of those words in the answer (an answer that merely repeats the question is fine).
+    const res = await team.client.sse(url, { content: `What does the ${SECRET_PHRASE} say?` });
     expect(res.status).toBe(200);
     const message = res.events.find((e) => e.event === "done")!.data.message;
     for (const c of message.citations) expect(c.documentId).toBe(ours.id);
-    expect(message.content).not.toContain("beacon logs");
+    for (const leaked of ["beacon logs", "harbour master", "countersigned", "night shifts"]) {
+      expect(message.content).not.toContain(leaked);
+    }
 
     const outsider = await owner();
     expectError(await outsider.client.post(url, { content: "hi" }), 404, "not_found");

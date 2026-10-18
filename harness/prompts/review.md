@@ -1,6 +1,8 @@
 请独立审查 `app/` 里的产品。它是照着 `blueprint/` 这份模板做的，**阶段 {{stage}} 的验收测试已经全部通过**——但测试不可能覆盖一切，你的任务就是找出测试漏掉的问题。
 
 对照这些要求来读代码：
+- `blueprint/spec/review-checklist.md`（黑盒测试看不到的东西，逐条对照）
+- `blueprint/spec/decisions.md`（人已经决定的事项**不算缺陷**，比如非测试模式不发真实邮件、删除是软删除）
 - `blueprint/spec/product.md` §6「容易做错的地方」
 - `blueprint/spec/architecture.md` §4「难点的设计要求」
 - `blueprint/{{stageDoc}}`（本阶段范围）

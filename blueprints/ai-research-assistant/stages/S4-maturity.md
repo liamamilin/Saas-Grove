@@ -5,7 +5,7 @@
 ## 范围
 
 - 追问：`POST /reports/{id}/messages` 以 SSE 流式返回（`delta`…`done`）；回答带引用，只引用该报告的资料（已删除的资料除外）；每条消息计一次费用；超过预算时直接返回 402 JSON，而不是流；`GET` 返回对话历史。
-- 审计日志：记录 `member.invited`、`member.joined`、`member.role_changed`、`member.removed`、`budget.updated`、`document.deleted`、`job.canceled`、`export.created`、`workspace.deleted`，带操作人，按时间倒序；只有 admin/owner 能查看。
+- 审计日志：记录 `member.invited`、`member.joined`、`member.role_changed`、`member.removed`、`budget.updated`、`document.deleted`、`job.canceled`、`export.created`，带操作人，按时间倒序；只有 admin/owner 能查看。（工作区删除后，它的审计日志和其他内容一起不可访问，所以 `workspace.deleted` 不在要求之内，产品可以自行记录。）
 - 导出：`GET /export`（admin/owner）导出本工作区的成员、资料（含文本）、报告、消息和用量记录；**不包含**任何密码、哈希、令牌、会话类字段，也不包含其他工作区的数据。
 - 删除资料：上传者或 admin/owner 可以删除；删除后不出现在列表里，不能被新任务使用，不再被检索到。
 - 删除工作区：只有 owner 可以；删除后工作区内的一切对所有人返回 404；成员的账号不受影响。
