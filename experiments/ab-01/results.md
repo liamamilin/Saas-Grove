@@ -347,6 +347,31 @@ README 的 North Star 因此改成两道门：有效性门（留出测试和核�
 
 同时开始"先深后广"的第一步：留出测试。`harness/holdout.mjs` 让一个与构建者不同家族的模型（H1 用 `opencode-go/longcat-2.5-preview-free`、H2 用 `opencode-go/beam-free`（免费优先；step-5-preview-free 在 models.dev 有但 opencode 不路由）；先选的 kimi-k3 被用户否决、minimax-m3 为免费优先让位，两者目录留作 `*-kimi-aborted`、`*-minimax-aborted`；写得不行再升级）在沙箱里写测试，它只看得到需求、契约和运行器，看不到任何现有测试和任何产品代码。两个桶：`H1-contract`（只有契约，对所有组公平）、`H2-spec`（另给 product / architecture / decisions，测契约没写但 spec 写了的可观察要求）。作者模型做成对比（用户要求加上 minimax）：契约桶和 spec 桶各让 longcat-2.5-preview-free、beam-free、minimax-m3 三个模型写一遍，共 6 套（`H1-contract`=longcat、`H1-contract-beam`、`H1-contract-minimax`、`H2-spec`=beam、`H2-spec-longcat`、`H2-spec-minimax`）。写好后冻结，再拿去测 A、B、B2、B2b、B3、B4 和 B5r 的产品。
 
+## 免费模型当构建者：B5r / B6 / B7（2026-10-19）
+
+输入与 B4 相同（v0.3 契约 + 70 条测试）。provider 全部是 `opencode-go`（`open-design` 额度用完）。预测和事先定的判定标准在 `v0.3-models-predictions.md`。
+
+| 模型 | 运行 | harness 打分 | 用时（构建） | 备注 |
+|---|---|---|---|---|
+| deepseek-v4.1-flash（opencode-go） | B5r-dsgo、B6a、B6b | 70/70 ×3 | 32 / 54 / 45 分钟 | 一次约 0.18 美元；输出 token 5.8–8.9 万，远低于 B4（21.4 万，open-design 上 144 分钟） |
+| beam-free | B5r-beam、B7-beam-1/2/3 | 70/70 ×4 | 14–31 分钟 | 见下，4 次都没做出成熟产品 |
+| longcat-2.5-preview-free | B5r-longcat、B7-longcat-1/2 | 58/70、70/70、70/70 | 22–92 分钟 | `B7-longcat-3` 构建 105+ 分钟后疑似卡住（通道停滞），尚未结束 |
+
+**70/70 不等于成熟产品。** 事后加了三条探针（`experiments/ab-01/probes/`，A 和 B4 作为正对照都通过）：
+
+| 产品 | 资料进提示词 | 回答进报告 | 检索有选择性 | 追问带资料原文 |
+|---|---|---|---|---|
+| A、B4、deepseek ×3 | 是 | 是 | 是 | 是 |
+| B5r-longcat | 是 | 是 | 是 | **否** |
+| B7-longcat-1、-2 | 是 | 是 | 是 | 是 |
+| B5r-beam | **否（空壳）** | 是 | — | **否** |
+| B7-beam-1 | 是 | 是 | **否（整篇塞进去）** | **否** |
+| B7-beam-2、-3 | 暗号 0/5 | 是 | 是但没检索到相关段 | **否** |
+
+beam 4 次都过了 70/70，但追问带资料原文 0/4，其中一次是空壳、一次整篇塞提示词、两次检索没找到相关段落；审查员对 beam 每次都报了"检索/切块/向量化没实现"。**按这个证据，beam 不能当构建者。** longcat 是 3 次完成里 2 次合格，另一次测试 58/70 还追问不带资料，第 4 次卡住，**结论不足**。deepseek 三次探针都过，但审查员对它们同样报了预算无预留、崩溃窗口重复计费等高危项。
+
+**限制**：n 很小；三条探针是看到结果之后才写的（事后），不是事先定的标准，所以我只用它们排除，不用它们给通过的一方加分；审查员对 B6b-dsgo 报"synthesize 输出被丢弃"是误报（探针证明进了报告）。
+
 ## 下一步选项（待用户决定，尚未开始任何一项）
 
 v0.3 现在有两层证据：对五个已有产品有区分度，构建者拿着它从头做也做对了三件事（B4）。剩下的缺口都在测试没覆盖的地方。

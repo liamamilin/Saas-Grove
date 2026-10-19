@@ -1,0 +1,7 @@
+#!/bin/bash
+SP=/private/tmp/claude-501/-Users-milin-2026------Saas-foundation-template/29cfc8ab-773f-48ae-90a6-91da1cce1349/scratchpad
+for r in "$@"; do
+  out=$(cd $SP/probe/acceptance && node run.mjs --app $SP/apps/$r --stage S4 --filter "retrieval is selective" --out $SP/ground-out3/$r 2>&1)
+  echo "$r | $(echo "$out" | grep -o 'PROBE3 .*' | head -1)" >> $SP/ground-results3.txt
+done
+echo FINISHED >> $SP/ground-results3.txt
