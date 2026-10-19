@@ -25,7 +25,7 @@
 - **优先级**：AI 相关优先，先做 AI 原生模板和 SaaS+AI 模块；其他类型需要时按需生成。
 - **只给自己用**：商业化才需要的东西（销售用的许可证审查、发布流程等）推到商业化前再做。但每段复用代码的来源、许可证和 commit 现在就要记下来。
 - **一人 + AI agent**：负责构建和负责验证的 agent 相互独立，人只在关键节点批准。
-- **批量执行**：本地 opencode CLI，模型 `open-design/deepseek-v4.1-flash`。
+- **批量执行**：本地 opencode CLI，模型 `opencode-go/deepseek-v4.1-flash`。
 - **产品的真实模型**：`deepseek-v4.1-flash`，接口地址和 key 由人填在根目录 `.env`（模板见 `.env.example`；`.env` 不入库）。验收永远使用假模型。
 - **预算**：第一版暂不设上限。
 

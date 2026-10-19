@@ -29,9 +29,9 @@ export const REPO = path.dirname(HARNESS);
 export const RUNS = process.env.HARNESS_RUNS_DIR ?? "/Users/Shared/saas-template-runs";
 
 export const MODELS = {
-  builder: "open-design/deepseek-v4.1-flash",
-  reviewer: "open-design/deepseek-v4-pro",
-  userSim: "open-design/deepseek-v4-pro",
+  builder: "opencode-go/deepseek-v4.1-flash",
+  reviewer: "opencode-go/deepseek-v4-pro",
+  userSim: "opencode-go/deepseek-v4-pro",
 };
 
 export function blueprintDir(id) {

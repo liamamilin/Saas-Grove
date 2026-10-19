@@ -1,7 +1,7 @@
 ---
 description: Builds a product inside app/ from the blueprint (or brief) of this run. Edits app/ only.
 mode: primary
-model: open-design/deepseek-v4.1-flash
+model: opencode-go/deepseek-v4.1-flash
 steps: 1500
 permissions:
   - action: edit

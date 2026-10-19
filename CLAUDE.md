@@ -21,7 +21,7 @@
 ## 约定
 - 用中文回复和写文档；提交信息用英文，格式 `<范围>: <摘要>`（如 `ab-01: ...`、`harness: ...`）。
 - 数字以 harness 的记录为准（`records/journal.jsonl`、`STATUS.md`），不以 agent 自己的说法为准。
-- 批量执行走本地 opencode CLI，模型 `open-design/deepseek-v4.1-flash`；审查用 `open-design/deepseek-v4-pro`。
+- 批量执行走本地 opencode CLI，模型 `opencode-go/deepseek-v4.1-flash`；审查用 `opencode-go/deepseek-v4-pro`。（2026-10-19 起从 `open-design` 改到 `opencode-go`：open-design 额度用完，到 10-24 才重置；同一个模型换 provider。之前的运行记录里的模型名保持原样。）
 - 注意：`.claude/delegate-impl.json` 仍指向已删除的 `factory-impl/`（`testCommand`、`protectedGlobs`）。用 delegate-impl 流程前先更新它，否则 hook 会拿一个不存在的目录跑测试。
 
 ## 压缩说明 (Compact instructions)
