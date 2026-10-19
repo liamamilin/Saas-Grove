@@ -162,20 +162,30 @@ async function cmdGo(opts) {
   const logDir = path.join(p.records, "logs");
   fs.mkdirSync(logDir, { recursive: true });
   const session = sessionId(runId, "author");
-  console.log(`harness: author turn (${state.model}, bucket ${state.bucket}) …`);
-  const result = await runAgent({
-    cwd: p.project,
-    agent: "author",
-    model: state.model,
-    session,
-    message: promptFor(state.bucket),
-    logFile: path.join(logDir, "author.jsonl"),
-    sandbox,
-  });
+  const MAX_ROUNDS = 5;
+  let result;
+  let totalMs = 0;
+  for (let round = (state.round ?? 0) + 1; round <= MAX_ROUNDS; round++) {
+    console.log(`harness: author round ${round} (${state.model}, bucket ${state.bucket}) …`);
+    result = await runAgent({
+      cwd: p.project,
+      agent: "author",
+      model: state.model,
+      session,
+      message: round === 1 ? promptFor(state.bucket) : "Continue until the suite is complete and the self-check passes. End with the single word DONE when finished.",
+      logFile: path.join(logDir, `author-r${round}.jsonl`),
+      sandbox,
+    });
+    totalMs += result.ms;
+    state.round = round;
+    saveState(runId, state);
+    fs.writeFileSync(path.join(logDir, `author-r${round}.md`), result.allText || "(no text output)\n");
+    if (/(^|\n)\s*DONE\s*$/.test((result.finalText || result.allText).trim())) break;
+  }
+  result.ms = totalMs;
   const usage = sessionUsage(p.project, session);
   journal(runId, "agent.turn", { role: "author", label: "author", model: state.model, session, exitCode: result.exitCode, ms: result.ms, tokens: usage, errors: result.errors });
-  fs.writeFileSync(path.join(logDir, "author.md"), result.allText || "(no text output)\n");
-  const tests = path.join(p.project, "blueprint", "acceptance", "tests", "s4");
+    const tests = path.join(p.project, "blueprint", "acceptance", "tests", "s4");
   const files = fs.existsSync(tests) ? fs.readdirSync(tests).filter((f) => f.endsWith(".test.ts")) : [];
   state.phase = "authored";
   saveState(runId, state);
