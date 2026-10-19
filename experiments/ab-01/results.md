@@ -345,7 +345,7 @@ n=1；构建者、审查员都是 DeepSeek 模型；"做对"指被这几项测�
 
 README 的 North Star 因此改成两道门：有效性门（留出测试和核实后的高/中危缺陷上优于对照组，慢可以）和经济性门（第二个同品类项目、总时间至多一半）。
 
-同时开始"先深后广"的第一步：留出测试。`harness/holdout.mjs` 让一个与构建者不同家族的模型（`opencode-go/step-5-preview-free`，免费优先；先选的 kimi-k3 被用户否决、minimax-m3 为免费优先让位，两者目录留作 `*-kimi-aborted`、`*-minimax-aborted`；写得不行再升级）在沙箱里写测试，它只看得到需求、契约和运行器，看不到任何现有测试和任何产品代码。两个桶：`H1-contract`（只有契约，对所有组公平）、`H2-spec`（另给 product / architecture / decisions，测契约没写但 spec 写了的可观察要求）。写好后冻结，再拿去测 A、B、B2、B2b、B3、B4 和 B5r 的产品。
+同时开始"先深后广"的第一步：留出测试。`harness/holdout.mjs` 让一个与构建者不同家族的模型（H1 用 `opencode-go/longcat-2.5-preview-free`、H2 用 `opencode-go/beam-free`（免费优先；step-5-preview-free 在 models.dev 有但 opencode 不路由）；先选的 kimi-k3 被用户否决、minimax-m3 为免费优先让位，两者目录留作 `*-kimi-aborted`、`*-minimax-aborted`；写得不行再升级）在沙箱里写测试，它只看得到需求、契约和运行器，看不到任何现有测试和任何产品代码。两个桶：`H1-contract`（只有契约，对所有组公平）、`H2-spec`（另给 product / architecture / decisions，测契约没写但 spec 写了的可观察要求）。写好后冻结，再拿去测 A、B、B2、B2b、B3、B4 和 B5r 的产品。
 
 ## 下一步选项（待用户决定，尚未开始任何一项）
 
