@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Group B: build the same product WITHOUT the blueprint.
 //
-//   node harness/baseline.mjs new --blueprint <id> --brief <file> [--run <run-id>] [--with-tests]
+//   node harness/baseline.mjs new --blueprint <id> --brief <file> [--run <run-id>] [--with-tests] [--builder-model <provider/model>]
 //   node harness/baseline.mjs go --run <run-id> [--max-rounds 6]
 //   node harness/baseline.mjs review --run <run-id>   (normally part of `go`; runs the final review alone)
 //   node harness/baseline.mjs status --run <run-id>
@@ -44,6 +44,7 @@ function args(argv) {
     else if (a === "--run") opts.run = next();
     else if (a === "--max-rounds") opts.maxRounds = Number(next());
     else if (a === "--with-tests") opts.withTests = true;
+    else if (a === "--builder-model") opts.builderModel = next();
     else throw new Error(`unknown argument ${a}`);
   }
   return opts;
@@ -73,9 +74,11 @@ function cmdNew(opts) {
   fs.writeFileSync(path.join(p.brief, "contract", "testability.md"), testabilityExtract(opts.blueprint));
   // --with-tests: the builder also gets the runnable acceptance suite (and nothing else of the blueprint).
   if (opts.withTests) copyAcceptanceOnly(opts.blueprint, runId);
-  const state = { kind: "baseline", blueprint: opts.blueprint, phase: "build", round: 0, done: false, withTests: !!opts.withTests };
+  // The builder model is fixed per run, here; the reviewer stays the same in every run so reviews compare.
+  const builderModel = opts.builderModel ?? MODELS.builder;
+  const state = { kind: "baseline", blueprint: opts.blueprint, phase: "build", round: 0, done: false, withTests: !!opts.withTests, builderModel };
   saveState(runId, state);
-  journal(runId, "run.created", { kind: "baseline", blueprint: opts.blueprint, brief: opts.brief, models: MODELS });
+  journal(runId, "run.created", { kind: "baseline", blueprint: opts.blueprint, brief: opts.brief, models: { ...MODELS, builder: builderModel } });
   snapshot(runId, "run created");
   writeStatus(runId, state);
   console.log(`harness: created baseline run ${runId} at ${p.root}`);
@@ -123,7 +126,7 @@ async function cmdGo(opts) {
     const turn = await agentTurn(runId, {
       role: "builder",
       agent: "builder",
-      model: MODELS.builder,
+      model: state.builderModel ?? MODELS.builder,
       sessionKey: "baseline",
       message:
         state.round === 1
