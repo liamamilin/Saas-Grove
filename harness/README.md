@@ -63,6 +63,7 @@ opencode 的工具权限只管它自己的文件工具，管不住 shell，而 a
 - opencode 用 `$PWD` 而不是进程的工作目录来定位项目。用 Node 启动子进程时必须同时设置 `PWD`，否则它会去父目录找 agent，报 `Agent not found`。
 - 共享的后台服务会缓存配置，而且由它创建的会话会一直绑在旧配置上。所以 harness 的所有 opencode 调用都用 `--standalone`。
 - 会话 ID 必须以 `ses` 开头。
+- **会话 ID 由运行 ID 派生，同名重建会接上旧会话**（2026-10-19 在留出测试作者上踩到：被停掉的 kimi/minimax 会话被后来的免费模型沿用，第一步就载入 11–13 万 token 旧上下文，journal 里的 token 和费用也被旧会话污染）。重跑一律换新的运行 ID；用 `step_finish` 事件里的 token 核对第一步的输入量。
 - opencode 启动时会对项目目录的**每一级上层目录**都做 realpath。放在家目录里的运行目录，进了沙箱后会因此启动失败（报 `UnexpectedStatus: 500`），这就是运行目录要放到家目录之外的原因。
 
 ## 验证过的事（2026-10-17）
