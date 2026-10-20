@@ -13,7 +13,26 @@ export function sessionId(...parts) {
  * Run one agent turn. Resolves when opencode exits.
  * The JSON event stream goes to `logFile`; the agent's final text is returned.
  */
-export function runAgent({ cwd, agent, model, session, message, logFile, sandbox, timeoutMs = 3 * 60 * 60 * 1000 }) {
+/** Free model used when the paid provider quota runs out (set HARNESS_NO_FALLBACK=1 to disable). */
+export const FALLBACK_MODEL = "opencode-go/minimax-m3.1-flash-free";
+const QUOTA = /usage limit|insufficient_balance|quota/i;
+
+/**
+ * Run one agent turn; if the provider reports an exhausted quota before the model did any work,
+ * retry once with FALLBACK_MODEL. A turn that fell back is marked (`fellBack`, `modelUsed`) and a
+ * `harness.fallback` line is appended to its log, so runs that used it can be told apart and are
+ * not mixed into same-model samples.
+ */
+export async function runAgent(opts) {
+  const first = await runAgentOnce(opts);
+  const quota = first.exitCode !== 0 && first.errors.some((e) => QUOTA.test(e));
+  if (!quota || process.env.HARNESS_NO_FALLBACK || opts.model === FALLBACK_MODEL) return { ...first, modelUsed: opts.model, fellBack: false };
+  fs.appendFileSync(opts.logFile, JSON.stringify({ type: "harness.fallback", from: opts.model, to: FALLBACK_MODEL, reason: first.errors.join("; ") }) + "\n");
+  const second = await runAgentOnce({ ...opts, model: FALLBACK_MODEL });
+  return { ...second, ms: first.ms + second.ms, modelUsed: FALLBACK_MODEL, fellBack: true, firstErrors: first.errors };
+}
+
+function runAgentOnce({ cwd, agent, model, session, message, logFile, sandbox, timeoutMs = 3 * 60 * 60 * 1000 }) {
   // --standalone: a private server per turn, so the run's freshly written agent config is
   // always read (the shared background service caches configuration).
   const args = ["run", "--standalone", "--format", "json", "--auto", "--session", session, "--agent", agent];

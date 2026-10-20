@@ -87,3 +87,6 @@ harness v0 交给一个独立 agent 只读审查过。它指出的问题都已�
 `node harness/eval.mjs score --suites <目录,…> --runs <id,…> --out <目录> [--exclude 裁决剔除.json] [--jobs 4]`
 
 每个 suite 是一份冻结的评测项目副本（有 `run.mjs` 和 `tests/`）。先把每个运行的 app 克隆到输出目录，不动原运行。**不是通过的一律按失败计**（失败、报错、超时、suite 没产出结果、应用起不来），分母固定为 suite 里的全部测试；同时输出剔除前、剔除后两套分数（`--exclude` 是盲审裁决员剔除的测试全名列表）。结果在 `<out>/scores.json`。用法与 `experiments/PROTOCOL.md` 一致。
+
+## 额度兜底（2026-10-20）
+`lib/opencode.mjs` 的 `runAgent` 在 provider 报额度用完（`usage limit` / `insufficient_balance`）且这一回合没干活时，自动改用免费模型 `opencode-go/minimax-m3.1-flash-free` 重试一次（环境变量 `HARNESS_NO_FALLBACK=1` 可关闭）。用过兜底的回合：返回值带 `fellBack: true` 和 `modelUsed`，日志里有一行 `harness.fallback`。**用过兜底的运行不得混进同模型样本**，须在报告里标明；构建者角色用兜底会拉低质量，更适合审查、起草、模拟用户这类辅助角色。

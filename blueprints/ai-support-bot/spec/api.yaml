@@ -1,0 +1,663 @@
+openapi: 3.1.0
+info:
+  title: AI Support Bot — API contract
+  version: 0.1.0-draft
+  description: |
+    The contract the acceptance tests exercise. Conventions that apply everywhere:
+
+    * JSON in and out (document upload may also be multipart/form-data; the widget answer is an SSE stream).
+    * Errors are `{"error": {"code": "...", "message": "..."}}`. Codes used:
+      validation_error (400), invalid_token (400), unauthenticated (401),
+      invalid_credentials (401), forbidden / origin_not_allowed / widget_disabled (403),
+      not_found (404), conflict / email_taken / last_owner / invalid_state (409),
+      payload_too_large (413), unsupported_media_type (415), rate_limited (429).
+    * Two kinds of caller. Team members (owner, admin, member) use the routes under /api/workspaces with a
+      session cookie (HttpOnly, SameSite=Lax or Strict). Anonymous website visitors use only the public
+      widget routes under /api/widget/{key} (rules written above those routes).
+    * Anything under /api/workspaces/{ws} that the caller cannot see — because
+      they are not a member, or the resource belongs to another workspace, or it
+      does not exist — is 404 not_found. A member lacking the role is 403.
+    * Role summary: any member reads everything in the workspace, adds documents, deletes their own
+      documents and works handoffs; admin and owner also change widget settings and the budget, delete any
+      document or conversation, read the audit log and export; only the owner changes roles and deletes the
+      workspace.
+    * IDs are opaque strings. Timestamps are ISO-8601. Money is USD as a JSON number. "This month" is the
+      current calendar month in UTC.
+servers:
+  - url: http://127.0.0.1:{port}
+    variables:
+      port: { default: "3000" }
+
+paths:
+  /api/health:
+    get:
+      summary: Liveness and readiness
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { status: { const: ok } } } } } }
+
+  # ---------------------------------------------------------------- auth (S1)
+  /api/auth/signup:
+    post:
+      summary: Create an account and start a session. Email is case-insensitive.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, name]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 10 }
+                name: { type: string, minLength: 1 }
+      responses:
+        "201": { description: Sets the session cookie, content: { application/json: { schema: { $ref: "#/components/schemas/UserEnvelope" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { description: email_taken, $ref: "#/components/responses/Error" }
+  /api/auth/login:
+    post:
+      summary: Start a session. Unknown email and wrong password both give invalid_credentials.
+      description: After 10 failed attempts for one email within 15 minutes, further attempts get 429 rate_limited.
+      requestBody:
+        content: { application/json: { schema: { type: object, required: [email, password], properties: { email: { type: string }, password: { type: string } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { $ref: "#/components/schemas/UserEnvelope" } } } }
+        "401": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+  /api/auth/logout:
+    post:
+      summary: End the session server-side; the old cookie stops working.
+      responses: { "204": { description: Logged out } }
+  /api/me:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: "#/components/schemas/User" }
+                  memberships:
+                    type: array
+                    items: { type: object, properties: { workspaceId: { type: string }, workspaceName: { type: string }, role: { $ref: "#/components/schemas/Role" } } }
+        "401": { $ref: "#/components/responses/Error" }
+  /api/auth/password-reset/request:
+    post:
+      summary: Always 202, whether or not the email exists. Sends a password_reset email when it does.
+      requestBody: { content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string } } } } } }
+      responses: { "202": { description: Accepted } }
+  /api/auth/password-reset/confirm:
+    post:
+      summary: Set a new password. Single-use token. Ends every existing session of that user.
+      requestBody: { content: { application/json: { schema: { type: object, required: [token, password], properties: { token: { type: string }, password: { type: string, minLength: 10 } } } } } }
+      responses:
+        "204": { description: Password changed }
+        "400": { description: invalid_token or validation_error, $ref: "#/components/responses/Error" }
+
+  # ------------------------------------------------------ workspaces (S1, S4)
+  /api/workspaces:
+    get:
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { workspaces: { type: array, items: { $ref: "#/components/schemas/WorkspaceWithRole" } } } } } } }
+    post:
+      summary: Create a workspace; the caller becomes its owner.
+      requestBody: { content: { application/json: { schema: { type: object, required: [name], properties: { name: { type: string, minLength: 1, maxLength: 100 } } } } } }
+      responses:
+        "201": { content: { application/json: { schema: { type: object, properties: { workspace: { $ref: "#/components/schemas/Workspace" } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "415": { description: Non-JSON body, $ref: "#/components/responses/Error" }
+  /api/workspaces/{ws}:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { workspace: { $ref: "#/components/schemas/Workspace" }, role: { $ref: "#/components/schemas/Role" } } } } } }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: (S4) Owner only. Everything in the workspace becomes unreachable.
+      responses: { "204": { description: Deleted }, "403": { $ref: "#/components/responses/Error" } }
+  /api/workspaces/{ws}/members:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { members: { type: array, items: { $ref: "#/components/schemas/Member" } } } } } } }
+  /api/workspaces/{ws}/members/{userId}:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { name: userId, in: path, required: true, schema: { type: string } }]
+    patch:
+      summary: Change a role. Owner only.
+      description: Permission is checked before state, so a non-owner always gets 403; 409 last_owner only arises when an owner would leave the workspace without one.
+      requestBody: { content: { application/json: { schema: { type: object, required: [role], properties: { role: { $ref: "#/components/schemas/Role" } } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { member: { $ref: "#/components/schemas/Member" } } } } } }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { description: last_owner, $ref: "#/components/responses/Error" }
+    delete:
+      summary: Remove a member. Admin or owner; an admin cannot remove an owner; the last owner cannot be removed.
+      description: Permission is checked before state. An admin removing an owner gets 403 even when that owner is the last one; only an owner can ever get 409 last_owner.
+      responses:
+        "204": { description: Removed }
+        "403": { $ref: "#/components/responses/Error" }
+        "409": { description: last_owner, $ref: "#/components/responses/Error" }
+  /api/workspaces/{ws}/invitations:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    post:
+      summary: Admin or owner. Sends an `invitation` email carrying a token.
+      requestBody: { content: { application/json: { schema: { type: object, required: [email, role], properties: { email: { type: string, format: email }, role: { enum: [admin, member] } } } } } }
+      responses:
+        "201": { content: { application/json: { schema: { type: object, properties: { invitation: { type: object, properties: { id: { type: string }, email: { type: string }, role: { type: string }, expiresAt: { type: string } } } } } } } }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/invitations/accept:
+    post:
+      summary: Accept as the invited email (case-insensitive). Single use.
+      requestBody: { content: { application/json: { schema: { type: object, required: [token], properties: { token: { type: string } } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { workspaceId: { type: string }, role: { $ref: "#/components/schemas/Role" } } } } } }
+        "400": { description: invalid_token, $ref: "#/components/responses/Error" }
+        "403": { description: Logged in as a different email, $ref: "#/components/responses/Error" }
+
+  # ------------------------------------------- knowledge base: documents (S2, S4)
+  /api/workspaces/{ws}/documents:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: Every document of the workspace's knowledge base (deleted ones excluded). Any member.
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { documents: { type: array, items: { $ref: "#/components/schemas/Document" } } } } } } }
+    post:
+      summary: Paste text (JSON) or upload a .txt/.md/.pdf/.docx/.html file (multipart field `file`, optional `title`). Max 10 MB. Any member.
+      description: |
+        Parsing, chunking and embedding run in the background: the document is `processing`, then `ready`
+        or `failed`. A file whose type is accepted but from which no text can be extracted (a corrupt or
+        image-only PDF, a broken .docx) is accepted with 201 and ends `failed` with `error.code = "unreadable"`.
+        HTML is reduced to its visible text (no tags, no `<script>`/`<style>` content).
+        The type is decided by the file extension, falling back to the multipart part's content type.
+      requestBody:
+        content:
+          application/json: { schema: { type: object, required: [title, text], properties: { title: { type: string, minLength: 1 }, text: { type: string, minLength: 1 } } } }
+          multipart/form-data: { schema: { type: object, required: [file], properties: { file: { type: string, format: binary }, title: { type: string } } } }
+      responses:
+        "201": { content: { application/json: { schema: { type: object, properties: { document: { $ref: "#/components/schemas/Document" } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "413": { $ref: "#/components/responses/Error" }
+        "415": { $ref: "#/components/responses/Error" }
+  /api/workspaces/{ws}/documents/{id}:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { $ref: "#/components/parameters/id" }]
+    get:
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { document: { $ref: "#/components/schemas/Document" } } } } } } }
+    delete:
+      summary: (S4) Uploader, admin or owner. The document stops taking part in answers at once.
+      responses: { "204": { description: Deleted }, "403": { $ref: "#/components/responses/Error" } }
+  /api/workspaces/{ws}/documents/{id}/text:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { $ref: "#/components/parameters/id" }]
+    get:
+      summary: The extracted plain text that citations quote from.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { text: { type: string } } } } } } }
+
+  # ----------------------------------------------- widget settings (S2, S4)
+  /api/workspaces/{ws}/widget:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: The workspace's widget settings, including its public widget key. Any member.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { widget: { $ref: "#/components/schemas/WidgetSettings" } } } } } } }
+    patch:
+      summary: Change some settings. Admin or owner.
+      description: |
+        Every field is optional; fields not sent keep their value. `allowedOrigins` replaces the list;
+        each entry is an origin (`http://` or `https://`, host, optional port, no path, no trailing slash),
+        otherwise 400 validation_error. `fallbackMessage` is 1–500 characters.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled: { type: boolean }
+                allowedOrigins: { type: array, maxItems: 20, items: { type: string } }
+                botName: { type: string, minLength: 1, maxLength: 60 }
+                greeting: { type: string, minLength: 1, maxLength: 500 }
+                fallbackMessage: { type: string, minLength: 1, maxLength: 500 }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { widget: { $ref: "#/components/schemas/WidgetSettings" } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/workspaces/{ws}/widget/rotate-key:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    post:
+      summary: (S4) Admin or owner. Issues a new widget key; the old key stops working at once (404 on every widget route).
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { widget: { $ref: "#/components/schemas/WidgetSettings" } } } } } }
+        "403": { $ref: "#/components/responses/Error" }
+
+  # ------------------------------------------------ public widget API (S2, S3)
+  # Called by the embedded widget from the customer's own website: cross-origin, anonymous.
+  # Rules for every route under /api/widget/{key}:
+  #   1. {key} unknown, rotated away, or of a deleted workspace -> 404 not_found.
+  #   2. The request's Origin header must be one of the widget's allowedOrigins, or the product's own
+  #      origin (APP_BASE_URL, for its in-app preview). Otherwise -> 403 origin_not_allowed. A request
+  #      WITHOUT an Origin header is refused the same way (fail closed).
+  #   3. Widget disabled (enabled: false) -> 403 widget_disabled.
+  #   4. Allowed responses carry `Access-Control-Allow-Origin: <that origin>` (echoed, never `*`) and
+  #      `Vary: Origin`. Refused ones carry no Access-Control-Allow-Origin.
+  #   5. Routes under /conversations/{id} need `Authorization: Bearer <visitorToken>` as returned when that
+  #      conversation was created: missing -> 401 unauthenticated; a token that does not belong to
+  #      this conversation of this widget -> 404 not_found.
+  #   6. Bodies are JSON (Content-Type application/json, which makes browsers preflight); anything else
+  #      -> 415 unsupported_media_type.
+  /api/widget/{key}/{path}:
+    parameters:
+      - { $ref: "#/components/parameters/key" }
+      - { name: path, in: path, required: true, schema: { type: string }, description: Any widget route below }
+    options:
+      summary: CORS preflight for every widget route.
+      description: |
+        For an allowed origin (rules 1–3): 204 with Access-Control-Allow-Origin echoing the origin,
+        Access-Control-Allow-Methods including GET and POST, and Access-Control-Allow-Headers including
+        content-type and authorization. For any other origin or key: no Access-Control-Allow-Origin
+        (status 403 or 404).
+      responses:
+        "204": { description: Preflight accepted }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /api/widget/{key}/config:
+    parameters: [{ $ref: "#/components/parameters/key" }]
+    get:
+      summary: What the widget shows before the first question.
+      responses:
+        "200": { content: { application/json: { schema: { type: object, required: [botName, greeting], properties: { botName: { type: string }, greeting: { type: string } } } } } }
+  /api/widget/{key}/conversations:
+    parameters: [{ $ref: "#/components/parameters/key" }]
+    post:
+      summary: Start an anonymous conversation. Body `{}`.
+      description: At most 30 new conversations per hour per widget key and client IP address; beyond that 429 rate_limited.
+      requestBody: { content: { application/json: { schema: { type: object } } } }
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [conversation, visitorToken]
+                properties:
+                  conversation: { $ref: "#/components/schemas/Conversation" }
+                  visitorToken: { type: string, description: Secret bearer token for this conversation only. Stored hashed by the product. }
+        "403": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "415": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+  /api/widget/{key}/conversations/{id}:
+    parameters: [{ $ref: "#/components/parameters/key" }, { $ref: "#/components/parameters/id" }]
+    get:
+      summary: The visitor's own conversation, oldest message first.
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { conversation: { $ref: "#/components/schemas/Conversation" }, messages: { type: array, items: { $ref: "#/components/schemas/VisitorMessage" } } } } } } }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /api/widget/{key}/conversations/{id}/messages:
+    parameters: [{ $ref: "#/components/parameters/key" }, { $ref: "#/components/parameters/id" }]
+    post:
+      summary: Ask a question. Streams Server-Sent Events.
+      description: |
+        The visitor's question is stored as a `user` message, then answered from the workspace's knowledge base.
+        Events: `event: delta` with `data: {"text": "..."}`, each flushed as soon as it is produced, then
+        `event: done` with `data: {"message": VisitorMessage}` (the assistant message). Its `content` is
+        exactly the concatenation of the delta texts.
+        * answered: `outcome: "answered"`, at least one citation, every `[n]` in the content has a citation
+          with `marker: n`, every quote is verbatim from the cited document's text.
+        * unanswered: `outcome: "unanswered"`, `citations: []`, `content` is exactly the widget's
+          `fallbackMessage`. This happens when the knowledge base cannot answer (including an empty
+          knowledge base, which never calls the model), when the model still fails after its retries, and
+          when this month's budget cannot pay for the call (then the model is not called at all).
+          The visitor is never shown an error, a made-up answer or the reason.
+        `event: error` with `data: {"error": {...}}` only for unexpected internal failures.
+        At most 10 questions per minute per conversation; beyond that a plain 429 rate_limited JSON error.
+      requestBody: { content: { application/json: { schema: { type: object, required: [content], properties: { content: { type: string, minLength: 1, maxLength: 2000 } } } } } }
+      responses:
+        "200": { content: { text/event-stream: { schema: { type: string } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+  /api/widget/{key}/conversations/{id}/messages/{messageId}/feedback:
+    parameters: [{ $ref: "#/components/parameters/key" }, { $ref: "#/components/parameters/id" }, { name: messageId, in: path, required: true, schema: { type: string } }]
+    post:
+      summary: (S3) Rate an assistant message of this conversation. Rating again replaces the rating.
+      requestBody: { content: { application/json: { schema: { type: object, required: [rating], properties: { rating: { enum: [up, down] } } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { message: { $ref: "#/components/schemas/VisitorMessage" } } } } } }
+        "400": { description: validation_error (bad rating, or the message is the visitor's own question), $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+  /api/widget/{key}/conversations/{id}/handoff:
+    parameters: [{ $ref: "#/components/parameters/key" }, { $ref: "#/components/parameters/id" }]
+    post:
+      summary: (S3) Ask for a person. Contact details are optional; an email, if given, must be valid.
+      description: |
+        Creates an open handoff for the conversation, sets the conversation's status to `handed_off`, and sends
+        a `handoff` email to every member of the workspace. A conversation has at most one handoff: asking
+        again gives 409 invalid_state. The bot keeps answering questions in a handed-off conversation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string, maxLength: 100 }
+                email: { type: string, format: email }
+                note: { type: string, maxLength: 2000 }
+      responses:
+        "201": { content: { application/json: { schema: { type: object, properties: { handoff: { type: object, required: [id, status], properties: { id: { type: string }, status: { const: open }, createdAt: { type: string } } } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+
+  # ---------------------------------------------------------------- handoffs (S3)
+  /api/workspaces/{ws}/handoffs:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { name: status, in: query, schema: { enum: [open, resolved] } }]
+    get:
+      summary: Any member. Newest first.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { handoffs: { type: array, items: { $ref: "#/components/schemas/Handoff" } } } } } } } }
+  /api/workspaces/{ws}/handoffs/{id}:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { $ref: "#/components/parameters/id" }]
+    get:
+      summary: Any member. The handoff and the whole conversation, oldest message first.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { handoff: { $ref: "#/components/schemas/Handoff" }, messages: { type: array, items: { $ref: "#/components/schemas/AdminMessage" } } } } } } } }
+    patch:
+      summary: Any member. Mark resolved (or reopen).
+      requestBody: { content: { application/json: { schema: { type: object, required: [status], properties: { status: { enum: [open, resolved] } } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { handoff: { $ref: "#/components/schemas/Handoff" } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+
+  # ------------------------------------------- usage records (S2) & budget (S3)
+  /api/workspaces/{ws}/usage:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: This calendar month (UTC). Any member.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  periodStart: { type: string }
+                  periodEnd: { type: string }
+                  spentUsd: { type: number }
+                  budgetUsd: { type: [number, "null"] }
+  /api/workspaces/{ws}/usage/records:
+    parameters:
+      - { $ref: "#/components/parameters/ws" }
+      - { name: conversationId, in: query, schema: { type: string } }
+    get:
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { records: { type: array, items: { $ref: "#/components/schemas/UsageRecord" } } } } } } } }
+  /api/workspaces/{ws}/budget:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    put:
+      summary: Admin or owner. null means unlimited. A new workspace starts at 10.
+      requestBody: { content: { application/json: { schema: { type: object, required: [monthlyUsd], properties: { monthlyUsd: { type: [number, "null"], minimum: 0 } } } } } }
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { budgetUsd: { type: [number, "null"] } } } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
+
+  # --------------------------------------------- conversations & analytics (S4)
+  /api/workspaces/{ws}/conversations:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: Any member. Newest first.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { conversations: { type: array, items: { $ref: "#/components/schemas/ConversationSummary" } } } } } } } }
+  /api/workspaces/{ws}/conversations/{id}:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { $ref: "#/components/parameters/id" }]
+    get:
+      summary: Any member. Oldest message first.
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { conversation: { $ref: "#/components/schemas/ConversationSummary" }, messages: { type: array, items: { $ref: "#/components/schemas/AdminMessage" } } } } } } } }
+    delete:
+      summary: Admin or owner (e.g. a visitor asked to be forgotten). The conversation, its messages and its handoff disappear from every list, analytics, export and the widget; its visitor token stops working.
+      responses: { "204": { description: Deleted }, "403": { $ref: "#/components/responses/Error" } }
+  /api/workspaces/{ws}/analytics/summary:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: Any member. Counts for this calendar month (UTC).
+      description: |
+        `questions` counts visitor questions; each is either `answered` or `unanswered` (answered + unanswered = questions).
+        `handoffs` counts handoffs created this month. `spentUsd`/`budgetUsd` equal GET /usage.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [periodStart, periodEnd, conversations, questions, answered, unanswered, handoffs, spentUsd, budgetUsd]
+                properties:
+                  periodStart: { type: string }
+                  periodEnd: { type: string }
+                  conversations: { type: integer }
+                  questions: { type: integer }
+                  answered: { type: integer }
+                  unanswered: { type: integer }
+                  handoffs: { type: integer }
+                  spentUsd: { type: number }
+                  budgetUsd: { type: [number, "null"] }
+  /api/workspaces/{ws}/analytics/questions:
+    parameters: [{ $ref: "#/components/parameters/ws" }, { name: outcome, in: query, schema: { enum: [answered, unanswered] } }]
+    get:
+      summary: Any member. What visitors asked, newest first (at most the latest 500).
+      responses: { "200": { content: { application/json: { schema: { type: object, properties: { questions: { type: array, items: { $ref: "#/components/schemas/QuestionRecord" } } } } } } } }
+
+  # ------------------------------------------------------- governance (S4)
+  /api/workspaces/{ws}/audit-events:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: Admin or owner. Newest first.
+      responses:
+        "200": { content: { application/json: { schema: { type: object, properties: { events: { type: array, items: { $ref: "#/components/schemas/AuditEvent" } } } } } } }
+        "403": { $ref: "#/components/responses/Error" }
+  /api/workspaces/{ws}/export:
+    parameters: [{ $ref: "#/components/parameters/ws" }]
+    get:
+      summary: Admin or owner. Everything in this workspace, and nothing secret (no password hashes, session, invitation, reset or visitor tokens).
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [exportedAt, workspace, members, documents, widget, conversations, handoffs, usageRecords]
+                properties:
+                  exportedAt: { type: string }
+                  workspace: { $ref: "#/components/schemas/Workspace" }
+                  members: { type: array, items: { $ref: "#/components/schemas/Member" } }
+                  documents: { type: array, items: { allOf: [{ $ref: "#/components/schemas/Document" }, { type: object, properties: { text: { type: string } } }] } }
+                  widget: { $ref: "#/components/schemas/WidgetSettings" }
+                  conversations:
+                    type: array
+                    items: { allOf: [{ $ref: "#/components/schemas/ConversationSummary" }, { type: object, properties: { messages: { type: array, items: { $ref: "#/components/schemas/AdminMessage" } } } }] }
+                  handoffs: { type: array, items: { $ref: "#/components/schemas/Handoff" } }
+                  usageRecords: { type: array, items: { $ref: "#/components/schemas/UsageRecord" } }
+        "403": { $ref: "#/components/responses/Error" }
+
+  # ------------------------------------------------- widget script (S4)
+  /widget.js:
+    get:
+      summary: The embeddable widget script (JavaScript). See spec/architecture.md §8 for what it must render.
+      responses: { "200": { content: { application/javascript: { schema: { type: string } } } } }
+
+  # ------------------------------------------------- test mode (TEST_MODE=1 only)
+  /api/__test__/outbox:
+    get:
+      parameters: [{ name: to, in: query, required: true, schema: { type: string } }]
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      required: [to, template, createdAt]
+                      properties:
+                        to: { type: string }
+                        template: { enum: [invitation, password_reset, handoff, budget_warning, budget_exhausted] }
+                        token: { type: string, description: Only on invitation and password_reset. }
+                        data: { type: object, description: "handoff: {handoffId, conversationId}; budget_*: {spentUsd, budgetUsd}" }
+                        createdAt: { type: string }
+  /api/__test__/fake-model:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                latencyMs: { type: integer, minimum: 0 }
+                faults:
+                  type: array
+                  items: { type: object, required: [stage, mode], properties: { stage: { enum: [answer] }, mode: { enum: [transient, permanent] }, times: { type: integer, minimum: 1 } } }
+      responses: { "204": { description: Configured } }
+    delete:
+      responses: { "204": { description: Reset to defaults } }
+
+components:
+  parameters:
+    ws: { name: ws, in: path, required: true, schema: { type: string } }
+    id: { name: id, in: path, required: true, schema: { type: string } }
+    key: { name: key, in: path, required: true, schema: { type: string }, description: The workspace's public widget key }
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties: { error: { type: object, required: [code, message], properties: { code: { type: string }, message: { type: string } } } }
+  schemas:
+    Role: { enum: [owner, admin, member] }
+    User:
+      type: object
+      required: [id, email, name]
+      properties: { id: { type: string }, email: { type: string }, name: { type: string } }
+      description: Never carries password hashes, session tokens or reset tokens.
+    UserEnvelope: { type: object, properties: { user: { $ref: "#/components/schemas/User" } } }
+    Workspace: { type: object, required: [id, name], properties: { id: { type: string }, name: { type: string }, createdAt: { type: string } } }
+    WorkspaceWithRole: { allOf: [{ $ref: "#/components/schemas/Workspace" }, { type: object, properties: { role: { $ref: "#/components/schemas/Role" } } }] }
+    Member: { type: object, required: [userId, email, role], properties: { userId: { type: string }, email: { type: string }, name: { type: string }, role: { $ref: "#/components/schemas/Role" } } }
+    Document:
+      type: object
+      required: [id, title, status]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        status: { enum: [processing, ready, failed] }
+        error: { type: [object, "null"], description: 'Set when failed, e.g. {"code": "unreadable", "message": "..."}', properties: { code: { type: string }, message: { type: string } } }
+        mimeType: { type: string }
+        sizeBytes: { type: integer }
+        uploadedBy: { type: string }
+        createdAt: { type: string }
+    WidgetSettings:
+      type: object
+      required: [widgetKey, enabled, allowedOrigins, botName, greeting, fallbackMessage, embedSnippet]
+      properties:
+        widgetKey: { type: string, description: Public; it sits in the customer's page source. }
+        enabled: { type: boolean, description: Default true. }
+        allowedOrigins: { type: array, items: { type: string }, description: Default empty (only the product's own origin works). }
+        botName: { type: string }
+        greeting: { type: string }
+        fallbackMessage: { type: string, description: Shown whenever the bot cannot answer. }
+        embedSnippet:
+          type: string
+          description: '(S4) Exactly one script tag: <script src="<APP_BASE_URL>/widget.js" data-widget-key="<widgetKey>" async></script>'
+    Conversation:
+      type: object
+      required: [id, status]
+      properties:
+        id: { type: string }
+        status: { enum: [open, handed_off] }
+        createdAt: { type: string }
+    Citation:
+      type: object
+      required: [marker, documentId, documentTitle, quote]
+      properties:
+        marker: { type: integer, minimum: 1 }
+        documentId: { type: string }
+        documentTitle: { type: string }
+        quote: { type: string, description: Verbatim substring of the document's extracted text, at least 20 characters. }
+    VisitorMessage:
+      type: object
+      required: [id, role, content, citations]
+      properties:
+        id: { type: string }
+        role: { enum: [user, assistant] }
+        content: { type: string }
+        outcome: { enum: [answered, unanswered], description: Assistant messages only. }
+        citations: { type: array, items: { $ref: "#/components/schemas/Citation" } }
+        rating: { enum: [up, down, null] }
+        createdAt: { type: string }
+    AdminMessage:
+      allOf:
+        - { $ref: "#/components/schemas/VisitorMessage" }
+        - type: object
+          properties:
+            reason: { enum: [no_answer, model_error, budget_exceeded, null], description: Why an assistant message is unanswered; null when answered. }
+    ConversationSummary:
+      type: object
+      required: [id, status, createdAt, questionCount, unansweredCount]
+      properties:
+        id: { type: string }
+        status: { enum: [open, handed_off] }
+        createdAt: { type: string }
+        lastMessageAt: { type: [string, "null"] }
+        questionCount: { type: integer }
+        unansweredCount: { type: integer }
+    QuestionRecord:
+      type: object
+      required: [messageId, conversationId, question, outcome, createdAt]
+      properties:
+        messageId: { type: string, description: The visitor's question message. }
+        conversationId: { type: string }
+        question: { type: string }
+        outcome: { enum: [answered, unanswered] }
+        reason: { enum: [no_answer, model_error, budget_exceeded, null] }
+        answerMessageId: { type: [string, "null"] }
+        rating: { enum: [up, down, null], description: The visitor's rating of the answer. }
+        createdAt: { type: string }
+    Handoff:
+      type: object
+      required: [id, conversationId, status, createdAt]
+      properties:
+        id: { type: string }
+        conversationId: { type: string }
+        status: { enum: [open, resolved] }
+        name: { type: [string, "null"] }
+        email: { type: [string, "null"] }
+        note: { type: [string, "null"] }
+        createdAt: { type: string }
+        resolvedAt: { type: [string, "null"] }
+    UsageRecord:
+      type: object
+      required: [id, kind, status, costUsd]
+      properties:
+        id: { type: string }
+        kind: { enum: [chat, embedding] }
+        stage: { enum: [answer] }
+        model: { type: string }
+        status: { enum: [ok, error] }
+        inputTokens: { type: integer }
+        outputTokens: { type: integer }
+        costUsd: { type: number }
+        conversationId: { type: [string, "null"] }
+        messageId: { type: [string, "null"], description: The assistant message the call answered. }
+        createdAt: { type: string }
+    AuditEvent:
+      type: object
+      description: actorUserId is whoever performed the action (for member.joined, the user who joined).
+      required: [id, type, actorUserId, createdAt]
+      properties:
+        id: { type: string }
+        type:
+          enum: [member.invited, member.joined, member.role_changed, member.removed, budget.updated, document.deleted, widget.updated, widget.key_rotated, conversation.deleted, export.created]
+        actorUserId: { type: string }
+        targetType: { type: string }
+        targetId: { type: string }
+        data: { type: object }
+        createdAt: { type: string }

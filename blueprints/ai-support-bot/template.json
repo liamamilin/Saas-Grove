@@ -1,0 +1,93 @@
+{
+  "formatVersion": "0",
+  "id": "ai-research-assistant",
+  "name": "AI Research Assistant",
+  "version": "0.3.0-draft",
+  "category": "ai-native-template",
+  "status": "draft",
+  "entry": "TEMPLATE.md",
+  "defaultStack": {
+    "language": "TypeScript",
+    "framework": "Next.js (App Router), single app, npm",
+    "database": "PostgreSQL 16 + Drizzle",
+    "jobs": "pg-boss",
+    "auth": "Better Auth behind the contract, or own sessions (argon2id)",
+    "models": "Vercel AI SDK, OpenAI-compatible provider; fake provider for tests",
+    "pdf": "unpdf"
+  },
+  "spec": {
+    "product": "spec/product.md",
+    "architecture": "spec/architecture.md",
+    "api": "spec/api.yaml",
+    "decisions": "spec/decisions.md",
+    "landscape": "spec/landscape.md"
+  },
+  "stages": [
+    {
+      "id": "S1",
+      "name": "Foundation: accounts, workspaces, roles",
+      "doc": "stages/S1-foundation.md",
+      "tests": "acceptance/tests/s1",
+      "testCount": 24
+    },
+    {
+      "id": "S2",
+      "name": "AI jobs: documents, research jobs, reports",
+      "doc": "stages/S2-ai-jobs.md",
+      "tests": "acceptance/tests/s2",
+      "testCount": 25
+    },
+    {
+      "id": "S3",
+      "name": "Cost and artifacts: usage, budget, citations",
+      "doc": "stages/S3-cost-and-artifacts.md",
+      "tests": "acceptance/tests/s3",
+      "testCount": 11
+    },
+    {
+      "id": "S4",
+      "name": "Maturity: chat, audit, export, deletion",
+      "doc": "stages/S4-maturity.md",
+      "tests": "acceptance/tests/s4",
+      "testCount": 10
+    }
+  ],
+  "acceptance": {
+    "runner": "acceptance/run.mjs",
+    "invoke": "node run.mjs --app <product-dir> --stage <S1|S2|S3|S4>",
+    "selfCheck": "node run.mjs --self-check",
+    "cumulative": true,
+    "startContract": {
+      "script": "scripts/acceptance-start.sh",
+      "env": [
+        "PORT",
+        "DATABASE_URL",
+        "TEST_MODE=1",
+        "MODEL_PROVIDER=fake",
+        "APP_SECRET",
+        "APP_BASE_URL"
+      ],
+      "readiness": "GET /api/health returns 200",
+      "startupTimeoutSeconds": 300
+    },
+    "requires": [
+      "node >= 22",
+      "psql with rights to CREATE DATABASE",
+      "a Chromium for the UI tests (Playwright's, or the local cache)"
+    ]
+  },
+  "humanDecisionPoints": [
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8"
+  ],
+  "humanCheckpoints": [
+    "approve spec and acceptance before building",
+    "approve each stage when its acceptance passes"
+  ]
+}
