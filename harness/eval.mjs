@@ -34,8 +34,8 @@ for (const id of runs) {
   if (!fs.existsSync(dest)) execFileSync("cp", ["-Rc", path.join(runPaths(id).project, "app"), dest]);
 }
 
-const queue = [];
-for (const run of runs) for (const suite of suites) queue.push({ run, suite });
+// One app is never driven by two suites at once: some apps (e.g. Next.js) build into their own
+// directory on start, and concurrent builds corrupt each other. Parallelism is across apps.
 function runOne({ run, suite }) {
   const name = path.basename(suite);
   const dir = path.join(out, `${name}--${run}`);
@@ -44,13 +44,13 @@ function runOne({ run, suite }) {
     p.on("close", () => resolve());
   });
 }
-const running = new Set();
-for (const item of queue) {
-  while (running.size >= jobs) await Promise.race(running);
-  const pr = runOne(item).finally(() => running.delete(pr));
-  running.add(pr);
+async function runApp(run) {
+  for (const suite of suites) await runOne({ run, suite });
 }
-await Promise.all(running);
+const pending = [...runs];
+await Promise.all(Array.from({ length: Math.min(jobs, pending.length) }, async () => {
+  while (pending.length) await runApp(pending.shift());
+}));
 
 // Aggregate: test -> run -> status
 const res = {};
