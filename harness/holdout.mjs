@@ -3,7 +3,7 @@
 // acceptance tests writes an extra black-box suite from the contract (and, for bucket "spec",
 // the spec). The suite is frozen before it is used and never shown to any builder.
 //
-//   node harness/holdout.mjs new --bucket contract|spec --model <provider/model> [--run <id>]
+//   node harness/holdout.mjs new --bucket contract|spec|journeys --model <provider/model> [--run <id>]
 //   node harness/holdout.mjs go  --run <id>
 //
 // bucket "contract": brief + contract (api.yaml, testability.md). Fair to every arm.
@@ -82,7 +82,20 @@ You write a held-out black-box acceptance suite. Edit files only under blueprint
 Never read, print or copy secrets. Installing nothing new is needed; the runner's dependencies are installed.
 `;
 
+const JOURNEYS_PROMPT = `
+You are the author of the FEATURE CHECKLIST and the scripted UI JOURNEYS for a SaaS product evaluation. You have never seen an implementation or any existing test. Several independently built implementations will later be run against your journeys; a journey passes only if the feature works end to end for a real user in a browser.
+
+Inputs (read all first): brief/user-brief.md, brief/contract/api.yaml, brief/contract/testability.md (UI anchors, test routes, fake model, start convention), and the runner/lib in blueprint/acceptance (read lib/ for how to start the app, drive a browser, use the fake model). tests/ is empty.
+
+Step 1: write blueprint/acceptance/tests/s4/CHECKLIST.md: one line per user-visible feature the brief and contract require (e.g. sign up, create workspace, add a document, run a research job and see progress, read the report with citations, ask a follow-up, invite a member, set a budget, delete a document...). Derive ONLY from the brief and the contract, nothing else. Number them F1..Fn.
+
+Step 2: for every feature write ONE journey test in blueprint/acceptance/tests/s4/journey-<feature>.test.ts, named "F<n>: ...". It drives the real UI in a browser (use the helper library) and the fake model; pass condition is binary and observable (e.g. "the report page shows a citation linking to document X"). Locate elements ONLY by roles, visible text and test ids the contract documents; never rely on anything an implementation might name differently. Each test creates its own user/workspace and does not depend on other tests. Poll for conditions with generous limits; no fixed short sleeps. Each test carries a comment naming the brief/contract clause. If a feature cannot be driven through the documented UI anchors, list it in tests/s4/JOURNEY-NOTES.md instead of writing a fragile test.
+
+Check: run \`node blueprint/acceptance/run.mjs --self-check\`: every journey must fail against an empty app at an assertion about the app. Fix test bugs and vacuous tests. Finish with a short Chinese summary (number of features, journeys, features you could not drive) and the single word DONE.
+`;
+
 function promptFor(bucket) {
+  if (bucket === "journeys") return JOURNEYS_PROMPT;
   const common = `
 You are the author of a HELD-OUT acceptance test suite for a SaaS product. You have never seen an implementation, and you have not seen any other test for it. Several independently built implementations will later be run against your tests. A good test passes on every correct implementation of the contract and fails on an incorrect one.
 
@@ -110,7 +123,7 @@ Finish with a short summary in Chinese: how many tests, the topics, which points
 }
 
 function cmdNew(opts) {
-  if (!["contract", "spec"].includes(opts.bucket) || !opts.model) throw new Error("new needs --bucket contract|spec and --model");
+  if (!["contract", "spec", "journeys"].includes(opts.bucket) || !opts.model) throw new Error("new needs --bucket contract|spec and --model");
   const runId = opts.run ?? `H-${opts.bucket}-${new Date().toISOString().slice(0, 10)}`;
   const p = runPaths(runId);
   if (fs.existsSync(p.root)) throw new Error(`run ${runId} exists`);
