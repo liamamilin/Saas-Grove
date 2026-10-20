@@ -91,7 +91,7 @@ You are the author of the FEATURE CHECKLIST and the scripted UI JOURNEYS for a S
 
 Inputs (read all first): brief/user-brief.md, brief/contract/api.yaml, brief/contract/testability.md (UI anchors, test routes, fake model, start convention), and the runner/lib in blueprint/acceptance (read lib/ for how to start the app, drive a browser, use the fake model). tests/ is empty.
 
-Step 1: write blueprint/acceptance/tests/s4/CHECKLIST.md: one line per user-visible feature the brief and contract require (e.g. sign up, create workspace, add a document, run a research job and see progress, read the report with citations, ask a follow-up, invite a member, set a budget, delete a document...). Derive ONLY from the brief and the contract, nothing else. Number them F1..Fn.
+Step 1: write blueprint/acceptance/tests/s4/CHECKLIST.md: one line per user-visible feature the brief and contract require (for example sign up, the core value path of the product, usage and budget, administration features). Derive ONLY from the brief and the contract, nothing else. Number them F1..Fn.
 
 Step 2: for every feature write ONE journey test in blueprint/acceptance/tests/s4/journey-<feature>.test.ts, named "F<n>: ...". It drives the real UI in a browser (use the helper library) and the fake model; pass condition is binary and observable (e.g. "the report page shows a citation linking to document X"). Locate elements ONLY by roles, visible text and test ids the contract documents; never rely on anything an implementation might name differently. Each test creates its own user/workspace and does not depend on other tests. Poll for conditions with generous limits; no fixed short sleeps. Each test carries a comment naming the brief/contract clause. If a feature cannot be driven through the documented UI anchors, list it in tests/s4/JOURNEY-NOTES.md instead of writing a fragile test.
 
@@ -101,13 +101,9 @@ Check: run \`node blueprint/acceptance/run.mjs --self-check\`: every journey mus
 const JOURNEYS_API_PROMPT = `
 You are the author of API-level feature JOURNEYS for a SaaS product evaluation. You have never seen an implementation or any existing test. Inputs: brief/user-brief.md, brief/contract/api.yaml, brief/contract/testability.md, and the runner/lib in blueprint/acceptance (read lib/ for how to start requests, use the fake model, restart, inspect the database). tests/ is empty.
 
-These features have no documented UI anchors in the contract, so they cannot be driven through the browser; drive them through the documented HTTP API instead, as a user's client would:
-- G11 Invite a member by email, the invitee accepts, and the member appears with the assigned role.
-- G12 Delete a document so it stops participating in retrieval and in new research jobs.
-- G13 Delete a workspace as owner; it is no longer reachable.
-- G14 Set a monthly USD budget; a new job beyond it is refused.
-- G15 Export the workspace contents (admin/owner only).
-- G16 Request a password reset, confirm a new password, log in with it.
+First write blueprint/acceptance/tests/s4/API-CHECKLIST.md: one numbered line (G1..Gn) for every user-visible feature that the brief and contract require but that has NO documented UI anchor (data-testid) in testability.md, so it cannot be driven through the browser (typically invitations, deletions, budget settings, exports, password reset, or whatever this product has). Features that DO have UI anchors are covered by separate UI journeys; do not list them.
+
+Drive each listed feature through the documented HTTP API, as a user's client would.
 
 For every feature write ONE end-to-end journey test in blueprint/acceptance/tests/s4/journey-api-G<n>-<name>.test.ts, named "G<n>: ...". Each is a complete user story (several calls in sequence) with a binary, observable pass condition; it creates its own users/workspace; it relies only on behaviour documented in api.yaml and testability.md; it names the clause it derives from in a comment; no fixed short sleeps. Run \`node blueprint/acceptance/run.mjs --self-check\`; every journey must fail at an assertion about the app on an empty app. Finish with a short Chinese summary and the single word DONE.
 `;
