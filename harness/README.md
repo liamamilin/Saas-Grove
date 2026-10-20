@@ -81,3 +81,9 @@ harness v0 交给一个独立 agent 只读审查过。它指出的问题都已�
 - 测试依赖用软链接指回原件，有被写坏的风险；
 - token 导出失败时会悄悄漏算：现在会重试，仍然失败就记一条 `usage.missing`，并在 `STATUS.md` 里标出"总数是下限"；
 - 最大重试次数没有保存进运行状态：现在在 `new` 时固定，后面的命令不能再改。
+
+## eval.mjs：给已完成的运行打分
+
+`node harness/eval.mjs score --suites <目录,…> --runs <id,…> --out <目录> [--exclude 裁决剔除.json] [--jobs 4]`
+
+每个 suite 是一份冻结的评测项目副本（有 `run.mjs` 和 `tests/`）。先把每个运行的 app 克隆到输出目录，不动原运行。**不是通过的一律按失败计**（失败、报错、超时、suite 没产出结果、应用起不来），分母固定为 suite 里的全部测试；同时输出剔除前、剔除后两套分数（`--exclude` 是盲审裁决员剔除的测试全名列表）。结果在 `<out>/scores.json`。用法与 `experiments/PROTOCOL.md` 一致。
