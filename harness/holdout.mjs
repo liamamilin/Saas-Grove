@@ -31,6 +31,7 @@ function args(argv) {
     if (rest[i] === "--bucket") opts.bucket = next();
     else if (rest[i] === "--model") opts.model = next();
     else if (rest[i] === "--run") opts.run = next();
+    else if (rest[i] === "--message") opts.message = next();
   }
   return opts;
 }
@@ -191,6 +192,7 @@ async function cmdGo(opts) {
   fs.mkdirSync(logDir, { recursive: true });
   const session = sessionId(runId, "author");
   const MAX_ROUNDS = 5;
+  let msgSent = false; // --message is sent once, as the first round of this invocation
   let result;
   let totalMs = 0;
   for (let round = (state.round ?? 0) + 1; round <= MAX_ROUNDS; round++) {
@@ -200,7 +202,7 @@ async function cmdGo(opts) {
       agent: "author",
       model: state.model,
       session,
-      message: round === 1 ? promptFor(state.bucket) : "Continue until the suite is complete and the self-check passes. End with the single word DONE when finished.",
+      message: opts.message && !msgSent ? ((msgSent = true), opts.message) : round === 1 ? promptFor(state.bucket) : "Continue until the suite is complete and the self-check passes. End with the single word DONE when finished.",
       logFile: path.join(logDir, `author-r${round}.jsonl`),
       sandbox,
     });

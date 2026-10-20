@@ -1,0 +1,104 @@
+[
+  {
+    "suite": "H1-contract-minimax",
+    "test": "holdout: chat budget & access (api.yaml chat + budget + visibility) setting budget back to null restores unlimited chat and a follow-up arrives in full (api.yaml §budget — null means unlimited)",
+    "verdict": "TEST_BUG",
+    "reason": "All contract-relevant assertions (402 then 200 text/event-stream after PUT budget null) precede the failing line; the failure is the malformed matcher chain expect(String(...)).length.toBeGreaterThan(0), which hands a string to a numeric matcher, not a violation of api.yaml PUT /budget 'null means unlimited'."
+  },
+  {
+    "suite": "H1-contract-minimax",
+    "test": "holdout: chat budget & access (api.yaml chat + budget + visibility) a non-member's chat request is 404 not_found; a member's request succeeds (api.yaml §workspaces/{ws} — 404 not_found when caller is not a member)",
+    "verdict": "TEST_BUG",
+    "reason": "expectError is called on an SseRes from client.sse(), which has no `text` field, so the helper crashes on res.text.slice before checking the api.yaml 'not a member … is 404 not_found' rule (wrong helper for the response shape)."
+  },
+  {
+    "suite": "H1-contract-minimax",
+    "test": "holdout: UI testids (testability.md §8) the /signup page exposes signup-name, signup-email, signup-password, signup-submit (testability.md §8)",
+    "verdict": "TEST_BUG",
+    "reason": "Uses toBeVisible, a Playwright-test matcher that does not exist in Vitest's expect ('Invalid Chai property'), so architecture.md §8 /signup testids are never actually checked."
+  },
+  {
+    "suite": "H1-contract-minimax",
+    "test": "holdout: UI testids (testability.md §8) the /login page exposes login-email, login-password, login-submit (testability.md §8)",
+    "verdict": "TEST_BUG",
+    "reason": "Uses toBeVisible, a Playwright-test matcher that does not exist in Vitest's expect, so architecture.md §8 /login testids are never actually checked."
+  },
+  {
+    "suite": "H1x-beam",
+    "test": "holdout documents paste text validates title/text and text minLength (S2)",
+    "verdict": "PRODUCT_DEFECT",
+    "reason": "api.yaml POST /documents application/json schema has required: [title, text] with a 400 response, yet the reference accepted a JSON body without title and returned 201 with a defaulted 'Untitled note' (only the multipart form makes title optional)."
+  },
+  {
+    "suite": "H1x-beam",
+    "test": "holdout documents payload too large > 10MB (S2)",
+    "verdict": "UNCLEAR",
+    "reason": "api.yaml POST /documents says \"Paste text (JSON) or upload … Max 10 MB\" and lists 413, but product.md §4 scopes the limit to a single file (单个文件不超过 10 MB) and the JSON schema gives text no maxLength, so whether a 10,485,860-byte pasted text must be rejected with 413 is not clearly stated."
+  },
+  {
+    "suite": "H1x-beam",
+    "test": "holdout ui signup and create workspace flow (§8)",
+    "verdict": "TEST_BUG",
+    "reason": "The onboarding branch relies on locator.isVisible({timeout:5000}), but Playwright's isVisible ignores timeout and returns immediately, so right after signup-submit it races the navigation, skips workspace-create-name (architecture.md §8 onboarding page) and then waits for workspace-name that cannot appear without creating a workspace. Supporting evidence: H1x-longcat's UI test got past signup, workspace-create-name and workspace-name on the same reference before failing later."
+  },
+  {
+    "suite": "H1x-beam",
+    "test": "holdout ui paste document, run research, see report (§8)",
+    "verdict": "TEST_BUG",
+    "reason": "After login the test just waits 1 s and expects document-text-title on whatever page it lands on, but architecture.md §8 says page paths are up to the implementation and places the paste form on the 'start research' view (reached via nav-research), not on the post-login landing page."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "deletion a deleted document can no longer be used by a new research job",
+    "verdict": "TEST_BUG",
+    "reason": "expectStatus/expectError are applied to the return value of startJob (a job object with no status/text, and startJob itself already asserts 202), so the helper crashes and the api.yaml 'deleted document → 404' rule is never checked."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "real mode real mode authenticates the model call, sets max_tokens, bills from usage, and respects the budget",
+    "verdict": "TEST_BUG",
+    "reason": "expectError(await startJob(...), 402) misuses startJob, which asserts 202 internally; the product correctly answered 402 budget_exceeded with budget 0 as api.yaml POST research-jobs requires."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "tenant isolation a research job cannot reference a document from another workspace",
+    "verdict": "TEST_BUG",
+    "reason": "The guard expectStatus(await startJob(...), 202) passes a job object (no `text`) to expectStatus, crashing before the api.yaml 'document in another workspace → 404' check is reached."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "tenant isolation citations and answers never point at another workspace's document",
+    "verdict": "TEST_BUG",
+    "reason": "The final guard expectStatus(await startJob(...), 202) passes a job object to expectStatus and crashes on undefined.text; the citation assertions (Citation.documentId within the workspace) ran before it without failing."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "the user-facing UI signs up, creates a workspace, adds a text document, runs a study and shows the report",
+    "verdict": "TEST_BUG",
+    "reason": "After workspace-name appears the test fills document-text-title without clicking nav-research, assuming the paste form lives on the workspace home, whereas architecture.md §8 lists workspace home (workspace-name, nav-research, …) and the 'start research' form as separate locations with implementation-defined paths."
+  },
+  {
+    "suite": "H1x-longcat",
+    "test": "usage and budget accounting a zero budget rejects new jobs with 402 and null means unlimited",
+    "verdict": "TEST_BUG",
+    "reason": "expectError(await startJob(...), 402, 'budget_exceeded') misuses startJob, which asserts 202 internally; the product's 402 budget_exceeded is exactly what api.yaml POST research-jobs specifies."
+  },
+  {
+    "suite": "H2-spec-minimax",
+    "test": "s4: auth and session policy password reset ends every other session of that user (no session leak after reset)",
+    "verdict": "TEST_BUG",
+    "reason": "The last step calls the login helper with the old password, but that helper asserts 200; the product's 401 invalid_credentials for the old password is the behaviour api.yaml login / product.md §4 require (session invalidation checks before it passed)."
+  },
+  {
+    "suite": "H2-spec-minimax",
+    "test": "s4: job lifecycle, cancel, concurrency, restart, retry retry of a failed job does not re-run stages that already succeeded and does not duplicate billing",
+    "verdict": "TEST_BUG",
+    "reason": "architecture.md §5 says a permanent fault fails every call of that stage '直到重置', and §6 defines reset as DELETE /api/__test__/fake-model; the test instead tries to clear the fault with PUT {faults: []}, whose replace-vs-merge semantics the contract does not state, so the retried job still hitting the permanent synthesize fault is not a contract violation. Supporting evidence: H1x-longcat \"a failed model call costs 0, and retry resumes the first unfinished stage\" runs the same scenario on the same reference but clears the fault with DELETE (fakeModel.reset) and is not in the failing list, isolating the difference to the PUT {faults: []} clearing."
+  },
+  {
+    "suite": "H2-spec-minimax",
+    "test": "s4: real mode real mode records usage whose cost equals prompt_tokens*input + completion_tokens*output per call",
+    "verdict": "TEST_BUG",
+    "reason": "The MockModel is created once in beforeAll and mock.replies accumulates replies from earlier tests, so the expected total includes the previous test's 5 calls (1×8.5e-5 + 4×7.5e-5 = 3.85e-4, exactly the reported gap); billing per architecture.md §5.1 matches this job's own replies."
+  }
+]
