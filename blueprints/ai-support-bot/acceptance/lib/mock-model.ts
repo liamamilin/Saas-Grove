@@ -31,6 +31,22 @@ function messageText(messages: unknown): string {
   return parts.join("\n");
 }
 
+/**
+ * Characters of every message's text (string contents and text parts), counted in Unicode code points and
+ * summed per message, without separators. spec/architecture.md §5.1: the product estimates input tokens at one
+ * per character, so a reservation made that way always covers this many prompt tokens.
+ */
+export function promptChars(body: any): number {
+  const messages = body?.messages;
+  if (!Array.isArray(messages)) return 0;
+  let n = 0;
+  for (const m of messages as any[]) {
+    if (typeof m?.content === "string") n += [...m.content].length;
+    else if (Array.isArray(m?.content)) for (const p of m.content) if (typeof p?.text === "string") n += [...p.text].length;
+  }
+  return n;
+}
+
 export interface MockReply {
   content: string;
   promptTokens: number;

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Acceptance runner for the AI Research Assistant blueprint.
+// Acceptance runner for the AI Support Bot blueprint.
 //
 // Starts the product under test against a brand-new Postgres database, runs the
 // acceptance tests of the requested stage and every stage before it, and writes
@@ -371,7 +371,7 @@ async function main() {
 
   const stageDirs = STAGES.slice(0, STAGES.indexOf(opts.stage) + 1).map((s) => `tests/${s.toLowerCase()}/`);
   const report = {
-    blueprint: "ai-research-assistant",
+    blueprint: "ai-support-bot",
     stage: opts.stage,
     app: opts.app,
     startedAt: new Date().toISOString(),

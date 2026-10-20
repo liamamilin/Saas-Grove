@@ -1,7 +1,8 @@
+import crypto from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { Client } from "../../lib/client";
-import { CANARY, LONG_QUESTION, Q_REFUND, REFUNDS, longManual } from "../../lib/corpus";
-import { addText, usageRecords, waitForDocument } from "../../lib/helpers";
+import { CANARY, LONG_QUESTION, Q_REFUND, REFUNDS, ZH_QUESTION, longChineseManual, longManual } from "../../lib/corpus";
+import { addText, documentText, usageRecords, waitForDocument } from "../../lib/helpers";
 import { describeLaunch, launch, stopInstance, teamAt, withInstance } from "../../lib/instance";
 import { MockModel, realModeEnv, replyCostUsd, type MockReply } from "../../lib/mock-model";
 import { expectAnswered, visitor, widgetSettings } from "../../lib/widget";
@@ -11,7 +12,10 @@ import { expectAnswered, visitor, widgetSettings } from "../../lib/widget";
 
 const KEY = "mock-key-3c9e51a7b2d8f604";
 const PRICES = { inputPerMTok: 1, outputPerMTok: 4 }; // whole micro-dollars per token, so costs are exact
-/** Words the mock puts in every answer and that no document contains: they can only reach the visitor through the model. */
+/**
+ * What the mock puts in every answer. Its marker "MOCK-ANSWER-7Q" is in no document, so it can only reach the
+ * visitor through the model; the rest ("soak it overnight") echoes the canary passage, as a real answer would.
+ */
 const MOCK_PHRASE = "MOCK-ANSWER-7Q soak it overnight";
 /** Spec/architecture.md §4.2: at most four chunks, about 6000 characters of documents, go into one request. */
 const MAX_PROMPT_CHARS = 12_000;
@@ -105,6 +109,44 @@ describe("S2 real model mode", () => {
         actual.forEach((cost, i) =>
           expect(cost, `cost of billed call #${i + 1} (sorted), expected from the reported usage; ${streamedWithoutUsage} streamed calls did not ask for usage`).toBeCloseTo(expected[i], 7),
         );
+      });
+    } finally {
+      await mock.close();
+    }
+  }, 300_000);
+  it("answers a Chinese question from a long Chinese document: the right passage reaches the model", async () => {
+    // A new nonce every run, so no product can know the passage in advance.
+    const nonce = `ZH-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
+    const ZH_PHRASE = "模型回答MOCK-ZH-4R：请按手册里的方法操作";
+    const mock = await MockModel.start((r): MockReply => ({ content: `${ZH_PHRASE} [1]。`, promptTokens: 500 + r.callNo, completionTokens: 100 + r.callNo }));
+    try {
+      await withInstance(realModeEnv(mock, PRICES, KEY), async (base) => {
+        const { client, ws } = await teamAt(base);
+        const manual = longChineseManual(nonce);
+        const created = await client.post(`/api/workspaces/${ws.id}/documents`, manual);
+        expect(created.status, created.text.slice(0, 200)).toBe(201);
+        const docId = created.body.document.id;
+        await waitForDocument(client, ws.id, docId);
+        const key = (await widgetSettings(client, ws.id)).widgetKey;
+        const v = await visitor(key, new URL(base).origin, base);
+
+        const { message } = await v.answer(ZH_QUESTION);
+        expect(mock.requests.length, `no call reached MODEL_BASE_URL; the visitor got ${JSON.stringify(message).slice(0, 300)}`).toBeGreaterThan(0);
+        expectAnswered(message);
+        expect(message.content, "the model's Chinese answer must reach the visitor unchanged").toContain(ZH_PHRASE);
+
+        expect(mock.requests.some((r) => r.promptText.includes(ZH_QUESTION)), "no request to the model contained the visitor's Chinese question").toBe(true);
+        expect(mock.requests.some((r) => r.promptText.includes(nonce)), `no request contained the passage with ${nonce}: Chinese retrieval did not find it`).toBe(true);
+        for (const r of mock.requests) {
+          expect(r.promptText.length, `call ${r.callNo}: ${r.promptText.length} characters of messages; the whole manual must not be sent`).toBeLessThan(MAX_PROMPT_CHARS);
+        }
+        // Citations quote the Chinese text verbatim.
+        const text = await documentText(client, ws.id, docId);
+        for (const c of message.citations) {
+          expect(c.documentId).toBe(docId);
+          expect([...c.quote].length, "quote too short to be evidence").toBeGreaterThanOrEqual(20);
+          expect(text, `quote not found in the Chinese document: ${c.quote}`).toContain(c.quote);
+        }
       });
     } finally {
       await mock.close();

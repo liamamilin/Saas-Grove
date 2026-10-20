@@ -38,7 +38,7 @@ Intercom Fin、Zendesk AI、Crisp、Tidio、Chatbase、CustomGPT、DocsBot 等�
 | drizzle-team/drizzle-orm | Apache-2.0（2026-10-17 核实） | ORM 和迁移 |
 | timgit/pg-boss | MIT（2026-10-17 核实） | 资料处理队列 |
 | unjs/unpdf / mozilla/pdf.js | MIT / Apache-2.0（2026-10-17 核实） | PDF 文本提取 |
-| mwilliamson/mammoth.js | BSD-2-Clause（**未核实**） | `.docx` 提取文本 |
+| mwilliamson/mammoth.js | BSD-2-Clause（npm 包的 package.json 核实，2026-10-20） | `.docx` 提取文本 |
 | node-html-parser（或同类纯 JS 库） | MIT（**未核实**） | HTML 取可见文本 |
 | pgvector/pgvector | PostgreSQL License（2026-10-17 核实） | 向量检索（需要装扩展，见 H4） |
 

@@ -70,3 +70,20 @@ export function longManual() {
   }
   return { title: "Showroom manual", text: paragraphs.join("\n\n") };
 }
+
+/**
+ * The same check in Chinese (customers and visitors are mostly Chinese): a long manual (about 19,000
+ * characters, 600 catalogue lines) with one relevant paragraph that carries a per-run nonce. No character of the
+ * question appears in the catalogue lines, so only a retrieval that handles Chinese (spec/architecture.md §5,
+ * "向量化": Han character 2-grams by default) finds the passage; splitting on spaces or Latin letters leaves the
+ * question with an empty vector, and the passage then reaches the prompt only by chance.
+ */
+export const ZH_QUESTION = "黄铜咖啡阀门怎么除垢？";
+export function longChineseManual(nonce: string) {
+  const paragraphs: string[] = [];
+  for (let i = 1; i <= 600; i++) {
+    paragraphs.push(`第${i}号台灯的目录条目列出了颜色选项、电线长度和包装尺寸。`);
+    if (i === 400) paragraphs.push(`黄铜咖啡阀门的除垢方法：把阀门放进柠檬酸溶液里浸泡一整夜，维修代码是 ${nonce}。`);
+  }
+  return { title: "展厅手册", text: paragraphs.join("\n\n") };
+}

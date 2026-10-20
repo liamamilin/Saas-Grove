@@ -21,7 +21,8 @@ import { HARNESS, REPO, blueprintDir, journal, runPaths, saveState, loadState } 
 import { runAgent, sessionId, sessionUsage } from "./lib/opencode.mjs";
 import { assertSandboxAvailable, writeProfile } from "./lib/sandbox.mjs";
 
-const BLUEPRINT = "ai-research-assistant";
+let BLUEPRINT = "ai-research-assistant";
+let BRIEF = path.join(REPO, "experiments", "ab-01", "user-brief.md");
 
 function args(argv) {
   const [command, ...rest] = argv;
@@ -32,6 +33,8 @@ function args(argv) {
     else if (rest[i] === "--model") opts.model = next();
     else if (rest[i] === "--run") opts.run = next();
     else if (rest[i] === "--message") opts.message = next();
+    else if (rest[i] === "--blueprint") opts.blueprint = next();
+    else if (rest[i] === "--brief") opts.brief = next();
   }
   return opts;
 }
@@ -139,6 +142,8 @@ Finish with a short summary in Chinese: how many tests, the topics, which points
 }
 
 function cmdNew(opts) {
+  if (opts.blueprint) BLUEPRINT = opts.blueprint;
+  if (opts.brief) BRIEF = path.resolve(opts.brief);
   if (!["contract", "spec", "journeys", "journeys-api"].includes(opts.bucket) || !opts.model) throw new Error("new needs --bucket contract|spec and --model");
   const runId = opts.run ?? `H-${opts.bucket}-${new Date().toISOString().slice(0, 10)}`;
   const p = runPaths(runId);
@@ -146,11 +151,11 @@ function cmdNew(opts) {
   fs.mkdirSync(p.records, { recursive: true });
   fs.mkdirSync(path.join(p.project, "brief", "contract"), { recursive: true });
   const bp = blueprintDir(BLUEPRINT);
-  fs.copyFileSync(path.join(REPO, "experiments", "ab-01", "user-brief.md"), path.join(p.brief, "user-brief.md"));
+  fs.copyFileSync(BRIEF, path.join(p.brief, "user-brief.md"));
   fs.copyFileSync(path.join(bp, "spec", "api.yaml"), path.join(p.brief, "contract", "api.yaml"));
   // The same contract extract a baseline builder gets.
   const tmp = `HOLDOUT-${process.pid}`;
-  execFileSync("node", [path.join(HARNESS, "baseline.mjs"), "new", "--blueprint", BLUEPRINT, "--brief", path.join(REPO, "experiments", "ab-01", "user-brief.md"), "--run", tmp], { stdio: "ignore" });
+  execFileSync("node", [path.join(HARNESS, "baseline.mjs"), "new", "--blueprint", BLUEPRINT, "--brief", BRIEF, "--run", tmp], { stdio: "ignore" });
   fs.copyFileSync(path.join(runPaths(tmp).brief, "contract", "testability.md"), path.join(p.brief, "contract", "testability.md"));
   fs.rmSync(runPaths(tmp).root, { recursive: true, force: true });
   if (opts.bucket === "spec") {
@@ -174,7 +179,7 @@ function cmdNew(opts) {
   for (const s of ["s1", "s2", "s3"]) fs.mkdirSync(path.join(dest, "tests", s), { recursive: true });
   execFileSync("git", ["init", "-q", "-b", "main"], { cwd: p.project });
   fs.writeFileSync(path.join(p.project, ".gitignore"), "node_modules/\nacceptance-results/\n.DS_Store\n");
-  saveState(runId, { kind: "holdout", bucket: opts.bucket, model: opts.model, phase: "author" });
+  saveState(runId, { kind: "holdout", bucket: opts.bucket, model: opts.model, phase: "author", blueprint: BLUEPRINT });
   journal(runId, "run.created", { kind: "holdout", bucket: opts.bucket, model: opts.model });
   console.log(`harness: created held-out authoring run ${runId} at ${p.root}\nnext: node harness/holdout.mjs go --run ${runId}`);
 }

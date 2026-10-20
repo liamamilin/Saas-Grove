@@ -21,8 +21,10 @@ info:
       documents and works handoffs; admin and owner also change widget settings and the budget, delete any
       document or conversation, read the audit log and export; only the owner changes roles and deletes the
       workspace.
-    * IDs are opaque strings. Timestamps are ISO-8601. Money is USD as a JSON number. "This month" is the
-      current calendar month in UTC.
+    * IDs are opaque strings. Timestamps are ISO-8601. Money is USD as a JSON number on the wire, but the
+      product stores, adds and compares every amount as an integer number of micro-USD (USD × 1,000,000,
+      rounded to the nearest integer); floating-point sums go wrong (0.01 + 0.01 + 0.01 > 0.03).
+      "This month" is the current calendar month in UTC.
 servers:
   - url: http://127.0.0.1:{port}
     variables:
@@ -306,6 +308,10 @@ paths:
           knowledge base, which never calls the model), when the model still fails after its retries, and
           when this month's budget cannot pay for the call (then the model is not called at all).
           The visitor is never shown an error, a made-up answer or the reason.
+        A retryable model error is retried: at most 3 attempts per call, waiting at least 200 ms before the
+        second attempt and at least twice that before the third; a non-retryable error is not retried.
+        Every attempt leaves its own usage record, timestamped when the attempt started (see UsageRecord).
+        Documents and questions may be Chinese; retrieval and citations must work for them (architecture.md §5).
         `event: error` with `data: {"error": {...}}` only for unexpected internal failures.
         At most 10 questions per minute per conversation; beyond that a plain 429 rate_limited JSON error.
       requestBody: { content: { application/json: { schema: { type: object, required: [content], properties: { content: { type: string, minLength: 1, maxLength: 2000 } } } } } }
@@ -391,6 +397,15 @@ paths:
     parameters: [{ $ref: "#/components/parameters/ws" }]
     put:
       summary: Admin or owner. null means unlimited. A new workspace starts at 10.
+      description: |
+        The budget is a hard stop: spending in a month never exceeds it, even when many visitors ask at once.
+        Before each model call the product reserves the most that call can cost; the call is made only if
+        spent + reserved + this reservation <= budget. All of these amounts are compared as integer micro-USD
+        (see the money convention at the top), never as floating-point dollars.
+        Every owner and admin (not members) gets a `budget_warning` email when this month's spend first reaches
+        80% of the budget (in micro-USD: spent × 5 >= budget × 4), and a `budget_exhausted` email the first time
+        a question is refused for lack of budget. Each kind is sent at most once per calendar month (UTC),
+        even if the budget is changed during the month.
       requestBody: { content: { application/json: { schema: { type: object, required: [monthlyUsd], properties: { monthlyUsd: { type: [number, "null"], minimum: 0 } } } } } }
       responses:
         "200": { content: { application/json: { schema: { type: object, properties: { budgetUsd: { type: [number, "null"] } } } } } }
@@ -635,6 +650,11 @@ components:
         resolvedAt: { type: [string, "null"] }
     UsageRecord:
       type: object
+      description: |
+        One record per model call ATTEMPT. When a call is retried, every failed attempt gets its own record
+        (status error, costUsd 0) and the successful attempt one more (status ok). `createdAt` is the time that
+        attempt started (not when the question arrived or when the cost was settled). Chat records carry
+        stage, conversationId and messageId, failed attempts included.
       required: [id, kind, status, costUsd]
       properties:
         id: { type: string }
@@ -647,7 +667,7 @@ components:
         costUsd: { type: number }
         conversationId: { type: [string, "null"] }
         messageId: { type: [string, "null"], description: The assistant message the call answered. }
-        createdAt: { type: string }
+        createdAt: { type: string, description: When this attempt started. }
     AuditEvent:
       type: object
       description: actorUserId is whoever performed the action (for member.joined, the user who joined).
