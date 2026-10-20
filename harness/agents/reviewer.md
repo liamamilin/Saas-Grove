@@ -1,7 +1,7 @@
 ---
 description: Independent read-only reviewer of a product built in app/ against its blueprint. Never edits, never runs commands.
 mode: primary
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 steps: 400
 permissions:
   - action: edit

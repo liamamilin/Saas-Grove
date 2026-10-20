@@ -1,7 +1,7 @@
 ---
 description: Plays an ordinary user writing their first message to a coding agent. Uses no tools.
 mode: primary
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 steps: 5
 permissions:
   - action: edit

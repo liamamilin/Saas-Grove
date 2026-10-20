@@ -30,8 +30,8 @@ export const RUNS = process.env.HARNESS_RUNS_DIR ?? "/Users/Shared/saas-template
 
 export const MODELS = {
   builder: "opencode-go/deepseek-v4.1-flash",
-  reviewer: "opencode-go/deepseek-v4-pro",
-  userSim: "opencode-go/deepseek-v4-pro",
+  reviewer: "opencode-go/deepseek-v4.1-flash",
+  userSim: "opencode-go/deepseek-v4.1-flash",
 };
 
 export function blueprintDir(id) {

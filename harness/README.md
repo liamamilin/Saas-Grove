@@ -32,7 +32,7 @@ node harness/baseline.mjs review --run <run-id>                # 单独重跑最
 2. **快照**：harness 把运行目录提交成一次 git commit。
 3. **验收**：用主仓库里的**模板原件**跑本阶段（含之前所有阶段）的测试。
 4. 没通过：把失败的测试和应用日志末尾交回 builder，重做（默认最多 6 次，之后停下来等人）。
-5. 通过：reviewer agent（`opencode-go/deepseek-v4-pro`，只读，不能执行命令）对照 spec 审查代码，找测试漏掉的问题。
+5. 通过：reviewer agent（`opencode-go/deepseek-v4.1-flash`，只读，不能执行命令）对照 spec 审查代码，找测试漏掉的问题。
 6. **人工确认点**：人看验收结果和审查报告，然后选择 `approve`（进入下一阶段）或 `feedback`（再改一轮）。
 
 ## B 组的输入为什么是这样
