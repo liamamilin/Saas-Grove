@@ -94,8 +94,23 @@ Step 2: for every feature write ONE journey test in blueprint/acceptance/tests/s
 Check: run \`node blueprint/acceptance/run.mjs --self-check\`: every journey must fail against an empty app at an assertion about the app. Fix test bugs and vacuous tests. Finish with a short Chinese summary (number of features, journeys, features you could not drive) and the single word DONE.
 `;
 
+const JOURNEYS_API_PROMPT = `
+You are the author of API-level feature JOURNEYS for a SaaS product evaluation. You have never seen an implementation or any existing test. Inputs: brief/user-brief.md, brief/contract/api.yaml, brief/contract/testability.md, and the runner/lib in blueprint/acceptance (read lib/ for how to start requests, use the fake model, restart, inspect the database). tests/ is empty.
+
+These features have no documented UI anchors in the contract, so they cannot be driven through the browser; drive them through the documented HTTP API instead, as a user's client would:
+- G11 Invite a member by email, the invitee accepts, and the member appears with the assigned role.
+- G12 Delete a document so it stops participating in retrieval and in new research jobs.
+- G13 Delete a workspace as owner; it is no longer reachable.
+- G14 Set a monthly USD budget; a new job beyond it is refused.
+- G15 Export the workspace contents (admin/owner only).
+- G16 Request a password reset, confirm a new password, log in with it.
+
+For every feature write ONE end-to-end journey test in blueprint/acceptance/tests/s4/journey-api-G<n>-<name>.test.ts, named "G<n>: ...". Each is a complete user story (several calls in sequence) with a binary, observable pass condition; it creates its own users/workspace; it relies only on behaviour documented in api.yaml and testability.md; it names the clause it derives from in a comment; no fixed short sleeps. Run \`node blueprint/acceptance/run.mjs --self-check\`; every journey must fail at an assertion about the app on an empty app. Finish with a short Chinese summary and the single word DONE.
+`;
+
 function promptFor(bucket) {
   if (bucket === "journeys") return JOURNEYS_PROMPT;
+  if (bucket === "journeys-api") return JOURNEYS_API_PROMPT;
   const common = `
 You are the author of a HELD-OUT acceptance test suite for a SaaS product. You have never seen an implementation, and you have not seen any other test for it. Several independently built implementations will later be run against your tests. A good test passes on every correct implementation of the contract and fails on an incorrect one.
 
@@ -123,7 +138,7 @@ Finish with a short summary in Chinese: how many tests, the topics, which points
 }
 
 function cmdNew(opts) {
-  if (!["contract", "spec", "journeys"].includes(opts.bucket) || !opts.model) throw new Error("new needs --bucket contract|spec and --model");
+  if (!["contract", "spec", "journeys", "journeys-api"].includes(opts.bucket) || !opts.model) throw new Error("new needs --bucket contract|spec and --model");
   const runId = opts.run ?? `H-${opts.bucket}-${new Date().toISOString().slice(0, 10)}`;
   const p = runPaths(runId);
   if (fs.existsSync(p.root)) throw new Error(`run ${runId} exists`);
