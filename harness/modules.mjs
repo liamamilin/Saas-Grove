@@ -61,6 +61,8 @@ permissions:
 You work only inside this project directory. Never read, print or copy secrets.
 `;
 
+const NAMES = list.map((x) => x.name).join(", ");
+const DEPTH = { core: "Go deep: this is a core module; cover the hard parts concretely.", secondary: "Keep it tighter than a core module: the essentials and the traps only.", later: "A short first draft is enough." };
 const PROMPT = (m) => `You are writing a COGNITION TEMPLATE for the SaaS module "${m.name}" (${m.scope}). The reader is a coding agent that will implement this module in a buyer's own stack; the buyer is not an expert. A cognition template teaches what a mature version of this module is, NOT code. No vendor names, no library-specific code, no implementation code (short pseudo-steps and example payloads are fine).
 ${m.source ? `Cognition source: ./source (the open-source next-forge package "${m.source}", MIT). Read it to learn what the module covers; drop its vendor lock-in and rewrite in vendor-neutral terms.` : "There is no source package for this module; use your own knowledge of mature SaaS products."}
 Write these files in ./out, in Chinese (keep identifiers, HTTP and code terms in English):
@@ -68,7 +70,7 @@ Write these files in ./out, in Chinese (keep identifiers, HTTP and code terms in
 2. contract.md — the black-box contract another agent's tests can rely on: observable behaviors, status codes and error shapes written as rules (no framework names), data that must be stored hashed, invariants. Every rule must be checkable from outside the running application.
 3. acceptance-plan.md — 15-30 black-box test cases as a table: id, given, action, expected, negative(yes/no). Include the hard negatives (isolation, replay, limits, races). Executable tests come later; this is the plan.
 4. decisions.md — human decision points with a recommended default each and the consequence of choosing otherwise.
-Be concrete and complete, not generic. Finish with a two-line summary and the single word DONE.`;
+Read ./HOST.md first: it is the host convention every module shares (how the acceptance starts and operates any host, the module-map.json path mapping, test hooks, dependency order). Refer to it instead of repeating it; contract paths are concept names the host maps. When you mention another module use only these names: ${NAMES}. ${DEPTH[m.tier]} Quality rules learned from reviews (apply them): every MUST rule needs a concept the host can map and at least one acceptance case; every case traces to a rule (end contract.md with a rule->case table); give numeric limits/TTLs as bounds in the contract (host declares actuals in params); rules not observable by a black box go to a section 'suggestions, not tested', not into MUST; one status code per situation, no contradictions between files; outbox template names '<module>.<name>' with the link in data.link; include concurrency/replay cases (single-use tokens) and negative cases; cover the attacks a security reviewer would try; do not put things that belong to another module in this one. Size limits (hard): MODULE.md at most 14 KB and starting with a one-page 'must read' summary; contract.md at most 16 KB; acceptance-plan.md at most 12 KB; decisions.md at most 6 KB. Check spelling. Cut explanations of well-known terms; keep traps, rules and checks. Be concrete and complete, not generic. Finish with a two-line summary and the single word DONE.`;
 
 async function job(m) {
   const runId = `modules-${m.name}`;
@@ -78,6 +80,7 @@ async function job(m) {
   fs.mkdirSync(path.join(p.project, ".opencode", "agents"), { recursive: true });
   fs.mkdirSync(path.join(p.project, "out"), { recursive: true });
   if (m.source) fs.cpSync(path.join(REPO, "references", "next-forge", "packages", m.source), path.join(p.project, "source"), { recursive: true, filter: (f) => !/node_modules|\.DS_Store/.test(f) });
+  fs.copyFileSync(path.join(REPO, "templates", "HOST.md"), path.join(p.project, "HOST.md"));
   fs.copyFileSync(path.join(HARNESS, "agents", "opencode.jsonc"), path.join(p.project, "opencode.jsonc"));
   fs.writeFileSync(path.join(p.project, ".opencode", "agents", "job.md"), AGENT_MD);
   execFileSync("git", ["init", "-q", "-b", "main"], { cwd: p.project });
@@ -118,7 +121,36 @@ async function job(m) {
   console.log(`modules: ${m.name} ${rec.complete ? "complete" : "INCOMPLETE"} (${Math.round(rec.ms / 60000)} min)`);
 }
 
-if (command === "run") {
+if (command === "fix") {
+  // Revise one module from its REVIEW.md (same model as the author).
+  const m = list.find((x) => x.name === o.only);
+  const dir = path.join(REPO, "templates", "modules", m.name);
+  const runId = `modules-fix-${m.name}`;
+  const p = runPaths(runId);
+  fs.rmSync(p.root, { recursive: true, force: true });
+  fs.mkdirSync(p.records, { recursive: true });
+  fs.mkdirSync(path.join(p.project, ".opencode", "agents"), { recursive: true });
+  fs.mkdirSync(path.join(p.project, "out"), { recursive: true });
+  for (const f of ["MODULE.md", "contract.md", "acceptance-plan.md", "decisions.md", "REVIEW.md"]) fs.copyFileSync(path.join(dir, f), path.join(p.project, f === "REVIEW.md" ? f : path.join("out", f)));
+  fs.copyFileSync(path.join(REPO, "templates", "HOST.md"), path.join(p.project, "HOST.md"));
+  fs.copyFileSync(path.join(HARNESS, "agents", "opencode.jsonc"), path.join(p.project, "opencode.jsonc"));
+  fs.writeFileSync(path.join(p.project, ".opencode", "agents", "job.md"), AGENT_MD);
+  execFileSync("git", ["init", "-q", "-b", "main"], { cwd: p.project });
+  const sandbox = writeProfile(p.sandbox, p.project);
+  fs.mkdirSync(path.join(p.records, "logs"), { recursive: true });
+  const session = sessionId(runId, Date.now());
+  let done = false;
+  const t0 = Date.now();
+  for (let round = 1; round <= 4 && !done; round++) {
+    const r = await runAgent({ cwd: p.project, agent: "job", model, session, sandbox, logFile: path.join(p.records, "logs", `r${round}.jsonl`),
+      message: round === 1 ? `The four files in ./out are a cognition template for module "${m.name}". ./REVIEW.md is an independent review. ./HOST.md is the host convention (it was updated after the review: outbox template names, params, section 3b). Revise the four files in place to resolve EVERY finding in REVIEW.md (blocking and should-fix; nice items where cheap): fix contradictions, make rules observable under HOST.md, add numeric bounds, add the missing cases and the rule->case table at the end of contract.md, mark non-observable items as 'suggestions, not tested'. Keep the file structure, language (Chinese) and style. Size limits (hard): MODULE.md 14 KB, contract.md 16 KB, acceptance-plan.md 12 KB, decisions.md 6 KB; cut verbosity to make room. Check spelling. Finish with a list of how each finding was handled and the single word DONE.` : "Continue until every finding is handled and files are within limits. End with DONE." });
+    done = /(^|\n)\s*DONE\s*$/.test((r.finalText || r.allText).trim());
+    if (done) fs.writeFileSync(path.join(p.records, "fix-report.md"), r.finalText || r.allText);
+  }
+  for (const f of ["MODULE.md", "contract.md", "acceptance-plan.md", "decisions.md"]) fs.copyFileSync(path.join(p.project, "out", f), path.join(dir, f));
+  fs.copyFileSync(path.join(p.records, "fix-report.md"), path.join(dir, "FIX-REPORT.md"));
+  console.log(`modules: fixed ${m.name} (${Math.round((Date.now() - t0) / 60000)} min, done=${done})`);
+} else if (command === "run") {
   assertSandboxAvailable();
   const only = o.only ? o.only.split(",") : null;
   const todo = list.filter((m) => (!only || only.includes(m.name)) && !(state.modules[m.name]?.complete));
