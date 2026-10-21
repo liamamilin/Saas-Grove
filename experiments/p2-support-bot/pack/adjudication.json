@@ -1,0 +1,32 @@
+[
+  {
+    "suite": "P2-H1-contract",
+    "test": "holdout: governance keeps an audit log of what happened in the workspace, newest first",
+    "verdict": "TEST_BUG",
+    "reason": "api.yaml rotate-key: 'Issues a new widget key; the old key stops working at once (404 on every widget route)' and widget rule 1 '{key} ... rotated away -> 404 not_found'. The test rotates the key and then starts a Visitor with the stale team.key, so the 404 is the contracted behaviour. Fix: const rot = await team.client.post(.../widget/rotate-key); expectStatus(rot, 200); const visitor = await new Visitor(rot.body.widget.widgetKey).start();"
+  },
+  {
+    "suite": "P2-H1-contract",
+    "test": "holdout: governance exports everything of the workspace and nothing secret",
+    "verdict": "TEST_BUG",
+    "reason": "'Nothing secret' is defined in api.yaml export summary as 'no password hashes, session, invitation, reset or visitor tokens'. The same response must contain usageRecords whose UsageRecord schema defines inputTokens/outputTokens (token counts, not credentials). The regex /token/ wrongly flags them. Fix: expect(secretKeys(body)).toEqual([]) (lib helper isSecretKey excludes keys ending in 'tokens'), or filter out keys matching /tokens$/i before the regex check."
+  },
+  {
+    "suite": "P2-H2-spec",
+    "test": "handoffs and deletion a deleted conversation disappears from analytics, export and the widget",
+    "verdict": "UNCLEAR",
+    "reason": "api.yaml DELETE conversation: 'The conversation, its messages and its handoff disappear from every list, analytics, export and the widget'. That clause covers the conversation, its messages and its handoff. It says nothing about usage records, and the UsageRecord schema says chat records carry conversationId and messageId. A usage record that keeps the deleted id (spend history must remain) is therefore not clearly forbidden. The failure only shows that the id appears somewhere in the export JSON, not where. The substring assertion is stronger than the contract. Fix: expect(exp.body.conversations.map(c=>c.id)).not.toContain(cid); expect(exp.body.handoffs.map(h=>h.conversationId)).not.toContain(cid); and check that no conversation's messages remain. Rerun with that fix: if it fails, PRODUCT_DEFECT (the acceptance suite never checks the export after deletion); if it passes, TEST_BUG."
+  },
+  {
+    "suite": "P2-J1",
+    "test": "F28: the analytics page shows what this month has cost",
+    "verdict": "PRODUCT_DEFECT",
+    "reason": "architecture.md section 8 UI anchors: usage-spent = this month's spend, and 'the first number in the text is this month's spend in US dollars'. Analytics summary spentUsd 'equal GET /usage'. The test had already confirmed GET /usage spentUsd > 0 (that assertion passed) for the same single workspace. It then opened the analytics page fresh, and the page showed 0.0000. The test uses only the contracted request shapes, so the UI is showing the wrong amount."
+  },
+  {
+    "suite": "P2-H1-contract",
+    "test": "holdout: governance keeps an audit log of what happened in the workspace, newest first",
+    "verdict": "TEST_BUG",
+    "reason": "Re-adjudication of the revised test (the old-key problem is fixed). Three users join the workspace: member, plain and admin (admin joins last, after the conversation is opened). api.yaml audit-events says 'Newest first', so events.find(type==='member.joined') returns the newest join, which is admin's, not member's. AuditEvent: 'for member.joined, the user who joined'. The id mismatch is the contracted behaviour. Fix: const joinedBy = events.filter(e=>e.type==='member.joined').map(e=>e.actorUserId); expect(joinedBy).toEqual(expect.arrayContaining([member.user.id, plain.user.id, admin.user.id])); optionally also expect(joinedBy[0]).toBe(admin.user.id)."
+  }
+]
