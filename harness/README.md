@@ -90,3 +90,6 @@ harness v0 交给一个独立 agent 只读审查过。它指出的问题都已�
 
 ## 额度兜底（2026-10-20）
 `lib/opencode.mjs` 的 `runAgent` 在 provider 报额度用完（`usage limit` / `insufficient_balance`）且这一回合没干活时，自动改用免费模型 `opencode-go/minimax-m3.1-flash-free` 重试一次（环境变量 `HARNESS_NO_FALLBACK=1` 可关闭）。用过兜底的回合：返回值带 `fellBack: true` 和 `modelUsed`，日志里有一行 `harness.fallback`。**用过兜底的运行不得混进同模型样本**，须在报告里标明；构建者角色用兜底会拉低质量，更适合审查、起草、模拟用户这类辅助角色。
+
+## pipeline.mjs：模板生产流水线（v1，同品类适配）
+`node harness/pipeline.mjs new --id <名> --adapt-from <蓝图> (--brief <文件> | --idea <一句话> [--persona …])`，再 `run`（可 `--until <步骤>`）、`status`。步骤：brief（冻结简报）→ adapt（agent 适配蓝图）→ review（独立只读审查）→ fix → authors（四个留出测试作者并行）→ reference（参考实现）→ admit（在参考实现上跑全部测试，失败的写成清单交裁决）→ freeze（复制进 `experiments/<名>/pack`，打 tag）。每步可续跑，状态在 `<runs>/pipeline-<名>/state.json`，每个 agent 回合的模型、用时、是否用过兜底都记录在里面（即"模板适配成本"）。所有子进程参数用数组传，避免 zsh 不拆分命令行的坑。v1 没有的：跨品类契约起草、联网调研、admit 里的自动裁决与修复（目前由独立 agent 手工完成，见 `experiments/PROTOCOL.md` §4）。验证构建（对照/B+T/A）冻结评测包后另用 baseline.mjs / build.mjs 启动。**未经真实运行验证**：只测过 new/run brief/status；adapt 等 agent 步骤用 flash 做的质量未知（P2 的适配是 Claude 子 agent 做的）。
