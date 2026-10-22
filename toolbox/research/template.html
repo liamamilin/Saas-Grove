@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>项目调研</title>
+<style>
+:root{--bg:#fafaf8;--card:#fff;--ink:#1d1d1b;--mute:#6b6b66;--line:#e4e2dc;--acc:#1f5eff;--acc2:#e8eeff;--ok:#1a7f4b;--warn:#a15c00}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#1f1f1d;--ink:#ecebe6;--mute:#9a9992;--line:#34332f;--acc:#7da2ff;--acc2:#222a40;--ok:#58c58a;--warn:#e0a458}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"PingFang SC","Noto Sans SC",sans-serif}
+header{padding:18px 20px 0;max-width:1180px;margin:auto}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mute);font-size:13px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+select,input{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+nav{display:flex;gap:4px;margin-top:14px;border-bottom:1px solid var(--line)}
+nav button{font:inherit;border:0;background:none;color:var(--mute);padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent}
+nav button.on{color:var(--ink);border-color:var(--acc);font-weight:600}
+main{max-width:1180px;margin:auto;padding:18px 20px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+h2{font-size:17px;margin:22px 0 8px}h3{font-size:15px;margin:0 0 4px}
+.chip{display:inline-block;background:var(--acc2);color:var(--acc);border-radius:99px;padding:1px 9px;font-size:12px;margin:2px 4px 2px 0;cursor:pointer}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 7px;font-size:12px;color:var(--mute);margin-right:4px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{cursor:pointer;color:var(--mute);font-weight:600;white-space:nowrap;position:sticky;top:0;background:var(--bg)}
+tr.row:hover{background:var(--acc2);cursor:pointer}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.mute{color:var(--mute)}.small{font-size:13px}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+ol.read{padding-left:20px;margin:6px 0}
+.diff{background:var(--acc2);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:10px}
+.gap li{color:var(--warn)}.cav li{color:var(--warn)}ul{margin:4px 0;padding-left:20px}
+.feat{display:grid;grid-template-columns:230px 1fr;gap:6px 14px;align-items:start}
+.feat .f{font-weight:600}.bar2{height:6px;background:var(--acc2);border-radius:3px;margin-top:6px}.bar2 i{display:block;height:6px;background:var(--acc);border-radius:3px}
+.detail{position:fixed;right:0;top:0;bottom:0;width:min(560px,100%);background:var(--card);border-left:1px solid var(--line);padding:18px 20px;overflow:auto;box-shadow:-8px 0 30px #0002;display:none;z-index:5}
+.detail.open{display:block}.close{float:right;cursor:pointer;font-size:20px;color:var(--mute)}
+@media(max-width:700px){.feat{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <div class="sub" id="meta"></div>
+  <div class="bar">
+    <label class="small mute">版本 <select id="ver"></select></label>
+    <input id="q" placeholder="搜索项目、功能…" size="26">
+  </div>
+  <div class="diff" id="diff" hidden></div>
+  <nav id="tabs"></nav>
+</header>
+<main id="main"></main>
+<aside class="detail" id="detail"></aside>
+<script>
+const DATA = /*DATA*/null;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const TABS = [["overview", "总览"], ["table", "对比表"], ["features", "功能清单"], ["cards", "项目简介"]];
+let vi = 0, tab = "overview", sortKey = "stars", sortDir = -1, q = "";
+const V = () => DATA[vi];
+const fmt = (n) => (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + "k" : n);
+const ago = (d) => { const days = Math.round((Date.now() - new Date(d)) / 864e5); return days < 1 ? "今天" : days < 31 ? days + " 天前" : days < 365 ? Math.round(days / 30) + " 个月前" : (days / 365).toFixed(1) + " 年前"; };
+const match = (p) => !q || JSON.stringify(p).toLowerCase().includes(q.toLowerCase());
+const byName = () => Object.fromEntries(V().items.map((p) => [p.full_name, p]));
+const chip = (n) => `<span class="chip" data-open="${esc(n)}">${esc(n.split("/")[1] || n)}</span>`;
+
+function head() {
+  const v = V();
+  $("#title").textContent = `调研：${v.topic}`;
+  $("#meta").textContent = `${v.items.length} 个项目 · 搜索于 ${new Date(v.fetchedAt).toLocaleString("zh-CN")} · 来源 GitHub`;
+  const prev = DATA[vi + 1];
+  const d = $("#diff");
+  if (prev) {
+    const a = new Set(v.items.map((p) => p.full_name)), b = new Set(prev.items.map((p) => p.full_name));
+    const add = [...a].filter((x) => !b.has(x)), del = [...b].filter((x) => !a.has(x));
+    d.hidden = false;
+    d.innerHTML = `相对上一版本（${esc(prev.label)}）：新增 ${add.length} 个${add.length ? "（" + add.map((x) => esc(x.split("/")[1])).join("、") + "）" : ""}，移除 ${del.length} 个${del.length ? "（" + del.map((x) => esc(x.split("/")[1])).join("、") + "）" : ""}。`;
+  } else d.hidden = true;
+  $("#tabs").innerHTML = TABS.map(([k, n]) => `<button class="${k === tab ? "on" : ""}" data-tab="${k}">${n}</button>`).join("");
+}
+
+function overview() {
+  const v = V(), o = v.overview || {};
+  let h = `<div class="card"><h3>这个领域整体是什么样</h3><div>${esc(o.summary || "（无总览）")}</div></div>`;
+  h += `<h2>先看哪几个</h2><div class="card"><ol class="read">${(o.reading_order || []).map((r) => `<li>${chip(r.project)} <span class="small">${esc(r.why)}</span></li>`).join("")}</ol></div>`;
+  h += `<h2>分类</h2><div class="grid">${(o.categories || []).map((c) => `<div class="card"><h3>${esc(c.name)} <span class="mute small">${(c.projects || []).length} 个</span></h3><div class="small mute">${esc(c.desc)}</div><div>${(c.projects || []).map(chip).join("")}</div></div>`).join("")}</div>`;
+  if ((o.gaps || []).length) h += `<h2>笔记里看不出来、值得再查的</h2><div class="card"><ul class="gap">${o.gaps.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>`;
+  return h;
+}
+
+function table() {
+  const cols = [["full_name", "项目"], ["kind", "类型"], ["stars", "星数"], ["language", "语言"], ["license", "许可证"], ["pushed_at", "最近更新"], ["what", "一句话"]];
+  const rows = V().items.filter(match).sort((x, y) => { const a = x[sortKey] ?? "", b = y[sortKey] ?? ""; return (a > b ? 1 : a < b ? -1 : 0) * sortDir; });
+  return `<div class="card" style="overflow:auto"><table><thead><tr>${cols.map(([k, n]) => `<th data-sort="${k}">${n}${k === sortKey ? (sortDir < 0 ? " ↓" : " ↑") : ""}</th>`).join("")}</tr></thead><tbody>${rows.map((p) => `<tr class="row" data-open="${esc(p.full_name)}"><td><b>${esc(p.full_name)}</b></td><td>${esc(p.kind || "")}</td><td class="num">${fmt(p.stars)}</td><td>${esc(p.language || "-")}</td><td>${esc(p.license || "-")}</td><td class="small mute">${ago(p.pushed_at)}</td><td class="small">${esc(p.what || p.description || "")}</td></tr>`).join("")}</tbody></table></div><div class="small mute">点表头排序，点行看详情。</div>`;
+}
+
+function features() {
+  const o = V().overview || {}, n = V().items.length;
+  const m = (o.feature_matrix || []).filter((f) => match(f));
+  return `<div class="small mute" style="margin-bottom:8px">把所有项目的功能合并去重，看每项功能哪些项目有（覆盖越多越靠前）。</div><div class="card"><div class="feat">${m.map((f) => `<div class="f">${esc(f.feature)}<div class="bar2"><i style="width:${Math.round(100 * (f.projects || []).length / n)}%"></i></div><div class="small mute">${(f.projects || []).length} / ${n}</div></div><div>${(f.projects || []).map(chip).join("")}</div>`).join("")}</div></div>`;
+}
+
+function card(p) {
+  return `<div class="card" data-open="${esc(p.full_name)}" style="cursor:pointer"><h3>${esc(p.full_name)}</h3><div class="small mute"><span class="tag">${esc(p.kind || "-")}</span>★ ${fmt(p.stars)} · ${esc(p.language || "-")} · ${esc(p.license || "-")} · ${ago(p.pushed_at)}</div><div style="margin-top:6px">${esc(p.what || p.description || "")}</div><div class="small mute" style="margin-top:6px">适合：${esc(p.for_whom || "未说明")}</div></div>`;
+}
+const cards = () => `<div class="grid">${V().items.filter(match).map(card).join("")}</div>`;
+
+function detail(name) {
+  const p = byName()[name]; if (!p) return;
+  const ul = (a) => (a && a.length ? `<ul>${a.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : `<div class="mute small">无</div>`);
+  $("#detail").innerHTML = `<span class="close" data-close>×</span><h3 style="font-size:18px">${esc(p.full_name)}</h3>
+  <div class="small"><a href="${esc(p.url)}" target="_blank" rel="noopener">在 GitHub 打开 ↗</a></div>
+  <div class="small mute" style="margin:6px 0 10px"><span class="tag">${esc(p.kind || "-")}</span>★ ${fmt(p.stars)} · Fork ${fmt(p.forks)} · ${esc(p.language || "-")} · ${esc(p.license || "-")} · 最近更新 ${ago(p.pushed_at)} · 创建于 ${new Date(p.created_at).getFullYear()}</div>
+  <p>${esc(p.what || p.description || "")}</p>
+  <h2>功能</h2>${ul(p.features)}
+  <h2>怎么用</h2><p class="small">${esc(p.how_to_run || "未说明")}</p>
+  <h2>适合谁</h2><p class="small">${esc(p.for_whom || "未说明")}</p>
+  <h2>限制与注意</h2><div class="cav">${ul(p.caveats)}</div>
+  <h2>README 没说的</h2><div class="gap">${ul(p.evidence_gaps)}</div>
+  <div class="small mute" style="margin-top:14px">话题：${(p.topics || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("") || "无"}</div>`;
+  $("#detail").classList.add("open");
+}
+
+function render() {
+  head();
+  $("#main").innerHTML = { overview, table, features, cards }[tab]();
+}
+$("#ver").innerHTML = DATA.map((v, i) => `<option value="${i}">${esc(v.label)}${i === 0 ? "（当前）" : ""}</option>`).join("");
+$("#ver").onchange = (e) => { vi = +e.target.value; render(); };
+$("#q").oninput = (e) => { q = e.target.value; render(); };
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-tab],[data-sort],[data-open],[data-close]");
+  if (!t) return;
+  if (t.dataset.tab) { tab = t.dataset.tab; render(); }
+  else if (t.dataset.sort) { sortDir = sortKey === t.dataset.sort ? -sortDir : -1; sortKey = t.dataset.sort; render(); }
+  else if (t.dataset.open) detail(t.dataset.open);
+  else $("#detail").classList.remove("open");
+});
+render();
+</script>
+</body>
+</html>
