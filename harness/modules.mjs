@@ -187,7 +187,7 @@ if (command === "review") {
   fs.mkdirSync(p.records, { recursive: true });
   fs.mkdirSync(path.join(p.project, ".opencode", "agents"), { recursive: true });
   fs.mkdirSync(path.join(p.project, "out"), { recursive: true });
-  for (const f of ["MODULE.md", "contract.md", "acceptance-plan.md", "decisions.md", "REVIEW.md"]) fs.copyFileSync(path.join(dir, f), path.join(p.project, f === "REVIEW.md" ? f : path.join("out", f)));
+  for (const f of ["MODULE.md", "contract.md", "acceptance-plan.md", "decisions.md", o.review ? `REVIEW-${o.review}.md` : "REVIEW.md"]) fs.copyFileSync(path.join(dir, f), path.join(p.project, f.startsWith("REVIEW") ? "REVIEW.md" : path.join("out", f)));
   fs.copyFileSync(path.join(REPO, "templates", "HOST.md"), path.join(p.project, "HOST.md"));
   fs.copyFileSync(path.join(HARNESS, "agents", "opencode.jsonc"), path.join(p.project, "opencode.jsonc"));
   fs.writeFileSync(path.join(p.project, ".opencode", "agents", "job.md"), AGENT_MD);
@@ -199,12 +199,12 @@ if (command === "review") {
   const t0 = Date.now();
   for (let round = 1; round <= 4 && !done; round++) {
     const r = await runAgent({ cwd: p.project, agent: "job", model, session, sandbox, logFile: path.join(p.records, "logs", `r${round}.jsonl`),
-      message: round === 1 ? `The four files in ./out are a cognition template for module "${m.name}". ./REVIEW.md is an independent review. ./HOST.md is the host convention (it was updated after the review: outbox template names, params, section 3b). Revise the four files in place to resolve EVERY finding in REVIEW.md (blocking and should-fix; nice items where cheap): fix contradictions, make rules observable under HOST.md, add numeric bounds, add the missing cases and the rule->case table at the end of contract.md, mark non-observable items as 'suggestions, not tested'. Keep the file structure, language (Chinese) and style. Size limits (hard, keep at least 1 KB spare under each): MODULE.md 15 KB, contract.md 17 KB, acceptance-plan.md 13 KB, decisions.md 7 KB; cut verbosity to make room. Check spelling. Finish with a list of how each finding was handled and the single word DONE.` : "Continue until every finding is handled and files are within limits. End with DONE." });
+      message: round === 1 ? `The four files in ./out are a cognition template for module "${m.name}". ./REVIEW.md is an independent review. ./HOST.md is the host convention (it was updated after the review: outbox template names, params, section 3b). Revise the four files in place to resolve EVERY finding in REVIEW.md (also keep R-<n>/T-<n> ids and the trace table at the end of contract.md exact: add a row for every new rule and case) (blocking and should-fix; nice items where cheap): fix contradictions, make rules observable under HOST.md, add numeric bounds, add the missing cases and the rule->case table at the end of contract.md, mark non-observable items as 'suggestions, not tested'. Keep the file structure, language (Chinese) and style. Size limits (hard, keep at least 1 KB spare under each): MODULE.md 15 KB, contract.md 17 KB, acceptance-plan.md 13 KB, decisions.md 7 KB; cut verbosity to make room. Check spelling. Finish with a list of how each finding was handled and the single word DONE.` : "Continue until every finding is handled and files are within limits. End with DONE." });
     done = /(^|\n)\s*DONE\s*$/.test((r.finalText || r.allText).trim());
     if (done) fs.writeFileSync(path.join(p.records, "fix-report.md"), r.finalText || r.allText);
   }
   for (const f of ["MODULE.md", "contract.md", "acceptance-plan.md", "decisions.md"]) fs.copyFileSync(path.join(p.project, "out", f), path.join(dir, f));
-  fs.copyFileSync(path.join(p.records, "fix-report.md"), path.join(dir, "FIX-REPORT.md"));
+  if (fs.existsSync(path.join(p.records, "fix-report.md"))) fs.copyFileSync(path.join(p.records, "fix-report.md"), path.join(dir, `FIX-REPORT${o.review ? "-" + o.review : ""}.md`));
   console.log(`modules: fixed ${m.name} (${Math.round((Date.now() - t0) / 60000)} min, done=${done})`);
 } else if (command === "run") {
   assertSandboxAvailable();
