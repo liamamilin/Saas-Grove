@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+test.skip(!!process.env.SAAS_E2E_REAL, "Synthetic catalog regression suite.");
 const CRM = "/types/customer-relationship-management-crm";
 
 test("category -> leaf -> definition, independent lists and refresh", async ({ page }) => {

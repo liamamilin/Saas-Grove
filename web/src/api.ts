@@ -15,7 +15,16 @@ export type LeafDetail = Leaf & { overview: string; overview_zh: string; dc: str
 export type Application = { id: string; name: string; summary?: string; homepage?: string; repository_url?: string;
   source_url?: string; license?: string; checked_at?: string; features?: string[];
   deployment?: string[]; technology_stack?: string[]; runtime_tested?: boolean;
+  tracks?: Track[]; types?: ProductType[]; verification_status?: string;
+  license_status?: "reviewed" | "unverified"; license_evidence_url?: string;
+  license_review?: { rationale?: string; scope?: string; source_url?: string };
+  deployment_options?: string[]; checked_at_basis?: "recorded" | "source_fetched";
+  unsupported_features?: { name: string; source_url: string }[];
   sources?: { url: string; kind: string; fetched_at: string }[] };
+export type ProductType = { slug: string; name: string; name_zh: string; scope: Scope; domain_id: string };
+export type ProductResults = { applications: Application[]; total: number; page: number; pages: number; page_size: number;
+  facets: { licenses: { value: string; count: number }[]; deployments: { value: string; label: string; count: number }[] } };
+export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[] };
 export type ApplicationList = { applications: Application[]; leaf: string; track: Track; total: number };
 
 export function useResource<T>(url: string) {

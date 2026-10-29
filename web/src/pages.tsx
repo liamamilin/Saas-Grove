@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Boxes, Check, ChevronRight, CircleHelp, Code2, Search, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useResource, type Application, type ApplicationList, type Domain, type Leaf, type LeafDetail, type Taxonomy, type Track } from "./api";
+import { ComparePicker, ProductSearchForm, productUrl } from "./products";
 
 const number = (n: number) => n.toLocaleString("zh-CN");
 const text = (value: string) => value.replace(/\*\*|`|^#+\s/gm, "").trim();
@@ -27,10 +28,11 @@ export function Browse() {
   useEffect(() => { document.title = `${domain?.name_zh ? domain.name_zh + " · " : ""}SaaS Grove · 从类型发现应用`; }, [domain?.name_zh]);
   return <main id="main" className="page">
     <section className="hero">
-      <div><p className="eyebrow"><span /> A DIRECTORY FOR BUILDERS</p><h1>从应用类型，<br />找到合适的软件<span className="hero-period">。</span></h1>
-        <p className="hero-copy">先了解一个领域有哪些应用，再找到适合自己的选择。<br className="desktop-break" />开源项目深入整理，商业产品单独记录。</p></div>
+      <div><p className="eyebrow"><span /> A DIRECTORY FOR BUILDERS</p><h1>发现合适的 SaaS，<br />从了解，到选择<span className="hero-period">。</span></h1>
+        <p className="hero-copy">探索真实产品，了解已有能力，把同类选择放在一起看。<br className="desktop-break" />开源项目深入整理，商业产品保留基本索引。</p></div>
       <div className="hero-index" aria-hidden="true"><span className="index-label">THE INDEX / 01</span><div><span>分类</span><i>↘</i><span>叶子类型</span><i>↘</i><span className="index-end">真实应用</span></div><p>清晰的分类，直接的连接。</p></div>
     </section>
+    <ProductSearchForm home /><p className="home-search-hint">从一个名字或用途开始。<Link to="/search?q=CRM系统">发现 CRM 产品 <ArrowRight size={13} /></Link></p>
     <section className="stats" aria-label="目录统计">
       <div><strong>{data ? number(data.counts.included) : "—"}</strong><span>主目录应用类型</span></div>
       <div><strong>{data ? number(data.counts.conditional) : "—"}</strong><span>待确认类型</span></div>
@@ -70,10 +72,13 @@ export function LeafPage() {
   const [params, setParams] = useSearchParams();
   const track = params.get("track") === "commercial" ? "commercial" : "open_source";
   const q = params.get("q") || "";
+  const location = useLocation();
+  const selected = (params.get("compare") || "").split(",").filter(Boolean);
   const { data: leaf, error, retry } = useResource<LeafDetail>(`/api/leaves/${encodeURIComponent(slug)}`);
   const listing = useResource<ApplicationList>(`/api/applications?${new URLSearchParams({ leaf: slug, track, q })}`);
   useEffect(() => { document.title = `${leaf?.name_zh || "应用类型"} · SaaS Grove`; }, [leaf?.name_zh]);
-  function changeTrack(value: Track) { setParams(value === "commercial" ? { track: value } : {}); }
+  useEffect(() => { if (leaf && location.hash === "#compare-picker") document.getElementById("compare-picker")?.scrollIntoView({ block: "start" }); }, [leaf, location.hash]);
+  function changeTrack(value: Track) { const next = new URLSearchParams(params); if (value === "commercial") next.set("track", value); else next.delete("track"); setParams(next); }
   if (error) return <main id="main" className="page leaf-page"><ErrorState error={error} retry={retry} /></main>;
   if (!leaf) return <main id="main" className="page"><Loading /></main>;
   const core = leaf.dc_zh || leaf.dc;
@@ -84,8 +89,9 @@ export function LeafPage() {
     <details className="definition-panel"><summary><span><BookOpen size={18} />了解原始类型定义与边界</span><ChevronRight size={17} /></summary><div className="definition-content"><div><h2>Atlas 参考定义</h2><Markdown value={leaf.overview_zh || leaf.overview} /><h2>定义性核心</h2>{/[└├]──/.test(core) && !core.includes("```") ? <pre>{core}</pre> : <Markdown value={core} />}</div><div><h2>行为与边界</h2><Markdown value={leaf.rules_zh || leaf.rules} /><p className="source-note">类型资料参考 {leaf.source.project} · {leaf.source.import_date} 整理</p></div></div></details>
     <section className="application-section" aria-label="本类型应用"><div className="applications-header"><div><p className="eyebrow">APPLICATIONS IN THIS TYPE</p><h2>这个类型有哪些应用</h2></div><Link to={`/browse?${new URLSearchParams({ domain: leaf.domain_id, ...(leaf.scope === "conditional" ? { scope: "conditional" } : {}) })}`} className="back-link"><ArrowLeft size={15} />继续浏览分类</Link></div>
       <div className="list-controls"><div className="track-tabs" role="tablist" aria-label="应用分区" onKeyDown={e => { if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) { e.preventDefault(); const next = e.key === "Home" ? "open_source" : e.key === "End" ? "commercial" : track === "open_source" ? "commercial" : "open_source"; changeTrack(next); document.getElementById(`tab-${next}`)?.focus(); } }}><button role="tab" tabIndex={track === "open_source" ? 0 : -1} aria-selected={track === "open_source"} aria-controls="applications-panel" id="tab-open_source" onClick={() => changeTrack("open_source")}><Code2 size={17} />开源项目<span>{leaf.counts.open_source}</span></button><button role="tab" tabIndex={track === "commercial" ? 0 : -1} aria-selected={track === "commercial"} aria-controls="applications-panel" id="tab-commercial" onClick={() => changeTrack("commercial")}><Boxes size={17} />商业产品<span>{leaf.counts.commercial}</span></button></div>
-        <div className="search-field list-search"><Search size={17} /><input aria-label="搜索此类型中的应用" placeholder="搜索此类型中的应用" value={q} maxLength={160} onChange={e => { const next = new URLSearchParams(params); if (e.target.value) next.set("q", e.target.value); else next.delete("q"); setParams(next, { replace: true }); }} />{q && <button aria-label="清除应用搜索" onClick={() => setParams(track === "commercial" ? { track } : {})}><X size={16} /></button>}</div></div>
+        <div className="search-field list-search"><Search size={17} /><input aria-label="搜索此类型中的应用" placeholder="搜索此类型中的应用" value={q} maxLength={160} onChange={e => { const next = new URLSearchParams(params); if (e.target.value) next.set("q", e.target.value); else next.delete("q"); setParams(next, { replace: true }); }} />{q && <button aria-label="清除应用搜索" onClick={() => { const next = new URLSearchParams(params); next.delete("q"); setParams(next); }}><X size={16} /></button>}</div></div>
       <p className="track-description">{track === "open_source" ? "优先整理核心功能、部署方式与许可证，保留官方资料来源。" : "记录官网与主要用途，帮助你了解这个领域有哪些商业选择。"}</p>
+      <ComparePicker leaf={slug} selected={selected} expanded={selected.length > 0} from={location.pathname + location.search} change={ids => { const next = new URLSearchParams(params); if (ids.length) next.set("compare", ids.join(",")); else next.delete("compare"); setParams(next, { replace: true }); }} />
       <div id="applications-panel" role="tabpanel" aria-labelledby={`tab-${track}`}>
         {listing.error ? <ErrorState error={listing.error} retry={listing.retry} /> : !listing.data ? <Loading /> : listing.data.applications.length > 0 ? <div className="application-grid">{listing.data.applications.map(app => <ApplicationCard key={app.id} app={app} track={track} />)}</div> : <div className="applications-empty"><div className="empty-symbol">{track === "open_source" ? <Code2 size={29} /> : <Boxes size={29} />}</div><span className="eyebrow">{q ? "NO MATCHES" : "ROOM FOR DISCOVERY"}</span><h3>{q ? "没有符合搜索条件的应用" : track === "open_source" ? "这里还没有收录开源项目" : "这里还没有记录商业产品"}</h3><p>{q ? "换个关键词试试，或清除搜索查看全部条目。" : "类型目录已经准备好。找到并整理的真实应用，会在这里逐步补充。"}</p><div className="empty-check"><Check size={14} /><span>资料缺项会明确标注，来源始终可追溯</span></div></div>}
       </div>
@@ -96,12 +102,13 @@ function Markdown({ value }: { value: string }) {
   return <div className="prose"><ReactMarkdown remarkPlugins={[remarkGfm]} components={{ a: ({ children, href }) => <a href={href} target="_blank" rel="noreferrer">{children}</a>, img: () => null }}>{value}</ReactMarkdown></div>;
 }
 function ApplicationCard({ app, track }: { app: Application; track: Track }) {
+  const location = useLocation();
   const source = app.source_url || app.sources?.find(s => s.kind === "readme" || s.kind === "homepage")?.url;
-  const checkedAt = app.checked_at || app.sources?.[0]?.fetched_at;
-  return <article className="application-card"><div className="application-card-title"><h3>{app.name}</h3><span className="badge">{track === "open_source" ? "开源项目" : "商业产品"}</span></div><p>{app.summary || "介绍待补充"}</p>{track === "open_source" && app.features?.length ? <ul>{app.features.map(f => <li key={f}>{f}</li>)}</ul> : null}
+  const checkedAt = app.checked_at || app.sources?.reduce((latest, s) => Date.parse(s.fetched_at) > Date.parse(latest || "1970-01-01") ? s.fetched_at : latest, "");
+  return <article className="application-card"><div className="application-card-title"><h3><Link to={productUrl(app.id, location.pathname + location.search)}>{app.name}</Link></h3><span className="badge">{track === "open_source" ? "开源项目" : "商业产品"}</span></div><p>{app.summary || "介绍待补充"}</p>{track === "open_source" && app.features?.length ? <ul>{app.features.map(f => <li key={f}>{f}</li>)}</ul> : null}
     {track === "open_source" && (app.deployment?.length || app.technology_stack?.length) ? <dl className="application-facts">{app.deployment?.length ? <div><dt>部署</dt><dd>{app.deployment.join(" · ")}</dd></div> : null}{app.technology_stack?.length ? <div><dt>技术</dt><dd>{app.technology_stack.join(" · ")}</dd></div> : null}</dl> : null}
-    <div className="application-card-links">{app.homepage && <a href={app.homepage} target="_blank" rel="noreferrer">官网 <ArrowUpRight size={14} /></a>}{track === "open_source" && app.repository_url && <a href={app.repository_url} target="_blank" rel="noreferrer">代码仓库 <ArrowUpRight size={14} /></a>}{source && <a href={source} target="_blank" rel="noreferrer">资料来源 <ArrowUpRight size={14} /></a>}</div>
-    {track === "open_source" && <p className="source-note">许可证：{app.license || "待核验"}{app.runtime_tested === false && <><br />已核对官方资料，尚未进行部署测试</>}</p>}
-    {checkedAt && <p className="source-note">资料核对：{checkedAt.slice(0, 10)}</p>}</article>;
+    <div className="application-card-links"><Link to={productUrl(app.id, location.pathname + location.search)}>产品详情 <ArrowRight size={14} /></Link>{app.homepage && <a href={app.homepage} target="_blank" rel="noreferrer">官网 <ArrowUpRight size={14} /></a>}{track === "open_source" && app.repository_url && <a href={app.repository_url} target="_blank" rel="noreferrer">代码仓库 <ArrowUpRight size={14} /></a>}{source && <a href={source} target="_blank" rel="noreferrer">资料来源 <ArrowUpRight size={14} /></a>}</div>
+    {track === "open_source" && <p className="source-note">许可证：{app.license || "待核验"}{app.runtime_tested === false && <><br />{app.verification_status === "official_sources_reviewed" ? "已核对官方资料，尚未进行部署测试" : "资料待核对，尚未进行部署测试"}</>}</p>}
+    {checkedAt && <p className="source-note">{app.checked_at ? "资料核对" : "来源采集"}：{checkedAt.slice(0, 10)}</p>}</article>;
 }
 export function NotFound() { return <main id="main" className="page"><div className="message-card"><p className="eyebrow">404</p><h1>没有找到这个页面</h1><Link to="/browse" className="button">返回分类目录 <ArrowRight size={16} /></Link></div></main>; }

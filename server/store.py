@@ -1,6 +1,7 @@
 """Local application identities and independent open-source/commercial lists."""
 import json
 import sqlite3
+import unicodedata
 from contextlib import contextmanager
 from pathlib import Path
 from urllib.parse import urlparse
@@ -67,6 +68,10 @@ class Store:
                 SELECT a.data FROM application a JOIN application_track t ON t.app_id=a.id
                 JOIN leaf_application l ON l.app_id=a.id WHERE l.leaf=? AND t.track=? ORDER BY a.name,a.id
             """, (leaf, track))]
-        words = query.casefold().split()
-        records = [r for r in records if all(w in (r["name"] + " " + r.get("summary", "")).casefold() for w in words)]
+        words = unicodedata.normalize("NFKC", query).casefold().split()
+        def searchable(record):
+            values = [record["name"], record.get("summary") or "", record.get("name_en") or "", record.get("english_name") or "",
+                      *(record.get("aliases") or []), *(record.get("aliases_zh") or [])]
+            return unicodedata.normalize("NFKC", " ".join(values)).casefold()
+        records = [r for r in records if all(w in searchable(r) for w in words)]
         return {"leaf": leaf, "track": track, "applications": records, "total": len(records)}

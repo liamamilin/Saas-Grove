@@ -10,12 +10,14 @@ from urllib.parse import parse_qs, unquote, urlsplit
 from .config import WEB_ROOT
 from .store import Store
 from .taxonomy import Taxonomy
+from .products import Products
 
 
 class CatalogAPI:
     def __init__(self, taxonomy=None, store=None):
         self.taxonomy = taxonomy or Taxonomy()
         self.store = store or Store()
+        self.products = Products(self.store, self.taxonomy)
 
     def get(self, path, query):
         q = query.get("q", "").strip()
@@ -35,6 +37,12 @@ class CatalogAPI:
             leaf = query.get("leaf", "")
             self.taxonomy.leaf(leaf)
             return self.store.applications(leaf, query.get("track", "open_source"), q)
+        if path == "/api/products":
+            return self.products.search({**query, "q": q})
+        if path.startswith("/api/products/"):
+            return self.products.detail(path.removeprefix("/api/products/"))
+        if path == "/api/compare":
+            return self.products.compare(query.get("ids", ""), query.get("leaf", ""))
         raise KeyError(path)
 
 
@@ -67,13 +75,13 @@ class Handler(BaseHTTPRequestHandler):
                 query = {k: v[0] for k, v in parse_qs(parsed.query, keep_blank_values=True).items()}
                 return self.send(200, self.api.get(path, query))
             except KeyError:
-                return self.send(404, {"error": "没有找到这个类型或页面"})
+                return self.send(404, {"error": "没有找到这个类型、产品或页面"})
             except ValueError as error:
                 return self.send(400, {"error": str(error)})
         target = (self.web_root / path.lstrip("/")).resolve()
         if not target.is_relative_to(self.web_root) or any(p.startswith(".") for p in Path(path).parts if p != "/"):
             return self.send(404, {"error": "页面不存在"})
-        if not target.is_file() and (path in {"/", "/browse"} or path.startswith("/types/")):
+        if not target.is_file() and (path in {"/", "/browse", "/search", "/compare"} or path.startswith(("/types/", "/products/"))):
             target = self.web_root / "index.html"
         if target.is_file():
             return self.send(200, target.read_bytes(), mimetypes.guess_type(target.name)[0] or "application/octet-stream")
