@@ -101,6 +101,20 @@ class ProductTests(unittest.TestCase):
         self.assertEqual(len(result['products']), 4)
         with self.assertRaises(ValueError): self.api.get('/api/compare', {'ids':'github:alpha,beta,delta,epsilon,gamma'})
 
+    def test_saved_product_lookup_preserves_order_and_missing_ids(self):
+        result = self.api.get('/api/products/lookup', {'ids':'beta, github:alpha,missing,beta'})
+        self.assertEqual([r['id'] for r in result['applications']], ['beta', 'github:alpha'])
+        self.assertEqual(result['missing_ids'], ['missing'])
+        self.assertEqual(result['applications'][1]['types'][0]['slug'], CRM)
+        self.assertEqual(self.api.get('/api/products/lookup', {}), {'applications': [], 'missing_ids': []})
+
+    def test_lookup_bounds_and_parameterized_id_queries(self):
+        with self.assertRaises(ValueError): self.api.get('/api/products/lookup', {'ids':','.join(str(i) for i in range(61))})
+        value = self.api.get('/api/products/lookup', {'ids':"' OR 1=1 --"})
+        self.assertEqual(value['applications'], [])
+        self.assertEqual(value['missing_ids'], ["' OR 1=1 --"])
+        self.assertEqual(self.search()['total'], 3)
+
     def test_nullable_optional_record_fields_remain_unknown(self):
         self.store.save({"id":"nullable", "name":"Nullable", "summary":None, "aliases":None, "aliases_zh":None,
                          "sources":None, "deployment":None, "license_review":None}, [CRM], ["commercial"])
@@ -123,6 +137,7 @@ class ProductTests(unittest.TestCase):
         self.search(q='CRM系统')
         self.api.get('/api/products/github:alpha', {})
         self.api.get('/api/compare', {'ids': 'beta,github:alpha'})
+        self.api.get('/api/products/lookup', {'ids':'github:alpha,beta,missing'})
         self.assertEqual(before, rows())
 
     def test_http_encoded_product_ids_and_new_spa_routes_refresh(self):
@@ -131,7 +146,7 @@ class ProductTests(unittest.TestCase):
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(Handler, api=self.api, web_root=root))
         threading.Thread(target=server.serve_forever, daemon=True).start()
         self.addCleanup(server.server_close); self.addCleanup(server.shutdown)
-        for route in ['/search?q=CRM', '/products/github%3Aalpha', '/compare?ids=beta,github%3Aalpha']:
+        for route in ['/search?q=CRM', '/products/github%3Aalpha', '/compare?ids=beta,github%3Aalpha', '/shortlist']:
             client = http.client.HTTPConnection('127.0.0.1', server.server_port)
             client.request('GET', route); r = client.getresponse()
             self.assertEqual((r.status, r.read()), (200, b'<html>products</html>')); client.close()

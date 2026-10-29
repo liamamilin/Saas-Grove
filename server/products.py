@@ -44,13 +44,20 @@ class Products:
         row = self.taxonomy.leaves[slug]
         return {key: row[key] for key in ("slug", "name", "name_zh", "scope", "domain_id")}
 
-    def records(self, app_id=None):
+    def records(self, app_id=None, app_ids=None):
         # 1,440 records fit comfortably in memory. Three SQLite reads avoid N+1 queries,
         # JSON/schema migrations, and a second search index that can drift from imports.
         with self.store.connect() as con:
             args = (app_id,) if app_id is not None else ()
             where = " WHERE id=?" if app_id is not None else ""
             relation_where = " WHERE app_id=?" if app_id is not None else ""
+            if app_ids is not None:
+                if not app_ids:
+                    return []
+                args = tuple(app_ids)
+                placeholders = ",".join("?" for _ in args)
+                where = f" WHERE id IN ({placeholders})"
+                relation_where = f" WHERE app_id IN ({placeholders})"
             apps = [json.loads(row[0]) for row in con.execute("SELECT data FROM application" + where, args)]
             tracks, leaves = defaultdict(list), defaultdict(list)
             for row in con.execute("SELECT app_id,track FROM application_track" + relation_where + " ORDER BY track DESC", args):
@@ -141,6 +148,14 @@ class Products:
             if app["id"] == app_id:
                 return app
         raise KeyError(app_id)
+
+    def lookup(self, ids):
+        requested = list(dict.fromkeys(value.strip() for value in ids.split(",") if value.strip()))
+        if len(requested) > 60:
+            raise ValueError("每次最多读取 60 个产品")
+        by_id = {app["id"]: app for app in self.records(app_ids=requested)}
+        return {"applications": [self.card(by_id[app_id]) for app_id in requested if app_id in by_id],
+                "missing_ids": [app_id for app_id in requested if app_id not in by_id]}
 
     def compare(self, ids, leaf=""):
         ids = [value.strip() for value in ids.split(",")] if ids else []

@@ -26,6 +26,8 @@
 
 ## 约定
 
+- 本地收藏阶段（2026-10-29）：搜索卡片/详情的收藏按钮共用 `web/src/saved.tsx`，`localStorage` key 为 `saas-grove.saved-products.v1`，仅保存 ID/saved_at，勿随意更名造成旧清单无法读取。`/shortlist` 按当前产品类型交集选择2–4项比较，URL保留筛选与选择，查询失败/缺失ID不自动删除收藏。`/api/products/lookup` 仅只读批查，单次60上限、客户端每批40；正式1440产品/1724关系及全历史原样保留。本轮69后端+28队列+25浏览器回归+2真实桌面手机验收及构建通过。用户最新决定仅本地使用，不配置GitHub Pages或公开部署。见 docs/LOCAL_SHORTLIST_REPORT.md；独立审查继续使用本聊天已授权的Go DeepSeek，只读静态结论与实际测试结果分开。
+
 - 产品发现阶段（2026-10-29）：已增加只读 `server/products.py` 和 `/api/products`、`/api/products/:id`、`/api/compare`，前端 `/search`、`/products/:id`、`/compare`。复用原 SQLite 三表，未重构采集系统。搜索按已有名称/别名/类型检索，许可/部署筛选基于已有事实；来源采集日期不冒充复核日期。比较同类型2–4产品，未知不判不支持。CRM仅为既有EspoCRM增加一条正式关系；现1440产品/1724关系，原产品核心/关系/来源、分类与待确认进度保持。67后端+28队列+14隔离浏览器+4真实目录浏览器测试和构建通过，截图/命令见docs/PRODUCT_DISCOVERY_REPORT.md。OpenCode Go/DeepSeek按本聊天明确授权完成独立只读静态审查；其没有运行测试，测试结果来自本地实际执行。
 
 - 当前正式结果（2026-10-29 18:27，252留档续采已发布）：新增229产品、补充31旧产品、新增280关系/203类型覆盖；正式1440产品（546开源/894商业）、1723关系，主目录1592/1646，54类无案例。252输入另29已复核留档（19边界/10证据不足）、7待复核/13未完成；原5内容过滤不动，全部当前待处理25，清单included-retained-final-20261029-pending-all.json；研究留档清单同前缀-retained.json。3105来源SHA、588成功会话实际模型/完整提示、322问题去向全量程序核对，77候选分层正文片段+风险扩展，非252逐字精读。14条桌面/移动端候选与3条许可缺失/冲突共17关系暂缓；完整自托管Web应用不额外要求多租户/部署实测。1211旧产品核心、1443旧关系/全历史来源、1241非本轮进度行、53待确认和目录范围保持；Gibbon当前or-later观察仅加研究不覆写旧固定版本，Massing关系依直接GitHub正文保持旧主页。备份/副本重复导入/完整性与10项本地API检查通过，第三方未部署实测。var/collection/retained-final-review-20261029/publication.json及正式data/collections/included-retained-final-20261029-report.json为发布标记；本轮及旧15/44/274冻结输入不重跑，旧基线integrate.py不可复用。最新模型曾Go/OpenDesign混合且有3个app-Luna历史，均保留实际来源，Luna API未调用；后续新工作默认用户最新指定Go DeepSeek，不能自动换模型。完成检查随发布关闭，防重复导入。

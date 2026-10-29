@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Columns3, ExternalLink, Search, X } from "lucide-react";
 import { useResource, type Application, type Comparison, type ProductResults } from "./api";
+import { SaveButton } from "./saved";
 
 const CRM = "customer-relationship-management-crm";
 const date = (value?: string) => value ? value.slice(0, 10) : "日期未记录";
@@ -32,13 +33,14 @@ export function ProductSearchForm({ initial = "", home = false }: { initial?: st
   </form>;
 }
 
-function ProductCard({ app, from }: { app: Application; from: string }) {
-  return <article className="product-card"><div className="product-card-top"><span className="product-monogram" aria-hidden="true">{app.name.slice(0, 1).toUpperCase()}</span><Tracks app={app} /></div>
+export function ProductCard({ app, from, children }: { app: Application; from: string; children?: ReactNode }) {
+  return <article className="product-card"><div className="product-card-top"><span className="product-monogram" aria-hidden="true">{app.name.slice(0, 1).toUpperCase()}</span><div className="product-card-actions"><Tracks app={app} /><SaveButton id={app.id} name={app.name} /></div></div>
     <h2><Link to={productUrl(app.id, from)}>{app.name}<ArrowUpRight size={18} /></Link></h2>
     <p className="product-summary">{app.summary || "简介尚未记录"}</p>
     <div className="product-types">{app.types?.slice(0, 2).map(t => <Link key={t.slug} to={`/types/${t.slug}`}>{t.name_zh || t.name}</Link>)}{(app.types?.length || 0) > 2 && <span>+{app.types!.length - 2} 类型</span>}</div>
     <div className="product-card-bottom"><span>{app.license || (app.tracks?.includes("open_source") ? "许可待核实" : "商业基本索引")}</span><Link to={productUrl(app.id, from)}>了解产品 <ArrowRight size={14} /></Link></div>
     <p className="product-date"><Status app={app} /><span>{app.checked_at_basis === "recorded" ? "核对" : "来源"} {date(app.checked_at)}</span></p>
+    {children}
   </article>;
 }
 
@@ -87,11 +89,11 @@ export function ProductPage() {
   if (!app) return <main id="main" className="page discovery-page"><Loading /></main>;
   const open = app.tracks?.includes("open_source");
   const from = location.pathname + location.search;
-  const contextLeaf = back.match(/^\/types\/([^?/#]+)/)?.[1];
+  const contextLeaf = back.match(/^\/types\/([^?/#]+)/)?.[1] || (back.startsWith("/shortlist") ? new URL(back, window.location.origin).searchParams.get("type") : undefined);
   const comparisonType = app.types?.find(t => t.slug === contextLeaf) || app.types?.[0];
   return <main id="main" className="page product-page">
-    <Link className="return-context" to={back}><ArrowLeft size={15} />{back.startsWith("/types/") ? "返回应用类型" : back.startsWith("/compare") ? "返回产品比较" : "返回产品搜索"}</Link>
-    <header className="product-header"><div><p className="eyebrow">SOFTWARE, WITH SOURCES</p><Tracks app={app} /><h1>{app.name}</h1><p className="product-lede">{app.summary || "简介尚未记录"}</p><div className="product-actions">{app.homepage && <a className="button primary-button" href={app.homepage} target="_blank" rel="noreferrer">访问官网 <ArrowUpRight size={16} /></a>}{open && app.repository_url && <a className="button" href={app.repository_url} target="_blank" rel="noreferrer"><Code2 size={16} />代码仓库 <ArrowUpRight size={14} /></a>}{comparisonType && <Link className="text-action" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id })}#compare-picker`}><Columns3 size={16} />与同类产品比较</Link>}</div></div><aside className="product-proof"><p className="eyebrow">RESEARCH NOTE</p><EvidenceNote app={app} /><p className="product-date">{app.checked_at_basis === "recorded" ? "最近资料核对" : "最近来源采集"} · {date(app.checked_at)}</p></aside></header>
+    <Link className="return-context" to={back}><ArrowLeft size={15} />{back.startsWith("/shortlist") ? "返回候选清单" : back.startsWith("/types/") ? "返回应用类型" : back.startsWith("/compare") ? "返回产品比较" : "返回产品搜索"}</Link>
+    <header className="product-header"><div><p className="eyebrow">SOFTWARE, WITH SOURCES</p><Tracks app={app} /><h1>{app.name}</h1><p className="product-lede">{app.summary || "简介尚未记录"}</p><div className="product-actions"><SaveButton id={app.id} name={app.name} />{app.homepage && <a className="button primary-button" href={app.homepage} target="_blank" rel="noreferrer">访问官网 <ArrowUpRight size={16} /></a>}{open && app.repository_url && <a className="button" href={app.repository_url} target="_blank" rel="noreferrer"><Code2 size={16} />代码仓库 <ArrowUpRight size={14} /></a>}{comparisonType && <Link className="text-action" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id })}#compare-picker`}><Columns3 size={16} />与同类产品比较</Link>}</div></div><aside className="product-proof"><p className="eyebrow">RESEARCH NOTE</p><EvidenceNote app={app} /><p className="product-date">{app.checked_at_basis === "recorded" ? "最近资料核对" : "最近来源采集"} · {date(app.checked_at)}</p></aside></header>
     <div className="product-reading"><div className="product-main-reading">
       {open && <section className="reading-section"><p className="eyebrow">WHAT IT DOES</p><h2>核心能力</h2><Facts values={app.features} />{!!app.unsupported_features?.length && <div className="explicit-limit"><h3>有明确证据的不支持</h3>{app.unsupported_features.map(f => <p key={f.name}>{f.name} <a href={f.source_url} target="_blank" rel="noreferrer">依据 <ExternalLink size={12} /></a></p>)}</div>}<p className="quiet-note">仅列出已记录的能力与边界，未列出不代表不支持。</p></section>}
       <section className="reading-section"><p className="eyebrow">WHERE IT FITS</p><h2>所属应用类型</h2><Types app={app} />{!open && <p className="quiet-note">商业产品保留基本索引，深入能力、技术与部署信息尚未核对。</p>}</section>

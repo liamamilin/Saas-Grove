@@ -1,0 +1,81 @@
+import { test, expect, type Page } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+test.skip(!process.env.SAAS_E2E_REAL, "Real shortlist acceptance restores the formal catalog.");
+const OUT = "../docs/local-shortlist";
+
+async function saveFromSearch(page: Page, name: string) {
+  await page.goto(`/search?${new URLSearchParams({ q: name })}`);
+  await page.getByRole("button", { name: `收藏 ${name}`, exact: true }).click();
+  await expect(page.getByRole("button", { name: `取消收藏 ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true");
+}
+
+test("real desktop: collect four products, compare CRM only, return and persist", async ({ page }) => {
+  await mkdir(OUT, { recursive: true });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  const errors: string[] = [];
+  page.on("pageerror", e => errors.push(e.message));
+  await saveFromSearch(page, "Twenty");
+  await page.screenshot({ path: `${OUT}/saved-search-desktop.png`, fullPage: false });
+  await saveFromSearch(page, "EspoCRM");
+  await saveFromSearch(page, "Zulip");
+  await page.goto("/search?q=Salesforce");
+  await page.getByRole("heading", { name: "Salesforce Sales Cloud", exact: true }).getByRole("link").click();
+  await page.getByRole("button", { name: "收藏 Salesforce Sales Cloud", exact: true }).click();
+  await page.reload();
+  await expect(page.getByRole("button", { name: "取消收藏 Salesforce Sales Cloud", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.screenshot({ path: `${OUT}/saved-detail-desktop.png`, fullPage: true });
+  await page.getByRole("link", { name: /候选清单，已收藏 4 个产品/ }).click();
+  await expect(page.locator(".shortlist-entry")).toHaveCount(4);
+  await page.getByRole("checkbox", { name: "选择比较 Twenty", exact: true }).check();
+  await expect(page.getByRole("checkbox", { name: "选择比较 Zulip", exact: true })).toBeDisabled();
+  await page.getByLabel("清单应用类型", { exact: true }).selectOption("customer-relationship-management-crm");
+  await expect(page.locator(".shortlist-entry")).toHaveCount(3);
+  for (const name of ["Twenty", "EspoCRM", "Salesforce Sales Cloud"]) await page.getByRole("checkbox", { name: `选择比较 ${name}`, exact: true }).check();
+  await page.reload();
+  await expect(page.locator(".shortlist-card-choice input:checked")).toHaveCount(3);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: `${OUT}/shortlist-desktop.png`, fullPage: true });
+  await page.getByRole("link", { name: "开始比较", exact: true }).click();
+  await expect(page.locator(".comparison-table thead th")).toHaveCount(4);
+  await expect(page.locator(".comparison-table")).toContainText("资料未提供 / 未核实");
+  await page.reload();
+  await expect(page.locator(".comparison-table thead th")).toHaveCount(4);
+  await page.screenshot({ path: `${OUT}/comparison-desktop.png`, fullPage: true });
+  await page.getByRole("link", { name: "返回继续选择", exact: true }).click();
+  await expect(page.getByLabel("清单应用类型", { exact: true })).toHaveValue("customer-relationship-management-crm");
+  await expect(page.locator(".shortlist-card-choice input:checked")).toHaveCount(3);
+  await page.getByRole("heading", { name: "Twenty", exact: true }).getByRole("link").click();
+  await page.getByRole("link", { name: "返回候选清单", exact: true }).click();
+  await page.getByRole("button", { name: "取消收藏 Salesforce Sales Cloud", exact: true }).click();
+  await expect(page.locator(".shortlist-entry")).toHaveCount(2);
+  await page.reload();
+  await expect(page.locator(".shortlist-entry")).toHaveCount(2);
+  expect(errors).toEqual([]);
+});
+
+test("real mobile: save via both entry points, select a pair and compare", async ({ page }) => {
+  await mkdir(OUT, { recursive: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await saveFromSearch(page, "Twenty");
+  await page.goto("/search?q=EspoCRM");
+  await page.getByRole("heading", { name: "EspoCRM", exact: true }).getByRole("link").click();
+  await page.getByRole("button", { name: "收藏 EspoCRM", exact: true }).click();
+  await page.getByRole("link", { name: /候选清单，已收藏 2 个产品/ }).click();
+  await expect(page.locator(".shortlist-entry")).toHaveCount(2);
+  await page.getByLabel("清单应用类型", { exact: true }).selectOption("customer-relationship-management-crm");
+  for (const name of ["EspoCRM", "Twenty"]) await page.getByRole("checkbox", { name: `选择比较 ${name}`, exact: true }).check();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.screenshot({ path: `${OUT}/shortlist-mobile.png`, fullPage: true });
+  await page.getByRole("link", { name: "开始比较", exact: true }).click();
+  await expect(page.locator(".comparison-table thead th")).toHaveCount(3);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `${OUT}/comparison-mobile.png`, fullPage: false });
+  const region = page.getByRole("region", { name: "产品比较表，可横向滚动" });
+  await region.evaluate(el => { el.scrollLeft = el.scrollWidth; });
+  await expect(page.getByLabel("替换 Twenty", { exact: true })).toBeInViewport();
+  await page.getByRole("link", { name: "返回继续选择", exact: true }).click();
+  await expect(page.locator(".shortlist-card-choice input:checked")).toHaveCount(2);
+  await page.reload();
+  await expect(page.locator(".shortlist-entry")).toHaveCount(2);
+});
