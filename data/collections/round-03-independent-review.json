@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "review_id": "round-03-independent-review",
+  "review_date": "2026-10-23",
+  "reviewer": {
+    "role": "Sol",
+    "agent": "round03_independent_review",
+    "independent_of_builders": true,
+    "builders": [
+      "root",
+      "Luna"
+    ],
+    "read_only": true
+  },
+  "recorded_by": "root_from_independent_review_messages",
+  "decision": "content_review_passed",
+  "open_findings": [],
+  "reviewed_totals": {
+    "entries": 17,
+    "open_source": 5,
+    "commercial": 12,
+    "accepted_leaf_count": 18,
+    "held_leaf_count": 18,
+    "source_references_hash_checked": 62,
+    "source_hash_mismatches": 0
+  },
+  "reviewed_batches": [
+    {
+      "path": "data/collections/round-03-commerce.json",
+      "sha256": "2cd6df2c50da6931ce1653f8013aaa48d4f26fbdc08f893c0fedb775b80ee69d",
+      "entries": 11,
+      "source_references": 32,
+      "accepted_slugs": [
+        "checkout-platform",
+        "classifieds-platform",
+        "seller-portal",
+        "supplier-commerce-network",
+        "ad-delivery-platform",
+        "ad-server",
+        "consumer-research-platform",
+        "customer-data-platform-cdp",
+        "marketing-personalization-platform",
+        "mobile-marketing-platform",
+        "programmatic-advertising-platform",
+        "recommendation-personalization-engine"
+      ],
+      "held_slugs": [
+        "mobile-commerce-application",
+        "print-on-demand-commerce-platform"
+      ]
+    },
+    {
+      "path": "data/collections/round-03-knowledge.json",
+      "sha256": "d89f5006b30e4589090b27d64f309f797be70fec24fa6b2767f593d90b0c3e5d",
+      "entries": 2,
+      "source_references": 5,
+      "accepted_slugs": [
+        "virtual-phone-application",
+        "directory-application"
+      ],
+      "held_slugs": [
+        "interest-based-social-network",
+        "neighborhood-social-network",
+        "professional-social-network",
+        "softphone-application",
+        "comparison-platform",
+        "data-explorer",
+        "dictionary-application",
+        "general-web-search-engine",
+        "information-portal",
+        "knowledge-graph-explorer",
+        "vertical-search-engine"
+      ]
+    },
+    {
+      "path": "data/collections/round-03-creative.json",
+      "sha256": "09e54ba26bab0c8ea398a61e4ae39f9c2dcf5aa7b32f1f02db3fdebc7cdea2cf",
+      "entries": 4,
+      "source_references": 25,
+      "accepted_slugs": [
+        "3d-rendering-application",
+        "image-viewer",
+        "photogrammetry-application",
+        "previsualization-application"
+      ],
+      "held_slugs": [
+        "dj-software",
+        "image-conversion-application",
+        "live-music-performance-software",
+        "stop-motion-animation-application",
+        "tethered-shooting-application"
+      ]
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "R03-01",
+      "location": "AWS Graph Explorer",
+      "issue": "Docker可部署和外部图持久化不足以证明服务侧工作台；用户连接、历史、偏好都在IndexedDB。",
+      "resolution": "完整条目及源保存在knowledge-held，叶子继续边界未决，不导入。"
+    },
+    {
+      "id": "R03-02",
+      "location": "PhotoPrism技术栈",
+      "issue": "原MySQL8支持陈述与已挂官方资料相反。",
+      "resolution": "改为SQLite或MariaDB10.5.12+；MySQL8支持已停止。"
+    },
+    {
+      "id": "R03-03",
+      "location": "PhotoPrism许可",
+      "issue": "许可说明漏记第18节品牌及商标条款。",
+      "resolution": "明确软件AGPL-3.0与保留的品牌/商标资产边界；不将商标条款直接等同非开源代码限制。"
+    },
+    {
+      "id": "R03-04",
+      "location": "WebODM部署",
+      "issue": "需Docker/数据库配置直接证据。",
+      "resolution": "补官方installation和docker-compose.yml，证实组件及持久项目数据。"
+    },
+    {
+      "id": "R03-05",
+      "location": "Boords回放",
+      "issue": "只有animatic链接不足以证明时长。",
+      "resolution": "补export-formats，证明帧时长、默认2秒及MP4导出。"
+    },
+    {
+      "id": "R03-06",
+      "location": "Vectary边界",
+      "issue": "要求整个产品主要交付图像，因其他3D/AR功能否定子工作流，过严。",
+      "resolution": "核实完整渲染子工作流和持续团队项目；补PNG与分辨率控制，明确未核实独立质量滑块。"
+    },
+    {
+      "id": "R03-07",
+      "location": "待确认记录语义",
+      "issue": "no_match/no_case可能将单候选不足推广为整叶无案例。",
+      "resolution": "改为insufficient_evidence或case_found_boundary_unresolved，不自动归档。"
+    }
+  ],
+  "material_boundary_checks": {
+    "Gorse": "有用户/物品管理、反馈推荐查看、导入导出及任务监控的完整推荐服务；不推广裸算法。",
+    "Syncee": "客户自有店铺订单与独立供应商间的软件路由/同步；实物供给履约不据此纳入。",
+    "AdKernel": "客户控制供需两方、交易、定价和逐次auction/bid/fee记录。",
+    "AWS_Graph_Explorer": "图谱功能和Apache许可成立，服务侧工作台边界未证，候选留档。",
+    "PhotoPrism": "服务端持久图库加非修改性查看控件；同时管理照片不否定查看核心。",
+    "Vectary": "持续团队场景、相机及高分辨率PNG/画幅控制成立；不声称有独立质量滑块。"
+  },
+  "verification_limits": [
+    "内容复核基于本地官方来源快照及其哈希，未独立重抓全部上游。",
+    "未运行第三方应用或执行部署实测。",
+    "只读审查员不执行写数据库/浏览器产物的测试；后续执行日志由独立worker提供。",
+    "商业仅基本索引；保留候选不表示不存在其他合格案例。"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "许可证标识可更精确：LICENSE 文件头授予的是第 3 版（未写 'or later'），批次记为 AGPL-3.0；建议在 license 字段使用 AGPL-3.0-only，或在 rationale 中明确 only 与 or-later 的区别。",
+    "渲染音频核心仅有 README 'Session' 的一条 'Record to WAV' 功能声明，用户指南快照中没有 WAV/MIDI 导出流程；作为官方功能声明可以接受，但证据较薄，若需更强证明可补导出界面或文档。",
+    "服务形态依赖 README 'Hosting'（GitHub Pages）与 landing.html 的 'Open mpump' 入口；实际 app.html 未被抓取，首页快照 0e5d74bcdbf5797f665bb0c31ee0415a8000e2b4c94809919433cb3e4ce08659 只是跳转壳。该缺口已记录，未做运行时验证。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，而 batch/research 已绑定 github:1179068604；通过后应同步叶子进度，避免入库状态与批次不一致。",
+    "README 的 Project Layout 写有 server/frontend，仓库页顶层树显示 mpump/worker/link-bridge；'完整应用源码'结论仍可由 mpump、worker、link-bridge 支撑，但目录层级描述可再对齐。",
+    "内置采样包与第三方依赖未单独核对授权，license_review 已将其标为未覆盖范围；若分发依赖这些素材，建议补充其许可信息。",
+    "被排除的 ComposeYogi、Groovie、orDrumbox、Drumhaus、Hydrogen、MAGIX 的依据在 research.json 中有记录，但其快照不在 REVIEW_SOURCES.json 中，本次未能独立复核这些排除理由。"
+  ],
+  "leaf_checks": {
+    "beat-making-application": {
+      "status": "passed",
+      "definition_core": {
+        "sound_source_layer": "PASS。README 'Audio Engine' 记载 808/909 调校的 9 声部合成鼓组、8 套内置采样包（CR-78、Drumulator、DMX、LinnDrum、TR-606、TR-707、TR-808、TR-909）、自定义采样载入，以及独立的贝斯与合成器声部；属于可选择声音素材库/浏览器。",
+        "rhythm_pattern_composition": "PASS。README 'Three Views' 与 'Editing' 记载完整步进网格编辑器、16 或 32 步 pattern、逐格编辑半音/力度/slide、pattern 复制粘贴与保存编辑后的 pattern；用户创作和复用的单位是 pattern 而非单个音频文件。",
+        "pattern_arrangement": "PASS。README 'Song Mode' 记载捕获场景（pattern、音色、mixer、BPM 快照），在横向编排条上按 1/2/4/8/16/32 小节放置场景，支持过渡类型、循环或单次播放，并可保存/分享歌曲。",
+        "rendered_audio": "PASS WITH NOTE。README 'Session' 明确列出 'Record to WAV'，是对音频输出的官方功能声明；但用户指南快照 5ee3a8ea0b333f5b51eaf7726adc96d6e02804e320c1f97ca0c2df833b2ceebd 没有 WAV/MIDI 导出流程正文，因此证据是功能条目而非逐步工作流，采集方已如实记录该缺口。",
+        "overall": "四项定义性核心均有官方 README 正文支撑，产品不是单纯的合成器/引擎，也不是仅靠简介或元数据成立的条目。"
+      },
+      "service_form": "PASS WITH NOTE。README 'Hosting' 说明 mpump 托管于 GitHub Pages；landing.html 提供指向 app.html 的 'Open mpump' 入口，并称其为浏览器鼓机/律动盒；会话、pattern 与设置保存在浏览器 localStorage，无账号，分享链接经 s.mpump.live 中继。公开首页快照仅为跳转壳，app.html 本身未被抓取，故未独立检视实时界面；未做运行时测试。",
+      "identity_and_track": "PASS。GitHub 仓库页快照 32a4970b6156f43db9f53894577f9bde994e4e24203e2dccb7d5de8069700985 显示 repository_id=1179068604、full_name=gdamdam/mpump、public、非 fork；批次 id github:1179068604 与 track=open_source 一致，homepage 与 repository_url 也匹配。",
+      "license": "PASS。LICENSE 快照 5a8b6f569fdaed4d1f59509ba560e38c8f4054b71932ef6c852224f9b32c729b 是完整的 672 行 GNU AGPL v3 全文，含序言、TERMS AND CONDITIONS、END OF TERMS AND CONDITIONS 与 How to Apply；文件头授予第 3 版，README 的 License 段同样写 AGPL-3.0，批次按仓库范围记录。README 另有商标条款，仅限制以 'mpump' 名义提供衍生项目/服务，属品牌限制而非代码许可限制。未见单独的社区版或专有版，仓库呈现为完整代码库。内置采样包与第三方依赖未单独核对授权，批次已将其列为未覆盖范围。",
+      "type_boundary": "PASS。landing.html 正文明写 mpump 'is not trying to be a full DAW in the browser. It is a fast loop instrument designed for motion'；README 未描述多轨音频录音、波形编辑或任意音频工程工作流，故不属于 DAW。内置 1210+ patterns 是步进网格上的 JSON 音符/力度数据，用户在其上改写节奏型，不是拼接预录 loop 音频，故不属于 Loop-based Music Production；也不以播放成品轨道为中心，故不属于 DJ Software。",
+      "gaps_recorded": "首页为跳转壳且 app.html 未抓取；WAV 导出仅为 README 单条功能声明；用户指南无导出工作流；采样包/第三方依赖许可未单独核实；input.json progress 仍为 boundary_unresolved 且 application_ids 为空，与 batch/research 的绑定不一致。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用读取、检索与列目录工具，未运行 shell、未写文件、未做部署或运行时测试，也未重算快照 SHA。只读取了 REVIEW_SOURCES.json 列出的 6 份 mpump 快照；research.json 中 ComposeYogi、Groovie、orDrumbox、Drumhaus、Hydrogen、MAGIX 等被排除候选的快照不在该清单内，未能独立复核其排除理由。公开应用 app.html 未被快照覆盖，首页仅证明跳转壳存在；WAV 导出仅见 README 功能条目。input.json 的叶子进度未随批次更新，结论以 batch/research 与实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-041/ses_groveopendesignp041review2_1793168603.jsonl",
+  "batch_sha256": "87a71742c78224ca6670b6bbca65ccc0b4cefee17150c7a159676193c0d8b6f3",
+  "research_sha256": "c116786cdc78753b440268d8fe74cb99ca62922c019660864c99659964dd0dbc",
+  "input_sha256": "c1958125ed8b50c3d8656f14db37c760114305fbc871870682c67ec5e813368e"
+}

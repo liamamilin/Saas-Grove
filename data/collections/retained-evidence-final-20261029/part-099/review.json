@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "批次 features 中“分析结果可在 CI/IDE 中使用”表述偏宽：快照可证的是主分支分析结果进入 CI 流水线与平台 Web UI（issue/质量配置/质量门禁），IDE 侧属 README 所列独立产品 SonarQube for IDE，PR 装饰被 README 明确列为商业版能力。建议改写为“结果在 CI 与平台 Web UI 中消费”，避免读者误读社区版含 IDE/PR 能力。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "许可证快照 a39e18… 的 URL 标注为 GitHub /license 接口，但正文以 contents 载荷形态给出 LICENSE.txt（含完整 base64 的 GNU LGPL v3 全文、size 7651，并带 spdx_id=LGPL-3.0）。证据本身足以确认完整许可证与 SPDX 标识，仅提示 kind/接口形态描述可与快照实际结构对齐，便于后续机器校验。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "开源完整性提示：README 第 168-195 行说明 UI（sonarqube-webapp）位于另一仓库并作为 Maven 依赖打包进发行物，本单元未附该仓库的许可证快照。当前“社区版开源”结论由本仓库 LGPL-3.0 全文 + README 自述“free and open source edition / this repository is its source”支撑，可接受；若后续做更严格的发行物级许可证审查，可补 sonarqube-webapp 的许可证快照。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "research.json 的 service_boundary 与 fetch_outcomes 引用了 Semgrep 的 2026-10-24 历史快照（api.github.com/repos/semgrep/semgrep 与 README），但 REVIEW_SOURCES.json 未收录这两个快照，本单元无法复核该排除理由，只能按留档描述接受；不影响本叶以 SonarQube 社区版成立的结论。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "input.json 仍记录 progress.case_status=boundary_unresolved 且 application_ids 为空，而 research.json 已为 case_found + github:1222504。属上游状态同步问题，不影响内容核对，建议在写回时统一进度字段。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "homepage 填公司站点 https://sonarsource.com；README 给出的产品页为 https://www.sonarsource.com/products/sonarqube。非事实错误，仅为可读性建议。"
+    },
+    {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "note": "自定义规则“团队可编写自己的规则”这一定义要点在本单元快照中只体现为启用/停用、调参、自定义质量配置与继承（understanding-quality-profiles 第 29-37、45-75 行），未直接证明可编写自定义规则；定义核心不依赖该子项，故不阻断，可在 features 措辞上避免超出证据。"
+    }
+  ],
+  "leaf_checks": {
+    "static-code-analysis-platform": {
+      "slug": "static-code-analysis-platform",
+      "application_id": "github:1222504",
+      "name": "SonarQube Community Build",
+      "track": "open_source",
+      "definition_core": {
+        "static_without_execution": "通过。README 第 21 行：“Its static analysis applies techniques such as symbolic execution and data and control flow analysis to inspect your code”；analysis-overview 第 11 行定义 automated code review 为“static code analysis tools … review and analyze the source code”，第 31 行分析器“retrieves the files to be analyzed from the file system and analyzes them according to the configured quality profiles”，分析对象为源文件而非运行中的程序（编译型语言虽有构建步骤，但分析输入仍是源码文件）。",
+        "packaged_configurable_rule_catalog": "通过。understanding-quality-profiles 第 5 行“Quality profiles … are composed of a list of rules to check your code against”；第 11-13 行内置 Sonar way 三档配置且可建自定义 profile；第 27-37 行按语言绑定规则集、启停规则、配置严重度与规则参数；第 45-75 行继承、覆盖、按项目关联（第 85-91 行）。规则目录由官方/社区维护且可配置，符合第 2 项结构。",
+        "located_actionable_findings": "通过。issues/introduction 第 5-7 行“When a coding rule is broken, an issue is raised”，带 severity；第 12 行 primary/secondary location 与 execution flows（source→sink）；第 13-17 行状态生命周期（Accepted/False positive）、指派、标签、评论；README 第 21 行“find bugs, vulnerabilities … tell you exactly what to fix and why”。定位与可操作说明齐备。"
+      },
+      "service_form": "通过。自托管平台形态：README 第 23 行社区版为 SonarQube 平台的开源版本，第 143-150 行给出构建发行包并启动服务的步骤；analysis-overview 第 19 行扫描器运行在 CI 主机并把结果送到平台端计算、计算质量门禁、生成报告；第 33-36 行平台异步计算并在新代码与整体代码上提升 issue；配以质量配置管理与 issue 管理 UI（user-guide 页面），构成持续使用的服务端 + Web UI 应用，而非一次性命令行工具。",
+      "identity_and_track": "通过。repository_metadata 快照为 {\"id\":1222504,\"full_name\":\"SonarSource/sonarqube\",\"fork\":false}，与批次 id github:1222504、repository_url、github_repository_id 一致；README 第 23 行明确“This repository holds the source of the SonarQube Community Build”，名称与仓库身份对得上；track=open_source 与 LGPL-3.0 许可证一致。",
+      "license": "通过。许可证快照含完整 GNU Lesser General Public License Version 3（2007-06-29）base64 正文，LICENSE.txt size=7651，并含 spdx_id=LGPL-3.0；README 第 13 行徽章与第 217-221 行“Licensed under the GNU Lesser General Public License, Version 3.0”一致；仓库非 fork、归属 SonarSource 组织，无许可证与仓库身份冲突。",
+      "community_edition_boundary": "通过。README 第 38-67、97 行明确 SonarQube Server/Cloud 商业版额外包含更深分析、SCA、深度污点 SAST、secrets、IaC、架构管理、分支分析与 PR 装饰、组合/报表、企业治理与 Remediation Agent；analysis-overview 第 7、13-15 行说明社区版仅主分支分析；understanding-quality-profiles 第 39-41 行把 Prioritized 规则标注为 SonarQube Server 能力。批次 summary 与 service_boundary 未把这些商业能力计入本叶，边界与快照一致。",
+      "cases": "本叶收录 1 条：github:1222504（SonarQube Community Build）。research.json assessment=case_found，且 search_attempts/fetch_outcomes 记录了 SonarQube 官方仓库与社区版文档的实际抓取，另有一条 fetched_but_not_cited（analyzing-source-code/overview.md）如实留档；Semgrep 排除过程有留档但对应快照未随本单元提供。",
+      "gaps": "无阻断性缺口。未复核项：Semgrep 历史快照（未在 REVIEW_SOURCES.json 中提供）、sonarqube-webapp 仓库许可证、运行验证（runtime_tested=false，任务不要求）。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用 read/grep/glob 读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 6 份快照（均按其 path 原样读取），未运行 shell、未写文件、未联网补采、未访问其他单元。GitHub API 快照为单行 JSON，read 显示在 2000 字符处截断，仅能以 grep 命中确认字段存在（id/full_name/fork=false/spdx_id=LGPL-3.0/完整 base64 许可证正文等），因此对这些字段的确认基于命中而非全文字段级浏览；文档快照为完整 Markdown 正文。research.json 提到的 Semgrep 两份 2026-10-24 历史快照不在本单元快照清单内，其排除理由无法在本单元独立复核。未进行部署测试与额外价格/架构研究（任务亦不要求）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-099/ses_groveopendesignp099review1_1793199475.jsonl",
+  "batch_sha256": "78db26bd0fac0422c6e86e54408757c384239ef9ce4c5faf2fce5661aa911fd1",
+  "research_sha256": "b36ce1c811f93da1e5e562a5bddc7f958b8a498036432ba7ea7c24859ce5747c",
+  "input_sha256": "094ad555b7294d475470477c3b90f0a1235473dbe054cedab38df53d4c217e9d"
+}

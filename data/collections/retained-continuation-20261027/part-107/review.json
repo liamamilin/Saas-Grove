@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Birdeye 的 leaf_match.reason 把 'Ratings, review counts, and responses, tracked over time' 作为引文；快照正文实际可检出 'aggregates review data for deep insights into ratings, counts, and responses'、'scores have changed over time'、'Reputation Score by Source/Location' 与 'Track response time and rates'。建议改为转述或按快照原文引用，避免引文与原文措辞不完全一致；不影响基本真实性和类型匹配。",
+    "Supermetrics 的 'dashboards' 明确出现在 Studio 页 title/JSON-LD，正文核心证据是 'Live data from all your Supermetrics data sources' 与 'Every channel, together'。reason 已区分元数据与正文，但建议继续以正文陈述为主，避免让元数据单独承担核心工作流证明。",
+    "Klue 条目的 homepage 写为 https://klue.com/，但实际抓取来源仅为 /compete-agent；若需要首页级身份证明，可补首页快照或在条目中明确来源范围。当前匹配结论基于 Compete Agent 页正文，不受影响。",
+    "Lotame 首页把 Spherical 称为 'data collaboration platform'，未逐字使用 'DMP' 或 'audience management platform'；DMP/受众管理平台的别名是定义层的分类推断，不是厂商自述。建议在 reason 中明确这是按能力结构匹配。",
+    "本单元 5 个条目全部为 commercial，没有开源条目，因此完整许可证、仓库身份和社区版边界检查不适用；research.json 已记录 GitHub 检索命中多为库、演示或垂直项目（如 Robyn、LightweightMMM），未按完整开源应用收录，留档可接受。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids 为空；本次以 batch.json 和 research.json 为准，若下游依赖 progress 字段需另行同步，这不是内容缺陷。"
+  ],
+  "leaf_checks": {
+    "audience-management-platform": {
+      "application_id": "commercial:lotame",
+      "status": "pass",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 data/collections/sources/1a08edb7...txt（https://www.lotame.com/）。正文写明 Spherical 'helps marketers connect, enrich, and activate audience data'；能力卡包括 'Audience Creation & Modeling'（trusted data sources、AI/machine learning、lookalikes）、'First-Party Data Onboarding'（'Connect fragmented marketing and advertising data'）、'Audience Enrichment' 与 'Identity Resolution & Activation'（'Identify unique users across various channels and devices'）。",
+      "definition_core": "支持可定向受众的创建/建模、数据基础与向外激活，符合受管受众结构的商业基本匹配。首页未逐字自称 DMP 或 audience management platform，DMP 等价关系来自 input.json 的定义与分类推断；suppression 未被正文单独展开。",
+      "saas_form": "厂商托管的商业平台，官方产品页和演示 CTA 可证持续服务形态，未主张自托管或社区版。",
+      "id_track": "commercial:lotame；track=commercial；leaf_matches 的 slug 合法；source URL 与 sha256 均与 REVIEW_SOURCES.json 一致。",
+      "license": "不适用：无开源条目。research.json 记录 GitHub 搜索 17 条未见完整应用、websearch 无结果；未把数据仓库、隐私政策或垂直项目计为案例。"
+    },
+    "brand-reputation-management": {
+      "application_id": "commercial:birdeye",
+      "status": "pass",
+      "basis": "读取 76a00d8a...txt（https://birdeye.com/reviews/）与 6a2fdac9...txt（https://birdeye.com/reputation-score/）。评论页正文写明 'Jay generates, responds, and markets reviews at every location'，并有 Review generation agent、Review response agent、'Every rating and review, from every site, in one place' 与 Ticketing Agent；Reputation Score 页正文写明聚合评论数据、ratings/counts/responses 洞察、scores changed over time、Reputation Score by Source/Location 及 response time/rates。",
+      "definition_core": "覆盖品牌/门店实体、第三方评论信号捕获、逐条回复/征集/问题路由，以及随时间追踪的声誉状态，符合定义性核心。多门店范围有 'at every location' 和按地点比较支撑；品牌→区域→门店三级权限层级未被正文逐字证实，未据此断言。",
+      "saas_form": "多门店商业 SaaS，官方产品页、演示与定价入口可证持续服务形态。",
+      "id_track": "commercial:birdeye；track=commercial；slug 合法；三个来源 URL/sha256 与 REVIEW_SOURCES.json 一致。",
+      "license": "不适用：无开源条目。research.json 记录 GitHub 搜索 110 条未见完整可核验应用、websearch 无结果。"
+    },
+    "competitive-intelligence-platform": {
+      "application_id": "commercial:klue",
+      "status": "pass",
+      "basis": "读取 ff6e7c03...txt（https://klue.com/compete-agent）。正文写明 'Automatically collect, curate, and share competitive intel throughout your organization'；有 Research Analyst、Competitor Profiles、'Build dynamic battlecards ... for your Tier 1 competition'、'analyze win-loss patterns and competitive signals' 及带引用的实时回答等内容。",
+      "definition_core": "覆盖被追踪竞争实体、持续收集、可复用知识（战斗卡）和面向内部团队的分发，并回接 win/loss，符合面向内部的常设竞争情报循环。来源是产品/agent 页而非首页，但核心工作流由正文支撑。",
+      "saas_form": "厂商托管的商业平台，官方产品页与演示 CTA 可证 SaaS 形态。",
+      "id_track": "commercial:klue；track=commercial；slug 合法；来源 URL/sha256 与 REVIEW_SOURCES.json 一致。",
+      "license": "不适用：无开源条目。research.json 记录 GitHub 搜索 439 条，前列为垂直/演示项目，未见通用完整应用。"
+    },
+    "marketing-analytics-platform": {
+      "application_id": "commercial:supermetrics",
+      "status": "pass",
+      "basis": "读取 87f7b350...txt（https://supermetrics.com/）与 1dc44986...txt（https://supermetrics.com/products/supermetrics-studio）。Studio 页 title/JSON-LD 为 'AI dashboards with live marketing data'，正文写明 'Live data from all your Supermetrics data sources'、'Every channel, together'、dashboards/reports 与 'turn insights into campaign actions'；首页 Organization JSON-LD 自述为 Marketing Intelligence Platform，并说明 connect/manage/analyze/activate marketing data。",
+      "definition_core": "多源营销数据连接、跨渠道仪表盘/报告与营销洞察，符合组织侧营销分析平台的商业基本匹配。快照更强地体现 live data 与 dashboard 层，未逐字描述自有统一标准化存储；按商业基本真实性标准不阻断。",
+      "saas_form": "云 SaaS，官方页面提供 free trial/demo 入口，未主张自托管或社区版。",
+      "id_track": "commercial:supermetrics；track=commercial；slug 合法；两个来源 URL/sha256 与 REVIEW_SOURCES.json 一致。",
+      "license": "不适用：无开源条目。research.json 记录 GitHub 搜索 13 条均为个人/演示项目，websearch 无结果。"
+    },
+    "marketing-mix-modeling-application": {
+      "application_id": "commercial:lifesight",
+      "status": "pass",
+      "basis": "读取 7bad614c...txt（https://lifesight.io/）。正文写明 'Lifesight combines causal MMM, incrementality testing and incrementality-adjusted attribution with AI agents that plan, optimize and act within your rules'；有 'Planning Agent' 'Compare your budget scenarios'、'Compare channel mixes by marginal ROAS and approve each move' 以及 budget optimization 产品/方案链接。",
+      "definition_core": "覆盖汇总支出—结果建模（causal MMM）、渠道贡献/回报与预算情景/分配决策，符合 MMM 应用核心。页面未逐字声明 'aggregate only / no user identity'，但 MMM 与预算情景证据足以支持商业基本类型匹配。",
+      "saas_form": "厂商托管的商业测量平台，官方产品页与演示 CTA 可证 SaaS 形态。",
+      "id_track": "commercial:lifesight；track=commercial；slug 合法；来源 URL/sha256 与 REVIEW_SOURCES.json 一致。",
+      "license": "不适用：无开源条目。research.json 记录 GitHub 搜索 966 条，多为 Robyn、LightweightMMM 等建模库，未按持有企业数据并输出分配决策的完整应用收录。"
+    }
+  },
+  "limits": "只读初审；未运行 shell、未写文件、未读取其他单元。快照按 REVIEW_SOURCES.json 的 path 原样读取，但均为原始 HTML，部分正文位于超长单行中，使用定向字符串核对而非完整渲染；未执行 JavaScript，快照未包含的客户端渲染内容无法核对。未重算 SHA-256，未做线上复抓、价格/架构/部署或运行时测试；商业条目仅按厂商官方自述做基本真实性与类型匹配。本单元无开源条目，完整许可证和社区版边界检查不适用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-107/ses_groveopencodegop107review2_1793003231.jsonl",
+  "batch_sha256": "14f690ca20f31bc6286e60803f8ae9153549d48bbf661d877560b2638fd1197b",
+  "research_sha256": "193290c4dde0c0c65a362390bf364c54321adcb68e25fd0717d6d36f300e0102",
+  "input_sha256": "8528195c5cddc0b3e56813d08e27750751c526eb60fbd8c2e1344c0ead78d851"
+}

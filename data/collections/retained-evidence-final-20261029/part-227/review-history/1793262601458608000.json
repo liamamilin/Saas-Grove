@@ -1,0 +1,41 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "member-benefits-management",
+      "application_id": "commercial:verastly-compass",
+      "issue": "batch.json 只为该条目登记了 compass 与 chambers 两个营销页，但条目和 leaf_matches 进一步声称的“按会员等级可见、门户领取（代码/员工审批/即时记录）、活动/目录/委员会自动记录”等关键能力并不在这两个快照的正文中；这些内容实际见于 research.json 引用但未登记为批次来源的三篇帮助中心文档。leaf_matches 还把这些细节归述为“官方 Compass 产品页明确描述”，来源归属不准确。仅按条目自身列出的来源，无法完整复核定义核心中的验证—兑换闭环和等级门槛。",
+      "fix": "将 data/collections/sources/ 下已保留的三篇帮助中心快照（7e231c8a4b0263fd0bd53aa2668c4afbec6edf3b1af4ee03207cc9f52e81c5d2.txt、02b21494aa8ad257f4f72e869f70401144215f7ec78452893f8e66598082666a.txt、1be45f5c92e65127356d59294379c64904c1fe7365f4579b55af7ab11f2ed39a.txt）连同 URL、sha256、snapshot_path 补入 batch.entries[].sources 和 leaf_matches.source_urls，并同步更新 REVIEW_SOURCES.json；或者收窄 leaf_matches 的表述，只声称两个营销页可见的“权益目录、按等级的价值/自动记录、门户 ROI”，把领取与审批细节明确标注为帮助中心文档来源。"
+    }
+  ],
+  "non_blocking_notes": [
+    "摘要中的“dollar values per membership tier”容易被读成每个等级有独立美元值；帮助文档显示实际是每项权益一个 Estimated Value，再用 Membership Tiers 勾选适用等级。若库里要求精确的按等级定价语义，建议改为“带美元价值并按会员等级限定资格”。",
+    "帮助文档中的权益记录字段为 Name、Description、Estimated Value、Unit Label、Quantifiable、Auto-Source、Membership Tiers 和启用状态，未见独立的 provider、条款文本或到期日字段；领取说明、限额和停用开关在一定程度上承担了条款与有效期作用，但若叶子严格要求每项权益含提供商/条款/有效期，当前证据只能算部分覆盖。",
+    "Compass 是 Verastly CRM 的会员附加模块，不是独立部署的会员权益系统；作为商业 SaaS 附加模块可以成立，但产品身份和覆盖范围应在条目中保持“add-on”表述，避免被读成独立平台。",
+    "Access Development 仍是历史候选，研究记录说明旧快照只能证明折扣网络/福利计划运营和会员使用入口，未证明组织侧权益记录、资格校验与兑换管理，因此未建立批次关系，这一边界处理是合理的。",
+    "本单元没有开源条目，研究记录了对 Tendenci、CiviCRM、Galette、Admidio、Forus 等方向的检索和 Tendenci models.py 的阅读，并明确未保留完整开源应用；未主张任何开源许可证或社区版边界，因此无需补做许可证核对。",
+    "营销页的价格、竞品对比和“免费/包含”表述未做独立核验，本次只按商业基本真实性和类型匹配审查，不视为部署、价格或架构验证。",
+    "帮助中心页面包含视频嵌入，视频内容未审阅，仅核对了页面正文。"
+  ],
+  "leaf_checks": {
+    "member-benefits-management": {
+      "status": "substantively_supported_but_source_declaration_needs_fix",
+      "definition_core": "帮助文档 7e231c8a... 的 Benefit Catalog 包含 Name、Description、Estimated Value、Unit Label、Quantifiable、Auto-Source、Membership Tiers，以及启用/停用控制；目录列表展示 Value、Source、Tiers、Redemptions、Total Value，能够对应“持久、独立标识的权益记录”和适用范围。",
+      "membership_eligibility": "7e231c8a... 说明在 Membership Tiers 中勾选适用等级；02b21494... 明确写明 Members only see benefits their membership level includes，满足基于会员资格的资格门槛。",
+      "verify_and_redeem": "02b21494... 的 Portal claims 页说明成员可通过门户领取：显示代码、员工逐单审批、即时记录，或不可在门户领取；含限额、每会员期限/日历年/月/总计、共享代码与一次性代码、审批状态列表。7e231c8a... 的 Auto-Source 包括 Event Registration、Directory Listing、Committee Attendance、Newsletter Inclusion、Hot Deal/Promotion、Referral Received；1be45f5c... 的 Usage Reports 提供 Total Redemptions、Members Benefited、Benefits Breakdown 和 Top Members by Benefit Value。会员入口为 magic-link 免密码门户。上述内容共同构成验证—兑换循环和计划记录。",
+      "saas_form": "b4245058... 产品页显示 Compass 是 CRM 附加模块，Starter 计划每月 19 美元或随付费计划提供，应用位于 app.myverastly.com；属于持续订阅的云端服务，不是自托管软件。",
+      "id_and_track": "批次条目的 id 为 commercial:verastly-compass，track 为 commercial，名称 Verastly Compass，homepage 为 https://www.verastly.com/compass；与商业产品身份和会员管理附加模块的类型关系一致。",
+      "open_source_license_and_community_edition": "本单元没有开源批次条目。research.json 记录了对 Tendenci、CiviCRM、Galette、Admidio、Forus 等方向的检索及对 Tendenci memberships/models.py 的阅读，说明未找到并保留完整开源应用，也未声称任何开源许可证或社区版；不存在需要核对的完整许可证或社区版边界。",
+      "sources_read": "按 REVIEW_SOURCES.json 原样读取了 data/collections/sources/b42450589b4f4f8f5f0ef4fdafdbe04c19aafde62132b1458b0e3ef7f886b967.txt（compass 页）和 data/collections/sources/488054fa2913cf15fede977190df7a255ecb64f160208bc1953464d842f4dcd1.txt（chambers 页）；batch.json 的 snapshot_path 均正确解析到 data/collections/sources。另读取了 research.json 引用且同目录保留的 7e231c8a...（权益设置）、02b21494...（门户领取）、1be45f5c...（使用报告）三篇帮助中心正文。",
+      "gaps": "batch.json 和 REVIEW_SOURCES.json 未登记三篇帮助中心文档，导致条目自身来源不足以复核验证—兑换闭环；权益记录未见独立 provider、条款文本、到期日字段；未做运行时/部署验证；产品页为营销页面，价格与竞品对比未独立核验。",
+      "boundary": "Access Development 仍为 boundary_unresolved 的历史候选，研究记录说明其只证明折扣网络/福利计划运营和会员使用入口，未证明组织侧权益记录、资格校验及兑换管理，因此未进入批次；该边界说明与现有记录一致。",
+      "result": "定义核心、SaaS 形态、商业 track 和类型匹配均有实质证据，但批次来源登记与 leaf_matches 的归述需要先修正后才能通过。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell，未重算 SHA-256，未访问实时站点或帮助中心在线页面，仅核对本单元保留的快照和批次/研究记录；REVIEW_SOURCES.json 只列出两页营销页，三篇帮助中心正文来自 research.json 的引用及 data/collections/sources 下同单元保留文件；未做账号试用、部署、架构、价格或运行时验证，也未审阅帮助页中的视频内容。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-227/ses_groveopencodegop227review1_1793262164.jsonl",
+  "batch_sha256": "d9e73c42373cd44bfcf8a16bf0fa3ffcf8231419e54c6d869ec45a88bd412982",
+  "research_sha256": "87464e04bec30b1eb33a64f38078c2b026af124f528c7a0e52fbf553c00cf3ff",
+  "input_sha256": "c7102519ecc7dd53b81c83d6d6b4aba832f9c48374c874b4a7d3053f4a7222a8"
+}

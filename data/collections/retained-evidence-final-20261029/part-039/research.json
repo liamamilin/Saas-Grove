@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "digital-audio-workstation-daw",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:934715082"
+      ],
+      "query": "开源 DAW 多轨 录音 混音 导出 open source digital audio workstation",
+      "source_urls": [
+        "https://github.com/andremichelle/openDAW",
+        "https://raw.githubusercontent.com/andremichelle/openDAW/main/LICENSE",
+        "https://raw.githubusercontent.com/andremichelle/openDAW/main/README.md",
+        "https://opendaw.studio",
+        "https://opendaw.studio/manuals/",
+        "https://opendaw.studio/manuals/recording",
+        "https://opendaw.studio/manuals/mixer",
+        "https://opendaw.studio/manuals/project-management",
+        "https://opendaw.studio/manuals/devices/audio/sink",
+        "https://opendaw.studio/manuals/audio-bus",
+        "https://opendaw.studio/manuals/tech-stack"
+      ],
+      "note": "本轮针对原缺口（旧来源只证明可安装桌面客户端，未证明可作为应用服务持续使用）做定向补证，命中浏览器内运行的完整开源 DAW openDAW（github:934715082，nwo andremichelle/openDAW）。官方手册总览写明 “full music studio that runs entirely in your browser. There is nothing to install and no account to create”，并列出 Audio Recording、MIDI Recording、Mixer、Audio Buses、Aux Send FX、STEM In / Out；录音页详述按轨 arm、音频/MIDI 输入选择、Input monitoring（Off/Direct/Effects）、count-in 与录音延迟补偿；混音器页详述通道条 Sends/Output/Pan/Fader、Main Output 求和与 Audio Bus 分组；项目管理页说明工程与素材保存在浏览器 OPFS、可 Save/Save As/Save as Template、可导出携带素材的 .odb Project Bundle；Sink 页明确 “For stem exports the Sink is always active, the sunk signal lands in the bus stem”；技术栈页说明音频引擎为 Rust/WASM，在 AudioWorklet 中实时播放、在 Web Worker 中离线渲染用于 exports 与 freeze。四项定义核心（持久多轨工程、用户创作素材、混音、渲染交付）均有官方正文对应，故本轮成立该关系并进入批次。",
+      "service_boundary": "浏览器内交付的完整 Web 应用（托管于 opendaw.studio），无账号、无厂商侧工程存储：项目与素材保存在用户浏览器 OPFS，可自行备份到用户自己的 Google Drive / Dropbox / Nextcloud，也可 Live Room 分享链接协作；源码 AGPLv3-or-later 可自托管。属可自行持续使用的应用服务，不含组织级审批与发布流程。Ardour、LMMS 仍为真实开源 DAW，但交付形态是可安装的桌面程序，本轮不建立叶子关系，保留为未采纳候选。",
+      "search_attempts": [
+        "历史复用：读取 beam-continuation-20261025/part-022、opencode-go/part-005、retained-go-20261025/part-005 的 Ardour/LMMS 研究记录与 REUSED_SOURCES 快照（非本轮新检索）",
+        "本轮检索方向一：开源浏览器 DAW / 在线 DAW，命中 openDAW 与 GridSound",
+        "本轮定向核对 openDAW：仓库页元数据、LICENSE 全文、README、opendaw.studio 手册总览与 recording/mixer/project-management/devices/audio/sink 页",
+        "本轮补核 openDAW 导出与路由正文：audio-bus 与 tech-stack 页（离线渲染 exports/freeze）",
+        "备选核对 GridSound：读取其 GitHub 仓库页与 README，判断代码与服务边界"
+      ],
+      "fetch_outcomes": [
+        "https://github.com/andremichelle/openDAW 200：GitHub 仓库页，octolytics 元数据给出 repository_id 934715082、nwo andremichelle/openDAW，仓库公开非 fork",
+        "https://raw.githubusercontent.com/andremichelle/openDAW/main/LICENSE 200：AGPLv3 完整条款（含 Version 3, 19 November 2007 与 TERMS AND CONDITIONS），无附加限制",
+        "https://raw.githubusercontent.com/andremichelle/openDAW/main/README.md 200：自述 web-based DAW，Open-Source 与 License 两节均写 AGPL v3 (or later)，并说明商业许可仅针对闭源再分发",
+        "https://opendaw.studio 200：仅返回 schema.org/SoftwareApplication 的 meta（含 applicationSubCategory=Digital Audio Workstation、operatingSystem=Any (modern web browser)、license=AGPL-3.0），未作为功能正文使用",
+        "https://opendaw.studio/manuals/ 200 正文可读：浏览器内完整音乐工作室、无需安装与账号，Features 表列 Audio/MIDI Recording、Mixer、Audio Buses、STEM In / Out",
+        "https://opendaw.studio/manuals/recording 200 正文可读：Capture Audio/MIDI、按轨 arm、Input monitoring Off/Direct/Effects、Allow takes、Step Recording、Latency Compensation",
+        "https://opendaw.studio/manuals/mixer 200 正文可读：通道条 Sends/Output/Pan/Volume/Fader/Meter、Signal Flow 到 Main Output 求和、Buses 分组处理",
+        "https://opendaw.studio/manuals/project-management 200 正文可读：项目存于浏览器 OPFS、Save/Save As/Save as Template、导出 .odb Project Bundle（含素材与 soundfont）、DAWproject 交换、Live Room 共享链接",
+        "https://opendaw.studio/manuals/devices/audio/sink 200 正文可读：Sink 将信号求和进指定 bus，并写明 stem exports 时信号落入 bus stem",
+        "https://opendaw.studio/manuals/audio-bus 200 正文可读：FX Bus / Output Bus 的创建、Direct Routing 与 Send 的区别、总线效果处理",
+        "https://opendaw.studio/manuals/tech-stack 200 正文可读：Rust/WASM 引擎在 AudioWorklet 实时播放、在 Web Worker 离线渲染（exports、freeze）",
+        "https://opendaw.studio/manuals/freeze-audiounit 200 正文可读：freeze 为离线渲染整轨输出到音频缓冲（作为导出路径旁证，未单列为核心依据）",
+        "未取得正文：https://opendaw.studio/manuals/export、/exporting、/export-audio、/stem-export、/stems、/dashboard、/devices/audio/stem 均返回同一 6KB 手册壳页（sha256 c946e0e7…，无对应正文），故未把 URL 存在当作导出功能证据，导出改以 Sink、audio-bus、tech-stack 三页正文为据",
+        "未取得正文：https://opendaw.org/ 与 /en 返回德语首页骨架，<body> 为空（sha256 d002230e…），未采信其中的营销描述",
+        "未采用：GitHub REST API（api.github.com/repos/...）本轮 403 rate limit；改用 github.com 仓库页 octolytics 元数据证明仓库身份，未伪造 API 成功状态",
+        "未采用：GridSound 仓库页与 README（2026-10-28 抓取）；README 自述 “half open-source”，完整许可未核实，在线托管版需在 gridsound.com 注册账号，本轮不作成立关系"
+      ],
+      "archived": false,
+      "historical_reuse": [
+        {
+          "record": "retained-go-20261025/part-005/research.json",
+          "sha256": "16383d59bdbaf47b92e559de14bd37d7837cfa38451cae6249a024637d631467",
+          "result": "此前记录 assessment=case_found，候选 github:8757552（Ardour）与 github:15778896（LMMS），仅经桌面 features/README/导出文档与许可文本核对，未作为本轮通过依据"
+        },
+        {
+          "record": "included-continuation-final-20261027-research.json#/leaf_cases/100",
+          "sha256": "503996f8090d3aa5aaddc17607c87a1afd3573dcd0a097c29f4cde2fff6cfbd5",
+          "result": "主会话最终复核 assessment=boundary_unresolved、case_ids 为空；本轮保留该结论作为旧候选（桌面客户端形态）的处理记录，并另以 openDAW 补齐应用服务形态"
+        }
+      ],
+      "withheld_candidates": [
+        {
+          "id": "github:8757552",
+          "name": "Ardour",
+          "reason": "官方 features 页与 COPYING 可证其为开源多轨 DAW（GPL-2.0-or-later），但交付形态是可安装的桌面程序，未证明可作为本目录要求的应用服务持续使用；保留候选，不断言其不存在。"
+        },
+        {
+          "id": "github:15778896",
+          "name": "LMMS",
+          "reason": "README 自述为开源 DAW，许可为 GPL-2.0，导出章可证渲染输出；同为桌面安装形态，未证明应用服务形态；保留候选，不断言其不存在。"
+        },
+        {
+          "id": "github:55375779",
+          "name": "GridSound",
+          "reason": "README 自述 “half open-source”，完整许可与开源范围未核实；在线服务 daw.gridsound.com 需在 gridsound.com 注册账号，代码仓库与服务边界需再区分，本轮不建立关系。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:homezada 同时支撑 home-improvement-planner 与 home-management-application：前者依据独立的 Home Projects 页面，后者依据首页与 Home Documents 页面。两者在类型上有交集；当前按“独立模块页面 + 基本类型匹配”接受，但若后续要求一个应用只有一个主类型，应拆分应用身份或只保留一个叶子。",
+    "Passare 的死亡证明、许可/放行文书生成，以及 pre-need→at-need 转换未在已读页面直接验证；这不影响其殡仪馆运营系统的基本类型判断，研究记录已如实留缺口。",
+    "HomeLogger 自述仍为 0.x 早期项目，且数据模型中未见独立 home/property 实体，住宅范围是单户自托管场景下的隐含对象；不影响“周期维护计划 + 完成历史”的基本匹配，但成熟度和多住宅能力不宜外推。",
+    "HomeBox 的物品价值汇总/保险报告未在已读页面直接验证，维护仅是物品附属属性；不影响家庭库存的核心判断。",
+    "HomeZada 的出售/转让交接、共享分级未验证；研究记录已注明未写入，属于合理缺口。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，与 batch.json、research.json 的 case_found 不一致；建议后续同步进度元数据，但不影响本次内容审查。",
+    "目录内存在未被 REVIEW_SOURCES.json 登记的重复 HomeBox 首页快照（6b13421e602b877a8abfb4686fab4e118acaa16ae189c7d0d46891d200c0f33c.txt），本次未作为依据；建议清理或登记。"
+  ],
+  "leaf_checks": {
+    "funeral-home-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:passare"
+      ],
+      "track": "commercial",
+      "core_check": "Passare 官网首页正文明确为殡仪馆软件，写明 Manage cases、capture first calls、把 team/cases/financials/family communication 放在一处；条码页正文说明为逝者、物品和位置分配可扫描条码并绑定到 Passare 案例，移动端显示当前位置及每次交接和移动的数字记录，构成案例上的监护链；财务页正文说明自动创建合同、预售案例、支付、库存、支票和会计同步。案例记录、监护链、安排/合同与结算三项核心均有正文证据。",
+      "saas_form": "云端 Web 应用（cap.passare.com 登录）并提供移动端；页面结构化数据和条码页正文均明确 cloud-based system and mobile application。",
+      "identity_and_track": "application_id 为 commercial:passare，与 batch.json、research.json 一致；track 为 commercial；homepage 与快照 URL 均为 https://www.passare.com/。",
+      "license_check": "不适用（商业闭源产品）。",
+      "gaps": [
+        "死亡证明、许可/放行文书生成未在已读页面直接验证",
+        "pre-need 到 at-need 的案例转换未直接验证",
+        "未登录或运行产品"
+      ]
+    },
+    "home-improvement-planner": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:homezada"
+      ],
+      "track": "commercial",
+      "core_check": "HomeZada 的 Home Projects 页面正文写明：把想法、设计图或 AI 建议转成含项目详情、预算、材料清单和购物选择的项目计划；材料清单含描述、估算数量、单价和总价，覆盖 DIY 和承包商项目；页面还列出任务、收据、投标、照片、保修和项目文件，并支持完工成本与房屋价值更新。结合首页的房主自有住宅定位，住宅锚点、可修订项目范围、资金计划三项核心均有正文证据。",
+      "saas_form": "房主侧订阅制 Web 应用，页面提供 Start Free Now / 注册入口，属于持续使用的在线服务。",
+      "identity_and_track": "application_id 为 commercial:homezada，与 batch.json、research.json 一致；track 为 commercial；Home Projects 页面 URL 与快照一致。",
+      "license_check": "不适用（商业闭源产品）。",
+      "gaps": [
+        "HomeZada 是全家管理套件，Home Projects 是其中一个模块，按独立页面作基本类型匹配",
+        "未登录或运行产品"
+      ]
+    },
+    "home-inventory-application": {
+      "status": "passed",
+      "application_ids": [
+        "github:816422401"
+      ],
+      "track": "open_source",
+      "core_check": "HomeBox README 正文说明其为面向 Home User 的 inventory and organization system；物品可按 categories、locations、tags 组织，支持 custom fields、图片上传、文件与保修、购买日期/价格和维护安排；官网正文称 100% Open Source、自托管、位置层级、QR 码和 BOM 导出。物品持久记录、家庭范围、描述与证明属性有正文证据。",
+      "saas_form": "自托管 Web 应用：Go 服务 + 内嵌 Web UI + SQLite，提供 Docker 镜像/Compose 和在线 demo，属于可持续部署使用的软件产品，不是一次性脚本或纯仓库元数据。",
+      "identity_and_track": "GitHub 仓库 metadata 显示 id=816422401、full_name=sysadminsmedia/homebox，与 batch.json 的 github:816422401 和 research.json 一致；track 为 open_source。",
+      "license_check": "AGPL-3.0；GitHub license API 返回 LICENSE（34522 bytes）并含完整 GNU AGPL v3 正文；README 带 AGPL 徽章；官网称 100% Open Source、自托管，未发现单独付费版或功能阉割的社区版边界。",
+      "gaps": [
+        "物品价值汇总、保险报告等未在已读页面直接验证",
+        "未部署运行"
+      ]
+    },
+    "home-maintenance-application": {
+      "status": "passed",
+      "application_ids": [
+        "github:886309718"
+      ],
+      "track": "open_source",
+      "core_check": "HomeLogger README 正文说明其是面向房主的 home maintenance and asset tracker，集中 appliances、repairs、maintenance tasks，记录工作、收据和 schedules；官方 OpenAPI 的 Task 含 dueDate、estimatedCost、isRecurring、recurrenceInterval/Unit/Mode、lastCompletedAt、applianceId，/task/complete 返回 advanced due date if recurring，并可创建 maintenance/repair 记录。周期维护计划、完成历史和住宅设备对象三项核心有正文与规范证据。",
+      "saas_form": "自托管 Web 应用：Go/Fiber 服务 + React SPA，SQLite 默认、可选 PostgreSQL，Docker Compose 单容器部署，并提供 demo；属于可持续部署使用的软件产品。",
+      "identity_and_track": "GitHub 仓库 metadata 显示 id=886309718、full_name=FrancisLaboratories/homelogger，与 batch.json 的 github:886309718 和 research.json 一致；track 为 open_source。",
+      "license_check": "MIT；GitHub license API 返回 LICENSE（1082 bytes），正文为完整 MIT License（Copyright 2025-2026 Francis Laboratories）；仓库和 README 均标明 MIT，未发现单独社区版/付费版边界。",
+      "gaps": [
+        "README 自述仍为 0.x 早期项目并提示 expect bugs",
+        "数据模型未见独立 home/property 实体，单户住宅为隐含范围",
+        "多住宅/多用户隔离未验证",
+        "未部署运行"
+      ]
+    },
+    "home-management-application": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:homezada"
+      ],
+      "track": "commercial",
+      "core_check": "HomeZada 首页正文把 inventory、maintenance、projects、finances 描述为同一个住宅数字系统；FAQ 将 home management app 定义为在一个地方组织住宅相关一切。Home Documents 页正文说明收据、保修、承包商文件、保单和房产记录汇入一个安全位置，AI 提取后存入 home record，并汇总维护支出、项目成本、库存价值和财务细节，用于保险或转售。住宅记录、整合全屋档案、运营生命三项核心均有正文证据。",
+      "saas_form": "房主侧订阅制 Web 应用，页面提供注册和定价入口，属于持续使用的在线服务。",
+      "identity_and_track": "application_id 为 commercial:homezada，与 batch.json、research.json 一致；track 为 commercial；首页和 Home Documents 页面 URL 与快照一致。",
+      "license_check": "不适用（商业闭源产品）。",
+      "gaps": [
+        "出售/转让时的档案交接未验证",
+        "共享分级（只读/共同所有者）未验证",
+        "服务商仅为引用/推荐，未验证预订边界",
+        "未登录或运行产品"
+      ]
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列快照；未运行 shell、未写文件、未登录商业产品、未部署或运行开源项目。未做价格、架构、运行时、多用户隔离或真实工作流测试。商业资料以官方营销/说明页为准，部分核心细节（Passare 的死亡证明/许可文书、HomeZada 的出售转让与共享分级、HomeBox 的价值汇总）只能按页面陈述判断，已在 leaf_checks 和研究记录中留出缺口。快照抓取时间为 2026-10-27，未做外部实时复核；目录中另有一个未登记的重复 HomeBox 首页快照，未作为依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-263/ses_groveopencodegop263review1_1793040196.jsonl",
+  "batch_sha256": "f3206f60083e087275de43925a214ec05d68312c436aad356aa7817c0557e612",
+  "research_sha256": "861593385cbfe65fddf0c6d7ce634261f562bb7db1c65cd1707f8784cbd8c28b",
+  "input_sha256": "d461162f8cfac7214cc554b8c28a92b2cf4251690a9b4663e971d01bc81013e7"
+}

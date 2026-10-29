@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "inform-groundstar：batch 摘要中的“实时运营可视性”在引用页没有逐字对应，页面更接近“full process transparency”与“proactive disruption recovery”；属非核心措辞，建议收紧。",
+    "pros-revenue-management：引用页证明与 PSS、Availability engines 等集成，但未直接描述控制交接流程；“把控制交给销售/预订系统执行”是类型层面的合理推断，建议措辞上标明为集成/交接能力。",
+    "inform-groundstar：GroundStar 同时覆盖 airport resource management（stands/terminal resources）与 ground handling resource management；按 GHM 引用时应明确是套件中的地勤资源管理能力，避免与 airport-operations-platform 混淆。",
+    "courier-management-platform：research 只记录开源/GitHub 检索，未记录商业 courier SaaS 产品检索；无案例留档本身可接受，但补一条商业检索可增强缺口说明。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；属元数据陈旧，不影响内容核对，但建议同步。",
+    "部署形态：Aerosimple 明示 cloud-based，INFORM 明示 on-premise 或 cloud；PROS/Descartes 引用页未直接写 SaaS/cloud，按商业软件服务形态通过，若目录严格要求多租户 SaaS，需补充部署证据。"
+  ],
+  "leaf_checks": {
+    "airline-revenue-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:pros-revenue-management"
+      ],
+      "basis": "读取 sources/4333cef10d98dce8bf48288427f998866c2741407593df7040ae990286136626.txt，并核对 batch/research：官方正文含 elasticity-driven demand forecasting、bid price/AU control、availability/inventory decisions（accept now vs protect for later），并列出与 PSS、Availability engines 的集成；对应未来航班需求预测、容量受限优化、可用性控制、销售管道交接。",
+      "notes": "正文未直接展开超售/取消/No-show 机制，batch 未据此作额外声明；商业条目按基本真实性和类型匹配通过。"
+    },
+    "airport-operations-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:aerosimple-airport-operations"
+      ],
+      "basis": "读取 sources/67b42eb898071aabf21c8a1d30c989f09bf9b0f7a3761ab7ceb6d84b35b99ec3.txt 与 sources/c82e09f785d76e20ffda46f2f3f8030582c72e99ad55ad8f4716dc0c30b920fc.txt，并核对 batch/research：Airport Operations 页面含 Flight & Gate Operations、AODB、Resource Allocation & Planning（staff/equipment/infrastructure to flights/tasks，conflict detection）、Disruption Management、audit trail；Gate & Stand 页面含 real-time allocation、configurable rules、conflict alerts、live flight updates、historical audit。覆盖机场范围航班图像、资源分配、实时运行日循环和运行后记录。",
+      "notes": "FIDS 仅作为下游集成出现，未替代核心；产品页为营销正文，未做运行时验证。"
+    },
+    "ground-handling-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:inform-groundstar"
+      ],
+      "basis": "读取 sources/e30c91367dc3d42f61f10fe81afe4ecccd239920213848e266fefb707633d8b5.txt，并核对 batch/research：官方页明确面向 airports、airlines、ground handlers，Ground Handling Resource Management 覆盖 ground staff 与 equipment 的 planning、scheduling、allocation、analysis；Aircraft Turnaround Management 含 proactive disruption recovery；可作为地勤资源计划/排班/分配/分析的类型匹配。",
+      "notes": "该套件同时含 Airport Resource Management（stands/terminal resources），边界比单一 GHM 宽；引用页未逐项展示 executed service records/charging，商业条目按类型匹配通过。"
+    },
+    "courier-management-platform": {
+      "status": "pass_no_case",
+      "application_ids": [],
+      "basis": "batch 无条目；research 为 insufficient_evidence。实际读取 courierman 的 MPL-2.0 license、README、routes、CourierInfo、courier_infos migration、CourierInfoController：仅 sender/receiver branch 与 branch staff，无 driver/courier 分配字段；路由无 driver dispatch/unassigned queue；receiveCourier 仅写 receiver_branch_staff_id 并置 Delivered，无签名/照片/条码扫描/时间地点 POD，故不满足本叶“订单分派给自有快递员并以送达证明关闭”的核心，未纳入 batch 合理。",
+      "notes": "检索记录以开源/GitHub 为主，未记录商业 courier 产品检索；作为无案例留档缺口可接受，但补一条商业检索会更完整。"
+    },
+    "delivery-scheduling-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:descartes-delivery-appointment-scheduling"
+      ],
+      "basis": "读取 sources/1655252693c777619fd4944b96eb9ab3f1e97be6d9ecff3e0280cbc708e73471.txt，并核对 batch/research：页面以 delivery slots、true capacity、achievable slots、order cutoff、continuous optimization 为核心，slot 评分含 capacity、delivery type、service time、address、volume，客户可在 POS 选择时段；FAQ 明确 delivery scheduling 决定每站时间与客户时间窗，区别于 route planning。符合时间承诺、时间表、可用性结构。",
+      "notes": "该产品位于 Fleet Performance Management 套件内，页面未展示独立 dated commitment/schedule 管理界面；商业类型匹配通过。"
+    }
+  },
+  "limits": "本次为只读独立初审，未运行 shell、未写文件、未读取其他单元，也未部署或运行时测试。已按 REVIEW_SOURCES.json 的 path 读取五个 batch 来源快照，并按 research 的 sha256 读取 courier 的 GitHub 证据快照（该组未列入 REVIEW_SOURCES.json，但位于本单元 data/collections/sources/）。快照为 HTML，部分长行被读取工具截断；Aerosimple、INFORM、Descartes 的核心正文另用同 URL 的只读页面补充核对，未以简介/元数据替代核心。商业条目仅按基本真实性和类型匹配审查，未核验价格、架构或完整许可；batch 无开源条目，courier 候选的 MPL-2.0 许可证已核对但因核心不匹配未纳入，未涉及社区版边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-177/ses_groveopencodegop177review2_1793020340.jsonl",
+  "batch_sha256": "a2ea5ca31f347e35ed1cf8dc962b3a9c70925b2869bf52a6704511eebf45079a",
+  "research_sha256": "c4262f82970c6bb03b076b23716bc61455b7764b3707d5b706216285cc453aff",
+  "input_sha256": "dc3d59f46f75a2e10ce81413513f4918dda4e74af686ab39778e4ce3bdcb7a91"
+}

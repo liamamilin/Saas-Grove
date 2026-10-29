@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "transcript-management",
+      "note": "input.json 的 progress 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 batch.json/research.json 已列入两个商业案例并评估为 case_found。若 input.json 会作为下游状态源，建议同步 case_status 与 application_ids，避免被当作无案例叶；本次内容结论不受影响。"
+    },
+    {
+      "slug": "transcript-management",
+      "application_id": "commercial:national-student-clearinghouse-transcript-services",
+      "note": "batch 摘要中“管理端跟踪订单、holds”措辞略宽。快照正文中管理控制台主要负责订单端到端跟踪与报表，holds/限制主要在订购时向学生提示，未见管理端完整 hold 工作流的明确描述。属于非关键措辞，不阻断商业类型匹配。"
+    },
+    {
+      "slug": "transcript-management",
+      "application_id": "commercial:parchment-transcript-services",
+      "note": "快照的 canonical 与 og:url 指向 /platform/higher-education/issuing/，但页面标题、H1 和正文均为 Transcript Services，且包含专门的成绩单请求与履行内容。建议后续刷新时记录 canonical 或直接使用 canonical URL，避免来源地址歧义。"
+    },
+    {
+      "slug": "transcript-management",
+      "note": "research 对 TranscriptsKE 写“仓库元数据 license=null”，但本轮留档只有仓库 HTML（页面无 license 标识）和 LICENSE 404 记录，GitHub API 本轮为 403。建议将结论表述为“仓库页无许可证标识且 LICENSE/LICENSE.md/master/LICENSE 均为 404”，不要把未留档的 API 字段当作直接证据；不收录的结论不变。"
+    },
+    {
+      "slug": "transcript-management",
+      "note": "definition 的 dc_zh/rules_zh 比英文 dc/rules 短，rules_zh 末句停在“校友请求记录数十年”。建议补齐中文定义文本，但不影响本叶两个商业案例的核心匹配判断。"
+    },
+    {
+      "slug": "transcript-management",
+      "note": "Degree-Issuance-System 的 IssueTranscript 代码快照 url 为 null，来源追溯不完整；其 README 已独立表明以学位签发为中心、成绩单仅从已批准请求生成并通知学生领取，排除判断不依赖该代码快照。"
+    }
+  ],
+  "leaf_checks": {
+    "transcript-management": {
+      "status": "pass",
+      "definition_core": "该叶定义核心是注册官权威学术记录的正式成绩单：学习者请求或授权后，经机构核验，由机构向指定接收方发布并跟踪到完成。SIS 内的报表输出、单纯学位签发或仅由获得者展示的数字凭证，不构成该类型。",
+      "applications": [
+        {
+          "application_id": "commercial:national-student-clearinghouse-transcript-services",
+          "track": "commercial",
+          "identity": "官网标题为 Transcript Services | National Student Clearinghouse，正文与 homepage/source URL 一致，产品身份清楚。",
+          "core_match": "快照正文显示 24/7 在线下单、学习者同意下第三方代订、PDF 电子递送与打印履行、管理控制台端到端订单跟踪及去向/用途报告、SIS 集成，并在订购时提示 holds/限制；满足请求→授权→机构发布→指定接收方递送并跟踪的核心。",
+          "saas_form": "面向机构的持续在线成绩单订购与履行服务，含学习者门户、管理控制台、SIS 连接和可选 SecurePrint 打印履行。",
+          "evidence": "data/collections/sources/103daeb9c6973276743deab13679898a14bfe773f5abce998d444d33c5bd82c8.txt，正文 24/7 ordering、Third-party ordering、Secure delivery、SIS/holds 与 administrative console 段落。",
+          "gaps": "未做部署或试用；holds 主要是学生侧提示，管理端完整 hold 工作流未见正文明确描述。"
+        },
+        {
+          "application_id": "commercial:parchment-transcript-services",
+          "track": "commercial",
+          "identity": "快照标题/H1 为 Transcript Services for higher education，正文产品名为 Parchment Award – Transcript Services，属于 Parchment 高等教育 Issuing 产品线；batch ID 与 homepage 相符。",
+          "core_match": "正文明确学生从门户请求、机构向任意目的地数字/打印递送、管理端 hold/release/附件/退款/取消、hold 通知、内建 receiver network、SIS 集成和端到端履行；满足定义核心。",
+          "saas_form": "面向高校的持续在线成绩单订购与履行平台，含学生门户、注册官管理工具、接收网络与 SIS 连接。",
+          "evidence": "data/collections/sources/f89ea42a15db8812c9c9cb2dd85674ca5c888edb7cfa698b4c23706c84a4c21d.txt，正文 Make transcript fulfillment fast and simple、admin tools、SIS integrations、receiver network、student portal 段落。",
+          "gaps": "快照 canonical/og:url 指向 /platform/higher-education/issuing/；未做部署或试用。"
+        }
+      ],
+      "open_source_boundary": "本叶未收录开源案例，排除有据：TranscriptsKE 的功能正文覆盖请求、registrar 审核、holds、机构准备 PDF、release attestation 与受控递送，但仓库文件树无 LICENSE，LICENSE/LICENSE.md/master/LICENSE 均 404，仓库页无许可证标识，不能按完整开源许可证收录；Degree-Issuance-System 虽有完整 MIT 文本，但中心是学位签发，成绩单只从已批准请求生成并通知学生领取，未证明向指定接收方递送、同意/授权和完整跟踪；ATCMS 与 Chintan 候选也没有完整许可证。未发现需单独核对的社区版/开放核心边界。",
+      "identity_track_ids": [
+        "commercial:national-student-clearinghouse-transcript-services",
+        "commercial:parchment-transcript-services"
+      ],
+      "gaps": "未重新请求 GitHub API（研究记录 403）；未独立计算快照哈希；未核价、架构或部署；Parchment 页面存在 canonical 指向 issuing 的站点合并现象；input.json 状态未同步。"
+    }
+  },
+  "limits": "本次仅做只读核对：未运行 shell、未写文件、未部署或试用产品、未访问实时站点、未读取其他单元；快照按 REVIEW_SOURCES.json 的 path 原样读取（sources/ 前缀解析为 data/collections/sources/），未独立重算 sha256；GitHub API 403、TranscriptsKE 无许可证及 IssueTranscript 代码快照无原始 URL 等缺口依研究记录与 404 留档判断，未重新请求；商业案例只核对官方页面正文的基本真实性与类型匹配，未核价、架构、客户或部署；Parchment 快照存在 canonical/og:url 指向 issuing 页的站点合并现象，无法确认抓取时的重定向链。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-184/ses_groveopencodegop184review2_1793256420.jsonl",
+  "batch_sha256": "661eb0929a2960c71f38b4514630cf13105ac138900c6f53680d103496355fe6",
+  "research_sha256": "49f29e02199e429079ba9faadad0bb63233c894219e671acb510498a963d5ad5",
+  "input_sha256": "dda45526ae827d402aa31a1a3dfbdf295848cea7e084f5d5b3c2fa6504121e43"
+}

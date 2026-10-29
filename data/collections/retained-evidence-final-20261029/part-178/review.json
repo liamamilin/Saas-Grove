@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "github:153947364 的 README 首段与 GitHub About 仍自称 desktop application，而 hostel/views.py 是 Django 服务端视图并 render hostel/*.html，README 也给出 makemigrations/migrate/createsuperuser/runserver 步骤；条目按代码与运行方式判为自托管 Web 应用是合理的，建议保留这条判定说明，避免读者只看到 desktop 字样产生歧义。",
+    "research.json 的 note/fetch_outcomes 称仓库页给出 pythonanywhere 部署地址，但本次按 REVIEW_SOURCES.json 读取的仓库页快照（c6a105...）中未检索到 pythonanywhere 或对应链接；这是来源可追溯性缺口，不影响 Web 形态结论（Django 代码和 runserver 步骤已足够），建议补充可见快照或删去该细节。",
+    "hostel/views.py 的 deallocate 将旧房 vacancy 直接设为 capacity，而不是按实际退宿人数回补；同房多人或跨批次混住时可能高估空位。该缺陷不影响“按批次腾退/空位查询”工作流存在，但条目不宜表述为容量账目已完全可靠。",
+    "hostel/views.py 的 swap_ack 用 request.user.username 去匹配 Swap.student2（Student 外键），存在类型/匹配问题；条目只声明“换宿及接受确认”存在，未运行验证，建议保持 runtime_tested=false 并避免把该流程表述为已验证可用。",
+    "该应用未建模独立的 check-in/物理在场状态、房间检查/损坏记录、明确学术期间字段；这些是该类型常见但非最小核心能力。当前证据足以支持“空间库存—已识别学生—分配—空位”的核心结构，但条目不应暗示已覆盖完整宿舍运营。",
+    "input.json 仍为 boundary_unresolved 且 application_ids 为空，而 batch.json/research.json 已建立 github:153947364 的 case_found；这是输入状态与采集产物的衔接差异，建议后续状态同步时说明以采集产物为准。",
+    "仓库无单独商业版/企业版，MIT 覆盖整个仓库；条目未单列“社区版边界”字段，但 license_review 的 scope=repository 与“未发现额外商业限制”已表达该边界，建议在字段层面显式写明以便复用。"
+  ],
+  "leaf_checks": {
+    "campus-housing-management": {
+      "application_id": "github:153947364",
+      "name": "Online Hostel Allotment",
+      "definition_core": "满足该叶的最小结构：hostel/models.py 的 Room(room_no 主键、block_no、capacity、vacancy) 是按楼栋/房间组织的空间库存；Student(roll_no 主键、join_year、gender、room 外键) 是已识别学生；hostel/views.py 的 allocate 在 vacancy>0 时把学生绑定到房间并扣减空位，change 回补旧房并占用新房，swap 与 swap_ack 处理学生间换宿请求及接受标记，deallocate 按 join_year 批量清空房间并恢复空位，vacant_room 查询非满房，构成“空间库存—居民—分配—占用/空位”的闭合工作流。分配期只由 join_year/批次退宿隐含表达，未单独建模学期或学年字段；占用状态由 vacancy 与当前 room 外键表达，未区分“已分配”与“已实际入住”。",
+      "service_form": "自托管 Django Web 应用：仓库根目录树含 manage.py、hostel/ 与 hostelmanagement/，hostel/views.py 使用 render 返回 hostel/*.html 模板，README 给出 makemigrations、migrate、createsuperuser、runserver 的部署步骤；属于可部署持续使用的 Web 服务形态，不是 CLI、库、引擎或设备控制。README 和 GitHub About 的 desktop application 自述与 Django 实现及 runserver 步骤矛盾，按核心正文和运行方式判定为 Web 应用。",
+      "identity_track": "仓库页快照的 octolytics-dimension-repository_id=153947364、repository_nwo=singhshubham98/Online-Hostel-Allotment、repository_is_fork=false，与条目 id github:153947364、repository_url 及 REVIEW_SOURCES 的 applications 一致；track=open_source 与 MIT 许可相符。",
+      "license_boundary": "LICENSE 快照为完整 MIT 文本：Copyright (c) 2018 Shubham Singh，含授予条款、版权与许可声明保留要求及免责声明；README 与仓库页均标注 MIT，未发现额外商业限制。仓库无独立企业版或商业版，社区版边界即整个 MIT 仓库，license_review 的 scope=repository 与“未发现额外商业限制”一致。",
+      "evidence": "已按 REVIEW_SOURCES.json 的 path 原样读取全部 5 个快照：c6a105442eac318ab70f51a6dd22619011601cd5f7cda9fffb261035e960e201.txt（仓库元数据）、20abf49affb0a63a2696b56b4c0629f8558ebd37d83f4871d40f4be693a2e86f.txt（README）、9b96ad407b40ff360ad20512ce3db05f7dfb5369c0e18b35d394bb4d15976e70.txt（LICENSE）、b43ef6b714cad537412196c3cd818ccb13a137e891b73b4c41c668fe81636d69.txt（models.py）、b2e1c51d8834561b9060d1036a73a352d05e3a68c4d63c30025dbb3b4eedf8f4.txt（views.py）；核心判断依据 models.py 与 views.py 正文，未以简介、摘要、导航或 HTTP 成功替代。",
+      "gaps": "未做运行测试（runtime_tested=false），无实时部署地址的可见快照；未建模 check-in/物理在场、房间检查/损坏、明确学术期间；swap_ack 与 deallocate 存在实现缺陷；research.json 的 pythonanywhere 地址说法未在保留快照中见到。以上不否定该叶的最小核心匹配。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查；仅使用本单元的 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 5 个快照；未运行 shell 或代码、未写文件、未访问网络、未计算 sha256（快照文件名与声明 sha 一致，内容与对应 URL 主题一致）；GitHub HTML 快照的长行在读取时被截断，但 repository id、MIT 标注、目录树和核心 Python 文件可读；research.json 提到的其他候选（shakiliitju、DevFayzullo、MrAkbari91、mda1458、AyushGaikwad84）及旧 JavaFX 快照不在 REVIEW_SOURCES 中，未独立复核；未做部署或运行测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-178/ses_groveopencodegop178review1_1793254690.jsonl",
+  "batch_sha256": "3bec75278788c5c9fd85a0bd665094d619d5d54d801e0af6ce9155261764989a",
+  "research_sha256": "196eab54bb52e54ddc447edd1bdba3c6989edfce839723a5f2605abe9cc0845e",
+  "input_sha256": "1726a19e025d3b3b41f433905f4f0ff6bf355dec83bbd4439e221bdf9b3c7393"
+}

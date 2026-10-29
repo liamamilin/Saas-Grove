@@ -1,0 +1,1 @@
+"""Standalone SaaS application catalog."""

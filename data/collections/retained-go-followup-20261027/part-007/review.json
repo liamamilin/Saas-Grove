@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress.application_ids 五叶均为空，但 batch.json 的 id 与 research.json 的 case_ids 一致；不影响本次内容判断，建议下游同步 leaf 与 application 关联。",
+    "One Legal 产品页快照为 Elementor 压缩 HTML，正文位于超长行，阅读器按字符截断；本次确认了 title/description 及正文中的 Matters、eFiling、Re-File 等词，但未能逐句复核“Matters 标签显示发票”等细节，核心提交/驳回循环主要由两份官方帮助文档支撑。",
+    "Lawmatics 页面为 Webflow 重脚本页，正文同样被压缩；已确认 body 中存在 conflict、approve、deny、flag、onboarding、signature、matter 等词，但未逐句读取全部 onboarding 文案；商业基本类型匹配不受影响。",
+    "ImmiBox features 页 article:modified_time 为 2024-04-23，未做价格、架构与时效更新核验；页面正文及页脚订阅说明足以支持基本真实性与 SaaS 形态。",
+    "legal-billing-application 的 research.json 仍保留 DeedBox 的历史 fetch_outcomes，但已明确标注撤回且 batch 未将其列入该叶；属于透明留档，不阻断。",
+    "legal-e-filing-platform 与 legal-intake-client-onboarding 均记录了 404 失败 URL 并改用成功路径；属于已如实记录的抓取缺口。",
+    "legal-billing-application、legal-intake-client-onboarding 的 name_zh 中英文混排属命名风格问题，不影响类型核对。"
+  ],
+  "leaf_checks": {
+    "immigration-practice-management": {
+      "application_id": "commercial:immibox",
+      "track": "commercial",
+      "result": "pass",
+      "core_basis": "官方 features 正文明确为移民案件管理解决方案，含案件生命周期与工作流、USCIS 表格与问卷自动填充、G-28/I-907/I-130/I-129/I-765/PERM/PWD 等 USCIS/DOL 电子提交、动态案件状态、截止日期、文件与发票；页脚说明由 Ideateq, Inc. 以订阅方式提供，属于执业者侧 SaaS 而非政府端系统。",
+      "service_form": "云端订阅式移民案件管理平台，符合持续使用的软件服务形态。",
+      "license_boundary": "商业闭源，不适用开源许可证或社区版边界；按商业基本真实性与类型匹配核对。",
+      "gap": "页面未逐项展示外国人登记号或客户主记录字段，案件类型绑定主要体现为按 case type/subtype 配置费用与工作流；不影响商业基本类型匹配。"
+    },
+    "law-practice-management-system": {
+      "application_id": "github:1331339595",
+      "track": "open_source",
+      "result": "pass",
+      "core_basis": "DeedBox README 正文覆盖事项与当事人、冲突检查、时间与计费、客户/信托账册及银行对账、工作流与关键日期、文档与客户门户、报告与邮件归档，构成客户—事项—档案—计费闭环；仓库元数据 id 1331339595 与 batch 一致，README 自述为免费、开源、完整的律所实务管理系统并自托管运行。",
+      "service_form": "可自托管的完整 Next.js/PostgreSQL 应用，具备持续使用的服务形态。",
+      "license_boundary": "LICENSE 快照为完整许可证文件（约 34,523 字节），内容头为 GNU AFFERO GENERAL PUBLIC LICENSE Version 3；README 称完整产品免费开源，未发现单独收费社区版或功能阉割边界。",
+      "gap": "未做部署或运行时验证；许可证快照为 base64，仅核对文件头、大小与 AGPL v3 标识，未逐字解码全文。"
+    },
+    "legal-billing-application": {
+      "application_id": "commercial:leanlaw",
+      "track": "commercial",
+      "result": "pass",
+      "core_basis": "LeanLaw 官方时间与费用页写明时间条目可分配 client、matter、timekeeper、rate、narrative，费用按 matter 记录并进入 invoice review and approval workflow，支持批量开票与 QuickBooks Online 同步；官方比较页写明 client and matter trust workflows with three-way reconciliation、在线收款、plan-dependent LEDES 与实时报告，并明确其不是完整案件管理套件、不替代案件/文档/收案/CRM 工具，符合独立 money loop 边界。",
+      "service_form": "构建在 QuickBooks Online 上的云端法律计费与会计 SaaS。",
+      "license_boundary": "商业闭源，不适用开源许可证或社区版边界；按商业基本真实性与类型匹配核对。",
+      "gap": "首页 FAQ 正文位于压缩 HTML 长行中未能逐句读取，但时间费用页与比较页的正文足以支撑核心与边界。"
+    },
+    "legal-e-filing-platform": {
+      "application_id": "commercial:one-legal",
+      "track": "commercial",
+      "result": "pass",
+      "core_basis": "One Legal 产品页为加州、内华达法院文件提交服务，正文含 Matters、eFiling、Re-File 等；官方 Re-File 帮助文档说明案件发起与后续提交两条 eFiling 工作流、完整/部分驳回、Order Details 中重新提交、已接受文件保留在案件记录且仅重交被拒文件；官方驳回原因文档说明书记员驳回信息在 Order Details、文件列表与邮件通知中回传，部分驳回状态可识别；费用由 One Legal 代付后开票，已接受文件退回。",
+      "service_form": "面向律所/提交者的在线法院电子立案服务，具备账户、订单与状态跟踪的持续服务形态。",
+      "license_boundary": "商业闭源，不适用开源许可证或社区版边界；按商业基本真实性与类型匹配核对。",
+      "gap": "产品页正文被超长 HTML 行截断，未能逐句核对其全部功能描述；法院端系统未纳入，边界正确。"
+    },
+    "legal-intake-client-onboarding": {
+      "application_id": "commercial:lawmatics",
+      "track": "commercial",
+      "result": "pass",
+      "core_basis": "Lawmatics 官方 intake 页标题与 hero 明确为法律客户 intake 软件，正文含 “Automate the entire client intake journey” 以及 onboarding、signature、matter 等词；官方冲突检查页标题与 hero 明确为律所冲突检查软件，正文含 approve、deny、flag 及 conflict 等词，元数据亦说明在 intake 中避免利益冲突；两者合起来覆盖潜在客户记录、承接前筛查、接受/拒绝决定与入案闭环的基本类型。",
+      "service_form": "面向律所的云端 intake/CRM SaaS。",
+      "license_boundary": "商业闭源，不适用开源许可证或社区版边界；按商业基本真实性与类型匹配核对。",
+      "gap": "页面正文为 Webflow 压缩长行，未逐句读取全部 onboarding 文案；未出现 engagement letter 字样，入案闭环由 onboarding、电子签署与 matter 语境推断；不影响商业基本类型匹配。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元、未部署或做运行时测试、未抓取新网页；仅读取本单元 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES.json 列出的 12 个快照。快照中多个页面为压缩 HTML 超长行，阅读器按 2000 字符截断，无法逐字复核全部正文；DeedBox 许可证为 base64 快照，仅核对文件头、大小与 AGPL v3 标识，未逐字解码全文；商业产品未核价、未核架构、未核最新时效；结论限于保留资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-007/ses_groveopencodegop007review1_1793074389.jsonl",
+  "batch_sha256": "8ea275becba61a3e006eee2f46b0223c102e02bfadd7bb7bb840d03ea6943bd3",
+  "research_sha256": "57a8215ddeefb6be3e2a567aea069d125f67ca0285508e44975ea1447edea0c0",
+  "input_sha256": "c2ad0c205e6fa50abb7be4f9018487b362c677d0b1e1e7fddb120f0f482ba4d4"
+}

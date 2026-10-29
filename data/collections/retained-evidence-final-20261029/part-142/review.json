@@ -1,0 +1,41 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "OpenMES 的许可证边界比 research.json 里的“AGPL-3.0”简写更细：README 显示核心采用 AGPL-3.0、modules 采用 AFL-3.0，并采用 CLA。由于 OpenMES 仅因 MES 产品身份被排除、未作为本叶案例，这一简写不影响结论；后续若纳入案例，应补全许可证与社区版边界。",
+    "Carbon 仓库标题包含 lot/serial traceability，容易被误读为独立追溯产品；但 traceability 文档快照显示该功能位于 ERP 的 Inventory 之下，属于 ERP/MES/QMS 套件模块，按叶定义排除是合理的。",
+    "byteFACTORY、Trace-X、TraceLink 的排除依赖历史复用记录，本单元未保留其快照；research.json 已标注 historical_reuse 而非本轮抓取，未虚构来源，故不阻断。",
+    "TraceFlo 仅有 SPA/脚本壳，未取得核心正文；按“不得以 Loading/脚本替代核心正文”的规则，保留为缺口是正确的。",
+    "本叶无 application_id/track，商业基本真实性与类型匹配检查不适用；未做部署或运行测试。"
+  ],
+  "leaf_checks": {
+    "manufacturing-traceability": {
+      "status": "insufficient_evidence",
+      "case_ids": [],
+      "definition_core": "对照叶定义的三段结构（已标识的可追溯单元、与单元绑定的生产记录、前后向追溯闭环）核对候选；未发现同时具备独立产品/服务形态且以制造追溯为首要身份的完整应用。",
+      "batch_and_research": "batch.json 的 entries 为空；research.json 的 assessment 为 insufficient_evidence、case_ids 为空，与 input.json 的 case_status 及 application_ids 为空一致。",
+      "candidate_boundaries": "Carbon 与 OpenMES 属 ERP/MES 套件，byteFACTORY 属 AI-native MES 模块；Trace-X 属供应链零件追溯；TraceLink 为 ideathon 原型；TraceFlo 仅 SPA 壳且无核心正文。上述候选均不满足本叶独立产品身份或证据要求。",
+      "id_track_check": "本叶无案例，application_id/track 不适用；batch.json entries 为空，input.json application_ids 为空，未发现需核对的 ID/track 引用。",
+      "snapshots_read": [
+        "data/collections/sources/7072c75ed80d83121fbdd5cf6f5d7c572a6aa90c6f2e951a7b4b6ce8166dbedc.txt（Carbon Traceability docs）",
+        "data/collections/sources/4ed045e4992e7cfb04a2301e9d711cb44671968547c1cac0153ce28784b40273.txt（Carbon MES docs）",
+        "data/collections/sources/61b657112cf5b8925fe5c42389cf0516d2fa770b428c13c2b82706914977cabb.txt（Carbon LICENSE）",
+        "data/collections/sources/5aed28284f66e9b4936f6eeee22c256da051af44adfe79dfbba02198b45dfc59.txt（Carbon GitHub repo）",
+        "data/collections/sources/ba3ada0611b9e0111551a1807680a893958b9712bc1bda9045bec61366266686.txt（Carbon README）",
+        "data/collections/sources/9030de79289141204440b0d2f2fb2e47ff087f176ba03eeac75fe8779f4854fb.txt（OpenMES homepage）",
+        "data/collections/sources/c0a729d36692f96c7b9ba45b16edfb28d6c98e1e2714f83841c03ebead47c800.txt（OpenMES GitHub repo）",
+        "data/collections/sources/0ee12524bc1a733eec6147a1308e4380383491f5d0f5c05806b13468e6b19641.txt（OpenMES README）"
+      ],
+      "license_check": "Carbon LICENSE 快照确认非 Enterprise 文件为 AGPLv3、Enterprise 文件另按商业许可；OpenMES README 显示核心 AGPL-3.0、modules AFL-3.0。两者均非本叶案例，许可证仅用于身份边界核对。",
+      "service_form_check": "无案例可核对持续 SaaS 服务形态；本单元未做部署或运行验证，作为留档缺口记录。",
+      "commercial_check": "本叶无商业案例，基本真实性与核心类型匹配检查不适用。",
+      "gap": "本单元无 byteFACTORY、Trace-X、TraceLink、TraceFlo 的本地快照；前三者仅有历史复用记录，TraceFlo 只有 SPA 壳。该缺口已如实记录，不据此断言该类型不存在。"
+    }
+  },
+  "limits": "REVIEW_SOURCES.json 的 sources 为空，未提供 path 映射；我改为按 research.json 记录的 8 个快照哈希读取 data/collections/sources 下的全部快照。byteFACTORY、Trace-X、TraceLink、TraceFlo 在本单元没有本地快照，只有历史复用记录，未独立复核。未运行 shell 或写文件，未做部署/运行测试、价格或架构研究，也未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-142/ses_groveopencodegop142review1_1793249130.jsonl",
+  "batch_sha256": "c2d0bacae72ef87b2eb703606309ec7368bc59a3897bf754048c8f3360632d70",
+  "research_sha256": "c7d9c4b7382f0ca539d9432145fb8732a8eab9aba575bef2fad18a50c910f3fd",
+  "input_sha256": "b7db833063b4347dfd398ba6551a0ded35f4b852695a2c54badc58a6a65258e1"
+}

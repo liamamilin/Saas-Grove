@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "course-registration-system / github:11130811：许可证标识建议写作 GPL-2.0-only；同时统一许可证取证分支。仓库页快照显示默认分支为 mobile（a0cb... 第 496 行 refInfo.name=mobile），而 LICENSE 快照取自 master（d954...），两者均声明 GPL v2，但引用默认分支可避免分支不一致的疑问。",
+    "course-registration-system / github:11130811：Help_en.php 第 644-645 行关于“保存 Student Requests 时运行 Scheduler 并提示 zero available seats”的句子已被注释，源码注记说明 Scheduler 不再由 Student Requests 程序触发；本批次把零席位提示归到 Run Scheduler（第 767 行）是准确的，但摘要措辞不要写成“学生保存请求时即校验”。",
+    "course-registration-system / github:11130811：Course Period 的 Seats 为可选字段（Help_en.php 第 750 行），帮助正文将容量表现为“可查看剩余席位”与 Scheduler 的零席位提示、未排入名单（第 709-711、767 行），并非显式硬性上限。摘要中的“席位上限/席位检查”可改为“席位设置与余量提示”，避免暗示强制阻断。",
+    "course-registration-system / github:11130811：README 第 133-135 行提到 rosariosis.org/add-ons 的附加模块与插件；建议在 service_boundary 中明示收录仅基于 GPL 核心仓库内的 Scheduling 代码与帮助文本，附加模块的许可与功能未核。",
+    "course-registration-system / github:11130811：README 第 19 行安装说明指向 gitlab.com/francoisjacquet/rosariosis，建议在身份说明中记录 GitHub 仓库页与 GitLab 开发仓的关系，避免后续把镜像与主仓混用。",
+    "course-registration-system / github:11130811：homepage 未纳入快照集；research.json 记录抓取 openSIS-Classic README 但未保留快照。这些仅影响负向候选与主页信息的可追溯性，不影响本叶已建立关系的核心证据。"
+  ],
+  "leaf_checks": {
+    "course-registration-system": {
+      "slug": "course-registration-system",
+      "application_ids": [
+        "github:11130811"
+      ],
+      "definition_core": "通过。以 data/collections/sources/04873095a9b44c4a8709ba0f338c6eb349eba9040273edcac16b66763e233a51.txt（Help_en.php）的 Scheduling 正文核对四项结构：Scheduling/Courses 定义 Subjects→Courses→Course Periods 三层目录，Course Period 含 Seats、Period-Days、Gender Restriction（第 735-761 行），满足已发布目录；Scheduling/Requests 按“Find a Student”为具体学生登记选课请求（第 638-647 行），满足已识别学生；Scheduling/Scheduler 依请求排课并报告冲突与所请求课程零可用席位（第 763-767 行），Schedule Report 列出已排入与请求未排入学生及 open/total seats（第 709-711 行），满足规则校验后授予/拒绝并给出原因；Scheduling/Schedule 支持加课、按 Dropped 日期退课、改 Period/Teacher/学期（第 626-636 行），MassDrops 与 Add/Drop Report 覆盖学期内批量退课与时间范围内变更（第 671-679、733 行），满足学期生命周期维护。以上均为产品实际程序帮助正文，不是简介、元数据或加载页。批量排课形态亦落在定义所允许的批处理注册变体内。",
+      "service_form": "通过。README（24d7c2cf6a653c6af0d222992a0a9fcfa521beec31039954b665f31100b028fc.txt）第 137-141 行说明系统为 web-based、可从任意联网位置登录；第 17-19 行给出 PHP 与 PostgreSQL/MySQL 的安装要求；仓库页列出 modules/、plugins/ 等目录。属于持续使用的自托管 Web 软件服务，而非一次性表单或纯文档。",
+      "identity_track": "通过。batch 条目 id github:11130811 与仓库页快照 a0cb1cb822e3a8fe22d33bf70d8ddd1bbac5f77672f0d8a7c5fe63bdadcbf8ce.txt 第 240 行的 repository_id=11130811、repository_nwo=francoisjacquet/rosariosis、repository_public=true、is_fork=false、network_root_id=11130811 一致；标题与 About 均为 RosarioSIS Student Information System（第 157、205、614 行）。track=open_source 与 GPL-2.0 许可证及公开仓库相符。",
+      "license": "通过。d954e14e5c752eb0ddb5cd85459a46d755d12d76c69c6e5dac4b0df532fcab1c.txt 为完整 GNU GPL Version 2 正文，含版本声明、Preamble、第 0-12 条、NO WARRANTY 与 END OF TERMS AND CONDITIONS（第 1-277 行），不是摘要或片段；README 第 6-9 行与仓库页 README（第 500 行）均声明 GNU General Public License version 2。license_review 的 spdx GPL-2.0、scope repository 与该文本相符。",
+      "community_boundary": "基本通过。被引用的课程目录、学生请求、Scheduler 校验、学生课表加退课与报表均位于 GPL 仓库内的 Help_en.php 与核心 Scheduling 程序，未依赖 README 提到的外部 add-ons；批次已把范围限定为自托管 SIS 的 Scheduling/选课模块，未声称独立选课产品或部署实测。附加模块的许可边界未在条目中显式说明，见非阻断建议。",
+      "residual_gaps": "未做部署或运行验证（runtime_tested=false），席位约束的实际阻断行为仅由帮助文本推断；Seats 为可选字段；GitHub API 403 限流已如实记录并以仓库页与 raw LICENSE 替代；openSIS 负向候选的抓取未保留快照；homepage 未纳入快照。上述缺口均有过程记录且不影响本叶核心结论。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的四个快照；快照按原 path 原样读取，未猜测路径或摘要。未运行 shell，故未重算文件 sha256（文件名与声明的 sha256 一致，内容按原样核对）；未做部署、登录演示或抓取额外网页，未读取其他单元、采集脚本或历史任务文件。许可证与功能判断基于快照正文，运行时行为与未留档的负向候选无法独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-179/ses_groveopencodegop179review1_1793254968.jsonl",
+  "batch_sha256": "67eaaad7bf15634582810bd947b282c7d6f557bcded13e8c0282438af8bae313",
+  "research_sha256": "75ee26e9096d09487a1a4587820b7e4c56dd0eb3641400ff8f53c4b9af8b570d",
+  "input_sha256": "ca36bf411923f2395159595775c89aab585cb299266bc2c6c777e90336185671"
+}

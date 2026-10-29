@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 36,
+  "offset": 875,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "mobile-network-management",
+        "name_zh": "移动网络管理",
+        "domain_id": "19",
+        "parent_id": "19.04",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/802",
+            "result": "insufficient_evidence",
+            "note": "未找到可验证的开源移动网络管理系统。Magma 的 README 将其定位为移动核心网/接入网络平台，Orchestrator 侧重网关与核心配置，且 GitHub 许可证分类为 NOASSERTION（README 自称 BSD-3-Clause），许可与服务边界均未闭合；Open5GS 是移动核心网，WebUI 仅做用户配置，不满足基站/小区的配置-故障-性能闭环；OpenNMS 是通用网络管理/监控平台，缺少移动网络元素模型与写配置权威。商业侧 Ericsson Network Manager 与 Nokia NetAct 官方页分别被 Cloudflare/访问控制拦截，未取得正文，未据首页或标题断言核心匹配。故本叶按证据不足留档，不强行建立关系。",
+            "query": "GitHub searches: mobile network management, cellular network management, RAN OAM, 5G network management, network configuration management; checked Magma, Open5GS, OpenNMS and commercial Ericsson/Nokia pages."
+          }
+        ],
+        "archived": false,
+        "note": "未找到可验证的开源移动网络管理系统。Magma 的 README 将其定位为移动核心网/接入网络平台，Orchestrator 侧重网关与核心配置，且 GitHub 许可证分类为 NOASSERTION（README 自称 BSD-3-Clause），许可与服务边界均未闭合；Open5GS 是移动核心网，WebUI 仅做用户配置，不满足基站/小区的配置-故障-性能闭环；OpenNMS 是通用网络管理/监控平台，缺少移动网络元素模型与写配置权威。商业侧 Ericsson Network Manager 与 Nokia NetAct 官方页分别被 Cloudflare/访问控制拦截，未取得正文，未据首页或标题断言核心匹配。故本叶按证据不足留档，不强行建立关系。"
+      },
+      "definition": {
+        "slug": "mobile-network-management",
+        "name": "Mobile Network Management",
+        "name_zh": "移动网络管理",
+        "aliases_zh": [
+          "移动网管",
+          "网络管理系统"
+        ],
+        "overview": "A **Mobile Network Management** system is the mobile operator's run-time operations system for its deployed cellular network. It holds the live network's elements — above all the radio base stations and their cells — as a managed estate, and operates that estate through a joint loop of configuration, fault, and performance management.\n\nThe defining structure is small:\n\n```text\nThe operator's live mobile network\n    held as a managed estate of network elements\n        ├── Configuration management — read and write operational parameters and software\n        ├── Fault management — network problems surfaced as alarms, worked to resolution\n        └── Performance management — operational measurements collected and analyzed\n```\n\nEverything else commonly associated with the category — self-organizing-network (SON) automation, zero-touch site onboarding, AI-assisted alarm correlation, energy management, network-slice control, cloud-native packaging — is widespread in current products but is not part of the defining core. Operations-and-maintenance centers from earlier network generations satisfy the same definition with none of it.\n\nThe boundary drifts are equally clear: a system that only watches service-level quality, without the authority to change network elements, has become a service-assurance tool; one that models a network that does not yet exist is a planning or design tool; one that spans the operator's entire fulfillment-and-assurance estate is the Telecom OSS umbrella rather than this domain slice of it.",
+        "overview_zh": "一个**移动网络管理系统**是移动运营商对其已部署蜂窝网络进行的运行时运营系统。它将现网的元素——尤其是无线基站及其小区——作为受管资产来维护，并通过配置、故障和性能管理的联合闭环来运营该资产。\n\n其定义结构简洁：\n\n```text\n运营商的实时移动网络\n    作为网络元素的受管资产库来维护\n        ├── 配置管理——读写操作参数和软件\n        ├── 故障管理——以告警形式呈现的网络问题，处理直至解决\n        └── 性能管理——收集并分析操作度量\n```\n\n通常与此类别相关的其他所有方面——自组织网络（SON）自动化、零接触站点开通、AI辅助告警关联、能源管理、网络切片控制、云原生封装——在当前产品中普遍存在，但并非定义性核心的部分。早期网络世代的运维中心满足相同的定义，而无需其中任何这些功能。\n\n其边界漂移同样清晰：一个仅监控服务层质量而无权更改网络元素的系统，已成为服务保障工具；一个对尚不存在的网络进行建模的系统是规划或设计工具；一个跨越运营商整个业务开通与保障资产体系的系统是电信OSS伞形框架，而非其下这个领域切片。",
+        "dc": "Four properties. If any one is removed, the product is no longer recognizable as mobile network management:\n\n- **The live mobile network as managed estate** — the operator's deployed network elements (chiefly radio base stations and their cells/sectors; scope may extend to controller, core, and transport nodes) are held as managed records: identity, hardware and software state, operational parameters. Without this, the product is a design-time tool modeling a network that does not exist, or a single-element local shell.\n- **Configuration management of the elements** — the system reads and writes operational parameters and software on network elements, individually and at fleet scale (bulk changes with verification). Without this, the system can observe the network but not operate it.\n- **Fault management** — problems the network detects are surfaced as alarms and events that are tracked and worked to resolution. Without this, operations has no incident surface.\n- **Performance management** — operational measurements (accessibility, dropped-call and handover behavior, throughput, coverage, capacity) are collected from the network and made analyzable. Without this, there is no quality basis for operating and optimizing the estate.\n\nTogether the three operating legs are the classical operations-and-maintenance triad — configure, fault, perform — realized against a mobile network's object world. The Type typically sits at the management-system layer: above individual element managers, inside or beneath the operator's wider OSS estate.",
+        "dc_zh": "四个属性。如果移除任何一个，该产品将不再被识别为移动网络管理：\n- **实时移动网络作为管理资产** — 运营商部署的网络元素（主要是无线基站及其小区/扇区；范围可能扩展到控制器、核心网和传输节点）被作为管理记录保存：身份、硬件和软件状态、操作参数。没有这个，该产品是设计时工具，建模一个不存在的网络，或单元素本地外壳。\n- **元素的配置管理** — 系统读取和写入网络元素上的操作参数和软件，单独和批量规模（批量更改并验证）。没有这个，系统可以观察网络但不能操作它。\n- **故障管理** — 网络检测到的问题作为告警和事件被跟踪并解决。没有这个，操作没有事件表面。\n- **性能管理** — 从网络收集操作测量（可访问性、掉话和切换行为、吞吐量、覆盖、容量）并使其可分析。没有这个，没有操作和优化资产的质量基础。\n这三个操作支柱共同构成经典的运维三位一体——配置、故障、性能——针对移动网络实现。",
+        "rules": "### The system can change the live network\n\nThis is the defining authority. Monitoring and analytics without write access to network elements is a different kind of product; the ability — and the operational discipline — to change parameters, software, and element state is what makes this a management system.\n\n### Changes are verified, and automation reverts\n\nBulk changes are checked after application; closed-loop automation takes network feedback into account and reverts to the last working state when degradation follows a change. Operating a live network at fleet scale without verification and rollback is not a viable pattern, and mature products treat it structurally.\n\n### Alarms are worked, not just displayed\n\nAlarms exist to be driven to resolution — acknowledged, diagnosed against configuration and performance context, remediated (manually or by self-healing behaviors), and cleared. Per-alarm state conventions vary by product; the work-to-resolution discipline is the constant.\n\n### The management hierarchy is real\n\nElement managers sit below (vendor- or device-specific management of individual equipment), upper-level management and OSS systems sit above. A mobile network management system commonly integrates both ways: it aggregates element managers and third-party elements, and it exposes its data and operations upward.\n\n### Scale forces automation\n\nLarge operator networks exceed manual per-element operation by orders of magnitude. Fleet-level operations — bulk changes, automatic neighbor relations, zero-touch onboarding, closed-loop optimization — are structural responses to scale, not add-ons.\n\n### Multi-vendor, multi-technology is the normal estate\n\nOperators run mixed estates across technology generations and suppliers. A management system built around a single vendor's equipment is one pole; multi-vendor reach is the market's center of gravity and the reason open interfaces are standard.",
+        "rules_zh": "### 系统可以更改现网\n\n这是定义性权限。没有网络元素写入权限的监控和分析属于不同类型的产品；能够——并且具有运营纪律——去更改参数、软件和元素状态，才使其成为一个管理系统。\n\n### 变更需经验证，且自动化可回退\n\n批量变更应用后需经检查；闭环自动化考虑网络反馈，并在变更导致性能下降时回退到上一个工作状态。在没有验证和回退机制的情况下，以全网规模运营现网不是一个可行的模式，成熟产品会从架构上解决此问题。\n\n### 告警需被处理，而非仅仅显示\n\n告警存在的目的是驱动至解决——确认、结合配置和性能上下文进行诊断、补救（通过人工或自愈行为）、并清除。每个告警的状态约定因产品而异；但处理直至解决的纪律是恒定的。\n\n### 管理层次结构是真实的\n\n网元管理器位于下层（针对单个设备的厂商或设备特定管理），上级管理和OSS系统位于上层。移动网络管理系统通常双向集成：它汇聚网元管理器和第三方元素，并将其数据和操作向上暴露。\n\n### 规模迫使自动化\n\n大型运营商网络的规模超出逐个元素人工操作的数量级。全网级操作——批量变更、自动邻区关系、零接触开通、闭环优化——是应对规模的结构性响应，而非附加功能。\n\n### 多厂商、多技术是资产库的常态\n\n运营商在不同技术代际和供应商间运行混合资产库。围绕单一",
+        "parent_id": "19.04",
+        "domain_id": "19"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 150,
+    "phase": "directory",
+    "parent": 150,
+    "slugs": [
+      "mobile-network-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "dd1c77cf1f7bd82ddcc5aa45f02b5acea33b065c0ab8be8dd261515d19cbf358"
+  }
+}

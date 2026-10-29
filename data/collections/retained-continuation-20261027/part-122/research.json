@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "purchase-order-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1864233"
+      ],
+      "query": "GitHub 搜索 API 发现 frappe/erpnext；读取仓库元数据、许可证与官方 Purchase Order/Buying 文档",
+      "source_urls": [
+        "https://api.github.com/repos/frappe/erpnext",
+        "https://api.github.com/repos/frappe/erpnext/license",
+        "https://docs.frappe.io/erpnext/user/manual/en/purchase-order",
+        "https://docs.frappe.io/erpnext/user/manual/en/buying"
+      ],
+      "note": "复用 ERPNext 既有身份与 GPL-3.0 许可快照；官方 Purchase Order 文档正文明确订单是商业承诺，提交后由收货/发票跟踪，并支持关闭、取消与修订。批次核心字段沿用共享应用记录，避免覆盖既有字段。",
+      "service_boundary": "采购订单管理：以 ERPNext 采购订单为受控承诺对象，跟踪收货与开票并支持关闭/修订；该订单功能属于 ERP 原生采购模块，不单独作为独立 SaaS 产品。",
+      "search_attempts": [
+        {
+          "query": "GitHub API: frappe erpnext purchase order",
+          "result": "frappe/erpnext"
+        },
+        {
+          "query": "官方文档正文核对 https://docs.frappe.io/erpnext/user/manual/en/purchase-order",
+          "result": "确认订单承诺、审批/提交、收货/开票状态、关闭/取消与修订流程"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext",
+          "status": "success",
+          "note": "仓库元数据快照确认 id 1864233 与 full_name frappe/erpnext"
+        },
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext/license",
+          "status": "success",
+          "note": "许可证快照确认 GPL-3.0 全文"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/purchase-order",
+          "status": "success",
+          "note": "正文确认采购订单是正式商业承诺，并描述收货/开票跟踪与关闭、取消、修订"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/buying",
+          "status": "success",
+          "note": "正文确认 Buying 模块覆盖采购订单及后续采购流程"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "spend-analysis-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:spendhq-spend-analysis"
+      ],
+      "query": "直接抓取 SpendHQ 官网首页（websearch 401，未使用搜索）",
+      "source_urls": [
+        "https://www.spendhq.com/"
+      ],
+      "note": "复用官网首页快照；正文明确 Spend Intelligence 对采购数据组织、清洗与分析，并列出供应商、项目跟踪和报表/仪表盘。未补充价格或架构。",
+      "service_boundary": "支出分析平台：官方页面定位为支出智能/分析、供应商与报表视图；未在来源中证明其执行采购或控制交易。",
+      "search_attempts": [
+        {
+          "query": "直接抓取 https://www.spendhq.com/（websearch 401，未使用搜索）",
+          "result": "SpendHQ 官网首页正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.spendhq.com/",
+          "status": "success",
+          "note": "正文确认支出数据组织、清洗、分析与供应商/类别/报表视图"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "strategic-sourcing-platform",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "直接抓取 Zycus 官网首页、Merlin Autonomous Sourcing 与 eSourcing 产品页（websearch 401，未使用搜索）",
+      "source_urls": [
+        "https://www.zycus.com/",
+        "https://www.zycus.com/solution/merlin-autonomous-sourcing",
+        "https://www.zycus.com/solution/esourcing-software"
+      ],
+      "note": "复用并补充核对 Zycus 官网首页、Merlin Autonomous Sourcing 与 eSourcing 页面。三处正文均围绕 RFx/拍卖/谈判和单次事件授标/节约，未出现寻源计划管线、阶段门或项目级节约台账；按定义与 eSourcing 区分，移除原战略寻源平台关系并保留缺口。",
+      "service_boundary": "战略寻源平台：现有 Zycus 官方页面只证明 eSourcing/RFx、拍卖、谈判与单次事件授标/节约测算；未证明持久寻源计划管线、阶段门与项目级节约台账，故不计入本类型。",
+      "search_attempts": [
+        {
+          "query": "直接抓取 https://www.zycus.com/（websearch 401，未使用搜索）",
+          "result": "首页正文以导航与通用采购 AI 为主，列出 eSourcing/Spend Analysis 等模块"
+        },
+        {
+          "query": "直接抓取 https://www.zycus.com/solution/merlin-autonomous-sourcing",
+          "result": "正文确认 RFx 执行、授标与单次事件节约测算"
+        },
+        {
+          "query": "直接抓取 https://www.zycus.com/solution/esourcing-software",
+          "result": "正文确认 RFx/拍卖/谈判事件执行，未见寻源计划管线或节约台账"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.zycus.com/",
+          "status": "success",
+          "note": "首页正文列出 eSourcing、Spend Analysis、Supplier Management 等模块，未证明战略寻源计划管线"
+        },
+        {
+          "url": "https://www.zycus.com/solution/merlin-autonomous-sourcing",
+          "status": "success",
+          "note": "正文描述 RFP 执行、授标推荐和事件级节约测算，未证明持久计划管线或节约台账"
+        },
+        {
+          "url": "https://www.zycus.com/solution/esourcing-software",
+          "status": "success",
+          "note": "正文描述 RFx、拍卖、谈判与授标，属于事件执行层面"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "supplier-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hicx-supplier-management"
+      ],
+      "query": "直接抓取 HICX 官网首页（websearch 401，未使用搜索）",
+      "source_urls": [
+        "https://www.hicx.com/"
+      ],
+      "note": "复用官网首页快照；正文列出跨 ERP 供应商主数据、供应商入驻、注册、风险、绩效与生命周期模块，支持供应商管理平台核心。",
+      "service_boundary": "供应商管理平台：官方页面覆盖供应商主数据、入驻/注册、风险、绩效与生命周期模块；未证明具体审批阶段配置。",
+      "search_attempts": [
+        {
+          "query": "直接抓取 https://www.hicx.com/（websearch 401，未使用搜索）",
+          "result": "HICX 官网首页正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.hicx.com/",
+          "status": "success",
+          "note": "正文确认供应商主数据、入驻、注册、风险、绩效与生命周期模块"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "supplier-portal",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hicx-supplier-portal"
+      ],
+      "query": "直接抓取 HICX Supplier Portal 产品页（websearch 401，未使用搜索）",
+      "source_urls": [
+        "https://www.hicx.com/platform/supplier-portal/"
+      ],
+      "note": "复用供应商门户页面快照；正文说明统一入口接收订单、发送发票、参与寻源/创新活动，并与供应商数据基础联动。",
+      "service_boundary": "供应商门户：官方页面描述供应商统一入口接收订单、提交发票、参与寻源并与供应商数据基础联动；未说明在门户内执行结算。",
+      "search_attempts": [
+        {
+          "query": "直接抓取 https://www.hicx.com/platform/supplier-portal/（websearch 401，未使用搜索）",
+          "result": "HICX Supplier Portal 产品页正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.hicx.com/platform/supplier-portal/",
+          "status": "success",
+          "note": "正文确认供应商单一受治理入口、订单接收、发票提交、寻源参与及与数据基础联动"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

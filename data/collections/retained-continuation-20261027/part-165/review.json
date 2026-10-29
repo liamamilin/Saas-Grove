@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CMiC Project Controls 的匹配应理解为分包合同维度的商业基本匹配，而不是完整的合同全生命周期产品：官方页可核实 Subcontract Management、Subcontract values/commitments/payments、Change Management、Billing、WIP 与 audit trails，但未单列主合同、合同生命周期状态（draft/executed/closed）或 retainage。batch.json 与 research.json 已如实限定该范围，故按“商业只要求基本真实性和类型匹配”的标准不阻断；若目录强制要求完整合同记录与全生命周期，建议改配更专门的合同管理产品，或将该叶记录为检索缺口。",
+    "BuildingConnected 的引用页是产品族落地页（BuildingConnected Pro、Bid Board Pro、TradeTapp），batch.json 以 BuildingConnected 统一记录。页面明确展示双边场所、Builders Network、Plan Room、bid invites、due dates、compare bids 以及“turn winning bids into contracts”，但未逐字展示 bidder 的 intent/decline 与 priced bid submission 表单机制，属于商业概述层面的非阻断缺口。",
+    "ContraClaim 是偏 DMS/claims workspace 的产品：页面明确 claim register（EOT、variation、payment、loss & expense）、time-bar/SLA 跟踪、notice/evidence alignment、first notice through final award 以及 review/approval/completion；对 responder 侧 determination 的细节相对较少，但不影响基本类型匹配。",
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 已列出的五个 case 不一致；建议同步元数据，避免下游仍按未检索处理。",
+    "research.json 中 CMiC 的交叉核对快照（672f3f6b…、86067b2f…、710fe17b…）未列入 REVIEW_SOURCES.json，也未作为本单元直接引用证据；主匹配仅依赖 b6f87a2c…，不影响当前结论，但相关交叉核对内容无法在本次审查中独立复核。",
+    "所有条目 runtime_tested=false；未做部署、运行时或价格验证，符合本次只读初审范围。"
+  ],
+  "leaf_checks": {
+    "construction-bidding-platform": {
+      "application_id": "commercial:buildingconnected",
+      "snapshots": [
+        "data/collections/sources/81ff50c9a890f1b2b6db808620ae327657d75dde41f70b23a60045c1bb76cc70.txt"
+      ],
+      "assessment": "pass",
+      "basis": "官方 Autodesk BuildingConnected 页面正文可核实：Construction bid management software、Builders Network、1.5M+ construction professionals、BuildingConnected Pro（总包/业主）、Bid Board Pro（分包商）、Plan Room、bid invites、due dates、compare bids，以及 winning bids 转合同。能够支撑“招标包 + 已识别投标者群体 + 双方参与”的招标场所基本形态。",
+      "gap": "引用页为产品族落地页，未逐字展示 bid intent/decline 与 priced bid submission 的具体表单流程；未做运行时验证。"
+    },
+    "construction-claims-management": {
+      "application_id": "commercial:contraclaim",
+      "snapshots": [
+        "data/collections/sources/860ebfaa16144a2529805f1dda99f336b89f451ec0169395cbc89e5eba94afee.txt"
+      ],
+      "assessment": "pass",
+      "basis": "官方 ContraClaim 页面正文可核实：Construction Contract and Claims Management、first notice through final award、Register claims（EOT、variation、payment、loss & expense）、time-bar & SLA tracking、notice & evidence alignment、governed input/draft/review/approval/completion，以及 audit-oriented activity。能够支撑索赔记录、证据关联、期限程序和索赔登记的基本类型。",
+      "gap": "产品偏 DMS/claims workspace，对 responder 侧的正式 determination 流程着墨较少；未做运行时验证。"
+    },
+    "construction-closeout-management": {
+      "application_id": "commercial:punchoutpro",
+      "snapshots": [
+        "data/collections/sources/5e4489614788b734f0ba063d237d9d521881fe23e2d4fb4185e5b719286f5047.txt"
+      ],
+      "assessment": "pass",
+      "basis": "官方 PunchOutPro 页面正文可核实：punch tracking、逐项照片与时间戳、按 trade 路由、QA/第三方 verification 后关闭、re-walks、owner signoff、CO documentation、handover 文档，以及 final payment/retainage release。能够支撑“缺陷项 + 独立验证关闭 + 移交/验收”的收尾核心。",
+      "gap": "属营销说明页；免费试用链接指向 netlify 子域，未验证实际产品运行；未做运行时验证。"
+    },
+    "construction-contract-administration": {
+      "application_id": "commercial:cmic-project-controls",
+      "snapshots": [
+        "data/collections/sources/b6f87a2cc2bfd20c7aa74732802a7a20921816471b60001c4a5e0b7bf6939319.txt"
+      ],
+      "assessment": "pass_with_documented_limit",
+      "basis": "官方 CMiC Project Controls 页面正文可核实：Project Controls 的 budgets/forecasting/WIP；Subcontract Management；Subcontract values, commitments, and payments；subcontracts executed or revised 后 committed costs/forecasts 即时更新；change orders 进入 Forecasting/Subcontracts/Billing/WIP；audit trails。这些支持分包合同记录、动态价值和合同相关资金流，构成商业基本类型匹配。",
+      "gap": "该页是建筑 ERP 的 Project Controls 模块，不是独立合同管理产品；未单列主合同、合同生命周期状态（draft/executed/closed）或 retainage。batch.json 与 research.json 已明确限定为“分包合同维度的合同管理基本匹配”，故本次按商业基本匹配通过，但不作完整合同全生命周期断言。"
+    },
+    "construction-cost-management": {
+      "application_id": "commercial:procore-cost-management",
+      "snapshots": [
+        "data/collections/sources/d0c9d8333e9a7e13de69b8185ad534810ec03ccac22f8062ccb4469c4a07bc05.txt",
+        "data/collections/sources/6d04c0fc2e79d3cb0f7cf0fcc7e17c863d1c619c41246a4131d7e8bbf9fa659c.txt"
+      ],
+      "assessment": "pass",
+      "basis": "Procore 成本页正文可核实：Construction cost management software、project budget、real-time visibility、committed/forecasted/actual costs、invoice reviews、change order workflows；Project Financials 页补充 Prime Contracts、Commitments（subcontracts/purchase orders）、Direct Costs、Budget、Change Orders。能够支撑预算—承诺/实际成本—预测/对比的成本管理核心。",
+      "gap": "引用页为产品概述，未展开 cost line/CBS 的具体结构；未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未做部署/运行时测试，也未重新计算文件哈希。已按 REVIEW_SOURCES.json 的 path 原样读取六个引用快照；部分快照是单行超长 HTML，读取工具会截断长行，因此结合定向关键词/结构核对，并仅用官方在线页面辅助确认 BuildingConnected、ContraClaim、CMiC、Procore 的完整正文，在线页面不替代快照结论。结论限于所引快照及 2026-10-26 抓取状态；未复核价格、架构、安全或商业表现。没有纳入开源应用，因此未触发完整 LICENSE/community edition 审查；research.json 中 GitHub 候选仓库的拒绝理由按记录采信，未独立复核其 LICENSE 文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-165/ses_groveopencodegop165review2_1793017662.jsonl",
+  "batch_sha256": "28c1fde098499d9f5cdf3b77bdf4cf1d8ec3b7c7f5f830cc26f491dcbc8968a8",
+  "research_sha256": "a0afcc42a5b3ec3cf9fbad459c47be512aa2bc268c9c738e8be910949b0db406",
+  "input_sha256": "afa0151934e8672fa377fcf0f7dd3b44930cc7ab169ee93f606598c5f2100e0f"
+}

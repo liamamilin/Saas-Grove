@@ -1,0 +1,69 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "同一 OpenConstructionERP（github:1199643986）以模块级能力同时覆盖五个叶子；产品身份是自托管建筑 ERP，而不是五个独立产品。batch.json 与 research.json 已按子模块留档，下游不应把五条记录当成五个独立厂商或独立产品。",
+    "progress-billing 的核心算术有 aia.py 与 retention.py 正文支撑：G703 的前次、本期、累计、保留款列，G702 的前次证书与本期应付，按 SOV 行累计的保留款策略，以及 final/substantial completion 释放。但两方提交-审查-认证界面、行级驳回、计费周期门禁、合规文件与付款方权限没有在快照中直接展示；research.json 已记录该运行态缺口。",
+    "preconstruction-management 的 pursuit 记录来自 CRM deal 与 playbook（阶段、概率、赢/输原因、won deal 链接 Bid Management/Contracts），定价范围与供应链询价来自 tendering 文档。bid date、no-bid 状态、估算修订意识未在快照中明确；playbook 的“先赢单、再建项目、再招标”顺序与定义中的 pursuit→award 顺序略有差异，但四属性仍有正文依据。",
+    "project-controls-platform 的 4D、5D、EVM、EAC/ETC、基线、变更控制与项目控制仪表板有 planning-and-cost-control.md 正文；WBS/CBS/control account 结构、基线版本化与重新基线没有明确展示，属于定义细化项，不是核心缺失。",
+    "quantity-takeoff 的 PDF/DWG/IFC 尺寸来源、图上测量、与图纸区域或模型元素的可追溯链接、按 BOQ 项累计有 quantity-takeoff.md 与 README 正文；测量对象是否可编辑、图纸版本对比、多人协作未明确，且未运行提取引擎或 BIM/CAD 解析。",
+    "lean-construction-planning 的 master schedule、phase plans、六周 look-ahead、constraint log、weekly commitments、PPC 与未完成原因有 scheduleAdvancedGuide.ts 和 planning-and-cost-control.md 正文；外部 CPM（P6/MS Project/Asta）导入同步、每日例会、移动端、免费利益相关者席位未展示。",
+    "许可证为 AGPL-3.0 全仓（LICENSE 全文核对），README 另说明可选商业许可可闭源部署；这是同一代码的双许可，不是另设的功能受限社区版。建议把“开源核心”表述改为“AGPL-3.0 全仓 + 可选商业许可”，以免误解为 open-core 功能切分。",
+    "batch features 的“最终结算”只由 retention.py 的 final_completion 释放事件间接支撑，未见完整 final account 流程；属措辞与范围提示，不影响 progress-billing 核心。",
+    "input.json 各叶 progress 仍为 not_searched、application_ids 为空，而 research.json 记录 case_found、batch.json 有 github:1199643986；本报告以 research/batch 为准，建议下游同步 manifest，避免把空 progress 误当成无案例。",
+    "该产品是自托管 Web/桌面开源软件（README 明确 self-hosted、无订阅、无席位费），不是厂商托管的多租户 SaaS；本次按 open_source track 审核其软件服务形态，多租户、席位与外部门户权限未验证。"
+  ],
+  "leaf_checks": {
+    "lean-construction-planning": {
+      "application_id": "github:1199643986",
+      "track": "open_source",
+      "license": "AGPL-3.0（LICENSE 全文核对；README 另述可选商业许可）",
+      "core_evidence": "scheduleAdvancedGuide.ts 的六节正文：master schedule、phase plans、六周 look-ahead、constraint log（设计、材料、设备、人力、前置工作）、weekly work plan（trade foremen 承诺、commit/complete/at-risk、未完成原因、PPC）、baseline variance；planning-and-cost-control.md 明确 advanced scheduling 提供 Last Planner working。",
+      "service_form": "自托管 Web/桌面应用中的 schedule-advanced 模块，可多用户使用；不是独立 SaaS。",
+      "gaps": "未展示 master schedule 与外部 CPM（P6、MS Project、Asta）的导入或同步；每日例会、移动端、免费利益相关者席位未验证；未运行应用。",
+      "result": "共享承诺计划、make-ready 约束、承诺兑现度量三个核心均有正文依据，通过。"
+    },
+    "preconstruction-management": {
+      "application_id": "github:1199643986",
+      "track": "open_source",
+      "license": "AGPL-3.0（LICENSE 全文核对；README 另述可选商业许可）",
+      "core_evidence": "tendering-and-bids.md：priced BOQ→bid packages→shortlist/portal→收集投标→price mirror 逐项比较与 leveling/coverage→award→change orders 与 commitment 进入成本控制；crmGuide.ts：deal pipeline、stage/probability、win/loss reason、won deal 链接 Bid Management/Contracts；playbook：contact→opportunity→live project→tender。",
+      "service_form": "自托管建筑 ERP 中的 CRM、tendering/bid-management 与 award 子流程组合；不是独立 preconstruction SaaS。",
+      "gaps": "bid date、no-bid 状态、估算修订意识未明确；外部投标人门户的部署与权限隔离未测试；pursuit 与 tender 的先后关系在不同路径下略有差异。",
+      "result": "持久 pursuit、priced scope、供应链询价与平衡、award/handoff 四属性均有正文依据，通过。"
+    },
+    "progress-billing": {
+      "application_id": "github:1199643986",
+      "track": "open_source",
+      "license": "AGPL-3.0（LICENSE 全文核对；README 另述可选商业许可）",
+      "core_evidence": "aia.py 明确 G702/G703 是既有 ProgressClaim/ProgressClaimLine 之上的 AIA 展示层，claim FSM、certification 与 finance invoice bridge 不重复；G703 的 D/E/F/G/I 列、前次申请值、累计完成值、保留款列，以及 G702 line 7 previous certificates 与 line 8 current payment due 有代码正文；retention.py 按 SOV 行累计、支持 tier 与 final/substantial completion 释放及所需文件。",
+      "service_form": "自托管建筑 ERP contracts 模块中的进度索赔、AIA 展示层与保留款子系统；不是通用发票工具。",
+      "gaps": "两方提交-审查-认证界面、行级接受/拒绝、申请编号与计费期门禁、合规文件、付款方权限未由快照直接展示；AIA 层仅 US/CA/AU，通用 claim 引擎仅由 docstring 引用；未运行应用。",
+      "result": "编号申请序列的累计计算、保留款与证书化应付有代码级依据，核心通过；工作流 UI 留档缺口已记录。"
+    },
+    "project-controls-platform": {
+      "application_id": "github:1199643986",
+      "track": "open_source",
+      "license": "AGPL-3.0（LICENSE 全文核对；README 另述可选商业许可）",
+      "core_evidence": "planning-and-cost-control.md：4D Gantt、activities、dependencies、critical path；5D 将 priced BOQ 摊到进度形成 S-curves、cash-flow、budgets、earned value；EVM 指标、EAC、to-complete、forecast；baseline plan/budget；change/variation/management-of-change 的成本与进度影响；executive project-controls dashboard；README 另列 Finance & Earned Value 与 portfolio KPIs。",
+      "service_form": "自托管建筑 ERP 中的 4D/5D、project_controls、full_evm 与报表模块；不是纯成本或纯进度工具。",
+      "gaps": "WBS/CBS/control account 结构、基线版本化与重新基线、多项目 program/portfolio 汇总细节未明确；EVM 计算、基线锁定未运行验证。",
+      "result": "集成绩效基线、测量循环、受控变更、治理报告四个核心有正文依据，通过。"
+    },
+    "quantity-takeoff": {
+      "application_id": "github:1199643986",
+      "track": "open_source",
+      "license": "AGPL-3.0（LICENSE 全文核对；README 另述可选商业许可）",
+      "core_evidence": "quantity-takeoff.md：PDF/DWG/IFC 施工文件作为尺寸来源；PDF 按页校准比例尺后测量距离、面积、计数；DWG 按图层读取几何；模型按 category/type/level/family 分组；每个测量与图纸区域或模型元素保持链接；测量送入 BOQ position 或经 quantity picker 链接多元素；AI 建议需人工确认。README 另列 CAD/BIM takeoff、DWG polyline、PDF measurement、BIM quantity picker。",
+      "service_form": "自托管 Web 应用中的 takeoff、DWG takeoff 与 BOQ 模块；不是纯浏览器单页工具。",
+      "gaps": "测量对象是否可见、可选择、可编辑，图纸版本对比、多人协作、大图纸集性能未明确；未运行提取引擎、BIM/CAD 解析或并发测试。",
+      "result": "施工文件作为尺寸来源、图上测量对象与追溯、按项累计三个核心有正文依据，通过。"
+    }
+  },
+  "limits": "只读审查；未部署或运行 OpenConstructionERP，未验证运行时、多租户、席位、外部投标人与付款方权限、BIM/CAD 解析、EVM 计算、基线锁定、会计对接等。快照严格按 REVIEW_SOURCES.json 的 path 读取，未读取其他单元，未运行 shell，未写文件。research.json 已记录 websearch HTTP 401、GitHub API 403 等采集缺口；本次未补充价格、架构或额外来源研究。input.json 的 progress/application_ids 未与 research.json 同步，本报告以 batch.json 与 research.json 的实际记录为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-168/ses_groveopencodegop168review1_1793017708.jsonl",
+  "batch_sha256": "f3d53ddc69cc17647afb1ca044c9d8e68668fa8f106669d29ceeaf624e9ce3a1",
+  "research_sha256": "a986fba2e3a4a638e52dda658865b06bacfc05e30910ad84cfbccde7f833855e",
+  "input_sha256": "269fd07d5e42323956e81681f8a7df40fe6023a2402df5dff160bcf34311d2a8"
+}

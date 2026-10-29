@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "来源 URL 记录为 https://www.litera.com/products/litera-transact，但两个同址快照的 canonical/og:url 均为 https://www.litera.com/capabilities/close，页面标题是“Close | Litera”。这说明产品页已重定向到 Litera Close 能力页，Litera Transact 以该页的“Transaction Management”卡片形式出现。证据本身仍是 Litera 官方正文，不影响类型匹配，但建议在来源元数据中补记 canonical URL，避免被误读为独立的 Transact 产品专页。",
+    "REVIEW_SOURCES.json 把 42d4c3… 与 4180b1… 都标为 documentation，实际前者是能力页、后者是产品发布博客，kind 标签不够精确；这不影响证据可用性，但后续统计来源类型时会失真。",
+    "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]，phase 为 included_without_cases；而 research.json 已记为 case_found 并给出 commercial:litera-transact，batch.json 也已收录该条目。建议同步单元状态字段，避免输入状态与批次、研究记录不一致。",
+    "research.json 的 note 称 5.0 公告说明结果“可直接存回 DMS”，但所存快照正文中未检出 DMS 或存回表述；快照只把 iManage、NetDocuments 列为工作环境，并描述文档处理与签署、交割流程。该细节建议删除或补充可核对的出处，当前不应作为已证事实引用。",
+    "本叶核心证据主要来自官方能力页的产品卡片三条要点和 2024-10 的 5.0 发布博客；单个交易作为持久工作区、签署版本整理为已执行版本、交割集固定快照等细则未在这些营销正文中展开。对商业条目而言，基本真实性与核心类型匹配已经成立，但若后续获得可读的产品文档，可进一步加固定义性细节。",
+    "批次摘要中的“审批”有页面“Tasks, approvals, signatures...”支撑；“生成交割集与交割簿”有“Instant, perfectly formatted closing sets and books in minutes”支撑，未发现超出快照的实质性夸大。"
+  ],
+  "leaf_checks": {
+    "transaction-legal-management": {
+      "application_ids": [
+        "commercial:litera-transact"
+      ],
+      "definition_core": "核对通过。官方能力页正文（42d4c3… 快照第 1915–1922 行）将 Litera Transact 标为“Transaction Management”，称其为“The record the whole deal runs on”，并列出动态检查清单集中任务、自动化签署管理与实时签署人跟踪、数分钟内生成格式化交割集与交割簿；同页第 1847 行描述组装签署包、跟踪签署人并自动生成交割集与交割簿。5.0 公告正文（4180b1… 第 1665 行）称其为交易管理工具，整合文档处理、任务组织、签署与交割流程，覆盖 M&A、风险投资、房地产，并说明可从检查清单直接查看签署状态。上述内容共同覆盖“交易记录 + 检查清单 + 文档到签署/交割流水线 + 交割交付物”的定义性核心。",
+      "saas_form": "核对通过。Litera 为商业厂商，页面提供产品门户登录与 Request a Demo 入口，未声明自托管或社区版；条目 track=commercial，未作开源主张，符合商业 SaaS 服务形态。runtime_tested=false 已如实记录，本轮不要求部署或登录验证。",
+      "id_track": "核对通过。batch.json 中 id=commercial:litera-transact、track=commercial，与 research.json 的 case_ids 及 REVIEW_SOURCES.json 的 applications 完全一致；leaf_matches 仅指向 transaction-legal-management，slug 与父级 11.01、domain 11 的关系无冲突。",
+      "license": "不适用（商业条目）。本单元未收录开源应用，因此不存在需核对完整许可证、仓库身份或社区版边界的情形；research.json 对开源候选的排除有检索记录，但未随附仓库快照，故本轮无法独立复核其许可证细节，仅作为未入选候选的背景。",
+      "gaps": "缺口一：记录的 /products/litera-transact 已重定向为 /capabilities/close 能力页，Litera Transact 仅有卡片级正文，非独立产品专页；缺口二：research.json 提及的 support.litera.com 端到端概览快照仅为 Web 运行时壳、正文不可读，且未被引用，本轮也未在 REVIEW_SOURCES 中提供；缺口三：5.0 博客快照正文在首个列表项后被截断，后续功能条目无法逐条核验；缺口四：未做部署、登录或运行测试，也未补价格与架构资料（本轮不要求）。上述缺口不影响商业条目的基本真实性和核心类型匹配。",
+      "source_basis": [
+        "data/collections/sources/b7b7c8e431da202df211b1d37051d5950de4b6f94ddeaa54c876cf1877ec5f03.txt",
+        "data/collections/sources/42d4c3748af5c5f61a4d4ff86314d2dcdaae2f53af3f8dcbd38b13a9e7988f8b.txt",
+        "data/collections/sources/4180b12103dc48c61c05c97909145266972044b3f59906c078d7d35abeb8d897.txt"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审，仅使用本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的三个快照，未运行 shell、未写入文件、未访问其他单元，也未做部署、登录、运行测试或补充检索。产品页快照实际为 /capabilities/close 能力页的重定向结果，Litera Transact 仅有卡片级正文；5.0 博客快照正文在首个列表项后截断；research.json 提及的 support.litera.com 快照未提供且正文不可读；被排除的开源候选仅有检索结论，无仓库或许可证快照可供独立复核。因此对产品内部权限模型、已执行版本整理、审计日志等细节未作验证，结论限于商业条目的基本真实性、定义性核心与类型关系。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-071/ses_groveopendesignp071review1_1793192245.jsonl",
+  "batch_sha256": "09e1ab238bbddfb630855cd2ce9259fd03ed831f6a4222816a6396bddfc0eed0",
+  "research_sha256": "e17097cf59045561e05c12476b7977798575b3d27bd07690edeff3abf81f0889",
+  "input_sha256": "77192f0cede30e225949d21bce7a631e3df4e0afcf485d807921c894e3d86768"
+}

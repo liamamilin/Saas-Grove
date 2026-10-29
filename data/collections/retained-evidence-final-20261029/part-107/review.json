@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "许可证快照（data/collections/sources/1b2e2bf56bca3872c095cdb0b5f439cbc203258761c0f9b142fc9d173fffc227.txt）实际是 GitHub contents API 形状的 JSON（含 base64 全文、size 11357），而 batch.json 的 license_evidence_url 标为 /repos/.../license 端点；两者都是官方来源且全文为 Apache License 2.0，不影响许可证结论，但建议把 evidence URL 改为 contents/blob 地址，或改存 /license 的 SPDX 响应，避免 URL 与响应体形状不一致。",
+    "batch.json features 中的“架构模型与决策文档”目前仅由文档站导航里的 ADR 入口支撑，DSL 正文快照未包含 ADR 页面正文；若要保留该功能点，建议补 /dsl/adr（或 Architecture Decision Records）正文快照，否则可删去该条以免以导航代替正文。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，与 batch.json/research.json 新记录的 github:1106797061 不一致；这是采集前输入与采集后结果的正常差异，但合并回目录时应同步 progress、case_status 与 application_ids，避免下游读到旧状态。",
+    "服务形态表述建议统一为“自托管 server（Docker 启动、通过 workspace API 推送发布）+ 仅 localhost 的 local 查看器”；开源核心不含认证与基于角色的访问控制（server 文档 Open core 列 Authentication=None、Role-based access=No），不要再出现“团队协作/多人实时协作”或“托管 SaaS”类断言。",
+    "README 快照为复用历史留档（fetched_at 2026-10-24，main 分支），其“single model → multiple diagrams”叙述与当前文档一致；若后续要引用具体版本能力，建议刷新抓取时间并固定 commit。",
+    "docs 站三份快照（dsl/local/server）为单行 HTML，含大量站点导航与样式；本次以 body 段落（如“The Structurizr DSL provides a way to define a software architecture model…”、“Access is only permitted via localhost URLs, there are no authentication, authorisation, or collaboration features”、“open core … prebuilt binaries … license required”）为据，建议后续采集保留正文纯文本以便逐句复核。",
+    "research.json 中 structurizr/structurizr-lite 的 404 查询、以及 lite/onpremises 归档迁移说明已如实记录且未当作证据使用，符合留档要求；无需补做额外检索。"
+  ],
+  "leaf_checks": {
+    "software-architecture-modeling": {
+      "slug": "software-architecture-modeling",
+      "verdict": "pass",
+      "application_id": "github:1106797061",
+      "definitional_core": "成立。README 正文明确“you write Structurizr DSL to create multiple software architecture diagrams from a single model”，DSL 文档正文明确“The Structurizr DSL provides a way to define a software architecture model (based upon the C4 model) using a text-based domain specific language”，两者合起来覆盖了本叶“持久单一模型 + 多张作为模型视图的架构图”的核心；建模对象为软件系统结构（C4 的 system/container/component 等），与通用绘图/白板、MBSE、业务流程、API 契约、数据库模式等相邻类型有明确区分。",
+      "service_form": "成立且有据。local 文档：免费开源的 local 命令用于查看图表并调整布局，仅允许 localhost 访问，无认证/授权/协作功能；server 文档：server 命令为自托管服务，用于向更广受众发布工作区，内容经 workspace API 推送；quickstart 快照含 docker run ... structurizr/structurizr server 与浏览器访问 localhost:8080 的步骤。属于持续运行的 Web 应用服务形态，而非仅库或纯本地脚本；团队协作/多租户 SaaS 未被主张，边界收窄得当。",
+      "identity_and_track": "一致。GitHub API 快照 id=1106797061、full_name=structurizr/structurizr、private=false、fork=false、archived=false，与条目 id github:1106797061、repository_url、github_repository_id 完全对应；track=open_source 与仓库 Apache-2.0 许可、源码可构建的定位匹配；homepage 指向官方文档站。",
+      "license": "通过。license 快照含 Apache License Version 2.0（January 2004）完整条文，base64 解码后 size 11357，与标准 Apache-2.0 全文一致，非仅 SPDX 标签或摘要；条目 license=Apache-2.0 属实。",
+      "community_edition_boundary": "通过。server 文档正文区分 Open core（Build from source，Free）与 Prebuilt binaries（License required，企业功能），并列明开源核心无 RBAC、认证为 None 等；batch deployment 与 research service_boundary 的表述（源码免费构建的开源核心、预构建二进制企业功能需许可证、不纳入开源核心）与之一致，未把付费企业能力算入开源范围。",
+      "evidence_basis": "实际读取：data/collections/sources/ef49da…（仓库元数据）、1b2e2b…（LICENSE 全文 base64）、c645c4…（README 正文）、cfddd6…（DSL 文档正文）、50de4f…（local 文档正文）、eeb189…（server 文档正文及 open core 表）、92d4d6…（server quickstart，含 docker run 与浏览器访问步骤）；路径均按 REVIEW_SOURCES.json 原样读取，未猜测或缩写。research.json 记录的 404 查询与 lite/onpremises 归档迁移已如实留档。",
+      "gaps": "无可阻断缺口。非阻断：模型主/视图从属的交互语义（删除元素仅影响当前视图、编辑同步所有视图）未由正文逐条展开，目前由 README“single model → multiple diagrams”与 DSL 建模定义支撑；ADR/文档能力仅见导航；运行时未实测（条目已标注 runtime_tested=false）。"
+    }
+  },
+  "limits": "只读初审，仅覆盖本单元唯一叶子 software-architecture-modeling 及其一个条目 github:1106797061；未运行任何 shell、未部署或运行 Structurizr、未做价格与架构实测。所有结论以 REVIEW_SOURCES.json 列出的 7 份本地快照为准（按 data/collections 前缀原样读取）；其中三份文档站快照为单行 HTML，读取接口按行截断，故采用针对性检索确认正文语句是否存在，未做整页逐段通读，也未据此推断未出现的语义。为交叉印证，另行只读抓取了 docs.structurizr.com 的 dsl/local/server 三个在线页面，其结果与快照正文一致，但未作为独立证据扩大结论。未读取其他单元、采集过程脚本或 TASK.md 之外的指令性文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-107/ses_groveopendesignp107review1_1793200992.jsonl",
+  "batch_sha256": "1b32180e9eaa133f90d1a50c631fc4945146634aeeb36a5932496ec376c71116",
+  "research_sha256": "cf7baf3e7286e77a16e2e9e39ec6661188f028a2c301324ce6066873095e0b40",
+  "input_sha256": "a8446ad7ad6d1b775872865b264e933d3e0b33e44eece9904a4f4c4dc77ebdaa"
+}

@@ -1,0 +1,38 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "issue": "OpenUDS 条目仅有 GitHub 仓库元数据、20 行 README 简介和完整 BSD-3-Clause LICENSE。README 只说明它是多平台 connection broker，列出 VDI 虚拟桌面管理/部署、应用虚拟化和桌面服务整合；没有官方正文证明已发布资源目录、按用户/组授权、远程交互会话（完整桌面或无缝合应用窗口）以及受管主机群这些定义性核心。官方 www.openuds.org 因 TLS 主机名不匹配抓取失败，研究记录也没有引用可替代的官方管理文档，因此 batch 的 official_sources_reviewed 和 leaf_match 结论超出实际快照能支持的范围。",
+      "fix": "补充 OpenUDS 官方文档或管理手册中关于桌面/应用发布、用户/组授权、会话建立和主机池管理的正文并重新引用；若无法取得，则将该条目标记为定义性核心证据不足或移出本叶，不要把 README 简介和仓库主题当作核心工作流证据。"
+    },
+    {
+      "slug": "message-queue-management",
+      "application_id": "github:148059143",
+      "issue": "AKHQ 的官网首页和 docs 快照都是 VuePress JS 壳，正文未渲染，只有 meta description；README 只有一句“Kafka GUI ... manage topics, topics data, consumers group, schema registry, connect”。现有正文没有证明 consumer lag/消息流可见性、死信浏览与重投、purge、连接终止等核心操作。batch 的 leaf_match 声称“官方首页与 README 说明 ... consumer group 与 lag 查看 ... ACL 管理”，但首页快照不含该正文，README 也未提 lag 或 ACL，属于用元数据/简介替代核心正文。",
+      "fix": "补充 AKHQ 官方文档中 topic 数据浏览、consumer group lag、ACL/集群配置管理、死信或 purge 等实际正文页面并重新引用；在补证前把 leaf_match 收窄到 README 可证实的 topics/topics data/consumer group/Schema Registry/Kafka Connect 范围，并将 verification_status 调整为记录核心证据不足。"
+    }
+  ],
+  "non_blocking_notes": [
+    "application-portfolio-management：LeanIX 页面中的 5 个月 time-to-value、$422k IT 预算削减、80% 透明度提升属于厂商营销数据，未作为核心类型证据；商业条目只按页面正文核对基本真实性和 APM 类型匹配。",
+    "certificate-lifecycle-management：features 中“ACME DNS-01/HTTP-01”标注为文档导航可见，引用正文只核到 ACME Issuer 与 Certificate/Secret/续订流程；该细节不影响集群内控制器形态的核心匹配。",
+    "cpaas-management：Somleng 条目主体是 CPaaS 平台，Dashboard/API 是其管理面而非独立的第三方 CPaaS 控制台；定义允许平台提供方自带控制台，但产品身份说明可更明确地限定为管理面。文档未核到按周期的 usage/cost 汇总，研究记录已如实披露，batch 也未据此写成已证实能力。",
+    "desktop-application-delivery：OpenUDS README 提示 master 分支处于重度开发、建议使用 v4.0 稳定分支；若保留该案例，应在社区版边界/版本说明中注明，避免把 master 当作稳定交付版本。",
+    "message-queue-management：AKHQ README 含 Kestra 推广和用户列表，与核心类型无关；官网/docs 的 JS 壳问题属于抓取渲染限制，不应通过 HTTP 成功或 meta description 推断核心功能。",
+    "OpenUDS 的 docs.openuds.ru 快照已在 research 中记录为“抓取但未引用”的社区文档，未进入 REVIEW_SOURCES；该处理正确，不应把非官方文档补作核心证据。"
+  ],
+  "leaf_checks": {
+    "application-portfolio-management": "已读取 LeanIX 官方产品页正文快照，核到应用清单/持续更新的 inventory、明确 ownership、按 functional fit/technical fit/cost/lifecycle status 评估、TIME 分类、退役影响分析与 application rationalization；commercial track 和 application_id 匹配，按商业条目只做基本真实性和类型匹配。",
+    "certificate-lifecycle-management": "已读取 cert-manager 官方文档正文、README 和完整 Apache-2.0 LICENSE；文档说明 Certificate 资源经 Issuer/ClusterIssuer 签发，证书与私钥写入 Secret，并按 duration/renewBefore 自动续订和重新签发；repo id 92313258 与 open_source track 匹配，集群内控制器形态属于定义明确包含的边界。",
+    "cpaas-management": "已读取 Somleng 官方 docs 正文，核到 Dashboard、Accounts、Phone Numbers、SMS Gateways、SIP Trunks、Team、Authentication，以及 Account SID/Auth Token 和 Phone Calls/Messages 记录可见；完整 MIT LICENSE 与 repo id 61023964 匹配。成本/用量汇总未在正文核到，研究记录已披露，batch 未将其写成已证实能力。",
+    "desktop-application-delivery": "仅读取 GitHub 仓库元数据、20 行 README 简介和完整 BSD-3-Clause LICENSE；README 只说明 connection broker/VDI 管理部署/应用虚拟化/桌面服务整合，未提供发布资源、授权、会话和主机池正文；官方站点 TLS 失败，核心证据不足，见 findings。",
+    "message-queue-management": "读取 README（一句 Kafka GUI 描述）、完整 Apache-2.0 LICENSE；官网首页和 docs 快照为 VuePress JS 壳，正文未渲染，仅 meta description。缺少 consumer lag/消息流、死信、purge、连接终止等核心操作正文，核心证据不足，见 findings。"
+  },
+  "limits": "本次仅做只读初审，未运行 shell、未写文件、未部署或运行任何产品，未读取其他单元，也未做额外网络检索；核对以 REVIEW_SOURCES.json 列出的快照路径为准，未对快照重新计算哈希。商业产品仅核对页面正文的基本真实性和类型匹配，未核实价格、部署架构或实际功能；OpenUDS 官方站点 TLS 失败、AKHQ 官网/docs 为 JS 壳，相关核心工作流无法从现有快照确认。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-141/ses_groveopencodegop141review2_1793011870.jsonl",
+  "batch_sha256": "d781bfc68543f725a312d3c87c33b6dddd023b88eb51ca6d305ad5c60d85185d",
+  "research_sha256": "ed2afebd2be23f5160fe472ed63e785d681391fbb8ee36c2ec69352471cf0347",
+  "input_sha256": "25e2dbbf887906ba607178f78ba9bff72b6ae73e2c1310174be21a50cc4d725e"
+}

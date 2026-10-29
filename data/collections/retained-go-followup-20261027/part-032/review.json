@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "fan-membership-platform：943eb... 的正文与 https://ko-fi.com/features 当前页面一致（'Payday your way!'、'Memberships tiers'、'Launch memberships with exclusive content'），但其 canonical/og:url 指向 https://ko-fi.com/，属于站点元数据问题，不是采集 URL 错误。建议补一份 /memberships 快照，以原文明确 'monthly price'/'charged every month'；当前快照已能把 memberships 与 tips 区分，但定期会费仍属推断。",
+    "paid-community-platform：Circle 首页正文中的 'one-time purchases'、'recurring subscriptions'、'access groups'、'discussions' 等精确短语可确认付费场地与支付门槛；但营销页没有展开到期/取消后的访问降级、退款/分成/税务操作。商业基本匹配足够，若后续要更硬的核心证据可补产品文档。",
+    "Familiar：三份快照的正文确实存在，但被压缩在超长 HTML 行内；建议另存可读正文或文本抽取，便于审计。Familiar 同时用于 author-management-platform 与 book-publishing-management，建议在案例说明中分别引用 'How It Works/royalty' 与 'Production & metadata/launch plan' 的不同段落，避免同一段营销文案跨叶复用。",
+    "book-distribution-management：无案例的结论可接受；Abelujo 的边界判断合理，但其快照不在 REVIEW_SOURCES/本单元 sources 中，无法复核页面正文。若要求留档自包含，补入该快照或明确记为未保留；可再补 'publisher distribution ERP / book trade order fulfilment' 等查询，但非必须。",
+    "OMP/PubAssist：两者均未收录，仅作为开源排除记录。research 引用的 OMP 元数据/许可证/README/产品页/文档快照与 PubAssist 元数据快照均不在本单元，GPL-3.0、id=316598、license=null 等具体结论无法复核；建议补快照或删除这些细节，保留类型边界结论即可。",
+    "book-publishing-management 的 aliases_zh 含 '图书发行管理'，与 book-distribution-management 的中文名冲突，建议在定义层消歧；不影响本次应用证据判断。",
+    "input.phase 仍为 included_without_cases，而 batch/research 已提出案例；保存时建议更新 phase/case_status，避免状态不一致。"
+  ],
+  "leaf_checks": {
+    "fan-membership-platform": {
+      "status": "passed",
+      "applications": [
+        "commercial:ko-fi"
+      ],
+      "basis": "读取 943eb...（https://ko-fi.com/features，正文含 'Payday your way!'、'Launch memberships with exclusive content'、'Memberships tiers'、'You set the pricing and the terms of sale'）与 ae265...（首页，tips/shop/commissions 与 memberships 分列，supporters 直接付款给 creator）。创作者作为对手方、会员层级与权益、粉丝付费关系均成立；SaaS 形态与 commercial:ko-fi ID/track 一致。",
+      "gap": "两份快照未出现 monthly/every month 的会费周期；'subscriptions' 仅在 meta keywords。补 /memberships 快照可把定期会费从推断变为明文；当前类型匹配不受影响。"
+    },
+    "paid-community-platform": {
+      "status": "passed",
+      "applications": [
+        "commercial:circle"
+      ],
+      "basis": "读取 e5b7...；首页正文精确出现 'one-time purchases'、'recurring subscriptions'、'access groups'、'discussions'，对应托管社区场地、入场报价与支付门槛；Circle 为托管 SaaS，commercial:circle 类型匹配。",
+      "gap": "首页超长行导致未能逐句阅读；未明确展示到期/取消后的访问降级或 host 侧 payout/fee/tax 操作。商业基本匹配可过。"
+    },
+    "author-management-platform": {
+      "status": "passed",
+      "applications": [
+        "commercial:familiar"
+      ],
+      "basis": "读取 11a970...、3bd646...、77b090...；首页正文含 'Add Your Books and Contributors'（书名/ISBN/格式，作者/合著者/插画师等及版税比例、阶梯费率、预付、按格式分成）、'Import Sales Data from Distributors'、'Review and Send Statements'；royalty 页含 26 种对账单、contracts/advances/splits、contributor portal；contract 页含按格式费率、advance、reserve、signers、addendum、e-signature。四段结构均有官方正文依据；commercial:familiar 的 ID/track 与 SaaS 订阅形态一致。",
+      "gap": "正文位于超长行内，read 仅显示行首；已用快照中的精确短语命中并用官方 live 页面交叉读取上下文。未做运行时测试。"
+    },
+    "book-distribution-management": {
+      "status": "passed_with_gap",
+      "applications": [],
+      "basis": "batch 无该叶条目；research 记录一次 web search 和 Abelujo 抓取，指出 Abelujo 是书店零售 POS/门店库存/补货/预订，不是出版方/分销商的贸易客户订单与库存履约系统；未发现同时具备书目标题目录、贸易账户、销售订单、库存/发货、退货闭环的完整应用。按无案例留档处理，未把相邻零售系统当案例。",
+      "gap": "Abelujo 快照 e75ac... 不在 REVIEW_SOURCES/本单元 sources，页面正文无法复核；只能依据 research 的边界描述。该叶为 no case，记录缺口不影响不收录结论，但留档应补快照或明确未保留。"
+    },
+    "book-publishing-management": {
+      "status": "passed",
+      "applications": [
+        "commercial:familiar"
+      ],
+      "basis": "读取 11a970...、77b090...；首页正文展示 title/edition（Hardcover/Paperback/Ebook/Audio、ISBN、Publish date、Launch plan）与 'Production & metadata' 的 'Every book gets a production schedule dated back from its publication date, with ISBNs and metadata kept together and ONIX delivered to your channels'，并有 ISBN blocks/ONIX 3.0；contract 页提供按格式费率、advance、reserve、signers、addendum。title record、contributors under recorded contract terms、pre-publication lifecycle 三段成立。",
+      "gap": "Familiar 正文同样在超长行内；OMP 的仓库/许可证/文档快照不在本单元，其排除边界只能按 research 记录。未做运行时测试。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元、未做运行时/部署/价格/架构测试。REVIEW_SOURCES.json 仅提供 6 份快照；research.json 另引用 8 份未随单元提供的快照（Abelujo 1、OMP 6、PubAssist 1），这些非案例页面与 OMP/PubAssist 的许可证/仓库细节无法复核。快照为原始 HTML，单行可达数十万字符，read 每行截断约 2,000 字符；Familiar 与 Circle 的正文位于超长行内，我通过快照内精确短语命中并用官方 live 页面（familiar.pub 产品页、ko-fi.com/memberships）交叉读取上下文，未能逐句渲染整份快照。商业价格、部署、架构与运行时行为均未核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-032/ses_groveopencodegop032review1_1793078602.jsonl",
+  "batch_sha256": "517d2338d39ace5790a4eaa5d0220360852d4cbe38b9083131e42c969c7696ec",
+  "research_sha256": "583715a1cf23c036042da7d5e2cbd55c66f45f298808f58e93c04960dcbc9c81",
+  "input_sha256": "580e134e1dd914380c67de33f2a952098046b3304d52fc9e08957d391077d383"
+}

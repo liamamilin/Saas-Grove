@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "internal-audit-management",
+      "note": "input.json 与 continuation 仍记录 case_status/input_status=insufficient_evidence、application_ids 为空，而 data/collections/research.json 已给出 case_found 和 case github:1325693726。正文核对已在批次中补齐，建议入库前同步叶子进度与 application_ids，避免上游状态与批次证据不一致。"
+    },
+    {
+      "slug": "internal-audit-management",
+      "application_id": "github:1325693726",
+      "note": "README 提到 AI 起草报告段落、BYO-key、DuckDB 数据工作台等能力，批次 features 只写了数据工作台与报告输出，未写 AI 段落，属摘要取舍而非错误；如需完整呈现可补一行。"
+    },
+    {
+      "slug": "internal-audit-management",
+      "application_id": "github:1325693726",
+      "note": "package.json 中 \"private\": true 只是 Next.js 应用的 npm 发布开关，不构成许可证或分版限制；许可证与社区版边界应以 LICENSE（Apache-2.0 全文）和 README License 段为准。"
+    },
+    {
+      "slug": "internal-audit-management",
+      "application_id": "github:1325693726",
+      "note": "research.json 的 fetch_outcomes 列出的 universe 模块目录、drizzle 迁移、git tree、commits 等抓取未保留快照，也未进入批次引用；其中“提交记录显示 2026-07 至 2026-08 开发”仅有仓库 created_at 元数据可佐证，提交历史本身未被留档，宜标注为辅助印象而非结论依据。"
+    },
+    {
+      "slug": "internal-audit-management",
+      "application_id": "github:1325693726",
+      "note": "仓库为 2026 年创建的个人账号项目（stars=0、非 fork、版本 0.1.0），属早期项目；成熟度与生产使用情况未被评估，建议在展示时保留“早期个人项目、未运行验证”的限定，不影响类型认定。"
+    },
+    {
+      "slug": "internal-audit-management",
+      "note": "README 的 Roadmap（SSO/OIDC/SAML、Postgres RLS、MCP 等）为未实现计划，批次未将其列为现有特性，处理正确，后续勿把路线图能力并入 features。"
+    }
+  ],
+  "leaf_checks": {
+    "internal-audit-management": {
+      "application_ids": [
+        "github:1325693726"
+      ],
+      "result": "pass",
+      "definition_core": "README 正文逐模块给出常设内审程序结构：Audit Universe（Division→process→entity 层级与业务背景）、Risk Assessment（加权因子评分、冻结期间历史、KRI 阈值）、Dynamic Planning（风险驱动年度计划、审批快照版本化与修订差异、人力容量分配）、Engagements（阶段、范围文档、风险控制矩阵、模板化审计程序、证据工作底稿、编制/复核分离签字）、Issues（condition/criteria/cause/effect、管理回应、责任人、截止日）、Reports（版本化签发、PDF/Word）。docs/conformance.md 进一步把 IIA 2024 准则条款映射到上述能力，含 9.4 计划、14.6 工作底稿、15.2 整改验证、12.2 计划进度与问题老化看板。定义性核心五项（自有审计职能为管理对象、审计范围、风险定期计划、执行计划的审计项目、发现台账至验证关闭）均有正文级依据，非仅仓库简介。",
+      "findings_ledger": "src/modules/issues/schema.ts 实际代码给出 condition/criteria/cause/effect/rootCause/recommendation/managementResponse/ownerUserId/dueDate 字段，状态机 draft→issued→in_remediation→evidence_submitted→closed_verified/risk_accepted/reopened，并有被审计方 remediation 更新与延期申请、审计方裁决等输入 schema，支撑“跨项目台账直至验证关闭”这一关键区分点。",
+      "service_form": "持续使用的软件服务形态成立：Next.js App Router 单体 + PostgreSQL + Drizzle 迁移，README 给出 Docker Compose 自托管步骤、/setup 首个管理员初始化与持久化卷；src/app 下存在 (app)/(auth)/(portal) 路由组，src/modules 下存在 admin/dashboard/engagements 等业务模块。属可运行 Web 应用，而非 SDK、桌面程序或纯文档仓库。未做部署实测（runtime_tested:false），符合本次只读审查范围。",
+      "identity_track": "身份与 ID/track 一致：仓库元数据 id=1325693726、full_name=daniellewisDL/auditone、fork=false、archived=false、default_branch=main，与 batch 的 id、repository_url、github_repository_id、homepage 完全对应；track=open_source 与 README“Open-source internal audit management / self-hosted”一致，deployment=self-hosted 与 Docker 自托管说明一致。",
+      "license": "GitHub license API 快照返回 LICENSE（size=11358，与 Apache-2.0 标准许可全文长度一致），base64 content 起始为“Apache License Version 2.0, January 2004”，metadata 中 spdx_id=Apache-2.0；README License 段亦声明 Apache-2.0。属完整许可证正文，非仅 SPDX 标签或简介。",
+      "community_edition_boundary": "未发现开源版/商业版切分或 open-core 迹象：README 将全部功能（含 AI BYO-key、数据工作台、被审计方门户、报告）作为同一自托管应用描述，License 段为整体 Apache-2.0，无付费版/企业版入口或功能阉割说明；研究记录也明确“社区版即全部代码，未见商业分版”。",
+      "gaps": "未检索到独立厂商站点或第三方采用证据；仓库元数据单行 JSON 在按行读取时被截断，字段级事实（created_at、stargazers_count、archived、license.spdx_id）通过模式检索确认，未逐字通读整份元数据；research.json 中 commits/tree 等抓取未保留快照。以上缺口不涉及定义性核心、许可证或身份，已如实留档，故不阻断。"
+    }
+  },
+  "limits": "仅使用本单元只读资料：REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 8 个快照（按 path 原样读取，sources 前缀相对 data/collections）。未运行 shell、未写文件、未读取其他单元、未联网复核或访问 GitHub 现状。未部署或运行 AuditOne，运行可用性、性能与生产成熟度未验证。仓库元数据与目录快照为单行 JSON，读取显示按行截断，字段级结论依赖模式检索；research.json 记录的 universe 模块目录、drizzle 迁移、git tree、commits 等抓取未提供快照，未作为本次核心判定依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-085/ses_groveopendesignp085review1_1793196549.jsonl",
+  "batch_sha256": "f4e47382fa2ba6e8022a7541e200fd6129048609a9d6e9eb96827d391983e285",
+  "research_sha256": "e8bd078764aeae28467c209a21f48288bdc637999be72095689204a92593cc0c",
+  "input_sha256": "8de62118e359b5bc1f3b9e9d82cb455516ddca3b85cc0cb1e079c039f48268ba"
+}

@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "desktop-application-delivery",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:21491087"
+      ],
+      "query": "OpenUDS 官方 REST API 规范补证：service/servicepool/group/servers",
+      "source_urls": [
+        "https://github.com/VirtualCable/openuds",
+        "https://raw.githubusercontent.com/VirtualCable/openuds/master/README.md",
+        "https://raw.githubusercontent.com/VirtualCable/openuds/master/LICENSE",
+        "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/api/rest.yaml",
+        "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/api/README.md",
+        "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/source/quickstart/quickstart.rst"
+      ],
+      "note": "历史复用：仓库页 a7e5cc30…、README 7fea5374…、LICENSE 2fc0a0ca…保留原抓取时间与 SHA；此前抓取的 admin/user 薄文档（d800cea4…、cf003e45…）只覆盖默认凭据与登录，仍保留在 fetch_outcomes 中但不作为核心证据。本轮补采：官方 broker 仓库 doc/api/rest.yaml（新快照 37f72a28…，2026-10-29）、doc/api/README.md（新快照 d41e4832…，2026-10-29）与 doc/source/quickstart/quickstart.rst（新快照 4c0e509f…，2026-10-29）。rest.yaml 是仓库内生成的 OpenAPI 规范，正文包含 ServiceItem/ServicePoolItem 的命名、可见性与服务池配置，ServicePoolGroupItem 的目录组织，PublicationItem 的发布状态；/authenticators/{uuid}/groups/servicesPools 明确为“该组可访问的所有 service pool”，/authenticators/{uuid}/users/servicesPools 明确为“该用户有活动分配的 service pool”；RemoteAppService 定义 application_path，RemoteSessionService 面向 RDS 服务器，TransportItem 及 RDP/HTML5RDP/SPICE 传输描述远程会话与重定向策略，UserServiceItem 含 state/in_use/source_host；/servers/groups 与 /servers/groups/{uuid}/servers 管理服务器组及成员，ServicePoolItem 的 initial_srvs/max_srvs 描述主机数量范围。doc/api/README.md 说明该规范由实际 REST handler、model serializer 与 GUI 字段描述生成；quickstart 说明自托管启动后通过 Web 界面管理 broker、tunnel、providers 与 services，支撑“Web 管理门户”的服务形态。四层定义性核心均有官方正文对应，故恢复关系。官方 openuds.org/www.openuds.org 仍为 TLS 主机名不匹配，docs.openuds.org TLS 连接失败，未取得官网叙述手册；不把未检索到写成不存在。未运行、未部署，不延伸高可用、扩展性或商业支持。",
+      "service_boundary": "自托管开源连接代理/管理服务（Web 门户 + REST API），面向组织内部 IT 运营；官方正文覆盖命名服务/服务池发布、按用户/组授权、RemoteApp/RemoteSession 与 RDP/HTML5/SPICE 会话、服务器组与主机数量管理。未验证实际部署、高可用、扩展性，也未核到商业支持与价格，不延伸这些断言。",
+      "search_attempts": [
+        "复用历史关键词搜索：OpenUDS documentation connection broker VDI app virtualization admin",
+        "复用并核对历史快照：GitHub 仓库页、README、LICENSE、admin/user 薄文档与 GitHub Pages 占位页",
+        "通过 GitHub 官方仓库目录 API 列出 VirtualCable/broker 的 doc/api 目录，定位 rest.yaml 与 README",
+        "直接抓取官方 doc/api/rest.yaml（OpenAPI 规范）与 doc/api/README.md",
+        "补抓官方 doc/source/quickstart/quickstart.rst，核对自托管 Web 界面与服务形态",
+        "再次尝试官方 openuds.org、www.openuds.org 与 docs.openuds.org，均因 TLS 失败"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/VirtualCable/openuds",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "a7e5cc309271cd19c578c0e93032af2bd012edc7b4eec33415a9539899ab1ec3",
+          "snapshot_path": "sources/a7e5cc309271cd19c578c0e93032af2bd012edc7b4eec33415a9539899ab1ec3.txt",
+          "fetched_at": "2026-10-26T18:44:38.653290+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/openuds/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "7fea53744125301421052c0c4c8772e9359948602d06fd77d5444c1f8974be1f",
+          "snapshot_path": "sources/7fea53744125301421052c0c4c8772e9359948602d06fd77d5444c1f8974be1f.txt",
+          "fetched_at": "2026-10-26T18:44:27.819912+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/openuds/master/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "2fc0a0cae386425ce8af4c1bb3c02c2b13b8ba8f788882a540966d62e9533908",
+          "snapshot_path": "sources/2fc0a0cae386425ce8af4c1bb3c02c2b13b8ba8f788882a540966d62e9533908.txt",
+          "fetched_at": "2026-10-26T18:46:15.912346+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/source/admin/admin_configuration.rst",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "d800cea460f6be025d514dd31e10615edb337fdc51b0fc9bbc412bf75e4f14fd",
+          "snapshot_path": "sources/d800cea460f6be025d514dd31e10615edb337fdc51b0fc9bbc412bf75e4f14fd.txt",
+          "fetched_at": "2026-10-27T12:21:13.134103+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/source/user/user_guide.rst",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "cf003e451870faa60b41c282158d1d3e0411066659966c2d1a72e0f25c697557",
+          "snapshot_path": "sources/cf003e451870faa60b41c282158d1d3e0411066659966c2d1a72e0f25c697557.txt",
+          "fetched_at": "2026-10-27T12:21:13.107388+08:00"
+        },
+        {
+          "url": "https://www.openuds.org/",
+          "kind": "homepage",
+          "result": "failed: SSL certificate hostname mismatch"
+        },
+        {
+          "url": "http://virtualcable.github.io/openuds/",
+          "kind": "homepage",
+          "result": "fetched_but_not_cited: GitHub Pages placeholder, no product documentation",
+          "sha256": "9bbc3809fef8217c7a7e340b8a85aa360cf2e1c6a1f055973da21fa40336e42c",
+          "snapshot_path": "sources/9bbc3809fef8217c7a7e340b8a85aa360cf2e1c6a1f055973da21fa40336e42c.txt",
+          "fetched_at": "2026-10-27T12:25:08.619141+08:00"
+        },
+        {
+          "url": "https://docs.openuds.ru/admin_guide_36.html",
+          "kind": "documentation",
+          "result": "fetched_but_not_cited: community documentation site, not official vendor source",
+          "sha256": "774ad354ad5817c90c2abcedfe49ad504c50ac2dc7dcc4d024cd34d625edfe37",
+          "snapshot_path": "sources/774ad354ad5817c90c2abcedfe49ad504c50ac2dc7dcc4d024cd34d625edfe37.txt",
+          "fetched_at": "2026-10-26T18:45:40.453222+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/api/rest.yaml",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "37f72a2810ad9a1b22a7a1b7eeabe0801d64a0bcaa6058e82ec1005fa4552497",
+          "snapshot_path": "sources/37f72a2810ad9a1b22a7a1b7eeabe0801d64a0bcaa6058e82ec1005fa4552497.txt",
+          "fetched_at": "2026-10-29T12:00:54.779942+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/api/README.md",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "d41e483290303ec94fd3614d0d95c176a319952d7e36858166a53ca3c841f1ab",
+          "snapshot_path": "sources/d41e483290303ec94fd3614d0d95c176a319952d7e36858166a53ca3c841f1ab.txt",
+          "fetched_at": "2026-10-29T12:00:58.530488+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/broker/master/doc/source/quickstart/quickstart.rst",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "4c0e509f0e979ea9f290b0e1ad5bdb41ed82552a2d22c963140165674a91821e",
+          "snapshot_path": "sources/4c0e509f0e979ea9f290b0e1ad5bdb41ed82552a2d22c963140165674a91821e.txt",
+          "fetched_at": "2026-10-29T12:03:18.458636+08:00"
+        },
+        {
+          "url": "https://openuds.org/",
+          "kind": "homepage",
+          "result": "failed: SSL certificate hostname mismatch"
+        },
+        {
+          "url": "https://docs.openuds.org/",
+          "kind": "documentation",
+          "result": "failed: TLS connection error"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

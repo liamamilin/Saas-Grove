@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "brand-management-platform",
+      "application_id": "commercial:marq",
+      "issue": "Marq 的匹配证据不足且部分只来自导航：batch.json 的 leaf_match 以「Content Management — Centrally manage brand assets & templates」和「Team Management」支撑「集中资产库/受管品牌表达记录」，research.json 的 note 也称首页明确「资产库」；但这两处在首页快照中仅出现于导航菜单，正文只证明模板锁定（logos、fonts、colors）、跨团队模板分发、审批与自助内容制作，未证明受管品牌资产库、与资产相连的使用指南/规则、当前版本或生命周期。DAM Integrations 导航还写 link templates to your existing asset library，暗示资产库可能在外部；首页 FAQ 又把 Marq 定义为 web-based design and publishing tool，故其与 brand-management-platform 的 system-of-record 核心存在类型边界疑问。",
+      "fix": "补抓并引用 Marq 的 Content Management、Brand Portal 或 Brand Management 产品页正文（首页导航已给出 /pages/platform/content-management/、/pages/brand-portal/、/pages/online-marketing-and-brand-management-software/ 等入口），核实资产库、使用规则/指南、版本/审批和外部自助访问；若正文仍不能覆盖，则移除 Marq 的该叶匹配或改列 Frontify（其 DAM 与 brand-guidelines 正文已覆盖三段），并同步修订 batch.json 的 summary/leaf_match 与 research.json 的 note。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Frontify 的三段证据已由 DAM 与 brand-guidelines 正文支撑；首页快照仅作旁证，研究记录也说明了此前首页导航引文问题，当前处理可接受。",
+    "Socialinsider 匹配理由中的若干英文短句在快照中可见于 head/JSON-LD；正文另有 competitor analysis/benchmarks、performance over time、reports 等等价表述，建议后续优先引用正文原句，但不影响类型判断。",
+    "Meltwater 与 Brandwatch 均为套件厂商：Meltwater 另有 Media Relations/Press Distribution，Brandwatch 另有 Engage/Social Media Management；本单元匹配的是 media-monitoring 与 Listen 产品页，摘要应保持该产品边界。",
+    "Frontify 也具备 brand-management-platform 的受管记录与受控分发特征，可作为该叶的补强或替代候选。",
+    "input.json 的 progress 仍为 not_searched/空 application_ids，而 batch.json 与 research.json 已为 case_found；若上层流水线读取 progress，需同步元数据，本次以 batch/research 为准。",
+    "五个叶子均未列开源条目；GitHub 检索记录见 research.json（social-listening 的 GitHub 搜索遇 403 已留档），未发现需核完整许可证或社区版边界的 OSS 应用。"
+  ],
+  "leaf_checks": {
+    "media-monitoring-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:meltwater"
+      ],
+      "basis": "读取 data/collections/sources/3819ebe2b4498f1c8e0ab23bd76ec47c51a9ec80bb6c9d2e2b2d356bbe7d9aa5.txt（Meltwater 官方媒体监测页）；页面正文与 FAQ 说明按 query 持续采集新闻、社交、广播、印刷、播客提及，提供定制警报、仪表盘、情感、reach、share of voice 与报告，符合组织自身媒体存在的常设监测—覆盖记录—测量交付。",
+      "gaps": null
+    },
+    "social-listening-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:brandwatch"
+      ],
+      "basis": "读取 data/collections/sources/8934859c21aa39f9834b7771a40d13fd5e5c2a8f738b7d48c5a64ac39dfa691f.txt（Brandwatch Listen 页）；正文明确 real-time 监测品牌、产品与竞品提及，100 million online sources、unlimited search queries、boolean operators、historical data、sentiment 与 AI alerts，覆盖常设查询—公开语料—聚合分析。GitHub 搜索 403 已在 research.json 留档，未据此下结论。",
+      "gaps": null
+    },
+    "social-media-analytics-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:socialinsider"
+      ],
+      "basis": "读取 data/collections/sources/a8d9ebeefa708801c216ea3b31c5a2dc265df2bf2b29bcb29bcf5a086950927b.txt（Socialinsider 官方分析页）；正文说明连接所管理的社交 profiles，跨 Instagram、Facebook、TikTok、LinkedIn、X、YouTube 查看 engagement、reach、impressions、followers growth 随时间变化，并提供 competitor analysis/benchmarks、dashboards 与 social media reports，符合自有档案—时间序列—营销解读界面。",
+      "gaps": null
+    },
+    "brand-asset-guideline-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:frontify"
+      ],
+      "basis": "读取 data/collections/sources/9d0441ef32e86105ae2ab7f654e7a551b0979b5dce404283959561e2affaec2e.txt（首页）、data/collections/sources/9d0ec73554c4c61a22ef349f78a3c219e26a0bc44aaabcb7a2e5af8c3c320a3f.txt（DAM）、data/collections/sources/a9d02cd5f0254cc37c44ac347df4a477faf5f7e29245b62cb0076956165f283e.txt（brand-guidelines）三份快照；DAM 正文有 centralized searchable asset library、permissions、approval workflows、self-serve access，Guidelines 正文有 living system、usage rules、self-service brand access、向 agencies/suppliers 外部共享且可控、always current；三段闭合。首页只作旁证。",
+      "gaps": null
+    },
+    "brand-management-platform": {
+      "status": "gap",
+      "application_ids": [
+        "commercial:marq"
+      ],
+      "basis": "读取 data/collections/sources/c00da05edd0397d9273857a79bf576f2496ba83f0d496f3145e10ac4f081da29.txt（Marq 首页）；正文证明模板锁定（logos、fonts、colors）、跨团队模板分发、审批、自助内容制作及社交/印刷分发，但「Centrally manage brand assets & templates」仅在导航菜单，正文未证明受管资产库、使用指南/规则、版本/生命周期；首页 FAQ 自称 web-based design and publishing tool。",
+      "gaps": "核心记录（资产库+使用规则+版本）缺少正文证据；需补 Content Management/Brand Portal/Brand Management 产品页或改列 Frontify。"
+    }
+  },
+  "limits": "只读审查；未运行或部署应用，未做运行测试。未用 shell 或哈希工具重算 sha256，仅核对 REVIEW_SOURCES.json 的 path 与 data/collections/sources 下实际文件名及 batch.json 的 sha256/snapshot_path 一致性。快照为原始 HTML，read 工具对超长行按 2000 字符截断，部分正文通过 grep 命中及同 URL 的只读网页抓取交叉核对；网页内容可能随抓取时间变化。未读取其他单元。商业条目未核价格与架构；无开源条目，故未核许可证/社区版边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-108/ses_groveopencodegop108review1_1793002783.jsonl",
+  "batch_sha256": "998b55ebb2af98d4e9fd4902fde27649822b86f13ef1268b4221e7399ac1517c",
+  "research_sha256": "fdb319b9cc10a51b010f3d9172819fbdaf544491598e805f41b801fe66843cd8",
+  "input_sha256": "20bcbf821c0c748a829ffb7717c02ab55dc12995b26227422b3128b969471e97"
+}

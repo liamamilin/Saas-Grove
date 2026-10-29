@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "farm-equipment-telematics / commercial:john-deere-operations-center：快照可以证明机器通过无线方式接入 Operations Center，并证明可查看设备位置、使用数据和诊断信息，以及实时远程监控；但没有直接给出逐机器累积历史或跨季节对比的正文。“回看历史性能与季节结果”这一表述略强于现有快照，建议补充 Operations Center 历史或田野记录官方页，或收窄相关措辞。",
+    "soil-management / commercial:soil-test-pro：首页正文明确说明可以绘制田块和采样点、进行网格或分区采样、将实验室结果回传到 Web Headquarters，并生成施肥建议、处方图和控制器文件；但“多年土壤采样历史”在快照中没有直接正文，建议补充多年对比页面，或删除该表述。",
+    "geological-modeling-platform / commercial:petex-move-suite：官方页证明 MOVE Core 可整合数据、进行 2D/3D 解释建模、验证，并支持 3D Kinematic 情景测试；研究记录已说明它是专业桌面套件，并非浏览器 SaaS，条目没有虚假声称在线多租户。",
+    "farm-management-platform / github:16508135：farmOS 首页快照实际呈现的是 donate 页面（og:url 为 /donate/），但正文仍包含 farmOS 描述和 GPL 信息；核心证据来自 User Guide、Assets、Logs 页面，建议将 homepage 快照替换为真正的首页。",
+    "precision-agriculture-platform / commercial:climate-fieldview：build-prescriptions 快照的 title 和 OG 元数据误写为 Scout Fields，但 canonical、H1 和正文均为 Build Prescriptions；这不影响核心证据，建议修复源页元数据，或换用稳定快照。",
+    "precision-agriculture-platform / commercial:climate-fieldview：快照支持处方导出或无线发送、FieldView Drive 采集作业与产量数据、产量分析，但没有明确展示“处方目标速率与实际施用速率”的逐项评分；研究记录已收窄该说法，保持现状即可。",
+    "input.json 的 progress/phase 仍为 included_without_cases / not_searched，且 application_ids 为空，与 batch.json 和 research.json 中 5 个 case_found 条目不一致；建议同步进度元数据，避免后续流程误判。",
+    "websearch HTTP 401、Leapfrog 官方页 403 以及 GitHub 搜索仅返回库、插件或小型项目等缺口，已在 research.json 的 search_attempts 和 fetch_outcomes 中如实留档，符合“记录缺口可通过”的要求；本次未做运行时部署或在线多租户验证。"
+  ],
+  "leaf_checks": {
+    "farm-equipment-telematics": {
+      "application_id": "commercial:john-deere-operations-center",
+      "track": "commercial",
+      "status": "passed",
+      "basis": "读取 Operations Center 和 JDLink R Modem 4G 官方快照：Operations Center 是可通过 web、tablet 或 phone 访问的在线农场管理系统；JDLink 页面明确说明机器通过无线方式连接 Operations Center，支持实时数据传输、设备位置、使用数据、诊断和远程实时监控；商业条目真实，产品类型匹配农业设备远程信息处理。",
+      "gaps": "逐机器累积历史和跨季节性能回看没有在快照正文中直接出现；按商业条目“基本真实性和类型匹配”标准不阻断。",
+      "id_track_check": "batch 与 research 的 application_id 一致，track 为 commercial。"
+    },
+    "farm-management-platform": {
+      "application_id": "github:16508135",
+      "track": "open_source",
+      "status": "passed",
+      "basis": "读取 farmOS 仓库元数据、GPL-2.0 完整许可证、README、官网以及 User Guide、Assets、Logs：仓库 id 16508135 与 full_name farmOS/farmOS 一致；GPL-2.0 全文存在；文档显示 farmOS 以整场为范围管理 Land、Plants、Animals、Equipment 等资产，Logs 覆盖活动、观察、投入、收获、播种、实验室检测等，并支持计划、报告和地图；自托管与 Farmier 托管边界清楚。",
+      "gaps": "未部署运行；首页快照为 donate 页面，并非标准首页，但核心证据由 Guide 页面充分支撑。",
+      "id_track_check": "仓库身份、github_repository_id、license_evidence_url 与批条目一致；track 为 open_source。"
+    },
+    "geological-modeling-platform": {
+      "application_id": "commercial:petex-move-suite",
+      "track": "commercial",
+      "status": "passed",
+      "basis": "读取 Petex MOVE Suite 官方页正文：MOVE Core 在统一工作区整合 100 多种数据格式以及 2D/3D 地质数据，构建剖面和三维模型并提供验证；3D Kinematic 支持恢复、正演、情景测试和模型验证；符合“观测输入、解释模型、数据驱动几何、3D 解释循环”的地质建模核心，商业类型匹配。",
+      "gaps": "产品是专业桌面套件，并非浏览器 SaaS，研究记录已披露；未验证在线多租户或部署形态。",
+      "id_track_check": "application_id、track 与 batch/research 一致。"
+    },
+    "precision-agriculture-platform": {
+      "application_id": "commercial:climate-fieldview",
+      "track": "commercial",
+      "status": "passed",
+      "basis": "读取 Climate FieldView 首页、Build Prescriptions、Gather Information、Analyze Data 快照：处方页明确说明按种子、施肥和植保创建处方，并支持导出或无线发送；Gather 页明确说明 FieldView Drive 采集种植、喷施和收获数据，并记录每季作业；Analyze 页明确说明产量、种植和施用数据的图表与地图比较以及报告；这些共同构成处方、机器执行数据回传、效果分析的闭环。",
+      "gaps": "没有明确展示处方目标速率与实际施用速率的逐项偏差评分；build-prescriptions 快照的 title 和 OG 元数据误写为 Scout Fields，但正文与 canonical 正确。",
+      "id_track_check": "application_id、track 与 batch/research 一致。"
+    },
+    "soil-management": {
+      "application_id": "commercial:soil-test-pro",
+      "track": "commercial",
+      "status": "passed",
+      "basis": "读取 Soil Test Pro 首页和实验室页：首页正文明确说明可以绘制田块、边界和采样点，进行网格或分区采样，支持离线采样，可选择实验室送样，实验室结果回传 Web Headquarters，并生成施肥建议、处方图和控制器文件；实验室页列出合作实验室以及 pH、P、K、OM 等检测包；符合土壤记录、测量周期、改良决策的土壤管理核心，商业类型匹配。",
+      "gaps": "“多年采样历史”没有在快照正文中直接出现；实验室页本身只列实验室和检测包，核心证据主要来自首页正文。",
+      "id_track_check": "application_id、track 与 batch/research 一致。"
+    }
+  },
+  "limits": "本次为只读独立初审；仅使用本单元 input.json、REVIEW_TASK.md、batch.json、research.json 和 REVIEW_SOURCES.json 指定的 16 个快照，未运行 shell、未写文件、未读取其他单元；未部署或登录任何产品，未验证实时功能、价格、架构、在线多租户或硬件兼容性；websearch 返回 HTTP 401、Leapfrog 官方页返回 403 等采集缺口以 research.json 留档为准；部分页面是动态 HTML/CMS 快照，正文可能不完整。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-200/ses_groveopencodegop200review1_1793025448.jsonl",
+  "batch_sha256": "c2818e8413e3168ca40170d0143aece9234b7b1a8d2577590e977b940542efe4",
+  "research_sha256": "c96257596e2617f7c431fdec6ebd87bd768d63f4b8c8c3441274e0dbfec492ef",
+  "input_sha256": "5d6701aa12673971af31ed4969a36071faae9ba7fe165a0bffa75c8f4698fe56"
+}

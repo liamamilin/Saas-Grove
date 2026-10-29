@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "openLCA 是桌面/自托管开源应用，并非多租户 SaaS；该类型定义明确允许桌面世代和可自托管完整应用，且批次与研究记录已把 Collaboration Server/onlineLCA 限定为可选配套，因此不阻断，但若目录要求纯 SaaS 需另行标注。",
+    "Energy Web Origin 是需组合部署的 monorepo 工具集；证书生命周期与声明报告证据充分，但到期监控、跨注册表对账、按义务/消费分配等组合管理细节未在快照中展开，研究记录已如实留档。",
+    "Makersite 产品页快照的 canonical URL 为 /features-and-benefits/product-sustainability/，而批次与 REVIEW_SOURCES 使用短路径 /product-sustainability/；快照内容正确，建议后续统一来源 URL 以避免复核歧义。",
+    "商业条目仅核对官方页面真实性与核心类型匹配；未验证定价、部署、多租户、数据库授权或运行时行为。",
+    "Watershed 与 Makersite 快照为压缩的营销页面，正文可读性有限；已按关键段落核对，并未把导航、HTTP 成功状态或页面关键词本身当作核心工作流证据。"
+  ],
+  "leaf_checks": {
+    "life-cycle-assessment-application": {
+      "status": "pass",
+      "application_id": "github:12462033",
+      "name": "openLCA",
+      "track": "open_source",
+      "evidence": "README 与 openLCA2-manual 的 Product Systems 文档明确产品系统为由流连接的过程集合，参考过程产品量 referred to the functional unit；conceptual_guideline 展示 process→product system→LCI→LCIA 计算链；features 页确认分配/系统扩展、影响评价、贡献树、Sankey、Monte Carlo 等能力。",
+      "license_boundary": "GitHub 仓库 id 12462033 与 GreenDelta/olca-app 一致；LICENSE.txt 为完整 MPL-2.0；桌面核心开源可独立运行，Collaboration Server/onlineLCA 为可选配套。",
+      "note": "桌面/自托管形态而非多租户 SaaS，类型定义允许桌面世代，按非阻断边界记录。"
+    },
+    "product-carbon-footprint-platform": {
+      "status": "pass",
+      "application_id": "commercial:carbonfact",
+      "name": "Carbonfact",
+      "track": "commercial",
+      "evidence": "Carbonfact 官方 lca-for-fashion 页说明对完整产品目录提供 SKU 级 LCA，解析 BOM、护理标签、供应商信息并标准化单位；product-tour 客户证言说明按产品碳足迹用于产品标签；页面还列出每 SKU 的 DPP 与 audit-ready 计算。",
+      "license_boundary": "商业 SaaS；仅核对官方页面真实性与 PCF 核心类型匹配，未审价格/架构。",
+      "note": "产品级记录、可重算输入与对外交付三项均有页面依据；未将其扩展为企业整体碳核算。"
+    },
+    "renewable-energy-certificate-management": {
+      "status": "pass",
+      "application_id": "github:202363022",
+      "name": "Energy Web Origin",
+      "track": "open_source",
+      "evidence": "Origin README 定义其为 EAC（GO/REC/I-REC）签发与管理系统；issuer-api README 覆盖证书 request、issuance、transfer、claiming、revoking；claims-report 文档展示证书 ID、总/已声明/剩余 MWh、受益方与链上交易历史。",
+      "license_boundary": "GitHub 仓库 id 202363022 与 energywebfoundation/origin 一致；LICENSE 为完整 MIT；为可组合/自托管工具集，交易所为配套组件。",
+      "note": "未在快照中证明到期监控、跨注册表自动对账、按义务/消费分配等组合管理细节，已由研究记录如实留档。"
+    },
+    "scope-3-management-platform": {
+      "status": "pass",
+      "application_id": "commercial:watershed-supply-chain",
+      "name": "Watershed Supply Chain",
+      "track": "commercial",
+      "evidence": "Watershed Supply Chain 页以 “Take control of scope 3” 为主题，说明供应链占企业排放 80% 以上，映射供应商并按排放影响/气候成熟度排序，通过 guided portal 发送数据请求、目标承诺和减排计划，回复直接进入足迹并以一手数据替换行业平均。",
+      "license_boundary": "商业 SaaS；仅核对官方页面真实性与 Scope 3 类型匹配，未审价格/架构。",
+      "note": "覆盖价值链账户、供应商对等方群体、对等方数据入口与估算→一手数据改进循环；未扩展到全组织碳核算或产品级足迹交付。"
+    },
+    "sustainable-product-management": {
+      "status": "pass",
+      "application_id": "commercial:makersite",
+      "name": "Makersite",
+      "track": "commercial",
+      "evidence": "Makersite Product Sustainability 页说明以产品生命周期数字孪生/活动建模、BOM 导入、ISO 14044 LCA、热点与情景分析、替代材料与生态设计、标准报告及向客户分享 LCA 数据；首页说明统一成本、环境、合规与风险数据并支持产品组合决策。",
+      "license_boundary": "商业 SaaS；仅核对官方页面真实性与 SPM 类型匹配，未审价格、架构与数据库授权。",
+      "note": "产品页快照的 canonical 为 /features-and-benefits/product-sustainability/，与批次使用的短路径不同；内容一致，建议后续统一 URL。"
+    }
+  },
+  "limits": "本次为只读初审：未运行部署或运行时测试，未审价格、架构、多租户和数据库授权，未扩展检索本单元之外的来源；Watershed/Makersite 的 HTML 快照为压缩营销页，部分正文只能按关键段落核对；结论以 REVIEW_SOURCES.json 指定快照及 batch/research 记录为依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-206/ses_groveopencodegop206review1_1793026573.jsonl",
+  "batch_sha256": "411ba6402086ace05882d50d55e27bd74786f9e4d42afef1223b5a46eec34617",
+  "research_sha256": "3462b751132dbfef8edf1699ea5d0ec56dc046601eb6356d95d1f8692ce3343a",
+  "input_sha256": "0408b5070715d4561aaf1f8415b3f5db5185e134a585f8bedbbc2d8b6795e652"
+}

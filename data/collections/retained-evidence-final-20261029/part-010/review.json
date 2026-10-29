@@ -1,0 +1,42 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的摘要把“CSV/JSON/HTML 导入导出”合并表述，容易被理解为三种格式都支持导入；但同条 features 和所引官方文档实际只支持 CSV 导入（Goodreads 迁移或 CSV 重新导入），导出才支持 CSV、JSON、HTML。建议摘要改为“CSV 导入，CSV/JSON/HTML 导出”，这属于表述精度问题，不影响本叶成立。",
+    "batch.json 的 technology_stack 列出 Python、Flask、React，但本单元四份快照的正文没有直接出现这些技术名；仓库元数据的 language 字段为 JavaScript，README 只明确 SQLite（默认）和 PostgreSQL。建议补充开发文档来源，或按可核验信息收敛技术栈；这不影响类型与许可判定。",
+    "research.json 称许可证正文解码后为 11347 字节，而 license API 快照的 size 为 11348；这是一字节级差异，可能来自换行或解码口径，不影响 Apache-2.0 认定。",
+    "input.json 仍保留采集前状态（phase=included_without_cases、case_status=insufficient_evidence、application_ids 为空），而 batch.json 和 research.json 已记录 case_found 与 github:776886715。若 input.json 需要反映最终状态，应同步更新；否则可将其视为历史种子快照。",
+    "research.json 引用的 StoryGraph 与 BookWyrm 历史快照没有列入本单元 REVIEW_SOURCES，因此无法在本单元独立复核其正文与许可细节；二者仅作为排除记录，不影响已采纳案例。",
+    "BookLogr 用四个预置阅读状态列表组织书籍，没有用户自建书架或独立的“拥有”标记；这属于定义中明确列出的 reading tracker 形态，书架成员由用户控制，且定义允许追踪器只承载阅读状态、日期与观点这一半关系层，因此不构成类型偏离。"
+  ],
+  "leaf_checks": {
+    "reading-library-application": {
+      "slug": "reading-library-application",
+      "name": "BookLogr",
+      "application_ids": [
+        "github:776886715"
+      ],
+      "track": "open_source",
+      "definition_core": "通过。官方功能文档正文（data/collections/sources/534a75855b8d633b29124eac536013414e6424ac0f6ce0d2142e22446b3df3b4.txt 第 15–64 行）和 README 正文（1a6b57836cdc9743aa55a2a60fd3bde2ecf0f3b324c8b4ca33a66760bd365daf.txt 第 24–45 行）说明：以 OpenLibrary 书目检索、手动添加和版本选择建立书籍记录；以 Currently Reading、To Be Read、Read、Did Not Finish 四个状态列表长期组织个人馆藏；记录页码或百分比进度、每本书起止日期、0.5–5 星评分、笔记、书评与带页码摘录，覆盖“图书记录—个人图书馆—个人关系层”三条核心。属于定义所列 reading tracker 形态，未单列 ownership 字段不构成偏离。",
+      "content_boundary": "通过。文档与 README 描述的是阅读追踪和馆藏记录，未提供书籍正文阅读、内置电子书阅读器或书籍文件存储，不属于 E-book Library；条目也不是供日后消费的网页链接，不属于稍后阅读或书签工具。",
+      "service_form": "通过。产品是自托管完整 Web 应用，具备账户与登录（邮箱密码、Google OAuth、OIDC）、单用户私有实例与多用户共享实例、SQLite/PostgreSQL 持久化、公开个人主页及 CSV/JSON/HTML 数据导出，属于持续使用的应用服务形态，而非 SDK、引擎或单一设备工具。",
+      "identity_and_track": "通过。batch 条目 id=github:776886715 与仓库元数据 id=776886715、full_name=Mozzo1000/booklogr、html_url=https://github.com/Mozzo1000/booklogr 一致；homepage=https://booklogr.app 与仓库元数据一致；track=open_source 与公开仓库及 Apache-2.0 许可相符。",
+      "license": "通过。license API 快照显示 name=LICENSE、path=LICENSE、size=11348、download_url 指向 Mozzo1000/booklogr 的 main 分支 LICENSE，content 以 Apache License Version 2.0, January 2004 正文开头并采用 base64 编码；仓库元数据 license.spdx_id=Apache-2.0、archived=false，README 亦声明 Apache License 2.0。Apache-2.0 为 OSI 认可许可，满足开源完整许可要求。",
+      "community_boundary": "通过。未发现 open-core、社区版与企业版功能切分或额外许可限制；官方文档列出的功能即该 Apache-2.0 仓库应用的整体能力，社区版边界清晰。",
+      "sources_checked": [
+        "data/collections/sources/c05758aa53001a970e56e1a7b30eb3c13c7560d71dff66333eba0de21b5d4ef4.txt",
+        "data/collections/sources/c24ace95cd98a59174acb276ee9f0c1da5db67644a2caeb853b8771b6cffd481.txt",
+        "data/collections/sources/1a6b57836cdc9743aa55a2a60fd3bde2ecf0f3b324c8b4ca33a66760bd365daf.txt",
+        "data/collections/sources/534a75855b8d633b29124eac536013414e6424ac0f6ce0d2142e22446b3df3b4.txt"
+      ],
+      "gaps": "未做运行时部署验证（batch 标注 runtime_tested=false，任务亦不要求部署测试）；仓库元数据与许可证 API 快照为超长单行 JSON，读取展示在 2000 字符处截断，已通过定向检索核对 id、homepage、default_branch、pushed_at、archived、license.spdx_id 等关键字段；许可证 base64 正文未整体解码逐字复核，但 API size、SPDX、路径与正文开头一致。",
+      "status": "pass"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的四份快照；未运行 shell、未写文件、未访问其他单元或实时网络，未部署或运行 BookLogr，未重算快照哈希。仓库元数据与许可证 API 快照为超长单行 JSON，读取展示在 2000 字符处截断，故通过定向检索核对关键字段；许可证 base64 正文未整体解码，仅依据 API 的 size、路径、SPDX 标识与正文开头判断为完整 Apache-2.0。StoryGraph 与 BookWyrm 的历史快照未随本单元提供，无法在本单元独立复核，其排除记录不影响已采纳案例。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-010/ses_groveopendesignp010review1_1793150688.jsonl",
+  "batch_sha256": "ae20e2e967d3c699d099f364da16d6418ec023635a66c136120597d023057fdf",
+  "research_sha256": "2adc6f7c310a35e3d1748b56209c70c9cadfe6f0e34ca0d18db5efd015e0953c",
+  "input_sha256": "564afe68f2c2eb66e21544b9e00e9990809e23e7544f5153d8b3349e87714173"
+}

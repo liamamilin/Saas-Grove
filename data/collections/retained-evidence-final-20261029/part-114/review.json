@@ -1,0 +1,34 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍记录 case_status=boundary_unresolved、application_ids=[]，而 batch.json/research.json 已记录 github:210579021 与 github:27911088 两个 case_found 条目；内容证据可支持通过，但下游若以 input.json 的 application_ids 为准会漏掉本单元新增应用，建议同步元数据。",
+    "Apache NiFi 的核心定位更偏事件流、数据路由与可靠投递，批式数仓建模不是其强项；官方 Overview 的 processor 明确包含 transformation/mediation，故可作为相邻的数据集成平台纳入，但描述中应保留这一侧重差异，避免把它写成典型批式 ETL/ELT。",
+    "batch.json 中 Hop 的“250+ pipeline transforms、80+ workflow actions、40+ 数据库方言”以及“凭据不写入 pipeline”等属于厂商功能计数/特性表述，本次核心核对未逐项复算；这些不应替代管线、转换、执行与监控等核心正文证据。",
+    "Hop Web 页面正文自述“not perfect”，而页面 meta description 称与桌面客户端功能相同；引用时宜以正文的“浏览器版 Hop Gui、默认包含、Docker/Tomcat 部署”为准，不宜夸大完全等价。",
+    "README 快照主要提供构建与本地 GUI 启动说明，属于补充材料；本叶的核心判断依据是官方手册中的 Hop Web、Hop Server、hop-rest 正文以及 NiFi 首页/Overview 正文，而非 README 或仓库元数据。",
+    "research.json 中 hop-web.html 的 404 已如实记录并改用手册实际链接，属于可接受的抓取留档；另有两个 fetched_not_cited 的手册索引页未列入 REVIEW_SOURCES，也未作为证据引用，不影响本叶结论。"
+  ],
+  "leaf_checks": {
+    "etl-elt-platform": {
+      "status": "pass",
+      "applications_checked": [
+        "github:210579021",
+        "github:27911088"
+      ],
+      "definitional_core": "Hop：官网首页与 README/页脚表明其是开源数据集成与编排平台；官方手册目录及 Hop Web 正文证明以 Hop Gui 进行 pipeline/workflow 设计，手册列出大量 transform 页面，Hop Server 正文说明可运行 workflow 与 pipeline，hop-rest 正文提供 execution/sync 及 execution state 服务，具备持久、可配置、可重跑的管线与受管转换/执行监控。NiFi：首页正文明确浏览器界面用于设计、控制、反馈与监控；Overview 正文说明 FlowFile、processor 执行数据路由、转换或系统间中介，Connections 作为队列，Provenance Repository 记录并索引血缘，符合管线平台而非单纯搬运工具的核心；其事件流/分发侧重已在 non_blocking_notes 说明。",
+      "service_form": "Hop：Hop Web 是浏览器版 Hop Gui，随默认构建提供，Docker 镜像 apache/hop-web，Tomcat 部署，访问 /ui，并可挂载 project/environment；Hop Server 是可启动的远程 pipeline/workflow 执行服务；hop-rest 以 WAR 部署，提供 /hop/api/v1 的 metadata、plugins、execution 与 execution information 服务。NiFi：官方定位为可自托管的 Java 应用，浏览器 UI 为一等管理界面，属于持续可用的应用服务形态，而非仅桌面/CLI 工具。",
+      "id_track": "github:210579021 对应 apache/hop 仓库元数据中的 id=210579021、full_name=apache/hop，track=open_source；github:27911088 对应 apache/nifi 仓库元数据中的 id=27911088、full_name=apache/nifi，track=open_source。两个 ID 与批次条目及 REVIEW_SOURCES 的 applications 一致。",
+      "license": "两份 LICENSE 快照内容均以 Apache License Version 2.0（January 2004）开头，属于完整的 Apache-2.0 许可文本；仓库元数据与 license 快照的仓库路径分别指向 apache/hop 与 apache/nifi，未见字段使用限制或仅限非商业的附加条款。",
+      "community_edition_boundary": "Hop 官方站点仅见 Commercial support 入口，未见功能受限的企业版/社区版分层；Apache Hop 社区发行即完整平台。NiFi 为 Apache 顶级项目完整开源，商业发行版的存在不改变 apache/nifi 仓库本身的完整 Apache-2.0 边界；批次未把商业支持或商业发行版误写为社区版限制。",
+      "source_verification": "已按 REVIEW_SOURCES.json 的 path 原样读取全部 11 个引用快照；batch.json 中 Hop 的 7 个 snapshot_path、NiFi 的 4 个 snapshot_path 均可在 data/collections/sources/ 下找到，文件名与声明 sha256 一致。Hop Web/Hop Server/hop-rest 正文均已核对到具体功能段落；hop-web.html 原始路径 404 已在 research.json 的 fetch_outcomes 中留档并说明改用实际链接。",
+      "gaps": "未部署或运行 Hop/NiFi，未验证容器启动后的实际 UI 与执行行为；未能用只读工具重算 SHA-256，仅核对路径、文件名与声明哈希的一致性；Hop 首页快照为压缩单行 HTML，单行读取存在截断，未能逐字复核全部营销计数；input.json 的旧进度元数据与 batch/research 的新结论尚未同步。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或启动 Hop/NiFi 及其容器；未重算 SHA-256（只读工具无法计算），仅核对 REVIEW_SOURCES/batch 中声明的路径与哈希文件名一致性；Hop 首页快照为压缩单行 HTML，读取时单行被截断，无法逐字核验全部营销数字；未访问 REVIEW_SOURCES 之外的网络内容，未读取其他单元；未验证运行时行为、价格或商业条款。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-114/ses_groveopendesignp114review1_1793202565.jsonl",
+  "batch_sha256": "163f0a43af9461a34c09e24dd8bb3c506b24b2480f911aec85711b125e69ef9c",
+  "research_sha256": "fd83dbb9723d659c10bf061f57e270d0a67d1324038afa72661e92b41fcc769a",
+  "input_sha256": "d00850109ac5f6713c6490891d792db3d8e1375d8a27f070e44e08327f9ed91a"
+}

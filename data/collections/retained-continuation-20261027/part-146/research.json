@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sase-sse-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:cloudflare-one",
+        "commercial:zscaler-zero-trust-exchange"
+      ],
+      "query": "读取定义后，先检查开源 SASE/SSE 候选 Firezone 的仓库元数据、README 与许可证，再抓取 Cloudflare One 和 Zscaler Zero Trust Exchange 官方产品页正文核对融合服务、云边缘和身份策略。",
+      "source_urls": [
+        "https://www.cloudflare.com/sase/",
+        "https://www.zscaler.com/products/zscaler-zero-trust-exchange",
+        "https://api.github.com/repos/firezone/firezone",
+        "https://api.github.com/repos/firezone/firezone/readme",
+        "https://api.github.com/repos/firezone/firezone/license"
+      ],
+      "note": "写入 Cloudflare One 与 Zscaler 两条商业基础记录。Cloudflare 页面 FAQ 明确列出 ZTNA、SWG、CASB、NaaS、FWaaS、RBI、DLP、邮件安全与 DEM，并称单一控制平面/数据平面；Zscaler 页面列出 ZIA、ZPA、零信任分支/防火墙、云沙箱与 ZDX，并说明按身份、上下文和业务策略代理连接。开源候选 Firezone 实际抓取 README/许可证，仅覆盖 WireGuard 私有应用访问、设备信任与审计，不含 SWG/CASB/DLP/FWaaS 等融合服务，故未写入关系；这不是“不存在 SASE”，而是本次检查的开源候选不满足本叶收敛服务面。",
+      "service_boundary": "Cloudflare One 与 Zscaler 为厂商运营的云交付 SASE；Firezone 为可自托管或托管的 ZTNA/远程访问平台，边界停在私有应用访问，不能当作完整 SSE。",
+      "search_attempts": [
+        "本地：读取 input.json、TASK.md、issues.json（findings 为空）与空 notes/previous，确认无旧草稿可复用。",
+        "GitHub API：抓取 firezone/firezone 仓库元数据与许可证，读取 README。",
+        "官方网页：抓取 Cloudflare One SASE 产品页、Zscaler Zero Trust Exchange 产品页。"
+      ],
+      "fetch_outcomes": [
+        "成功：https://api.github.com/repos/firezone/firezone 与 /license 返回 JSON；README 经 /readme 端点取得。",
+        "成功：https://www.cloudflare.com/sase/ 返回 200，正文含 SASE 服务清单与单一控制平面说明。",
+        "成功：https://www.zscaler.com/products/zscaler-zero-trust-exchange 返回 200，正文含 ZIA/ZPA/零信任分支/防火墙与身份上下文策略。",
+        "边界：Firezone README 无 SWG/CASB/DLP/FWaaS 能力，未建立本叶关系。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "endpoint-detection-response-edr",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:40556106"
+      ],
+      "query": "读取定义后，核对 Wazuh 仓库身份、许可证、README 与官方 XDR 页，确认终端代理遥测、行为/规则检测、集中调查与 active response 四项能力。",
+      "source_urls": [
+        "https://api.github.com/repos/wazuh/wazuh",
+        "https://api.github.com/repos/wazuh/wazuh/license",
+        "https://raw.githubusercontent.com/wazuh/wazuh/main/README.md",
+        "https://wazuh.com/",
+        "https://wazuh.com/platform/xdr/"
+      ],
+      "note": "写入 Wazuh 开源 EDR 关系。README 说明 agent 部署在受监控系统、manager 集中收集分析，能力含恶意软件/rootkit/异常扫描、日志分析、文件完整性、漏洞检测、配置评估和 active response（阻断访问、远程查询/取证）；官方 XDR 页补充行为分析、威胁狩猎和自动响应。许可证为混合许可：src/engine 为 AGPL-3.0-or-later，部分共享库为 GPL-2.0-only OR AGPL-3.0-or-later，其余主体 GPL-2.0-only；批次按社区核心主体记 GPL-2.0-only，并在 license_review 说明 engine 的 AGPL 部分，未把整个仓库误写成单一 GPL。",
+      "service_boundary": "自托管软件平台：agent + manager + indexer/dashboard；不是厂商托管 EDR 服务，定义允许本地控制台和脚本化响应。",
+      "search_attempts": [
+        "本地：读取定义与空 issues.json，确认本叶无旧批次可复用。",
+        "GitHub API：抓取 wazuh/wazuh 仓库元数据与 /license，读取 main 分支 README。",
+        "官方网页：抓取 wazuh.com 首页与 /platform/xdr/ 产品页。"
+      ],
+      "fetch_outcomes": [
+        "成功：仓库元数据返回 id 40556106、full_name wazuh/wazuh、license.spdx_id NOASSERTION。",
+        "成功：许可证 API 返回完整 LICENSE 文本，正文明确 GPL-2.0 主体与 src/engine 的 AGPL-3.0-or-later。",
+        "成功：README 与官方 XDR 页返回 200，含 agent/manager、FIM、日志、漏洞、active response、行为分析与威胁狩猎说明。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "endpoint-protection-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:crowdstrike-falcon-prevent"
+      ],
+      "query": "读取定义后，检查开源防病毒引擎 ClamAV 是否具备集中终端集群管理，再抓取 CrowdStrike Falcon Prevent 官方产品页核对预防、终端代理与集中管理能力。",
+      "source_urls": [
+        "https://www.crowdstrike.com/en-us/products/falcon-prevent/",
+        "https://api.github.com/repos/Cisco-Talos/clamav"
+      ],
+      "note": "写入 CrowdStrike Falcon Prevent 商业基础记录。官方页说明 Falcon 为 EPP/EDR 平台，Falcon Prevent 以轻量代理覆盖整个终端集群、云原生架构与统一控制台管理，使用 AI、威胁情报、行为分析、内存扫描和漏洞利用缓解阻止高级威胁，并可离线防护。开源侧实际抓取 ClamAV 仓库元数据（GPL-2.0），其定位是防病毒引擎/文档项目，未见集中式终端集群管理控制台；因此只留档为引擎边界，不硬标为 EPP 平台。未发现满足四段核心的开源 EPP 不代表不存在，本次检索范围以 ClamAV 与已核对的 Wazuh 为限。",
+      "service_boundary": "商业云管理终端代理，Falcon Prevent 为 EPP 预防模块；只记录名称、官网、用途、类型关系与官方来源，不展开价格/架构/部署。",
+      "search_attempts": [
+        "本地：读取定义与空 issues.json，确认无旧草稿。",
+        "GitHub API：抓取 Cisco-Talos/clamav 仓库元数据，核对许可证与项目描述。",
+        "官方网页：抓取 CrowdStrike Falcon Prevent 产品页正文。"
+      ],
+      "fetch_outcomes": [
+        "成功：https://api.github.com/repos/Cisco-Talos/clamav 返回 id 5128084、GPL-2.0、描述为 ClamAV 文档入口。",
+        "成功：https://www.crowdstrike.com/en-us/products/falcon-prevent/ 返回 200，正文含轻量代理、云原生架构、统一控制台、AI/行为分析、内存扫描、漏洞利用缓解与离线防护。",
+        "边界：ClamAV 无可核对的集中终端集群管理控制台，未建立 EPP 关系。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "extended-detection-response-xdr",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:microsoft-defender-xdr"
+      ],
+      "query": "读取定义后，核对 Wazuh 官方 XDR 页的多域遥测/行为分析/自动响应，并抓取 Microsoft Learn 的 Defender XDR 文档核对跨域事件关联、统一门户与自动响应。",
+      "source_urls": [
+        "https://wazuh.com/platform/xdr/",
+        "https://raw.githubusercontent.com/wazuh/wazuh/main/README.md",
+        "https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender"
+      ],
+      "note": "写入 Microsoft Defender XDR 商业基础记录。Microsoft Learn 文档明确 Defender XDR 原生协调终端、身份、邮件和应用域，把跨产品告警、可疑事件/受影响资产关联为事件，在 Defender 门户统一调查，并自动修复邮箱、终端和身份，对应多域信号、统一事件关联、统一调查和跨域响应四段核心。另实际读取 Wazuh 官方 XDR 页与 README：它能从终端、网络设备、云工作负载和第三方 API 汇聚遥测并做行为分析/威胁狩猎/active response，但未找到把跨域信号关联为统一事件对象的文档，事件容器仍是规则告警/安全事件，因此本叶只把 Wazuh 留档为边界候选，不建立 XDR 关系；这不是断言开源 XDR 不存在，而是本次核对未达到本叶的事件关联核心。",
+      "service_boundary": "Wazuh 为自托管多域安全平台；Microsoft Defender XDR 为 Microsoft 云服务，检测与响应范围取决于已许可并接入的 Defender 工作负载。",
+      "search_attempts": [
+        "本地：读取定义与空 issues.json，确认无旧草稿。",
+        "官方网页：抓取 Wazuh /platform/xdr/ 与 README，核对多域信号和响应能力。",
+        "官方文档：抓取 Microsoft Learn 的 What is Microsoft Defender XDR 页面。"
+      ],
+      "fetch_outcomes": [
+        "成功：https://learn.microsoft.com/en-us/defender-xdr/microsoft-365-defender 返回 200，正文含跨产品信号、事件关联、Defender 门户统一调查与自动修复。",
+        "成功：https://wazuh.com/platform/xdr/ 返回 200，含 endpoints/network/cloud/third-party API 遥测、行为分析、威胁狩猎、自动响应。",
+        "成功：https://raw.githubusercontent.com/wazuh/wazuh/main/README.md 返回 200，含集中 manager/dashboard 与 active response。",
+        "边界：Wazuh 官方页未说明跨域信号关联为统一事件对象，未建立 XDR 关系。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "mobile-threat-defense",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:zimperium-mobile-threat-defense"
+      ],
+      "query": "读取定义后，检查开源移动取证工具 MVT 是否具备持续评估与访问执行，再抓取 Zimperium 官方 MTD 产品页核对持续防护、设备完整性检查和 MDM/EMM 集成。",
+      "source_urls": [
+        "https://zimperium.com/mobile-threat-defense/",
+        "https://api.github.com/repos/mvt-project/mvt"
+      ],
+      "note": "写入 Zimperium Mobile Threat Defense 商业基础记录。官方 MTD 页说明对企业与 BYOD 移动设备持续防护，覆盖钓鱼、恶意软件、零日、root/越狱等；设备完整性检查在授予企业资源访问前执行；支持应用审查、取证扫描、终端用户告警、MDM/EMM/UEM/SIEM/SOAR/XDR 集成、零接触部署，并覆盖 Android/iOS/ChromeOS、强调隐私与离线防护。开源候选 MVT 实际抓取仓库元数据，描述为移动设备取证工具，未发现持续评估、逐设备风险状态和访问执行链，故只留档为边界候选，不把离线取证工具当作 MTD。",
+      "service_boundary": "商业移动终端防护，支持云、本地与 air-gapped 部署；与 MDM/EMM 合规链集成，在授予企业资源访问前执行设备检查。",
+      "search_attempts": [
+        "本地：读取定义与空 issues.json，确认无旧草稿。",
+        "GitHub API：抓取 mvt-project/mvt 仓库元数据，核对项目描述与许可证状态。",
+        "官方网页：抓取 Zimperium MTD 产品页正文。"
+      ],
+      "fetch_outcomes": [
+        "成功：https://api.github.com/repos/mvt-project/mvt 返回 id 386524895，描述为移动设备取证以寻找潜在失陷迹象，license.spdx_id NOASSERTION。",
+        "成功：https://zimperium.com/mobile-threat-defense/ 返回 200，正文含持续防护、应用审查、设备完整性检查、终端用户告警、MDM/EMM/UEM/SIEM/SOAR/XDR 集成。",
+        "边界：MVT 作为离线取证工具不满足持续评估与访问执行，未建立 MTD 关系。"
+      ],
+      "archived": false
+    }
+  ]
+}

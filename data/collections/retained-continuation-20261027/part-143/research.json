@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "identity-access-management-iam",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11125589"
+      ],
+      "query": "核对 Keycloak 官方仓库身份、README、Apache-2.0 许可证与构建/部署资料",
+      "source_urls": [
+        "https://github.com/keycloak/keycloak",
+        "https://raw.githubusercontent.com/keycloak/keycloak/main/README.md",
+        "https://api.github.com/repos/keycloak/keycloak/license",
+        "https://raw.githubusercontent.com/keycloak/keycloak/main/docs/building.md"
+      ],
+      "note": "沿用本工作区已有 Keycloak 快照并补充 building.md。仓库页 meta 证明 id 11125589 与 nwo keycloak/keycloak；README 标题与正文确认 IAM、用户联合、强认证、用户管理和细粒度授权；license API 的 SPDX 为 Apache-2.0。",
+      "service_boundary": "开源、自托管服务端；本叶只记录 IAM 核心关系，不把其 MFA/SSO 能力另立类型，也不声称已部署测试。",
+      "search_attempts": [
+        {
+          "action": "fetch",
+          "target": "https://github.com/keycloak/keycloak",
+          "outcome": "成功，保存仓库页快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/keycloak/keycloak/main/README.md",
+          "outcome": "成功，保存 README 快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/keycloak/keycloak/license",
+          "outcome": "成功，保存 license API 快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/keycloak/keycloak/main/docs/building.md",
+          "outcome": "成功，保存构建文档快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/keycloak/keycloak",
+          "result": "HTTP 200，快照 9617a968…b2e"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/keycloak/keycloak/main/README.md",
+          "result": "HTTP 200，快照 5a5b61cb…879c"
+        },
+        {
+          "url": "https://api.github.com/repos/keycloak/keycloak/license",
+          "result": "HTTP 200，快照 c283c1df…b03，SPDX Apache-2.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/keycloak/keycloak/main/docs/building.md",
+          "result": "HTTP 200，快照 0966bcd7…8c60"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "identity-governance-iga",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "核对开源 IGA 候选 Evolveum midPoint 与 Apache Syncope 的 IGA 核心流程和许可证",
+      "source_urls": [
+        "https://github.com/Evolveum/midpoint",
+        "https://raw.githubusercontent.com/Evolveum/midpoint/master/README.md",
+        "https://api.github.com/repos/Evolveum/midpoint/license",
+        "https://github.com/apache/syncope",
+        "https://raw.githubusercontent.com/apache/syncope/master/README.md",
+        "https://api.github.com/repos/apache/syncope/license",
+        "https://syncope.apache.org/",
+        "https://syncope.apache.org/docs/"
+      ],
+      "note": "未建立 batch 关系。midPoint README 明确自称 comprehensive IGA platform 并列出身份治理、审批、供应与对账，但其 LICENSE 指向 LICENSE.EUPL，代码为 EUPL-1.2+，GitHub license API 返回 NOASSERTION，未抓取完整 EUPL 文本，无法按采集器规则完成 SPDX 证明，故不标开源入库。Syncope 的 Apache-2.0 证据完整，但本次读取的 README 与官网只说明身份/访问管理，未证明定期认证、访问审查和修复闭环。",
+      "service_boundary": "IGA 应位于 IAM 运行层之上，负责访问模型、人工认证/审批和修复；本次没有把通用 IAM 或仅含供应能力的项目直接纳入 IGA。",
+      "search_attempts": [
+        {
+          "action": "fetch",
+          "target": "https://github.com/Evolveum/midpoint",
+          "outcome": "成功，仓库 id 15528570"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/Evolveum/midpoint/master/README.md",
+          "outcome": "成功，正文确认 IGA 定位"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/Evolveum/midpoint/license",
+          "outcome": "成功但 SPDX 为 NOASSERTION，正文为 EUPL-1.2+/CC BY-NC-ND"
+        },
+        {
+          "action": "fetch",
+          "target": "https://github.com/apache/syncope",
+          "outcome": "成功，仓库 id 25623942"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/apache/syncope/master/README.md",
+          "outcome": "成功，仅项目使命与许可证头"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/apache/syncope/license",
+          "outcome": "成功，SPDX Apache-2.0"
+        },
+        {
+          "action": "fetch",
+          "target": "https://syncope.apache.org/",
+          "outcome": "成功，正文为身份/访问管理概述"
+        },
+        {
+          "action": "fetch",
+          "target": "https://syncope.apache.org/docs/",
+          "outcome": "成功，但为文档索引，未含认证流程正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/Evolveum/midpoint",
+          "result": "HTTP 200，快照 65e5c8f2…3478"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Evolveum/midpoint/master/README.md",
+          "result": "HTTP 200，快照 44ab3f6c…b51a"
+        },
+        {
+          "url": "https://api.github.com/repos/Evolveum/midpoint/license",
+          "result": "HTTP 200，快照 810c40cf…4372，API 为 NOASSERTION"
+        },
+        {
+          "url": "https://github.com/apache/syncope",
+          "result": "HTTP 200，快照 b554fb83…afa3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/apache/syncope/master/README.md",
+          "result": "HTTP 200，快照 81b54a41…67c3"
+        },
+        {
+          "url": "https://api.github.com/repos/apache/syncope/license",
+          "result": "HTTP 200，快照 bae46345…1a60，SPDX Apache-2.0"
+        },
+        {
+          "url": "https://syncope.apache.org/",
+          "result": "HTTP 200，快照 e16d0c1f…d2af"
+        },
+        {
+          "url": "https://syncope.apache.org/docs/",
+          "result": "HTTP 200，快照 12c91b7b…3add"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "identity-verification",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:veriff"
+      ],
+      "query": "检索并核对 Veriff 官方身份验证产品页",
+      "source_urls": [
+        "https://www.veriff.com/product/identity-verification"
+      ],
+      "note": "websearch 返回 Veriff 官网产品入口；首个猜测路径 /products/identity-verification 返回 404，改抓官方 /product/identity-verification 成功。正文明确描述证件照片、自拍、活体与文件检查、验证决定、人工复核和可定制流程，足以支持商业身份验证基本记录。",
+      "service_boundary": "商业身份验证平台；本叶只记录身份证据采集、检查与决定，不扩展 KYC/AML 整体平台，也未验证 API 或价格。",
+      "search_attempts": [
+        {
+          "action": "websearch",
+          "target": "Veriff official identity verification product page",
+          "outcome": "返回官网产品页与 devdocs 入口"
+        },
+        {
+          "action": "fetch",
+          "target": "https://www.veriff.com/products/identity-verification",
+          "outcome": "HTTP 404，未保存"
+        },
+        {
+          "action": "fetch",
+          "target": "https://www.veriff.com/product/identity-verification",
+          "outcome": "成功，保存产品正文快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.veriff.com/products/identity-verification",
+          "result": "HTTP 404"
+        },
+        {
+          "url": "https://www.veriff.com/product/identity-verification",
+          "result": "HTTP 200，快照 5400cbed…5e88"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "machine-identity-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:100061496"
+      ],
+      "query": "核对 SPIRE 官方仓库、README、Apache-2.0 许可证、官网与语言构成",
+      "source_urls": [
+        "https://github.com/spiffe/spire",
+        "https://raw.githubusercontent.com/spiffe/spire/main/README.md",
+        "https://api.github.com/repos/spiffe/spire/license",
+        "https://spiffe.io/",
+        "https://api.github.com/repos/spiffe/spire/languages"
+      ],
+      "note": "仓库页 meta 证明 id 100061496 与 nwo spiffe/spire；README 说明 SPIRE 通过工作负载证明签发 SPIFFE ID/SVID，提供 Server/Agent 发行包和容器镜像，并支持证书/信任包轮换；license API 为 Apache-2.0。",
+      "service_boundary": "开源、自托管控制平面加 Agent；记录主体是工作负载而非人员。本叶不扩展到通用 PKI/证书生命周期管理，也未声称完成撤销工作流的全部核对。",
+      "search_attempts": [
+        {
+          "action": "fetch",
+          "target": "https://github.com/spiffe/spire",
+          "outcome": "成功，保存仓库页快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/spiffe/spire/main/README.md",
+          "outcome": "成功，保存 README 快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/spiffe/spire/license",
+          "outcome": "成功，SPDX Apache-2.0"
+        },
+        {
+          "action": "fetch",
+          "target": "https://spiffe.io/",
+          "outcome": "成功，保存官网快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/spiffe/spire/languages",
+          "outcome": "成功，Go 为主"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/spiffe/spire",
+          "result": "HTTP 200，快照 3c247528…64c4"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/spiffe/spire/main/README.md",
+          "result": "HTTP 200，快照 7d9bcc91…abc9"
+        },
+        {
+          "url": "https://api.github.com/repos/spiffe/spire/license",
+          "result": "HTTP 200，快照 68e3fc7b…21b4，SPDX Apache-2.0"
+        },
+        {
+          "url": "https://spiffe.io/",
+          "result": "HTTP 200，快照 baa20fa8…cd0"
+        },
+        {
+          "url": "https://api.github.com/repos/spiffe/spire/languages",
+          "result": "HTTP 200，快照 fc784e49…b163"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "multi-factor-authentication-mfa",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:20446681"
+      ],
+      "query": "核对 privacyIDEA 官方仓库、README、AGPL-3.0 许可证、官网与语言构成",
+      "source_urls": [
+        "https://github.com/privacyidea/privacyidea",
+        "https://raw.githubusercontent.com/privacyidea/privacyidea/master/README.rst",
+        "https://api.github.com/repos/privacyidea/privacyidea/license",
+        "https://www.privacyidea.org/",
+        "https://api.github.com/repos/privacyidea/privacyidea/languages"
+      ],
+      "note": "仓库页 meta 证明 id 20446681 与 nwo privacyidea/privacyidea；README 标题与正文确认开源自托管 MFA、Passkey/FIDO2、推送、OTP、短信/邮件/SSH 等第二因素；license API 为 AGPL-3.0；官网确认模块化令牌/OTP 认证服务器。",
+      "service_boundary": "开源 AGPLv3 社区核心，自托管；本叶只记录第二因素层，不扩展为完整 IAM，也不把 Enterprise Edition 功能算作社区开源能力。",
+      "search_attempts": [
+        {
+          "action": "fetch",
+          "target": "https://github.com/privacyidea/privacyidea",
+          "outcome": "成功，保存仓库页快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/privacyidea/privacyidea/master/README.rst",
+          "outcome": "成功，保存 README 快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/privacyidea/privacyidea/license",
+          "outcome": "成功，SPDX AGPL-3.0"
+        },
+        {
+          "action": "fetch",
+          "target": "https://www.privacyidea.org/",
+          "outcome": "成功，保存官网快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/privacyidea/privacyidea/languages",
+          "outcome": "成功，Python/TypeScript 为主"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/privacyidea/privacyidea",
+          "result": "HTTP 200，快照 679d6cfe…3013"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/privacyidea/privacyidea/master/README.rst",
+          "result": "HTTP 200，快照 77a5621e…0418"
+        },
+        {
+          "url": "https://api.github.com/repos/privacyidea/privacyidea/license",
+          "result": "HTTP 200，快照 bd5fd8c0…70d1，SPDX AGPL-3.0"
+        },
+        {
+          "url": "https://www.privacyidea.org/",
+          "result": "HTTP 200，快照 e75fad30…fde49"
+        },
+        {
+          "url": "https://api.github.com/repos/privacyidea/privacyidea/languages",
+          "result": "HTTP 200，快照 ae3f43c1…805f"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

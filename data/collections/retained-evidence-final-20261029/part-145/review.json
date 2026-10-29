@@ -1,0 +1,44 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空，而 research.json 的 fetch_outcomes 记录了 7 个 sha256 快照；建议后续把 research 快照也纳入清单，减少审计时按哈希定位的成本。本次已按同名快照核对，不影响结论。",
+    "input.json 的 dc 字段从流程图中间开始（“│ ▼ carried to ...”），疑似截断；overview、overview_zh 和 rules 完整，定义性核心仍可判断。",
+    "Wandelbots 的 withheld 理由同时提到“无开源许可证据”，但它是商业候选，许可证不是必要条件；真正支撑保留的是工程侧行为编写/验证与机群生产运营边界重叠，建议措辞聚焦边界。",
+    "RoboDK for Web 快照含 QtLoader/Emscripten 加载脚本及“create your automation project directly from your browser”元描述，提示存在浏览器客户端；但静态快照没有账号/租户/订阅或工作流正文，当前不作为 SaaS 证据是合理的，后续可补抓加载后 DOM 或官方文档。",
+    "MoveIt Pro 的 JSON-LD 列有“Intuitive Web UI”，但产品家族正文将其解释为连接本机或网络 Runtime 的 Desktop App UI，不能据此认定为托管服务；当前保留判断成立。"
+  ],
+  "leaf_checks": {
+    "robotics-engineering-platform": {
+      "status": "boundary_unresolved 留档可通过",
+      "definition_core": "该叶定义核心为三段闭环：机器人/工作单元数字模型、持久化行为制品（程序/应用/配置）、先在软件中验证再交付真实机器人。RoboDK 首页与 Basic Guide 覆盖建模、仿真、离线程序生成和后处理器；MoveIt Pro 覆盖 Desktop App 的 Build/Simulate/Test 与 Runtime 部署；SWORD 覆盖 FreeCAD 建模规划并经 ROS 执行；Wandelbots 覆盖数字孪生与仿真部署。但没有任何候选以可核实正文同时证明三段完整闭环并可作为持续使用的应用服务提供。",
+      "saas_form": "RoboDK 主页与 Basic Guide 证明其主要是 Windows/Mac/Ubuntu 可安装桌面软件；RoboDK for Web 快照仅有标题、导航、QtLoader/Loading 占位，未取得浏览器内完整工作流、账号/租户或订阅访问正文；MoveIt Pro 为 Desktop App、嵌入式 Runtime 与 C++/Python Core，页面无托管 Web/SaaS 入口；Wandelbots 有 NOVA Cloud 登录入口，但正文主线是机器人机群与生产运营，工程侧边界未定。均不足以证明本叶所需的持续 SaaS 应用形态。",
+      "id_track": "input.json 的 application_ids 为空，research.json 的 case_ids 为空，batch.json 的 entries 为空；commercial:moveit-pro、commercial:robodk、SWORD、Wandelbots NOVA、Webots/Gazebo/CoppeliaSim/MoveIt 2 仅存在于 withheld_candidates，未被提升为 application。ID 与 track 一致，无错误收录关系。",
+      "open_source_license": "未发现可核实的完整开源应用：SWORD 官网仅说明其为 FreeCAD 模块化插件工作台，通过 ROS 建模/规划/执行，页面无许可证文本、仓库身份或社区版边界；MoveIt Pro 为 Open Core，开源 MoveIt 框架不等同于完整应用；Webots、Gazebo、CoppeliaSim、MoveIt 2 为仿真器、框架或 SDK，未证明完整应用服务。",
+      "community_edition": "MoveIt Pro 的 Core 与商业 Desktop/Runtime 有产品分层说明，但未证明存在可独立使用的完整社区版应用；RoboDK 提供下载试用，但不是开源社区版。当前无开源案例需要放行，故无许可证或社区版边界被错误接受。",
+      "evidence": [
+        "data/collections/research.json：记录 query、6 次 search_attempts、7 个 fetch_outcomes、withheld_candidates 与 boundary_unresolved 理由。",
+        "sources/d3954fb1fecb2ece679b8e4197115daec8358252e3ea2ddae6b65cdcbb4d977c.txt：RoboDK 首页，证明机器人仿真、离线编程、程序生成、后处理器与下载入口，未证明托管服务。",
+        "sources/cfe9c3f5f61bffe844dcbfabe269f7a23baf16449dc41bef67adabcdeaa8778d.txt：RoboDK Basic Guide，命中 Windows、Mac、Ubuntu、RoboDK for Web、lighter、simplified 等关键词，支持桌面软件与轻量 Web 版本判断。",
+        "sources/fd0755997cf55e442a5b94b2660df1255b1766c452a6e7e7da32685a354f29e9.txt：RoboDK for Web，正文为 QtLoader/Loading 占位，无工作流正文。",
+        "sources/f5d0d9d3c5bc99b5f82089a5967fb0dd08cc14069ab9c8928c4c2d94df093565.txt：SWORD，证明 FreeCAD 插件、ROS 建模/规划/执行、request a quote，未见 license。",
+        "sources/8f8be34e1f54d315edbe6604c5c0a325aebb25f7ecf9b99f6c4276cc07206a94.txt：PickNik MoveIt Pro，Product Family 为 Desktop App、Runtime、Core，operatingSystem 为 Linux/ROS 2、Mac、Windows，未检出 Login/Cloud/SaaS/account/subscription。",
+        "sources/887a39c06795d9482e808ab035c4e4eb608b633d0300dc2672fce95190a9f058.txt：Wandelbots，命中 digital twin、simulation、robot fleet、live production、NOVA Cloud Login，支持边界重叠判断。",
+        "sources/234a2cac9a1ecb58f3729a247105b739a43bc586c6458d899f8881cb8e86a729.txt：picknik.ai/faq，仅为重定向占位页，未取得 FAQ 正文。"
+      ],
+      "gaps": [
+        "RoboDK for Web 未取得加载后的浏览器内工作流、账号/租户或订阅正文，不能确认其是否为托管服务。",
+        "MoveIt Pro 未取得官方托管入口、账号/租户或订阅访问说明；Desktop App 加嵌入式 Runtime 不满足 SaaS 形态证据。",
+        "Wandelbots NOVA 有云登录入口，但未区分工程侧行为编写/仿真与机群运营的产品边界。",
+        "SWORD 未取得许可证、仓库身份与社区版边界；MoveIt Pro 开源 Core 与商业产品的许可边界未展开。",
+        "开源补查仅记录检索结果，未对 Webots、Gazebo、CoppeliaSim 等逐一抓取正文；不足以证明不存在完整开源应用，但也不构成收录依据。"
+      ]
+    }
+  },
+  "limits": "本次仅做只读静态审查：未运行 shell、未部署或登录任何服务、未做实时抓取、未重算 sha256。REVIEW_SOURCES.json 的 sources 为空，实际依据 research.json 的 fetch_outcomes 以 sha256 精确定位并读取 data/collections/sources/ 下 7 个同名快照。长单行 HTML 被阅读器截断，RoboDK Basic Guide 的关键词仅能以命中确认，未能逐段通读。RoboDK for Web 与 PickNik FAQ 为 Loading/重定向页，未取得加载后正文；商业价格、租户与订阅条款未核验（按任务不要求）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-145/ses_groveopencodegop145review2_1793249871.jsonl",
+  "batch_sha256": "466152be903eefacb24c4190ca13b01b80c08b0db018dbbc21a9deb3d80a7e3f",
+  "research_sha256": "de9a10d848530d647281271cd0c34c8dbf157f32de9daf8c43bea274d35b2cb5",
+  "input_sha256": "4c1ef381f8f6cb03b4502758acbea635f5776a14cd4e99f5dbb40ab2b85d8fca"
+}

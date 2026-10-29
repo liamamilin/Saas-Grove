@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sales-pipeline-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:pipedrive"
+      ],
+      "query": [
+        "官方站点定位：pipedrive.com 功能 Pipeline management",
+        "读取管道管理页与交易管理页，核对阶段自定义、卡点与活动跟踪"
+      ],
+      "source_urls": [
+        "https://www.pipedrive.com/en/features/pipeline-management",
+        "https://www.pipedrive.com/en/products/sales/deal-management"
+      ],
+      "note": "Pipedrive 管道管理页覆盖按团队流程自定义阶段、可视化交易阶段与卡点、为阶段指派下一步动作与活动跟踪，交易管理页补充交易记录与预测。缺口：赢单与输单原因以及阶段门禁的细节未在该页展开。",
+      "service_boundary": "销售侧的交易流程管理；客户与活动数据同库，但营销与客服流程不在本关联范围。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：pipedrive.com 功能 Pipeline management",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取管道管理页与交易管理页，核对阶段自定义、卡点与活动跟踪",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.pipedrive.com/en/features/pipeline-management",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "832d322dbe2eaaf8c57f9a15ff92d124d2aa00103091f45536c05e4bed9f2257"
+        },
+        {
+          "url": "https://www.pipedrive.com/en/products/sales/deal-management",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "00ef98a14afbf22490ea433ef502ffe171ce78f23cf08c73892ab302b5c43c43"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "configure-price-quote-cpq",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:dealhub"
+      ],
+      "query": [
+        "（原引用为术语表）从 dealhub.io 术语表页导航定位产品 CPQ 页",
+        "抓取 dealhub.io/platform/cpq/"
+      ],
+      "source_urls": [
+        "https://dealhub.io/platform/cpq/"
+      ],
+      "note": "原引 dealhub.io/cpq/ 实为术语表文章（canonical /glossary/cpq/），其 Configure/Price/Quote 三段与组件、捆绑、兼容规则、分层/订阅/批量定价属品类通识，不作为 DealHub 产品能力证据。改抓官方产品页 dealhub.io/platform/cpq/：该页以引导式配置、自适应价格簿（用量/分层/固定计价）、可配置捆绑与折扣、版本化订单表单、自动审批工作流与 CRM 实时同步描述产品能力。缺口：兼容规则的具体配置方式、报价接受后的订单/合同转换未在该页展开。",
+      "service_boundary": "报价生成与定价层；签署后的合同生命周期与开票由 CLM 或 ERP 承接。",
+      "search_attempts": [
+        {
+          "stage": "verification",
+          "query": "复核 https://dealhub.io/cpq/",
+          "result": "canonical 指向 /glossary/cpq/，标题为 “What is CPQ”，属品类术语文章，已从证据源移除"
+        },
+        {
+          "stage": "navigation",
+          "query": "读取该术语表快照，提取 /platform/cpq/ 链接",
+          "result": "得到官方产品页 https://dealhub.io/platform/cpq/"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 https://dealhub.io/platform/cpq/",
+          "result": "成功，正文含引导式配置、自适应价格簿、捆绑与折扣、版本化订单表单、自动审批工作流、三大 CRM 原生同步"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://dealhub.io/platform/cpq/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "c3b092a106711ff244b3efa7e85468c9cfb3483dad431ed28d7773176529f914"
+        },
+        {
+          "url": "https://dealhub.io/cpq/",
+          "kind": "documentation",
+          "outcome": "success",
+          "detail": "抓取成功但为 CPQ 术语表文章（canonical /glossary/cpq/），仅作品类背景，未作为产品功能证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "contract-to-order-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1864233"
+      ],
+      "query": [
+        "官方站点定位：docs.frappe.io ERPNext 手册 Selling > Blanket Order",
+        "读取 Blanket Order 文档，核对承诺量、有效期与分批下单"
+      ],
+      "source_urls": [
+        "https://docs.frappe.io/erpnext/user/manual/en/blanket-order"
+      ],
+      "note": "ERPNext 官方 Blanket Order 文档说明协议记录客户、生效与失效日期、逐行承诺数量、谈定费率与条款，可多次生成销售订单并累计已订购量与剩余承诺，仪表盘可下钻；协议本身不发货开票。缺口：自动到期关闭与价格重估需人工或二次开发，文档已明确说明。",
+      "service_boundary": "常设商业协议与订单释放层；发货、开票与收款由 ERP 的履约与财务模块继续处理。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：docs.frappe.io ERPNext 手册 Selling > Blanket Order",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取 Blanket Order 文档，核对承诺量、有效期与分批下单",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/blanket-order",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "0d385d4c4ee526ac91aad7d54935193f9b19222fcad82a019c36ba7a5dc00af3"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "deal-desk-commercial-approval-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:configure-to-win"
+      ],
+      "query": [
+        "官方站点定位：configure.win 首页导航 Deal Desk Software",
+        "读取 Deal Desk 页，核对例外判定、审批组与决策留痕"
+      ],
+      "source_urls": [
+        "https://configure.win/deal-desk-software"
+      ],
+      "note": "Configure to WIN 的 Deal Desk 页说明以报价数据与可配置度量作上下文，规则判定默认通过、阻止、自动拒绝或转人工评审，并把审批周期、责任组、决策人与状态挂在报价上；页面同时声明不含通用交易协作与 CLM。缺口：SLA、代理审批与升级路径未在该页说明。",
+      "service_boundary": "报价内的商业例外审批；不是通用交易协作室、CLM 或 CRM 管道系统。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：configure.win 首页导航 Deal Desk Software",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取 Deal Desk 页，核对例外判定、审批组与决策留痕",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://configure.win/deal-desk-software",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "57e312d182f998593f096cf2ee5a05f81e1f10b32d2ce9eaa5e71053e551bc84"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "proposal-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:getaccept"
+      ],
+      "query": [
+        "官方站点定位：getaccept.com 产品 Proposal Software",
+        "读取提案软件页，核对模板、审批、跟踪与电子签署"
+      ],
+      "source_urls": [
+        "https://www.getaccept.com/product/proposal-software"
+      ],
+      "note": "GetAccept 提案软件页覆盖模板与 CRM 数据组装、产品库定价表、按规则路由审批、按利益相关方跟踪打开与页面停留、同处电子签署。缺口：提案版本比较与过期失效策略未在该页展开。",
+      "service_boundary": "销售侧的提案文档与接受记录；签署后的合同管理与履约由 CLM 或 ERP 承接，买方无需账户即可查看签署。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：getaccept.com 产品 Proposal Software",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取提案软件页，核对模板、审批、跟踪与电子签署",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.getaccept.com/product/proposal-software",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "72717a171203387bf4636c69774fe57c67e87a2c69f7c091684932c5e4e31aef"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的 summary/features 列出“提供方、证书编号、核验状态”，leaf_matches 又称“个人×活动×学分×完成日期”，但已提供的 cle_service.py 只显示 user_id、jurisdiction_id、credits、credit_type、completion_date；models/cle.py 与 schemas/cle.py 未入快照。建议补充该模型/模式快照，或将未被快照直接支持的字段表述收紧；当前不影响 CE 管理核心成立。",
+    "cle_service.py 的 get_compliance_status 只比较总学分与 ethics 学分，种子数据中的 skills/diversity/cybersecurity 要求未参与判定；且 days_remaining = (period_end - today).days 恒为 0，non_compliant 分支实际不可达。batch 对三态合规状态的描述比实现范围更宽，建议在文案中说明当前判定范围或后续修正实现，不阻断收录。",
+    "合规计算使用“截至当日的滚动窗口”，而种子数据只有 reporting_period_months，没有实际报告周期的起止日期；这是对真实续期周期的简化，batch 已用“滚动窗口”表述，未构成虚假陈述。",
+    "种子数据中 skills_credits_required 在 12 个州均为 0.0，diversity/cybersecurity 仅 NY、CA 与 NY 非零；summary 将“技能、多元化、网络安全”并列为 12 州专项要求，措辞略宽，建议按州说明。",
+    "“管理员和经理可查看指定用户的学分记录与合规状态”在 README 中只有角色权限与团队报告的概括，未直接展示按指定用户查看的端点或界面；属于细节性未证，建议补充或弱化。",
+    "research.json 对 CPDTrack（CC BY-NC-SA 4.0）、CREDU（无许可证）、X-Ray-Tech（NOASSERTION）的排除结论没有对应许可证快照列入 REVIEW_SOURCES；这些是排除项而非入选案例，当前留档可接受，但独立复核时无法仅凭本单元快照重验。",
+    "仓库为 2026 年新建、检索时 0 stars、SQLite 原型库，且 runtime_tested=false；batch 未据此推断生产成熟度，建议保持这一谨慎口径。"
+  ],
+  "leaf_checks": {
+    "continuing-education-management": {
+      "status": "pass",
+      "application_id": "github:1174129021",
+      "track": "open_source",
+      "definitional_core": "User/BarAdmission（user.py）证明被跟踪个人及其多个律师资格；CLECredit 的 create/update/delete/get 与 compliance 查询（cle_service.py）证明个人×辖区×学分×类型×完成日期的学分授予记录；data/seed/cle_requirements.json 提供 12 个州的报告周期、总学分及专项类别字段，构成要求框架；get_compliance_status 汇总窗口内学分并输出 compliant/at_risk/non_compliant。四结构基本齐备。",
+      "service_form": "README 与仓库元数据表明为 FastAPI + Streamlit 的自托管 Web 应用，支持本地脚本、Docker Compose（8501/8000）与 Railway 部署；属于可持续部署使用的软件服务，而非一次性脚本或纯原型。",
+      "identity_and_license": "仓库元数据 id=1174129021、full_name=noamrazbuilds/legal-training-tracker 与 batch 的 github:1174129021 一致；license 端点快照的 base64 正文解码为完整 MIT 许可证（Copyright (c) 2026 Noam Raz and Pleasant Secret Labs），与 batch 的 MIT 声明一致；未见社区版/商业版分割，MIT 覆盖仓库整体。",
+      "boundary": "应用记录并证明 CLE 学分，许可证签发/续期仍属州律师协会；培训课程、测验、能力评估属于叠加能力，不改变 CE 管理核心。",
+      "gaps": "未提供 models/cle.py 与 schemas/cle.py 快照，活动粒度、提供方、证书编号、核验状态等字段无法从现有快照直接核验；合规判定仅覆盖总学分与 ethics，且 non_compliant 分支不可达；未运行项目。",
+      "verdict": "定义性核心、服务形态、ID/track 与完整 MIT 许可证均可由已读快照支持，案例成立；上述缺口为细节性/实现范围问题，不阻断本叶收录。"
+    }
+  },
+  "limits": "本次审查仅使用只读工具读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json、notes/continuing-education-management.md、issues.json、prepared.json，以及 REVIEW_SOURCES.json 列出的 6 份快照；未运行 shell、未写文件、未部署或运行第三方项目、未重新计算文件哈希。仓库元数据快照为单行 JSON，读取预览在 2000 字符处截断，未能直接看到 license.spdx_id 字段，但 license 端点快照含完整 MIT 正文可核对。未读取 ltt_app/models/cle.py、ltt_app/schemas/cle.py 及被排除候选的许可证快照，因此相关字段与排除理由只能按现有留档评估；未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-214/ses_groveopencodegop214review1_1793260151.jsonl",
+  "batch_sha256": "65254973498d208b38b8aa7d8eb0dbd1bbbe68ab817c5c7e1842ae91e5f302ec",
+  "research_sha256": "acb776dc63deebbf2f5b21ee082c7dfa8a6404918905d8d9e16209bd889bc3ff",
+  "input_sha256": "ca4acbb870dbec90878706a825bc0c3a1f5b3ef780b106da8e1184a2779a4e09"
+}

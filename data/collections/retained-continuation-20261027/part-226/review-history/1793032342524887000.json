@@ -1,0 +1,65 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "legislative-management-system",
+      "application_id": "github:862660333",
+      "issue": "本叶唯一案例的定义性核心没有正文级证据。所引快照只有 GitHub About 的一段产品自述和 13 行 README：支持加拿大联邦议会立法流程、精简工作流、增强透明度，以及团队成员与 Docker 说明；没有任何关于法案记录与编号、阶段推进与 as introduced/as passed 版本、议院日程工具（order paper/calendar）的编制与授权审批、秘书处操作角色、官方记录发布的内容、文档或代码。batch 的 features 还把 enhancing transparency 扩写为“透明度与监督界面”，把 streamlining workflows 扩写为“立法活动与进度跟踪”，快照中没有对应依据。因此只能确认这是一个名称与自述相符的 PHP/MVC 课程项目，无法确认其满足本叶三项结构共同成立，尤其无法排除它其实是外部透明/追踪站点而非机构侧立法管理系统。",
+      "fix": "补充仓库 src/、sql-scripts/ 或文档中可核验的证据，至少覆盖：法案的持久编号与阶段状态、按阶段产生的受控版本、议院日程/业务清单的编制与授权审批、秘书处角色权限；并据此重写 summary 与 features。若无法补充，应把 research.json 中该叶 assessment 改为 insufficient_evidence、清空 case_ids，并从 batch.entries 移除该条（或至少移除该条 leaf_matches），保留现有检索、许可证与仓库身份核对留档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与本单元 batch/research 中 4 个已记录案例不一致；本次审查以 batch.json 和 research.json 为准，建议同步进度元数据。",
+    "Open States 的 batch.summary 称“汇总美国各州及国会法案”且“现公开站点由 Plural 承接运营”，所引仓库快照未出现 Congress、Plural 或覆盖范围说明；建议补 openstates.org 首页快照，或将该表述收窄为快照可支持的范围。features 中的“议员与委员会资料”也仅能从 people_admin 目录间接推断，未见功能说明。",
+    "Citizen Space 的 research.note 与 batch.reason 称官网“列出法定咨询模板”，但快照中没有 statutory 字样，只有 featureList 的 Activity templates 及 Compliance by design（ISO/GDPR 等）；建议改为“活动模板”或补充可证明法定模板的来源。首页也只支持发布信息、收集回应、分析回应、Response publishing 的模块级匹配，未展示日期驱动的开放/关闭窗口与处置结果回写细节，条目已用“基本用途”措辞，保留该限制即可。",
+    "COMITIA 首页为营销页：Turing 被描述为 escrutinio y totalización de resultados，正文出现 Election night reporting；但未见 reporting unit/竞赛级结果记录、核票对账、官方结果状态或 SaaS/本地部署说明。条目已声明仅模块级商业匹配，建议保持这一限定，不要扩写流程能力。",
+    "voter-registration-system 无案例的留档本身符合规则，但排除候选（TrustTheVote/CC BY-SA、KNOWiNK Poll Pad、VR Systems 403、Laxton 身份集成商）只在 research.json 中记录，REVIEW_SOURCES.json 没有对应快照，后续无法重放这些判断；若要长期保留排除理由，建议补存快照或明确标注为不可复核的检索记录。",
+    "两个开源条目的 MIT 许可证文本完整、仓库 ID 与 SPDX 一致，未发现许可证或社区版边界问题；GitHub 仓库页的 About 与 README 属于项目自述，不能替代功能正文，这一点已在 legislative-management-system 的 finding 中处理。"
+  ],
+  "leaf_checks": {
+    "election-results-management": {
+      "verdict": "pass",
+      "application_ids": [
+        "commercial:comitia"
+      ],
+      "basis": "读取 data/collections/sources/4699737f450789a9fbc562752bb35885ec5be7fa2dfede51d21185f4efb4885b.txt：JSON-LD 将 Turing 描述为 Tecnología electoral para el escrutinio y totalización de resultados，另列 Sistema de Operaciones Electorales（选举运营信息集中与跟踪）；正文出现 Election night reporting。与结果管理的计票结果汇总与对外发布环节相符，条目也已明确只作商业产品的基本用途/类型记录，未把竞赛级记录、报告单位聚合、核票对账或官方结果状态写成已核验能力。",
+      "residual_gap": "首页为营销页，未提供 reporting-unit/contest 级结果记录、选票核算对账、官方结果状态或部署形态证据；不影响商业基本真实性与类型匹配。"
+    },
+    "legislative-management-system": {
+      "verdict": "changes_required",
+      "application_ids": [
+        "github:862660333"
+      ],
+      "basis": "仓库快照（repository_id 862660333）与 README 只有一段自述：支持加拿大联邦议会立法流程、精简工作流、增强透明度，以及 PHP/MVC、MySQL、Docker 和协作名单；MIT 许可证完整、仓库身份与 track 正确。但所引资料没有任何法案阶段生命周期、阶段版本、议院日程工具、秘书处审批发布或操作角色的正文/文档/代码证据，无法据此确认定义性核心，详见 findings。",
+      "residual_gap": "缺少三项定义性结构的可核验证据；batch 的 features 有超出快照的扩写。"
+    },
+    "legislative-tracking-platform": {
+      "verdict": "pass",
+      "application_ids": [
+        "github:91511370"
+      ],
+      "basis": "仓库快照 repository_id 91511370，MIT 许可证文本完整；README 说明该仓库是 openstates.org 网站与 v2 GraphQL API 的代码。follow-button.js 以 bill_id 实现 Follow/Unfollow Bill；process_subscriptions.py 支持 query 与 bill 两类订阅，查询可按 state/chamber/session/sponsor/classification/status 等条件检索新法案，并按 DAILY/WEEKLY 频率邮件推送。对应镜像法案记录、watch 定义、变化检测与投递三项结构，且没有操作法案提出、编号或阶段推进的代码证据，符合观察者侧定位。",
+      "residual_gap": "未验证生产部署、提醒发送频率与当前 openstates.org 的实际运营方；快照未证明 Congress 覆盖或 Plural 运营。"
+    },
+    "rulemaking-public-consultation-platform": {
+      "verdict": "pass",
+      "application_ids": [
+        "commercial:citizen-space"
+      ],
+      "basis": "读取 data/collections/sources/04f84bebd5dcbfabea0dca06e989d61fabc2e1823c2a92ca3bf252dcf2712b76.txt：首页正文称 Citizen Space 是面向政府的 consultation and engagement platform；卡片说明从 publishing information 到 asking questions and analysing responses；featureList 含 Response publishing、Activity templates、Centralised management dashboard，并有 subscription tier 说明。足以支持“机构侧发布咨询、结构化收集意见、分析并发布回应”的商业基本匹配。",
+      "residual_gap": "未证明日期驱动的开放/关闭窗口、以程序为单位的记录容器状态机、处置结果回写等细节；快照没有 statutory 字样，法定咨询模板的表述缺依据。"
+    },
+    "voter-registration-system": {
+      "verdict": "pass_documented_gap",
+      "application_ids": [],
+      "basis": "research.json 的 assessment=insufficient_evidence、case_ids=[]，并记录了检索与抓取结果：TrustTheVote-Project/registrar 许可证为 CC BY-SA 3.0 且 README 近空，KNOWiNK Poll Pad 属投票名册下游，VR Systems 返回 403，Laxton 为身份系统集成商未见登记产品正文；明确不以名称匹配硬凑案例。属于任务允许的“无案例但如实记录检索/抓取缺口”的留档。",
+      "residual_gap": "无个案；排除候选没有对应的 REVIEW_SOURCES 快照，排除理由只能作为采集留档核对。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何应用、未做部署或价格/架构验证，未访问其他单元，未写文件。只使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 所列 10 个快照（按 data/collections 为基准逐字读取）。未重算 SHA-256，只核对了文件名与声明哈希一致；长行渲染 HTML（Comitia 首页、GitHub 页面）在工具预览中被截断，Comitia 的 Election night reporting 仅按关键词确认存在于正文，未能检视完整上下文段落。research.json 中 VR Systems、KNOWiNK、Laxton、TrustTheVote 等抓取结论没有对应快照，无法独立复核，只能视为采集留档。input.json 的 progress 字段与 batch/research 不一致，本次未把它作为内容结论依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-226/ses_groveopencodegop226review1_1793031834.jsonl",
+  "batch_sha256": "06f44cdec66d26e51be1c8949a67d1ccbec2438e006daa8a1307ea1e62b32761",
+  "research_sha256": "fdae18e8b8c05c03f244c99c2b4241a43b29e5de70b9d5cb6a36d9c4e0591a0f",
+  "input_sha256": "8b57f6152aed5ff4bf80a50f59b2cbadb74049d9f2bc053b66bdbfc4e70dd524"
+}

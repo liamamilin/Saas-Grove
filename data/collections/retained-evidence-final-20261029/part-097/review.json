@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "research.json 的 service_boundary 称“README 提及的 locust.cloud”，但实际 README 只提到 Azure Load Testing 与 VS Code 扩展，locust.cloud 出现在官网首页导航和“Cloud Hosted Locust”段落；建议把来源归属改为“官网首页”，社区版边界结论不受影响。",
+    "batch.json 的 Quickstart 表述“填写被测主机后以 50 并发用户、1 用户/秒的爬升速率运行”略强于原文；原文是“以下截图展示使用 50 并发用户、1 用户/秒爬升速率运行时的样子”，属示例性描述。建议改为“示例截图展示 50 并发用户/1 用户每秒爬升”。",
+    "input.json 与 issues.json 仍保留补证前的 boundary_unresolved 及空 application_ids，属于输入侧历史状态；本轮成立关系只体现在 batch.json/research.json。下游合并时建议显式说明状态已被本轮 Locust 证据取代，避免两个状态并存造成误读。",
+    "k6（54f…、a67…、03d…）与 nGrinder（1041…、5a00…）的快照确实存在于 data/collections/sources，但未列入 REVIEW_SOURCES.json；它们只用于 withheld_candidates 的说明，不影响 Locust 条目的溯源，建议在来源清单中注明其“仅核查、不采纳”的用途。",
+    "Locust 是自托管 Web 应用而非厂商托管 SaaS，建议在条目文案中持续保留“自托管/社区版”限定，避免被下游误读为 locust.cloud 或 Azure Load Testing 之类的托管服务。",
+    "定义性核心中的“每用户独立会话、参数化数据”目前主要由 README 的 greenlet/on_start 登录示例与 Python 代码能力间接体现；后续如补证，可引用 Writing a locustfile 或配置文档强化这一点，但现有证据已足以支撑三要素成立。",
+    "k6 与 nGrinder 的不采纳理由记录完整（k6 为 CLI 运行器、nGrinder archived=true），且未据此推断该类型不存在其他产品，边界处理符合要求。"
+  ],
+  "leaf_checks": {
+    "load-testing-platform": {
+      "slug": "load-testing-platform",
+      "application_ids": [
+        "github:1377867"
+      ],
+      "status": "verified_case_found",
+      "identity_track_check": "仓库元数据快照 id=1377867、full_name=locustio/locust、fork=false、archived=false，与 batch 的 github:1377867 / repository_url / github_repository_id 完全一致；track=open_source 与 MIT 开源仓库形态相符。",
+      "defining_core_check": "README 正文：以普通 Python（HttpUser、@task、on_start）定义持久、可版本控制、可重跑的用户场景；Web UI 或 CLI 指定并发用户与 spawn rate，并可在运行中调整负载；测试过程实时输出吞吐、响应时间与错误率并可导出；Quickstart 展示 50 并发、1 用户/秒爬升及 Charts 的 RPS/响应时间/运行用户数；Distributed 文档说明 master 承载 Web 界面并指挥 worker 启停用户、worker 回传统计。场景→受控模拟群体→针对目标执行→负载下性能测量→可保留结果集五段均有官方正文支撑。",
+      "service_form_check": "locust 启动后在 localhost:8089 提供常驻 Web 应用，用于配置被测主机、启停与运行中调节负载、实时观测图表；master/worker 形态下由 master 承载该界面；headless CLI 为可选执行方式而非唯一形态。相对纯 CLI 运行器，条目所述“可持续使用的应用界面”有正文依据。",
+      "license_check": "license 快照为 GitHub contents API 返回的 MIT 许可证 base64 内容（size=1110），解码含“The MIT License”、完整授权条款与“THE SOFTWARE IS PROVIDED ... AS IS”免责声明；仓库元数据 license.spdx_id=MIT，README 亦声明 MIT，三者一致，无附加限制或社区版功能割裂。",
+      "community_boundary_check": "batch/research 的能力断言仅限社区版自托管：本地 Web UI、headless CLI、自建 master/worker；locust.cloud 与 Azure Load Testing 被明确排除在条目断言之外，未混入商业托管能力，也未把商业服务当作条目主体。",
+      "commercial_check": "不适用（open_source 条目）；对首页出现的 locust.cloud 仅作边界说明，未作为产品能力或价格依据。",
+      "withheld_candidates_check": "k6（github:54400687）与 nGrinder（github:4709330）在 research.withheld_candidates 留档；k6 README 快照证实其定位为脚本+CLI/CI 执行并配可选 Grafana Cloud，nGrinder 元数据 archived=true、pushed_at=2024-10-10；两者不纳入成立关系且未据此否定类型存在性，处理合理。",
+      "gaps": "未安装/部署/运行，runtime_tested=false；跨次运行比较仅由“可导出结果供后续分析”间接支持；首页为营销正文，仅作辅助；许可证快照因单行 JSON 显示截断，关键条款与元数据 spdx_id 已核对，但未逐字节复核全部 1110 字节。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 6 个快照，并按 data/collections 为基准原样读取路径；另行读取了 research 引用且实际存在的 k6/ngrinder 留档快照用于核对不采纳理由。未运行任何 shell 命令，未重算文件哈希，未访问网络复核线上内容，未安装/部署/运行被测产品，未读取 TASK.md、scripts/、其他单元或正式库。快照多为单行 JSON 或长 HTML，读取显示在 2000 字符处截断，故 archived=false、spdx_id=MIT、pushed_at、repository id 等字段通过针对性模式匹配确认其存在于快照中，而非全文逐字浏览；许可证为 base64 内容，已核对首尾关键条款与文件大小，未逐字节解码复核全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-097/ses_groveopendesignp097review1_1793199017.jsonl",
+  "batch_sha256": "616111657d6938f91518b9ca8b5f839ea02b6936c839e0a840a866d2256aa90f",
+  "research_sha256": "942cc6c474894862a1dbc17c9461ea0c0e143e55a97a13f116b4c9f5dbdf7e57",
+  "input_sha256": "b4ceb470e35b7bf101191a9073d6623fd833f4825a9bef2768f48d37402d418a"
+}

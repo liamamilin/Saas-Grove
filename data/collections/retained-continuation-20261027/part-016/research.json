@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "personal-dashboard",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "personal dashboard widgets self-hosted | glance dashboard feeds",
+      "source_urls": [
+        "https://api.github.com/repos/glanceapp/glance",
+        "https://raw.githubusercontent.com/glanceapp/glance/main/README.md",
+        "https://api.github.com/repos/glanceapp/glance/license",
+        "https://raw.githubusercontent.com/glanceapp/glance/main/docs/configuration.md"
+      ],
+      "note": "本叶筛查到 Glance（github:792861139，https://github.com/glanceapp/glance）并读取其官方 README、配置文档、仓库元数据与许可证快照，但未建立正式关系。README 与配置文档支持“个人数据基底、用户自选页面/栏位/小部件”三层；README FAQ 同时明确：“No, a page refresh is required to update the information.”“No requests are made periodically in the background, information is only fetched upon loading the page and then cached.”即信息仅在页面加载时抓取并按 widget 缓存，页面不会自动更新，也没有后台周期性同步。定义核心要求 “at-a-glance currency（automatic refresh or sync）”，该产品仅能靠手动刷新页面取得更新，不能确认满足常驻界面的自动时效性，故 assessment 记为 boundary_unresolved，不把 Glance 计入 case_ids，也不在 batch 中保留关系；已有抓取快照与候选信息继续留档。AGPL-3.0 与仓库身份已由元数据核实。",
+      "service_boundary": "单一个人使用的常驻组合视图；页面加载时抓取并按小部件缓存，需手动刷新页面才更新，不提供后台自动刷新或同步。因定义核心要求自动刷新/同步，该候选的服务时效性边界未成立，未计入正式关系。",
+      "search_attempts": [
+        {
+          "query": "personal dashboard widgets self-hosted",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=personal%20dashboard%20widgets%20self-hosted&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 14 results",
+          "top_candidates": [
+            "lissy93/dashy",
+            "enchant97/web-portal",
+            "tschuegy/linkboard-nextcloud",
+            "brainphreak/glimpse",
+            "Fazorath/atlas-dashboard"
+          ]
+        },
+        {
+          "query": "glance dashboard feeds",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=glance%20dashboard%20feeds&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 17 results",
+          "top_candidates": [
+            "glanceapp/glance",
+            "herms14/glance-dashboard",
+            "Nielk74/glanceboard",
+            "DenushanGithub/Glance-Media-Requests-Widget",
+            "dr-data/glance"
+          ]
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:792861139",
+          "url": "https://api.github.com/repos/glanceapp/glance",
+          "kind": "repository_metadata",
+          "sha256": "ee9b523dbb4023845aeac475209d0ccdde9a61c10e973843f8c9c46b2dcd67ab",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:792861139",
+          "url": "https://raw.githubusercontent.com/glanceapp/glance/main/README.md",
+          "kind": "readme",
+          "sha256": "8bd07cbba9ec198a2cca8be73454140edb4c99956c541e7e0b7b4618d7ef0c11",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:792861139",
+          "url": "https://api.github.com/repos/glanceapp/glance/license",
+          "kind": "license",
+          "sha256": "69144950ff6df4bd554c453e19cfc43da6e4d904d843aee71b6976266a68b812",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:792861139",
+          "url": "https://raw.githubusercontent.com/glanceapp/glance/main/docs/configuration.md",
+          "kind": "documentation",
+          "sha256": "5d63cb4c24d20441b95d81f9f7abf59d84aa164923aa73bb45197edd085b7b37",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "personal-organizer",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1190598050"
+      ],
+      "query": "personal information manager calendar tasks notes | family planner tasks calendar notes self-hosted | family organizer self-hosted calendar tasks contacts | yuvomi family planner",
+      "source_urls": [
+        "https://github.com/ulsklyc/yuvomi",
+        "https://raw.githubusercontent.com/ulsklyc/yuvomi/main/README.md",
+        "https://api.github.com/repos/ulsklyc/yuvomi/license"
+      ],
+      "note": "采用 Yuvomi（github:1190598050）。README 明示任务、日历、笔记、联系人、预算等模块共用同一个 SQLite 数据库，并专设‘模块互相通信’章节举例（餐食计划生成购物清单、收据挂到账目、勾选家务发放积分），符合单库与跨域关联的定义核心。该产品面向家庭，属定义允许的个人/家庭范围。未核实项：删除恢复策略未在已读页面说明，未作断言。",
+      "service_boundary": "面向个人或家庭的小范围共享；不是组织级协作工作区。",
+      "search_attempts": [
+        {
+          "query": "personal information manager calendar tasks notes",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=personal%20information%20manager%20calendar%20tasks%20notes&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 1 results",
+          "top_candidates": [
+            "anayadoragoodfrag/Essentialpim-Full-Version"
+          ]
+        },
+        {
+          "query": "family planner tasks calendar notes self-hosted",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=family%20planner%20tasks%20calendar%20notes%20self-hosted&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 0 results"
+        },
+        {
+          "query": "family organizer self-hosted calendar tasks contacts",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=family%20organizer%20self-hosted%20calendar%20tasks%20contacts&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 1 results",
+          "top_candidates": [
+            "itsDNNS/tribu"
+          ]
+        },
+        {
+          "query": "yuvomi family planner",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=yuvomi%20family%20planner&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 3 results",
+          "top_candidates": [
+            "ulsklyc/yuvomi",
+            "ajthom90/yuvomi-ios",
+            "Kyrodan/yuvomi-docs"
+          ]
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:1190598050",
+          "url": "https://github.com/ulsklyc/yuvomi",
+          "kind": "repository_metadata",
+          "sha256": "18bb121784e063593ef48e61f4d412cc27c9bb44b3cbd9834fd5d50114abfb31",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1190598050",
+          "url": "https://raw.githubusercontent.com/ulsklyc/yuvomi/main/README.md",
+          "kind": "readme",
+          "sha256": "c703d92bd3f0564d809595a28e97252c79139fa100fe31b26f551c5467c21daf",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1190598050",
+          "url": "https://api.github.com/repos/ulsklyc/yuvomi/license",
+          "kind": "license",
+          "sha256": "0897afb72c5acda6e7b342894b431886140681fa9badcdceb544e7e99769b376",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "productivity-activity-tracker",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:57224308"
+      ],
+      "query": "automatic time tracker productivity categories | activitywatch automatic time tracker",
+      "source_urls": [
+        "https://api.github.com/repos/ActivityWatch/activitywatch",
+        "https://raw.githubusercontent.com/ActivityWatch/activitywatch/master/README.md",
+        "https://api.github.com/repos/ActivityWatch/activitywatch/license",
+        "https://docs.activitywatch.net/en/latest/features/categorization.html",
+        "https://docs.activitywatch.net/en/latest/features.html",
+        "https://docs.activitywatch.net/en/latest/features/user-interface.html",
+        "https://activitywatch.net/"
+      ],
+      "note": "采用 ActivityWatch（github:57224308）。README 说明 watcher 自动记录前台应用、窗口标题、浏览器标签与键鼠活动，官方分类文档说明类别含标题、父子层级与匹配窗口标题/应用名的规则，对应自动捕获、持久记录、生产力解读三层。已读官方 README、功能页与分类文档未出现内建生产力评分/百分比，与定义中“至少一款知名产品仅分类不评分”一致，不视为缺陷。",
+      "service_boundary": "个人时间记录与分类；不提供组织级员工监控看板。",
+      "search_attempts": [
+        {
+          "query": "automatic time tracker productivity categories",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=automatic%20time%20tracker%20productivity%20categories&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 3 results",
+          "top_candidates": [
+            "TheHolyOneZ/ZTally",
+            "lialilith/My-focus-",
+            "lialilith/Productive-planner"
+          ]
+        },
+        {
+          "query": "activitywatch automatic time tracker",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=activitywatch%20automatic%20time%20tracker&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 13 results",
+          "top_candidates": [
+            "kostasdizas/aw-watcher-sublime",
+            "CODEX-cpp/TrackFlow",
+            "phunguyen1006/studyos",
+            "Henryyu119/android-timetracker",
+            "Better-Quality-Assurance/betterflow-sync"
+          ]
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:57224308",
+          "url": "https://api.github.com/repos/ActivityWatch/activitywatch",
+          "kind": "repository_metadata",
+          "sha256": "f6bea1aeeeab64057217bb8d8112c94d7f2a49bbbe321c0176b185e779dbb234",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://raw.githubusercontent.com/ActivityWatch/activitywatch/master/README.md",
+          "kind": "readme",
+          "sha256": "4afdc26bd31ea4e2b516ed4eae6c4f645759dac2d3cca43fd5f99e35b1d94702",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://api.github.com/repos/ActivityWatch/activitywatch/license",
+          "kind": "license",
+          "sha256": "6a28a42e95054d2dec4afdfc214c561127a76cdfe79477c5c2b0496a2f705727",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://docs.activitywatch.net/en/latest/features/categorization.html",
+          "kind": "documentation",
+          "sha256": "5b4fe69d1e9319b17cfc100a6a62ec855224461c6c6b5ce0c09f6273dd21445a",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://docs.activitywatch.net/en/latest/features.html",
+          "kind": "documentation",
+          "sha256": "196741af70976d72c2824c67eac88918bf297982abd9401fd26b56e9510e7cc9",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://docs.activitywatch.net/en/latest/features/user-interface.html",
+          "kind": "documentation",
+          "sha256": "78b47fa141c752ada73a70206af152817ce62102e99b1d54765a60f59d15283f",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:57224308",
+          "url": "https://activitywatch.net/",
+          "kind": "homepage",
+          "sha256": "7fa57fa81941869fe320147413b21121524f5841cf6cec7ba71742984666c570",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "time-blocking-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:78243781"
+      ],
+      "query": "time blocking task planner calendar | super productivity timeboxing",
+      "source_urls": [
+        "https://api.github.com/repos/super-productivity/super-productivity",
+        "https://raw.githubusercontent.com/super-productivity/super-productivity/master/README.md",
+        "https://api.github.com/repos/super-productivity/super-productivity/license",
+        "https://super-productivity.com/use-cases/schedule-planner/",
+        "https://super-productivity.com/guides/time-boxing-method/"
+      ],
+      "note": "采用 Super Productivity（github:78243781）。README 明示时间盒与时间追踪，任务在 schedule 时间轴上排为时间块。初审指出旧 reason 的“重新安排/结转”无法从单行 Astro 快照的可读片段确认；复核时重新抓取官方 Schedule Planner 页（内容 sha 不变，保留原快照与 fetched_at），其正文在去除 HTML 标签后可读到：“Drag tasks into the daily timeline”“If something takes longer, drag to reschedule the rest”，FAQ“Unfinished tasks carry forward automatically”。另抓取官方 Time Boxing 指南（新快照 f1fac46e...），其中写明“Assign a time estimate to each task”“Slot these tasks into your calendar like Tetris blocks”“Drag & Drop Planning”与“Easily move tasks into time slots.”。任务到时间块的分配、重排与结转均有官方正文。未核实项：未读取自动排程算法细节，摘要未声称具备自动调度。",
+      "service_boundary": "个人任务到日历时间的分配；任务拖入时间轴、重排与结转均在个人计划内完成，不含团队排班治理。",
+      "search_attempts": [
+        {
+          "query": "time blocking task planner calendar",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=time%20blocking%20task%20planner%20calendar&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 14 results",
+          "top_candidates": [
+            "drkokorev/Planly",
+            "echanut/to-do",
+            "dsshrek-ai/timecraft",
+            "cmlee2/daily-planner",
+            "nanoarmando/blockout"
+          ]
+        },
+        {
+          "query": "super productivity timeboxing",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=super%20productivity%20timeboxing&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 7 results",
+          "top_candidates": [
+            "super-productivity/super-productivity",
+            "yashnil225/super-productivity",
+            "lazycat-contrib/super-productivity-lzcapp",
+            "ads-mirrors/super-productivity",
+            "vinayakv22/super-productivity"
+          ]
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:78243781",
+          "url": "https://api.github.com/repos/super-productivity/super-productivity",
+          "kind": "repository_metadata",
+          "sha256": "691dba04b37fbab8ce927e05962f86af64b8adc96da09941940f38e3e2cf6f61",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:78243781",
+          "url": "https://raw.githubusercontent.com/super-productivity/super-productivity/master/README.md",
+          "kind": "readme",
+          "sha256": "0e1e8e86418adea0749d3e50f3c22a887b009b2e10d4fba554c7327932ca83f8",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:78243781",
+          "url": "https://api.github.com/repos/super-productivity/super-productivity/license",
+          "kind": "license",
+          "sha256": "4183b12ab2b74af0a11d04f6bfa2b6e5e0eded35d821b78ae06dc01e1e04715e",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:78243781",
+          "url": "https://super-productivity.com/use-cases/schedule-planner/",
+          "kind": "documentation",
+          "sha256": "79965390063cff8a97c9851b87cb5f9ca9b5ac9c3942092fe53ddff63d8fd2c9",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:78243781",
+          "url": "https://super-productivity.com/guides/time-boxing-method/",
+          "kind": "documentation",
+          "sha256": "f1fac46e0f0dd3ea5a206f7c8b984ba354cf970b78992aa28c771b4498fe5da2",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "file-manager",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:191800260"
+      ],
+      "query": "web file manager self-hosted | filegator web file manager",
+      "source_urls": [
+        "https://api.github.com/repos/filegator/filegator",
+        "https://raw.githubusercontent.com/filegator/filegator/master/README.md",
+        "https://api.github.com/repos/filegator/filegator/license",
+        "https://docs.filegator.io/"
+      ],
+      "note": "采用 FileGator（github:191800260）。README 与官方文档均说明管理服务器本地目录或 S3/FTP/Dropbox/Azure 等适配器中的真实目录，并逐项列出 copy、move、rename、create、delete、zip、unzip、download、upload，对应真实层级、文件为操作单元与变更存储三类。",
+      "service_boundary": "面向自有或自托管存储的文件管理；不含存储服务开通。",
+      "search_attempts": [
+        {
+          "query": "web file manager self-hosted",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=web%20file%20manager%20self-hosted&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 100 results",
+          "top_candidates": [
+            "jR4dh3y/BoxBox",
+            "passwordcockpit/passwordcockpit",
+            "fanchenggang/Davflare",
+            "GleamTech/FileVista",
+            "BRF-Tech/filex"
+          ]
+        },
+        {
+          "query": "filegator web file manager",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=filegator%20web%20file%20manager&sort=stars&order=desc&per_page=5",
+          "outcome": "returned 0 results"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:191800260",
+          "url": "https://api.github.com/repos/filegator/filegator",
+          "kind": "repository_metadata",
+          "sha256": "4714022a86975f982109c63451430c9db52ea645c776a01d803a82c33f69aee6",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:191800260",
+          "url": "https://raw.githubusercontent.com/filegator/filegator/master/README.md",
+          "kind": "readme",
+          "sha256": "7cbe26a30bcbb41d878fd6f875b9cb97cd30867238c9cb2f38b97aae701048d2",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:191800260",
+          "url": "https://api.github.com/repos/filegator/filegator/license",
+          "kind": "license",
+          "sha256": "891ab7c6b4e0933983e4c9f990b89f268c23315a866f360f18656c0127b1e24a",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:191800260",
+          "url": "https://docs.filegator.io/",
+          "kind": "documentation",
+          "sha256": "81c1579cb45d2b3d7d9d3b893f0d7d2f2e4f100954378cf320eb03cc3552b84a",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

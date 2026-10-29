@@ -1,0 +1,38 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:159556794",
+      "issue": "定义性核心/类型关系不成立。Vikunja 官方身份与正文是任务管理器而非待办清单：首页 h1 为“The task manager you actually own”，副标题“open-source task management with lists, Kanban, Gantt”，并列四种视图（List/Kanban/Gantt/Table，默认视图由用户设置选择）；help/views 中 Kanban bucket 可设为 done bucket，拖动到该桶即标记完成、移出即取消完成，等于在条目上引入用户定义的工作流阶段；help/tasks 另有 progress 0-100%、blocker/parent 关系、子任务、assignees；help/projects 有嵌套子项目、团队共享。本叶 overview/dc 明确规定：当重心转向“有意识地组织一批工作并通过视图处理”时，产品即在作为 Task Management Application 运行，且“条目上没有用户定义的工作流阶段”。采集方在 summary 与 reason 中用“收录范围限于个人待办清单”自行缩小范围，不能替代对产品整体重心与记录语法的判断；FAQ 中“open-source, self-hostable to-do app”及 List 视图“similar to a classic to-do list”只是营销措辞与单一视图描述，不足以支撑本叶。",
+      "fix": "将 github:159556794 从本叶移除（转 withheld/已查候选，并在 research 中写明“task manager 重心、存在 Kanban 工作流阶段，故不建立 to-do list 关系”），或补充能证明“列表是唯一/主要归属与工作表面、无分桶等工作流阶段”的官方正文后重新评估；不得以条目 summary 限定收录范围来消解类型不匹配。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:159556794",
+      "issue": "引文与快照不符。batch.json 与 research.json 均把“A project is the main place where tasks live”作为 help/projects 的原文引用（research 亦写入 fetch_outcomes），但在该快照中检索不到此句；实际存在的是“A project holds tasks. A saved filter is a personal view that shows matching tasks from across all your projects.”、“Create projects to group related tasks.”，以及 help 索引的“Every task belongs to a project.”。同类问题：tasks 页“Every to-do item, action item, or piece of work lives as a task inside a project”在快照中夹带内联标签，逐字引用需按实际渲染文本处理。",
+      "fix": "改用快照中实际可检索的句子（如“A project holds tasks.”与“Every task belongs to a project.”）作为归属地证据，删除或更正无法在快照中定位的引文；同步修正 research.json 的 fetch_outcomes 与 note，避免把转述当成原文引用。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Vikunja 的 license 字段写 AGPL-3.0，而 README 明确为 AGPL-3.0-or-later（desktop/ 为 GPL-3.0-or-later）。建议许可证字段与 README 表述统一为“AGPL-3.0-or-later（desktop/ 为 GPL-3.0-or-later）”，并在来源注明 LICENSE 大小 34523 字节的完整 AGPLv3 正文；这属于精确性建议，不影响已核对的完整许可证正文存在。",
+    "Tracks 首页许可证链接指向 creativecommons.org/licenses/GPL/2.0/，并非 FSF 标准文本链接；实际 COPYING（18092 字节）解码为 GPLv2 正文，仓库 license API 亦指向 COPYING。建议只以 COPYING/许可证 API 作为许可依据，避免读者误读首页链接。",
+    "Tracks 是 GTD 风格 Web 应用（contexts/projects、tickler、统计、feed、多用户各自独立），本叶按“主页按 context 汇总 action + 可逆完成 + 由日期派生的紧急度”建立关系可以成立，但 GTD 术语与统计不是本叶证据，建议在 reason 中进一步弱化其组织框架描述。",
+    "input.json 仍标注 case_status=boundary_unresolved、application_ids=[] 且 phase=included_without_cases，与 batch/research 已收录两条案例不一致；属于流程留痕，建议在最终入库前同步，避免调用方据此判断为空案例。",
+    "Nextcloud Tasks 的 404 与“仅 README/metadata 有内容”的缺口已在 research 中如实记录，属于可接受的已查未收留档，不阻断。",
+    "Tasks.org 仅 Android 客户端/桌面 alpha 的旧候选被降级并保留原查询记录，处理方式符合“客户端不等于应用服务”的边界要求。"
+  ],
+  "leaf_checks": {
+    "to-do-list-application": {
+      "verdict": "changes_required",
+      "basis": "已核对本叶定义（列表为归属与主要工作表面、完成可逆、紧急度派生、无工作流阶段、重复再生）及两条候选。Tracks：首页正文为 web-based 应用、自带 webserver、GNU GPL；主页按 context 汇总 action，也可只看单个 context/project 并拖拽排序；到期日按今日/逾期红、明日深橙、7 天内橙、其余绿；tickler 延迟重现；completed 页保留全部完成项；多用户各自独立 context/project。仓库 id 2057515、full_name TracksApp/tracks 与 COPYING（18092 字节，GPLv2 全文）一致。Vikunja：help/projects 有“A project holds tasks.”与 saved filter 为个人视图、Inbox 为快速捕获；help/tasks 有 Done 按钮再次点击 reopen、start/end/due 日期、progress 百分比、assignees、blocker 关系；help/views 有 List 为最简视图且多数项目默认、done bucket 与 WIP limit；dates-and-reminders 有过期高亮、绝对/相对提醒、重复任务完成后生成下一次；README/LICENSE 为 AGPL-3.0-or-later（desktop/ GPL-3.0-or-later）、LICENSE 为完整 AGPLv3 正文，Pro 模块与 Cloud 已排除在收录依据外。结论：Tracks 可成立；Vikunja 因产品整体身份为 task manager、含 Kanban 分桶式工作流阶段与团队视图，与本叶“无工作流阶段、列表为重心”的核心相冲突，且 reason 中一处关键引文在快照中检索不到，需修复后才能通过。",
+      "gaps": "快照为压缩 HTML，单行截断至 2000 字符，无法逐字比对全部正文；未确认许可证 API 的 spdx_id 字段与许可证全文末尾；无网络，未复验 Nextcloud Tasks 的 404 记录及 apps.nextcloud.com 仅元数据的结论；两款产品均未部署实测（runtime_tested:false，采集已如实声明）。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的来源快照；未运行 shell、未写文件、未访问其他单元或联网。来源快照为压缩 HTML 且单行被截断至 2000 字符，部分引文只能通过带标记的正则近似核对，无法逐字通读全文；许可证内容为 base64，未完整解码校验尾部，也未确认 GitHub API 返回的 license.spdx_id 字段；未部署或运行 Vikunja/Tracks，未独立验证 research 中 404/仅元数据类抓取结果。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-013/ses_groveopendesignp013review1_1793151734.jsonl",
+  "batch_sha256": "8444a1175ca43599c72d3c79699e85df94e8a4b5131338af0931cdc5b928fdec",
+  "research_sha256": "6105831200f4dd4ade7190d8401fd9bf41a7f49bd2e5d4411fb27ba444aa7751",
+  "input_sha256": "40434198770164f447a3734cb0463a7b37a5fe8406a63789a5482a5f808daefa"
+}

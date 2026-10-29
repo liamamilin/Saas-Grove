@@ -1,0 +1,90 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍处于采集前状态：五个叶子的 case_status 都是 not_searched，application_ids 和 research_records 都为空，phase 为 included_without_cases；但 batch.json 和 research.json 已记录 5 个案例。这属于进度元数据没有回填，不影响本次对公开资料的核对结论。",
+    "商业条目只按基本真实性和类型匹配审查：DRB 和 CCC 的首页正文、导航尚未展开产品内的完整工作流；PaintScout 快照正文以估价和销售为主，Operations、日程、团队、开票主要见页面内结构化 featureList。上述内容按商业标准通过，但不视为已经核验的完整工作流证据。",
+    "OpenCare 与 OpenFamily 同属 NexaFlowFrance，OpenCare README 明确说明其建立在 OpenFamily 开源基础之上。两者叶位边界仍清楚，但属于相关代码库，不宜表述为完全独立实现。",
+    "OpenCare 和 OpenFamily 的项目主页（nexaflowfrance.github.io/OpenCare、openfamily.fr）没有单独快照；仓库元数据、README 和许可证 API 快照已足以确认身份、核心与许可。",
+    "DRB 的证据落在洗车交易、会员和 POS 一侧，未提供汽车美容（detailing）作业证据；该叶允许洗车或美容任一履行极点，因此不阻断。",
+    "批量摘要中的「家务」「认领」等措辞，是对重复任务、成员分配和任务清单的概括，未见独立模块名；属于非关键措辞。",
+    "research.json 已记录开源候选排除（如 w3gen/carwash-jo.com 缺少套餐、计价和支付核心）以及 PaintScout /platform/ 404 等抓取缺口；留档完整，未把 HTTP 成功当作核心证据。"
+  ],
+  "leaf_checks": {
+    "car-wash-detailing-management": {
+      "application_ids": [
+        "commercial:drb-systems"
+      ],
+      "result": "pass",
+      "sources_read": [
+        "data/collections/sources/5a374c2fc728abd7c536f60537338fe4681331c4bf7d9b16f19d52c72d45be27.txt"
+      ],
+      "core_check": "读取 drb.com 首页快照：标题和正文明确为洗车场 POS 与管理系统；正文说明 Patheon 处理 unlimited plans and payments、支持 recurring revenue；导航含 Vehicle Identification 与 Online Car Wash Reporting；轮播含 EMV 支付。可确认运营方侧的服务交易、套餐与会员兑换、支付和运营报表。",
+      "identity_and_track": "commercial:drb-systems，track=commercial；DRB 官方域名与洗车 POS 产品身份一致。",
+      "license_and_boundary": "商业条目，不适用开源许可证；边界为洗车场和连锁站点运营技术，未展开价格、部署或架构。",
+      "gaps": "未提供 detailing 作业（阶段、清单、工时）证据；该叶允许洗车或美容任一履行极点。商业仅首页级核验。"
+    },
+    "collision-repair-management": {
+      "application_ids": [
+        "commercial:ccc-intelligent-solutions"
+      ],
+      "result": "pass",
+      "sources_read": [
+        "data/collections/sources/2293e33c34603f99c11bca9f46fb214cf87ce3fa476d9d5423584658fe5f1d83.txt"
+      ],
+      "core_check": "读取 cccis.com 首页快照：For Repairers 导航列出 CCC ONE Estimating（面向 collision repair shops）、Repair、Shop Management（单一系统覆盖 estimating、shop management、invoicing）、Parts、Payments；页面结构化说明 Collision Repairer Solutions 覆盖 estimating、repair、shop management。可确认碰撞维修厂侧的估价、车间管理和开票、零件的类型关系。",
+      "identity_and_track": "commercial:ccc-intelligent-solutions，track=commercial；CCC 官方域名与碰撞维修行业平台身份一致。",
+      "license_and_boundary": "商业条目，不适用开源许可证；边界为碰撞维修厂并连接保险与零件网络，未展开价格或部署。",
+      "gaps": "正文主体为保险生态平台叙事，未展开 repair order、授权、补充估价、保险与客户分摊结算等具体工作流；按商业基本类型匹配通过，细节未核验。"
+    },
+    "painting-contractor-management": {
+      "application_ids": [
+        "commercial:paintscout"
+      ],
+      "result": "pass",
+      "sources_read": [
+        "data/collections/sources/25f60c895143498d2d684c7dbf717d567193cf9614e25c5e1625d74680bc344e.txt"
+      ],
+      "core_check": "读取 paintscout.com 首页快照：标题和正文定位 painting contractors 的 estimating and sales software；正文含 accurate estimates、professional proposals、pipeline、CRM；页面内结构化 featureList 含 eSignatures、Invoicing and payment processing、Team and project management，描述含 manage schedules、teams。可确认面向油漆承包商的报价、项目和团队、开票收款的类型关系。",
+      "identity_and_track": "commercial:paintscout，track=commercial；PaintScout 官方域名与油漆承包商软件身份一致。",
+      "license_and_boundary": "商业条目，不适用开源许可证；边界为油漆承包商的销售与运营软件，未展开价格或部署。",
+      "gaps": "快照可见正文以销售和估价为主，Operations、日程、作业和开票未在正文完整展开（主要见页面内结构化数据）；未核验定金和进度款。按商业基本类型匹配通过。"
+    },
+    "family-care-coordination": {
+      "application_ids": [
+        "github:1367380420"
+      ],
+      "result": "pass",
+      "sources_read": [
+        "data/collections/sources/0c5004f03de9c071b770085c865082b1dc5ee1883dc47ed029c901c294450505.txt",
+        "data/collections/sources/08c3875c18ed661490940c4a0a2c23343219c3e803600f12a319f248111d6c0e.txt",
+        "data/collections/sources/63dd5f3880c336ceb2ae796f6a918dd14c35ca60f69c67caac968adb8a5cdd4d.txt"
+      ],
+      "core_check": "读取 OpenCare README：self-hosted care coordination for family caregivers；one circle per cared-for person；invite by link、family/professional/neighbour/read-only 角色；care journal with photos；shared calendar；tasks and shopping；messages、documents、contacts；real-time updates。对应被照护者、受邀私密照护圈、需求与场合、全圈更新四要素。",
+      "identity_and_track": "github:1367380420，track=open_source；仓库元数据 id=1367380420、full_name=NexaFlowFrance/OpenCare、fork=false。",
+      "license_and_boundary": "GitHub license API 快照返回 licence.md 34,523 字节，内容开头为 GNU Affero GPL v3；元数据 license.key=agpl-3.0；README 标注 AGPL-3.0-only、免费无订阅。完整 AGPL 许可与仓库身份一致；边界为家庭照护圈，不是付费护理市场或机构临床协调系统。",
+      "gaps": "未运行部署；README 以「谁本周做什么」体现任务分配和认领，未见独立的开放认领流程，但与定义中协调者代他人发布的规则相容。"
+    },
+    "family-organizer": {
+      "application_ids": [
+        "github:1124104820"
+      ],
+      "result": "pass",
+      "sources_read": [
+        "data/collections/sources/fb042c1c71279efd7e271e2727856e72a0c1c865d5ce39d9996445cc0c7e45c9.txt",
+        "data/collections/sources/6969fafced70ce688065e31048fb0df6f06641901f64ce81dd612bb197dac3bf.txt",
+        "data/collections/sources/5d192613730a7af5e2abbe1a028cb9fcdabce72fa4ec8f66a9533e3406b3d8b4.txt"
+      ],
+      "core_check": "读取 OpenFamily README：self-hosted family organizer；shopping lists、tasks、shared calendar、weekly planning、recipes、meal planning、budget 均在同一空间；member profiles、invite by link、parent/child roles、reminders、iCal export。对应家庭圈、共享日历、共享家庭物品两层。",
+      "identity_and_track": "github:1124104820，track=open_source；仓库元数据 id=1124104820、full_name=NexaFlowFrance/OpenFamily、fork=false。",
+      "license_and_boundary": "GitHub license API 快照返回 licence.md 34,523 字节，内容开头为 GNU Affero GPL v3；元数据 license.key=agpl-3.0；README 标注 AGPL-3.0-only、无付费层级。完整 AGPL 许可与仓库身份一致；边界为家庭和住户组织器，不是单人照护协调或付费服务平台。",
+      "gaps": "未运行部署；「家务」由重复任务和成员分配体现，未单独命名 chore 模块；不影响两层核心。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元；未部署或运行任何应用，未核验价格、架构、完整源码或产品内工作流；大型单行 HTML 快照在读取器中存在行截断，商业页面的核对限于可读正文、导航文案和页面内结构化数据，并已在 leaf_checks 中标明正文与元数据边界；开源项目仅依据 GitHub 元数据、README 与许可证 API 快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-262/ses_groveopencodegop262review1_1793039870.jsonl",
+  "batch_sha256": "4d3817580eb710087d7698b54ac517e199b4fdc6c356d13e9cd06e77b7b1c021",
+  "research_sha256": "76ba85845d4c3210be95c59efd7e0d2b76c7b9e6f7ed57849430cc31866ff634",
+  "input_sha256": "d887bfa34a234a8099d61149750b05b5e90b2a49be6893a3e769bc0f37c2e880"
+}

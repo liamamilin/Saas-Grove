@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空，但 data/collections/sources/ 下确有快照；本次按 research.json 列出的精确哈希文件名读取（未猜测路径）。建议后续补齐来源清单，便于审计。",
+    "Tendenci 的排除只见于历史研究说明，本单元没有对应快照或 source_urls；Optimy 快照 c761adff... 存在但未列入本轮 source_urls/fetch_outcomes。二者均未作为成立案例，且不影响 SponsorApp 款项端缺口这一决定性结论，建议补充来源链接或快照并在记录中标注“历史复用”。",
+    "input.json 的 dc_zh、rules_zh 在句中断裂（dc_zh 止于“已履行 →”，rules_zh 止于“也可作为组织”），英文定义完整；建议校验中文字段是否被生成流程截断。",
+    "research.json 对 sponsorships/_form 的描述称“只有联系人、账单联系人、账单请求、套餐、展位、票和备注”，实际表单还含 logo/profile/URL/政策同意等字段；这不影响“无金额/发票/付款字段”的判断，属非关键措辞。"
+  ],
+  "leaf_checks": {
+    "sponsorship-management": {
+      "status": "insufficient_evidence_confirmed",
+      "definitional_core": "按叶定义，赞助管理必须同时持有赞助商、定价赞助包和承诺记录，且承诺记录要承载款项端（金额、发票、付款状态）与权益交付，并经历 committed→paid→fulfilled。SponsorApp 快照证明：Organization/Contact 与 Sponsorship 关联（schema.rb 383-408 行）、Plan 含 price/price_text/capacity/booth_size/number_of_guests（schema.rb 244-263 行；seeds.rb 65-78 行）、展位申请与分配（booth_assignments 视图）、票务与 logo/profile（sponsorships/_form）。但 sponsorships 表没有金额、发票号、付款或收款状态字段，README Roadmap 的 Invoicing 与 withdrawing 均未勾选。承诺记录只能通过 plan_id 间接取价，未在应用内承载款项端及 paid 生命周期，故不满足定义性核心，维持 insufficient_evidence。",
+      "saas_service_form": "sponsorships.rubykaigi.org 首页显示可登录的在线门户且当前无开放申请，仓库为 Rails Web 应用；服务形态本身可成立，但因核心款项端缺口未作为案例纳入。",
+      "id_track": "slug 精确为 sponsorship-management，definition、input、research 三处一致；domain_id=25、parent_id=25.01 一致；application_ids 与 case_ids 均为空，batch.json entries 为空，和“无案例”状态一致。",
+      "license_and_boundary": "license 快照 f2a12c849e88b32023bedd6dece7c7dc67e5255b6c9f52a2e450529a95c08d57.txt 为完整 MIT 文本（LICENSE，1081 bytes），repo 元数据 dd10c9e65ff02c8811b02e98ad0d3e15212329ddcb73895a0d3f5c7a3f6e82c7.txt 为 ruby-no-kai/sponsor-app、id 156489936；未发现双许可、开放核心或单独商业社区版边界。",
+      "evidence_and_snapshot_check": "逐字读取了 research.json 引用的 8 个快照：repo metadata、license、README、seeds.rb、schema.rb、sponsorships/_form、booth_assignments/show、homepage。未把表单中的 (Loading) 占位当作证据；homepage 仅用于产品身份与入口，未作为核心工作流证据。",
+      "candidate_screening": "Optimy 快照（c761adff...）的正文强调企业作为赞助方的申请、activation、ROI 与预算，方向与本叶“组织收取赞助款并向赞助商交付权益”相反；Tendenci 仅有历史说明、无本单元快照，未据此建立案例。",
+      "gaps": "未取得承诺记录内发票、付款或收款状态的正文；不据此断言产品不存在。Tendenci 缺本单元来源快照；REVIEW_SOURCES.json 未列 sources。"
+    }
+  },
+  "limits": "本次为只读本地初审：未联网抓取、未运行 shell 或测试、未写文件，也未读取其他单元。REVIEW_SOURCES.json 的 sources 为空，快照按 research.json 中精确哈希文件名从 data/collections/sources/ 读取；repo 元数据快照为单行 JSON，读取工具在 2000 字符处截断，未能直接查看其 license/archived 等尾部字段，许可证改由独立 license 快照核对。batch.json 无条目，故无 application 级条目可核；Tendenci 无本单元快照，未能独立复核其页面。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-225/ses_groveopencodegop225review2_1793262076.jsonl",
+  "batch_sha256": "03644455bfd2c3d71d05f03334f6f7110e55da1aa53a4f5928821726f1a97177",
+  "research_sha256": "db5121f6a5cd8be866463b9e446cb508e56da30deb6f05465179fb2c3b0297d9",
+  "input_sha256": "db74b8147a9f79174e412eec73a1374172cf03c0c0e6acdb54c3abf6e69c2a7b"
+}

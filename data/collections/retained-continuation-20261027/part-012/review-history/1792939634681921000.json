@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "work-management-platform",
+      "application_id": "github:568098118",
+      "issue": "Plane 的 states、your-work、automations、intake、intake-forms、self-hosting 快照都是 VitePress 客户端渲染外壳：HTML 中实际只有 title、meta description、JSON-LD 和导航，没有 article 正文。因此 research.json 和 batch.json 所称的“项目自建状态及 Backlog/Unstarted/Started/Completed/Cancelled 五组”“跨项目 Your Work”“内置自动归档/自动关闭”“应用内/公开表单/邮件 Intake”以及 Business/Enterprise 社区版边界，均无法从已保存快照正文核实；这些内容目前只出现在简介或元数据中，不能作为核心正文证据。",
+      "fix": "重新抓取可读正文（服务端渲染后的 HTML、对应 .md/llms.txt 或文档源），或将 Plane 记录收窄到 README、仓库元数据和许可证可证的内容（Work Items、Cycles、Modules、Views、Pages、自托管、AGPL-3.0），并在 research 中如实记录上述页面正文未落盘的缺口；在获得正文前，不要把这些流程能力及 Business/Enterprise 边界写成已证事实。"
+    },
+    {
+      "slug": "kanban-task-board",
+      "application_id": "github:16238673",
+      "issue": "Kanboard 的 Tasks 与 Projects 快照均从正文中段开始，缺少创建任务、移动任务和自定义角色等段落。batch.json 中“每次跨列移动记录来源列、目标列、执行人与停留时间”以及“自定义角色仅允许在指定列改变任务状态/仅在指定列间移动任务”的具体表述，在快照中找不到对应正文；看板列、拖放、WIP 上限等核心已由首页和 Boards 文档支持，但这些附属能力目前属于未核实的扩展断言。",
+      "fix": "重新抓取完整的 Tasks 与 Projects 页面，或删除/降级上述来源列、目标列、执行人、停留时间及列级角色限制的表述，只保留快照可证的列归属、拖放和 WIP 上限；如保留，应在 research 中明确记录当前快照不完整。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Asana 作为项目组合管理案例，其 portfolios 页可证项目分组、owner、on-track、time spent/available budget、dashboard/workload；project-intake 页可证统一收集请求与自动分配/排期；timesheets-budgets 页可证费率、预算与实际/估算成本、timesheet approvals。但“接收→选择与资助”的正式决策记录、审批链和按产能再平衡并未逐项证明，按商业条目只做基本类型匹配可以接受，建议措辞停留在“组合监控、预算与产能视图”，不要写成完整治理闭环。",
+    "Asana 组合页中“Advanced/Enterprise 方案”归属在快照正文中没有明确出现；Timesheets and Budgets 作为附加组件有正文支持。方案层级不是类型匹配核心，可保留为待补证说明或补充定价/方案页来源。",
+    "Tasks.org 的“列表是主要工作面”证据偏间接：首页与文档可证命名列表、按列表过滤、列表内手动排序、提醒与重复任务，完成语义由提醒和重复规则间接支持；research 已删除“显示已完成开关”的反向引证，建议继续保留这一证据强弱说明。",
+    "Asana 同时出现在 task-management-application、project-portfolio-management-application 和 work-management-platform 三个叶子；若下游要求单一主类型，建议明确以 work-management-platform 为主、其他为次级匹配，避免类型归属歧义。",
+    "Kanboard README 明确处于维护模式，batch 已如实记录；不构成阻断，但摘要和展示层应继续保留“维护模式”限定。"
+  ],
+  "leaf_checks": {
+    "kanban-task-board": {
+      "status": "core_supported_with_source_gap",
+      "basis": "github:16238673；仓库 id 16238673、MIT 许可证、archived=false，README 与首页均指向同一 kanboard/kanboard 仓库。首页正文明确“free and open source Kanban project management software”、看板是了解项目状态的直观方式、列可增删改名、任务跨列拖放、列超限高亮、自托管；Boards 文档说明 Board View 列间拖动及列任务上限变红；Tasks 文档说明每列停留时间；Projects 文档说明公开看板与自定义过滤器。定义性核心“列承载位置、拖动即阶段变化、WIP 限制”成立。",
+      "gap": "Tasks/Projects 快照非完整正文，来源列/目标列/执行人/停留时间及列级自定义角色限制未能从快照核实；见 findings 第二条。"
+    },
+    "task-management-application": {
+      "status": "supported",
+      "basis": "commercial:asana；features 与 project-management 正文可证任务带负责人和截止日期、My Tasks 汇总个人指派、list/calendar/timeline/Gantt/board 等执行视图、任务可属于多个项目且更新同步；项目作为共享容器。任务级完成为 open/done，视图由任务属性驱动，符合任务管理应用的双状态记录语法和“组织+执行视图”核心。",
+      "gap": "未运行产品；Inbox 细节未逐句核到，但不影响核心类型匹配。"
+    },
+    "to-do-list-application": {
+      "status": "supported_with_thin_evidence",
+      "basis": "github:11512043；仓库 id 11512043、GPL-3.0 完整许可证、README 与首页指向 tasks/tasks。首页定位为开源待办清单与提醒应用；docs 说明开源任务管理、CalDAV、重复任务、通知、自定义过滤器；filters 文档可按 due dates、priorities、titles、tags、lists 建条件；notifications 文档说明任务未完成时按间隔重复提醒直到完成；recurrence 文档说明完成后按规则生成下一次；manual_sort_mode 说明任务列表及列表类型。命名列表承载条目、提醒、完成与重复的核心成立。",
+      "gap": "“列表为主工作面”为间接证据，未展示完整列表主界面；research 已记录该弱点，不再声称“显示已完成开关”。"
+    },
+    "project-portfolio-management-application": {
+      "status": "supported_for_commercial_type_match",
+      "basis": "commercial:asana；portfolios 正文可证把相关项目分组为组合、按 priority/type 标记、指派 owner、查看 on-track 状态、汇总 time spent 与 available budget、使用 dashboard 与 workload 视图；project-intake 正文可证统一收集请求、Slack/Microsoft 365/Google Workspace 集成及自动分配/排期；timesheets-budgets 正文可证 user rate、实际与估算工时/成本、forecast 预算、timesheet approvals。组合作为项目集合与跨项目成本/产能汇总视图成立，满足商业条目的基本类型匹配。",
+      "gap": "组合级“选择与资助”的正式决策记录、审批链及按产能再平衡未证明；Advanced/Enterprise 方案归属未在快照正文出现。"
+    },
+    "work-management-platform": {
+      "status": "partially_supported",
+      "basis": "Asana 侧 features/project-management 正文可证共享任务与项目、表单请求、规则与工作流、My Tasks、portfolios，以及同一批记录的多视图读取，足以支持商业侧的工作管理平台类型匹配。Plane 侧仓库 id 568098118、AGPL-3.0 许可证、README 与 self-hosting 元数据可证开源项目、自托管及 Work Items/Cycles/Modules/Views/Pages。",
+      "gap": "Plane 的 states、your-work、automations、intake、intake-forms、self-hosting 快照为客户端壳，正文未落盘；项目状态工作流、跨项目个人视图、内置自动化、Intake 流程及 Business/Enterprise 社区版边界无法核实，已列为必须修复项。"
+    }
+  },
+  "limits": "本次为只读初审，未运行应用、未部署、未登录或执行交互测试；仅依据 input.json、batch.json、research.json 和 REVIEW_SOURCES.json 指定快照。部分快照为 JS/VitePress 客户端渲染页，HTML 中无正文；部分 Kanboard 文档快照缺少文章开头；HTML 长行显示被截断，关键词存在性通过只读检索辅助判断，无法核实动态界面与运行期行为。未访问其他单元或项目根目录下的 sources 路径。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-012/ses_groveopencodegop012review1_1792939077.jsonl",
+  "batch_sha256": "ef97c3b8f7a5f0cb5e0c0179fee287faed196d84eb18d22ad2f8a99975b9c642",
+  "research_sha256": "047b82e462eb4c1353753e43cb2440c6bdef680e8c8037c3de1565ded4c8a466",
+  "input_sha256": "b4d40cae6b1c7fa4cbe5fe0e0487e6aaebeb0d3c0384251848fd1c7fa434ac82"
+}

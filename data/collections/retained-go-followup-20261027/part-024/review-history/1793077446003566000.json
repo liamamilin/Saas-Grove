@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "election-management-system",
+      "application_id": "github:295864168",
+      "issue": "该叶目前只以 VxSuite 仓库 README 的一行应用清单作为核心证据：VxAdmin 是“offline central election manager laptop”，VxHub 用于“designing ballots”，VxPrint 用于“printing ballots”。README 属于仓库简介/元数据，未展示定义性工作流：选举对象（辖区、contest）、地址→precinct/district→ballot style 的映射，以及由选举定义生成选票和设备配置。仅凭应用名称无法确认“地理决定选票样式”这一核心结构，也无法确认选举定义与选票生产之间的完整链路。",
+      "fix": "补充 VxAdmin/VxHub/VxPrint 的官方用户指南或产品文档快照，正文需明确选举定义（jurisdiction、contests）、contest/ballot style 按 precinct/district 分配、选票生成/打印/设备配置流程，并在 leaf_match 中引用该正文。若无法取得，移除此关系并按无案例记录证据缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "VuFind 的 LICENSE 快照为 GPLv2 条款 0-12，末尾缺少标准「END OF TERMS AND CONDITIONS」和「How to Apply」附录；操作性条款完整，GPL-2.0-only 的 SPDX 结论有 composer.json 直接支持。若流程要求完整许可证全文，建议补抓不含截断的完整 LICENSE。",
+    "government-gis 的 research.json 引用了 GeoNode 仓库与 LICENSE URL，并称已保存候选快照，但 REVIEW_SOURCES.json 未列出对应 path；本叶按已记录的 boundary_unresolved 和无案例结论通过，但候选证据无法独立复核。建议补充快照路径，或删除未使用的候选来源断言。",
+    "VxSuite 仓库还包含 VxScan、VxCentralScan、VxMark、VxPollBook 等扫描、计票和 pollbook 应用，而 batch 的 summary/features 只列 VxAdmin/VxHub/VxPrint。建议明确说明本叶只匹配选举定义与选票生产部分，避免把整个 suite 误读为纯选举管理产品。",
+    "VxSuite 的部署形态是混合的：VxAdmin 为离线本地应用，VxHub 由 VotingWorks 托管，VxPrint 为打印应用；batch 已分别限定 deployment，但下游描述时不宜简化为单一自托管 SaaS。",
+    "OpenGov 的建筑检查与商业许可均为 Permitting & Licensing 平台内的模块；当前 summary 和 leaf_match 已收窄，但下游引用时应保留“模块”限定，避免扩写为独立的全机构检查系统或全类型许可系统。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]，与 batch/research 中已存在的三个案例不一致；这是输入快照的陈旧状态，建议下游使用前同步。",
+    "input.json 中 election-management-system 的 dc 字段标题为「What Mature Products Add」，列的是成熟产品附加功能而非核心结构；该定义字段建议修正，以免后续案例核对把附加功能误当定义性核心。"
+  ],
+  "leaf_checks": {
+    "library-discovery-platform": {
+      "status": "pass",
+      "application_id": "github:11680792",
+      "basis": "已按 REVIEW_SOURCES.json 的 path 原样读取：6bf675…（GitHub 仓库元数据，repository_id=11680792）、2d902a…（GPLv2 正文）、effb4d…（composer.json 声明 license=GPL-2.0-only）、2cefdb…（features 正文：basic search box、faceted results、结果页实时状态与馆藏位置）、887104…（about 正文：catalog records、institutional repository、open access articles、digitized materials、ILL 项目、licensed content 等由图书馆启用的资源范围）、2ad567…（Learning VuFind 正文：用户可 renew books、place holds，并明确 VuFind 是 ILS 之上的搜索与读者账户界面层）。查询→书目结果→单条记录可用性/位置与续借/预约获取路径均有正文依据；服务边界明确不承担流通、采访或编目。",
+      "gaps": "LICENSE 快照缺少标准附录；未做运行时测试；相关性排序未被快照正文明确描述，但不影响本叶核心结构。"
+    },
+    "government-gis": {
+      "status": "no_case_documented",
+      "application_id": null,
+      "basis": "research.json 记录 assessment=boundary_unresolved，查询为「GeoNode government GIS GitHub」，包含检索尝试与抓取结果；note 说明 GeoNode 只被描述为通用地理空间内容管理与发布平台/SDI 组件，未显示其保管政府辖区的官方地块、边界、地址或公共资产记录，也无政府运营者作为记录系统托管方的证据，因此未建立关系。batch.json 无对应应用。",
+      "gaps": "REVIEW_SOURCES.json 未列出 GeoNode 的快照路径，候选证据无法独立复核；按“无案例但已如实记录检索、抓取和缺口”接受该留档。"
+    },
+    "government-inspection-management": {
+      "status": "pass",
+      "application_id": "commercial:opengov",
+      "basis": "1b0b3a… 产品页正文（非导航/摘要）说明：integrated inspection system；可配置 inspection types、digital checklists、approval workflows、fee rules；支持 scheduling、automated routing、real-time availability；移动端离线检查、照片/文档采集、permit record 与 property history；完成检查带 inspector 和时间戳；支持 re-inspection、corrective action、conditional approval。46caf2… 首页确认 OpenGov 身份。commercial track 与检查管理类型匹配。",
+      "gaps": "该产品是 Permitting & Licensing 平台内的建筑检查模块，不是独立的全机构 GIM；商业仅核对基本真实性和类型，未研究价格、架构或部署。"
+    },
+    "government-licensing-management": {
+      "status": "pass",
+      "application_id": "commercial:opengov",
+      "basis": "ce42a6… 产品页正文说明：each license type 可在线申请、支付和续期；从 application 到 approval 的引导路径；按许可类型配置 approval steps、document requirements、routing rules；expiration tracking、automated renewal reminders、renewal dashboard、online payment；并提供 complete audit trail。7508e4… 确认 Business Licenses 属于 OpenGov Permitting & Licensing 产品线。commercial track 与许可管理类型匹配。",
+      "gaps": "仅覆盖 business license 子集；未明确 suspension/revocation 或职业纪律处分机制；商业仅做基本核对，未研究价格、架构或部署。"
+    },
+    "election-management-system": {
+      "status": "changes_required",
+      "application_id": "github:295864168",
+      "basis": "6ed28c… 仓库元数据确认 repository_id=295864168；README 列出 VxAdmin 为 offline central election manager laptop、VxHub 为 designing ballots、VxPrint 为 printing ballots。b13a33… 为完整 GPLv3 文本，README 声明 GPL v3.0 only；ID、track 和许可证可核。",
+      "gaps": "核心工作流仅有 README 的一行应用描述，未展示 election definition（jurisdiction、contests）、address→precinct/district→ballot style 映射、ballot production/device configuration；不足以确认本叶定义性核心，需补充官方产品文档或用户指南。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未做部署或运行时测试，未重算 SHA-256；仅读取 REVIEW_SOURCES.json 列出的 12 个快照路径，未读取未列出的 sources 文件（包括 research.json 提到的 GeoNode 和 election-manager 候选快照），也未读取本单元之外的其他单元资料。商业产品仅按官方产品页核对基本真实性和核心类型，不涉及价格、架构、部署或安全认证。部分快照是营销页或仓库 README，缺少完整用户手册；该证据缺口已计入 election-management-system 叶。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-085/ses_groveopencodegop085review2_1792996664.jsonl",
+  "batch_sha256": "a9d610cc89d1c0b2c9a62ce52c8ba7a1652f6cee1c97731fa5ed84fc3dd4d5aa",
+  "research_sha256": "1c5b3c6dd52cdb95eb98020337f5658c5aee6c91583e1f68220bb67c32cda928",
+  "input_sha256": "fe69ad2de3470630f32532c101a6ff9dc86da83c8504841722ca7aa9fc483a57"
+}

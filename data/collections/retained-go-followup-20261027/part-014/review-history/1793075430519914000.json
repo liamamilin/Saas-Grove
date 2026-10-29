@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:232634051",
+      "issue": "核心工作流证据不足：现有快照只有 mbse-capella.org 首页的产品概览、指向 Wiki 的空 README 和仓库元数据；首页虽提到 Arcadia、模型编辑/查看与多视角权衡，但没有正文说明系统模型是持久记录单元、图表由模型生成、编辑受 Arcadia 语言约束。batch 的 leaf_match 将这些概览性表述推断为四项核心，超出可核对范围。",
+      "fix": "补抓 Capella 官方 Features/Arcadia/Wiki 文档，引用其中关于模型仓库、图表作为模型视图、Arcadia 语言规则及需求/验证视角的正文，重写 leaf_match；若无法补齐，将该条降为候选而非案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "OpenROAD 的 openroad.org 快照正文主要是样式/SVG，未能核对官网自述；核心结论实际由 README 支撑，建议修正 research.json 中“官网可读/官网均说明”的表述或移除该冗余引用。",
+    "Capella 为 EPL-2.0 开源核心加可选商业 add-ons；建议在条目中明确社区版边界，避免把需求、协作、安全扩展都视为 EPL-2.0 核心。",
+    "KiCad 的 github:14849992 是官方 GitLab 开发库的活跃 GitHub 镜像；research 已说明，建议在 batch 中也标注镜像身份，避免把镜像仓库误作 canonical repo。",
+    "Rhino 是通用 3D 建模器，覆盖建筑、船舶、珠宝、影视等；其工业设计匹配依据是自由形态建模、精度与制造交换能力，而非排他定位。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 batch/research 的 case_found 不一致；建议同步进度元数据。",
+    "各开源条目均为桌面/本地部署而非多租户 SaaS；research 已如实记录 service_boundary，本次按应用类型审查，不据此阻断。"
+  ],
+  "leaf_checks": {
+    "industrial-design-application": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:rhino3d"
+      ],
+      "basis": "Rhino Features 正文明确 NURBS/SubD 曲线、曲面、实体建模，真实精度与设计/原型/工程/制造，IGES 读取修复与 ShrinkWrap 水密网格用于 3D 打印；主页确认 Windows/macOS 桌面与永久许可证。定义性核心、商业真实性与类型匹配均可核对。",
+      "gaps": "未运行软件，未逐项核对具体版本导出格式清单；Rhino 为通用 3D 建模器，工业设计匹配依据能力而非排他定位。"
+    },
+    "mbse-platform": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:232634051"
+      ],
+      "basis": "mbse-capella.org 首页确认其为实现 Arcadia 方法的开源 MBSE 工具，提供面向系统/软件/硬件架构师的模型编辑与查看、多视角权衡及需求/协作/安全扩展；GitHub 仓库 ID 232634051 与 EPL-2.0 许可证 API 可核对。",
+      "gaps": "缺少模型为持久记录单元、图表由模型生成、Arcadia 语言约束编辑的核心正文；README 仅指向 Wiki，未作为工作流证据。"
+    },
+    "mechanical-cad": {
+      "status": "pass",
+      "application_ids": [
+        "github:5736080"
+      ],
+      "basis": "FreeCAD README 说明参数化 3D 建模、约束草图、通过修改模型历史参数更新设计并由 3D 模型生成生产图纸；Assembly Workbench 文档给出装配容器、部件、Ground、固定/旋转/圆柱/滑块/球/齿轮等关节与求解器。LGPL-2.1 完整许可证与仓库 ID 5736080 可核对。",
+      "gaps": "未运行，未逐项验证 TechDraw 关联图纸与制造格式；装配文档部分示例标注为临时内容。"
+    },
+    "pcb-design": {
+      "status": "pass",
+      "application_ids": [
+        "github:14849992"
+      ],
+      "basis": "KiCad PCB Editor 文档覆盖板层/Edge.Cuts、封装库与放置、原理图/网表连接性、飞线、走线/过孔/覆铜、DRC、Gerber/钻孔/IPC-2581/ODB++/元件位置文件等制造输出；官网确认跨平台开源 PCB 设计套件。GPL-3.0 完整许可证与仓库 ID 14849992（官方 GitLab 的活跃 GitHub 镜像）可核对。",
+      "gaps": "未运行，未验证全部制造输出选项；仓库为镜像而非 canonical GitLab。"
+    },
+    "semiconductor-design-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:218110222"
+      ],
+      "basis": "OpenROAD README 给出 Verilog/库/约束经综合、floorplan、placement、CTS、routing、finishing 到 GDSII 的 RTL-GDSII 流程，包含时序/寄生提取、DRC/LVS 签核与 600+ tapeout 记录，Tcl/Python API 可控流程；BSD-3-Clause 完整许可证与仓库 ID 218110222 可核对。",
+      "gaps": "未运行，未验证具体工艺节点、签核工具组合与全部制造数据输出；openroad.org 快照正文不可读，核心结论依据 README。"
+    }
+  },
+  "limits": "本次仅只读审查本单元 input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 所列 18 个快照；未运行任何软件，未做部署、价格或架构测试，未读取其他单元。research.json 中作为边界候选提及的 Gaphor、Open-MBEE、SolveSpace 未列入 REVIEW_SOURCES，未读取其快照。openroad.org 快照正文主要为样式/SVG，未能核对官网自述；Capella 官方 Features/Wiki 未抓取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-155/ses_groveopencodegop155review2_1793015149.jsonl",
+  "batch_sha256": "3ec862168ee4819745b2120f2fe1c6f2f5719fd1da335339f719a01673c16904",
+  "research_sha256": "50c9e0177e333d8b91f9814fed5db96262fda80111d57526c1bf6fa998cb4e44",
+  "input_sha256": "196f6f7a238e26694a21107d7d98f5825b9a53e02b52443cbd92790f866c3b77"
+}

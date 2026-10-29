@@ -1,0 +1,59 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "graphic-design-application",
+      "application_id": "github:258967860",
+      "issue": "batch.json 把 Graphite 的 license 记为单一 Apache-2.0，license_review 也按 Apache-2.0 记录；但已读 README 明确写源代码为 MIT 或 Apache-2.0 双许可（除非仓库内另有说明），并同时引用 LICENSE-MIT 与 LICENSE-APACHE。当前记录遗漏 MIT 选项，且 /license 快照只含 LICENSE-APACHE，许可证信息不完整。",
+      "fix": "将 license 改为 `MIT OR Apache-2.0`（双许可），在 license_review 中注明“unless otherwise noted within the repository”的范围，并补充 README 及 LICENSE-MIT/LICENSE-APACHE 证据；若只保留 Apache-2.0，则须把 scope 限定为 LICENSE-APACHE 并明确另一许可选项，避免把仓库整体写成单一 Apache-2.0。"
+    },
+    {
+      "slug": "personal-cloud-drive",
+      "application_id": "github:60243197",
+      "issue": "Nextcloud README 的 SPDX 头写 `AGPL-3.0-or-later`，贡献条款也写 AGPLv3 or any later version；batch 的 license 与 license_review 只记 `AGPL-3.0`，把“或更高版本”的选择缩窄为仅 3.0，许可证标识不完整。",
+      "fix": "将 license 改为 `AGPL-3.0-or-later`，license_review 引用 README 的 SPDX 头/贡献条款并保留 COPYING 全文证据；如目录规范要求区分 only/or-later，应明确写 `AGPL-3.0-or-later` 而非 `AGPL-3.0`。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Nextcloud 的 leaf_match 引用了 files/index.html（目录页）来支持 WebDAV/同步；该页本身是导航，不应作为核心工作流证据。实际核心证据应落在 README、quota.html 与 desktop_mobile_sync.html 的正文上。",
+    "Cloudreve 条目只证明了浏览器/WebDAV 可达与文件操作，未证明账户级存储配额，也未证明第一方桌面/移动客户端；research 已明确删除客户端声明。若保留为独立案例，建议补充配额与客户端官方文档，或标注为部分匹配；当前 leaf 的个人云盘核心主要由 Nextcloud 覆盖。",
+    "Huginn 是自托管而非厂商托管，且已读 README 只展示 Events 日志/截图，没有独立的逐次运行状态面板；research 已如实记录。作为个人自动化案例可接受，但不要把它描述成完整托管 SaaS。",
+    "OpenDesign 的模板库仅约六类 LinkedIn 模板、单一格式，未证明按多格式/主题组织、关键词检索或持续维护；三结构成立但案例偏最小化，research 已说明规模，建议措辞保持“有限模板库”。",
+    "Krita 是桌面应用而非托管服务；batch 的部署写“支持 Linux、Windows、macOS，提供 AppImage 与各平台安装包”，已读快照只直接支持 Linux/Windows 构建与下载入口，macOS/安装包细节未逐项核到。类型匹配不受影响。",
+    "Graphite 当前为 alpha、光栅编辑为实验性；summary 已披露，核心判断按矢量/平面设计工作流成立，不宜按成熟生产工具表述。",
+    "Nextcloud 的 Enterprise/额外应用边界在 summary 中已说明，未发现把企业版能力泛化为仓库开源范围的问题；Cloudreve 的 Pro 版边界也由 quickstart 的 `--license-key` 说明与 summary 一致。"
+  ],
+  "leaf_checks": {
+    "personal-cloud-drive": {
+      "result": "core_pass_license_fix_required",
+      "basis": "Nextcloud：README 证明自选服务器存储、设备同步与共享；quota.html 正文证明账户配额、共享文件计入所有者配额、回收站软删除；desktop_mobile_sync.html 正文证明 Windows/macOS/Linux 桌面客户端、Android/iOS 移动客户端及 Web 界面入口。Cloudreve：README 证明自托管多存储、上传/下载、WebDAV、带有效期分享链接；quickstart 证明浏览器访问、注册账户与 Pro 许可密钥边界。",
+      "gaps": "Cloudreve 未由已读快照证明账户级存储配额和第一方桌面/移动客户端（research 已删除客户端声明）；Nextcloud 许可证标识需按 findings 修正为 AGPL-3.0-or-later。"
+    },
+    "personal-workflow-automation-platform": {
+      "result": "core_pass_with_documented_gaps",
+      "basis": "Huginn README 证明 Agent 系统、事件沿有向图传播、外部服务触发/动作（RSS/IMAP/Webhook/MQTT、邮件/消息/存储）、Web 管理界面与服务器/Docker 持续运行；MIT 许可证与仓库 ID 已核。",
+      "gaps": "自托管而非厂商托管；运行记录只有 Events 日志/截图，未确认独立的逐次运行状态面板；research 已如实记录，按留档缺口通过。"
+    },
+    "graphic-design-application": {
+      "result": "core_pass_license_fix_required",
+      "basis": "Graphite README 与官方 features 页证明矢量/光栅图形设计工具、画布上图层与节点组合、非破坏编辑、以数据保存并导出；alpha 与实验性光栅限制已在 summary 披露；仓库 ID 258967860 已核。",
+      "gaps": "许可证应按 findings 改为 MIT/Apache-2.0 双许可；功能页快照为压缩 HTML，正文未能逐字展开，成品导出/文档重绘等细节主要依据官方功能页与 README 的可见文字。"
+    },
+    "template-based-design-platform": {
+      "result": "core_pass_minimal_library",
+      "basis": "OpenDesign README 证明预制 LinkedIn 模板库（Quote Card、Announcement、Tips List 等六类）、Fabric.js 画布对象编辑与模板字段填充、导出多页 PDF/2x PNG、SQLite 自动保存；MIT 许可证与仓库 ID 已核。",
+      "gaps": "模板库仅约六类、单一 LinkedIn 格式，未证明按多格式/主题组织、关键词检索或持续维护；三结构成立但属于最小化案例，research 已说明规模。"
+    },
+    "digital-painting-application": {
+      "result": "core_pass",
+      "basis": "Krita README 直接称其为数字绘画应用，面向漫画/插画/概念设定等；官方 features 页证明 100+ 笔刷、笔刷稳定器、图层/蒙版/选区、2D 帧动画、导出图像或视频；GPL-3.0 与仓库 ID 已核。",
+      "gaps": "桌面应用而非托管 SaaS；batch 的 macOS/各平台安装包细节未在已读快照逐项核到，但不影响数字绘画类型匹配。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行产品、未部署、未做运行时验证，也未读取其他单元或采集者过程文件；仅依据 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其列出的快照。部分快照是压缩 HTML 或单行 JSON，读取工具按行截断，Graphite 功能页全文和部分仓库元数据的后续字段未能逐字展开；对 Graphite 双许可的判断依据 README 明文及已读 LICENSE-APACHE，未取得 LICENSE-MIT 快照。Cloudreve 的配额/客户端、Huginn 的独立运行历史、OpenDesign 的模板库维护与检索在已读快照中证据有限，已按留档缺口记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-017/ses_groveopencodegop017review1_1792940349.jsonl",
+  "batch_sha256": "38044447fb13d158f26fd33e78a497403664abd513ecd8e99cd123a40b727103",
+  "research_sha256": "a724876973ad0c9fe3015084d9ac8a9772a94794152a7fd72d2da5ad863586ab",
+  "input_sha256": "5b0ac96ef0a8f07ee5ce9890edba6ce36c20f91edb525e897028e6262d9a9411"
+}

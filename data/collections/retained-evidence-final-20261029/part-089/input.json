@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 20,
+  "offset": 475,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "legal-hold-management",
+        "name_zh": "法律留置管理",
+        "domain_id": "11",
+        "parent_id": "11.04",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/96",
+            "result": "insufficient_evidence",
+            "note": "统一复核留档：Legal Hold Manager：扩查发现本批存在仅仓库简介、厂商首页或子产品身份/开源版边界未证的条目；该条当前未完成足够正文核对，不据初审通过自动入库。",
+            "query": "open source legal hold manager"
+          }
+        ],
+        "archived": false,
+        "note": "统一复核留档：Legal Hold Manager：扩查发现本批存在仅仓库简介、厂商首页或子产品身份/开源版边界未证的条目；该条当前未完成足够正文核对，不据初审通过自动入库。"
+      },
+      "definition": {
+        "slug": "legal-hold-management",
+        "name": "Legal Hold Management",
+        "name_zh": "法律留置管理",
+        "aliases_zh": [
+          "诉讼保全",
+          "证据保全",
+          "法律通知"
+        ],
+        "overview": "A **Legal Hold Management** application is the legal team's system of record for preservation duties. When litigation, a government investigation, an audit, or a comparable legal event is reasonably anticipated, an organization is obligated to preserve information that may be relevant — and the people who hold that information must be told so, in a way that can later be proven. This application exists to run that process: it records that a preservation duty exists for a specific matter, identifies the people who hold the relevant information (called *custodians*), sends each of them a preservation notice, records their acknowledgment, keeps the duty alive through reminders and updated notices, and formally releases it when the matter ends — retaining the entire trail so the organization can demonstrate the duty was handled defensibly.\n\nIt solves a specific operational problem: a preservation duty is spread across many people who will move on to other jobs, forget, or leave the organization, while the consequences of losing information (evidence destroyed after the duty arose — spoliation — and the sanctions that follow) land years later. Memos and spreadsheets can start the process; only a managed system can show, custodian by custodian and notice by notice, that the duty was communicated, acknowledged, maintained, and released.\n\nThe boundary of the Type: it manages the **duty**, not the data. It freezes nothing by itself in most realizations — the actual preservation of data happens in connected systems (mail platforms, archives, collaboration suites), either through integrations this product drives or through separate technical hold mechanisms. It is also not a records-retention system: retention schedules are standing rules that apply all the time, while a legal hold is a matter-scoped duty that temporarily suspends them and ends with a recorded release.",
+        "overview_zh": "**法律保留管理**应用程序是法律团队履行保存职责的系统记录。当诉讼、政府调查、审计或类似法律事件被合理预期时，组织有义务保存可能相关的信息——并且必须以可事后证明的方式告知持有该信息的人员。该应用程序正是为了运行此流程而存在：它记录特定事项存在保存职责，识别持有相关信息的人员（称为*保管人*），向每位保管人发送保留通知，记录其确认，通过提醒和更新通知保持该职责的有效性，并在事项结束时正式解除——保留整个记录链，以便组织能够证明该职责已得到妥善处理。\n\n它解决了一个具体的操作问题：保存职责分散在许多人身上，这些人可能转岗、遗忘或离职，而丢失信息（职责产生后证据被销毁——即篡毁——及其后的制裁）的后果会在数年后显现。备忘录和电子表格可以启动流程；只有托管系统才能按保管人逐个、按通知逐条地展示，职责已被传达、确认、维持和解除。\n\n该类型的边界：它管理的是**职责**，而非数据。在大多数实际应用中，它本身不冻结任何内容——实际的数据保存发生在关联的系统（邮件平台、归档系统、协作套件）中，无论是通过本产品驱动的集成，还是通过单独的技术保留机制。它也不是记录保存系统：保留计划是适用于所有时间的常规规则，而法律保留是临时的、按事项范围暂停这些规则并在记录解除后结束的职责。",
+        "dc": "```text\nMatter / case / investigation (the trigger)\n└── Legal hold of record (issued → active → released)\n    └── Custodian population (added and released over time)\n        ├── Duty notice (addressed to each custodian individually)\n        │   └── Compliance state per custodian (delivered → acknowledged)\n        └── Release (a recorded act; the history remains reportable)\n```\n\nFour structures, held together:\n\n- **The hold of record** — a persistent, identified record that a preservation duty exists: what matter it belongs to, what it covers, when it was issued. It is the unit everything else attaches to, and it carries a lifecycle (drafted, issued, active, released). Without it there are only scattered memos — no managed process.\n- **The custodian population** — the identified people placed under the duty. Custodians are managed as a population: added as scope widens, released individually as it narrows, and tracked per person. Without custodians there is only a technical content freeze — a capability of storage and archiving systems, not this application.\n- **Duty communication with compliance tracking** — the system communicates the duty to custodians (a notice addressed to each individual) and records each custodian's compliance state — delivered, acknowledged — *against the hold*. The tracking is what turns memo-sending into management: the application can answer \"who has not yet acknowledged\" at any moment.\n- **Recorded release** — the hold, and each custodian's duty, ends through a distinct recorded release act, not by deleting the record. Release notices go out, statuses change, and the hold's history remains reportable afterward. Without release semantics the object is not a hold but a standing retention policy.\n\nThe trigger container varies by product — a matter, a case, or a project — but in all realizations the hold is anchored to something that represents the legal event, and that anchor organizes the holds, custodians, and later collected data.",
+        "dc_zh": "事项/案件/调查（触发点）\n└── 记录留置（已签发 → 生效中 → 已解除）\n    └── 被保管人群体（随时间添加与解除）\n        ├── 义务通知（针对每位被保管人单独发出）\n        │   └── 每位被保管人的合规状态（已送达 → 已确认）\n        └── 解除（一个被记录的行为；历史记录仍可报告）\n\n四大支柱，紧密关联：\n\n- **留置记录本体** — 一个持久、被唯一标识的记录，表明一项保存义务存在：它属于哪个事项、覆盖什么范围、何时签发。它是所有其他内容所依附的核心单元，并具有自身的生命周期（起草、签发、生效中、解除）。没有它，就只有一堆零散的备忘录——而非一个受控的流程。\n\n- **被保管人群体** — 被置于该项义务之下的已识别人员。被保管人作为一个群体进行管理：随着范围的扩大而添加，随着范围的缩小而逐个解除，并按个人进行追踪。如果没有被保管人，就只有技术上的内容冻结——这是存储和归档系统的一项能力，而非本应用程序的核心。\n\n- **义务传达与合规追踪** — 系统将义务传达给被保管人（向每人发出一份通知），并记录每位被保管人的合规状态（已送达、已确认）——这项记录是与特定留置相关联的。这种追踪行为将发送备忘录提升为管理：该应用程序能够回答“谁收到了通知？谁已确认？谁尚未响应？”这类问题。",
+        "rules": "- **The duty is personal and must be proven.** A hold notice is addressed to each custodian individually, and the per-custodian acknowledgment is the record that the person knew. Custodians see only their own notice — not who else is on the hold.\n- **Issuance is irreversible; edits are forward-only.** Once sent, notices cannot be unsent. Material edits to an issued notice can reset acknowledgments and require the population to re-acknowledge, and every version of the notice is retained in reporting.\n- **Release is not deletion.** A released hold changes status and stays reportable; in the products that document it, a released hold cannot simply be switched back to active — if the duty revives, a new hold is issued. Custodian-level removal usually distinguishes a correction (delete, for mistakes) from a scope decision (release).\n- **The hold tool manages the duty; connected systems freeze the data.** Preservation-in-place is performed by mail platforms, archives, or collaboration systems — either driven through this product's integrations or by separate technical hold mechanisms. The hold record and the technical freeze are separable, and products differ in which one they natively provide.\n- **Holds block closure.** A matter (or case) with active holds typically cannot be closed or deactivated; everything under it must be released first. Removing a technical hold after release may itself be delayed by the connected system, as a safeguard against premature deletion.\n- **Escalation presupposes acknowledgment.** Reminder and escalation machinery targets custodians who have *not yet* acknowledged; periodic reminders to everyone on long holds are a separate mechanism, and some products require a fresh acknowledgment with each one.\n- **Defensibility shapes everything.** Every notice version, acknowledgment, reminder, escalation, and release is timestamped and attributable, because the record of the process may one day have to stand up in court.",
+        "rules_zh": "- **职责是个人的且必须被证明。** 保留通知是分别发送给每位保管人的，每位保管人的确认是其知悉职责的记录。保管人只能看到自己的通知——看不到还有谁在保留范围内。\n- **发出不可逆；编辑只能向前。** 通知一旦发送，便无法撤回。对已发出通知的实质性编辑可以重置确认，并要求相关人员重新确认，报告中会保留每个通知版本。\n- **解除不是删除。** 已解除的保留会改变状态并保留在报告中；在记录此类功能的产品中，已解除的保留不能简单切换回激活状态——如果职责恢复，则需要发出新的保留。保管人级别的移除通常区分纠正（删除，用于错误）和范围决策（解除）。\n- **保留工具管理职责；关联系统冻结数据。** 就地保存由邮件平台、归档系统或协作系统执行——无论是通过本产品的集成驱动，还是通过单独的技术保留机制。保留记录与技术冻结是可分离的，不同产品在原生提供哪一项上有所不同。\n- **保留阻碍结案。** 具有活动保留的事项（或案件）通常无法关闭或停用；其下的所有内容必须首先解除。释放后的技术保留移除可能本身也会因关联系统而延迟，作为防止过早删除的安全措施。\n- **升级以确认为前提。** 提醒和升级机制针对的是*尚未*确认的保管人；对长期保留中所有人的定期提醒是单独的机制，某些产品要求每次提醒都进行新的确认。\n- **可辩护性塑造一切。** 每一条",
+        "parent_id": "11.04",
+        "domain_id": "11"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 89,
+    "phase": "directory",
+    "parent": 89,
+    "slugs": [
+      "legal-hold-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "90a1aa2a3fde9121150a05c9b2c5231f2501c89d23f43705d8b38a81b8418611"
+  }
+}

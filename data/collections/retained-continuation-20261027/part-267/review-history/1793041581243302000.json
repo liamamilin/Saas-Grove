@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "pet-grooming-management",
+      "application_id": "commercial:moego",
+      "issue": "所引 /pet-grooming-software 快照可读正文只有标题/描述、首屏营销句、演示 CTA 和 FAQ；FAQ 仅能证实在线预约（可选服务、可接待宠物、员工可用时间/营业时间、no-show 规则）、服务菜单、存卡与结账。全文检索不到 groomer、breed、coat、vaccination、deposit、POS、conflict、multi-pet 等正文，也没有美容师时段容量与冲突提示、按品种/体型/被毛定价、宠物美容史/疫苗备注、美容报告或移动美容的证据；首页快照同样几乎没有产品正文。但 batch 的 summary 与 leaf_matches.reason 把这些具体能力写成已由该页证实，并以此作为“宠物×服务×美容师时段→按预约收款”核心的匹配依据，导致该叶定义性核心无法由所引快照回溯。",
+      "fix": "重新抓取 MoeGo 的功能/产品页或帮助中心正文（优先文本化抓取，避免 3MB 上限只留下 CSS/图片壳），至少取得美容师日历/时段与冲突、宠物档案（品种/体型/被毛/疫苗/美容史）、服务菜单定价规则、押金/存卡/POS 结账的明确正文；然后把 summary 和 leaf_matches.reason 改为只列快照中可核对的条目并附对应 URL。若拿不到这些正文，应换用能展示完整美容预约→服务→收款闭环的官方资料/产品，或如实将该叶记为证据不足，不要保留当前具体能力断言。"
+    }
+  ],
+  "non_blocking_notes": [
+    "MoeGo 首页快照只有脚本、样式与 CTA，几乎不含可读产品正文；作为补充引用价值很低，建议删除或换成有正文的功能页。",
+    "pet-grooming-management 的 fetch_outcomes 已记录首次抓取超 1MB、后以 3MB 上限重试成功；建议在重抓说明中同时注明该上限可能截断正文，避免把“抓取成功”当作正文完整的证据。",
+    "OpenVPM 的 SPDX 写作 AGPL-3.0；若仓库未声明“or later”，建议改用 AGPL-3.0-only，避免与 AGPL-3.0-or-later 混淆。完整 AGPL-3.0 文本已核对。",
+    "Furlo README 自述内置 Noto Sans 字体的许可/归属文件在仓库中缺失，建议再分发前核对 SIL OFL；仓库代码的 MIT 许可证本身完整，不影响当前条目。",
+    "Lemonade /claims 是通用理赔页（结构化数据描述为 renters/homeowners），宠物理赔细节主要来自 /pet FAQ；可补一个宠物专用理赔/帮助页以增强证据。",
+    "input.json 的 progress 仍是采集前状态（not_searched、application_ids 为空），与 batch/research 不一致；若后续流程读取该字段，应同步刷新。",
+    "Gingr 首页为多业态平台，训练页是模块页；条目已限定训练范围，保持该边界即可，勿扩展到寄养/日托/美容。"
+  ],
+  "leaf_checks": {
+    "pet-grooming-management": {
+      "status": "insufficient_evidence",
+      "basis": "按 REVIEW_SOURCES 原样读取 data/collections/sources/4016…（首页）与 a747…（/pet-grooming-software）。后者可读正文为标题/描述、首屏句、演示 CTA 及 FAQ；FAQ 仅支持在线预约（可选服务、可接待宠物、员工可用时间/营业时间、no-show 规则）、服务菜单、存卡和结账。",
+      "gap": "全文未见 groomer/breed/coat/vaccination/deposit/POS/conflict/multi-pet 等正文；无美容师时段容量与冲突、按品种/体型/被毛定价、宠物美容史/疫苗备注、美容报告、移动美容的证据。首页快照几乎无产品正文。故该叶“宠物记录+美容师时间+菜单定价+按预约收款”的核心无法由快照确认，batch summary/reason 的具体能力断言不可回溯。"
+    },
+    "pet-health-application": {
+      "status": "verified_with_notes",
+      "basis": "Furlo README（25c7…）明确 owner-facing 宠物健康/护理跟踪：账户与 Cloud Firestore 同步、宠物档案、疫苗到期状态与时间线、健康记录 CRUD、体重趋势、喂食计划提醒、兽医联系人/下次就诊、PDF 护理摘要导出；LICENSE（9f97…）为完整 MIT 文本；仓库 HTML（2dab…）的 repository_id=1297966006、public、非 fork，与条目一致。",
+      "gap": "README 自述 Web 端通知为 NoOp、Firestore 规则需自行部署、未做真实设备离线验证；未运行应用。属留档缺口，不影响类型核心。"
+    },
+    "pet-insurance-customer-app": {
+      "status": "verified_with_notes",
+      "basis": "Lemonade /pet FAQ（6b28…）给出报销制、等待期（事故2天/疾病14天/十字韧带6个月）、既往症除外、免赔额/共保选择、在 Lemonade app 提交理赔时录入银行账户、批准后付款；/claims（8677…）说明通过 app 提交，由 bot 或理赔团队处理。产品身份、宠物保单→理赔→资金结果的类型匹配成立。",
+      "gap": "/claims 是通用理赔页（结构化数据写 renters/homeowners），不是宠物专用；快照未展示登录后的保单文件/理赔跟踪界面。商业案例只做基本真实性与类型匹配，未登录、未运行。"
+    },
+    "pet-training-management": {
+      "status": "verified",
+      "basis": "Gingr /dog-training-software（3c48…）正文：built for classes and private lessons；多周 group classes 固定系列，enroll once 后系统为整个系列保留名额；容量/候补、deposits、instructor scheduling/commission、progress notes on each dog's profile、clients book and pay online；另述 board-and-train。首页（1b60…）标题确认其为多业态宠物护理平台，训练仅为模块。",
+      "gap": "未运行产品；未验证训练模块的实际 UI/计费细节。"
+    },
+    "veterinary-practice-management": {
+      "status": "verified",
+      "basis": "OpenVPM README（f685…）Implemented 段：客户/多宠物患者档案、按医生/诊室列排班与冲突检测及 Scheduled→Checked In→In Exam→Checked Out 状态流、SOAP/问题列表/疫苗/化验/处方/附件、服务目录、估价转发票、付款/账户余额、库存/受控药品、客户门户；Docker Compose 自托管。仓库 HTML（0f1c…）repository_id=1185503465、public、非 fork；LICENSE（0d96…）为完整 AGPL-3.0 文本（含 TERMS AND CONDITIONS）。README 明确自托管免费、托管 Cloud 收费、闭源嵌入需商业许可，社区版边界清楚。",
+      "gap": "未部署/运行；未验证临床数据与实际收费流程。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未计算 sha256、未访问实时网络，只读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 所列快照（路径均按原样读取）。快照为 HTML，含大量 CSS/JS，读取工具对超长行会截断，因此关键结论用全文检索核对相关术语；商业产品未登录、未运行，开源项目未部署，不能验证实际 UI、收费流程与运行时行为。审查仅以快照当时内容为准，不代表当前线上页面状态；商业案例只做基本真实性与类型匹配，未补充价格与架构研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-267/ses_groveopencodegop267review1_1793041200.jsonl",
+  "batch_sha256": "4221354d8ea1843e8c651ade887f21592ae75e690b1e11e1bef047e61677482b",
+  "research_sha256": "9cd4f855a7fe7f85ee7b59c84b481f6cc6a747fc8c46e743ae57377c77ab887e",
+  "input_sha256": "f9ccc9f3a47e0fa6b43c7dd06f1f1de72c54673449f07d927c78bc9226ac8bea"
+}

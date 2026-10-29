@@ -1,0 +1,60 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "beat-making-application",
+      "application_id": "github:1131820351",
+      "issue": "类型关系未成立/未处理：ComposeYogi 自述为 “Ableton-style music composer”“Ableton-like DAW in your browser”，正文核心是通用多轨工程（音轨/片段、钢琴卷帘、麦克风录音与波形编辑、混音器），符合本叶定义中“重心转向任意音频项目的通用多轨录制与编辑时即为 DAW”的排除条件；现有 leaf_matches 只证明四项要素“存在”，未证明 beat-making 是产品主身份，也未说明与 DAW 叶的分界。四项定义性核心本身有 README/ARCHITECTURE 正文支持，问题在类型归属而非功能缺失。",
+      "fix": "补充能证明 beat-making 为主身份的正文证据（默认工作流/模板/入口以鼓音序器与节奏型为中心，而非仅作为多轨 DAW 的一项编辑器），并在 leaf_matches 写明与 DAW 的分界理由；若无法成立，则改归 DAW 叶或暂不收录，不应仅凭“含鼓音序器+时间线”通过。"
+    },
+    {
+      "slug": "beat-making-application",
+      "application_id": "github:1131820351",
+      "issue": "来源描述失实：research.json 的 fetch_outcomes 称 “ComposeYogi 官网 200，正文含 drum sequencer、多轨 arrangement、导出 WAV/MIDI”，但保留快照 4dbba98f...txt 仅为 Next.js 外壳（title/meta description/keywords 与脚本），没有任何对应正文；batch.json 的 leaf_matches 又把该首页列为“官方站提供可直接使用的浏览器工作室”的证据，均无法由快照核实。核心证据实际来自 README 与 ARCHITECTURE。",
+      "fix": "更正 fetch_outcomes 对该快照内容的描述，并将首页从核心证据链中移除或降为“站点存在”的辅助证据；如需引用首页功能声明，应保留渲染后的正文快照（例如 /compose 页面）再引用。"
+    },
+    {
+      "slug": "beat-making-application",
+      "application_id": "github:1179068604",
+      "issue": "来源描述失实：research.json 称 “mpump 用户指南 200，含 WAV/MIDI 导出与工程导入导出细节”，但保留快照 5ee3a8ea...txt 中没有 WAV 或 MIDI 文件导出的正文（只有 gesture recording、Live Set 的 REC 控件、Session JSON 导出/导入与 MIDI 设备注册表）。Record to WAV 仅见于 README；以用户指南作为 WAV 证据不成立。",
+      "fix": "将该结论改引 README 的 “Record to WAV”，并按快照实际内容改写用户指南的描述（分享链接、会话持久化、设备注册、Jam/Live Set）；核心“渲染音频”仍成立，但证据归属需纠正。"
+    }
+  ],
+  "non_blocking_notes": [
+    "mpump 的 AGPL-3.0 全文完整（含序言、TERMS AND CONDITIONS、END OF TERMS 与 How to Apply），仓库整体授权可确认；README 另有商标条款限制以 “mpump” 名义提供衍生服务，属品牌限制而非代码许可限制，下游引用时宜注明。",
+    "两份许可证审查均按仓库范围记录；mpump 内置的 CR-78/DMX/LinnDrum 等采样包以及 ComposeYogi 的第三方依赖/素材未单独核对授权，快照中也没有独立的素材许可文件，属于未覆盖范围而非已发现问题。",
+    "mpump 部署描述把“分享”和“联机”中继合并为“可选自托管组件”：短链分享中继实际运行在 Cloudflare Workers（s.mpump.live），仅 Jam/Live Set 中继需自托管且公共中继当前下线；建议分开表述。",
+    "ComposeYogi 的 /compose 入口在批次部署字段中被具体化，快照仅能证明站点与 README 的 Live Demo 链接，未直接证明该路径可访问；属表述精度问题。",
+    "ComposeYogi 批次写法 “Four on the Floor” 与 README 原文 “Four on Floor” 不一致，属非关键措辞。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids 为空，而 batch.json/research.json 已记录 case_found 与两个条目；下游应以本批证据为准，并同步进度元数据以免误读。",
+    "mpump README 的 Project Layout 与仓库文件树存在轻度漂移（如 server/ 与 frontend/ 的路径），不影响核心判断。",
+    "建议今后对 SPA 首页保留渲染后正文快照，避免以 title/meta/脚本外壳充当功能证据。"
+  ],
+  "leaf_checks": {
+    "beat-making-application": {
+      "slug": "beat-making-application",
+      "applications_checked": [
+        "github:1179068604",
+        "github:1131820351"
+      ],
+      "definition_core": "mpump：音源层为 808/909 合成鼓组、8 套内置采样包及贝斯/合成器（README Audio Engine、Sound Presets）；节奏型创作为 16/32 步步进网格，含每步半音/力度/slide（README Features/Editing）；模式编排为 Song Mode 捕获场景并按 1/2/4/8/16/32 小节排成歌曲，可循环或单次（README Song Mode 正文）；渲染音频为 Record to WAV（README Session 段）。四项齐全。ComposeYogi：64 件内置乐器（含鼓组）与用户采样；鼓音序器以步进网格加 pattern 预设；多轨时间线以片段编排；导出 WAV/MP3/MIDI/JSON（README Features 与 ARCHITECTURE 的离线渲染正文）。四项在功能层面齐全，但编排单位是通用 clip 时间线而非定义中“可复用模式串联”的模型，重心偏向通用 DAW，类型归属未获论证（见 findings）。",
+      "service_form": "mpump 在 mpump.live 以浏览器应用运营（landing.html 正文给出 “Open mpump” 入口，README 说明 GitHub Pages 托管、无需安装/账号，个人项目保存在浏览器本地）；ComposeYogi 官方提供浏览器工作室（README Live Demo、部署说明），可 Docker/Node 自托管，IndexedDB 本地优先。两者均为单操作员、无组织权限模型，符合本叶服务边界；未做运行时验证。",
+      "identity_and_track": "mpump：仓库页 octolytics repository_id=1179068604、full_name=gdamdam/mpump，非 fork，track=open_source 一致。ComposeYogi：repository_id=1131820351、full_name=AppsYogi-com/ComposeYogi，非 fork，track=open_source 一致。",
+      "license": "mpump LICENSE 快照为完整 GNU AGPL v3 全文，文件头按 FSF 第 3 版授权，README 与页脚同标 AGPL-3.0，记为 AGPL-3.0 成立。ComposeYogi LICENSE 为完整 MIT 文本（含许可授予与 AS IS 段落），README 同标 MIT，记为 MIT 成立。",
+      "community_boundary": "两者仓库均含完整应用源码，未见 open-core/付费闭源版本分层：mpump 含 server、worker、link-bridge；ComposeYogi 含完整 Next.js 应用、Docker、测试。ComposeYogi 仅有 Patreon/赞助，未构成社区版功能切分；mpump 有商标条款，属品牌限制。",
+      "result": "mpump 的定义性核心、服务形态、身份/轨道与完整许可证均可由快照核实，可收录；ComposeYogi 的功能要素可核实但类型重心偏 DAW，需先解决类型关系；research.json 对两份快照内容的描述存在失实，需更正后方可通过。",
+      "gaps": [
+        "未做运行时/部署验证，仅以静态快照判断服务可用性。",
+        "ComposeYogi 首页快照为 JS 外壳，未保留渲染正文；/compose 路径未由快照直接证明。",
+        "mpump 用户指南快照未包含 WAV/MIDI 文件导出正文，该结论只能由 README 支持。",
+        "withheld_candidates（Groovie、orDrumbox、Drumhaus、Hydrogen、MAGIX）的快照不在本单元 REVIEW_SOURCES 中，未复核其排除理由，但不影响本叶收录判断。"
+      ]
+    }
+  },
+  "limits": "仅使用只读工具审查本单元提供的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 11 份快照，按 path 原样读取；未运行应用、未渲染 SPA、未重新抓取网页、未计算或比对 SHA-256、未执行 shell 或写入文件。快照为某一时点的静态文本，无法证明持续运营或实际音频产出；withheld_candidates 与其他历史候选的快照未纳入本单元，未做交叉复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-041/ses_groveopendesignp041review1_1793167872.jsonl",
+  "batch_sha256": "b54231b751690b69c2a34ae5467849604e1c52f0fceec6bf8ecb052e6c0bb764",
+  "research_sha256": "08bbaf2d9454fbb19bae12f0b01d0019d316edcea82cf1571f0d3802ee132fa6",
+  "input_sha256": "c1958125ed8b50c3d8656f14db37c760114305fbc871870682c67ec5e813368e"
+}

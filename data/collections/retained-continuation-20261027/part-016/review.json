@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "personal-dashboard 的候选 Glance 快照共有 4 个，分别是仓库元数据、README、许可证和配置文档。这些快照实际存在于 data/collections/sources，但没有登记在 REVIEW_SOURCES.json 中。research.json 已给出各自的 sha256，且 README 中说明页面必须手动刷新、后台没有周期性请求的原文可以复核。建议后续把候选快照纳入来源清单，以便追溯。",
+    "ActivityWatch 的 features.html 正文实际上只有一句说明性文字，并列出文档目录入口，因此不宜作为功能正文依据。该叶的核心由 README、categorization、user-interface 和 homepage 支撑，所以这个问题不阻断。",
+    "input.json 中所有叶子条目的 progress 仍为 case_status=not_searched、application_ids 为空，这与 research.json 中的 case_found 或 boundary_unresolved 状态不一致。如果 input.json 表示当前状态，应同步更新；如果它只是初始队列，建议在报告中注明。",
+    "Yuvomi 还包含 Housekeeping（家政人员排班、计费）等家庭运营模块，范围比典型 PIM 更宽。但它的核心仍然是任务、日历、笔记、联系人等个人或家庭记录在同一数据库中的整合，因此 service_boundary 中关于家庭、小范围共享的表述可以保留。",
+    "Super Productivity 的 Schedule Planner 与 Time Boxing 快照是单行压缩 HTML。本次通过精确语句命中来核对 estimate、drag、reschedule、carry forward、time slots 等要点，没有做渲染后的全文阅读。建议留档时附上可读文本摘录。",
+    "FileGator README 把 edit 列入基本文件操作，这略微超出了“内容渲染委托给其他应用”的边界描述。但它同时具备浏览真实目录以及复制、移动、重命名、删除等变更存储的操作，不影响其 file-manager 归类。",
+    "input.json 中 personal-organizer 的 dc 字段截断于“The classic domains are:”，productivity-activity-tracker 的 dc 更像可选功能清单。相关叶子的 overview 和 rules 足以支撑定义性核心，建议后续修正定义文本。"
+  ],
+  "leaf_checks": {
+    "personal-dashboard": {
+      "status": "no_case_documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记录两次 GitHub 仓库检索：personal dashboard widgets self-hosted 返回 14 条；glance dashboard feeds 返回 17 条。另记录对 Glance 的 4 次抓取（仓库元数据、README、许可证、配置文档），均含 sha256。候选 glanceapp/glance（github:792861139）的 README FAQ 原文为“No, a page refresh is required to update the information.”与“No requests are made periodically in the background, information is only fetched upon loading the page and then cached.”；这意味着它仅在页面加载时抓取并按 widget 缓存，页面常驻时信息会变陈旧，不能满足定义核心 at-a-glance currency 所要求的自动刷新或同步，故未纳入 case_ids，batch 中也没有对应条目。",
+      "gap": "本叶没有正式案例；判断依据是研究记录的边界结论与 Glance README 原文。Glance 的 4 个快照未登记在 REVIEW_SOURCES.json，但文件存在于 sources 目录，README 引文可以复核。"
+    },
+    "personal-organizer": {
+      "status": "verified",
+      "application_ids": [
+        "github:1190598050"
+      ],
+      "basis": "Yuvomi 仓库元数据（repository:1190598050，fork=false）与 LICENSE API 的 MIT 全文一致。README 说明任务、日历、笔记、联系人、预算、餐食、健康等模块，全部数据位于 /data/yuvomi.db 单一 SQLite 文件；并设“The modules talk to each other”章节，举出 meal plan 生成 shopping list、receipt 同时挂到 transaction/shared expense/inventory、勾选 chore 发放 points 等跨模块关联；README 还给出 Docker/Podman、浏览器 guided setup、NAS 应用商店三种部署。任务、日程、联系人、笔记在同一应用内创建管理，满足一体化记录与跨域关联核心；家庭或小范围共享符合 rules 的有界共享。",
+      "gap": "删除和恢复策略未在已读页面说明；research.json 已如实标注未作断言，不影响核心。"
+    },
+    "productivity-activity-tracker": {
+      "status": "verified",
+      "application_ids": [
+        "github:57224308"
+      ],
+      "basis": "ActivityWatch 仓库元数据 id=57224308；LICENSE API 为 MPL-2.0 全文（16,726 字节）。README 说明 watcher 自动记录当前前台应用及窗口标题、当前浏览器标签标题与 URL、键鼠活动以判断 AFK，数据保存在本机；user-interface 文档列出 Activity overview（Most used applications by day、Timeline）与 bucket last updated/latest events；categorization 文档说明每个类别有 title、可选 parent/child，规则匹配窗口标题与应用名，用户可编辑；homepage 明确“automatically tracks how you spend time”并自称 productivity tracker。自动捕获、持久记录、分类解读三层均有官方正文；dc 允许不计算生产力评分的产品。",
+      "gap": "features.html 正文仅为目录（“Here we will document a few features.”）；pausing、exporting、filtering 等非核心功能只核到目录条目，未读其全文。"
+    },
+    "time-blocking-application": {
+      "status": "verified",
+      "application_ids": [
+        "github:78243781"
+      ],
+      "basis": "Super Productivity 仓库 id=78243781，LICENSE API 为 MIT 全文；README 首句为“An advanced todo list app with timeboxing & time tracking capabilities...”，并说明 planner 与 schedule timeline 将一天铺开、与日历事件并列，支持 timeboxing 与工时表导出。官方 Schedule Planner 页可检出“Set time estimates so the planner knows how much space each task needs in your day”、“Drag tasks into the daily timeline”、“If something takes longer, drag to reschedule the rest”、“Unfinished tasks carry forward automatically”、“Every scheduled block is a real task with notes, subtasks, and logged time”；官方 Time Boxing 指南可检出“Assign a time estimate to each task”、“Tetris blocks”、“Easily move tasks into time slots.”。任务到时间块的分配、完成、重排、结转循环均有官方正文。",
+      "gap": "未读取自动排程算法细节；批量摘要未声称自动调度。证据以日时间轴为主，未单独核对周视图。"
+    },
+    "file-manager": {
+      "status": "verified",
+      "application_ids": [
+        "github:191800260"
+      ],
+      "basis": "FileGator 仓库 id=191800260，LICENSE API 为 MIT 全文；README 与 docs.filegator.io 均说明这是自托管 Web 文件管理器，可管理服务器本地 repository 目录，或连接 Local/FTP/S3/Dropbox/DO Spaces/Azure Blob 等适配器；支持 copy、move、rename、create、delete、zip、unzip、download、upload，多用户角色、权限与独立 home folder。真实存储层级、以文件和文件夹为操作单元、变更存储三类核心均有官方正文，且重心是管理而非提供存储或同步。",
+      "gap": "未运行验证名称冲突、权限拒绝、回收站等规则行为；这些不是本次入选用作核心证据的必需项。README 将 edit 列为基本操作，属于轻微的范围外延。"
+    }
+  },
+  "limits": "只读初审：仅使用本单元提供的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 与 data/collections/sources 快照；未运行 shell、未部署或登录产品、未做外部抓取、价格/架构/性能核验。REVIEW_SOURCES.json 的 19 个快照均按 path 读取；另读取了 research.json 引用但未列入该清单的部分 Glance 候选快照。Super Productivity 两个官网快照为单行压缩 HTML，只能以精确语句命中核对，不能视为渲染后全文。个人仪表板叶无正式案例，结论依赖 research.json 的检索/抓取留档与 Glance README 原文。input.json 的 progress 字段与 research 状态不一致，未据此改变应用结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-016/ses_groveopencodegop016review2_1792940438.jsonl",
+  "batch_sha256": "6ce65f2d709d62fc28200b00335d581d07b0277d5d84593e23aacf3411844c1a",
+  "research_sha256": "2663459cb5cdde67cefea667eb8de1f707e6c35d718659d694cd8104f428d584",
+  "input_sha256": "8ec8cf19033f6fd6aca27fc9b0e6f18ef71d92615a533a733d86f46ff67b07ff"
+}

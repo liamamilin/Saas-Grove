@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "lost-pet-platform：Pet FBI 快照是 VitePress 前端渲染的首页，能确认 Post a Report、Search Reports、Potential Matching Reports、Edit My Reports 等实际界面动作，以及 lost/found database 定位；但“关闭为已团聚”的独立正文表述不够明显，后续可补官方 how-it-works/FAQ 页增强闭环证据。商业基本类型匹配不受影响。",
+    "pet-daycare-management：DoggieDashboard 功能页的容量证据主要是 kennel/run occupancy，属于寄养住宿单元式容量；日托每日出勤上限、日费/按次计费没有单独说明。产品确实面向 pet daycares，且有签到签退、预约、开票，基本类型匹配成立，但证据深度弱于其他四叶，建议后续补官方 dog daycare 专页。",
+    "pet-boarding-management：Kennel Connection 快照为压缩单行 HTML，能确认 Unlimited Run Setup、Simple Run Transfers、Deposits、billing 等短语，但无法逐段核读上下文；疫苗接种门槛等规则未在该页出现，不影响商业基本匹配。",
+    "pet-care-business-management：Gingr 已明确一个系统覆盖 boarding/daycare/grooming/training，并有 capacity management、客户门户、packages/deposits/payments；“跨服务线合并为一张账单”的表述不直接，但多服务预约与账户支付足以支持基本匹配。",
+    "crematory-management：PlotBox 的骨灰释放/转运主要由 Stored Remains Report、Remains From Away Report、collection reminders 体现，未见逐次交接状态机的直接描述；登记、授权文件、报告三类核心均有官方正文支撑。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 batch.json/research.json 的 case_found 不一致；下游应优先使用 batch/research，或同步该元数据。",
+    "sources/ 下另有 3 个未被 REVIEW_SOURCES 引用的快照（Snapegit MIT LICENSE、GitHub 仓库页、README），对应 research 中未采用的 OSS 候选；不影响本单元结论，建议在 research 记录中补引用以便追溯。"
+  ],
+  "leaf_checks": {
+    "crematory-management": {
+      "status": "passed_basic_type_match",
+      "basis": "读取 PlotBox 官方 /crematory-software 快照（b2949111…）。标题与 Organization schema 定位为面向 cemeteries、crematories、funeral homes 的 deathcare platform；正文含 Real-Time Cremation Bookings 共享日历/跨站点链接、Document Management（Authority to Cremate、Daily Cremation Schedule、Floral Tribute Labels、Cremation Certificates）、Cremation Reporting（Stored Remains Report、Remains From Away Report、Medical Referee details）及 Funeral Director Portal（可 provisional book slots，由运营方审批）。可对应火化登记、授权/许可文件、骨灰报告三类核心。",
+      "gaps": "无运行时验证；骨灰逐次交接/release 状态未见直接状态机描述；页面含大量营销与导航内容，核心由 feature sections 支撑。",
+      "source_paths": [
+        "data/collections/sources/b2949111ed284735b7e851373afea3b6db2d1e63084510226c3027ce0531221a.txt"
+      ]
+    },
+    "lost-pet-platform": {
+      "status": "passed_basic_type_match",
+      "basis": "读取 Pet FBI 官方首页快照（228ebf45…）。title/meta 明确 Free Database and Information Center For Lost and Found Pets；渲染页面含 Post a Report、Search Reports、Potential Matching Reports、Edit My Reports 等动作，并有 reunite/microchip 相关文本。可支持失主/发现者双向报告、数据库检索、匹配提醒、报告编辑的基本类型匹配。",
+      "gaps": "首页为 JS 渲染，正文集中在超长单行；reunited/closed 状态没有独立正文句；PawBoost 403 已如实记录，未作为证据；无运行时验证。",
+      "source_paths": [
+        "data/collections/sources/228ebf4517331d0e7be66df34307391d0bdfcff5bfc7d86a5ef4e651501f7472.txt"
+      ]
+    },
+    "pet-boarding-management": {
+      "status": "passed_basic_type_match",
+      "basis": "读取 Kennel Connection 官方 boarding 页快照（682ccf1e…）。title 为 Dog Boarding Software | Streamline Your Kennel；正文短语含 Unlimited Run Setup、Simple Run Transfers、Deposits、billing，并面向 boarding facilities/kennels。可支持寄养预约、run 容量/转移、押金/账单的基本类型匹配。",
+      "gaps": "快照为压缩单行 HTML，无法逐段核读；在线预订、客户沟通等 summary 措辞未逐项确认；疫苗门槛未在该页出现；无运行时验证。",
+      "source_paths": [
+        "data/collections/sources/682ccf1ed25fcf73edce56bbda61f74b33f35fb87f060bdd8163ae59b1784545.txt"
+      ]
+    },
+    "pet-care-business-management": {
+      "status": "passed_basic_type_match",
+      "basis": "读取 Gingr 官方首页与 pet-scheduling 页快照（1b601faf…、16c8d1d4…）。首页写明 Boarding、daycare、grooming、training、dog park software in one system；scheduling 页含 capacity management、appointment & lodging calendars、group classes、customer portal、packages/deposits/payments、multi-service bookings。可支持多服务线共享排期与客户账户结算的基本类型匹配。",
+      "gaps": "跨服务线合并为一张账单未直接表述；无运行时验证；petexec.net/all-features 404 已记录，未作为证据。",
+      "source_paths": [
+        "data/collections/sources/1b601faf77eaf403f69f6c24597f916c7586e1558263d22d2b530a6c3f8551f5.txt",
+        "data/collections/sources/16c8d1d4a5e9080541542d992eb1f7ed6f6c06b9ffc6f64e837f1fbd4794ff34.txt"
+      ]
+    },
+    "pet-daycare-management": {
+      "status": "passed_basic_type_match_with_evidence_gap",
+      "basis": "读取 DoggieDashboard 官方 features 页快照（9b48d809…）。页头定位为 Pet Daycares、Kennels、Groomers、Sitters & Walkers；功能含 Pet Database、Client Database、Kennel/Run Tracking、Appointment Calendar、Recurring Appointments、Pet Check-Ins、Invoicing、Redeemable Passes、Vaccine Monitoring、Pet Report Cards（明确提到 daycare）。可支持日托业务的基本类型匹配。",
+      "gaps": "日托每日出勤上限、日费/按次计费未直接表述；容量证据为 kennel/run occupancy，接近寄养住宿单元而非日托 headcount；无运行时验证；Hotails OSS 候选证据不足，未采用。",
+      "source_paths": [
+        "data/collections/sources/9b48d809c854c5d7f681b06c0090c2c066e66b3e98e195c48184061404f0a10b.txt"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 sha256、未做运行时/部署测试、未抓取新网页；部分快照为压缩单行 HTML 或前端渲染 SPA，正文上下文无法逐段展开；仅审查本单元，未读取其他单元；商业价格、架构和部署不在本次范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-266/ses_groveopencodegop266review1_1793040848.jsonl",
+  "batch_sha256": "b65cec2e959428cf0892b99ffe477ffea6cc1a8a9f1154d168e44681c4374cd8",
+  "research_sha256": "85bca53ccd051d75a9f7608cb89847c53ef27d616b7c40408bea2526e449b3e5",
+  "input_sha256": "115cf6d5669ed5bdb356514f31ea6b79a02fcfb5dfbeaf2c589c83d4acd708b6"
+}

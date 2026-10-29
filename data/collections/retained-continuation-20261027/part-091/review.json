@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，且 phase 为 included_without_cases，与 batch.json/research.json 的 case_found 不一致；本次以 batch/research 和实际快照为准，建议下游同步该元数据。",
+    "association-event-management 的 WildApricot 正文明确支持 members-only/分组可见性、members-only tickets、custom pricing、报名限额/候补、attendance/check-in 与 member database 集成；正文未逐字给出 member 与 non-member 的独立价格差，引用时不要把“会员价”写成单独已证事实。",
+    "association-job-board 的 WildApricot add-on 正文证明自有平台、job posters/candidates、SSO、filterable job posts、non-dues revenue/revenue-share；未证明发布时长、付费层级、申请人审查和后台报表，当前只按基本类型匹配。",
+    "association-management-system-ams 的 WildApricot 首页证明会员数据库、自动续期/周期付款、申请流程和目录；会员类型/等级/失效状态的细粒度证据主要由 CiviCRM 文档补足，商业案例只按基本类型匹配。",
+    "CiviCRM 的 AGPL-3.0 核心仓库、自托管/下载路径已核；CiviCRM Spark 是单独托管入口，现有快照未展开其与自托管社区版的功能差异，未据此扩大开源边界。",
+    "sponsorship-management 的研究记录提到 Optimy 快照 c761adff487378cc3c7149a45f88cff7b66fc91ccad47f7dadc13bf39c991058.txt，但该文件未列入 REVIEW_SOURCES；因未作为案例使用，不阻断。"
+  ],
+  "leaf_checks": {
+    "sponsorship-management": {
+      "applications": [],
+      "result": "gap_record_accepted",
+      "basis": "research.json 的 assessment 为 insufficient_evidence，case_ids 为空；记录了对开源赞助管理、赞助包权益、CiviCRM 扩展和自托管产品的检索，并核对了 Optimy 与 Tendenci 候选。",
+      "gap": "Optimy 被判断为赞助方侧工具；Tendenci 仅见赞助付款/赞助商展示，未证明赞助包定价、权益交付与承诺闭环；没有可核验的开源候选核心正文，未建立案例，符合无案例但如实留档的条件。"
+    },
+    "standards-development-platform": {
+      "applications": [],
+      "result": "gap_record_accepted",
+      "basis": "research.json 的 assessment 为 insufficient_evidence，case_ids 为空；检索覆盖标准项目、委员会、草案版本、意见处置和投票共识，IEC/ISO 官方页返回 403，未保留可核验产品正文。",
+      "gap": "五个定义性要素没有完整工作流证据；研究记录已如实说明检索和抓取缺口，未硬凑案例，符合无案例但如实留档的条件。"
+    },
+    "association-event-management": {
+      "applications": [
+        "commercial:wildapricot"
+      ],
+      "result": "case_match_basic",
+      "basis": "application_id=commercial:wildapricot，track=commercial；官方活动页正文证明 members-only/分组可见性、members-only tickets、custom pricing、报名限额/候补、attendance/check-in 与 member database 集成，首页明示 cloud software。",
+      "gap": "正文未逐字证明 member 与 non-member 的独立价格差，但 members-only tickets、custom pricing 与会员库集成足以支撑商业基本类型匹配；未做运行时验证。"
+    },
+    "association-job-board": {
+      "applications": [
+        "commercial:wildapricot"
+      ],
+      "result": "case_match_basic",
+      "basis": "application_id=commercial:wildapricot，track=commercial；官方 add-ons 正文证明自有平台上的 Job Board、job posters/candidates、SSO、filterable job posts、non-dues revenue 与 revenue-share，首页提供 association/member 语境。",
+      "gap": "定义三角（会员组织、专业社区、会员福利加收入）基本成立；未证明发布时长、付费层级、申请人审查或后台报表，按商业基本类型匹配通过。"
+    },
+    "association-management-system-ams": {
+      "applications": [
+        "github:8495499",
+        "commercial:wildapricot"
+      ],
+      "result": "case_match_basic_open_source_verified",
+      "basis": "github:8495499 的仓库快照 full_name=civicrm/civicrm-core、id=8495499；LICENSE API 快照 size=34524，base64 内容开头为 GNU Affero General Public License Version 3；CiviMember 官方指南证明会员类型与定价、在线入会/续期、自动续期提醒、会员周期、会员网站权限，场景含 expired/lapsed；CiviCRM 首页证明 open source、可下载自托管。WildApricot 首页证明 cloud 会员数据库、自动续期/周期付款、申请流程与目录。",
+      "gap": "CiviCRM 按 open_source/自托管应用核对，WildApricot 按商业 cloud 服务核对；开源核心使用 AGPL-3.0 的 civicrm-core，Spark 仅为托管入口，未发现需阻断的社区版边界问题。未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：已读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 所列七个快照；未运行 shell、未写文件、未运行产品或部署测试、未独立计算快照哈希、未检索额外网页、未读取采集者 TASK.md/历史脚本或其他单元。商业功能只按官方页面正文做基本真实性和类型核验，未把导航、元数据、加载壳或检索摘要当作核心工作流证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-091/ses_groveopencodegop091review1_1792997372.jsonl",
+  "batch_sha256": "a54b8129141dc9ccd0018a17071984d82024d80c4014689cc69d523a0b04c30b",
+  "research_sha256": "02794531154e40a7b54e48c30ec45f143dd48c25af953d9cfc3dc8ae352b608d",
+  "input_sha256": "6cd79dbb1775997b462065117fc041538631259716f1b65cef7f7f0eff199c73"
+}

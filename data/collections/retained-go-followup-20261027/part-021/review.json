@@ -1,0 +1,81 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "mooc-platform：Open edX 已证明“已发布课程 + 学习者自助注册 + Progress 页完成百分比/当前成绩”，但快照未直接展示面向公众的课程目录浏览（仅说明知道 URL 也可选课）；公开目录、证书、讨论区未逐项核实，建议后续补一条课程 about/catalog 正文快照。",
+    "mooc-platform：batch 的“含 audit track”表述来自 Manage Course Enrollments 的批量注册备注（所有批量注册者默认进入 audit enrollment track），不是对平台全部选课轨道的完整说明；措辞可收窄为“批量注册默认 audit track”。",
+    "mooc-platform：AGPL-3.0 全文完整，但 LICENSE 末尾含 EdX Inc. 关于独立网络服务不构成衍生作品的澄清；license_review 已提及，建议在最终许可说明中保留该限定，避免读者把它当作纯标准 AGPL。",
+    "school-management-system：Gibbon 已用官方文档正文证明招生/注册、学年学期与特殊日、年级/Form Group、Markbook 成绩录入；但定义性核心中的日常考勤、成绩单发布、费用、家校消息、学年 rollover 尚未逐项核实，当前按“核心子集成立”通过，后续可补 attendance/finance/report card 页面。",
+    "school-management-system：SPDX 记为 GPL-3.0-only 主要依据 README 的“GNU General Public License v3.0”表述；未检查源文件头是否含“or later”，最终定稿前建议再确认一次，以免 only/or-later 混淆。",
+    "school-transportation-management：Edulog 仅有官网首页一个来源，正文可证明路线规划、GPS 追踪、学生乘车、司机管理、家长应用与报表；但站点分配、资格规则、每日运行校正等核心闭环未被产品文档直接展示，且“Driver Experience”在页面上标为 add-on，理由中“司机管理”宜保留为平台能力而非核心模块。",
+    "special-education-management：SameGoal 的营销页快照是单行压缩 HTML，本次通过精确短语检索确认了“individual goals, evaluations and progress notes”“Real-time validation checks”“Deadline tracking”“Electronic signature”“Unlimited archival”等正文，但未能逐段通读整页；结论主要建立在两条可读的官方支持指南（Illinois 截止日期、Service Log Export）之上，属商业基本记录。",
+    "special-education-management：未核价格、架构、部署或许可（商业闭源），也未登录演示；research 已如实标注，不影响本次类型匹配。",
+    "school-counseling-management：本叶无 batch 条目，research 如实记录了 GitHub Search API、候选仓库、Scoir 首页与被 Incapsula 拦截的 Naviance，并明确说明当时未保存独立快照；按“真实记录检索/抓取缺口”可通过，但该 no-case 结论目前只能依赖采集记录，无法由快照独立复核，建议后续补存 API 响应或页面原文。",
+    "research.json 中多处“本次修复轮仅统一表述、未新增检索”属过程说明，不影响事实结论；正式发布前可精简为面向读者的来源说明。"
+  ],
+  "leaf_checks": {
+    "mooc-platform": {
+      "result": "matched",
+      "application_ids": [
+        "github:10391073"
+      ],
+      "basis": "读取 Open edX 仓库元数据（repository:10391073，标题为 The Open edX LMS & Studio）、README（CMS/Studio 作者环境 + LMS 交付，AGPL v3 声明）、完整 AGPL-3.0 LICENSE 与末尾 EdX 澄清；docs.openedx.org 的 Enrollment Requirements 正文明确学习者在开课期内可自行注册、需先注册并激活账号；Manage Course Enrollments 正文给出 Instructor > Membership 批量注册、audit track 提示、退课不删除学习者数据；Learner View of Grades 正文明确 Progress 页显示题目得分、完成百分比与当前成绩。已覆盖“结构化课程发布—开放自助注册—按学习者进度/完成跟踪”的定义性核心。",
+      "gaps": [
+        "公开课程目录浏览未在快照中直接展示（仅说明知道 URL 可选课）",
+        "证书、讨论区、节目录规模未核实",
+        "未部署，runtime_tested=false"
+      ]
+    },
+    "school-counseling-management": {
+      "result": "no_case_documented",
+      "application_ids": [],
+      "basis": "batch.json 无本叶条目，application_ids 为空。research.json 记录 assessment=insufficient_evidence：实际查询 GitHub Search API（10 条），候选多为无 LICENSE/无 README 的课程或毕业设计项目（如 sharonselah 仓库 README 404、无 license 字段）；Scoir 首页只看到大学/职业探索与顾问效率，未证明咨询师 caseload、学生升学计划与申请材料处理闭环；Naviance 首页正文为空、/solutions 被 Incapsula 拦截。未用通用 CRM、心理健康工具或 SIS 替代本类型，符合“无案例但如实留档”的处理。",
+      "gaps": [
+        "GitHub 搜索、Scoir、Naviance 抓取均未保存独立快照，无法由本单元快照独立复核",
+        "无任何可核实的开源许可证与完整咨询管理闭环应用"
+      ]
+    },
+    "school-management-system": {
+      "result": "matched",
+      "application_ids": [
+        "github:12769307"
+      ],
+      "basis": "读取 Gibbon 仓库元数据（repository:12769307，描述为 open source school management platform）、README（核心 + 模块/主题扩展，GPL v3.0）、完整 GPL-3.0 LICENSE；官方文档仓库 Markdown 正文：Admissions 说明申请、录取、转入 Student Enrolment、退学归档与 Left Students/趋势；Student Enrolment 说明按当前学年管理注册、申请表单 Active/Public 控制、Form Groups 与 Year Group 汇总；School Structure 说明 Current/Past/Upcoming 学年、学期、特殊日（决定考勤是否可用）、Year Groups 与 Form Groups；Markbook 说明按班级建列并逐学生录入 grades/rubrics/comments/uploads，可按列共享给家长和学生。覆盖“人员—学年/年级/班级结构—招生注册—成绩记录”的学校行政核心。",
+      "gaps": [
+        "日常考勤、成绩单/报告卡发布、费用、家校消息、学年 rollover 未逐项核实",
+        "GPL-3.0-only 为依据 README 措辞的归类，未检查源文件头",
+        "未部署，runtime_tested=false"
+      ]
+    },
+    "school-transportation-management": {
+      "result": "matched",
+      "application_ids": [
+        "commercial:edulog"
+      ],
+      "basis": "读取 Edulog 官网首页正文：标题为 Next Generation Student Transportation Resource Management，正文说明 school bus routing、GPS fleet tracking、student ridership、driver management、parent communication apps、powerful reporting，并称以 routing & planning 为核心基础、可叠加 add-ons；“Driver Experience”单列为 Add On。作为商业记录，产品真实存在、用途与学校交通管理类型匹配，满足基本真实性与类型匹配要求。",
+      "gaps": [
+        "仅有官网首页一个来源，未取得产品文档或演示",
+        "站点/路线/班次计划、学生分配资格规则、每日运行校正与乘车考勤未被正文直接证明",
+        "司机管理部分能力属 add-on，未核价格、架构、部署"
+      ]
+    },
+    "special-education-management": {
+      "result": "matched",
+      "application_ids": [
+        "commercial:samegoal"
+      ],
+      "basis": "读取 SameGoal 首页（Simplify Special Programs）、Special Education 产品页正文（Modern Special Education management；individual goals/evaluations/progress notes；家长电子共享与签署；实时文档校验；州与联邦必需/示范表格；program participation 与 deadline tracking；district-wide 管理报告与州报告数据；fully hosted），Features 页正文（实时 validation checks、deadline tracking/reports/calendar、document history 与 unlimited archival、meetings & electronic signatures、SIS 人口数据导入、state reporting extracts）；Illinois Special Education Deadlines 指南正文逐项列出转介、初评决定通知、初评同意、会议通知、评估/资格认定、初始 IEP、服务提供同意、年度审查、再评估等法定时限；Service Log Export 指南正文列出 Service Date、Service、Duration、Setting、Goal/Objective、Progress、Provider Signature 等字段。已覆盖转介→评估→资格→IEP→服务/进展→会议→同意→合规时限的核心流程。",
+      "gaps": [
+        "商业闭源，未核价格、架构、部署，未登录演示",
+        "营销页为压缩单行 HTML，本次以精确短语检索核对正文，未逐段通读",
+        "未核 Medicaid 计费实装细节（仅见服务日志导出与第三方计费对接说明）"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未访问其他单元，也未部署或运行任何被测系统。快照按 REVIEW_SOURCES.json 的 path 逐个读取，未重新抓取（SameGoal 营销页与两条支持指南另用只读网页读取作交叉对照，但结论仍以快照内可检索正文为准）。无法计算或校验 sha256、无法渲染 JavaScript；SameGoal 营销页为单行压缩 HTML，只能做精确短语级核对，未能逐段通读。Edulog 仅有首页；school-counseling-management 的检索与抓取当时未保存快照，其 no-case 结论依赖采集记录，无法独立复现。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-021/ses_groveopencodegop021review1_1793076878.jsonl",
+  "batch_sha256": "f4c135994f21de53f857ecb315386913a916788132ad13c477c5dddfc630c3e0",
+  "research_sha256": "818ba5044c8653500e17e5e300b00a84cc1b5600c3d654b770f041981bfe50a1",
+  "input_sha256": "c7b5fc2116f41649e349fbb7cc38aadef29bb541abe961a678f8cc336a8279a9"
+}

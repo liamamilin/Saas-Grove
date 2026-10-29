@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]，与 batch.json/research.json 已产出的四个案例不一致；这是进度元数据漂移，建议下游以 batch/research 为准，不影响本次内容结论。",
+    "liquidity-risk-platform 没有 application，research.json 对 Murex、ActiveViam 财资页及一个 404 页面有检索与抓取记录，但未保留这些候选页快照；本次按“已如实记录缺口”接受，后续若要复核需补存快照。",
+    "market-risk-platform：Atoti Market Risk 页可确认 VaR/SVaR、Expected Shortfall、敏感性、情景与限额定义，Atoti Limits 页可确认限额创建、监控、breach investigation、下钻与可追溯；batch 中“可配置工作流”措辞略强于页面可见的 breach investigation/traceable，发布文案宜收紧。",
+    "fraud-detection-platform：Feedzai 页面可确认实时评分、规则与模型、告警或拦截、case management、analyst-friendly 工具；但“分析师记录处置并回流训练”的闭环未被页面明确写出，建议不要写成已证实事实。",
+    "regulatory-reporting-platform：页面正在主推 RRH Ascend，并称其为 Regnology Reporting Hub 的下一代演进；收录名与页面产品代际需在后续版本注明，避免产品身份歧义。",
+    "sanctions-screening-platform：页面的 Case Management 条目主要描述扫描历史，处置证据更依赖 FAQ 中“every match, decision, and action is logged”的审计记录；理由中宜区分“案件/扫描历史”与“处置记录”。",
+    "本单元四个案例均为 commercial，未涉及开源许可证或社区版边界核对。"
+  ],
+  "leaf_checks": {
+    "fraud-detection-platform": {
+      "application_ids": [
+        "commercial:feedzai"
+      ],
+      "verdict": "pass",
+      "basis": "已读 Feedzai 首页与 Transaction Fraud 页快照。首页定位为 AI-Native Fraud & Financial Crime Prevention Platform，正文含实时止损、rules/alerts/SARs 与分析师协作；Transaction Fraud 页含交易数据实时分析、规则与机器学习、触发告警或阻断交易、云原生平台、analyst-friendly 工具与 integrated case management。可对应活动记录—欺诈逻辑评估—风险决策—人工审核/案件管理的主干；ID 为 commercial:feedzai，track=commercial。",
+      "gaps": "页面属营销正文，未明确写出“处置结果回写并训练模型”的完整闭环；拒付模块未在已读页证实，batch 已如实未写入。"
+    },
+    "liquidity-risk-platform": {
+      "application_ids": [],
+      "verdict": "pass_with_documented_gap",
+      "basis": "本叶无案例。research.json 记录 assessment=boundary_unresolved，含三次检索与四个抓取结果：Murex MX.3 财资页、ActiveViam 财资页、ActiveViam 手册预告页，以及一个 http_404 旧产品页；并说明候选页只到流动性阶梯、流动资产缓冲、HQLA、压力情景与限额检查，未见净流出覆盖/结构性融资/期限错配等充足度量及其治理假设，故未建案例。属于已记录的边界缺口，按任务规则可通过。",
+      "gaps": "Murex 与 ActiveViam 候选页未进入 REVIEW_SOURCES，也没有快照，无法独立复核正文；无 application_id。"
+    },
+    "market-risk-platform": {
+      "application_ids": [
+        "commercial:activeviam"
+      ],
+      "verdict": "pass",
+      "basis": "已读 Atoti Market Risk 与 Atoti Limits 两个官方页快照。Market Risk 页标题与正文确认面向金融机构的企业级市场风险管理、动态 KPI/限额定义、跨司法辖区与法人实体；正文可检索到 SVaR、Expected Shortfall、敏感性、情景、what-if、下钻与实时监控等能力。Limits 页确认数千条限额的创建、监控、breach investigation、违规下钻、动态限额管理与可追溯性。可对应风险计量—限额—违规处理主干；ID 为 commercial:activeviam，track=commercial。",
+      "gaps": "模型治理、监管资本细节未在已读页证实，batch 已正确不写入；头寸记录主要通过整合既有风险/估值引擎数据体现，页面未直接宣称自身为交易/头寸系统。"
+    },
+    "regulatory-reporting-platform": {
+      "application_ids": [
+        "commercial:regnology-reporting-hub"
+      ],
+      "verdict": "pass",
+      "basis": "已读 Regnology Reporting Hub 官方页快照。页面确认 RRH 为受监管机构的监管报送平台，含 granular-by-design 数据模型与“map once, report many”、从数据接入到 submission 的生命周期、内置 10,000+ validation rules 与 2,000+ data controls、exception monitor/KRI、regulator feedback API、数据血缘与审计轨迹，以及 SaaS 部署。可对应监管报表—数据生产—校验—提交的核心；ID 为 commercial:regnology-reporting-hub，track=commercial。",
+      "gaps": "具体监管机关受理回执/驳回细节未在页面细述，research 已如实不写入；research 提到读取官网首页，但 REVIEW_SOURCES 未保留首页快照。"
+    },
+    "sanctions-screening-platform": {
+      "application_ids": [
+        "commercial:sanction-scanner"
+      ],
+      "verdict": "pass",
+      "basis": "已读 Sanction Scanner 首页与 AML Name Screening 页快照。页面确认 3,000+ 全球制裁名单、PEP 与 adverse media、约 15 分钟级名单更新、AI/fuzzy matching、可调匹配阈值、blacklist/whitelist、每日持续重筛、扫描历史/case management，以及“every match, decision, and action is logged”的审计记录；可对应名单数据—被筛主体—潜在匹配—记录处置的主干。ID 为 commercial:sanction-scanner，track=commercial。",
+      "gaps": "页面 Case Management 条目偏扫描历史，处置记录的强证据主要在 FAQ 审计日志表述；交易监控模块未并入本叶，边界处理正确。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、research.json 及 REVIEW_SOURCES 列出的 7 个快照；未运行 shell、未联网补抓、未做部署或运行时测试，也未读取其他单元。未独立计算 sha256，只按 REVIEW_SOURCES 的 path 原样读取。ActiveViam 两个快照为单行压缩 HTML，read 工具按 2000 字符截断单行，正文能力结合可读头部/尾部与关键词命中核对，未能逐段通读全文。liquidity-risk-platform 的 Murex/ActiveViam 候选页和一个 404 页无快照，只能依据 research.json 的检索/抓取记录判断缺口，无法独立复核其正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-055/ses_groveopencodegop055review1_1792990036.jsonl",
+  "batch_sha256": "bac95ce7826d193014d1df7742b5e9817f5c3acbe6e26c893f16879988ed5ac1",
+  "research_sha256": "37ad1848063bba081c804f9d040765e10d7933c1a0f95232d7fa481de0d1c3b1",
+  "input_sha256": "c1151e76d292678f157c4009f612981c06b62af654cf75332ac064fb5c4c9857"
+}

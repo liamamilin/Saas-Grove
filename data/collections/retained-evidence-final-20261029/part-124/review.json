@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "IAG 的 ARCHITECTURE.md 中「Design slots (future)」仍将 live connectors、SoD engine、remediation/enforcement write-back、SCIM 等列为后续能力，而 README 的 Status/功能段与 CHANGELOG 0.1.0 已将其列为已发布；research.json 已如实记录该文档不一致并按公开发布说明纳入。建议在条目中保留该说明或后续对齐文档，但不影响本次核心判断。",
+    "IAG 的公开快照以认证活动、SoD 提示和修复执行为主，未展示自助访问请求/审批目录，也未展示访问包/角色层级；其仍具备访问模型、结构化人工决策和修复三段结构，故按 IGA 通过，但属于认证/修复侧覆盖，建议下游不要将其视为完整 access-request 型 IGA。",
+    "SailPoint IdentityIQ 快照是 Next.js 客户端渲染页面，正文主要位于内嵌 flight data；本次只能确认官方产品页、IdentityIQ 身份及 IGA 类型，逐条功能措辞（如自动授予/撤销）未完全逐字核对；商业条目仅要求基本真实性和类型匹配，故不阻断。",
+    "input.json 仍记录 identity-governance-iga 为 boundary_unresolved 且 application_ids 为空，而 batch.json/research.json 已记录 4 个 case；这是种子状态与采集结果的差异，建议下游同步状态，避免误读。",
+    "research.json 引用了 REQUIREMENTS.md 及 midPoint/Syncope 的快照/URL，但 REVIEW_SOURCES.json 未提供这些快照；本轮无法独立复核 midPoint 的 EUPL 文本和 Syncope 的认证章节缺口，仅能确认 research 已如实留档。",
+    "IAG 的 README 标注 v0.3.0，CHANGELOG 最新为 0.3.1（补充 MIT 许可）；版本号不一致属于文档细节，不影响许可证或核心能力判断。",
+    "Omada 首页同时出现培训认证路径（certification paths）与 IGA 认证活动（certification campaigns），条目使用的是后者，语义正确。"
+  ],
+  "leaf_checks": {
+    "identity-governance-iga": {
+      "verdict": "pass",
+      "applications": [
+        "github:1344090273",
+        "commercial:sailpoint-identityiq",
+        "commercial:microsoft-entra-id-governance",
+        "commercial:omada-identity"
+      ],
+      "definitional_core": "通过。访问模型：README/CHANGELOG 记载从 CSV、LDAP/AD、Entra ID、SQL 等汇入身份与账号，建立稳定自然键的权限目录并做权限分级，包含经理层级和孤儿/未关联账号识别；结构化决策：可按来源、部门、特权、孤儿范围发起认证活动，审查人逐项批准/撤销、撤销需理由、100% 决策后自动完成，并有 SoD 违规提示；修复：决策触发规则，经邮件、Webhook、LDAP/Entra/SQL 写回及 SCIM 执行，配套哈希链审计。三段结构成立。",
+      "scope_caveat": "公开快照未展示自助访问请求/审批目录，也未展示访问包/角色层级；结构2主要由认证活动和 SoD 覆盖，未证明请求型 IGA 的完整审批链，但按定义的三段结构仍可成立。",
+      "service_form": "自托管 Docker Compose Web 应用：nginx 负载均衡、3 个无状态 FastAPI 副本、PostgreSQL 16、React SPA、多角色登录和持久数据库；是持续使用的多用户软件服务形态，不是简介或元数据。商业三项均为官方产品页/服务页。",
+      "identity_track": "github:1344090273 与仓库元数据 id 1344090273、full_name ponofinlayson-web/iag 一致，fork=false、private=false，track=open_source；商业 ID 命名空间与产品页名称一致，未见 ID 冲突。",
+      "license_and_community_boundary": "MIT。LICENSE 快照返回 LICENSE 路径、1071 字节，base64 正文解码为完整 MIT 文本（Copyright (c) 2026 Pono Finlayson），包含完整授予、版权声明保留和免责声明；未发现 open-core、企业版或社区版功能分界，仓库整体以 MIT 覆盖。",
+      "commercial_type_match": "SailPoint IdentityIQ 官方产品页可确认产品身份及 IGA 类型，页面含 access certification、access request、separation of duties 等词项；Microsoft Entra ID Governance 官方页含 entitlement management、access request、access review、lifecycle workflows、PIM 等能力；Omada 官方首页明确列出 certification campaigns、separation of duties、access provisioning/deprovisioning、self-service access requests。商业侧基本真实性和核心类型匹配均通过。",
+      "source_basis": [
+        "data/collections/sources/5af058038c3fe49f1d1015a990d75f505cbabfda4c06cdf9385a1435e231ea2e.txt",
+        "data/collections/sources/7f13aaf7ebe1fdde0c0330d4edc6ce497f6edef9329aabd2451e89062aa5ed06.txt",
+        "data/collections/sources/8fcf2a094165a1088cb29e0c97f5f714981c5f8426da586bcd0eb3a4d0c68acb.txt",
+        "data/collections/sources/3518423c6093b52507e5ba713e30d4b50ccbabeadadfd674a6ee764bdf575d2d.txt",
+        "data/collections/sources/7c11d2e855cd5b76a350b2c9679ed79b54654516985abcd41b58f0fc8bf5e26f.txt",
+        "data/collections/sources/bee029efad2be2e65f3c920cee974006015b12dd3a88e70b467e2b4b19315209.txt",
+        "data/collections/sources/f9fba565ca9795bc3eba048c5429669723f6f84a86b605d587ee086c5eeb04d0.txt",
+        "data/collections/sources/74de8e98d1859f88e23dd5e137936d11a848149edf452dceea731dde9a93db4c.txt"
+      ],
+      "gaps": [
+        "ARCHITECTURE.md 的 future design-slot 与 README/CHANGELOG 的已发布表述不一致，已由 research.json 留档，未用代码或运行快照消除。",
+        "IAG 公开快照未证明自助访问请求/审批和访问包/角色层级，属于请求型 IGA 的范围缺口。",
+        "商业页面为 HTML/客户端渲染快照，SailPoint 的正文位于内嵌数据中，逐条功能措辞核对受限；商业只要求基本真实性和类型匹配。",
+        "REVIEW_SOURCES.json 未包含 REQUIREMENTS.md、midPoint、Syncope 快照，无法独立复核相关排除理由。",
+        "未运行或部署任何项目，runtime_tested=false，不能验证 README/CHANGELOG 所述运行时行为。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元，未执行、部署或运行时测试任何项目；read 工具对单行超长 JSON/HTML 有 2000 字符截断，LICENSE 的 spdx_id 字段及 SailPoint flight data 的部分正文未能逐字读取，但 MIT 完整正文、仓库 id 和页面产品身份可见；REVIEW_SOURCES.json 未提供 research.json 引用的 REQUIREMENTS.md、midPoint 与 Syncope 快照，故这些排除/不一致记录无法独立复核；未研究价格、架构细节或补充额外来源。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-124/ses_groveopencodegop124review1_1793246921.jsonl",
+  "batch_sha256": "48f77c0b71c750adab676936815ae4d14b3151d53add8e7ff9cc0045ee29cf83",
+  "research_sha256": "5add36977f35fa814340f732e0622fbe1d9af5e168febfcf5c21a15c0945c0e7",
+  "input_sha256": "f48e54e0008adec42e734bb7cf6ba9cfe5dae4dee38852ba3792b3cb199ffce2"
+}

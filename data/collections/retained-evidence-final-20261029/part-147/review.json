@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "research.json 的 collector_note_unapproved 仍保留“完整覆盖实测地形—拟建对象—土方评估—设计文档”的旧结论，与最终 boundary_unresolved 判定及 withheld_candidates 的理由相反。该字段已明确标注为未采纳草稿，本次不作为通过依据；建议后续归档或删除，避免下游把草稿当成已确认案例。",
+    "本单元 REVIEW_SOURCES.json 的 sources 为空，batch.json 的 entries 也为空；research.json 未记录 snapshot_path。目录中实际存在两份抓取快照，分别对应 OpenRoads Designer 产品页和 iTwin Platform 页面，但未被任何条目以 snapshot_path 引用，来源追溯只能依靠 research.json 的 fetch_outcomes 与文件名对应关系。建议后续把快照路径写入研究记录，便于复核。",
+    "research.json 把 Bentley 产品页的抓取标注为“历史复用”，本轮没有重新抓取该页；现有快照可以支持正文中的地形建模、廊道、土方、排水、平面、纵断面、横断面出图以及 Windows 10/11/Server 系统要求等表述，但页面的时效性未在本轮重新确认。这不影响当前“不采纳为案例”的结论。",
+    "input.json 和 progress.note 使用了“客户端、CLI、引擎/基础设施或设备控制”的通用表述，与本叶实际核对对象（商业桌面设计软件和云平台）不完全贴合；这属于留档措辞问题，不影响边界判定。",
+    "开源候选 CorridorRoad、Saikei Civil、AQGIS-Sivil3D 等仅以“FreeCAD/Blender/QGIS 工作台或插件、非完整应用”为由排除，未记录仓库 URL、许可证和社区版边界。由于这些候选未被采纳，本次不要求补充；若后续重新评估，应补齐仓库身份和许可证核对。",
+    "Bentley Infrastructure Cloud 页面 404、Autodesk Civil 3D 页面 403 均已如实记录为抓取缺口；iTwin Platform 页面仅证明其是 API/SaaS 平台与数字孪生基础设施，未被误用为土木/场地设计创作应用，处理恰当。"
+  ],
+  "leaf_checks": {
+    "civil-site-design": {
+      "slug": "civil-site-design",
+      "name_zh": "土木/场地设计软件",
+      "name_en": "Civil / Site Design",
+      "application_ids": [],
+      "recorded_status": "boundary_unresolved",
+      "definition_core_checked": "已按定义核对：以实测现有地形为基准的持久项目；拟议线形（平面线形、纵断面、横断面模板）与整平曲面（场地、盆地、路堤、边坡衔接）；相对现有地面的挖填方/体积/覆土评估；由设计对象驱动生成平面、纵断面、横断面、放样和土方报告。仅有 GIS 现状查看、测量采集或工程量计算不满足该核心。",
+      "service_form_checked": "已核对服务形态。唯一较完整的候选 Bentley OpenRoads Designer 是 Windows 10/11/Server 桌面创作环境，配合 Bentley Infrastructure Cloud/iTwin/ProjectWise 做同步协作；核心设计在客户端完成，不构成可持续使用的完整软件服务形态，故未建立本叶关系。iTwin Platform 页面只证明 API/SaaS 平台和数字孪生基础设施，不能替代土木/场地设计创作应用。",
+      "identity_track_checked": "产品身份与类型关系已核对：OpenRoads Designer 属于商业道路/场地设计桌面软件，类型与叶定义相符，但形态不符；iTwin Platform 属于平台/API 服务，不是设计创作应用；CorridorRoad、Saikei Civil、AQGIS-Sivil3D 等属于 FreeCAD/Blender/QGIS 工作台或插件；roadesigner、civil-mcp、Lima VVA、OpenRoads_vba 属于简易绘图、原型、Windows 工具或 VBA 片段，均未证明构成完整应用。",
+      "open_source_license_checked": "本叶无被采纳的开源案例，因此不涉及完整许可证、仓库身份和社区版边界的通过性核对。研究记录中的开源候选均因应用形态不完整而未采纳，未对其许可证作结论；该缺口已作为非阻断项记录。",
+      "commercial_authenticity_checked": "商业候选的真实性和类型匹配已核对。现有 OpenRoads Designer 产品页快照正文确实包含地形建模、廊道建模、挖填方（三角网与平均断面）、排水与管网水力分析、平面/纵断面/横断面出图、与 Bentley Infrastructure Cloud 同步，并明确列出 Windows 10/11 和 Windows Server 2019/2022 系统要求；其桌面产品身份真实。由于服务形态不符，保留为未采纳候选是合理的。",
+      "evidence_read": [
+        "REVIEW_TASK.md",
+        "input.json（leaf civil-site-design，case_status=boundary_unresolved，application_ids 为空）",
+        "REVIEW_SOURCES.json（sources 为空）",
+        "data/collections/batch.json（entries 为空）",
+        "data/collections/research.json（查询、抓取结果、withheld_candidates、未采纳草稿说明）",
+        "data/collections/sources/64769ca010c0e4d68d38ee35c4843e2748cab9b5018a86d64a04b45e913094b2.txt（OpenRoads Designer 产品页快照）",
+        "data/collections/sources/d1d245749cac0b117ca27f156c732ca4123b1c92641c468c2d66122d3e944dfc.txt（iTwin Platform 页面快照）"
+      ],
+      "gaps": [
+        "本叶没有已采纳的 SaaS 应用案例，application_ids 为空；这是边界未决留档，不代表该类型或产品不存在。",
+        "Bentley Infrastructure Cloud 页面返回 404，Autodesk Civil 3D 页面返回 403，均未取得正文；已如实记录。",
+        "没有完整开源 Web 应用候选；相关插件/原型/桌面工具的排除依据主要是应用形态而非许可证审查。",
+        "REVIEW_SOURCES.json 未列出快照路径，research.json 也未记录 snapshot_path；实际快照文件虽在单元目录中存在，但未被条目形式引用。"
+      ],
+      "conclusion": "定义性核心清晰，检索与抓取缺口记录真实；唯一较完整的候选为商业桌面软件，服务形态不符，已正确保留为未采纳候选；没有把产品页摘要、导航或平台页面当作本叶通过证据。符合“无案例但如实留档”的通过条件，本叶维持 boundary_unresolved。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未访问其他单元。REVIEW_SOURCES.json 的 sources 为空，batch.json 的 entries 也为空，research.json 未提供 snapshot_path；因此没有按 REVIEW_SOURCES 列表引用的快照可读。为核对研究记录，另外原样读取了本单元 data/collections/sources 下实际存在的两份快照，并通过页面标题和 canonical 判断其对应 OpenRoads Designer 与 iTwin Platform。未做部署测试、登录或额外联网检索，未独立复现历史搜索结果的排名与返回内容；页面时效性和历史抓取字节数未重新验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-147/ses_groveopencodegop147review1_1793249755.jsonl",
+  "batch_sha256": "fc20603f2ed1560d2e95e93a98f5420472013483f69c5df3b5f940e7646686ec",
+  "research_sha256": "618fcc9b2c214cd1a209d03e06d763128697c24ad49548f68b176ba6be27c409",
+  "input_sha256": "82acf7d3c2c2b64734a74cc80ae15d3f80d5a9d0c438ec1088aa88fdb0003cf4"
+}

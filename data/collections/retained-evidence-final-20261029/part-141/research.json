@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "factory-operations-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1159568793"
+      ],
+      "query": "本轮先复核旧候选 IMES 的已保存 README/许可证/界面快照，再以 websearch「open source manufacturing execution system MES full web application GitHub」与 GitHub 仓库搜索「manufacturing execution system in:name,description」寻找完整开源 Web 应用；对 OpenMES、Qcadoo、Carbon、mes4u 做仓库元数据核对，随后直读 OpenMES 官方 README、AGPL-3.0 许可证、ISA-95 覆盖说明和主管操作指南。",
+      "source_urls": [
+        "https://github.com/Mes-Open/OpenMes",
+        "https://api.github.com/repos/Mes-Open/OpenMes",
+        "https://api.github.com/repos/Mes-Open/OpenMes/license",
+        "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/README.md",
+        "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/docs/isa95.md",
+        "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/docs/supervisor-guide.md",
+        "https://github.com/jukbot/smart-industry",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/LICENSE.md",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/README.md",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-overview.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-performance.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-production.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-notification.html"
+      ],
+      "note": "初审问题已处理：旧草稿曾把 IMES 的 github:71769220 计入 case_ids 而 assessment 为 boundary_unresolved，二者矛盾；本轮不沿用该关系，旧候选只作为已核对材料保留。重读旧快照确认 IMES 为 Apache-2.0 的 MES Web 原型，但 README 自述仍在重度开发、部署因预算暂停，已见证据只有机器/工单状态总览、OEE 计算和通知列表，未见到事件分派、标准化响应与解决跟踪，停机原因编码及计划下行/实际上行也未核实，故不建立关系。本轮找到并核实 OpenMES：README 明确其为自托管开源 MES，维护工单/批次/工序与产线实时状态，提供 Andon 问题上报（物料短缺、质量、工具、机器等预定义类别）、升级主管、Open→Acknowledged→Resolved→Closed 闭环及关键问题自动阻断工单；主管指南给出产线状态表、当班历史、停机原因分解、计划与实际产量、周期时间和问题趋势；ISA-95 文档列出 OEE 看板与 /api/v1/oee、生产异常、维护事件、质量检验与处置；README 说明 MQTT 机器数据、REST API 和 SAP/Odoo/Comarch CSV 导入。三项定义核心均有正文支撑，故以 github:1159568793 建立关系，runtime_tested 仍为 false。另核对到 Qcadoo 主仓库为框架且许可证为 NOASSERTION、Carbon 许可证非 OSI、mes4u 自 2020 年后未更新，均未作为开源案例纳入。",
+      "service_boundary": "OpenMES 是完整自托管 MES Web 应用（Laravel + PostgreSQL，Docker Compose），AGPL-3.0 覆盖仓库，README 明示无按用户收费、无付费解锁模块，社区版即完整产品。边界与缺口：维护模块尚无 MTBF/MTTR 与备件目录，质量模块尚无 SPC/Cpk 及 CAPA 流程，B2MML XML 未实现（以 JSON REST 为准），库存仅覆盖物料批次/谱系而无补货与库位；这些属于可接受的附加能力缺口，不影响实时运营图景、Andon 事件—响应闭环和运营绩效记录三项核心。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES full web application GitHub",
+          "outcome": "本轮成功；返回 OpenMES、Carbon、Qcadoo、mes4u、IMES 等候选及开源 MES 综述。",
+          "phase": "current"
+        },
+        {
+          "tool": "github_search",
+          "query": "manufacturing execution system in:name,description（按 stars 排序，REST search API）",
+          "outcome": "本轮返回 405 个仓库，读取前列候选的 full_name/description/license/archived/pushed_at 元数据。",
+          "phase": "current"
+        },
+        {
+          "tool": "github_repo_lookup",
+          "query": "Mes-Open/OpenMes; qcadoo/qcadoo; crbnos/carbon; sindohmes/mes4u",
+          "outcome": "本轮逐一取得仓库 ID、许可证、活跃时间与默认分支；OpenMES 为 AGPL-3.0、2026-10-27 仍有提交，另三者因许可证范围或维护状态未纳入。",
+          "phase": "current"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed",
+          "phase": "historical"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed",
+          "phase": "historical"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed",
+          "phase": "historical"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed",
+          "phase": "historical"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed",
+          "phase": "historical"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证",
+          "phase": "historical"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Mes-Open/OpenMes",
+          "result": "fetched",
+          "sha256": "217dba89650d4097c4cfdd36dcb5e1da9d816fddccbbd8ae1355793c75f4dd5e",
+          "phase": "current"
+        },
+        {
+          "url": "https://api.github.com/repos/Mes-Open/OpenMes/license",
+          "result": "fetched",
+          "sha256": "79cd987480662899c877f270735d29851ee220e8715d3aaec4908acfdd5ccdc0",
+          "phase": "current"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/README.md",
+          "result": "fetched",
+          "sha256": "0ee12524bc1a733eec6147a1308e4380383491f5d0f5c05806b13468e6b19641",
+          "phase": "current"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/docs/isa95.md",
+          "result": "fetched",
+          "sha256": "7120034ea08e83f0fb221120ebb74a63ff125dd5ad4cfec6624f65c4f33aa6fe",
+          "phase": "current"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/docs/supervisor-guide.md",
+          "result": "fetched",
+          "sha256": "caa75ec4dccc4c06acbc68efe6a8182bc4b4cefe5b5ab38afa6c8801bc4f0cd7",
+          "phase": "current"
+        },
+        {
+          "url": "https://github.com/jukbot/smart-industry",
+          "result": "fetched（历史快照复用）",
+          "sha256": "01a440b192558ac6b8e1a73ae7439f14785a321554477d484e4270233f0b257c",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/LICENSE.md",
+          "result": "fetched（历史快照复用）",
+          "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/README.md",
+          "result": "fetched（历史快照复用）",
+          "sha256": "d764c8c6ffb737a4ef3f22a646411055581429a097f13184f163cd834622d868",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-overview.html",
+          "result": "fetched（历史快照复用）",
+          "sha256": "83732c2a28205307185c5e189b2a4d543ccfe6aa53799741c54771df1f2b0363",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-performance.html",
+          "result": "fetched（历史快照复用）",
+          "sha256": "d7db0a597a95515d67b1f8f3e234a4bfdd7cd8ea83e93651153004a26840391b",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-production.html",
+          "result": "fetched（历史快照复用）",
+          "sha256": "8b62774d636e4d5e8c99ffe038215bc3d6079c1da4b061453a3043e453796a24",
+          "phase": "historical"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-notification.html",
+          "result": "fetched（历史快照复用）",
+          "sha256": "e728297064ae4f73ad77ade1351330be15d1fc81cedf1bcd5a49d1e168c8e383",
+          "phase": "historical"
+        },
+        {
+          "url": "https://api.github.com/repos/jukbot/smart-industry",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata（历史记录）",
+          "phase": "historical"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

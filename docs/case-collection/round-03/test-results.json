@@ -1,0 +1,31 @@
+{
+  "run_date": "2026-10-23",
+  "purpose": "Independent verification of the round-03 published catalog and application behavior",
+  "suites": [
+    {
+      "name": "backend",
+      "command": "python3 -B -m unittest discover -s server/tests -q",
+      "log": "var/collection/round-03/backend-tests.log",
+      "exit_code": 0,
+      "passed": 57,
+      "failed": 0,
+      "errors": 0,
+      "result": "passed"
+    },
+    {
+      "name": "browser_e2e",
+      "command": "cd web && npm run test:e2e",
+      "log": "var/collection/round-03/browser-tests.log",
+      "exit_code": 0,
+      "passed": 8,
+      "failed": 0,
+      "result": "passed",
+      "test_data": "Playwright-configured local fake-data API on 127.0.0.1:5399 and Vite server on 127.0.0.1:5388"
+    }
+  ],
+  "limitations": [
+    "Both suites initially could not bind localhost under the restricted sandbox; reruns with approved elevated local-port binding completed successfully.",
+    "The shell emitted harmless pyenv shim rehash permission warnings.",
+    "No production database mutation or credential-file read was performed; tests use isolated fixture databases."
+  ]
+}

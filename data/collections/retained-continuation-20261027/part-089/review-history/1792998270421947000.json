@@ -1,0 +1,70 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "nonprofit-crowdfunding-platform",
+      "application_id": "github:1071489",
+      "issue": "Catarse 的仓库描述和 README 都把它定位为面向 creative projects 的通用众筹平台，快照中没有非营利/公益组织发起、捐赠语义（gift）或资金支付给组织账户的证据；把创意/回报型众筹当作 Nonprofit Crowdfunding Platform，产品身份与类型关系不成立，至少证据不足。",
+      "fix": "将 Catarse 从该叶移除；若分类体系有通用/回报型众筹叶，应改挂该叶。另找有非营利/公益筹资核心证据（组织发起的公开活动、个人捐赠、公开进度、资金结算给组织）的产品；若找不到，按 insufficient_evidence 记录检索/抓取缺口，不要保留类型不符的条目。"
+    },
+    {
+      "slug": "nonprofit-crowdfunding-platform",
+      "application_id": "github:1071489",
+      "issue": "batch/research 称官网展示公开活动、截止时间、达成百分比和公益分类，但实际首页快照是客户端渲染的加载壳：全文含 'Carregando'，未检出 'R$'、'arrecadad'、'Arrecadado'、'dias restantes'、'Em andamento'、'Categorias'、'Comunidade'、'Social' 等正文；仅见 'Música'/'Arte' 等创意分类。公开进度这一核心没有核心正文证据，不能以 homepage 快照代替活动正文。",
+      "fix": "补抓渲染后的活动列表/活动详情页或公开 API 响应，保存包含目标、已筹金额、截止时间、分类的可核对快照；若拿不到，删除 summary/leaf_match 中的公开进度和公益分类断言，并收窄为仅有 README 支持的平台/支付网关描述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍写 case_status: not_searched、application_ids/research_records 为空，与 batch.json/research.json 已记录 case_found 不一致；建议同步元数据，避免下游把三个已有案例的叶误判为未检索。",
+    "CiviCRM 的 AGPL-3.0 核心开源成立；但站点同时提供 Spark/Cloud 付费托管，mailings 页还写到 'For pro subscribers, Spark ships with CiviMail'。建议在 summary/deployment 中区分开源核心与付费托管/扩展，避免把 Spark 订阅误读为社区版边界。",
+    "nonprofit-event-management 的 leaf_match 只引 events 页；events 正文覆盖活动页、报名、票务/定价、出席/签到和 'collect donations'，但结算、收据/致谢、活动费用等细节主要在 contribution-pages 快照中，建议补引该快照或具体 event+contribution 文档，避免单页证据过窄。",
+    "Catarse 仓库元数据 archived=true，README 首行声明 deprecated 并让 PR 转到 common-group/services-core；条目已披露归档，但 repository_url 仍指向旧仓。建议明确标注 archived/deprecated，或改用当前维护仓库并重新核对许可证/社区版边界。",
+    "CiviCRM 的 deployment/technology_stack 中 Drupal/WordPress/Joomla/Backdrop 集成未在已读快照中直接出现（仓库元数据主要支持 PHP 等语言信息），建议补官方 README/文档来源或收窄表述；不影响 CRM/活动叶的核心类型判断。",
+    "fund-accounting 与 grant-management 的候选拒绝理由只在 research.json 中，Steward/nonprofit-ledger/CivicOps/gandhi 的 README 快照未保留；因未收录案例，本轮不阻断，但建议补档以便复核。",
+    "CiviCRM 的 contribution/peer-to-peer 快照含 campaign pages、goals、progress 等文本，但它是 CRM 组件而非独立众筹平台；若考虑作为 crowdfunding 叶替补，需先核对产品身份，不能直接替换 Catarse。"
+  ],
+  "leaf_checks": {
+    "nonprofit-crm": {
+      "status": "passed",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "REVIEW_SOURCES 的仓库元数据确认 id 8495499、full_name civicrm/civicrm-core、archived=false；AGPL-3.0 许可证快照为完整 GNU Affero GPL v3 文本。contact-management 正文写 donors/volunteers/members 的统一联系人记录、giving/communication history、one record、自动记录交易、分组/标签、细分与 opt-in/opt-out；mailings 正文补充批量邮件、细分、A/B 与退订统计，能支撑非营利 CRM 的记录、累积历史与关系工作核心。",
+      "gaps": "contact/mailings 两页未直接展示去重/合并与致谢跟踪；这些属于规则/外围机制，不影响本叶核心类型判断。"
+    },
+    "nonprofit-crowdfunding-platform": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:1071489"
+      ],
+      "basis": "仓库元数据 id 1071489、MIT 完整许可证、archived=true；README 明确 'open-source crowdfunding platform for creative projects' 和 pagarme 支付网关，能支撑通用众筹平台与支付集成。",
+      "gaps": "README/元数据只证明 creative projects 定位，未证明非营利/公益组织、gift 语义或资金支付给组织；首页快照为客户端渲染加载壳（含 'Carregando'，未检出金额/进度/截止时间/公益分类正文），不能支撑公开进展核心。类型与证据均需修复。"
+    },
+    "nonprofit-event-management": {
+      "status": "passed_with_note",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "events 正文覆盖活动页、在线报名、票务/定价、参与者签到与出席跟踪、活动模板/复制、与捐赠者数据库集成，并明确 'collect donations all in one place'；contribution-pages 正文补充 event fees、收据/致谢自动化与 fundraising reporting，能支撑活动记录、报名/入场、活动关联筹资与结算致谢四类结构。",
+      "gaps": "leaf_match 只引 events 页；拍卖/赞助/结算细节主要在 contribution-pages 快照，建议补引或补具体 event+contribution 文档。"
+    },
+    "nonprofit-fund-accounting": {
+      "status": "documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记录两轮检索（GitHub 与公开网页），候选 Steward、nonprofit-ledger、fundflow 分别因 early development、Phase 1/7 'Not yet usable for real books'、POC 被排除；并说明 GnuCash 等通用会计不满足基金/限制性净资产/功能费用报表核心。REVIEW_SOURCES 无该叶案例快照。",
+      "gaps": "未收录案例；候选 README 未保留快照，拒绝理由无法独立复核。留档如实，按无案例缺口处理。"
+    },
+    "nonprofit-grant-management": {
+      "status": "documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记录 CivicOps（Apache-2.0、0.1.0 release candidate、多模块）、gandhi（AGPL-3.0、alpha、偏资助方）、Microsoft 模板（依赖 Power Platform）等候选，均未达到 receiving-side 完整赠款管理应用门槛；未找到可收录案例。",
+      "gaps": "未收录案例；CivicOps/gandhi 的仓库元数据与 README 未保留快照，拒绝理由无法独立复核。留档如实，按无案例缺口处理。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未重算 SHA-256；按 REVIEW_SOURCES.json 的 path 原样读取了全部 12 个快照，并据 batch 的 snapshot_path 复核，未做网络复核或部署测试。Catarse 首页快照是单行客户端渲染 HTML，读取工具按行截断，关键判断依赖全文存在性检索（如 'Carregando'、'R$'、'Arrecadado'），无法逐段核对渲染后的活动数据。fund-accounting 与 grant-management 无案例，只能核对 research.json 的检索/抓取记录；其候选 README 未保留快照，无法独立复核拒绝理由。本单元无商业条目，商业真实性与类型匹配未触发。未读取其他单元、采集脚本或历史过程文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-089/ses_groveopencodegop089review1_1792997328.jsonl",
+  "batch_sha256": "0d4c4b74c96af7e5337909b18ca9db8220ad802939a034da44f6b05654fe7e4d",
+  "research_sha256": "a6a163cc4985a9d8b87eb62a0f921dbbab215c629466d72cb50bb772061e8795",
+  "input_sha256": "b00e1cd1bc7f784c92ec5cec520023cf17fcf63bea3d866bb04c812ff0266881"
+}

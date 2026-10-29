@@ -1,0 +1,78 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍然显示 case_status=not_searched，application_ids 和 research_records 为空，而 batch.json 与 research.json 已经记录了 5 个 case_found；建议在发布前同步单元状态，避免下游把本单元误判为无案例。",
+    "accounts-receivable-management / commercial:billtrust：research.json 的抓取备注写的是“实时 ERP 同步”，快照正文只支持“款项到账当日入账”“200+ ERP/银行连接器”和“持续更新信用决策”；建议改为“同日/近实时”，或补充直接来源。",
+    "collections-automation-platform / commercial:chaser：task management、payment plans 等主要出现在导航中，正文没有证实争议、核销等状态；当前批次已明确记录这一缺口，后续可以补充正文级来源。",
+    "invoice-processing-platform / commercial:medius：invoice automation 页面同时使用了 invoice-to-payment 套件措辞，并且付款另有独立的 Payments 产品；建议在条目中明确“发票处理模块止于会计交接，付款属于套件内相邻模块”，以避免与叶边界混淆。",
+    "corporate-tax-management / commercial:thomson-reuters-onesource：多币种、单元格级变更历史和证据留存没有逐项证实；这两个页面是套件内的不同模块，当前只按产品页进行了基本类型匹配。",
+    "accounts-payable-automation / commercial:stampli：页面同时列出了 Procurement、Vendor Management、Payments 等相邻产品；本条目已经把采购寻源和支付执行排除在核心之外，建议在摘要中继续保持这一边界。"
+  ],
+  "leaf_checks": {
+    "accounts-payable-automation": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:stampli"
+      ],
+      "sources_read": [
+        "data/collections/sources/02cd5909b25ff88d8de1553c24757b304ea284f8fbd634c6bb8f75031c449d3d.txt"
+      ],
+      "basis": "Stampli 官方 AP Automation 页正文显示：与 70+ ERP 原生集成；AI/Billy 自动捕获、编码、路由审批和重复发票检查；审批规则可以是动态或预定义；沟通、文档和工作流集中在发票上；Direct Pay 等是附加工具。覆盖供应商发票→结构化记录→验证与审批→ERP 会计交接。",
+      "gaps": "未验证具体 ERP 字段级过账配置；付款执行作为附加工具未计入核心，与叶定义一致。"
+    },
+    "accounts-receivable-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:billtrust"
+      ],
+      "sources_read": [
+        "data/collections/sources/59228f04d111687ce7993ea8e9443109e79a68d85a3b519f2126cce9653cb2cb.txt"
+      ],
+      "basis": "Billtrust 官方首页正文：将开票、付款、信用、催收、现金应用组织为 AR 平台；Cash Accelerator 自动应用汇款、按优先级编排催收、持续更新信用决策；Cash Application 宣称 95%+ 匹配率，款项到账当日入账；200+ 连接器连接 ERP、银行和金融机构。覆盖未结应收→催收→现金核销→账簿一致。",
+      "gaps": "仅有首页级证据，具体 ERP 字段级同步/双向接口未逐项核验；首页同时覆盖上游开票，属于较宽的 AR/订单到现金平台。"
+    },
+    "collections-automation-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:chaser"
+      ],
+      "sources_read": [
+        "data/collections/sources/2eab6d60fb7fba1ee2c3864a3155fd7dc927bfe80960fd90b8ddaebaa95ea690.txt",
+        "data/collections/sources/4e4fd74061d693ce929cc8d5a3f20509a85b5e7a1b76b90d41ce797890979412.txt"
+      ],
+      "basis": "Chaser 官方应收/信用控制页与首页正文：与会计系统双向 API 同步；按客户设置催款节奏，自动发送邮件、短信和自动电话；提供付款门户链接、付款计划和任务管理；自动对账并实时更新；付款后自动停止提醒；跟踪付款行为。覆盖应收余额→催收追讨→付款结果回写。",
+      "gaps": "争议、核销等结果状态未在已读正文中证实，批次已如实留下缺口；任务管理/付款计划部分仅见于导航，正文证据较弱。"
+    },
+    "corporate-tax-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:thomson-reuters-onesource"
+      ],
+      "sources_read": [
+        "data/collections/sources/b41da4c54ad5505b7c5b870d3891dbcd6a3d1f1094d956e7a58a8ae4af72e755.txt",
+        "data/collections/sources/f75bf7dd16ee3065d1a746f7c882db0b3e398b520834e1ed258ae55a65013add.txt"
+      ],
+      "basis": "ONESOURCE Tax Provision 官方页正文：税务计算引擎，自动生成税务报告、附注和日记账分录；与 ERP、Excel 工作底稿集成并按辖区层级同步；支持从合并金额下钻到实体级明细、过滤和审计问答。ONESOURCE Income Tax 官方页正文：联邦/州/地方/国际企业税申报、IRS 电子申报、trial balance 管理，并与 Tax Provision、预估税款和国际税务计算器联动。覆盖实体×辖区×期间的税务计算与正式交付。",
+      "gaps": "多币种处理、单元格级变更历史和完整证据留存未逐项证实；两页是套件内不同模块，统一 book-to-tax 管道的字段级集成未验证。"
+    },
+    "invoice-processing-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:medius"
+      ],
+      "sources_read": [
+        "data/collections/sources/773840ce2622d1ecccc902637ea2925a56be4c297fd90efe2b44799932bb8c6d.txt",
+        "data/collections/sources/57575f63d2bc19fa26eccc9f5769e6138275585d79477267d2ba779afee3674c.txt"
+      ],
+      "basis": "Medius Invoice Automation 官方页正文：从纸质、邮件、EDI 和电子发票摄取并结构化；机器学习自动编码；按规则智能路由审批；AI 标记异常/欺诈；支持 PO/收货匹配；100+ ERP 连接器（SAP、Oracle、NetSuite、Dynamics、Infor）。Invoice Capture 页正文：OCR/AI/ML 提取 PDF、纸质、电子发票和 EDI 数据，捕获行项目并匹配 PO/应收，集成现有 ERP。覆盖捕获→验证→审批→ERP 交接。",
+      "gaps": "审计轨迹/逐张发票处理历史保留未在正文明确；页面同时宣传 invoice-to-payment 套件，付款在导航中有独立 Payments 产品，条目中“付款属相邻模块”需要按套件/模块边界表述。"
+    }
+  },
+  "limits": "本次审查仅使用只读工具读取了 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 8 个快照；未运行 shell、未重新计算 SHA-256、未做运行时/部署测试、未访问快照外网页。Billtrust 仅有首页级证据；Chaser 的争议/核销、ONESOURCE 的多币种与单元格级变更历史、Medius 的审计轨迹等未逐项证实。input.json 的 progress 与 batch/research 存在状态不一致，已作为非阻断元数据问题记录，未据此否定内容核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-052/ses_groveopencodegop052review1_1792989644.jsonl",
+  "batch_sha256": "255e8cdcdbe88d43952701f06a46503005caad442fc3e0fd85b1783634a345a7",
+  "research_sha256": "4e7e44a027c02bcb4e6b839b48b5149b9fcb0917853af601b76eb0cf776995c7",
+  "input_sha256": "0d0a85bd90f10f15daf7d46f08520e14631ec1c3b35d5132972f38d04968d37f"
+}

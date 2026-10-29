@@ -1,0 +1,80 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "vulnerability-management / github:31028375：README 正文明确该产品是漏洞管理、DevSecOps 与 ASPM 工具，并支持漏洞跟踪、去重、修复和报表，足以支撑“发现登记册 + 解决循环”的核心判断；但 README 未详细说明 CVE 类知识库的刷新机制、复评关闭流程的实现和风险排序方式，登记册主要以导入扫描结果为主，这属于来源深度限制，不影响类型判断。",
+    "attack-surface-management / github:1002710587：README 正文支持外部资产清单（域名、IP、端口、服务、技术、URL、TLS 证书）、分布式 worker、可插拔连接器、资产分组、定时或按需复扫、漏洞归一化，以及通知和开票；对于候选资产的人工提升与域名所有权校验，未作断言。条目 homepage 指向 docs.oasm.io，属于文档站点而不是营销首页，建议后续改为产品主页或仓库主页。",
+    "cyber-asset-management / commercial:runzero：商业条目只依据官方首页与产品页。正文支持无代理主动扫描、被动发现、集成、跨 IT、OT、IoT、云与移动资产、指纹、拓扑、覆盖缺口和资产所有权，并明确 aggregate/correlate/de-dupe 多来源数据以及 SaaS、on-prem、air-gapped 选项；未读取产品文档、价格或部署细节，符合商业条目基本核对范围。",
+    "cyber-risk-quantification / github:1097076620：README 正文支持 FAIR 风险场景、LEF 与损失幅度、Monte Carlo 1,000 至 50,000 次、超越曲线、百分位、LEF 分析、ROSI、保险建议及 JSON/CSV/文本导出；但它是本地 Streamlit 应用，不是厂商托管 SaaS，且 quick-start 的 clone URL 使用 yourusername 占位符，其身份由仓库元数据和 raw README 路径确认。",
+    "dark-web-monitoring / github:1212601275：README 与 Identity Hub、dark-recon 文档支持按租户登记受监控身份、监视泄露语料、paste、公开 GitHub 与 Telegram 频道、将邮箱、用户名和钱包聚合为主身份、按来源广度、深度和时效计算风险、VIP 保护命中优先通知并触发 webhook、以及 Tor 集群加 Ahmia 的 onion 侦察；onion 侧为按需查询，持续监视主要依赖泄露语料与 Telegram 等，未声称域名所有权校验或消费级身份核验。",
+    "所有 open_source 条目均核对到仓库 id、full_name、fork 状态与完整许可证快照；所有条目 runtime_tested=false，未做部署、运行时、价格或架构验证。"
+  ],
+  "leaf_checks": {
+    "vulnerability-management": {
+      "application_ids": [
+        "github:31028375"
+      ],
+      "track": "open_source",
+      "definition_core": "DefectDojo README 正文明确其为开源漏洞管理、DevSecOps、ASPM 工具，编排端到端安全测试、漏洞跟踪、去重、修复和报表；登记册与解决循环核心成立。",
+      "service_form": "Django Web 应用，社区版通过 Docker Compose 自托管；README 另列 Pro 的 SaaS 或自托管选项，社区版边界清楚。",
+      "identity_license": "仓库 id=31028375，full_name=DefectDojo/django-DefectDojo，fork=false；/license 快照为完整 BSD-3-Clause 文本，README 亦标注 BSD 3-Clause License。",
+      "community_boundary": "README 明确 SSO（SAML、OIDC、OAuth、LDAP、MFA）及 Pro 的风险评分、连接器、ServiceNow/GitHub/GitLab/Azure DevOps 集成等为 Pro 能力；摘要未把 Pro 能力计入社区版。",
+      "gaps": "README 未细述 CVE 类知识库刷新、复评关闭和风险排序的具体实现；登记册主要依赖导入扫描结果。未运行应用。",
+      "result": "pass"
+    },
+    "attack-surface-management": {
+      "application_ids": [
+        "github:1002710587"
+      ],
+      "track": "open_source",
+      "definition_core": "OASM README 正文明确其为可自托管的开源 ASM 平台：维护互联网暴露资产清单（域名、IP、端口、服务、技术、URL、TLS 证书），通过分布式扫描发现资产并归一化漏洞，支持资产分组、定时工作流和持续复扫，自外向内发现与持续维护核心成立。",
+      "service_form": "Web 控制台 + NestJS 核心 API + Go worker + 连接器容器；Docker Compose 自托管，属于可持续运行的软件服务形态。",
+      "identity_license": "仓库 id=1002710587，full_name=oasm-platform/open-asm，fork=false；/license 快照为完整 GPL-3.0 文本，README 标注 GNU GPL v3.0。",
+      "community_boundary": "单一开源项目，未见独立社区版与商业版分层或 Pro/EE 边界声明。",
+      "gaps": "README 未说明候选资产人工提升与域名所有权校验的实现细节；未运行应用。homepage 指向 docs.oasm.io 文档站。",
+      "result": "pass"
+    },
+    "cyber-asset-management": {
+      "application_ids": [
+        "commercial:runzero"
+      ],
+      "track": "commercial",
+      "definition_core": "runZero 产品页正文支持跨 IT、OT、IoT、云与移动环境的资产清单，结合主动扫描、被动发现与集成，提供单一事实来源、资产指纹、拓扑、所有权、覆盖缺口，并明确对多工具资产数据 aggregate、correlate、de-dupe，符合 CAASM 的资产集合、环境驱动组装、身份解析和安全决策导向核心。",
+      "service_form": "商业暴露管理与资产清单平台；产品页明确提供 SaaS 与 on-prem 选项，并支持 air-gapped 环境，属于持续使用的商业软件服务。",
+      "identity_license": "条目 track=commercial，homepage=https://www.runzero.com/，官方首页与产品页均确认 runZero 产品身份；无开源许可证主张。",
+      "type_relation": "产品同时以 exposure management 和 total attack surface visibility 营销，但资产清单、去重关联与资产所有权是其正文核心能力，与网络安全管理类型匹配。",
+      "gaps": "仅读取官方营销页面，未读取产品文档或部署细节，未核对价格与架构；商业条目按基本真实性和类型匹配核对，不深入架构。",
+      "result": "pass"
+    },
+    "cyber-risk-quantification": {
+      "application_ids": [
+        "github:1097076620"
+      ],
+      "track": "open_source",
+      "definition_core": "FAIR Risk Analysis Dashboard README 正文明确其为基于 FAIR 的 Web 量化工具：以风险场景为单位，使用 LEF = TEF × Vulnerability 与损失幅度，运行 Monte Carlo 1,000 至 50,000 次，输出分布、超越曲线、百分位、LEF 分析、ROSI 与保险建议，符合概率加权财务敞口核心。",
+      "service_form": "本地 Streamlit Web 应用，默认 localhost:8501，由使用者自行运行；不是厂商托管 SaaS，也不是仅提供公式的 SDK，但属于可交互使用的软件应用形态。",
+      "identity_license": "仓库 id=1097076620，full_name=paolocarner/fair-monte-carlo-risk-analysis，fork=false；/license 快照为完整 MIT 文本，README 标注 MIT。",
+      "community_boundary": "单一开源项目，未见社区版与商业版分层。",
+      "gaps": "README 的 clone 示例和 issue 链接使用 yourusername 占位符，身份由仓库元数据与 raw README 路径确认；未验证控制状态持续遥测或监管披露工作流；未运行应用。",
+      "result": "pass"
+    },
+    "dark-web-monitoring": {
+      "application_ids": [
+        "github:1212601275"
+      ],
+      "track": "open_source",
+      "definition_core": "NASO README 正文明确其为自托管的泄露与暗网暴露监控平台，监视泄露语料、paste、公开 GitHub、Telegram 频道与 onion 服务；Identity Hub 文档说明可将邮箱、用户名、钱包聚合为主身份并按租户登记，dark-recon 文档说明通过 Tor 集群与 Ahmia 执行 onion 侦察，具备监控对象、来源采集、暴露发现与告警结构。",
+      "service_form": "Web UI + FastAPI + Celery worker + RabbitMQ + PostgreSQL + Elasticsearch + MinIO + Tor 集群，Docker Compose 自托管；前端为独立 Vite 应用，按 README 在宿主机启动。",
+      "identity_license": "仓库 id=1212601275，full_name=fabriziosalmi/naso，fork=false；/license 快照为完整 AGPL-3.0 文本，README 标注 GNU AGPL v3.0。",
+      "community_boundary": "单一开源项目，未见社区版与商业版分层；README 已说明 AGPL 的网络服务源码开放义务。",
+      "gaps": "onion 侧为按需 Ahmia 查询，持续监视主要由泄露语料、paste、GitHub 与 Telegram 频道承担；未见域名控制验证这类技术性所有权校验；未验证持续采集调度；未运行应用。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次仅只读审查本单元快照，已按 REVIEW_SOURCES.json 的 path 读取全部 16 个来源文件；未运行 shell、未写文件、未读取其他单元。未部署或运行任何应用，未验证价格、架构、持续采集调度、SSO/权限、CVE 目录刷新、复评关闭、域名所有权校验等运行时行为。GitHub 仓库元数据为单行 JSON，读取工具存在截断，仅核对可见的 id、full_name、fork 与独立 license 快照，未核对 stars、archived 等非关键字段。商业条目仅依据厂商官方营销页，未读取产品文档或部署细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-013/ses_groveopencodegop013review1_1793075708.jsonl",
+  "batch_sha256": "af1a171578876093a2095120ee032beca169907f76b3a2ccc9762932cff85e68",
+  "research_sha256": "4cf32a2dd7865b9eadf1a1d54da7bd9325853f1703ad40d26ebcd1c4104db57c",
+  "input_sha256": "69012021c4ce5fcd856a485f1ec92d9e1ab2f8cb48f50b2f3fc4166c9a273904"
+}

@@ -1,0 +1,34 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "courier-management-platform",
+      "application_id": "github:301974699",
+      "issue": "所给快照只能证明这是分支网络型包裹/快递门户：routes/web.php 中有 courier 资源、manager/staff 的 departure/upcoming、receive、invoice/payment、deliver search 与通知；CourierInfo.php 只有 sender_branch_id、receiver_branch_id、courier_product_infos、payment_receiver_id，没有把订单绑定到具体快递员/司机的字段或路由，也没有现场 proof-of-delivery（签名/照片/条码/时间地点）的捕获路径。该叶定义性核心要求订单分派到运营商自己的快递员队伍，并以送达证明关闭执行记录；当前引用证据不足。research.json 的 note 已记录“独立司机派单/合同费率引擎未见”，但 batch 仍以 case_found 收录。",
+      "fix": "补充 controller/view 或数据模型证据，证明订单可分派给具体 courier/driver 并在送达时捕获 POD；若无法补充，则将该条降级为 partial/no-case，在 leaf_match 中明确只匹配分支网络变体并记录缺口，或移出本叶的完整案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Courierman 的 batch deployment 写“未提供容器化部署”，但 README 有 Docker/Docker Compose 段落，并注明 Not for Production；建议改为“提供开发用 Docker Compose，非生产”。",
+    "Courierman README 的 clone URL 指向 webgeeks-in/courierman，而仓库元数据为 webbywonder/courierman（id 301974699）；仓库身份以元数据为准，README 可能过时。",
+    "GroundStar 的 batch 摘要写“实时任务调整”，引用页更直接支持 planning、scheduling、allocation、analysis 与 disruption recovery；建议按引用页措辞收紧，或补充支持实时调整的来源。",
+    "GroundStar 同时覆盖 Airport Resource Management（stands/gates）与 Ground Handling Resource Management；本单元只把它映射到 ground-handling-management，边界可接受，但应在 leaf_check 中说明其套件范围，避免与 airport-operations-platform 混淆。",
+    "Aerosimple 与 GroundStar 的快照是压缩成单行的 HTML，按行读取时正文被截断；本次在快照中确认了关键术语，并用同 URL 的只读页面核对正文。建议后续快照保存可读文本抽取，便于审计。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 batch/research 已记录 5 个 case；若下游读取 progress，需要同步，否则会出现状态不一致。",
+    "Descartes 页面没有明示 SaaS 租户/部署模式；商业条目按产品页面的类型匹配接受，但 SaaS 形态未直接证实。",
+    "PROS 页面是产品营销页而非技术文档；核心能力来自其正文陈述，未独立验证实际控制下发/集成行为。"
+  ],
+  "leaf_checks": {
+    "airline-revenue-management": "PROS 官方页正文（快照 4333...）明确写 elasticity-driven demand forecasting、按 every departure 做 availability decisions、bid price 与 AU control，并列出与 PSS、Availability engines 的集成；覆盖未来航班→需求预测→库存/可用性控制→销售管道交接。ID commercial:pros-revenue-management，track commercial；页面未见售票/PNR 核心，边界正确。",
+    "airport-operations-platform": "Aerosimple 两页正文（快照 67b4.../c82e...；后者为压缩 HTML，用同 URL 页面核对）写 Flight & Gate Operations、AODB、Resource Allocation & Planning（staff/equipment/infrastructure to flights，conflict detection）、实时 gate/stand allocation、configurable rules、alerts、audit trail；FIDS 为下游集成。覆盖机场侧航班图像→资源→分配→运行日循环。ID commercial:aerosimple-airport-operations，track commercial，cloud-based。",
+    "ground-handling-management": "INFORM GroundStar 页面（快照 e30c...；压缩 HTML，用同 URL 页面核对）写 complete solution for airports, airlines, ground handlers；Ground Handling Resource Management 支持 ground staff 与 equipment 的 planning、scheduling、allocation、analysis；另有 turnaround/disruption 能力；on-premise 或 cloud。ID commercial:inform-groundstar，track commercial。套件也覆盖机场资源管理，ground-handling 映射以其 Ground Handling Resource Management 模块为依据；服务记录/收费未在引用页逐项展开。",
+    "courier-management-platform": "Courierman 快照：README 为 Laravel 应用并标注 unmaintained；routes/web.php 有 courier 资源、departure/upcoming、receive、invoice/payment、deliver search/notification、cash collection、branch income；CourierInfo.php 有 sender/receiver branch、courier_product_infos、payment_receiver。可证分支网络型订单/交接/查询/开票收款，但未见司机级派单与现场 POD，未达到该叶定义性核心的完整要求；见 findings。许可证快照为 MPL-2.0 全文（size 16725），仓库 id 301974699/full_name 匹配，单仓库无社区版/商业版边界问题。",
+    "delivery-scheduling-platform": "Descartes 官方页正文（快照 1655...）写 Delivery Scheduling Software、delivery slots、true capacity、only show achievable slots、order cutoff、customer books delivery slot、continuous optimization；面向 retailers/distributors，覆盖可承诺时段→容量/截止规则→客户预约→持续优化。ID commercial:descartes-delivery-appointment-scheduling，track commercial；页面未明示 SaaS 租户模式。"
+  },
+  "limits": "只读审查；未运行应用、未登录、未做部署/价格/架构测试，未读取其他单元，未写文件或运行 shell。Aerosimple 与 GroundStar 的快照是压缩单行 HTML，read 工具按行截断至 2000 字符；我按 REVIEW_SOURCES.json 的 path 原样读取并在快照中确认关键术语，同时用相同 URL 的只读网页正文交叉核对，可能与快照抓取时点存在差异。Courierman 只核对了 README、routes/web.php、CourierInfo.php、license 与 repository 元数据快照，未读取 controllers/views，因此司机级派单、POD 和完整状态流转无法从所给证据确认。商业产品的 SaaS 租户/定价/部署细节未核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-177/ses_groveopencodegop177review1_1793019800.jsonl",
+  "batch_sha256": "7da547e374e5dc4e7941b36d6ecaaab611361767916d6a051d607c4c5e4e9901",
+  "research_sha256": "4d6da68dfa367492b98253c508ea01dc32227ab4f94a57fc3833b8e49f90c58a",
+  "input_sha256": "dc3d59f46f75a2e10ce81413513f4918dda4e74af686ab39778e4ce3bdcb7a91"
+}

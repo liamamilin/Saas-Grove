@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "MyEMS 的 LICENSE 快照为 MIT 正文，并附有“不得移除或修改 MyEMS LOGO 或版权信息”的附加条件；GitHub license API 返回 NOASSERTION，research.json 也有记录。条目 summary 与 license_review 已如实披露该条件，因此不阻断。结构化字段 license 与 spdx_id 仍简写为 MIT，建议改为“MIT with additional terms”，或保留 NOASSERTION 并附说明，避免下游把该社区版当作纯 SPDX MIT。",
+    "MyEMS 社区版官方页还列出环境监测、配电系统、AI 分析、RESTful API 等能力，条目 features 只是选择性列举，未逐项覆盖；这不影响核心匹配，最终展示时保持“社区版能力摘要”而非穷举措辞即可。",
+    "Gordian 的 BCA 交付混合了供应商现场评估服务与 Gordian Cloud Platform/Asset Capture 软件；条目已把范围限定为软件/平台能力，符合本叶定义中“评估服务属于外围能力”的边界。",
+    "Facilio 的来源是预防性维护模块页，建筑/场地层级主要由资产位置、物业组合和 property operations 语境推得，未见独立的楼层/房间数据模型页；按商业条目“基本真实性与类型匹配”可通过，若后续有建筑级产品页可加强证据。",
+    "Condo Control 的来源是住户端 amenity booking 模块页，封闭住户群体由公寓/HOA 住户门户语境推得，页面未单独展开租户/成员资格模型；不影响商业基本匹配。"
+  ],
+  "leaf_checks": {
+    "building-condition-assessment": {
+      "status": "pass",
+      "application_id": "commercial:gordian-assessments-capital-planning",
+      "basis": "Gordian 官方产品页正文确认 FCA、FCA+、Modeled Assessment、Self-Assessment 四种评估路径；Asset Capture 现场采集照片和资产信息并关联 RSMeans；FAQ 明确采集建筑系统、资产年龄、观察到的缺陷、状况评级、剩余使用寿命和修复/更换成本，并汇总为多年资本计划。覆盖“评估的建筑元素—结构化状况观察—状况到成本/资本计划”核心，且是 Gordian Cloud Platform 上的软件/平台产品。",
+      "gaps": "只有单一厂商页面；未做登录或部署测试（runtime_tested=false）；未独立核验 FCI 等具体指数实现。research 已记录开源检索无合格候选（0 条 websearch、GitHub 仅有少量无许可证教学/空项目），开源缺口留档完整。"
+    },
+    "building-energy-management": {
+      "status": "pass",
+      "application_id": "github:240169434",
+      "basis": "README 说明 MyEMS 面向建筑、工厂、商场、医院、园区采集、分析并报告电/水/气/冷/热等能耗与碳排；社区版官方页列出 Space/Meter/Equipment/Tenant 台账、在线与离线仪表、同比/环比/自由对比、能耗/成本/碳排报表、看板、Tenant Bill、Excel 导出；LICENSE 快照为 MIT 正文并附 LOGO/版权保留条件；README 明确光伏、储能、充电桩、微电网、设备控制等为企业版可选功能，条目未计入。仓库元数据确认 MyEMS/myems、id 240169434、非 fork。",
+      "gaps": "GitHub 仓库元数据与社区版表格均为单行 HTML/JSON，读取器按行截断，只能核对前段和定向检索命中的内容；未部署测试；未逐行核验企业版与社区版的代码边界。OpenEMS 已从本叶移除并留档，其历史快照不在 REVIEW_SOURCES.json 中，未复核。"
+    },
+    "amenity-booking-platform": {
+      "status": "pass",
+      "application_id": "commercial:condo-control",
+      "basis": "Condo Control 官方 Amenity Booking 页正文确认：运营者创建并定制设施页面，限制可约时长和频率；住户在线支付设施费用与押金并同意条款；管理员收到请求后批准或拒绝并邮件通知；住户可用移动 app 预约和支付；页面定位为公寓/HOA 住户门户模块。覆盖运营者设施清单—封闭住户—时间窗预约—楼宇侧审批控制核心。",
+      "gaps": "只有单一厂商模块页；未测试实际预约冲突和可用性实现。research 已记录 GitHub 仅有学生或酒店类项目，未采用，开源缺口留档。"
+    },
+    "building-maintenance-management": {
+      "status": "pass",
+      "application_id": "commercial:facilio",
+      "basis": "Facilio 官方预防性维护页正文确认：按资产类别、位置、优先级、关键性配置 PPM；按时间、用量或状况触发；自动生成并分派工单；技术人员移动端查看检查清单和资产历史；供应商分派；跨物业组合；FAQ 还列出工单管理、资产跟踪、反应性维护。覆盖设备/资产—纠正与预防工单—持久历史核心，建筑/物业语境明确。",
+      "gaps": "来源是 PPM 模块页，并非完整的建筑维护数据模型页；未测试。research 已记录 Atlas CMMS 为跨行业通用 CMMS、未形成建筑设备绑定，OpenMAINT 未找到官方仓库，未采用，缺口留档。"
+    },
+    "construction-equipment-management": {
+      "status": "pass",
+      "application_id": "commercial:tenna",
+      "basis": "Tenna 官方施工设备管理页正文确认：面向承包商混合车队（自有/租赁、重型机械、道路车辆、小工具）；可搜索的设备数据库记录位置、工地分配、工作历史、成本、工时和附件；利用率数据识别闲置或低利用率设备；调度与工地间调拨；预防性维护、工单、检查、机修工时与成本跟踪。覆盖设备台账—运行状态—作业分配核心。",
+      "gaps": "只有单一厂商页面；未测试遥测和调度实现。research 已记录 GitHub 多为学生项目、目标检测或数据集，无可自托管完整应用，未采用，缺口留档。"
+    }
+  },
+  "limits": "只读审查，未部署、登录或运行任何产品（各条目 runtime_tested 均为 false）；未使用 shell 计算 sha256，快照完整性以 REVIEW_SOURCES.json 的 path、文件名与文件内容一致性为准；部分快照为单行 HTML/JSON，读取器按行截断至 2000 字符，GitHub 仓库元数据后段和社区版大表格无法逐字展开，关键事实通过定向检索以及同一公开页面的只读文本辅助确认；未复核未列入 REVIEW_SOURCES 的 OpenEMS 历史快照（该候选已从本叶移除，仅保留研究留档）；未做价格、架构、部署或服务交付研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-170/ses_groveopencodegop170review2_1793018779.jsonl",
+  "batch_sha256": "099a57e3be226b2218232c32e043600427e78cfb3880740dc53ebcdc6916d942",
+  "research_sha256": "bf1956ed49b51ac50c3297f73bacda5d153c1f737b2e555dd5c2cd8037a8149a",
+  "input_sha256": "a44ad13b28dab01fbc530639939276fa254724506f75eddaf41588254c63a586"
+}

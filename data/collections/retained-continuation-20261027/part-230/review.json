@@ -1,0 +1,78 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "government-service-portal",
+      "application_id": "commercial:granicus-govservice",
+      "note": "官方产品页正文能证明在线表单、工作流、案件管理、客户门户、居民提交请求、单一记录系统与状态跟踪；但“all online services”“one-stop shop”属厂商概括性表述，快照未展示具体跨机构服务目录、支付或身份验证，宜按商业基本类型匹配理解，不宜扩写为完整跨机构前台能力。"
+    },
+    {
+      "slug": "land-records-cadastre-system",
+      "application_id": "commercial:tyler-enterprise-records-management",
+      "note": "两份 Tyler 快照能证明土地/官方文书记录、索引、影像、电子提交接受或拒绝、公众检索与副本购买，但均未出现 parcel、plat 或 legal description；当前仅按土地文书记录生命周期匹配，未断言宗地/地籍模块。若后续要求严格以 parcel 为核心，应补充官方证据或降级该关系。"
+    },
+    {
+      "slug": "government-transparency-portal",
+      "note": "research.json 对 OpenSpending 的第三方发布者属性与 AGPL-3.0 判断有记录，但 REVIEW_SOURCES.json 未列其 repository/license/README 快照，无法按清单独立复核；openspending.org 抓取为 308。该叶未建立 batch 关系，缺口已如实留档，不阻断本次内容审查。"
+    },
+    {
+      "slug": "petition-public-comment-platform",
+      "note": "Pytition 与 EngagementHQ 候选快照未列入 REVIEW_SOURCES.json；research.json 已说明 Pytition 缺少机构处置闭环、EngagementHQ 为演示页且未见公开回应留存。该叶无 batch entry，按边界未决留档处理，不阻断。"
+    },
+    {
+      "slug": "permit-management",
+      "application_id": "commercial:tyler-enterprise-permitting-licensing",
+      "note": "官方快照为套件级介绍，能证明许可签发/审批工作流、在线申请、并发审查、eReviews、状态跟踪和 24/7 门户；许可条件、有效期、签发后许可记录留存未展开，且未明确 SaaS/云交付。条目已按许可审批收窄，未作强断言。"
+    },
+    {
+      "slug": "government-service-portal",
+      "application_id": "commercial:granicus-govservice",
+      "note": "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致；本次以 batch 与 research 为内容依据，建议后续同步元数据。"
+    }
+  ],
+  "leaf_checks": {
+    "government-service-portal": {
+      "status": "matched_commercial",
+      "application_ids": [
+        "commercial:granicus-govservice"
+      ],
+      "basis": "读取 REVIEW_SOURCES 所列 Granicus govService 官方产品页快照；正文明确其面向地方政府提供在线表单、工作流、案件管理，客户门户覆盖 all online services/one-stop shop，居民可在线提交请求并保持知情，后台以单一记录系统跟踪请求，且为 web-based 产品。与“服务聚合入口 + 居民发起服务交易”的基本类型相符。",
+      "gaps": "快照未展示具体跨机构服务目录、支付、身份验证或 311/许可模块；all online services/one-stop shop 为厂商自述，未作独立验证。开源检索仅有政府网站前端/内容管理发行版或归档且许可不明的候选，未纳入。"
+    },
+    "government-transparency-portal": {
+      "status": "no_case_boundary_unresolved",
+      "application_ids": [],
+      "basis": "research.json 记录 OpenSpending 是第三方政府财政数据汇集、探索与可视化平台，README/仓库未证明某政府以自身名义部署并主动发布自身行为记录，故从 batch 移除、未建立类型关系。符合“政府自身为发布者”的核心边界判断。",
+      "gaps": "REVIEW_SOURCES.json 未列 OpenSpending 的 repository、license、README 快照，无法按清单独立复核仓库身份与 AGPL-3.0 许可证；openspending.org 抓取返回 308，未实时复核；本叶无 batch entry。检索与抓取缺口已如实留档。"
+    },
+    "petition-public-comment-platform": {
+      "status": "no_case_boundary_unresolved",
+      "application_ids": [],
+      "basis": "research.json 记录 Pytition 覆盖请愿创建、发布、署名收集和 CSV 导出，但 README 未见机构处置或公开回应闭环；EngagementHQ 演示页展示发起、审核、署名和阈值后回应/辩论流程，但未见机构回应正文在活动记录中公开留存；Decidim、Consul Democracy 属多机制公民参与平台，按叶子边界排除。",
+      "gaps": "本叶无 batch entry；Pytition README 与 EngagementHQ 演示页快照未列入 REVIEW_SOURCES.json，本次无法按清单独立复核，仅能依据 research.json 的留档判断边界未决。"
+    },
+    "land-records-cadastre-system": {
+      "status": "matched_commercial",
+      "application_ids": [
+        "commercial:tyler-enterprise-records-management"
+      ],
+      "basis": "读取两份 Tyler Enterprise Records Management 官方快照；正文明确其面向县记录办公室/recorder 的 land and official records software，支持土地与官方文书的记录/归档、索引、影像、电子提交接受或拒绝、公众检索/下载/购买副本、redaction，并明确提供 SaaS/cloud 方案。与“文书 + 官方记录生命周期”基本相符。",
+      "gaps": "两份快照均未出现 parcel、plat 或 legal description，宗地/地块绑定未直接取证；未证明 cadastre/GIS 模块。当前仅按土地文书记录生命周期作基本类型匹配，条目已保留该缺口，不应扩写为完整地籍系统。"
+    },
+    "permit-management": {
+      "status": "matched_commercial",
+      "application_ids": [
+        "commercial:tyler-enterprise-permitting-licensing"
+      ],
+      "basis": "读取 Tyler Enterprise Permitting & Licensing 官方快照；正文明确 permit issuance/regulatory approval 工作流、在线申请提交、并发审查、eReviews/在线图纸提交、状态跟踪、24/7 门户、付款及单一事实来源；检查、执法、执照属相邻模块，batch 已明确按许可审批收窄。",
+      "gaps": "快照为套件级介绍，未展开许可条件、有效期、签发后许可记录留存等细节；未明确 SaaS/云交付；未运行产品。按商业基本真实性与类型匹配通过，未作超出快照的强断言。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行、部署或测试任何产品；未重算快照 sha256；仅按 REVIEW_SOURCES.json 列出的 4 个快照核对，未读取或独立复核 OpenSpending、Pytition、EngagementHQ 的候选快照（未列入清单）；未实时访问 openspending.org（research 记录 HTTP 308）；未核验商业产品定价、合同、客户案例、部署架构或 SLA；未独立验证 Granicus 的跨机构服务目录、支付和身份能力；Tyler 的许可条件、签发后许可留存及 SaaS 交付细节未展开。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-230/ses_groveopencodegop230review2_1793033319.jsonl",
+  "batch_sha256": "d3a82aace2a4c75ffa9b1f1b340fd1e6844ad74501eaed08b16df06df2fef1a9",
+  "research_sha256": "2c11c890b2a1a511ee15edfd35df01cdfe95336ecf5c525bf98feef69518a108",
+  "input_sha256": "beaa4ee160b2fe0f50dcd452cf2c52bc51f6ea9f09a9e9194c9f8d2ed91a7cce"
+}

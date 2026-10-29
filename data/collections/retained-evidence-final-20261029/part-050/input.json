@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 5,
+  "offset": 100,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "rendering-management-application",
+        "name_zh": "渲染管理应用",
+        "domain_id": "04",
+        "parent_id": "04.14",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-005/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "开源 渲染农场管理 render farm queue 调度 帧 任务"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/111",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "开源 渲染农场管理 render farm queue 调度 帧 任务"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "rendering-management-application",
+        "name": "Rendering Management Application",
+        "name_zh": "渲染管理应用",
+        "aliases_zh": [
+          "渲染农场管理系统",
+          "渲染调度软件",
+          "集群渲染管理平台"
+        ],
+        "overview": "A **Rendering Management Application** is the logistics system for render workloads. It takes render jobs submitted from content-creation tools, holds them in a queue, schedules their frame-level work onto a pool of render machines, tracks every unit of work to completion, handles failures, and delivers the finished frames back to shared storage. The category is commonly known in the industry as a *render farm manager* or *render management system*.\n\nIts defining core is small:\n\n```text\nRender job (the managed unit of record)\n└── decomposed into frame-level executable units\n    └── scheduled onto the render capacity estate\n        (machines held as schedulable slots, grouped and qualified)\n        └── dispatch-and-track loop\n            (match → dispatch → track state → handle failure → close job)\n```\n\nThe application itself does not compute images. The rendering is done by rendering applications and the studios' 3D/compositing software, which the manager launches on worker machines — vendors ship the two as separate products with separate documentation. When the primary job shifts to computing the images themselves, the product is a 3D Rendering Application; when it shifts to authoring the materials those images use, a Texture/Material Authoring Application; when the \"jobs\" are software builds from source control rather than render workloads, a Continuous Integration Platform.",
+        "overview_zh": "一个**渲染管理应用程序**是渲染工作负载的物流系统。它接收来自内容创作工具提交的渲染任务，将其置于队列中，将帧级别的工作调度到一组渲染机器上，跟踪每个工作单元直至完成，处理故障，并将完成的帧交付回共享存储。该类别在行业中通常被称为*渲染农场管理器*或*渲染管理系统*。\n\n其定义性的核心很小：\n\n```text\n渲染任务（被管理的记录单元）\n└── 分解为帧级别的可执行单元\n     └── 调度到渲染容量资源池\n         （机器作为可调度槽位持有，进行分组和资格认证）\n         └── 分发与跟踪循环\n             （匹配 → 分发 → 跟踪状态 → 处理故障 → 关闭任务）\n```\n\n应用程序本身不计算图像。渲染由渲染应用程序和工作室的3D/合成软件完成，管理器在 worker 机器上启动这些软件——供应商将这两者作为独立产品并提供独立文档进行发布。当主要任务转向计算图像本身时，该产品即为3D渲染应用程序；当任务转向创作这些图像所使用的材质时，即为纹理/材质创作应用程序；当“任务”是来自版本控制的软件构建而非渲染工作负载时，即为持续集成平台。",
+        "dc": "**The render job.** The unit of record is a persistent, identified job: what to run (a scene file or a command, together with the application that will execute it), over what span (a frame range or a parameterized task set), writing its output where, submitted by whom, at what priority. A job lives through a lifecycle — submitted, queued, executing, completed, failed, canceled — and accumulates its execution history (statuses, logs). Without the job as a managed record there is no management, only a row of machines.\n\n**Decomposition into executable units.** A job is not dispatched as one lump. It is decomposed into small units — typically one per frame, sometimes chunks of frames or parameterized tasks — each of which can run independently on any suitable machine. This decomposition is what makes a render farm work: three hundred frames can render in parallel across three hundred slots, and one failed frame can be retried without redoing the other two hundred ninety-nine.\n\n**The render capacity estate.** The machines are held as schedulable capacity. Each machine offers one or more execution slots; machines are grouped (pools, fleets, allocations, client groups) and qualified (tags, memory or GPU requirements, installed software, location) so that jobs can be matched to machines that can actually run them. The estate commonly mixes dedicated farm hardware with artist workstations and cloud instances.\n\n**The dispatch-and-track loop.** A scheduler continuously matches pending job units to available slots under priority and policy, dispatches them, tracks each unit's state, captures its logs, handles failures (retry, requeue, kill), and closes the job when all of its units have completed. This loop is the application's central act; without it, a job list and a machine list are just two disconnected tables.\n\n**The binding: content-production compute.** The workloads being managed are rendering jobs at the center — with compositing, simulation, transcoding, and similar command-driven content-production work as the standard extension — arriving from content-creation tools. The same scheduling skeleton, pointed at arbitrary batch computing with no DCC integration, frame anatomy, or render licensing, is a different software world (generic batch/HPC scheduling).",
+        "dc_zh": "**渲染任务。** 记录单元是一个持久化、有唯一标识的任务：包含执行内容（场景文件或命令连同将要执行它的应用程序）、执行跨度（帧范围或参数化任务集）、输出位置、提交者及优先级。任务经历完整的生命周期——提交、排队、执行中、完成、失败、取消——并累积其执行历史（状态、日志）。没有作为受管记录的任务，就不存在管理，只是一排机器。\n\n**分解为可执行单元。** 任务不会作为整体被分派，而是被分解为小单元——通常每个单元对应一帧，有时是帧块或参数化任务——每个单元都可以在任意合适的机器上独立运行。这种分解机制使渲染农场得以运作：三百帧可以并行渲染于三百个槽位中，而一帧失败时可单独重试，无需重新渲染其他二百九十九帧。\n\n**渲染计算资源池。** 机器被视为可调度的计算资源。每台机器提供一个或多个执行槽位；机器按组划分（池、集群、分配组、客户端组）并按属性标记（标签、内存或GPU需求、已安装软件、物理位置），以便任务能匹配到可以实际执行它们的机器。资源池通常混合了专用农场硬件与艺术家工作站。",
+        "rules": "### The manager launches renderers; it does not render\n\nThe defining division of labor: the manager decides *where and when*, the rendering application decides *how the pixels are made*. This is why the same manager can drive many different renderers and why vendors ship farm managers as separate products from their renderers.\n\n### A job that cannot run waits visibly — it does not fail silently\n\nIf no machine satisfies a job's requirements, or a render license is unavailable, the job (or its units) stays in a waiting state, and the reason is surfaced — in the queue, or as an error in the unit's log. \"Queued for lack of a suitable machine\" is a normal, observable state, not an exception.\n\n### Unit state aggregates upward\n\nJob and sub-part statuses are derived from the state of their units: one running frame keeps the job \"running\"; one failed frame makes the job \"failed\" even while its siblings continue. This is why unit-level retry is the standard repair path — fixing one frame does not disturb the others.\n\n### Shared storage is a precondition\n\nEvery machine that executes work must be able to read the scene and write the frames. Self-hosted products state this as an installation requirement; managed-cloud products replace it with file transfer into their own storage. A job whose files are unreachable fails on the worker, with the failure visible in its log.\n\n### Workstation capacity belongs to its owner\n\nWhere artist workstations join the farm, the workstation's user controls when it may be used: rendering yields when the owner needs the machine — commonly automatically on user activity — and the owner can lock the machine explicitly or on a schedule. Jobs may be marked exempt from this courtesy for critical renders. A workstation's owner never loses the ability to evict render work from their own machine.\n\n### Priority is relative, not absolute\n\nPriority orders the queue; it does not guarantee resources. Per-user and per-project limits, license counts, and machine pools all modulate what a high priority actually obtains — which is why wrangler intervention (moving capacity between jobs) exists alongside priority as a control.\n\n### Failure is expected and designed for\n\nFrames fail: scenes crash, machines die, disks fill. The standard responses are unit-level retry, requeue after a fix, holding back machines that error repeatedly, and keeping logs close to every unit so the cause is findable. A farm manager that could not retry a single failed frame without re-rendering the job would not be usable.",
+        "rules_zh": "### 管理器启动渲染器；它本身不渲染\n\n定义性的分工：管理器决定*在哪里和何时*，渲染应用程序决定*像素如何生成*。这就是为什么同一个管理器可以驱动许多不同的渲染器，以及为什么供应商将农场管理器作为与其渲染器分离的产品发布。\n\n### 无法运行的任务可见地等待——它不会静默失败\n\n如果没有机器满足任务的需求，或者渲染许可证不可用，任务（或其单元）将保持在等待状态，并且原因会被呈现——在队列中，或作为单元日志中的错误。“因缺乏合适机器而排队”是一种正常的、可观察的状态，而不是异常。\n\n### 单元状态向上聚合\n\n任务和子部分的状态由其单元的状态推导：一个正在运行的帧使任务保持“运行中”；一个失败的帧使任务变为“失败”，即使其同级单元继续运行。这就是为什么单元级别的重试是标准的修复路径——修复一个帧不会干扰其他帧。\n\n### 共享存储是先决条件\n\n每台执行工作的机器都必须能够读取场景并写入帧。自托管产品将此作为安装要求陈述；托管云产品将其替换为文件传输到其自身存储。文件不可达的任务将在 worker 上失败，且失败在其日志中可见。\n\n### 工作站容量属于其所有者\n\n当艺术家工作站加入农场时，工作站的用户控制何时可以使用它：当所有者需要机器时渲染会让出——通常在用户活动时自动进行——并且所有者可以显式或按计划锁定机器。任务可以被标记为豁免此礼貌行为，用于关键渲染。工作站的所有者永远不会失去驱逐",
+        "parent_id": "04.14",
+        "domain_id": "04"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 50,
+    "phase": "directory",
+    "parent": 50,
+    "slugs": [
+      "rendering-management-application"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "be3a9af4b13a69f26a54310c3b69c8be1ed03e4c88b82ee8615470abedf4afc1"
+  }
+}

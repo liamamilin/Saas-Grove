@@ -1,0 +1,31 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空数组，但 data/collections/sources/ 下实际存在 15 个以 SHA-256 命名的快照。本次核对是依据 research.json 的 fetch_outcomes 中记录的 sha256 值，逐一对应到同名文件后读取的，因此核对可以完成；建议后续把每个快照的相对路径登记到 REVIEW_SOURCES.json，避免只能靠哈希值在目录中反查。",
+    "Jami 的接听证据引文“The participant clicks the Accept call button”出现在 FAQ 的群组会议步骤（Add participant）语境中，而不是一对一呼叫段落；记录把它用作“具备接听语义”的依据，可以成立。若以后要把 Jami 作为边界案例详细核对，建议追加 calls 类正文页；记录已如实记载 docs.jami.net/en_US/user/calls.html 返回 404。",
+    "Jami 官网与文档导航已出现“Jami for Web”及 2026-09 的 Jami Web 预览文章，而记录把它的形态概括为“桌面/移动客户端、完全 P2P”。这不改变它“没有供客户自建自运营的完整应用服务”的判断；但相关描述可以更新为“含 Web 预览客户端”。",
+    "MiroTalk、OpenVidu Meet、plugNmeet 只凭检索结果与项目简介就判定为房间/链接式会议，未取正文；记录已明确“未进一步取正文，未作为证据”，不影响本叶结论；如果后续本叶出现候选，建议至少抓取一个项目的一手页面再作排除。",
+    "Discord“Group Chat and Calls”快照（ed46527…）在 fetch_outcomes 中没有单独条目，仅在 note 里被点名复核；建议补一条 reviewed_existing_snapshot 记录（含该快照中的 incoming/outgoing call sounds 只涉及提示音设置、不构成生命周期证据）。",
+    "search_attempts 中 nextcloud-talk.readthedocs.io/en/latest/constants/ 作为结果 URL 出现，但未抓取也未列入 source_urls；属于检索轨迹，不影响结论。"
+  ],
+  "leaf_checks": {
+    "video-calling-application": {
+      "definition_core": "逐条对照本叶三条定义性核心：①个人定向呼叫并由被叫应答（而非加入）；②以视频为媒介的实时音视频连接；③有界呼叫生命周期，且呼叫之外无持久共享空间。记录对每个候选都按这三条结构判断，没有用简介或导航替代核心正文。",
+      "batch_and_research_state": "data/collections/batch.json entries 为空；data/collections/research.json 中本叶 assessment=insufficient_evidence、case_ids=[]、archived=false，与 input.json 的 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases 一致。",
+      "nextcloud_talk_exclusion_verified": "实际读取 7101912d…（call.html）：移动端“If someone else starts a call, you may receive a notification and your device may ring or vibrate… Tap Phone or Video to join, or tap the red button to decline. Declining dismisses the call notification on that device”；f87c27f0…（conversations.html）：“Chats and calls take place in conversations.”“You can extend an ongoing call to a new group conversation… Call will be continued there without interruption.”；80aee7b9…（docs/call.md）：POST /call/{token} 为 Join a call，POST /call/{token}/ring/{attendeeId} 在“When the room has no call in process”时返回 400，DELETE /call/{token} 为“Leave a call (but staying in the conversation for future calls and chat)”；d8e0e6f7…（README）自述“A video & audio conferencing app for Nextcloud”；14198e91…（nextcloud.com/talk）标题“Calls, chat and video conferencing”、正文“The chat, which remains open even when the user leaves a call”。据此，剔除 github:67111446 与核心第 1 项（answered 与 join/通知）及第 3 项（存在持久会话）结构性冲突，且产品身份为会议/协作平台，判断有正文支撑。",
+      "license_and_repo_identity": "仅用于边界核验：fc744c6a…（GitHub 仓库元数据）id=67111446、full_name=nextcloud/spreed、fork=false；ce5db1f2…（license API）为完整 COPYING（34520 字节 base64，正文开头为“GNU AFFERO GENERAL PUBLIC LICENSE Version 3”），与 AGPL-3.0 一致。因该候选已被剔除，许可证与社区版边界不作为收录条件，仅说明记录没有靠元数据冒充正文。",
+      "jami_boundary": "实际读取 1ebd4ea0…（docs.jami.net FAQ）确有“The participant clicks the Accept call button”及“Jami is a GPLv3+ project”；12526052…（jami.net）有“Jami is completely peer-to-peer and doesn't require a server for relaying data between users”“licensed under GNU GPLv3 or later”。行为上满足个人定向接听，但形态为 P2P 客户端（另有 Jami for servers 无头 daemon、JAMS 账号管理服务器），不是供客户部署运营的完整应用服务；剔除理由成立，且记录自述未取得其仓库/许可证快照，已如实留档。",
+      "consumer_and_failed_candidates": "复读 4fa32421…（Discord Video Calls）：仅 Start Video Call 与 Turn on/off Camera、频道加入，未证明响铃、接听/拒接、挂断；ed465272…（Group Chat and Calls）仅有 incoming/outgoing call sounds 提示音设置。d53eaa61…（Signal Voice or Video Calling）有“Here's how to start an encrypted one-to-one voice or video call”，b884db12…有 Call states / No Answer，488b4f94…为桌面快捷键；三者均为历史复用，形态为消费级加密通讯服务，维持不收录。Apple FaceTime（404）与 WhatsApp（JS 壳、无可读步骤）抓取失败均已记录，未当作证据。",
+      "id_track": "本叶无成立案例，application_ids、case_ids 为空，因此没有可核对的 application_id 或 track 归属；withheld_candidates 的 github:67111446、jami、commercial:signal、commercial:discord 均保留来源与剔除理由，未出现仅凭 id 冒充已收录的情况。",
+      "gap_record_quality": "research.json 记录了 6 条 2026-10-28 新检索（含 status、result_urls、result_note）、3 条 2026-10-24 历史复用检索、逐条 fetch_outcomes（含 3 处 404/JS 壳失败说明）、runtime_tested:false 与 historical_reuse 声明，区分了“未找到”与“不存在”。符合“没有案例但真实记录检索、抓取与缺口，可以留档通过”的要求。",
+      "conclusion": "本叶在本单元无可确认案例；关键排除结论均由实际读取的一手正文支撑，未发现需要修复的事实、许可、核心匹配或来源问题，初审通过。"
+    }
+  },
+  "limits": "仅使用只读工具，未运行 shell、未写文件、未访问其他单元；REVIEW_SOURCES.json 的 sources 为空，只能按 research.json 的 sha256 对应到 data/collections/sources/ 下的同名快照来读取；部分 HTML/JSON 单行超过读取截断长度（如 GitHub 仓库 JSON 与 Signal Zendesk JSON），仓库 spdx_id 字段未能逐字确认，AGPL-3.0 结论由 license API 返回的完整 COPYING 正文支撑；未复检抓取时间戳与线上页面现状，也未做部署或运行测试；Jami 无仓库/许可证快照，其许可证仅据官网正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-005/ses_groveopendesignp005review2_1793150329.jsonl",
+  "batch_sha256": "ddf7c49c092883728f6a4facb83c556d19f850a6e1ae4ef5b7f4c71c36edf40d",
+  "research_sha256": "0c436dc14835be00ed5a18e5904fb60a89668475bab82e6854ed82768c9d7fcc",
+  "input_sha256": "095e8bd040babccf77620d6170ddd54be2ef0343d6524f45cd3ea5b405175e3b"
+}

@@ -1,0 +1,41 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "convention-exhibition-management",
+      "application_id": "github:1385556982",
+      "issue": "该条被列为会展管理案例，但现有证据只支持一个展位销售插件。`e99fdc...` 的 Expo Map 自定义文章类型仅 `supports=['title']`，元数据只有平面图 ID 与展位 JSON，没有日期、场馆、届次等 show/edition 字段，也没有独立参展商实体；`b7bab5...` 只证明每展位绑定一个 WooCommerce 商品、临时预留、结账保存姓名/邮箱。本叶定义核心要求 show → 参展商群体 → 可售展厅平面库存 → 空间分配/合同支付的耦合，batch 的 `leaf_matches` 也自述不覆盖 show/edition 与参展商群体层、不主张完整定义核心；其“按本单元允许的自托管完整业务子模块范围收录”在 `input.json` 或定义中没有对应规则。因此这是把组件级展位销售工具当成完整会展管理应用，类型不匹配。",
+      "fix": "删除 `batch.json` 中该应用对 `convention-exhibition-management` 的 `leaf_matches`，不将 `github:1385556982` 计为本叶案例；保留为候选/负面记录。若确需收录组件，应使用明确的组件级类型和规则，不能借用本叶的应用类型。"
+    },
+    {
+      "slug": "convention-exhibition-management",
+      "application_id": "github:1385556982",
+      "issue": "`research.json` 将该叶标为 `assessment='case_found'` 并把 `github:1385556982` 放入 `case_ids`，但 `input.json` 的 `case_status` 是 `boundary_unresolved`、`application_ids` 为空，batch 条目也自述是“组件级”“不等于完整会展管理套件”。三处状态不一致，且 `case_found` 高于证据支持。",
+      "fix": "将 `research.json` 的 `assessment` 改为 `boundary_unresolved`（或 candidate），同步清除或迁移 `case_ids`；保持 `input.json` 的 `boundary_unresolved` 和空 `application_ids`，或在 batch 中明确只作为候选。三处状态需一致。"
+    }
+  ],
+  "non_blocking_notes": [
+    "features 中“展位商品库存为 1”是 README 的建品步骤（每个展位建一个库存为 1 的 WooCommerce Simple product），不是插件强制的不变量；建议改为“按文档将商品库存设为 1”，避免读者误以为插件自动保证库存唯一。",
+    "WooCommerce 购物车、结账和临时预留的具体实现未在本单元快照中；相关功能仅据 README，未做运行时验证，这与 `runtime_tested=false` 一致，但不宜表述为代码已验证。",
+    "README 的 WordPress.org 安装路径写的是“Booth Booking”，而 research 记录的目录结果为“Expo Booth Booking”（brandjaws）；batch 未把 WordPress.org 作为身份来源，身份仍以 GitHub 仓库页的 repository_id 1385556982、非 fork 为准，建议保留这一区分。",
+    "research.json 对 eventyay-exhibition、Visual-Hive 等候选的负面结论没有本单元快照，已按留档缺口处理，未作为本叶判断依据；后续如要复用这些结论，应补充快照。",
+    "`license_evidence_url` 指向 GPLv2 LICENSE 文本，`GPL-2.0-or-later` 的 or-later 依据在 README 和仓库页的“GPLv2 or later”声明；建议在许可证证据中同时引用该声明，便于追溯。",
+    "本单元四个引用快照均可读，README、LICENSE 与 CPT 代码属于正文而非简介/元数据；仓库页是动态 HTML，含大量导航内容，核心判断应以 README 和 CPT 代码为准。"
+  ],
+  "leaf_checks": {
+    "convention-exhibition-management": {
+      "definition_core": "未满足。input.json 定义要求 show（有名称、日期、场馆，通常按届次重复）→ 参展商群体 → 可售展厅平面库存 → 空间分配/合同支付的耦合。`e99fdc...` 的 Expo Map CPT 仅 `supports=['title']`，meta 仅 `_hasnat_bb_map_image_id` 与 `_hasnat_bb_booths_json`；`b7bab5...` 只证明展位图、WooCommerce 商品、临时预留和结账保存姓名/邮箱；无日期/场馆/届次字段，无独立参展商实体。故只是展位销售组件。",
+      "service_form": "自托管 WordPress 插件，依赖 WordPress 5.8+ 与 WooCommerce；open_source track 本身允许自托管，但该条是组件而非独立会展管理应用，不能补足定义核心。",
+      "id_track": "`github:1385556982` 与仓库页 meta repository_id 1385556982、repository_nwo hasnatahmad095/booth-booking、public=true、is_fork=false 一致；track=open_source 与 GitHub 仓库相符。",
+      "license": "LICENSE `f4491c...` 为完整 GPLv2 文本（第 1-2 行标题，第 280 行 END OF TERMS AND CONDITIONS，第 282 行 How to Apply These Terms）；README 第 107 行和仓库页第 638 行均写“GPLv2 or later”，`GPL-2.0-or-later` 有依据。未发现付费版/社区版分界。",
+      "source_quality": "四个引用快照均可按 REVIEW_SOURCES.json 的 path 读取；README 和 CPT 代码是核心正文，不是摘要或 Loading。缺口：WooCommerce 购物车/结账/预留代码未快照；research 中 eventyay/Visual-Hive 的负面结论无本单元快照。",
+      "verdict": "关系不成立；最多作为候选/部分组件留档，不应作为本叶案例。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未访问其他单元。仅读取本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的四个快照；未部署或运行 WordPress/WooCommerce，未查看未快照的 WooCommerce 类、readme.txt、旧仓库页、WordPress.org 目录、eventyay-exhibition 和 Visual-Hive 的实时页面。因此对订单/预留实现、负面候选和 WordPress.org 身份的核对受限于已保存快照；未做外部网络核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-230/ses_groveopencodegop230review2_1793263151.jsonl",
+  "batch_sha256": "d02450b6afede35e4e3bba77acd3b9c435aabf8df37b504f7338d697a9f542ef",
+  "research_sha256": "9561cc06701cecc8504f7c30f96307bbc7d9e786715d7886315c8be27ef20ee5",
+  "input_sha256": "cbb19620b4e73513b5f1135f5a92798a8941576fb2dacd08c9e39ee643571931"
+}

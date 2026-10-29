@@ -1,0 +1,80 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "library-discovery-platform",
+      "application_id": "github:11680792",
+      "issue": "该案例主要依赖 README 中的一句简介（“open source discovery environment for searching a collection of records”）、仓库 About 描述中的“library resource discovery portal”以及 composer.json 中的“flexible discovery layer”。这些资料只能说明它是面向图书馆的发现/检索环境，但没有产品正文说明检索结果页如何呈现书目记录，也没有说明每条记录是否显示本馆可用性，以及在线阅读、借阅、预约、馆际互借等获取路径。因此无法核实定义性核心的第三项“per-record obtainability”，属于以简介和元数据替代核心正文。",
+      "fix": "补充 VuFind 官方文档、README 功能正文或产品页，明确展示“查询→书目记录结果→分面/排序→单条记录可用性与至少一种获取路径（在线全文、借阅/预约、馆际互借等）”；若无法取得，应将本叶改记为 boundary_unresolved，并移除当前的 case_found 关系。"
+    }
+  ],
+  "non_blocking_notes": [
+    "VuFind 的 batch license 写作 GPL-2.0，而 composer.json 写 GPL-2.0-only；VxSuite 的 batch license 写作 GPL-3.0，而 README 写 GPL v3.0 only。当前不影响开源身份判断，但建议统一为精确 SPDX 标识 GPL-2.0-only / GPL-3.0-only。",
+    "VuFind 的 LICENSE 快照在第 12 条后结束，未见 GPLv2 标准文本末尾的 END OF TERMS AND CONDITIONS 与 How to Apply 附录；核心许可条款 0-12 已完整，但若要求 canonical 完整许可证文件，建议重新核对原文件。",
+    "VxSuite 的 batch deployment 写为 self-hosted、offline，但 README 明确 VxHub 由 VotingWorks 管理，而非部署到本地硬件；研究记录也已澄清 VxAdmin 离线、VxHub 厂商托管，建议同步 deployment 字段或在摘要中限定。",
+    "Election 叶的 README 只说明 VxAdmin 为离线中央选举管理器、VxHub 设计选票、VxPrint 打印选票，未逐字展示地址→选区→区域→选票样式的地理映射；类型匹配可成立，但建议后续补充 VxAdmin 的选区/竞选配置文档。",
+    "government-gis 的 research.json 提到 GeoNode 快照及许可证不一致，但 REVIEW_SOURCES.json 未登记 GeoNode 文件，因此该说法无法从登记快照独立复核；本叶未建立案例且缺口已留档，故不阻断。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，phase 为 included_without_cases，与 batch.json 和 research.json 中四个 case_found 不一致；若下游读取 progress，应同步为修复后的状态。",
+    "VuFind 的 composer.json 来源在 batch 与 REVIEW_SOURCES 中被标为 readme，实际是 composer 清单；建议修正 kind 以免来源类型误读。"
+  ],
+  "leaf_checks": {
+    "library-discovery-platform": {
+      "application_ids": [
+        "github:11680792"
+      ],
+      "status": "changes_required",
+      "basis": "已读 GitHub 仓库页（标题、About、README 首段）、LICENSE 全文（GPLv2 条款 0-12）和 composer.json（license GPL-2.0-only、PHP >=8.2）。仓库 ID 11680792、track open_source、仓库身份和 GPLv2 许可均可核对；但 README 仅一句话说明“searching a collection of records”，没有产品正文说明检索结果、馆藏可用性或获取路径。",
+      "gaps": [
+        "per-record obtainability（可用性 + 获取路径）未获正文证据",
+        "图书馆配置的订阅、索引、数字馆藏资源宇宙未获正文证据",
+        "现有依据基本是简介和元数据，缺功能正文"
+      ]
+    },
+    "government-gis": {
+      "application_ids": [],
+      "status": "no_case_boundary_unresolved",
+      "basis": "research.json 将 GeoNode 记为 boundary_unresolved，说明其官方资料只表明它是通用地理空间内容管理与发布平台/SDI 组件，未证明它保管政府辖区的官方地块、边界、地址或公共资产，也没有政府运营者作为记录系统托管方的证据；batch.json 无该叶条目。无案例结论与检索、抓取缺口已如实留档。",
+      "gaps": [
+        "未找到能证明“权威辖区地理记录 + 政府保管职责”的候选产品正文",
+        "GeoNode 快照未登记在 REVIEW_SOURCES.json，许可证不一致说法无法独立复核"
+      ]
+    },
+    "government-inspection-management": {
+      "application_ids": [
+        "commercial:opengov"
+      ],
+      "status": "pass",
+      "basis": "已读 OpenGov 建筑检查产品页正文：可按检查类型配置数字检查清单、审批流和费用规则；支持在线排期、自动路由、移动离线检查；检查结果带检查员和时间戳，连同照片、笔记、清单响应存入许可或房产记录，并可查历史、走复检和整改路径；首页确认 OpenGov 为真实政府软件厂商。track commercial、application_id commercial:opengov 匹配。",
+      "gaps": [
+        "检查记录挂在 permit/property record 上，未展示独立于许可系统的常设检查对象清单；作为许可平台内建筑检查模块的边界需在文案中保持"
+      ]
+    },
+    "government-licensing-management": {
+      "application_ids": [
+        "commercial:opengov"
+      ],
+      "status": "pass",
+      "basis": "已读 OpenGov 商业许可产品页正文：按许可类型配置申请、审批步骤、文件要求和路由；支持颁发、到期日跟踪、自动续期提醒、已续/逾期看板、在线续期缴费和审计轨迹；Permitting & Licensing 总页确认产品归属。track commercial、application_id commercial:opengov 匹配。",
+      "gaps": [
+        "页面聚焦商业许可；职业/专业许可的纪律处分机制未覆盖，但不影响商业许可子类型匹配"
+      ]
+    },
+    "election-management-system": {
+      "application_ids": [
+        "github:295864168"
+      ],
+      "status": "pass",
+      "basis": "已读 VxSuite GitHub 仓库页 README：VxAdmin 为离线中央选举管理器，VxHub 用于选票设计，VxPrint 用于选票打印；LICENSE 为完整 GPLv3 文本，README 声明全部文件采用 GPL v3.0 only；仓库 ID 295864168、track open_source 匹配。研究记录明确排除扫描/计票应用，未把结果管理混入本叶。",
+      "gaps": [
+        "README 未逐字说明地址→选区→区域→选票样式的地理映射",
+        "VxHub 为厂商托管，batch deployment 的 self-hosted/offline 需限定为 VxAdmin"
+      ]
+    }
+  },
+  "limits": "本次仅只读核对本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 登记的 9 个快照；未运行 shell、未写文件、未读取其他单元、未运行代码或部署测试，也未抓取新网页。GeoNode 与 election-manager 归档快照未登记在 REVIEW_SOURCES.json，无法独立复核其内容。商业产品仅核对页面基本真实性与核心类型匹配，未验证价格、架构或部署细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-085/ses_groveopencodegop085review1_1792995996.jsonl",
+  "batch_sha256": "d07c28b4de1df3419cb00f8c8cf5889bb5fb76c67bde6cc0a9ce485a7ac54810",
+  "research_sha256": "a51380721b25aa5b433228e43d2add7abdac96c234ba9df24bc7094352520254",
+  "input_sha256": "fe69ad2de3470630f32532c101a6ff9dc86da83c8504841722ca7aa9fc483a57"
+}

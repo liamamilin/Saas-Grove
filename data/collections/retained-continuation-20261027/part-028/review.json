@@ -1,0 +1,83 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "ai-audio-generator",
+      "application_id": "commercial:elevenlabs-sound-effects",
+      "note": "research.note 仍称页面未列出具体时长上限，但快照的定价/功能区可检索到 'Max clip length' 与 '30 sec'；建议修正留档。页面同时提供免费音效库，条目应按“音效生成器”而非“检索库”表述。"
+    },
+    {
+      "slug": "ai-audio-generator",
+      "application_id": "commercial:elevenlabs-sound-effects",
+      "note": "摘要中的“免版税”需与页面条款对齐：免费额度为个人使用，商业使用需付费计划；不构成阻断。"
+    },
+    {
+      "slug": "ai-music-generator",
+      "application_id": "commercial:suno",
+      "note": "首页正文足以确认提示词→完整歌曲→编辑/分轨；各套餐商用授权与具体导出格式未逐项核验，摘要中的“混音”措辞比页面 'multitrack editor' 略宽。"
+    },
+    {
+      "slug": "ai-voice-generator",
+      "application_id": "commercial:murf-ai",
+      "note": "batch 将该来源 kind 标为 documentation，但实际是产品营销页；建议改为 product/homepage。克隆同意流程未核验，导出格式主要见 JSON-LD 元数据。"
+    },
+    {
+      "slug": "e-commerce-platform",
+      "application_id": "github:148129143",
+      "note": "research.search_attempts 仍称 devdocs 首页含商品类型内容，但同条 note 已说明根页是 VitePress 空壳；建议清理这行。Bagisto 的多卖家/B2B/POS/无头为可选模块，条目应按单商家电商平台定位。"
+    },
+    {
+      "slug": "headless-commerce-platform",
+      "application_id": "github:8162715",
+      "note": "README/首页确认 API-only 与外部店面；未部署验证 API，Saleor Cloud 与开源核心的功能边界未逐项核验。"
+    },
+    {
+      "scope": "unit",
+      "note": "input.json 的 progress/phase 仍为 included_without_cases、not_searched、空 application_ids，与 batch/research 的 case_found 不一致；建议归档前同步，避免下游漏读。"
+    }
+  ],
+  "leaf_checks": {
+    "ai-audio-generator": {
+      "application_id": "commercial:elevenlabs-sound-effects",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "快照 /sound-effects 正文含 'Text Prompt' 工具文案；FAQ 原句 'our sound effect generator lets you create custom sound effects from scratch'、'generate, modify, and download your own sounds in MP3 format —all royalty-free'；定价区可检索到 'Max clip length 30 sec'、MP3/WAV 及付费计划 commercial use。产品为托管式 AI 音效生成服务，输出为音效/环境音素材，符合 AI Audio Generator，而非语音或完整音乐。",
+      "gaps": "未实际生成/试听音频；页面同时有大型免费音效库，需按生成器而非检索库归类；research.note 的时长缺口描述已过时。"
+    },
+    "ai-music-generator": {
+      "application_id": "commercial:suno",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "快照 suno.com 正文 FAQ：'describe the song you want – genre, mood, theme, or your own lyrics – and hit Create. Suno helps you build a complete track with vocals, instrumentation, and production in under a minute. Regenerate, extend, or refine from there.'；Pro/Premier 段落列出商业使用权、stem separation、multitrack editor、MIDI export。产品为托管式 AI 音乐生成器，输出完整歌曲/器乐，符合音乐作曲范围。",
+      "gaps": "未核验各套餐版权条款与具体导出格式；未实际生成。"
+    },
+    "ai-voice-generator": {
+      "application_id": "commercial:murf-ai",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "快照 murf.ai/text-to-speech 正文：'Convert text, documents, ePubs, scripts, books and webpages into high-quality, natural sounding AI voices'；'AI Voice Studio ... Seamless transition from script to voice output with multiple voices across a library of 200+ voices. Complete control of pitch, speed, emphasis, pronunciation...'；use case 'Upload your script and generate natural sounding audio...'。产品为托管式 TTS，输出给定文本的语音表演，符合 AI Voice Generator。",
+      "gaps": "克隆同意流程未核验；导出格式主要见 JSON-LD（mp3/wav/flac），正文未逐项展示；来源 kind 标为 documentation 但实际是营销页。"
+    },
+    "e-commerce-platform": {
+      "application_id": "github:148129143",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 正文：'Bagisto is an open-source Laravel eCommerce ... platform for building ... online stores'，并说明 single-vendor store、B2B、multi-vendor、Docker 单命令、MIT。devdocs Backend Architecture 正文列出 42 个核心包，含 Admin（后台）、Product（商品/价格/库存）、Shop（storefront: routes/controllers/views/customer account）、Checkout（cart: items/addresses/payment/shipping rates）、Sales（orders/invoices/shipments/refunds/transactions），构成商家目录→平台店面→购物车/结账→订单同系统管理。许可证快照为完整 MIT 文本，repo id 148129143。",
+      "gaps": "未实际部署、下单或退款；多卖家/B2B/POS/无头为可选模块，未逐一验证；research.search_attempts 有一条关于 devdocs 根页的过时描述。"
+    },
+    "headless-commerce-platform": {
+      "application_id": "github:8162715",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 正文：'GraphQL native, API-only platform for scalable composable commerce'；'Headless and API only - APIs are the only way to interact, configure, or extend the backend'；features 含 product/orders/cart/promotion/payment/channels；storefront 为独立 repo。saleor.io 标题/描述：'Composable, Open Source, Headless Ecommerce Platform'、'headless, open source, GraphQL-first e-commerce platform. API-first design...'。许可证快照为完整 BSD-3-Clause 文本，repo id 8162715。",
+      "gaps": "未部署验证 API/店面；Saleor Cloud 与开源核心的功能边界未逐项核验。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、部署、下单、API 调用或音频生成测试；未做法律、价格或克隆同意的独立核验。快照为原始 HTML，部分长单行被阅读工具截断，关键正文通过快照内检索与页面结构交叉核对，并对长行截断处做了补充性公开页面读取；结论仍以快照可检索正文为主。审查范围仅限本单元五个叶子和 REVIEW_SOURCES.json 列出的快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-028/ses_groveopencodegop028review1_1792942429.jsonl",
+  "batch_sha256": "86436d0bc9621a3d8fb673cbfbee972e84c6a90dda60e0e336fe8313b7e6b48c",
+  "research_sha256": "a411852df3b0c3ed2176d764328b3c5bf1fa25b1378d6d36b277dc148ede5ed2",
+  "input_sha256": "c1ae86180efa07ee25b62ad5704ad846fbecd0624321493aa6d3010615748c09"
+}

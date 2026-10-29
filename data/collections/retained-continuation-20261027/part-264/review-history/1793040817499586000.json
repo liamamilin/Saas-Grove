@@ -1,0 +1,92 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "household-staff-management",
+      "application_id": "commercial:care-com-homepay",
+      "issue": "唯一来源快照 data/collections/sources/ae26deec8db58b1801dff16e8ee3a59d3b3f94a0a8478361729f537fafa22dd7.txt 实际只有 HTML head 与脚本外壳，未见可读正文；能读到的仅是 title “Nanny and Household Tax and Payroll Service” 和 meta description “... nanny tax and payroll services for families with household employees”。research.json 与 batch.json 却写明 housekeeper、in-home caregiver、雇员与工资登记、代扣代缴、直接存款、工资记录、年终税表和按时申报保证，这些均无法从快照正文核对。按任务要求，简介和元数据不能替代核心正文；该叶的名册、雇佣生命周期和家庭雇主制度核心因此没有正文证据，verification_status=official_sources_reviewed 也偏乐观。",
+      "fix": "重新抓取 Care.com HomePay 页面的可读正文（或官方 how-it-works/service 页）并保存为快照，核对是否确实有名册或雇员记录与雇佣管理闭环。若正文仍不可得，将摘要压缩到 title 和 meta 可证范围（家庭雇主 nanny tax/payroll 服务），在 research.fetch_outcomes 明确记录正文缺失，并按定义边界判断该产品是否仅为薪资税务服务、是否仍应作为本叶案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "home-security-application / commercial:simplisafe：快照能证明 whole home security、24/7 professional monitoring、while armed 状态下的检测、agent 实时视频复核与喊话、panic button 的警察/医疗调度、contact list 通知；但 batch 摘要和 research note 中的 App 布防/撤防、确认或取消警报、安全词取消、消防调度未在首页或监测页快照中出现。商业案例只要求基本真实性和类型匹配，且产品类型明确，故不阻断；建议补官方 App/取消流程页，或把摘要收窄到快照可证内容。",
+    "parenting-baby-tracking-application / github:107898477：Baby Buddy 的 README 与 Adding Entries 正文已证明按儿童选择、时间戳、Diaper/Feeding/Sleep/Tummy/Temperature/Weight 条目和计时器入口；但摘要中的“仪表盘与按儿童查看的历史”未在已读文档正文直接出现。核心记录形态成立，建议补一张 dashboard/history 文档或截图，避免把推断写成已核实。",
+    "household-staff-management 的 dc_zh 第三结构写成“家庭工作场所管理”，并列举房产、资产、日程和权限层级建模，与英文 “the household-employer regime”（家庭雇主法定雇佣义务）不一致。该翻译偏差可能误导案例筛选，建议按英文原意对齐。",
+    "TidyQuest 的 research note 写有 130 stars 和非 archived；本次读取的 GitHub metadata 单行 JSON 在 2000 字符处截断，未能逐字核对这两个尾部字段。它们不影响家务核心匹配，但若继续引用星级或 archived 状态，应补证。"
+  ],
+  "leaf_checks": {
+    "home-security-application": {
+      "status": "passed",
+      "applications": [
+        "commercial:simplisafe"
+      ],
+      "basis": "已读 SimpliSafe 首页与 features-alarm-monitoring 正文：首页有 whole home security、24/7 professional monitoring；监测页有 while armed 触发检测、camera/doorbell motion、agent 实时视频复核/2-way audio/siren、警察协助、panic button 的 police/medical dispatch、contact list 通知。可支撑场所安防系统、布防状态语义、报警事件与响应路径；commercial:simplisafe 的 track 与产品类型匹配。",
+      "gap": "快照未直接展示 App arm/disarm、confirm/cancel alarms 或 safe word cancel；作为商业案例不阻断，但这些细节应降级为未核实，不能写成已核实流程。",
+      "sources": [
+        "data/collections/sources/09d1f4889cf6f69f0713d2c4eb354c8ab712807b39fd19e74cdcabb4b7467caa.txt",
+        "data/collections/sources/abc79435bd5ad472e02af50c2ace278803c05100c1591ee001d7bef76046ecc0.txt"
+      ]
+    },
+    "household-chore-application": {
+      "status": "passed",
+      "applications": [
+        "github:1158973286"
+      ],
+      "basis": "TidyQuest README 正文明确 self-hosted household chores、任务 1–365 天自定义频率、health bar 随时间衰减、calendar due dates、完成后 health 重置、streaks/coins/leaderboard、按房间组织、First/Shared/Custom 成员分配、Strict Mode 管理员审批；license 快照为完整 GNU AGPL v3 文本（34,524 字节），repo id 1158973286、full_name mellow-fox/TidyQuest、fork=false 与 batch 一致。待办—完成循环、家庭领域和开源身份均可核对。",
+      "gap": "README 自述 early-stage 0.6.0，batch 摘要已如实注明；完成历史主要以 streaks/health 机制间接体现，未逐页验证独立历史日志。",
+      "sources": [
+        "data/collections/sources/18ba0a4f2cf706f4b9bb17eec0c7b8ac042a80cef25f5b81673451f32f0c11e8.txt",
+        "data/collections/sources/caa7a8c5cb56a1ed2c08bfb0b1d16f737fa676a25679147795aae78f9fd2ce5c.txt",
+        "data/collections/sources/dda670ea8e06f300454d1508350ac6b868890dbb7444c91c1595d19ebb6a31cf.txt"
+      ]
+    },
+    "household-staff-management": {
+      "status": "failed",
+      "applications": [
+        "commercial:care-com-homepay"
+      ],
+      "basis": "唯一来源 data/collections/sources/ae26deec8db58b1801dff16e8ee3a59d3b3f94a0a8478361729f537fafa22dd7.txt 是 HTML head/script 外壳；可见内容只有 title “Nanny and Household Tax and Payroll Service” 与 meta description “... nanny tax and payroll services for families with household employees”。无法核对家庭雇主名册、雇员记录、雇佣生命周期、工资/税务记录等定义性核心。",
+      "gap": "正文缺失，research 与 batch 中的 housekeeper/in-home caregiver、登记雇员与工资、代扣代缴、直接存款、工资记录、年终税表和按时申报保证均无快照正文支撑；HTTP/抓取 ok 不能替代正文。需补正文后重审。",
+      "sources": [
+        "data/collections/sources/ae26deec8db58b1801dff16e8ee3a59d3b3f94a0a8478361729f537fafa22dd7.txt"
+      ]
+    },
+    "parenting-baby-tracking-application": {
+      "status": "passed",
+      "applications": [
+        "github:107898477"
+      ],
+      "basis": "Baby Buddy README 说明 caregivers track sleep、feedings、diaper changes、tummy time；Adding Entries 正文逐项说明可修改 child/time，并提交 Diaper Change、Feeding、Sleep、Tummy Time、Temperature、Weight 等时间戳条目；文档导航含 Using Timers；部署页含 Docker/LinuxServer、Digital Ocean、Clever Cloud、GCP Cloud Run、Manual；license 快照为完整 BSD-2-Clause（1,337 字节），repo id 107898477 与 batch 一致。儿童档案、照护者代记和条目记录均可核对。",
+      "gap": "accumulated per-child history/dashboard 未在已读正文直接引用；建议补充查看历史的文档或截图，当前可视为推断性缺口，不阻断类型匹配。",
+      "sources": [
+        "data/collections/sources/24a4aad6ca5c37be258b5ef165c12975568da877286f5efd6599663f92d91fb9.txt",
+        "data/collections/sources/ae37902b9ee97e172db82b44f4c1f12976452102fa87af87ebd3a8a3d65961aa.txt",
+        "data/collections/sources/c3c5245908b1d964a22faeb4cb720b2a3d6536b5d7cff187e359cc968a5144cb.txt",
+        "data/collections/sources/062930351685fe93d4a1290cb0c0df4857aadb1e033bfd5d75bc24e82cd4bb72.txt",
+        "data/collections/sources/f581ece104f12c11f89bcb32f2c585965810b6ddac4e4530a5bdf58ad207dfe3.txt",
+        "data/collections/sources/b58ee9ee8240dd1f7f48c211dcbcbecba483dd583a907663335064207c0e75a7.txt"
+      ]
+    },
+    "smart-home-platform": {
+      "status": "passed",
+      "applications": [
+        "github:12888993"
+      ],
+      "basis": "Home Assistant 官网正文写明 1000+ brands、自动扫描并设置设备、dashboards 可展示信息并控制设备、automation 示例（日落/回家开灯、车库门未关提醒）、本地数据；README 写明 open source home automation、local control、模块化集成；安装页列出 Home Assistant OS/Green、Raspberry Pi、Odroid、x86-64、Container/VM；license 快照为完整 Apache-2.0（11,357 字节），repo id 12888993 与 batch 一致。设备系统、状态读取/控制和自动化三结构可核对。",
+      "gap": "多家庭支持与离线降级未逐项验证；batch 摘要未写这些细节，不构成阻断。",
+      "sources": [
+        "data/collections/sources/74929f140e384be242d12d6659721c1a4b5c8ce8ccf993853b7d68be05412a46.txt",
+        "data/collections/sources/5f5c90c5643fb5d7c1181521fab1732d0c2d4db845d3ffecbfe341f292ec8e4a.txt",
+        "data/collections/sources/7cd3c381536b6d26371f921d730242c6162fc3fa840bf8e9418409f8b482e7cb.txt",
+        "data/collections/sources/57ac444b072cb457805498545ad778734e2eb364af41720e24a8ec1e73cf118b.txt",
+        "data/collections/sources/5b21ac8b3fae816c651dc4a5248ca787b327dca60bad6b3fcbd28cab8c0c1fae.txt"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元，也未做部署测试或额外抓取。快照均按 REVIEW_SOURCES.json 的 path 原样读取；单行 GitHub metadata/license JSON 在读取时按 2000 字符截断，仓库 id、名称、fork 和许可证首段可核对，stars/archived 等尾部字段未能逐字核对。Care.com HomePay 快照无正文，构成实际核对缺口，已列入 findings。input.json 的 progress 仍是研究前状态（not_searched、空 application_ids），最终匹配以 batch.json 与 research.json 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-264/ses_groveopencodegop264review1_1793040187.jsonl",
+  "batch_sha256": "6304ea72b8a53bcdba45a3adfc131cbf93b755226e931089fa427017aa03852d",
+  "research_sha256": "be8c682ff6854ecbf4931ae8c8d18505febfd65e1b0dfb8024287844a78f9454",
+  "input_sha256": "33eb02d216105a8a178a1d25f4434f384cb71a498b70ef9e533a3f049327c65e"
+}

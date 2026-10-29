@@ -1,0 +1,31 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:gateway-ticketing：batch.json 摘要写有“腕带验证、闸机、客流统计”，但所引官方 zoos-and-aquariums 页正文只直接证明多渠道售票、打印或手机条码扫描核验、会员创建管理、团体/私人导览/定时活动预约、票务+餐饮+零售统一 POS；建议将摘要收敛到可证范围。核心商业类型匹配不受影响。",
+    "commercial:rocketrez：leaf_match 理由称正文明确覆盖教育/团体在线预订支付、捐赠交易和“入场会员实时核验”；实际可见正文（FAQ/CTA）支持 timed entry、general admission、容量限制、会员状态与权益、跨部门 POS/餐饮零售/报表，教育与团体预订、捐赠主要出现在 JSON-LD featureList，会员为状态跟踪而非入口核验。属非阻断的措辞与证据强度问题，建议改写理由或补充正文来源。",
+    "research.json 记录了 ZooVanna、Sumitgitup/Zoo-management、Dhaka-Zoo-Management-System、astral 等开源候选的抓取成功与 SHA，但这些快照未列入 REVIEW_SOURCES，无法在本单元独立复核其许可证与社区版边界；因未登记开源条目且已如实记录缺口，不阻断。",
+    "input.json 仍显示 case_status=insufficient_evidence、application_ids=[] 且 note 称“未读取正文”，与 batch.json/research.json 的 case_found 和三条商业关系不一致；建议下游以 batch/research 为当前状态并刷新种子元数据。"
+  ],
+  "leaf_checks": {
+    "zoo-aquarium-visitor-operations": {
+      "result": "pass",
+      "definitional_core": "以运营方定义的入场产品为起点，经多渠道销售形成交易与权益，入口核验生成客流，并把餐饮/零售等现场消费汇入同一运营记录；动物园/水族馆侧重会员、教育/团体、互动体验和捐赠，动物饲养/谱系管理不属于本叶。",
+      "evidence": {
+        "commercial:gateway-ticketing": "快照 7be0f0237e117bb60d71e985a65228f92035ff5945ae96f5fe0a14caba6f668f：官方动物园/水族馆市场页正文明确多销售渠道（闸口、自助机、呼叫中心、网店、分销商）、打印或手机条码扫描核验、会员创建与管理、团体/私人导览/定时活动预约、票务+餐饮+零售统一 POS，覆盖本叶入场、权益、核验和现场消费核心。",
+        "commercial:rocketrez": "快照 7bb207d05c0c03065201187ec4d966e0a0fa359c8ec39c72a77896218ea316e2：官方水族馆页标题/导航明确 Aquariums；可见 FAQ/CTA 明确 timed entry、general admission、special events、capacity limits、会员状态/权益、跨部门 POS（门票/餐饮/零售）和报表，可支撑商业类型匹配。教育/团体在线预订支付与捐赠交易仅见 JSON-LD featureList，正文证据较弱。",
+        "commercial:ticketure": "快照 00b5ce370fb9387875d4938af7798b5ac6f820f16c0653519e844ae380bd0a88：首页正文明确云端票务、POS、会员管理平台，面向博物馆、动物园、水族馆，含定时入场/容量、学校/团体参观、捐赠和现场销售；快照 4c337b510a43e861f173d17345ab5055b6f2958e29743bc154644de90e59f102：票务页正文含 QR/钱包票入口扫描核验、团体订单关联多票、加购/升级/捐赠及容量规则，核心证据充分。"
+      },
+      "saas_form": "Ticketure 正文明确 cloud-based；RocketRez 为云端平台（组织描述及 CTA）；Gateway 为模块化商业票务系统并提供 Hosting & Load Balancing、Managed Services 等持续服务。三者均属持续使用的软件服务形态，Gateway 的订阅/SaaS 交付细节未被该页直接说明。",
+      "id_track": "batch.json 三条均为 commercial track，ID 为 commercial:gateway-ticketing、commercial:rocketrez、commercial:ticketure，与 research.json 的 case_ids 完全一致，无错配或重复。",
+      "open_source": "本单元没有登记开源应用，故无开源完整许可证或社区版边界可核；research.json 记录的开源候选均因 license 为 null/NOASSERTION、定位不符或核心未证明而排除，属于已记录缺口。",
+      "gaps": "RocketRez 正文深度有限且部分功能仅见结构化数据；开源候选快照未随 REVIEW_SOURCES 留存；input.json 状态与 batch/research 不一致。上述均不影响本叶以商业案例通过类型核对。"
+    }
+  },
+  "limits": "仅做只读初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 所列 4 个快照，未运行站点、未做部署/价格/架构核验，未访问 GitHub 候选快照或其他单元；RocketRez 页面正文较薄，部分能力只能从可见 FAQ/CTA 判断；开源候选的许可证与社区版边界无法在本单元独立复核；未对快照重新计算 SHA，仅核对路径、文件名与批次引用的一致性。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-233/ses_groveopencodegop233review1_1793262871.jsonl",
+  "batch_sha256": "c2c7a6b9228ea248c3a8d134e2d5a8ad8d4201035f1e577731f825d10b8c7542",
+  "research_sha256": "db9b72a82fba8e33892dbb6b32891a76a8a72004f4f42fefc1785e5374c38651",
+  "input_sha256": "d717381f04db11015387d0191cd043c8f3850a1bfa45dad5625f226285849ecc"
+}

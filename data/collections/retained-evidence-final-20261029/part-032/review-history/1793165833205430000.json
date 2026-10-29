@@ -1,0 +1,48 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "video-compositing-application",
+      "application_id": "github:1266672576",
+      "issue": "仓库身份未闭合：仓库元数据快照给出 id=1266672576、full_name=thiagopnts/switchframe、fork=false，条目 repository_url/homepage 与之一致；但同一 main 分支的 README 快照（b29aeb…）第 12 行 CI 徽章链接与第 66 行 `git clone` 均指向 https://github.com/zsiec/switchframe，LICENSE 快照（6365c8…）解码后署名为 “Copyright (c) 2026 Thomas Symborski”，也与 cited 仓库 owner（thiagopnts）不一致。现有材料无法判定 thiagopnts/switchframe 是项目本体（转移/改名）还是他人项目的镜像，开源仓库身份归属与版本/发布主体未闭合。",
+      "fix": "核对 canonical 上游仓库；若 thiagopnts/switchframe 为镜像或转移后仓库，应在条目与 leaf_match 中改引 canonical 仓库并补充其仓库元数据（id+full_name）与 LICENSE 完整快照，或在 sources/研究记录中明确记录镜像/转移关系、核对日期与依据；同时修正 README 快速开始与徽章所指向仓库与条目 repository_url 的表述不一致。"
+    },
+    {
+      "slug": "video-compositing-application",
+      "application_id": "github:1203642171",
+      "issue": "开源完整许可证与社区版边界只覆盖三件套之一：batch 条目 deployment 断言“open-live API 服务（Node.js）+ open-live-studio 浏览器控制台 + Strom 媒体引擎，三者均开源”，README 亦说明本仓库仅是 API server，切换/混合/合成/编码由 Strom 完成、无 open-live-studio 则“只有 API 没有控制面”。但本单元只提供了 Eyevinn/open-live 的仓库元数据与 MIT LICENSE 全文，open-live-studio 与 Strom 没有任何仓库元数据或完整许可证快照，因而“整套自托管制作套件均为开源、社区版功能完整”的许可事实与边界缺乏证据。",
+      "fix": "删除对 open-live-studio 与 Strom 的许可证主张，改为仅复述 README 所述依赖关系；或补充这两个仓库的仓库元数据（id+full_name，确认非 fork/非归档）与完整许可证快照，并在 service_boundary/deployment 中分别注明三仓库的许可证与自托管边界（含 OSC 托管版与自托管版功能是否一致）。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，note 仍写“只证明客户端、CLI、引擎或设备控制”；而 research.json 已记录 case_found 并新增两项服务端形态候选，batch.json 亦已建立两条 leaf_match。研究记录解释了替换过程，证据可核对，但进度元数据与正式条目不一致，建议回写进度字段。",
+    "research.json 称许可证“由 GitHub license API 证明 SPDX=MIT”，实际快照是 LICENSE 内容响应（base64 编码的完整 MIT 文本），并非 SPDX 字段；两种方式都能证明 MIT，结论不变，仅证据类型描述可更准确。",
+    "OBS Studio（github:13233158）以避免纯桌面客户端为由移出本叶，并在 withheld_candidates 明确标注为形态判定、不推断不存在 SaaS 变体，同时保留历史采集轨迹；该留档方式可接受。其复用快照不在 REVIEW_SOURCES 中，本次未重读，也不作为本叶证据。",
+    "Open Live 的 summary/features 采用“套件”口径（视觉切换、音频调音台、多画面监看），而 cited 仓库只是 API server；service_boundary 与 deployment 已披露需配合 open-live-studio 与 Strom，建议在 summary 中同步点明切换/混合实际由 Strom 执行，避免读者把该仓库误认作完整媒体引擎。",
+    "Open Live 的 homepage 指向托管实例 openlive.apps.osaas.io，README 含 OSC 定价与 Hosted GPU 附加项；entry 的 track=open_source 与 MIT 仓库一致，自托管路径完整，无需补充价格信息，但可在 homepage 旁标注其为托管演示实例。",
+    "两条目的 runtime_tested=false、verification_status=official_sources_reviewed 与研究记录一致，未作部署或并发输出数量的实测断言，符合本单元只做公开资料核对的要求。",
+    "SwitchFrame 的 README 与 docs 还包含 CEA-608/708 字幕、SCTE-35、即时回放、AI 分割等能力，条目未逐项收录属取舍问题，不影响定义性核心判断。",
+    "研究记录对零结果检索（self-hosted live video production switcher、video mixer server web ui）明确记录“不据此推断不存在”，符合缺口留档要求。"
+  ],
+  "leaf_checks": {
+    "video-compositing-application": {
+      "status": "core_verified_but_identity_and_license_boundary_open",
+      "cases_checked": [
+        "github:1266672576",
+        "github:1203642171"
+      ],
+      "definition_core": "两案例均有官方正文而非简介/元数据支撑定义性核心。SwitchFrame：README 明确“server handles all switching, mixing, encoding, and compositing”，浏览器仅作控制面；源经 Prism/MoQ、SRT（listener/caller）、MXL 进入；具备 cut/mix/dip-to-black/六向 wipe/stinger/T-bar 转场，逐源上游色度与亮度抠像、PIP/并排/四宫格布局、8 层 DSK、ST map；输出为 program relay + MPEG-TS 录制/SRT 多目的地/RTMP/MXL 与 confidence monitor（README 输出段、docs/architecture.md 第 3、46-51、98-102 行、docs/reference/api/output.md 的 recording/destinations 端点、docs/concepts/pipeline.md 的节点链与原子热切换）。Open Live：README 定义为浏览器实时制作套件（vision mixer、audio mixer、multiviewer），cuts/自动转场/DSK/PIP/图形叠加/fade-to-black，最多 16 路源（SRT/WHIP/test patterns），输出 mpegtssrt/efpsrt/whep/recording 与多画面；docs/graphics.md 说明 HTML/图片经 Chromium cefsrc 渲染后由 DSK 键控进节目，DSK_TOGGLE 驱动 Strom 视觉切换台——构成“多路实时源 + 操作员实时混合 + 持续节目 + 独立输出”。",
+      "service_form": "均为可持续使用的软件服务形态而非本地桌面客户端：SwitchFrame 为单 Go 二进制（内嵌 SvelteKit UI）+ QUIC/WebTransport 浏览器控制台，systemd/Nomad 监管，支持 Docker/Dockerfile.cuda（docs/operations/deployment.md 第 7-21、82-99、219-241 行）；Open Live 为 Node.js/Fastify API 服务 + CouchDB + 浏览器控制台 + Strom 媒体引擎，自托管或 OSC 托管（README 第 5、41-56、251-257 行）。",
+      "identity_and_track": "github:1266672576 与 github:1203642171 均与仓库元数据快照的 id、full_name、html_url、fork=false、description 一致，track=open_source 类型匹配。但 SwitchFrame 的 README/CI/克隆地址与 LICENSE 署名指向 zsiec/switchframe 与 Thomas Symborski，与 cited owner 不一致，仓库身份归属待澄清（见 findings 第 1 条）。",
+      "license_and_community_boundary": "SwitchFrame：LICENSE 快照为完整 MIT 文本（含授权、版权声明保留与免责条款），条目 license=MIT 成立；产品为单一 MIT 代码库、无付费版分层证据，社区版边界清晰。Open Live：API 服务的 MIT 许可证完整且署名与 owner 一致，托管 OSC 版与自托管版同代码库；但套件所需的 open-live-studio 与 Strom 无许可证/仓库快照，“三者均开源”的主张未闭合（见 findings 第 2 条）。",
+      "gaps_recorded": "研究记录如实保存了检索词、零结果、被排除候选（onairlive 无许可证、furMix/FreeMix 桌面、webatem/switcher-js 控制器或扩展）、OBS 形态判定及 RTMP 多目的地未完成（strom#840）等缺口，未把 HTTP 成功、摘要或关键词当核心证据；未作部署实测。",
+      "conclusion": "定义性核心与 SaaS/服务形态成立，可保留为两条目；需先修复仓库身份归属与套件许可证边界两项证据问题。"
+    }
+  },
+  "limits": "本次为只读初审：仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 12 份快照（按 data/collections/ 相对路径原样读取），未运行 shell、未写文件、未读取其他单元或历史 TASK.md/过程脚本。两个仓库元数据快照为单行 JSON，读取工具按行截断在约 2000 字符，故只直接观察到 id/full_name/owner/description/fork/false 等开头字段，license、archived、default_branch、时间戳与统计等尾部字段未能完整显示，仓库身份结论以开头字段与 README/许可证正文交叉核对为依据。未联网补抓 Strom、open-live-studio、zsiec/switchframe 或 OBS 的仓库与许可证（OBS 复用快照不在 REVIEW_SOURCES 内，未重读），故对上游仓库关系、配套组件许可证、并发输出数量与运行时行为均不作断言；未做部署或功能实测，runtime_tested=false 予以接受。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-032/ses_groveopendesignp032review1network1report0_1793164905.jsonl",
+  "batch_sha256": "f166427830cd360a0423d49542098420aa623535d7d15aad5c214eaf8ee4f618",
+  "research_sha256": "cdfbf46d4b1d2464e958bcac3f61a041efa825e493a7ebb000b0df8dbd074163",
+  "input_sha256": "a0756f4a5af8f2cbc2145122e5d596e1883d5665cd9d2a4985c4910c3d0e2d65"
+}

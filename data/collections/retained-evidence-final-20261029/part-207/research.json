@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "government-records-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:846854082"
+      ],
+      "query": "Dutch government records management selectielijst destruction e-Depot open source",
+      "source_urls": [
+        "https://github.com/ConductionNL/openregister",
+        "https://raw.githubusercontent.com/ConductionNL/openregister/main/README.md",
+        "https://raw.githubusercontent.com/ConductionNL/openregister/main/docs/features/archiving.md",
+        "https://api.github.com/repos/ConductionNL/openregister",
+        "https://api.github.com/repos/ConductionNL/openregister/license"
+      ],
+      "note": "历史复用：此前多轮检索（retained-go-20261025/part-048、retained-continuation-20261027/part-234、go-followup-20261027/part-043 及 included-go-followup-final-20261027）均未取得可核对的政府记录管理完整应用；曾抓取 lokeshm-it/Microsoft-Purview-Records-Management，但其为企业实施资料并依赖 Microsoft 365，不是可自托管政府记录管理应用。以上记录保留，不视为本轮通过。\n\n本轮补采（2026-10-29）：以“open source government records management retention disposal schedule software GitHub”和“open source records management application DoD 5015.2 retention disposition GitHub”两组查询定向补证，命中 ConductionNL/openregister。核对其官方 README（sha256 8f719f18…）确认其为自托管 Nextcloud 应用；官方文档 docs/features/archiving.md（sha256 34f350e0…）明确该应用实现面向荷兰政府合规的完整记录管理与归档：MDTO 元数据、selectielijsten 保留类别与 archiefactiedatum、到期销毁清单、档案员/管理者多步审批、法律保留、销毁证书，以及按 MDTO/SIP 向 Nationaal Archief 或市政 e-Depot 移交。另核对当前 appinfo/routes.php 已注册 /api/archival、/api/retention 与 /api/transfers 路由，且 DestructionService、RetentionService、MdtoXmlGenerator 等类存在；仓库内较早的 archival-destruction.md 仍写“routes not yet registered”，与当前代码不一致，按过时文档处理，未用作正向证据。\n\n未纳入：maykinmedia/archiefbeheercomponent 核心接近但仓库已归档且 GitHub license API 为 NOASSERTION；Alfresco/records-management 旧仓库已归档且无 license 元数据；GovOPlaN/govoplan-records 为模块且移交仍为模拟；Heratio 的 RM 仍在路线图；Vitam/parer-sacer 为数字保存后端且许可不符合采集器列表。以上为真实候选/查询/边界记录，不代表其他产品不存在。\n\n限制：本轮未部署或运行第三方项目，runtime_tested=false；仅依据公开官方材料与仓库代码结构作类型判断，未作独立法律意见；检索未穷尽。",
+      "service_boundary": "以作为公共事务证据的机构记录、受外部法定档案制度约束的保留处置计划、以及有记录证明的销毁或移交为核心；OpenRegister 的归档/记录管理模块以荷兰《档案法》和市政选择清单为保留处置依据，覆盖销毁与移交两种结局，作为 Nextcloud 自托管应用的完整业务子模块纳入；通用对象注册、电子健康记录、ADP/档案编目或数字保存后端本身不单独构成该类型。",
+      "search_attempts": [
+        {
+          "query": "open source government records management retention disposal GitHub",
+          "outcome": "历史记录复用：旧轮次未获得可核对正文的候选。"
+        },
+        {
+          "query": "records management in:name,description GitHub repositories",
+          "outcome": "历史记录复用：结果以电子健康记录、ADR 工具和通用文档系统为主，无政府记录保留处置完整应用。"
+        },
+        {
+          "query": "GitHub 网页搜索: records retention disposition",
+          "outcome": "历史记录复用：仅见小型保留期限控制脚本与 Microsoft Purview 相关条目，无符合外部授权处置核心的完整应用。"
+        },
+        {
+          "query": "GitHub API repository search: records management government in:name,description",
+          "outcome": "历史记录复用：HTTP 200，total_count 128；前列为健康记录、政策/条款文本、图书馆编目与 EHR 项目，未见政府记录保留处置完整应用。"
+        },
+        {
+          "query": "GitHub API repository search: records retention disposition in:name,description（并复核 records management retention）",
+          "outcome": "历史记录复用：disposition 查询 total_count 2（Microsoft Purview 实施资料、无许可证的 GenLayer 门控）；retention 查询 total_count 39，多为个人项目/课程资料。"
+        },
+        {
+          "query": "open source government records management retention disposal schedule software GitHub",
+          "outcome": "本轮补采：命中 OpenRegister、ArchiefBeheerComponent、Alfresco RM、GovOPlaN records、Heratio 等；进一步核对官方文档、许可证与代码后纳入 OpenRegister。"
+        },
+        {
+          "query": "open source records management application DoD 5015.2 retention disposition GitHub",
+          "outcome": "本轮补采：交叉核对 DoD 5015.2 / 保留处置实现；Alfresco AGS 旧仓库已归档且无许可证元数据，OpenRegister 的 Archiefwet/selectielijst 路径更直接。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/lokeshm-it/Microsoft-Purview-Records-Management",
+          "status": "historical_reuse",
+          "note": "历史记录（2026-10-27T14:57:15+08:00，sha256 d998eede…）；本轮未重新抓取。README 自述为 Microsoft Purview 记录管理企业实施资料，依赖 Microsoft 365，不是可自托管政府记录管理应用。"
+        },
+        {
+          "url": "https://api.github.com/search/repositories?q=records+management+government+in:name,description",
+          "status": "historical_reuse",
+          "note": "历史记录：HTTP 200，total_count 128；仅用于筛选，未将搜索页当作核心工作流证据。"
+        },
+        {
+          "url": "https://api.github.com/search/repositories?q=records+retention+disposition+in:name,description",
+          "status": "historical_reuse",
+          "note": "历史记录：HTTP 200，total_count 2；候选中无同时满足可自托管、完整许可证和外部档案授权处置核心者。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ConductionNL/openregister/main/README.md",
+          "status": "fetched",
+          "note": "本轮抓取，sha256 8f719f18724135395f00817165ac624b7177ae97e7695956df89a113c6b23fcc；确认 OpenRegister 是 Nextcloud 应用，支持 App Store/源码自托管，EUPL-1.2。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ConductionNL/openregister/main/docs/features/archiving.md",
+          "status": "fetched",
+          "note": "本轮抓取，sha256 34f350e0bd617f6f1f94892618c77cc7a2581fd84b83d0d0f8b30983652eb663；官方正文明确 MDTO、selectielijsten、销毁审批、法律保留、销毁证书与 e-Depot/SIP 移交。"
+        },
+        {
+          "url": "https://api.github.com/repos/ConductionNL/openregister",
+          "status": "fetched",
+          "note": "本轮抓取，sha256 32e0f1ad9528f6740b68b4acf2485b3e94fc9d217340b5f5d635c122be2c5fe9；repository id 846854082，full_name ConductionNL/openregister，未归档，默认分支 main。"
+        },
+        {
+          "url": "https://api.github.com/repos/ConductionNL/openregister/license",
+          "status": "fetched",
+          "note": "本轮抓取，sha256 653a8010511bf447da0ce41ebe1f310724e9bc59bbe31a10165182f2ffd7b499；license.spdx_id=EUPL-1.2，含完整许可证正文。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ConductionNL/openregister/main/appinfo/routes.php",
+          "status": "reviewed",
+          "note": "本轮读取用于交叉核对，未纳入批次快照；当前已注册 /api/archival/destruction-lists、/api/archival/legal-holds、/api/retention/destruction-lists 与 /api/transfers 等路由。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ConductionNL/openregister/main/lib/Service/Archival/DestructionService.php",
+          "status": "reviewed",
+          "note": "本轮读取用于交叉核对，未纳入批次快照；实现到期对象筛选、销毁清单、批准/驳回、双人审批与销毁执行队列。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ConductionNL/openregister/main/lib/Service/Edepot/MdtoXmlGenerator.php",
+          "status": "reviewed",
+          "note": "本轮读取用于交叉核对，未纳入批次快照；实现 MDTO 命名空间 XML 生成与必填字段校验。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空、phase=included_without_cases，与 batch.json、research.json 中的五个 case_found 不一致；若下游依赖该进度字段，应同步更新，但不影响本次公开资料核对。",
+    "Orderwerks 的 /solutions/dealer-portal 在 REVIEW_SOURCES.json 与 batch.json 中标记为 homepage，实际是解决方案页；Selloff、SimpleConsign、Trove 的营销功能页标记为 documentation，kind 标签偏宽，建议后续校准。",
+    "Orderwerks 摘要写“进入 QuickBooks 开票与履约”，原文只明确 QuickBooks 自动生成发票或同步，发货与履约由卖方订单流程控制；建议改为“审核后推送 QuickBooks 开票并进入卖方履约流程”。",
+    "Spree 的社区核心证据覆盖受控买家门店、价格表与数量阶梯、客户组与公司、按细分目录以及订单、支付、履约；README 未明确展开发票与赊账条款，Enterprise 另含 B2B 审批流、ERP 连接器、多租户 SaaS，条目未把这些企业版能力算入社区核心，边界表述可保留。",
+    "Selloff 的拍品、场次、出价、结果、买家发票与收款、委托人结算均有正文依据；保留价未达标与未成交的具体规则只由 estimates & reserves、unsold lots 间接体现，未做登录试用。",
+    "SimpleConsign 的寄售人余额、分成、逐件历史、POS 归属销售、ACH 或批量支付和寄售人门户均有正文依据；“逐件追踪商品及其寄售期与分成”中的逐件佣金归属主要由商品历史与寄售人分成界面体现，未做试用验证。",
+    "Trove 摘要中的“鉴定、积分、过剩库存”比原文更强：原文明确的是计算机视觉与目录识别、状况等级、动态定价、退货或以旧换新与礼品卡；“积分”与“鉴定”宜改为更保守的“识别或评估”。Trove 还提供第三方市场补充销售渠道，属于品牌自营转售面之外的附加能力，不影响核心匹配但应在边界说明中保留。",
+    "所有商业条目均为官方页面自述，未做注册、试用或价格核验；开源条目未实际部署，结论限于仓库 README、metadata 与 LICENSE。"
+  ],
+  "leaf_checks": {
+    "dealer-distributor-commerce-portal": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:orderwerks"
+      ],
+      "track": "commercial",
+      "core_match": "官方 Dealer Portal 页与 B2B Portal 功能页显示：制造商品牌门户、每个经销商独立账号、按账号的合同价、数量阶梯与经销商专属目录、浏览、购物车与历史重订、卖方审核后发货、批准订单自动推送 QuickBooks。三个定义性结构——卖方运营的伙伴场所、按伙伴账户的商务条款、伙伴发起订单进入卖方管道——均有正文依据。",
+      "service_form": "SaaS 订阅式 Web 与移动门户（页面称 24/7、品牌化、按月定价），符合持续使用的软件服务形态。",
+      "id_track": "commercial:orderwerks / commercial，ID 与 homepage 域名一致。",
+      "license": "不适用（商业闭源）。",
+      "evidence": [
+        "data/collections/sources/04b57395cddf0a8910957879e569d1994343f0970cbfe7e32bd2a7e26cd73a45.txt",
+        "data/collections/sources/fd45717f1c0490891520d73c55996f6a6a9df7148ef9229d2e8094056e83a3c6.txt"
+      ],
+      "gaps": "未登录或试用；QuickBooks 仅确认开票同步，履约由卖方流程完成，摘要措辞略宽。"
+    },
+    "wholesale-commerce-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:3314"
+      ],
+      "track": "open_source",
+      "core_match": "README 的 B2B & Wholesale 用例明确列出 price lists 与 volume tiers、customer groups、companies（地点、联系人、免税）、按细分 catalogs、仅对已批准买家开放的门店；仓库核心同时提供订单、支付、发货、税费、库存。受控企业买家账户、按账户批发报价、订单履约生命周期三部分有依据。",
+      "service_form": "可自托管的开源商务平台（Docker、Node.js 24+、REST API、TypeScript SDK、Next.js storefront），属于可持续运营的软件平台形态；非厂商托管 SaaS。",
+      "id_track": "github:3314 / open_source；仓库 metadata 为 spree/spree，GitHub repository id 3314，homepage spreecommerce.org。",
+      "license": "BSD-3-Clause；LICENSE 快照为完整 BSD 3-Clause 文本，GitHub license API 与 metadata 的 spdx_id 一致。",
+      "community_boundary": "社区核心含 B2B 与 wholesale（价格表、客户组、公司、catalogs、受控门店）；Enterprise 另含 B2B 审批流、ERP 连接器、多租户 SaaS、审计与加密、SLA，条目未把这些算入社区核心。",
+      "evidence": [
+        "data/collections/sources/78f364e8ce02b324f91d09d72ca065312ed79d3e1208aded8a4ef7d92abb5f8a.txt",
+        "data/collections/sources/982bdded227bebcf9e82194c8c16e81102baea370bce82189a2f739f3fef378f.txt",
+        "data/collections/sources/ecf54692e06fe80583235ece128b7d57aef7ad9fbf9b16fc335baa16c61111d7.txt"
+      ],
+      "gaps": "未部署验证；README 未明确展开发票与赊账条款，B2B 订单生命周期中的开票与账期只有核心支付与履约能力可间接支持。"
+    },
+    "auction-management-system": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:selloff-auction"
+      ],
+      "track": "commercial",
+      "core_match": "首页与功能页覆盖：委托收货与签署文件、拍品编目与估价或保留价、场次与出价登记（现场、缺席、电话、平台导入）、逐件结果与成交价、买家发票（含 buyer's premium、保险、平台费、运费、VAT）与收款、委托人结算（佣金、杂费、VAT）及运输；拍品到场次、出价、成交、双边资金闭环有正文依据。",
+      "service_form": "面向拍卖行员工的 Web 端 SaaS（99.9% uptime、持续版本发布），符合运营端软件服务形态。",
+      "id_track": "commercial:selloff-auction / commercial，homepage selloff.auction 与产品身份一致。",
+      "license": "不适用（商业闭源）。",
+      "evidence": [
+        "data/collections/sources/2e5a03dc668c7dba6233725d40dbf3d6389c07e219e49aa209a4e687b938f8dc.txt",
+        "data/collections/sources/017bd4dbf85f779d9514fb427e71ebcb042addfadfa348976533956bd8fd96b2.txt"
+      ],
+      "gaps": "未注册试用；竞买人前端与在线拍卖平台不在本叶范围；保留价未达标与未成交规则由 estimates & reserves、unsold lots 功能间接体现。"
+    },
+    "consignment-management-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:simpleconsign"
+      ],
+      "track": "commercial",
+      "core_match": "功能页与首页展示：寄售人账户与 running balance（consignor balance、pending payouts）、按寄售人或品类的分成与 tiered splits、逐件商品历史与寄售期、POS 销售归属、批量或自动 ACH 支付、寄售人门户、store credit；寄售人账户、寄售商品、佣金条款、归属销售与结算四个结构均有依据。",
+      "service_form": "Cloud-based 订阅式 SaaS，符合寄售门店持续运营形态。",
+      "id_track": "commercial:simpleconsign / commercial，homepage simpleconsign.com 与产品身份一致。",
+      "license": "不适用（商业闭源）。",
+      "evidence": [
+        "data/collections/sources/f7362789562eb38858a00a362bddddf496627395b795175087367f51ce8ec56d.txt",
+        "data/collections/sources/7d9667e2da47960863ec4b53ed62c712e9b8f0a71c9f38af3596c3f58d5e10a2.txt"
+      ],
+      "gaps": "未试用；逐件商品的所有者与佣金归属主要由商品历史、寄售人分成和 demo 数据体现，未做实际交易验证。"
+    },
+    "recommerce-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:trove"
+      ],
+      "track": "commercial",
+      "core_match": "首页与 Resale & Trade-In 页展示：退货、以旧换新或二手商品作为单件供应、AI 与计算机视觉及目录识别、状况等级、动态定价与路由、品牌自营 resale 站点、门店与 used+new 集成、以旧换新礼品卡与利润回收；单件供应、接收至可售转化、品牌运营转售面、价值闭环四部分有依据。",
+      "service_form": "品牌与 3PL 可用的 SaaS 与托管运营服务（软件或 Trove 仓库运营），符合持续服务形态。",
+      "id_track": "commercial:trove / commercial，homepage trove.com 与产品身份一致。",
+      "license": "不适用（商业闭源）。",
+      "evidence": [
+        "data/collections/sources/6e0de88719ef5093cf30492b44a1366a86de12cb91ed7824ab020f27d9d552bb.txt",
+        "data/collections/sources/8975ba939a8e1d68f64e36fb972b0a19a24cf3338c2cfead170a1d5c094c5a53.txt"
+      ],
+      "gaps": "未试用；原文未明确使用“鉴定/authentication”与“积分/points”措辞，摘要略宽；Trove 另有第三方市场补充销售渠道，属于品牌自营转售面之外的附加能力。"
+    }
+  },
+  "limits": "只读初审；按 REVIEW_SOURCES.json 的 path 原样读取 11 个快照，未运行 shell、未写文件、未重算 sha256、未部署、未登录或试用；原始 HTML 快照部分正文较长，辅以官方在线页面阅读以核对可读性，但结论以快照正文为准；商业价格、架构与未公开工作流未独立核实；input.json 的 progress 与 batch.json、research.json 存在不同步，未作为内容阻断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-036/ses_groveopencodegop036review1_1792943578.jsonl",
+  "batch_sha256": "f4e931586485c0064146e80b14e6a3f1579574b65a0b07a09f02b6d4c113d7f9",
+  "research_sha256": "9cf107d9e78189a5dcbb72f57b93d1a887b9e392b2de8ae08ad9f9ac1b5acbaf",
+  "input_sha256": "bfdc9a6743fcab85e377415f51cdb5236ef222ea29f97c6bb6a47b43a645333a"
+}

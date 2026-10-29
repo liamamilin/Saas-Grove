@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "static-code-analysis-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1222504"
+      ],
+      "query": "static code analysis platform open source self-hosted; official SonarQube Community Build repository and docs; Semgrep SAST platform boundary recheck",
+      "source_urls": [
+        "https://api.github.com/repos/SonarSource/sonarqube",
+        "https://api.github.com/repos/SonarSource/sonarqube/license",
+        "https://raw.githubusercontent.com/SonarSource/sonarqube/master/README.md",
+        "https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/analysis-overview.md",
+        "https://docs.sonarsource.com/sonarqube-community-build/quality-standards-administration/managing-quality-profiles/understanding-quality-profiles.md",
+        "https://docs.sonarsource.com/sonarqube-community-build/user-guide/issues/introduction.md",
+        "https://api.github.com/repos/semgrep/semgrep",
+        "https://raw.githubusercontent.com/semgrep/semgrep/master/README.md"
+      ],
+      "note": "初审缺口是“同一开源条目提供完整在线SAST应用”，而非静态分析能力本身。本轮先复用并重读历史 Semgrep 快照：README 自述为开源静态分析工具（CLI/IDE/CI），并明确把 SAST/SCA/secrets 场景导向 Semgrep AppSec Platform，且写明该平台含免费与付费层级；开源仓库本身未证明提供该平台的管理界面与服务形态，因此按原初审意见移除 Semgrep 与本叶的成立关系，旧候选与旧来源保留在历史记录中，不当作本轮通过。随后补采开源替代：SonarQube Community Build 官方仓库元数据（id 1222504 / full_name SonarSource/sonarqube，与共享正式产品同身份）与 LGPL-3.0 完整许可证正文；官方社区版文档证明其为自托管平台：项目由扫描器读取文件系统源文件、按质量配置中启用的规则分析后送平台计算（不运行被分析代码），规则目录可按语言启用/停用、调参、自定义和继承，规则触发即产生带主/次定位、执行流路径、严重度与状态生命周期的问题。三项定义核心均落到官方正文，且社区版边界清楚（深度污点 SAST、SCA、分支/PR 分析属商业版，未纳入）。已复用共享 github:1222504 身份，不改其正式核心字段。",
+      "service_boundary": "收录社区版自托管完整静态分析平台：源码仓库 + 服务端计算/问题管理 + 扫描器接入，分析对象是客户自有代码。不扩展到商业版的深度污点 SAST、SCA、分支/PR 分析、企业报表，也不把 SonarQube Server/Cloud 商业产品并入本条；Semgrep 仅保留为已核实不成立的 CLI/CI 引擎候选。",
+      "search_attempts": [
+        {
+          "query": "复用历史 Semgrep 仓库元数据与 README 快照，核对开源条目是否含完整 SAST 管理应用",
+          "result": "boundary confirmed：README 指向独立的 Semgrep AppSec Platform（免费/付费层级），开源仓库为 CLI/CI 扫描引擎，不足以支撑本叶应用服务形态"
+        },
+        {
+          "query": "共享正式产品索引检索静态分析类开源候选（SonarQube Community Build / SonarQube Server / Snyk）",
+          "result": "found candidate：github:1222504 SonarQube Community Build 为自托管开源平台，与本叶定义核心一致"
+        },
+        {
+          "query": "SonarQube Community Build 官方文档：分析流程、质量配置、问题定位与生命周期",
+          "result": "found supporting official documentation"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/semgrep/semgrep",
+          "status": "historical_snapshot_reused",
+          "note": "2026-10-24 历史快照，未重抓；仅用于确认 Semgrep 候选边界"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/semgrep/semgrep/master/README.md",
+          "status": "historical_snapshot_reused",
+          "note": "2026-10-24 历史快照；正文声明开源版为静态分析工具，SAST/SCA/Secrets 场景推荐 Semgrep AppSec Platform"
+        },
+        {
+          "url": "https://api.github.com/repos/SonarSource/sonarqube",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，证明仓库 id/full_name 与共享产品身份一致"
+        },
+        {
+          "url": "https://api.github.com/repos/SonarSource/sonarqube/license",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，GitHub license API 返回 LGPL-3.0 及完整许可证正文"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SonarSource/sonarqube/master/README.md",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，说明仓库为 Community Build 源码及商业版差异"
+        },
+        {
+          "url": "https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/analysis-overview.md",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，静态分析流程与扫描器/平台分工"
+        },
+        {
+          "url": "https://docs.sonarsource.com/sonarqube-community-build/quality-standards-administration/managing-quality-profiles/understanding-quality-profiles.md",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，规则目录可配置/继承/按项目关联"
+        },
+        {
+          "url": "https://docs.sonarsource.com/sonarqube-community-build/user-guide/issues/introduction.md",
+          "status": "fetched",
+          "note": "2026-10-28 本轮抓取，问题定位、执行流、状态生命周期"
+        },
+        {
+          "url": "https://docs.sonarsource.com/sonarqube-community-build/analyzing-source-code/overview.md",
+          "status": "fetched_but_not_cited",
+          "note": "2026-10-28 抓取成功，仅作背景核对，批次未引用其快照"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "AppOmni 的 Posture Management 在清单中的 URL 是 /use-cases/posture-management/，但快照正文的 canonical 是 /saas-security-solutions/posture-management/；PlexTrac 的 /platform/ 与 KnowBe4 的 /security-awareness-training 也分别对应 /platform/overview/ 与 /products/security-awareness-training。这些差异均属官方站点重定向，快照内容仍与产品一致，建议后续更新为 canonical URL。",
+    "AppOmni 页面同时强调 AI 安全、威胁检测与身份治理，范围大于 SSPM；但受管 SaaS 资产、持续配置评估、findings 与 remediation 等 SSPM 核心在正文中仍有直接依据。",
+    "IRIS 的 docs 快照是官方文档首页，正文覆盖 alerts→cases、IOC/tasks/notes/evidence/timeline、SHA-256 监管链、RBAC/audit/reports，但未逐字列出 case 状态与关闭词汇；README 又提示 v3.0.0-beta.1 不宜用于生产，生产应使用 v2.4.29。作为开源案例，这些不构成阻断。",
+    "Autopsy 是本地桌面取证应用，不是在线 SaaS；README 为 2016 年 Autopsy 4 文本，与 4.23.0 用户指南存在版本表述差异；README 提示随附第三方库可能采用 LGPL/GPL 等其他许可，批次 license_review 已说明 scope=repository。",
+    "PlexTrac 的官方定位是 pentest reporting / exposure assessment，覆盖范围宽于纯 PTM；Schedule & Scope、manual testing、remediation & retesting 足以支持基本类型匹配，授权上下文与测试人员分配未在单页逐项展开。",
+    "research.json 中 ClosedSSPM、TheHive、Dradis CE、Reconmap、GoPhish 等候选来源未列入 REVIEW_SOURCES，未纳入本次快照核对；其未入选理由已留档，且不影响已列应用。",
+    "GitHub 元数据快照为单行 JSON，展示层会截断；已通过定向匹配确认 IRIS id=440092871、archived=false、SPDX=LGPL-3.0，Autopsy id=2516243、archived=false、license=null，未逐字通读全部尾部字段。"
+  ],
+  "leaf_checks": {
+    "saas-security-posture-management-sspm": {
+      "application_id": "commercial:appomni",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "读取 data/collections/sources/34d8b5a6...（appomni.com/platform/）与 92b301c8...（posture 页）正文：agentless architecture、central control point for all managed SaaS applications、continuous SaaS security monitoring、detect misconfigurations and drift、prioritized Findings、Posture Scoring、accurate remediation guidance、policy enforcement；对应 SSPM 的 connected SaaS estate→continuous assessment→findings→remediation 核心。",
+      "gaps": "营销页未明确展示“修复后复评验证关闭”的具体状态机；商业只作基本真实性与类型匹配，不阻断。"
+    },
+    "cyber-incident-response-platform": {
+      "application_id": "github:440092871",
+      "track": "open_source",
+      "verdict": "pass",
+      "basis": "GitHub 元数据快照 id=440092871、archived=false、SPDX=LGPL-3.0；LICENSE.txt 为完整 LGPLv3 文本；README 自述 web collaborative incident response platform，Docker Compose 自托管；官方 docs 正文：SIEM/EDR/REST alerts 入队并可一键转 case，case 承载 assets/IOC/tasks/notes/evidence/timeline，SHA-256 监管链，RBAC/audit/reports/API。",
+      "gaps": "docs 首页未明确列出 case 生命周期状态与关闭规则；未在快照中看到独立的企业版/社区版边界说明（项目本身未声明企业版）。"
+    },
+    "digital-forensics-platform": {
+      "application_id": "github:2516243",
+      "track": "open_source",
+      "verdict": "pass",
+      "basis": "GitHub 元数据 id=2516243、archived=false；LICENSE-2.0.txt 为完整 Apache License 2.0；README 说明检验磁盘镜像、单案件多用户协作、Apache 2.0；官方项目页称 end-to-end digital forensics platform，列 timeline、keyword search、data carving、background ingest；用户指南目录列 Cases、Data Sources、Ingest Modules、Data Source Integrity、Timeline、Tagging、Reporting。",
+      "gaps": "本地桌面应用而非在线 SaaS；README 2016 年文本与 4.23.0 文档版本不一致；第三方库许可可能不同，批次已在 license_review 说明。"
+    },
+    "penetration-testing-management": {
+      "application_id": "commercial:plextrac",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "PlexTrac platform 页正文列 Schedule & Scope engagements、procedures/runbooks、manual testing、findings 聚合、remediation & retesting workflows、reports、client portal；对应 engagement→finding→修复/复测闭环。",
+      "gaps": "官方定位为 pentest reporting / exposure assessment，授权上下文与 tester assignment 未在单页逐项展开；商业基本类型匹配不阻断。"
+    },
+    "security-awareness-platform": {
+      "application_id": "commercial:knowbe4",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "KnowBe4 官方页正文列培训内容、phishing simulations、SmartRisk 为每位员工生成动态 Risk Score、AIDA 自动编排培训/模拟、失败后 remedial training/Real-Time Coaching、Phish-prone Percentage 与组织/部门/个人趋势。",
+      "gaps": "营销页为主，未展示邮件 allow-list 等部署细节；核心三腿闭环已具备。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元提供的任务、输入、批次、研究与 REVIEW_SOURCES 列出的 13 个来源快照；未运行 shell、未写文件、未读取其他单元，未重算快照 sha256。部分快照为厂商营销页或文档首页，未展开产品内页；GitHub 元数据为单行 JSON，尾部字段未逐字通读，仅对 id/archived/license 做定向匹配。research.json 中未列入 REVIEW_SOURCES 的候选来源未独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-150/ses_groveopencodegop150review1_1793013306.jsonl",
+  "batch_sha256": "eed26865ca06867dd7462a789e7432a83246b25d52da151dbe83d9fd236c3f23",
+  "research_sha256": "cc6e63746cf7bff502b3f07704996f2054637226dcf842d5558a06be4988bc36",
+  "input_sha256": "4e17f99d08d195a17ed9a2c0d8f9c8482234db27bb00d1e1686a3236c3f5ef63"
+}

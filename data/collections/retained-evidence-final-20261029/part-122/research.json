@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "certificate-lifecycle-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1007555070"
+      ],
+      "query": "定向检索开源证书生命周期管理 Web 应用并核验 CertMate 官方仓库、README、LICENSE 与 docs/guide.md；同时复核历史 cert-manager 证据（cert-manager 未使用关键词搜索）",
+      "source_urls": [
+        "https://github.com/fabriziosalmi/certmate",
+        "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/README.md",
+        "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/LICENSE",
+        "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/docs/guide.md",
+        "https://github.com/cert-manager/cert-manager",
+        "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+        "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+        "https://cert-manager.io/docs/usage/certificate/"
+      ],
+      "note": "初审 finding 指出旧候选 cert-manager 仅证明集群内基础设施控制器，未证明完整持续应用服务。本轮先复核历史快照（原 URL/SHA/抓取时间原样保留，未重抓），再按 finding 的“优先换完整开源应用服务”做一组替代品定向检索，新增核验 CertMate 官方仓库：README 正文明示其自托管 Web 界面集中签发/续订证书、发现未纳管证书、维护到期与部署位置清单并在续订后部署，docs/guide.md 给出 Web Dashboard 的创建/续订/吊销/监控操作，完整 MIT LICENSE 与仓库页 meta（repository_id 1007555070，未归档）一致。据此建立 certmate 成立关系；cert-manager 作为 withheld 候选保留于历史与下方记录，不声明其不存在，也不在 batch 重建关系。本轮为实际新抓取 4 份官方快照，历史 4 份快照仅复用核对。未运行第三方项目，runtime_tested:false。",
+      "service_boundary": "开源自托管 Web 应用：单实例 Web 进程内置续订调度器，提供证书记录、公共/私有 CA 签发、到期前自动续订、部署交付与探针核验、发现盘点及客户端证书吊销。核心仓库为 MIT；README 所述多租户/白标 CertMate-ng 为 source-available（BSL 1.1），不计入本条目开源范围。未验证实际部署、生产运行或商业支持。",
+      "search_attempts": [
+        "历史复用：读取已有 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE 快照并复核（未重新抓取）",
+        "替代品定向检索 1 组：open source certificate lifecycle management web application self-hosted GitHub",
+        "直接抓取 CertMate GitHub 仓库页（repository_metadata）与 raw README.md、LICENSE",
+        "直接抓取 CertMate docs/guide.md，核对 Web 界面的证书创建、续订、吊销与监控正文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/fabriziosalmi/certmate",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "a217424dfc296fe2d20330b19d600ab7264e8e7d8a84a95aa1adffc1f9afa86b",
+          "snapshot_path": "sources/a217424dfc296fe2d20330b19d600ab7264e8e7d8a84a95aa1adffc1f9afa86b.txt",
+          "fetched_at": "2026-10-29T11:56:01.219384+08:00",
+          "note": "本轮新抓取；页面 meta 证明 id 1007555070、nwo fabriziosalmi/certmate、MIT、未归档"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "73dfc508f20c6819f2391ac42616438b5c7a74e614701097cf56ee6d51d0fdad",
+          "snapshot_path": "sources/73dfc508f20c6819f2391ac42616438b5c7a74e614701097cf56ee6d51d0fdad.txt",
+          "fetched_at": "2026-10-29T11:56:00.114028+08:00",
+          "note": "本轮新抓取；正文覆盖签发、续订、发现盘点、部署与单实例运行"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "7c1189f6261991600d663952c4788e45488029a295d8463f5441420ba69cc1f1",
+          "snapshot_path": "sources/7c1189f6261991600d663952c4788e45488029a295d8463f5441420ba69cc1f1.txt",
+          "fetched_at": "2026-10-29T11:56:00.089302+08:00",
+          "note": "本轮新抓取；完整 MIT License 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/fabriziosalmi/certmate/main/docs/guide.md",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "03ca5b34a66af98a238c29aaa05c7d92284410806f96bc6e139912672bab0507",
+          "snapshot_path": "sources/03ca5b34a66af98a238c29aaa05c7d92284410806f96bc6e139912672bab0507.txt",
+          "fetched_at": "2026-10-29T11:56:21.087095+08:00",
+          "note": "本轮新抓取；正文含 Web Dashboard 创建/续订/吊销/监控与 Auto-Renewal"
+        },
+        {
+          "url": "https://github.com/cert-manager/cert-manager",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+          "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+          "fetched_at": "2026-10-26T18:44:38.762337+08:00",
+          "note": "历史复用，未重新抓取；仅证明仓库身份，未证明完整应用服务"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+          "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+          "fetched_at": "2026-10-26T18:44:27.819945+08:00",
+          "note": "历史复用，未重新抓取"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+          "fetched_at": "2026-10-26T18:44:22.458095+08:00",
+          "note": "历史复用，未重新抓取；完整 Apache-2.0 文本"
+        },
+        {
+          "url": "https://cert-manager.io/docs/usage/certificate/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+          "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+          "fetched_at": "2026-10-26T18:44:46.541491+08:00",
+          "note": "历史复用，未重新抓取；仅证明集群内控制器的签发/Secret 交付/续订"
+        },
+        {
+          "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+          "kind": "license",
+          "result": "failed: HTTP 403 rate limit exceeded",
+          "note": "历史失败，原样保留，未重试"
+        }
+      ],
+      "archived": false,
+      "historical_reuse": {
+        "record": "retained-continuation-20261027/part-141/research.json",
+        "note": "cert-manager 4 份快照按原 URL/SHA/抓取时间复用核对；旧评估 boundary_unresolved 保留，不当作本轮通过。"
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:92313258",
+          "name": "cert-manager",
+          "reason": "所引正文与部署说明仅证明 Kubernetes 集群内控制器（证书申请、签发、Secret 交付与自动续订），未证明本类型所需的完整持续 Web 应用服务形态；按初审 finding 不作为成立关系，保留来源与历史记录，不推断其不存在。"
+        }
+      ]
+    }
+  ]
+}

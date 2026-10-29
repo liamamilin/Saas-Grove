@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "investment-fund-accounting / github:1345752498：Madar 是覆盖投资者登记、申购赎回、交易、风控与门户的 broader investment operations platform；本叶匹配应只基于其复式基金账簿、NAV/费用/资本账户和受治理结账，不应把登记与过户算作基金会计核心。research.json 已记录该边界。",
+    "investment-fund-accounting / github:1345752498：batch 的“资本报表发布”措辞略宽于 README 的“statements / published statements”；建议改为“报表受控发布”，不阻断。",
+    "investor-portal / github:1345752498：Madar 的投资者门户是同平台模块，不是独立门户产品；作为开源补充样本可以，门户类型的主样本宜以 Juniper Square 为准。",
+    "liquidity-management-platform / commercial:nomentia：Nomentia Smart Treasury Suite 同时覆盖债务/投资、支付与现金池等 TMS 相邻能力；本叶证据来自 Cash Positioning 与 Cash Flow Forecasting 模块，产品整体不宜表述为纯流动性管理平台。",
+    "pension-administration-platform / commercial:heywood-altair：正文对福利计算、批量年度报表、审计和 payroll 有直接证据；对成员登记册、服务/缴费历史、计划规则配置、追溯计算与多付回收未展开，research.json 已留档，建议关系措辞保持收窄。",
+    "performance-attribution-platform / commercial:confluence-revolution：正文对多资产组合绩效、基准比较、归因和报告有直接证据；数据接入、重述与权限/审计未展开，research.json 已留档。",
+    "input.json 的 progress 仍为 not_searched / 空 application_ids，与 batch.json、research.json 的 case_found 不一致；建议同步状态字段，避免下游误判。本次按 batch/research 与实际快照核对。"
+  ],
+  "leaf_checks": {
+    "investment-fund-accounting": {
+      "status": "pass",
+      "applications": [
+        "github:1345752498"
+      ],
+      "basis": "读取 data/collections/sources/06abcd18179d2203ce3e0fdbe176fd8771109a615de36ee027ac2c2c6383ed02.txt（Madar README）正文：按币种平衡的复式日记账、已过账分录不可变、冲正/调整而非改写历史（约第70-72、143-153行）；NAV 由现金、计价持仓、应收应付、应计费用计算，最终 NAV 不可变、maker-checker 与 SHA-256 计算哈希（第73-74、134-140行）；版本化管理/业绩/赎回费规则及计提过账、池化份额与高水位（第75-76行）；受控报表发布与审计事件（第86-87行）。另读 2676d421…txt 元数据（id=1345752498、archived=false、default_branch=main）与 41d5e79f…txt 许可证（MIT SPDX，LICENSE 正文以 MIT License 开头）。",
+      "gaps": "快照未明确多账簿/多基础、完整 waterfall、tax packs 与 GL feeds；未据此断言。Madar 同时含投资者登记/申购赎回，本叶只取账簿与结账模块。"
+    },
+    "investor-portal": {
+      "status": "pass",
+      "applications": [
+        "github:1345752498",
+        "commercial:juniper-square"
+      ],
+      "basis": "Juniper Square 189f9675…txt 正文：branded LP portal、按 LP 预览并在准备好后发布、按 investor 与 fund 配置、按 contact/investor account/vehicle/fundraise/document type/data field 的细粒度权限、investment/tax documents、capital statement distribution、payment instructions 自助更新含 AI 欺诈筛查、eSignatures、700k+ investor login credentials（约第1880、2075、2292、3456、3564、2218行）。Madar README 06abcd18…txt 正文：investor portal 显示 account value、contributed/withdrawn capital、P&L、return、activity、published statements，并提供受控存取款申请；测试含 portal isolation（约第65、340行）。",
+      "gaps": "Juniper 页面未展示底层会计/NAV 来源；Madar 门户与账簿同平台。两者均未把底层记账算作门户核心。"
+    },
+    "liquidity-management-platform": {
+      "status": "pass",
+      "applications": [
+        "commercial:nomentia"
+      ],
+      "basis": "Nomentia Cash Positioning d6518163…txt 正文：将 bank balances、deposits、investments、debt、available credit lines 按 banks/accounts/entities/currencies 合并为单一集团状态；按 account/currency/value date 规划余额以驱动 short-term investment、funding、target balancing，transfers 准备经 Payments Hub 释放；FAQ 明确 cash pool structures、intercompany positions、target balances（约第2385、2444、2478、2752、2782行）。Cash Flow Forecasting 345c575a…txt 正文：合并 ERP/bank/subsidiary/treasury 数据做 rolling forecast，支持 daily/weekly/monthly、scenario、plan/actual variance 与冻结版本（约第2376、2435、2486、2743、2758行）。",
+      "gaps": "AI 参考预测、支付执行、债务/投资工具管理属相邻或扩展能力，未算作本叶核心；页面未给出具体部署/版本细节。"
+    },
+    "pension-administration-platform": {
+      "status": "pass",
+      "applications": [
+        "commercial:heywood-altair"
+      ],
+      "basis": "Heywood Altair 585363cd…txt 正文：pension administration platform，面向 retirement systems/administrators 的 member services；complex individual and bulk benefit calculations；workflow automation；document create/export/archive 与 full auditability；bulk annual benefit statements、allowances、pension increases；role-based + MFA；Altair Payroll integrated retiree benefit payroll；US-based hosted infrastructure（约第903、994、996、998、1000、1055、1117、1248、1293行）。",
+      "gaps": "正文未展开 scheme 规则配置、服务/缴费历史、追溯计算、多付回收、遗属/转移；仅按正文可验证的福利计算、批量报表与支付能力作类型匹配，research.json 已记录该缺口。"
+    },
+    "performance-attribution-platform": {
+      "status": "pass",
+      "applications": [
+        "commercial:confluence-revolution"
+      ],
+      "basis": "Confluence af3f0619…txt 正文：Revolution 对 large volumes of multi-asset portfolios 计算 performance results，against wide range of benchmarks，并用 attribution analysis 解释 performance drivers；PARis 提供 institutional plan types across asset classes 的 performance measurement 与 attribution，含 straight-through data aggregation、portfolio analysis、reporting、peer benchmarking；Style Analytics 提供 holdings-based analytics 与 factor exposures；页面称支持 100,000+ actively managed portfolios（约第618、633、648、662、671行）。",
+      "gaps": "正文未展开数据接入、重述、权限/审计流程；research.json 已留档，未据此断言。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 sha256、未登录或部署任何产品、未审 Madar 源码或运行测试。商业产品仅依据所给官方产品页正文，未独立验证定价、版本、托管/部署细节。快照按 REVIEW_SOURCES.json 的 path 原样读取；sha256 与文件名、batch/research 记录一致，但未独立计算。部分产品页未展开的成员登记/累积记录、数据接入、重述审计等缺口已在 leaf_checks 与 research.json 中记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-120/ses_groveopencodegop120review1_1793006088.jsonl",
+  "batch_sha256": "3952f95e9a3bc0feee45f60ea4d824b5612f60eb7f2b01ba28f5926e10525a16",
+  "research_sha256": "0244fc510d7edc3e13be6a53696b6cd5bad9db7d2fb0633e22f52c27a37f01fe",
+  "input_sha256": "0c28c350a189b16ee0baac204496d8ca2bdc4b088ef387fdc1d029e012db4cd0"
+}

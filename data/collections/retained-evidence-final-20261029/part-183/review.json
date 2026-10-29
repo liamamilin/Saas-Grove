@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空，未声明任何快照路径；data/collections/sources 下实际有 9 个文件，本次只能依据文件内容与 research.json 的 fetch_outcomes 辅助对应，无法完成声明式 URL 到快照的映射。建议补齐来源清单。",
+    "uPortal 仓库页快照确认 nwo 为 uPortal-Project/uPortal、repo id 为 2614085，但未包含 LICENSE 栏；Apache-2.0 仅见于 research.json 注记，且后续 GitHub API 调用被限流。因 uPortal 未纳入案例，不影响本叶结论；若未来提升为案例，应补 LICENSE 或 API JSON 快照。",
+    "research.json 称 Ellucian Central Workspace 展示“跨系统任务/表单”，快照正文主要支持 tasks/alerts/insights 与跨系统数据，未明确出现 forms；建议改为“任务/提醒/洞察”，避免非关键措辞过度概括。",
+    "input.json 的 rules_zh 在“部分产品还允许机构暴露”处截断，英文规则完整；不影响三项定义性结构判断，但建议修复中文文本。"
+  ],
+  "leaf_checks": {
+    "student-services-portal": {
+      "assessment": "boundary_unresolved",
+      "application_count": 0,
+      "basis": [
+        "batch.json 的 entries 为空；research.json 仅有一条 leaf_case，case_ids 与 input.json 的 application_ids 均为空，故无应用条目可核对 ID/track、SaaS 服务形态或社区版边界。",
+        "research.json 记录了 14 组检索式和 10 个来源 URL；实际可读的 9 个快照分别呈现 uPortal README、uPortal 仓库页、uPortal 文档索引、FenixEdu README、centralized-campus-portal README、codersfield README、Akea README、Ellucian Central Workspace 页面和 Pathify 首页。",
+        "uPortal：README 与仓库页确认其为高校企业开源门户框架，支持 SSO、校园应用/内容聚合和用户定制；学生个人事务前门仍需本地配置和 portlet，且未出现请求提交、机构侧处理及状态跟踪，不能证明三项结构完整，故不作为案例。README 的“100% free open source”只能证明其开源定位，不能替代完整许可证边界。",
+        "FenixEdu Academic：README 自述为 open source Student Information System 和 back office system，并标注 LGPL 3；类型属于定义明确排除的记录系统，不进入门户比较。",
+        "centralized-campus-portal：README 有跨部门服务目录、学生提交、Pending/In Progress/Resolved/Rejected 状态、管理员更新与通知，具备双向循环；但明确采用自助注册而非机构授予身份，且未发现 LICENSE，不能作为开源完整案例。",
+        "codersfield Students-Service-Request-System：仅覆盖 registrar 文件申请与邮寄，单办公室；学生自行注册；无跨办公室聚合，不纳入。",
+        "Akea student-academic-portal：仅覆盖 LOR/bonafide，单学术办公室；README 将管理员审批/拒绝列为 Future Enhancements，当前未证明机构侧处理与状态闭环。",
+        "Ellucian Central Workspace：商业页面证明个性化工作区、跨系统 tasks/alerts/insights 和角色视图；未明确学生请求提交、机构处理与状态跟踪，仅属相邻类型。",
+        "Pathify：商业页面证明统一 announcements/tasks/events/forms/information、200+ integrations 与个性化；multi-stage approval workflows 的语境是 CXP 治理，不是学生服务请求闭环，仅属相邻类型。",
+        "抓取缺口已如实记录：www.pathify.com 重定向、modo-labs TLS 主机名不匹配、Ex Libris 404、后续 GitHub API 限流；未把 HTTP 成功、导航、元数据或 Loading 当作核心工作流证据。"
+      ],
+      "conclusion": "无案例可纳入；boundary_unresolved 的留档与现有快照证据一致，符合“没有案例但真实记录检索、抓取和缺口”的可通过情形。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未访问其他单元，也未做额外网络检索或部署测试。REVIEW_SOURCES.json 的 sources 为空，因此不存在可按 path 原样读取的已登记快照清单；实际仅将 data/collections/sources 下的 9 个文件作为辅助核对，并按内容与 research.json 的 fetch_outcomes 对应，未补造 URL 或抓取时间。批次无应用条目，无法进行案例级 ID/track、SaaS 运行形态、完整许可证及社区版边界核验；GitHub API 后期限流，uPortal 的 Apache-2.0 许可未有独立快照；部分商业页面为静态 HTML，未验证登录后或动态内容。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-183/ses_groveopencodegop183review1_1793255478.jsonl",
+  "batch_sha256": "a23e348b1d8ee5c4e2bfe177a6ac1d7befe29181e87d8427b533d34a2ce52274",
+  "research_sha256": "62d83e7d6338b3b5cb3e6510c338e2561d2c075a1f79e54680339da505a65512",
+  "input_sha256": "f8a85a0e8356bf4c55da1ae6a466b636057d3fc0a1415d3e068d4f192b7bf452"
+}

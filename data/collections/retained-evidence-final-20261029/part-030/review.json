@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "video-editor / github:1137441048: batch.json 的 technology_stack 写了 Electron，但所引 README 只列出 React、TypeScript、Zustand、MediaBunny、WebCodecs、WebGPU、Web Audio、Three.js，并仅说明 apps/desktop 的打包目录；建议用仓库清单佐证或删除 Electron 项。",
+    "video-editor / github:1137441048: 功能项“可移植 JSON 编辑文档”未注明 docs/ai-editing.md 所述范围限制（portable JSON 仅覆盖 media clips、text、supplied captions、markers、数值内置效果与转场，含 graphics/SVG/masks/嵌套/多机位等工程须用普通项目格式）；补一句限定可避免读者误以为全工程可移植。",
+    "video-editor / github:1137441048: 官网标题与描述以“Open Source AI Video Editor / 与 AI agent 对话控制时间线”为主，但 README 与 docs 表明 AI Editing 是可选面板、Manual 可恢复检查器、AI 回合仍落在既有时间线与撤销历史中；按定义仍应归为视频编辑器而非“AI 视频编辑应用”，建议在 leaf 说明中记录该相邻类型的判定依据。",
+    "video-editor / github:1097654343: 功能项写“可选分辨率、帧率与码率”，README 正文明确的是容器、编解码器组合与 low–ultra 质量预设，以及从首段素材自动匹配画布/FPS；导出分辨率/帧率/码率控件未见逐项正文，建议核实后保留或改为“质量预设与编码器能力相关选项”。",
+    "video-editor / github:1097654343: 摘要“项目与素材保存在本地工作区”易被读成素材被复制进工作区；README 原文是项目、链接媒体元数据、缩略图、波形等以纯文件写入工作区，而导入“without copying originals”，建议改为“项目与媒体元数据保存在本地工作区”。",
+    "video-editor / github:1097654343: leaf_matches 理由中“代理不替换项目中的原始素材”在 README 无逐字正文（仅有 proxy generation 与 media relinking）；非破坏性结论已可由“不复制原始文件”与项目纯文件持久化支撑，建议删去该代理表述或补引对应文档。",
+    "video-editor / github:1137441048: deployment 的“可自托管：pnpm install && pnpm dev”实为本地开发运行；README 另有“host your own copy”的 MIT 自托管表述，建议措辞区分为“本地运行/自行部署”，避免把 dev server 等同于生产自托管。",
+    "video-editor: input.json 的 progress 仍记录 case_status=boundary_unresolved、application_ids=[]，与 research.json 的 case_found 及 batch.json 两条成立条目不一致；本批内容本身自洽，但上游状态簿记应在入库时同步，以免下游据 input 状态误判本叶无案例。",
+    "video-editor: research.json 对 OpenCut（github:1006414368）以 sha256=null 的 reviewed_not_cited 留档、对 OpenShot（github:36648301）复用本单元未附的历史快照；排除理由真实记录了缺口，本批未引用二者，故不阻断，但仅凭本单元资料无法复核这两条排除结论。"
+  ],
+  "leaf_checks": {
+    "video-editor": {
+      "verdict": "pass_with_non_blocking_notes",
+      "definition_core": "两案均以正文覆盖四项定义性属性。OpenReel（README 3c0f6e…）写明创建项目→导入媒体→把剪辑拖到时间线→修剪/分割/裁剪/波纹删除/重排/变速→多轨叠加视频/音频/文字/图形→实时预览→按预设或自定义设置导出 MP4(H.264)/WebM，最高 4K；docs/ai-editing.md（519fb5…）补充编辑文档以稳定元素 ID 与本地媒体引用序列化、导入先校验再以一次撤销步骤整体替换、缺失文件成显式占位并可重链接、导入不做网络抓取，支持“项目为持久容器且引用而非复制源媒体”的非破坏性判断。FreeCut（README 9ca133…）写明选择工作区文件夹→创建项目→拖入素材→拖到时间线修剪/排列/加效果/转场/遮罩/字幕/音频→实时预览→浏览器内导出 MP4/WebM/MOV/MKV，多轨含 video/audio/text/image/shape/mask/compound clip，导入“without copying originals”，项目/链接媒体元数据/缩略图/波形以纯文件写入工作区并支持媒体重链接，四项属性均有直接正文。",
+      "service_form": "两案均为可持续使用的完整应用而非组件/引擎：OpenReel README 提供托管 Web 编辑器 https://openreel.video（无需安装、创建项目即可编辑），另有 pnpm dev 本地运行与 macOS/Windows/Linux 桌面 alpha 构建；FreeCut README 以 freecut.net 为入口，声明浏览器内完成编辑/预览/导出、无需安装，并给出 npm install && npm run dev 本地运行。两者为 local-first（媒体不上传、项目在本地），服务形态属于“托管 Web 应用 + 可自行部署/运行的完整编辑器”，与 open_source track 相符；不属于仅 SDK、仅转码引擎或桌面客户端。",
+      "identity_track": "github:1137441048 与 github:1097654343 均在仓库页 octolytics 元数据中核对到 repository_id、nwo（Augani/openreel-video、walterlow/freecut）、repository_public=true、repository_is_fork=false，与 batch.json 的 id、repository_url、github_repository_id 一致；两案 track 均为 open_source，与 MIT 许可及公开仓库身份匹配。",
+      "license": "两案均读取 GitHub license API 快照（ee8c5e…、a820317…），base64 正文解码为完整 MIT 许可，含授予条款（use/copy/modify/merge/publish/distribute/sublicense/sell）、版权声明保留条件与“AS IS”免责声明，非仅徽章或 SPDX 标识；README 中的 MIT 徽章/声明与 LICENSE 正文相互印证。版权行为 OpenReel “2024-2026 Augustus Otu and Contributors”、FreeCut “2025 FreeCut”，未见附加限制条款。",
+      "community_boundary": "两案均为单一 MIT 代码库，未见“社区版/商业版”功能切分或付费墙。OpenReel 的 AI 编辑为可选功能，需用户自备 OpenAI/Anthropic/兼容端点，README 明示 provider 可能产生费用，属外部服务成本而非付费社区版限制；桌面版为同仓 alpha 构建。FreeCut 的转写、字幕、TTS、MusicGen 等 AI 能力声明在浏览器本地运行，未提及付费版本。社区版边界清晰。",
+      "type_boundary": "两案主界面均为手动多轨时间线编辑器，符合 video-editor 而非相邻类型：OpenReel 虽以“AI Video Editor”对外宣传并支持对话式改时间线，但 AI 是可选面板、Manual 可恢复检查器、AI 变更走既有撤销历史，系统并未取代用户完成编辑，故不构成“AI 视频编辑应用”；FreeCut 的转写/场景检测/MusicGen 属素材辅助，不改变手动剪辑主流程；两者均无共享团队项目与多用户并发编辑，不属协作式视频编辑器；也无动画图形为主的任务定位，不属动态图形应用。",
+      "gaps": "openreel.video 与 www.freecut.net 快照均为前端渲染壳（前者可见文本仅标题/标语，后者正文仅“FreeCut”），已如实记录且未用作功能证据，故托管实例的可用性只有 README 正文与站点应用外壳支撑，未做运行时验证。OpenReel 对普通项目格式（非 portable JSON）的持久化/离线媒体行为未在 docs/ai-editing.md 中完整展开，非破坏性结论由项目引用本地媒体、重链接与撤销历史综合得出。OpenCut/OpenShot 的排除结论未在本单元保留可复核快照。其余核心、许可、身份与类型判断均以实际读取的 9 份快照为依据。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、research.json 及 REVIEW_SOURCES.json 所列 9 份快照，未运行 shell、未写文件、未访问其他单元、未执行网络请求或部署/运行时测试，也未重新计算快照 SHA-256（按要求以文件名与 REVIEW_SOURCES.json 的 path/sha256 对应关系读取）。两个官网快照为 SPA 外壳，无法据此验证线上编辑器实际可用性；OpenShot、OpenCut 的历史快照不在本单元，无法独立复核其排除理由。结论限于留档资料所能支持的范围，不含价格、架构或性能核查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-030/ses_groveopendesignp030review1_1793163853.jsonl",
+  "batch_sha256": "3d72c8f54dfd02ca5fedcf475e683591dfa16c34417a5a324190357868874a97",
+  "research_sha256": "43f53e12e535a91648c9a3bb63ec13fbcb98dedfa8bb34dd3b8e8e8dc156fd42",
+  "input_sha256": "d2fe409148dea03c1c0625a9e9607dc2bdeb5e14f6d11243a40cad38b54ad5ca"
+}

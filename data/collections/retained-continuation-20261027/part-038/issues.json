@@ -1,0 +1,18 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "retail-shrink-management",
+      "severity": "blocking",
+      "problem": "所引 Sensormatic Shrink Analyzer / Shrink Visibility 正文只能证明“按时间、地点、单品分析损失事件并定位 ORC 相关盗窃”，属于损失事件分析；没有证明定义性核心中的“估值化损耗视图”（账面应有与实际盘存的金额缺口、按销售比、按 estate→location→category→item 追踪）和按原因分类（盗窃/内部欺诈/流程错误/损坏/变质）的成因归因。leaf_match 的 reason 写“分析损失事件及其价值”“按高失窃品类、出口与区域归因”“与盘点/防损数据结合”，均超出来源正文，属于以关键词替代核心证据。",
+      "fix_required": "二选一：①补抓同一官方站点上能直接证明金额化损耗与原因/维度归因的正文（如 Category Level Shrink Insights 或 Shrink Visibility 正文中关于库存准确率、账面-实物差异、按品类/区域归因的段落），并在 reason 中逐点对应；②若补不到，将 research.json 该叶 assessment 改为 boundary_unresolved 或 insufficient_evidence（archived 仍为 false），并把 reason 改写为仅“按时间/地点/单品分析损失事件并关联 ORC”，不得出现“价值”“高失窃品类”“与盘点结合”等未证内容。不得改范围。"
+    },
+    {
+      "leaf": "international-commerce-management",
+      "severity": "blocking（来源记录真实性）",
+      "problem": "batch.json 与 research.json 把 Shopify 来源记为 https://www.shopify.com/（homepage），但该 sha256 快照的 canonical 与正文是 https://www.shopify.com/markets，notes/fetches.json 中实际抓取键也是 /markets。来源 URL 与快照内容不一致，会让后续复核误以为读过首页。另：所读页面只覆盖货币、语言、商品、域名、税费与配送，未证明关税/进口费；batch reason 已诚实留档，这点可保留为缺口，不要求补研。",
+      "fix_required": "把 batch.json 该 source.url 与 leaf_match.source_urls、research.json source_urls 中的 https://www.shopify.com/ 统一改为 https://www.shopify.com/markets（sha256 与 fetched_at 不变）；保留“关税代收未作为本例证据”的边界说明。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-008/project/review.json"
+}

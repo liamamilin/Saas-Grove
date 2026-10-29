@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "capacity-management",
+        "name_zh": "容量管理",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "Kapacity open source capacity management Kubernetes"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/50",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "Kapacity open source capacity management Kubernetes"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "capacity-management",
+        "name": "Capacity Management",
+        "name_zh": "容量管理",
+        "aliases_zh": [
+          "资源容量管理",
+          "系统容量管理"
+        ],
+        "overview": "A **Capacity Management** application is IT-operations software that keeps infrastructure supply ahead of demand. It maintains a picture of the organization's capacity-bearing resources — compute, memory, storage, network bandwidth, and their container/cloud equivalents — tracks how much of each is actually consumed over time, and continuously answers the question the practice exists for: *how much headroom is left, and when will demand reach the limits?*\n\nOn top of that assessment, it supports the decisions that follow: adding capacity before it runs out, reclaiming capacity that is provisioned but unused, resizing or rebalancing workloads, and evaluating planned changes (growth, migrations, consolidations) before committing to them. Some products stop at advisory output — dashboards, forecasts, recommendations, reports; others close the loop and execute optimization actions automatically under guardrails.\n\nThe boundary is easy to state: a monitoring system tells you what is happening now; a capacity management system tells you what is *about to happen* to your resource supply, and what to do about it. When the forward-looking, supply-vs-demand planning layer is removed, what remains is infrastructure monitoring; when resource limits and headroom are removed and only spend remains, what remains is cloud cost management.",
+        "overview_zh": "一个**容量管理**应用程序是IT运维软件，它保持基础设施供应领先于需求。它维护组织容量承载资源的图景——计算、内存、存储、网络带宽及其容器/云等效物——跟踪每个资源随时间实际消耗的多少，并持续回答该实践存在的问题：*还剩下多少余量，需求何时达到极限？*\n\n在该评估的基础上，它支持后续决策：在容量耗尽之前添加容量、回收已配置但未使用的容量、调整大小或重新平衡工作负载，以及在承诺之前评估计划变更（增长、迁移、整合）。一些产品仅停留在顾问输出——仪表板、预测、建议、报告；其他产品则闭环并在防护条件下自动执行优化操作。\n\n边界很容易说明：监控系统告诉你现在正在发生什么；容量管理系统告诉你资源供应*即将发生*什么，以及如何应对。当前瞻性的、供应与需求规划层被移除时，剩下的是基础设施监控；当资源限制和余量被移除，只剩下支出时，剩下的是云成本管理。",
+        "dc": "```text\nCapacity-bearing resource (with limits)\n    └── Consumption observed over time\n        └── Capacity position (headroom now)\n            └── Capacity risk (projected demand vs limits)\n                └── Capacity decision (add / reclaim / resize / rebalance / migrate)\n```\n\n- **Capacity-bearing resource** — the managed unit of supply: a host, cluster, storage array or volume, network link, virtual machine, container workload, cloud service allocation, or GPU pool. Each carries a notion of *total capacity* and, in most products, a notion of *usable capacity* — what is actually available after reservations, high-availability buffers, or policy-set headroom are subtracted. The distinction matters: a cluster whose raw capacity is fully allocated may still have usable headroom, and vice versa.\n- **Consumption over time** — utilization measurements collected from the resources through integrations, collectors, or agents, retained as history. History is the raw material of everything else: without it there are no trends, no forecasts, and no evidence for recommendations.\n- **Capacity position** — the current comparison of consumption against limits: how much headroom remains on each resource, expressed in resource units or percentages.\n- **Capacity risk** — the forward-looking extension of position: where the demand trend is heading and when it will cross the usable limit. Products express this as projected exhaustion (\"time remaining\" before resources run out), risk levels derived from conservative vs aggressive projections, or forecast results of the form \"these datastores may reach their usage limit within N days.\"\n- **Capacity decision** — the action the assessment exists to inform: procure/add capacity, reclaim or right-size overprovisioned resources, rebalance or move workloads, or accept the risk. The application's output — recommendations, scenario results, reports — is decision support; in automation-oriented products the decision can also be executed by the system itself under policy guardrails.",
+        "dc_zh": "容量承载资源（有限制）\n    └── 随时间观察到的消耗\n        └── 容量状态（当前剩余空间）\n            └── 容量风险（预测需求与限制的对比）\n                └── 容量决策（增加 / 回收 / 调整大小 / 再平衡 / 迁移）\n\n**容量承载资源** — 被管理的供应单元：主机、集群、存储阵列或卷、网络链路、虚拟机、容器工作负载、云服务分配或GPU池。每个都有一个总容量的概念，在大多数产品中，还有一个可用容量的概念——在扣除预留、高可用性缓冲或策略设置的剩余空间后实际可用的部分。这个区别很重要：一个原始容量已完全分配的集群可能仍然有可用的剩余空间，反之亦然。\n\n**随时间变化的消耗** — 通过集成、收集器或代理从资源收集的利用率测量值，作为历史保留。历史是其他一切的原始材料：没有它就没有趋势、没有预测，也没有推荐的证据。\n\n**容量状态** — 消耗与限制的当前比较：每个资源剩余多少剩余空间，以资源单位或百分比表示。\n\n**容量风险** — 状态的前瞻扩展：需求趋势的方向以及何时会超过可用限制。",
+        "rules": "- **Usable capacity is not total capacity.** Reservations, high-availability buffers, and policy-set headroom reduce what is actually available. Capacity conclusions that ignore this distinction are wrong in both directions — and products make the usable-capacity definition explicit precisely because it drives every risk number.\n- **\"Well balanced\" and \"about to run out\" are different verdicts.** A resource can be optimally balanced across its members and still be close to exhaustion; optimization health and exhaustion risk are separate measures, and mature products surface both rather than conflating them.\n- **How demand is counted changes the answer.** Consumption-based assessment (what workloads actually use) and commitment-based assessment (what workloads are allocated, including overcommit ratios) produce different headroom and risk figures. Products typically default to one model and allow the other; the choice is a policy decision, not a technical detail.\n- **Not all peaks matter equally.** Some forecasting engines distinguish momentary spikes (which do not justify new capacity) from sustained shifts and recurring seasonal patterns (which do). A forecast that treats every spike as demand would chronically overprovision.\n- **Forecasts are only as good as their history.** Products require a minimum span of utilization history before projections are trusted, and may restrict or gradually ramp automated actions for resources with thin history.\n- **Recommendations are bounded.** Right-sizing suggestions are typically capped relative to current allocations so that a single recommendation cannot radically reshape a resource — a deliberate conservatism that users can rely on.\n- **Alerts lead exhaustion.** Capacity warnings are keyed to warning windows before projected limits are crossed, because the corrective actions (procurement, migration) take time.\n- **Automation is guarded.** Where products execute optimization actions, they do so under disruption budgets, quota and policy compliance, target-capacity validation, and learning pauses after application changes; some also suspend automation automatically, with a cooldown, when repeated changes fail to stabilize a workload.",
+        "rules_zh": "- **可用容量不是总容量。** 预留、高可用性缓冲和策略设置的余量减少了实际可用的容量。忽略这一区别的容量结论在两个方向上都是错误的——而产品明确可用容量定义，正是因为它驱动每个风险数字。\n- **“平衡良好”和“即将耗尽”是不同的结论。** 一个资源可以在其成员之间达到最佳平衡，但仍接近耗尽；优化健康和耗尽风险是分开的衡量标准，成熟的产品将两者都呈现出来，而不是混淆它们。\n- **需求计数方式改变答案。** 基于消耗的评估（工作负载实际使用的）和基于承诺的评估（工作负载分配的，包括超额配置比率）产生不同的余量和风险数字。产品通常默认一个模型并允许另一个；选择是策略决策，不是技术细节。\n- **并非所有峰值都同等重要。** 一些预测引擎区分瞬时峰值（不证明需要新容量）和持续变化及重复季节性模式（需要）。将每个峰值视为需求的预测会长期过度配置。\n- **预测的好坏取决于其历史。** 产品在投影被信任之前需要最少的使用历史跨度，并且可能对历史薄弱的资源限制或逐步增加自动化操作。\n- **建议是有界的。** 调整大小建议通常相对于当前分配设限，以便单个建议不能从根本上重塑资源——这是用户可以依赖的刻意保守主义。\n- **警报领先于耗尽。** 容量警告与投影限制之前的警告窗口相关联",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 115,
+    "phase": "directory",
+    "parent": 115,
+    "slugs": [
+      "capacity-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "51cc6923413e13a0713c897b4d28fb396f358255ad81f58a1aae12d3849ff5ee"
+  }
+}

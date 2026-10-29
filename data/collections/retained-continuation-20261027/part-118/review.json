@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "cap-table-management / github:820769669：README 顶部徽章与末尾 License 段写 MIT，而 LICENSE 文件内容及 GitHub license API 均为 Apache-2.0。条目已按 Apache-2.0 记录并在摘要中披露冲突，处理正确；建议在留档中直接引用 LICENSE 文件内容，而不只依赖 license API。",
+    "cap-table-management / github:820769669：README 主要是 Node.js/ZeroDB 部署与 REST API 文档，未描述前端界面；列出的 primary endpoints 未包含 grants、SAFE、holdings 等路径，持股与所有权比例只能由“cap table/equity management”定位及 OCTA 对齐推断。类型判断可成立，但证据深度有限；若下游需要界面或持股模型级证据，建议补抓 opencapstack.com/docs 或仓库 models/routes。",
+    "estate-planning-application / commercial:trust-and-will：条目摘要称“自身声明不提供法律意见”，但本次首页快照只出现 built by attorneys、sign and notarize 等表述，未检索到 not a law firm/legal advice 免责声明；建议删除该半句，或补充含该声明的来源页。",
+    "defi-portfolio-application / github:123909654：首页确认 DeFi positions、190+ 交易所/链/DeFi 协议、Read-only by design、never holds your funds，README 确认导入地址、组合总览与 PnL；但未逐一列出被解码的协议及 deposited/staked/borrowed/LP 仓位类型，覆盖范围仍属未验证，建议保留该限制说明。",
+    "deal-management-for-private-equity-vc / commercial:affinity：官方页为营销与 FAQ 文案，确认 pipeline、自定义 lists/stages/fields、closed or passed、每个 list 独立权限及活动捕获；未展示实际产品界面或运行行为，作为商业条目的基本真实性核对足够。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，且顶层 phase=included_without_cases，与 research.json、batch.json 中 5 个 case_found 不一致；建议在留档层同步进度元数据，避免下游把本单元当作无案例。"
+  ],
+  "leaf_checks": {
+    "budgeting-forecasting-platform": {
+      "application_id": "commercial:planful",
+      "track": "commercial",
+      "basis": "读取 planful.com/solutions 与 /platform 两个快照（f6aa…、e3fc…）：页面明确 FP&A 各团队共用同一 financial model，覆盖 budget/forecast、headcount planning 中 manager 提议与 finance 审批、actuals/assumptions、versions、variance 与 consolidation；产品身份为商业 FP&A SaaS，核心类型匹配。",
+      "gaps": "未运行产品，未核价格/部署；商业条目仅做基本真实性与类型匹配。"
+    },
+    "cap-table-management": {
+      "application_id": "github:820769669",
+      "track": "open_source",
+      "basis": "读取 GitHub 元数据（id 820769669、full_name Open-Cap-Stack/opencap、未归档）、LICENSE/API（Apache-2.0）与 README：README 明示 open-source cap table & equity management、free Carta alternative，列出 stakeholders、share classes、SAFE notes、equity grants、409A valuations、documents/data rooms/board management、financial reporting，并称与 OCTA schema 对齐；仓库身份、许可证与核心类型均有依据。",
+      "gaps": "README 未描述前端界面，primary API 列表未列出 grants/SAFE/holdings 路径，持股与所有权比例只能由产品定位与 OCTA 对齐推断；README 徽章/License 段写 MIT 与 LICENSE/API 的 Apache-2.0 冲突，条目已披露并按 Apache-2.0 记录。"
+    },
+    "deal-management-for-private-equity-vc": {
+      "application_id": "commercial:affinity",
+      "track": "commercial",
+      "basis": "读取 affinity.co/workflows/deal-management 快照（0bdd…）：页面说明集中管理 deal pipeline、自定义 lists/stages/fields、closed or passed 阶段、每个 list 独立权限、活动自动捕获与团队共享交易信息；核心类型匹配 PE/VC 交易管理。",
+      "gaps": "页面为营销/FAQ 文案，未展示产品界面或运行行为；未核价格/部署。"
+    },
+    "defi-portfolio-application": {
+      "application_id": "github:123909654",
+      "track": "open_source",
+      "basis": "读取 GitHub 元数据（id 123909654、rotki/rotki、未归档）、AGPL-3.0 LICENSE/API、README 与 rotki.com 首页：README 说明导入地址、跨平台/链/交易所组合总览、交易解码与 PnL；首页说明 Connect exchanges/wallets/DeFi、DeFi positions、190+ 交易所/链/DeFi 协议、Read-only by design、never holds your funds；读取侧聚合与统一估值核心成立，社区版/Pro 边界清楚。",
+      "gaps": "未逐一列出被解码的协议与 deposited/staked/borrowed/LP 仓位类型，覆盖范围未验证；未运行产品。"
+    },
+    "estate-planning-application": {
+      "application_id": "commercial:trust-and-will",
+      "track": "commercial",
+      "basis": "读取 trustandwill.com 首页快照（7bd7…）：页面提供 Will Plan 与 Trust Plan、Revocable Living Trust、指定 Guardians/Beneficiaries、州特定文书、签署与公证说明，并以 EstateOS 强调持续更新；核心类型匹配生前遗产规划应用。",
+      "gaps": "notary 页抓取 404 已如实记录；首页快照未检索到“not a law firm/不提供法律意见”的免责声明，条目摘要该半句缺少直接来源；未核价格/部署。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 11 个快照；未运行 shell、未写文件、未读取其他单元、未部署或运行任何产品。快照为原始 HTML，部分超长单行在读取时被截断至 2000 字符，无法逐字复核全部折叠/隐藏文案；关键结论依据可读段落与定向检索。未独立核价、部署、架构、协议覆盖或商业版本细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-118/ses_groveopencodegop118review1_1793006048.jsonl",
+  "batch_sha256": "8933c49b1197d7ab6c9a77841b46d34a9452a2f90d42c3ec61155bbd1650d66e",
+  "research_sha256": "8f00da6fca03bf66f21a35f59faa807fda1467d42d7efb6017536d4b83042ba1",
+  "input_sha256": "adc4d5ca3a6f5af9fd1e8b10e0071827c315b922720295396b18e637415c49fc"
+}

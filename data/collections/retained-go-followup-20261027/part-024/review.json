@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "government-gis：research.json 把 GeoNode 列为候选，并称已保存 metadata/license 快照，但本单元 sources/ 与 REVIEW_SOURCES.json 中没有对应文件；由于该叶未建立任何应用关系，本次按无案例留档通过。若后续仍保留候选记录，建议补入快照，或把 fetch_outcomes 改为未保留并说明无法复核。",
+    "library-discovery-platform：VuFind 的 LICENSE 快照止于 GPLv2 第 12 条，缺少标准 END OF TERMS AND CONDITIONS/How to Apply 附录；composer.json 已明确 GPL-2.0-only，且许可条款本体完整，故不阻断；若要求逐字完整许可证归档，建议补全附录。",
+    "election-management-system：VxSuite 摘要中的“按 ballot style 与 precinct 组合”未写出官方文档还区分的 ballot type 与 ballot mode；“VxAdmin 离线自托管”也比 README 的“offline central election manager laptop”略强。这属于非关键措辞，建议改用更精确的表述。",
+    "input.json 的 phase 仍为 included_without_cases，且 progress.application_ids 为空，而 batch/research 已有 github:11680792、commercial:opengov、github:295864168 三个应用；这是待审流转字段，不影响本次内容结论，但入库前应同步。"
+  ],
+  "leaf_checks": {
+    "library-discovery-platform": {
+      "status": "verified",
+      "application_ids": [
+        "github:11680792"
+      ],
+      "track": "open_source",
+      "basis": "核对 VuFind GitHub 仓库身份（repository id 11680792）及 vufind.org features/about、Learning VuFind 正文：基本搜索框返回可分面筛选的结果列表，结果页经底层目录系统实时显示记录状态、位置与可用性；About 页列出目录记录、机构库、开放获取文章、数字化馆藏、可馆际互借项目与授权内容；Learning VuFind 明示用户可续借、place holds，并将 VuFind 定位为 ILS 之上的检索与读者账户界面。覆盖查询→书目结果→单条记录可获得性与获取路径。",
+      "service_form": "Web/自托管图书馆发现层，不承担流通、采访或编目，请求交由底层 ILS 执行。",
+      "license": "LICENSE 为 GPLv2 条款 0-12，composer.json 明确声明 GPL-2.0-only；SPDX 与仓库身份一致。",
+      "gaps": "许可证快照缺标准附录；未据此否定许可结论。"
+    },
+    "government-gis": {
+      "status": "no_case_documented",
+      "application_ids": [],
+      "track": null,
+      "basis": "无应用条目。research.json 记录 GeoNode 候选检索与抓取，assessment 为 boundary_unresolved，明确未能证明其保管政府辖区的官方地块、边界、地址或公共资产记录，也未能证明政府运营者作为记录系统托管方，故未建立关系；候选 URL 保留待补证。符合“无案例但记录检索、抓取与缺口”的留档条件。",
+      "service_form": "无应用可核对；候选被描述为通用地理空间内容管理与发布平台，未达到政府 GIS 的权威辖区地理记录与政府保管职责核心。",
+      "license": "无应用许可结论；research 提到 GeoNode 的 LICENSE 与 README 版本措辞不一致，未据此新增许可断言。",
+      "gaps": "本单元没有 GeoNode 快照，无法独立复核其边界判断；但该叶未建立任何应用关系，故不阻断。"
+    },
+    "government-inspection-management": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:opengov"
+      ],
+      "track": "commercial",
+      "basis": "核对 OpenGov 建筑检查产品页正文：可配置检查类型、数字检查清单、审批流与费用规则；支持排期、自动分配、移动离线检查；完成的检查带检查员与时间戳，照片、笔记、清单响应存入许可或房产记录；可查历史并走复检、整改路径。覆盖检查作为管理记录单元、常设对象历史与机构定义的标准层。",
+      "service_form": "OpenGov 许可与检查平台中的商业建筑检查管理模块，产品页正文可证明其为实际软件服务。",
+      "license": "商业产品，无开源许可要求；按基本真实性与类型匹配核对。",
+      "gaps": "未研究价格、架构或部署，不要求。"
+    },
+    "government-licensing-management": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:opengov"
+      ],
+      "track": "commercial",
+      "basis": "核对 OpenGov 商业许可产品页正文：按许可类型配置申请、审批步骤、文件要求与路由；到期日跟踪、自动提醒、续期看板、在线续费与审计轨迹；页面以 issue licenses 表述颁发。覆盖许可记录、申请→决定/颁发生命周期、有效期与续期周期。",
+      "service_form": "OpenGov 许可与检查平台中的商业许可管理模块，产品页正文可证明其为实际软件服务。",
+      "license": "商业产品，无开源许可要求；按基本真实性与类型匹配核对。",
+      "gaps": "未研究价格、架构或部署，不要求；未据此断言职业许可的纪律处分机制。"
+    },
+    "election-management-system": {
+      "status": "verified",
+      "application_ids": [
+        "github:295864168"
+      ],
+      "track": "open_source",
+      "basis": "核对 VotingWorks VxSuite GitHub 仓库身份（repository id 295864168）及官方 TDP：Election Definition 顶层含 jurisdiction、date、contests、districts、precincts、ballotStyles；ballot style 的 contests 由关联 districts 决定，precincts 列出使用该样式的 precinct；Election Package 的 ballots.jsonl 按 ballot style、precinct、ballot type、ballot mode 组合携带预生成选票 PDF；VxPrint 以 VxAdmin 导出的签名选举包配置，并按 precinct/split/party/language 打印；VxAdmin 可从 VxHub 下载并加载选举包。覆盖选举对象、地理→选票样式分配、选票生产与设备配置链路。",
+      "service_form": "VxAdmin 为离线中央选举管理端，VxHub 由 VotingWorks 托管用于选票设计，VxPrint 用于按选举包打印；未混同为单一自托管产品。",
+      "license": "LICENSE 为完整 GNU GPL v3 文本（含 END OF TERMS AND CONDITIONS 与 How to Apply），README 声明所有文件 GPL v3.0 only，SPDX 记 GPL-3.0-only。",
+      "gaps": "套件同时含扫描/计票及 VxPollBook 等模块；本次仅按 VxAdmin/VxHub/VxPrint 的选举定义与选票生产链路建立关系，未据此断言计票或选民登记。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 sha256、未部署或运行产品、未访问实时站点；HTML 快照按正文关键段落核对，未逐字审阅全部导航与脚本；GeoNode 候选及 archived election-manager 候选快照未随本单元归档，无法独立复核；VuFind GPLv2 快照缺标准附录；商业产品仅做基本真实性与类型匹配，未核价、架构或认证；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-024/ses_groveopencodegop024review1_1793077446.jsonl",
+  "batch_sha256": "5324d964a43c1ea13e2b28377aec037d1845155b3083b532d0919908fbcc9015",
+  "research_sha256": "005110bfed72973a120a7be8ca2785163c251d5d08ea80bc86c8493d328bf703",
+  "input_sha256": "5a3b1dc67cd695bf0803bf39b771020c0646d4efc11bd7b1aebfdb903e37e7ad"
+}

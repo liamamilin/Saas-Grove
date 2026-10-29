@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，而 batch.json/research.json 已有 5 个 case_found；这是元数据同步问题，不影响本次应用资料核对，但建议回填。",
+    "LabWare QA/QC 快照正文可证 sample/results/lot release/COA/report approval/instrument integration；“规格判定”“规格外 hold/调查”“审计追踪”在快照中没有逐字对应，摘要和 leaf reason 的措辞强于证据，建议收敛为快照可支持的表述或补抓规格/OOS/审计页面。",
+    "research.json 提到 SENAITE 候选快照，但 REVIEW_SOURCES.json 未列其 path；本次未读取或复核这些候选快照。SENAITE 未进入 batch，不影响五叶结论。",
+    "iObeya 的云/本地部署、价格与合同形态未核；官方 DMS 用例页足以支持商业产品身份和车间日常管理类型匹配。",
+    "Calibra 的 repository_metadata 快照实际是 GitHub HTML 页面，kind 标注不够精确；repository id/full_name 已由页面 meta 核对，许可由完整 LICENSE 核对，不影响结论。",
+    "pHKapa 的核心证据主要是 README 和 GitHub 描述，缺少独立用户文档、审计追踪或电子签名证据；研究记录已限制断言，建议后续补充 wiki 或模型层证据。",
+    "frePPLe 同时含详细排程/有限产能能力，超出 production-planning 定义中“不做逐工序有限产能优化”的边界；batch 已把关系限定在生产计划主链，建议展示时保留该边界说明。"
+  ],
+  "leaf_checks": {
+    "production-planning": {
+      "status": "pass",
+      "application_id": "github:12776324",
+      "evidence": "frePPLe 的 README 与 doc/features.rst 正文显示：统计预测与预测消耗；按库存/物料净算并做前后向排程；BOM/工艺路线与替代资源；约束/非约束计划及甘特调整；Odoo 连接器发布生产订单和采购订单。可覆盖需求→净算→BOM 分解→计划订单→计划员调整→发布订单的主链。",
+      "identity_and_license": "仓库 API 快照 id=12776324、full_name=frePPLe/frepple；COPYING 为完整 MIT 文本并说明双许可；README 明确 Community Edition 为 MIT、Enterprise/Cloud 为商业版，社区版边界清楚。",
+      "gap": "未抓取 frepple.com（研究记录为 curl 000），未运行应用；“firm”作为独立动作未见逐字说明，但甘特调整和异常工作流足以支持基本类型匹配。"
+    },
+    "shop-floor-management": {
+      "status": "pass",
+      "application_id": "commercial:iobeya",
+      "evidence": "iObeya 官方 Daily Management System 用例页正文明确 Tier 1 SQCDP 班前看板、逐层 stand-up、issue card/action card（owner、due date、countermeasure）、Tier 1→Tier 2/3 escalation 与 Gemba 观察；首页确认其为 Digital Obeya Platform 商业产品。",
+      "boundary": "该产品是车间日常管理/绩效审查与行动闭环，不是执行工单、工艺路线或 as-built 记录的 MES；与定义边界一致。",
+      "gap": "云/本地部署、价格和实时机器遥测未核；官方页为营销材料，但正文已覆盖核心三步结构。"
+    },
+    "calibration-management": {
+      "status": "pass",
+      "application_id": "github:1400859503",
+      "evidence": "Calibra Fácil README 正文显示 ISO/IEC 17025 校准工作流（draft→execution→technical review→approval）、GUM 不确定度、资产/仪器与到期日、参考标准有效期、人员能力、校准间隔分析、证书与客户门户；覆盖登记→到期→校准事件→证书/历史的主链。",
+      "identity_and_license": "GitHub HTML meta 的 repository id=1400859503、full_name=CalibraFacil/calibrafacil 与 batch 一致；LICENSE 为完整 MIT 文本，README 亦声明 MIT；未见企业版/社区版拆分。",
+      "gap": "未核具体实验室认证状态、商业支持和 as-found/as-left 的逐项实现；README 足以支持基本类型匹配。"
+    },
+    "capa-management": {
+      "status": "pass",
+      "application_id": "github:9799744",
+      "evidence": "pHKapa 的 README 与 GitHub 描述明确：不合格/CAPA 请求从 register→review→plan/implement（root cause、action plan）→verification 流转，并记录问题 source 与 cost；符合 CAPA 记录、来源、根因、行动计划、验证的基本闭环。",
+      "identity_and_license": "仓库 API 快照 id=9799744、full_name=pHAlkaline/phkapa；LICENSE.txt 为完整 MIT 文本；未见社区版/企业版拆分。",
+      "gap": "证据主要是 README/元数据级描述，未证明电子签名、审计追踪、有效性验证的关闭门禁及与投诉/审计表单的自动联动；研究记录已避免这些断言，故不阻断基本匹配。"
+    },
+    "industrial-laboratory-management": {
+      "status": "pass",
+      "application_id": "commercial:labware",
+      "evidence": "LabWare QA/QC 官方页正文显示 SaaS LIMS 的 sample management、results entry、batch/lot 跟踪、data review、lot release、COA 自动生成与报告审批、仪器集成；首页确认 LabWare 的 LIMS/ELN 产品身份。可覆盖生产批次样品→测试/结果→放行/COA 的主链。",
+      "boundary": "产品定位为分析测试/物料测试的 QA/QC LIMS，属于工业 QC 实验室管理；不是通用科研 LIS。",
+      "gap": "快照未逐字出现 specification limits 与 out-of-spec hold/调查的完整工作流，摘要中“规格判定/规格外 hold/调查”措辞强于证据；商业基本类型匹配仍成立，建议收敛措辞或补证。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未部署或运行任何应用；仅读取 REVIEW_SOURCES.json 列出的 14 个快照，未计算哈希；research.json 提到的 SENAITE 候选快照与部分失败抓取（frepple.com、GageList、LabVantage、Thermo Fisher、GitHub API rate limit）未纳入本次独立核对；商业产品的价格、部署模式、合同形态和认证状态未核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-159/ses_groveopencodegop159review1_1793015880.jsonl",
+  "batch_sha256": "647b40bcac6f58ee6d72f04cc512b9e90f37c214f2457bae266261b4533f10ea",
+  "research_sha256": "ce0f91b6a8802c03c4164e32395fb46d67f3fd15b4797b6d5963fd737505afb0",
+  "input_sha256": "61f613b8fcc6ccb8c7be9509f5b78719985510eb54f57d826cee330a307a5bf6"
+}

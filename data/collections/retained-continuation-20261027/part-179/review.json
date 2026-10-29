@@ -1,0 +1,90 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "shipment-visibility-platform",
+      "application_id": "commercial:shippeo",
+      "note": "本叶只引用了 Shippeo 官网首页。正文可以确认其“实时多式联运运输可见性”定位，以及逐票跟踪、预测 ETA、即时告警、异常处置和与承运商网络集成；但没有直接展开持久化 shipment record、统一里程碑模型或告警工作项生命周期。摘要中的“里程碑/位置”属于合理概括而非逐字证据，建议后续补充 platform-overview 或 real-time-visibility 页面，这不影响当前类型匹配。"
+    },
+    {
+      "slug": "public-transit-operations-platform",
+      "application_id": "commercial:ivu-suite",
+      "note": "计划侧证据主要来自官网导航、resource-planning 页的“from timetables to duty schedules”以及 dispatching 页对计划与实际行程的对照；service-planning 页面本身未被抓取，网络、站点、运营日历等细节没有直接正文。现有材料足以确认“计划记录+实时运营”闭环，建议后续补齐 service-planning 快照。"
+    },
+    {
+      "slug": "route-optimization-platform",
+      "application_id": "commercial:optimoroute",
+      "note": "research.json 保留了 Fleetbase 的复核与移除记录，但相关 Fleetbase 快照不在 REVIEW_SOURCES 的引用列表中；batch.json 已不再引用该应用，因此不影响本叶结论，也无需按开源条目补做许可证核对。"
+    },
+    {
+      "slug": "employee-transportation-platform",
+      "application_id": "commercial:moveinsync",
+      "note": "首页同时展示停车管理和办公空间管理，本叶已明确排除这些模块；固定路线页对员工准入及与 HR 系统对接的描述较少，封闭员工群体主要由“corporate/university commute”定位和员工端功能体现，建议后续补充员工准入或 HR 导入证据。"
+    },
+    {
+      "slug": "non-emergency-medical-transportation-platform",
+      "application_id": "commercial:routegenie",
+      "note": "首页能确认 NEMT 排程、调度、路线、司机端、乘客端、broker/private pay 以及 Medicaid/保险/自费账单；资质认证履约网络主要由 FleetGenie 的车辆检验、保险、认证提醒间接支持，未展示完整的资质校验与过期拦截流程。"
+    },
+    {
+      "note": "本单元五个叶子均未收录开源应用；research.json 已记录开源检索和候选排除情况，因此本次不涉及开源完整许可证及社区版边界核对，仅按商业软件检查基本真实性和类型匹配。"
+    },
+    {
+      "note": "input.json 的 progress 字段仍显示 case_status=not_searched、application_ids/research_records 为空，与 batch.json、research.json 已收录案例的状态不一致；如果下游读取该进度字段，应另行同步，这不影响本次内容审查结论。"
+    }
+  ],
+  "leaf_checks": {
+    "route-optimization-platform": {
+      "application_ids": [
+        "commercial:optimoroute"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "已按 REVIEW_SOURCES.json 原样读取 OptimoRoute 首页、automated-planning、drag-and-drop 三个快照。首页正文写明 Easily import orders and get the most efficient routes & schedules、Constraints、Multi-driver、Workload balancing；automated-planning 页说明自动规划、变更后自动重排并推送最新到达时间；drag-and-drop 页说明可拖拽重排路线、插入或移除停靠点、在司机之间改派并即时更新司机 App。路线计划是主导工作对象，符合“停靠点—求解—可编辑/可重新优化计划—交接执行”的核心。",
+      "gap": "未做运行时验证；开源检索只找到求解引擎和示例，未发现成熟完整开源应用，research.json 已留档。"
+    },
+    "shipment-visibility-platform": {
+      "application_ids": [
+        "commercial:shippeo"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "已按 REVIEW_SOURCES.json 原样读取 Shippeo 官网首页。正文以 Real-time transportation visibility 定位，写明 Track every shipment, know every ETA；跨公路、铁路、海运、空运查看每票货物，提供 predictive ETAs、instant alerts、AI 清理数据并解决异常，并与承运商网络和现有系统集成；没有显示其自行承运、订舱或结算，符合“监控、标准化、分发运输信息”的边界。",
+      "gap": "仅有官网首页，未直接展示持久化 shipment record、统一里程碑模型和告警工作项生命周期；未做运行时验证。"
+    },
+    "employee-transportation-platform": {
+      "application_ids": [
+        "commercial:moveinsync"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "已按 REVIEW_SOURCES.json 原样读取 MoveInSync 美国首页和固定路线班车页。首页定位 corporate/university commute platform，列出固定、按需或动态路线班车以及 flexi rideshare；固定路线页正文写明固定路线、保证座位、无需每日预订，员工可搜索并选择路线、进行单次或周期预订、通过可视化座位图选座，实时查看车辆位置和 ETA，并用 QR 码、RFID 或 OTP 到场签到。封闭员工群体、雇主定义网络、乘客与行程分配、登车核验和受管出行运营四部分均有正文支撑。",
+      "gap": "未直接展示 HR 系统导入或按站点/计划限定准入的细节；未做运行时验证。"
+    },
+    "non-emergency-medical-transportation-platform": {
+      "application_ids": [
+        "commercial:routegenie"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "已按 REVIEW_SOURCES.json 原样读取 RouteGenie 官网首页。正文以 ALL-IN-ONE NEMT SOFTWARE 定位，覆盖 routing、scheduling、dispatching、billing；按 passenger needs 和 vehicle capacity 选车并生成排程，处理 add-on trips、no-shows、cancelations、vehicle breakdowns，司机端执行行程，乘客端可订车和跟踪，账单生成 837P、CMS 1500，并覆盖 Medicaid、保险和 private pay。明确限定非紧急医疗运输，未涉及急救响应或临床记录。",
+      "gap": "资质认证履约网络主要由 FleetGenie 的检验、保险、认证提醒间接支持，未展示完整资质校验流程；未做运行时验证。"
+    },
+    "public-transit-operations-platform": {
+      "application_ids": [
+        "commercial:ivu-suite"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "已按 REVIEW_SOURCES.json 原样读取 IVU 官网首页、resource-planning 和 dispatching 页。首页说明 IVU.suite 是面向公交与铁路的端到端系统，含 Service Planning、Resource Planning、Dispatching 等模块；resource-planning 页以 IVU.run、IVU.duty 做车辆工作和乘务值勤规划，纳入 timetables，并支持规则系统和冲突检查；dispatching 页以 IVU.vehicle、IVU.crew 实时监控全部行程、告警中断、处理缺勤与覆盖班次，并展示计划与实际日程、车辆和人员；IVU.cloud 页说明整套软件可作为 service 托管。计划记录与实时运营闭环同时成立。",
+      "gap": "service-planning 页面未被抓取，网络、站点、运营日历等计划侧细节主要来自导航和 resource-planning、dispatching 的间接表述；未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell，未部署、登录或操作产品，未做运行时验证；未重新计算快照 sha256，只按 REVIEW_SOURCES.json 的 path 原样读取，并按 data/collections 为基准解析 batch.json 的 snapshot_path；商业产品未核价、未核架构；开源候选仅依据 research.json 留档，未重新拉取仓库许可证全文；未读取本单元之外的资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-179/ses_groveopencodegop179review2_1793020789.jsonl",
+  "batch_sha256": "a9ad0faabe70473013f50eab770c5c41f05e8dc2a1a939d8e1007f0ca17f6dbe",
+  "research_sha256": "026502d9525a24c3ca1a402b4c0a0383db4b411fbd0fec4b03e32fe61e37905f",
+  "input_sha256": "9d0ad93af9a93958f3ec3faf40754612078224c9f28fbb531ec221d92b57a0f4"
+}

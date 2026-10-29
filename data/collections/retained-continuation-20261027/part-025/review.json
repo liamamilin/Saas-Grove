@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、phase=included_without_cases，与本单元 batch.json/research.json 已收录案例不一致；若该文件用于下游进度统计，建议同步，但不影响本次内容核对。",
+    "Webflow Interactions 快照正文的 canonical/alternate 指向 https://webflow.com/feature/interactions-animations，而采集 URL 为 /interactions-animations；research.json 已披露该差异，属于已留档的抓取缺口。",
+    "Webflow 的 leaf_matches 提到“编辑时间轴动效”，快照正文能直接核到 scroll/hover/click 触发器、GSAP 驱动的动画与交互预设，但“timeline”不是快照中可独立核到的原词；该措辞不影响核心匹配。",
+    "Unbounce 快照以 launch/publish 语境说明页面上线，未展开 custom domain/subdomain 配置；research.json 已如实记录，不影响着陆页构建器的基本类型判断。",
+    "Scribus 的 GitHub 仓库自述为官方 SVN 的社区镜像；batch.json 的 license_review 已披露镜像身份及 GPL-2.0-or-later 仅覆盖主程序、仓库内另有 LGPL/BSD/MIT/公有领域代码和独立许可资源。",
+    "Silex 的 README 说明在线版需要 GitLab 账户存储、桌面应用为 alpha；batch.json 已把在线版/自托管/桌面 alpha 分列，未把 alpha 桌面版当作稳定 SaaS。",
+    "QuarkXPress 为商业桌面软件而非托管 SaaS，但其官方产品页同时以 Desktop Publishing 与 Page Layout 命名，并给出母版页、排版、印刷/数字版面能力，类型匹配成立。",
+    "Scribus 的页面布局匹配主要依赖定义中 DTP 与 page layout 为同一 referent 的说明，以及 QuarkXPress 对两个标签的直接使用；Scribus 官网自身更常用 Desktop Publishing 标签。"
+  ],
+  "leaf_checks": {
+    "interactive-web-design-application": {
+      "status": "passed",
+      "applications": [
+        "commercial:webflow"
+      ],
+      "evidence": "Webflow 的官方 Interactions 页正文写明可对任意元素设置 scroll、hover、click 触发器，并用 GSAP 在 Webflow 内可视化设计动画与交互；首页及结构化产品信息写明 visual canvas、无需写代码构建/发布、managed hosting。可视画布、作者定义行为、线上发布三项核心均有直接正文依据，且产品为持续运营的商业 SaaS。",
+      "gaps": "快照正文未直接出现“timeline”原词；采集 URL 与 canonical 指向 /feature/interactions-animations 的差异已在 research.json 留档。"
+    },
+    "landing-page-builder": {
+      "status": "passed",
+      "applications": [
+        "commercial:unbounce"
+      ],
+      "evidence": "Unbounce 官方 landing pages 产品页正文写明 landing page builder、customizable templates（100+）、drag-and-drop elements、launch、no-code A/B testing 与 lead/conversion 目标；首页以 landing page platform/CRO 定位。独立活动页、可视化无代码搭建、上线发布和转化目的均有依据，商业 SaaS 形态成立。",
+      "gaps": "快照未展开 custom domain/subdomain 配置，仅以 launch/publish 语境证明上线；research.json 已记录该边界。"
+    },
+    "visual-website-builder": {
+      "status": "passed",
+      "applications": [
+        "github:13190625",
+        "commercial:webflow"
+      ],
+      "evidence": "Silex README 自述 free/libre visual website builder，使用 GrapesJS 拖拽编辑器，可导出 clean HTML/CSS、host anywhere，支持 CMS integration 与 self-hosting；官网写明 hosting included。Webflow 首页写明 visual website builder、visual canvas、managed hosting 与 publish。整站为单位、可视化组装、线上发布三项成立。Silex 的 AGPL-3.0 全文在 license API 快照中，README 明确 no premium tier/all features，社区版边界清楚。",
+      "gaps": "Silex 在线版需 GitLab 账户存储，桌面应用为 alpha；不影响类型匹配，batch 已分列部署形态。"
+    },
+    "desktop-publishing-application": {
+      "status": "passed",
+      "applications": [
+        "github:35333738",
+        "commercial:quarkxpress"
+      ],
+      "evidence": "Scribus 官方 wiki 的 Textframes 手册正文写明 frames environment、不能直接在页面上输入文字、文本框可链接成跨页续排故事，并以多页文档为例；官网写明 Libre Desktop Publishing 与 PDF/X-1a/3/4 输出。QuarkXPress 官方产品页标题/正文同时使用 Desktop Publishing 与 Page Layout，列出 Page Layout、master pages、typography、print/digital。多页分页、页面画布/自由框、跨框文字流、分页输出均有依据。Scribus 根 COPYING 为 GPL-2.0-or-later 主程序声明并附 GPLv2 全文，混合许可与资源许可已披露。",
+      "gaps": "Scribus GitHub 是官方 SVN 的社区镜像；COPYING 同时声明 LGPL/BSD/MIT/公有领域代码与独立许可资源，license_review 已把 GPL-2.0-or-later 限定为主程序范围。"
+    },
+    "page-layout-application": {
+      "status": "passed",
+      "applications": [
+        "github:35333738",
+        "commercial:quarkxpress"
+      ],
+      "evidence": "叶子定义明确 DTP 与 page layout 为同一 referent。QuarkXPress 官方产品页直接以 Page Layout 作为核心能力标签，并说明可制作任意媒介的版面；Scribus 的 wiki 文本框/链接续排、多页文档与官网 PDF/X 输出同样满足页面组装与分页输出核心。两产品可同时支撑 DTP 与 page layout 两个叶子。",
+      "gaps": "Scribus 官网自身更常用 Desktop Publishing 标签，page-layout 标签的直接证据主要来自 QuarkXPress 与定义中的等价说明。"
+    }
+  },
+  "limits": "只读初审：未运行应用、未做运行时/部署测试，未用 shell 计算或复核文件哈希；按 REVIEW_SOURCES.json 的 path 原样读取 14 个快照。部分快照为压缩 HTML 或 GitHub API 单行 JSON/base64，read 工具会截断超长行，因此 Silex 许可证与 Scribus README 的核验主要依据文件大小、许可证头部/API 元数据与可读正文，未逐条通读全部编码内容。Scribus 仓库为社区镜像，未访问上游 SVN；未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-025/ses_groveopencodegop025review2_1792942040.jsonl",
+  "batch_sha256": "785bcaf1bba2f236f2955093ea904edb8ef1cd6bb9401254033b8ab1617ecece",
+  "research_sha256": "399a644680b3430d0b7dd626ae94e44334a8a6345fb6c6a463e9b86e53fec88e",
+  "input_sha256": "7b45e2b09b245d8ef57487052086b3d22ab7562140025b9fa3c848cb72e53df4"
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sast",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1222504"
+      ],
+      "query": "GitHub API 检索 SonarSource/sonarqube 仓库身份与许可证；抓取 README 核对一手代码静态分析、安全发现与社区版边界；尝试抓取 docs.sonarsource.com 静态分析总览，仅得 Server 首页框架/错误页面，未用作正文证据。",
+      "source_urls": [
+        "https://api.github.com/repos/SonarSource/sonarqube",
+        "https://api.github.com/repos/SonarSource/sonarqube/license",
+        "https://raw.githubusercontent.com/SonarSource/sonarqube/master/README.md"
+      ],
+      "note": "纳入 SonarQube Community Build（LGPL-3.0）。README 载明其对一手源代码做静态分析（符号执行、数据与控制流分析），报告可定位的安全漏洞、安全热点及修复指引；README 同时明确 SCA、深度污点分析、分支/PR 分析、秘密检测与 IaC 等属商业版，故按社区版范围收窄。docs.sonarsource.com 的请求路径实际返回 SonarQube Server 首页（GitBook），快照正文为 Server 首页框架，并非所请求的 analyzing-source-code 总览，且属商业 Server 文档，本叶不以该快照为正文证据；该旧路径现不可用。未运行项目，runtime_tested=false。",
+      "service_boundary": "仅指自托管 SonarQube Community Build 平台；不含 SonarQube Server/Cloud 商业能力；SonarQube for IDE 等独立客户端与单一 CLI 扫描器不作为本条目主体。",
+      "search_attempts": [
+        "GitHub API GET /repos/SonarSource/sonarqube（确认 id=1222504、默认分支 master、license spdx=LGPL-3.0）",
+        "GitHub API GET /repos/SonarSource/sonarqube/license（完整 LGPL-3.0 文本）",
+        "抓取 raw README（Community Build 能力与商业版边界）",
+        "尝试抓取 docs.sonarsource.com/sonarqube-server/latest/analyzing-source-code/overview/（HTTP 200，但实际返回 SonarQube Server 首页框架，未取得所请求的总览正文）",
+        "改试该页 .md 版本，返回 Page Not Found（文档路径已改版，不再以其他文档页替代）"
+      ],
+      "fetch_outcomes": [
+        "仓库元数据 HTTP 200，正文 JSON 已保存",
+        "license API HTTP 200，含 base64 完整许可证文本",
+        "README HTTP 200，UTF-8 文本已保存",
+        "官方文档 HTTP 200，但实际返回 SonarQube Server 首页/客户端渲染框架，缺少所请求的静态分析总览正文；.md 版本返回 Page Not Found。该快照未作为本叶正文证据。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sbom-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11457947"
+      ],
+      "query": "GitHub API 检索 DependencyTrack/dependency-track；抓取 README 与官网，核对 SBOM 摄取、项目/版本绑定、保留与再分析生命周期。",
+      "source_urls": [
+        "https://api.github.com/repos/DependencyTrack/dependency-track",
+        "https://api.github.com/repos/DependencyTrack/dependency-track/license",
+        "https://raw.githubusercontent.com/DependencyTrack/dependency-track/main/README.md",
+        "https://dependencytrack.org/"
+      ],
+      "note": "纳入 OWASP Dependency-Track（Apache-2.0）。官网正文明确摄取 CycloneDX SBOM、按每个项目每个版本跟踪组件、持续重新分析并支持组合聚合；README 说明其为 SBOM 驱动的组件分析平台并给出 Docker Compose/Helm 部署入口。文档站先抓到跳转页，后抓得 github.io 正文，但该主机不被条目来源规则接受，故仅作留档、不引用。",
+      "service_boundary": "以 SBOM 记录、产品/版本绑定和受管理清单为核心；漏洞/许可证/策略是分析层。未主张商业插件或厂商托管服务。",
+      "search_attempts": [
+        "GitHub API GET /repos/DependencyTrack/dependency-track（id=11457947、main、Apache-2.0）",
+        "GitHub API GET 许可证（完整 Apache-2.0 文本）",
+        "抓取 raw README",
+        "抓取官网 dependencytrack.org（BOM 摄取与版本跟踪）",
+        "抓取 docs 首页得到 302 跳转页；改抓 /docs/next/ 与 /docs/next/concepts/projects/ 获得正文用于核对"
+      ],
+      "fetch_outcomes": [
+        "仓库元数据 HTTP 200",
+        "license API HTTP 200",
+        "README HTTP 200",
+        "官网 HTTP 200，压缩单行 HTML；去除标签后正文可读，含 CycloneDX 摄取、按项目/版本跟踪组件与持续再分析",
+        "https://dependencytrack.github.io/docs/ HTTP 200 但仅 366 字节跳转页（未引用）",
+        "https://dependencytrack.github.io/docs/next/ 与 concepts/projects/ HTTP 200，正文可读（主机不被来源规则接受，仅留档）"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "software-composition-analysis-sca",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11457947",
+        "commercial:snyk"
+      ],
+      "query": "复用 Dependency-Track 仓库/官网证据核对组件清单与漏洞匹配；抓取 Snyk 官方文档 Snyk Open Source 页的 GitBook Markdown 正文，核对 SCA 定义、依赖漏洞与许可证发现。",
+      "source_urls": [
+        "https://api.github.com/repos/DependencyTrack/dependency-track",
+        "https://api.github.com/repos/DependencyTrack/dependency-track/license",
+        "https://raw.githubusercontent.com/DependencyTrack/dependency-track/main/README.md",
+        "https://dependencytrack.org/",
+        "https://docs.snyk.io/scan-fix-and-prevent/scan-with-snyk/snyk-open-source.md"
+      ],
+      "note": "两条成立关系。Dependency-Track 为开源完整平台：组件清单绑定项目/版本并持续匹配漏洞与许可证情报，输出每组件发现。Snyk Open Source 为商业 SCA，官方文档 Markdown 正文明确其扫描开源依赖中的漏洞（含间接依赖），并检查许可证合规问题、提供修复建议。旧 HTML 路由为 GitBook 客户端渲染壳，已改抓可读 Markdown 正文并以其为证据；商业条目仅基本记录，未研究价格、架构或部署。",
+      "service_boundary": "不把纯 CLI 扫描器单列为 SCA 应用。Dependency-Track 以平台形态覆盖清单+匹配+发现；Snyk 为商业 SaaS 平台，本单元只记录官方文档可证的基本类型匹配。",
+      "search_attempts": [
+        "复用 Dependency-Track 仓库元数据、许可证、README 与官网抓取结果",
+        "抓取 docs.snyk.io 的 Snyk Open Source 页面；HTML 路由为 GitBook 客户端渲染壳，改抓同页 Markdown 版本取得正文",
+        "核对 Markdown 正文中的 SCA 定义、间接依赖、漏洞与许可证问题及修复建议"
+      ],
+      "fetch_outcomes": [
+        "Dependency-Track 四项来源均 HTTP 200（见 sbom-management 留档）",
+        "Snyk 文档 Markdown 版本 HTTP 200，正文已保存并用于本叶断言（含 SCA 定义、间接依赖、许可证检查与修复建议）；旧 HTML 路由快照为客户端渲染壳，未用于断言"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "software-supply-chain-security",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:610316941"
+      ],
+      "query": "GitHub API 检索 chainloop-dev/chainloop；抓取 README 与 docs.chainloop.dev 策略页，核对签名记录、供应链威胁评估与 CI/CD 强制执行。",
+      "source_urls": [
+        "https://api.github.com/repos/chainloop-dev/chainloop",
+        "https://api.github.com/repos/chainloop-dev/chainloop/license",
+        "https://raw.githubusercontent.com/chainloop-dev/chainloop/main/README.md",
+        "https://docs.chainloop.dev/concepts/policies"
+      ],
+      "note": "纳入 Chainloop（Apache-2.0）。README 与策略文档证明其保留签名 in-toto 证明（SBOM、扫描、测试、SLSA 来源），用 Rego/WASM 策略检查并在 CI/CD 边界实际阻断不合规发布，证明存入 OCI/S3/Azure Blob，Helm 可自托管。快照未证明恶意包行为检测或包信誉情报，故该部分不作为本关系依据。",
+      "service_boundary": "只主张完整性/来源可信与策略强制执行这一支供应链安全能力；不主张恶意代码行为分析、包信誉评分或运行时防护。",
+      "search_attempts": [
+        "GitHub API GET /repos/chainloop-dev/chainloop（id=610316941、main、Apache-2.0）",
+        "GitHub API GET 许可证（完整 Apache-2.0 文本）",
+        "抓取 raw README（证明、策略、阻断、存储、Helm）",
+        "抓取 docs.chainloop.dev/concepts/policies（策略求值、violations 阻断流水线、审计记录）"
+      ],
+      "fetch_outcomes": [
+        "仓库元数据 HTTP 200",
+        "license API HTTP 200",
+        "README HTTP 200，含自托管与策略阻断说明",
+        "策略文档 HTTP 200，正文含 control gate 与阻断语义"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cloud-security-posture-management-cspm",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:66474729"
+      ],
+      "query": "GitHub API 检索 prowler-cloud/prowler；抓取 README、Prowler Local Server 安装页与云 provider 扫描页，核对云账户连接、配置检查、发现与仪表板。",
+      "source_urls": [
+        "https://api.github.com/repos/prowler-cloud/prowler",
+        "https://api.github.com/repos/prowler-cloud/prowler/license",
+        "https://raw.githubusercontent.com/prowler-cloud/prowler/master/README.md",
+        "https://docs.prowler.com/getting-started/installation/prowler-app",
+        "https://docs.prowler.com/user-guide/tutorials/prowler-app"
+      ],
+      "note": "纳入 Prowler（Apache-2.0），服务形态取 Prowler Local Server 自托管 Web 应用。README 给出多 provider 检查表与合规框架，并说明 Local Server/Cloud 是连接云账户、可视化结果的 Web 应用；安装文档证明 Docker Compose 自托管；教程页正文说明添加云 provider 账户后开始扫描与查看发现。尝试抓取 prowler-local-server 页面返回 404，已如实留档。",
+      "service_boundary": "以云资源配置检查、合规评估与配置错误发现查看为核心；不主张自动修复写回、发现分诊生命周期、运行时威胁检测或 Attack Paths 等扩展能力。",
+      "search_attempts": [
+        "GitHub API GET /repos/prowler-cloud/prowler（id=66474729、master、Apache-2.0）",
+        "GitHub API GET 许可证（完整 Apache-2.0 文本）",
+        "抓取 raw README（provider 检查、框架、Local Server）",
+        "抓取 Prowler Local Server 安装页（Docker Compose 自托管）",
+        "抓取 Prowler 云教程页（添加 provider 账户、扫描、发现）",
+        "尝试 /user-guide/tutorials/prowler-local-server 返回 404"
+      ],
+      "fetch_outcomes": [
+        "仓库元数据 HTTP 200",
+        "license API HTTP 200",
+        "README HTTP 200",
+        "安装页 HTTP 200，正文含 Docker Compose 与 Local Server",
+        "云教程页 HTTP 200，正文含 provider 接入与扫描步骤",
+        "https://docs.prowler.com/user-guide/tutorials/prowler-local-server HTTP 404（未采用）"
+      ],
+      "archived": false
+    }
+  ]
+}

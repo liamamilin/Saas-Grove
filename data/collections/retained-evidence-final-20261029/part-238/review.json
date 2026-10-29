@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中该叶仍标记 case_status=insufficient_evidence、application_ids 为空，phase 为 included_without_cases，而本单元 research.json 已判为 case_found 并收录两个商业应用；资料内容本身成立，建议在保存/发布环节同步该叶的案例状态与 application_ids，避免元数据与批次不一致。",
+    "REVIEW_SOURCES.json 与 batch.json 将 IDeaS、Duetto 的产品落地页 kind 标为 homepage；实际 URL 是具体产品/方案页，不影响引用有效性，但若规范区分来源类型可改标为 product_page。",
+    "IDeaS 仅有单一官方营销页作为依据，核心能力以功能级表述呈现，未见产品界面或工作流文档；商业案例只要求基本真实性与类型匹配，本页已够用，后续可补充产品/集成文档以增强可持续性证据。",
+    "Duetto 摘要中的“入住限制”由页面“automated restrictions in place like minimum stay or closed to arrival”支撑，“前瞻需求定价”由“Secure higher value bookings up to five years ahead with data-powered rates”及“Look into the future”支撑，措辞与来源一致，无需修改。",
+    "开源侧的排除理由依赖 GitHub 元数据与 README 结论，本单元未保留这些仓库的抓取快照；因未纳入任何开源应用，且 research.json 已如实记录检索词、抓取结果与放弃原因，按留档缺口可通过处理。"
+  ],
+  "leaf_checks": {
+    "hotel-revenue-management-system": {
+      "name_zh": "酒店收益管理系统（RMS）",
+      "status": "pass",
+      "definition_core": "定义要求三项共同结构：未来日期×房型的前瞻需求图景、系统自身按日期/房型产出定价决策、以及预订反馈驱动决策刷新的持续循环。本叶两个商业应用均以官方产品页证据覆盖“系统决定价格而非仅持有费率表”的核心区分，并与 PMS 边界一致。",
+      "applications": [
+        {
+          "application_id": "commercial:ideas-revenue-management-system",
+          "track": "commercial",
+          "identity": "IDeaS Revenue Management System，厂商官方 hospitality revenue management 产品页，身份与类型匹配 RMS 而非 PMS。",
+          "evidence": [
+            "快照 341ce3af… 含 “optimal pricing and inventory controls for key products by room type”，并说明考量 “demand profiles, your competitor influence, and your strategy”，对应前瞻需求图景与系统定价/库存决策。",
+            "快照含 “speed, agility, and automation” 与 “reasoning behind system recommendations”，对应自动化、系统推荐与可解释性。",
+            "快照含 “AI-powered” 预测表述、独立酒店与连锁客群（Independent Properties / Groups and Chains）及集成入口，支持持续使用与销售侧交接的服务形态。"
+          ],
+          "saas_form": "云端商业软件服务，官方页面提供演示/集成入口；未运行验证部署，商业案例仅需基本真实性。",
+          "license": "不适用（商业闭源）。",
+          "result": "通过"
+        },
+        {
+          "application_id": "commercial:duetto-gamechanger",
+          "track": "commercial",
+          "identity": "Duetto GameChanger，官方产品页明确定位于酒店/赌场/度假村收益管理，非 PMS。",
+          "evidence": [
+            "快照 8b32c445… 载明 “Dynamically price room types, customer segments, stay dates and distribution channels independently”，对应按日期、房型、客群、渠道的定价决策。",
+            "同页 “sets real-time rates … then pushes it live across every channel in seconds”，并以 AutoPilot 或人工调整控制，体现系统决策与向销售渠道执行的交接。",
+            "“pre-set revenue strategy parameters guide AutoPilot to dynamically optimize rates”覆盖运营者护栏内的自动决策；另有 “smart pricing recommendations from day one”“AI-driven rate recommendations”及预测/未来需求表述，覆盖推荐与持续刷新。",
+            "“automated restrictions … minimum stay or closed to arrival”支持摘要中的入住限制说法；导航含 Hotels、Casinos、Resorts，支持适用业态表述。"
+          ],
+          "saas_form": "云端 SaaS 平台（duettocloud.com），官方页面；未运行验证。",
+          "license": "不适用（商业闭源）。",
+          "result": "通过"
+        }
+      ],
+      "open_source_boundary": "本单元未纳入开源应用，故无完整许可证/社区版边界需核。research.json 记录了 edubu2/hotel-revman-system（无许可证、训练营 notebook）、aws-samples 示例（MIT-0 但集成为 TODO）、sgino209/hotels_rms（Apache-2.0 仅 notebook）、HotelIQ（无 LICENSE）、uit-hotel 与 Kamra/PMS.do（PMS 手工费率）等排除理由，属于已如实记录的缺口留档。",
+      "gaps": "未部署运行，未核价格/架构；GitHub 仓库结论无本单元快照可复核；IDeaS 页面为单一营销页。均不阻断本次内容初审。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及两份按 REVIEW_SOURCES.json 路径原样读取的来源快照；未运行 shell、未写文件、未读取其他单元。未部署或运行任何产品，未验证价格、架构、集成实况。快照为原始 HTML，超长行在读取显示中被截断，核心措辞通过逐字检索确认存在于快照文件中；GitHub 候选仓库与本单元 PMS 页面未保留快照，无法在本单元内独立复核其许可证与 README 结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-238/ses_groveopencodegop238review1_1793263842.jsonl",
+  "batch_sha256": "95b40124f5f4caef2ab9dbdc8a183e532a640e2abec7cbc6c68f394220c9b262",
+  "research_sha256": "d349f794fd93bded8c7d7d74ea66205c056e6a0abd6e9d9baf1b9335a0d235cd",
+  "input_sha256": "407be2aabbdd0e68cfa270e4380d75a345ce09fcfaac87841d53e51c61e18575"
+}

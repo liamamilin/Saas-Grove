@@ -1,0 +1,88 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1046293319",
+      "issue": "批次摘要称“按组织成员身份与角色授权”，但 documents/views.py 的 IsOrgMember 仅校验用户在 corp.org 下存在 is_active 的 Membership（superuser 例外），并未读取 orgs.Membership.role；角色枚举（OWNER/LAWYER/STAFF/CLIENT_ADMIN/VIEWER）只存在于模型层。",
+      "fix": "建议把措辞收窄为“按组织成员身份做对象级权限过滤，角色字段已建模但未在文档权限中强制”，避免读者以为已实现按角色分级授权。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1046293319",
+      "issue": "同一文件中 perform_create 在非成员上传时抛出 PermissionDenied，但该名字未从 rest_framework.exceptions 导入（文件只导入了 permissions），该分支实际会触发 NameError。",
+      "fix": "属实现缺陷而非类型问题；可在条目中不宣称该分支已生效，或将补充导入后的版本作为后续核对点。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1046293319",
+      "issue": "“带到期时间的只读账簿共享链接”在本单元快照内只有 corps/models.py 的 ShareLink（token/expires_at/is_valid/purpose），未见对应 serializer 或公开只读路由；documents/views.py 也未处理 ShareLink。",
+      "fix": "建议表述为“已建模只读共享链接（令牌+过期时间）”，不要把可用的外部共享入口当作已核实的完整工作流。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1046293319",
+      "issue": "Corporation 仅有 legal_name/doing_business_as/jurisdiction/incorporation_number/business_number/registered_office/records_office 等字段，缺定义要求的 entity type、存续状态（status）与 registered agent；实体间持股仅有 Party(ENTITY) 作为股份持有人，无持股比例；README 提到的 audit/历史未在已读模型中注册 auditlog/simple_history，主体属性变更仍为直接覆盖。",
+      "fix": "批次已在 leaf_matches 中披露状态字段与审计轨迹缺口，建议同时补充 entity type/registered agent/持股比例三项，并把“已记录变更”限定为任命与股份事件（带日期），不延展到名称/地址变更史。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "commercial:minutebox",
+      "issue": "批次理由列的 Corporate Minute Book、Compliance Calendar Tracking、Cap Table Management 在首页快照中只出现在导航/页脚链接文案；正文可核实的对应表述是 Entity & Subsidiary Management（“manage your legal entities and compliance obligations in one platform”）与 Registry Services（法定登记册的创建与维护）。",
+      "fix": "商业侧只需基本真实性与类型匹配，不影响纳入；建议理由优先引用正文语句，导航标签另行标注为站内链接。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "issue": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]（其 note 与检索记录针对上一轮 entity-compliance-tracker），而 batch/research 已按 case_found 建立 3 条关系。",
+      "fix": "建议在汇总时把该叶状态同步为 case_found 并填入 github:1046293319、commercial:minutebox、commercial:athennian，避免上游沿用空 application_ids 而漏收。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1046293319",
+      "issue": "README 自述为“en construction (MVP)”，并把 cap table 视图/导出、DOCX 模板生成等列入路线图；批次 features 中“计算出的股权结构”对应 registers/models.py 的 compute_cap_table 聚合函数，而非独立视图。",
+      "fix": "保持 runtime_tested=false 与 official_sources_reviewed 的定位，描述功能时区分“模型/函数已存在”与“界面已交付”。"
+    }
+  ],
+  "leaf_checks": {
+    "legal-entity-management": {
+      "verdict": "passed",
+      "reviewed_sources": [
+        "data/collections/sources/505f0dee74153ffa479aef801be54b5c8b688249092f4577ac3d88c1737cfa9c.txt",
+        "data/collections/sources/35be30502c3717cabc908fef450c9c89bc48ac685f07447d23e91d30de3f1f37.txt",
+        "data/collections/sources/0702f42e07ead3ae645f2c8ebb6559e2ef2e1ed53e2d7c4b09dc25600a57733f.txt",
+        "data/collections/sources/eb739608762825a5c41b2fed3bb2998c22dc769b6129ff0bbb35fa89665639a8.txt",
+        "data/collections/sources/6bf47f78ad09ad20c83bf980ae8d1555dbae663b2a41be7e8b6450a80c93855d.txt",
+        "data/collections/sources/8f0a3040ac3460ea68a79bb6efda6d00e5fd894af6c79de6f958a45488d553ee.txt",
+        "data/collections/sources/0833c205d7678c9cab3375c1ece0c412e4cb49c2da412e8396c81beb54b76834.txt",
+        "data/collections/sources/7c3f860b3a2d2bd74bbd48ea479f444be5ed8508da5042cdf267a21ad2b2c388.txt",
+        "data/collections/sources/f55af0794ea180d14cc658209aa904e1993057180311bb8e6ad82b17bf6b3841.txt",
+        "data/collections/sources/d529452a09143e9b1b267fc60b1675912278e02ab7c177471786a2f38e70e875.txt"
+      ],
+      "definitional_core": "主体记录：corps/models.py 的 Corporation 以 org 归属，持 legal_name、doing_business_as、jurisdiction（CBCA/QC 二选一）、incorporation_number、business_number、registered_office 与 records_office（同为 Address 外键），构成带管辖地与注册标识的持久记录；缺 entity type、存续状态与 registered agent，属记录字段不全而非主体锚点缺失。结构层：Director/Officer 通过 Party（PERSON/ENTITY）绑定公司并带 started_on/ended_on，人员↔实体关系为可查询数据；实体↔实体所有权可由 Party(ENTITY) 作为 ShareCertificate/ShareIssuance/ShareTransfer 的持有人间接表达，但无持股比例字段。公司记录文件库：documents/models.py 的 Document 以 corp 外键归档 ARTICLES/BYLAWS/RES_SH/RES_BD/CERT/OTHER 类别，保存 FileField、sha256、content_type、uploaded_by，属实体级受控文件；结合 documents/views.py 的 IsAuthenticated+IsOrgMember 对象级校验、按用户所属组织过滤 queryset、上传时校验成员身份，满足“按实体归档并受访问控制”。已记录变更：任命/解职以日期区间保留，股份发行/转让/赎回各自独立建表并带 occurred_on，compute_cap_table 由事件聚合出持股，属带日期可追溯事件；但主体属性（名称/地址）变更仍为覆盖更新，README 所述 audit 未在已读模型中注册，故该层为部分覆盖且已被条目如实披露。",
+      "service_form": "Django 5 + DRF 的多租户 Web 应用（Organization→Corporation，Django admin、API 路由、对象级权限），README 给出 SQLite 快速启动、PostgreSQL、docker compose（Postgres+Redis+MinIO）与 S3/MinIO 媒体存储，属可自托管、持续运行的软件服务，而非 SDK、模板或单机脚本；会计/开票与工单模块为附属，未被用作类型依据。",
+      "identity_and_track": "repository_metadata 显示 id=1046293319、full_name=vsaintloup/minutebooks、private=false、fork=false、default_branch=main、未归档，与条目 github:1046293319 及 homepage 一致；track=open_source 与 MIT 许可证、可自托管形态相符。",
+      "license_and_community_boundary": "license 快照指向 LICENSE 文件（path=LICENSE，size=1075），base64 解码为完整 MIT 正文：授予使用/复制/修改/合并/出版/分发/再许可/销售权，要求保留版权与许可声明，并含“AS IS”免责与责任限制条款；仓库元数据 license 为 MIT，两者一致，无附加限制或非商业条款。已读材料未出现开源版/企业版功能切分、许可密钥或社区版字段限制，故不存在需额外说明的社区版边界；条目也未宣称存在企业版。",
+      "commercial_checks": [
+        {
+          "application_id": "commercial:minutebox",
+          "verdict": "passed",
+          "basis": "首页正文可核实其为法律实体管理平台：标题为“Legal Entity Management Software | MinuteBox”，首屏提出 streamline corporate governance and entity management，正文自述“MinuteBox is a leading entity management platform…monitors legal entities and compliance requirements”，Entity & Subsidiary Management 段落写明在一个平台管理法律实体与合规义务，Registry Services 段落写明创建与维护法定登记册，另有数据室、董事会门户等相邻能力。域名与品牌一致，属真实在营商业产品，类型匹配。Corporate Minute Book、Compliance Calendar、Cap Table 仅见于导航/页脚链接文案，未作为核心依据。"
+        },
+        {
+          "application_id": "commercial:athennian",
+          "verdict": "passed",
+          "basis": "首页正文可核实其为实体管理平台：主标题“Modern Entity Management for Governance Ops™”，Entity & People Records 段落写明集中记录实体详情、任命、地址、KYC、注册与合规信息；Appointments/D&O 段落写明记录并关联董事、高管、授权代表与签字权限；Equity & Debt Structures 段落写明管理 cap table 与股权/债务交易；Structure Charts 段落写明由受治理数据生成反映所有权与治理关系的动态图；Document Management 段落写明存储/自动化模板、电子签名与敏感文档访问控制；Controls & Governance 段落写明 granular permissions 与 audit trails。品牌、域名与 Organization 结构化数据一致，属真实在营商业产品，类型匹配。"
+        }
+      ],
+      "documentation_gaps_recorded": "检索与抓取留档齐备：search_attempts 记录了 2026-10-24 至 2026-10-28 的多轮有区分度查询（GitHub 仓库检索与厂商官网抓取），fetch_outcomes 记录了 dilitrust、wolterskluwer 的 403、minutebox 子页 404、lquantprojects 上游 404，以及本轮 8 个 GitHub 快照与 2 个官网快照的 sha256。上一轮候选 noamrazbuilds/entity-compliance-tracker 的核心不足结论、canonical 以 API 仓库为准的说明均在 research 中留痕，且未将其恢复为成立关系；本轮新候选的缺项（状态字段、持股比例、审计轨迹）也已在 leaf_matches 中披露，未用简介或元数据替代正文。",
+      "residual_gaps": "MinuteBooks 为加拿大 CBCA/QC 限定的公司账簿型 MVP：无 entity type/status/registered agent 字段，无实体间持股比例，主体属性无变更事件表，文档权限未按角色分级，共享链接仅见模型；商业两家仅核对首页正文，未覆盖价格、部署与子页能力。上述均不改变类型识别与商业基本真实性，故不阻断。"
+    }
+  },
+  "limits": "本次为只读静态初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 10 个快照，未运行 shell、未写文件、未访问其他单元。未做部署或运行时验证，所有结论基于快照文本（README、Python 模型/视图源码、GitHub API JSON、厂商首页 HTML）。Athennian 首页快照较长，采用正文段落阅读配合定向检索核对能力描述，未逐字通读全部营销区块与子页面；MinuteBox 首页快照已通读正文与页脚。上一轮候选 noamrazbuilds/entity-compliance-tracker 的快照不在本单元 REVIEW_SOURCES 中，其“核心不足”结论仅依据 research.json 的留档，未在本轮重新抓取核对。GitHub 仓库元数据快照为单行 JSON，读取时显示被截断，archived/default_branch/license 等字段通过文件内检索确认存在，未逐字段解析全部 API 返回。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-070/ses_groveopendesignp070review1_1793192126.jsonl",
+  "batch_sha256": "daed059dee24d6686409aff203a7b29dc2347f00048742b4d0edcd35c8b21af4",
+  "research_sha256": "472cc83a68fc1a90bf2629b1650c630e78240d648e69e6e2c486ac0e9319124e",
+  "input_sha256": "1a51ed0b4ee0647a322224ec9986a74f3a360a1331b646cf52337a71fe646647"
+}

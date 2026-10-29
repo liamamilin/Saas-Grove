@@ -1,0 +1,89 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "order-orchestration-platform",
+      "application_id": "commercial:pipe17",
+      "issue": "batch.json 的 leaf_match 与研究记录称 Pipe17 首页证明“按成本/库存/仓库可用性/交付承诺路由”，并提供异常处理、退货管理与订单跟踪/更新；但实际快照的正文只有 hero 句“Order Operations Platform ... managed connectivity with intelligent order management ... automate everything after the buy button”，其余可读内容主要是导航、logo 与页脚。快照正文中没有出现 routing/route、warehouse、fulfillment、tracking、cost、promise 等实质表述；“Exception Resolution”“Returns Management”“Order Promising”仅作为导航标签出现。因此“可配置决策层 + 跨系统驱动执行”的定义性核心没有被正文证据支撑，属于以 tagline 和导航替代核心正文。",
+      "fix": "改抓 https://pipe17.com/order-management/ 或 https://pipe17.com/order-operations/ 的服务端可读正文，引用其中关于路由规则、成本/库存/承诺权衡、异常处理、状态回传的具体段落并新增快照；若仍抓不到，改写 leaf_match 只保留首页可支持的“订单运营/智能订单管理”表述并如实记录缺口，必要时降级或移除该案例。"
+    },
+    {
+      "slug": "order-management-system-oms",
+      "application_id": "commercial:fluent-commerce",
+      "issue": "docs.fluentcommerce.com 快照仅 30 行，是 Next.js 客户端壳（head、脚本与 MUI emotion 样式），没有可读的文档正文或条目；但 batch.json 与研究记录称“官方文档门户索引亦可见工作流状态与退货订单条目”。该证据在快照中不存在，属于以壳页/Loading 替代正文，引用不成立。",
+      "fix": "删除 docs.fluentcommerce.com 来源及“工作流状态/退货订单条目”的表述，或改抓一个服务端渲染、正文确实包含 workflow/return 条目的 Fluent 文档页并新增快照；OMS 主页面证据可保留，但应把该文档抓取缺口如实写入 research.json。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 中 5 个 case_found 不一致；若下游读取 progress 字段，应同步刷新，但不影响本次对公开应用资料的判断。",
+    "Linnworks 记录的 https://www.linnworks.com/order-management/ 快照 canonical 为 https://www.linnworks.com/solutions/order-management/，属于重定向；快照正文与 DOM 证据一致。",
+    "Fluent Commerce 的 OMS 页同时强调 sourcing/routing（FAQ 中“Fluent decides where orders go”“ERP stays the system of record”）与订单编排，和 DOM/order-orchestration 的边界重叠；按商业基本类型匹配可接受，但建议在条目中注明边界。",
+    "Snipcart 首页以营销文案为主，未直接展示行项编辑、跨设备持久化或服务端价格重校验；研究记录已注明未核验服务端重校验，商业基本真实性和类型匹配可过。",
+    "parcelLab 首页还覆盖退货、换货、退款、checkout promise、fraud 等超出 delivery-experience 的功能，范围偏宽；核心的订单跟踪与品牌化消息仍在，建议在服务边界中说明这是购后体验套件。",
+    "parcelLab 的“品牌化跟踪页/承运商状态标准化”主要通过文案与图片文件名体现，未核到状态模型；research.json 已如实记录该缺口，属于可接受的留档。",
+    "REVIEW_SOURCES.json 的 8 个 path 均按 data/collections 前缀读取，batch.json 中 snapshot_path 的文件名与之一致；本次未重算 sha256。"
+  ],
+  "leaf_checks": {
+    "shopping-cart-platform": {
+      "result": "pass_with_gap",
+      "application_ids": [
+        "commercial:snipcart"
+      ],
+      "basis": "Snipcart 首页标题与描述明确为“Add a Shopping Cart to Any Website in Minutes”，并说明可配合任意 site builder、CMS 与 framework；页面含 Merchant Dashboard、Checkout faster、abandoned cart retrievals、discounts/shipping methods、API & Webhooks，以及 hosted sign-in/sign-up。可确认“附加到商家现有网站的独立托管购物车 + 结账 + 商户后台”的形态，且不拥有店面或目录。",
+      "gaps": "首页未直接展示 shopper-bound 持久化购物车、行项编辑/价格重算、服务端价格重校验；研究记录已注明未核验服务端重校验。商业基本真实性与类型匹配成立。",
+      "saas_form": "托管购物车服务，页面提供 app.snipcart.com 登录/注册入口，属于持续使用的 SaaS 形态。",
+      "id_track": "ID 为 commercial:snipcart，track 为 commercial，一致。",
+      "license": "商业闭源，不涉及开源完整许可证或社区版边界核对。"
+    },
+    "distributed-order-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:linnworks"
+      ],
+      "basis": "Linnworks 首页写明其成为跨 marketplace 的 inventory and orders 的 single source of truth，并写明“Own warehouse, 3PL, or dropship: Linnworks automatically routes every order to the right place”。订单管理页写明从 every channel 集中处理订单、Rules Engine 按预设规则自动路由、可自动路由到 Amazon FBA、3PL、dropship vendors 或自有仓库、支持 order splitting and merging，并将 tracking 回传 originating channel。可核到“渠道中立订单记录 + 多节点履约网络 + 规则化寻源 + 回传跟踪”的核心。",
+      "gaps": "未核到库存 standing、安全库存、无候选节点时 fallback 的具体实现；商业基本类型匹配足够。",
+      "saas_form": "云端多渠道订单/库存管理服务，页面提供登录与 demo 入口，属于持续使用的 SaaS 形态。",
+      "id_track": "ID 为 commercial:linnworks，track 为 commercial，一致。",
+      "license": "商业闭源，不涉及开源完整许可证或社区版边界核对。"
+    },
+    "order-management-system-oms": {
+      "result": "pass_with_source_gap",
+      "application_ids": [
+        "commercial:fluent-commerce"
+      ],
+      "basis": "Fluent Commerce 首页 title 为“AI-Native Order Management System”，hero 自述“We're the Order Management System”；官方 OMS 页 title 为“Order Management System (OMS) for Enterprise”，hero 写明“Command the full order lifecycle ... Inventory availability. Agent orchestration. Order fulfillment. Customer service. Returns. Post-purchase.”，并提到 sourcing logic、order workflows、fulfillment decisions；导航写“Orchestrate every order across channels, stores and warehouses”。可确认售后订单生命周期管理、退货与门店/仓库履约的基本 OMS 形态。",
+      "gaps": "未核到订单记录字段、发货 tracking、取消/退款的状态门控；研究记录已注明。docs.fluentcommerce.com 快照为客户端壳，相关引用不成立，见 findings。",
+      "saas_form": "云端 API-first 订单管理平台，提供 demo/注册入口，属于持续使用的 SaaS 形态。",
+      "id_track": "ID 为 commercial:fluent-commerce，track 为 commercial，一致。",
+      "license": "商业闭源，不涉及开源完整许可证或社区版边界核对。"
+    },
+    "order-orchestration-platform": {
+      "result": "insufficient_evidence",
+      "application_ids": [
+        "commercial:pipe17"
+      ],
+      "basis": "Pipe17 首页 title/description 为“Order Operations Platform ... managed connectivity and intelligent order management in one product for brands and 3PLs”，hero 写“pairs managed connectivity with intelligent order management, so brands and 3PLs automate everything after the buy button”；导航可见 Order Management、Inventory Visibility、Exception Resolution、Returns Management、Order Promising、StoreOps。可确认其商业身份与“购后订单运营”方向，但快照正文未提供可配置决策层、规则化路由、跨系统驱动执行、状态回传的核心证据。",
+      "gaps": "研究记录所述“按成本/库存/仓库可用性/承诺路由、异常处理、退货、跟踪回传”未在快照正文核实，仅见导航标签或研究结论；见 findings。",
+      "saas_form": "云端订单运营平台，页面提供 Sign In 与 Book a Demo，属于持续使用的 SaaS 形态。",
+      "id_track": "ID 为 commercial:pipe17，track 为 commercial，一致。",
+      "license": "商业闭源，不涉及开源完整许可证或社区版边界核对。"
+    },
+    "delivery-experience-platform": {
+      "result": "pass_with_gap",
+      "application_ids": [
+        "commercial:parcellab"
+      ],
+      "basis": "parcelLab 首页 title 为“Post-Purchase Experience Software”，正文写“Order tracking, branded messages, returns, exchanges, refunds, fraud, checkout promise ... all connected in one platform”，并写“Own the entire post-purchase journey”“Keep shoppers connected with timely, branded updates”；页面还有 delivery notifications/tracking page 图文、WISMO/R Agent、carriers 与 returns portal 入口。可确认品牌侧订单跟踪 + 主动配送沟通的基本形态，且未主张自行调度承运商。",
+      "gaps": "承运商状态标准化模型、品牌化跟踪页的具体形态未在正文完整核到；研究记录已如实注明。",
+      "saas_form": "云端购后体验平台，提供 demo/登录入口，属于持续使用的 SaaS 形态。",
+      "id_track": "ID 为 commercial:parcellab，track 为 commercial，一致。",
+      "license": "商业闭源，不涉及开源完整许可证或社区版边界核对。"
+    }
+  },
+  "limits": "本次为只读审查；未运行 shell、未写文件、未重新抓取网页、未执行 JavaScript 渲染；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 8 个引用快照，未重算 sha256；未做登录后、运行时或部署验证；商业条目仅检查基本真实性与核心类型匹配；Pipe17 首页快照与 Fluent docs 快照存在客户端渲染/壳页导致的正文不可得问题，已在 findings 中列明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-030/ses_groveopencodegop030review1_1792942832.jsonl",
+  "batch_sha256": "212da9a750d720875a1718529972984dc139f6c3227ffb62b1f04faf126f2526",
+  "research_sha256": "896c91aa93f667425a524329e593a2dc5da518871bab2846e9bc4b82188f329c",
+  "input_sha256": "90edca240eddc9fd624d6bb374c05baed612748c4bb960906bc3cf6ef28502e2"
+}

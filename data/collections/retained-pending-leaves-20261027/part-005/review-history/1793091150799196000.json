@@ -1,0 +1,40 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "code-quality-platform",
+      "application_id": "github:1222504",
+      "issue": "条目用 SonarQube Community Build 匹配 code-quality-platform，但所引 README 在 Commercial editions 中明确把 branch analysis 与 pull request decoration 列为商业版能力；叶定义把项目的分支和拉取请求列为一等分析对象，并要求对每次进入合并/发布流程的变更给出判定。按 README，社区版只能做静态分析和 CI 中的 Quality Gate，不能对每个分支/PR 形成平台侧判定，定义性核心不完整，不能按完整案例入库。",
+      "fix": "不要将该社区版作为该叶的完整匹配：可改用包含分支/PR 分析的商业版或托管版并按商业条目登记；若保留社区版，则在 batch/research 中明确标为部分匹配并记录 edition gap，同时收窄 summary 与 leaf_matches 的表述；或将该叶留为无案例并保留该边界说明。"
+    },
+    {
+      "slug": "code-quality-platform",
+      "application_id": "github:1222504",
+      "issue": "核心正文证据不足：唯一的产品正文是 README 的营销/概览段落，未提供项目接入并绑定仓库、分析运行记录、issue/metric 持久历史与趋势、质量门禁条件配置的官方文档证据；research.note 也自认 README 未逐字证明持久 issue/metric 历史与仓库绑定接入，却仍标 case_found/official_sources_reviewed。仅凭 README 关键词、徽章和仓库元数据不能证明这些定义性工作流。",
+      "fix": "补充并快照官方文档中对应页面（项目接入/仓库绑定、分析历史、issue 生命周期、Quality Gate 条件），逐项对应定义性核心；若无法补充，应把 assessment 改为证据不足或留档缺口，不宣称完整类型匹配。"
+    }
+  ],
+  "non_blocking_notes": [
+    "摘要把 README 的 “branch analysis and pull request decoration” 简写为 “分支/PR 装饰”，建议改为 “分支分析与 PR 装饰”，以免弱化社区版缺少分支分析这一边界；该措辞与 finding 1 相关，但不单独作为阻断项。",
+    "homepage 使用公司主页 https://sonarsource.com，建议改为产品页或文档页，便于核验；不影响类型匹配。",
+    "input.json 中该叶仍为 application_ids: []、case_status: review_pending、phase: included_without_cases，而 batch/research 已提出 github:1222504；若条目最终保留，建议在入库时同步叶级进度与 application_ids。",
+    "许可证快照是 GitHub contents API 的 base64 JSON；结合仓库元数据 spdx_id、LICENSE.txt 的 7651 字节大小与正文首行可确认 LGPL-3.0，建议另存解码后的 LICENSE.txt 便于审计，非阻断。"
+  ],
+  "leaf_checks": {
+    "code-quality-platform": {
+      "definition_core": "README 支持静态分析（bugs/vulnerabilities/maintainability）、new code 上的 Quality Gate 与自托管构建；未直接证明项目-仓库绑定、分析运行记录、issue/metric 历史与趋势。分支/PR 一等因素被 README 划入商业版，故核心仅部分满足。",
+      "service_form": "SonarQube Community Build 是自托管服务器/CI 分析服务，属于持续运行的平台形态，不是一次性脚本或库；不是托管 SaaS，但叶定义明确将 self-hosted servers 列为非定义性/可选，故不单独阻断。",
+      "id_track": "batch id github:1222504 与仓库元数据 id=1222504、full_name=SonarSource/sonarqube、html_url 一致；track=open_source 与 Community Build、LGPL-3.0 一致。",
+      "license": "仓库元数据 license.spdx_id=LGPL-3.0；LICENSE.txt 快照 size=7651，base64 正文首行为 GNU Lesser General Public License Version 3；README License 段亦标注 LGPL v3.0。许可证文件快照已捕获，未逐字通读至末尾。",
+      "community_boundary": "README 的 Commercial editions 明确 branch analysis/PR decoration、SCA、IaC、secrets、taint SAST、architecture、portfolios、remediation agent 等为商业版；batch 大体反映该边界，但 “分支/PR 装饰” 表述不精确，且未处理叶定义要求分支/PR 为一等对象的问题。",
+      "source_quality": "仅 3 个官方 GitHub 快照；README 为营销/概览正文，非核心工作流文档；research.note 自认关键历史/接入未逐字证明；无运行时验证，符合留档但不足以支撑 case_found。",
+      "conclusion": "changes_required：许可证、ID、track、社区边界基本可靠，但定义性核心（分支/PR 一等分析与每次变更判定、持久历史/仓库绑定）未被社区版或所引正文满足。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES 列出的 3 个快照；未运行 shell、未写文件、未访问网络、未部署或运行 SonarQube；快照为单行 JSON/HTML，读取器对单行截断至 2000 字符，仓库元数据与许可证字段通过 grep 命中确认，未逐字通读完整许可证全文；未读取 TASK.md、issues.json、历史脚本或其他单元；README 为营销段落，未补充官方文档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-005/ses_groveopencodegop005review1_1793090427.jsonl",
+  "batch_sha256": "ad2bce8ed01c26745f4e8f471a921be3fdd7a2c03d03c424a4261d63cc62b0d4",
+  "research_sha256": "3fc2d2311f74efad6de3a67a0948f58675de538fd8b9291a6a94132b7b1c7b31",
+  "input_sha256": "9719425345985c467338616d20b0b86f444f413bf553adb9f113bd27d924eb09"
+}

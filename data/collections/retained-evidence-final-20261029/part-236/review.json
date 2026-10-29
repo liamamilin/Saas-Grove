@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "travel-agency-management-system",
+      "application_id": "commercial:tern",
+      "note": "batch.json 摘要把“客户/供应商/顾问开票”写成现行能力，但 back-office 页 FAQ（约 2638-2641 行）明确“Invoicing is in closed beta”，总账“in preview”。这属于成熟度表述，不影响该产品作为旅行社管理系统的核心类型匹配；若后续用于对外文案，建议标注开票为封闭测试、总账为预览，佣金对账与分成结算为现行功能。"
+    },
+    {
+      "slug": "travel-agency-management-system",
+      "application_id": "commercial:tern",
+      "note": "/agencies 页部分产品截图旁留有 TODO 占位注释，且有若干空 href 的功能卡片链接；核心判断依据应是正文文案（行程级供应商明细、佣金拆分、对账、付款授权、CRM 记录），不应把截图或空链接当作功能证据。"
+    },
+    {
+      "slug": "travel-agency-management-system",
+      "application_id": "commercial:tern",
+      "note": "Tern 同时以 Hotels by Tern、Travel Insurance 等自有供应项目出现，可能被误读为自有产品目录；但正文定位是旅行社/顾问的前后台一体化平台，行程仍按第三方酒店、邮轮、地接/活动供应商聚合，未改变其中介业务系统属性。"
+    },
+    {
+      "slug": "travel-agency-management-system",
+      "note": "研究记录中的开源候选（iTourTMS、karamlk/travel-agency、ExcursioX、Tours-and-travels-in-php）未在本单元快照中提供许可证正文或仓库全文，仅作为排除记录存在；本次通过不依赖这些候选，也不能据此得出“不存在开源旅行社管理系统”的结论。"
+    }
+  ],
+  "leaf_checks": {
+    "travel-agency-management-system": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:tern"
+      ],
+      "track_check": "batch.json 条目 id=commercial:tern、track=commercial，与来源登记 applications=[commercial:tern] 一致；无开源条目，故不涉及 LICENSE、仓库身份或社区版边界核对。",
+      "definitional_core": "已按叶定义三项结构核对：(1) 旅行社客户档案——/agencies 正文含 CRM、联系人/客户记录、consortia 营销代码写入 CRM 记录、按姓名/邮箱/电话/确认号检索 trip、contact、booking；(2) 绑定客户的行程/预订文件——正文写明按 trip 组织、itinerary 级明细覆盖酒店/邮轮/地接与活动供应商、保险与酒店实时报价接入行程、trips 自动共享给团队、booking 创建后驱动佣金与报表；(3) 双向资金记录——客户端有品牌化发票、客户在线付款/付款授权、服务费收取；供应商端有供应商对账单解析与按供应商/确认号匹配、未领取佣金处理、供应商付款对账、供应商佣金开票、顾问分成与一键结算单。三项共同成立，非单纯 CRM、行程展示或记账工具。",
+      "saas_form": "/agencies 提供 Start Free Trial（app.tern.travel/signups/new）与 Book a Demo，/back-office 提供 agency demo 与 webinar；两页均为持续运营的官方产品站并描述在线账户、支付处理（Airwallex）与订阅式平台能力，符合持续使用的软件服务形态。未做登录或运行验证。",
+      "identity_and_type": "两页同属 tern.travel 官方站点，产品名为 Tern，/agencies 与 /back-office 互相引用同一前后台平台；身份一致，商业类型与“旅行社管理系统”匹配。核心功能正文而非仅标题/元数据：佣金对账、payout rules、unclaimed commission、invoicing、service fees 均有段落说明。",
+      "source_check": "已按 REVIEW_SOURCES.json 的 path 原样读取两份快照：data/collections/sources/8a900fc5abefe94001bdff6ef36307f6fbd01b4bb524a2ddd33def1e55434a8d.txt（https://tern.travel/agencies）与 data/collections/sources/8a241cb8ce43c726f1214c5e351a651950733a542175deb150fcc0fd96abf536.txt（https://tern.travel/back-office）。快照含完整 HTML 与实质正文，未出现 Loading、登录墙或仅导航内容。",
+      "gaps": [
+        "未运行 Tern 产品，runtime_tested=false，仅有官方营销正文；因此不验证实际工作流、数据模型或结算准确性。",
+        "发票功能在 back-office FAQ 中标为 closed beta，总账为 preview；核心判断依赖已上线并写明的佣金对账、未领取佣金处理与分成结算。",
+        "未重算快照 sha256（只读环境无 shell），仅按 REVIEW_SOURCES.json 给出的 path 与 sha256 对应读取。"
+      ],
+      "conclusion": "商业条目基本真实性、产品身份、SaaS 形态与叶定义核心均有官方正文支撑，未发现需阻断的事实或许可问题。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 指定的两份快照；未运行 shell、未写文件、未访问其他单元。无法重算文件 sha256，未做部署/登录/运行时验证，未补充价格、架构或额外来源研究。研究记录中的 GitHub 候选与历史查询仅按记录核对，未重新抓取；因此不对其许可证或仓库状态作独立确认，也不据此断言开源侧不存在。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-236/ses_groveopencodegop236review1_1793263386.jsonl",
+  "batch_sha256": "0505ce4182738d4bca794f7d9f9692c4218a9b76645ef7ed4de83929dc3e1d4a",
+  "research_sha256": "c99b065bde3154936768beec9ab9c957217b73502eb327a6ec974cfdb8212117",
+  "input_sha256": "6547d6401476ac57b4ff0d2b5e4ec04d0c1243e467e8854cad3a6b6c307c464c"
+}

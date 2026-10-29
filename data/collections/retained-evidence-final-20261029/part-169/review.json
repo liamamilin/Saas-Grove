@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "scope": "unit",
+      "slug": "clinical-decision-support-system",
+      "note": "input.json 中该叶仍为 case_status=insufficient_evidence、application_ids=[]、phase=included_without_cases，而 batch.json 与 research.json 已记录两个案例；合并结果时应同步该进度字段，避免下游把本叶误判为无案例。"
+    },
+    {
+      "slug": "clinical-decision-support-system",
+      "application_id": "github:121619061",
+      "note": "仓库元数据中的 pushed_at 为 2018-12，README 的 CI 徽章也已陈旧；本次未做运行验证，不应据此推断其仍在积极维护或可直接用于生产环境。"
+    },
+    {
+      "slug": "clinical-decision-support-system",
+      "application_id": "github:121619061",
+      "note": "保留来源只能证明“方案执行级”的记录（physician、execution_time、state、elementsExecuted），没有单条建议的接受/拒绝/覆写及原因编码证据；描述中应保持这一边界，不要扩展为完整的覆盖审计。"
+    },
+    {
+      "slug": "clinical-decision-support-system",
+      "application_id": "github:1169459491",
+      "note": "核心能力主要依据项目 README 的功能、架构与 API 说明，未保留路由、模型或 UI 源码快照；若后续需要更强的核心工作流证据，可补充服务端代码或界面快照。README 同时声明仅用于教育/研究，不能外推为诊断或自动处方产品。"
+    },
+    {
+      "slug": "clinical-decision-support-system",
+      "application_id": "github:1169459491",
+      "note": "README 的 Assessment History 描述与 Roadmap 中“跨就诊纵向追踪”未完成存在措辞张力；当前摘要已把“历史留存/查看”和“跨就诊追踪”分开，建议保留这种区分。"
+    },
+    {
+      "scope": "unit",
+      "slug": "clinical-decision-support-system",
+      "note": "本单元没有商业产品，商业真实性与类型匹配检查不适用；两个开源仓库均未显示独立的社区版/商业版分层，社区版边界按“整仓开源”理解。"
+    }
+  ],
+  "leaf_checks": {
+    "clinical-decision-support-system": {
+      "result": "pass",
+      "applications_checked": [
+        "github:121619061",
+        "github:1169459491"
+      ],
+      "definitional_core": "两个应用都把临床知识绑定到已识别的患者并输出建议，且都不自动执行临床动作。GenericCDSS 有源码级证据：Protocol.run 遍历 inquiry/decision/action 元素，按 inquiryData 选择决策分支并汇总 action；界面把结果置于“Actions recommended”；协议执行由当前医生触发并留下执行记录。Clinical Insight Engine 有完整 README 证据：患者级风险表单输入年龄、BMI、HbA1c、血糖、病史等，逻辑回归模型输出风险百分比与因素贡献，医生视图给出建议随访动作。两者均满足患者特定情境、决策逻辑、决策点建议输出和医生保留决定四项核心。",
+      "service_form": "两者都是带持久化数据库、可长期使用的 Web 应用，而非单一模型、SDK 或静态内容。GenericCDSS 使用 Django REST Framework + ReactJS + PostgreSQL，并以 Docker Compose 自托管；Clinical Insight Engine 使用 React + Express + Python/scikit-learn + PostgreSQL，提供 Docker 与手动部署方式。",
+      "identity_track_and_license": "batch 中两个条目的 ID 与仓库元数据一致：github:121619061 对应 bioinformatics-ua/GenericCDSS，github:1169459491 对应 gopaljilab/Clinical-Insight-Engine，track 均为 open_source。GenericCDSS 的元数据 spdx_id 为 GPL-3.0，根目录 LICENSE 为完整 GPLv3 全文，末段包含“END OF TERMS AND CONDITIONS”；Clinical Insight Engine 的元数据 spdx_id 为 MIT，许可证快照为 1067 字节的完整 MIT 文本。两个仓库均 archived=false，未发现单独的社区版/商业版分层。",
+      "applications": {
+        "github:121619061": {
+          "name": "GenericCDSS",
+          "identity": "GitHub 元数据 id=121619061、full_name=bioinformatics-ua/GenericCDSS、默认分支 master，与 batch 的 homepage/repository_url 一致。",
+          "core_evidence": "README 说明面向医护人员的患者仪表盘、患者信息维护、临床方案创建/分配/执行及下一次测量提醒；Protocol.py 的 run() 先遍历 ProtocolElement，遇 PEDecision 时调用 element.run(inquiryData) 选择分支，最后收集 PEAction.action；RunProtocolButton.js 提交 patientID、protocolID、inquiryData，并把结果渲染为“Actions recommended”；ExecutedProtocol 保存 physician、execution_time、state、elementsExecuted，ProtocolViewSet.run 从 request.user 取得 Profile 后写入执行医生，ExecutedProtocolViewSet 以 EXECUTED 状态按患者查询历史。",
+          "license": "GitHub license API 快照与根目录 LICENSE 快照均为完整 GPL-3.0 文本；仓库元数据 spdx_id=GPL-3.0。",
+          "gap": "单条建议的接受、拒绝、覆写及原因编码未在保留来源中出现；执行记录是方案级别的，不能据此声称已实现逐条建议的覆盖审计。"
+        },
+        "github:1169459491": {
+          "name": "Clinical Insight Engine",
+          "identity": "GitHub 元数据 id=1169459491、full_name=gopaljilab/Clinical-Insight-Engine、默认分支 main，与 batch 的 homepage/repository_url 一致。",
+          "core_evidence": "README 描述全栈架构与患者风险表单，输入年龄、性别、BMI、HbA1c、血糖、高血压/心脏病史、吸烟史等；逻辑回归模型输出风险百分比及主要贡献因素；医生视图展示风险、因素贡献和建议临床随访动作，患者视图展示简化风险等级与生活方式说明；评估历史支持保存和查看。系统只给出建议，不自动执行临床动作。",
+          "license": "GitHub license API 快照为完整 MIT 文本，仓库元数据 spdx_id=MIT。",
+          "gap": "核心工作流主要依据 README 的文档级证据，未保留服务端路由、模型脚本或 UI 快照；跨就诊纵向追踪在 Roadmap 中仍未完成，不能与已实现的历史留存混同。"
+        }
+      },
+      "evidence_gaps": "本叶两个应用都没有运行或部署实测；GenericCDSS 的维护活跃度较低且逐条建议的覆盖审计未获证据；Clinical Insight Engine 仅有 README 级核心工作流证据并带教育/研究免责声明；被排除的候选（DoctorAgent、medAL 系列、cqf-ruler 等）未在本单元保留可复核快照，未重新独立核验其当前状态。上述缺口已如实记录，不影响本叶两个已纳入案例的类型匹配与来源核对。"
+    }
+  },
+  "limits": "本次仅做只读审查：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 以及 REVIEW_SOURCES 列出的 12 个快照；未联网实时复核、未部署或运行应用、未验证模型性能或临床有效性、未提供许可证法律意见；未读取其他单元；被排除候选没有本单元保留快照，未独立复核其当前状态；GenericCDSS 的运行时行为由源码推断，Clinical Insight Engine 的核心工作流由 README 推断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-169/ses_groveopencodegop169review2_1793253717.jsonl",
+  "batch_sha256": "0bfd04a3414d1c8bd3ddbf890a21cf5a012514a623beaff82f5349e820456e80",
+  "research_sha256": "7bb85b776d813909e9866e0fd8ce1ce8de113eaad1f49b4acc938a2ead01967c",
+  "input_sha256": "49061d3720d4dd69a11cb331d00a9f1bbd5de335e09dd08b18060fefcd074c27"
+}

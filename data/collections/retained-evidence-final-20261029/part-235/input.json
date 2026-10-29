@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 52,
+  "offset": 1275,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "tour-operator-management-system",
+        "name_zh": "旅游供应商管理系统（TM）",
+        "domain_id": "26",
+        "parent_id": "26.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-052/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "tour operator management system departures bookings"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/428",
+            "result": "insufficient_evidence",
+            "note": "本轮核查多个候选：tourapp/tourapp 的 GitHub API metadata 显示许可证 null/NOASSERTION，最后推送 2013 年，虽自称 open source tour operation system，但许可证与完整工作流无法确认；mantrabrain/yatra 是 WordPress 旅游预订插件且许可证 null/NOASSERTION，不是独立运营系统；PHPTRAVELS 页面明确说明其“open source”是一次性商业许可证；Nairoo、Travter、Trawelio 为商业方案，仅有搜索摘要。未找到许可证、产品身份和“自有产品目录→日期出发班次→预订生命周期”核心均可核验的完整开源应用。",
+            "query": "open source tour operator management system departures bookings github"
+          }
+        ],
+        "archived": false,
+        "note": "本轮核查多个候选：tourapp/tourapp 的 GitHub API metadata 显示许可证 null/NOASSERTION，最后推送 2013 年，虽自称 open source tour operation system，但许可证与完整工作流无法确认；mantrabrain/yatra 是 WordPress 旅游预订插件且许可证 null/NOASSERTION，不是独立运营系统；PHPTRAVELS 页面明确说明其“open source”是一次性商业许可证；Nairoo、Travter、Trawelio 为商业方案，仅有搜索摘要。未找到许可证、产品身份和“自有产品目录→日期出发班次→预订生命周期”核心均可核验的完整开源应用。"
+      },
+      "definition": {
+        "slug": "tour-operator-management-system",
+        "name": "Tour Operator Management System",
+        "name_zh": "旅游供应商管理系统（TM）",
+        "aliases_zh": [
+          "旅行社运营系统",
+          "组团社管理系统"
+        ],
+        "overview": "A **Tour Operator Management System** is the operator-side business system of record for a tour operator: the company that creates, sells, and runs its **own** packaged or itinerary-shaped travel products. It holds the operator's tour catalog, turns products into dated, capacity-bearing departures, takes bookings from direct and trade channels, moves each booking from enquiry through confirmation, amendment, documents, and payment to completion of travel or cancellation, and keeps the money record — client payments, channel terms, and supplier costs — attached to the bookings that generated it.\n\nThe defining structure is small:\n\n```text\nTour product of record (the operator's own packages/itineraries)\n└── Departure / dated itinerary instance (capacity, availability, schedule)\n    └── Passenger booking (lifecycle: enquiry → confirmed → operated → completed/cancelled)\n```\n\nEverything else commonly associated with tour operator software — agent and OTA connectivity, online booking engines, voucher and manifest printing, integrated accounting, multi-currency and multi-language selling — is standard equipment in mature products, not part of what makes the software a tour operator system. Remove the operator's own products and the software becomes an intermediary tool; remove the dated instances and it becomes a booking engine over place admission or rooms; remove the operated booking lifecycle and it becomes a brochure site or a CRM.",
+        "overview_zh": "**旅行社管理系统**是旅行社的业务运营系统记录：即创建、销售和运营其**自有**打包或行程式旅游产品的公司。它保存旅行社的产品目录，将产品转化为有日期、有容量的出发班次，接受直接和渠道渠道的预订，将每个预订从咨询、确认、修改、文件处理、支付推进到旅行完成或取消，并保留财务记录——客户付款、渠道条款和供应商成本——附加到产生这些记录的预订上。\n\n定义性结构很简单：\n\n```text\n旅行社的产品记录（旅行社的自有打包产品/行程）\n└── 出发 / 有日期的行程实例（容量、可用性、时间表）\n    └── 乘客预订（生命周期：咨询 → 已确认 → 已操作 → 已完成/已取消）\n```\n\n其他通常与旅行社软件相关的功能——代理和 OTA 连接、在线预订引擎、凭证和名单打印、集成会计、多币种和多语言销售——是成熟产品中的标准配置，不是构成旅行社系统的部分。移除旅行社自有产品，软件就变成了中介工具；移除有日期的实例，它就变成了针对景点门票或房间的预订引擎；移除操作预订生命周期，它就变成了宣传册网站或 CRM。",
+        "dc": "```text\nTour product of record\n└── Departure / dated itinerary instance\n    └── Passenger booking\n        ├── Travellers (passenger details)\n        ├── Channel & selling terms (direct / agent / OTA)\n        ├── Documents (proposal, invoice, voucher, itinerary, manifest)\n        └── Money (pricing, deposits, payments, cancellation terms)\n```\n\nThree structures, jointly held. If any one is removed, the product is no longer recognizable as a tour operator management system:\n\n- **Tour product of record** — a persistent, identified catalog of the operator's **own** travel products: itinerary- and package-shaped offerings (from a half-day tour to a multi-day series) carrying itinerary content, inclusions, duration, and pricing structure. The operator is the **principal**: these are its commercial products, whether it delivers them with its own coaches, vessels, and guides or assembles them from bought-in services. Without this, the software is selling someone else's inventory — intermediary territory.\n- **Departure / dated itinerary instance** — the sellable and operable unit. Availability, capacity (seats, rooms, cabins, participant counts), cut-offs, and schedules hang on dated instances of a product. Scheduled and series departures are the classic form; tailor-made itineraries carry client-specific dates instead, but the booking still consumes a dated, capacity-checked instance of the product. Without this, the software is a ticketing system for place admission or an inventory for room nights — there is nothing to fill, manifest, or operate.\n- **Passenger booking with a lifecycle** — the central record that binds identified travellers to a product instance and carries everything the sale and the operation need: pricing and channel terms, optional services, payment and cancellation schedules, documents, and status. The booking moves from enquiry or quote through confirmation, amendment (with repricing), document issue, and payment, to completion of travel or cancellation. Without this, there is an order record but no operated travel commitment.",
+        "dc_zh": "旅游产品主记录\n└── 出发/排期行程实例\n    └── 旅客预订\n        ├── 旅客信息\n        ├── 渠道与销售条款（直营/代理/OTA）\n        ├── 单据（方案、发票、凭证、行程单、舱单）\n        └── 资金与账务（定价、定金、付款、取消条款）",
+        "rules": "### One availability source governs all channels\n\nThe same departure can be sold on the operator's website, by agents, and through connected OTAs simultaneously. Mature products hold availability in one place and feed every channel from it precisely so the channels cannot oversell the departure. When a booking lands through any channel, the same record and the same stock are consumed.\n\n### Amendments reprice, they do not rebuild\n\nChanging passenger counts, cabins/rooms, or optional services on a confirmed booking reprices it against the same departure. Mature products do this in place — availability is re-validated and the price recomputed without cancelling and re-creating the booking — which is the operational difference between a booking system and a form.\n\n### The booking carries its own money schedule\n\nPayment and cancellation schedules commonly attach to the booking: deposits, balance-due points, and the cancellation terms that govern what happens when it is cancelled or transferred. Documents and reminders flow from this state.\n\n### Channel terms are per-channel, product pricing is shared\n\nThe same product sells at different effective prices through different channels (direct, agent commission, OTA net rate). The product's pricing structure is defined once; the channel's commercial terms are applied on top — which is also what makes per-channel, per-market margin reporting possible.\n\n### Products are finite per departure\n\nCapacity is per instance and finite: a full departure closes (or goes on request) across all channels at once. Tailor-made work escapes the fixed-departure calendar but still consumes real services under availability rules — the constraint moves from \"seats on a coach\" to \"rooms, guides, and vehicles on those dates\".\n\n### Documents follow the booking's state\n\nVouchers and pre-departure packs are only issued against bookings in the right state; supplier communications go out per booking or in bulk as the operation firms up. The document set is derived, not free-floating.",
+        "rules_zh": "### 一个可用性来源管理所有渠道\n\n同一出发班次可以在旅行社网站、代理和通过连接的 OTA 同时销售。成熟产品在一个地方保存可用性，并从中为所有渠道提供信息，以便渠道不能超售该出发班次。当通过任何渠道达成预订时，相同的记录和相同的库存被消耗。\n\n### 修改重新定价，而不是重建\n\n更改乘客数量、小屋/房间或已确认预订上的可选服务，会针对同一出发班次重新定价。成熟产品就地执行此操作——可用性被重新验证，价格被重新计算，而无需取消并重新创建预订——这是预订系统和表单之间的操作差异。\n\n### 预订携带其自身资金计划\n\n支付和取消计划通常附加到预订：定金、到期余额点以及控制取消或转团时发生情况的取消条款。文件和提醒从该状态流出。\n\n### 渠道条款是按渠道的，产品定价是共享的\n\n同一产品通过不同渠道（直接、代理佣金、OTA 净费率）以不同的有效价格销售。产品的定价结构定义一次；渠道的商业条款在其上应用——这也使得按渠道、按市场的利润报告成为可能。\n\n### 产品在每个出发班次是有限的\n\n容量按实例且有限：一个满员的出发班次在所有渠道同时关闭（或转为按需）。定制工作摆脱了固定出发日历，但仍在可用性规则下消耗真实服务——约束从“长途汽车座位”转移到“那些日期的房间、导游和车辆”。\n\n### 文件跟随预订",
+        "parent_id": "26.03",
+        "domain_id": "26"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 235,
+    "phase": "directory",
+    "parent": 235,
+    "slugs": [
+      "tour-operator-management-system"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "da68956932f2daf636ed6314d1efa18a0fc1d60e2f229925658ce15629bc7ccf"
+  }
+}

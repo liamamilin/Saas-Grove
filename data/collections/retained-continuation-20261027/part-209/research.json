@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "emissions-monitoring-cems",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:teledyne-monitor-labs-regperfect"
+      ],
+      "query": "websearch: open source CEMS continuous emissions monitoring data acquisition system DAHS github; GitHub REST search: emissions monitoring in:name,description; CEMS in:name,description; DuckDuckGo HTML: Teledyne Monitor Labs DAHS data acquisition handling system",
+      "source_urls": [
+        "https://www.teledyne-ml.com/en-us/products/data-acquisition-handling-system",
+        "https://www.teledyne-ml.com/"
+      ],
+      "note": "GitHub 与通用检索未命中可核对的 CEMS/DAHS 开源应用，结果多为碳排放估算、卫星遥感、学生项目或无关的 Minecraft CEM；随后以官方产品页核实 Teledyne Monitor Labs RegPerfect 为商业 DAHS，正文明确实时数据采集、质量保证和监管报告。仅作商业基本记录，未查价格/架构/部署，未运行。",
+      "service_boundary": "面向工业设施受监管排放源的 CEMS 数据处理（DAHS），不是环境空气质量监测，也不是基于活动数据的碳核算；本次未验证仪器协议、现场部署或具体报告模板。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source CEMS continuous emissions monitoring data acquisition system DAHS github",
+          "outcome": "无结果返回"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "emissions monitoring in:name,description",
+          "outcome": "结果以碳排放估算/卫星遥感项目为主，未发现 CEMS DAHS"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "CEMS in:name,description",
+          "outcome": "结果多为 Minecraft CEM、电磁计算及无关项目"
+        },
+        {
+          "engine": "DuckDuckGo HTML",
+          "query": "Teledyne Monitor Labs DAHS data acquisition handling system",
+          "outcome": "定位到官方产品页"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.teledyne-ml.com/en-us/products/data-acquisition-handling-system",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "官方产品页正文可用，含 RegPerfect DAHS、实时、QA、监管报告与授权控制"
+        },
+        {
+          "url": "https://www.teledyne-ml.com/",
+          "kind": "homepage",
+          "status": "fetched",
+          "detail": "根站为 JS 导航壳，仅用于官方身份记录，未作为核心匹配证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "environmental-monitoring-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:16999809"
+      ],
+      "query": "websearch: open source environmental monitoring platform self-hosted sensors github openSenseMap; GitHub REST search: air quality monitoring platform in:name,description; direct repo checks: sensebox/openSenseMap, sensebox/openSenseMap-API, opendata-stuttgart/sensors-software",
+      "source_urls": [
+        "https://api.github.com/repos/sensebox/openSenseMap-API",
+        "https://api.github.com/repos/sensebox/openSenseMap-API/license",
+        "https://raw.githubusercontent.com/sensebox/openSenseMap-API/master/README.md",
+        "https://api.opensensemap.org/",
+        "https://raw.githubusercontent.com/sensebox/openSenseMap/master/README.md"
+      ],
+      "note": "采用 openSenseMap 开源平台：API 后端负责 senseBox 监测点、传感器最新测量与历史测量、多站点统计；独立 MIT 前端负责地图与可视化。GitHub API 证明仓库 id 16999809、full_name sensebox/openSenseMap-API 与 MIT 许可；未运行部署。docs.opensensemap.org 抓取到 Loading... 壳页，已弃用，改为 API 路由正文。",
+      "service_boundary": "环境传感器监测点的数据发布与可视化平台，覆盖空气/气象等多参数环境测量；不是通用设备遥测或工业过程通道。展示层与后端为两个 MIT 仓库，条目身份绑定后端，未验证实际自托管部署。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source environmental monitoring platform self-hosted sensors github openSenseMap",
+          "outcome": "无结果返回"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "air quality monitoring platform in:name,description",
+          "outcome": "得到 openSenseMap 相关、Safecast-Air 等候选，多数为固件或单一传感器项目"
+        },
+        {
+          "engine": "GitHub REST repo lookup",
+          "query": "sensebox/openSenseMap-API; sensebox/openSenseMap; opendata-stuttgart/sensors-software",
+          "outcome": "前两者 MIT；sensors-software 无许可证，排除"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.opensensemap.org/",
+          "kind": "documentation",
+          "status": "rejected",
+          "detail": "返回 Loading... 的 JS 文档壳，不能作为核心工作流证据"
+        },
+        {
+          "url": "https://api.opensensemap.org/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "路由正文列出 boxes、latest measurements、历史 data 与统计接口"
+        },
+        {
+          "url": "https://opensensemap.org/",
+          "kind": "homepage",
+          "status": "fetched",
+          "detail": "JS 应用壳，仅作官方身份记录"
+        },
+        {
+          "url": "https://api.github.com/repos/sensebox/openSenseMap-API",
+          "kind": "repository_metadata",
+          "status": "fetched",
+          "detail": "id 16999809，full_name 与仓库一致"
+        },
+        {
+          "url": "https://api.github.com/repos/sensebox/openSenseMap-API/license",
+          "kind": "license",
+          "status": "fetched",
+          "detail": "GitHub license API 返回 MIT 与完整许可证文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sensebox/openSenseMap-API/master/README.md",
+          "kind": "readme",
+          "status": "fetched",
+          "detail": "说明 API、配置、Docker/MongoDB 与相关前端/部署仓库"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "environmental-water-monitoring",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:663663407"
+      ],
+      "query": "websearch: open source water quality monitoring platform github stations time series; GitHub REST search: water quality monitoring in:name,description; hydrology data management in:name,description; hydroserver2 organization repositories",
+      "source_urls": [
+        "https://api.github.com/repos/hydroserver2/hydroserver",
+        "https://api.github.com/repos/hydroserver2/hydroserver/license",
+        "https://raw.githubusercontent.com/hydroserver2/hydroserver/main/README.md",
+        "https://hydroserver.org/"
+      ],
+      "note": "采用 HydroServer 2：官方 README 与站点文档说明其面向水文与环境监测站点的时间序列采集、存储、管理、质控与共享，提供 Web 界面与 OGC SensorThings API。GitHub API 证明 id 663663407 与 BSD-3-Clause；旧 CUAHSI/HydroServer 自述 legacy，仅作候选未采用。未运行部署。",
+      "service_boundary": "环境水体/水文监测站点的时间序列数据平台，可承载河流、湖泊、地下水等站点参数；不覆盖水务公司管网运行、排放许可合规或设备控制。离散实验室采样工作流未在本次证据中确认。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source water quality monitoring platform github stations time series",
+          "outcome": "无结果返回"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "water quality monitoring in:name,description",
+          "outcome": "多为算法/数据科学/固件项目；CUAHSI/HydroServer 为 legacy"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "hydrology data management in:name,description",
+          "outcome": "未命中成熟平台"
+        },
+        {
+          "engine": "GitHub org listing",
+          "query": "hydroserver2 repositories",
+          "outcome": "发现 hydroserver2/hydroserver（BSD-3-Clause）与配套应用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/hydroserver2/hydroserver",
+          "kind": "repository_metadata",
+          "status": "fetched",
+          "detail": "id 663663407，full_name 一致，topics 含 environmental-monitoring/hydrology"
+        },
+        {
+          "url": "https://api.github.com/repos/hydroserver2/hydroserver/license",
+          "kind": "license",
+          "status": "fetched",
+          "detail": "GitHub license API 返回 BSD-3-Clause 与完整许可证文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/hydroserver2/hydroserver/main/README.md",
+          "kind": "readme",
+          "status": "fetched",
+          "detail": "说明监测点、数据流、ETL、Web 管理、部署资产与 SensorThings"
+        },
+        {
+          "url": "https://hydroserver.org/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "官方文档站说明数据流接入、存储、Web 配置与公开数据访问"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hazardous-materials-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:chemicalsafety-ems"
+      ],
+      "query": "websearch: open source hazardous materials chemical inventory SDS management software github; GitHub REST search: hazardous materials management in:name,description; chemical inventory SDS in:name,description; official product check: ChemicalSafety chemical inventory and SDS pages",
+      "source_urls": [
+        "https://chemicalsafety.com/chemical-inventory-management-software/",
+        "https://chemicalsafety.com/safety-data-sheet-software/",
+        "https://chemicalsafety.com/"
+      ],
+      "note": "开源检索只得到课程材料与玩具级 SDS/库存项目，未发现可核对的完整应用；改以官方正文核实 ChemicalSafety EMS 化学品库存与 SDS 模块：容器/条码、SDS、GHS 标签、化学品审批、相容性、储存限值与库存报告。商业基本记录，未深入价格/架构/部署。",
+      "service_boundary": "设施内危险材料/化学品的身份、SDS、库存与标签管理，属危害沟通制度；不承担运输危险货物分类、包装与运输单据系统。未验证离线知情权访问与实际部署。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source hazardous materials chemical inventory SDS management software github",
+          "outcome": "无结果返回"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "hazardous materials management in:name,description",
+          "outcome": "课程资料与小型项目，无完整应用"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "chemical inventory SDS in:name,description",
+          "outcome": "玩具级 SDS/库存项目，无成熟平台"
+        },
+        {
+          "engine": "official site check",
+          "query": "ChemicalSafety chemical inventory management software; safety data sheet software",
+          "outcome": "定位到官方模块页并核实正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://chemicalsafety.com/chemical-inventory-management-software/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "正文列出容器跟踪、条码、SDS、GHS 标签、审批、相容性、储存限值与库存报告"
+        },
+        {
+          "url": "https://chemicalsafety.com/safety-data-sheet-software/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "正文说明云端 SDS 库、检索/打印、GHS 标签与 OSHA 合规"
+        },
+        {
+          "url": "https://www.chemicalsafety.com/",
+          "kind": "homepage",
+          "status": "failed",
+          "detail": "301 到 apex 域，采集器拒绝跨主机重定向"
+        },
+        {
+          "url": "https://chemicalsafety.com/",
+          "kind": "homepage",
+          "status": "fetched",
+          "detail": "改为 apex 官方根站后抓取成功，用作官方身份记录"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hazardous-waste-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:chemicalsafety-ems"
+      ],
+      "query": "websearch: open source hazardous waste management software github manifest accumulation; GitHub REST search: hazardous waste management in:name,description; waste manifest in:name,description; official product check: ChemicalSafety hazardous waste module",
+      "source_urls": [
+        "https://chemicalsafety.com/hazardous-waste-management-software/",
+        "https://chemicalsafety.com/"
+      ],
+      "note": "GitHub 检索首次仅见课程/小型项目，后续请求触发 403 限流，未能穷尽开源候选，保留为实际缺口；官方正文核实 ChemicalSafety EMS 危废模块覆盖废物概况、拾取申请、储存时间、累积区、桶跟踪、标签、BOL 与两年报告。另查看 Wastebits 数字联单页作候选，因其现场累积证据较弱未纳入批次。",
+      "service_boundary": "废物产生者侧的危废特性化、现场累积监控与有文件转移记录；不覆盖运输商/处置商的收集业务，也不等于一般可持续性废物流报告。未验证具体州/国家联单格式、处置回执对接与部署。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source hazardous waste management software github manifest accumulation",
+          "outcome": "无结果返回"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "hazardous waste management in:name,description",
+          "outcome": "首次仅见课程/小型项目；随后请求被 403 rate limit 阻断"
+        },
+        {
+          "engine": "GitHub REST search",
+          "query": "waste manifest in:name,description",
+          "outcome": "403 rate limit exceeded，未完成"
+        },
+        {
+          "engine": "official site check",
+          "query": "ChemicalSafety hazardous waste management software",
+          "outcome": "定位官方模块页并核实正文"
+        },
+        {
+          "engine": "candidate check",
+          "query": "Wastebits waste manifest software",
+          "outcome": "官方页可读，但主要覆盖联单/转移，现场累积证据不足，未纳入批次"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://chemicalsafety.com/hazardous-waste-management-software/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "正文列出废物概况、储存时间、累积区、桶跟踪、标签、BOL 与两年报告"
+        },
+        {
+          "url": "https://chemicalsafety.com/",
+          "kind": "homepage",
+          "status": "fetched",
+          "detail": "官方根站，用作套件身份记录"
+        },
+        {
+          "url": "https://www.wastebits.com/waste-manifest-software/",
+          "kind": "documentation",
+          "status": "fetched",
+          "detail": "候选页说明数字联单、运输商与 EPA 提交；未作为本叶关系来源"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

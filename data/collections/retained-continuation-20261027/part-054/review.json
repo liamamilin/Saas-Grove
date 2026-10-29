@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "[aml-platform / commercial:unit21] Unit21 同时覆盖欺诈与 AML，AML 是独立 tab；按 AML 闭环归叶成立，但摘要中的“名单筛查”主要来自支付/制裁筛查条目，建议在核心证据中区分交易监控与筛查。",
+    "[aml-platform / commercial:unit21] 首页强调 AI agents 执行调查，人工角色主要通过“analysts 被引导完成 alert-to-case-to-SAR 流程”体现；‘人工复核/签核’表述可再保守。",
+    "[credit-decisioning-platform / commercial:provenir] 平台横跨信贷、欺诈、催收与客户管理，信贷决策是其中一条 solution line；归叶成立，但边界说明应保留。",
+    "[credit-risk-platform / commercial:sas-risk-management] 两页能证明信用敞口、信用评分/违约风险、ECL、监管资本和压力测试；限额/超限处理/风险偏好治理未在快照中展开，‘组合监控’目前只由 current exposure 与 continuously manage 支撑，建议后续补证。",
+    "[credit-risk-platform / commercial:sas-risk-management] 同一套 Risk Engine 也覆盖市场与流动性风险，产品与 financial-risk-management-platform 存在邻接；当前按信用风险解决方案归叶可接受，但不是排他匹配。",
+    "[credit-risk-platform / commercial:sas-risk-management] 信用风险证据以解决方案页产品摘要加 Risk Engine 产品页为主，未读取单独的 SAS Credit Risk Management 产品页；若需更完整核心，建议补该页。",
+    "[financial-risk-management-platform / commercial:murex-mx3] ERM 快照 HTML title 为 ‘Market Risk Management Platform’，与 URL/正文的 enterprise risk management 不一致；正文足以支持 FRM 归叶，标题属站点元数据问题。",
+    "[financial-risk-management-platform / commercial:murex-mx3] 部署形态为 cloud-ready/on-premises，另有 XVA as a Service；若上游要求纯多租户 SaaS，应补充部署形态说明，但不影响商业软件服务形态。",
+    "[credit-management-platform / commercial:highradius] 页面属于 order-to-cash 套件并出现 collections dashboard 截图；当前只按 credit management 归叶，需避免扩展到 AR/collections 全流程。",
+    "[metadata] input.json 的 progress（case_status=not_searched、application_ids=[]、phase=included_without_cases）与 batch/research 的已发现案例不一致，属于任务输入快照未同步，不影响本单元内容结论。",
+    "[sources] 8 个快照路径均存在并与 REVIEW_SOURCES.json 的 URL/哈希文件名对应；本次未重算 SHA-256。"
+  ],
+  "leaf_checks": {
+    "aml-platform": {
+      "application_id": "commercial:unit21",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/dfea109e4a4727b25a3634ca588de8253521b9b2d28bdb76bfdb87e466231eb6.txt（https://www.unit21.ai/）。AML tab 明确 ‘AI That Runs Your AML Program, End to End’，正文覆盖 configurable rules/behavioral models/AI 的交易监控、alert-to-case-to-SAR 工作流、analyst 调查、SAR/STR/CTR/314(a)/goAML 报送及完整 audit trail；另有 customer risk rating/EDD、sanction/payment screening 与 ongoing monitoring。符合 AML 的检测—人工案件—监管报送—审计闭环，未把欺诈模块当作本叶主证据。商业云平台形态明确；ID/track 与 batch/research 一致；非开源，无许可证/社区版边界问题。",
+      "gaps": "快照未明确写出‘SAR 提交由高级合规人员最终签核’的环节；AI 调查叙述较强，人工角色主要体现在 analyst 流程。"
+    },
+    "credit-decisioning-platform": {
+      "application_id": "commercial:provenir",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/aaafd34e2271e150f2594a85a82866db2062257f6716e0c9b91e91fa5ec94559.txt（solutions）与 sources/ae275a1d4dfa0425db406b7afd13868a5e90f93b051eb75474ba5c6adb665aeb.txt（decisioning）。Decisioning 正文给出 low-code drag-and-drop studio、create/modify/publish flows、dev/QA/prod 测试/仿真/代码管理、225+ 数据源编排、rules/ML、governed AI agents、Decision Explainability & Audit Narrative、每笔决策 logged/explainable/audit-ready、Case Management 的 referral/manual review/sign-off 与 audit trail，以及 Credit Risk Onboarding 与 sub-second approvals；页面明确与 core banking/CRM 集成而非取代发起系统。符合申请—数据整合—策略评估—批准/拒绝/转人工—理由/审计的信用决策核心。商业 low-code/cloud-native 平台；ID/track 一致；非开源，无许可证问题。",
+      "gaps": "平台同时覆盖欺诈、催收、客户管理，信贷决策只是其中 solution line；maker-checker/策略版本审批未在页面逐项展开。"
+    },
+    "credit-management-platform": {
+      "application_id": "commercial:highradius",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/782e31804b6491c6d7d43a2ba742d1665c1626664c8a4e6710636c82d41e70f4.txt。正文覆盖从 onboarding 到 periodic reviews 的客户信用生命周期、实时监控 payment behavior/credit exposure、自动化评分与审批、复杂例外路由给 credit analysts、credit lines 执行、continuous portfolio monitoring 自动调整 credit lines/触发 order blocks、blocked-order release、policy-driven governance/auditability，以及 customer exposure/credit utilization/blocked orders 的统一视图。符合客户信用账户—受治理额度—实时敞口—信用行动四结构。Web-based SoftwareApplication，ERP 集成明确；ID/track 一致；非开源。",
+      "gaps": "页面属于 order-to-cash 套件，含 collections dashboard 元素；‘customer credit account’未用该词，需靠 lifecycle/onboarding/reviews 推得。"
+    },
+    "credit-risk-platform": {
+      "application_id": "commercial:sas-risk-management",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/7cc3459d6d24e2352ff5c1a805db76ea043a414bf9b2076b3b04b62abb327b20.txt 与 sources/c9959ba35ccb952f9bccfe6d97b20dcc481b67691864383b6ff57143cf5a171f.txt。风险页的 Credit Risk Management 明确 scalable credit models 持续管理 loan portfolios，并列出 Credit Scoring（scorecards 开发/验证/监控）、Regulatory Capital、ECL（CECL/IFRS 9）、Stress Testing；Risk Engine 正文明确 calculate/aggregate/analyze market, credit and liquidity risk exposures、portfolio valuation、exposure/CVA、RWA、scenario/stress、near-real-time exposure views。可支撑敞口记录、债务人质量（scorecards/implied ratings/default risk）、风险计量、持续组合视图。商业软件；ID/track 一致；非开源。",
+      "gaps": "未展示限额/超限处理/风险偏好治理工作流，‘组合监控’证据较弱；产品同时覆盖市场/流动性，与 FRM 邻接。"
+    },
+    "financial-risk-management-platform": {
+      "application_id": "commercial:murex-mx3",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/6190d166d8b0dc360b8d1513f247226485d08fd9290fe11849bb2a78d9b519f6.txt 与 sources/7a6cc0db121603fd3f8e374b5fb5a6983d2ac6941c8b5077ea412619e9f47499.txt。ERM 正文明确 MX.3 在同一平台控制 market/credit/liquidity risk，提供 real-time limit and exposure monitoring、limit suspension/hedging/blocking breaching contracts、limit increase/reallocation、excess cause/resolution dashboards、FRTB/SA-CCR/IM/CVA、consolidated exposures across entities、Monte Carlo PFE、RWA、shared reference data repository 与 common calculation framework、common data model、regulatory content、model governance。Market Risk Control 页补充 desk/enterprise 级限额监控。符合敞口—量化计量—企业聚合—持续监控。Commercial cloud-ready/on-premises；ID/track 一致；非开源。",
+      "gaps": "HTML title 为 ‘Market Risk Management Platform’，与 ERM 正文不一致；部署非纯多租户 SaaS。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元，未做运行时/部署测试。已按 REVIEW_SOURCES.json 的 path 原样读取 8 个快照并核对 batch/research；未重算 SHA-256。Provenir 两个快照的正文集中在单一超长 HTML 行，逐行读取时被截断，正文语义另以同 URL 公开页面核对（未用简介/元数据/Loading 替代核心正文）。SAS/Murex 的部署形态、SAS 的限额/风险偏好治理细节未在快照中完全展开；这些作为非阻断缺口记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-054/ses_groveopencodegop054review1_1792989982.jsonl",
+  "batch_sha256": "0dd8cdb0ab4d5d96100d1f0f59a291337a390fa53521dc51481f295e21dec26d",
+  "research_sha256": "14efe4b538310336807182e05a25e21bb88712d8233279a35687fbe6a534ebfd",
+  "input_sha256": "04effcee1ecd008bfe4e1b82d403fd3d4a5bfadc85e94760b289690a0c3af5d0"
+}

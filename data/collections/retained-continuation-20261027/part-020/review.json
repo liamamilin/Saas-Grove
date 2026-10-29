@@ -1,0 +1,89 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "motion-graphics-application",
+      "application_id": "github:1691967",
+      "note": "Synfig 的渲染/导出这一核心环节仍缺正文：research.json 记录的 wiki Render 与 Rendering 两个页面均为 http_404，readthedocs 的 canvas/render 与 export/export_animation 快照只有标题、无正文；我已在 sources 目录核对 9a36740e…（render.html）、02f96f43…（export_animation.html）确实只有 h1/导航，另 5c68819d…（render.rst）、e2731889…（export_animation.rst）源文件同样只有标题。条目已如实把关系限定为“用于制作 2D 动画”且未声称成片交付，属可留档缺口；后续如要主张该叶的“渲染动态图像交付”属性，应补抓 export.html / export_image.html 或 Render 对话框说明。"
+    },
+    {
+      "slug": "non-linear-editing-system-nle",
+      "application_id": "github:42723268",
+      "note": "最终渲染/导出这一步的证据偏薄：时间线章节正文覆盖拖入片段、轨道/序列、Normal/Overwrite/Insert 编辑模式、Razor/Ripple/Slip 工具、预览渲染区，但成品导出仅来自官方手册目录页的章节说明句“Render out your final video for distributing”与 README 的“video editor”定位，未读到 Exporting 章节正文。不影响 NLE 类型判定，建议后续补抓 exporting.html 以直接支撑“渲染输出交付物”。"
+    },
+    {
+      "slug": "visual-effects-compositing-application",
+      "application_id": "github:116941150",
+      "note": "批次 summary 写“按帧范围预览并渲染输出文件”，而已读快照（README 的 headless/command-line/batch rendering、站点页的 headless rendering 与 render farm）只支撑“按帧渲染/多图渲染”，并未明示“帧范围”这一具体操作；leaf_matches 的说明本身已声明不据此断言，建议让 summary 与证据口径一致，或在补抓用户指南后保留该措辞。"
+    },
+    {
+      "application_id": "github:36648301, github:13233158",
+      "note": "许可证标识精度：OpenShot README 明示“GNU GPL version 3 or any later version”，OBS README 明示“GNU GPL v2 (or any later version)”，而条目 license 字段统一记为 GPL-3.0 / GPL-2.0。完整许可证原文（COPYING/LICENSE，含全部条款）均已核对无误，不影响开源资格，仅建议后续按 GPL-3.0-or-later / GPL-2.0-or-later 精确化。"
+    },
+    {
+      "note": "REVIEW_SOURCES.json 未收录 research.json 中两条“saved_snapshot_but_*_body_empty”的 Synfig 快照（9a36740e…、02f96f43…），因其正文为空而未列入正式来源清单，这是合理取舍；上述空正文结论已在 sources 目录直接复核，不属于丢档。"
+    },
+    {
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空、phase=included_without_cases，与 research.json（五叶均 case_found）和 batch.json（5 个条目）不一致。看起来是研究前的清单快照而非结论数据；若下游会消费 progress 字段，建议在收尾时同步，以免与已入库案例冲突。"
+    },
+    {
+      "slug": "non-linear-editing-system-nle",
+      "application_id": "github:42723268",
+      "note": "Kdenlive 的 GitHub 仓库自述为镜像，主开发在 KDE Invent。仓库身份、ID 与许可证判断不受影响，仅为仓储形态说明。"
+    }
+  ],
+  "leaf_checks": {
+    "non-linear-editing-system-nle": {
+      "case_id": "github:42723268",
+      "application": "Kdenlive",
+      "track_check": "open_source，track 与 GitHub 仓库公开元数据一致；repository_id=42723268 与元数据快照中的 octolytics-dimension-repository_id 一致，非 fork。",
+      "core_check": "定义性核心基本齐备：README（raw master）称其为免费开源视频编辑器、以 MLT 为剪辑核心、Qt/KDE Frameworks 6 为 GUI；官方手册 timeline 正文（docs.kdenlive.org/en/user_interface/timeline.html）给出时间线由音频/视频轨道构成、从 project bin 拖入片段、同一 AV 片段自动拆分到视频/音频轨、Normal/Overwrite/Insert 编辑模式、Razor/Spacer/Slip/Ripple 工具、Expand Clip、预览渲染区与渲染状态、序列标签切换，支持“持久项目 + 可寻址片段 + 时间线任意排列分层 + 非破坏修剪 + 预览”。成品导出仅由手册目录页的 Exporting 章节说明句“Render out your final video for distributing”支撑，未读导出章节正文（见 non_blocking_notes）。",
+      "service_form_check": "持续使用的桌面剪辑软件（Linux/Windows/macOS），非实时导播；与 video-compositing-application 边界清晰，research.json 的 service_boundary 记录一致。",
+      "license_check": "GitHub license 接口快照为 COPYING，size=34670，content 解码首行为“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”，含序言与条款，属 GPL-3.0 完整原文；社区版/商业版边界无冲突（纯开源项目）。",
+      "verdict": "通过"
+    },
+    "video-editor": {
+      "case_id": "github:36648301",
+      "application": "OpenShot",
+      "track_check": "open_source；repository_id=36648301 与元数据快照一致，非 fork，仓库为 OpenShot/openshot-qt。",
+      "core_check": "定义性核心齐备：develop 分支 README 的 Features 正文列出无限轨道/图层、剪辑 resizing/scaling/trimming/snapping/rotation/cutting、带实时预览的转场、合成与叠加、Advanced Timeline（拖放/滚动/平移/缩放/吸附）、逐帧精度、时间映射与变速、基于 FFmpeg 的多编码多格式渲染，覆盖“可寻址片段 + 时间线分层任意排列 + 非破坏修剪 + 渲染交付”；服务形态为跨平台桌面应用（Linux/Mac/Windows，安装包与每日构建）。",
+      "service_form_check": "面向素材到成品视频的剪辑交付，非实时直播合成，与 video-compositing-application、NLE 的边界表述一致（作为消费级到专业级连续市场中的通用视频编辑器归入本叶合理）。",
+      "license_check": "LICENSE 快照为 COPYING，size=33310，content 首行“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”，为完整 GPLv3 条款；GitHub API 对该组合文本归类为 Other，条目未采用自动分类而按原文记 GPL-3.0，处理正确（README 另有“or any later version”，见 non_blocking_notes）。",
+      "verdict": "通过"
+    },
+    "motion-graphics-application": {
+      "case_id": "github:1691967",
+      "application": "Synfig Studio",
+      "track_check": "open_source；repository_id=1691967 与元数据快照一致，非 fork，仓库为 synfig/synfig。",
+      "core_check": "已核部分：README 称其为免费开源 2D 动画软件、面向矢量与位图作品、免去逐帧绘制；官网正文给出“Vector tweening：设定关键位置后自动计算中间帧”“50+ 图层（几何、渐变、滤镜、变形等）”“骨骼系统与 Skeleton Distortion”“图层参数可直接或经表达式链接”。这支撑“图形构图（图层堆叠）+ 参数化关键帧动画 + 应用内预览”三环。未核部分：交付“渲染后的动态图像（视频/图像序列、含 alpha）”缺正文——wiki Render/Rendering 为 404，readthedocs 的 render 与 export_animation 快照正文为空。条目已如实限定为“用于制作 2D 动画”、不声称成片交付，属已记录的缺口。",
+      "service_form_check": "持续使用的桌面 2D 动画/动效制作软件（Windows/Linux/macOS），非实拍剪辑、非实时导播，边界描述与 definition 的类型区分一致。",
+      "license_check": "LICENSE 快照 size=35149，content 首行“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”，为完整 GPLv3 原文；README 亦声明 GPL v3.0；社区版边界无冲突（无商业版分层陈述）。",
+      "verdict": "通过（附已留档的渲染/交付证据缺口）"
+    },
+    "video-compositing-application": {
+      "case_id": "github:13233158",
+      "application": "OBS Studio",
+      "track_check": "open_source；repository_id=13233158 与元数据快照一致，非 fork，仓库为 obsproject/obs-studio。",
+      "core_check": "定义性核心齐备且有正文：README.rst 定义其为“capturing, compositing, encoding, recording, and streaming video content”；官网正文给出“High performance real time video/audio capturing and mixing. Create scenes made up of multiple sources including window captures, images, text, browser windows, webcams, capture cards”“unlimited number of scenes … switch … via custom transitions”“per-source filters 音频混合”“Studio Mode 预览后推流”“Multiview 监看 8 个场景”；KB Sources Guide 正文给出源类型清单（视频采集、窗口/显示器捕获、图像、媒体文件、文本、浏览器）以及添加/删除、上下排序与叠放遮挡、显示隐藏、位置与尺寸调整；Virtual Camera Guide 正文说明“Start Virtual Camera”把 OBS 场景作为摄像头输出给 Zoom/Skype/Discord 等。实时多源混合、节目画面与推流/录制/虚拟摄像头输出均有正文；批次未声称“多路输出同时进行”，与证据一致。",
+      "service_form_check": "操作员控制的实时节目制作与推流/录制工具，非离线合成；与 visual-effects-compositing-application 的实时/离线边界区分正确。",
+      "license_check": "COPYING 快照 size=18092，content 首行“GNU GENERAL PUBLIC LICENSE Version 2, June 1991”，为完整 GPLv2 条款；与 README“GPL v2 (or any later version)”相容，条目记 GPL-2.0（另见 non_blocking_notes）。",
+      "verdict": "通过"
+    },
+    "visual-effects-compositing-application": {
+      "case_id": "github:116941150",
+      "application": "Natron",
+      "track_check": "open_source；repository_id=116941150 与元数据快照一致，非 fork，仓库为 NatronGitHub/Natron。",
+      "core_check": "定义性核心齐备：RB-2.6 README 称其为免费开源（GPLv2）视频合成器，功能类似 After Effects/Nuke/Fusion，跨平台；正文列出 32-bit float 线性处理、OpenColorIO、H264/EXR/DPX/TIFF 等图像序列与视频格式、OpenFX（含随二进制分发的 openfx-io/misc/arena/gmic）、多通道 EXR 合成、Roto/RotoPaint 与跟踪、Curve Editor/Dope Sheet 关键帧、XML 工程文件、headless/命令行与渲染农场批渲染、多图同时渲染与独立渲染进程。官网正文补充“Node-based compositing”、2D Tracking、multi-layered rotoscope 逐点 feather、chroma keying + matte refinement、group/merge 节点与可保存复用的节点片段。多图像源逐源合成、可重编辑的节点配方与渲染输出文件均有正文；帧范围等更细操作未展开且条目未据此断言（summary 措辞见 non_blocking_notes）。",
+      "service_form_check": "离线、镜头级图像合成，非实时导播；research.json 的 service_boundary 与类型区分一致。",
+      "license_check": "LICENSE.txt 快照 size=18092，content 首行“GNU GENERAL PUBLIC LICENSE Version 2, June 1991”，为完整 GPLv2 原文；README 徽章与正文均记 GPLv2，一致；二进制发行随附 OpenFX 插件，不影响开源完整性与社区版边界。",
+      "verdict": "通过"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 所列 22 个快照（按 path 原样读取，sources 前缀相对 data/collections），并另核对了 sources 目录内 research.json 引用的两个 Synfig 空正文快照以验证缺口记录。未运行 shell、未写文件、未部署或运行任何应用，因此未重算 sha256（仅依据文件名为哈希的对应关系与内容一致性）、未验证运行时行为、未补充价格/架构研究。未抓取未被快照覆盖的深层章节正文，如 Kdenlive Exporting、OpenShot 用户指南、Natron 用户指南、Synfig 导出/Render 页面，故相关结论以已读正文为限并已在 notes 中标出证据强度。所有判断仅针对本单元五个叶子；不存在跨单元比对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-020/ses_groveopencodegop020review1_1792940969.jsonl",
+  "batch_sha256": "d6bfaa19fa29a31b9c9adc75f9b8aea13e7f27f1828df75b01664c9cbcf3abbb",
+  "research_sha256": "bded61dc441faaf8ab73c290a0c4607ca9cfec057a227657cdd463d982ecc32f",
+  "input_sha256": "80986c7470dc2af89fe7dee0257d55830e077d7234366d8d4d344860a8f878ba"
+}

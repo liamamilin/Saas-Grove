@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "DocSpace 是房间式协作文档中心，document-editor 的格式、页面与打印核心正文主要来自其集成的 ONLYOFFICE Docs 帮助页；Windows 社区版安装页明确说明安装包含 DocSpace 与 ONLYOFFICE Docs，证据链成立。建议在条目中显式写明所匹配的是集成的 Document Editor 组件，或另立 ONLYOFFICE Docs 条目，以免与独立文档编辑器产品身份混淆。",
+    "SilverBullet 同时面向个人、团队与公开文档场景；note-taking 的个人库属性宜限定为单拥有者的个人 Space。团队共享 Space 的用法会向知识库类型漂移，建议在 service_boundary 中明示该边界。",
+    "distraction-free 的两份 Novlr 快照已存在于 data/collections/sources，但未列入 REVIEW_SOURCES.json；建议补入清单。该记录引用的是帮助分类页中的条目摘要，未抓取 what-is-focus-mode 文章正文；作为无案例的边界留档可以接受，补抓正文会更稳。",
+    "Workflowy 的持久化在 bullets 帮助页中只是隐含（在线账户与 outline 语境），快照未出现 save/sync 的明示句；商业条目按基本真实性可通过，补一条账号或自动保存来源会更完整。",
+    "DocSpace 的 homepage 指向 onlyoffice.com 通用站，而非 DocSpace 产品页；不影响仓库身份与许可核对，但产品身份链接可以更精确。",
+    "input.json 中各叶 progress.case_status 仍为 not_searched，而 research.json 已有 case_found 或 boundary_unresolved；这是输入元数据滞后，不影响本单元内容判断。"
+  ],
+  "leaf_checks": {
+    "distraction-free-writing-application": {
+      "applications": [],
+      "status": "no_case_boundary_unresolved",
+      "basis": "research.json 记录 Novlr 官方首页与帮助分类快照（sha256 9322...、abf29...）；分类页正文说明 Focus Mode 需从写作屏右上角图标主动开启，输入时工具栏与页头淡出，首页将其与 plot grid、写作目标等并列为功能，产品定位为 creative writing workspace。按本叶“界面隐藏是默认状态而非可选模式”的核心，现有证据只证明存在可选无干扰模式，未证明其默认或中心地位，故 boundary_unresolved、不入 batch 是保守且可复核的。",
+      "gaps": "未抓取 what-is-focus-mode 文章正文；Novlr 两份快照不在 REVIEW_SOURCES.json；本轮未重新搜索，记录已如实注明沿用 part-002。",
+      "verdict": "pass_with_documented_gap"
+    },
+    "document-editor": {
+      "applications": [
+        "github:186647301"
+      ],
+      "status": "case_found",
+      "basis": "DocSpace 仓库元数据 id=186647301；LICENSE 全文为 AGPL-3.0（含第 13 条 Remote Network Interaction，无附加限制）；Windows Community 安装页明确该社区版包含 DocSpace 与 ONLYOFFICE Docs；managing-documents 页说明可在房间创建与编辑文本文档、版本历史、评论与共作者锁定；ONLYOFFICE Docs 的 FontTypeSizeColor、SetPageParameters、SavePrintDownload 正文分别覆盖字体/字号/颜色、页面方向/尺寸/边距、保存/下载/打印（含 Save to PDF、页面范围）。持久文档、原位编辑、显式格式、页面化输出四项均有正文依据。",
+      "gaps": "格式、页面与打印正文来自集成的 ONLYOFFICE Docs 帮助，而非 DocSpace 自身帮助；条目主体是房间式文档中心，document-editor 为集成组件；未部署运行。",
+      "verdict": "pass"
+    },
+    "markdown-editor": {
+      "applications": [
+        "github:459944886"
+      ],
+      "status": "case_found",
+      "basis": "SilverBullet 仓库元数据 id=459944886；LICENSE.md 全文为 MIT；README 明确 browser-based Markdown editor、clean live-preview editor、Markdown Pages（a Space）；docs 首页说明 notes 以 Markdown files 保存；首页说明笔记是 ordinary folder 中的 markdown，可在任何编辑器中打开。纯文本 Markdown 源、标记编辑面、live preview 派生输出三部分均有依据。",
+      "gaps": "未部署；未主张导出或发布；部分证据为 README 与首页的产品说明，非逐屏帮助正文。",
+      "verdict": "pass"
+    },
+    "note-taking-application": {
+      "applications": [
+        "github:459944886"
+      ],
+      "status": "case_found",
+      "basis": "同一 SilverBullet 快照：README 定位为 Personal Knowledge Database 与 notes app，内容为 Markdown Pages（Space），用 Page Picker、双向 Links、Queries 组织与找回；docs 说明 notes、team knowledge 与 product docs 以 Markdown files 保存并由用户拥有；首页说明本地 markdown 文件夹。笔记作为持久记录、个人库、捕获与返回路径均有依据。",
+      "gaps": "产品同时面向团队与公开文档，个人库边界需限定为单拥有者 Space；未部署；无独立帮助页逐条展示捕获与搜索工作流。",
+      "verdict": "pass_with_scope_note"
+    },
+    "outliner": {
+      "applications": [
+        "commercial:workflowy"
+      ],
+      "status": "case_found",
+      "basis": "Workflowy 官方帮助 bullets 正文：bullet 为默认节点，可含文本、note、任意嵌套子项；Tab 与 Shift+Tab 缩进与反缩进，层级不限；拖动 bullet 时其下所有嵌套项一起移动；三角可展开与折叠，双击折叠整棵子树；change-node-types 页说明节点类型切换后内容与子项保留。条目、缩进层级、子树级结构操作均直接有正文；track=commercial，类型匹配成立。",
+      "gaps": "持久化仅由在线账户与 outline 语境隐含，快照未出现 save 或 sync 的明示句；未部署。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 sha256、未部署或运行任何产品、未访问实时网络，仅依据本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 所列快照及 sources 目录内 Novlr 快照。REVIEW_SOURCES.json 未列 Novlr 两份快照；distraction-free 仅有帮助分类页摘要而非 Focus Mode 文章正文。DocSpace 的格式、页面与打印核心正文来自其集成的 ONLYOFFICE Docs 帮助页，未单独核验 DocSpace 自身编辑器帮助。Workflowy 持久化为语境推断。未核验价格、当前版本或社区版长期支持政策。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-009/ses_groveopencodegop009review1_1792939124.jsonl",
+  "batch_sha256": "21aaacd0b728b3cdf3223be641b86ffd6730396e8104169a5fbf0b9a01551a9a",
+  "research_sha256": "1a7276703f860ee6749bc2c58586874a377a25e67c3e8f69412b0fcb9695f82f",
+  "input_sha256": "83bc2054c3352104f791a2355af622441678ead93e15f04d14cdd9d94f399cd2"
+}

@@ -1,0 +1,94 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "museum-visitor-experience-platform：research.note 称 Tours、Image Recognition 与文化机构页“正文可读”，但 /features/tours 快照实际以 JSON-LD featureList 和 CSS/JS 为主，正文句子不可辨；“发布到 PWA 即时上线、访客无需下载或登录”等表述主要来自结构化数据。核心三层仍由帮助中心《Create and Manage Tours》的服务器渲染正文（含 Tour Stop、Objects、Spaces、Publish、Location 等实体）支撑，因此不阻断，但建议把这些具体说法改引帮助中心正文或注明来源为结构化数据。",
+    "museum-visitor-experience-platform：research.note 称文化机构页正文列有“welcome kiosk”，快照中未检出该词；可读到的 Digital Labels 与 Interactive Kiosks 位于 JSON-LD 的 mainEntity 列表中。建议删除“welcome kiosk”或改为“结构化数据列出数字标签/互动 kiosk”。",
+    "family-entertainment-center-management：research.note 称 CenterEdge FEC 页含“递延收入报表”，该快照未出现 deferred revenue 相关表述；“奖品兑换”也主要来自导航中的 Redemption 模块名与活动列表中的 Redemption games。建议补 CenterEdge 产品页/会计文档，或把措辞降为“导航显示存在 Redemption 模块”。",
+    "family-entertainment-center-management：FEC 首页正文能证明游玩目录与全场交易，但“客人在每个游戏/景点游玩时逐项验证权益”仅有 player cards、cashless integration 等间接证据；建议补 Admissions & Attractions 或 CenterEdge Play 页面以坐实该核心属性。",
+    "event-ticketing-platform：batch 的 features 把“座位图、选座与座位封锁（仅 Hosted/Enterprise）”列在开源条目下，而 research.service_boundary 又说该能力“不计入本开源条目能力”。两处并不矛盾但易误读，建议把版本受限能力单列为“商业版本能力/不适用于 Community Edition”。",
+    "event-ticketing-platform：license 字段为单一 SPDX “AGPL-3.0”，完整 LICENSE 实为 AGPL-3.0 加 §7 附加条款，且 static/locale/doc/deployment 另按 Apache-2.0；license_review 已说明混合授权，但摘要层建议不要用单一 SPDX 让读者误以为全仓统一。",
+    "reserved-seating-platform：功能页明确座位图编辑、买家选座、按价格类别映射与封锁座位，但未逐字说明“票面印有座位号”；座位绑定关系由 Seats API 的 orderposition/cartposition/voucher 字段及订单票券下载间接支撑。建议在理由中写明这是间接证据。",
+    "theme-park-management：accesso 主题公园页的 “gate entry” 只出现在 meta/JSON-LD；正文入园验证证据来自 Ticketing 页的 biometric entry 与 “Every scan and sale feeds real-time dashboards”。建议 leaf_match 引用改指 Ticketing 正文，避免以元数据充当核心证据。",
+    "commercial:centeredge、commercial:accesso、commercial:pladia 均未见明确的订阅/托管/SaaS 条款或部署说明；商业案例按基本真实性和类型匹配可通过，但“SaaS 服务形态”证据偏弱，后续可补 pricing/deployment 页。",
+    "input.json 的 phase 为 included_without_cases，且各叶 progress.case_status=not_searched、application_ids 为空，但 research.json 已为五叶给出 case_found。若 input 是采集前状态快照可忽略；否则应同步元数据，避免阶段与案例状态相互矛盾。",
+    "本次未重算快照 sha256（只读、未运行 shell），仅按 REVIEW_SOURCES.json 的 path 原样读取并核对文件名与内容主题；哈希一致性仍建议由采集侧校验。"
+  ],
+  "leaf_checks": {
+    "event-ticketing-platform": {
+      "verdict": "pass",
+      "basis": [
+        "README 快照 bc0ae…：仓库定位为 “Ticket shop application for conferences, festivals, concerts, tech events, shows, exhibitions, workshops, barcamps”；声明 “100 percent free and open source software”，并给出自托管安装指南。",
+        "功能页快照 e32f… 正文：在线票务商店、产品/票种结构（类别、变体、附加产品、按 track 控制数量）、参与者问答与审批、客户账户/会员、自动等待名单；页面脚注说明带星标功能仅 Hosted/Enterprise，Community Edition 不含。",
+        "订单 API 快照 fcc9…：订单资源与状态、订单项、支付、退款、票券下载、check-in 列表、revoked/blocked ticket secrets；座位 API 快照 eabd…：座位资源含 zone/row/seat、blocked、orderposition/cartposition/voucher、is_available。",
+        "LICENSE 快照 535ba…：完整 AGPL-3.0 文本 + §7 附加条款，并明确 static/locale/doc/deployment 部分按 Apache-2.0；仓库元数据快照 a4721… 的 repository id 23791087 与 batch 的 github:23791087 一致。"
+      ],
+      "gaps": [
+        "未做运行时验证；未读取源代码或实际后台。",
+        "开源 Community Edition 的具体功能清单仅由功能页星标与 README 推知，未逐项对照版本文档。",
+        "座位图能力属 Hosted/Enterprise，开源条目不应被理解为包含该能力；batch 的 features 已加括号说明，但表述位置仍易误读。"
+      ]
+    },
+    "family-entertainment-center-management": {
+      "verdict": "pass",
+      "basis": [
+        "CenterEdge FEC 页快照 30eee… 正文：面向室内外家庭娱乐中心的一体化软件，覆盖 POS、waivers、reservations、memberships、party bookings、food sales；“sell attraction tickets, player cards, concessions, combos and season passes”；Advantage Events 强调 “No double booking. No missed deposits.” 并可管理多景点、房间与餐饮预订；“all from one system”“one platform powering every sale”。",
+        "同页导航与正文列出 Advantage Sales、Advantage Events、Advantage Console（Inventory、Cash Control & Accounting、Reporting & Analytics）、Redemption、CenterEdge Play（Integrated Cashless）等模块，支撑全场收入中心与储值/无现金边界。",
+        "research 记录本轮开源检索未发现可验证的完整 FEC 管理应用（结果多为 Kodi、网吧管理等无关项目），未硬凑开源案例，缺口已留档；商业案例只做基本记录。"
+      ],
+      "gaps": [
+        "单页营销材料未逐项说明“游玩时逐项验证权益”；player cards 与 cashless 只能间接支撑。",
+        "“递延收入报表”未在该快照出现；“奖品兑换”主要来自 Redemption 模块名，未读到奖品库存/兑换流程正文。",
+        "未核价、部署方式、多租户或实施周期；商业范围按任务只要求基本真实性。"
+      ]
+    },
+    "museum-visitor-experience-platform": {
+      "verdict": "pass",
+      "basis": [
+        "帮助中心《Create and Manage Tours》快照 96eae… 为服务器渲染文章，正文含 Tour、Tour Stop、Objects、Spaces、Publish、Location、Visitor/PWA 等实体；文章标题与描述为 “Design guided, multi-stop tours with maps, audio, and curated audio content”，可支撑机构编写导览、站点绑定对象/空间、发布与访客端访问。",
+        "Tours 产品页快照 96d3… 的 JSON-LD featureList 说明 browser-based self-guided tours、无需下载/登录、Tour stops with rich content and location pins、interactive maps、instant publishing through the PWA、audio/transcripts；Image Recognition 页快照 044e… 有 “How it works” 正文片段，并在 JSON-LD 说明对准展品/QR code 打开对象专属页面（text/images/audio）。",
+        "文化机构页快照 1db4… 的 JSON-LD 列出 Digital Labels（现场固定屏）与 Interactive Kiosks（触摸屏地图/实时信息）；Empower 页快照 9b7c… 列出 Tours、Image Recognition、Pathways、Audio Access+、Accessibility 等。",
+        "Curatescape 开源候选已核查：plugin.ini 声明 GPLv3，但仓库无 LICENSE、license API 返回 404，未按开源案例收录，缺口已记录。"
+      ],
+      "gaps": [
+        "Tours 产品页快照以 JSON-LD/CSS 为主，正文句子不可辨；“PWA 即时发布、无需下载登录”主要来自结构化数据而非正文。",
+        "文化机构页可读到的 Digital Labels / Interactive Kiosks 位于 JSON-LD；未检出 “welcome kiosk”。",
+        "帮助中心正文受单行压缩影响，本次只能确认实体存在与文章结构，未能逐句引用完整步骤；未做运行时验证。"
+      ]
+    },
+    "reserved-seating-platform": {
+      "verdict": "pass",
+      "basis": [
+        "pretix 功能页快照 e32f… 正文 “User-friendly seating plans” 标题带徽标，tooltip 为 “only in pretix Hosted Edition and Enterprise Edition”：买家可在交互式座位图上自选座位；提供图形化 plan editor；可把座位映射到价格类别；可封锁座位（如其他渠道已售）。",
+        "定价页快照 4e39… 以 “Software as a Service” 为默认页签，说明 Hosted 版本“get all features”，并列出托管收费；可确认商业 Hosted 为 SaaS 形态且包含该能力。",
+        "Seats API 快照 eabd…：seat 资源含 zone_name、row_name、seat_number、seat_guid、product、blocked、orderposition、cartposition、voucher、is_available；订单 API 快照 fcc9… 含订单项、票券下载、退款与 check-in。",
+        "该叶定义本身说明市场中无独立端到端“预留座位平台”，座位图通常内置于售票系统或作为组件；因此以 pretix Hosted 的座位模式承接，类型关系与叶定义一致。"
+      ],
+      "gaps": [
+        "功能页未逐字说明“票面标明座位号”，座位绑定由 Seats API 的订单项/座位关系与订单票券下载间接支撑。",
+        "Community Edition 不含该能力，案例仅按商业 Hosted/Enterprise 使用；未核价、未运行。",
+        "未将 seats.io 等纯组件标为 SaaS 应用，符合叶定义的组件边界。"
+      ]
+    },
+    "theme-park-management": {
+      "verdict": "pass",
+      "basis": [
+        "accesso 主题公园/水上乐园页快照 351c… 正文：mobile-first purchase flow、upsells/add-ons、VIP tours/meal plans/premium queuing、interactive maps；“Shop & Dine on Demand” 说明固定收银、手持、kiosk、手机均由 “one platform powering every sale”，并有 “Entitlement-aware promos”。",
+        "Horizon 页快照 9bcb… 正文：single platform 实时管理 guest services、benefits、entitlements；“360 Degree Guest Entitlement Management” 在一个 profile 中跟踪 pass、add-on、privilege；web/kiosk/mobile/call center 统一销售；live rules 驱动 pricing/capacity/distribution；详细记录与报表。",
+        "Ticketing 页快照 2b2d… 正文：与 eCommerce、retail F&B、mobile、virtual queuing、distribution 集成；“biometric entry”；“Every scan and sale feeds real-time dashboards” 并指向 staffing needs。POS 页快照 de8c… 正文：统一 POS、固定收银/mPOS/kiosk/手机，F&B + Retail 库存与实时计数。",
+        "research 记录未发现可验证的开源主题公园管理系统，改收录商业 accesso，并明确游乐设施维护、演出排期、人员排班不在产品范围，与叶边界一致。"
+      ],
+      "gaps": [
+        "主题公园页的 “gate entry” 只在 meta/JSON-LD；正文入园验证由 Ticketing 页的 biometric entry 与 every scan 间接支撑。",
+        "“attendance record” 未以该词出现，由实时看板、staffing needs 与 scan 数据推得。",
+        "未核价、部署方式或租户模型；商业范围按任务只要求基本真实性。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何产品，未重算快照 sha256，未读取其他单元。核对范围限于 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 所列 18 个快照。快照多为单页 HTML，部分被压缩为超长单行，读取器按行截断（约 2000 字符），导致 Pladia 帮助中心、Webflow 产品页等无法逐句展开；对此仅能确认服务器渲染正文中相关实体存在并结合结构化数据判断完整句子。商业案例仅依据官方营销页与帮助文档，未核价、架构、租户/部署或实施周期；未做实时抓取，结论不覆盖快照之外的页面变化。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-240/ses_groveopencodegop240review2_1793035986.jsonl",
+  "batch_sha256": "10cd16dbe144203192ca3e535be084df63f7d5f3a702e9bbeb6ba9664eda3ee9",
+  "research_sha256": "a2dbdc1f0262614068ee1e597005efe13ed859edd6a95946a5962c9766d19f70",
+  "input_sha256": "2e5ba71186a1b4fbd1719722651118698257755bdcf93dd1b8ae0ca4235ee093"
+}

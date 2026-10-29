@@ -1,0 +1,68 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "healthcare-quality-management: MEG 官方页正文支持事件/近似差错报告、调查与根因、风险登记、纠正行动闭环、审计/认证准备和政策管理，但未展示 leaf 定义中的 quality measure/indicator 定义、外部指标版本跟踪或效果再测量；batch summary 已避免这些表述，建议后续扩展时补充 measure 层来源。",
+    "electronic-trial-master-file-etmf: batch 的 match reason 写有 “role-based access”，快照正文更明确的是 “Inspector permission”“controlled access”“access controls and SSO”；若 match reason 被当作证据引用，建议改为快照原措辞。",
+    "irt-rtsm: Medrio 页面支持 randomization、stratification、kit assignment、inventory/resupply、expiry 与 single/double-blind，但未展开 kit returns、destruction 或 close-out reconciliation 细节；当前 summary/reason 未超出正文，保持该边界即可。",
+    "gxp-training-management: 快照是超长单行 HTML；已用全文检索确认 “GxP training management made easy”“Automated training matrix”“based on role and job title”“Automate the distribution of retraining tasks when critical SOPs...”“Training gaps reporting”“21 CFR Part 11 eSignatures”“built-in records center” 等正文原句存在，但周边段落无法按行完整展开阅读。页面把 training 作为 Montrium eQMS 的模块呈现，托管/部署形态未单独明示。",
+    "infection-prevention-platform: 无案例结论有查询、候选、403 抓取和边界判断留档，符合“无案例但如实记录缺口”的可通过条件；但 Sentri7 与 Inovalon 官方页均 403，类别覆盖仍不充分。Prevexium 快照实际存在于 sources/f1c4...，但未列入 REVIEW_SOURCES；其首页正文可支持“AI clinical guidance/state HAI surveillance dashboard”而非设施级 EHR/实验室持续监测，不过 research note 中 “Do not enter patient information”“provides clinical decision support” 等精确措辞未能在该首页快照中复现，建议在留档中改为可复现表述。",
+    "input.json 的 progress 字段仍为 case_status=not_searched、application_ids=[]、research_records=[] 且 phase=included_without_cases，与本单元 batch/research 的 case_found 不一致；若 input.json 也作为交付物，应同步或明确标注为修复前快照。"
+  ],
+  "leaf_checks": {
+    "irt-rtsm": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:medrio-rtsm"
+      ],
+      "track": "commercial",
+      "basis": "读取 data/collections/sources/952a5fa97e9679729542eddbedfabe112250ba03478524901546a33c08f88371.txt（https://medrio.com/solutions/rtsm/）。正文/FAQ 明确 subject randomization、treatment assignment、adaptive treatment allocation、stratification、kit assignment、inventory/shipment tracking、automated supply/resupply notifications、expiry management、site resupply orders，并支持 single-/double-blind；正文自述 self-service、no-code、configurable，JSON-LD 标为 Cloud-based。ID commercial:medrio-rtsm 与 track commercial 一致。",
+      "license": "not applicable (commercial)",
+      "gaps": "未做运行时/价格核实；快照未展开 kit returns、destruction、close-out reconciliation 细节，报告未将其写成已证实能力。"
+    },
+    "electronic-trial-master-file-etmf": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:montrium-etmf-connect"
+      ],
+      "track": "commercial",
+      "basis": "读取 data/collections/sources/6b7a619481e552a327a86aaa3bb14777f8af25775f426361101a53ad0e81fa65.txt（https://www.montrium.com/etmf-connect/）。正文/FAQ 明确 eTMF、TMF Reference Model 3.3.1 对齐、study TMF plans/document indexes、placeholders、real-time completeness、missing-document reporting、clinical inbox/email intake、full audit trails、inspector access；JSON-LD 标为 Web-based/Cloud-based。ID commercial:montrium-etmf-connect 与 track commercial 一致。",
+      "license": "not applicable (commercial)",
+      "gaps": "版本替代/superseded 细节未在快照展开；“role-based access” 不是快照原词，正文更支持 access controls/inspector permission。"
+    },
+    "gxp-training-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:montrium-training-management"
+      ],
+      "track": "commercial",
+      "basis": "读取 data/collections/sources/41d1aeee8c9827c7ae78a599ba6ef192911ecd6963d209763413f05b79aacf54.txt（https://www.montrium.com/training-management-software）。全文检索在正文行确认：GxP training management、Automated training matrix、based on role and job title、SOPs/policies/work instructions 更新触发 retraining、Training gaps reporting、training completion information、21 CFR Part 11 eSignatures、Annex 11 digital signatures、audit trails、built-in records center。ID commercial:montrium-training-management 与 track commercial 一致。",
+      "license": "not applicable (commercial)",
+      "gaps": "快照为超长单行 HTML，正文原句已确认但周边上下文无法完整按行阅读；托管/部署形态未单独明示。"
+    },
+    "healthcare-quality-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:meg-quality-management"
+      ],
+      "track": "commercial",
+      "basis": "读取 data/collections/sources/9b8f87b11af881fead223d2436a334f05f923a6fc5bd711529c6b844bbca7333.txt（https://megit.com/usa-quality-management-software）。正文明确 Healthcare Quality, Risk & Compliance、incident/near-miss reporting、investigations/root causes、risk registers、corrective actions through completion、audit preparation、accreditation readiness、policy management、dashboards；页面为面向美国医疗机构的 hosted platform。ID commercial:meg-quality-management 与 track commercial 一致。",
+      "license": "not applicable (commercial)",
+      "gaps": "未展示 quality measure/indicator 定义、外部指标版本跟踪或 measure 结果再验证；当前 summary 未把这些写成已证实能力。"
+    },
+    "infection-prevention-platform": {
+      "status": "pass_with_documented_gap",
+      "application_ids": [],
+      "track": null,
+      "basis": "research.json 记录 assessment=insufficient_evidence，包含查询 “infection prevention surveillance software NHSN EHR official product page”、Prevexium 候选复核、Sentri7/Inovalon 候选及两次 HTTP 403；Prevexium 首页正文为 AI clinical guidance、state HAI surveillance dashboard、EOC rounds、survey readiness 等，未见设施级 EHR/实验室数据持续入流、IP 逐事件审核、感染登记簿或 NHSN 逐事件提交，排除理由与 leaf 边界一致。",
+      "license": "not applicable (no case)",
+      "gaps": "无可核验案例；Sentri7/Inovalon 官方页 403 未取得正文，类别覆盖不充分；Prevexium 快照未列入 REVIEW_SOURCES，且 research note 中部分精确措辞未能在该首页快照复现。"
+    }
+  },
+  "limits": "只读独立初审；未运行 shell、未写文件、未做运行时测试、未抓取线上页面、未补充价格/架构/安全研究，也未读取其他单元。已按 REVIEW_SOURCES.json 的 path 读取四个登记快照，并额外读取 research 引用的 Prevexium 快照（未登记在 REVIEW_SOURCES）；SHA-256 仅与文件名及 batch/research 记录交叉核对，未重新计算。training 快照为超长单行 HTML，正文原句通过全文检索确认，但无法逐段完整展开周边上下文。四个已纳入条目均为 commercial，无 open-source 条目，因此完整许可证与社区版边界检查不适用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-071/ses_groveopencodegop071review2_1792993227.jsonl",
+  "batch_sha256": "cd48d6b98c023be03ec82d480e0c92e47a237b62555a9ce05ef7e9159ebd031a",
+  "research_sha256": "b9b7c8fd20572a943b12b3c592df2574ba93a28dce96b348b1de61ea41e1323b",
+  "input_sha256": "97ab326a9c482c8cd2200e8fb005f70906419503305a22e9c35753166b611311"
+}

@@ -1,0 +1,65 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "higher-education-administration-system",
+      "application_id": "github:127155347",
+      "issue": "把 openSIS Classic 社区版作为高等教育教务系统，证据只有 GitHub README 的功能清单（课程管理、排课、成绩、报告卡、成绩单）和一句面向 K-12、职业学校与高等教育的市场覆盖说明。README 没有展示该叶定义核心中的项目/学位（program/credential）结构、按学期把学生注册到课程开设的流程，以及朝向毕业的学分/进度累积；仓库元数据也只是 SIS 简介。把“Scheduling”直接等同于逐周期注册、把“Transcripts”等同于高等教育学业记录，属于用简介和关键词替代核心正文，无法证明高等教育教务身份。",
+      "fix": "补充 openSIS 官方文档、演示或数据库/模块说明，证明学期与项目/学位结构、学生按学期选课注册、成绩累积与毕业/进度规则；若无法提供，移除该 leaf_match，或改挂到已有高等教育教务核心证据的开源产品。"
+    }
+  ],
+  "non_blocking_notes": [
+    "enrollment-management：Blackbaud 产品页正文证明家庭单一登录申请/跟踪、提交合同与押金、次年 re-enroll、checklist/提醒以及已返回合同和同比趋势报表；但页面明显以 admissions funnel 为中心，未展示 hold、withdrawal、“not enrolling”等受管状态，也未展示“押金完成承诺”。按商业案例只要求基本真实性和类型匹配，不阻断；后续不宜把未证明的状态管理写成已实现能力。",
+    "financial-aid-management：产品页说明由 Blackbaud 的 financial aid experts 审核申请并核实财务信息，批次摘要写成“学校审核核实”略有归属偏差；页面也未细述资金标准、限额和剩余余额规则。属非关键措辞和细节缺口，不阻断。",
+    "parent-portal：RosarioSIS 的家长门户是自托管 SIS 中的 Parent profile/模块，而非独立 SaaS；研究记录已明确“不主张独立部署”，管理端 Create Parent Users、Associate Parents with Students 与 Parent profile 只能看自己孩子的说明足以支撑两个定义结构。",
+    "student-attendance-system：无案例本身符合留档要求。SAS README 只证明班级名册、按日 present/absent、历史与 Excel 导出，未证明准假/原因码、家长提交与审核生命周期、授权人员最终定码、对外报告/跟进；其仓库元数据、license 与 README 三份快照存在于本单元 sources 目录，却未登记在 REVIEW_SOURCES.json，建议补登记以便追溯。OpenEduCat、OpenCampus、Gibbon 等被拒候选也没有快照，拒绝理由无法独立复核。",
+    "input.json 的 progress 仍为 not_searched、application_ids/research_records 为空，与 batch.json/research.json 已记录案例不一致，属进度元数据陈旧；不影响本次内容结论，但应同步。",
+    "openSIS 的 license_review 有记录，RosarioSIS 只有 license 与 evidence URL 而无 license_review 对象；两仓库的 GPL-2.0 文本均可核对，属可选一致性改进。"
+  ],
+  "leaf_checks": {
+    "enrollment-management": {
+      "result": "accepted_commercial_basic",
+      "application_ids": [
+        "commercial:blackbaud-enrollment-management"
+      ],
+      "basis": "读取快照 9195b1e7…：产品页正文给出单一登录申请、跟踪状态、提交合同、次年 re-enroll（665 行），in-system contracts 选择付款计划/提交押金（677 行），个性化 checklist 与自动提醒（671 行），以及 returned contracts、同比趋势的 dashboard/report（713 行）；cloud/web 形态与 commercial track、ID 一致。开源侧检索与 OpenEduCat（NOASSERTION、Odoo 模块）等拒绝理由已记录。",
+      "gaps": "未证明 hold、withdrawal、“not enrolling”及周期状态管理；页面以招生漏斗为主。商业基本类型匹配可通过，但这些未证明项不应写成产品能力。"
+    },
+    "financial-aid-management": {
+      "result": "accepted_commercial_basic",
+      "application_ids": [
+        "commercial:blackbaud-financial-aid-management"
+      ],
+      "basis": "读取快照 209a8e18…：正文覆盖可定制申请（636 行）、W-2/工资单等文件上传（642 行）、need/non-need/merit/voucher/第三方奖学金（666 行）、按 award source 建预算并跟踪 disbursement（669 行）、未接受奖项自动回收（675 行）、批量 awarding（678 行）、IRS 验证文件（716 行）、与 enrollment/tuition/billing 集成（720 行）；cloud/web 形态与 commercial track、ID 一致。",
+      "gaps": "核实由 Blackbaud 专家执行而非学校自行操作；未细述资金资格规则、限额、剩余余额、奖励历史和审计字段。按商业基本匹配不阻断。"
+    },
+    "higher-education-administration-system": {
+      "result": "core_evidence_insufficient",
+      "application_ids": [
+        "github:127155347"
+      ],
+      "basis": "读取快照 98724f0a…（id 127155347、full_name OS4ED/openSIS-Classic）、224ac3d4…（完整 GNU GPL v2 文本，含版本 2 与 Terms and Conditions）、4df387fa…（README：Community Edition 9.3，K-12/职业学校/高等教育，Course Manager、Scheduling、Attendance、Grades、Teacher Gradebook、Progress Reports、Report Cards、Transcripts）。许可证、仓库身份和社区版边界可核对。",
+      "gaps": "README 只提供功能清单和市场覆盖语句，未证明项目/学位结构、按学期课程注册规则、学分/毕业进度等高教教务核心；将功能名映射为核心工作流证据不足，故本叶不通过。"
+    },
+    "parent-portal": {
+      "result": "accepted_open_source",
+      "application_ids": [
+        "github:11130811"
+      ],
+      "basis": "读取快照 980dfb6c…（id 11130811、full_name francoisjacquet/rosariosis）、d97f2a8a…（LICENSE API，content 为完整 GPL v2 文本）、24d7c2cf…（README 声明 GPLv2、学生/家长门户与 SIS 功能）、70d8e54d…（Parent handbook：家长选择孩子，查看信息、课表、作业、成绩、资格、出勤，227-229 行出勤；115-120 行注册表单）、d74bd802…（School administrator handbook：295-301 行 Associate Parents with Students；382-393 行 Create Parent Users 从学生联系人创建家长账户；538 行 Parent profile 只能看自己孩子；可 Remove Access）。监护人关联账户与学校控制的记录可见性均有正文证据。",
+      "gaps": "门户是 SIS 内的 Parent profile/模块，非独立部署产品；通知、支付等成熟功能未证明，批次也未主张。"
+    },
+    "student-attendance-system": {
+      "result": "accepted_no_case_with_documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记为 boundary_unresolved、case_ids 为空。核对了 SAS 的仓库元数据/许可证/README 快照（0mehedihasan/sas，id 881988839，MIT；README 显示管理员维护班级/学生/学期，班主任按名册逐日标记 present/absent，查看班级与个人历史并导出 Excel），只覆盖持久出勤记录与名册/课表捕获，未覆盖缺勤问责循环。未写入 batch 的处理与边界判断一致。",
+      "gaps": "SAS 三份快照存在但未列入 REVIEW_SOURCES.json；OpenEduCat、OpenCampus 等候选无快照。无案例本身可通过，但来源登记和拒绝理由的留档完整度不足。"
+    }
+  },
+  "limits": "只读审查：未运行应用、未做部署或运行时测试，未访问 REVIEW_SOURCES.json 之外的网络来源，也未读取其他单元。GitHub API 元数据快照为单行 JSON，读取工具按 2000 字符截断，仓库 id/full_name 可见，但靠后的 license/archived 等字段未能直接读取；许可证改以 License.txt 全文和 LICENSE API 内容核对。research.json 中 OpenEduCat、Gibbon、OpenCampus 等被拒候选没有快照，无法独立复核其拒绝理由；student-attendance-system 的 SAS 三份快照实际存在于本单元 data/collections/sources 目录但未登记在 REVIEW_SOURCES.json，仅作辅助核对，未作为批次案例依据。未对外部商业产品做价格、部署或功能实测。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-223/ses_groveopencodegop223review1_1793031292.jsonl",
+  "batch_sha256": "f1ea288c3c13b552a548305a89f336f3a2e5af9354321ecbdcdec1423994cef0",
+  "research_sha256": "d47aa141752c66bc6d72276ee7c5b65bed9e5972db6fe3fef3bb8019f9f2f9b5",
+  "input_sha256": "eabae077b98968272cbfe45c17215500f74362506c270e71a6e9f06c1f1bb087"
+}

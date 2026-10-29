@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 48,
+  "offset": 1175,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "public-benefits-management",
+        "name_zh": "公共福利管理（Public Benefits Management）",
+        "domain_id": "24",
+        "parent_id": "24.06",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-048/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source public benefits social protection administration GitHub"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/974",
+            "result": "insufficient_evidence",
+            "note": "openIMIS 是开源社会健康保护/医疗保险系统，但本单元核对的 openimis-dist_dkr 仅是 Docker 部署配置，不是完整应用；LICENSE 声明 AGPL v3 而 GitHub 分类为 Other，且现有来源未证明以家庭为单位的资格认定、福利发放与重算/追偿生命周期。其余 social protection 检索仅见无许可证的小项目。 openIMIS dist 的元数据、README 与 LICENSE.md 快照已保存在本单元 sources（924ad8…、cb3f72…、733b63…）；LICENSE 为 AGPL v3 文本，但 GitHub 分类为 Other/NOASSERTION。",
+            "query": "openimis GitHub; social protection information system GitHub repositories"
+          }
+        ],
+        "archived": false,
+        "note": "openIMIS 是开源社会健康保护/医疗保险系统，但本单元核对的 openimis-dist_dkr 仅是 Docker 部署配置，不是完整应用；LICENSE 声明 AGPL v3 而 GitHub 分类为 Other，且现有来源未证明以家庭为单位的资格认定、福利发放与重算/追偿生命周期。其余 social protection 检索仅见无许可证的小项目。 openIMIS dist 的元数据、README 与 LICENSE.md 快照已保存在本单元 sources（924ad8…、cb3f72…、733b63…）；LICENSE 为 AGPL v3 文本，但 GitHub 分类为 Other/NOASSERTION。"
+      },
+      "definition": {
+        "slug": "public-benefits-management",
+        "name": "Public Benefits Management",
+        "name_zh": "公共福利管理（Public Benefits Management）",
+        "aliases_zh": [
+          "社会福利管理",
+          "政务福利管理"
+        ],
+        "overview": "A **Public Benefits Management** application is the government agency's system of record for administering public assistance and social-protection benefit programs — programs such as food assistance, cash assistance, medical coverage for low-income residents, energy assistance, child care subsidies, unemployment insurance, or disability and old-age benefits.\n\nIts job is to take a resident's application, determine — against the program's statutory rules — whether the household is eligible and what benefit it is entitled to, convert that entitlement into recurring benefit delivery, and then keep that entitlement alive over time through recertification, change reporting, overpayment handling, notices, appeals, and public-accountability reporting.\n\nThe defining structure is small:\n\n```text\nApplicant / household of record under a government benefit program\n└── Recorded eligibility-and-entitlement determination\n    └── Benefit issuance and ongoing lifecycle\n```\n\nEverything commonly associated with modern benefit systems — multi-program integration, verification interfaces to federal data sources, citizen self-service portals, configurable rules engines, electronic benefit cards, fraud analytics — is widespread in current products but is not what makes the system a public benefits management application. Paper-era welfare offices, mainframe-era state systems, and non-US social-security administrations all fit the same core without any of those specifics.",
+        "overview_zh": "一个**公共福利管理**应用程序是政府机构用于管理公共援助和社会保障福利项目的官方记录系统——这类项目包括食品援助、现金援助、低收入居民的医疗保障、能源援助、儿童保育补贴、失业保险，或残疾和养老福利。\n\n其职责是接收居民的申请，根据项目的法定规则，判断该家庭是否有资格以及有权获得哪些福利，将该权益转化为持续的福利发放，并通过重新认证、变更报告、超额支付处理、通知、申诉以及公共问责报告，使该权益在时间推移中得以维持。\n\n其核心结构很简单：\n\n```text\n政府福利项目下的申请人/记录在案的家庭\n└── 记录在案的资格与权益认定\n    └── 福利发放与持续的生命周期\n```\n\n通常与现代福利系统相关的所有方面——多项目集成、与联邦数据源的验证接口、公民自助服务门户、可配置的规则引擎、电子福利卡、欺诈分析——在当前产品中很普遍，但它们并非构成一个公共福利管理系统的决定性要素。纸质时代的福利办公室、大型机时代的州级系统，以及美国以外的社会保障管理机构，都符合这一核心定义，而无需具备上述任何特定功能。",
+        "dc": "```text\nApplicant / household of record\n└── under a government benefit program (rules set by statute)\n    └── Eligibility-and-entitlement determination\n        └── Benefit issuance and ongoing lifecycle\n```\n\nThree structures. If any one is removed, the product is no longer recognizable as this Type:\n\n- **The applicant/household of record under a government benefit program.** Persistent, identified records for the people seeking or receiving assistance, organized by household or family composition — because eligibility and benefit levels are computed on the household, not the individual. Each record sits under one or more defined benefit programs whose rules and funding come from statute, not from the agency's discretion. Without the program frame, the system is just a people registry; without the household model, it cannot compute benefits.\n\n- **The recorded eligibility-and-entitlement determination.** The system's central act: an application is taken, declared facts are verified against evidence and authorized external sources, and a rules-based decision is recorded — eligible or not, and, if eligible, the benefit amount or entitlement, effective from a date. The determination is a durable, dated, attributable, effective-aware object: it can be superseded by later determinations, recomputed retroactively when rules or circumstances change, and reconstructed for audit. This is what separates a benefits system from an intake form (no determination) and from a disbursement tool (no rules).\n\n- **The benefit issuance and ongoing lifecycle.** The determined entitlement is converted into recurring benefit delivery — payment, electronic benefit card funds, voucher, or an authorized service — and then maintained across time: scheduled recertification or redetermination, re-evaluation when the household reports a change, overpayment and underpayment handling with recovery, notices to the household at every material step, appeal rights when a determination goes against the applicant, and reporting upward to federal, state, and public oversight. Without this, the system is a one-shot eligibility calculator, not an operating program.",
+        "dc_zh": "申请人/家庭记录\n└── 服务于政府福利计划（规则由法规设定）\n    └── 资格与权益认定\n        └── 福利发放与持续生命周期管理",
+        "rules": "### The determination gates everything\n\nNo benefit is issued without a recorded determination behind it. The determination carries effective dates, and a later change in facts or rules can re-open and recompute past periods — benefits are adjusted retroactively, never silently overwritten.\n\n### The household is the computing unit\n\nEligibility criteria and benefit amounts are evaluated against household composition, income, and resources as a whole. A change in one member's circumstances can change everyone's benefit.\n\n### Rules come from outside the system\n\nThe system enforces rules it does not own. Policy changes arrive on legislative and regulatory schedules and must be implemented in the system's rules — which is why rule configurability is a structural expectation, and why the gap between a policy change and its system implementation is a managed risk.\n\n### Public accountability is structural\n\nDecisions are attributed, auditable, and reconstructible. Households hold appeal rights against adverse determinations. The agency's accuracy and timeliness are measured, sampled, and reported to overseers — and funding can depend on the results.\n\n### Money errors are managed, not just avoided\n\nOverpayments and underpayments are expected events in a program of this scale. Mature systems detect them (especially on re-evaluation), record them as tracked cases, and recover them through adjusted future benefits or repayment arrangements.",
+        "rules_zh": "### 认定结果决定一切\n\n任何福利的发放都必须有记录在案的认定结果作为依据。认定结果包含生效日期，事实或规则的后续变更可以重新开启并重新计算过去的时段——福利会被追溯调整，而绝不会被悄悄覆盖。\n\n### 家庭是计算单位\n\n资格标准和福利金额是根据整个家庭的构成、收入和资源进行评估的。一名成员情况的变化可能改变所有人的福利。\n\n### 规则来自系统外部\n\n系统执行的并非自身拥有的规则。政策变更按照立法和监管的时间表到来，并且必须在系统的规则中予以实施——这就是为什么规则的可配置性是一项结构性的期望，也是为什么政策变更与其系统实施之间的差距是一种需要管理的风险。\n\n### 公共问责是结构性的\n\n决策归属明确、可审计且可重建。家庭对不利的认定结果拥有申诉权。机构的准确性和时效性会被衡量、抽样检查并报告给监管机构——资金拨付可能取决于这些结果。\n\n### 资金差错是管理而不仅仅是避免\n\n在如此大规模的项目中，超额支付和支付不足是预期会发生的事件。成熟的系统能够检测到它们（尤其是在重新评估时），将其记录为跟踪案例，并通过调整未来福利或安排还款来追回。",
+        "parent_id": "24.06",
+        "domain_id": "24"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 206,
+    "phase": "directory",
+    "parent": 206,
+    "slugs": [
+      "public-benefits-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "071c1082bea8201898978e64a01b2a0c8c027209bba59ea5e66c88138b444630"
+  }
+}

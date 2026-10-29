@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "InVEST 的实际交付形态是本地桌面应用与 Python 库，并非持续托管的 SaaS；批次摘要与 deployment 已如实标注这一边界。按 natural-capital-management 的类型核心判断，这不阻断；若目录另有“必须托管 SaaS”的硬性范围要求，应以目录规则为准。",
+    "InVEST 的快照对碳储存与封存模型给出了完整正文，但 README 与元数据提到的是整个模型家族，其他生态系统服务模型（如水源、授粉等）未在本单元快照中逐一取证，当前结论不宜扩展到未取证模型。",
+    "OpenCare 的照护计划是按 circle 保存的叙事式分节指引（morning/meals/mobility/personal care/communication/triggers/calming/emergency），并记录 updated_by；资料未体现目标/结果、进展评估、正式项目入组或同意规则。作为 care-coordination 的“计划/程序”元素属于弱满足，但不足以支撑 care-plan-management 所需的结构化“需求→目标→干预”定义。",
+    "anesthesia-information-management-system、bed-capacity-management、care-plan-management 三个无案例叶子只在 research.json 中留有检索、抓取与候选排除记录；REVIEW_SOURCES.json 未提供这些候选仓库的正文或许可证快照，因此其否定性结论只能按留档记录核对，无法用快照二次验证。",
+    "OpenCare 的 README 写的是 AGPL-3.0-only，批次 license 字段用 AGPL-3.0；GitHub 元数据为 AGPL-3.0，属 SPDX 粒度差异，不影响许可证全文核验。",
+    "InVEST 的 deployment 将 macOS/Windows 桌面说明归到 README，但该细节实际出现在 using_invest.rst；属来源归属的轻微不精确，不影响产品形态、核心工作流或许可证结论。",
+    "OpenCare 的 leaf_match 文字用“协调闭环”描述计划与跟踪活动，但计划页与任务状态/目标之间没有直接联动证据；措辞略强，核心仍由 care circle、共享日志、任务状态与日历支撑。"
+  ],
+  "leaf_checks": {
+    "natural-capital-management": {
+      "application_ids": [
+        "github:237094119"
+      ],
+      "result": "pass",
+      "core_evidence": "carbonstorage.rst 记录以土地覆被图和四类碳库为输入，估算碳储存与封存；基线/替代情景逐像元计算差异，输出 c_storage、c_change、npv 栅格、raster_values_summary CSV、参数日志与 carbon_report HTML。using_invest.rst 记录输入校验、工作区输出与日志。README 说明 InVEST 量化自然资本并评估替代选择的权衡。以上闭合“自然资产存量→生态系统服务量化→变化评估→决策输出”核心。",
+      "identity_license": "GitHub 仓库 id 237094119 与 github:237094119 一致；track 为 open_source；许可证快照为 LICENSE.txt，11,358 字节，内容开头为 Apache License Version 2.0，属完整 Apache-2.0 全文；元数据 archived=false；未发现独立社区版/受限版边界。",
+      "service_form": "本地桌面应用与 Python 包，批次明确标注不是托管 SaaS；该边界已披露，不是把本地工具误写成 SaaS。",
+      "gaps": "快照只对碳模型给出完整正文；其他模型仅由 README/元数据以家族层面提及。"
+    },
+    "anesthesia-information-management-system": {
+      "application_ids": [],
+      "result": "no_case_recorded",
+      "record_evidence": "research.json 记录多组 GitHub 检索（anesthesia、anaesthesia、anesthesia record、OpenAIMS）及候选评估：VSChart 是接收 VSCapture 导出 CSV/JSON 生命体征并维护用药时间线的 React 图表，未显示病例身份、提供者归属或自动设备接入；GCAS-UFF/anesthesia-record.app 的 README 称仅限 UFF/HUAP 学术用途，资料只展示登录、患者列表与手术记录前端，与仓库 MIT 元数据存在使用限制冲突；simtiva 等为 TCI/TIVA 模拟器。",
+      "gap": "REVIEW_SOURCES.json 未提供上述候选仓库的正文或许可证快照，否定性结论只能按 research.json 记录核对；未找到同时具备病例记录、设备数据捕获、提供者归属且许可与正文清楚的开源完整 AIMS。"
+    },
+    "bed-capacity-management": {
+      "application_ids": [],
+      "result": "no_case_recorded",
+      "record_evidence": "research.json 记录 openmrs/openmrs-module-bedmanagement 为最接近候选：README 说明其提供床位、住院地点与 IPD 病区管理的模型/服务/REST API；Bed 实体含 status；BedPatientAssignment 资源仅提供床位-患者分配读取端点，create/save/delete 明确 unsupported；OWA 管理端可维护住院地点、增删床位与床位布局。资料未证明跨科室共享实时看板或清洁-就绪流转。",
+      "gap": "候选的 GitHub license API 被记为 Other，LICENSE.txt 仅为 863 字节 AGPL 简短声明，无法完成完整许可证核验；上述候选正文与许可证快照均未提供，结论只能按 research.json 记录核对。本叶未导入应用。"
+    },
+    "care-coordination-platform": {
+      "application_ids": [
+        "github:1367380420"
+      ],
+      "result": "pass_with_noted_gaps",
+      "core_evidence": "README 与 SPEC 显示：每个被照护者一个 care circle，care_recipients 与 circle 一一对应；家庭/专业/邻居/只读等多角色；WebSocket 实时共享 care journal；带指派人、截止、重复与状态的任务；共享日历、用药与生命体征。CarePlan.tsx 与 server/src/lib/carePlan.ts 显示 care_plans 按 circle_id 持久化、可分节编辑，并记录 updated_by/updated_at。个人、团队共享视图、计划与可归属跟踪活动四个要素均有正文或代码依据。",
+      "identity_license": "GitHub 仓库 id 1367380420 与 github:1367380420 一致；track 为 open_source；许可证快照为 licence.md，34,523 字节，内容开头为 GNU Affero General Public License Version 3，属完整 AGPL-3.0 全文；README 标注 AGPL-3.0-only；未发现独立社区版/付费版边界，产品为完整自托管应用。",
+      "service_form": "自托管 Web 应用（Docker Compose/Windows 安装包，React + Express + PostgreSQL），持续运行的多用户服务形态成立。",
+      "gaps": "照护计划是叙事式护理指引，不含目标/结果与进展评估；正式项目入组/同意与资格规则未在资料中体现。计划/程序要素属弱满足，但不影响个人、团队与跟踪活动三个核心要素。"
+    },
+    "care-plan-management": {
+      "application_ids": [],
+      "result": "no_case_recorded",
+      "record_evidence": "research.json 记录 REAN-Foundation/careplan-service 为候选：MIT 后端服务，README 显示可创建/编辑 careplan 资产、编写排程、注册并入组参与者、向参与者下发任务，并有 API key 与用户认证；示例 Heart-careplan 显示版本化资产与按天/时段的 CareplanActivities。资料未说明“需求/问题→目标/结果→干预”的临床骨架，也没有终端用户界面，示例更接近固定权益计划与活动排程。",
+      "gap": "未建立 care-plan-management 关系；候选正文与许可证快照未在 REVIEW_SOURCES.json 中提供，结论只能按 research.json 记录核对。本叶未导入应用。"
+    }
+  },
+  "limits": "本次为只读独立初审；未运行应用、未部署、未做运行时测试；未执行 shell、未写文件、未读取其他单元；未重新计算快照 sha256，也未联网复核。REVIEW_SOURCES.json 仅提供两个已导入应用的 11 个快照；三个无案例叶子的候选来源没有快照，只能核对 research.json 的检索/抓取/排除记录。GitHub API 许可证快照为单行 base64 JSON，未完整解码，但文件大小（Apache-2.0 11,358 字节；AGPL-3.0 34,523 字节）与开头文本均与对应许可证全文一致。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-017/ses_groveopencodegop017review1_1793076083.jsonl",
+  "batch_sha256": "bb3165eed62393fdd5571fb79b8f8c67518be5649cbb6be30d9e57b726fd61b3",
+  "research_sha256": "a6436b11c0c23a52b2a9ee79b7a02a1d9f081679be563483f8d1fbfaba2684db",
+  "input_sha256": "f308dcd19b789c4916966702dc3edf34818202c33deb5283f77324c9ee234a67"
+}

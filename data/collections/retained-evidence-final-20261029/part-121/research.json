@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "log-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:129717717"
+      ],
+      "query": [
+        "github grafana loki log management official",
+        "Grafana Loki official HTTP API push query log management documentation"
+      ],
+      "source_urls": [
+        "https://github.com/grafana/loki",
+        "https://raw.githubusercontent.com/grafana/loki/main/README.md",
+        "https://raw.githubusercontent.com/grafana/loki/main/LICENSE",
+        "https://grafana.com/docs/loki/latest/api/"
+      ],
+      "note": "本轮针对初审‘只证明客户端、CLI、引擎/基础设施或设备控制’的缺口做定向补证。历史复用 2026-10-24 的官方仓库、README 与 LICENSE 快照；本轮 2026-10-29 新增抓取并阅读 Loki 官方 HTTP API 文档。README 明确把 Loki 称为日志栈中的 main service，负责存储日志和处理查询，Alloy 只负责采集，Grafana/LogCLI 是查询客户端；API 文档正文明确 Loki 暴露 HTTP API 用于推送、查询和 tail，并列出 POST /loki/api/v1/push、POST /otlp/v1/logs 摄取端点与 GET /loki/api/v1/query、/query_range 等使用 LogQL 的按时间范围查询端点。据此，Loki 本身是可持续自托管的日志管理服务端应用，多源采集、集中持久存储、时间锚定检索三项核心成立，原‘仅客户端/CLI’缺口不成立，恢复成立关系。所有引用来源均已取得正文，本轮无失败抓取；未运行部署测试，未实测多租户与保留期运维。",
+      "service_boundary": "自托管日志管理主服务：接收来自多源的推送/OTLP 日志，集中持久存储，并以 LogQL HTTP API 提供即时与时间范围查询；Grafana 与 LogCLI 只是查询客户端，不作为服务形态依据。本叶定义明确把‘中央 syslog 主机 + 轮换文件 + 命令行搜索’列为满足核心的早期形态，故不以必须自带 Web UI 为硬门槛。社区核心许可为 AGPL-3.0-only，README 注明部分组件适用 Apache-2.0 例外。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "github grafana loki log management official",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/grafana/loki",
+            "https://raw.githubusercontent.com/grafana/loki/main/README.md"
+          ],
+          "result_note": "历史复用：搜索官方产品/仓库域名并读取正文；抓取结果见 fetch_outcomes。"
+        },
+        {
+          "date": "2026-10-29",
+          "query": "Grafana Loki official HTTP API push query log management documentation",
+          "status": "searched",
+          "result_urls": [
+            "https://grafana.com/docs/loki/latest/reference/loki-http-api/",
+            "https://grafana.com/docs/loki/latest/get-started/overview/",
+            "https://grafana.com/docs/loki/latest/api/"
+          ],
+          "result_note": "搜索引擎返回官方 HTTP API、Loki overview 与 API 入口；读取 HTTP API 正文核对推送/OTLP 摄取与 LogQL 查询端点，用于回应初审的服务形态缺口。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/grafana/loki",
+          "status": "fetched_and_read",
+          "sha256": "a753a424071d9b84bb24cd4293313314f2929a88d25072d1687f45be590c8e54",
+          "note": "历史复用（2026-10-24）：官方仓库页面快照，元数据证明 repository id 129717717 与 grafana/loki。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/grafana/loki/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "af9e356ba4d99300f4e145be9c0b5885587b2ba8dbba89e2a5f149cd3572c04a",
+          "note": "历史复用（2026-10-24）：官方 README 正文，说明 Alloy 采集、Loki 主服务存储与查询处理、Grafana 查询展示。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/grafana/loki/main/LICENSE",
+          "status": "fetched_and_read",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+          "note": "历史复用（2026-10-24）：完整 AGPL-3.0 许可文本，用于社区核心许可核对。"
+        },
+        {
+          "url": "https://grafana.com/docs/loki/latest/api/",
+          "status": "fetched_and_read",
+          "sha256": "1622e195dcefda8a248896baaae82cee2de521013dcc25e457f9ee2c8c766047",
+          "note": "本轮补采（2026-10-29）：官方 HTTP API 文档快照，正文含推送/OTLP 摄取与 LogQL 即时/时间范围查询端点。"
+        }
+      ],
+      "archived": false,
+      "prior_review_resolution": {
+        "issue": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。",
+        "resolution": "已用官方 README 与 HTTP API 文档正文核对：Loki 是日志栈中的主服务，负责存储与查询处理，并提供推送/OTLP 摄取和 LogQL 查询 API；Grafana/LogCLI 只是客户端。原缺口所指的‘仅客户端/CLI/基础设施’不成立，因此恢复 case_found。",
+        "evidence_urls": [
+          "https://github.com/grafana/loki",
+          "https://raw.githubusercontent.com/grafana/loki/main/README.md",
+          "https://grafana.com/docs/loki/latest/api/"
+        ]
+      },
+      "prior_withheld_candidate": {
+        "id": "github:129717717",
+        "reason": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。",
+        "status": "resolved_by_official_api_documentation"
+      },
+      "historical_collector_note": "Loki README（2026-10-24 快照）说明其为受 Prometheus 启发的多租户日志聚合系统：Alloy 负责采集，Loki 存储日志并处理查询，Grafana 负责查询展示；只索引标签而不对日志正文做全文索引。许可证为 AGPL-3.0-only，README 同时注明部分组件适用 Apache-2.0 例外，故按社区核心范围记录。该说明为历史未采纳草稿，本轮已用 API 正文补证服务形态。"
+    }
+  ]
+}

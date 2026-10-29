@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "network-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:27965134"
+      ],
+      "query": "历史复用：GitHub API 核对 opnsense/core 身份/许可证，读取 README 与官方 firewall 规则文档；本轮补证：抓取 OPNsense 官网首页、官方 Introduction 与 General User Interface 文档，核对完整平台形态与 Web GUI 管理方式",
+      "source_urls": [
+        "https://api.github.com/repos/opnsense/core",
+        "https://api.github.com/repos/opnsense/core/license",
+        "https://raw.githubusercontent.com/opnsense/core/master/README.md",
+        "https://docs.opnsense.org/manual/firewall.html",
+        "https://opnsense.org/",
+        "https://docs.opnsense.org/intro.html",
+        "https://docs.opnsense.org/manual/gui.html"
+      ],
+      "note": "本轮针对初审缺口做了定向补证并改变结论，依据如下。其一，firewall 规则文档正文（历史快照，2026-10-26 抓取，本轮复用核对）明确写明 OPNsense 含状态化包过滤器，规则按 quick 首次匹配生效、动作含 Pass/Block/Reject、未匹配流量由默认拒绝规则丢弃、NAT 规则先于过滤规则，符合本叶“内联执行点 + 有序策略 + 默认拒绝”的定义核心。其二，针对初审“只证明 GUI/API/后端组件或设备控制”的缺口，本轮新抓取官网首页与官方文档：首页称其为开源防火墙与路由平台并列出状态化防火墙、内联入侵防御等平台能力；Introduction 称其为完整 FreeBSD 防火墙与路由平台；GUI 文档正文说明通过图形界面管理系统的菜单、配置与操作。据此确认应用形态是可自托管、经 Web GUI/API 管理的完整平台，而非纯客户端、CLI、引擎或第三方设备控制器。其三，opnsense/core 仓库元数据描述为“OPNsense GUI, API and systems backend”，README 说明需配合 opnsense/tools 构建完整软件；本条目记录的是 OPNsense 产品整体，仓库为其核心实现，故在 service_boundary 中如实标注源码构建边界。定义明确允许“具有有序规则集的状态化防火墙设备”作为本类型，威胁防护引擎与商业订阅不属于匹配前提；未运行实例，runtime_tested=false。",
+      "service_boundary": "自托管完整防火墙/路由平台：安装于硬件或虚拟机，部署在网络区域边界或分段点并内联经过流量，通过 Web GUI/API 管理有序安全策略；属设备式自托管交付而非 SaaS，但为完整可管理平台，非纯客户端或设备控制器。opnsense/core 为 GUI/API/系统后端核心实现，完整发行包需配合 opnsense/tools 或官方镜像。入侵防御、URL 过滤等威胁防护引擎及商业订阅不在纳入依据内。",
+      "search_attempts": [
+        "历史复用（2026-10-26 原采集，本轮仅复用快照并复核）：GitHub API 核对 opnsense/core 身份、许可证与语言",
+        "历史复用（2026-10-26 原采集，本轮仅复用快照并复核）：读取 README、license API 与官方 firewall 规则文档",
+        "本轮补证（2026-10-29）：抓取官网首页，核对完整平台定位与状态化防火墙能力表述",
+        "本轮补证（2026-10-29）：抓取官方 Introduction 与 General User Interface 文档，核对平台形态及 Web GUI 管理证据"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/opnsense/core",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "fetched_at": "2026-10-26T18:57:57.596843+08:00",
+          "snapshot_path": "sources/39238a4bcc0074756f4f6799e17d8002fbe10608bdf4036ad777e3a972965a51.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/opnsense/core/license",
+          "kind": "license",
+          "status": "ok",
+          "fetched_at": "2026-10-26T18:57:58.997042+08:00",
+          "snapshot_path": "sources/34a472e51410546ea4ae96e8129847063a95dff6b90311a6edf0784a4c7881b8.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/opnsense/core/master/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "fetched_at": "2026-10-26T18:58:00.156301+08:00",
+          "snapshot_path": "sources/0df745e2136f60b0f489ea5f402a29acc6f14c510e0dfa9608960a6952466ada.txt"
+        },
+        {
+          "url": "https://docs.opnsense.org/manual/firewall.html",
+          "kind": "documentation",
+          "status": "ok",
+          "fetched_at": "2026-10-26T18:58:02.254538+08:00",
+          "snapshot_path": "sources/7b57a3badcac5714e726f55bf9bd90c1e83d1a4b2e97aa5ee147dc59714e4fe5.txt"
+        },
+        {
+          "url": "https://opnsense.org/",
+          "kind": "homepage",
+          "status": "ok",
+          "fetched_at": "2026-10-29T12:08:31.452884+08:00",
+          "snapshot_path": "sources/f1117b8aaf51e2911a2c22105296f162beb17d48458fad46996ee9dc0af2e0a7.txt"
+        },
+        {
+          "url": "https://docs.opnsense.org/intro.html",
+          "kind": "documentation",
+          "status": "ok",
+          "fetched_at": "2026-10-29T12:08:31.109381+08:00",
+          "snapshot_path": "sources/58d5a38628c65aa4814a2f3c77e19504ff1ba5e6af955acd7b72670ce68b046b.txt"
+        },
+        {
+          "url": "https://docs.opnsense.org/manual/gui.html",
+          "kind": "documentation",
+          "status": "ok",
+          "fetched_at": "2026-10-29T12:08:41.944710+08:00",
+          "snapshot_path": "sources/a8d7c9e728bb5089ed2612133e0d100f3fc8fd24861df8cfdccb53670d25de6e.txt"
+        }
+      ],
+      "archived": false,
+      "collector_note_unapproved": "历史未采纳草稿的原说明（2026-10-26）：OPNsense 官方文档说明其包含状态化包过滤器，规则按接口/浮动分区顺序处理，quick 规则首次匹配生效，动作包括 Pass/Block/Reject，NAT 规则先于过滤规则；README 说明其开源防火墙定位与源码构建方式；BSD-2-Clause 由 GitHub license API 证明。未运行实例，未验证具体吞吐或高可用。",
+      "prior_withheld_candidate": {
+        "id": "github:27965134",
+        "prior_reason": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。",
+        "resolution": "本轮新增官网首页、Introduction 与 GUI 文档正文，证明其为完整可自托管、经 Web GUI/API 管理的防火墙平台，并有内联状态化规则执行；原缺口已由应用形态证据补齐，故恢复成立关系。"
+      }
+    }
+  ]
+}

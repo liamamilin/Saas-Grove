@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "public-budgeting-platform / commercial:opengov-budgeting-performance：产品页正文可确认 build/manage/publish budgets、operating budget、workforce planning、capital planning、online budget book，以及 multi-fund/multi-department 协作；但快照未直接展示治理机构采纳、修订/转移的完整流程。商业条目按基本真实性和类型匹配通过，建议措辞不要扩展为已核验完整预算采纳工作流。",
+    "public-budgeting-platform：条目 homepage 记录为公司首页 https://opengov.com/，而引用来源是产品页；请求 URL /products/budgeting-planning/ 在快照中的 canonical 为 /products/budgeting-and-performance/。建议统一为产品页 canonical，避免来源身份歧义。",
+    "public-financial-management-system：本叶无应用。research 已如实记录 GitHub IFMIS 候选多为无明确许可证的课程/演示项目，以及 OpenGov Financial Management、Tyler ERP 候选正文未留档、未据此建立关系；建议把这两个候选 URL 从 source_urls 移到 search_attempts/fetch_outcomes 的候选栏，避免被误读为已引用来源。",
+    "code-enforcement-management / github:116288758：noticeofviolation 表仅有 caseID，无独立收件人/送达对象字段；责任方需经 property-person 与 propertyexternaldata 间接推断，research 已如实记录该限制。另 CECase.java、Property.java 的许可头是模板占位，仓库根 LICENSE 与多数源文件为 GPLv3-or-later，不影响仓库级许可结论。",
+    "court-case-management-system / github:1259409130：Prisma schema 无独立 docket/case-event 实体，案卷时间线需由 Document、Hearing、Motion、Deadline、CaseNote、AuditLog 组合推断；结构化结果主要由 CaseStatus/CaseCloseReason（JUDGMENT、DISMISSAL 等）和 DocumentType.JUDGMENT 表达。research 已记录该限制，属可接受的留档缺口。",
+    "court-e-filing-platform：本叶无应用，boundary_unresolved 留档已说明 TPT Court 仓库描述虽含 public e-filing，但 public-efile 路由快照未登记、无法核对法院审查关卡，故未建立关系。该缺口记录符合“无案例但如实留档”的要求。",
+    "court-case-management-system：TPT Court 的 homepage（opensource.tptsolutions.co.nz/tpt-court）未在已存快照中出现，无法独立复核；不影响以 repository_url 和 MIT LICENSE 识别应用。"
+  ],
+  "leaf_checks": {
+    "public-budgeting-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:opengov-budgeting-performance"
+      ],
+      "basis": "读取 OpenGov 产品页快照 df4c4abd0579182cae544ef1664d1e44c55fe66e6c16a8d815bcd6d2908703b9.txt：H1 为 Budgeting & Performance；正文说明 state and local governments build, manage, and publish budgets；页面列出 operating budget、workforce planning、capital planning、online budget book；FAQ 明确 multi-fund、multi-department budgets 及 digital budget book 发布。",
+      "core_match": "以政府预算为记录单位，覆盖运营、人员、资本及多基金/多部门预算协作，并支持预算书发布，符合公共预算平台的定义性核心和商业类型匹配。",
+      "gaps": "快照未直接展示治理机构采纳、预算修订/转移的完整工作流；商业条目仅要求基本真实性和类型匹配，故不阻断。"
+    },
+    "public-financial-management-system": {
+      "status": "pass_no_case",
+      "application_ids": [],
+      "basis": "research.json 评估为 insufficient_evidence，batch.json 无对应应用；GitHub 候选多为无明确许可证的课程/演示项目，OpenGov Financial Management 与 Tyler ERP 候选正文未登记快照且明确不作为证据。",
+      "core_match": "本叶定义将统一账簿、预算执行控制（承诺/支付前校验预算权限）与支出、支付、收入、国库操作三合一，并与公共预算平台明确区分；当前无应用可核对。",
+      "gaps": "无案例；候选页面抓取缺口已如实记录，属于允许的留档通过情形。"
+    },
+    "code-enforcement-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:116288758"
+      ],
+      "basis": "读取 README、完整 GPLv3 LICENSE、CECase.java、CodeViolation.java、Property.java、PersonType.java、Person.java、CodeElement.java、EnforcableCodeElement.java、NoticeOfViolation.java、NoticeOfViolationBB.java、CodeViolationIntegrator.java、CasePhase.java 及 entityCreation SQL。",
+      "core_match": "cecase 以外键锚定 property；codeviolation 关联 codesetelement/codeelement，包含 ordchapterNo/ordSecNum/ordSubSecNum、stipulatedComplianceDate、actualComplianceDate 与 penalty；propertyperson 关联 Person，propertyexternaldata 含 ownerName/ownerPhone，PersonType 含 OwnerOccupant/OwnerNonOccupant/Tenant/Manager；noticeofviolation 按 caseID 保存 letterText、记录日期、寄出/退回日期；CasePhase 覆盖 NoticeDelivery、合规期限、听证与 Closed。",
+      "gaps": "noticeofviolation 无独立收件人字段，责任方只能由 property/person 推断；README 较薄。上述限制已在 research 中如实记录，不阻断核心类型匹配。"
+    },
+    "court-case-management-system": {
+      "status": "pass",
+      "application_ids": [
+        "github:1259409130"
+      ],
+      "basis": "读取仓库元数据、完整 MIT LICENSE、README 与 Prisma schema；仓库描述明确为 open-source court case management system，schema 含 Case、Party、Document、Hearing、Motion、Deadline、Payment、AuditLog 等模型。",
+      "core_match": "Case 含 caseNumber、type、status、closeReason、filedAt、closedAt；Party 有角色；Hearing 关联法官、法庭、日期与状态；CaseCloseReason 含 JUDGMENT/DISMISSAL，DocumentType 含 ORDER/JUDGMENT；UserRole 含 JUDGE/CLERK/LAWYER/PUBLIC。可支撑法院案件登记、当事人、文档、听证、结果与审计核心。",
+      "gaps": "schema 无独立 docket/case-event 实体，案卷时间线需组合推断；未做运行时测试。research 已记录，不阻断。"
+    },
+    "court-e-filing-platform": {
+      "status": "pass_no_case_boundary_unresolved",
+      "application_ids": [],
+      "basis": "research.json 评估为 boundary_unresolved，batch.json 无对应应用；仅 TPT Court 仓库标题/描述提到 public e-filing，public-efile 路由快照未登记，未建立应用关系。",
+      "core_match": "本叶定义要求已识别提交人、文件与案件信息打包、路由至特定法院、法院控制的审查关卡、接受入卷或退回重提；与 Court Case Management System 的记录系统边界区分清楚。",
+      "gaps": "无案例，关键路由抓取缺口已如实记录，符合允许的留档通过情形。"
+    }
+  },
+  "limits": "本次仅只读核对 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 21 个快照；未运行 shell、未写文件、未读取其他单元，未访问实时站点或执行部署/运行时测试。GitHub 数字 repository ID、homepage 可达性和运行时行为未独立验证。public-financial-management-system 与 court-e-filing-platform 无应用，只能核对留档缺口；OpenGov 仅有产品页快照，未核验采纳、修订和转移的全流程。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-028/ses_groveopencodegop028review1_1793078127.jsonl",
+  "batch_sha256": "3b4f334c54e555c960ad526736de3484692079d4a4597b9bb737b2df40250e3e",
+  "research_sha256": "151c18b51cfe587c5b3b85f425b46c6e53345a41b58c83e84257f96bf2637f92",
+  "input_sha256": "558dc7d2ea8ae3d41a910a97b587f3d459f0fb092e01f9947da6581f0e39f4c8"
+}

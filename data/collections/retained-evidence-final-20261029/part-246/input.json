@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 55,
+  "offset": 1350,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "theater-production-management",
+        "name_zh": "剧院制作管理",
+        "domain_id": "27",
+        "parent_id": "27.07",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/1037",
+            "result": "insufficient_evidence",
+            "note": "未取得足以成立的关系。ProductionPro 看起来是剧院制作管理候选，但访问其官网时 TLS 证书链校验失败，未取得可核对的正文，不能据此判断产品不存在。Stage Write 官方页已读，正文集中在数字剧本、blocking/spacing charts、道具与灯光 cue 跟踪，未说明制作容器、公司角色、排练/演出呼叫日程或 callboard，属于相邻的排演标注工具，不作为本叶案例。artsman/Theatre Manager 请求返回 HTTP 421，无正文。GitHub 搜索仅见 StageFlow 等小型/未成熟项目，未达到完整可自托管应用的证据门槛。故本叶保留真实检索与缺口，不硬凑案例。",
+            "query": "核对剧院制作管理定义核心：production 容器、company 与制作角色、rehearsal/performance/load-in 呼叫日程、面向全团的 callboard 通知；检索商业产品与开源候选。"
+          }
+        ],
+        "archived": false,
+        "note": "未取得足以成立的关系。ProductionPro 看起来是剧院制作管理候选，但访问其官网时 TLS 证书链校验失败，未取得可核对的正文，不能据此判断产品不存在。Stage Write 官方页已读，正文集中在数字剧本、blocking/spacing charts、道具与灯光 cue 跟踪，未说明制作容器、公司角色、排练/演出呼叫日程或 callboard，属于相邻的排演标注工具，不作为本叶案例。artsman/Theatre Manager 请求返回 HTTP 421，无正文。GitHub 搜索仅见 StageFlow 等小型/未成熟项目，未达到完整可自托管应用的证据门槛。故本叶保留真实检索与缺口，不硬凑案例。"
+      },
+      "definition": {
+        "slug": "theater-production-management",
+        "name": "Theater Production Management",
+        "name_zh": "剧院制作管理",
+        "aliases_zh": [
+          "舞台剧制作管理",
+          "戏剧制作管理",
+          "演出制作管理"
+        ],
+        "overview": "A **Theater Production Management** application is the production office's system of record for making and running a live performance: it holds the production (a specific show) as a managed unit, the company of people making it, the schedule of rehearsals, performances and technical work that carries the show from first rehearsal to closing, and the communication that keeps the whole company informed and on schedule.\n\nIts defining core is four things held together:\n\n```text\nProduction (the show as a managed unit)\n└── Company (cast, crew, designers, stage management — with production roles)\n    └── Schedule of production calls (rehearsals, performances, load-ins, fittings)\n        └── Company-facing communication (the callboard: what's happening, what changed, what you owe)\n```\n\nEverything else commonly associated with the category — performance reports, conflict detection, attendance, contact sheets, season planning, budgets, inventory — is built on this core but does not define it.\n\nThe boundary is equally clear: this software manages the **making and running** of shows, not the selling of tickets (the audience/business side), and it plans a **live performance run**, not a film or television shoot.",
+        "overview_zh": "A **Theater Production Management** application is the production office's system of record for making and running a live performance: it holds the production (a specific show) as a managed unit, the company of people making it, the schedule of rehearsals, performances and technical work that carries the show from first rehearsal to closing, and the communication that keeps the whole company informed and on schedule.\n\nIts defining core is four things held together:\n\n```text\nProduction (the show as a managed unit)\n└── Company (cast, crew, designers, stage management — with production roles)\n    └── Schedule of production calls (rehearsals, performances, load-ins, fittings)\n        └── Company-facing communication (the callboard: what's happening, what changed, what you owe)\n```\n\nEverything else commonly associated with the category — performance reports, conflict detection, attendance, contact sheets, season planning, budgets, inventory — is built on this core but does not define it.\n\nThe boundary is equally clear: this software manages the **making and running** of shows, not the selling of tickets (the audience/business side), and it plans a **live performance run**, not a film or television shoot.",
+        "dc": "**1. The production.** The central container is the production — one identified show with a title, dates, and its own body of work. Everything in the system hangs on it: the schedule, the people, the documents, the reports. A producing organization holds many productions at once — a season of shows, each siloed so that members see only what concerns them — and a closed production remains retrievable as an archive rather than being deleted.\n\n**2. The company.** A production is carried by people: cast, crew, designers, stage management, production staff. Each is a record with contact details and one or more production roles, grouped into departments and working groups (cast, lighting, wardrobe, stage management, and so on). Roles matter as much as people: a schedule can be built against a role before anyone is cast in it, and the person drops in later. Contact information carries privacy — each member decides what is shared on company contact sheets, while managers can reach emergency and medical details.\n\n**3. The schedule of production calls.** The schedule is the production's operating rhythm: dated, time-bound **calls** — rehearsals, performances, load-ins, technical work, fittings, meetings — each binding specific people to specific spaces at specific times. A performance is a schedulable, repeatable event: the run of a show is many scheduled performances of one production. The schedule lives under constant change, and mature systems keep it consistent: they detect conflicts (a person or space called twice), guard against double-booking, and propagate every change to every view derived from it.\n\n**4. Company-facing communication (the callboard function).** Production management is not a private planning tool — its audience is the whole company. The traditional callboard at the stage door is the model: a single place where schedules, notices, and paperwork are posted for everyone. In software this becomes announcements and notes targeted at the whole organization or one production (often with expiration dates), shared files and discussions, and published schedules that reach the company with minimal friction — push notifications, text and email fan-out, printable calendars, or auto-updating web pages that require no account to view. Receipt matters: systems confirm that a note was read by each person it was meant for. And the flow runs both ways — the company reports back availability and conflicts, signs up for open calls, and answers production reports with follow-ups.\n\nRemove any one of the four and the Type collapses into something else: without the production, a generic project workspace; without the company, a calendar with nobody in it; without the schedule of calls, a contact list with files; without the callboard function, a planner the company never sees.",
+        "dc_zh": "**1. 制作。** 中央容器是制作——一个已识别的演出，有标题、日期和自己的作品集。系统中的一切都依赖于它：日程、人员、文档、报告。一个制作组织同时进行多个制作——一季演出，每个制作是独立的，这样成员只看到与自己相关的内容——已关闭的制作作为存档保留，而不是被删除。\n\n**2. 公司。** 制作由人员执行：演员、工作人员、设计师、舞台管理人员、制作人员。每个人员都是一个记录，包含联系信息和一个或多个制作角色，分组到部门和工作组（演员、灯光、服装、舞台管理等）。角色与人员同样重要：日程可以基于角色构建，然后再分配人员。联系信息涉及隐私——每个成员决定在公司通讯录中共享什么，而管理人员可以访问紧急和医疗信息。\n\n**3. 制作呼叫日程。** 日程是制作的操作节奏：有日期和时间限制的呼叫——排练、演出、进场、技术工作、试装、会议——每个呼叫将特定人员绑定到特定空间和特定时间。演出是一个可调度、可重复的事件：一场演出的运行是制作的多次安排演出。",
+        "rules": "**Conflict guards are structural.** The system actively prevents the classic scheduling failure: a person or a space called twice at the same time. Conflicts are detected when calls are made, not discovered when people collide in the hallway.\n\n**Information silos per production.** A member of one production does not see the calls, files, or reports of another — the production container is also the privacy boundary. Organization-wide notices are the deliberate exception.\n\n**Two-sided access.** Editing is for managers; the company consumes. Consumption is deliberately low-friction (no-login pages, read confirmations, fan-out notifications) because the audience includes everyone from leads to volunteers — and, in education, parents.\n\n**The schedule is the source of truth.** Printed calendars, personal-calendar feeds, and shared pages are all derivatives. Change the schedule once; every derivative updates. The failure mode the category exists to kill is the stale PDF.\n\n**Reports drive follow-through.** A report is not a diary: its follow-up notes are tracked items with owners and due dates, and revised reports re-reach their original recipients.\n\n**Closed productions persist.** Deactivation archives rather than deletes; the organization's production history remains inspectable.",
+        "rules_zh": "**Conflict guards are structural.** The system actively prevents the classic scheduling failure: a person or a space called twice at the same time. Conflicts are detected when calls are made, not discovered when people collide in the hallway.\n\n**Information silos per production.** A member of one production does not see the calls, files, or reports of another — the production container is also the privacy boundary. Organization-wide notices are the deliberate exception.\n\n**Two-sided access.** Editing is for managers; the company consumes. Consumption is deliberately low-friction (no-login pages, read confirmations, fan-out notifications) because the audience includes everyone from leads to volunteers — and, in education, parents.\n\n**The schedule is the source of truth.** Printed calendars, personal-calendar feeds, and shared pages are all derivatives. Change the schedule once; every derivative updates. The failure mode the category exists to kill is the stale PDF.\n\n**Reports drive follow-through.** A report is not a diary: its follow-up notes are tracked items with owners and due dates, and revised reports re-reach their original recipients.\n\n**Closed productions persist.** Deactivation archives rather than deletes; the organization's production history remains inspectable.",
+        "parent_id": "27.07",
+        "domain_id": "27"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 246,
+    "phase": "directory",
+    "parent": 246,
+    "slugs": [
+      "theater-production-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "68bb762b505a859b00d4d9ec6eb29df7f2da276f15949d1a7423ed82e7eccb5e"
+  }
+}

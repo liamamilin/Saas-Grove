@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 38,
+  "offset": 925,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "agribusiness-erp",
+        "name_zh": "农业ERP",
+        "domain_id": "20",
+        "parent_id": "20.05",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/841",
+            "result": "insufficient_evidence",
+            "note": "初审指出 frappe/agriculture 只是 ERPNext 的农业领域模块：README 仅覆盖作物/土地、植物/土壤/水分/天气分析及病害/肥料，安装以已装 ERPNext 站点为前提，快照没有会计、库存、采购、销售、种植者合同、接收质检、结算或生产事件过账的证据，依赖宿主的农艺模块不构成本叶“单一集成后台 + 农产品商品流”的核心。已移除该叶匹配，按无案例留档。补充检索仅见 KeyRys/agris-ERP（0 star、无许可证、README 自述 Status: Initialization phase、仅后端模型），不满足开源许可与完整应用要求；awesome 列表与 AI 原型不计为案例。",
+            "query": "websearch 401；GitHub API 检索 agribusiness erp、agriculture erp、farm erp、erpnext agriculture；核对 frappe/agriculture 的仓库元数据、README 与许可证。复核时另查 agribusiness accounting inventory in:description、agriculture ERP grower in:readme，并读取唯一候选 KeyRys/agris-ERP 的元数据与 README。"
+          }
+        ],
+        "archived": false,
+        "note": "初审指出 frappe/agriculture 只是 ERPNext 的农业领域模块：README 仅覆盖作物/土地、植物/土壤/水分/天气分析及病害/肥料，安装以已装 ERPNext 站点为前提，快照没有会计、库存、采购、销售、种植者合同、接收质检、结算或生产事件过账的证据，依赖宿主的农艺模块不构成本叶“单一集成后台 + 农产品商品流”的核心。已移除该叶匹配，按无案例留档。补充检索仅见 KeyRys/agris-ERP（0 star、无许可证、README 自述 Status: Initialization phase、仅后端模型），不满足开源许可与完整应用要求；awesome 列表与 AI 原型不计为案例。"
+      },
+      "definition": {
+        "slug": "agribusiness-erp",
+        "name": "Agribusiness ERP",
+        "name_zh": "农业ERP",
+        "aliases_zh": [
+          "农业管理系统",
+          "农业企业资源计划"
+        ],
+        "overview": "An **Agribusiness ERP** is the single integrated back office of an agricultural enterprise: a business management system that combines the standard ERP functions — accounting, inventory, purchasing, and sales — with a first-class model of agricultural production (land, fields, crop cycles, and the inputs, labor, and machinery those consume) and the agricultural commodity flow that moves produce from fields or growers, through intake and quality assessment, to customers under contract.\n\nWhat distinguishes it from a general ERP is not the back office — books, purchase orders, and invoices look the same in any industry — but the fact that agricultural objects are structural citizens of the system: a field, a production season, a grower contract, and a lot of produce with recorded quality are records that drive inventory and financial entries, not free-text notes. And what distinguishes it from farm management software is the center of gravity: in an agribusiness ERP, the books and the commercial flow are the core, and production records exist to feed them.\n\nEverything else commonly seen in this category — traceability modules, grower portals, mapping and remote sensing, AI assistants, point-of-sale counters, export paperwork packs — is common or optional structure layered on that spine, not the definition.",
+        "overview_zh": "农业企业ERP是一个农业企业的单一集成后台：一个业务管理系统，它将标准ERP功能——会计、库存、采购和销售——与一流的农业生产模型（土地、田地、作物周期，以及这些所消耗的投入、劳动力和机械）以及农业商品流相结合，该商品流将农产品从田地或种植者处，经过接收和质量评估，转移到签订合同的客户手中。\n\n使其区别于通用ERP的不是后台——账簿、采购订单和发票在任何行业看起来都一样——而是农业对象是系统结构性成员这一事实：一块田地、一个生产季、一份种植者合同以及一批具有记录质量的农产品，是驱动库存和财务条目的记录，而不仅仅是自由文本的备注。而使其区别于农场管理软件的是重心所在：在农业企业ERP中，账簿和商业流是核心，生产记录的存在是为了为其提供数据。\n\n该类别中常见的其他一切——可追溯性模块、种植者门户、测绘与遥感、AI助手、销售点柜台、出口文件包——都是叠加在这条主干上的通用或可选结构，而非其定义本身。",
+        "dc": "This layer is where costs become attributable: an application of fertilizer in a specific field is simultaneously an inventory issue, a labor record, and a cost entry against that field's production cycle.",
+        "dc_zh": "这一层是成本可归因之处：在特定田地中施用肥料同时是一个库存问题、一个劳动记录，以及对该田地生产周期的成本分录。",
+        "rules": "**Settlement is computed, not negotiated ad hoc.** In products with grower purchasing, the amount owed to a grower is derived from recorded facts: contract terms, delivery records, quality grades, and the pricing structure of the contract (fixed, market-linked, pooled, or custom), with advances and deductions netted out. The settlement is an audit object, not a manual spreadsheet exercise.\n\n**Quality adjusts value.** Quality factors captured at intake (grade, moisture, and similar) feed both acceptance decisions and value calculations — the same physical load can settle differently depending on its measured quality. Quality checks exist at defined flow checkpoints rather than as one-off inspections.\n\n**The lot is the traceability unit.** Produce is tracked as lots carrying origin and quality from intake through storage, processing, and shipment. Downstream recalls and customer claims are answered by navigating this chain.\n\n**Contracts are the governing document of the trade.** Quantities delivered accumulate against contract obligations; pricing terms recorded on the contract determine settlement and invoice values; amendments and renewals are tracked on the contract record.\n\n**Production events post to the books.** Input use, intake, and shipments are inventory and accounting events in the same transaction, not records that someone later re-keys into accounting software. This is the practical meaning of \"integrated\" in this type.\n\n**The season organizes time.** Plans, budgets, and comparisons are structured around crop seasons rather than generic fiscal periods alone; a field's year is a sequence of production cycles.\n\n**Role separation mirrors the operation.** Office, agronomy/dispatch, intake, and management roles see different surfaces and permissions; external growers see only their own records through the portal.",
+        "rules_zh": "**结算是计算得出的，而非临时协商。** 在涉及种植者采购的产品中，欠种植者的金额源自记录在案的事实：合同条款、交付记录、质量等级以及合同的定价结构（固定、市场挂钩、池化或自定义），并扣除预付款和扣款。结算是一个审计对象，而非手动电子表格练习。\n\n**质量调整价值。** 在接收时捕获的质量因素（等级、水分等）既用于接受决策也用于价值计算——同一批实物货物根据其测量的质量可能结算不同。质量检查存在于定义的流程检查点，而非一次性检查。\n\n**批次是可追溯性单元。** 农产品以批次的形式进行追踪，携带从接收、存储、加工到装运的原产地和质量信息。下游的召回和客户索赔通过导航此链条来回应。\n\n**合同是交易的指导文件。** 交付的数量在合同义务下累计；记录在合同上的定价条款决定了结算和发票价值；修正和续签在合同记录上跟踪。\n\n**生产事件记入账簿。** 投入品使用、接收和装运是同一交易中的库存和会计事件，而不是某人后来重新输入会计软件的记录。这是此类型中“集成”的实际含义。\n\n**季节组织时间。** 计划、预算和比较围绕作物季节而非仅通用财年进行构建；一块田地的一年是生产周期的序列。\n\n**角色分离反映运营。** 办公室、农艺/调度、接收和管理角色看到不同的界面和权限；外部种植者",
+        "parent_id": "20.05",
+        "domain_id": "20"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 151,
+    "phase": "directory",
+    "parent": 151,
+    "slugs": [
+      "agribusiness-erp"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "e99673d142bcbacb3f42de79df567e5bbd1488e5ab1a83cab19b1dac09afa037"
+  }
+}

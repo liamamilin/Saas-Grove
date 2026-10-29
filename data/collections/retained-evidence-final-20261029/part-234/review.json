@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Voyant 是多细分市场旅行商务平台：首页写 tour operators、travel agencies 和 DMCs，文档写 OTAs、tour operators 和 DMCs。其 DMC 适配依赖共享的 supplier inventory、quote、bookings、finance 模块，并非 DMC 专属产品；批次摘要已按多细分市场表述，建议下游展示时保留这一限定。",
+    "destinationlab 的来源 kind 标为 documentation，但 https://www.destinationlab.io/en/dmc-software 实际是产品与 DMC 方案页；建议改为 product_page 或 official_site，以准确反映来源类型。正文核心已核对，不影响本次判断。",
+    "input.json 的 progress 仍记录 case_status=insufficient_evidence、application_ids=[]，phase=included_without_cases，而 batch.json 和 research.json 已收录 commercial:destinationlab 与 commercial:voyant；发布前宜同步该叶的 application_ids 和状态，避免下游仍按无案例处理。",
+    "开源候选的排除记录基本完整：Travelmint 无许可证，iTourTMS 为专有许可，sanxinkeji 功能不足，MooNsConfig 仅 fork。但除研究记录外，未保留这些仓库的 LICENSE 和 README 快照；本轮未收录开源应用，故不阻断。若后续恢复开源线索，应补证。",
+    "Voyant 的 GitHub 仓库页、README、LICENSE 返回 404，GitHub API 返回 403，导致索引摘要所称 Apache-2.0 无法核实；当前按商业 SaaS 收录是保守处理。但若日后确认存在完整 OSS 发行，应重新评估 track 与许可证边界。"
+  ],
+  "leaf_checks": {
+    "destination-management-company-platform": {
+      "definition_core": "PASS。destinationlab 官方 DMC 页正文明确覆盖：supplier contract、rate card、service description 的供应商库；multi-day trip builder 与 automatic costing；costs、markups、payment status 的 margin 跟踪；proposal 与 confirmed booking 交付；supplier confirmation 跟踪；multi-currency supplier payments alongside client invoicing。Voyant 首页正文明确覆盖：For tour operators, travel agencies and DMCs；Quote 按 live supplier inventory 定价；Book；Deposits、balances and refunds；Supplier invoices matched、margin checked、books closed；后台含 Bookings、Clients、Suppliers、Finance。两者均覆盖供应商库存→行程与报价→确认预订→客户应收与供应商应付的双向资金链路。",
+      "saas_form": "PASS。destinationlab 提供 14-day free trial 与订阅入口；Voyant 提供按月订阅（Launch、Growth、Scale）、托管运维（We host, monitor, back up and update the platform）与在线 booking engine、traveler portal，均为持续使用的商业 SaaS。",
+      "id_track": "PASS。commercial:destinationlab 与 commercial:voyant 的 id 和 track 均为 commercial，research.json 的 case_ids 与 batch.json 一致；未发现把开源项目误标为商业或反之。",
+      "open_source_license": "N/A（有留档缺口）。本叶未收录开源应用；research.json 记录了 Travelmint 无许可证、iTourTMS 专有许可、sanxinkeji/travel-quote-system 虽 MIT 但功能不覆盖核心、MooNsConfig 仅 fork 且供应商应付未证、voyant-travel/voyant 仓库 404 与 API 403 等查询和抓取结果。没有可核验的完整开源 DMC 平台，因此无需核对完整许可证或社区版边界；相关仓库快照未保留，见 limits。",
+      "sources": "PASS。按 REVIEW_SOURCES.json 原样读取了 3 个快照：destinationlab a932...（正文关键句逐字命中）、Voyant 首页 0510...（正文关键句逐字命中）、Voyant 文档 5b48...（可逐段读取，含 built for OTAs, tour operators, and DMCs 及 catalog、inventory、bookings、trips、finance 模块）。batch 的 snapshot_path 和 sha256 与 REVIEW_SOURCES 一致，未用摘要、元数据或 Loading 页替代正文。",
+      "gaps": "未做运行时、部署、价格或架构核验（任务不要求）；无开源应用；destinationlab 与 Voyant 首页为单行压缩 HTML，read 工具按行截断，核心正文以快照内逐字命中的关键句核对。",
+      "conclusion": "content_review_passed"
+    }
+  },
+  "limits": "仅审查本单元 1 个叶子和 2 条商业记录，未读取其他单元。未进行运行时、部署、价格或架构验证。destinationlab 与 Voyant 首页快照为单行压缩 HTML，read 工具对单行有 2000 字符截断，因此用快照内逐字命中的正文关键句核对核心工作流；Voyant 文档页可逐段读取。开源候选仅见 research.json 的检索和抓取结果，未保留仓库 LICENSE 和 README 快照，无法进一步核验其许可证与社区版边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-234/ses_groveopencodegop234review1_1793263115.jsonl",
+  "batch_sha256": "22bbf48981e806e570b4f3b947032ea1f982cf4aaa3f516e955ddd5040009a54",
+  "research_sha256": "c2e5b777e3c6ebcd9194886bbcb0c54766e3f01a5b368d8de59ac1d341883aee",
+  "input_sha256": "07c47e66906bcceb6512f8238cf08801d220bcb18679be58d60eb316c76a8817"
+}

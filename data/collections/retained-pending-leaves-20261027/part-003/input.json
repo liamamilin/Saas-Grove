@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "web-development-ide",
+        "name_zh": "Web开发IDE",
+        "domain_id": "12",
+        "parent_id": "12.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "Brackets official Web Development IDE"
+            ]
+          },
+          {
+            "record": "retained-continuation-20261027/part-059/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": [
+              "Brackets official Web Development IDE"
+            ]
+          },
+          {
+            "record": "retained-go-followup-20261027/part-039/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": [
+              "Brackets official Web Development IDE",
+              "Active hosted or self-hosted web IDE service"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "web-development-ide",
+        "name": "Web Development IDE",
+        "name_zh": "Web开发IDE",
+        "aliases_zh": [
+          "网页开发IDE",
+          "前端开发IDE"
+        ],
+        "overview": "A **Web Development IDE** is a development environment specialized for building software that is delivered through a web browser — pages, sites, and applications written in web technologies: HTML, CSS, JavaScript/TypeScript, and the frameworks built on them.\n\nIts defining core is small:\n\n```text\nWeb-target working scope (project / site)\n└── Web-stack-integrated editing\n    └── The browser-terminated loop\n        (build/serve → rendered preview in a browser → refresh on change)\n```\n\nEverything else commonly associated with web development tooling — integrated debugging, test runners, package managers, framework wizards, visual page editing, publishing machinery — is standard capability in mature products or a property of one of the category's two product families, not part of the definition.\n\nThe category has two long-standing product families: **code-first** environments, where the code is the substrate and the tooling is a full development environment bound to the web stack; and **visual/authoring-first** editors, where the rendered page is the primary surface and code is edited alongside it. Both work on standard web files; both close their loop in a browser.",
+        "overview_zh": "一个**Web开发集成开发环境**是一种专为构建通过Web浏览器交付的软件而设计的开发环境——这些软件包括使用Web技术编写的页面、站点和应用程序：HTML、CSS、JavaScript/TypeScript，以及基于它们构建的框架。\n\n其定义性核心很小：\n\n```text\n面向Web的工作范围（项目/站点）\n└── Web技术栈集成编辑\n    └── 浏览器终结的循环\n        （构建/提供服务 → 在浏览器中渲染预览 → 更改时刷新）\n\n所有其他通常与Web开发工具相关的东西——集成调试、测试运行器、包管理器、框架向导、可视化页面编辑、发布机制——在成熟产品中是标准功能，或属于该类别两大产品家族之一的特性，并非定义的一部分。\n\n该类别有两个长期存在的产品家族：**代码优先**的环境，其中代码是基础，工具链是绑定到Web技术栈的完整开发环境；以及**视觉/创作优先**的编辑器，其中渲染后的页面是主要界面，代码在旁边编辑。两者都处理标准Web文件；两者都在浏览器中闭合其循环。",
+        "dc": "```text\nWeb-target working scope (project / site)\n└── Web-stack-integrated editing\n    └── The browser-terminated loop\n```\n\nThree properties. If any one is removed, the product is no longer recognizable as a web development environment:\n\n- **Web-target working scope** — a first-class working context whose subject is a web application or site: the unit to which tooling, preview, and settings attach. It may be a formal project, a plain folder opened as one, or a site definition. Without it, the tool is a file editor with no memory of what belongs together.\n- **Web-stack-integrated editing** — editing assistance computed against web semantics: the structure of HTML documents (elements, nesting, attributes), CSS as rules with selectors and properties, and JavaScript/TypeScript symbols. Mature products carry this awareness *across* the languages — for example, completing CSS class names inside JavaScript code, or showing which style rules affect a selected element. Without it, the tool is a generic text editor.\n- **The browser-terminated loop** — the environment operates the app's development cycle from within: it builds or bundles where needed (with its own tooling or by delegating to framework command-line tools), serves the app locally, presents the **rendered result in a browser surface** — a built-in preview pane or a launched browser — and refreshes it as changes are saved. The browser is the application's execution surface; the edit→see loop closes inside the environment. Without it, the developer edits code and separately operates a server and a browser — the working pattern of a plain code editor.",
+        "dc_zh": "Web目标工作范围（项目/站点）\n└── Web技术栈集成编辑\n    └── 浏览器终止的循环",
+        "rules": "### The browser is the execution surface\n\nThe environment never runs the web app itself. It builds, serves, renders, and attaches. This has two consequences: the preview is only as truthful as the serving setup, and debugging requires the environment to connect to the browser or Node runtime rather than control a process of its own.\n\n### Editing assistance follows the stack's cross-language relationships\n\nThe web stack is multi-language by nature: markup, styles, and scripts reference each other (classes used in both CSS and JS, elements bound to rules). Mature environments compute assistance across those boundaries, not per file.\n\n### Visual operations must write standard files (authoring family)\n\nThe authoring family's contract with its users is that visual editing produces ordinary HTML and CSS — no proprietary layer, no lock-in. Styling controls read and write real CSS rules; inline styling can be promoted into rules. This rule is the boundary against website builders.\n\n### Debugging is family-dependent\n\nA code-first web IDE integrates debugging against browser and Node runtimes. An authoring-first web editor typically does not integrate a debugger at all; execution inspection happens in the browser's developer tools. Both remain full members of the Type.\n\n### Publish and deploy are separate from the loop\n\nFinishing work means getting it onto a host. The authoring family treats publishing as a first-class step (site → host); the code-first family delegates it to framework and platform tooling. Neither is part of the defining loop.",
+        "rules_zh": "### 浏览器是执行表面\n\n该环境从不运行Web应用本身。它进行构建、提供服务、渲染和连接。这有两个后果：预览的真实性取决于服务设置，调试需要环境连接到浏览器或Node运行时，而不是控制自身的进程。\n\n### 编辑辅助遵循技术栈的跨语言关系\n\nWeb技术栈本质上是多语言的：标记、样式和脚本相互引用（CSS和JS中都使用的类，与规则绑定的元素）。成熟的环境在这些边界上计算辅助，而不是按文件进行。\n\n### 可视化操作必须写入标准文件（创作家族）\n\n创作家族与其用户的契约是，可视化编辑产生普通的HTML和CSS——没有专有层，没有锁定。样式控件读写真实的CSS规则；内联样式可以被提升为规则。此规则是与网站构建器的边界。\n\n### 调试依赖于家族\n\n代码优先的Web IDE集成了针对浏览器和Node运行时的调试。创作优先的Web编辑器通常根本不集成调试器；执行检查发生在浏览器的开发者工具中。两者仍然是该类型的完整成员。\n\n### 发布和部署独立于循环\n\n完成工作意味着将其放到主机上。创作家族将发布视为一等步骤（站点 → 主机）；代码优先家族将其委托给框架和平台工具。两者都不属于定义性循环。",
+        "parent_id": "12.01",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 3,
+    "phase": "directory",
+    "parent": 39,
+    "source_run": "go-followup-20261027",
+    "input_status": "review_pending",
+    "slugs": [
+      "web-development-ide"
+    ],
+    "old_input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+  },
+  "previous_continuation": {
+    "unit": 39,
+    "phase": "complete",
+    "parent": 59,
+    "slugs": [
+      "project-scaffolding-code-generator",
+      "sql-client",
+      "web-development-ide",
+      "browser-compatibility-testing-platform",
+      "code-quality-platform"
+    ],
+    "old_input_sha256": "4f4388a1ed964ed00e89029169aed08a93af25f9a79766fe0976f0fea5ab129b"
+  }
+}

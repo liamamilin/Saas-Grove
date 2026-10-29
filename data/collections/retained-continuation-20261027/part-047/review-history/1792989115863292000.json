@@ -1,0 +1,75 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "billing-platform",
+      "application_id": "github:6325420",
+      "issue": "账户核心证据实际是 Kill Bill 文档站落地页：REVIEW_SOURCES 中 658c98... 的标题为 'Kill Bill Documentation'，正文是 hero 与导航卡片（含 'Manage accounts, subscriptions, and invoices through the web admin interface'），并非 userguide/account 的账户说明正文。因此无法从核心文档核对客户计费账户作为财务容器，以及发票的受控生命周期；batch 的 official_sources_reviewed 与 leaf reason 对此有过度陈述。research 中 account.html 的成功抓取（sha 20811...）和 invoice 抓取（sha 4ec086...）也未进入 REVIEW_SOURCES。",
+      "fix": "将 data/collections/sources 中的账户快照替换或补充为实际 userguide/account（及 userguide/invoice）正文，更新 batch.sources、snapshot_path 与 leaf_matches.reason；若无法取得，则在 research 中如实记录该 URL 返回落地页/重定向的抓取缺口，并下调账户与发票核心已核对的结论。"
+    },
+    {
+      "slug": "billing-platform",
+      "application_id": "github:6325420",
+      "issue": "batch.summary 与 leaf reason 把「计量」（以及未加限定的「Tax」）整体归为 Aviate 商业扩展、称不计入开源核心；但同批 README 明确说开源平台处理 usage metering、tax、dunning，而 658c98... 落地页的 Premium/Aviate 卡片列的是 'Metering, wallet, coupons, advanced tax, custom invoice sequencing'。59d8... 的 Aviate 页本身只有 Premium 提示及 Control Plane/Plugin 概述，并未列出这批功能；引用来源与边界结论不一致，可能误报 Apache-2.0 核心能力。",
+      "fix": "改写为：Kill Bill Apache-2.0 核心含目录/定价、订阅、用量计费、发票、收款、信用、税务与催收；Aviate 企业版另含增强计量、进阶税务、钱包、优惠券、自定义发票排序等。将功能清单引用指向 658c98... 的 Premium/Aviate 卡片，或补充实际 Aviate 功能页；不要把「计量/税务」整体排除在开源核心之外。"
+    }
+  ],
+  "non_blocking_notes": [
+    "strategic-account-planning-platform（commercial:revegy）：Plans/Maps/Accounts 三份官方帮助文档覆盖命名账户、持久账户计划、目标/行动/进度、Contact/Strategy/Team 图与计划对象分工；但「客户干系人 + 供应商覆盖」中的 vendor coverage 只由 Team 图和 Team plan object 间接体现，未见逐干系人的覆盖映射，建议补证或明确为推断。",
+    "territory-management（commercial:zoho-crm-territory-management）：官方页面明确 region/team/individual 层级、自动化把 accounts 分配给 territories、right people aligned 与 territory 业绩报表；但来源是营销页而非操作文档，seller→territory 的正式绑定和 ownership 派生是间接证据。",
+    "card-issuing-platform（commercial:stripe-issuing）：/issuing/cards 快照与 /issuing 标题、正文相同（重定向/重复），未额外提供卡片生命周期页面；现有 docs 已覆盖 cardholders、virtual/physical cards、funding、spending controls、real-time authorizations、authorizations/transactions，核心不受影响。",
+    "corporate-card-spend-platform（commercial:ramp）：ramp.com/spend-management 同时讲 cards、reimbursements、bill payments，定位比 leaf 更宽，带有 Spend Management/AP 色彩；但 corporate card 仍是核心产品之一，当前按基本类型匹配可通过，若目录要求纯企业卡项目需再核。",
+    "billing-platform（github:6325420）：仓库元数据 id=6325420、fork=false、archived=false、default_branch=master，LICENSE 响应含完整 Apache License 2.0 文本，license 字段为 apache-2.0；许可与仓库身份项本身通过，问题集中在账户/发票正文与社区版边界表述。",
+    "来源路径：13 个 REVIEW_SOURCES 路径均按 data/collections/sources 原样读取，未发现缺失快照；batch 的 snapshot_path 均能对应到该目录。",
+    "快照质量：Zoho/Ramp/Stripe 快照为压缩 HTML（部分为单行），为可读性参照了同 URL 的官方公开页面；核对结论仍以快照中的正文和 REVIEW_SOURCES 记录为准，未用实时页面替代快照。",
+    "运行时：所有条目 runtime_tested=false；本次未验证登录后的实际操作或部署行为，仅做公开资料与来源核对。"
+  ],
+  "leaf_checks": {
+    "strategic-account-planning-platform": {
+      "application_id": "commercial:revegy",
+      "evidence": "读取官方帮助中心 Plans.htm（账户计划是每个账户的集中持久对象，含 goals/actions/progress、plan objects/sections、可分配给团队成员）、Maps/Maps.htm（Contact 关系/干系人图、Strategy 客户目标/举措、Generic 白空间、Team 团队图）、Accounts.htm（account planning、CRM 导入、账户团队）。",
+      "core_assessment": "覆盖命名账户、持久计划、关系/干系人图、行动项与团队协作；vendor coverage 由 Team 图和 Team plan object 间接体现，未直接展示到干系人的覆盖映射。",
+      "service_form": "Web SaaS，支持 standalone 与嵌入 CRM。",
+      "id_track": "commercial:revegy / commercial，匹配。",
+      "result": "基本通过；vendor coverage 证据为间接，列入非阻断注意。"
+    },
+    "territory-management": {
+      "application_id": "commercial:zoho-crm-territory-management",
+      "evidence": "读取 Zoho 官方 Territory Management 页：按 region/team/individual 建立层级、自动化把 accounts 分配给 territories、让 right people aligned、按 territory 跟踪 performance 与报表。",
+      "core_assessment": "覆盖 territory 单元、account→territory 绑定、people/team 对齐与业绩跟踪；seller→territory 的正式记录和 ownership 派生只由 right people aligned 间接体现。",
+      "service_form": "Zoho CRM 内的 SaaS 模块。",
+      "id_track": "commercial:zoho-crm-territory-management / commercial，匹配。",
+      "result": "基本通过；仅营销页、无操作文档，列入非阻断注意。"
+    },
+    "billing-platform": {
+      "application_id": "github:6325420",
+      "evidence": "读取仓库元数据（id=6325420、fork=false、archived=false、default_branch=master）、LICENSE 响应（完整 Apache License 2.0 文本）、README（catalogs/pricing、subscriptions、usage metering、invoicing、payments across gateways、credits、tax、dunning；Aviate 为企业版）、Aviate 页（Premium）及 account 快照。",
+      "core_assessment": "README 覆盖费用计算、发票、收款/信用/催收；但 account 快照 658c98... 是文档站落地页/导航卡片，不是 userguide/account 正文，客户计费账户作为财务容器及发票受控生命周期未被核心文档直接证实。",
+      "service_form": "open_source 自托管（非 SaaS），按 track 记录。",
+      "id_track": "github:6325420 / open_source，license Apache-2.0，匹配。",
+      "result": "不通过；需修复账户/发票来源与社区版边界表述。"
+    },
+    "card-issuing-platform": {
+      "application_id": "commercial:stripe-issuing",
+      "evidence": "读取 docs.stripe.com/issuing（commercial/consumer card program、cardholders、virtual/physical cards、Add funds/Issuing balance、spending controls、real-time authorizations、partial/incremental/reversal authorizations、transactions/refunds/disputes）、stripe.com/issuing（program management、KYC/account creation、credit/debit ledger、dynamic spend controls、funding structures）及 /issuing/cards 快照。",
+      "core_assessment": "覆盖可发行生命周期卡片、已识别持卡人、资金绑定、实时授权/规则、交易生命周期。",
+      "service_form": "Stripe API/SaaS 发卡基础设施。",
+      "id_track": "commercial:stripe-issuing / commercial，匹配。",
+      "result": "通过；/issuing/cards 快照与 /issuing 重复，列入非阻断注意。"
+    },
+    "corporate-card-spend-platform": {
+      "application_id": "commercial:ramp",
+      "evidence": "读取 ramp.com/spend-management：cards/reimbursements/bill payments 同平台；guardrails 管预算、vendor spend、阻止 off-policy；receipts match、transactions categorize；shared funds + unique virtual cards、owners/co-owners 管 access、track spend、enforce policies；footer 说明 corporate/commercial/business cards 由合作银行发行。",
+      "core_assessment": "覆盖组织发卡、公司侧交易/支出记录、项目管理控制；页面偏向 spend management/AP，但 corporate card 是核心产品之一，未完全漂移。",
+      "service_form": "SaaS。",
+      "id_track": "commercial:ramp / commercial，匹配。",
+      "result": "通过；定位偏宽，列入非阻断注意。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未重算 SHA-256、未做部署或运行时验证。所有 13 个 REVIEW_SOURCES 路径均从 data/collections/sources 原样读取，未读取其他单元或采集脚本。Zoho/Ramp/Stripe 快照为压缩 HTML，部分正文借助同 URL 官方公开页面辅助解析，但结论以快照和 REVIEW_SOURCES 记录为准。Kill Bill 的 account 快照实际是文档站落地页，无法从中读取账户/发票正文，这是 billing-platform 的主要证据限制。商业案例仅按基本真实性和类型匹配判断，未要求价格、架构或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-047/ses_groveopencodegop047review1_1792988438.jsonl",
+  "batch_sha256": "9bf417cca252ce3bae47860fd25bc7953a0c31ae3524c16cc29f7cb70ae77952",
+  "research_sha256": "20402195ba6aa1f4700dd4bd30d54a5579d35cd5c7a2ca551ddc18b189ec4099",
+  "input_sha256": "9c6146763e1a7e6d2921e8ebd720c69eb9e250d916e9ac5a59bc4499ff027964"
+}

@@ -1,0 +1,85 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "security-validation-platform",
+      "application_id": "github:1150018630",
+      "issue": "research.json 的 note 与 batch 的 leaf_matches 把“传感器安全复验、按发现项自身工具复测、只有复测证据才关闭、回归则重开”归给已归档的 openctem.io 首页；但首页快照只支持五阶段 CTEM 闭环、Pentest campaigns/retests、verified close 等高层描述，并未包含这些具体验证语句。README 主要是仓库结构、镜像与部署说明，不能补足该验证机制。上述具体内容实际出现在 https://openctem.io/product/ 的 Validation 段（本次只读抓取核对），该页面没有进入来源清单，导致本叶的定义性核心“对抗性验证”在已留档来源中证据不足。",
+      "fix": "为 OpenCTEM 增加 https://openctem.io/product/ 的快照，写入 research.json 的 source_urls 与 leaf_matches，并在 note 中区分首页与产品页；若不能补抓，则把 leaf reason 收窄到首页可证的“pentest campaigns/retests/verified close”，并在 note 中如实记录验证机制缺口。应用身份、GPL-3.0 许可与 open_source track 无需改动。"
+    }
+  ],
+  "non_blocking_notes": [
+    "security-validation-platform：OpenCTEM 的 Validation 以安全复验/复测和可附加的 HTTP assertion/Nuclei template 为主，不是完整杀伤链或 BAS 式利用模拟；leaf reason 的“对抗性验证”宜按“安全执行单项检查”理解，避免暗示 full exploit emulation。",
+    "siem：Wazuh 的许可证是混合结构：engine 为 AGPL-3.0-or-later，shared libraries 为 GPL-2.0-only OR AGPL-3.0-or-later，其余主体为 GPLv2；batch 的 license=GPL-2.0 与 license_review 是按社区核心主体做的范围性记录，但 rationale 中“其余主体及共享库…双许可”表述不够精确，建议改为分组件说明，并注明 engine 的完整 AGPL 文本在 src/engine/LICENSE-engine、未随本次快照归档。",
+    "soar：Shuffle README 明确工作流编辑器、预制安全应用、OpenAPI 应用、组织/子组织与自托管/云，但没有逐字写 webhook/API 触发和逐次运行审计；batch 的 features 中“Webhook/API 触发与执行”略超出 README 正文，research note 已谨慎地未断言运行审计，建议保持该边界。",
+    "soc-platform：Cortex XSIAM 页面支持“SOC platform”、统一数据、检测、事件管理、威胁情报与自动化，并写到告警归并为优先案件；但“SIEM、SOAR、EDR、NDR、TIP”这一逐项清单部分是类别归纳，页面原文更偏向统一 SOC 能力与 integrated XDR。商业基本真实性与类型匹配不受影响，建议摘要不要写成页面逐字列表。",
+    "threat-intelligence-platform：MISP/OpenCTI 的 TIP 核心证据充分；OpenCTI 的 Apache-2.0 仅覆盖 Community Edition，Enterprise Edition 为单独许可，batch 已用 license_review 正确限定范围。MISP 的“SaaS 部署”是 README 所述部署选项，不代表官方托管服务，服务边界已由 service_boundary 说明。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 research.json 的 case_found 及 batch 条目不一致；这是清单元数据滞后，不影响本次内容判断，但建议同步更新，避免下游误判。",
+    "REVIEW_SOURCES.json 未列出 sources/ 中实际存在的 Pentera、Cymulate、Security Onion、Microsoft Sentinel 等对照/排除快照；这些不是本批应用，但 research.json 引用了其中部分，建议在来源清单或 note 中补齐引用关系。",
+    "Wazuh、OpenCTI 的 GitHub license 接口为 NOASSERTION；batch 的 license_review 依据 LICENSE 正文作出 GPL-2.0 / Apache-2.0 的社区核心判定，方向正确。OpenCTI 的 license_review.spdx_id=Apache-2.0 是判定值而非接口返回值，建议在字段语义上避免与 API 的 spdx_id 混淆。"
+  ],
+  "leaf_checks": {
+    "security-validation-platform": {
+      "status": "pass_with_source_gap",
+      "application_ids": [
+        "github:1150018630"
+      ],
+      "definition_core": "OpenCTEM 覆盖暴露/发现项持续清单、风险排序、传感器安全复验与复测、修复任务/SLA、复测证据关闭；首页快照可证五阶段 CTEM 闭环、Pentest campaigns/retests、verified close，产品页可证 safe checks、retest with the finding's own tool、regression reopen。核心结构成立，但具体验证语句未落在本叶已归档来源中。",
+      "service_form": "GPL-3.0 开源平台，支持 Docker Compose、all-in-one、Helm 自托管及官方云；未部署、未验证扫描安全性或云条款。",
+      "identity_track": "GitHub id=1150018630，full_name=openctemio/openctem，track=open_source，与 batch 一致。",
+      "license": "LICENSE 接口返回完整 GPL-3.0 文本，metadata spdx_id=GPL-3.0；首页说明 platform/sensor/CI 为 GPL-3.0、SDK 为 Apache-2.0；社区版与官方云的边界已记录。",
+      "gap": "需要补 https://openctem.io/product/ 快照并引用；否则 leaf reason 中“只有复测证据才关闭/回归重开”只有产品页支持，首页快照不支持。"
+    },
+    "siem": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "github:40556106"
+      ],
+      "definition_core": "Wazuh README 明确 agent 采集端点/云/网络日志，manager 做基于规则的分析与告警，Indexer/Dashboard 供分析师浏览和调查安全告警；组织范围数据平面、持续检测、调查控制台三层成立。产品同时是 XDR，但数据不限于自身遥测，仍属 SIEM。",
+      "service_form": "开源核心可自托管，支持本地/VM/容器/云及 Docker/Kubernetes/Ansible 等编排；Wazuh Cloud 不在本条范围，未部署。",
+      "identity_track": "GitHub id=40556106，full_name=wazuh/wazuh，track=open_source，与 batch 一致。",
+      "license": "LICENSE 为混合许可：engine AGPL-3.0-or-later，shared libraries GPL-2.0-only OR AGPL-3.0-or-later，其余 GPLv2；batch 以 GPL-2.0 记录社区核心主体并附 license_review，方向正确但表述可更精确。",
+      "gap": "engine 的完整 AGPL 文本在 src/engine/LICENSE-engine，未随快照归档；本次只核对了顶层 LICENSE 与 README 的分组件说明。"
+    },
+    "soar": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "github:262044260"
+      ],
+      "definition_core": "Shuffle README 明确其为面向安全人员的开源自动化平台，含工作流编辑器、预制安全工具应用、OpenAPI 应用创建、组织/子组织控制、自托管与 shuffler.io 云；架构中 Worker 执行 workflow，连接外部工具→编写工作流→触发执行的核心成立。",
+      "service_form": "开源核心 AGPL-3.0，可自托管 Docker Compose，另有 shuffler.io 云；未运行工作流、未验证连接器。",
+      "identity_track": "GitHub id=262044260，full_name=Shuffle/Shuffle，track=open_source，与 batch 一致。",
+      "license": "LICENSE 返回完整 AGPL-3.0 文本；README 说明 backend 为 AGPLv3，workflows/docs/apps/SDK 为 MIT；社区核心边界已体现。",
+      "gap": "README 未逐字写 webhook/API 触发和逐次运行审计；batch 的 features 略超出 README，research note 已避免运行审计断言。"
+    },
+    "soc-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:cortex-xsiam"
+      ],
+      "definition_core": "Cortex XSIAM 官方页自称 AI-driven SOC platform，统一数据层、分析式检测、事件管理、威胁情报与自动化，并将大量告警归并为优先案件、提供自动化分诊和统一调查；原生数据/检测、案件层、响应自动化、统一系统四项与 SOC Platform 核心匹配。",
+      "service_form": "商业平台，官方页面定位；未核价、未部署、未验证案件与自动化工作流。",
+      "identity_track": "application id=commercial:cortex-xsiam，track=commercial，产品名与官方页一致。",
+      "license": "商业产品，无开源许可证要求；本条只做基本真实性与类型匹配。",
+      "gap": "页面原文更偏向统一 SOC 能力与 integrated XDR；“SIEM、SOAR、EDR、NDR、TIP”逐项清单部分是归纳，摘要不宜写成页面逐字列表。"
+    },
+    "threat-intelligence-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:8077402",
+        "github:162200234"
+      ],
+      "definition_core": "MISP 官网与 README 明确 IOC/事件库、自动关联、共享组/实例同步、STIX/IDS/SIEM 导出、sightings 与 API；OpenCTI README 明确 STIX2 知识模式、指标/行为体/恶意软件/关系、来源/置信度/首末次观测、导入导出与连接器。多源聚合、知识库、生命周期、分发四项成立。",
+      "service_form": "MISP 可本地/云/SaaS 部署；OpenCTI 可 Docker/手工/Helm/Terraform 自托管，CE 开源、EE 单独许可；均未部署。",
+      "identity_track": "MISP id=8077402，full_name=MISP/MISP，AGPL-3.0；OpenCTI id=162200234，full_name=OpenCTI-Platform/opencti，CE Apache-2.0；track 均为 open_source，与 batch 一致。",
+      "license": "MISP LICENSE 为完整 AGPL-3.0；OpenCTI LICENSE 明确 CE Apache-2.0、EE 单独 Enterprise Edition License，license_review 已限定 community_core。",
+      "gap": "OpenCTI Enterprise Edition 功能未展开；MISP 的 SaaS 是部署选项，不代表官方托管服务。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何应用，未做价格、架构、扫描安全性或云条款研究。已按 REVIEW_SOURCES.json 的 18 个 path 原样读取本单元快照；部分首页/仓库 JSON 为单行压缩内容，read 工具每行截断 2000 字符，因此对 OpenCTEM 等页面辅以精确短语 grep 和官方 https://openctem.io/product/ 的只读抓取来核对 Validation 段，产品页未在来源清单中。许可证快照为 GitHub API 的 base64 payload，本次核对的是许可证头、正文类型、spdx 元数据与 README 的分组件说明，未逐行解码全部文本；Wazuh engine 的独立 AGPL 文件和 OpenCTI EE 的完整条款未单独归档。sources/ 中另有 Pentera、Cymulate、Security Onion、Microsoft Sentinel 等未列入 REVIEW_SOURCES 的对照/排除快照，仅对 Security Onion 的 ELv2 排除结论做了核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-151/ses_groveopencodegop151review1_1793013674.jsonl",
+  "batch_sha256": "c62ab7be996c106a0d36814e070116e169b9b340e78278e14e33dcd22c5c90e1",
+  "research_sha256": "7242eaf1135336e2580274933a40dff27e72f0808d772f3192a381637420983d",
+  "input_sha256": "5dd5aa56723f3782e0bc2847393f07a3ed81731de812b05254ea08d0d6c90ece"
+}

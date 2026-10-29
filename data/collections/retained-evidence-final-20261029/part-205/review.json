@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "immigration-case-management",
+      "note": "REVIEW_SOURCES.json 的 sources 为空，未把 research 级 8 个快照列入 URL→path manifest；本次依据 data/collections/sources 下的 SHA-256 命名文件和 research.json 的 source_urls/fetch_outcomes 交叉定位读取。建议后续补充 manifest 以增强可审计性，不影响本叶结论。"
+    },
+    {
+      "slug": "immigration-case-management",
+      "note": "research.json 中「本轮核对时本工作区 sources 为空」应理解为重抓前状态；当前 sources 已有 8 个快照。建议在记录中区分重抓前为空与重抓后已保存，避免读者误判证据缺失。"
+    },
+    {
+      "slug": "immigration-case-management",
+      "note": "IMCS 元数据实际为 license: null（字段存在但为空），研究记录写作「无 license 字段」略不精确；「不能按开源应用记录」的结论不受影响。"
+    },
+    {
+      "slug": "immigration-case-management",
+      "note": "DHA-Sync README 显示其为带演示账号、SQLite 演示库的评估/演示型项目；「政府内部系统」宜理解为设计目标和业务定位，未见实际政府部署证据。因其未被纳入，且排除理由基于外部申请/送达/签发边界，不影响结论。"
+    },
+    {
+      "slug": "immigration-case-management",
+      "note": "PNG CMIS README 的许可证链接写作 LICENSE.md，仓库实际许可证文件为 LICENSE；已用 license API 快照核对完整 GPL-3.0 正文，链接文字不影响许可证判断。"
+    },
+    {
+      "slug": "immigration-case-management",
+      "note": "HMCTS ia-case-api、USCIS 客户端追踪器、签证预约机器人、律师/雇主端 CRM 等排除项只有检索结论、未保留快照；它们未被用作纳入证据，故不影响本叶。若后续复用这些排除理由，建议补充 URL 或快照。"
+    }
+  ],
+  "leaf_checks": {
+    "immigration-case-management": {
+      "assessment": "boundary_unresolved",
+      "batch_entries": 0,
+      "definition_core_check": "该叶定义要求政府侧的移民案件官方记录系统，核心是外部提交的案件、裁决循环（筛选→身份核验→证据评估→决定→送达与签发），以及对外负责的回执、通知、决定和身份状态。父类 24.06、域 24 与定义一致，未发现类型或层级错误。",
+      "application_form_check": "batch.json 无条目，因此没有 application_id 可核对；也不存在可检查的 SaaS 订阅或托管形态，或者商业条目。研究中的候选均为自托管开源仓库，未声称 SaaS 交付，故本叶按 included_without_cases 处理，SaaS 形态与商业真实性检查在条目层不适用。",
+      "candidate_check": [
+        "gandi-lesiba/dha-sync（GitHub id 1305922511，main，archived false，MIT）：README 全文显示其为 Flask/React 全栈、面向 DHA 的政府内部案件系统，包含官员侧案件登记向导、文件、状态流转 Pending→Under Review→Interview Scheduled→Approved/Rejected/Appeals、面试安排、遣返看板和审计日志；角色为 Admin/Supervisor/Officer/Auditor/BorderOfficial，没有申请人或外部提交者角色/门户。README 中没有外部提交、回执、补件通知、决定送达或身份/许可签发验签的证据，因此从外部发起、到送达与签发的完整闭环未被证明，故不建立本叶关系。",
+        "kanji8210/IMCS（GitHub id 1230091768，main，archived false，license null）：README 只有 Next.js 前端的本地/Vercel 运行说明；元数据描述其处理其他政府部门转介的案件。没有完整产品工作流正文，也没有许可证声明，不能按开源移民案件管理应用记录。",
+        "sutherlandnele/png-case-management-information-system（GitHub id 759279359，main，archived false，GPL-3.0）：README 全文说明 PNG ICA 用于管理庇护寻求者，Admin Web App 供系统管理员、Status Resolution Managers 和 ICA 使用；Client Web App 仅提供只读信息和反馈提交。没有外部申请提交、裁决决定送达或身份/许可签发证据，故不建立关系。"
+      ],
+      "id_and_track_check": "三个候选的 GitHub 仓库 id 与默认分支均与 research.json 一致：dha-sync 1305922511/main、IMCS 1230091768/main、PNG CMIS 759279359/main；三者的 archived 均为 false。本叶没有 application_id 或 track 条目可核对。",
+      "license_check": "DHA-Sync：元数据 license key 为 mit，LICENSE API 快照 size 1076，base64 正文以 MIT License 开头，包含完整版权、许可与免责声明。PNG CMIS：元数据 license key 为 gpl-3.0，LICENSE API 快照 size 35149，base64 正文为完整 GPL-3.0。IMCS：元数据 license 为 null，README 无许可证声明，不能按开源完整许可记录。未发现社区版或付费版功能切分的证据；PNG README 仅称项目以 GPL-3.0 开源。",
+      "source_check": [
+        "461524e3…：DHA-Sync metadata，id 1305922511，description 为 Smart Immigration Case Management System，license key mit，default_branch main，archived false。",
+        "b3583b68…：DHA-Sync README 全文，Flask/React 全栈、DHA 内部案件登记/文件/状态/面试/遣返/审计，内部五角色；无申请人门户、外部提交、决定送达或签发证据。",
+        "159b07b3…：DHA-Sync LICENSE API 响应，LICENSE size 1076，base64 为完整 MIT License。",
+        "91a1ce81…：IMCS metadata，id 1230091768，license null，default_branch main，archived false；描述为其他政府部门转介案件。",
+        "302882b3…：PNG CMIS README 全文，PNG ICA 用于庇护寻求者，Client Web App 只读信息加反馈提交，Admin Web App 供管理方使用；含 GPL-3.0 声明。",
+        "a0ba5f99…：PNG CMIS metadata，id 759279359，license key gpl-3.0，default_branch main，archived false。",
+        "b26514e9…：IMCS README，仅 Next.js 前端本地开发与 Vercel 部署说明，无许可证或裁决流程正文。",
+        "eb7dc3fd…：PNG CMIS LICENSE API 响应，LICENSE size 35149，base64 为完整 GPL-3.0。"
+      ],
+      "gap_record_check": "research.json 记录 6 次检索、8 次抓取且状态均为 fetched，并明确说明未发现不等于不存在。候选排除理由分别基于外部提交/送达/签发缺失、仅前端说明、无许可证等，属于边界缺口，没有把 HTTP 成功、元数据或导航文本当作核心工作流证据。",
+      "conclusion": "未发现应纳入而漏纳的完整应用；DHA-Sync、PNG CMIS 均未证明从外部提交到送达/签发的闭环，IMCS 无许可证且仅有前端说明。boundary_unresolved 与 included_without_cases 的留档可复核，内容初审通过。"
+    }
+  },
+  "limits": "仅使用只读本地文件；未运行 shell、未写文件、未读取其他单元，也未联网复核实时 URL 或部署状态。证据为 research.json 记录的 GitHub API 元数据、README 与 license 端点快照；未审计完整代码库，未独立重算快照 SHA-256，仅核对文件名前缀与 research.json 的哈希前缀一致。REVIEW_SOURCES.json 的 sources 为空，未提供 URL→path manifest，实际快照通过 data/collections/sources 目录定位。搜索命中数量、HMCTS/USCIS/签证机器人/律师 CRM 等排除项未逐一保留快照；未对自托管开源候选做 SaaS 交付、商业定价或实际部署核验。结论仅针对本单元留档，不能据此断言其他合格应用不存在。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-205/ses_groveopencodegop205review1_1793258636.jsonl",
+  "batch_sha256": "6483ac90a8ffd891bd149b83f80002668e860ffb9333606cdae485fcb2d8e493",
+  "research_sha256": "cb7b83f1b611706657e2f860221b3bd74897bb16453a30cd160cf7088a95975f",
+  "input_sha256": "9e95b5c541844aa6642d1a60545d92d5f497bb75c74ea1982ea7e3681e8fd370"
+}

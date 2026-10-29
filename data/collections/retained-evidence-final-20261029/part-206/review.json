@@ -1,0 +1,44 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，但本单元 batch.json 和 research.json 已记录 github:1148837454 的 case_found；这属于进度元数据滞后，建议下游合并时以 batch/research 为准并同步更新，不影响本次内容判断。",
+    "batch.json 将 Grievance Redressal 概括为“申诉处理”；现有来源实际是受益人投诉（grievance）的接收、跟踪与解决，并未证明存在针对不利资格认定的正式申诉或听证程序。建议改为“投诉/申诉受理（grievance redressal）”，或补充正式 appeal 来源，避免把投诉机制等同于法定申诉权。",
+    "batch.json 的“仓库整体采用 LGPL-3.0”宜限定为仓库自身代码与根 LICENSE；README 明确依赖 OCA 及第三方模块（EXTERNAL_DEPENDENCIES.md），这些外部依赖可能采用各自许可证。",
+    "现有快照证明了周期发放、合规条件、变更请求与投诉处理，但未直接展示 recertification/redetermination、overpayment/underpayment 追偿或追溯重算的正文；这些属于该类型的成熟生命周期能力，不是本次认定三项核心结构的必要条件，建议后续补证。",
+    "research.json 的 search_attempts 提到 GitHub 组织仓库列表查询，但未保留该列表快照；具体仓库元数据与核心正文快照齐全，不影响本叶结论。"
+  ],
+  "leaf_checks": {
+    "public-benefits-management": {
+      "application_id": "github:1148837454",
+      "name": "OpenSPP",
+      "track": "open_source",
+      "status": "supported",
+      "definitional_core": {
+        "applicant_household_under_program": "有正文支持。spp_registry README 明确个人、群体（group）登记、成员关系、证件与关系；create_programs 官方用户指南明确 Target Type 可选 Group（households），并按整个家庭/家庭构成评估资格，示例表达式使用 members.exists(...)。",
+        "recorded_eligibility_entitlement_determination": "有正文支持。spp_programs README 明确 program/cycle、target type、enrollment 与 eligibility 核验、entitlement 生成与审批、cash/in-kind entitlement；create_programs 指南明确 registrants 导入、资格核验通过后成为 beneficiary、按 cycle 生成 entitlement 并经审批后发放。",
+        "benefit_issuance_and_lifecycle": "有正文支持。spp_programs README 覆盖 payment batches、disbursement、accounting reconciliation、fund tracking、compliance filtering；README 与文档站覆盖 recurring cycles、change requests、grievance redressal。未直接证明 recertification/redetermination、overpayment recovery 或追溯重算，但三项核心结构已具备。"
+      },
+      "service_form": "持续使用的多用户 Web 应用：README 提供 Docker Compose Quick Start（docker compose --profile ui up -d），默认访问 http://localhost:8069，并列出 SP-MIS、Social Registry 等完整部署 profile，不是仅模块清单或 Docker 配置仓库。",
+      "identity_track": "github:1148837454 与仓库元数据 id=1148837454、full_name=OpenSPP/OpenSPP2、fork=false 一致；research.json 记录 default_branch=19.0、archived=false；track=open_source 与仓库性质一致。",
+      "license": "根 LICENSE 快照为 GitHub license API 响应，name=LICENSE、size=7427，content 以完整 GNU Lesser General Public License Version 3 正文开头；README 明确标注 LGPL-3.0 且为 free and open-source software；spp_programs 与 spp_registry 模块 README 的 license badge 均为 LGPL-3，许可证类型与 batch.json 的 LGPL-3.0 一致。",
+      "community_boundary": "仓库为完整 OpenSPP2 平台仓库：README 给出分层架构（Foundation/Capabilities/Integration/Extensions）、完整 addons 列表、Docker Compose 启动与 demo profile，并说明包含 OpenG2P 起源代码；未发现仅社区版残缺或需额外私有组件才能形成本叶核心工作流的证据。",
+      "evidence": [
+        "data/collections/sources/4ced904f35ae60a46b3889520d2b571f9fc204926d8e29952e5ff8cdb61472bc.txt",
+        "data/collections/sources/e1c94bb858dbeea5dc3da6aa08346bd2e09b03ea003a298a550b65fea285d885.txt",
+        "data/collections/sources/63f7ca9e129f1a2ea7a7ae0e132504b46e823367db86cb1231020dec0198106e.txt",
+        "data/collections/sources/e807c7ec2307ffd57d105fdcaebaea1d7e159dfbcec37a83ddb1496876636d19.txt",
+        "data/collections/sources/c553553e06940d9c075a52f48bd2dce6831129950e7f2353387c5d354c5b5dc7.txt",
+        "data/collections/sources/5a00d4ae56991408a2bb6b017ddd3460d92e86db0547c6c399d649837144493b.txt",
+        "data/collections/sources/d3252d837d650a5f46f5851ba80265020119f8194b8daa5d96a5a938e3a67bd2.txt"
+      ],
+      "gaps": "未从快照中直接核对 recertification/redetermination、overpayment/underpayment recovery、retroactive recomputation 与正式 appeal 程序；这些属于生命周期深化项，不影响本叶三项定义性核心和类型匹配的通过判断。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未做部署或运行时测试，也未读取本单元之外的文件或访问外部网络。GitHub API 元数据与许可证快照为单行 JSON，阅读器在 2,000 字符处截断，因此 archived/default_branch/license.spdx_id 等尾部字段以 research.json 的记录及 README/LICENSE 可见正文交叉核对；核心正文、许可证文件大小和许可证正文开头均已实际读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-206/ses_groveopencodegop206review1_1793258702.jsonl",
+  "batch_sha256": "5fcfd95b3307ebba27a3ac68f88a4dfdf9a5a47cd574971b01d8730091d4c850",
+  "research_sha256": "f9f467691d3f011dd1a2ba89f87c412cbc822e7c41816f8e5a5583ddbac579cb",
+  "input_sha256": "5e14491bdee8c0840ed049b53d5c5fb0e1bfc6b391d51acc2959ffbcbf99d35c"
+}

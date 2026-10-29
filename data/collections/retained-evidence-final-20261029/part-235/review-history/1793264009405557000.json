@@ -1,0 +1,41 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "tour-operator-management-system",
+      "application_id": "github:971048805",
+      "issue": "开源许可证快照不完整：data/collections/sources/f095247d5a085c7fb80fd76de8280ffcb268cc330a16d4889dcb2c48cbb50f5c.txt 共 630 行，正文在第 630 行 “...the 'copyright' line and a pointer to where the full notice is found.” 处中断，缺少 AGPL-3.0 附录 “How to Apply These Terms to Your New Programs” 的后半段（示例声明、远程网络提供源码的说明等）。AGPL 第 0–17 条及 “END OF TERMS AND CONDITIONS” 均在，故 SPDX 识别为 AGPL-3.0 无误；但 batch.json 的 license_review.rationale 称其为 “complete ... text”，与快照实际内容不符，不能据此完成“完整许可证”核对。",
+      "fix": "重新抓取 https://raw.githubusercontent.com/star-fleet-tours/quartermaster-api/master/LICENSE 并用完整文件替换该快照（至少补全附录至规范结尾），随后修正 license_review.rationale；若采集规范只要求保留 operative terms，应明确写明“附录被截断/未保存”，不要声称完整。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 仍记录 case_status=insufficient_evidence、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已给出 case_found 与两个应用；这是输入元数据滞后，不影响本次内容核对，但下游合并前应同步状态。",
+    "Quartermaster 的“自有产品目录”第一层主要依据 Trip.mission_id/type 与 README 的 “Mission and trip management” 推断；快照未包含 backend/app/models/mission.py 或独立产品目录正文。Trip 的有日期班次、容量和 Booking 生命周期证据充分，但若要求严格区分“产品”与“出发实例”，建议补采 mission.py/目录文档。",
+    "README/deployment.md 给出 book.star-fleet.tours 生产站点，但 REVIEW_SOURCES.json 未包含该站点快照；实际运营状态仍属 README 自述，未独立核验。该缺口已可由现有留档说明，非阻断。",
+    "Voyant 的 homepage 快照是原始 HTML（超长单行），可读性有限；其 catalog/departures/bookings/finance 的实质证据来自 docs/index.md 与 docs/platform/overview.md。商业条目只要求基本真实性和类型匹配，现有文档已足够；若需引用首页的具体 “capacity/status” 措辞，建议另存可读正文。",
+    "Quartermaster 的 Booking 模型记录 lead passenger 的姓名/邮箱/电话与 BookingItem 数量，未见逐旅客 traveler 表；batch summary 的 “passengers” 略宽于模型实际字段。对“预订生命周期”这一核心不构成阻断，但描述可更精确。",
+    "Yatra 因 GitHub 仓库无独立 LICENSE 文件而未入 batch；WordPress.org 页面/插件头已标 GPLv2+，该排除属保守处理且已在 research 中说明，可在后续批次复核，不影响本叶现有案例。"
+  ],
+  "leaf_checks": {
+    "tour-operator-management-system": {
+      "status": "changes_required",
+      "applications_checked": [
+        "github:971048805",
+        "commercial:voyant"
+      ],
+      "basis": "已读取 README、LICENSE、deployment.md、enums.py、trip.py、booking.py 及 Voyant 首页/两份文档。Quartermaster：Trip 以 mission_id/type 形成产品/班次，含 sales_open_at、check_in/boarding/departure 时间、TripBoat 价格与容量、merchandise；Booking/BookingItem 记录旅客字段、价格、payment/refund 状态，BookingStatus 为 draft→confirmed→checked_in→completed/cancelled；README 还记录公开预订、后台、QR 签到、名单和 book.star-fleet.tours。仓库元数据确认 repo id 971048805、public、非 fork。Voyant 文档确认面向 tour operator/DMC 的 catalog、departures/availability、bookings 生命周期、finance/supplier costs、CRM/proposals；track=commercial 与托管形态一致。",
+      "gaps": [
+        "LICENSE 快照在附录处截断，batch 的 “complete” 表述不成立（见 finding）。",
+        "Mission/产品目录模型未单独快照，第一层“自有产品目录”主要靠 Trip.mission_id/type 与 README 推断。",
+        "book.star-fleet.tours 无独立快照，实际运营状态未独立核验。",
+        "Voyant 首页为原始 HTML，实质证据主要来自 docs 页面。"
+      ]
+    }
+  },
+  "limits": "只读核对本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 10 个快照；未运行 shell、未写文件、未做实时抓取、未重算 SHA-256、未做部署/运行时测试。Voyant 首页为超长单行 HTML，无法完整逐段阅读；mission.py、book.star-fleet.tours 及 GitHub API 速率限制后的动态数据不在快照内，相关结论受此限制。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-235/ses_groveopencodegop235review1_1793263592.jsonl",
+  "batch_sha256": "9d1ebeb28f243defc4bcb6f9e709b351f0260a2894f70d264def514c75c8cd4a",
+  "research_sha256": "3cc8aea4cd201bce1c3d67bda601eec5a91a92ae71e159413bbf22237e0a76d3",
+  "input_sha256": "048ab36ac4b3f9ae5d7c1cc835dcfddfe0d97e2ca0191ad672a24c286d6d57fe"
+}

@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "commercial:intapp-conflicts",
+      "note": "entries.sources 中仍保留 https://www.intapp.com/products/conflicts/ 的快照（SHA 9e5d15ed…），该快照实际是 /products/ 总览页，正文只有导航与页脚，无 Conflicts 产品内容。条目与 research.json 已明确将其标注为历史缺口实证、不作为核心依据，核心主张改由 https://www.intapp.com/conflicts/ 正文支撑，故不阻断；后续整理时可将该导航型来源移出正式 sources 列表，仅留在 evidence_notes，以免读者误当作核心正文。"
+    },
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "commercial:intapp-conflicts",
+      "note": "Intapp 的“留存检查、复核命中、记录处置”等表述来自厂商产品页的功能陈述（如“Access the history of every conflicts search and outcome”“Allow decision-makers to review details, add notes, and document resolutions”），属商业产品营销正文，符合商业条目只做基本真实性与类型匹配的要求；未做功能实测，条目 summary 未越界声称部署或价格信息。"
+    },
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "github:1331339595",
+      "note": "conflictRecords.ts 顶部注释仍写“Running a check — the search itself — arrives with the next increment”，与同批抓取的 runConflictCheck.ts（已实现检索并写入 conflict_check）不一致，应属源码注释滞后，不影响条目事实；条目未引用该注释。"
+    },
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "github:1331339595",
+      "note": "README 将产品称为 Free, open-source and complete 且自托管，但部署上仍需要 Supabase 提供的登录服务与对象存储（DEEDBOX_PLATFORM_URL / _ANON_KEY / _SERVICE_KEY）。条目“自托管 Next.js + PostgreSQL”不算错误，但可补一句“依赖外部托管登录/存储服务的配置项”，读者对“完全自托管”的预期会更准确。"
+    },
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "github:1331339595",
+      "note": "条目把 DeedBox 作为“实务管理系统内含完整冲突子模块”纳入本叶，理由中已如实说明这一定位；定义文本本身允许 suite-embedded 形态，故属可接受的类型关系，无需改写。建议保持“包含冲突审查的实务管理系统”而非“纯粹的冲突审查平台”的措辞，避免身份表述漂移。"
+    }
+  ],
+  "leaf_checks": {
+    "legal-conflict-checking-platform": {
+      "status": "passed",
+      "definitional_core": "定义性核心四层在应用上均有正文依据。Intapp：/conflicts/ 正文含“Unify client, engagement, and relationship data in a searchable system”（关系体系）、“Use unified, real-time data from multiple sources in every conflicts check”“Screen opportunities before they advance to formal review”“Initiate conflicts checks directly from Intapp Intake or Intapp DealCloud”（结构化检查与提前筛查）、“Create an auditable record of all analyses and decisions”“Access the history of every conflicts search and outcome”（留存）、“Allow decision-makers to review details, add notes, and document resolutions”“Generate reports that automatically filter confidential information using Intapp Walls policies”（处置与报告）。DeedBox：README 明示 matters/parties/relationships/conflict checking；conflicts/page.tsx 覆盖事务所记录过的全部名称（现用/曾用/商号、事项与收案当事人、既往检查快照内名称、registered text）并做模糊匹配且“results are snapshotted permanently”；runConflictCheck.ts 实现 fold/phonetic + trigram(默认 0.4) 检索、matter/intake/历史快照语料，并向 conflict_check 写入 terms 与 result_snapshot 不可变快照，含 restricted-match 针孔与 restricted.read 登记；conflictRecords.ts 的 recordConflictResolution 以查重拒绝第二条处置、conflict_found_action_taken 无 actionNote 即抛 action_note_required；createMatter.ts 的 verifyResolvedCheck 在 practice_area.require_conflict_resolution 或 conflict.required_before_open 为真时要求检查已有处置且 attached_to_kind='none'，否则以 conflict_check_required / unresolved / attached 拒绝。四层（关系宇宙、留存检查、命中与处置、准入闸门）均成立，且闸门为可配置这一限定与代码一致。",
+      "service_form": "Intapp 为商业 SaaS 型冲突管理产品（产品页含 schedule demo、多产品线、Walls/Intake/DealCloud 集成表述），持续使用形态明确。DeedBox 为多人、带角色与权限、服务器渲染界面的 Next.js 常驻服务，配套 PostgreSQL schema、后台作业与外部集成，属持续运行的软件服务，不是脚本或原型。",
+      "identity_and_track": "commercial:intintapp 标识为 commercial:intapp-conflicts，track=commercial，homepage 与源 URL 一致；github:1331339595 与 metadata 中 id=1331339595、full_name=deedbox-maintainers/deedbox-app、fork=false、private=false 一致，track=open_source 正确。research.json assessment=case_found，case_ids 与 batch entries 一一对应，无孤立或缺失条目。",
+      "license_and_community_boundary": "license API 快照返回 name=LICENSE、size=34523、content 解码首行为“GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”，可确认 AGPL-3.0 完整许可证文本；仓库为整仓单许可证，README 自称“Free, open-source and complete”，未见 open-core 或企业版分层的目录/说明，条目“整仓 AGPL-3.0、无独立社区版”与所读证据一致。条目未声称有社区版，也未把某子集限定为免费版，边界表述无误。",
+      "source_quality": "核心正文均来自实际读取的快照：Intapp 使用 /conflicts/ 产品页正文（含 Centralized data management、Agentic conflicts detection and clearance、Recordkeeping and reporting 三段的实质描述）；/products/conflicts/ 快照为 /products/ 总览页，仅导航，条目与 research 均已标注其只作历史缺口留档，未以其支撑核心。DeedBox 的核心依据为 README 正文与四份源码（页面、检索、处置、开立事项），非简介/元数据/Loading 替代。metadata 与 license 快照亦有对应应用 ID。",
+      "gaps_recorded": "research.json 已如实记录：未取得 DeedBox 独立部署文档站或在线演示、未运行测试与部署、未核对 conflict_resolution 的表级唯一约束（仅见应用层查重，条目亦未声称数据库级唯一）、GitHub code search 曾因 API 限额失败一次；Intapp 旧快照重定向为空页的历史缺口亦保留。这些缺口属如实留档，不影响本叶通过。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何应用，无法验证功能行为、价格或架构。仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 9 份快照（路径按给定原样读取，sources/ 相对 data/collections 解析），未读取其他单元或其他目录。未以计算方式复核快照 SHA 与文件内容是否匹配（无 shell），仅按 REVIEW_SOURCES.json 记录的 path/sha256 与 batch 条目一致对应。GitHub 仓库 metadata 快照为单行 JSON，读取时超出首段的部分被截断显示，故 archived、created_at、license 等后置字段未能逐字确认；仓库 id=1331339595、full_name、fork=false、private=false 可确认，许可证以 license API 快照的 AGPL-3.0 全文头部与 size=34523 佐证，未另取仓库根目录 LICENSE 原始文本。Intapp /conflicts/ 为 HTML 快照，仅读取正文相关段落，未对全部营销文案逐条核验。未核对 DeedBox schema/changes 下 conflict_resolution 的数据库级约束，也未验证 Intapp 报告与 Walls 过滤的实际行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-080/ses_groveopendesignp080review2_1793195270.jsonl",
+  "batch_sha256": "809144a4533641639b060414cf26d6626518241f030a674e2bf40ddb144e0a7d",
+  "research_sha256": "122b3ad2a6b8968e0b3534c0f8f248f29f3d8c86e67396fc755a60a60747625a",
+  "input_sha256": "27c755752e7ef9975288eac33bbcf8a883d7f43c0cb4ce2322022b5975bc7f3d"
+}

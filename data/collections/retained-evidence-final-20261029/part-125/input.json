@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 27,
+  "offset": 650,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "machine-identity-management",
+        "name_zh": "机器身份管理",
+        "domain_id": "15",
+        "parent_id": "15.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/593",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "核对 SPIRE 官方仓库、README、Apache-2.0 许可证、官网与语言构成"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "machine-identity-management",
+        "name": "Machine Identity Management",
+        "name_zh": "机器身份管理",
+        "aliases_zh": [
+          "设备身份管理",
+          "非人类身份管理"
+        ],
+        "overview": "A **Machine Identity Management** application is a system of record and lifecycle engine for the identities of **non-human actors** — services, workloads, devices, scripts, and increasingly AI agents. It keeps a persistent record of each machine identity (the name the actor is known by, plus the credential material it uses to prove that identity), and it drives that population through its lifecycle: identities are issued or assigned when machines are created, credentials are rotated and renewed so they stay current, and identities are revoked or retired when machines are decommissioned or trust fails.\n\nThe problem it solves is structural: machines cannot manage their own credentials, and the population is far too large for humans to track by memory. Modern estates run enormous numbers of services, servers, containers, devices, pipelines, and integrations, each of which must authenticate to something. Left unmanaged, machine credentials become stale, duplicated, over-privileged, or forgotten — and nobody notices until a certificate expires or an orphaned service account is abused.\n\nThe defining core is deliberately narrow:\n\n- the subject of every record is a **machine actor**, not a person and not a credential artifact;\n- the credential a machine authenticates with — certificate, key, token, or federated identity — is an implementation variable, not the definition;\n- the system, not human memory, performs the lifecycle work across the whole population.\n\nWhen the record's center shifts from the machine actor to the credential artifact itself (the certificate as the managed object), the product is drifting toward a different Application Type (Certificate Lifecycle Management). When the population shifts to organization-administered people with self-service authentication, it is drifting toward Identity & Access Management.",
+        "overview_zh": "一个 **Machine Identity Management** 应用是用于 **非人类行为者** 身份的记录系统和生命周期引擎——包括服务、工作负载、设备、脚本，以及越来越多的AI代理。它持久记录每个机器身份（行为者被知道的名称，以及用于证明该身份的凭证材料），并驱动该群体通过其生命周期：身份在机器创建时颁发或分配，凭证轮换和更新以保持其最新，身份在机器退役或信任失败时撤销或停用。\n\n它解决的问题是结构性的：机器无法管理自己的凭证，且群体规模太大，无法用人类记忆跟踪。现代环境运行大量的服务、服务器、容器、设备、管道和集成，每个都必须进行身份验证。如果不加以管理，机器凭证会变得过时、重复、权限过高或被遗忘——直到证书过期或孤立的服务账户被滥用才被注意到。\n\n定义的核心是刻意狭隘的：\n\n- 每条记录的主体是 **机器行为者**，而不是人也不是凭证工件；\n- 机器用于身份验证的凭证——证书、密钥、令牌或联合身份——是一个实现变量，而不是定义本身；\n- 系统，而不是人类记忆，执行整个群体的生命周期工作。\n\n当记录的中心从机器行为者转移到凭证工件本身（证书作为管理对象）时，产品向不同的应用类型（Certificate Lifecycle Management）偏移。当群体转向组织管理的、具有自助身份验证的人员时，它向 Identity & Access Management 偏移。",
+        "dc": "- **Trust verification before issuance** — the machine proves what it is before it receives an identity: attestation from its runtime environment, federation with cloud platforms or identity providers, or CA-issued certificates chaining to a trusted authority.\n- **Delivery machinery** — getting credentials to where machines actually use them: provisioning to systems and key stores, agents or edge components inside customer infrastructure, local workload APIs, or just-in-time injection into requests.\n- **Rotation automation and short-lived credentials** — automatic renewal ahead of expiry; in modern implementations, credentials that live only briefly and rotate continuously so long-lived secrets never exist.\n- **Revocation and retirement** — workflows to revoke a compromised credential, monitor that revocation has propagated, disable or delete identities, and retire credentials when their machine goes away.\n- **Governance surfaces** — ownership and team structures over machine identities, role-based administration, and event/audit logging of every issuance, change, and access decision.\n- **Dashboards, notifications, and reports** — expiry readiness, population posture, unusual activity.\n- **API/CLI/infrastructure-as-code surfaces** — machine identity is consumed by automation, so the product is expected to be automatable itself.\n- **Control plane plus edge components** — a central service for policy and records, with deployed agents, connectors, or local runtimes close to the machines.",
+        "dc_zh": "签发前信任验证 — 机器在接收身份前证明其自身：来自其运行时环境的证明、与云平台或身份提供商的联合，或CA颁发的链接到受信任机构的证书。\n交付机制 — 将凭据传递到机器实际使用的地方：配置到系统和密钥存储、客户基础设施内的代理或边缘组件、本地工作负载API，或即时注入到请求中。\n轮换自动化与短期凭据 — 到期前自动续订；在现代实现中，凭据仅短暂存活并持续轮换，因此长期存在的密钥永不出现。\n吊销与退役 — 吊销受损凭据的工作流、监控吊销是否已传播、禁用或删除身份，以及在机器消失时退役凭据。\n治理层面 — 机器身份的所有权和团队结构、基于角色的管理，以及每个签发、更改和访问决策的事件/审计日志。\n仪表板、通知和报告 — 到期准备情况、群体状态、异常活动。\nAPI/CLI/基础设施即代码接口 — 机器身份由自动化使用，因此产品本身应具有可自动化性。\n控制平面加边缘组件 — 一个中央控制平面",
+        "rules": "- **Machines are not console users.** There is no self-service login for the machine \"end user.\" Credentials arrive programmatically through issuance and delivery machinery; every interactive surface belongs to human operators.\n- **Trust comes before identity.** A machine must prove what it is — via attestation, federation, or a policy-checked request chained to a trusted authority — before it receives an identity. Policy then constrains what that identity may be.\n- **Credentials age; the system does the aging.** Rotation and renewal are continuous system work, not human tasks. The modern posture is short-lived credentials rotated automatically, so that a long-lived secret never exists to leak.\n- **Lifecycle follows the machine.** Creating a workload and creating its identity are linked operations; decommissioning the machine should retire the identity. Orphaned machine identities are the failure mode this rule exists to prevent, and the inventory is the tool that surfaces them.\n- **Revocation must propagate.** A revoked credential is only as good as its enforcement — mature products monitor revocation status and rotate the trust material that machines use to verify each other.\n- **Humans own machine identities.** Even though the actors are non-human, governance structures (owners, teams, approval chains) bind identities to accountable people. Auditors ask who is responsible for a service account, not whether the service account can answer.\n- **The record is actor-centric, the credential is swappable.** The same machine identity may be represented over time by different credential kinds; replacing the credential does not replace the identity.",
+        "rules_zh": "- **机器不是控制台用户。** 机器“最终用户”没有自助登录。凭证通过颁发和交付机制程序化到达；每个交互界面都属于人类操作员。\n- **信任先于身份。** 机器必须证明它是什么——通过证明、联合或链接到可信权威的策略检查请求——然后才能收到身份。策略随后约束该身份可以是什么。\n- **凭证会老化；系统执行老化。** 轮换和更新是连续的系统工作，不是人类任务。现代姿态是短期凭证自动轮换，以便长期秘密从不存在以泄露。\n- **生命周期跟随机器。** 创建工作负载和创建其身份是关联操作；退役机器应停用身份。孤立的机器身份是此规则旨在防止的故障模式，清单是揭示它们的工具。\n- **撤销必须传播。** 撤销的凭证只与其执行一样好——成熟的产品监控撤销状态并轮换机器用于相互验证的信任材料。\n- **人类拥有机器身份。** 尽管行为者是非人类的，但治理结构（所有者、团队、批准链）将身份与负责任的人绑定。审计员询问谁负责服务账户，而不是服务账户是否能回答。\n- **记录以行为者为中心，凭证可替换。** 同一个机器身份可能随时间由不同的凭证类型表示；替换凭证不会替换身份。",
+        "parent_id": "15.01",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 125,
+    "phase": "directory",
+    "parent": 125,
+    "slugs": [
+      "machine-identity-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "e24ed4a2437860b60abe2380e964b04f932a9c844c2c06b50c2de138f76d4b92"
+  }
+}

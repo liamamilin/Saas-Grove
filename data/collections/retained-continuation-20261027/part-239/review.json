@@ -1,0 +1,27 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍为 included_without_cases、各叶 case_status=not_searched 且 application_ids 为空，与 batch.json、research.json 中 5 个 case_found 不一致；这是元数据同步问题，不影响本次内容核对，但下游使用前应更新，避免把本单元误判为无案例。",
+    "Eventyay 的 README 能证明演讲者记录、投稿/评审、环节/日程绑定及组织方后台（/orga/、submission/），但未逐项展示“个人资料/材料收集—完成状态—提醒”的协调循环；按当前初审的基本类型匹配口径可视为核心基本成立，若后续要求更强的工作流证据，可补官方文档或代码路径。",
+    "sponsor-management 的研究记录引用了 eventyay-exhibition 的 4 个快照（仓库元数据、许可证、README、docs/sales.rst），这些未列入 REVIEW_SOURCES.json；因其仅用于说明撤回该候选、未作为 SponsorCX 的收录依据，故不阻断，但来源清单可补充以利追溯。",
+    "SponsorCX 首页与 property-product 快照是压缩 HTML，正文位于超长行，读取工具预览被截断；可确认品牌、页脚“Modern Sponsorship Management Software”和产品定位，批次/研究记录中的库存、履约、报告细节与其官方页面一致。商业仅要求基本真实性和类型匹配，故不阻断；未把截断预览当作完整工作流证据。",
+    "Eventree 的定位是节庆/巡演的认证、提前信息、通行证与现场发放，不是完整票房或节目编排套件；这符合 festival-management 对“观众票务/节目排期非必需”的边界，不是类型偏差。",
+    "SponsorCX 同时服务体育队、场馆、高校和非营利等 property 客户，事件只是其行业之一；其 inventory→deal→fulfillment→report 结构与 sponsor-management 的核心相符，但属于较宽的赞助/合作管理平台，而非只做活动赞助。",
+    "Eventyay 是更广的活动平台，speaker management 是其模块而非独立演讲者 CRM；research.json 的 service_boundary 已如实说明，未把平台整体误写成独立产品。",
+    "ROLLER 与 Gateway 的引用页是营销/产品介绍页而非完整文档；对商业条目仅按基本真实性与核心类型匹配核对，未要求部署、价格或架构细节。"
+  ],
+  "leaf_checks": {
+    "festival-management": "commercial:eventree。读取 https://www.eventree.co.uk/ 首页快照：标题为 Event and Festival Management System，正文明确 accreditation（联系人/通行证自助申请、组织方审批、二维码到场领取与扫码发放）、advancing（按人或公司收集信息并路由给艺术家联络等）、forms、inductions、ID checks、passes/wristbands、catering；客户包括 Glastonbury、Download、Leeds、Wireless 等节庆。可对应“节庆场合 + 参与者生态 + 访问权益”的定义核心；观众票务和节目排期非必需，产品为 web-based、按活动年费，SaaS 形态成立。未发现 ID/track 或来源问题。",
+    "speaker-management": "github:62668744（Eventyay）。核对仓库元数据（id 62668744、fork=false、archived=false、Apache-2.0）、许可证 API 快照（完整 Apache-2.0 文本，size 11358）和 README：明确 Call for Participation、speaker/session management、submission/review/schedule management、/orga/ 演讲者组织后台、submission/ 与 agenda/ 模块，可支持演讲者记录、与环节/日程的多对多绑定及组织方管理。许可证完整、仓库身份一致；README 同时说明可自托管，hosted/enterprise 仅作为商业支持/托管服务，社区版边界清楚。留档缺口：README 未逐项展示个人资料/材料收集、任务完成状态与提醒的协调循环，按初次审核口径不阻断。",
+    "sponsor-management": "commercial:sponsorcx。读取首页与 https://www.sponsorcx.com/property-product/ 快照：品牌 SponsorCX，页脚“Modern Sponsorship Management Software”；官方页面定位为赞助管理，覆盖 inventory（可售/已售/提案中）、合同/权益、成交后自动任务与时间线、按活动排期与交付状态、基于销售/库存/履约的报告与续约。可对应“赞助库存 + 赞助承诺 + 履约到活动”的核心；商业条目只做基本真实性和类型匹配，产品身份与类型成立。留档缺口：快照为压缩 HTML，长行正文预览受限，未逐条复核所有措辞；未发现必须修复的事实或许可问题。",
+    "attraction-management-system": "commercial:roller。读取 https://www.roller.software/industries/zoos-management-software 快照：标题/描述为 Zoo & Aquarium Software（Ticketing, Membership & POS），正文说明在线票务、容量管理、membership/season passes（线上与柜台核销）、POS 或移动端 check-in、admissions at scale，以及面向付费入场景点的运营。可对应“运营商定义入场产品 + 销售/交易/权益 + 入口验证”的核心；SaaS 形态与商业身份成立。未发现 ID/track 或来源问题。",
+    "attraction-ticketing": "commercial:gateway-ticketing。读取 https://www.gatewayticketing.com/products-services/products/sell-tickets-on-site-online-admission-control/ 快照：Galaxy 支持官网 web store、OTA/第三方分销、酒店/本地渠道、现场窗口、自助 kiosk、呼叫中心售票；可售 general admission、timed admission、unlimited/limited capacity，passes/memberships；入场控制支持条码、腕带、闸机、自助门、移动扫描、停车闸，并按 entrances/reentries/exits 统计客流。可对应“运营方票种 + 多渠道销售/订单 + 入口验证产生出勤”的核心；商业条目基本真实性和类型匹配成立。"
+  },
+  "limits": "本次为只读初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 8 个快照；未运行 shell、未写文件、未读取其他单元，未做部署/运行时测试，未补充价格或架构研究。Eventyay 的完整许可证通过 API 许可证快照（content 为完整 Apache-2.0，size 11358）、README 的 Legal and licensing 段及仓库元数据核对，未逐字解码 base64。SponsorCX 的两份快照为 NitroPack 压缩 HTML，正文处于超长行，读取工具只显示截断预览；因此其库存/履约/报告细节主要依据品牌页脚、批次与研究记录中的官方页面描述，并以官方 live 页面作补充核对，未把 live 页面替代快照作为收录依据。GitHub 替代方案的检索/抓取缺口按 research.json 的 search_attempts 与 fetch_outcomes 留档，未额外执行检索。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-239/ses_groveopencodegop239review2_1793035814.jsonl",
+  "batch_sha256": "2a5824b49a3f3195d6f82ba784efba0b31171bc60da838a9dfc65257f39cd860",
+  "research_sha256": "324ff6439e8cf54930e2c33266f95d0e21b1dc20a26fe99b1b96ddb38c41547b",
+  "input_sha256": "91d253abcd523d49d2f0ce087b7c148779f3ed537385d5bb28832f4da1338be4"
+}

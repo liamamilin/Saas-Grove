@@ -1,0 +1,128 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "validation-management",
+      "application_id": "commercial:mastercontrol-validation",
+      "note": "MasterControl 官方页可证明其面向 GxP/生命科学的验证管理定位、风险型验证工具、变更控制、升级验证与检查用文档，但快照没有展示“批准方案/接受准则 -> 执行结果与偏差 -> QA 批准 -> 总结报告”的完整验证生命周期。页面更接近针对 MasterControl 软件使用与升级的验证工具/方法论，而不是已验证的验证系统记录。",
+      "suggestion": "研究记录已如实删除 protocols/QA approval 等未证实断言并保留缺口，当前摘要也未越界。若后续需要更强核心证据，可补充能展示方案、偏差与总结报告的产品页，但不要恢复已删除的断言。"
+    },
+    {
+      "slug": "health-plan-administration-system",
+      "application_id": "commercial:healthedge",
+      "note": "条目名称/ID 为厂商级 commercial:healthedge，而实际引用产品页是 HealthRules Edge；页面标题为 'HealthRules Edge Core Administrative Processing System'，正文称其为 CAPS/core claims engine。产品身份与条目名的粒度不完全一致，但不影响 CAPS 类型匹配。",
+      "suggestion": "可考虑将名称/ID 对齐到 HealthRules Edge，或在条目中明确该条代表 HealthRules Edge 这一 CAPS 产品。"
+    },
+    {
+      "slug": "health-plan-administration-system",
+      "application_id": "commercial:healthedge",
+      "note": "快照明确展示 benefit/rules configuration、claims administration、auto-adjudication、payment accuracy，但未展示 enrollment/eligibility 或 member/coverage record 工作流；这属于定义核心前两层的证据缺口。",
+      "suggestion": "研究记录已保留该缺口，摘要也避免声称 enrollment/eligibility。若叶子要求完整核心，应补充相应来源，而不是根据 CAPS 名称推断。"
+    },
+    {
+      "slug": "healthcare-revenue-cycle-management",
+      "application_id": "commercial:waystar",
+      "note": "引用 /our-platform/ 页可证明 provider-side RCM 套件及 financial clearance、charge integrity/revenue capture、claim/payer payment、remittance/deposit、denial recovery、patient payments 等模块；旧首页快照在 research 中标记为 superseded，未列入 REVIEW_SOURCES。",
+      "suggestion": "保留 superseded 说明即可；无需把旧首页作为主来源。患者账户账本和付款方合同下的 underpayment 比对未逐字展示，摘要已采用模块级表述，可保持不变。"
+    },
+    {
+      "slug": "patient-registration-intake",
+      "application_id": "commercial:phreesia",
+      "note": "平台页可证明 registration、digital check-in、signed consents、pre-registration 跟踪、双向 PM/EHR 数据流，并出现 eligibility 相关表述；但快照未完整展示按就诊类型配置 intake packet 及 staff exception review，且 'real-time insurance eligibility' 的精确措辞未在快照中逐字确认。",
+      "suggestion": "摘要可继续使用较概括的 'insurance eligibility'，避免逐字引用未确认的 'real-time' 表述；若要主张 visit-bound packet，需补充能展示按 appointment type 配置与完成状态的产品页。"
+    },
+    {
+      "slug": "payer-care-management",
+      "application_id": "commercial:zeomega-jiva",
+      "note": "care-management 页明确为 payer care management（KLAS #1），并展示 assessment、care plan、goals、interventions、risk stratification、programs 等；首页同时列出 benefits administration/population health 等相邻能力。条目名为 Jiva 平台，若按整个平台理解，会与“支付方护理管理不持有 enrollment/premium/claims 记录”的边界产生张力。",
+      "suggestion": "将条目明确限定为 Jiva 的 care-management 解决方案/模块，或在 service_boundary 中说明相邻 benefits administration 模块不计入本类型；避免让条目名暗示整个 Jiva 平台都是本类型。"
+    },
+    {
+      "scope": "source_metadata",
+      "note": "batch.json 中多个产品营销页的 source kind 标为 'documentation'，实际更接近产品页/解决方案页；该标签不影响正文核对，但会降低来源类型统计的准确性。",
+      "suggestion": "可统一改为 'product_page' 或 'solutions_page'；非阻断。"
+    },
+    {
+      "scope": "source_inventory",
+      "note": "data/collections/sources/ 下有两个文件未被 REVIEW_SOURCES.json、batch.json 或 research.json 引用：89fb2958...（research 说明为 Waystar 旧首页、已被取代）和 80c0b37b...（ValGenesis 页面，未在 research 中出现）。本次未将其作为任何叶子的证据，来源目录与引用清单存在轻微不一致。",
+      "suggestion": "建议清理未引用文件，或在 research 中补记其抓取结果/弃用原因，保持审计链完整。"
+    },
+    {
+      "scope": "input_consistency",
+      "note": "input.json 的 progress 仍为 case_status='not_searched'、application_ids=[]，而 batch.json/research.json 已记录 5 个 case；这看起来是修复前的输入快照，不是最终状态。",
+      "suggestion": "若 input.json 需要反映最终状态，应同步 case_status 和 application_ids；当前审查以 batch/research 为准。非阻断。"
+    },
+    {
+      "scope": "open_source",
+      "note": "5 个条目均为 commercial，没有开源仓库身份、完整许可证或社区版边界需要核对，因此本次未做许可证结论。",
+      "suggestion": "无需操作；若后续加入 OSS 条目，再按完整许可证、仓库身份和社区版边界单独核对。"
+    }
+  ],
+  "leaf_checks": {
+    "validation-management": {
+      "status": "supported_with_documented_gap",
+      "application_id": "commercial:mastercontrol-validation",
+      "sources_read": [
+        "data/collections/sources/4efc78b18285871d698d2b39c6a3f5a2cab592b0f32828726d3fc1b0dd6462f0.txt (https://www.mastercontrol.com/validation-management-for-life-sciences/)"
+      ],
+      "evidence": "官方页标题和正文明确为 Validation Management for Life Sciences；出现 patented risk-based validation tools、Master Change Control、Master Upgrades、Ready for Any Inspection（FDA/EMA 文档）以及 validation services。",
+      "core_check": "可确认 GxP 验证管理定位和风险型验证工具/方法论，但未展示批准方案与接受准则、执行结果/偏差、QA 批准、总结报告等定义性生命周期；页面主要是针对 MasterControl 软件使用与升级的验证工具，不能据此证明完整的验证管理核心工作流。",
+      "gap": "protocols、acceptance criteria、deviation、QA approval、summary report 未在快照中出现；research note 已如实记录，并删除原摘要中的相关断言。",
+      "type_match": "商业验证管理（计算机化系统/CSV 范围）在类型层面可匹配；按商业基本类型匹配并保留核心证据缺口处理。"
+    },
+    "health-plan-administration-system": {
+      "status": "supported_with_documented_gap",
+      "application_id": "commercial:healthedge",
+      "sources_read": [
+        "data/collections/sources/f407f9ae29acfb3798a12cd9cf5783ede69a0cdb89a2235491e90aadd1c3e8b3.txt (https://healthedge.com/solutions/healthrules-edge/)",
+        "data/collections/sources/590c366eff161fa24fcac0e006c477baf4dbb99427ee6eece1e47c3164ea43d9.txt (https://healthedge.com/)"
+      ],
+      "evidence": "HealthRules Edge 页面标题为 'Claims Processing Core System | HealthRules Edge'；H1 为 'HealthRules Edge Core Administrative Processing System'；正文称其为 core claims engine，支持 Easy Benefit and Rules Configuration、claims administration、90–97% first-pass auto-adjudication、99%+ payment accuracy；首页确认面向 health plans。",
+      "core_check": "CAPS 类型匹配强；benefit plan configuration 与 benefit execution/settlement 有证据；member/coverage of record 与 enrollment/eligibility administration 未展示。",
+      "gap": "enrollment/eligibility 具体工作流未在快照中出现；research note 已保留该缺口，摘要也只保留已证明的 CAPS/福利规则/理赔结算能力。",
+      "type_match": "支付方 CAPS，不是提供方 RCM；产品身份为 HealthRules Edge，条目名称/ID 为厂商级 HealthEdge，属于非阻断的粒度问题。"
+    },
+    "healthcare-revenue-cycle-management": {
+      "status": "supported",
+      "application_id": "commercial:waystar",
+      "sources_read": [
+        "data/collections/sources/7ce5fca98348b8ed057a7d6eb19ea6663ee580fbe6530de4825a7be2e9483d03.txt (https://www.waystar.com/our-platform/)"
+      ],
+      "evidence": "Waystar /our-platform/ 正文出现 'Revenue Cycle Management in Healthcare'、'complete revenue cycle management suite'，并列 financial clearance、charge integrity/revenue capture、claim + payer payment management、remittance/deposit、denial recovery、patient payments。",
+      "core_check": "provider-side 端到端 RCM 模块链完整；患者账户作为累积器、付款方合同下的 underpayment 比对未逐字展示，但模块覆盖足以支持商业类型匹配。",
+      "gap": "患者账户账本和合同预期对账的显式描述不足；旧首页快照已在 research 中标记 superseded，未列入 REVIEW_SOURCES。",
+      "type_match": "提供方侧 RCM，不是支付方 claims processing，也不是通用应收账款系统；商业类型匹配成立。"
+    },
+    "patient-registration-intake": {
+      "status": "supported_with_documented_gap",
+      "application_id": "commercial:phreesia",
+      "sources_read": [
+        "data/collections/sources/1a788b36ffca6a7113e488d2124cacd6beb9e0b3815a9b8b2aa1bc9ecee0817e.txt (https://www.phreesia.com/platform/)",
+        "data/collections/sources/942861c8915a451958ad6c757d7b9265d5c1c3a4512ad4bbfeb14bb3862ad06c.txt (https://www.phreesia.com/)"
+      ],
+      "evidence": "Phreesia /platform/ 页出现 registration、digital check-in、signed consents、pre-registration、双向 PM/EHR 数据流和 eligibility 相关表述；首页补充平台定位。",
+      "core_check": "registration record 与 handoff 有证据；visit-bound intake packet 的按就诊配置、completion tracking 和 staff exception review 仅部分体现。",
+      "gap": "按 appointment type 配置 packet、 staff 复核例外、完整 completion 状态未完整展示；research note 已保留。'real-time insurance eligibility' 的精确措辞未逐字确认，但 eligibility 相关表述存在。",
+      "type_match": "提供方侧患者登记/接诊；未把 scheduling、patient engagement 或 payments 的主导面单独计为本类型。"
+    },
+    "payer-care-management": {
+      "status": "supported_with_documented_gap",
+      "application_id": "commercial:zeomega-jiva",
+      "sources_read": [
+        "data/collections/sources/6910956f392b055a2ed9b0258c11b3ec65187ea5df155b6fb4975d142835fe1b.txt (https://www.zeomega.com/solutions/care-management-solution)",
+        "data/collections/sources/d0e118e42c3740b84ae1725694550dc31b3a5bf3d7b6b575509fa54c888f0119.txt (https://www.zeomega.com/)"
+      ],
+      "evidence": "ZeOmega /solutions/care-management-solution 页标题为 'Care Management Solution'；页面称 '#1 Best in KLAS for Payer Care Management Solutions'；正文出现 assessment、care plan、goals、interventions、risk stratification、programs、care-management workflow；首页为 Jiva 平台并列出 benefits administration/population health。",
+      "core_check": "member as care subject、care program portfolio、documented care loop 均有较强证据；但“平台自身不持有 enrollment/premium/claims 记录”的边界未直接证明，且 Jiva 首页的 benefits administration 使条目范围需要限定。",
+      "gap": "边界证据与模块/平台身份需明确；research note 已说明只按 care-management 页匹配、不计相邻模块。",
+      "type_match": "支付方护理管理类型匹配成立，前提是条目限定为 Jiva care-management 解决方案/模块，而不是整个 Jiva 平台。"
+    }
+  },
+  "limits": "只读审查了 REVIEW_SOURCES.json 列出的 8 个引用快照，路径均按清单原样读取；未运行 shell、未写文件、未读取其他单元。未重算快照 SHA，仅按文件名与清单/批次记录比对。Waystar、MasterControl、Phreesia 等快照是压缩成单行的 HTML，读取工具按行截断，无法逐字展示整行，因此结论结合可见正文片段和定向文本存在性检查，不是完整渲染审阅。未做 live fetch、部署或运行时测试，未核价、未做架构研究。MasterControl 的验证生命周期、HealthEdge 的 enrollment/eligibility、Phreesia 的 visit-bound packet 均存在已记录的核心证据缺口，本次按商业基本类型匹配并留档缺口处理，不视为已证明。data/collections/sources/ 下另有两个未被 REVIEW_SOURCES/batch/research 引用的文件（Waystar 旧首页与一个 ValGenesis 页面），未作为任何叶子结论的依据；来源目录与引用清单的轻微不一致已列入非阻断备注。全部条目为 commercial，未涉及开源许可证、仓库身份或社区版边界核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-073/ses_groveopencodegop073review1_1792993477.jsonl",
+  "batch_sha256": "3d7ad23aafdd916129783b0e952dddcbf910e196aafa960bdd6cba72391d2069",
+  "research_sha256": "d56dc95f8a96df1116f9579b3c045edac65cb81858ab8ab3b331c916bd152c49",
+  "input_sha256": "47a410727b5091acf842c5c454d594ad426d156d7fa6e84ad2452d22cc90223a"
+}

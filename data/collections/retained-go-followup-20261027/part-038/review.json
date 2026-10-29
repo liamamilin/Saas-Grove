@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "appliance-repair-management / cleaning-business-management / electrical-service-management（github:1201466005）：OpenFieldService 在 README 中自述为 vertical-agnostic 的通用现场服务系统，三条垂直关系主要依据 README 的行业示例表（Appliance Repair、Cleaning、Electrical 三行示例服务）加上通用的客户/场地/作业/技术员/发票数据结构成立。建议表述为“可配置覆盖”，不要暗示存在家电故障诊断、清洁逐场地作业规范或电气估价/许可等行业专属流程。",
+    "cleaning-business-management（github:1201466005）：research.json 的 service_boundary 写“覆盖住宅与商业清洁”，但同一文件又列明不含主管巡检评分、客户质量回访、合同批量计费，README 的 Cleaning 示例也全是住宅类（House cleaning、deep clean、move-in/move-out、carpet、window）。建议收窄为“住宅清洁为主；商业场地可复用同一客户-场地-作业结构，但商业合同计费与巡检未实现”，以免商业覆盖被读成已验证。",
+    "github:1201466005：README 的 Tech Stack 写 SQLite（better-sqlite3），Quickstart/部署又写 Cloudflare D1（.wrangler/state），batch.json 同时保留两种说法。非关键，但下游引用时宜写成“本地 SQLite/D1 持久化”，不要单选其一。",
+    "cemetery-management（github:936669638）：README 标注 “In development”、package.json 为 1.0.0-beta.21，summary 已写“仍在开发中”，建议在对外条目中保持该状态可见；同时 docs/contracts.md 只是简短说明页，逐条逝者传记字段、公共族谱门户、墓位状态词表均未在已读资料中出现，关系中已收窄，勿在后续描述中回填。",
+    "github:936669638：package.json 的 \"private\": true 只是阻止 npm 误发布，不影响 MIT 源码权利；可在 license_review 中一句说明，避免被误读为“非完全开源”或存在闭源社区版。",
+    "input.json 中五叶 progress 仍为 application_ids 为空、phase=included_without_cases，而 batch.json/research.json 已记录两条应用；若下游直接消费 input.json 的 application_ids 会漏掉案例，建议同步进度元数据（本次按 batch/research 判定）。",
+    "elevator-service-management：research.json 为排除 elevator-service-manager 与 Ascensoft 引用了仓库、README、LICENSE 的 URL 与 sha256，但这些快照不在 REVIEW_SOURCES.json 中；作为内部检索留档可以保留，但不要把它们写成“已审阅快照证据”。"
+  ],
+  "leaf_checks": {
+    "appliance-repair-management": {
+      "application_id": "github:1201466005",
+      "result": "pass",
+      "basis": "仓库页面元数据快照（repository:1201466005、clawnify/OpenFieldService、public、非 fork）与 ID/track=open_source 一致；LICENSE 快照为完整 MIT 文本（授权、版权、免责条款齐全），README 亦标 MIT，未见附加限制或社区版/商业版切分。README 行业表列 Appliance Repair（washer/dryer、refrigerator、dishwasher、oven、garbage disposal），正文与数据模型/API 提供 customers→sites（含 access instructions/safety notes）、jobs（status、priority、scheduled_date、technician_id、address、is_recurring）、technicians、service_types、invoices（draft/sent/paid/overdue），且作业地址可继承设备场地地址，具备“客户+服务地址→维修作业生命周期→技术员→开票”的定义性核心；README 明示 maintenance plans、parts applicability、coverage adjudication、customer portals 不在首个交付切片，关系已收窄。",
+      "gap": "未运行；垂直适配依据 README 示例服务表 + 通用作业核心，无家电专属零件/保修流程；预览图为概念示意、示例数据为虚构。"
+    },
+    "cemetery-management": {
+      "application_id": "github:936669638",
+      "result": "pass",
+      "basis": "仓库元数据快照（repository:936669638、cityssm/sunrise-cms、public、非 fork）与 ID/track 一致；LICENSE.md 为完整 MIT 文本，package.json 亦 license=MIT 且 author 为 Sault Ste. Marie 市政府，README 称 completely free/open source，未见社区版限制。README 明确其为墓地记录管理系统，可追踪不限数量的墓地、墓位与合同，内置工单（interments、grave maintenance），地图可选、可链 Find a Grave、用户与权限不限；docs/contracts.md 说明合同跟踪 preneed burial site reservations 与 at-need burial site interments，并以合同结束日期对应逝者安葬，支撑“墓位库存 + 安葬记录”的定义性核心；README 已声明仍在开发中，与 summary 一致。",
+      "gap": "未运行；docs/burialSites.md、工单与逝者数据模型未取快照，逐条传记字段与公共族谱门户未验证；README 的 “小型/历史墓地” 属合理外推而非原文措辞。"
+    },
+    "cleaning-business-management": {
+      "application_id": "github:1201466005",
+      "result": "pass",
+      "basis": "同源 MIT 完整许可证与仓库身份已核对（见 appliance 叶）。README 行业表列 Cleaning（house cleaning、deep clean、move-in/move-out、carpet、window washing）；正文与 API/数据模型提供客户多场地及 access instructions/safety notes（对应“房产携带访问知识”这一结构要求）、jobs 的 is_recurring/recurrence_interval（可重复作业字段）、technician 派工与可用性/工作量、job_checklist 与 job_materials、按完工作业生成明细发票，构成“客户-服务地点→清洁访问→分配人员→开票”的核心；研究记录已如实声明不含主管巡检评分、客户评分回访、客户门户、薪资联动与合同批量计费。",
+      "gap": "未运行；series/occurrence 两层模型、商业场所逐站点批准清洁工名单、按合同周期计费均无证据，故关系只能限核心；research 的“住宅与商业清洁”措辞偏宽。"
+    },
+    "electrical-service-management": {
+      "application_id": "github:1201466005",
+      "result": "pass",
+      "basis": "同源 MIT 完整许可证与仓库身份已核对。README 行业表列 Electrical（panel upgrade、outlet installation、lighting、ceiling fan、troubleshooting）；数据结构提供客户与多服务地址（作业地址、场地地址回落逻辑）、作业状态/优先级/排程、电工（technician）派工、可选设备档案与服务历史、service_types 默认价与时长、按完工作业开票与付款状态，满足“客户+服务地址→电气作业生命周期→电工→开票”核心；batch/research 已明确估价/电子签名、定金、采购单、项目阶段与大型合同管理未提供，关系限于服务呼叫/维修/安装型作业。",
+      "gap": "未运行；无 estimate→invoice 的估价环节、无按资质派工与采购流程；垂直适配同样依据 README 示例服务表。"
+    },
+    "elevator-service-management": {
+      "application_id": null,
+      "result": "pass_with_documented_gap",
+      "basis": "本叶无成立案例，batch.json 无对应条目；research.json 记录 assessment=insufficient_evidence、case_ids 为空，并留有可核查的检索/抓取留档：4 次检索（含 2026-10-27 复核补充）、GitHub API 403 限流说明、候选 elevator-service-manager 的仓库/README/LICENSE URL 与 sha256、Ascensoft 元数据 200 但 readme 404 的结论，以及先前 github:1239364445 叶片关系被移除的理由。留档明确指出候选仅有客户级电梯档案、按电梯服务访问、故障消息路由、周值班与单次 Stripe 收款，缺少 building、MSA/AMC 范围、周期预防维护、法规测试/运行证书/违规整改、单元级回呼历史与按资质派工，未把“无结果”当作“不存在”。符合“无案例但真实记录检索与缺口”的通过条件。",
+      "gap": "被排除候选的 README/LICENSE 快照未纳入 REVIEW_SOURCES.json，无法在本单元独立复核其数据模型描述；但因其未被采用，不影响本叶无案例的结论。"
+    }
+  },
+  "limits": "只读初审：未运行应用、未执行 shell 或写文件，仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 8 个快照（OpenFieldService 仓库页/README/LICENSE，Sunrise CMS 仓库页/README/LICENSE.md/package.json/docs/contracts.md）。仓库页快照为 GitHub HTML，仅能核对 repository id、nwo、public、非 fork、默认分支与描述，未覆盖 release、贡献者、归档状态等。未做运行时或部署验证，故“production-ready”“仍在开发中”等只能按来源自述记录。input.json 中长定义行被读取工具按 2000 字符截断（elevator overview/dc 等尾部边界说明未完整读到），核心定义图与批次/研究结论未受影响。elevator 叶的被排除候选与 Ascensoft 快照不在 REVIEW_SOURCES.json，未经独立核对；Sunrise CMS 的 burialSites.md、工单模型与逝者字段文档未取快照，公共族谱门户未验证。未按 sha256 重算文件哈希，仅核对 REVIEW_SOURCES.json 与 batch.json 中哈希值及路径一致。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-038/ses_groveopencodegop038review1_1793079627.jsonl",
+  "batch_sha256": "e0c901d0fb746dfc4e42f815d6e3c7dba0b2b81a20aaa8a3c63fcad85209c523",
+  "research_sha256": "baffb7c728a745cbc105756c1844101d8dc7632932f6c9dfdf0418e929add2b3",
+  "input_sha256": "7519dc806be6c1cec36bfcc3748f38c62b42d5b898e85ad1839e62e8d09b3594"
+}

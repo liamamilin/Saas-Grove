@@ -1,0 +1,61 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "brand-reputation-management",
+      "application_id": "commercial:birdeye",
+      "issue": "Birdeye 的两份快照（sources/76a00d8a… 与 sources/ee6e8d92…）正文均为客户端渲染外壳，可读内容只有公告栏、页头与脚本；评论征集、逐条回复、评论记录和声誉追踪等核心表述只出现在 title、meta description 与 JSON-LD 中。按本次规则，元数据不能替代核心正文，因此本叶的定义性核心尚未得到正文或官方文档证据支持。batch.json 将 verification_status 标为 official_sources_reviewed，与实际只审阅到元数据不符；research.json 的 note 也把 JSON-LD/meta 当作类型匹配依据，未记录正文缺失这一缺口。",
+      "fix": "补充 Birdeye 官方评论产品页或帮助中心的正文快照，需能读到 review inbox/逐条回复、review requests/征集、多门店实体层级与 reporting/声誉指标等具体工作流；或改用有正文证据的同类商业产品。不要以 meta/JSON-LD 作为唯一依据，并同步修正 verification_status 与 research 说明。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶子标为 not_searched 且 application_ids/research_records 为空，而 batch.json/research.json 已给出 case_found 与 commercial ID；这是索引元数据不同步，不影响本轮内容判断，但下游若以 input.json 为准会漏掉这些案例。",
+    "Lotame 首页正文覆盖受众创建/建模、第一方数据接入、身份解析与激活，但未直接展示 suppression；definition 将 suppression 视为构成性能力，若需严格核验可补 DMP 产品文档。",
+    "Supermetrics 的证据主要落在多源连接器与 Studio 仪表盘/报告，未直接展示平台自有的持久标准化统一存储；作为商业类型匹配可接受，严格核验可补数据模型与指标文档。",
+    "Lifesight 首页未逐字说明仅使用汇总数据、无用户身份；其 causal MMM、预算情景与 marginal ROAS 文案支持该类型，严格核验可补模型文档。",
+    "research.json 记录了 websearch 无结果、GitHub 仅有库/演示项目等缺口，未发现可核验的开源完整应用；本单元 batch 全部为 commercial，未触发开源许可证与社区版边界核对。"
+  ],
+  "leaf_checks": {
+    "audience-management-platform": {
+      "application_id": "commercial:lotame",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/1a08edb7…txt（lotame.com 首页）。正文写明 Spherical Platform 帮助营销人员 connect, enrich, and activate audience data；并列出 Audience Creation & Modeling（可信数据源、AI/机器学习、lookalikes）、First-Party Data Onboarding（连接碎片化营销与广告数据）、Identity Resolution & Activation、Audience Insights。可对应受管受众、数据基础、身份解析与向外激活。",
+      "notes": "未直接展示 suppression 与受众库治理细节；商业类型匹配成立。"
+    },
+    "brand-reputation-management": {
+      "application_id": "commercial:birdeye",
+      "track": "commercial",
+      "status": "fail",
+      "basis": "读取 sources/76a00d8a…txt（birdeye.com/reviews/）与 sources/ee6e8d92…txt（birdeye.com/）。两份快照正文均为客户端渲染外壳，主要可读文本是公告栏、页头与脚本；核心表述仅在 title、meta description、JSON-LD 中出现。",
+      "gap": "缺少正文或官方文档证据证明评论征集、逐条公开回复、评论记录/路由与随时间追踪的声誉状态；research.json 未如实记录该正文缺失缺口。"
+    },
+    "competitive-intelligence-platform": {
+      "application_id": "commercial:klue",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/ff6e7c03…txt（klue.com/compete-agent）。正文写明 Automatically collect, curate, and share competitive intel throughout your organization；Research Analyst 的 deep research & analysis；Competitor Profiles；Build dynamic battlecards for Tier 1 competition；Knowledge Hub/Ask Klue；Proactive deal intelligence；Win-Loss 分析与 Reports。可对应追踪实体、持续收集、知识策展与内部分发。",
+      "notes": "页面以 Compete Agent 为主，但正文同时给出 Klue 平台级定位（monitor competitive landscape and enable individuals in their organization），类型匹配成立。"
+    },
+    "marketing-analytics-platform": {
+      "application_id": "commercial:supermetrics",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/87f7b350…txt（supermetrics.com 首页）与 sources/1dc44986…txt（Supermetrics Studio 页）。正文可见 Live data from all your Supermetrics data sources、Every channel, together，以及 dashboards/live marketing data；首页 Organization JSON-LD 自述 Marketing Intelligence Platform，Studio 页提供跨源仪表盘/报告。可对应多源营销数据整合、跨渠道指标与报告界面。",
+      "notes": "证据偏连接器+仪表盘，未直接展示持久标准化统一存储；商业类型匹配可接受。"
+    },
+    "marketing-mix-modeling-application": {
+      "application_id": "commercial:lifesight",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 sources/7bad614c…txt（lifesight.io 首页）。正文写明 causal MMM、incrementality testing、incrementality-adjusted attribution；Planning Agent 比较 Current mix / Suggested mix 预算情景（同一 $300k 预算）；按 marginal ROAS 比较渠道组合；budget optimization；并说明 experiments calibrate the model, and the model calibrates attribution。可对应汇总支出—结果建模、渠道回报与预算分配决策。",
+      "notes": "未逐字说明仅汇总数据/无用户身份；MMM 语境与预算情景支持该类型。"
+    }
+  },
+  "limits": "本次仅用只读工具读取本单元 input.json、data/collections/batch.json、data/collections/research.json 和 REVIEW_SOURCES.json 指定的 7 个原始 HTML 快照；未运行 shell、未写文件、未做浏览器渲染或部署/运行时测试，也未读取其他单元或抓取快照之外的页面。Supermetrics 快照为压缩的单行 HTML，Birdeye 快照为客户端渲染外壳；工具对超长单行只展示前 2000 字符，因此超长单行的正文核验依赖可检索短语，无法确认 Birdeye 的 JS 渲染后内容。未独立计算 SHA-256，仅核对清单中的路径、URL 与哈希字段一致性。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-107/ses_groveopencodegop107review1_1793002793.jsonl",
+  "batch_sha256": "bd2eb08f8645dcf580cda249676bb73fd7f88701d2d74c5a32c96640e1a66673",
+  "research_sha256": "32bcb693dfd4dc27ced8577606a8f353491d4b8231ad3cceca382e4416c20973",
+  "input_sha256": "8528195c5cddc0b3e56813d08e27750751c526eb60fbd8c2e1344c0ead78d851"
+}

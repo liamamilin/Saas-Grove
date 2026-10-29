@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 22,
+  "offset": 525,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "system-design-application",
+        "name_zh": "系统设计应用",
+        "domain_id": "12",
+        "parent_id": "12.05",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/122",
+            "result": "boundary_unresolved",
+            "note": "统一复核留档：Cloudcraft：当前快照主要描述已有基础设施的实时观测图，未证明本叶的系统设计创作核心。",
+            "query": "web search and official sources for system-design-application"
+          }
+        ],
+        "archived": false,
+        "note": "统一复核留档：Cloudcraft：当前快照主要描述已有基础设施的实时观测图，未证明本叶的系统设计创作核心。"
+      },
+      "definition": {
+        "slug": "system-design-application",
+        "name": "System Design Application",
+        "name_zh": "系统设计应用",
+        "aliases_zh": [
+          "系统设计工具",
+          "设计系统应用",
+          "系统架构设计应用"
+        ],
+        "overview": "A **System Design Application** is an application for designing the structure of a software system — working out what the system will consist of, what it depends on, how its pieces are arranged and deployed, and how interactions between them flow — and communicating that design to the people who will review, build, and operate the system.\n\nTwo things about this category should be stated up front, because they shape everything else in this document:\n\n**\"System design application\" is a practitioner label, not a vendor category name.** Engineers say \"system design\" for the activity; no significant product sells itself under this name as a category today. Vendors sell modeling tools, diagramming tools, design-doc workspaces, and cloud design tools — and the label is claimed, in one way or another, by all of them. At least one product that once led its marketing with \"system design platform\" has since left the category entirely and now sells a debugging agent.\n\n**The market serves the activity through three product shapes with different centers of gravity:**\n\n1. **Governed architecture modeling tools** — the design held as a living model, with diagrams as views over that model. This population is documented as its own Type: **Software Architecture Modeling**.\n2. **Design workspaces** — the design held as artifacts: structural diagrams kept together with the written design document, in a workspace built for fast iteration and review.\n3. **Cloud-infrastructure design and topology tools** — the design target is cloud infrastructure; products range from design-first surfaces that generate deployable infrastructure code, to tools that automatically diagram what is actually running.\n\nThis document describes what these tools share — the design activity and its artifacts — how the shapes differ, and where the boundaries sit. Readers who need the governed-model population in depth should read **Software Architecture Modeling**; readers who need generic drawing should read **Diagramming Application**.",
+        "overview_zh": "一个**系统设计应用**是用来设计软件系统结构的应用程序——确定系统由什么组成、依赖什么、各部分如何布局与部署、以及它们之间如何交互——并将此设计传达给需要审阅、构建和运营系统的人员。\n\n关于这一类别有两点需首先说明，因为它们影响本文档的所有内容：\n\n**“系统设计应用”是从业人员使用的标签，并非厂商类别名称。** 工程师称这项活动为“系统设计”；目前尚无重要的产品以这一类别名称进行销售。厂商销售建模工具、图表工具、设计文档工作空间和云设计工具——所有这些工具都以某种方式宣称拥有这一标签。至少有一款曾经以“系统设计平台”进行营销的产品，后来已完全退出该类别，现在销售的是调试代理。\n\n**该市场通过三种具有不同侧重点的产品形态服务于这项活动：**\n\n1. **受管控的架构建模工具**——设计以一个活体模型的形式保存，图表则作为该模型的视图。该群体已被记录为一种独立类型：**软件架构建模**。\n2. **设计工作空间**——设计以制品形式保存：结构图表与书面设计文档一同保存在一个专为快速迭代和评审而构建的工作空间中。\n3. **云基础设施设计与拓扑工具**——设计目标是云基础设施；产品范围从优先考虑设计的、能生成可部署基础设施代码的界面，到自动绘制实际运行内容图表的工具。\n\n本文档描述这些工具的共同点——设计活动及其产出、形态之间的差异以及边界所在。需要深入了解受管控模型群体的读者应参阅**软件架构建模**；需要通用绘图功能的读者应参阅**图表应用**。",
+        "dc": "**The system under design.** The subject: a software system (a service, an application, a platform estate) or a cloud infrastructure environment. Everything else in the model describes this subject.",
+        "dc_zh": "**被设计的系统。** 主体：一个软件系统（服务、应用程序、平台资产）或云基础设施环境。模型中的其他所有内容都描述这个主体。",
+        "rules": "**Each diagram is its own master in the workspace shape.** Editing a component in one diagram does not change any other diagram, and there is no model layer whose edits propagate across views. This is the structural line between the workspace shape and governed modeling: the moment a team needs element identity and cross-view consistency, it has outgrown the workspace shape and wants Software Architecture Modeling.\n\n**Sources of truth are inputs, not synchronized state.** In the workspace shape, a diagram generated from a codebase or a cloud environment reflects the moment of generation. Cloud-generated diagrams in the researched sample are drawn from the **most recent scan**, not the live account — refreshing requires an explicit re-scan (or a CI job that regenerates on change). Treating a generated diagram as automatically current is the shape's characteristic failure mode.\n\n**Design and live state are different postures.** A design artifact describes what is proposed; a topology diagram describes what exists. Products that serve both keep the two distinct — a proposed architecture is authored and revised; a live topology is generated and refreshed. The design loop and the keep-current loop are different loops, and the shapes specialize accordingly.\n\n**The written rationale is first-class where the shape carries it.** In the workspace shape, the design document — not the diagram — is the artifact of record for review: goals, constraints, decisions, and rollout live in prose beside the embedded pictures. Cloud-design shapes typically invert this: the generated infrastructure code is the record, and the diagram is its view.\n\n**Version history is the loop's memory.** Whether snapshots are taken on save (workspace shape), on merge (modeling shape), or on every detected environment change (topology posture), the retained history of the artifact is what makes design decisions traceable.",
+        "rules_zh": "**在工作空间形态中，每个图表都是其自身的主本。** 在一个图表中编辑组件不会改变任何其他图表，也没有一个模型层能将编辑传播到所有视图。这是工作空间形态与受管控建模之间的结构性界限：一旦团队需要元素标识和跨视图一致性，它就已经超出了工作空间形态，而需要软件架构建模。\n\n**真实来源是输入，而非同步的状态。** 在工作空间形态中，从代码库或云环境生成的图表反映的是生成那一刻的状态。在调研样本中，云生成的图表来自**最近的扫描**，而非实时账户——刷新需要一次显式的重新扫描（或一个在变更时重新生成的CI作业）。将生成的图表视为自动保持最新，是该形态特有的失败模式。\n\n**设计与实时状态是两种不同的姿态。** 设计制品描述提议的内容；拓扑图表描述存在的内容。同时服务于两者的产品会将两者区分开来——提议的架构被创作和修订；实时的拓扑被生成和刷新。设计循环和保持更新的循环是不同的循环，不同形态据此专门化。\n\n**在承载书面依据的形态中，书面依据是首要的。** 在工作空间形态中，设计文档——而非图表——是用于评审的正式记录制品：目标、约束、决策和发布计划以文字形式存在于嵌入的图片旁边。云设计形态通常与此相反：生成的基础设施代码是记录，图表是其视图。\n\n**版本历史是循环的记忆。** 无论快照是在保存时（工作空间形态）、合并时（建模形态）还是在每次检测到的事件时拍摄的，它都是设计演进过程中的关键记忆点。",
+        "parent_id": "12.05",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 108,
+    "phase": "directory",
+    "parent": 108,
+    "slugs": [
+      "system-design-application"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "9e5348bfbb659beb81341032144bcb282484f95ce3c7cbdf07de405220757ffa"
+  }
+}

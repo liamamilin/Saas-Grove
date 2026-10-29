@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "it-service-management-itsm（github:39182755）：GLPI 的 license_review 仅标注 scope=repository；建议补充说明 GPL-3.0 覆盖官方仓库/社区核心，GLPI Network 付费服务及第三方插件不在该证据范围内。",
+    "msp-management-platform（commercial:ninjaone）：PSA 源 URL 记录为 https://www.ninjaone.com/ninjaone-psa/，快照规范 URL 实为 https://www.ninjaone.com/msp/psa/；建议统一为规范 URL。",
+    "msp-management-platform（commercial:ninjaone）：PSA 页正文已足够支持客户、合同、工单/资产、计费与客户门户；计费页进一步提供 multi-tenant、按合同/定价/工时生成发票、recurring/usage 计费，但计费快照为单行压缩 HTML，建议后续保存可读文本快照。",
+    "sre-management（commercial:nobl9）：仅有首页快照，正文能确认 SLO、error budget adherence、Error Budget Alerting、SLO Oversight 与治理；burn-rate 计算、窗口化评估和目标复审节奏未展开，属商业首页证据深度限制，不阻断类型匹配。",
+    "status-page-platform（github:286080143）：Upptime 是低配实现，组件为受监控端点、健康状态主要为 up/down，且无计划维护窗口；组件/事件记录/发布页面三结构已具备，但若强调完整状态页模型，建议后续补充更强案例。",
+    "on-call-management（commercial:pagerduty）：官方页为产品营销页，排班/轮值、override、自动升级与未确认继续升级/确认后停止均有正文；未做独立工作流测试，事件记录边界按叶子定义归于 Incident Management。",
+    "input.json 的 progress 仍为 not_searched/空数组，与 batch.json、research.json 的 case_found 不一致；这是输入元数据的陈旧状态，不影响本单元应用条目核对。"
+  ],
+  "leaf_checks": {
+    "it-service-management-itsm": {
+      "application_ids": [
+        "github:39182755"
+      ],
+      "result": "pass",
+      "basis": "读取官方仓库快照与 README：repository_id=39182755，README 明确 ITIL Service Desk、SACM/CMDB、Request Fulfillment、Incident/Problem、Change、Knowledge、Service Catalog with SLM，以及自托管前置条件；LICENSE 为完整 GNU GPL v3 正文，README 声明 GPLv3。覆盖服务目录/服务台/多实践共享记录库的 ITSM 核心。",
+      "gaps": "README 为功能级说明，未展开服务级别时钟、审批链等具体规则；许可证记录未明示付费 GLPI Network/第三方插件的边界。非阻断。"
+    },
+    "msp-management-platform": {
+      "application_ids": [
+        "commercial:ninjaone"
+      ],
+      "result": "pass",
+      "basis": "读取 NinjaOne PSA 与 Billing 官方页：PSA 页正文覆盖 manage clients、contract management、automated invoicing & billing、ticketing、IT asset management、self-service client portal、customer documents，并说明工作需 tied to the right contract and billed；Billing 页正文覆盖 multi-tenant customer structure、contracts/pricing/time tracked → invoice、recurring/usage billing、agreement templates。客户分区、协议容器、交付到计费闭环均具备。",
+      "gaps": "PSA 快照记录 URL 为 /ninjaone-psa/，规范 URL 为 /msp/psa/；Billing 快照为单行压缩 HTML，需以同 URL 正文辅助核对。SLA/服务级别权益细节未展开。非阻断。"
+    },
+    "on-call-management": {
+      "application_ids": [
+        "commercial:pagerduty"
+      ],
+      "result": "pass",
+      "basis": "读取 PagerDuty On-Call Management 官方页正文：支持标准/自定义轮值与排班、shift overrides、自动升级、SMS/电话/邮件/推送等触达渠道；明确未确认则按策略继续升级、确认后停止，并提供移动端查看/确认/升级。排班表、升级路径、触达与确认循环三要素具备。",
+      "gaps": "页面为产品营销正文，未做独立行为测试；事件记录属于相邻 Incident Management 类型，按叶子边界不计入本叶。非阻断。"
+    },
+    "sre-management": {
+      "application_ids": [
+        "commercial:nobl9"
+      ],
+      "result": "pass",
+      "basis": "读取 Nobl9 首页正文：标题与描述为 SLO/reliability 平台，正文出现“SLOs that scale with you”“error budget adherence”“Error Budget Alerting”“SLO Oversight”“manage and govern SLOs at scale”，并说明以现有监控数据叠加 SLO 形成可靠性洞察。可靠性目标、错误预算状态与告警/治理循环的类型匹配成立。",
+      "gaps": "仅有首页快照，未展开 burn-rate 计算、滚动/固定窗口、目标复审节奏等实现细节；属商业基础真实性核对深度，不阻断。"
+    },
+    "status-page-platform": {
+      "application_ids": [
+        "github:286080143"
+      ],
+      "result": "pass",
+      "basis": "读取 Upptime 仓库元数据、README 与 LICENSE：repository_id=286080143，Public template；README 明确 GitHub Actions 定时检查端点、GitHub Issues 自动开启/关闭并承载 incident reports/评论、GitHub Pages 发布状态页，组件即受监控 URL；LICENSE 为完整 MIT 文本，README 区分代码 MIT 与 ./history 数据 ODbL，批次已把许可范围限定为社区代码核心。",
+      "gaps": "实现较简：健康状态主要为 up/down，无计划维护窗口和更细的 severity 状态；incident 历史由 GitHub Issues 承载。组件/事件记录/发布页面三结构仍成立，属最低限度实现。非阻断。"
+    }
+  },
+  "limits": "本次为只读初审：未运行产品、未部署、未做价格/架构或运行时测试；未重算快照 sha256。核对依据为 REVIEW_SOURCES.json 所列 12 个快照及 batch.json/research.json；部分商业页面为单行压缩 HTML，read 工具仅能展开前 2,000 字符，对 NinjaOne 计费页等使用同 URL 官方页面正文补充核对，未替换快照路径。未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-070/ses_groveopencodegop070review1_1792992901.jsonl",
+  "batch_sha256": "10a9b41f8e9bbad1ef0561e8f08756053f0c81303a040fb37c32f260b052de7c",
+  "research_sha256": "df6059964eb89ea264229dbab142c4782de6d02c8a875475fa68f5f30a5aa368",
+  "input_sha256": "cd530f1f7678ff40a078de0331b30c2c49208f1a5556cc26b484999705b07e41"
+}

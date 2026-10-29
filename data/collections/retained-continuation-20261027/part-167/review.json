@@ -1,0 +1,92 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "construction-project-management",
+      "application_id": "commercial:procore",
+      "note": "批次摘要写“会议纪要”，但 project-management 快照正文只有 Meetings 工具条目“Manage all aspects of your project meetings”，未直接出现 minutes/会议纪要；建议改为“会议”或补充能证明会议纪要产出的来源。另“业主、总包与供应商”分别来自客户引语（owners and partners）、统计文案（general contractors）和 Directory 文案（project team members and vendors），属可接受的弱证据组合，但不宜再强化为产品级多方协作断言。"
+    },
+    {
+      "slug": "construction-quality-management",
+      "application_id": "commercial:procore",
+      "note": "快照可证检查清单模板、失败项转观察、指派/截止日期、跟踪至完成；但“由不同有权方重新验证关闭”未被证明，当前 leaf_matches 与 research 已如实保留该限制，建议维持，不要在摘要中追加“验证关闭”表述。Inspections/Observations 两页实为产品营销页，kind 标为 documentation 属元数据层面偏差。"
+    },
+    {
+      "slug": "construction-scheduling",
+      "application_id": "commercial:oracle-primavera-p6",
+      "note": "批次摘要中的“日历”和“成本加载”未在两条引用快照中直接出现（快照有 CPM Schedule、多用户、多项目、状态更新、资源管理、成本/进度集成）；排程基线也仅在产品页以成本基线形式出现，research 已明确不作基线断言，建议摘要同步收窄为“活动/依赖/关键路径/状态更新”，避免“日历”“成本加载”这类未落地到引文的措辞。"
+    },
+    {
+      "slug": "construction-safety-management",
+      "application_id": "github:1242815792",
+      "note": "README 明确“Pre-launch”“module surface is built”，并把 company-specific migration tooling 标为 private/ignored/excluded；批次摘要“公开社区核心提供完整平台功能、未见单独的付费企业版”是基于 README 的推断而非明示，建议改写为“README 所述模块均在公开仓库内，未见企业版/付费版说明”，以免把缺失陈述写成事实。"
+    },
+    {
+      "slug": "construction-safety-management",
+      "application_id": "github:1242815792",
+      "note": "许可证核对无阻断问题：repository metadata 与 license API 的 license.spdx_id 均为 AGPL-3.0，LICENSE 快照含 34523 字节的 GNU Affero GPL v3 全文，README 亦声明 AGPL-3.0 与网络服务开源义务；仓库 id 1242815792 与条目一致。"
+    },
+    {
+      "slug": "construction-reality-capture-platform",
+      "application_id": "commercial:openspace",
+      "note": "Capture 页正文可证自动映射到平面图/BIM、按时间对比（“compare progress over time”“Split View and Reveal mode”“see what was built and when”）、覆盖确认（sheet view 验证覆盖）、Field Notes 位置固定，以及与 Procore Punch Items/Observations 双向同步；问题跟踪是交接而非自建闭环，与条目 service_boundary 一致，无需修改。"
+    },
+    {
+      "slug": "construction-project-management",
+      "note": "流程元数据不一致：input.json 的 progress 仍为 phase=included_without_cases、五个叶 case_status=not_searched 且 application_ids/research_records 为空，而 batch.json/research.json 已记录 4 个应用与 5 个叶的匹配。不影响内容结论，但建议在发布前同步 progress 元数据，避免下游按“未检索”处理。"
+    },
+    {
+      "slug": "construction-safety-management",
+      "note": "research.json 的 fetch_outcomes 还记录了一次 api.github.com/repos/braedonsaunders/beaconhs/readme 抓取（sha256 5985df…），该快照未列入 REVIEW_SOURCES.json/batch.json；已保留的 raw.githubusercontent README 足以支撑现有结论，仅为归档完整性提示。"
+    }
+  ],
+  "leaf_checks": {
+    "construction-project-management": {
+      "applications": [
+        "commercial:procore"
+      ],
+      "result": "pass",
+      "basis": "读取 data/collections/sources/40b38189…238.txt（canonical 为 procore.com/project-management）。正文含“Connect your teams and project information…construction project management software”，工具列表明确 Submittals、Meetings、RFIs、Drawings（“Revisions won’t need markers…”）、Correspondence（“Manage critical project communication of any type”）以及 Directory（“project team members and vendors with customizable permissions”），并有 owners and partners、general contractors 等表述。足以支持项目容器、多组织社区、跨方正式协调记录三项定义核心；商业侧仅做基本真实性与类型匹配。",
+      "gaps": "“会议纪要”仅由 Meetings 工具文案间接支持，未见 minutes 字样；未验证价格、部署、运行时行为。"
+    },
+    "construction-quality-management": {
+      "applications": [
+        "commercial:procore"
+      ],
+      "result": "pass",
+      "basis": "读取 35ee73ed…b57.txt、58c4e29a…3aa.txt、c59534de…928.txt（quality-safety / inspections / observations）。快照可检索到“Perform inspection checklists”“Create actionable observations”“Track, assign, and report upon multiple types of observations and corrective actions”，Observations 页含 due date、Punch List、non-conformance、safety violation 等正文；构成“检查记录→不符合/观察→指派与截止日期→纠正并跟踪完成”的闭环证据链，符合检查记录+不符合记录+纠正循环的核心结构，并区别于 Punch List 与安全管理。",
+      "gaps": "未能证明“由不同有权方重新验证后关闭”的两方验证规则；批次与 research 已如实记录该限制且未越界断言，故不阻断。"
+    },
+    "construction-reality-capture-platform": {
+      "applications": [
+        "commercial:openspace"
+      ],
+      "result": "pass",
+      "basis": "读取 cb796501…0a0.txt（openspace.ai/products/capture）。正文（含 accordion/FAQ 段落）明确 Spatial AI 自动把影像映射到 floor plans 与 BIM，可用智能手机、无人机、laser scanners 采集，采集按半秒一帧并在约 15 分钟可查看；sheet view 用于核验覆盖与缺口；Field Notes 自动将照片与评论固定到采集时位置；“compare progress over time”“Split View and Reveal mode”“see what was built and when”；并说明 Field Notes 与 Procore Punch Items/Observations 双向同步。对应带日期、可定位、可跨期比较的现场视觉历史核心，且未越界主张进度/成本或模型创作。",
+      "gaps": "未运行采集/处理流程；“按日期保留”由 over time/when 与 Split View 表述支持，但快照未给出显式日期轴控件文案。"
+    },
+    "construction-safety-management": {
+      "applications": [
+        "github:1242815792"
+      ],
+      "result": "pass",
+      "basis": "读取 d7e8126e…b275.txt（repository_metadata，id=1242815792，full_name=braedonsaunders/beaconhs，license.spdx_id=AGPL-3.0）、755243b8…7ca9.txt（license，AGPL-3.0 全文，size 34523）、a9a1ca7f…b618.txt（README）。README 正文：面向工业建筑的多租户 HSE；Incidents 含完整调查（event timeline、contributing factors、5-whys、preventative steps）、lost-time 与 TRIR/DART/OSHA-300A；Inspections 含 criteria banks、non-compliance reason、corrected-date、签名；CAPA 含 verification step before close、photo evidence、aging reports；Locations 覆盖 sites、projects、contacts；每次变更写 before/after 审计。对应事件与发现记录、项目/地点/人员锚定、证据式纠正闭环、调查与可辩护留存四项核心；AGPL-3.0 完整文本、仓库身份与公开社区边界（company-specific migration tooling 私有且排除于公开 workspace）均已核对。",
+      "gaps": "仓库标注 Pre-launch，未部署/运行验证；README 未单独描述付费企业版，只能作“未见说明”的有限结论。"
+    },
+    "construction-scheduling": {
+      "applications": [
+        "commercial:oracle-primavera-p6"
+      ],
+      "result": "pass",
+      "basis": "读取 702bce2a…6ff1.txt（oracle.com/construction-engineering/primavera-p6）与 2405ccef…c7b.txt（docs.oracle.com P6 Help, About Trace Logic）。产品页以 Primavera P6 CPM Schedule 为核心，列出规划/排程/控制大型项目、多用户访问、多项目并行排程、team member interfaces for gathering status updates、资源管理与成本/进度集成、project progress measurement；帮助页正文说明活动的前驱/后继依赖关系、critical activities（红框）、driving/non-driving 关系、negative float，并提到 Activities 页面与 Gantt。足以支持“项目+活动+依赖→推导日期与关键路径，并在生命周期内随进展更新”的核心；商业侧仅做基本类型记录。",
+      "gaps": "排程基线（baseline）未在两条快照中得到证明；批次摘要中的“日历”“成本加载”也未见直接引文。research 已明确不作基线断言，故按非阻断处理。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 10 个快照（路径按 REVIEW_SOURCES.json 原样读取，未使用项目根目录 sources/），未运行 shell、未写文件、未读取其他单元。快照多为 Next.js/WordPress 压缩 HTML，read 工具按行截断至 2000 字符，正文长行只能通过关键词命中确认存在、无法逐段完整通读，个别措辞（如“real-time action history”）未能精确复原。未重算 sha256（无 shell），仅核对文件名/清单 sha 与内容主体一致；未做部署或运行测试、未验证价格/架构，未额外联网补充来源。结论限于公开应用资料与留存快照所能支持的范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-167/ses_groveopencodegop167review2_1793017526.jsonl",
+  "batch_sha256": "bc8e35bd24e461df1c21884070302e44bff067e49a27e7f3356fa0e5aaf83227",
+  "research_sha256": "a55f35ec501a154677a97e545387799f4342305342459be470f1cdea0060bc48",
+  "input_sha256": "7df33928dec6b3efede398fe2d8727ae18495c83eb443c1f39ea67cbbf1f25da"
+}

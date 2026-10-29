@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "service-mesh-management",
+        "name_zh": "服务网格管理",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/576",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "Istio service mesh official repository and traffic management documentation"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "service-mesh-management",
+        "name": "Service Mesh Management",
+        "name_zh": "服务网格管理",
+        "aliases_zh": [
+          "服务网格控制平面",
+          "网格管理"
+        ],
+        "overview": "A **Service Mesh Management** application is the operator-facing control surface over a **service mesh** — a dedicated layer that mediates the communication between an application's services. Instead of letting services talk over a network that understands nothing about them, the mesh intercepts every service-to-service request with managed proxies, and the management application is where operators define how that traffic behaves, secure it, and watch it.\n\nThe defining core is small:\n\n```text\nThe mesh as a managed system\n└── The service graph (registered, identity-bearing services and workloads)\n    └── Declarative service-to-service policy\n        └── enforced by the mesh's data plane\n```\n\n- **The mesh as a managed system** — a control plane that programs a data plane of traffic-intercepting proxies, installed, upgraded, and operated as a named, persistent system. Without it, there is only proxy tooling.\n- **The service graph** — the mesh's member services and workloads, held as registered records carrying cryptographic identity; workloads join the mesh through a deliberate onboarding step. Without it, there is only proxy or load balancer configuration.\n- **Declarative service-to-service policy** — traffic behavior (routing, shifting, resilience) and security posture (encryption, authorization between services) expressed as per-service rules in the mesh's own model, compiled down to the proxies. Without it, there is only a proxy fleet or a monitoring view.\n\nEverything else commonly associated with service meshes — mesh-wide dashboards, ingress gateways, multi-cluster federation, sidecar injection automation, canary tooling — is standard capability or variant, not definition. The mesh mediates **east-west** traffic (service to service); traffic entering or leaving the application from outside is boundary machinery, not the center.",
+        "overview_zh": "**服务网格管理**应用程序是面向操作员的控制平面，覆盖在**服务网格**上——一个专门的层，用于调解应用程序服务之间的通信。网格不让服务在对它们一无所知的网络上通信，而是通过托管代理拦截每个服务到服务的请求，而管理应用程序是操作员定义流量行为、保护其安全并监控的地方。\n\n定义的核心很小：\n\n```text\n被管理系统的网格\n└── 服务图（注册的、携带身份的服务和工作负载）\n    └── 声明式服务到服务策略\n        └── 由网格的数据平面强制执行\n```\n\n- **作为被管理系统的网格** — 一个控制平面，为流量拦截代理编程数据平面，作为命名的、持久的系统安装、升级和操作。没有它，只有代理工具。\n- **服务图** — 网格的成员服务和工作负载，作为携带加密身份的注册记录保存；工作负载通过一个刻意的入门步骤加入网格。没有它，只有代理或负载均衡器配置。\n- **声明式服务到服务策略** — 流量行为（路由、转移、弹性）和安全态势（加密、服务间授权）在网格自己的模型中表达为每服务规则，编译到代理。没有它，只有代理集群或监控视图。\n\n其他通常与服务网格相关的一切——网格范围的仪表板、入口网关、多集群联盟、sidecar注入自动化、金丝雀工具——是标准能力或变体，不是定义。网格调解**东西向**流量（服务到服务）；从外部进入或离开应用程序的流量是边界机制，不是中心。",
+        "dc": "A service mesh decomposes into two halves, and the management application operates both:",
+        "dc_zh": "服务网格分解为两个部分，管理应用程序操作两者。",
+        "rules": "- **Policy binds to services, not to proxy instances.** Instances are ephemeral; the graph is stable. Rewriting proxy configuration by hand is a failure mode the model exists to prevent.\n- **The control plane programs the data plane continuously.** Configuration changes and registry changes (instances appearing/disappearing) both flow to the proxies without operator action; the operator declares, the mesh distributes.\n- **Identity precedes authorization.** Service-to-service access rules are evaluated against workload identities established by the mesh's certificate machinery; the same machinery encrypts the traffic. Posture varies by product and configuration — from always-on encryption to opt-in or permissive modes — and is a deliberate operator decision, often migrated gradually (permissive first, then enforce).\n- **Deny-by-default is the secure end state.** Mature products support an explicit posture where, once authorization policy applies to a service, anything not allowed is denied. Getting there is usually staged, because flipping it early breaks callers.\n- **Traffic shifting is decoupled from deployment.** Sending 10% of traffic to a new version does not require 10% of the instances; scaling and routing are independent controls.\n- **Resilience behavior is opt-in and bounded.** Retries happen only where the request is safe to repeat and within configured budgets; failing instances are ejected and later retried. These mechanisms protect availability but can amplify problems if tuned carelessly, so they are configuration, not fixed behavior.\n- **The mesh sits in the request path.** Its own upgrades, misconfigurations, and proxy failures affect application traffic; hence staged upgrades, validation of configuration before distribution, and inspection tooling are structural, not conveniences.\n- **Onboarding is explicit.** Workloads are in the mesh because someone put them there (individually or by namespace/scope); unmeshed traffic bypasses mesh policy, which is why scope decisions are security-relevant.",
+        "rules_zh": "- **策略绑定到服务，而非代理实例。** 实例是临时的；图是稳定的。手动重写代理配置是模型存在以防止的故障模式。\n- **控制平面持续编程数据平面。** 配置更改和注册表更改（实例出现/消失）都流向代理，无需操作员操作；操作员声明，网格分发。\n- **身份先于授权。** 服务到服务访问规则基于网格证书机制建立的工作负载身份进行评估；同一机制加密流量。态势因产品和配置而异——从始终开启的加密到可选或宽容模式——并且是操作员的有意决定，通常逐步迁移（先宽容，然后强制）。\n- **默认拒绝是安全的最终状态。** 成熟的产品支持明确态势，一旦授权策略应用于服务，任何未允许的都被拒绝。达到这一点通常是分阶段的，因为早期翻转会破坏调用者。\n- **流量转移与部署解耦。** 将 10% 的流量发送到新版本不需要 10% 的实例；扩展和路由是独立的控制。\n- **弹性行为是可选和有界的。** 重试仅在请求可以安全重复且在配置预算内发生；失败的实例被弹出并稍后重试。这些机制保护可用性，但如果调整不慎会放大问题，因此它们是配置，而非固定行为。\n- **网格位于请求路径中。** 其自身的升级、错误配置和代理故障影响应用程序流量；因此分阶段升级、配置分发前的验证和检查工具是标准的",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 118,
+    "phase": "directory",
+    "parent": 118,
+    "slugs": [
+      "service-mesh-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "c31ba588dae08d4ef514b2ab1fadc9ff66bdf7ef6789fa10e8a50cc96b39d0b7"
+  }
+}

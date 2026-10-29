@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "nutrient-management",
+      "application_id": "github:97992523",
+      "issue": "该叶的引用证据没有覆盖定义性核心。被引用的产品页快照只是 Nutrient Management Calculator 的起始表单（“Make the most of manure and fertilizer to grow crops”“Keep nutrient losses to the environment to a minimum”、加载 .nmp 文件和 Start），README 只有项目名与 .NET/PostgreSQL 开发说明，GitHub 页只是仓库身份元数据；没有任何快照展示地块单元、土壤测试/粪肥/肥料供应、作物养分需求、施用速率/来源/放置方式/时间或计划报告。batch.json 与 research.json 却写成“按作物选择肥料与粪肥的养分来源和施用速率”“辅助匹配养分供应与作物需求”，这些工作在引用快照中不可见，属于以入口页/元数据替代核心正文。",
+      "fix": "补充能展示核心工作流的官方快照：至少覆盖田块/土壤测试、作物与养分需求、粪肥/肥料来源与可用性、施用速率/时间/放置方式、报告并保存 .nmp；可先加入官方 Support 页（其明确写明 choosing the right rate and nutrient source for your crops、custom crops/inputs、.nmp save/load），但仍需一个计算器步骤页来证明地块与计划施用。若无法补充，则将 batch/research 的相应断言收窄为“计算器入口与 .nmp 计划文件”，并在 leaf 记录核心未核实。另在适用范围中注明官方 Support 页声明该计算器暂不支持 tree fruit、wine grapes、nuts、berries。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids 为空，而 research.json/batch.json 已有 case_found；若下游读取 progress，建议同步，否则以 batch/research 为准。",
+    "orchard-management：快照能证明 spray 记录/再入与采收间隔、按 block/commodity 的采收产量与 location/picker 关联、pruning/mowing/thinning 到 row、field mapping/replant，足以支持商业类型匹配；但品种/种植年份/根砧等 planting identity 与树级完成状态、跨年逐年图表未在快照中出现，研究记录已注明，不阻断。",
+    "nursery-management：快照明确 crop and batch management、ATS、locations/sizes/varieties/qualities/availability、当前与未来可用量、production/space planning、sales/shipping，核心匹配成立；批次拆分/合并、损耗事件、换盆/分级细节未展示，研究记录已注明，不阻断。",
+    "harvest-management：快照明确 harvest events、block/variety/row 实时汇总、bin tag 转数字库存并关联 block/picker、harvest estimates、dock handoff/receiving/traceability，核心匹配成立；season campaign 单独关账/核对总量未展示，研究记录已注明，不阻断。",
+    "seed-production-management：快照能证明 contract seed production、stock seed、field history/inspection、sub lot/bin tracking、seed quality、receipting 更新实际产量/库存、processing/conditioning、lot traceability；代数等级、隔离距离/前茬约束、认证放行 gate 未展示，研究记录已注明，不阻断。",
+    "商业条目均为厂商官方产品页，基本真实性和类型匹配可接受；价格、客户数字、部署架构未独立核实，属于本次不要求的范围。",
+    "NMP 的公开实例是政府部署的 Web 计算器，仓库 README 只说明本地运行；未发现专有版/开源版拆分，Apache-2.0 覆盖仓库，社区版边界不阻断。"
+  ],
+  "leaf_checks": {
+    "harvest-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:croptracker"
+      ],
+      "basis": "官方 Harvest Management 页正文（快照 5753...）：harvest events；real-time totals by block/variety/row；bin tags printed/scanned/pre-printed 转为 linked to block/picker 的数字库存；harvest estimates vs actual；lot code 从 field 到 receiving/storage/shipping；离线移动。商业模块化 SaaS，页面显示按用户/模块定价。",
+      "gap": "未单独展示 season campaign 关账/核对总量；研究记录已注明该缺口。"
+    },
+    "nursery-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:mprise-agriware-nursery"
+      ],
+      "basis": "官方 Plant Nursery Management 页正文（快照 52c...）：crop and batch management；ATS；plant batches 的 locations/sizes/varieties/qualities/availability；current/future stock；production and space planning；sales/shipping；mobile operations。商业 ERP 扩展，类型匹配成立。",
+      "gap": "未展示批次拆分/合并、损耗事件、换盆/分级的细节；研究记录已注明。"
+    },
+    "nutrient-management": {
+      "status": "gap",
+      "application_ids": [
+        "github:97992523"
+      ],
+      "basis": "仓库身份 bcgov/agri-nmp、GitHub ID 97992523、根 LICENSE 完整 Apache-2.0 文本、README 项目名与 .NET/PostgreSQL；公开实例首页标题 Nutrient Management Calculator、manure/fertilizer、nutrient loss、.nmp 文件和 Start 表单。",
+      "gap": "核心工作流（地块/土壤测试/养分供应与需求/速率/放置方式/计划报告）未在任何引用快照中出现；batch/research 的“按作物选择来源和施用速率”无快照支持，需补证或收窄断言。"
+    },
+    "orchard-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:croptracker"
+      ],
+      "basis": "官方 Orchard Management 页正文（快照 4cee...）：spray records 含 chemical/fertilizer、re-entry/PHI；harvest yield records 关联 location/picker、按 season/block/commodity；production practice 含 pruning/mowing/thinning 到 row；field mapping/planting、replant/edit growing areas；labor tracking。",
+      "gap": "品种/种植年份/根砧、tree-level completion、跨年逐年图表未展示；研究记录已注明，不阻断商业类型匹配。"
+    },
+    "seed-production-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:primetics-generation"
+      ],
+      "basis": "官方 Generation 页正文（快照 78a...，正文在压缩 HTML 中；用同 URL 只读呈现核对）：contract seed production 含 stock seed、field history、field inspection、sub lot/bin tracking、seed quality；receipting 更新 actual yield/inventory、grower voucher；processing/conditioning 含 cleaning/treating/packing/blending/grading；lot traceability & quality 含 samples/analysis at each stage、provenance/transaction tracking。",
+      "gap": "代数等级、隔离距离/前茬、认证放行 gate 未展示；研究记录已注明，不阻断核心匹配。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。已按 REVIEW_SOURCES.json 原样读取 8 个快照（data/collections/sources/...），未重算 sha256。primetics 快照为压缩 HTML，正文段落超出单行显示上限，另用同 URL 的只读网页呈现核对相同段落；NMP 官方 Support 页也仅为补充核对、未纳入快照。未部署或操作 NMP 计算器，未验证运行时行为、价格、客户数字、完整法规报告/多客户权限；未浏览仓库源码。因此 nutrient-management 的核心工作流证据缺口无法在本次只读审查中闭环。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-192/ses_groveopencodegop192review2_1793023361.jsonl",
+  "batch_sha256": "1c6f096566bc429d1134b669b9e95ac819315f44fe6c0d07db86a7e4d6837ee5",
+  "research_sha256": "13e15e2ce19d119036ebf47e7891ddf8403b2a0e0de145cb85b33d7b340a46cb",
+  "input_sha256": "a8a612ed746fd0d6c44d6bad55ad6c6fa133146de41890da5732380e10e93875"
+}

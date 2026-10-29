@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "production-scheduling-call-sheet-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:yamdu",
+        "commercial:movie-magic-scheduling"
+      ],
+      "query": "核对拍摄排期与通告单定义核心：scene→shooting day→shooting schedule→call sheet；直接读取 Yamdu 与 Movie Magic Scheduling 官方产品页正文。",
+      "source_urls": [
+        "https://yamdu.com/",
+        "https://www.ep.com/movie-magic-scheduling/"
+      ],
+      "note": "Yamdu 官网正文明确写到剧本导入、条板式场景排期、实时 Day-Out-Of-Days，以及通告单模板生成、发送和跟踪，覆盖完整推导链。Movie Magic Scheduling 产品页明确写到条板拖拽排期、多单元 sub-board、冲突检测和日历，但该页未说明通告单生成，因此只保留其排期核心关系。",
+      "service_boundary": "两者均为商业云端/托管产品；Yamdu 提供网页端登录，Movie Magic Scheduling 说明日程存于云端。均未做自托管或运行验证，不声称开源。",
+      "search_attempts": [
+        "按定义核心直接访问并抓取 Yamdu 官网 https://yamdu.com/。",
+        "按定义核心直接访问并抓取 Entertainment Partners 的 Movie Magic Scheduling 产品页 https://www.ep.com/movie-magic-scheduling/。",
+        "websearch 调用一次返回 HTTP 401，未重试；改用已知官方产品页核对。",
+        "GitHub API 搜索 film production call sheet，仅见 OpenShotDesigner（33 stars，排期辅助）与 film-production-manager/callsheet 等小型项目，未达到完整可自托管应用证据门槛。"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://yamdu.com/",
+          "status": "ok",
+          "note": "HTTP 200 正文 67,654 字符，含 breakdown/schedule/call sheet/DOOD 说明。"
+        },
+        {
+          "url": "https://www.ep.com/movie-magic-scheduling/",
+          "status": "ok",
+          "note": "HTTP 200 正文 176,080 字符，含 multi-episode、sub-board、conflict detection 说明；未见 call sheet。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "script-breakdown-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:setkeeper",
+        "commercial:yamdu"
+      ],
+      "query": "核对剧本分解定义核心：剧本为记录源、场景为单位、元素标签按制作类别绑定文本、产出分解表/报告；读取 Yamdu 与 SetKeeper 官方页正文。",
+      "source_urls": [
+        "https://www.setkeeper.com/",
+        "https://yamdu.com/"
+      ],
+      "note": "Yamdu 官网说明可从 Final Draft、PDF 等导入剧本并用 AI 生成分解建议供部门确认，随后进入排期和通告单。SetKeeper 官网说明自动剧本分解并据此创建按拍摄顺序、多集交叉排序的 sides。两者正文支持分解工作流，但均未在同一页面展示逐场景分解表样例。",
+      "service_boundary": "两者都是商业托管的影视制作 SaaS；SetKeeper 强调云端分发与安全，Yamdu 提供网页端。未运行验证、未获取部署资料，不标为开源。",
+      "search_attempts": [
+        "按定义核心直接访问并抓取 SetKeeper 官网 https://www.setkeeper.com/。",
+        "按定义核心直接访问并抓取 Yamdu 官网 https://yamdu.com/。",
+        "未使用二手列表或仅凭名称匹配。",
+        "GitHub API 搜索 script breakdown film，结果主要是 UniversalScheduleStandard 等数据标准或单个分解助手，未找到有完整许可证与成熟工作流的可自托管应用。"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.setkeeper.com/",
+          "status": "ok",
+          "note": "HTTP 200 正文 157,160 字符，含 automatic script breakdown、script sides、multi-episode cross-boarding。"
+        },
+        {
+          "url": "https://yamdu.com/",
+          "status": "ok",
+          "note": "HTTP 200 正文 67,654 字符，含 script import、AI-enhanced breakdowns。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "theater-production-management",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "核对剧院制作管理定义核心：production 容器、company 与制作角色、rehearsal/performance/load-in 呼叫日程、面向全团的 callboard 通知；检索商业产品与开源候选。",
+      "source_urls": [
+        "https://www.productionpro.com/",
+        "https://www.stagewritesoftware.com/",
+        "https://www.artsman.com/"
+      ],
+      "note": "未取得足以成立的关系。ProductionPro 看起来是剧院制作管理候选，但访问其官网时 TLS 证书链校验失败，未取得可核对的正文，不能据此判断产品不存在。Stage Write 官方页已读，正文集中在数字剧本、blocking/spacing charts、道具与灯光 cue 跟踪，未说明制作容器、公司角色、排练/演出呼叫日程或 callboard，属于相邻的排演标注工具，不作为本叶案例。artsman/Theatre Manager 请求返回 HTTP 421，无正文。GitHub 搜索仅见 StageFlow 等小型/未成熟项目，未达到完整可自托管应用的证据门槛。故本叶保留真实检索与缺口，不硬凑案例。",
+      "service_boundary": "候选多为商业云端或客户端软件；Stage Write 提供 iPad/电脑应用。未运行任何产品，未验证部署或许可，不能标为开源。",
+      "search_attempts": [
+        "websearch 查询 theater production management software rehearsal schedule callboard 返回 HTTP 401，未重试。",
+        "直接访问 ProductionPro 官网 https://www.productionpro.com/，Python urllib 与 curl 均报证书校验失败（unable to get local issuer certificate），未读取正文。",
+        "直接读取 Stage Write 官网 https://www.stagewritesoftware.com/，正文仅支持 blocking/script/cue 跟踪，核心不覆盖呼叫日程与 callboard。",
+        "直接访问 artsman/Theatre Manager https://www.artsman.com/ 返回 HTTP 421 Misdirected Request，未取得正文。",
+        "GitHub API 搜索 theatre production management，结果仅见小型/个人项目（如 StageFlow、theatrical），未作为案例。"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.productionpro.com/",
+          "status": "tls_verification_failed",
+          "note": "未取得正文；不据此断言产品不存在。"
+        },
+        {
+          "url": "https://www.stagewritesoftware.com/",
+          "status": "ok_content_but_core_mismatch",
+          "note": "HTTP 200，正文 3,285 字符，为剧院 blocking/脚本/cue 工具，缺排期与 callboard 核心。"
+        },
+        {
+          "url": "https://www.artsman.com/",
+          "status": "http_421",
+          "note": "无正文。"
+        },
+        {
+          "url": "https://api.github.com/search/repositories?q=theatre+production+management",
+          "status": "ok",
+          "note": "仅有小型/未成熟仓库，未达到完整应用证据门槛。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "tv-production-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:scenechronize",
+        "commercial:setkeeper",
+        "commercial:movie-magic-scheduling",
+        "commercial:yamdu"
+      ],
+      "query": "核对电视制作管理定义核心：series 容器、episode 重复单元、按集剧本/rundown 分解、拍摄日程、通告单派发；读取 Scenechronize、SetKeeper、Movie Magic Scheduling、Yamdu 官方正文。",
+      "source_urls": [
+        "https://www.ep.com/scenechronize/",
+        "https://www.setkeeper.com/",
+        "https://www.ep.com/movie-magic-scheduling/",
+        "https://yamdu.com/"
+      ],
+      "note": "Scenechronize 正文明确面向影视制作的云端制作办公室，列出剧本分析/修订比较、自动 sides、剧本分解、通告单、制作日程、按角色访问和项目归档，最贴近剧集制作管理。SetKeeper 正文支持多集 cross-boarding 的 sides 与自动分解。Movie Magic Scheduling 正文明确 multi-episode、block shoots、cross-boards。Yamdu 将 TV Series 列为适用类型并覆盖分解、排期、通告单。四个来源都只做商业基本记录，未深入价格或架构。",
+      "service_boundary": "均为商业云服务/托管软件，Scenechronize、SetKeeper、Yamdu 为网页端云端，Movie Magic Scheduling 云端存储日程。未做部署或运行验证。",
+      "search_attempts": [
+        "直接抓取 Scenechronize 官方产品页 https://www.ep.com/scenechronize/。",
+        "直接抓取 SetKeeper 官网 https://www.setkeeper.com/。",
+        "直接抓取 Movie Magic Scheduling 产品页 https://www.ep.com/movie-magic-scheduling/。",
+        "直接抓取 Yamdu 官网 https://yamdu.com/。",
+        "未采用首页导航或关键词作为核心证据，均读取产品功能正文。"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ep.com/scenechronize/",
+          "status": "ok",
+          "note": "HTTP 200 正文 149,182 字符，含 script breakdowns、call sheets、production schedules、sides、script analysis。"
+        },
+        {
+          "url": "https://www.setkeeper.com/",
+          "status": "ok",
+          "note": "HTTP 200 正文 157,160 字符，含 film & TV、script sides、multi-episode cross-boarding。"
+        },
+        {
+          "url": "https://www.ep.com/movie-magic-scheduling/",
+          "status": "ok",
+          "note": "HTTP 200 正文 176,080 字符，含 multi-episode management、block shoots、cross-boards。"
+        },
+        {
+          "url": "https://yamdu.com/",
+          "status": "ok",
+          "note": "HTTP 200 正文 67,654 字符，含 TV Series、breakdowns、schedules、call sheets。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "artwork-exhibition-logistics",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:artlogic"
+      ],
+      "query": "核对艺术品展览物流定义核心：展示场合清单、作品移动链与当前位置、交接状态/状况文档；读取 Artlogic 画廊管理产品页正文。",
+      "source_urls": [
+        "https://artlogic.net/products/gallery/management"
+      ],
+      "note": "Artlogic 产品页正文说明作品库存可跟踪、支持多地点、运输、寄售与借展、来源和状况报告，并用于管理展览、提案和 inventory lists。来源足以支持商业基本类型匹配，但未展示逐段运输的 release/receipt 状态配对或展览关闭时的清单对账，故关系收窄为库存/展览/借展/状况文档层面，不扩写为完整运输交接链。",
+      "service_boundary": "商业云端艺术管理平台，面向画廊、艺术家和藏家；未提供自托管或部署资料，未运行验证，不标为开源。",
+      "search_attempts": [
+        "直接访问并抓取 Artlogic 画廊管理产品页 https://artlogic.net/products/gallery/management。",
+        "另外读取 Artlogic 官网首页确认产品定位，但仅以产品页正文作为关系证据。",
+        "未使用无法取得正文的第三方列表或仅凭关键词匹配。",
+        "GitHub API 搜索 art logistics exhibition，仅见 ArtCircle（0 stars）等小型项目，未找到可核对的完整开源应用。"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://artlogic.net/products/gallery/management",
+          "status": "ok",
+          "note": "HTTP 200 正文 170,864 字符，含 multi-location、shipping、consignments and loans、provenance and condition reports、exhibitions。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

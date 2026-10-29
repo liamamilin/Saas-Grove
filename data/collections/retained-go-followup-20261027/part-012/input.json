@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 28,
+  "offset": 675,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "ai-security-platform",
+        "name_zh": "AI安全平台",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方产品页直接核对：HiddenLayer AI Security Platform（platform 页面）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "ai-security-platform",
+        "name": "AI Security Platform",
+        "name_zh": "AI安全平台",
+        "aliases_zh": [
+          "人工智能安全平台",
+          "AI安全防护平台"
+        ],
+        "overview": "An **AI Security Platform** is security software whose protected estate is the organization's own AI systems: the models, AI applications, agents, AI services, and AI artifacts (datasets, prompts, training and fine-tuning components) that the organization builds, buys, or lets its people use. The platform establishes which AI assets exist — including unsanctioned \"shadow AI\" — assesses them for weaknesses and exposures that conventional security tooling does not cover, detects attacks against them where it covers runtime, and drives every result into a security findings-and-response loop owned by security and engineering teams.\n\nThe defining structure is small:\n\n```text\nAI estate (AI systems held as identified, security-managed assets)\n└── AI-specific security assessment of those assets\n    └── Security findings (weaknesses / exposures / attacks, attributable to assets)\n        └── Response loop (triage → prioritize → remediate / mitigate)\n```\n\nTwo boundaries matter immediately:\n\n- This is security **for** AI systems, not security products that merely use AI internally. An endpoint product with machine-learning detection is not an AI Security Platform; the object of protection must be the AI estate itself.\n- The per-request screening of content flowing into and out of an LLM — blocking unsafe prompts and responses as they happen — is a distinct function with its own Application Type (AI Safety / Guardrail Platform). AI security platforms frequently bundle that runtime enforcement as one capability, but the platform's identity is the estate-level security program, not the per-request gate.\n\nEverything else commonly seen — cloud-connector discovery, AI bills of materials, model-file scanning, red-team attack libraries, agent inventories, SIEM handoffs — is the mature market shape around that core, not the definition of it.",
+        "overview_zh": "一个 **AI 安全平台** 是这样一种安全软件：其保护的对象是组织自身的 AI 系统，包括组织构建、购买或允许其人员使用的模型、AI 应用、智能体、AI 服务和 AI 制品（数据集、提示词、训练和微调组件）。该平台会识别出存在的 AI 资产（包括未经批准的“影子 AI”），评估它们是否存在传统安全工具无法覆盖的弱点和暴露面，在其覆盖的运行时环境中检测针对它们的攻击，并将所有结果推送给由安全和工程团队负责的安全发现与响应循环。\n\n其定义性结构很简单：\n\n```text\nAI 资产组合（被识别为、受安全管理的 AI 系统）\n└── 针对这些资产的 AI 专用安全评估\n    └── 安全发现（弱点 / 暴露面 / 攻击，可追溯至具体资产）\n        └── 响应循环（分诊 → 排定优先级 → 修复/缓解）\n```\n\n有两个边界需要立即明确：\n\n- 这是 **针对** AI 系统的安全，而不是仅仅在内部使用 AI 的安全产品。带有机器学习检测功能的终端产品不是 AI 安全平台；保护对象必须是 AI 资产组合本身。\n- 对进出大语言模型的内容进行逐请求筛查——即时阻止不安全的提示和响应——是一个独立的功能，有其自己的应用类型（AI 安全/护栏平台）。AI 安全平台通常将这种运行时执行作为一项功能捆绑进来，但平台的定义是资产组合级的安全计划，而非逐请求的门禁。\n\n其他常见功能——云连接器发现、AI 物料清单、模型文件扫描、红队攻击库、智能体清单、SIEM 交接口——是围绕该核心的成熟市场形态，而非其定义。",
+        "dc": "```text\nAI estate (identified AI assets under management)\n└── AI-specific security assessment of those assets\n    └── Security findings (weaknesses / exposures / attacks)\n        └── Security-team response loop\n```\n\nFour properties. If any one is removed, the product is no longer recognizable as an AI Security Platform:\n\n- **AI estate as managed assets** — the system knows *which* AI systems it is responsible for, whether by discovering them automatically, by registration, or by observing AI traffic. Findings must land on identified assets. Without this, the product is a point tool — a scanner or fuzzer with no program around it.\n- **AI-specific security assessment** — evaluation against the AI-native threat space: integrity of model artifacts, misconfiguration and exposure of AI services, adversarial techniques against models and agents, abuse of agent tools. Running a conventional vulnerability scan on a server that happens to host a model is not this; testing whether a chatbot can be jailbroken into revealing its system prompt is.\n- **Security findings** — assessment results materialize as discrete findings: a flagged jailbreak, a backdoored model file, an internet-exposed AI endpoint, an agent invoking a tool outside its mandate. Findings typically carry severity and a mapping to shared AI threat vocabularies.\n- **Response loop** — findings feed a triage-and-action cycle owned by security and engineering: prioritize, remediate (fix configuration, replace an artifact, harden a prompt, tighten a policy), and re-verify. Without this loop, the product is research tooling or a registry, not a security platform.",
+        "dc_zh": "AI资产（已识别的管理下AI资产）\n└── 针对这些资产的AI特定安全评估\n    └── 安全发现（弱点 / 暴露 / 攻击）\n        └── 安全团队响应循环",
+        "rules": "### Findings anchor to identified assets\n\nEvery finding belongs to a known model, application, agent, or service. The inventory is therefore not just a visibility feature — it is the backbone that makes findings attributable and actionable.\n\n### Assessment is active and probabilistic\n\nAdversarial testing fires real attack traffic at real targets; targets must be authorized for testing. Classification of results (was this jailbreak successful?) is inherently imperfect — mature products expose flagging decisions, evidence for every interaction, and an explicit false-positive/negative correction mechanism.\n\n### Assessment is continuous, not one-shot\n\nThe estate changes (new models, app updates, new agent deployments) and the threat space changes (new attack techniques). Mature products treat re-assessment — on change, on schedule, and on new-technique release — as the normal operating mode, and posture shifts are themselves findings.\n\n### Shared threat vocabularies are mappings, not universals\n\nMITRE ATLAS and OWASP AI risk lists provide common reference points, but exact technique names, categories, and severity scales vary by product. The mapping is the interoperability layer, not a guarantee of identical taxonomies.\n\n### Monitor-first postures are normal\n\nDetection without enforcement is a deliberate rollout stage: teams observe flag rates and false positives before letting the platform block or alter behavior. Enforcement, where present, is a decision layer distinct from detection.\n\n### Assessor privacy postures vary\n\nSome products are built to assess without ever accessing the customer's model weights, prompts, or data; others operate inline on traffic. This affects what can be tested and is a deployment consideration, not a defining trait.",
+        "rules_zh": "### 发现锚定在已识别的资产上\n\n每一条发现都属于一个已知的模型、应用、智能体或服务。因此，资产清单不仅仅是一个可视化功能——它是使发现可归因、可操作的基石。\n\n### 评估是主动且概率性的\n\n对抗性测试向真实目标发送真实的攻击流量；目标必须被授权接受测试。结果的分类（这次越狱成功了吗？）本质上是不完美的——成熟的产品会公开标记决策、每次交互的证据，以及一个明确的误报/漏报修正机制。\n\n### 评估是持续性的，而非一次性的\n\n资产组合会发生变化（新模型、应用更新、新智能体部署），威胁空间也会变化（新攻击技术）。成熟的产品将重新评估——在变更时、按计划、在新技术发布时——视为正常操作模式，而态势的变化本身也是发现。\n\n### 共享威胁词汇是映射，而非通用标准\n\nMITRE ATLAS 和 OWASP AI 风险列表提供了通用参考点，但具体的技术名称、类别和严重性量表因产品而异。这种映射是互操作性层，而非保证分类法相同。\n\n### 监控优先的态势是常态\n\n检测而不执行是一个刻意的推出阶段：团队在让平台阻止或改变行为之前，先观察标记率和误报。执行（如果存在）是一个区别于检测的决策层。\n\n### 评估者的隐私姿态各不相同\n\n一些产品旨在评估时完全不访问客户的模型权重、提示或数据；另一些则以在线方式处理流量。这影响了可测试的范围，是一个部署考量因素，而非定义性特征。",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "api-security-platform",
+        "name_zh": "API安全平台",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方产品页直接核对：Salt Security Agentic Security Platform（platform 页面）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "api-security-platform",
+        "name": "API Security Platform",
+        "name_zh": "API安全平台",
+        "aliases_zh": [
+          "API安全防护平台",
+          "API安全管理系统"
+        ],
+        "overview": "An **API Security Platform** is a security application whose working world is an organization's API estate. It maintains a living inventory of the APIs the organization actually runs, continuously evaluates those APIs for security risks, detects attacks and abuse in API traffic, and drives the resulting findings through a security workflow toward remediation or enforcement.\n\nThe defining core is small:\n\n```text\nAPI-semantic inventory (identified endpoint records)\n└── Security findings attached to those APIs\n    │   ├── posture findings — risks in definitions, configuration, behavior\n    │   └── threat findings — attacks, abuse, anomalies observed in traffic\n    └── Security workflow — prioritize → triage → remediate / enforce → verify\n```\n\nEverything else commonly associated with the category — sensitive-data mapping, per-endpoint risk scores, shadow-API detection, specification generation, active testing, traffic blocking — is standard capability that mature products add. It makes the platform practical, but it is not what makes the product an API Security Platform. A product that inspects generic HTTP traffic without maintaining an API inventory is a web application firewall; a product that lists APIs without producing security findings is an API catalog. The inventory-plus-findings-plus-workflow structure is the boundary.",
+        "overview_zh": "一个 **API 安全平台** 是一种安全应用，其工作环境是组织的 API 资产。它维护一个组织实际运行的 API 的动态清单，持续评估这些 API 的安全风险，检测 API 流量中的攻击和滥用，并将产生的结果通过安全工作流推动至修复或执行阶段。\n\n其定义性核心较小：\n\n```text\nAPI 语义清单（已识别的端点记录）\n└── 附加到这些 API 的安全发现\n    │   ├── 态势发现 — 定义、配置、行为中的风险\n    │   └── 威胁发现 — 在流量中观察到的攻击、滥用、异常\n    └── 安全工作流 — 优先级排序 → 分类 → 修复/执行 → 验证\n```\n\n其他通常与此类别相关的内容——敏感数据映射、每个端点的风险评分、影子 API 检测、规范生成、主动测试、流量阻断——是成熟产品添加的标准功能。这些功能使平台变得实用，但它们并不是使该产品成为 API 安全平台的核心要素。一个检查通用 HTTP 流量但不维护 API 清单的产品是 Web 应用防火墙；一个列出 API 但不产生安全发现的产品是 API 目录。清单加发现加工作流的结构才是其边界。",
+        "dc": "**API inventory.** The central object is the endpoint record: one identified API operation (host, path, method or operation type) with everything the platform has learned about it — parameters and headers observed in requests and responses, the data types and sensitive data those parameters carry, how the endpoint authenticates its callers, how frequently it is called, which services and environments it belongs to, and who owns it. The inventory is persistent: it survives restarts and redeployments, updates as traffic changes, and serves as the anchor to which all findings attach. Inventories are built from two possible substrates — analysis of live traffic, or the organization's API specifications (such as OpenAPI documents) — and most platforms combine both.\n\n**Security findings.** A finding is a security-relevant statement about one or more inventory records. Findings come in two families:\n\n- *Posture findings* — risks inherent in how an API is defined, configured, or behaving: missing or weak authentication, sensitive data exposed in responses, excessive data exposure, drift between the documented specification and observed behavior, misconfigurations, exposed credentials.\n- *Threat findings* — attacks and abuse observed in traffic: exploitation attempts against known API weakness classes, credential stuffing, scraping and bot abuse, business-logic abuse, anomalous behavior from a specific user, session, or source.\n\n**Security workflow.** Findings are managed objects, not just log lines. They carry severity and status, can be assigned, accepted as known risk, dismissed as false positives, or marked for review; they link to the affected endpoints and to remediation paths (a ticket, a code fix, a policy change); and when a \"resolved\" problem reappears in traffic, the finding reopens. This workflow is what distinguishes a platform from a detector.",
+        "dc_zh": "**API清单。** 中心对象是端点记录：一个已识别的API操作（主机、路径、方法或操作类型），以及平台学到的所有信息：请求和响应中观察到的参数和头部、这些参数携带的数据类型和敏感数据、端点如何认证其调用者、调用频率、所属的服务和环境、以及谁拥有它。清单是持久的：它在重启和重新部署后仍然存在，随着流量变化而更新，并作为所有发现的锚点。清单由两种可能的基础构建——实时流量分析或组织的API规范（如OpenAPI文档）——大多数平台结合两者。\n\n**安全发现。** 发现是对一个或多个清单记录的安全相关陈述。发现分为两类：\n- *姿态发现*——风险固有于API的定义、配置或行为方式：缺少或弱认证、响应中暴露敏感数据、过度数据暴露、文档规范与观察行为之间的偏差、错误配置、暴露凭证。\n- *威胁发现*——在流量中观察到的攻击和滥用：针对已知API弱点类别的利用尝试、凭证填充、抓取和机器人滥用、业务逻辑滥用、异常行为。",
+        "rules": "- **Findings attach to endpoints.** Every finding, attack, and risk score is anchored to inventory records. An attack without an endpoint context, or a risk score without an API, does not occur in this Type.\n- **Resolved findings can reopen.** Platforms commonly keep observing endpoints after a finding is closed; where this continuous verification exists, a weakness or abuse pattern that reappears causes the finding to return, so status reflects production reality rather than optimism.\n- **Discovery filters noise.** Traffic-based inventory building commonly excludes unstable signals — endpoints seen only briefly, one-off parameter spikes, scanner traffic, health-check noise — so the inventory represents the real, stable API surface rather than every request ever seen.\n- **Enforcement is deliberate and scoped.** Blocking, rate limiting, and virtual patching apply through explicit policies, per environment or endpoint, and can be reverted. Monitor mode remains a fully supported operating posture.\n- **Specification–behavior drift is a first-class signal.** A mismatch between what an API declares and what it does — undocumented endpoints, undocumented parameters, retired versions still serving traffic — is itself a security finding, not merely a documentation problem.\n- **Traffic is sensitive by nature.** API traffic carries personal and regulated data, so platforms commonly minimize what they store or forward: analyzing locally where possible, aggregating or hashing values, and letting organizations exclude sensitive traffic from collection.\n- **Testing is scoped for safety.** Active testing generates real attack traffic; mature products constrain it to owned, typically non-production targets, or restrict production testing to non-invasive checks.\n- **False positives are a managed state.** Analysts can mark detections as false positives, and the platform uses that feedback to tune future behavior — detection quality is treated as an ongoing operational concern, not a fixed property.",
+        "rules_zh": "- **发现附加于端点。** 每个发现、攻击和风险评分都锚定于清单记录。没有端点上下文的攻击，或没有 API 的风险评分，在此类型中不会发生。\n- **已解决的发现可以重新打开。** 平台通常在发现关闭后继续观察端点；在这种持续验证存在的情况下，重新出现的弱点或滥用模式会导致发现返回，因此状态反映的是生产现实，而非乐观估计。\n- **发现会过滤噪音。** 基于流量的清单构建通常会排除不稳定的信号——仅短暂出现的端点、一次性的参数峰值、扫描器流量、健康检查噪音——因此清单代表的是真实、稳定的 API 界面，而非曾经看到的每一个请求。\n- **执行是慎重且有范围的。** 阻断、速率限制和虚拟补丁通过按环境或端点的明确策略应用，并且可以撤销。监控模式仍然是一个完全支持的操作态势。\n- **规范与行为的偏差是一级信号。** API 声明的内容与其实际行为之间的差异——未记录的端点、未记录的参数、已退役版本仍在提供流量——其本身就是一个安全发现，而不仅仅是文档问题。\n- **流量本质上是敏感的。** API 流量承载个人数据和受监管数据，因此平台通常会最小化其存储或转发的内容：尽可能在本地分析、聚合或哈希值，并允许组织排除敏感流量不进行收集。\n- **测试是出于安全而限定范围的。** 主动测试会生成真实的攻击流量；成熟产品将其限制在自有的、通常是非生产目标上，或限制生产测试仅进行非侵入式检查。\n- **误报是一个...",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "application-security-platform",
+        "name_zh": "应用安全平台 (ASP)",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "GitHub 仓库与官方文档核对：DefectDojo/django-DefectDojo（README + sitemap 定位资产/Engagement/Finding 文档）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "application-security-platform",
+        "name": "Application Security Platform",
+        "name_zh": "应用安全平台 (ASP)",
+        "aliases_zh": [
+          "应用安全解决方案",
+          "应用安全管理系统",
+          "应用风险平台"
+        ],
+        "overview": "An **Application Security Platform** is the security-management layer that organizations run around the applications they build or operate: it keeps records of those applications, attaches security findings to them, and tracks every finding through triage and remediation until it is fixed or formally dispositioned.\n\nThe problems it exists to solve are concrete: an organization typically has many applications, built by many teams, with no single place that answers \"which applications do we have, what security issues do they carry, who is fixing what, and is any of it getting better?\". Individual testing tools find problems; they do not, by themselves, organize an answer. The platform is that organizer.\n\nWhat it is not, in the same stroke: the analysis engines that actually inspect code or running applications are the platform's *means*, not its identity — a platform carries one or more engines and/or ingests results from external tools, but the defining layer is the application records, the findings attached to them, and the remediation lifecycle. It is also not an infrastructure vulnerability manager (different object domain), not a traffic-protection product, and not a compliance-reporting system (those consume its outputs).",
+        "overview_zh": "一个**应用安全平台**是组织围绕其构建或运行的应用程序所运行的安全管理层：它记录这些应用程序，将安全发现附加到它们，并跟踪每个发现通过分类和修复，直到它被修复或正式处置。\n\n它要解决的问题是具体的：一个组织通常有许多应用程序，由许多团队构建，没有一个单一的地方来回答“我们有哪些应用程序，它们携带哪些安全问题，谁在修复什么，以及是否有任何改善？”。各个测试工具发现问题；它们本身并不组织答案。平台就是这个组织者。\n\n同样地，什么不是：实际检查代码或运行应用程序的分析引擎是平台的*手段*，而不是它的身份——平台携带一个或多个引擎和/或摄取外部工具的结果，但定义层是应用程序记录、附加到它们的发现以及修复生命周期。它也不是基础设施漏洞管理器（不同的对象域），不是流量保护产品，也不是合规报告系统（这些消费其输出）。",
+        "dc": "- **Multiple analysis engines** under one platform — static code analysis, third-party/open-source component analysis, dynamic web/API testing, container and infrastructure-as-code checks, secret detection — each producing findings into the same lifecycle.\n- **External result ingestion** — importing findings from other tools so the whole application risk picture is managed in one place (the posture-management posture; some products make this their center of gravity).\n- **Developer surfaces** — pull-request comments and merge gates, IDE plugins, CLI tools, CI/CD gate actions, and sync into ticketing/work-tracking systems.\n- **Severity and prioritization machinery** — standardized severity inputs plus product-specific risk scores that weigh exploitability, reachability, and criticality.\n- **Role-based access** — security staff, developers, managers, and administrators see and do different things, scoped by organizational hierarchy.\n- **Remediation support** — resolution guidance and, increasingly, AI-generated fix suggestions or patches that developers review.\n- **Administration and integration** — user/role management, source-control/CI/ticketing integrations, APIs.",
+        "dc_zh": "- **多引擎集成**——在一个平台下集成静态代码分析、第三方/开源组件分析、动态Web/API测试、容器及基础设施即代码检查、密钥检测——各引擎生成的结果汇入统一的生命周期。\n- **外部结果摄取**——导入其他工具的结果，以便在单一平台中管理全局应用风险态势（此为态势管理重心；部分产品以此为核心功能）。\n- **开发者工作面**——提供拉取请求评论与合并门控、IDE插件、命令行工具、CI/CD流水线门控操作，并同步至工单/任务跟踪系统。\n- **严重性分级与优先级排序机制**——基于标准化严重性输入，结合产品特有的风险评分，对可利用性、可达性和关键性进行加权。\n- **基于角色的访问控制**——安全人员、开发者、管理者和管理员可按组织层级看到和操作不同的内容。\n- **修复支持**——提供解决方案指引，并越来越多地集成AI生成的修复建议或补丁供开发者评审。\n- **管理与集成**——包含用户/角色管理、代码仓库/CI/工单系统集成及API接口。",
+        "rules": "- **The code is the source of truth for resolution.** A finding is not \"closed\" because someone said so; the platform marks it fixed when its own re-analysis no longer detects the weakness. Conversely, reappearing weaknesses reopen findings. Exact vocabulary (findings / issues / flaws / results) varies by product.\n- **Triage decisions are recorded and attributed.** Ignoring a finding requires a reason (false positive, acceptable risk, duplicate, etc.), and the record retains who decided and when. This is what makes the platform usable as compliance evidence.\n- **Findings persist and are reconciled across scans.** The same weakness is recognized across repeated scans and often across branches; deduplication and similarity logic prevent the same issue from flooding the portfolio as new records. Changed detections (rule updates, moved paths) are handled as tracked transitions rather than silent loss.\n- **Policy translates criticality into obligation.** Higher-criticality applications carry stricter policies; remediation windows are bounded; expired windows produce violations; violations can block merges or builds. The platform can therefore stop software from shipping, which makes its policy configuration a governance instrument.\n- **Role separation matters.** Security staff manage the program, policies, and triage; developers fix; administrators configure. Some products let developers triage directly (e.g., from pull-request comments) under controlled settings.\n- **The platform does not fix anything by itself.** Remediation is human (code changes, component upgrades) or AI-assisted under human review; the platform's job is to make sure nothing is lost, nothing is forgotten, and everything is verifiable.\n- **Scope discipline.** Findings concern the application's own artifacts — code, components, configuration, APIs — not the organization's hosts and networks; that distinction is what separates this layer from infrastructure vulnerability management.",
+        "rules_zh": "- **代码是解决真相的来源。** 一个发现不是因为有人说“关闭”而“关闭”；当平台自己的重新分析不再检测到弱点时，平台将其标记为已修复。相反，重新出现的弱点重新打开发现。确切的词汇（发现/问题/缺陷/结果）因产品而异。\n- **分类决定被记录并归属。** 忽略发现需要原因（误报、可接受风险、重复等），记录保留谁决定以及何时决定。这就是为什么平台可用作合规证据。\n- **发现持久并在扫描间协调。** 相同的弱点在重复扫描中被识别，通常也在分支中；去重和相似性逻辑防止相同的问题作为新记录泛滥组合。更改的检测（规则更新、移动路径）作为跟踪转换处理，而不是静默丢失。\n- **政策将关键性转化为义务。** 更高关键性的应用程序携带更严格的政策；修复窗口有限；过期窗口产生违规；违规可以阻止合并或构建。因此，平台可以阻止软件发布，这使其政策配置成为治理工具。\n- **角色分离很重要。** 安全人员管理程序、政策和分类；开发人员修复；管理员配置。一些产品允许开发人员直接分类（例如，从拉取请求评论）在受控设置下。\n- **平台本身不修复任何东西。** 修复是人工的（代码更改、组件升级）或在人工审查下AI辅助的；平台的工作是确保没有东西丢失，没有东西被遗忘，一切都是可验证的。\n- **范围纪律。** 发现涉及应用程序自己的工件",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "breach-attack-simulation",
+        "name_zh": "入侵与攻击模拟（BAS）",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方产品页复核：Cymulate Exposure Validation（canonical 产品页，替代误标的 security-validation 来源）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "breach-attack-simulation",
+        "name": "Breach & Attack Simulation",
+        "name_zh": "入侵与攻击模拟（BAS）",
+        "aliases_zh": [
+          "攻击模拟",
+          "安全攻击模拟"
+        ],
+        "overview": "A **Breach & Attack Simulation** application (commonly abbreviated **BAS**) safely executes controlled emulations of real attacker techniques inside an organization's own IT environment and records how each deployed security control responds to each one.\n\nThe problem it solves is specific: an organization owns many security controls — endpoint protection, email gateways, network firewalls, WAFs, DLP, SIEM detections — and none of them can be trusted to work just because they are installed and licensed. Controls are misconfigured, rules age, exceptions accumulate, and infrastructure drifts. Periodic manual testing (penetration tests) covers only a fraction of the environment at a point in time. A BAS application makes the answer to \"would our defenses actually stop this attack?\" continuously measurable, technique by technique, with recorded evidence.\n\nThe defining structure is small:\n\n```text\nLibrary of executable attack simulations\n  (real attacker techniques, individually and chained into scenarios)\n   ↓ safely run inside the organization's own environment\nDeployed security controls under test\n  (endpoint, email, network, web, DLP, SIEM, cloud)\n   ↓\nRecorded per-simulation control response\n  (prevented / detected / logged / nothing — exact labels vary by product)\n```\n\nEverything else commonly seen in the market — MITRE ATT&CK mapping, scheduled campaigns, scoring, benchmarking, remediation guidance, compliance reporting — is standard capability layered on that loop, not what makes the product a BAS tool.\n\nWhat it is not: it does not discover and manage software vulnerabilities (Vulnerability Management), it does not manage human-led testing engagements (Penetration Testing Management), and it does not discover what an organization exposes on the internet (Attack Surface Management).",
+        "overview_zh": "一种**突破与攻击模拟**应用程序（通常简称为 **BAS**）在组织自身的 IT 环境中安全地执行真实攻击者技术的受控模拟，并记录每个已部署的安全控制对每一项模拟的响应情况。\n\n它所解决的问题是具体的：一个组织拥有众多安全控制——端点保护、邮件网关、网络防火墙、WAF、DLP、SIEM 检测——没有哪一个仅因其已安装和持有许可证就值得被信任能正常工作。控制可能配置错误、规则过时、例外情况累积，且基础设施会漂移。定期的人工测试（渗透测试）仅覆盖环境在某一时间点的一小部分。BAS 应用程序使“我们的防御是否能实际阻止这种攻击？”的答案能够被持续量化，逐项技术地进行，并提供记录在案的证据。\n\n其核心结构很简单：\n\n```text\n可执行攻击模拟库\n  （真实攻击者技术，单独使用或组合成攻击场景）\n   ↓ 在组织自身环境中安全运行\n正在接受测试的已部署安全控制\n  （端点、邮件、网络、Web、DLP、SIEM、云）\n   ↓\n记录每次模拟的控制响应\n  （阻止 / 检测 / 记录 / 无反应——具体标签因产品而异）\n```\n\n市场上通常看到的所有其他功能——MITRE ATT&CK 映射、计划活动、评分、基准测试、修复指导、合规性报告——都是在这个循环之上叠加的标准能力，并非使该产品成为 BAS 工具的本质。\n\n它是什么：它不是发现和管理软件漏洞（漏洞管理），不是管理人工测试活动（渗透测试管理），也不是发现组织在互联网上暴露的内容（攻击面管理）。",
+        "dc": "A **simulation** is a controlled, executable enactment of one specific attacker behavior — a technique such as a credential-dumping sequence, a phishing payload delivery, a command-and-control beacon, a data-exfiltration transfer, or a web-attack request. Simulations are maintained as a **library or catalog**: curated by the vendor (or the open community), derived from real-world attacker tactics, techniques and procedures, and continuously extended as new threats appear. Mature products commonly organize the library by tactic/technique (frequently mapped to MITRE ATT&CK), by threat actor or malware family, and by the control it exercises.",
+        "dc_zh": "一个**模拟**是对某一特定攻击者行为的受控、可执行的模拟执行——一种技术，如凭证转储序列、钓鱼载荷传递、命令与控制信标、数据渗出传输或Web攻击请求。模拟以**库或目录**的形式维护：由供应商（或开放社区）策划，源自现实世界的攻击者战术、技术和程序，并随着新威胁的出现而持续扩展。成熟的产品通常按战术/技术（通常映射到MITRE ATT&CK）、按威胁参与者或恶意软件家族、以及按其执行的控制来组织库。",
+        "rules": "- **Safety is structural.** Simulations are designed to be non-destructive and safe to run in production: they mimic attack behaviors (payloads, traffic, sequences) without causing the real damage the mimicked malware would cause. Products additionally expose execution guardrails — scope restrictions, controlled execution with audit records, role-based authorization — because the platform is, by construction, a framework for running attack techniques inside a live estate. Who may launch which simulation against which environment is therefore a governed permission surface.\n- **The control response is the finding.** A simulation \"fails\" not when the technique executes (that is often the point — to test downstream detection), but when the intended defensive response does not happen. The expected response is part of each test's definition.\n- **Re-testing proves closure.** Results are treated as claims until a re-run of the same simulation confirms the fix. Repeated scheduled runs also catch regressions when configurations drift again.\n- **Content freshness is a first-class property.** The library is continuously maintained (vendor research teams, threat-intelligence ingestion, community collections in the open-source case); stale attack content makes the validation meaningless, and how quickly new threats become runnable simulations is an explicit evaluation criterion in the market.\n- **Results are ranked and grouped for actionability.** Gaps are typically ordered by severity/potential impact and grouped by control category, control vendor, or environment, so that engineering teams can act on them in bulk.\n- **Coverage is expressed against shared frameworks.** MITRE ATT&CK is the dominant organizing framework for both content and results, giving the organization a common language for what is and isn't defended.\n- **Evidence supports governance needs.** Recorded runs, responses, and re-validation results double as audit evidence for requirements that call for regular testing of the effectiveness of security measures (a recurring compliance driver named across the sample).",
+        "rules_zh": "- **安全性是结构性的。** 模拟被设计为非破坏性且可在生产环境安全运行：它们模仿攻击行为（载荷、流量、序列），而不会造成所模仿的恶意软件会造成的实际损害。产品还提供执行防护措施——范围限制、带审计记录的受控执行、基于角色的授权——因为该平台从设计上就是一个在活跃资产内运行攻击技术的框架。谁可以针对哪个环境发起哪种模拟，因此成为一个受控的权限层面。\n- **控制响应即为发现。** 一个模拟“失败”不是在技术执行时（那通常正是目的——测试下游检测），而是在预期的防御响应没有发生时。预期响应是每个测试定义的一部分。\n- **重新测试证明问题已解决。** 结果在重新运行相同模拟确认修复之前，被视为待验证的声明。重复的计划运行也能在配置再次漂移时捕捉到退化问题。\n- **内容新鲜度是一项首要属性。** 该库持续得到维护（供应商研究团队、威胁情报摄取、开源案例中的社区收集）；过时的攻击内容会使验证失去意义，而新威胁多快能成为可运行的模拟，是市场上一个明确的评估标准。\n- **结果按可操作性进行排序和分组。** 差距通常按严重性/潜在影响排序，并按控制类别、控制供应商或环境分组，以便工程团队能够批量处理。\n- **覆盖范围基于共享框架表达。** MITRE ATT&CK 是内容和结果的主要组织框架，为组织提供了一个共同的衡量基准。",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "dast-iast",
+        "name_zh": "DAST (动态应用安全测试) / IAST (交互式应用安全测试)",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "GitHub 仓库与官网文档核对：zaproxy/zaproxy（README + Getting Started + Docs）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "dast-iast",
+        "name": "DAST / IAST",
+        "name_zh": "DAST (动态应用安全测试) / IAST (交互式应用安全测试)",
+        "aliases_zh": [
+          "动态安全测试",
+          "交互式安全测试",
+          "黑盒安全测试",
+          "灰盒安全测试"
+        ],
+        "overview": "A **DAST / IAST application** is a security testing application for running software. It places a specific, identified running application under security test, deliberately exercises that application, detects vulnerabilities from the application's actual runtime behavior, and records the results as evidenced vulnerability findings that drive remediation.\n\nThe defining core is small:\n\n```text\nRunning target application under test\n└── Exercise-and-observe test act\n    │   ├── from outside — generated test requests, analyzed against the\n    │   │   application's responses (dynamic / black-box mode, \"DAST\")\n    │   └── from inside — an instrumentation agent observing exercised\n    │       traffic as it flows through the running code (interactive mode, \"IAST\")\n    └── Findings with runtime evidence\n        (what weakness, where, proof, severity, remediation guidance)\n```\n\nThe two abbreviations in the Type name mark the two observation vantages: testing a running application **from outside** (dynamic application security testing) and testing it **from within** an instrumented application (interactive application security testing). They are one family: both require a running target, both rely on deliberate exercise of the application, and both produce findings whose proof is the application's real behavior rather than an abstraction of its source code.\n\nEverything else commonly associated with the category — crawlers, login automation, check libraries, CI/CD integration, dashboards, team features — is standard capability that mature products add. A tool that analyzes source code without running it is a static analyzer; a tool that blocks traffic in production is a firewall; a tool that only aggregates other tools' findings is a vulnerability management system. The running-application test act with runtime evidence is the boundary.",
+        "overview_zh": "**DAST / IAST 应用**是一种用于运行软件的软件安全测试应用。它将特定的、已识别的运行中的应用置于安全测试之下，故意对该应用进行练习，从应用的实际运行行为中检测漏洞，并将结果记录为作为证据的漏洞发现，以驱动修复。\n\n其核心定义要素较少：\n\n```text\n被测的运行中的目标应用\n└── 练习与观察的测试行为\n    │   ├── 从外部 — 生成测试请求，根据应用的\n    │   │   响应进行分析（动态/黑盒模式，\"DAST\"）\n    │   └── 从内部 — 一个插桩代理观察流经运行代码的\n    │       被练习流量（交互模式，\"IAST\"）\n    └── 带有运行时证据的发现\n        （什么弱点、在哪里、证据、严重性、修复指导）\n```\n\n类型名称中的两个缩写标记了两种观察视角：**从外部**测试运行中的应用（动态应用安全测试）以及**从内部**（在一个插桩的应用中）测试它（交互式应用安全测试）。它们属于同一家族：两者都需要一个运行中的目标，都依赖于对应用的故意练习，并且两者产生的发现，其证据都是应用的真实行为，而非其源代码的抽象。\n\n该类别通常关联的其他所有内容——爬虫、登录自动化、检查库、CI/CD集成、仪表板、团队功能——都是成熟产品添加的标准能力。分析源代码而不运行它的工具是静态分析器；在生产环境中阻止流量的工具是防火墙；仅聚合其他工具发现的工具是漏洞管理系统。带有运行时证据的运行应用测试行为是其边界。",
+        "dc": "- *Outside (dynamic mode).* The tool discovers the application's surface (crawling links and forms, driving a browser for script-heavy apps, or importing API definitions), then sends test traffic: passively observing normal traffic, and/or actively sending modified or malicious requests to see how the application handles unexpected input. Active probing is graded from mild to attack-grade.\n- *Inside (instrumented mode).* An agent embedded in the application's runtime observes how exercised requests flow through the code — where untrusted input travels, where it reaches dangerous operations — while the application is used normally by QA tests, by a scanner, or by a human tester. The agent does not need its own attack engine; the exercise comes from the application's ordinary use.\n\n**Findings.** The output is a structured vulnerability record, not a log line. A finding states what weakness class was detected, where it lives (the URL and request that triggered it, or the route and code location inside the instrumented application), the evidence that proves it (the request/response pair, the data-flow trace), a severity or risk rating, and remediation guidance. Findings are managed objects: triaged, assigned to owners, verified, and retested after fixes.",
+        "dc_zh": "*外部（动态模式）。* 工具发现应用程序的表面（爬取链接和表单，为脚本密集型应用驱动浏览器，或导入 API 定义），然后发送测试流量：被动观察正常流量，和/或主动发送修改或恶意请求，以查看应用程序如何处理意外输入。主动探测从温和到攻击级别分级。\n\n*内部（插桩模式）。* 一个嵌入应用程序运行时的代理观察被操作的请求如何在代码中流动——不受信任的输入流向何处，它何时到达危险操作——同时应用程序由 QA 测试、扫描器或人工测试员正常使用。代理不需要自己的攻击引擎；操作来自应用程序的普通使用。\n\n**发现。** 输出是结构化的漏洞记录，而不是日志行。发现陈述了检测到的弱点类别、它存在的位置（触发它的 URL 和请求，或在插桩应用程序内的路由和代码位置）、证明它的证据（请求/响应对、数据流跟踪）、严重性或风险评级，以及修复指导。发现是受管理对象：分类、分配给所有者、验证，并在修复后重新测试。",
+        "rules": "- **Active testing is treated as a real attack.** Products gate attack-grade testing with authorization warnings, safe modes, and intensity tiers, and recommend staging/test environments. Sending malicious input can damage data or availability, and the tools say so explicitly.\n- **Observation is safe; probing is not.** The passive/active distinction is structural: passive analysis of observed traffic does not alter the application, while active checks inject input and carry risk. Products keep the two separable.\n- **Evidence quality is explicit.** Findings confirmed by observing actual exploit behavior carry higher confidence than findings inferred from static suspicion alone; products encode this in confidence ratings or verification passes rather than pretending all findings are equal.\n- **Findings belong to a specific target and location.** Every finding anchors to the tested application and the precise request, route, or code location involved; identical issues across many locations are consolidated rather than duplicated endlessly.\n- **Authenticated testing is a first-class mechanism.** Credentialed coverage requires machinery for logins and session upkeep (recorded login sequences, token handling), because most of an application's attack surface sits behind authentication.\n- **Fixes are verified at runtime.** A finding closes not on assertion but on re-test: the same exercise that surfaced the vulnerability is repeated, and the issue closes only when it no longer reproduces.\n- **Runs are engineered for failure.** Long test runs meet timeouts, outages, and defensive controls; products track errors granularly, skip or retry failed actions, and can pause or abort rather than report misleading results.",
+        "rules_zh": "- **主动测试被视为真实攻击。** 产品通过授权警告、安全模式和强度分级来控制攻击级别的测试，并建议使用预发布/测试环境。发送恶意输入可能损害数据或可用性，工具会明确说明这一点。\n- **观察是安全的；探测则不然。** 被动/主动的区别是结构性的：对观察到的流量进行被动分析不会改变应用，而主动检查会注入输入并带来风险。产品保持这两者可分离。\n- **证据质量是明确的。** 通过观察实际利用行为确认的发现，比仅从静态怀疑推断出的发现具有更高的置信度；产品将此编码在置信度评级或验证通过中，而不是假装所有发现都等同。\n- **发现属于特定目标和位置。** 每个发现都锚定在被测应用和所涉及的精确请求、路由或代码位置上；跨多个位置的相同问题会被合并，而不是无限重复。\n- **经认证的测试是一等机制。** 需要凭证的覆盖需要登录和会话维护机制（记录的登录序列、令牌处理），因为应用的大部分攻击面位于认证之后。\n- **修复在运行时进行验证。** 一个发现不是基于断言关闭，而是基于重新测试：重现该漏洞的相同练习被重复，只有当问题不再重现时才会关闭。\n- **运行被设计为可应对故障。** 长时间的测试运行会遇到超时、中断和防御性控制；产品会精细地跟踪错误，跳过或重试失败的操作，并可以暂停或中止，而不是报告误导性结果。",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 12,
+    "phase": "repair",
+    "parent": 147,
+    "slugs": [
+      "ai-security-platform",
+      "api-security-platform",
+      "application-security-platform",
+      "breach-attack-simulation",
+      "dast-iast"
+    ],
+    "old_input_sha256": "e106ebd1f161d60fecd01e6adb0d75122641a677135aed8e9b28a3a41f3ddb73"
+  },
+  "previous_continuation": {
+    "unit": 147,
+    "phase": "complete",
+    "parent": 28,
+    "slugs": [
+      "ai-security-platform",
+      "api-security-platform",
+      "application-security-platform",
+      "breach-attack-simulation",
+      "dast-iast"
+    ]
+  }
+}

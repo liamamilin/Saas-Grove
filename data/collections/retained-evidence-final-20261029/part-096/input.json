@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "end-to-end-testing-platform",
+        "name_zh": "端到端测试平台",
+        "domain_id": "12",
+        "parent_id": "12.02",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "Playwright official End-to-end Testing Platform"
+            ]
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/276",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": [
+              "Playwright official End-to-end Testing Platform",
+              "复核已有官方快照（2026-10-26）"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "end-to-end-testing-platform",
+        "name": "End-to-end Testing Platform",
+        "name_zh": "端到端测试平台",
+        "aliases_zh": [
+          "全流程测试平台",
+          "集成测试平台",
+          "E2E测试平台"
+        ],
+        "overview": "An **End-to-end Testing Platform** is the system a software team uses to verify that its whole, assembled application works for a real user: teams author automated tests that drive the application through its actual user-facing interface — opening it, clicking through it, filling in forms, and checking what appears — run those tests automatically against a working instance of the application, and get a pass/fail verdict for every test together with enough failure evidence to diagnose what broke.\n\nThe defining core is small:\n\n```text\nThe application-under-test, exercised as a whole\n└── through its real user-facing interface\n    └── the automated test scenario of record\n        └── (a persistent, re-runnable user journey with expected outcomes)\n            └── automated execution\n                └── per-test verdicts + failure evidence\n```\n\nEverything else commonly associated with the category — recorders, trace viewers, videos, flake dashboards, parallel execution, cloud browser grids, AI test generation — is widespread in current products but is not what makes the product an E2E testing platform. Remove the whole-application exercise and the product becomes a unit/integration runner or an API test tool; remove the persistent test asset and it becomes ad-hoc automation; remove the execution and verdicts and it becomes a recorder or a test-management register.\n\nThe browser is the dominant surface today, but it is an implementation, not the definition: the same structure describes desktop-UI and mobile-app end-to-end testing, and older desktop-recorded GUI testing tools satisfy it without any browser at all.",
+        "overview_zh": "端到端测试平台是软件团队用来验证其完整组装的应用程序是否对真实用户可用的系统：团队编写自动化测试，通过应用程序的实际用户界面（打开它、点击浏览、填写表单并检查显示内容）来驱动应用程序——针对运行中的应用程序实例自动执行这些测试，并为每个测试提供通过/失败判定结果以及足够的故障证据来诊断问题所在。\n\n其定义性核心是简洁的：\n\n```text\n被测应用程序，作为整体运行\n└── 通过其真实的用户界面\n    └── 被记录的自动化测试场景\n        └── （一个持久、可重跑的用户旅程，带有预期结果）\n            └── 自动化执行\n                └── 逐项测试的判定结果 + 故障证据\n```\n\n与该类别通常相关的所有其他内容——录制器、跟踪查看器、视频、不稳定测试仪表板、并行执行、云端浏览器网格、AI测试生成——在当前产品中普遍存在，但它们并非使产品成为端到端测试平台的关键。移除了对整个应用程序的运行验证，产品就变成了单元/集成测试运行器或API测试工具；移除了持久的测试资产，它就成了临时性自动化；移除了执行和判定结果，它就成了录制器或测试管理登记册。\n\n浏览器是当今的主导界面，但它是一种实现方式，而非定义本身：同样的结构也适用于桌面UI和移动应用程序的端到端测试，并且旧的桌面录制型GUI测试工具即使没有任何浏览器也满足这一结构。",
+        "dc": "Three structures, held together:\n\n**1. The application-under-test, exercised as a whole.** Tests run against the real assembled application — frontend, backend, and dependencies working together in a test environment — and reach it the way a user does: through its user-facing interface. This is what separates the Type from testing that exercises components in isolation. The interface is most commonly a web browser; depending on the product's scope it can equally be a native mobile app, a desktop application, or a mix of UI steps and direct API calls inside one journey.\n\n**2. The automated test scenario of record.** The platform's central asset is a persistent, named, re-runnable test that expresses a user-level journey: navigate somewhere, interact with elements of the interface, and assert expected outcomes. A test is built from three recurring parts:\n\n```text\nTest scenario\n├── Navigation / setup        (open the app, reach a starting state, sign in)\n├── Interactions              (locate elements, click, type, select, upload)\n└── Expected outcomes         (assertions / checkpoints on what must be true)\n```\n\nTests are organized into groups, suites, or projects, and parameterized per environment and per data set. The asset outlives any single run: it is stored, reviewable, versioned, and re-run on demand — in the application's repository as code, or in the platform's managed project.\n\n**3. Automated execution with verdicts and failure evidence.** The platform runs the tests against the application — locally, in CI, or on hosted browsers/devices — and produces a per-test result: passed, failed, and commonly intermediate states such as skipped or flaky. A failure is not just a red mark: the platform captures evidence at the moment of failure — the error and assertion that failed, and in mature products screenshots, videos, traces, or logs — so the team can diagnose whether the application broke or the test broke.",
+        "dc_zh": "三个结构，紧密结合在一起：\n\n**1. 被测试的应用程序，作为整体进行测试。** 测试针对真实组装的应用程序运行——前端、后端和依赖项在测试环境中协同工作——并以用户的方式访问它：通过其用户面向的接口。这使得该类型与仅测试隔离组件的测试区分开来。接口最常见的是网页浏览器；根据产品的范围，它同样可以是原生移动应用、桌面应用程序，或在一个流程中混合使用UI步骤和直接API调用。\n\n**2. 自动化的测试场景记录。** 平台的核心资产是一个持久化的、命名的、可重运行的测试，它表达了一个用户级别的旅程：导航到某处，与界面元素交互，并断言预期结果。测试由三个重复部分组成：\n\n```text\n测试场景\n├── 导航 / 设置        （打开应用，达到起始状态，登录）\n├── 交互              （定位元素，点击，输入，选择，上传）\n└── 预期结果         （对必须为真的内容进行断言 / 检查点）\n```\n\n测试被组织成组、套件或项目，并根据环境和数据集进行参数化。该资产超越任何单次运行：它被存储、可审查、版本化，并按需重新运行——作为代码存储在应用程序的仓库中，或在平台的托管项目中。",
+        "rules": "### Waiting is built into the interaction model\n\nMature products treat timing as a platform responsibility: actions wait for elements to be actionable, and assertions wait for expectations to become true, rather than failing on fixed delays. Hand-written hard waits are the recognized anti-pattern this machinery exists to remove.\n\n### Tests are isolated by default\n\nA test should not depend on another test having run first. Products provide clean per-test state (fresh browser profile or restored session) and treat shared state as a defect source to be designed away.\n\n### The verdict is per test, and flakiness is a first-class state\n\nResults are reported per test, not per run alone. A test that fails intermittently is tracked as flaky — a distinct status — because its verdict cannot be trusted like a stable failure's. Retries exist to buy signal, not to hide instability.\n\n### Test definition is separated from target environment\n\nThe same test runs against different environments and data sets through configuration (base URLs, environment variables, profiles, data tables). Changing where you test does not mean rewriting tests.\n\n### Failure evidence is captured at the moment of failure\n\nBecause a failed end-to-end run is often not reproducible on demand (state, timing, data), the platform preserves what happened — error, screenshot, trace, logs — as part of the result, not as an optional extra.\n\n### The suite is versioned and reviewable\n\nTest assets are managed records: code in the application's repository, or managed projects in the platform. They change through the same review discipline as the application code they verify.",
+        "rules_zh": "### 等待机制内置到交互模型中\n\n成熟的产品将时间控制视为平台的责任：操作会等待元素可操作，断言会等待预期条件变为真，而不是在固定延迟后失败。手动编写的硬性等待是这种机制旨在消除的公认反模式。\n\n### 测试默认隔离\n\n一个测试不应依赖于另一个测试首先运行。产品为每个测试提供干净的状态（全新的浏览器配置文件或恢复的会话），并将共享状态视为需要设计消除的缺陷源。\n\n### 判定结果是逐项测试的，且不稳定状态是一等公民状态\n\n结果是按测试报告的，而不仅仅是按运行次报告。间歇性失败的测试被追踪为不稳定——一种独立的状态——因为其判定结果不能像稳定失败那样被信任。重试是为了获取信号，而非隐藏不稳定性。\n\n### 测试定义与目标环境分离\n\n同一个测试通过配置（基础URL、环境变量、配置文件、数据表）可以在不同环境和数据集上运行。更改测试地点并不意味着要重写测试。\n\n### 故障证据在失败时刻被捕获\n\n因为一次失败的端到端运行往往无法按需重现（状态、时序、数据），平台会将发生的情况（错误、截图、跟踪信息、日志）作为结果的一部分保存下来，而非可选附加项。\n\n### 测试套件是版本化且可审查的\n\n测试资产是受管理的记录：是应用程序代码库中的代码，或是平台中的受管项目。它们通过与验证的应用程序代码相同的审查流程进行变更。",
+        "parent_id": "12.02",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 96,
+    "phase": "directory",
+    "parent": 96,
+    "slugs": [
+      "end-to-end-testing-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "1d761bbd860865b6956591f379c69ca62b2daee2d046d92a8eb1c36b5eeb5eff"
+  }
+}

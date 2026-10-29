@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 29,
+  "offset": 700,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "cae-engineering-simulation",
+        "name_zh": "CAE（计算机辅助工程）",
+        "domain_id": "16",
+        "parent_id": "16.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/636",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "GitHub 检索 OpenFOAM CAE/CFD 官方开发仓库并读取 README、主页与许可证"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "cae-engineering-simulation",
+        "name": "CAE / Engineering Simulation",
+        "name_zh": "CAE（计算机辅助工程）",
+        "aliases_zh": [
+          "有限元分析",
+          "工程仿真"
+        ],
+        "overview": "A **CAE (Computer-Aided Engineering) / Engineering Simulation application** predicts how a physical design will behave in the real world before that design is built. It does this by constructing a computational model of the design — its geometry, materials, and the physical conditions acting on it — and numerically solving the governing physics (structural mechanics, fluid flow, heat transfer, electromagnetics, acoustics, and related domains) over that model. The computed results — stresses, deformations, temperatures, flow fields, electromagnetic fields — are engineering evidence: they let teams evaluate and improve a design without first manufacturing and physically testing it.\n\nThe defining core is deliberately small:\n\n```text\nComputational model of a physical scenario\n  (geometry + material/physical properties)\n+ physics specification\n  (governing physics + loads / constraints / initial conditions)\n+ numerical solution\n  (physics equations solved over a discretized representation)\n+ physical results\n  (fields and derived quantities used to judge the design)\n```\n\nEverything else commonly associated with modern simulation products — interactive 3D viewers, CAD associativity, meshing wizards, cloud computing, multiphysics coupling, optimization, AI surrogates — is standard capability that mature products add around this core, not what makes the product a CAE tool. Early batch-era solvers — the whole problem defined as an input file, processed into result listings — and today's GUI-less open-source toolchains both satisfy the definition; a 3D viewer without a solver does not.",
+        "overview_zh": "一个**CAE（计算机辅助工程）/工程仿真应用程序**可以在物理设计被制造之前预测该设计在真实世界中的行为表现。它通过构建设计的计算模型——包括其几何形状、材料以及作用于其上的物理条件——并在该模型上数值求解控制物理方程（结构力学、流体流动、热传递、电磁学、声学及相关领域）来实现这一点。计算结果——应力、变形、温度、流场、电磁场——是工程证据：它们使团队能够在未进行实际制造和物理测试的情况下评估和改进设计。\n\n其定义性的核心刻意保持精简：\n\n```text\n物理场景的计算模型\n  （几何形状 + 材料/物理属性）\n+ 物理规范\n  （控制物理 + 载荷/约束/初始条件）\n+ 数值求解\n  （在离散化表示上求解物理方程）\n+ 物理结果\n  （用于评判设计的场变量和导出量）\n```\n\n其他通常与现代仿真产品相关联的一切——交互式3D查看器、CAD关联性、网格划分向导、云计算、多物理场耦合、优化、AI代理模型——都是成熟产品围绕此核心添加的标准功能，并非定义该产品为CAE工具的关键。早期的批处理时代求解器——将整个问题定义为输入文件并处理为结果列表——以及当今无GUI的开源工具链都符合此定义；而一个没有求解器的3D查看器则不符合。",
+        "dc": "**1. Computational model of a physical scenario.** The central object is a model of the design and its surroundings: a geometric representation (the part, the assembly, or — for fluid problems — the volume the fluid occupies around it) carrying **material and physical properties** (stiffness, density, conductivity, viscosity, and so on). The model is an idealization: small features are removed, symmetry is exploited, and only the physics that matters for the question at hand is kept.\n\n**2. Physics specification.** On top of the model, the engineer defines what physics governs the scenario and what is imposed on it: **loads** (forces, pressures, heat sources, flow rates), **constraints and boundary conditions** (what is fixed, what temperature the wall holds, where flow enters and exits), and **initial conditions** where the analysis depends on starting state. This layer is conceptually separate from the geometry — the same model can carry many different condition sets, which is what makes scenario comparison possible.\n\n**3. Numerical solution over a discretized representation.** The product computes the physical response by numerically solving the governing equations over a **discretization** of the model — a mesh of elements or cells (finite element, finite volume, boundary element, and related methods). Discretization is what distinguishes this Type from lumped, system-level simulation: here, physical quantities are resolved as **spatial fields** (stress at every point, temperature everywhere, velocity throughout the fluid), not as aggregate values of idealized components.\n\n**4. Physical results as engineering evidence.** The solver produces result fields and derived quantities — displacements, stresses, temperatures, pressures, velocities, field strengths, plus computed aggregates (maxima, averages, frequencies). These are what the engineer evaluates against design criteria (allowable stress, temperature limits, target flow behavior) to accept, reject, or change the design.",
+        "dc_zh": "1. 物理场景的计算模型。核心对象是设计及其周围环境的模型：一个几何表示（零件、装配体，或对于流体问题——流体占据的体积），承载**材料和物理属性**（刚度、密度、导电性、粘度等）。模型是一种理想化：移除小特征，利用对称性，只保留与当前问题相关的物理。\n\n2. 物理规范。在模型之上，工程师定义什么物理规律支配场景以及施加什么：**载荷**（力、压力、热源、流量）、**约束和边界条件**（什么固定、墙保持什么温度、流体进出位置），以及**初始条件**，其中分析依赖于起始状态。这一层在概念上与几何分离——同一个模型可以承载许多不同的条件集，这使得场景比较成为可能。\n\n3. 离散化表示上的数值解。产品通过在模型的**离散化**上数值求解控制方程来计算物理响应——一个元素或单元的网格（有限元、有限体积、边界元及相关方法）。离散化是区分此类型与集总、系统级",
+        "rules": "**Discretization quality governs trustworthiness.** Results are only as good as the mesh: coarse or distorted elements corrupt the solution. Products therefore expose mesh-quality metrics and refinement controls, and engineers routinely re-solve with finer meshes to confirm that results converge.\n\n**A model must be properly restrained.** In static structural analysis, the structure must be constrained against rigid-body motion — as a practical rule, at least one displacement constraint in each coordinate direction — or the equations have no unique solution. Products detect and report such under-constrained setups.\n\n**Material assignment is per-part and explicit.** Each part of the model carries its material definition; density matters for gravity and for any analysis involving inertia (dynamic analyses), while purely static analyses ignore inertial effects.\n\n**Linearity is a choice with consequences.** Linear analyses are fast and robust but cannot represent contact opening/closing, large deformations, or plasticity; capturing those requires nonlinear analysis with correspondingly more setup (contact methods, load stepping) and longer runtimes.\n\n**Iterative solutions can fail.** Nonlinear and transient solutions advance step by step and may fail to converge; numerics settings (relaxation, time-step size, solver choice) directly affect stability, runtime, and memory. Reading and reacting to convergence behavior is a core skill the product surfaces through logs and monitors.\n\n**Results are predictions, not measurements.** Simulation output carries modeling assumptions (idealized geometry, approximate material data, simplified boundary conditions). Mature practice — and product features such as validation cases and test-correlation tools — treats comparison against physical experiments as part of the workflow, not an afterthought.\n\n**Coupling has modes.** When physics interact, products distinguish one-way handoff (fast, but ignores feedback) from two-way coupling (both physics solved together, more expensive, more faithful). Choosing the coupling mode is an engineering decision the product makes explicit.",
+        "rules_zh": "**离散化质量决定可信度。** 结果的好坏取决于网格：粗糙或畸形的单元会使解失真。因此，产品会提供网格质量指标和细化控制，工程师通常会使用更细的网格重新求解，以确认结果已收敛。\n\n**模型必须正确约束。** 在静态结构分析中，结构必须被约束以避免刚体运动——作为一条实用规则，至少在每个坐标方向上有一个位移约束——否则方程将没有唯一解。产品会检测并报告此类欠约束的设置。\n\n**材料赋值是针对每个零件且明确的。** 模型的每个零件都带有其自身的材料定义；密度对于重力以及任何涉及惯性的分析（动态分析）都很重要，而纯静态分析则忽略惯性效应。\n\n**线性化是一种选择，有其后果。** 线性分析快速且稳健，但无法表示接触的开合、大变形或塑性；捕捉这些需要非线性分析，相应的设置更复杂（接触方法、载荷步进），运行时间也更长。\n\n**迭代求解可能失败。** 非线性和瞬态解是逐步推进的，可能无法收敛；数值设置（松弛、时间步长、求解器选择）直接影响稳定性、运行时间和内存。阅读和响应收敛行为是产品通过日志和监控器呈现的一项核心技能。\n\n**结果是预测，而非测量。** 仿真输出包含建模假设（理想化的几何形状、近似的材料数据、简化的边界条件）。成熟的实践——以及诸如验证案例和测试关联工具等产品功能——通过与物理实测数据对比来评估预测结果。",
+        "parent_id": "16.01",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 130,
+    "phase": "directory",
+    "parent": 130,
+    "slugs": [
+      "cae-engineering-simulation"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "53e4d308861f6129dd471b9a26342f70bae7cfc31c3d754b54ecfccc7b907b30"
+  }
+}

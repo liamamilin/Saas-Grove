@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Keycloak 的定义性核心主要由官方 README 的功能级描述（IAM、user federation、strong authentication、user management、fine-grained authorization）支撑，未展开管理员创建/撤销身份和授权工作流的独立正文；当前足以支持 IAM 类型匹配，但证据深度偏浅。",
+    "privacyIDEA 的社区版边界应按 README 精确表述为：Server 与 FreeRADIUS 插件在代码层面无社区版功能限制，部分第三方插件有用户数限制；research 中“Enterprise Edition”措辞不够精确，但未造成能力过度声称。",
+    "identity-governance-iga 未入库是基于“完整 EUPL 文本未取得、Syncope 治理闭环正文未证明”的留档缺口，而非 midPoint 明显不符合 IGA；midPoint README 已出现较强 IGA 信号，后续可补抓 LICENSE.EUPL 后重新评估是否纳入。",
+    "Veriff 仅核对了官方产品页，未验证 API、价格或完整 KYC/AML 平台边界；按商业条目“基本真实性 + 核心类型匹配”标准通过。",
+    "REVIEW_SOURCES.json 清单只覆盖四个 batch 应用快照；identity-governance-iga 的 midPoint/Syncope 快照未列入该清单，但文件实际存在，已按 research.json 中的路径读取核对。"
+  ],
+  "leaf_checks": {
+    "identity-access-management-iam": {
+      "status": "pass",
+      "application_ids": [
+        "github:11125589"
+      ],
+      "evidence": "仓库页元数据确认 repository_id 11125589、nwo keycloak/keycloak；README 标题为 Open Source Identity and Access Management，正文明确 user federation、strong authentication、user management、fine-grained authorization；license API 的 LICENSE.txt 为完整 Apache-2.0 文本（size 11358）；building.md 支持 Java/Maven/Quarkus 与发行包部署说明。组织管理身份、认证、访问授予和集中管理控制四项核心均有对应证据。",
+      "gaps": "核心证据为官方 README 功能级描述，未展开管理员控制台或授权工作流的独立文档；不影响当前 IAM 类型匹配。"
+    },
+    "identity-governance-iga": {
+      "status": "pass_with_documented_gap",
+      "application_ids": [],
+      "evidence": "batch 无条目；research 如实记录 8 次抓取。midPoint 仓库 id 15528570，README 自称 comprehensive IGA platform，并列出 Identity Governance、Request approval、provisioning/deprovisioning、reconciliation 等；其 LICENSE 指向 EUPL-1.2+，GitHub license API 为 NOASSERTION，未取得完整 EUPL 文本。Syncope 仓库 id 25623942，Apache-2.0 许可证文本完整，但所读 README、官网和文档索引未展示定期认证、访问审查和修复闭环正文。",
+      "gaps": "本叶没有纳入 batch 应用；完整 EUPL 许可证文本和 Syncope 治理闭环证据仍是留档缺口。该缺口已如实记录，符合“无案例但真实记录检索/抓取/缺口”的通过条件。"
+    },
+    "identity-verification": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:veriff"
+      ],
+      "evidence": "商业条目 commercial:veriff 引用 Veriff 官方产品页。正文明确用户拍摄政府签发身份证件与自拍、系统执行文件与活体/生物特征检查、返回验证决定，并提供可选人工复核和定制检查流程；产品身份与 identity-verification 类型匹配。",
+      "gaps": "仅有官方产品页，未验证 API、价格或 KYC/AML 全平台能力；属于商业基本真实性核对范围。"
+    },
+    "machine-identity-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:100061496"
+      ],
+      "evidence": "仓库页元数据确认 repository_id 100061496、nwo spiffe/spire；README 说明 SPIRE 通过 SPIFFE Workload API 证明运行中的软件系统并签发 SPIFFE ID/SVID，提供 SPIRE Server/Agent 发行包与容器镜像，并通过 Envoy SDS 轮换证书和信任包；license API 为完整 Apache-2.0 文本；languages 快照显示 Go/Shell。记录主体为非人类工作负载，符合机器身份管理核心。",
+      "gaps": "README 未展开撤销传播、机器身份清单和治理界面的完整流程；batch 摘要未对这些未核对能力作过度声称。"
+    },
+    "multi-factor-authentication-mfa": {
+      "status": "pass",
+      "application_ids": [
+        "github:20446681"
+      ],
+      "evidence": "仓库页元数据确认 repository_id 20446681、nwo privacyidea/privacyidea；README 标题为 Open-Source Multi-Factor Authentication，正文说明自托管 MFA 平台、通用第二因素、Passkey/FIDO2、推送、TOTP/HOTP、短信/邮件/SSH、AD/LDAP/SQL/EntraID 对接及 REST API；license API 为完整 AGPL-3.0 文本；README 另设社区版/插件用户数限制章节。",
+      "gaps": "社区版边界应以 README 所述 Server/FreeRADIUS 无代码限制、部分插件有用户数限制为准；research 的“Enterprise Edition”措辞可更精确，但不构成能力过度声称。"
+    }
+  },
+  "limits": "本次为只读初审；未运行部署、API 或价格测试，未抓取新增网页。REVIEW_SOURCES.json 只列出四个 batch 应用快照；identity-governance-iga 的 midPoint/Syncope 快照未列入该清单，依据 research.json 中的实际路径读取。Keycloak、SPIRE、privacyIDEA 的核心证据为官方 README 与仓库/许可证快照，未展开完整产品文档；Veriff 仅核对官方产品页。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-143/ses_groveopencodegop143review2_1793012184.jsonl",
+  "batch_sha256": "0d816465ad0bceac297d4dbcb029abede527c6c562bc11c53fbce64abbf6c730",
+  "research_sha256": "ae2569da2f26d9fa4d371221315230f269b2e7cf41e9ac2ca57726869e38a7c3",
+  "input_sha256": "97077aa5c021b8098b69185008794bfab59e96d36491198f1645fcfdaeb4c630"
+}

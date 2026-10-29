@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "gxp-training-management",
+      "application_id": "commercial:montrium-training-management",
+      "issue": "The batch summary, leaf_matches reason, and research note claim specific GxP capabilities that the cited snapshot does not contain. In snapshot 41d1aeee8c9827c7ae78a599ba6ef192911ecd6963d209763413f05b79aacf54.txt, the visible body text is limited to the hero section ('training management system', 'role and event-based training', 'training gaps'), module carousel, and footer. Full-text search finds no mention of GxP, SOP/policy/work-instruction revision-triggered retraining, role/job-title training matrix, 21 CFR Part 11 or Annex 11 e-signatures, audit trails, or per-person completion records. The research note nevertheless says the page explicitly states these items, and the batch entry uses them as evidence for the defining GxP training core.",
+      "fix": "Re-capture and save the full Montrium Training Management product/features page, and verify the claimed role-based training matrix, controlled-document revision retraining, e-signature, audit-trail, and completion-record capabilities against its body text. If such a source cannot be obtained, narrow the batch summary, leaf_matches reason, and research note to what the snapshot actually proves (life-sciences role/event-based training management with training-gap visibility), remove the unverified SOP-retraining and Part 11/Annex 11 e-signature claims, and downgrade verification_status or record the evidence gap explicitly."
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json still records all five leaves as case_status 'not_searched' with empty application_ids and research_records, while batch.json and research.json record four commercial cases. Downstream bookkeeping should reconcile this stale progress metadata; it did not affect the source-by-source verification here.",
+    "For irt-rtsm, the Medrio snapshot body supports subject randomization, treatment allocation, stratification, kit assignment, inventory tracking, expiry management, resupply alerts/orders, and single/double-blind studies, and describes a cloud-based application. It does not detail kit returns, destruction, or close-out reconciliation, and 'automated resupply' in the batch summary is slightly stronger than the page's 'automated supply/resupply notifications' and site resupply orders.",
+    "For electronic-trial-master-file-etmf, the Montrium eTMF snapshot body and FAQ support TMF Reference Model 3.3.1 alignment, study TMF plans/document indexes, placeholder-based completeness, missing-document reporting, email intake, inspector access, and audit trails. Current-vs-superseded version retention is not detailed in the body, but the batch summary does not overclaim it; the research note already records this limitation.",
+    "For healthcare-quality-management, MEG's page substantively covers incident/near-miss reporting, investigations and root-cause work, risk registers, corrective actions tracked to completion, audit preparation, accreditation readiness, policy management, analytics, and PSO collaboration. It does not explicitly show mandatory quality-measure/indicator definitions or external measure-specification version tracking, so the entry should be read as a quality/risk/compliance type match rather than proof of the full measure-centric core; the research note honestly records this gap.",
+    "For infection-prevention-platform, the no-case outcome is appropriately documented: Prevexium is excluded as AI clinical guidance/rounds software, and the Sentri7 and Inovalon official pages returned HTTP 403 without body text. The Prevexium snapshot also mentions 'Salvium monitors' and 'outbreak surveillance', which the research note does not discuss; a future gap record should clarify why that monitoring does not satisfy the facility IPC core (continuous EHR/lab detection, IP review of suspected events, facility registry, and event-level NHSN reporting). This is not blocking because no application entry was added.",
+    "REVIEW_SOURCES.json lists only the four commercial entries' snapshots. The Prevexium snapshot referenced by research.json exists under data/collections/sources/f1c4ca441be483d0c31e86301ec406a3b5d835516ef3a0df0f6aeb7c77a04155.txt and was read directly by its recorded sha256; including it in REVIEW_SOURCES would improve traceability for the no-case leaf."
+  ],
+  "leaf_checks": {
+    "irt-rtsm": {
+      "application_id": "commercial:medrio-rtsm",
+      "status": "verified_commercial_case",
+      "basis": "Read snapshot 952a5fa97e9679729542eddbedfabe112250ba03478524901546a33c08f88371.txt. Body feature sections and FAQ describe Medrio RTSM as clinical-trial randomization and trial supply management software: subject randomization, treatment assignment, stratification, kit assignment, inventory and shipment tracking, expiry management, resupply alerts/orders, and support for single- or double-blind studies. The page's structured data identifies it as cloud-based. ID, track, homepage, and leaf match are consistent. Returns/destruction reconciliation is not documented in the snapshot, but the basic commercial type match is supported."
+    },
+    "electronic-trial-master-file-etmf": {
+      "application_id": "commercial:montrium-etmf-connect",
+      "status": "verified_commercial_case",
+      "basis": "Read snapshot 6b7a619481e552a327a86aaa3bb14777f8af25775f426361101a53ad0e81fa65.txt. Body content and FAQ describe Montrium eTMF Connect as an electronic trial master file with TMF Reference Model 3.3.1-aligned structures, study TMF plans and document indexes, placeholder management, real-time completeness and missing-document reporting, email-to-TMF intake, inspector access, and audit trails. It is presented as a web-based/cloud application. ID, track, homepage, and leaf match are consistent. Version-supersession detail is not expanded in the body, but the batch record does not claim more than the source supports."
+    },
+    "gxp-training-management": {
+      "application_id": "commercial:montrium-training-management",
+      "status": "blocked_unsupported_claims",
+      "basis": "Read snapshot 41d1aeee8c9827c7ae78a599ba6ef192911ecd6963d209763413f05b79aacf54.txt. The visible body contains the hero introducing a training management system for life-science companies with role/event-based training and training-gap visibility, then module cards and the footer. Full-text search found no 'GxP', 'SOP', 'retrain', 'matrix', 'signature', 'Part 11', 'Annex 11', or audit-trail language. The batch summary and research note assert SOP/policy revision retraining, role/job-title matrices, completion tracking, and Part 11/Annex 11 e-signature records that are not present in the cited snapshot, so the defining GxP training core is not evidenced."
+    },
+    "healthcare-quality-management": {
+      "application_id": "commercial:meg-quality-management",
+      "status": "verified_commercial_case_with_core_gap",
+      "basis": "Read snapshot 9b8f87b11af881fead223d2436a334f05f923a6fc5bd711529c6b844bbca7333.txt. The page substantively describes MEG as healthcare quality, risk, and compliance software for hospitals: incident and near-miss capture, standardized investigations and root-cause analysis, risk registers, corrective actions to completion, audit preparation, policy management, accreditation readiness, real-time dashboards/analytics, and PSO collaboration. The page does not explicitly show mandated quality-measure/indicator definitions or external measure-version tracking, which the research note already records. The basic commercial type match is supported."
+    },
+    "infection-prevention-platform": {
+      "application_id": null,
+      "status": "no_case_documented_gap",
+      "basis": "No batch entry exists. research.json records assessment 'insufficient_evidence' with search queries, the Prevexium candidate and its exclusion rationale, and HTTP 403 fetch outcomes for Wolters Kluwer Sentri7 and Inovalon Infection Surveillance. The Prevexium snapshot f1c4ca441be483d0c31e86301ec406a3b5d835516ef3a0df0f6aeb7c77a04155.txt describes AI clinical guidance, environment-of-care rounds, survey-readiness tools, and surveillance resources, but does not demonstrate continuous EHR/lab-driven detection with infection-preventionist review, a facility infection registry, and event-level NHSN reporting. Under the no-case gap policy, the documented search and fetch limitations are sufficient to pass this leaf without an application entry."
+    }
+  },
+  "limits": "Read-only review; no shell execution, file writes, deployment, login, or runtime testing. Reviewed this unit's input.json, batch.json, research.json, REVIEW_SOURCES.json, the four listed snapshots, and the Prevexium snapshot referenced by research.json. Snapshots are HTML text; very long lines were display-truncated during reading but full-file keyword searches were used for the specific claims. Did not verify live prices, architecture, contractual terms, or any page not represented by a stored snapshot; no open-source repository or license boundary was involved in this unit.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-071/ses_groveopencodegop071review1_1792992834.jsonl",
+  "batch_sha256": "7760446853a42e9a49486312b15f373ea504605028d5f09aee0a2ce92baa9236",
+  "research_sha256": "e8b52b28ce89adf8de04a2a5dc671757ce06f61c7bfe1c042bfc4ea36f38fda3",
+  "input_sha256": "97ab326a9c482c8cd2200e8fb005f70906419503305a22e9c35753166b611311"
+}

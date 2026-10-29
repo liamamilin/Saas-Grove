@@ -1,0 +1,109 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "planning-zoning-management / commercial:accela-planning-zoning：官方 Planning 页正文可证申请受理、路由、跨部门并行审查与批准、公告生成/听证排期、听证结果与批准条件同系统记录；但正文未出现“分区框架/条例附着地块”、按半径通知业主等内容，页面还大量使用 building permit lifecycle 表述，meta 亦提 complaint management/code enforcement。商业基本类型匹配成立，建议把摘要中的“分区框架”限定为该页未证明，或补一条规划专用来源。",
+    "property-assessment-system / commercial:catalis-cama：官方 CAMA 页正文可证房地产与个人财产同库、估值、批量评估、评估行政与税册处理；但未展开成本法/市场法/收益法、估值日期版本化、比率研究或申诉回写。作为商业 CAMA 类型匹配足够，细节缺口宜留在非阻断说明。",
+    "property-tax-administration / commercial:opengov-property-tax：官方页正文可证评估导入、批量账单、支付征收、逾期管理、托管批量付款、分期计划与总账分配；但正文未出现 levy、taxing entity、special/school district、settlement/apportion 等证据，batch 的 leaf_match 中“征收与结算核心”表述宽于页面实际内容，建议收窄为开票/征收/总账分配。",
+    "public-asset-management / commercial:opengov-enterprise-asset-management：官方页正文可证面向州/地方政府与公共工程/公用事业、从日常工单到长期资本规划、GIS 资产位置/状况/成本/工单历史、Scenario Builder 资本改善与风险；但“asset register”未直接出现，预防性维护仅见于 AI 提示示例和 “plan maintenance” 措辞。另 cited URL 的 canonical 为 /products/asset-management/，建议后续引用 canonical 以便追溯。",
+    "public-works-management / github:1095025428：README 明确标注 “Under Development”，package.json 为 1.0.0-beta.1 且 private:true，文档标注 Coming Soon；README 可证工单记录、班次活动、工时表、Leaflet 地图、通知与集成，但未证市民请求受理、资产/库存登记或按工单/资产成本核算。batch 已把主张收窄到工作执行侧，建议摘要同步标注 beta/开发中状态，避免读者误解为成熟完整闭环。private:true 是 npm 发布标志，不改变 MIT 许可或自托管权利。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，phase=included_without_cases；而 batch.json/research.json 显示 5 个叶子均为 case_found 且有明确 application_ids。若下游消费 input.json 的 progress，应刷新；本次以 batch/research 为准。",
+    "research.json 中未被收录的候选（NYCPlanning/labs-zola、labs-applicant-portal、OpenZoning、municipalpermit、OpenAVMKit、GIAMS、verider、openMAINT、Pinpoint311 等）只有检索/抓取结果记录，没有本地快照；其排除理由无法在本单元快照集内独立复核。这不影响已收录条目的核对，但后续宜为关键否决候选留档。",
+    "Catalis 与 OpenGov Property Tax 的引用 URL 无尾斜杠，而页面 canonical 有尾斜杠；Accela/Catalis/OpenGov 的 batch homepage 指向厂商根域而非具体产品页。均不影响来源可追溯性，属非阻断的引用规范问题。"
+  ],
+  "leaf_checks": {
+    "planning-zoning-management": {
+      "application_ids": [
+        "commercial:accela-planning-zoning"
+      ],
+      "track": "commercial",
+      "result": "passed",
+      "evidence": [
+        "已按 REVIEW_SOURCES.json 原样读取 a70f9fa45e327b1f188ca0bdb787cd03c61a1e1b3ee3d955c9690efeed2567bb.txt（Accela 官方 Planning 页）。",
+        "正文：'The only end-to-end platform for the entire planning and zoning lifecycle'；'Connect intake, routing, review, and approvals in one workflow'；'Concurrent multi-department plan review ... Planning, public works, fire, and utilities all review in one shared system'。",
+        "正文：'Automate public notice generation, hearing schedules, and agency notifications. Hearing outcomes and conditions of approval are recorded in the same system—no separate tracking required.'",
+        "research.json 记录了 4 次检索尝试与 5 条抓取结果，并说明 NYCPlanning/labs-zola、labs-applicant-portal、OpenZoning、municipalpermit 不构成完整后台。"
+      ],
+      "gaps": [
+        "未证明分区框架/条例维护并附着于具体地块，也未证明基于半径的受影响业主查找；页面主体偏 building permit lifecycle，meta 还包含 complaint management/code enforcement。",
+        "商业只要求基本真实性与类型匹配，上述缺口不阻断；建议摘要限定“分区框架”主张或补规划专用来源。"
+      ]
+    },
+    "property-assessment-system": {
+      "application_ids": [
+        "commercial:catalis-cama"
+      ],
+      "track": "commercial",
+      "result": "passed",
+      "evidence": [
+        "已按 REVIEW_SOURCES.json 原样读取 f7382c939f22336620fde9931f29908d7bf3151c555aa0590dae56b00d6114a1.txt（Catalis 官方 CAMA 页）。",
+        "正文：'unifying data management, valuation, and tax roll processing into a single, easy-to-use platform'；'Maintain real estate and personal property data in a single database'。",
+        "正文/客户案例：'valuation, mass appraisal, assessment administration, and tax roll processing, all within one application'；面向 assessors 与 local governments。",
+        "research.json 记录了检索尝试，并说明 OpenAVMKit（AGPL-3.0 工具库）与 GIAMS（MIT 研究框架）不构成完整评估行政应用。"
+      ],
+      "gaps": [
+        "页面未展开成本法/市场法/收益法、市场校准、估值日期、逐年价值历史、比率研究、申诉决定回写等机制。",
+        "基本 CAMA/评估行政类型匹配成立，细节缺口不阻断。"
+      ]
+    },
+    "property-tax-administration": {
+      "application_ids": [
+        "commercial:opengov-property-tax"
+      ],
+      "track": "commercial",
+      "result": "passed",
+      "evidence": [
+        "已按 REVIEW_SOURCES.json 原样读取 71b84936e9c5471bd44820aaf58f1ac8c14cf3822d736436407836c85da85c7a.txt（OpenGov 官方 Property Tax 页）。",
+        "正文：'End-to-end property tax management: billing, payments, escrow, and collections. Built for counties'；'from assessment imports and bulk bill generation through payment collection and delinquency management'。",
+        "正文：'Full GL distribution and collection reporting maps property tax revenue to your chart of accounts'；托管/抵押公司批量付款与对账、逾期分期计划均有说明。",
+        "research.json 记录了 GitHub/Web 检索、verider README 核对及一个 404 抓取失败，未把通用开票或试点项目当作完整系统。"
+      ],
+      "gaps": [
+        "未证明多征税实体（县/市/学区/特别区）levy 汇总、按份额分配及向征税实体结算；页面只有总账分配（GL distribution）。",
+        "leaf_match 的“征收与结算核心”表述偏宽，建议收窄；商业基本类型匹配成立。"
+      ]
+    },
+    "public-asset-management": {
+      "application_ids": [
+        "commercial:opengov-enterprise-asset-management"
+      ],
+      "track": "commercial",
+      "result": "passed",
+      "evidence": [
+        "已按 REVIEW_SOURCES.json 原样读取 fafb279e9f7a6b69447b2c90b2011fd2372d1ceae454247607ba244e9c282e18.txt（OpenGov 官方 Asset Management/Enterprise Asset Management 页）。",
+        "正文：'state and local governments a single system to manage infrastructure from daily work orders to long-term capital planning'；面向 public works、utilities、parks、facilities。",
+        "正文：'With built-in GIS integration, you can track not just locations but also asset conditions, costs, and work history'；'Scenario Builder' 支持资本改善计划、风险与资金情景比较；移动端可更新工单与资产信息。",
+        "research.json 记录了 openMAINT 官网核对（通用 CMMS，未定位 GitHub 仓库身份）、GIAMS 研究框架排除，以及商业产品入批理由。"
+      ],
+      "gaps": [
+        "“公共资产登记册”未作为明确术语出现，预防性维护证据较弱（主要见 AI 提示示例与 'plan maintenance'）；公共受托语境由 state/local government + public works/utilities 支撑。",
+        "canonical 为 https://opengov.com/products/asset-management/，与 cited URL 不同，建议后续引用 canonical。"
+      ]
+    },
+    "public-works-management": {
+      "application_ids": [
+        "github:1095025428"
+      ],
+      "track": "open_source",
+      "result": "passed",
+      "evidence": [
+        "已按 REVIEW_SOURCES.json 原样读取 5ce2a10d49f777f584b4e18b8c77d0ad2eee2f60ca40c5635e30b148aec0cb12.txt、bc8ce63273e918d8e6b6267e1ec6ecb3cfe22e96f29760edaaf24d59fd3a08b1.txt、db5b54219eed21dbb8a787bbe57946ad945f6593541ff40fa72c90bc6c41cc1c.txt、a0fdd57b7e989e80eb6b1e2acf6bc29a22c5c23120a0266a4c923a23f7da5e29.txt。",
+        "仓库身份：GitHub 页面 octolytics/hovercard 均为 repository_id 1095025428，nwo cityssm/shiftlog，public=true，is_fork=false，network_root 相同；与 batch 的 github:1095025428 一致。",
+        "README：'A lightweight and flexible work management system with: Work order recording; Shift activity logging; Timesheet tracking'；use case 明确含 'Community Services and Public Works work order management'；含 Leaflet/OpenStreetMap 地图、邮件/Teams/ntfy 通知、Avanti/CentralSquare Pearl/ArcGIS 集成。",
+        "README 说明其为 City of Sault Ste. Marie 公共工程内部系统的重写；LICENSE.md 为完整 MIT 文本，授予复制、修改、合并、发布、分发、再许可与销售权利，并按 AS IS 提供；package.json license=MIT、start 脚本、Express/EJS、mssql-multi-pool、Leaflet。",
+        "research.json 记录了 public works 工单检索、Pinpoint 311 的 311 平台边界排除，以及 ShiftLog 只主张工作执行侧的收窄说明。"
+      ],
+      "gaps": [
+        "README 未证明市民请求受理/门户、资产或库存登记、按工单/资产的劳动力/设备/材料成本核算；不构成完整的“请求→工单→成本→绩效”闭环。",
+        "README 明确标注 'Under Development'，package.json 为 1.0.0-beta.1 且 private:true，文档标注 Coming Soon；batch 摘要宜同步标注 beta/开发中状态。",
+        "未发现独立社区版/商业版边界；MIT 覆盖整个仓库，private:true 仅为 npm 发布标志，不限制自托管或再分发。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：已按 REVIEW_SOURCES.json 的 8 个 path 原样读取全部快照，并核对 batch.json、research.json；未运行 shell，无法计算或比对快照 sha256、验证 HTTP 状态/重定向/实时页面变化，也无法确认快照与当前线上页面一致。快照多为 2026-10-27 单次抓取的营销页/README，未提供后台 UI、部署、运行时、价格或架构证据，故只能核对公开正文与类型匹配，不能验证实际工作流。research.json 中被排除的候选（NYCPlanning、OpenAVMKit、GIAMS、openMAINT、verider、Pinpoint311 等）没有本地快照，其排除理由无法在本单元独立复核。input.json 的 progress 仍为 not_searched，与 batch/research 的 case_found 不一致，本次以 batch/research 为准。HTML 快照噪声较大，结论仅依据可见正文；未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-231/ses_groveopencodegop231review1_1793033189.jsonl",
+  "batch_sha256": "8ce02c4a710433be2d3278a21671813bc08df68bdac53364a752eccc7c1a62ec",
+  "research_sha256": "b0c2c75087a739100e80b62eadb8856088a28893b973dbe75ea919ec37416e79",
+  "input_sha256": "4032f56b27668d3f1f8d95af036c30d145372e87346a9353f6edb36602ee63cd"
+}

@@ -1,0 +1,24 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "slug": "ai-avatar-video-generator",
+      "issue": "reason 写 “官方首页列出 ‘AI Avatars — Lifelike avatars from a script’…130+ 语言配音”，与 7d8582129b3f 快照不符：页面实际写的是 “AI Video and Avatar platform for business… AI avatars and voiceovers in 140+ languages”“100s of avatars”“Translate your video library into 140+ languages, with lip sync and voice cloning”，代码片段里有 lipsyncEnabled: true；未出现 “Lifelike avatars from a script”，语言数是 140+ 而非 130+。",
+      "required_fix": "把数字改为 140+，删去快照中不存在的引号句，改用 “AI avatars and voiceovers in 140+ languages”“with lip sync and voice cloning” 等原文；核心（脚本/语音→数字人表演→渲染视频）本身证据成立。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "ai-video-generator",
+      "issue": "reason 写“支持从首尾帧生成运动与延伸片段”，但 pika.art/faq 快照（ebe46a4f2f9e）中检索不到 keyframe / first frame / last frame，仅能核到 credits 与 extend 相关词；“提示词→生成片段”的核心也主要依赖首页快照。",
+      "required_fix": "改引首页或帮助中心里真正出现首尾帧条件的段落作为 source_urls 依据，否则删去“首尾帧生成运动”，只保留快照可证的“提示词/素材→生成视频、模型与积分”。",
+      "severity": "major"
+    },
+    {
+      "slug": "ai-image-editing-application",
+      "issue": "GitHub metadata 明确 archived=true（b18e9a4e 中 \"archived\":true），但结构化字段无处承载该状态，summary 与 service_boundary 都没有提示；只有 reason 与 research.note 提到“仓库已归档”。导入后读者容易把只读归档项目当成在用产品。",
+      "required_fix": "在 service_boundary（或 summary）明示“仓库已归档、只读，功能证据成立但不再维护”，无需改范围或换产品。",
+      "severity": "minor"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-006/project/review.json"
+}

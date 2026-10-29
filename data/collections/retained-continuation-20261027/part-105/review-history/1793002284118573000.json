@@ -1,0 +1,72 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "news-publishing-platform",
+      "application_id": "github:9852918",
+      "issue": "Ghost 条目的 summary 与 features 声称具备“草稿→明确发布”的关卡、计划/禁运发布、发布后更新与更正/撤稿、以及编辑策展的头版与栏目页；但本条目仅引用了 GitHub 仓库元数据快照（描述仅为 “Independent technology for modern publishing, memberships, subscriptions and newsletters.”）和 LICENSE 快照，没有任何 README、官方文档或产品正文。定义性核心（可修订的受控发布生命周期、策展展示面）无法由快照支撑，features 中的 “embargoed publishing” 尤其没有来源依据，属于按叶子定义反推的功能描述。",
+      "fix": "补充 Ghost 官方文档/README 快照，至少覆盖草稿与计划发布、发布后编辑与取消发布、collections/routes 等首页与栏目编排能力，再据此收敛 summary/features；删除或改正无来源的 embargo（禁运）表述；leaf_matches.reason 中“project documentation”应改为实际抓取的文档来源。"
+    },
+    {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "Superdesk 条目声称管理编辑工作项、任务分派机制、跨平台与“节目（shows）”的日期化发布安排；但仓库元数据描述仅为 “Superdesk is an end-to-end news creation, production, curation, distribution, and publishing platform.”，未出现 planning/assignment/scheduling/rundown 等核心行为。工作项—任务—输出排期这条定义性脊柱没有任何正文证据，“shows”/节目排期更与快照无关；且 reason 引用“project documentation”，实际并无文档快照。",
+      "fix": "补充能证明 planning/assignment/coverage 与发布排期的官方文档或模块仓库快照（若该能力位于独立组件，需引用对应仓库并说明边界），据此改写 summary/features；无来源的 “shows”/节目流程表表述应删除；reason 与实际来源对齐。"
+    },
+    {
+      "slug": "magazine-periodical-management",
+      "application_id": "github:375152",
+      "issue": "OJS 条目声称“将出版物作为常设记录、推动定期期次走向出版日期，并管理投稿、评审、出版与分发”，但仓库元数据描述仅有一句 “Open Journal Systems is open source software to manage scholarly journals.”，没有期次记录、出版日程、订阅/流通等核心正文证据；reason 亦称“PKP documentation”，而来源清单中不存在任何 PKP 文档快照。",
+      "fix": "补充 PKP/OJS 官方文档或 README 快照，证明期刊（出版物）与期次记录、期次出版安排、订阅与访问管理属于持续运营的核心；据此重写 summary/features（投稿评审只能作为附属流程，避免落回定义已排除的同行评审系统），并修正 reason 中不存在的“documentation”引用。"
+    }
+  ],
+  "non_blocking_notes": [
+    "三个案例条目都只有 api.github.com 的元数据与 LICENSE 快照；仓库身份（9852918 / 23570030 / 375152）、fork=false、描述与许可证正文可对上，但单行 JSON 快照的后半段字段（topics、archived 等）在本轮读取中不可见，建议后续保存时保留可完整解析的字段或补充独立快照。",
+    "许可证核对无阻断问题：Ghost LICENSE 正文为 MIT 文本（Copyright (c) 2013-2026 Ghost Foundation），Superdesk 为 GNU Affero GPL v3 全文，OJS 为 GNU GPL v3 全文，均与条目声明的 MIT / AGPL-3.0 / GPL-3.0 一致；三个项目均为自托管开源核心，Ghost(Pro)、PKP 托管仅为同一核心的托管服务，未见把专有功能计入开源条目的情况。",
+    "Superdesk 的描述同时覆盖 curation 与 publishing，按定义也可能触及 news-publishing-platform；建议在条目中明确它按“管理工作与排期、不拥有公共发布记录”归入 newsroom-management-system 的边界理由，避免跨叶重复计数。",
+    "Ghost 更接近创作者/博客与 newsletter 发布平台而非新闻编辑室专用系统；若保留在 news-publishing-platform，建议在条目内说明其满足故事记录、发布关卡与策展面的具体方式，而不只依赖“modern publishing”措辞。",
+    "OJS 的显著身份是学术期刊投稿与同行评审，而定义明确把同行评审流程排除在核心之外；建议在 leaf_checks/条目说明中写清其合格点是期刊与期次记录及订阅/访问管理，评审流程只是附带能力。",
+    "media-rights-management 与 music-publishing-management 的缺口留档只有一次检索词和一句“未捕获合格官方来源”的结论，没有具体 URL、HTTP 结果或时间；虽可视为已记录的缺口，建议后续补充第二轮检索词与失败/无结果记录，便于审计。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]，与 batch.json/research.json 中三个 case_found 不一致；建议同步元数据，避免下游误判为未检索。",
+    "research.json 对三个 case_found 的 note 均为“已按官方来源核验并记录案例”，但实际仅核验了仓库元数据与许可证，措辞可更精确地限定为“仓库身份与许可证已核验，核心工作流待文档补充”。"
+  ],
+  "leaf_checks": {
+    "magazine-periodical-management": {
+      "case_ids": [
+        "github:375152"
+      ],
+      "basis": "已核对 pkp/ojs 仓库元数据快照（id 375152、description “Open Journal Systems is open source software to manage scholarly journals.”）与 LICENSE 快照（GPL v3 全文）。仓库身份与 GPL-3.0 声明一致，开源形态与自托管部署成立。",
+      "verdict": "核心不充分：出版物/期次常设记录、期次出版节奏、订阅与流通这些定义性核心只由一句简介支撑，features 中的期次编排与出版安排无正文来源；reason 所称 PKP 文档未出现在来源清单。需补文档后再确认。"
+    },
+    "media-rights-management": {
+      "case_ids": [],
+      "basis": "无案例。research.json 记录 assessment=insufficient_evidence、query “media rights management”、无 source_urls，fetch_outcomes 记为未捕获合格官方来源，并声明未用产品常识补足。",
+      "verdict": "按“无案例但如实留档”可通过；缺口记录较薄（单次检索、无 URL/状态），建议补充检索过程，但不阻断。"
+    },
+    "music-publishing-management": {
+      "case_ids": [],
+      "basis": "无案例。research.json 记录 assessment=insufficient_evidence、query “music publishing management”、无 source_urls，fetch_outcomes 记为未捕获合格官方来源，未虚构作品/份额/版税案例。",
+      "verdict": "按缺口留档可通过；同样建议补充检索词与抓取结果明细，不阻断。"
+    },
+    "news-publishing-platform": {
+      "case_ids": [
+        "github:9852918"
+      ],
+      "basis": "已核对 TryGhost/Ghost 仓库元数据快照（id 9852918、description 提及 modern publishing、memberships、subscriptions、newsletters）与 LICENSE 快照（MIT 全文）。仓库身份与 MIT 许可一致。",
+      "verdict": "不通过：受控发布生命周期、发布后更新/更正/撤稿、策展首页与栏目页均无快照正文，features 含无来源的 embargo；仅有简介与许可证，不能替代核心工作流证据。"
+    },
+    "newsroom-management-system": {
+      "case_ids": [
+        "github:23570030"
+      ],
+      "basis": "已核对 superdesk/superdesk 仓库元数据快照（id 23570030、description “end-to-end news creation, production, curation, distribution, and publishing platform”）与 LICENSE 快照（AGPL v3 全文）。仓库身份与 AGPL-3.0 声明一致。",
+      "verdict": "不通过：工作项、任务分派、跨平台/节目排期等工作—人—排期核心未见正文证据，且 “shows” 与简介无关；需补 planning/assignment 官方文档或模块来源后重评。"
+    }
+  },
+  "limits": "本次仅只读查看了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及清单列出的 6 个快照（3 份仓库元数据 + 3 份 LICENSE）；未运行 shell、未写文件、未访问其他单元，也未做运行时部署或外部网络核验。GitHub 元数据与许可证快照为单行 JSON，读取时每行仅展示前 2000 字符，故 topics、archived、license.spdx 等后段字段未能直接查看，仅能从可见的 id、full_name、description 及 LICENSE 正文（MIT/AGPL-3.0/GPL-3.0）作判断。来源中没有 README、产品文档、功能页或社区版/商业版对照材料，因此对定义性核心工作流的核对受限于简介级描述，这也是本次要求补证的原因。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-105/ses_groveopencodegop105review1_1793001471.jsonl",
+  "batch_sha256": "a737e511351f3d9bff6ce56d5cbc4d9cf2421cc7a87e5c75c18427663cfe5957",
+  "research_sha256": "43e0e67e766946278c5cbbaa9cde14f7da5af2040252e7817c539931bbb4f5b8",
+  "input_sha256": "5d0d3d349c0c59fc5ce895b9e573a9c624af4ad37935e45aaef3aa1f53089d38"
+}

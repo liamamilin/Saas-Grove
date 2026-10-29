@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "infrastructure-automation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:23267883"
+      ],
+      "query": "Semaphore UI open source infrastructure automation platform; AWX license evidence recheck",
+      "source_urls": [
+        "https://api.github.com/repos/semaphoreui/semaphore",
+        "https://api.github.com/repos/semaphoreui/semaphore/license",
+        "https://raw.githubusercontent.com/semaphoreui/semaphore/develop/README.md",
+        "https://semaphoreui.com/",
+        "https://semaphoreui.com/docs/user-guide/projects",
+        "https://semaphoreui.com/docs/user-guide/task-templates",
+        "https://semaphoreui.com/docs/user-guide/inventory",
+        "https://semaphoreui.com/docs/user-guide/key-store",
+        "https://semaphoreui.com/docs/user-guide/team",
+        "https://semaphoreui.com/docs/user-guide/tasks",
+        "https://api.github.com/repos/ansible/awx",
+        "https://api.github.com/repos/ansible/awx/license",
+        "https://api.github.com/repos/ansible/awx/contents/",
+        "https://raw.githubusercontent.com/ansible/awx/devel/LICENSE.md",
+        "https://raw.githubusercontent.com/ansible/awx/devel/licenses/awx.txt",
+        "https://raw.githubusercontent.com/ansible/awx/devel/awx_collection/COPYING",
+        "https://raw.githubusercontent.com/ansible/awx/devel/docs/overview.md",
+        "https://raw.githubusercontent.com/ansible/awx/devel/docs/rbac.md"
+      ],
+      "note": "本轮成立关系：Semaphore UI（semaphoreui/semaphore，GitHub ID 23267883，MIT）。首轮候选 AWX 的许可证缺口经针对性复核仍未闭合，未建立关系，也未被当作“不存在”。\n\n一、Semaphore UI（本轮新采，成立）。仓库身份：GitHub API 返回 id=23267883、full_name=semaphoreui/semaphore、archived=false、default_branch=develop、homepage=https://semaphoreui.com，与条目一致。许可证：GitHub license API 返回 spdx_id=MIT，并内嵌完整 MIT 正文（含 “Permission is hereby granted, free of charge” 与 “THE SOFTWARE IS PROVIDED”），许可证证据由 API 端点直接闭合，无需 license_review。\n\n三根支柱的正文证据分别落在不同官方页，未用导航或关键词代替正文：\n1) 自动化内容：任务模板文档定义“a task template defines what to run and how: the application, the repository and the file to execute, the inventory, variable groups, credentials”，并列出支持的 Ansible、Terraform/OpenTofu/Terragrunt、Shell、PowerShell、Python；README 的 Key Concepts 亦把 Task Templates 定义为 “reusable definitions of tasks that can be executed on demand or scheduled”。\n2) 集中受管执行：Inventory 文档说明清单是受管主机列表（静态 INI/YAML、文件路径、Terraform 工作区），每个清单至少绑定一个用户凭证；Tasks 文档说明任务由模板创建、进入队列等待、在平台执行器上运行，并保留自身日志、状态、发起人、时间与仓库修订；Task 模板页的 Run/Build/Deploy 也表明执行是平台行为而非用户终端会话。\n3) 治理与委托：Key Store 文档明确其为“Semaphore's centralized credential repository”，集中管理克隆仓库、连接目标主机、sudo 提权与解密 Ansible Vault 的认证材料，任务通过 Variable Groups/Keys 在运行时注入；Teams 文档说明每个项目绑定团队，成员以内置角色（Owner/Manager/Task Runner/Guest）获得权限，Task Runner 可运行项目内任意模板、其余资源只读，Guest 全项目只读——即权限按“项目 × 模板 × 动作”分层，而非平台级扁平开关。\n形态为可自托管 Web 应用服务（Docker/Snap/二进制/发行版包/云市场镜像），非纯 CLI 或引擎。社区版边界：README 与官网把 Community/Pro/Enterprise 分档，Pro 项（Workflows、外部密钥存储、Runners）与 Enterprise 项（自定义角色）在文档中标注为付费档；本条目只就开源社区版已证明的模板执行、清单、Key Store 凭证托管与内置角色建立关系，未把 Pro/Enterprise 能力当作社区版事实。\n\n二、AWX（历史候选，本轮复核后仍未成立）。事实部分继续沿用历史快照：README/docs overview 与 docs/rbac.md 支持其 Web UI/REST API/任务引擎执行 Ansible 内容、管理清单与作业模板、平台托管凭证并实施角色权限，产品核心与三项结构相符。缺口仍在许可证：本轮重新抓取 https://api.github.com/repos/ansible/awx/license，结果与历史一致（sha256 相同，license.spdx_id=NOASSERTION，content 解码后为 LICENSE.md 正文，末尾止于第 9 条，无 APPENDIX）；仓库根目录清单显示只有 LICENSE.md 与 licenses/ 目录，没有位于根目录的 licenses 命名文件；licenses/awx.txt 虽有完整 Apache-2.0 文本含附录，但文件 basename 不满足许可文件名绑定规则；按标签 24.6.1、23.9.0 取 LICENSE.md 得到与 devel 完全相同的截断文本（同一 sha256），说明这不是单个分支的偶发缺页。另查得 awx_collection/COPYING 为 GPL-3.0 全文，但其覆盖范围仅 awx_collection 子目录（Ansible 集合），不能作为 AWX 仓库整体的许可证据，故不采用。结论：AWX 许可证据无法闭合，维持不建立关系，保留候选事实、官方 URL、抓取结果与具体缺口；该结果表示“证据不足”，不表示 AWX 不存在或不符形态。\n\n三、本轮排除的替代与边界。Semaphore UI 的 Pro/Enterprise 属于同一开源项目的商业增强档，按开源主体记录并显式标注社区版范围，不单列商业条目。未把纯执行引擎/SDK 计入。所有结论仅基于官方仓库与官方站点正文，未部署、未运行任何第三方项目，runtime_tested=false。",
+      "service_boundary": "Semaphore UI：可自托管的开源 Web 应用服务（MIT），开源仓库即社区版；Pro/Enterprise 为同一厂商的商业增强档，提供工作流编排、外部密钥存储、自定义角色与支持服务，本条目不把其计入社区版能力。AWX：Red Hat Ansible Automation Platform 的上游社区项目，可自托管；本轮仅只读官方仓库、文档与许可证文本，未部署或运行（runtime_tested=false），因许可证据未闭合暂不建立关系。",
+      "search_attempts": [
+        "复用 notes/previous 与 HISTORY 中的 AWX 候选及其历史快照（未作为本轮通过）",
+        "定向查询一：为 AWX 许可缺口复核 GitHub license API、仓库根目录清单、LICENSE.md（含 24.6.1/23.9.0 标签）与 awx_collection/COPYING",
+        "定向查询二：按“完整开源 Web 应用服务 + 基础设施自动化”检索替代候选，定位 semaphoreui/semaphore",
+        "GET https://api.github.com/repos/semaphoreui/semaphore 核对仓库身份、id、默认分支与官方主页",
+        "GET https://api.github.com/repos/semaphoreui/semaphore/license 取 SPDX 与完整许可正文",
+        "读取 README 核对形态、许可证声明、安装方式与核心概念",
+        "读取官方文档 task-templates / tasks / inventory / key-store / team / projects，逐条核对三根支柱",
+        "读取官网首页核对 self-hosted 定位、Community/Pro/Enterprise 分档与审计表述"
+      ],
+      "fetch_outcomes": [
+        "历史复用（本轮未重抓，SHA/URL/原抓取时间原样保留）：https://api.github.com/repos/ansible/awx sha256=a84515c2af0e9dac43f0a1cdf7aa8311c3da2b4d22f137a8978ae3eb0716052c",
+        "历史复用：https://raw.githubusercontent.com/ansible/awx/devel/README.md sha256=aaa5834410482cf7ed325d306dc28a58d171b90e24f4af9c8a2ee52218ccb7bb",
+        "历史复用：https://raw.githubusercontent.com/ansible/awx/devel/docs/overview.md sha256=eb57d014f4489961653b81868d44c1bf60b734297a826e6a0f405d7962db945b",
+        "历史复用：https://raw.githubusercontent.com/ansible/awx/devel/docs/rbac.md sha256=ceca01cb71c2b255bf7c8eb3d8d01fd70feeeaad08296e96b4576011d574799b",
+        "历史复用：https://raw.githubusercontent.com/ansible/awx/devel/LICENSE.md sha256=3e3f8281fb9edb7500ebed9d9f6fb008a3fce50220a4d318cf94dc9eccfb128a（正文止于第 9 条，无 APPENDIX）",
+        "历史复用：https://raw.githubusercontent.com/ansible/awx/devel/licenses/awx.txt sha256=cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30（完整 Apache-2.0 含附录，但 basename 不满足许可文件名绑定规则）",
+        "本轮重抓：https://api.github.com/repos/ansible/awx/license (license) sha256=1430a43f65c96d3fcd685bece246a979748c6d27ac59e72972f31dad43479853；spdx_id=NOASSERTION，与历史一致，未作为许可证据",
+        "本轮新抓：https://api.github.com/repos/ansible/awx/contents/ (repository_metadata) sha256=deff690459f01d72306169f8d757090fa13617cf79204e553333247acde8a267；根目录仅有 LICENSE.md 与 licenses/ 目录，无根级许可命名文件",
+        "本轮新抓：https://raw.githubusercontent.com/ansible/awx/24.6.1/LICENSE.md (license) sha256=3e3f8281fb9edb7500ebed9d9f6fb008a3fce50220a4d318cf94dc9eccfb128a；与 devel 同为截断文本",
+        "本轮新抓：https://raw.githubusercontent.com/ansible/awx/23.9.0/LICENSE.md (license) sha256=3e3f8281fb9edb7500ebed9d9f6fb008a3fce50220a4d318cf94dc9eccfb128a；同上",
+        "本轮新抓：https://raw.githubusercontent.com/ansible/awx/devel/awx_collection/COPYING (license) sha256=7c50cd9b85e2b7eebaea2b5618b402862b01d5a66befff8e41401ef3f14e471a；GPL-3.0 全文，但仅覆盖 awx_collection 子目录，不可作为仓库整体许可证据，不采用",
+        "failed https://www.ansible.com/awx: 重定向到不同主机，未作为 homepage 来源（历史结果，沿用）",
+        "本轮新抓：https://api.github.com/repos/semaphoreui/semaphore (repository_metadata) sha256=3724ba722161575fd31f4ac6293f60e516aa40403159b2752cbb9447d006e646；id=23267883, full_name=semaphoreui/semaphore, archived=false",
+        "本轮新抓：https://api.github.com/repos/semaphoreui/semaphore/license (license) sha256=8105039043a7d07f0d00680a475db1ebd5cd493d623d15a9811997a0c99e860c；spdx_id=MIT，内嵌完整 MIT 正文",
+        "本轮新抓：https://raw.githubusercontent.com/semaphoreui/semaphore/develop/README.md (readme) sha256=8459dd53516a4eeab133a212be54fe00ac04169162b28fb119415a9180fe662c",
+        "本轮新抓：https://semaphoreui.com/ (homepage) sha256=880507b188383089dd67b5fe52c9fba5a2135e8dee903f0208af6f512904dc1d",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/projects (documentation) sha256=02714d42990106968e48e08bcf51cff3bdcf065db7127d6ab181b7bb1b9bd66c",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/task-templates (documentation) sha256=bb8b036e0ad6730fa497992dfb27fad2f1d8000360f49a3b0044da9444aedc81",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/inventory (documentation) sha256=a35df442e8151658815f8ceb902f1a56c040ea8a05141dad4ed8495203c9f584",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/key-store (documentation) sha256=38136cef47564615bc0cd06220972b7a75702ced7bc245c424a500910970a888",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/team (documentation) sha256=f73f95f51d601332acf987ba2712dd9e479d2704e0b9d1691d7f5aec30d1160a",
+        "本轮新抓：https://semaphoreui.com/docs/user-guide/tasks (documentation) sha256=cce2f8897a6b6c4bcbab531121e5e9815814ca6a42e4010bd7a3a4d2972ef823",
+        "failed https://docs.semaphoreui.com/ 与 https://docs.semaphoreui.com/user-guide/projects: HTTP 308 永久重定向/重定向到不同主机，未抓取；改用同厂商正式域 https://semaphoreui.com/docs/... 取得正文",
+        "failed https://semaphoreui.com/docs/user-guide/users: HTTP 403，未取得正文；以 /user-guide/team 与 /user-guide/projects 的角色正文替代",
+        "failed https://semaphoreui.com/docs/user-guide/history: HTTP 403，未取得正文；运行历史与审计表述改由 tasks 与 projects 文档正文支撑",
+        "failed https://semaphoreui.com/docs/user-guide/teams: HTTP 403，未取得正文；同一内容的单数路径 /user-guide/team 抓取成功",
+        "本轮未部署、未执行任何第三方项目；runtime_tested=false"
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "batch_id": "retained-evidence-20261028-u060",
+  "entries": [
+    {
+      "id": "github:1331444342",
+      "name": "AI Native Call Center",
+      "track": "open_source",
+      "summary": "自托管开源呼叫中心应用：FreeSWITCH 接入实时语音来电与去电，坐席按 mod_callcenter 队列、层级与分配策略接听，平台跟踪坐席登录/就绪/话后处理状态，并提供坐席工作台、主管实时看板与 CDR/报表。",
+      "homepage": "https://github.com/rasonyang/ai-native-callcenter",
+      "repository_url": "https://github.com/rasonyang/ai-native-callcenter",
+      "github_repository_id": 1331444342,
+      "license": "Apache-2.0",
+      "license_evidence_url": "https://api.github.com/repos/rasonyang/ai-native-callcenter/license",
+      "features": [
+        "FreeSWITCH 承载 SIP/RTP 实时语音，外部号码呼入与坐席外呼共用同一呼叫账本",
+        "mod_callcenter 队列接收转入通话，按层级/位置与策略（longest-idle-agent、round-robin、least-talk-time 等）分配坐席",
+        "坐席状态机 LOGGED_OUT/NOT_READY/READY 与话后处理（ACW），READY 才可被分配，ACW 期间队列不下发新通话",
+        "坐席浏览器工作台：来电弹屏、接听/保持/挂断、话后处置与本人 CDR；主管实时看板、队列与人员视图",
+        "队列等待音乐、溢出（转机器人流程/转号/挂断）、RONA 与放弃通话原因计入 CDR",
+        "每通通话一条 CDR，含队列等待时长、录音与转写，文件系统或 S3 兼容存储",
+        "单二进制内含 Web 界面与 REST/SSE，附安装器与 Docker Compose 全栈部署"
+      ],
+      "deployment": [
+        "自托管单机全栈：Docker Compose（PostgreSQL + FreeSWITCH + 应用）",
+        "官方一键安装脚本（Linux 安装至 /opt/aicc，macOS 安装至 ~/.aicc）",
+        "从源码构建（Go 应用 + 前端构建产物）"
+      ],
+      "technology_stack": [
+        "Go",
+        "FreeSWITCH（mod_callcenter、mod_lua、ESL）",
+        "PostgreSQL",
+        "React 前端",
+        "Docker Compose"
+      ],
+      "sources": [
+        {
+          "url": "https://api.github.com/repos/rasonyang/ai-native-callcenter",
+          "sha256": "cae16238cc0dc6bf9d17a025b6f4405ca951393574ee2b69a2c8d77943d87904",
+          "snapshot_path": "sources/cae16238cc0dc6bf9d17a025b6f4405ca951393574ee2b69a2c8d77943d87904.txt",
+          "fetched_at": "2026-10-28T15:44:57.930410+08:00",
+          "kind": "repository_metadata"
+        },
+        {
+          "url": "https://api.github.com/repos/rasonyang/ai-native-callcenter/license",
+          "sha256": "20009e3738e55a8a88979ce565937d9e7dffaabceb56432c837d1b54a18f62ad",
+          "snapshot_path": "sources/20009e3738e55a8a88979ce565937d9e7dffaabceb56432c837d1b54a18f62ad.txt",
+          "fetched_at": "2026-10-28T15:45:14.362777+08:00",
+          "kind": "license"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/README.md",
+          "sha256": "e1ad89c25c54bbe3a28e2f70b6f6505e8d3c6ec20d8c780c28d02f16efef2303",
+          "snapshot_path": "sources/e1ad89c25c54bbe3a28e2f70b6f6505e8d3c6ec20d8c780c28d02f16efef2303.txt",
+          "fetched_at": "2026-10-28T15:45:15.686800+08:00",
+          "kind": "readme"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/01-telephony.md",
+          "sha256": "e21acbc60fffd1cc7f866d419454db31a9b119b3e2ef29e66e132dd3392d7818",
+          "snapshot_path": "sources/e21acbc60fffd1cc7f866d419454db31a9b119b3e2ef29e66e132dd3392d7818.txt",
+          "fetched_at": "2026-10-28T15:45:42.223228+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/05-frontend.md",
+          "sha256": "6451bf23ae4b0c30d099dc3ced11e5fda979e083a09380fd3f436c5034e39389",
+          "snapshot_path": "sources/6451bf23ae4b0c30d099dc3ced11e5fda979e083a09380fd3f436c5034e39389.txt",
+          "fetched_at": "2026-10-28T15:45:43.706592+08:00",
+          "kind": "documentation"
+        }
+      ],
+      "leaf_matches": [
+        {
+          "slug": "call-center-platform",
+          "reason": "定义三项核心均有正文支撑。电话为工作单元：README 与 01 文档说明 FreeSWITCH 以 SIP/RTP 吸收外部来电、由平台外呼，每条通话生成独立 call id 与 CDR，含队列等待、放弃原因与录音。系统管理分配：01 文档 §4 明确队列由 PG 渲染进 callcenter.conf，含 strategy（longest-idle-agent、round-robin、top-down、least-talk-time 等）、tier 层级/位置，坐席腿由 mod_callcenter 发起并经坐席接听桥接，另有 RONA、溢出与重分配。坐席为运营角色且可用性被系统跟踪：01 文档坐席 FSM 给出 LOGGED_OUT/NOT_READY(原因)/READY/ACW，READY 才参与分配，ACW 期间映射为 On Break 使队列不下发新通话，设备注册状态丢失自动转 NOT_READY。05 文档补充坐席工作台（弹屏、接听、保持、话后处置、本人 CDR）、主管实时看板与队列视图、/admin/cdr 与 /admin/reports 历史报表，故实时与历史度量亦在文内。形态为自托管完整应用服务（单二进制含 Web 界面与 REST/SSE，配 FreeSWITCH、PostgreSQL 与一键安装），非仅客户端或引擎；许可证 Apache-2.0 由 GitHub license API 全文校验。",
+          "source_urls": [
+            "https://api.github.com/repos/rasonyang/ai-native-callcenter",
+            "https://api.github.com/repos/rasonyang/ai-native-callcenter/license",
+            "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/README.md",
+            "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/01-telephony.md",
+            "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/05-frontend.md"
+          ]
+        }
+      ],
+      "verification_status": "official_sources_reviewed",
+      "runtime_tested": false
+    }
+  ]
+}

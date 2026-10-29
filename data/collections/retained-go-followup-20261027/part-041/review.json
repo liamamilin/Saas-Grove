@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=incomplete、application_ids 为空，而 batch.json/research.json 已按 case_found 记录 5 个应用；这不是叶子内容错误，但合并或下游消费时应同步元数据，避免被误读为“无案例”。",
+    "capacity-management：Kapacity 的 archived:false 是研究记录/叶子归档语义，不是上游仓库状态；上游仓库已在 2025-10-20 归档并只读，batch summary、service_boundary 与 research note 已明确区分，建议最终数据中用独立字段表达 repo_archived，减少歧义。",
+    "capacity-management：README 可证明时序预测副本需求、容量风险检测和防护下扩缩容，但未展示独立 headroom/容量仪表盘或完整容量位置视图；当前匹配主要落在“容量风险 + 容量决策”，未据此宣称容量位置能力。",
+    "cloud-management-platform：ManageIQ 的 README 是平台级概览，能证明单平台管理容器/VM/网络/存储、发现监控、策略控制、置备与工作负载编排；但未逐项列出外部公有云/虚拟化连接器，也未展示资源退役流程。现有 leaf_match 已承认该缺口，未把概览扩展为连接器清单或退役能力。",
+    "container-management：Dockge 的“可观察工作负载状态”仅由实时拉取/启停进度和终端输出支持，README 未给出 CPU/内存等资源消耗指标；batch 已避免将其写成完整容器监控/告警产品。",
+    "disaster-recovery-platform：Zerto 仅有官网首页 title/description 与导航（含 Failover Live & Testing）可用；产品页抓取 timeout/403，未核验受保护工作负载、持续复制到独立恢复位置、故障切换执行等具体工作流。按商业产品“基本真实性 + 类型匹配”标准可通过，缺口已如实留档。",
+    "cloud-cost-management-finops：OpenCost 的 UI 位于独立 opencost-ui 仓库，batch 已写明“配套 UI”而非单仓库内置；商业 Kubecost 版本能力未研究，开源发行版边界表述清楚。",
+    "开源许可证均为 GitHub license API 返回的完整标准文本（Kapacity/OpenCost/ManageIQ 为 Apache-2.0，Dockge 为 MIT）；本次未重新计算文件 sha256，仅按清单 path、文件名哈希、blob SHA/size 与 SPDX 标识核对。"
+  ],
+  "leaf_checks": {
+    "capacity-management": {
+      "applications": [
+        "github:617356410"
+      ],
+      "result": "pass_with_documented_gap",
+      "basis": "仓库页快照显示 repository_id=617356410，并在第 428 行明确“archived by the owner on Oct 20, 2025. It is now read-only.”；license API 返回 Apache-2.0 全文（blob 261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64，size 11357）；README 第 42-49 行说明基于指标时间序列预测未来副本数、检测异常流量/潜在容量风险并主动建议安全副本数，以及在稳定性检查、灰度变更和自动回滚防护下执行扩缩容。可对应容量风险与容量决策核心；未据此宣称独立容量仪表盘。",
+      "gaps": "README 未明确展示 capacity position/headroom 仪表盘或总容量/可用容量模型；上游仓库已归档只读，只能作为存量自托管案例记录，不代表持续维护；kapacity.netlify.app 文档页快照未随单元保留，仅有抓取记录。"
+    },
+    "cloud-cost-management-finops": {
+      "applications": [
+        "github:178079595"
+      ],
+      "result": "pass",
+      "basis": "仓库页快照显示 repository_id=178079595；license API 返回 Apache-2.0 全文（blob d645695673349e3947e8e5ae42332d0ac3164cd7，size 11358）；README 第 20-30 行明确按集群、节点、命名空间、控制器类型、控制器、服务或 Pod 分配成本，支持 AWS/Azure/GCP 多云成本监控、通过云厂商 billing API 获取动态定价、通过 /metrics 导出 Prometheus，并提供成本 API、kubectl cost CLI 与配套 UI。可对应“账单/定价摄取 → 标准化分配 → 组织归属可见性”核心。",
+      "gaps": "README 位于 develop 分支，包含较新的 AI 推理成本与 MCP 等内容，batch summary 只覆盖核心能力；UI 在独立 opencost-ui 仓库；未研究商业 Kubecost 版本边界，batch 已明确只记录 Apache-2.0 开源发行版。"
+    },
+    "cloud-management-platform": {
+      "applications": [
+        "github:20789757"
+      ],
+      "result": "pass_with_documented_gap",
+      "basis": "仓库页快照显示 repository_id=20789757；license API 返回 Apache-2.0 全文（LICENSE.txt，blob d645695673349e3947e8e5ae42332d0ac3164cd7，size 11358）；README 第 16-25 行明确“Manage containers, virtual machines, networks, and storage from a single platform”，并列出发现/监控/利用率/性能/报表/分析、策略与配置管理、置备、工作负载管理与编排、CMDB/Web 服务集成。可对应统一清单与置备/编排操作核心。",
+      "gaps": "README 为平台级概览，未逐项展示外部公有云账户或虚拟化平台连接器，也未展示资源退役流程；“连接异构环境”主要由 hybrid IT 与单平台管理表述推断，batch leaf_match 已承认该缺口，未扩展为具体连接器清单或退役能力。"
+    },
+    "container-management": {
+      "applications": [
+        "github:708775091"
+      ],
+      "result": "pass_with_documented_gap",
+      "basis": "仓库页快照显示 repository_id=708775091；license API 返回 MIT 全文（blob a954450c4dcee10a6cc9ad9d71fcaf7613d96821，size 1066）；README 第 17-28 行明确管理 compose.yaml 栈的创建/编辑/启动/停止/重启/删除、更新 Docker 镜像、多 Docker 主机 agent、交互式编辑器/Web 终端，并以实时进度和终端输出展示拉取/启停状态；安装部分说明通过 Docker socket 连接主机。可对应连接容器环境、基于镜像部署、生命周期控制与可观察状态四项核心。",
+      "gaps": "README 未明确给出 CPU/内存等资源消耗指标，第四项仅按实时进度与终端输出记录，不能扩展为完整容器监控/告警产品；未部署、未连接 Docker 主机，未核验实际 UI 状态字段。"
+    },
+    "disaster-recovery-platform": {
+      "applications": [
+        "commercial:zerto"
+      ],
+      "result": "pass_commercial_basic_match_with_gap",
+      "basis": "官网首页快照的 title 为“Data Protection & Mobility for On-Premises and Cloud - Zerto”，meta description 明确“Ransomware resilience, disaster recovery, and data mobility for on-premises and cloud. Experience true continuous data protection with a scalable solution.”；导航含“Failover Live & Testing”（href 指向 #failover）。以上支持其作为商业灾难恢复/数据保护产品的类型匹配，符合商业产品只要求基本真实性和核心类型匹配的标准。",
+      "gaps": "仅有首页 title/description 与导航可用；官方产品页抓取 read timeout 或 HTTP 403，未核验受保护工作负载、持续复制到独立恢复位置、故障切换执行等具体工作流；未做故障切换演练，未核验价格/架构/部署。batch summary 与 leaf_match 已主动移除近同步复制、日志恢复、应用恢复等未证实断言。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用读取/检索工具读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 13 个快照（按 path 原样读取，sources 前缀按 data/collections 解析）。未运行 shell、未写文件、未部署、未连接云账号/Docker/K8s/虚拟化环境、未做故障切换演练、未抓取额外网页。未重新计算快照 sha256，仅按清单 path、文件名哈希、URL、仓库 ID、许可证 blob SHA/size 与正文核对；GitHub license API 的 base64 全文在读取展示中被截断，未逐字复核尾部。Zerto 产品页 timeout/403、Kapacity 文档页快照未保留，相关缺口沿用 research 留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-041/ses_groveopencodegop041review2_1793084229.jsonl",
+  "batch_sha256": "a154e66a3e76732c275d25f8cdb4c9e3775ff21e4e09ba65c8ab5467e871f30f",
+  "research_sha256": "e7c0f240fe8de58aeed248a7903151af037eda4c50901207f052ad8286d7ba11",
+  "input_sha256": "2d4887ad759fab7b6f562b4cc96268a752b93f2e5a9f007bf886bd06acc281fb"
+}

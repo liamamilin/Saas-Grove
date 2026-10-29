@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "barbershop-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:squire"
+      ],
+      "query": "GitHub API: barbershop management in:name,description; 官方检索: SQUIRE barbershop management POS scheduling client management",
+      "source_urls": [
+        "https://getsquire.com/",
+        "https://getsquire.com/features/pos-payments",
+        "https://getsquire.com/features/scheduling",
+        "https://getsquire.com/features/client-management"
+      ],
+      "note": "开源候选 aharoJ/barbershop（56★，AGPL-3.0）无 README，CLAUDE.md 明确说旧代码已废弃、仓库处于重写阶段，不能算完整应用；jairiidriss/barbershop-website-php-mysql（54★，MIT）只证明预约/员工/服务管理，缺客户档案与结账/小费，未收录。最终采用 SQUIRE：官方 POS 页正文说明服务票据由预约日历生成，同一票据处理服务、零售、小费、提成/摊位租金拆分并显示客户历史；排班页说明预约/改约/取消、封锁时间、理发师各自管理预约簿；客户页说明客户档案含备注、偏好与预约历史。五结构中服务目录仅由预约/服务票据间接证明，未扩展时长价格细节。",
+      "service_boundary": "商业 SaaS；仅覆盖理发店/理发师侧管理，不把消费者端 Find a barber 发现市场作为类型依据；不深入价格、架构与部署。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "barbershop management in:name,description",
+          "result": "检查前 10 个仓库；aharoJ/barbershop（https://github.com/aharoJ/barbershop）为 56★ AGPL-3.0 但重写中；jairiidriss/barbershop-website-php-mysql（https://github.com/jairiidriss/barbershop-website-php-mysql）为 54★ MIT 但缺结账/客户档案，其余多为学生项目或无许可证。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://www.getsquire.com/",
+          "result": "HTTP 403 Cloudflare challenge；改用 https://getsquire.com/ 成功读取。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://getsquire.com/features/pos-payments",
+          "result": "读取成功；确认服务票据、小费、提成/摊位租金、客户历史、按 barber 归属收入。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://getsquire.com/features/scheduling 与 /features/client-management",
+          "result": "读取成功；确认预约/改约/取消、封锁时间、客户备注/偏好/历史。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://getsquire.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "cf12dad7b3889fc09bb8abb41cd546942c4275a5de57514adf6a3ac5ae3b6d73",
+          "snapshot_path": "sources/cf12dad7b3889fc09bb8abb41cd546942c4275a5de57514adf6a3ac5ae3b6d73.txt"
+        },
+        {
+          "url": "https://getsquire.com/features/pos-payments",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "6cb6705f3d1e3608dc35f609164b2ab362d7093d6b55a172e0228a786de6bf16",
+          "snapshot_path": "sources/6cb6705f3d1e3608dc35f609164b2ab362d7093d6b55a172e0228a786de6bf16.txt"
+        },
+        {
+          "url": "https://getsquire.com/features/scheduling",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "26f24004bab60dc333e80577c5f93acc2ba3b7d80a701f423304b75f881695f3",
+          "snapshot_path": "sources/26f24004bab60dc333e80577c5f93acc2ba3b7d80a701f423304b75f881695f3.txt"
+        },
+        {
+          "url": "https://getsquire.com/features/client-management",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "b0e26c38223ee9b4b205589b7d2fd6e4bc1114642ae9b780d625f56946059f79",
+          "snapshot_path": "sources/b0e26c38223ee9b4b205589b7d2fd6e4bc1114642ae9b780d625f56946059f79.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "beauty-professional-business-app",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:glossgenius"
+      ],
+      "query": "GitHub API: salon management in:name,description; beauty salon booking pos; spa management; 官方检索: GlossGenius for solo professionals",
+      "source_urls": [
+        "https://glossgenius.com/for-solo-professionals"
+      ],
+      "note": "开源检索未找到同时具备独立专业人士账户、服务菜单、客户档案、预约生命周期与结账/小费的完整应用；KarmaComputing/salon-booking-guru（GPL-3.0）文档只有服务、员工可用性、在线预约和定金，缺客户档案与完整结账，未收录。采用 GlossGenius 官方 solo 页：正文明确面向 solopreneur/独立专业人士，覆盖预约日历、客户档案、支付与收入/小费、即时提现、no-show 保护；其管理单位是个人专业人士，符合本叶“专业人士即业务”的定义。",
+      "service_boundary": "商业 SaaS；以独立专业人士为管理单位，不把团队/多门店作为必要条件；不把 marketplace 发现端作为类型依据；不深入价格、架构与部署。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "salon management in:name,description",
+          "result": "前 15 个仓库多为学生项目/无许可证；无完整独立专业人士业务系统。"
+        },
+        {
+          "tool": "github_api",
+          "query": "beauty salon booking pos 与 spa management",
+          "result": "仍以学生项目或纯预约前端为主；KarmaComputing/salon-booking-guru（https://github.com/KarmaComputing/salon-booking-guru，GPL-3.0）核心不完整。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://www.styleseat.com/for-professionals",
+          "result": "HTTP 404；未继续。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://glossgenius.com/for-solo-professionals",
+          "result": "读取成功；确认独立专业人士定位、客户档案、支付/收入/小费/提现与 no-show 保护。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://glossgenius.com/for-solo-professionals",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "21b73fc90b05caef0b9643abf8e5504f1800096f630ab37cdd43b4ef9eaecdb0",
+          "snapshot_path": "sources/21b73fc90b05caef0b9643abf8e5504f1800096f630ab37cdd43b4ef9eaecdb0.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "massage-practice-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:massagebook"
+      ],
+      "query": "GitHub API: massage clinic management; massage booking system; 官方检索: MassageBook practice management features",
+      "source_urls": [
+        "https://pro.massagebook.com/"
+      ],
+      "note": "开源检索多为单页预约/学生项目或无许可证；Sviat91/salon-booking（MIT）只是 Google Calendar/Sheets 驱动的面诊预约，缺客户档案、服务目录与结账，未收录。采用 MassageBook 官方实践管理页：正文列在线预约、服务与可用性规则、客户数据库、问询表、SOAP notes、结账/支付/小费、会员/礼品卡/复购、多提供者与多房间日历、角色权限及 HIPAA-compliant 表述，覆盖按摩实践的服务目录、健康相邻客户档案、预约、治疗记录与结账。",
+      "service_boundary": "商业 SaaS；仅覆盖按摩/身体疗愈实践管理侧，不把消费者目录/发现端作为类型依据；未核实具体地区保险理赔实现；不深入价格、架构与部署。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "massage clinic management",
+          "result": "多为 API profile、学生项目或无许可证；无完整实践管理应用。"
+        },
+        {
+          "tool": "github_api",
+          "query": "massage booking system",
+          "result": "Sviat91/salon-booking（https://github.com/Sviat91/salon-booking，MIT）为 Next.js 预约前端，缺客户档案、服务目录与结账；其余多为 0–1★ 项目。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://pro.massagebook.com/",
+          "result": "读取成功；确认预约、服务、客户数据库、问询表、SOAP notes、结账/小费、会员、多房间与角色权限。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://pro.massagebook.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "0b3d2b5c519c300842aaa27fa6462c44d2b6afc2afc8f68dd810bf9005039729",
+          "snapshot_path": "sources/0b3d2b5c519c300842aaa27fa6462c44d2b6afc2afc8f68dd810bf9005039729.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "med-spa-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:aesthetic-record"
+      ],
+      "query": "GitHub API: spa management; medical spa management; 官方检索: Aesthetic Record EMR practice management med spa",
+      "source_urls": [
+        "https://www.aestheticrecord.com/"
+      ],
+      "note": "开源检索未找到许可证清晰、覆盖医美 EMR/预约/支付/照片的完整应用；spa 仓库多为无许可证学生项目。采用 Aesthetic Record 官方首页：标题即 EMR & Practice Management for Med Spas，正文与功能导航覆盖预约/智能排程、客户 CRM、临床文档、chart sign-off/auditing、前后照片与视频、库存、集成支付/Chart-to-Cart、会员与 HIPAA-compliant，覆盖受监管美容治疗的五结构与文档层。",
+      "service_boundary": "商业 SaaS；仅覆盖医美诊所/医疗水疗机构侧 EMR 与实践管理；不把营销数字写入关系理由；不深入价格、架构与部署；法规合规按运营地区配置，不视为产品常量。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "spa management",
+          "result": "结果多为停车/空间管理系统、学生项目或无许可证 spa 项目；无医美 EMR 完整应用。"
+        },
+        {
+          "tool": "github_api",
+          "query": "medical spa management",
+          "result": "无匹配仓库。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://www.aestheticrecord.com/",
+          "result": "读取成功；确认 EMR、预约、CRM、临床文档、照片、库存、支付与 HIPAA 表述。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.aestheticrecord.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "8319666df6c1a33aa76d4f86d558b8f83906284363c763229a4d1a3e707eaa23",
+          "snapshot_path": "sources/8319666df6c1a33aa76d4f86d558b8f83906284363c763229a4d1a3e707eaa23.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nail-salon-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:glossgenius"
+      ],
+      "query": "GitHub API: nail salon management; nail salon appointment pos; 官方检索: GlossGenius nail salon software",
+      "source_urls": [
+        "https://glossgenius.com/customers/nail-salon-software"
+      ],
+      "note": "开源检索结果均为 0–2★ 学生项目或重复，且多为无许可证（bluestar7589/NailManagement、nelsonKat0522/Happy-Nails-Bar-POS 等），无法确认完整许可与核心，未收录。另抓取 NailSoft 官方 Smart POS 页，其正文覆盖 POS、预约、客户数据库、check-in 与员工收入，但未明确服务时长/价格目录与小费处理，故未作为条目。采用 GlossGenius 官方美甲页：正文覆盖预约网站/服务、POS 结账、押金/取消/卡存档、客户档案记录甲形/配色/生日与历史、小费/提成/时薪与薪酬、会员/套餐和库存，覆盖美甲到访经济与按技师归属收入的结账核心。",
+      "service_boundary": "商业 SaaS；按美甲沙龙/美甲技师侧管理收录，不把消费者发现/市场端作为类型依据；不深入价格、架构与部署。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "nail salon management",
+          "result": "结果均为 0–2★ 学生项目；多数无许可证，不能确认开源与完整核心。"
+        },
+        {
+          "tool": "github_api",
+          "query": "nail salon appointment pos",
+          "result": "无结果。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://www.vagaro.com/nail-salon-software",
+          "result": "HTTP 404；未继续。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://www.salonist.com/nail-salon-software/",
+          "result": "传输错误；未继续。"
+        },
+        {
+          "tool": "webfetch",
+          "query": "https://glossgenius.com/customers/nail-salon-software",
+          "result": "读取成功；确认预约/服务、POS、押金/取消、客户甲形/配色偏好、小费/提成/薪酬、会员与库存。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://glossgenius.com/customers/nail-salon-software",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "928a594a3d52a512fc4746090b9e4e2848a23168391a39e2824861da58fe2a37",
+          "snapshot_path": "sources/928a594a3d52a512fc4746090b9e4e2848a23168391a39e2824861da58fe2a37.txt"
+        },
+        {
+          "url": "https://nailsoft.com/smart-pos/",
+          "kind": "homepage",
+          "status": "ok_but_not_entered",
+          "sha256": "5ce1f2428f23a9c778b4232cfa5fbf8a0bf5a98dbcfdb2293138271765e9ebcc",
+          "snapshot_path": "sources/5ce1f2428f23a9c778b4232cfa5fbf8a0bf5a98dbcfdb2293138271765e9ebcc.txt",
+          "reason": "正文缺服务时长/价格目录与小费处理证据，避免把部分匹配扩大为完整核心。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

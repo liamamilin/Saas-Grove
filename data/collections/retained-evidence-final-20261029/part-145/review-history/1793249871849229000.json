@@ -1,0 +1,49 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "robotics-engineering-platform",
+      "application_id": "commercial:moveit-pro",
+      "issue": "SaaS 服务形态不成立，且来源反向表明其为本地软件加嵌入式运行时。官方页 Product Family 明确将产品拆为 MoveIt Pro Desktop App（在本机 Build, simulate, and test robot apps；UI 连接网络中的 Runtime）、MoveIt Pro Runtime（Real-time libraries embedded on the deployed robot）和 MoveIt Pro Core（C++/Python 库）；JSON-LD 的 operatingSystem 为 Linux/ROS 2、Mac、Windows。整页没有托管 Web 入口、账号/租户、浏览器内完整工作流或按服务订阅访问的说明。batch 的 summary/leaf_matches 只证明其是商业机器人应用开发产品，未处理这一形态差异，也与 research 对 RoboDK 以桌面客户端为由 withheld 的口径不一致。",
+      "fix": "将 commercial:moveit-pro 改为 withheld/not included，理由写明“桌面客户端 + 嵌入式运行时，未证明 SaaS 服务形态”。若要保留，须补充 PickNik 官方托管 Web/SaaS 页面或文档，明确浏览器内建模、行为编写、仿真、部署的完整工作流及订阅访问方式，再更新 summary、leaf_matches 和 verification_status。不要用 Platform、Web UI、Plans & Pricing 代替托管服务证据。"
+    },
+    {
+      "slug": "robotics-engineering-platform",
+      "application_id": "commercial:moveit-pro",
+      "issue": "同一叶的收录状态在三份输入中不一致：batch.json 已列 commercial:moveit-pro 并给出 leaf_matches；research.json 的 assessment 为 case_found、case_ids 含该 ID；但 input.json 的 progress.case_status 为 boundary_unresolved、application_ids 为空、phase 为 included_without_cases，note 还明确“保留候选，不改变叶子范围”。审阅者无法判断该案例是否已被最终确认。",
+      "fix": "统一状态。若按 finding 1 不收录，删除 batch 条目或标注 withheld，research.assessment 改为 boundary_unresolved 并把 MoveIt Pro 放入 withheld_candidates，input 保持 included_without_cases、application_ids 为空；若最终确认收录，则更新 input 的 case_status、application_ids、phase，并在 research 中写明最终复核依据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "picknik.ai/pro 是官方产品页，产品名、厂商、产品家族、文档/支持/定价入口一致，商业基本真实性成立；页面公告 PickNik 成为 Qualcomm 公司并使用 Qualcomm 销售邮箱，产品身份仍是 MoveIt Pro，可在厂商字段补充归属，不影响本叶判断。",
+    "leaf_matches 的“机器/工作单元建模”和“集成数字孪生”措辞偏强：快照可证明 Robot Model、Pro Planning Scene、Robot Visualizer、高保真 Simulator 和 integrated digital twins，但 digital twin 链接指向 /services/prototyping-digital-twin/（服务项），未见工作单元几何、工装、传送带、传感器的建模正文。商业案例只要求基本类型匹配，暂不阻断，建议收敛措辞或补充文档。",
+    "“open developer platform”“Open Platform/ROS Compatibility”指 ROS 兼容和可扩展性，不是开源许可证声明；条目按 commercial 收录正确，不应据此要求完整开源许可证或社区版边界。",
+    "research.json 的 collector_note_unapproved 是未采纳草稿，不能作为收录依据；其中对 RoboDK“核心三段成立、收为商业案例”的说法与 withheld_candidates 的结论相反，最终记录应只保留已采纳结论。",
+    "research.json 的检索 query 以 open source 为主，但最终收录的是商业案例；建议在记录中明确区分开源检索与商业补采，避免把 case_found 误读为开源实现。",
+    "batch 的 verification_status 为 official_sources_reviewed，但实际只有一份官方首页快照；建议改为更准确的表述或补充文档来源，这不影响商业基本真实性。",
+    "research 对 RoboDK /web 的 no_body、picknik.ai/faq 的 redirect_no_content 等抓取缺口有如实记录，这部分留档本身可接受；本叶的阻断点是 MoveIt Pro 的形态证据与收录结论冲突，而非缺口未记录。",
+    "Remote Robot Control/Teleoperation 是恢复和遥操作功能，不等同于机器人机群日常运营；未见 CAD/CAE 主张，边界未见误收。"
+  ],
+  "leaf_checks": {
+    "robotics-engineering-platform": {
+      "application_ids": [
+        "commercial:moveit-pro"
+      ],
+      "definitional_core": "基本成立：模型侧有 Robot Model、Pro Planning Scene（3D world knowledge）、Robot Visualizer、高保真 Simulator 和 integrated digital twins；行为侧有 Behavior Tree 编辑器/调试器、600+ Behaviors、build-your-own behaviors；虚实桥接侧有“Develop. Simulate. Deploy. Repeat.”、Offline Developer Sim 和 deploy to production hardware。",
+      "saas_form": "不成立/未证明：Product Family 为 MoveIt Pro Desktop App（本机 build/simulate/test，UI 连接网络中的 Runtime）、MoveIt Pro Runtime（嵌入部署机器人）和 MoveIt Pro Core（C++/Python 库）；OS 为 Linux/ROS 2、Mac、Windows。未见托管 Web/SaaS 入口、租户/账号或浏览器内完整工作流。",
+      "identity_and_track": "ID commercial:moveit-pro 与 track commercial 匹配；产品名 MoveIt Pro、厂商 PickNik（现为 Qualcomm 公司）与官方页一致。input.json 的 case_status/application_ids 未同步。",
+      "open_source_license": "不适用：条目未按开源收录，未主张完整许可证或社区版边界；页面“open”措辞不是许可证声明。",
+      "commercial_authenticity": "官方 picknik.ai/pro 产品页，产品名、产品家族、文档/支持/定价入口齐全，isAccessibleForFree=false，基本真实性成立；类型为机器人应用开发/部署平台，不是机群管理、CAD 或 CAE。",
+      "boundary": "主定位为工程侧应用开发/仿真/部署；Remote Robot Control/Teleoperation 属恢复/遥操作，不是机群日常运营；未见 CAD/CAE 主张。",
+      "source_check": "已按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/8f8be34e1f54d315edbe6604c5c0a325aebb25f7ecf9b99f6c4276cc07206a94.txt；快照是完整产品页正文（含 Product Family、Develop/Simulate/Deploy 等），不是摘要、导航或 Loading；REVIEW_SOURCES.json 的 sha256 与文件名一致，未重新计算文件哈希。",
+      "gaps": "SaaS/托管服务形态证据缺失，且被 Desktop App/Runtime 描述反向削弱；研究工作单元几何/工装/传送带/传感器建模未见正文；research 中 RoboDK、SWORD、Wandelbots、FAQ 等抓取结果没有随附快照，无法独立核对；未做运行时测试（非必需）。",
+      "result": "changes_required"
+    }
+  },
+  "limits": "本次仅只读访问本单元文件，未运行 shell、未写文件、未部署或运行 MoveIt Pro，也未做额外抓取。REVIEW_SOURCES.json 只提供 picknik.ai/pro 一份快照，已按 path 原样读取；research.json 中 robodk.com、robodk.com/doc/en/Basic-Guide.html、robodk.com/web、sword.swri.org、wandelbots.com、picknik.ai/faq 的抓取结果没有对应快照，无法独立核对其正文与状态，只能按记录理解其被 withheld 的理由。未取得定价页、技术文档、产品试用或托管环境，无法进一步确认订阅方式、托管/多租户形态；SaaS 形态判断依据是快照中 Product Family 的 Desktop App/Runtime 描述。日期为 2026-10-29，未对页面后续变更做外推。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-145/ses_groveopencodegop145review1_1793249593.jsonl",
+  "batch_sha256": "253dfc2db47dc71a672729c8596dadb18c2e1a65fa4887f4d672c9b600199b25",
+  "research_sha256": "56255726d302bb43a3fe66591087239a3415593c9aad3fd3176cb4f8536950bc",
+  "input_sha256": "4c1ef381f8f6cb03b4502758acbea635f5776a14cd4e99f5dbb40ab2b85d8fca"
+}

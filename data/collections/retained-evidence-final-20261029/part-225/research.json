@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sponsorship-management",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "open source sponsorship management web application / sponsor packages, benefits and delivery (re-review after independent review)",
+      "source_urls": [
+        "https://api.github.com/repos/ruby-no-kai/sponsor-app",
+        "https://api.github.com/repos/ruby-no-kai/sponsor-app/license",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/README.md",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/db/seeds.rb",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/db/schema.rb",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/app/views/sponsorships/_form.html.haml",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/app/views/admin/booth_assignments/show.html.haml",
+        "https://sponsorships.rubykaigi.org/"
+      ],
+      "note": "针对独立初审的款项端缺口复核历史草稿 github:156489936（ruby-no-kai/sponsor-app，MIT）。历史复用：Optimy 快照仍描述企业作为赞助方管理申请、激活和 ROI，与本叶‘组织收取赞助款并向赞助商交付权益’方向相反；Tendenci 只见到活动赞助商展示/描述字段，均未建立关系。本轮补采：README 的 Sponsor Management、Portal、Additional tickets、Booth details submission，seeds.rb 中 Plan 的 price/price_text、capacity、booth_size、number_of_guests，以及 booth_assignments 视图，能证明赞助商、定价套餐与展位申请/分配、资料、票务等权益及其交付；但 db/schema.rb 的 sponsorships 表只有 organization_id、plan_id、booth_requested/booth_assigned、accepted_at、withdrawn_at 等字段，没有金额、发票号、付款或收款状态；sponsorships/_form 也只有联系人、账单联系人、账单请求、套餐、展位、票和备注；README 的 Roadmap 中 Invoicing 仍未勾选，withdrawing 也未勾选。因此承诺记录仅通过关联的 Plan 获得价格，未在应用内承载 money side（金额、发票、付款状态），也未证明 committed→paid 生命周期。按初审意见将本候选降为 insufficient_evidence：不将其作为成立案例，保留候选与缺口，不把未找到款项端字段断言为产品不存在，也不以外部财务流程说明替代应用内证据。",
+      "service_boundary": "核心边界为赞助商×定价赞助套餐×承诺记录，且承诺记录需在应用内同时承载金额/发票/付款状态与权益交付，并经历 committed→paid→fulfilled。本候选满足赞助商、套餐和展位/票务/资料等权益交付，但款项端只存在于关联 Plan 的价格字段，承诺记录本身未承载发票或付款/收款状态，故本叶本轮无成立关系。",
+      "search_attempts": [
+        "复核历史记录：Tendenci、Optimy 及 GitHub 候选（conferencetools/sponsorship-module、yard-live/sponsorship、HackGT/insight、eventyay Exhibition）；未把旧候选草稿当成本轮通过",
+        "读取本单元既有的 7 个 SponsorApp 快照（repository_metadata、license、README、seeds.rb、sponsorships/_form、booth_assignments/show、homepage）",
+        "定向补采：读取 db/schema.rb，核对 sponsorships 表及发票/付款/收款相关字段"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/ruby-no-kai/sponsor-app -> repository metadata snapshot dd10c9e65ff02c8811b02e98ad0d3e15212329ddcb73895a0d3f5c7a3f6e82c7.txt; id 156489936, full_name ruby-no-kai/sponsor-app；许可证另由 license 快照证明",
+        "https://api.github.com/repos/ruby-no-kai/sponsor-app/license -> license snapshot f2a12c849e88b32023bedd6dece7c7dc67e5255b6c9f52a2e450529a95c08d57.txt; complete MIT text",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/README.md -> readme snapshot 34e712ea0e68a254b7b2bb172ee9dd21c42294cfc105a4aaf1e566015569fa36.txt; sponsor management/portal/tickets/booth details present; Roadmap 的 Invoicing 与 withdrawing 均未勾选",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/db/seeds.rb -> documentation snapshot c1114b1fb51a8f2b21bdfb2dc667feaf2d4ba641e1f27e39ab360d5e7fd96725.txt; Plan 含 price/price_text、capacity、booth_size、number_of_guests；Sponsorship 只保存 plan 关联、联系人与 booth_requested/booth_assigned 等",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/db/schema.rb -> documentation snapshot 79fab11c6ff5f8372c61d49c4ee940e1c707d1bf88150569e75799d4988a4165.txt; sponsorships 表无金额、发票号、付款或收款状态字段；expense_* 表记录支出明细（amount/tax_amount/title 等），不是承诺记录上的发票或收款状态",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/app/views/sponsorships/_form.html.haml -> documentation snapshot 7b9788abfac55623d8bb44abf1a7dbcf69919f7ddfb05b4927d07a08a61c0340.txt; 只有套餐、联系人、账单联系人/账单请求、展位、票和备注字段；资产上传区域 (Loading) 占位未作为证据",
+        "https://raw.githubusercontent.com/ruby-no-kai/sponsor-app/master/app/views/admin/booth_assignments/show.html.haml -> documentation snapshot df20d6952180740b60c3957221776dc64c49d9d8603522b3a22e2fb72f83271c.txt; 展位申请/分配状态与容量",
+        "https://sponsorships.rubykaigi.org/ -> homepage snapshot 8895a4648429013cc708937ea4a8282e6a89e08a3185bbcbdaedb723fd5609d7.txt; 登录入口与当前无开放申请，仅证明产品身份/入口，未作为核心工作流证据",
+        "未取得可证明承诺记录内发票/付款/收款状态的正文；不据此断言产品不存在"
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "media-audience-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:9852918"
+      ],
+      "query": "按类型结构核查媒体受众管理：先找具备成员记录、细分与通讯激活的开源出版/会员系统，再核对 Ghost 官方 Members 与 Newsletters 文档。",
+      "source_urls": [
+        "https://api.github.com/repos/TryGhost/Ghost",
+        "https://api.github.com/repos/TryGhost/Ghost/license",
+        "https://raw.githubusercontent.com/TryGhost/Ghost/main/README.md",
+        "https://docs.ghost.org/members/",
+        "https://docs.ghost.org/newsletters/"
+      ],
+      "note": "Ghost（github:9852918，MIT）的 Members 文档说明成员经注册与邮箱确认后成为持久记录，含邮箱、姓名、标签、备注、订阅状态等属性，并支持 CSV/API 导入；成员可设为免费/付费/赠送并有内容访问层级。Newsletters 文档说明通讯可发给全部免费/付费成员或其细分。据此按出版物受众模块收录；未把广告主受众或独立 DMP 能力写入。",
+      "service_boundary": "出版物网站内的受众与会员管理：成员注册、持久记录、标签/细分、通讯激活和基础内容访问控制。不覆盖广告主受众交付、独立数据管理平台或跨品牌身份图谱；订阅计费只作为 Stripe 连接的基础能力带过。",
+      "search_attempts": [
+        {
+          "action": "直接访问 Ghost 官方帮助路径 https://ghost.org/help/segments/ 与 https://ghost.org/help/members/",
+          "result": "均返回 404，未作为证据"
+        },
+        {
+          "action": "读取 https://docs.ghost.org/llms.txt 文档索引，定位 Memberships 与 Email Newsletters 页面",
+          "result": "定位成功，改抓官方开发者文档"
+        },
+        {
+          "action": "GitHub 仓库 API 核对 TryGhost/Ghost 的 ID、许可证、默认分支与描述",
+          "result": "ID 9852918，MIT，default_branch main，描述含 memberships/subscriptions/newsletters"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/TryGhost/Ghost",
+          "kind": "repository_metadata",
+          "result": "成功，JSON 证明 full_name TryGhost/Ghost 与 ID 9852918",
+          "sha256": "00d591ab73d4dc0f60917ee289eb0c312024b48c800efddcfd4a79f67d62d0f6"
+        },
+        {
+          "url": "https://api.github.com/repos/TryGhost/Ghost/license",
+          "kind": "license",
+          "result": "成功，GitHub license API 返回 SPDX MIT",
+          "sha256": "136a3704f0748edbb93f250dee1705f380633d0b11fb7fb845d87ac6430ba850"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/TryGhost/Ghost/main/README.md",
+          "kind": "readme",
+          "result": "成功，含 Node.js CMS、Ghost-CLI 安装与 Ghost(Pro) 说明",
+          "sha256": "8c8ab5173564bf5c397711bff1219d047790a560bac537332c07da12b345a411"
+        },
+        {
+          "url": "https://docs.ghost.org/members/",
+          "kind": "documentation",
+          "result": "成功，正文含成员属性、导入、访问层级、Stripe 订阅",
+          "sha256": "11f9f7fadb1b94d812abbe72af964939334542f3d9d31091c29334d98675780b"
+        },
+        {
+          "url": "https://docs.ghost.org/newsletters/",
+          "kind": "documentation",
+          "result": "成功，正文含按免费/付费成员或细分发送通讯",
+          "sha256": "63a665bf00a9e8925022a44ad9ec8a5e77237ffccab8b7d966c9ba3b0be3a71e"
+        },
+        {
+          "url": "https://ghost.org/help/segments/",
+          "kind": "documentation",
+          "result": "HTTP 404，页面不存在",
+          "sha256": null
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "media-subscription-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:piano-subscriptions"
+      ],
+      "query": "查找媒体/出版订阅管理官方产品页，核对订阅记录、续订计费、内容访问与身份管理是否构成运营侧订阅业务层。",
+      "source_urls": [
+        "https://www.piano.io/product/subscriptions"
+      ],
+      "note": "Piano Subscriptions 官方产品页正文说明其连接用户身份、受众细分、实时个性化、计费与支付，覆盖订阅获取到续订的完整生命周期，核心为 Stripe Billing；页面导航列出管理/计费、访问控制、灵活定价、印刷订阅、身份管理。按商业基本记录收录，不深入价格与架构。开源侧 Ghost 也具备基础付费订阅，但其受众模块已用于媒体受众管理叶；本叶选择专门的媒体订阅平台以覆盖更完整的订阅生命周期，并保留商业仅基本记录的边界。",
+      "service_boundary": "媒体/出版机构的订阅业务层：订阅与套餐、续订与支付编排、访问控制、印刷订阅和身份管理。不把内容生产或阅读/播放体验算入；与无媒体产品的通用订阅计费保持边界。",
+      "search_attempts": [
+        {
+          "action": "尝试 https://pianos.io/ 与 https://www.pianos.io/",
+          "result": "TLS 连接失败（LibreSSL SSL_ERROR_SYSCALL），未取得内容"
+        },
+        {
+          "action": "尝试 https://piano.io/、https://www.piano.io/ 与 https://piano.io/subscriptions/、/audience/",
+          "result": "主页 200；两个猜测的产品路径为 404"
+        },
+        {
+          "action": "读取 https://piano.io/sitemap.xml 与 sitemap_en.xml，定位真实产品路径",
+          "result": "找到 /product/subscriptions 及管理计费、访问控制、印刷订阅等子页"
+        },
+        {
+          "action": "抓取并阅读 /product/subscriptions 正文",
+          "result": "确认身份、细分、计费支付、获取到续订生命周期与 Stripe Billing"
+        },
+        {
+          "action": "对比开源候选 Ghost Members 的订阅能力与专用商业平台",
+          "result": "Ghost 有 tier、Stripe 订阅与内容访问，但缺少印刷/集团订阅等；本叶采用 Piano 作为专门订阅平台，Ghost 已在受众叶收录"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.piano.io/product/subscriptions",
+          "kind": "homepage",
+          "result": "成功，正文含订阅生命周期、Stripe Billing、身份/细分/支付",
+          "sha256": "7b1970d1bfa792534cc5e60e8a042dde1e86092176a6a4b7ddf18fb841ecb4fe"
+        },
+        {
+          "url": "https://piano.io/subscriptions/",
+          "kind": "homepage",
+          "result": "HTTP 404，非产品页",
+          "sha256": null
+        },
+        {
+          "url": "https://pianos.io/",
+          "kind": "homepage",
+          "result": "TLS 失败，无内容",
+          "sha256": null
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "music-distribution-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:tunecore"
+      ],
+      "query": "核对音乐分发平台官方来源：发行版上传、目标商店网络、交付上线与收入回传；同时用 GitHub 仓库搜索查看是否有可用开源分发平台。",
+      "source_urls": [
+        "https://www.tunecore.com/"
+      ],
+      "note": "TuneCore 官方首页正文说明可无限上传单曲、EP、专辑，分发至 Spotify、Apple Music、YouTube、TikTok 等 150+ 商店，按月回传收入，艺人保留 100% 所有权；目录迁移保留播放量、歌单位置与发行日期。按商业基本记录收录。GitHub 仓库搜索未取得可用的开源商店分发平台，仅记录本轮检索结果，不据此断言不存在。",
+      "service_boundary": "面向权利持有人的音乐分发服务：发行版上传、商店/流媒体目标网络、交付与收入回传、目录迁移。首页未细述逐店上线时序、元数据锁定与下架流程，这些关系不作为已证实内容；不把流媒体播放端或推广服务算入。",
+      "search_attempts": [
+        {
+          "action": "GitHub 仓库搜索 q=\"music distribution platform in:name,description stars:>15\"，按 stars 排序取前 8",
+          "result": "total_count=2，结果为代币化版税与 AI 内容生产项目，无商店分发平台；仅代表本轮检索范围"
+        },
+        {
+          "action": "抓取并阅读 TuneCore 官方首页正文",
+          "result": "确认 150+ 商店分发、按月收入、100% 权利与目录迁移"
+        },
+        {
+          "action": "查看其他商业候选（DistroKid/CD Baby）首页可读性",
+          "result": "CD Baby 首页内容可用但未深入；本轮一个来源充分的核心匹配已满足，停止该叶搜索"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.tunecore.com/",
+          "kind": "homepage",
+          "result": "成功，正文含分发商店数量、收入回传、版权与迁移",
+          "sha256": "cbdbe153f934e2723612d72ba1a9d294c5cb5b5a20bc32a65d249165c8fc8822"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "music-promotion-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:submithub"
+      ],
+      "query": "核对音乐推广双边平台：艺术家提交录音、独立策展人网络、审听与收录决策；并检索是否有可用的开源同类项目。",
+      "source_urls": [
+        "https://www.submithub.com/"
+      ],
+      "note": "SubmitHub 官方首页正文说明艺术家可向 1,700+ 经质量审核的 Spotify 播放列表主、音乐博客与影响者提交音乐，由对方评论和推广，且已有超一百万艺术家、公关与厂牌使用。按商业基本记录收录。首页未展示退款/回复保证细节，故不记录该条款；GitHub 搜索也无可用开源案例，仅作本轮留档。",
+      "service_boundary": "连接音乐制作者与独立策展人的推广服务：曲目提交、策展人网络、审听与收录/拒绝决策。不记录平台对收录位置的保证或退款承诺（未取得条款正文）；不把广告投放或流媒体分发算入。",
+      "search_attempts": [
+        {
+          "action": "GitHub 仓库搜索 q=\"music promotion platform in:name,description stars:>10\"，按 stars 排序取前 8",
+          "result": "total_count=1，结果与音乐推广无关；仅代表本轮检索范围"
+        },
+        {
+          "action": "抓取 SubmitHub 首页并提取正文",
+          "result": "确认策展人数量、质量审核、提交/评论/推广关系"
+        },
+        {
+          "action": "尝试 /help、/promotion、/packages 获取退款或回复保证条款",
+          "result": "页面仅返回 SPA 导航壳，无正文；不据此补写保证关系"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.submithub.com/",
+          "kind": "homepage",
+          "result": "成功，正文含 1,700+ 策展人、质量审核、提交与推广",
+          "sha256": "433247670c27cae79f3f3f2763a6e224f946f9c6095cea365407e07757ab057d"
+        },
+        {
+          "url": "https://www.submithub.com/help",
+          "kind": "documentation",
+          "result": "HTTP 200 但仅应用壳与导航，无 FAQ 正文",
+          "sha256": null
+        },
+        {
+          "url": "https://www.submithub.com/promotion",
+          "kind": "documentation",
+          "result": "HTTP 200 但仅应用壳与导航，无正文",
+          "sha256": null
+        },
+        {
+          "url": "https://www.submithub.com/packages",
+          "kind": "documentation",
+          "result": "HTTP 200 但仅应用壳与导航，无正文",
+          "sha256": null
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "radio-station-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:82463450"
+      ],
+      "query": "查找可自托管的广播电台管理与播出自动化开源项目，核对音频库、按时间排程的播出计划与自动播放执行。",
+      "source_urls": [
+        "https://api.github.com/repos/libretime/libretime",
+        "https://api.github.com/repos/libretime/libretime/license",
+        "https://raw.githubusercontent.com/LibreTime/libretime/main/README.md",
+        "https://libretime.org/"
+      ],
+      "note": "LibreTime（github:82463450，AGPL-3.0）官方首页说明可导入音乐、转场音与完整节目，自动排程节目和播客，向广播控制台、AM/FM 发射机或云端网络电台播出；README 说明其为社区维护的 Airtime 分支、广播与自动化平台。按三个核心结构收录。商业广告位与流量/计费系统集成未在已取正文展开，故不记录。",
+      "service_boundary": "运营商侧广播电台运行系统：音频库、节目/时段排程、自动播出到地面发射机或网络流。不覆盖广告销售与结算（广播管理系统）、新闻编辑、听众端发现应用或 DJ 现场演出工具。",
+      "search_attempts": [
+        {
+          "action": "GitHub 仓库 API 核对 libretime/libretime 的 ID、许可证与描述",
+          "result": "ID 82463450，AGPL-3.0，描述 Radio Broadcast & Automation Platform"
+        },
+        {
+          "action": "抓取 libretime.org 首页与 README",
+          "result": "确认音频库导入、自动排程、AM/FM 与网络播出"
+        },
+        {
+          "action": "检查文档站 https://libretime.org/docs/ 的入口",
+          "result": "可访问，确认其为 LibreTime 官方文档；核心能力已由首页/README 证明，未继续扩展"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/libretime/libretime",
+          "kind": "repository_metadata",
+          "result": "成功，JSON 证明 full_name libretime/libretime 与 ID 82463450",
+          "sha256": "cf4eed4a6b1b88ce64388e64567b9e24b5dfd29b470fab0042f5178d379190e6"
+        },
+        {
+          "url": "https://api.github.com/repos/libretime/libretime/license",
+          "kind": "license",
+          "result": "成功，GitHub license API 返回 SPDX AGPL-3.0",
+          "sha256": "fe37a56e2b9b5a9ba257fad4f4b9a02d8eda8631d50c9f6e13dc9f5223f418b1"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/LibreTime/libretime/main/README.md",
+          "kind": "readme",
+          "result": "成功，含社区分支、广播用途与 AGPLv3 声明",
+          "sha256": "ba3a095b9debfab70b2fb6ceefe3468fd1e4d0b74f90b0e959f2d2545d32cbd2"
+        },
+        {
+          "url": "https://libretime.org/",
+          "kind": "homepage",
+          "result": "成功，正文含库管理、自动排程与 AM/FM/网络播出",
+          "sha256": "a1dfa32d8d4b2b71096419d2ecedc554189fe1f10de4c5d3bf4d03eb074fdb58"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

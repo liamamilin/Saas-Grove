@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 与 research_records 为空，而 research.json 与 batch.json 已为五个叶子各登记一个商业案例；若 progress 会作为下游索引使用，建议同步为 case_found 并回填 application_ids，避免单元清单与采集结果不一致。",
+    "Aspire 快照为 Next.js 流式渲染页面，可见正文主要是 hero 段，页面其余内容位于压缩的单行 HTML/RSC payload 中，无法逐句核读；现有快照足以确认其为园林景观现场服务商业软件，但 batch 中关于按服务/物业/部门指标、劳动排期等细节的措辞最好以可渲染正文或补充来源支撑。",
+    "CurbWaste 只覆盖定义中的路线式废物清运（含 roll-off、商业与住宅路线），未提供按次垃圾清运（per-job junk removal）证据；batch 已如实限定范围，未外推，属于可接受的类型局部覆盖，后续如需覆盖另一市场实现可另找案例。",
+    "Gem Logic 的维修管理是更广泛珠宝业务平台（POS、库存、CRM、财务）中的模块，符合定义中“模块化包装是变体而非定义”的说明；batch 已按模块描述，未将其误写为独立产品。",
+    "RealGreen 首页的一个支付流程可视化示例出现 PestPac 品牌字样（同属 WorkWave 产品线），属页面素材层面的交叉引用，不影响 RealGreen 作为草坪护理业务平台的类型判断。",
+    "ServiceTitan、CurbWaste、Aspire 等快照为整页 HTML，正文与导航/营销文案混排，且单行超过读取截断长度；本次以可见正文、标题、结构化数据与功能段落交叉核对，建议后续采集保留渲染后纯文本以提升可审计性。",
+    "research.json 中 websearch 多次返回 0 条、GitHub REST 结果多为镜像/演示/无许可证项目，这些检索与抓取缺口已如实记录；未发现许可证明确且覆盖完整业务闭环的自托管候选，未将其冒充开源案例，符合留档要求。"
+  ],
+  "leaf_checks": {
+    "hvac-service-management": {
+      "application_id": "commercial:servicetitan",
+      "snapshot": "data/collections/sources/cb79aafc34947b92dfa8eaa032a97efededf132715a713c48dd331da6eec59ab.txt（https://www.servicetitan.com/industries/hvac-software，sha256 与 REVIEW_SOURCES.json 一致）",
+      "evidence": "官方 HVAC 行业页正文可见 scheduling、dispatching、work order management、billing；FAQ 说明技师移动端可访问客户历史、工单详情、报价并导航到客户地点，支持从价格手册生成估价/提案、维护协议自动排期与收款、发票与客户支付门户。",
+      "core_match": "覆盖客户（含服务地点/客户历史）、HVAC 工单及其排程派单到开票的处理、执行技师、完成工作计费四项核心；工作组合含服务呼叫、维修、维护协议与更换安装/项目，符合定义性核心。",
+      "service_form": "商业云 SaaS，官方页提供登录、演示与 iOS/Android 移动端；未宣称开源或自托管。",
+      "gaps": "未运行测试；设备记录、会员资格等仅作为成熟产品能力出现，不影响核心判断。"
+    },
+    "jewelry-repair-management": {
+      "application_id": "commercial:gem-logic",
+      "snapshot": "data/collections/sources/9bb03a9a3496f753e6d1223bb2c8f4e3b063e680c0677f6d1c85b31679e2795e.txt（https://www.gem-logic.com/repair-management，sha256 一致）",
+      "evidence": "页面标题与描述为珠宝维修跟踪软件；正文可见柜台接件拍照、装袋并打印维修票据/条码标签、带时间戳的保管链、工坊流转、就绪后短信通知客户、从送件到取件跟踪、客户在线支付链接，并说明其跟踪物件而非仅跟踪发票。",
+      "core_match": "具备客户×单件物品×请求工作的维修工单记录、受管生命周期（接件→工坊→就绪→取件）、归还与结算及历史留存；维修管理作为更广泛珠宝平台模块提供，符合定义允许的包装变体。",
+      "service_form": "商业 SaaS（提供免费试用/注册与预约演示）；页面未说明开源或自托管。",
+      "gaps": "估价书面审批、扫码取件等细节位于压缩单行正文，未能逐句核读；不影响已验证的核心结构与类型匹配。"
+    },
+    "junk-removal-waste-hauling-management": {
+      "application_id": "commercial:curbwaste",
+      "snapshot": "data/collections/sources/dccb4f0079d9ea9083d3ff235f20abc7212d70031fbc5416e0bc2acc55ad8190.txt（https://www.curbwaste.com/，sha256 一致）",
+      "evidence": "官方首页与结构化数据说明其为面向清运商的云端废物管理平台，含订单创建与跟踪、路线管理与优化、实时派车与车队管理、iOS/Android 司机应用、容器/资产与在途跟踪、自动开票、客户门户；客户证言提到可在数分钟内把工作派到卡车上。",
+      "core_match": "覆盖服务客户、服务事件（订单/停靠）、执行卡车与团队、按记录执行计费，符合定义中路线式废物清运的实现；batch 已明确未宣称覆盖按次垃圾清运。",
+      "service_form": "商业云 SaaS；官方页未说明开源或自托管。",
+      "gaps": "仅首页快照，未逐项核读异常停靠、容器换桶等规则细节；按次垃圾清运这一市场实现无本单元证据。"
+    },
+    "landscaping-business-management": {
+      "application_id": "commercial:aspire",
+      "snapshot": "data/collections/sources/3d0e7c82b78b83fa1c0e356958ba773698c5edc9bc5de2651cfee4d611d0f1a5.txt（https://www.youraspire.com/，sha256 一致）",
+      "evidence": "首页明确面向园林景观与商业清洁企业，正文写有精确投标、实时作业成本与运营洞察；同页正文/结构化内容出现排期、循环作业、按物业/服务查看、CRM、开票与人工/排期等词，足以确认其为园林景观业务管理平台。",
+      "core_match": "类型上覆盖客户与服务物业、景观作业、办公室指派团队、完成工作计费四项核心的组合；batch 的详细功能描述方向一致。",
+      "service_form": "商业 SaaS 平台（预约演示/登录入口），未宣称开源或自托管。",
+      "gaps": "快照为流式渲染页面，可见正文以 hero 为主，其余段落位于压缩单行 HTML/RSC payload，无法逐句核读；本次仅按商业案例的基本真实性与类型匹配标准通过。"
+    },
+    "lawn-care-business-management": {
+      "application_id": "commercial:realgreen",
+      "snapshot": "data/collections/sources/c50328cc47521be96c737c73050aa4a1bc2b3a83d3a9905e0272a8e03be83ddf.txt（https://www.realgreen.com/，sha256 一致）",
+      "evidence": "首页标题与正文明确为草坪护理业务软件；可见测量与估价、排期、智能路线、技师移动端、客户沟通、账单与支付、经营分析；FAQ 说明其为草坪护理/园林企业的一体化平台，含 CRM、估算、排期、路线、移动应用、账单、支付与分析，并展示客户账户、发票与服务历史界面。",
+      "core_match": "覆盖客户与服务草坪/物业、草坪服务访问（循环修剪与处理应用）、指派团队/技术人员、完成访问计费四项核心，类型匹配明确。",
+      "service_form": "商业云 SaaS（WorkWave 旗下），未宣称开源或自托管。",
+      "gaps": "未运行测试；化学施用合规记录等规则细节未逐项核读，不影响核心类型判断。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 指定的 5 个快照；未运行 shell、未写文件、未访问其他单元、未部署或运行应用、未补充价格/架构研究。快照为整页 HTML，部分内容压缩在超长单行中，读取工具按行截断，因而对 Aspire、ServiceTitan、CurbWaste 等页面的部分正文只能做关键词/结构化数据与可见段落交叉核对，不能逐句引用；商业案例按基本真实性与类型匹配标准审查，未要求完整工作流证明。所有 5 个叶子均有对应商业案例，未涉及开源许可证与社区版边界判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-270/ses_groveopencodegop270review1_1793041325.jsonl",
+  "batch_sha256": "44f358359a8dba8a7ed1eed3516b0f351696eea7660ca352b18c01903f06d5de",
+  "research_sha256": "5525904abf6c0f4bda90044995e912bb8f42363ff94304cb687b7b25a4921dde",
+  "input_sha256": "32ffb0473177d2d434f08313f15b529f3a191062b0094971ece08ca957936476"
+}

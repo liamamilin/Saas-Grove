@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json/research.json 中的 case_found 不一致；建议同步元数据，避免下游把已找到案例的叶子当成未检索。",
+    "llm-evaluation-platform 的 leaf_match 目前只把 README 列入 source_urls；同一 Promptfoo 应用的 Tracing 文档已经给出 test-case 执行、grading span、evaluation ID 和本地运行记录证据，建议补入该文档并相应改写 reason，使叶级引用与核心证据一致。",
+    "research.json 中 Label Studio 与 Promptfoo 的 fetch_outcomes 只逐条列了 README 或 agent 文档，未逐条列出 LICENSE/仓库元数据的抓取；batch.json 已有这些来源及 license_review，建议补齐留档以增强可追溯性。",
+    "Cleo 与 Hightouch 的官网快照为长行 HTML，正文抽取依赖可见标题/描述、关键词命中和 research 抓取记录；建议后续保存可读正文或 markdown 快照，便于逐段复核。",
+    "Promptfoo 是本地 CLI/库（含本地 Web 查看器），不是托管多租户平台；若分类允许开源本地工具，可保留现映射，否则应在服务形态上进一步限定。",
+    "agent-evaluation-platform 与 llm-evaluation-platform 共用 Promptfoo；建议在叶级 reason 中进一步区分 agent 轨迹/工具调用评估与普通 LLM prompt/model 评估的边界。",
+    "Label Studio 的 Starter Cloud/企业版边界目前主要依据 README 的 edition 入口；建议补充 edition comparison 来源，明确开源核心的具体范围。"
+  ],
+  "leaf_checks": {
+    "managed-file-transfer": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:cleo"
+      ],
+      "basis": "Cleo 官方 MFT 产品页快照的标题与描述明确其为 B2B MFT，正文语境覆盖安全文件交换、自动化、协议、加密、认证、审计跟踪和监控告警；商业叶只要求基本真实性和核心类型匹配。",
+      "gap": "页面为长行 HTML，正文未能逐段全文抽取；未验证实际协议清单、租户隔离或运行时行为，但商业叶不要求部署测试。"
+    },
+    "reverse-etl-platform": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:hightouch"
+      ],
+      "basis": "Hightouch 官方 Syncs 文档正文明确一个 sync 绑定一个 model 到一个 destination object/list/table，配置包含 model、type/mode、record matching、field mapping；使用 CDC 只发送新增/变更/删除行，并按 schedule/trigger 运行且报告每次运行结果。产品页提供 SQL、warehouse 和 300+ 目的地的语境。",
+      "gap": "300+ 目的地的具体计数未逐项核验；商业叶只要求基本真实性，不影响类型匹配。"
+    },
+    "agent-evaluation-platform": {
+      "status": "pass",
+      "case_ids": [
+        "github:633927609"
+      ],
+      "basis": "Promptfoo 官方 Tracing 与 Evaluate Coding Agents 文档显示：支持 Codex SDK、Claude Agent SDK、OpenCode SDK 等 agent provider；用 trajectory、JavaScript、llm-rubric 等断言逐案评分；启用 tracing 后每个 test case 生成独立 trace，记录 agent 动作、工具调用与 grading span，并以 evaluation ID/test case ID 关联持久化记录；指南还给出 --repeat 3、baseline 等比较/回归用法。",
+      "gap": "文档未显示自动的 agent 版本标签；以 provider/config 与 evaluation 记录界定归属，符合核心中的 configuration 归属。"
+    },
+    "data-labeling-platform": {
+      "status": "pass",
+      "case_ids": [
+        "github:192640529"
+      ],
+      "basis": "Label Studio 官方 README 明确其为开源数据标注工具，支持多用户、多项目、可配置标签格式、图像/音频/文本/视频/时间序列、云存储导入与多格式导出，并提供 Docker/pip 自托管；LICENSE 为完整 Apache-2.0，仓库 ID 192640529 与快照一致。",
+      "gap": "README 只提到 Starter Cloud/edition 对比，未展开企业版功能边界；当前关系只记开源核心，边界记录基本足够但可再补充。"
+    },
+    "llm-evaluation-platform": {
+      "status": "pass",
+      "case_ids": [
+        "github:633927609"
+      ],
+      "basis": "Promptfoo 官方 README 确认其为 LLM eval CLI/库，支持对 prompt/model 做自动评估、并排比较、共享结果和 CI/CD；同一应用的 Tracing 文档补充 test-case 执行、grading span、evaluation ID、本地 trace 存储以及 prompt/provider 标签，足以支撑 LLM 评估的测试用例执行、逐案评分和持久化运行记录核心。",
+      "gap": "llm 叶自身的 leaf_match 只把 README 列入 source_urls，README 对测试用例、逐案评分和运行记录的表述较薄；建议补引 Tracing 文档并更新 reason（非阻断）。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 SHA、未部署或运行任何产品，也未读取其他单元。Cleo/Hightouch 页面为长行 HTML，工具按行显示会截断部分正文，因此对这两页的正文核对以可见标题/描述、关键词命中和 research 抓取记录为辅，未做逐段全文抽取；未核验商业价格/合同，未做运行时协议、连接器或导出测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-063/ses_groveopencodegop063review2_1792992009.jsonl",
+  "batch_sha256": "fa8d4eb67a1184aa81beea8a9062712bbf2c928aafa31a34d4caa26bd087d8ef",
+  "research_sha256": "42870efc37d2aa4f4b2beea54f5ba742ba3d08918698c9069709798b2d674f1c",
+  "input_sha256": "912d0ee20abaaa3f5b9e2e1028e96d7bbc57098027c002f8c5809bd5f57f15ba"
+}

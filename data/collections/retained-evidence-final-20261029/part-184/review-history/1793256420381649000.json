@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "transcript-management",
+      "application_id": null,
+      "issue": "TranscriptsKE 的排除理由是仓库 license=null，但 data/collections/sources 中没有该仓库的 GitHub API 元数据快照，也没有 LICENSE 文件或 404 记录；README 快照只能证明功能描述，不能独立证明许可证状态。由于许可证是该候选未被收录的主要依据，现有留档无法复核这一关键事实。",
+      "fix": "补存 api.github.com/repos/mwangisam203/TranscriptKe 的元数据响应（或 LICENSE/404 抓取），在 research.json 中增加 snapshot_path，并在 REVIEW_SOURCES.json 中登记 url/path 对应关系，再据此重述 boundary_unresolved 结论。"
+    },
+    {
+      "slug": "transcript-management",
+      "application_id": null,
+      "issue": "retained sources 中还包含 Vaneeza-7/Degree-Issuance-System 的完整 MIT LICENSE、README、仓库页和 IssueTranscript 代码快照；README 明确写到学生提交成绩单/学位请求、资格核验、签发数字学位与成绩单、以及请求跟踪，但 research.json 和 batch.json 均未提及该仓库，未记录收录或排除理由。完整许可证加核心相邻工作流使其不能被静默忽略。",
+      "fix": "补充该仓库的评估记录并引用现有快照；若符合定义则作为开源案例收录并核对社区版边界，若不符合则明确写出排除理由（例如以学位签发为中心、ASP.NET 本地部署而非持续服务），同时保留 no-case 结论。"
+    },
+    {
+      "slug": "transcript-management",
+      "application_id": null,
+      "issue": "research.json 只记录了开源 GitHub 检索，未说明本叶是否覆盖商业服务；但 sources 中已有 National Student Clearinghouse Transcript Services 和 Parchment 的快照，页面包含在线下单、第三方/同意代订、电子与打印递送、管理端跟踪和 registrar release 等内容。若商业服务在范围内，当前 no-case 结论缺少对这些明显同类产品的评估；若不在范围内，也没有写明范围限制。",
+      "fix": "明确本叶的收录范围（仅开源或含商业）；若含商业，补充这两个服务的案例记录并附核心工作流页面而非仅首页/导航；若仅开源，在 research.json 中写明范围并标注这些快照为 out of scope。"
+    }
+  ],
+  "non_blocking_notes": [
+    "note 中“未证明官方学术记录由机构 SIS 提供”比定义更严格：定义允许记录由机构原生持有、从 SIS 拉取或由路由服务不存储；机构准备 PDF 加 registrar release attestation 已能支持核心。建议把许可证缺失作为主要边界理由，SIS 集成仅作补充说明。",
+    "“openSIS/RosarioSIS 的 transcripts 属于 SIS 报告输出”没有对应的 source_url 或快照；建议补引具体文档或删除该判断。该点不影响 TranscriptsKE 因许可证缺失而不收录的结论。",
+    "REVIEW_SOURCES.json 的 sources 为空，research.json 只有 source_urls 而无 snapshot_path；建议统一为可复核的 url/path 清单。",
+    "定义 dc 中的 inbound receiving 可能更接近成绩单交换/接收子类型；当前作为常见能力列出不影响定义核心，但可在后续版本考虑拆分。",
+    "NSC/Parchment 的现有快照以首页、导航和营销文案为主；若作为商业案例，需补核心工作流正文，不能只用首页替代。",
+    "TranscriptsKE README 是详细实现清单而非普通简介，足以支持候选评估；但其“institution-prepared PDF”与 release attestation 已较强地体现机构权威记录，建议不要以 SIS 集成为必要条件。"
+  ],
+  "leaf_checks": {
+    "transcript-management": {
+      "status": "no_application_records; research assessment=boundary_unresolved",
+      "definition_core": "已核对 input.json 的 definition：核心是机构侧对官方学术记录的受控发布，包含请求、授权/同意、机构验证、发布、递送到指定接收方并跟踪完成；与 SIS 和数字凭证平台的边界写得清楚。定义性核心通过。",
+      "saas_form": "batch.json 无条目，application_ids 为空；本叶没有可核对的持续服务案例。TranscriptsKE 是自托管 FastAPI 应用，Degree-Issuance-System 是本地 ASP.NET 项目，均未被作为 SaaS 案例收录。",
+      "id_track": "domain_id=23、parent_id=23.01 在 input.json 与 definition 中一致；slug=transcript-management 一致；track 无异常。",
+      "license": "TranscriptsKE 的 license=null 仅有 fetch_outcomes 文本记录，缺少可复核的 API/ LICENSE 快照，不能独立确认；Degree-Issuance-System 有完整 MIT LICENSE 快照，但未被评估，社区版边界也未记录。",
+      "evidence": "已读 research.json、batch.json；已读 sources 下 7 个文件并按内容识别：TranscriptsKE README、NSC Transcript Services、Parchment 首页、Degree-Issuance-System README/仓库页/MIT LICENSE/IssueTranscript 代码。",
+      "gaps": [
+        "TranscriptsKE 许可证元数据未留快照。",
+        "MIT Degree-Issuance-System 未在 research.json/batch.json 中评估。",
+        "商业同类服务（NSC/Parchment）未评估且未声明范围。",
+        "openSIS/RosarioSIS 的排除判断无引用来源。",
+        "REVIEW_SOURCES.json 为空，缺少 url→snapshot 映射。"
+      ]
+    }
+  },
+  "limits": "REVIEW_SOURCES.json 的 sources 为空，batch.json 的 entries 为空，research.json 只有 source_urls 而没有 snapshot_path；因此没有权威的 URL→快照映射。我读取了 data/collections/sources 下全部 7 个文件，按内容识别来源，未猜测路径或摘要。未做部署测试或额外采集；对 GitHub API 的实时复核返回 403，未用其替代留档。未运行 shell、未写文件、未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-184/ses_groveopencodegop184review1_1793255624.jsonl",
+  "batch_sha256": "d1afabc46e3b495108545846dbe9ffd0e50414d69b4c32815c21da44acb60689",
+  "research_sha256": "666aa2992dee6008f2cabf4e4a58953b221fc7fc4e3daa6d6550ce00bf623448",
+  "input_sha256": "dda45526ae827d402aa31a1a3dfbdf295848cea7e084f5d5b3c2fa6504121e43"
+}

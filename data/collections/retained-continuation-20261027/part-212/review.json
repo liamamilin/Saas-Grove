@@ -1,0 +1,72 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "cpoe-clinical-order-management / github:679584：OpenEMR Procedures 文档能证明检查、影像、操作类医嘱的创建、传输、pending review、状态更新与签署后回写；未直接证明开嘱医生归属、医嘱 revise/renew/discontinue 或药物医嘱生命周期。batch 已明确收窄关系并记录限制，故不阻断；若该叶要求完整 CPOE 生命周期，后续应补源或继续限定范围。",
+    "electronic-health-record-ehr / github:679584：登录、角色/逐用户权限、患者图表、问题/药物/SOAP/encounter 均有正文证据；每条记录的作者署名、时间戳、修订/审计链未由所引文档直接展示。research 已如实记录该缺口，故不阻断。",
+    "github:679584 的仓库身份与许可证已核对：仓库 ID 679584、openemr/openemr、GPL-3.0 完整许可证文本；Features 页说明可自由下载/使用/修改并采用 GPL，同时提到 certified edition 可能有额外成本。建议在 summary 中补一句社区版/认证版边界，避免把认证版费用误读为社区版限制。",
+    "dialysis-center-management / commercial:fresenius-tdms：页面能证明透析治疗处方/指令、设备预设置、透析前后体重、治疗过程、治疗中检验/用药记录、报告和多中心管理；未展示患者名册 admission→active→discharge 生命周期或持久纵向治疗史。batch 已把关系限定为透析临床数据管理，符合商业基本真实性和类型匹配要求。",
+    "emergency-department-information-system / commercial:wellsoft-edis：页面能证明 pre-arrival→disposition 的实时跟踪、triage/fast-track 视图、CPOE、结果回传和出院计划；未细列分诊结构化字段、急症分级量表及全部处置枚举。作为商业基本类型匹配可接受。",
+    "research.json 中 Friska CCM 作为候选被引用，但 REVIEW_SOURCES.json 没有对应快照；另有部分开源检索候选未给 URL。它们未进入 batch，属于留档完整性问题，不影响本单元已列案例。",
+    "input.json 顶层 phase 为 included_without_cases，各叶 progress.case_status 仍为 not_searched 且 application_ids/research_records 为空，与 research.json/batch.json 的 case_found 不一致；若下游读取 progress，应同步元数据。",
+    "OpenEMR 用户指南多为 4.1 版，当前仓库已到 8.0；核心结构由当前 Features 页和 README 交叉支持，但未做版本级 UI 复测。"
+  ],
+  "leaf_checks": {
+    "chronic-care-management": {
+      "application_ids": [
+        "commercial:ecaremd-ccm"
+      ],
+      "track": "commercial",
+      "verdict": "pass_commercial_basic_match",
+      "basis": "eCareMD 官方产品页快照 98d37870... 明确其为 cloud-based CCM 软件，并提供 Medicare 资格自动核验（2+ 慢性病）、安全数字同意与注册、20+ 条件化护理计划模板、月度 CCM 服务时间自动记录、CMS CPT/99490 计费文档。覆盖资格→同意/注册→护理计划→循环月度服务四段核心；应用 ID 与 track 一致。",
+      "saas_form": "页面明确 cloud-based，属于持续使用的云软件服务；未验证多租户或托管架构细节。",
+      "gaps": "仅官方营销页，未做产品运行验证；页面未展示完整后端数据模型或计费规则实现。"
+    },
+    "cpoe-clinical-order-management": {
+      "application_ids": [
+        "github:679584"
+      ],
+      "track": "open_source",
+      "verdict": "pass_with_recorded_scope_limit",
+      "basis": "OpenEMR 仓库 procedure_provider_help.php 快照 f3cd6572... 明确 Procedures 模块用于 place and review orders，并为实验室与影像 CPOE 所需；可开项含 Procedure、Laboratory Test、Imaging 等。configure_orders_help.php 快照 d698ac3b... 记录医嘱目录、组合/面板和 HL7 电子医嘱。Procedure 配置与订单流程 wiki 快照 d3e001a2... 记录保存/传输、pending review、状态更新、签署后结果回写 patient results 并更新对应 encounter 的 procedure order。仓库 ID 679584、openemr/openemr、GPL-3.0 完整许可证均已核对。",
+      "community_edition_boundary": "所引仓库与许可证指向 GPL-3.0 开源核心；Features 页称可自由下载/使用/修改，认证版可能有额外成本，未显示与开源核心分离的闭源社区版。",
+      "gaps": "未由所引文档证明开嘱医生归属、医嘱 revision/renew/discontinue 或药物医嘱生命周期；Canceled 仅为 Procedure Report/Result Statuses，不是医嘱停用。batch 已明确不主张这些点，并把关系限定在检查、影像与操作类医嘱的创建、传输、审阅与签署后回链。"
+    },
+    "dialysis-center-management": {
+      "application_ids": [
+        "commercial:fresenius-tdms"
+      ],
+      "track": "commercial",
+      "verdict": "pass_commercial_basic_match",
+      "basis": "Fresenius Medical Care TDMS 官方产品页快照 11124a4b... 明确其服务于透析中心与医院；临床数据管理支持透析治疗指令的创建与处理、药物指令、实验室数据、治疗文档、透析前后体重、设备准备与预设置、治疗过程及治疗中检验/用药记录、治疗与用药排程、报告和多中心管理。覆盖处方—治疗会话的透析临床数据管理，属于持续使用的商业软件。",
+      "saas_form": "页面未声明 SaaS；描述为可集成于透析中心基础设施的软件，按商业基本类型匹配审查，不作多租户 SaaS 断言。",
+      "gaps": "页面未明确患者名册 admission→active→discharge 生命周期或持久纵向治疗史；batch 已据此不主张完整中心运营或纵向记录核心。"
+    },
+    "electronic-health-record-ehr": {
+      "application_ids": [
+        "github:679584"
+      ],
+      "track": "open_source",
+      "verdict": "pass_with_recorded_attribution_gap",
+      "basis": "OpenEMR Features 快照 56c8f0b4... 列出患者人口学、Encounters、Medical Issues、Medications、Forms and clinical notes（含 SOAP note）、Role Based Menus 与 fine-grained per-user access controls。Issues & Immunizations 快照 8e866180... 说明 issue 含 medical problem、allergy、medication 等，可在 Patient Summary 查看并与 encounter 关联。New Encounters 快照 3b767a53... 记录以 provider 登录、Patient Summary、Past Encounters、SOAP 表单和 encounter provider。Patient Notes 快照 288015bd... 记录需登录，未授权用户无法查看问题、免疫与处方。README 与仓库元数据确认其为 EHR/医疗实践管理应用；许可证为完整 GPL-3.0。",
+      "community_edition_boundary": "GPL-3.0 开源仓库为社区核心；Features 页称自由下载/使用/修改，认证版可能有额外成本，未显示独立闭源社区版。",
+      "gaps": "所引材料未直接展示每条临床笔记的作者署名、时间戳或修订/审计细节；research 已明确不主张作者署名/审计链。患者图表、问题、药物、笔记、encounter 组织和角色访问控制证据充分。"
+    },
+    "emergency-department-information-system": {
+      "application_ids": [
+        "commercial:wellsoft-edis"
+      ],
+      "track": "commercial",
+      "verdict": "pass_commercial_basic_match",
+      "basis": "Wellsoft EDIS 官方产品页快照 132f9f30... 明确其为急诊科专用 ED EHR/EDIS；Patient Tracking 从 pre-arrival 到 disposition 实时跟踪，提供 triage 与 fast-track 部门视图；Orders and Results 记录 one-click CPOE、向 lab/radiology 传输、结果在跟踪屏标记；另有 Discharge Planning 和 ONC Certified EHR 说明。覆盖急诊就诊、部门跟踪状态、分诊优先级、临床内容与处置等核心，属于持续使用的商业软件。",
+      "saas_form": "页面未声明 SaaS；为可部署的 ED EHR/EDIS，按商业基本类型匹配审查，不作多租户 SaaS 断言。",
+      "gaps": "页面未细列分诊结构化评估字段、急症分级量表及 discharge/admit/transfer/left-without-being-seen 的完整处置枚举；作为商业基本类型匹配可接受。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅使用本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 指定路径的快照；未运行 shell、未写文件、未读取其他单元、未重新抓取网页、未运行应用或做部署测试；未计算快照 SHA-256；未验证 OpenEMR 当前 8.0 版本的逐项 UI、多租户能力或商业产品实际订阅/部署形态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-212/ses_groveopencodegop212review2_1793028902.jsonl",
+  "batch_sha256": "fddbe10830ea368c3e1bed1156a99e489ccb4a4a96b0f0ae95b8a87383001274",
+  "research_sha256": "caea1a9478aeb587e3aab9e771c17d7e2a2578ae91bcf00827e2f5f28d0cce0b",
+  "input_sha256": "9c739828e36989b242bff8ffb712d5f09cc177057654406e22dac63839257777"
+}

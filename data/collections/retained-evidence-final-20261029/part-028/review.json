@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "image-batch-processor",
+      "application_id": "github:909666349",
+      "note": "ImgCompress 的自述与品牌重心偏向压缩/格式转换（README 标题、features 表、70+ 格式），与叶子定义中“主要目的若收窄为更改文件格式则归入 Image Conversion Applications”的边界相邻。其仍具备 resize、逐图裁剪、目标体积压缩、AI 去背景等多操作及文档化的固定执行顺序（裁剪→格式/质量→resize→压缩），因此按批处理器受理，但建议在后续归类说明中保留该边界判断，便于与转换类叶子区分。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "application_id": "github:909666349",
+      "note": "README 明确支持逐文件裁剪（“Selections are saved per file, so one batch can mix square thumbnails with 16:9 covers”），与叶子 rules 中“一个定义管理所有图像、运行中无逐图调整”存在轻微张力。这属于产品能力对规则的局部放宽，不改变“集合级统一操作 + 自动逐图执行”的四项核心结构，故不阻断；如需严谨，可在条目特性描述中注明“全局设置统一，裁剪允许逐文件覆盖”。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "application_id": "github:909666349",
+      "note": "batch.json 将 technology_stack 记为 TypeScript，快照正文（README、Web UI 文档）未直接出现语言声明，仅可由仓库元数据的 language 字段侧面印证；属元数据层面的弱依据，不影响核心与许可结论。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "application_id": "github:1195367387",
+      "note": "README 徽章与部分链接沿用 snapotter-hq/snapotter 小写形式，与元数据 full_name=snapotter-hq/SnapOtter 大小写不一致；GitHub 路径不区分大小写，仓库身份仍由 id 1195367387 唯一确定，不构成 ID 问题。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "note": "input.json 的进度仍为 case_status=boundary_unresolved、application_ids 为空、phase=included_without_cases，而 batch.json/research.json 已通过新一轮检索（query: bulk image resize web app）成立两条案例。资料自身说明旧采集说明为“未采纳草稿”，故视为状态演进而非事实冲突；建议调用方在入库时同步该叶的进度与 application_ids，避免下游读到过期状态。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "note": "research.json 如实记录了 https://docs.snapotter.com/guide/pipelines 抓取 404、https://raw.githubusercontent.com/karimz1/imgcompress/main/README.md 404，并改用 getting-started 页内 Pipelines 正文与 ReadMe.md 实际路径，未把抓取失败当成“功能不存在”的证据；该缺口留档符合要求，无需补采。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "note": "SnapOtter 的 Files 文件库与版本历史仅在文档正文中以短语形式出现，未取得独立的结果保存/版本管理专门页面快照；结合 Pipelines 的“整批一次运行 + 保存复用”正文，输出留存一环证据充分度中等偏上，可作为后续补强点而非阻断项。"
+    },
+    {
+      "slug": "image-batch-processor",
+      "note": "两个条目均为自托管（Docker/Web UI）形态而非多租户公有 SaaS；按叶子“服务端承载、可持续使用的应用服务”的既有边界受理，措辞上建议统一使用“自托管 Web 服务”，避免“SaaS”字样引起形态误读。"
+    }
+  ],
+  "leaf_checks": {
+    "image-batch-processor": {
+      "result": "pass",
+      "definition_core": "四项核心均由官方正文支撑，未用简介/元数据/Loading 替代正文。①多图输入集：ImgCompress Web UI 文档 Step 1“Drag your photos into the upload area”及“Add your images to the queue”；SnapOtter 文档 Pipelines 章节“Run on a single file - or an entire batch at once”。②集合级一次配置的操作定义：ImgCompress“Adjust quality, format, and other settings before converting”＋“Set by File Size”统一阈值；SnapOtter“Chain tools into multi-step… Save the pipeline for later reuse”，README 另述 Pipelines 可导入/导出 JSON、默认 20 步。③自动逐图执行：ImgCompress Step 2“Hit convert and watch the progress. Everything runs on your own server”；SnapOtter 整批一次运行且无需逐图确认。④明确输出规则：ImgCompress Step 3“Save images individually or grab them all as a ZIP”＋输出格式选择与 Storage 面板、DISABLE_STORAGE_MANAGEMENT；SnapOtter 结果进入 Files 文件库并保留版本历史（文档正文含相应表述）。操作顺序亦有正文：ImgCompress 裁剪先于 resize、格式转换、目标体积压缩与去背景；SnapOtter 流水线步骤按序执行。",
+      "service_form": "两条均为服务端承载、浏览器访问、可持续使用的 Web 服务：ImgCompress 单容器 docker run（-p 3001:5000）＋Compose 示例（advanced/proxied），处理在容器内完成；SnapOtter 单容器 docker run（内置 Postgres 17 + Redis 8）＋生产 Compose 三容器栈，Web UI 默认 admin 账号、REST API。均非纯浏览器本地脚本、非桌面客户端、非仅 CLI/引擎。",
+      "identity_track": "track 均为 open_source，与证据一致。github:909666349 对应元数据 id=909666349、full_name=karimz1/imgcompress、fork=false、archived=false；github:1195367387 对应 id=1195367387、full_name=snapotter-hq/SnapOtter、fork=false、archived=false。两 ID 与 batch.json、research.json、REVIEW_SOURCES.json 三方一致，无串号。",
+      "license": "ImgCompress：license 端点快照含 spdx_id=GPL-3.0，content 为完整 GNU GPL v3 正文（size 35148，含 END OF TERMS AND CONDITIONS 结束标记），README“License & Author”段亦标注 GPL-3.0，未见附加限制或分目录例外，整仓库 GPL-3.0 记录成立。SnapOtter：license 端点快照 spdx_id=AGPL-3.0，content 为完整 GNU AGPL v3 正文（size 34523），README 双许可段落与之一致。",
+      "community_boundary": "SnapOtter 边界清晰：LICENSING.md 明示除 packages/enterprise/ 外全部按 AGPL-3.0，企业目录另需商业许可；并明确社区版无 license key 即具备 all tools、batch、pipelines、API keys 与单节点运行，企业特性仅在有效商业 key 下激活，边界还由 CI 脚本 check-license-boundary.mjs 强制。batch.json 的 license_review.scope=community_core 与 summary“开源核心、社区版功能完整”表述与之吻合，未声称企业目录开源。ImgCompress 无 open-core 分层，按整仓库 GPL-3.0 记录正确。",
+      "gaps": "运行态未测试（runtime_tested=false），本次为只读文档核对；SnapOtter Pipelines 专页 404 已改用 getting-started 内正文，ImgCompress README.md 404 已改用 ReadMe.md 实际路径，两处缺口均如实留档；Files 文件库与版本历史仅有文档正文短语级证据，未取得专门页面快照。以上均不构成核心或形态缺口。",
+      "notes": "商业真实性不适用（两条均为 open_source，无 pricing/付费层级需要核对）。历史候选 Converseen（桌面客户端）、PicForge/PicLite（纯浏览器本地处理）、ashim（NOASSERTION 自定义许可）的移出理由与所给正文一致，属合理的范围收窄，未作“服务不存在”的推断。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 9 个快照文件（路径原样、以 data/collections 为基准），未运行 shell、未写文件、未读取其他单元或采集者的 TASK.md/历史脚本。部分快照为单行 JSON 或整页 HTML（尤其是 SnapOtter getting-started 页与两份 LICENSE 端点响应），无法逐段渲染阅读，Pipelines、Files library、version history、批量运行等关键句通过字面检索确认存在，未对长行内被截断的片段做进一步解码核对；LICENSE 正文为 base64，完整性依据 size 与 canonical 文本长度、结束标记及端点 spdx_id 交叉判断，未做逐字符校验。未重新访问线上 URL，未做部署/运行验证，未补充价格、架构或替代品研究；因此本报告不含运行时行为、真实并发批处理效果与当前线上页面是否变更的结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-028/ses_groveopendesignp028review1_1793163853.jsonl",
+  "batch_sha256": "83ee9d5c6c06a511a1e904f27540f16a8f994437ed72a3aaa79e9a8b56dbd011",
+  "research_sha256": "f31ed0641ed73cd1e0f070be4ae9a09c7bb49dfae0e5d869ea07b5be815b68cc",
+  "input_sha256": "188ec662225178d8af5d047448867c89dd5fb80053c11c0021b3b35bd706a504"
+}

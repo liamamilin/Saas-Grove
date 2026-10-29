@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "service-mesh-management",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "Meshery service mesh management plane and Istio adapter lifecycle/configuration; Istio service mesh control plane, traffic management and security",
+      "source_urls": [
+        "https://api.github.com/repos/istio/istio",
+        "https://api.github.com/repos/istio/istio/license",
+        "https://raw.githubusercontent.com/istio/istio/master/README.md",
+        "https://istio.io/latest/docs/concepts/traffic-management/",
+        "https://istio.io/latest/docs/concepts/security/",
+        "https://istio.io/latest/about/service-mesh/",
+        "https://api.github.com/repos/meshery/meshery",
+        "https://api.github.com/repos/meshery/meshery/contents/LICENSE?ref=master",
+        "https://api.github.com/repos/meshery/meshery/contents/README.md?ref=master",
+        "https://meshery.io/",
+        "https://docs.meshery.io/concepts/architecture/",
+        "https://docs.meshery.io/extensions/adapters/istio/",
+        "https://api.github.com/repos/kiali/kiali",
+        "https://api.github.com/repos/kiali/kiali/contents/LICENSE?ref=master",
+        "https://api.github.com/repos/kiali/kiali/contents/README.adoc?ref=master",
+        "https://kiali.io/docs/features/",
+        "https://kiali.io/docs/features/topology/",
+        "https://kiali.io/docs/features/configuration/",
+        "https://kiali.io/docs/features/security/",
+        "https://kiali.io/docs/installation/quick-start/"
+      ],
+      "note": "结论仍为 boundary_unresolved，但不是“无证据”：本叶已保留并索引 Istio、Meshery、Kiali 共 20 份官方快照（Istio 6 份，其中 4 份为历史复用；Meshery 6 份；Kiali 8 份），均按 sha256 登记于 retained_sources 与 batch.json 的 sources 索引。逐候选核对如下。Istio：自托管服务网格控制平面/基础设施，repository metadata 显示 id=74175805、Apache-2.0；README 与 traffic management、security、about/service-mesh 文档证明服务注册、VirtualService/DestinationRule 路由分流、重试/超时以及 mTLS/授权策略，符合本叶“网格作为被管理系统 + 带身份服务图 + 声明式东西向策略”的定义核心，但它是基础设施软件而非独立的应用服务/SaaS 案例。Meshery：自托管云原生管理平台（repository id=157554479、Apache-2.0），README 自述为开源云原生管理器，首页与 architecture 快照显示由 Meshery Server/UI 管理 Kubernetes 基础设施；补采的 Istio adapter 页面进一步证明可经 UI 安装 Istio、部署样例工作负载、应用 sidecar 注入与 deny-all/strict mTLS 等策略、并下发 VirtualService/DestinationRule 等自定义 Istio 资源，但实际控制平面仍是 Istio，Meshery 本身不是服务网格控制平面；Meshery Cloud 等托管 SaaS 形态未核实，未作为证据。Kiali：官方 README 自述为 Istio service mesh 的管理控制台，topology/configuration/security 快照覆盖服务图、Istio 网格配置生成与 mTLS 可视化，但官方 quick-start 表明其作为 Istio add-on 或集群内部署组件运行，未证明以账户持续使用的托管 SaaS 服务形态。故三者分别支持定义核心的一部分或全部，却没有任何一个被证据证明为独立的、可持续使用的服务网格管理 SaaS 应用；因此不建立产品关系，也不推断此类产品不存在。早期对本地抓取结果的错误陈述已删除，并以 retained_sources 的实际文件重写。根目录 REVIEW_SOURCES.json 为工作区只读输入，未能由本会话改写；完整来源索引见本叶 retained_sources 与 batch.json 的 sources。",
+      "service_boundary": "三个候选的边界分别如下。Istio：自托管、运行于 Kubernetes 的服务网格控制平面/基础设施，编排数据平面代理并下发声明式东西向流量与安全策略，自身不是应用服务。Meshery：自托管云原生管理平台（Apache-2.0），通过 Meshery Server/UI 与 Istio adapter 对网格执行安装、生命周期管理和配置下发，可操作 sidecar 注入、mTLS 策略及 VirtualService/DestinationRule，但被管理的控制平面仍是 Istio，Meshery Cloud 等托管形态未核实。Kiali：部署在集群内或作为 Istio add-on 的管理控制台，提供服务图拓扑、Istio 配置生成与安全可视化，不是被管理的网格本身，也未证明为托管 SaaS 服务。均未部署或运行。",
+      "search_attempts": [
+        "复用 HISTORY.json 中 4 份 Istio 历史快照（repository metadata、LICENSE、README、traffic management），保留原始 URL/SHA/fetched_at，不当作本轮新验证。",
+        "核对本单元已保留的 Meshery 与 Kiali 官方快照：Meshery repository metadata/LICENSE/README/首页/architecture，Kiali repository metadata/LICENSE/README/features/topology/configuration/security/quick-start，并逐项确认文件 sha256 与文件名一致。",
+        "2026-10-29 定向补采 Meshery 官方 Istio adapter 页面（docs.meshery.io/extensions/adapters/istio/），核对 UI 安装 Istio、sidecar 注入、mTLS 策略与 VirtualService/DestinationRule 下发能力。",
+        "未进行部署测试、价格研究或托管服务注册验证；未把 Meshery Cloud 等未核实形态写成肯定或否定结论。"
+      ],
+      "fetch_outcomes": [
+        "历史复用 4 份 Istio 快照（原抓取收据为 200）：https://api.github.com/repos/istio/istio (repository_metadata, sha256=a3a5f4bd7932aeb5a85883a9ed59cb9e402dd080a7c2eb41f9f5ba16193933b3, fetched_at=2026-10-26T18:18:17.038517+08:00)；https://api.github.com/repos/istio/istio/license (license, sha256=aa3e608392db0faf9c44c2755fd730921569325aad33327ef9ba1cc28cb77cee, fetched_at=2026-10-26T18:20:06.563653+08:00)；https://raw.githubusercontent.com/istio/istio/master/README.md (readme, sha256=9971928c4aa3cb3682c63e6073e1228022cd8208feae8f57313794429f2f961d, fetched_at=2026-10-26T18:20:07.823174+08:00)；https://istio.io/latest/docs/concepts/traffic-management/ (documentation, sha256=83c3b16ba36705800607248a629bac7af5398dd9798f9bdbd48289f83dc1700e, fetched_at=2026-10-26T18:21:16.002509+08:00)。",
+        "本轮保留 Meshery 5 份官方快照：https://api.github.com/repos/meshery/meshery (repository_metadata, sha256=9b801f68b9f3a71e2ee1f6af4e53ecb7d7dde76bcba67ade441d628bfbf0dd0a, fetched_at=2026-10-28T23:58:07+08:00)；https://api.github.com/repos/meshery/meshery/contents/LICENSE?ref=master (license, sha256=7a7102a3fe59737cf8aec9292c36d29d8a7f85b4d9d1e4d55037d0066f735906, fetched_at=2026-10-28T23:58:10+08:00)；https://api.github.com/repos/meshery/meshery/contents/README.md?ref=master (readme, sha256=a60eac11c171c67f012080cef7329dc595200006d883effe2fd44ded0715a706, fetched_at=2026-10-28T23:58:31+08:00)；https://meshery.io/ (homepage, sha256=8c27d102b6c9b0e9bb61bd049ecce5157a1b12e29befe507ba3f5b88da17661e, fetched_at=2026-10-29T00:00:49+08:00)；https://docs.meshery.io/concepts/architecture/ (documentation, sha256=c1a4558a10a701d606c92845167c57ce39c3872057f0c870ad78d497a68782f9, fetched_at=2026-10-29T00:00:49+08:00)。",
+        "本轮保留 Kiali 8 份官方快照：https://api.github.com/repos/kiali/kiali (repository_metadata, sha256=e376c8f433250ef376f7a02a14bc7515949a6356f72d8272ce34e496d4245977, fetched_at=2026-10-28T23:57:48+08:00)；https://api.github.com/repos/kiali/kiali/contents/LICENSE?ref=master (license, sha256=25522e5a10cfadc0a43355c4d0051a7388ee3d646cc266561cad6a1ceb8817cd, fetched_at=2026-10-28T23:57:50+08:00)；https://api.github.com/repos/kiali/kiali/contents/README.adoc?ref=master (readme, sha256=2c0c05a912d9677f4a374f9931ca38a234ca622ce6defcde3a224d43851038aa, fetched_at=2026-10-28T23:58:29+08:00)；https://kiali.io/docs/features/topology/ (documentation, sha256=6605eab4a1b3b87a121ca1f4f5c7030cab9e3b820adefbd2e483528a3c5d8bed, fetched_at=2026-10-28T23:59:01+08:00)；https://kiali.io/docs/features/configuration/ (documentation, sha256=b803589a7f0be9eeab9db0f74b2919e642b6659aac6c51b6b35f29483c1344fc, fetched_at=2026-10-28T23:59:01+08:00)；https://kiali.io/docs/features/ (documentation, sha256=1197df74c9872925eeaca9f65e701fd66fcf1dbe1be127c7fcdb0919ca07f0a9, fetched_at=2026-10-28T23:59:02+08:00)；https://kiali.io/docs/features/security/ (documentation, sha256=fee6c8ccbc0040ef053c5b72f2e9cf904d121607c6d6ec0e6764797ece99ecd6, fetched_at=2026-10-29T00:00:25+08:00)；https://kiali.io/docs/installation/quick-start/ (documentation, sha256=1bba3a32d0f68e5cec417b7d560c0ba5de9c733137232ee52d06c26398f7fd5e, fetched_at=2026-10-29T00:01:47+08:00)。",
+        "本轮保留 Istio 2 份官方快照：https://istio.io/latest/docs/concepts/security/ (documentation, sha256=0291fb8211b0215a91fe1c2bf389db7b3cdb6fffd57605f13fb4e6b402eb66e4, fetched_at=2026-10-28T23:58:12+08:00)；https://istio.io/latest/about/service-mesh/ (documentation, sha256=2100338eb210b3e035920ed4d22b0c4ef4acd2283c8b89634beded0dea0ee3eb, fetched_at=2026-10-28T23:58:09+08:00)。",
+        "2026-10-29 补采成功：GET https://docs.meshery.io/extensions/adapters/istio/ -> 200，kind=documentation，sha256=6b84dec2399cb25bde42221b32271a0c9c9c7c6965be919cf2cf3831cc18f7d3，fetched_at=2026-10-29T11:56:24.581630+08:00；正文核对到 UI 安装 Istio、样例工作负载、sidecar 注入、deny-all/strict mTLS 策略及 VirtualService/DestinationRule 下发。",
+        "更正：早期对本地抓取结果的错误陈述已删除，并以实际保留文件重写。current_round 快照的 fetched_at 取自文件本地 mtime，原始 HTTP 状态未单独留收据；reused_history 沿用原抓取收据，均未补造时间。"
+      ],
+      "retained_sources": [
+        {
+          "path": "sources/a3a5f4bd7932aeb5a85883a9ed59cb9e402dd080a7c2eb41f9f5ba16193933b3.txt",
+          "sha256": "a3a5f4bd7932aeb5a85883a9ed59cb9e402dd080a7c2eb41f9f5ba16193933b3",
+          "url": "https://api.github.com/repos/istio/istio",
+          "fetched_at": "2026-10-26T18:18:17.038517+08:00",
+          "kind": "repository_metadata",
+          "provenance": "reused_history"
+        },
+        {
+          "path": "sources/aa3e608392db0faf9c44c2755fd730921569325aad33327ef9ba1cc28cb77cee.txt",
+          "sha256": "aa3e608392db0faf9c44c2755fd730921569325aad33327ef9ba1cc28cb77cee",
+          "url": "https://api.github.com/repos/istio/istio/license",
+          "fetched_at": "2026-10-26T18:20:06.563653+08:00",
+          "kind": "license",
+          "provenance": "reused_history"
+        },
+        {
+          "path": "sources/9971928c4aa3cb3682c63e6073e1228022cd8208feae8f57313794429f2f961d.txt",
+          "sha256": "9971928c4aa3cb3682c63e6073e1228022cd8208feae8f57313794429f2f961d",
+          "url": "https://raw.githubusercontent.com/istio/istio/master/README.md",
+          "fetched_at": "2026-10-26T18:20:07.823174+08:00",
+          "kind": "readme",
+          "provenance": "reused_history"
+        },
+        {
+          "path": "sources/83c3b16ba36705800607248a629bac7af5398dd9798f9bdbd48289f83dc1700e.txt",
+          "sha256": "83c3b16ba36705800607248a629bac7af5398dd9798f9bdbd48289f83dc1700e",
+          "url": "https://istio.io/latest/docs/concepts/traffic-management/",
+          "fetched_at": "2026-10-26T18:21:16.002509+08:00",
+          "kind": "documentation",
+          "provenance": "reused_history"
+        },
+        {
+          "path": "sources/9b801f68b9f3a71e2ee1f6af4e53ecb7d7dde76bcba67ade441d628bfbf0dd0a.txt",
+          "sha256": "9b801f68b9f3a71e2ee1f6af4e53ecb7d7dde76bcba67ade441d628bfbf0dd0a",
+          "url": "https://api.github.com/repos/meshery/meshery",
+          "fetched_at": "2026-10-28T23:58:07+08:00",
+          "kind": "repository_metadata",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/7a7102a3fe59737cf8aec9292c36d29d8a7f85b4d9d1e4d55037d0066f735906.txt",
+          "sha256": "7a7102a3fe59737cf8aec9292c36d29d8a7f85b4d9d1e4d55037d0066f735906",
+          "url": "https://api.github.com/repos/meshery/meshery/contents/LICENSE?ref=master",
+          "fetched_at": "2026-10-28T23:58:10+08:00",
+          "kind": "license",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/a60eac11c171c67f012080cef7329dc595200006d883effe2fd44ded0715a706.txt",
+          "sha256": "a60eac11c171c67f012080cef7329dc595200006d883effe2fd44ded0715a706",
+          "url": "https://api.github.com/repos/meshery/meshery/contents/README.md?ref=master",
+          "fetched_at": "2026-10-28T23:58:31+08:00",
+          "kind": "readme",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/8c27d102b6c9b0e9bb61bd049ecce5157a1b12e29befe507ba3f5b88da17661e.txt",
+          "sha256": "8c27d102b6c9b0e9bb61bd049ecce5157a1b12e29befe507ba3f5b88da17661e",
+          "url": "https://meshery.io/",
+          "fetched_at": "2026-10-29T00:00:49+08:00",
+          "kind": "homepage",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/c1a4558a10a701d606c92845167c57ce39c3872057f0c870ad78d497a68782f9.txt",
+          "sha256": "c1a4558a10a701d606c92845167c57ce39c3872057f0c870ad78d497a68782f9",
+          "url": "https://docs.meshery.io/concepts/architecture/",
+          "fetched_at": "2026-10-29T00:00:49+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/6b84dec2399cb25bde42221b32271a0c9c9c7c6965be919cf2cf3831cc18f7d3.txt",
+          "sha256": "6b84dec2399cb25bde42221b32271a0c9c9c7c6965be919cf2cf3831cc18f7d3",
+          "url": "https://docs.meshery.io/extensions/adapters/istio/",
+          "fetched_at": "2026-10-29T11:56:24.581630+08:00",
+          "kind": "documentation",
+          "provenance": "current_round_supplement"
+        },
+        {
+          "path": "sources/e376c8f433250ef376f7a02a14bc7515949a6356f72d8272ce34e496d4245977.txt",
+          "sha256": "e376c8f433250ef376f7a02a14bc7515949a6356f72d8272ce34e496d4245977",
+          "url": "https://api.github.com/repos/kiali/kiali",
+          "fetched_at": "2026-10-28T23:57:48+08:00",
+          "kind": "repository_metadata",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/25522e5a10cfadc0a43355c4d0051a7388ee3d646cc266561cad6a1ceb8817cd.txt",
+          "sha256": "25522e5a10cfadc0a43355c4d0051a7388ee3d646cc266561cad6a1ceb8817cd",
+          "url": "https://api.github.com/repos/kiali/kiali/contents/LICENSE?ref=master",
+          "fetched_at": "2026-10-28T23:57:50+08:00",
+          "kind": "license",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/2c0c05a912d9677f4a374f9931ca38a234ca622ce6defcde3a224d43851038aa.txt",
+          "sha256": "2c0c05a912d9677f4a374f9931ca38a234ca622ce6defcde3a224d43851038aa",
+          "url": "https://api.github.com/repos/kiali/kiali/contents/README.adoc?ref=master",
+          "fetched_at": "2026-10-28T23:58:29+08:00",
+          "kind": "readme",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/6605eab4a1b3b87a121ca1f4f5c7030cab9e3b820adefbd2e483528a3c5d8bed.txt",
+          "sha256": "6605eab4a1b3b87a121ca1f4f5c7030cab9e3b820adefbd2e483528a3c5d8bed",
+          "url": "https://kiali.io/docs/features/topology/",
+          "fetched_at": "2026-10-28T23:59:01+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/b803589a7f0be9eeab9db0f74b2919e642b6659aac6c51b6b35f29483c1344fc.txt",
+          "sha256": "b803589a7f0be9eeab9db0f74b2919e642b6659aac6c51b6b35f29483c1344fc",
+          "url": "https://kiali.io/docs/features/configuration/",
+          "fetched_at": "2026-10-28T23:59:01+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/1197df74c9872925eeaca9f65e701fd66fcf1dbe1be127c7fcdb0919ca07f0a9.txt",
+          "sha256": "1197df74c9872925eeaca9f65e701fd66fcf1dbe1be127c7fcdb0919ca07f0a9",
+          "url": "https://kiali.io/docs/features/",
+          "fetched_at": "2026-10-28T23:59:02+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/fee6c8ccbc0040ef053c5b72f2e9cf904d121607c6d6ec0e6764797ece99ecd6.txt",
+          "sha256": "fee6c8ccbc0040ef053c5b72f2e9cf904d121607c6d6ec0e6764797ece99ecd6",
+          "url": "https://kiali.io/docs/features/security/",
+          "fetched_at": "2026-10-29T00:00:25+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/1bba3a32d0f68e5cec417b7d560c0ba5de9c733137232ee52d06c26398f7fd5e.txt",
+          "sha256": "1bba3a32d0f68e5cec417b7d560c0ba5de9c733137232ee52d06c26398f7fd5e",
+          "url": "https://kiali.io/docs/installation/quick-start/",
+          "fetched_at": "2026-10-29T00:01:47+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/0291fb8211b0215a91fe1c2bf389db7b3cdb6fffd57605f13fb4e6b402eb66e4.txt",
+          "sha256": "0291fb8211b0215a91fe1c2bf389db7b3cdb6fffd57605f13fb4e6b402eb66e4",
+          "url": "https://istio.io/latest/docs/concepts/security/",
+          "fetched_at": "2026-10-28T23:58:12+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        },
+        {
+          "path": "sources/2100338eb210b3e035920ed4d22b0c4ef4acd2283c8b89634beded0dea0ee3eb.txt",
+          "sha256": "2100338eb210b3e035920ed4d22b0c4ef4acd2283c8b89634beded0dea0ee3eb",
+          "url": "https://istio.io/latest/about/service-mesh/",
+          "fetched_at": "2026-10-28T23:58:09+08:00",
+          "kind": "documentation",
+          "provenance": "current_round"
+        }
+      ],
+      "snapshot_base": "data/collections",
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "code-quality-platform",
+      "application_id": "commercial:sonarqube-server",
+      "issue": "research.json 将 raw.githubusercontent.com/SonarSource/sonarqube/master/README.md（sha256 018a24c8...）列为社区版边界证据，但该快照不在本单元 REVIEW_SOURCES.json 与 batch.json 的来源清单中，无法按本单元资料直接复核。",
+      "fix": "不影响结论：sonarqube-server-editions 快照已明确 Developer 版是在 SonarQube Community Build 之上增加 branch/PR analysis，足以独立支撑“社区版不含分支/PR 分析、不作为完整案例”的边界判断。后续留档可将该 README 快照一并纳入来源清单以便追溯。"
+    },
+    {
+      "slug": "code-quality-platform",
+      "application_id": "commercial:sonarqube-server",
+      "issue": "user-guide/code-metrics/introduction.md 实际是入口页，只说明度量用于评估质量并可进入 Quality Gate 条件，未逐项列出覆盖率、重复度、复杂度、规模等度量类型。",
+      "fix": "度量类型的实际证据来自 introduction-to-quality-gates 的条件清单（覆盖率、圈复杂度/认知复杂度、重复行/块、代码规模、问题统计），定义性核心仍成立。若需更直接的度量正文，可改用同站 metrics-definition.md 作为补充引用。"
+    },
+    {
+      "slug": "code-quality-platform",
+      "application_id": "commercial:sonarqube-server",
+      "issue": "configure-binding 快照第 23 行出现 “SonarQube Cloud adds the quality gate status as a GitHub check” 的官方文档笔误（该页属于 SonarQube Server 文档）。",
+      "fix": "不阻断：PR 装饰与阻止合并的结论另由 introduction-to-quality-gates（PR decoration、block merge、CI pipeline fail）与 editions 功能矩阵（Quality gate status report on pull requests; Preventing merge when quality gate fails）双重支持。"
+    },
+    {
+      "slug": "code-quality-platform",
+      "application_id": "commercial:sonarqube-server",
+      "issue": "research.json 的 source_urls 为 13 条，batch.json 的来源为 12 条，差额即上述未入册的 README；两处计数口径不完全一致。",
+      "fix": "建议后续统一“已快照来源”和“复用旧来源”的列示口径，避免按来源数量核对时产生歧义。"
+    },
+    {
+      "slug": "code-quality-platform",
+      "application_id": "commercial:sonarqube-server",
+      "issue": "batch 摘要称该产品为“自托管代码质量平台”，所引 editions 页只写按实例按年、按 LOC 授权，未直接使用 “self-hosted” 措辞。",
+      "fix": "属措辞层面，商业条目只要求基本真实性；“Server” 实例授权与安装部署语境足以支撑自托管描述，无需修改。"
+    }
+  ],
+  "leaf_checks": {
+    "code-quality-platform": {
+      "slug": "code-quality-platform",
+      "application_ids": [
+        "commercial:sonarqube-server"
+      ],
+      "definition_core": "五项定义性核心均有实际正文对应：①受管项目绑定仓库——creating-project/introduction 说明可从 GitHub/GitLab/Azure DevOps/Bitbucket 导入并“bound”到仓库，github/import-repos 给出完整导入步骤与绑定效果；②记录的分析运行——process-steps 描述 commit→CI→scanner→结果提交→Quality Gate 回传→流水线继续/停止的每次运行流程，activity-and-history 列出项目创建以来全部代码扫描；③持久质量状态——issues/introduction 说明问题绑定代码位置、有生命周期与状态，process-steps 说明按行哈希跨次分析判定新增/已修复并跨分支/PR 同步状态、指派、变更记录与评论，code-metrics/introduction 说明度量作为可量化状态并进入门禁，activity-and-history 提供度量演化图与 Quality Gate/Profile/版本等事件历史；④可配置质量标准——introduction-to-quality-gates 说明 Quality Gate 由“度量+比较符+阈值”条件组成、可自定义并区分新代码/整体代码，understanding-quality-profiles 说明按语言启用规则、自定义严重级别与参数、继承与项目关联；⑤交付工作流中的判定——introduction-to-quality-gates 说明门禁状态出现在主分支、其他分支与 PR 的 Summary/Overview，并可在 PR 上装饰阻止合并或在 CI 中使流水线失败，process-steps 给出流水线因门禁失败而停止，editions 功能矩阵列出 PR 门禁状态报告与阻止合并。",
+      "saas_service_form": "持续运行的平台型软件服务而非一次性工具：官方文档描述常驻 Server 实例、按实例按年授权（editions 页第 7 行）、项目持续分析、历史留存与门禁持续判定；属自托管商业软件服务形态。叶定义明确将自托管服务器列为“市场标准能力或可选”，未排除自托管，故不构成形态冲突。",
+      "id_track": "batch 条目 id=commercial:sonarqube-server、track=commercial，与 research.json 的 case_ids 一致；editions 页确认 Developer/Enterprise/Data Center 为按实例按年、按 LOC 授权的商业版本，track 匹配。条目明确限定为商业三版，未与开源仓库 ID github:1222504 混用。",
+      "license_and_community_boundary": "本条为商业条目，不适用开源完整许可证核验。社区版边界已留档：editions 页写明 Developer 版是在 SonarQube Community Build 之上增加 branch/PR analysis，因此不含分支/PR 分析的 Community Build 未作为本叶完整案例；research.json 记录原 github:1222504 关系已移除并留作边界证据，而共享库中保留其 sast 关系。该处理与“社区版不能覆盖分支/PR 判定核心”的判断一致。",
+      "source_check": "按 REVIEW_SOURCES.json 的 path 原样读取了全部 12 个快照，均为 sonarsource.com 官方 SonarQube Server 文档正文页（非简介、非元数据、非 Loading 占位），URL、sha256 文件名与 batch.json 的 snapshot_path 一一对应，内容可支撑 batch/leaf_matches 中的各项陈述；未发现快照缺失或路径错位。configure-binding 中 “SonarQube Cloud” 字样属官方文档笔误，已记入非阻断说明。",
+      "conclusion": "定义性核心、持续服务形态、ID/track 与社区版边界均可由实际读取的官方正文支撑，商业条目真实性与类型匹配成立，本叶通过初审。"
+    }
+  },
+  "limits": "本次为只读初审，仅依据本单元 input.json、data/collections/batch.json、data/collections/research.json 以及 REVIEW_SOURCES.json 列出的 12 个快照文件；未运行 shell，无法重新计算 sha256 或校验文件字节一致性，仅核对声明哈希与文件名/路径一致；未访问外网复核 URL 当前可达性或页面版本，仅以快照内容为准；未运行或部署 SonarQube Server（本任务不要求）；research.json 引用的 README 快照不在本单元来源清单内，未能直接读取，其社区版边界结论由 editions 快照独立佐证；未读取其他单元或历史草稿文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-005/ses_groveopencodegop005review2_1793091150.jsonl",
+  "batch_sha256": "33e4b7c11bf160c2c66ca7eb46e95d7cda7ad5f858bae715567ac047f2e8d533",
+  "research_sha256": "61899cb845337391677aa8cb9522b5aa5cf4add1aa7bd03b836bdf363fcc04a9",
+  "input_sha256": "9719425345985c467338616d20b0b86f444f413bf553adb9f113bd27d924eb09"
+}

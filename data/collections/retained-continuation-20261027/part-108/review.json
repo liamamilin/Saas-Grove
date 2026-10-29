@@ -1,0 +1,23 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍把五个叶子标为 case_status=not_searched、application_ids=[]，而 batch.json 和 research.json 已记录五个商业案例；建议同步状态字段，以免调用方误判本单元没有案例。",
+    "Meltwater 快照里没有出现 </html>，疑似抓取尾部被截断；正文核心段落均已在第 29 行的长行中命中，不影响本次核对，建议重抓以保持快照完整。",
+    "Socialinsider 的 batch 理由中，“Social media analytics across Instagram, Facebook, TikTok, LinkedIn, X (Twitter), and YouTube”等整句主要出现在 meta/JSON-LD 中；正文的 ng-state 具有等价表述，建议后续改为引用正文原句，以保持证据链一致。",
+    "Marq 的显式版本历史和资产到期生命周期没有在正文中出现；research.json 已明确不作断言。这属于能力边界说明，不是虚假陈述。"
+  ],
+  "leaf_checks": {
+    "media-monitoring-platform": "通过（商业类型）。commercial:meltwater 的官方媒体监测页快照第 29 行包含正文，命中 'All your coverage, one platform.'、'Real-time monitoring across traditional, digital, social, and broadcast sources worldwide.'、'Customizable alerts and dashboards'、'Pull in mentions from millions of sources worldwide as they happen.'、'queries are configured'、'Volume of mentions... news coverage over any time period'、'Share of voice per platform'、'AI-generated summaries'；可核对常设 query、持续 mentions 采集、coverage 指标以及 dashboards/alerts/reports 交付。SaaS（sign in/demo/pricing）与 commercial:meltwater、track=commercial 正确。快照尾部缺 </html>，但正文核心段完整，见 non_blocking_notes。开源：无 OSS 案例；GitHub 6 条均非完整应用。",
+    "social-listening-platform": "通过（商业类型）。commercial:brandwatch 的官方 Listen 页正文命中 'Monitor mentions...'、'brand, products, and competitors at all times'、'discover those trends in real-time'、'Analyze sentiment and brand perception'、'100 million online sources'、'Multiple languages'、'automatically pinged about negative comments'、'AI smart alerts'、'48 different boolean operators'；常设 query、公开对话采集、聚合洞察与告警成立。SaaS 与 commercial:brandwatch、track=commercial 正确。GitHub 搜索 403 已如实记录；无 OSS 案例。",
+    "social-media-analytics-platform": "通过（商业类型）。commercial:socialinsider 的官方分析页正文（SSR ng-state）命中 'Top-tier social media analytics platform'、'connect the profiles you manage'、'your brand’s performance has evolved over time'、'engagement, reach, impressions, followers' growth'、'Competitor analysis and benchmarks'、'social media analytics reports'、'white-label social media reports'；自有 profile、时间序列指标、dashboard/benchmark/report 成立。SaaS 与 commercial:socialinsider、track=commercial 正确。batch 理由的多网络整句主要见 meta/JSON-LD，正文有等价表述；无 OSS 案例。",
+    "brand-asset-guideline-platform": "通过（商业类型）。commercial:frontify 的 DAM 页正文命中 'centralize brand and marketing assets'、'Permissions control who can access, download, or share each asset'、'Approval workflows prevent unapproved content from going live'、'Rights management alerts...'、'Sales, HR, agencies, and regional teams get self-serve access to approved content'、'Assets sit alongside your guidelines... in the same platform'；brand-guidelines 页命中 'living system'、'always current'、'sections/tokens/images'、'Self-service brand access'、'securely share guidelines with agencies, suppliers... controlling what they can see'。受管资产库、发布指南、内外部自助分发三段齐全。SaaS 与 commercial:frontify、track=commercial 正确；无 OSS 案例。",
+    "brand-management-platform": "通过（商业类型）。commercial:marq 的 Brand Portal 页命中 'Every brand asset, one central location'、'approved brand images, fonts, colors and style guidelines in one central location'、'most recent brand assets'、'Marq brand asset manager'、'set user permissions and passwords'、'requiring an approval process'、'Lock down your logo, colors, font styles, and even placement... lockable templates'、'approval workflows'；Content Management 页命中 'Centralize all brand assets in a single source of truth'、'brand images folder'、'Personalized template access based on user role and permissions'。受管品牌表达记录以及品牌团队外受控自助使用成立；显式版本历史/到期未断言。SaaS 与 commercial:marq、track=commercial 正确；无 OSS 案例。"
+  },
+  "limits": "仅用只读工具读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES 列出的 9 个快照；未运行 shell、未写文件、未读取其他单元。未做部署、登录或运行时验证；未计算 sha256，仅核对快照文件名与 batch 记录一致。Meltwater 快照尾部缺 </html>，但正文核心段可检索；Socialinsider 正文位于 Angular SSR ng-state 长行，按可检索字符串核对。为定位长行正文，另用只读 web fetch 对照同 URL 的当前页面文本，关键引文均在快照中复核。本单元五个均为商业案例，无开源许可证或社区版边界可核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-108/ses_groveopencodegop108review2_1793003202.jsonl",
+  "batch_sha256": "d3839e3b30d0809a89058bcf59746f37338ce746c9371d42cdbb89031f6f698f",
+  "research_sha256": "b0dccb14d39736c891871d9c2cdea8385642a0b60f3a0870071407a20a3d6b57",
+  "input_sha256": "20bcbf821c0c748a829ffb7717c02ab55dc12995b26227422b3128b969471e97"
+}

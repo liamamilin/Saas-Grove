@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "food-cold-chain-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sonicu"
+      ],
+      "query": "open source cold chain temperature monitoring application github food cold room alerts; cold room temperature monitoring software HACCP compliance commercial platform official; \"open source\" \"cold storage\" monitoring dashboard github temperature alerts self-hosted; GitHub API: coldchain OR \"cold chain\" in:name,description",
+      "source_urls": [
+        "https://www.sonicu.com/solutions/regulatory-compliance-reporting/haccp"
+      ],
+      "note": "先用 websearch 与 GitHub 仓库搜索找开源冷链监控。polesskiy-dev/iot-cold-chain-monitoring-system 为 MIT，但 README 明确仍是需求草稿（架构/数据流/场景文档均未完成勾选），组件围绕随货数据记录器和移动端，偏在途单次运输而非食品运营者的场地级冷库资产；msupply-foundation/msupply-cold-chain 为 GPL-3.0 Android 应用，但定位是医疗库存冰箱温度查看，不是食品运营者系统，均未导入。商业侧采用 Sonicu：官方 HACCP 页面正文明确写出冷库/冰箱/备餐区 24/7 监测、按 HACCP 范围设阈值、电话/短信/邮件/应用告警与升级、带纠正措施的数字日志和审计导出，四个核心结构均有正文证据。未运行产品。",
+      "service_boundary": "收窄为食品运营者自有冷库、冰箱、备餐区等场地级冷链资产的持续监测、偏离告警与记录留存；不覆盖随单次配送的在途货件监控，也不把通用楼宇/实验室设施监控算入。",
+      "search_attempts": [
+        {
+          "channel": "websearch",
+          "query": "open source cold chain temperature monitoring application github food cold room alerts",
+          "outcome": "找到多个小型 IoT/ESP32 项目及商业平台，未找到许可证与完整场地级应用同时满足的开源项目"
+        },
+        {
+          "channel": "websearch",
+          "query": "cold room temperature monitoring software HACCP compliance commercial platform official",
+          "outcome": "定位 Sonicu、Dickson、Danfoss 等官方页面"
+        },
+        {
+          "channel": "websearch",
+          "query": "\"open source\" \"cold storage\" monitoring dashboard github temperature alerts self-hosted",
+          "outcome": "结果多为通用服务器/家用温度监控，非食品冷链应用"
+        },
+        {
+          "channel": "github_api_search",
+          "query": "coldchain OR \"cold chain\" in:name,description",
+          "outcome": "列出 msupply-cold-chain、polesskiy-dev 冷链项目及课程/运输管理系统，逐一核对许可与定位"
+        },
+        {
+          "channel": "repository_review",
+          "query": "polesskiy-dev/iot-cold-chain-monitoring-system 与 msupply-foundation/msupply-cold-chain 的 README/许可证",
+          "outcome": "两者均不满足食品场地级完整应用：前者文档未完成且在途记录器导向，后者为医疗冰箱移动端"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/polesskiy-dev/iot-cold-chain-monitoring-system",
+          "status": "ok",
+          "note": "MIT，描述为空，作为候选核对"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/polesskiy-dev/iot-cold-chain-monitoring-system/main/README.md",
+          "status": "ok",
+          "note": "README 显示文档待办、系统偏随货记录器，未作为案例"
+        },
+        {
+          "url": "https://api.github.com/repos/msupply-foundation/msupply-cold-chain",
+          "status": "ok",
+          "note": "GPL-3.0，医疗库存冰箱温度应用，未作为案例"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/msupply-foundation/msupply-cold-chain/master/README.md",
+          "status": "ok",
+          "note": "确认医疗库存定位与 BlueMaestro 传感器依赖"
+        },
+        {
+          "url": "https://dicksondata.com/en-us/solutions/cold-room-refrigerator",
+          "status": "http_404",
+          "note": "候选页面失效，未改用其首页"
+        },
+        {
+          "url": "https://www.sonicu.com/solutions/regulatory-compliance-reporting/haccp",
+          "status": "ok",
+          "note": "官方正文含冷链监测、阈值告警、纠正措施记录与审计日志，已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "food-formulation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:brix"
+      ],
+      "query": "open source food formulation recipe nutrition calculation software github; open source recipe formulation software food manufacturer ingredient database nutrition cost GitHub license; GitHub API: formulation food in:name,description",
+      "source_urls": [
+        "https://brixsoftware.com/"
+      ],
+      "note": "开源侧重点核对了 beCPG Community：README 明确有多级配方、产出率与损耗、成本/营养/过敏原随改动重算，核心高度匹配；但 GitHub API 将其许可证标为 NOASSERTION，仓库 LICENSE 仅是 LGPL-3.0 的简短声明而非完整许可证文本，当前导入校验无法据此证明 SPDX，故未作为开源条目导入，仅留档为候选。GitHub 搜索还出现 SysnovaFeed/LibreFeed（饲料配方，非食品）和若干无许可证的学生项目，均未采用。商业侧采用 Brix：官网正文展示原料库携带供应商、成本、营养与理化数据，子配方嵌套成品配方，改一行即重算并可输出标签/BOM/批次表，符合定义核心；该页未写明过敏原计算，相关断言已收窄。未运行产品。",
+      "service_boundary": "收窄为食品研发端以结构化配方为核心、由原料数据计算营养/成本/过敏原等产品属性的平台；不把仅有菜谱存储或单一营养计算器的工具算入，也不把标签设计或 ERP 交易当作配方平台本身。",
+      "search_attempts": [
+        {
+          "channel": "websearch",
+          "query": "open source food formulation recipe nutrition calculation software github",
+          "outcome": "找到营养追踪器、配方管理器和商业配方软件，未出现许可证与完整食品研发核心同时满足的开源项目"
+        },
+        {
+          "channel": "websearch",
+          "query": "open source recipe formulation software food manufacturer ingredient database nutrition cost GitHub license",
+          "outcome": "找到 SysnovaFeed/LibreFeed 饲料配方、beCPG、Brix、Journey Foods 等，逐一核对食品与饲料边界"
+        },
+        {
+          "channel": "github_api_search",
+          "query": "formulation food in:name,description",
+          "outcome": "列出 beCPG、宠物食品配方及若干无许可证/个人项目；仅 beCPG 具备完整食品配方核心"
+        },
+        {
+          "channel": "repository_review",
+          "query": "becpg/becpg-community README/LICENSE 与 GitHub 许可证 API",
+          "outcome": "核心匹配但 API 为 NOASSERTION，/LICENSE 为 701 字节 LGPL 声明，无法通过当前 SPDX 证明，未导入"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/becpg/becpg-community",
+          "status": "ok",
+          "note": "id 684558148；许可证 API 返回 NOASSERTION"
+        },
+        {
+          "url": "https://api.github.com/repos/becpg/becpg-community/license",
+          "status": "ok",
+          "note": "spdx_id 为 NOASSERTION，不能作为 OSI 许可证明"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/becpg/becpg-community/master/LICENSE",
+          "status": "ok",
+          "note": "仅 LGPL-3.0 简短声明，非完整许可证文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/becpg/becpg-community/master/README.md",
+          "status": "ok",
+          "note": "确认多级配方、产量/损耗、成本/营养/过敏原重算；作为候选留档"
+        },
+        {
+          "url": "https://brixsoftware.com/",
+          "status": "ok",
+          "note": "官方正文含原料库、子配方、实时营养/成本/过敏原计算及输出，已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "food-labeling-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:recipal"
+      ],
+      "query": "open source nutrition label generator FDA EU compliance software github; GitHub API: \"food label\" OR \"nutrition label\" in:name,description",
+      "source_urls": [
+        "https://www.recipal.com/"
+      ],
+      "note": "开源侧核对了两个候选：SaiAmarKoduru/NutriLabe 为 MIT，支持 FDA/EU/印度/加拿大/澳大利亚标签与配方营养计算，但 README 的架构只有前端 Next.js + USDA API，Saved Products/User Accounts 仍在路线图，未形成可版本化的产品记录与标签历史，未导入；cpbeamer/LabelCompliance 的 README 描述完整，但仓库无 LICENSE 文件、GitHub API 也无许可证，按未知许可处理，未导入。nutritionix/nutrition-label 仅 MIT jQuery 标签渲染插件，按任务边界不作为平台。商业侧采用 ReciPal：官网正文明确从原料/配方/批次产量/份量计算，自动应用 FDA 与 CFIA 舍入和格式规则，生成营养声明、配料表、过敏原声明，支持多版式与 PDF/PNG 导出，并云端保存配方和标签。未运行产品。",
+      "service_boundary": "收窄为由已持有的产品配方/原料数据生成受管辖标签（营养声明、配料表、过敏原声明）并保留可导出制品的标签生产系统；不把纯标签渲染组件、营养计算器或配方设计平台本身算入。",
+      "search_attempts": [
+        {
+          "channel": "websearch",
+          "query": "open source nutrition label generator FDA EU compliance software github",
+          "outcome": "结果以渲染插件、单页生成器和商业 SaaS 为主，未找到许可证完整且具备产品记录/版本化的开源平台"
+        },
+        {
+          "channel": "github_api_search",
+          "query": "\"food label\" OR \"nutrition label\" in:name,description",
+          "outcome": "列出 nutritionix 渲染插件、NutriLabe、LabelCompliance 等，逐一核对持久化与许可证"
+        },
+        {
+          "channel": "repository_review",
+          "query": "SaiAmarKoduru/NutriLabe README/许可证",
+          "outcome": "MIT；但仅前端计算与导出，Saved Products/User Accounts 未实现，未作为平台"
+        },
+        {
+          "channel": "repository_review",
+          "query": "cpbeamer/LabelCompliance 许可证与 README",
+          "outcome": "README 功能完整但无 LICENSE 文件、GitHub license 404，按未知许可排除"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/SaiAmarKoduru/NutriLabe",
+          "status": "ok",
+          "note": "MIT，记录 id 1274718359 与描述"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SaiAmarKoduru/NutriLabe/main/README.md",
+          "status": "ok",
+          "note": "确认多国标签与配方计算，但产品记录/账户仍在路线图"
+        },
+        {
+          "url": "https://api.github.com/repos/cpbeamer/LabelCompliance",
+          "status": "ok",
+          "note": "许可证字段为空"
+        },
+        {
+          "url": "https://api.github.com/repos/cpbeamer/LabelCompliance/license",
+          "status": "http_404",
+          "note": "无许可证接口，不能标开源"
+        },
+        {
+          "url": "https://www.recipal.com/",
+          "status": "ok",
+          "note": "官方正文含 FDA/CFIA 规则、营养/配料/过敏原声明与导出，已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "food-manufacturing-erp",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1864233"
+      ],
+      "query": "复用共享 application-index 中的 ERPNext；查询 ERPNext 官方 batch、expiry 与 serial/batch traceability 文档",
+      "source_urls": [
+        "https://docs.frappe.io/erpnext/bill-of-materials",
+        "https://docs.frappe.io/erpnext/user/manual/en/batch",
+        "https://docs.frappe.io/erpnext/serial-and-batch-traceability-report",
+        "https://raw.githubusercontent.com/frappe/erpnext/develop/README.md"
+      ],
+      "note": "共享索引已有 ERPNext（github:1864233），直接复用身份与原有来源，不覆盖核心字段，只补充食品制造 ERP 的叶关系。官方 BOM 文档说明物料清单是制造系统核心主数据、可多层展开且提交后只能取消重建；README 说明财务、采购销售、库存与制造同属一个 ERP；batch 文档说明批次物料每笔库存交易必须携带批号、可设保质期并显示过期状态；traceability 文档说明可从成品反查原料批次、从原料批次正查成品去向。需注意精确的“原料批次→成品批次”映射默认关闭，需在 Stock Entry 中手工或用 Auto Assign 建立，文档说明了这一限制，因此关系按现有能力收窄表述，不宣称自动全链追溯。未运行产品。",
+      "service_boundary": "收窄为食品制造商的一体化业务后台（财务、采购销售、库存）与配方/BOM 驱动批次生产、批次保质期及正反向追溯；不把仅车间执行、仅仓储或仅会计的点工具算入。",
+      "search_attempts": [
+        {
+          "channel": "shared_index_reuse",
+          "query": "application-index.json 中的 ERP/制造候选",
+          "outcome": "命中 ERPNext（github:1864233），复用既有身份、许可证与来源"
+        },
+        {
+          "channel": "official_docs",
+          "query": "ERPNext batch expiry stock transaction documentation",
+          "outcome": "取得批次主数据、批号必填与保质期状态说明"
+        },
+        {
+          "channel": "official_docs",
+          "query": "ERPNext serial and batch traceability report backward forward",
+          "outcome": "取得正反向追踪报告与原料-成品映射说明"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.frappe.io/erpnext/bill-of-materials",
+          "status": "ok",
+          "note": "官方正文确认 BOM 为制造核心主数据、支持多层 BOM 与提交后不可编辑"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/batch",
+          "status": "ok",
+          "note": "完整页面 2.95MB，正文确认批次、保质期与每笔交易批号要求"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/serial-and-batch-traceability-report",
+          "status": "ok",
+          "note": "确认 Backward/Forward/Both 追踪及映射限制"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/serial-no-and-batch-traceability-report",
+          "status": "http_404",
+          "note": "首次猜测路径失效，改用导航中的正确 slug"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frappe/erpnext/develop/README.md",
+          "status": "ok",
+          "note": "复用共享快照，确认 ERP 与制造范围"
+        },
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext",
+          "status": "ok",
+          "note": "复用共享快照，id 1864233 与仓库身份一致"
+        },
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext/license",
+          "status": "ok",
+          "note": "复用共享快照，GPL-3.0"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "food-plm",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:becpg"
+      ],
+      "query": "open source food PLM product lifecycle specification management github",
+      "source_urls": [
+        "https://www.becpg.net/plm-software/"
+      ],
+      "note": "开源搜索命中 beCPG Community、DocDokuPLM、PLMore、Dokuly、Cascadia 等。beCPG 的 README 与食品 PLM 核心高度匹配（产品库、配方、规格、包装、供应商、版本/变更、ERP 接口），但许可证 API 为 NOASSERTION、LICENSE 仅简短 LGPL 声明，当前导入校验无法证明 SPDX，故不按开源条目导入。DocDokuPLM 为通用离散制造 PLM（文档/BOM/变更），没有食品配方与营养/过敏原传播；PLMore/Dokuly/Cascadia 同样是硬件/离散 PLM。商业侧采用 beCPG 企业版：官方 PLM 页面正文覆盖产品库、配方实时重算、规格与包装 BOM、项目/供应商协作、完整变更历史、REST API/ERP/GS1 交接，并把 PLM 与 ERP/PIM 的边界写清。未运行产品。",
+      "service_boundary": "收窄为食品饮料制造商以单一产品记录承载配方、规格、包装/文档与供应商数据，并进行版本控制、变更传播和上市/ERP 交接的 PLM；不把离散制造 PLM、单纯配方工具或 ERP 交易系统算入。",
+      "search_attempts": [
+        {
+          "channel": "websearch",
+          "query": "open source food PLM product lifecycle specification management github",
+          "outcome": "命中 beCPG Community、DocDokuPLM、PLMore、Dokuly、Cascadia 及商业对比文章"
+        },
+        {
+          "channel": "repository_review",
+          "query": "becpg/becpg-community README/LICENSE 与许可证 API",
+          "outcome": "食品 PLM 核心匹配，但 NOASSERTION 与简短 LGPL 声明无法通过当前导入校验"
+        },
+        {
+          "channel": "repository_review",
+          "query": "docdoku/docdoku-plm 定位",
+          "outcome": "通用离散制造 PLM，缺少食品配方和法规数据传播，未采用"
+        },
+        {
+          "channel": "official_site",
+          "query": "beCPG PLM software food beverage product repository formulation specifications",
+          "outcome": "官方页面正文确认产品记录、配方重算、规格/包装、变更历史与 ERP 交接"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/becpg/becpg-community",
+          "status": "ok",
+          "note": "id 684558148；许可证 NOASSERTION；作为开源候选留档"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/becpg/becpg-community/master/README.md",
+          "status": "ok",
+          "note": "确认食品 PLM 核心与社区版/企业版边界"
+        },
+        {
+          "url": "https://www.becpg.net/plm-software/",
+          "status": "ok",
+          "note": "官方正文含产品库、配方、规格、包装、变更历史、ERP/GS1 连接，已保存快照"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

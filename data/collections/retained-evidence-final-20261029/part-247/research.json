@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sports-club-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sportmember"
+      ],
+      "query": "sports club management in:name,description；club management、team roster season、membership teams fees 定向仓库检索；SportMember 官方会员/球队/赛季/费用页面核对",
+      "source_urls": [
+        "https://www.sportmember.com/",
+        "https://www.sportmember.com/en/membership-management-software",
+        "https://www.sportmember.com/en/cashless-payment-system-match-fee",
+        "https://www.sportmember.com/en/team-app",
+        "https://www.sportmember.com/en/online-calendar-for-sports-clubs"
+      ],
+      "note": "历史复用：本轮先复核 Lehrstuhl-BWL-EvIS/sportyweb 的既有快照（仓库元数据、AGPL-3.0 许可证、main/development README、CHANGELOG、development 完整树 448 路径）。其模块仍仅覆盖 club/department/group/contact/membership/fee/contract/finance 与账号注册，未建模球队/队伍名册，也未建模赛季/注册续期周期；development README 同时标注尚不适合生产。原初审的两项核心缺口成立，故移除 batch 中残留的 Sportyweb 关系，旧检索与抓取记录保留在 HISTORY.json，不表示该类型不存在。本轮补采：GitHub 定向检索未找到同时具备会员、球队、赛季/报名、会费闭环的完整开源 Web 应用；结果多为健身房、学生项目、无许可证仓库、通用俱乐部 CRM 或纯球队/赛程工具。按开源优先、商业仅基本记录的原则，核对 SportMember 官方正文：会员页证明单一会员数据库、球队与角色、家长关联、报名链接入队及教练限本队；球队页证明球队成员名单与分权；费用页证明 Autumn season、mid-season 入会、月/季/年费用、欠费提醒与未付费暂停参与；日历页证明赛季计划、活动报名/取消与报名截止。四类定义性核心均有官方正文证据，故登记该商业案例。未取得正文的候选：GitHub 搜索命中的学生项目与无许可证仓库未逐一下载正文，因许可缺失或形态不符先行排除；GitHub API 部分查询触发速率限制，作为失败检索留档。该商业记录未运行产品、未注册账号、未验证价格、架构或部署。",
+      "service_boundary": "体育俱乐部/协会运营侧云服务：会员数据库、球队/部门与角色、赛季与活动报名、会费与比赛费用收取及欠费处理；产品中心是俱乐部运营管理，不承担联赛赛程生成，也不以场地预订或培训课程销售为主。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "sports club management in:name,description",
+          "result": "704 个结果；前列多为健身房或学生课程项目；复核 Sportyweb（11 stars）仍缺球队与赛季建模"
+        },
+        {
+          "tool": "github_search",
+          "query": "club management in:name,description language:PHP",
+          "result": "650 个结果；多为学生项目、健身房或无许可证仓库，未找到完整体育俱乐部 Web 应用"
+        },
+        {
+          "tool": "github_search",
+          "query": "club management in:name,description language:Python",
+          "result": "639 个结果；多为高校/社区俱乐部管理，不是体育俱乐部运营系统"
+        },
+        {
+          "tool": "github_search",
+          "query": "team roster season in:name,description",
+          "result": "77 个结果；OpenLeague 有球队/名册/赛程，但缺俱乐部会员记录与会费/欠费闭环，产品中心为球队而非俱乐部；其余为比赛模拟或统计工具"
+        },
+        {
+          "tool": "github_search",
+          "query": "membership teams fees in:name,description",
+          "result": "2 个结果，均不相关"
+        },
+        {
+          "tool": "github_search",
+          "query": "Verein Mitglieder Beiträge in:name,description",
+          "result": "2 个结果；karate 本地应用与 Frappe 俱乐部管理，均未见球队/赛季完整闭环"
+        },
+        {
+          "tool": "github_search",
+          "query": "sports club dues in:name,description",
+          "result": "GitHub API 速率限制，检索失败"
+        },
+        {
+          "tool": "websearch",
+          "query": "site:sportmember.com season registration membership renewal club teams",
+          "result": "无搜索结果"
+        },
+        {
+          "tool": "official_site_review",
+          "query": "SportMember 官方首页、会员管理、费用、球队 App、日历页面",
+          "result": "正文覆盖会员数据库、球队/角色、赛季与报名、会费/比赛费及欠费处理；据此登记商业基本记录"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sportmember.com/",
+          "status": "ok",
+          "sha256": "ab5e17140ead4aea7f6633304db5bb1340240cf0763ae114205bb9b0f16b0c70",
+          "kind": "homepage",
+          "fetched_at": "2026-10-29T17:11:47.715129+08:00"
+        },
+        {
+          "url": "https://www.sportmember.com/en/membership-management-software",
+          "status": "ok",
+          "sha256": "c7d6a1e30d7cae34cfcf21d99a3d26433a56a4f987d9cb615da45104389bd3d2",
+          "kind": "documentation",
+          "fetched_at": "2026-10-29T17:11:55.810090+08:00"
+        },
+        {
+          "url": "https://www.sportmember.com/en/cashless-payment-system-match-fee",
+          "status": "ok",
+          "sha256": "a0bc134da90ddc16700c9971ae550688440d04292815f9378f5c90c863b72873",
+          "kind": "documentation",
+          "fetched_at": "2026-10-29T17:12:32.833684+08:00"
+        },
+        {
+          "url": "https://www.sportmember.com/en/team-app",
+          "status": "ok",
+          "sha256": "b309b77625020c571c250d2a0f3f08d50242ef42a01eff5c84d763e766a39053",
+          "kind": "documentation",
+          "fetched_at": "2026-10-29T17:12:35.316433+08:00"
+        },
+        {
+          "url": "https://www.sportmember.com/en/online-calendar-for-sports-clubs",
+          "status": "ok",
+          "sha256": "66f67c5a43aa16fdaa154cf48b91331b94dc013415c38c9a0d383503fbed12af",
+          "kind": "documentation",
+          "fetched_at": "2026-10-29T17:13:02.111577+08:00"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

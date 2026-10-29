@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "golf-tracking-handicap-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:193416728",
+        "commercial:thegrint"
+      ],
+      "query": "GitHub HTML: golf handicap rounds; GitHub API: golf handicap in:name,description; 官方站核对 thegrint.com",
+      "source_urls": [
+        "https://github.com/srukelman/HandicapTracker",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/README.md",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/LICENSE",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/entry.php",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/hndcp_trckr.php",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/hndcp_insert.php",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/handicap-updater.php",
+        "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/recent-diffs.php",
+        "https://thegrint.com/"
+      ],
+      "note": "开源候选 srukelman/HandicapTracker（GPL-3.0，仓库 ID 193416728）README 极简，故核对录入与差点流程代码：entry.php/hndcp_trckr.php 按球场评分/坡度与 9/18 洞录入总分并算单轮差分；hndcp_insert.php 将差分写入 differentials 表、合并两个 9 洞并调用 handicap_calc，同时更新 trend；handicap-updater.php 为每个用户重算并写入 Handicap 表；recent-diffs.php 展示差点趋势、差点指数和差分历史。由此差分历史持久化与个人指数维护均有代码证据，但项目不含逐洞成绩或发球台细目，属简化版。商业 TheGrint 官网首页正文写明逐轮成绩、official handicap（USGA® data affiliate）与 40,000+ 球场 GPS。",
+      "service_boundary": "本叶关系限定为球员端个人记分与差点记录：HandicapTracker 为自托管 PHP/MySQL 应用，使用简化总分/差分模型；TheGrint 为面向球员的商业应用。两者均不涉及开球时间销售、球场运营或赛事运营；未验证部署与实时服务。",
+      "search_attempts": [
+        "GitHub HTML 搜索 golf handicap rounds",
+        "GitHub API 搜索 golf handicap in:name,description",
+        "检查无许可证候选并排除",
+        "抓取 HandicapTracker 仓库页、README、LICENSE、entry.php、hndcp_trckr.php",
+        "抓取 TheGrint 官网首页",
+        "补充抓取 HandicapTracker 的 hndcp_insert.php、handicap-updater.php、recent-diffs.php"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/search/repositories?q=golf+handicap+in:name,description",
+          "result": "成功返回候选，含 srukelman/HandicapTracker"
+        },
+        {
+          "url": "https://github.com/srukelman/HandicapTracker",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，页面含 repository_id 193416728 与 nwo srukelman/HandicapTracker"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/LICENSE",
+          "kind": "license",
+          "result": "HTTP 200，完整 GPL-3.0 文本"
+        },
+        {
+          "url": "https://thegrint.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，正文含 scorecard、official handicap、40,000+ courses GPS"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/hndcp_insert.php",
+          "kind": "documentation",
+          "result": "HTTP 200，差分写入 differentials 表、9 洞合并、调用 handicap_calc 并更新 trend"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/handicap-updater.php",
+          "kind": "documentation",
+          "result": "HTTP 200，遍历用户调用 handicap_calc 并写入 Handicap 表"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/srukelman/HandicapTracker/master/recent-diffs.php",
+          "kind": "documentation",
+          "result": "HTTP 200，读取 trend/Handicap 表并展示差点趋势、差点指数与差分历史"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hiking-trail-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:alltrails"
+      ],
+      "query": "GitHub HTML: hiking trails; hiking app; trail navigation; 官方站核对 alltrails.com",
+      "source_urls": [
+        "https://www.alltrails.com/"
+      ],
+      "note": "复用共享 application-index 中已有的 commercial:alltrails 身份，仅新增 hiking 叶关系，不覆盖既有 outdoor-recreation-discovery 关系与核心字段。官网首页正文显示按城市/公园/步道搜索步道指南、地图与离线下载、实时跟踪及转弯提示，三项核心结构均有正文依据。开源候选中 Wanderer 偏自托管步道目录/规划、Trail Sense 偏离线野外工具，未找到同时证明持久步道对象、地形地图和实地循迹的完整开源应用，故不建立关系。",
+      "service_boundary": "AllTrails 是徒步者端的步道发现、规划与导航服务；本关系不覆盖其商业订阅价格、后端架构或部署，也不等同于步道/公园或露营地运营系统。",
+      "search_attempts": [
+        "GitHub HTML 搜索 hiking trails",
+        "GitHub HTML 搜索 hiking app",
+        "GitHub HTML 搜索 trail navigation",
+        "检查 open-wanderer/wanderer、kylecorry31/Trail-Sense、IsraelHikingMap/Site 的仓库说明与许可证",
+        "抓取 AllTrails 官网首页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.alltrails.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，正文含步道搜索、地图离线下载、实时跟踪与转弯提示"
+        },
+        {
+          "url": "https://github.com/open-wanderer/wanderer",
+          "kind": "candidate_review",
+          "result": "AGPL-3.0，自托管步道目录与规划；未证明实地循迹导航，未采用"
+        },
+        {
+          "url": "https://github.com/kylecorry31/Trail-Sense",
+          "kind": "candidate_review",
+          "result": "MIT，离线野外工具；路径/导航更接近通用导航工具，未采用"
+        },
+        {
+          "url": "https://github.com/IsraelHikingMap/Site",
+          "kind": "candidate_review",
+          "result": "仓库页许可证为 NOASSERTION，未继续采用"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "meal-planning-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:319167362"
+      ],
+      "query": "GitHub API: meal planning shopping list; 直接核对已知候选 mealie-recipes/mealie",
+      "source_urls": [
+        "https://github.com/mealie-recipes/mealie",
+        "https://raw.githubusercontent.com/mealie-recipes/mealie/master/README.md",
+        "https://raw.githubusercontent.com/mealie-recipes/mealie/master/LICENSE",
+        "https://mealie.io/documentation/getting-started/features/"
+      ],
+      "note": "Mealie（AGPL-3.0，仓库 ID 319167362）README 明确自托管食谱管理、未来膳食计划、购物清单、REST API 与 Docker 部署；官方 Features 文档补充了计划到清单的具体行为：“When you add a day or the whole plan to a shopping list, the ingredient quantities follow the serving sizes you've planned”，即某日或整份计划可加入购物清单、食材数量按计划份量带入，购物清单确由计划餐食派生。计划与食谱内容、计划驱动采购三要素成立；未验证同名食材跨餐食自动合并算法，不声称该细节。README/LICENSE 快照取自 master，另核对 mealie-next 分支 README 内容哈希相同。",
+      "service_boundary": "关系限定为家庭/个人使用的前瞻性膳食计划与购物清单应用；不包含食材定价、预算、厨房生产计划或配送交易。Mealie 为完整自托管开源应用，非仅前端组件。",
+      "search_attempts": [
+        "GitHub API 搜索 meal planning shopping list",
+        "核对已知候选 mealie-recipes/mealie",
+        "抓取 Mealie 仓库页、README、LICENSE",
+        "运行批次结构校验",
+        "抓取 Mealie 官方 Features 文档核对 meal planner→shopping list 行为"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/search/repositories?q=meal+planning+shopping+list",
+          "result": "成功返回候选，多为小型/无许可证项目"
+        },
+        {
+          "url": "https://github.com/mealie-recipes/mealie",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，页面含 repository_id 319167362 与 nwo mealie-recipes/mealie"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mealie-recipes/mealie/master/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，含 Meal Planner、Shopping List、Docker 等正文"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mealie-recipes/mealie/master/LICENSE",
+          "kind": "license",
+          "result": "HTTP 200，完整 AGPL-3.0 文本"
+        },
+        {
+          "url": "https://mealie.io/documentation/getting-started/features/",
+          "kind": "documentation",
+          "result": "HTTP 200，正文明确可将某日或整份计划加入购物清单，食材数量按计划份量带入"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nutrition-coaching-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1366620115"
+      ],
+      "query": "GitHub API: nutrition coaching client; dietitian practice; 核对候选 FlameNutrition/flame-coach-* 与 lihsaa591/merodiet",
+      "source_urls": [
+        "https://github.com/lihsaa591/merodiet",
+        "https://raw.githubusercontent.com/lihsaa591/merodiet/main/README.md",
+        "https://raw.githubusercontent.com/lihsaa591/merodiet/main/LICENSE"
+      ],
+      "note": "MeroDiet（README 声明 GPL-2.0-or-later，LICENSE 为完整 GPL v2 文本，仓库 ID 1366620115）README 明确从业者客户名册、从食物/食谱库编制并分配个体化餐食计划、客户记录执行/替换/测量、从业者仪表盘复核合规和计划-实际营养，构成客户关系、营养处方、复核闭环三结构。另一候选 Flame Coach 为前后端 MIT 项目，但现有说明未证明完整处方与复核流程，未采用。未运行部署或验证合规声明。",
+      "service_boundary": "关系限定为营养专业人士的从业者端实践管理/指导平台；不包含通用健身训练计划、单纯个人卡路里追踪或远程医疗问诊套件。MeroDiet 以 WordPress 插件形式自托管，客户门户与权限隔离未实际运行验证。",
+      "search_attempts": [
+        "GitHub API 搜索 nutrition coaching client",
+        "GitHub API 搜索 dietitian practice",
+        "检查 FlameNutrition/flame-coach-web 与 flame-coach-service 的说明",
+        "抓取 MeroDiet 仓库页、README、LICENSE",
+        "复核 MeroDiet README 的 GPL-2.0-or-later 声明与 LICENSE 全文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/search/repositories?q=nutrition+coaching+client",
+          "result": "成功返回候选，含 FlameNutrition 与 MeroDiet"
+        },
+        {
+          "url": "https://github.com/lihsaa591/merodiet",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，页面含 repository_id 1366620115 与 nwo lihsaa591/merodiet"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/lihsaa591/merodiet/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，正文含 practitioner/client 完整流程"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/lihsaa591/merodiet/main/LICENSE",
+          "kind": "license",
+          "result": "HTTP 200，完整 GPL v2 文本；README 第 72 行声明 GPL-2.0-or-later"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "recreational-fishing-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fishbrain"
+      ],
+      "query": "GitHub API: fishing log; fishing app; catch log fishing; 官方站核对 fishbrain.com",
+      "source_urls": [
+        "https://fishbrain.com/"
+      ],
+      "note": "Fishbrain 官网首页正文同时描述水域知识（14M 钓点、深度图、当地渔获报告、法规）和个人渔获日志（照片、物种识别、天气、统计），两结构及循环成立。开源候选 Anglers' Log（GPL-3.0）README 只证明渔获记录/统计/分享，未证明水域知识、法规或报告层，故仅作为候选留档，不建立关系。",
+      "service_boundary": "关系限定为垂钓者端的水域情报与个人渔获记录应用；不包含商业渔船运营、渔具电商或渔业管理部门的执法系统。未研究价格、订阅层级与后端架构。",
+      "search_attempts": [
+        "GitHub API 搜索 fishing log",
+        "GitHub API 搜索 fishing app",
+        "GitHub API 搜索 catch log fishing",
+        "检查 cohenadair/anglers-log 的 README 与许可证",
+        "抓取 Fishbrain 官网首页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/search/repositories?q=fishing+log",
+          "result": "成功返回候选，含 cohenadair/anglers-log 等"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cohenadair/anglers-log/master/README.md",
+          "kind": "candidate_review",
+          "result": "HTTP 200，仅证明渔获跟踪/分析/分享，未见水域知识层"
+        },
+        {
+          "url": "https://fishbrain.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，正文含钓点地图、深度图、当地报告、法规与个人日志"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

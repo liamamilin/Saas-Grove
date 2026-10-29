@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的 features 列出的“智能分组”在本次引用的 Contacts 正文中只体现为 Groups 标签与按标签建组；Smart groups 仅出现在文档站导航链接里。核心判定不依赖该项，建议后续如需保留该 feature，补引 smart-groups 正文页。",
+    "CiviCRM 整体是范围更广的非营利 CRM（另含会员、活动、案例、邮件等组件），条目已在 summary、leaf_matches.reason 和 research.service_boundary 中明确“只取联系人记录 + CiviContribute 捐赠管理子模块”。边界披露充分，但下游做同类横向比较时易把子模块范围误读为产品全貌，建议在展示层保留该限定语。",
+    "收据/致谢的证据来自 CiviContribute 场景段落“支付成功后自动发送感谢邮件与收据”，属于成熟产品的标准能力而非定义性核心；与定义文档把收据/致谢列为 standard capability 的定位一致，当前引用强度足够，但不宜作为核心匹配的主要依据。",
+    "input.json 仍标记 phase=included_without_cases、case_status=insufficient_evidence，而本轮 research.json 给出 case_found（github:8495499）。这是轮次推进造成的状态差异而非事实冲突，建议在留档中注明以 research.json 本轮结论为准，避免下游按 input 状态误判。",
+    "research.json 提到旧 civicrm.com 快照仍保留在 sources/ 与 REUSED_SOURCES.json，但这些文件不在 REVIEW_SOURCES.json 的引用清单内，也未参与本叶结论；建议确保下游不会把未列入引用清单的历史快照当作已采纳来源。",
+    "许可证为 AGPL-3.0，网络提供服务时触发源码提供义务；条目只做开源身份与许可证完整性核对，未讨论该义务对采用方的影响，不影响本次判定。"
+  ],
+  "leaf_checks": {
+    "donor-management-system": {
+      "slug": "donor-management-system",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "result": "pass",
+      "core_evidence": "docs.civicrm.org Contacts 正文（快照 ff6684a1…）明确 CiviCRM 开箱即含 Individuals/Organisations/Households 三类联系人及姓名、问候语、联系方式、地址、沟通偏好等核心字段，并把联系人定位为“所有其他构件（关系、活动、分组、捐赠）都连接到联系人”的中心；Contributions 标签显示某联系人的财务捐赠及“累计总额、笔数、平均值”的汇总，并可用 Record Contribution / Submit Credit Card Contribution 录入线下或代客刷卡捐赠——对应定义中的成员记录、归属于成员的捐赠记录与累计捐赠历史。Activities、Notes、Mailings、Groups 标签及隐私/问候语设置对应记录的关系维护与细分外展。CiviContribute 正文（快照 6360e7e4…）说明该组件记录并报告财务与实物捐赠，场景段落说明支付成功后自动发送感谢邮件与收据、捐赠记入该联系人的 contribution record、按标签出报表并查看哪些联系人捐赠过。定义性四项核心均有官方社区文档正文支撑，非简介/导航/关键词推断。",
+      "service_form": "开源、自托管、持续使用的 PHP Web 应用：README 快照（b69bd417…）说明以 Standalone PHP web application 发布，也可作为 Backdrop/Drupal/Joomla/WordPress 模块运行，并指向 civicrm.org/download 与 docs.civicrm.org。与 batch 的 track=open_source、deployment=自托管+独立应用/CMS 模块、technology_stack=PHP 一致；条目未声称 SaaS 托管形态，不存在把自托管项目包装成 SaaS 的错配。",
+      "identity_and_license": "ID/track 一致：仓库元数据快照首段给出 id=8495499、full_name=civicrm/civicrm-core、fork=false、private=false，与 batch 的 github:8495499、github_repository_id=8495499、repository_url 完全对应；homepage=civicrm.org 与 README“The project website is https://civicrm.org/”一致。许可证快照为 GitHub contents API 返回的 LICENSE 文件（path=LICENSE，size=34524，base64 content 解码首段即“GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”），README 亦写明“licensed under GNU AGPL 3”，与 batch 的 license=AGPL-3.0 一致；许可证正文随快照完整留档，非仅 SPDX 名称。社区版边界：引用对象为 AGPL 的 civicrm-core 社区代码库，所列联系人/捐赠/收据/分组/报表能力均取自 docs.civicrm.org 社区用户指南，未混入 civicrm.com 商业功能页或商业版专有能力。",
+      "boundary": "条目主动收窄范围：batch.summary 与 leaf_matches.reason 均声明“产品整体范围较广，本条仅取捐赠管理子模块”，research.service_boundary 进一步说明 CiviCRM 还含会员、活动、案例等更广 CRM 能力，面向捐赠者的在线捐赠页只作相邻能力补充。与定义中“成员库扩展到会员/志愿者/项目客户即向非营利 CRM 漂移”“中心转向捐赠者捐赠流程即在线捐赠平台”的边界描述相容，未把兄弟类别能力冒充本叶核心。",
+      "gaps": "无阻断性缺口。可改进项：智能分组仅有导航链接；仓库元数据快照为单行 JSON 且读取时按行截断在 tags_url 附近，license 对象、archived、default_branch 等尾部字段未能逐字核对（身份已由首段 id/full_name/fork 与 README、许可证快照交叉确认）。历史 civicrm.com 页面已如实标注为未采纳并保留轨迹，另有 404 抓取失败记录，均属如实留档。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 5 个快照（按 path 原样读取，sources 前缀相对 data/collections），未运行 shell、未写文件、未访问其他单元、未做在线复抓或部署测试。sha256 无法重算，仅核对文件名、batch.sources.sha256 与 REVIEW_SOURCES.sha256 三者一致。GitHub 仓库元数据快照是单行 JSON，读取工具按行截断在约 2000 字符处，tags_url 之后的字段（license 对象、archived、default_branch、stars 等）未能逐字核对；仓库身份依据首段 id=8495499、full_name=civicrm/civicrm-core、fork=false 及 README、文档页交叉确认。许可证按 contents API 的 size=34524 与 base64 解码首段标题确认是完整 AGPLv3 正文，未逐段解码校验全文；两篇文档快照为完整 HTML，结论仅取 article 正文区域，导航/TOC/搜索框等未作为核心证据。另未独立核实 CiviCRM 是否存在与社区版并行的商业版功能边界，仅确认本条目未引用商业版内容。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-215/ses_groveopencodegop215review1_1793259959.jsonl",
+  "batch_sha256": "159036191f9937a1bcabe719d30e9230f1c238ddfe6a1cfb1de80579073d6101",
+  "research_sha256": "baaf75b6b1a8889b3fa1f23b417ed9ea30bd5bab6d6fe26440f052a161f30a13",
+  "input_sha256": "e30926aca0ea099db58da4bc693f8da00479a58fbc438e57c399dff88e90ed0a"
+}

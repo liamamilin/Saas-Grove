@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Hindenburg PRO 的官方页只给出 record-transcribe-edit-montage-mix-publish 流程表述和口播编辑定位，未展开“单集是持久工作单元”、标题/show notes/章节以及导出/响度规格；research.json 已如实记录并收窄表述，符合商业案例只做基本真实性与类型匹配的口径。若后续按更严格的叶核心完整性复核，可补产品指南或导出页。",
+    "MAGIX Music Maker 的导出证据来自 CD 刻录教程：File > Export > Burn audio CD-R(W) 会先把工程导出为 WAV；免费版不含该刻录模块。引用时宜写明该路径和版本边界，避免被读成免费版通用导出。",
+    "MAGIX 循环教程能证明循环随项目 BPM 变化、可用 7 个音高按钮改调，但未明示“不同原始速度/调性的循环自动适配”；research.json 已记录该缺口，建议文案只声称已证明的速度锁定与手动改调。",
+    "LMMS 许可按 GitHub license API 记为 GPL-2.0；该 API 识别带有元数据性质，未像 Ardour/Hydrogen 那样核对项目自身的“or later”声明。若目录要求 SPDX 精确到 or-later，建议补查源码头或 README 许可段后再定。",
+    "MAGIX Music Maker 在 beat-making 叶属于次级交叉匹配：官方页有 Beatbox Pro 3、鼓组上传和“song & beat-making”定位，但主工作流仍是 Soundpool 循环拖拽；若目录要求每个产品只归入一个重心类型，应复核是否保留该交叉匹配，或补充 Beatbox 的 pattern 编排正文。",
+    "GarageBand、Hindenburg、MAGIX 的 homepage 字段指向根域而非具体产品页，不影响来源核验，但会降低条目可读性。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 research.json 的 case_found 及 batch.json 的条目不一致；建议在合并前刷新进度元数据。"
+  ],
+  "leaf_checks": {
+    "digital-audio-workstation-daw": {
+      "result": "pass",
+      "cases": [
+        "github:8757552",
+        "github:15778896"
+      ],
+      "basis": "Ardour Features 正文含 Recording、Composing、Editing、Mixing、Exporting，支持多轨会话、素材创作、混音以及成品与分轨导出；LMMS README 自述为 DAW，并列出 Song Editor、Pattern Editor、Piano Roll、Mixer，导出章正文给出 Project > Export 与 WAV/OGG，且说明导出不改动 .mmpz 原工程。",
+      "gaps": "Ardour 的“保存/重开持久性”由 sessions、archive sessions 间接支撑；LMMS 的工程持久性由 .mmpz 说明间接支撑；未运行软件验证。"
+    },
+    "podcast-editing-application": {
+      "result": "pass",
+      "cases": [
+        "commercial:hindenburg-pro"
+      ],
+      "basis": "Hindenburg PRO 官方页正文定位为面向记者、播客与广播的口播音频编辑软件，工作流为 record-transcribe-edit-montage-mix-publish，并描述波形与转写两种编辑界面；达到商业案例的基本类型匹配。",
+      "gaps": "未给出“单集”作为持久项目、show notes/章节等发布上下文的正文；research.json 已记录并明确不据此断言，按商业基本类型匹配通过。"
+    },
+    "beat-making-application": {
+      "result": "pass",
+      "cases": [
+        "github:3967129",
+        "commercial:magix-music-maker"
+      ],
+      "basis": "Hydrogen 官方手册正文含 Sound Library 鼓组/Pattern 管理、Pattern Editor 鼓机节奏编辑、Song Editor 编排与 Export Song 单混音/分轨导出，README 自述高级鼓机与 pattern-based programming；MAGIX 官方页提供 Beatbox Pro 3、鼓组上传与 song & beat-making 定位作为商业次级匹配。",
+      "gaps": "MAGIX 的 pattern 编排/渲染核心主要靠功能页与既有 arranger/导出教程间接支撑，未给出 Beatbox pattern 工作流正文；Hydrogen 已覆盖本叶核心。"
+    },
+    "loop-based-music-production-application": {
+      "result": "pass",
+      "cases": [
+        "commercial:magix-music-maker"
+      ],
+      "basis": "MAGIX 官方循环教程正文定义循环为数秒音频片段，可拖入 arranger、重复并与其他循环组合，运输控件设 BPM 且降速会改变轨道循环；同一正文给出 7 个音高按钮改调；产品页给出 Soundpool 循环库与拖拽工作流；CD 刻录教程正文说明 File > Export > Burn audio CD-R(W) 会先把工程导出为 WAV。",
+      "gaps": "未明示不同原始速度/调性循环的自动适配；导出证据绑定 CD 刻录模块（免费版不含）；research.json 已记录调性缺口。"
+    },
+    "music-production-application": {
+      "result": "pass",
+      "cases": [
+        "github:8757552",
+        "github:15778896",
+        "commercial:garageband"
+      ],
+      "basis": "Ardour Features 覆盖录音、编曲、混音、导出；LMMS README 与导出章覆盖 Song Editor、Piano Roll、Mixer 与 WAV/OGG 交付；GarageBand 官方页正文含录音、编辑、混音、255 条音频轨及分享/导出到 Music App。三例均可对应持久工程、轨道素材创作、混音与音频交付。",
+      "gaps": "GarageBand 的持久工程与导出细节由官方页概述支撑，未做运行验证；商业例按基本类型匹配通过。"
+    }
+  },
+  "limits": "仅只读核对 REVIEW_SOURCES.json 列出的 17 个快照及 batch.json、research.json；未运行应用、未做部署或导出实测、未重新抓取网页、未独立复算 sha256；未读取采集者 TASK.md、历史脚本或其他单元。同目录另有少量未列入 REVIEW_SOURCES 的候选/拒用快照，仅作存在性与拒用核对，未作为本报告结论依据。对 Hindenburg 单集/发布上下文、MAGIX 调性自动适配、LMMS 许可 or-later 范围等未闭合点，按留档缺口或非阻断说明处理。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-022/ses_groveopencodegop022review2_1792941833.jsonl",
+  "batch_sha256": "4645fb20755109f7cca13a15fda9b84dc26b78fa47affa8e0cf403c1684cc95a",
+  "research_sha256": "4d242d6f187b43456fe9ac39088956420e8482838a62e3b48ffcf69ca9870c59",
+  "input_sha256": "203308faf0969a6d304dbcf34384bbc19f22405cd059c364b00ce55dd27ca809"
+}

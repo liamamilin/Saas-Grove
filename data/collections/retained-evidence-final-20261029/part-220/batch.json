@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "batch_id": "retained-evidence-20261028-u220",
+  "entries": [
+    {
+      "id": "github:1324163874",
+      "name": "OpenBooks",
+      "track": "open_source",
+      "summary": "通用、自托管的开源 business suite；非营利基金会计是同一 AGPL 仓库内通过 Company Settings → Features 开启的可选功能组，不是独立 SKU 或单独付费版。保留的官方源码与集成测试显示：基金按 operating/restricted/endowment/plant/board_designated 分类并作为平衡维度，分录按 fund 维度入账，跨基金分录用已配置的 due-from/due-to 生成平衡腿，限制解除会校验类别对与可用余额后过账，功能费用固定为 program/management_general/fundraising，并输出可按基金过滤的非营利报表。README 标为 alpha、未完成独立会计/安全认证，能力清单与测试不代表可直接投产；许可证 README 标 AGPL-3.0-or-later，GitHub license API 返回 AGPL-3.0。homepage 取自仓库元数据。",
+      "homepage": "https://openbooks-site.vercel.app",
+      "repository_url": "https://github.com/braedonsaunders/openbooks",
+      "github_repository_id": 1324163874,
+      "license": "AGPL-3.0",
+      "license_evidence_url": "https://api.github.com/repos/braedonsaunders/openbooks/license",
+      "features": [
+        "基金维度：FundKind 为 operating/restricted/endowment/plant/board_designated；createFund 要求 fund 段存在且 is_balancing，并记录 restriction_class 与 off/advisory/hard 预算控制（funds.ts:7,73-102,205-208）",
+        "逐笔基金入账与基金平衡：分录行使用 extra_dims.fund；非零残差无基金时以 fund_missing 拒绝，缺省时回填默认基金，按基金汇总后生成平衡腿，集成测试断言每基金合计为零（fund-posting.ts:122-155；fund-balancing.integration.test.ts:99-104,252-264）",
+        "基金间配对：setFundPair 配置基金间 due-from/due-to 账户，interfundLegs 生成带基金维度的平衡腿；未配置配对时以 interfund_pair_missing 拒绝（funds.ts:236-259；fund-posting.ts:236-285；fund-balancing.integration.test.ts:106-196）",
+        "限制解除：fund_releases 状态含 draft/pending_approval/posted/void；过账校验限制类别对、可用余额、期间与留本董事会拨款，成功后写 posted_entry_id（releases.ts:33,207-320,783-855）",
+        "功能费用：固定 program/management_general/fundraising 三类映射；费用缺少有效映射时拒绝出表（functional.ts:16-17,384-414）",
+        "基金级/非营利报表：loadNonprofitStatements 支持 fundId 过滤，输出按限制类净资产、活动、功能费用与现金流调节，并提供基金覆盖 tie-out（statements.ts:70-159,500-549,743-781）",
+        "可选功能边界：nonprofit/fundAccounting/functionalExpenses 等由 Company Settings → Features 开关；关闭后拒绝相关记账并隐藏内置报表（README:190,208；feature-fence.integration.test.ts:42-53,390-434）",
+        "README 明确 alpha、未完成独立会计或安全认证，能力为代码现状而非可直接投产承诺（README:136,190）"
+      ],
+      "deployment": [
+        "Docker Compose 自托管 Web 应用",
+        "PostgreSQL 16、Redis 7、MinIO 与独立后台 worker"
+      ],
+      "technology_stack": [
+        "TypeScript",
+        "Next.js",
+        "PostgreSQL 16",
+        "Redis 7",
+        "Docker Compose"
+      ],
+      "sources": [
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks",
+          "sha256": "7be1a8db97b308f700723a7f15e7e1869d69843a12792c08e6c2c5dc851ef13b",
+          "snapshot_path": "sources/7be1a8db97b308f700723a7f15e7e1869d69843a12792c08e6c2c5dc851ef13b.txt",
+          "fetched_at": "2026-10-29T15:57:50.698168+08:00",
+          "kind": "repository_metadata"
+        },
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks/license",
+          "sha256": "436e9103637a55eb32559ff16c3463ce95280fab9cdd092d2c0841b5dd7a8293",
+          "snapshot_path": "sources/436e9103637a55eb32559ff16c3463ce95280fab9cdd092d2c0841b5dd7a8293.txt",
+          "fetched_at": "2026-10-29T15:57:50.970010+08:00",
+          "kind": "license"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/README.md",
+          "sha256": "d2d3ecdd5438515e34022766c7c2c8ac000a612e88ebe9eb1886a0a3aabc8add",
+          "snapshot_path": "sources/d2d3ecdd5438515e34022766c7c2c8ac000a612e88ebe9eb1886a0a3aabc8add.txt",
+          "fetched_at": "2026-10-29T15:57:55.908610+08:00",
+          "kind": "readme"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/docs/operations/industry-demo-companies.md",
+          "sha256": "bf8eeb972e0a155a834787d634fc4ecb9986127eaba969e21e074489f1fa4865",
+          "snapshot_path": "sources/bf8eeb972e0a155a834787d634fc4ecb9986127eaba969e21e074489f1fa4865.txt",
+          "fetched_at": "2026-10-29T15:57:55.859349+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/funds.ts",
+          "sha256": "da799b28ba42baf6f07b8c214138f70b95495edde6354b3d36ad1cb189284614",
+          "snapshot_path": "sources/da799b28ba42baf6f07b8c214138f70b95495edde6354b3d36ad1cb189284614.txt",
+          "fetched_at": "2026-10-29T16:09:16.272075+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-posting.ts",
+          "sha256": "c42f56ffb2efee34ee53581925e75b6ac531f40a9eb14687ce76bcebba87ed79",
+          "snapshot_path": "sources/c42f56ffb2efee34ee53581925e75b6ac531f40a9eb14687ce76bcebba87ed79.txt",
+          "fetched_at": "2026-10-29T16:09:16.633812+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-balancing.integration.test.ts",
+          "sha256": "9ea3cf1000102818cfe22fb35d4cfd7c22b2ca339a04c9ccdd0cfdb92858026e",
+          "snapshot_path": "sources/9ea3cf1000102818cfe22fb35d4cfd7c22b2ca339a04c9ccdd0cfdb92858026e.txt",
+          "fetched_at": "2026-10-29T16:09:16.285159+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/releases.ts",
+          "sha256": "d4f970e0891a6a1686da935d14caa693408697f3bd724dac0161da348a3b1081",
+          "snapshot_path": "sources/d4f970e0891a6a1686da935d14caa693408697f3bd724dac0161da348a3b1081.txt",
+          "fetched_at": "2026-10-29T16:09:16.566336+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/functional.ts",
+          "sha256": "b8677a2f2fdd4ce741f7fc1922ceb4eaeef1e8029501d6089929837caedc8054",
+          "snapshot_path": "sources/b8677a2f2fdd4ce741f7fc1922ceb4eaeef1e8029501d6089929837caedc8054.txt",
+          "fetched_at": "2026-10-29T16:09:16.373119+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/statements.ts",
+          "sha256": "b25fb4d9b6ffd38caa043c017a0cb39f3d14418e26d1344df7e842a2c833459a",
+          "snapshot_path": "sources/b25fb4d9b6ffd38caa043c017a0cb39f3d14418e26d1344df7e842a2c833459a.txt",
+          "fetched_at": "2026-10-29T16:09:16.567867+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/feature-fence.integration.test.ts",
+          "sha256": "16fb3dd2874939f216d733e5dc14223585d6b1d701a50aa17e556326c0e931f8",
+          "snapshot_path": "sources/16fb3dd2874939f216d733e5dc14223585d6b1d701a50aa17e556326c0e931f8.txt",
+          "fetched_at": "2026-10-29T16:09:16.843006+08:00",
+          "kind": "documentation"
+        }
+      ],
+      "leaf_matches": [
+        {
+          "slug": "nonprofit-fund-accounting",
+          "reason": "已保留官方源码与集成测试，而非仅依据 README 能力词：funds.ts 定义 operating/restricted/endowment/plant/board_designated 五类基金，createFund 要求 fund 段 is_balancing，并记录限制类别与预算控制；fund-posting.ts 使用分录行 extra_dims.fund 入账，对无基金的非零残差以 fund_missing 拒绝，并按基金汇总、通过已配置的 due-from/due-to 配对生成基金间平衡腿；fund-balancing.integration.test.ts 断言每基金合计为零并覆盖无配对拒绝与默认基金回填；releases.ts 实现限制解除的类别对、可用余额、期间与留本拨款校验及过账；functional.ts 固定 program/management_general/fundraising 三类；statements.ts 提供可按 fundId 过滤的财务状况、活动、功能费用和现金流报表。产品身份为通用 business suite 中的可选 feature-fenced 非营利模块，同一 AGPL 仓库、无独立 SKU/付费版，不主张独立非营利产品；README 同时标注 alpha 且未完成独立会计/安全认证。基金会计核心工作流已有保留证据，独立产品身份与认证边界仍按上述限定记录。",
+          "source_urls": [
+            "https://api.github.com/repos/braedonsaunders/openbooks",
+            "https://api.github.com/repos/braedonsaunders/openbooks/license",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/README.md",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/docs/operations/industry-demo-companies.md",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/funds.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-posting.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-balancing.integration.test.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/releases.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/functional.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/statements.ts",
+            "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/feature-fence.integration.test.ts"
+          ]
+        }
+      ],
+      "verification_status": "official_sources_reviewed",
+      "runtime_tested": false
+    }
+  ]
+}

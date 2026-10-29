@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "serverless-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:91797088"
+      ],
+      "query": "复核 OpenFaaS CE 许可证；改用 Nuclio 官方仓库、README 与许可证",
+      "source_urls": [
+        "https://api.github.com/repos/nuclio/nuclio",
+        "https://api.github.com/repos/nuclio/nuclio/license",
+        "https://raw.githubusercontent.com/nuclio/nuclio/master/README.md"
+      ],
+      "note": "旧草稿中的 OpenFaaS CE 经其 LICENSE 与 README 核对为 OpenFaaS CE EULA（商业使用需授权），不属于开源，已排除。改用 Nuclio：README 覆盖仪表板、函数创建/部署、触发器、调用与日志监控。",
+      "service_boundary": "自托管 Serverless 函数管理与执行平台（Docker 或 Kubernetes）；Iguazio 托管版是商业旁支，本叶关系仅基于开源 Nuclio 自身。未运行或部署。",
+      "search_attempts": [
+        "读取旧草稿候选 OpenFaaS 的 GitHub metadata、LICENSE 与 README 以核对许可证",
+        "核对 OpenFaaS CE EULA 后排除，检索并读取 Nuclio 官方 GitHub 仓库、README 与 Apache-2.0 许可证"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/openfaas/faas -> 200, kind=repository_metadata, sha256=74690618335711645713906eb539992857bd26698751d89480be825cc793080b（OpenFaaS metadata，仅用于许可证复核）",
+        "GET https://api.github.com/repos/openfaas/faas/license -> 200, kind=license, sha256=b6b0f4c41466422a9e41c1933f6a9a9d3dacf525743667cbdbbf39297945a571（内容为 OpenFaaS CE EULA + 部分 MIT，非 OSI 开源）",
+        "GET https://raw.githubusercontent.com/openfaas/faas/master/README.md -> 200, kind=readme, sha256=4f9ebbef9f529b88d6aad665cf10dd6586b867f3702b3941103421d7f985272e（确认 CE 商用限制）",
+        "GET https://api.github.com/repos/nuclio/nuclio -> 200, kind=repository_metadata, sha256=b985d79307e97f3f881ff772f912fa1379f5754c118c6cb74f6ced2fa5ec2bd2, fetched_at=2026-10-26T18:18:15.451008+08:00",
+        "GET https://api.github.com/repos/nuclio/nuclio/license -> 200, kind=license, sha256=78b38140076742447518ca565815f208f0fb36866492792d8385b634160b2c34, fetched_at=2026-10-26T18:20:03.748892+08:00",
+        "GET https://raw.githubusercontent.com/nuclio/nuclio/master/README.md -> 200, kind=readme, sha256=28ba0e3750aab0058ed306a4c7cef58384825d986e6783349e156d71655b23f6, fetched_at=2026-10-26T18:20:05.168760+08:00"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "service-mesh-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:74175805"
+      ],
+      "query": "Istio service mesh official repository and traffic management documentation",
+      "source_urls": [
+        "https://api.github.com/repos/istio/istio",
+        "https://api.github.com/repos/istio/istio/license",
+        "https://raw.githubusercontent.com/istio/istio/master/README.md",
+        "https://istio.io/latest/docs/concepts/traffic-management/"
+      ],
+      "note": "复用旧草稿 Istio。官方 README 说明其对服务间通信做连接、保护、控制与观察；官方流量管理文档进一步说明服务注册、VirtualService/DestinationRule 路由与分流、重试/超时/熔断。",
+      "service_boundary": "自托管服务网格控制平面，运行于 Kubernetes；本叶仅断言东西向服务治理，不把入口网关或外部边界流量作为核心。未部署。",
+      "search_attempts": [
+        "读取 Istio 官方 GitHub metadata、README、Apache-2.0 许可证",
+        "读取官方 Traffic Management 概念文档核对服务注册、路由与策略"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/istio/istio -> 200, kind=repository_metadata, sha256=a3a5f4bd7932aeb5a85883a9ed59cb9e402dd080a7c2eb41f9f5ba16193933b3, fetched_at=2026-10-26T18:18:17.038517+08:00",
+        "GET https://api.github.com/repos/istio/istio/license -> 200, kind=license, sha256=aa3e608392db0faf9c44c2755fd730921569325aad33327ef9ba1cc28cb77cee, fetched_at=2026-10-26T18:20:06.563653+08:00",
+        "GET https://raw.githubusercontent.com/istio/istio/master/README.md -> 200, kind=readme, sha256=9971928c4aa3cb3682c63e6073e1228022cd8208feae8f57313794429f2f961d, fetched_at=2026-10-26T18:20:07.823174+08:00",
+        "GET https://istio.io/latest/docs/concepts/traffic-management/ -> 200, kind=documentation, sha256=83c3b16ba36705800607248a629bac7af5398dd9798f9bdbd48289f83dc1700e, fetched_at=2026-10-26T18:21:16.002509+08:00"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "virtualization-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:25163509"
+      ],
+      "query": "Ganeti virtual machine cluster management official repository and gnt-instance manual",
+      "source_urls": [
+        "https://api.github.com/repos/ganeti/ganeti",
+        "https://api.github.com/repos/ganeti/ganeti/license",
+        "https://raw.githubusercontent.com/ganeti/ganeti/master/README.md",
+        "https://docs.ganeti.org/docs/ganeti/3.0/html/man-gnt-instance.html"
+      ],
+      "note": "旧草稿使用 Harvester，但共享 application-index 已将 Harvester 归入超融合基础设施管理（HCI），不适用于本叶，已移除该关系。改用 Ganeti：README 将其定义为虚拟机集群管理工具，gnt-instance 手册确认实例创建/删除/查询、迁移与故障转移。快照与存储未在本次来源中确认，故不写入关系断言。",
+      "service_boundary": "自托管虚拟机集群管理工具，位于 Xen/KVM 等虚拟化层之上；仅覆盖虚拟机与节点生命周期，不覆盖客户机操作系统、存储阵列或快照产品能力。未运行。",
+      "search_attempts": [
+        "核对旧草稿 Harvester 与共享索引中的 HCI 归属，移除不成立关系",
+        "读取 Ganeti 官方 GitHub metadata、README、BSD-2-Clause 许可证与 gnt-instance 手册"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/ganeti/ganeti -> 200, kind=repository_metadata, sha256=3b7cc0921c23ceeb41d16d5337e9aa01055f1717b085b71a763cf4e1f4f135db, fetched_at=2026-10-26T18:19:25.232799+08:00",
+        "GET https://api.github.com/repos/ganeti/ganeti/license -> 200, kind=license, sha256=293c38965dc765f37c82931aa34271f0543d0cc6c83a7a5c0b3f08b08cd5a672, fetched_at=2026-10-26T18:20:09.245717+08:00",
+        "GET https://raw.githubusercontent.com/ganeti/ganeti/master/README.md -> 200, kind=readme, sha256=6acc37af05758f3e891caea12c45389eb85d1ead4b066f9044721158e62df42f, fetched_at=2026-10-26T18:20:10.466807+08:00",
+        "GET https://docs.ganeti.org/docs/ganeti/3.0/html/man-gnt-instance.html -> 200, kind=documentation, sha256=a0e5cff9a5dfc99db2890c381a6c8944765bb2a8e6d2c3a1397b6144836f0134, fetched_at=2026-10-26T18:21:13.857392+08:00"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "endpoint-management-uem",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:309820286"
+      ],
+      "query": "复审 Fleet 端点管理：官方 README、Enroll hosts、Configuration profiles 与 What are Fleet policies 文档",
+      "source_urls": [
+        "https://api.github.com/repos/fleetdm/fleet",
+        "https://api.github.com/repos/fleetdm/fleet/license",
+        "https://raw.githubusercontent.com/fleetdm/fleet/main/README.md",
+        "https://fleetdm.com/guides/enroll-hosts",
+        "https://fleetdm.com/guides/custom-os-settings",
+        "https://fleetdm.com/securing/what-are-fleet-policies"
+      ],
+      "note": "复审发现原证据仅 README 产品概述，缺少注册→配置/定向→合规→退役的正文。已补充 Fleet 官方 Enroll hosts、Configuration profiles、What are Fleet policies 文档：Enroll hosts 显示手动/自动注册，以及 Unenroll、Turn off MDM、Delete、Wipe 的退役流程；Configuration profiles 显示 profiles 按平台定向并报告 Pending/Verified 状态，标签定向属 Premium；What are Fleet policies 显示 policies 以 yes/no 评估设备合规并显示 passing/failing，可按平台/标签（标签为 Premium）定向。据此改写 leaf_matches，不再把 README 未直接支持的“设备经 agent 上报”“MDM 配置与策略合规检查”写成泛化断言。",
+      "service_boundary": "自托管或云托管的端点管理平台；开源核心覆盖设备注册、配置 profiles、合规 policies 与卸载/删除/抹除退役；标签/团队细分定向属 Fleet Premium，不纳入开源核心断言。不扩展到威胁检测、员工体验或资产财务。未部署。",
+      "search_attempts": [
+        "读取 Fleet 官方 GitHub metadata、README 与 LICENSE",
+        "核对 LICENSE 中 ee/ 目录的单独许可，收窄为开源核心",
+        "复审后补充读取 Fleet 官方 Enroll hosts 文档，核对注册与退役流程",
+        "复审后补充读取 Fleet 官方 Configuration profiles 与 What are Fleet policies 文档，核对配置定向与合规评估"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/fleetdm/fleet -> 200, kind=repository_metadata, sha256=c206a941721c9039563f6f878c2b8f3339bbae929802ed1e7eb26d9b31d46d00, fetched_at=2026-10-26T18:18:21.493545+08:00",
+        "GET https://api.github.com/repos/fleetdm/fleet/license -> 200, kind=license, sha256=4198c4be21df506c0216401f26350c76683ab474bf9a420272da452d61d49000, fetched_at=2026-10-26T18:18:34.869201+08:00",
+        "GET https://raw.githubusercontent.com/fleetdm/fleet/main/README.md -> 200, kind=readme, sha256=48e486d6a6f26a7b3c9fc8b5e16338a3b930df1bf70be01a89fe32d1de9270c0, fetched_at=2026-10-26T18:20:19.062949+08:00",
+        "GET https://fleetdm.com/guides/enroll-hosts -> 200, kind=documentation, sha256=30843a0c2f1cb01716cede7c65eb11533669ac7df64a6aa3b71fffd3d9f14607, fetched_at=2026-10-26T18:31:50.239316+08:00",
+        "GET https://fleetdm.com/guides/custom-os-settings -> 200, kind=documentation, sha256=dfda4ee9ceaf2787cbcfd2805aa4fc1c74038be74aca86993945658d617c9e66, fetched_at=2026-10-26T18:31:52.507511+08:00",
+        "GET https://fleetdm.com/securing/what-are-fleet-policies -> 200, kind=documentation, sha256=8bcb12de4bfa6b82afab264ddb384de6ee5b7fe39751a7df53ae99d1865e9c59, fetched_at=2026-10-26T18:32:52.871550+08:00"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "patch-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:143291989"
+      ],
+      "query": "复审 Uyuni 补丁管理：官方 README、Patch Management、client-configuration Patch Management 与 Systems > Software > Patches 文档",
+      "source_urls": [
+        "https://api.github.com/repos/uyuni-project/uyuni",
+        "https://api.github.com/repos/uyuni-project/uyuni/license",
+        "https://raw.githubusercontent.com/uyuni-project/uyuni/master/README.md",
+        "https://www.uyuni-project.org/uyuni-docs/en/uyuni/administration/patch-management.html",
+        "https://www.uyuni-project.org/uyuni-docs/en/uyuni/client-configuration/patch-management.html",
+        "https://www.uyuni-project.org/uyuni-docs/en/uyuni/reference/systems/system-details/sd-patches.html"
+      ],
+      "note": "复审发现原 Patch Management 页只讨论 retracted patches 与 cloned channel/Patch Sync，不足以支撑逐机四状态评估和完整合规审计。已补充官方 client-configuration Patch Management 与 Systems > Software > Patches 文档：前者显示自定义补丁的创建/克隆/包关联、按通道订阅与版本判定适用性、单机/批量选择补丁并安排安装时间、在 Pending Actions 跟踪进度；后者显示系统可用补丁列表、Apply Patches 调度与状态列。据此收窄 leaf_matches，只断言补丁目录、适用性判定、受控安装与状态跟踪，不把 README 未支持的“审计状态”写成泛化断言。",
+      "service_boundary": "自托管 Linux 系统/补丁管理服务端；仅断言补丁目录、通道订阅、适用性判定、受控安装与状态跟踪，不把通用配置管理、资产或完整合规审计纳入本叶核心。未运行。",
+      "search_attempts": [
+        "读取 Uyuni 官方 GitHub metadata、README 与 GPL-2.0 许可证",
+        "读取官方 Patch Management 管理文档核对补丁评估与部署",
+        "复审后补充读取官方 client-configuration Patch Management 文档，核对补丁创建/应用与批量调度",
+        "复审后补充读取官方 Systems > Software > Patches 文档，核对系统可用补丁与安装状态"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/uyuni-project/uyuni -> 200, kind=repository_metadata, sha256=091a84ec4d104ef668527400df898b2f8f960126261a2948785acbbd07fb163b, fetched_at=2026-10-26T18:18:22.986724+08:00",
+        "GET https://api.github.com/repos/uyuni-project/uyuni/license -> 200, kind=license, sha256=c42c24b3e2ee1a83cdf8bc8bad365a603b016acaae6e4d15f85df249b58c6d60, fetched_at=2026-10-26T18:20:13.254875+08:00",
+        "GET https://raw.githubusercontent.com/uyuni-project/uyuni/master/README.md -> 200, kind=readme, sha256=1b149f42fbbba47d05f9a52051574b52e20b251e455fc4751d85e572625dbfe6, fetched_at=2026-10-26T18:20:14.323128+08:00",
+        "GET https://www.uyuni-project.org/uyuni-docs/en/uyuni/administration/patch-management.html -> 200, kind=documentation, sha256=a4957f1553d2226192c1e8236a62bc3153034f92dd4a7a610dc9b808d19a070d, fetched_at=2026-10-26T18:21:10.960623+08:00",
+        "GET https://www.uyuni-project.org/uyuni-docs/en/uyuni/client-configuration/patch-management.html -> 200, kind=documentation, sha256=50ea1794d1663954b653906e47cb6e44cc013d61a639f9d7e6d77e219bb00824, fetched_at=2026-10-26T18:31:23.291997+08:00",
+        "GET https://www.uyuni-project.org/uyuni-docs/en/uyuni/reference/systems/system-details/sd-patches.html -> 200, kind=documentation, sha256=e202aef8a14b10dbd4efb8932d1405ff0382ff15f5419f7c75d7df488a1b6e68, fetched_at=2026-10-26T18:31:23.304374+08:00"
+      ],
+      "archived": false
+    }
+  ]
+}

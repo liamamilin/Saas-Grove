@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]，而 research.json 为 case_found、batch.json 已有 leaf_matches；这属于任务输入快照未回填，不影响本次对已提交内容与来源的核对。",
+    "research.json 记录了 Tactical RMM 与 Ralph 作为排除候选及其抓取 sha，但 REVIEW_SOURCES.json 未列入这些排除快照；本报告只能依据清单内快照复核入选案例，排除结论无法在本单元内独立复核，且两者均未进入 batch，故不阻断。",
+    "Cloudflare 快照的 meta description 写 330+ 城市，正文与批次摘要写 335+；属来源页面自身表述差异，不影响 CDN 类型判断。",
+    "Uyuni 批次的 'remote execution' 功能措辞未在首页/README 快照中逐字出现；Salt Master 定位可支持该能力，但不是本次核心结论的依据。",
+    "NinjaOne 快照未展示 agent 注册/设备纳管的逐步流程，但 'managed endpoints'、实时监控告警、设备操作和脚本部署足以支持商业 RMM 的基本类型核对。",
+    "NetBox README 可支持机架/设备/线缆/电力记录与 Rack View/Cable Trace，但未直接展示冷却容量、PUE 或机架 U 位余量计算；定义允许无遥测的文档级 DCIM，故不阻断，后续如提高证据等级可补充官方文档。",
+    "Technitium 的管理控制台与 DNS/DHCP 服务端由同一产品交付，集群说明主要覆盖 DNS 实例，DHCP 配置是否跨实例传播未在快照中明确；research/batch 已披露该边界，暂按集成式 DNS/DHCP 管理接受。",
+    "Fastly 快照可确认 Instant Purge 与 POP/UI/API 线索，但未展开主机名/源站配置细节；商业条目只要求基本真实性，故不阻断。"
+  ],
+  "leaf_checks": {
+    "remote-monitoring-management-rmm": {
+      "status": "pass",
+      "applications": [
+        "commercial:ninjaone"
+      ],
+      "basis": "读取 data/collections/sources/7d879294bcb01597daf0083118cf1359d1c929bc4e7d5959df89a991fa20079a.txt（NinjaOne 官方 RMM 页）。正文有 'RMM for unified IT operations'、'Monitor, protect, and manage all your endpoints'、实时监控与告警、自动补丁、one-click device actions、终端会话、condition-based script deployments；FAQ 还描述从远程端点采集信息并执行远程管理任务。可对应受管设备、持续监控告警、远程管理动作三项核心；track=commercial 与官方产品页一致。",
+      "gap": "未展示 agent 注册/纳管的逐步流程，未试用；商业条目只要求基本真实性和类型匹配，故不阻断。"
+    },
+    "server-management-platform": {
+      "status": "pass",
+      "applications": [
+        "github:143291989"
+      ],
+      "basis": "仓库元数据 id=143291989、full_name=uyuni-project/uyuni；License 快照为 GPL v2 全文；README 称 open source systems management、SUSE Multi-Linux Manager 的上游社区项目；官网正文列出批量补丁/软件包通道、Linux 服务器纳管、OS 模板置备、Salt 管理、合规审计及硬件/软件变更跟踪。对应受管机器资产、控制平面操作与可追踪生命周期。",
+      "gap": "未部署或运行 Salt；'remote execution' 未在快照逐字出现；社区版/商业下游边界已在 batch 与 research 中注明。"
+    },
+    "cdn-management": {
+      "status": "pass",
+      "applications": [
+        "commercial:cloudflare-cdn",
+        "commercial:fastly-cdn"
+      ],
+      "basis": "Cloudflare 快照正文含 335+ 城市、静态/动态内容缓存、即时清除、API 驱动控制、细粒度 Cache Rules、DNS/反向代理接入；Fastly 快照含 POP、Instant Purge、UI/API 控制。二者均为提供商边缘网络上的交付配置与缓存控制，符合 CDN 管理核心；track=commercial，来源均为官方产品页。",
+      "gap": "未展开开源 CDN 检索（research 已如实留档为未完成检索）；未验证价格、配置流程或账号操作。"
+    },
+    "data-center-infrastructure-management-dcim": {
+      "status": "pass",
+      "applications": [
+        "github:52796596"
+      ],
+      "basis": "仓库元数据 id=52796596、full_name=netbox-community/netbox；LICENSE.txt 为 Apache 2.0 全文；README 明确其为 legacy IPAM/DCIM 的 successor、network infrastructure 的 source of truth，数据模型含 racks、devices、cables、IP、VLANs、circuits、power，并有 Rack View/Cable Trace。对应物理资产、位置/连接记录和权威记录；README 同时区分 NetBox Community 与 Cloud/Enterprise。research 中 Ralph 的排除理由（官方 DCIM 文档缺少机架 U 位、供电链、端口/线缆和容量模型证据）与本次可读材料不矛盾。",
+      "gap": "README 未直接给出冷却容量、PUE、机架 U 位余量计算或遥测；定义允许无遥测的文档级 DCIM，故不阻断；未部署或导入资产。"
+    },
+    "dns-dhcp-management": {
+      "status": "pass",
+      "applications": [
+        "github:108726321",
+        "commercial:infoblox-ddi"
+      ],
+      "basis": "Technitium 仓库 id=108726321、LICENSE 为 GPL v3 全文；README 覆盖权威/递归 DNS、内置 DHCP（多网络）、Web 控制台、HTTP API、集群从单一控制台管理两个以上 DNS 实例，能对应 DNS 与 DHCP 配置的集中管理和服务实例管理。Infoblox 官方页标题为 'Simplify DNS, DHCP and IPAM (DDI) everywhere'，正文强调 integrated DDI，页脚列 Universal DDI Product Suite 与 NIOS DDI，商业类型匹配。",
+      "gap": "Technitium 的控制台与 DNS/DHCP 服务端同产品交付，集群说明主要覆盖 DNS 实例，DHCP 跨实例传播未明确；research/batch 已披露此边界。未部署或修改配置。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元。只依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 14 个快照进行核对，不访问实时网页。未做部署、运行时、价格或架构验证；商业条目不验证价格/合同，开源条目不做代码审计。部分 HTML 快照为整页文本且单行较长，正文细节以可读取段落和定向检索为限；Tactical RMM、Ralph 等排除候选的快照不在本单元来源清单内，未独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-139/ses_groveopencodegop139review2_1793010727.jsonl",
+  "batch_sha256": "7e88a5f3ab15cd18db5b4f6762e626118040b332d4d74f65a70447448c811d39",
+  "research_sha256": "a1ef53f4fe4cc9533367afc558ecd1e69b6001454590e2c24b6f3074bf22ea2b",
+  "input_sha256": "a824d20c16398c5c28bb01d738623b72d5fc184b2ee3aba30c100ed5e7b2e7c7"
+}

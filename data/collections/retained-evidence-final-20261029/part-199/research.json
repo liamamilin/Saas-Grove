@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "scientific-instrument-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:genemod",
+        "commercial:qbench"
+      ],
+      "query": "open source scientific instrument management booking maintenance calibration; commercial lab instrument scheduling maintenance",
+      "source_urls": [
+        "https://genemod.net/products/equipments",
+        "https://qbench.com/blog/how-a-lims-helps-with-lab-equipment-maintenance-scheduling",
+        "https://github.com/usnistgov/NEMO",
+        "https://raw.githubusercontent.com/usnistgov/NEMO/master/LICENSE.md",
+        "https://doc.elabftw.net/docs/usage/user-guide/resources",
+        "https://www.bookedscheduler.com/",
+        "https://rdmkit.elixir-europe.org/labid_assembly"
+      ],
+      "note": "历史复用：沿用 2026-10-25/27 对 eLabFTW Resources/Scheduler 的核对结论（资源可登记并设为 bookable、调度器可预约），本轮重新抓取 Resources 正文，仍只见登记与可预约设置，正文无 maintenance/calibration；BookedScheduler 上游 GitHub 仓库 404 的失败记录也保留。本轮补采：GitHub Search API 检索 instrument booking（87）、equipment booking laboratory（59）、equipment maintenance booking（53）、core facility management（54）、instrument reservation（33）、laboratory equipment management（MIT，21）、calibration booking（13）、equipment booking maintenance（MIT，4），结果仍以无许可证课程/个人项目为主；重点发现 NIST NEMO，其官方 README/仓库描述明确覆盖工具登记、预约、门禁与维护任务（185 stars），但 LICENSE.md 为 NIST Software Licensing Statement，GitHub 标记 NOASSERTION，不是 OSI SPDX 许可，按本批次开源许可校验不能收录，仅作为许可边界候选留档，不据此断言“不存在开源方案”。LabID 位于 GitLab，RDMkit 正文只到样本/数据/库存（仪器作为库存实体），未证明预约与维护闭环，未采用。商业补证：Genemod 与 QBench 的官方设备正文分别明确写出仪器/单元登记、设施预约与冲突检测（或设备预约与可用性控制）、维护/校准记录以及停机/不可用状态对预约的限制，按商业基本记录收录；未核实价格、架构或部署，也未运行第三方系统。",
+      "service_boundary": "本叶要求仪器登记、共享时段分配、维护/校准记录到运行状态门控三结构同时成立。Genemod、QBench 以官方设备产品页/设备管理正文满足，其中 QBench 属 LIMS/QMS 内完整的设备管理子模块。NEMO 功能形态最接近但 NIST 许可非 OSI SPDX，未进入 batch；eLabFTW 只证明登记与预约，正文无维护/校准；NUcore 为预约与计费，未见维护/校准记录；BookedScheduler 为纯预约，且上游 GitHub 身份仍未核实。以上均为边界判断，不等于相关产品在其他场景不存在。",
+      "search_attempts": [
+        "GitHub Search API: instrument booking in:name,description (87 results)",
+        "GitHub Search API: equipment booking laboratory in:name,description (59 results)",
+        "GitHub Search API: equipment maintenance booking in:name,description (53 results)",
+        "GitHub Search API: core facility management in:name,description (54 results)",
+        "GitHub Search API: instrument reservation in:name,description (33 results)",
+        "GitHub Search API: laboratory equipment management in:name,description license:mit (21 results)",
+        "GitHub Search API: calibration booking in:name,description (13 results)",
+        "GitHub Search API: equipment booking maintenance license:mit (4 results)",
+        "GitHub Search API: labid-server / Lab Integrated Data (repository identity lookup)",
+        "Web: open source scientific instrument management software booking maintenance calibration github",
+        "Web: LabID ETH Zurich open source equipment booking maintenance lab management",
+        "Web: NEMO NIST instrument management license open source alternative iLab",
+        "Web: Genemod equipment management maintenance calibration instrument booking official",
+        "Web: QBench equipment management calibration reservation in service official",
+        "Web: site:help.ilab.agilent.com equipment maintenance out of service instrument status"
+      ],
+      "fetch_outcomes": [
+        "https://genemod.net/products/equipments -> 200 OK, official product documentation snapshot saved (93e2beedcb3210f60919c53bc8f4892fdd8ba7139b6c1277a12ecb5553284543)",
+        "https://qbench.com/blog/how-a-lims-helps-with-lab-equipment-maintenance-scheduling -> 200 OK, official equipment-management article snapshot saved (e4283e8ffeb21603f5eb155486172c14a60e11be7831269e4baae08b25b0f0cf)",
+        "https://doc.elabftw.net/docs/usage/user-guide/resources -> 200 OK, snapshot saved (061ee8afb23c979583238aafda2aea8c5ea22bfc62af9dc1bded11fd066268f8); text confirms resources can be made bookable, no maintenance/calibration section",
+        "https://github.com/usnistgov/NEMO -> 200 OK, repository page/README read; features include reservations, tool access control and maintenance tasks",
+        "https://raw.githubusercontent.com/usnistgov/NEMO/master/LICENSE.md -> 200 OK, NIST Software Licensing Statement (NIST-developed software), not an OSI SPDX license; no batch snapshot",
+        "https://api.github.com/repos/usnistgov/NEMO -> 200 OK, license reported as NOASSERTION (Other)",
+        "https://www.bookedscheduler.com/ -> 200 OK, now marketed as hosted commercial booking service; no maintenance/calibration evidence",
+        "https://rdmkit.elixir-europe.org/labid_assembly -> 200 OK, LabID described as sample/dataset/inventory/ELN platform; GitLab-hosted, no booking/maintenance proof",
+        "https://raw.githubusercontent.com/ETH-NEXUS/labid-server/main/README.md -> 404; api.github.com repo lookup returned 403 rate limit, identity not confirmed",
+        "Historical (reused, not re-fetched this round): eLabFTW Resources/Scheduler and BookedScheduler upstream repo 404 records from 2026-10-25/27"
+      ],
+      "archived": false
+    }
+  ]
+}

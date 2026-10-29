@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Massing 的 punchlist 模块以 GC 角色限制 verify，但未强制 verified_by/验证人与 responsible 责任方不同；当 GC 同时是责任方时，同一方可能完成验证。批次与研究记录已如实标注，本叶按常见的分包整改→GC 验证主流程通过，但该边界应保留说明。",
+    "Massing 的 daily_report 是平台内模块，作者归属依赖平台通用账号与 activity timeline；快照只显示 draft→submitted，未显示签名、日锁定或移动离线日报。研究记录已如实标注，不影响日记录核心结构。",
+    "Massing 的 rfi 模块以 ref_prefix 生成编号，answer 由 transition 的 requires 强制；快照未直接显示 RFI 附件字段、拒绝原因必填或 closed 后的正式修订字段，这些细节只能由通用引擎/README 推断。",
+    "Massing 根 LICENSE 是完整 MIT，仓库身份 1269449119 与快照一致；README 同时披露 IfcOpenShell LGPL、Blender+Bonsai GPL（独立进程）和可选付费 Autodesk APS，因此 license_review 的“覆盖整个仓库”宜理解为覆盖仓库自有代码，第三方组件另有许可。",
+    "Massing 是 MIT 自托管平台/模块，不是独立 SaaS；本单元按模块级案例收录，service boundary 已写明，但不宜表述为独立的日报、RFI 或 Punchlist SaaS。",
+    "CxAlloy 与 HelloPackage 仅有官方营销页、功能页和 FAQ 作为证据，未做独立文档或运行验证；商业叶按基本真实性与类型匹配通过。CxAlloy 的 asset-management 是官方 blog 功能帖，HelloPackage 的 what-is/FAQ 是官方产品页面。",
+    "research.json 中 package 的边界比较提到 Postal Solutions 但没有对应 fetch outcome/快照；被拒开源 mailroom 候选（HandOff、xiaoyunyang、shrey1216）的许可证/代码判断也没有引用快照。这些不影响所选 HelloPackage 案例，但属于不可复核的留档细节。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；本次以 batch/research 和实际快照为准。",
+    "Massing batch 的 technology_stack 标注 React/Vite，引用 README 仅明确 Vite+TS；React 属细节，不影响核心判断。"
+  ],
+  "leaf_checks": {
+    "building-commissioning-platform": {
+      "result": "pass",
+      "evidence": "CxAlloy 官方首页与 /asset-management/ 正文：资产按 Campus/Building/Zone/Floor/Space 与 System/Equipment Type/Equipment 组织，设备含制造商、型号、序列号、条码；检查表、测试、问题、文档和报告关联到资产；问题可从现场观察/检查表/测试产生并指派、跟踪至关闭；支持离线与自动同步；自动生成含照片、问题日志、资产数据的调试报告；官网主页提到安装到移交的可追溯性。",
+      "gap": "商业官方页面，未运行产品；未独立验证权限、离线同步或报告输出；资产页为官方功能帖。"
+    },
+    "daily-log-application": {
+      "result": "pass_with_notes",
+      "evidence": "Massing daily_report/module.json：按项目容器与 report_date 记录天气、温度、天气影响、人力、按工种的公司/人数/工时、已完成工作、到货、设备、延误、访客、安全观察和照片；工作流 draft→submitted；gc-portal 说明模块引擎提供 CRUD、角色门控、评论、CSV/PDF 和 activity timeline，项目级 API 为 /projects/{id}/modules/{key}。",
+      "gap": "作者归属依赖平台通用账号/审计，模块字段未直接显示 author；未验证签名、日锁定、提醒或移动离线日报；属于平台内日报模块而非独立 SaaS。"
+    },
+    "package-mailroom-management": {
+      "result": "pass",
+      "evidence": "HelloPackage 官网、what-is 与 FAQ：司机到包裹房签到并扫码交付、系统记录包裹；住户档案/姓名/邮箱/电话来自 Yardi、RealPage 等物业管理系统，支持昵称/别名，未匹配进入 unmatched 并由管理员选择住户；记录后即时 email/text/app 通知；住户用个人取件码 24/7 取件，支持一次性 code；FAQ 描述未扫码、Carrier Dump、包裹错放等异常处理。",
+      "gap": "商业官方页面，未运行；未独立验证取件释放记录、通知时限或硬件集成；边界比较页未入快照。"
+    },
+    "punch-list-management": {
+      "result": "pass_with_notes",
+      "evidence": "Massing punchlist/module.json：缺陷项含 description、location/location 引用、trade、来源 observation、responsible/responsible_contact、due_date、cost、verified_by 和 photos；工作流 open→ready→verified，ready 可由 Subcontractor/GC 提交，verify 仅 GC，ready→open 可 reject；close_requires_attachment 为 verified；gc-portal 说明 photo 是 verify 的前置附件。",
+      "gap": "未强制验证人与责任方不同，GC 同时为责任方时可能自验；未运行验证权限和附件强制行为；属于平台内 Punchlist 模块而非独立 SaaS。"
+    },
+    "rfi-management": {
+      "result": "pass_with_notes",
+      "evidence": "Massing rfi/module.json：ref_prefix RFI、subject/question 必填、spec_section/spec_section_spec/drawing/location 引用、received_from、rfi_manager/rfi_manager_contact、due_date、answer、cost_impact/cost_code/schedule_impact、distribution；工作流 draft→open→answered（requires answer）→closed（GC accept）或 answered→open（reopen），另有 void；gc-portal 说明 transition field-gating 和 party-role gating。",
+      "gap": "模块未直接显示附件字段、拒绝原因必填或 closed 后的正式修订字段；未运行邮件分发、附件、权限；属于平台内 RFI 模块而非独立 SaaS。"
+    }
+  },
+  "limits": "只读审查；未运行任何应用、未做运行时/权限/离线验证；未用 shell 重算 SHA-256，仅核对快照文件名、REVIEW_SOURCES.json 与 batch.json 的哈希一致性；商业产品仅依据官方首页/功能页/FAQ 做基本真实性与类型匹配；部分 HTML 快照行被读取工具截断，已用定向检索核对关键段落；未读取其他单元；input.json 的 progress 与 batch/research 存在差异，本次以后者与实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-172/ses_groveopencodegop172review1_1793018701.jsonl",
+  "batch_sha256": "c9612374c70d91fbd6e103639c683cc6938c7e5b2b59e140d6053306c3adb65f",
+  "research_sha256": "2f9a87b7b6a64311cbca77798ac15bfe0ad1e44f09e81f8f53738cdc31105893",
+  "input_sha256": "5b4c08c01ccb2e35fecf854cef10e25efcd63df402111054858ad49848c858f6"
+}

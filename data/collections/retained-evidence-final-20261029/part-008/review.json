@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "pdf-document-reader",
+      "note": "input.json 中叶级 note 仍保留旧表述（称 PDF Editor 帮助入口只有骨架、无法证明分页移动工作流），而 research.json 的 note/fetch_outcomes 已记录 Navigation/HomeTab/EditPDF 正文抓取成功并闭合该缺口。两份记录对同一事实给出了不同说法，建议后续把 input 侧 note 同步为“核心已由正文证明、因产品重心在编辑而仍不纳入”，避免下游误读为证据缺口。"
+    },
+    {
+      "slug": "pdf-document-reader",
+      "note": "research.json 的 source_urls 与 fetch_outcomes 不完全对应：fetch_outcomes 中的 api.github.com/repos/Stirling-Tools/Stirling-PDF/license 与 docs/userguides/pdf_editor 栏目入口未列入 source_urls。核查用不影响结论，但建议两侧清单对齐，便于逐条复算 sha256。"
+    },
+    {
+      "slug": "pdf-document-reader",
+      "note": "证据链混用了两个产品面向：DocSpace 房间文档管理页（SaaS 工作区）与 helpcenter 的 PDF Editor 用户指南（Online/Desktop PDF Editor）。DocSpace 页确有“在房间中用 Online Editors 查看/编辑 PDF”的衔接说明，因此不构成事实错误；后续若再评估，建议在 service_boundary 中显式写明“编辑器能力证据来自 Online Editors，DocSpace 为其承载环境”。"
+    },
+    {
+      "slug": "pdf-document-reader",
+      "note": "非阻断措辞问题：note 称“官网 PDF 编辑器 FAQ 称保留原始布局、字体和结构”。快照该页为超长压缩 HTML，正文只能通过整行匹配确认包含 original layout / preserv / structure 等表述，无法定位到明确标注为 FAQ 的区块；建议改为“官网产品页正文称……”，避免对页面结构做超出证据的描述。"
+    },
+    {
+      "slug": "pdf-document-reader",
+      "note": "PdfDing 的排除理由属边界判断而非硬事实：其官网自述“PDF manager, viewer and editor”，同时具备 workspaces/collections/标签/归档等集合语义，按定义中“整理文档集合即漂移出阅读器”可支持排除，但该判断依赖重心权衡。当前留档已给出具体依据，维持结论；若将来放宽集合语义，可重新评估。"
+    },
+    {
+      "note": "本轮仅做只读初审，未部署、未运行任何第三方项目，也未重新抓取线上页面；对 ONLYOFFICE Docs 10.0 等版本差异不作判断。"
+    }
+  ],
+  "leaf_checks": {
+    "pdf-document-reader": {
+      "slug": "pdf-document-reader",
+      "name": "PDF / Document Reader",
+      "domain_id": "02",
+      "parent_id": "02.09",
+      "batch_entries": 0,
+      "case_ids": [],
+      "assessment": "insufficient_evidence",
+      "definition_core_checked": "已读定义正文（overview/dc/rules）：三项核心为“外部取得的整份文档”“忠实固定版式渲染”“分页文档内移动（翻页、跳页、缩放/适应）”，并明确重心转向编辑内容、重排版或整理集合时漂移至 Document Editor / E-book Reader / E-book Library。定义结构完整，dc 与 dc_zh 一致，parent 02.09 与 input.json 一致。",
+      "evidence_verified": [
+        "data/collections/sources/4955e98d….txt（Navigation 正文，非骨架）：第 476–478、484 行给出 Zoom 50%–500%、Fit to Page、Fit to Width；第 499–503 行给出版本页码/总页数输入跳页与首页/上一页/下一页/末页；第 506–527 行给出 Headings 与 Page Thumbnails 面板。分页移动与缩放/适应页面由此在正文层面成立。",
+        "data/collections/sources/03f58928….txt（HomeTab 正文）：第 485–491 行列出 edit PDFs / navigate / adjust zoom / fit to page or width；第 471–472 行说明打开 PDF 后可由浏览器 viewer 模式切换为编辑；第 492–497 行给出编辑态才有的格式化、插入/删除/旋转页面等能力，印证重心在编辑。",
+        "data/collections/sources/64e6a174….txt（EditPDF 正文）：第 471–473 行记录“Open a PDF file”、viewer mode 可切换编辑、Edit Text 触发自动文本框标注，属编辑型工作流。",
+        "data/collections/sources/8a54f81a….txt（官网 PDF Editor 页）：整行匹配确认存在 original layout / preserv / structure 等保留原始版式表述；但该快照为 29 行超长压缩 HTML，只能在可读范围内确认字串存在，无法定位到独立 FAQ 区块。",
+        "data/collections/sources/3d80561f….txt（DocSpace 房间文档管理）：第 465、722 行说明用户可在房间中借助 Online Editors 查看/编辑 PDF；第 512–620 行以表单上传、转换、填写、AI 附件为主，未描述阅读器工作流。",
+        "data/collections/sources/0afdb4f6….txt（DocSpace README）：仅第 53、62 行为 PDF 表单房上传与 PDF Editor 链接，无阅读工作流描述。",
+        "data/collections/sources/e4eceaf9….txt / a7c4f7be….txt / 0539da44….txt（Stirling-PDF）：仓库身份为 Stirling-Tools/Stirling-PDF；LICENSE 接口返回内容为 MIT 正文加 app/proprietary、app/saas、engine、frontend/src/editor/* 等分目录例外，属 open-core 而非单一完整 OSI 许可；README 自述 open-source PDF editing platform、50+ PDF tools。排除理由（许可不完整 + 形态为编辑/工具平台）成立。",
+        "data/collections/sources/f6ef6b8b….txt（PdfDing）：第 6、7、757 行自述 PDF manager, viewer and editor；第 235、275 行以 workspaces/collections/多级标签/收藏归档与集合分享为核心，属集合管理语义；未见固定版式渲染与翻页/缩放的正文描述。排除理由可支持。"
+      ],
+      "type_and_service_shape": "本叶无入库案例，故无 application_id、无 ID/track 冲突可核。留档对候选的三项形态判断均基于正文：ONLYOFFICE 侧核心能力已具备但重心为编辑与协作（不符合“无创作关系、以阅读为中心”），Stirling-PDF 为 open-core 编辑/工具平台（形态与许可双重不成立），PdfDing 为集合管理型（漂移出阅读器）。桌面阅读器、PDF.js 类前端库与组件被排除于“完整 Web 应用服务”之外，符合本类型服务形态要求。",
+      "open_source_license_and_community_boundary": "本期唯一涉开源候选 Stirling-PDF 已实际读取 LICENSE 接口快照，确认许可为 MIT 正文叠加 proprietary/saas/engine/editor 等分目录例外（open-core），未取得单一完整许可证；README 亦自述 open-core。因此“完整许可证 + 社区版边界”不成立，排除结论与所读快照一致。ONLYOFFICE 与 PdfDing 未作为入库案例，无需许可证判定。",
+      "gap_documentation": "research.json 记录了 5 条 search_attempts（含本轮实际检索与历史轮次复用标注）、11 条 fetch_outcomes（含 sha256 与结果分类，含“成功但被拒”与“栏目入口仅骨架”），并明确说明本轮补抓正文闭合了 PDF 编辑器的能力缺口、但基于重心仍维持 insufficient_evidence，case_ids 为空。batch.json 为 entries: []，与 research.json 的 case_ids: [] 一致，无孤立关系或缺失条目。",
+      "consistency": "input.json（phase=included_without_cases、case_status=insufficient_evidence）、definition（slug/domain/parent）、research.json（assessment、case_ids、archived=false）与 batch.json（空 entries）在身份与结论上相互一致；唯一不一致为 input 侧 note 的旧表述与 research.json 已闭合缺口的表述不同，已列入非阻断建议。",
+      "verdict": "定义性核心、SaaS 服务形态、开源许可与社区版边界均已按实际快照核对；无案例的结论有真实检索/抓取/缺口留档支撑，符合“如实记录缺口的留档可通过”。本叶通过初审。"
+    }
+  },
+  "limits": "只读初审，未运行 shell、未写文件、未访问本单元以外的资料；未进行线上重新抓取、部署测试或价格/架构补充研究。REVIEW_SOURCES.json 的 sources 为空数组，故快照均按 research.json 中的 sha256 文件名在 data/collections/sources/ 下原样读取。多个 ONLYOFFICE 帮助页与官网页为 29 行以内的超长压缩 HTML，单行在读取视图中被截断为约 2000 字符，因此部分正文（如官网页面中 original layout/preserve/structure 的上下文、以及 license 接口中 license 字段）通过整行正则匹配确认存在，未能逐字通读全量正文，也无法判定页面是否以“FAQ”标注该段落。Stirling-PDF 的 GitHub 仓库元数据快照同样为单行超长 JSON，license.spdx_id 字段仅能通过检索结果与 /license 接口快照（NOASSERTION 形态的 open-core 许可）相互印证，未做独立 API 复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-008/ses_groveopendesignp008review1_1793150517.jsonl",
+  "batch_sha256": "0b4ce539dda86614600deb613f3083c9901eed96c33c4f0fdf68dcc1e970c48d",
+  "research_sha256": "b7c9f11c2a4f4ad97ddc2a580f4aae5ab6f45b3cd3c9780a33b06cbb309b1150",
+  "input_sha256": "864b3e1af580331774d2df68aef02879df9711a24099d52dc5df6a1b2d0d7183"
+}

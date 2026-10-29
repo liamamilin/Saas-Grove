@@ -1,0 +1,108 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 中的 case_found 和实际 case_ids 不一致；本次以 batch/research 和快照为准，建议回填 progress，避免下游误判本单元无案例。",
+    "github:867131396 是 ERPNext/Frappe 的公用事业计费子模块，README 主要证明抄表→销售订单→发票→收款及会计集成；开户、停复水、押金、欠费付款计划、终账单和现场工单等客户服务闭环未在仓库文档中明确。条目 reason 已限定为“供水计费子模块”，建议保持该限定，不要把它表述为独立完整 CIS。",
+    "commercial:hach-wims 的证据以实验室/过程/现场水质数据、审计追踪、告警和 NetDMR/MOR 等监管报告为主；饮用水专属的采样点×参数×限值配置、超标处置和消费者信心报告在快照中未充分展开。FAQ 还明确不发送采样到期通知、不跟踪许可到期，属于能力边界而非阻断项。",
+    "3-GIS 的 research.json service_boundary 写“支持 SaaS 或本地部署”，但两份快照只证明 web-based 平台，部署模式未直接证据化；建议不要把部署方式写成断言。",
+    "Hach 摘要中的“EPA/州合规报告模板”略强于快照内容：快照证明 NetDMR/MOR 报告及 NYS DEC/DOH 模板导入映射，未明确内置全部州/EPA 模板；属非关键措辞。",
+    "REVIEW_SOURCES.json 将 Muni-Link 的 features/billing 与 product 页面标为 homepage，实际为功能页/产品页；不影响证据真实性。",
+    "TaKaDu 仅取得首页，未取得分区数据模型、水平衡/漏损核算的深度文档；首页已足以支持商业基本类型匹配，深度能力不宜外推。",
+    "water-utility-management 的 overview_zh 仍为英文，且 wastewater/water-utility 的 dc 仅有一句引导语，未展开三个组成部分；属定义文本质量，不影响本次对应用证据的判断。"
+  ],
+  "leaf_checks": {
+    "wastewater-utility-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:muni-link"
+      ],
+      "evidence": [
+        "Muni-Link features/billing 正文：标题为 Water and Sewer Utility Billing Software，明确 water、sewer、stormwater 计费；支持抄表导入/异常标记、账单计算与发送、欠费通知、批量停水工单、付款后恢复服务、服务工单。",
+        "Muni-Link product 正文：面向 water and wastewater utilities，统一客户账户、用量历史、服务管理、付款、欠费跟踪、通知和服务工单派发；100% cloud-based，托管于 AWS。",
+        "两个页面均以同一客户账户/同一计费平台承载水、污水、雨水等收费项目，符合“污水服务作为账户收费项目”的客户与资金系统边界。"
+      ],
+      "gaps": [
+        "押金、付款计划、停水终账单未在快照中展开，条目未将其写成断言。",
+        "开源检索未发现完整污水处理 CIS；research.json 已记录 navariltd 未明确污水、其余项目规模小或未证明账务闭环的检索结果。"
+      ],
+      "id_track": "commercial:muni-link，track=commercial，官方页面来源，ID 与条目一致。",
+      "service_form": "商业云端 CIS/计费平台，订阅式持续服务。"
+    },
+    "water-network-monitoring": {
+      "result": "pass",
+      "applications": [
+        "commercial:takadu"
+      ],
+      "evidence": [
+        "TaKaDu 首页正文：Central Event Management (CEM) for water utilities；24/7 分析管网及外部系统数据，自动检测 leak、water quality、water pressure 事件和 asset failures。",
+        "首页正文：在一个中央仪表板中检测、分析和管理事件，支持优先级排序并管理到解决；泄漏事件可查看 magnitude、water loss、cost 和修复状态直至 resolved。",
+        "产品形态为 cloud-based solution，消费 SCADA/外部数据做检测与事件管理，不承担 SCADA 控制，符合监控—事件—响应闭环。"
+      ],
+      "gaps": [
+        "仅首页，未取得分区/测点数据模型、夜间流量/水平衡核算的深度文档；未据此外推。",
+        "开源检索结果为算法、基准数据集或研究代码，未发现完整可自托管监控应用；research.json 已记录。"
+      ],
+      "id_track": "commercial:takadu，track=commercial，官方首页来源，ID 与条目一致。",
+      "service_form": "商业云端 CEM/监控平台，持续订阅服务。"
+    },
+    "water-quality-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:hach-wims"
+      ],
+      "evidence": [
+        "Hach WIMS 产品页正文：面向 water and wastewater utilities 的水信息管理系统，集中 lab、process、field 等数据；中央安全数据库提供 audit trail、保留历史记录；提供 real-time alerts、trend reporting 和合规报告自动化。",
+        "产品页正文：WIMS Rio 为云端 water compliance and operations software，面向 drinking water and wastewater utilities；可 track critical metrics、visualize trends、produce regulatory reports（NetDMR、MORs 等）并使用可配置告警。",
+        "WIMS Rio FAQ：Sample Manager and Scheduling tool 可跟踪采样计划；FAQ 同时明确不发送采样到期通知、不跟踪许可到期；并说明可按 NYS DEC/NYS DOH 报告模板导入映射数据。"
+      ],
+      "gaps": [
+        "饮用水专属的采样点×参数×标准/限值配置、超标事件处置和消费者信心报告未在快照中充分展开；产品同时覆盖污水场景，条目已如实标注。",
+        "开源候选 Open Waters 面向环境水体、water-utility/water-utility 无许可证、floc-desk 为加药优化，均未被采纳；research.json 已记录。"
+      ],
+      "id_track": "commercial:hach-wims，track=commercial，官方产品页与官方 FAQ 来源，ID 与条目一致。",
+      "service_form": "商业水质信息/合规平台；WIMS Rio 为云端版本，WIMS 可本地部署，属持续使用的业务系统。"
+    },
+    "water-utility-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:muni-link",
+        "github:867131396"
+      ],
+      "evidence": [
+        "Muni-Link features/billing 与 product 正文：供水/污水/雨水计费、抄表导入与异常标记、账单计算与发送、付款、欠费通知与停水/恢复工单、服务工单派发、客户账户与用量历史；云托管。",
+        "navariltd/utility-billing README：ERPNext/Frappe 公用事业计费模块，支持水/电/气等服务、可配置费率与价格表、抄表读数、批量出账、服务请求 Survey→BOM→Billing、Meter Reading→Sales Order→Invoice→Payment、会计集成。",
+        "GitHub 仓库元数据 id=867131396、full_name=navariltd/utility-billing；license 接口返回完整 AGPL-3.0 文本（license.txt，size 34523，content 以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头）；README 给出 Frappe Bench + ERPNext 自托管安装方式，社区版边界清楚。"
+      ],
+      "gaps": [
+        "GitHub 条目是计费子模块，未证明开户/停复水/押金/欠费付款计划/终账单/现场工单全闭环；条目 reason 已限定为“供水计费子模块”，Muni-Link 承担完整商业 CIS 关系。",
+        "Muni-Link 的押金、预算计划、换表按比例计费等细节未在快照展开，条目未写成断言。"
+      ],
+      "id_track": "commercial:muni-link（commercial）与 github:867131396（open_source）；GitHub repository ID 与元数据一致，许可证为 AGPL-3.0 完整文本。",
+      "service_form": "商业云端 CIS + 开源自托管 ERPNext 子模块；两种形态均为持续使用的应用，不是一次性工具。"
+    },
+    "network-construction-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:3-gis"
+      ],
+      "evidence": [
+        "3-GIS fiber construction field operations 正文：连接 surveys、walkouts、construction、inspections、repairs、as-builts 和 network records；支持施工状态、承包商更新、现场变更、closeout、redlines/photos/notes、inspection/verification、as-built updates。",
+        "3-GIS Web 正文：Design to build 支持 work orders、project tracking、material placement 和 constructible work packet generation；以 GIS 网络记录为锚，连接 planning、design、construction、documentation、maintenance、operations。",
+        "3-GIS Mobile/Admin 正文：现场团队可访问网络数据、采集 redlines、照片和更新，回写 3-GIS 环境；Admin 管理用户、角色、权限、contractor access 和 QA/QC 规则，符合设计到现场工作及现场验证闭环。"
+      ],
+      "gaps": [
+        "3-GIS 的部署模式（SaaS/本地）未在快照中直接说明；research.json 的“SaaS 或本地部署”未作为条目断言。",
+        "开源候选 Qonnectra、sitescape、fiber-ops-dashboard 等缺少设计到现场工单、检查验收、竣工回写完整链路，未采纳；Sitetracker 页面仅导航/页脚，已如实记录未用作证据。"
+      ],
+      "id_track": "commercial:3-gis，track=commercial，官方施工/现场与 Web 页面来源，ID 与条目一致。",
+      "service_form": "商业 web-based 网络记录与施工执行平台，持续用于建设执行。"
+    }
+  },
+  "limits": "只读审查；未运行或部署任何应用，未执行 shell，未复算快照 SHA-256，未核价、未核架构、未做运行时测试。结论仅依据本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 指定路径的快照；部分商业来源为营销/产品页而非深度产品文档，Hach FAQ 为 2024 年内容；input.json 的 progress 为采集前状态，未作为案例依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-187/ses_groveopencodegop187review1_1793022258.jsonl",
+  "batch_sha256": "51ef5b9bca659ab1aeb776657550adaf1caebc186b925448948a0a42facf6c49",
+  "research_sha256": "688d49db8342c3df14a4e52753f83b94253836d066580749692b25dc2bc566c1",
+  "input_sha256": "6f9cf5c11d68a52cb996a13a8f7dc224e749305db6b1a00c04a09db2e92b07ac"
+}

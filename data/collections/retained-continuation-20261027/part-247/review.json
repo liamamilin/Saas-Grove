@@ -1,0 +1,27 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CourseLit 的官方文档把产品称为 LMS；课程电商循环由 Stripe 结账和 memberships 文档支撑，但快照正文没有展开章节、课时、测验等课程内部结构，建议后续补充课程大纲或课时管理文档，以更完整覆盖定义中的 curriculum 要素。",
+    "Ghost 的 Members 是发布平台内嵌的成员子模块，不是独立 CRM；快照正文已证明成员记录、标签、邮件同意、免费/付费/赠送状态和 Stripe 订阅，但成员事件流水、细分和原生自动化未在正文展开，且邮件通讯能力主要由仓库描述和文档 meta 说明支持。research 已如实限定这些缺口，不影响本次通过，但建议保留“内嵌模块”边界说明。",
+    "Hurdlr 是面向自由职业者和小企业的通用财务应用，不是专为内容创作者的多平台分成、打赏聚合器；条目已把主张收窄到发票收款、收入归集和报表，建议在定位描述中明确“按使用场景适用于创作者”，避免被读成创作者专用产品。",
+    "Hurdlr 的 Income Rules 正文主要说明自动标记关联账户存款；条目中“按收入类别/业务/客户自动标记”更接近 Income by Client、按业务 P&L 等报表维度，建议收紧该句措辞，以免超出正文可证范围。",
+    "Bagisto 是通用 Laravel 电商/多商户框架，不是创作者专用店面；其自托管单店模式由卖家直连支付，快照未展示平台代收后向卖家结算的 payout 账本。条目已避免托管余额、最低结算阈值等主张，建议继续保留该边界。",
+    "Easy Digital Downloads 的 readme 写的是“GPLv2 or later”，GitHub 元数据/SPDX 为 GPL-2.0；当前记录与 API 一致，但若要精确表达再分发权利，许可证字段可用 GPL-2.0-or-later。",
+    "CourseLit 默认依赖 MediaLit 付费媒体服务，虽然可以自建实例，但自托管并非完全无外部依赖；条目已披露这一点，建议在部署说明中明确这是额外依赖。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，顶层 phase 为 included_without_cases，与 batch.json、research.json 的 case_found 不一致；这看起来是采集前元数据未同步，不影响本次内容判断，但建议后续同步。"
+  ],
+  "leaf_checks": {
+    "creator-course-commerce-platform": "结论：通过。核对 github:199892949（CourseLit）：仓库元数据 id=199892949、默认分支 main、未归档，许可证正文为 GNU AGPL v3，与 track=open_source、license=AGPL-3.0 一致。docs/README.md 正文显示课程创作、学生管理、Stripe 支付、网站/销售页；docs/memberships.md 正文显示免费/一次性/订阅/EMI 报价、发票、结账会话，以及支付成功后 membership 转为 ACTIVE 并授予课程/产品访问，覆盖课程—报价—结账—会员访问主循环。快照未展开章节/课时/测验粒度，属非阻断留档缺口。",
+    "creator-crm": "结论：通过。核对 github:9852918（Ghost）：仓库 id=9852918、MIT 许可证正文与 track=open_source、license=MIT 一致。docs.ghost.org/members 正文显示成员记录字段（email、name、note、subscribed_to_emails、stripe_customer_id、status=free/paid/complimentary、labels、created_at）、CSV/Zapier/API 导入、按 tier 的内容访问和 Stripe 付费订阅，覆盖一人一记录、联系身份、消息同意、标签及免费受众转付费支持者。成员事件流水、细分和原生自动化未在快照正文展开，research 已明确限定；作为发布平台内嵌 Members 子模块而非独立 CRM，属类型边界说明，非阻断。",
+    "creator-revenue-management": "结论：通过。核对 commercial:hurdlr：官网首页/会计/发票页为营销页；Hurdlr University 帮助中心正文显示 Income Rules 自动标记关联账户入账、发票 Draft/Scheduled/Unpaid/Processing/Paid/Archived/Refunded 七状态、Stripe payout 与银行/现金付款匹配、部分付款及一对多/多对一、P&L 导出、Pro 的 Balance Sheet/Trial Balance/Aged Accounts/Income by Client 及按业务收入汇总，覆盖收入归因、已开票到已收款推进和汇总视图。未证明 YouTube/Patreon 等多平台 creator payout 聚合，research 已限定；属通用自由职业者/小企业财务应用，非阻断类型边界。",
+    "creator-storefront": "结论：通过。核对 github:148129143（Bagisto）：仓库 id=148129143、MIT 许可证正文与 track=open_source、license=MIT 一致。README 正文显示 Laravel 单店/多商户电商、商品目录、结账/订单、支付集成、Docker 部署和自有品牌店面，官方功能页补充 storefront/PWA、库存和订单管理；单店模式满足卖家自有店面—目录—平台内购买流程—卖家收入核心。自托管单店为卖家直连支付，快照未展示平台代收后向卖家结算的 payout 账本，research 已限定；通用电商定位非阻断。",
+    "digital-product-commerce-platform": "结论：通过。核对 github:3961425（Easy Digital Downloads）：仓库 id=3961425、GPL-2.0 许可证正文与 track=open_source、license=GPL-2.0 一致。readme 正文显示数字商品目录/变体/捆绑、购物车结账、Stripe/PayPal/Square 支付、唯一下载链接及过期/次数限制、邮件收据、客户购买历史、退款、销售/收入报表和折扣码，购买成功自动交付文件；订阅、软件许可、内容限制、弃购恢复等 Pro 能力已明确标注为扩展，社区版边界清楚。"
+  },
+  "limits": "本次仅做只读核对：未运行应用、未部署、未执行支付/权限/邮件流程测试，也未读取其他单元、采集者 TASK.md 或历史脚本。全部来源均按 REVIEW_SOURCES.json 的 path 原样读取，并核对 batch.json 的 snapshot_path 相对于 data/collections 的存在性及文件名 sha256。部分 Help Center/文档快照为单行 HTML，读取工具对单行内容有 2000 字符显示上限，正文结论辅以同一官方 URL 的公开页面交叉核对，未用简介、元数据或 Loading 页面替代核心正文；仍可能存在快照正文中未被读取窗口覆盖的细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-247/ses_groveopencodegop247review2_1793037370.jsonl",
+  "batch_sha256": "dc08abbc2e3f6121d11ef1279c190be339f09a70f24960b85f5a5ae8ac5df772",
+  "research_sha256": "52800603eb91ac493b0b27ad238248ed6785c8df9c0d5f219135ef386534cd39",
+  "input_sha256": "73cea8975eee98b9159a3bc4ed7a87c3e7e1084b646e35f43788eed6715967c7"
+}

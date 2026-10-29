@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "FreeConference.com 同时提供视频会议和在线会议室，其录音在官网被列在“upgrade to paid features”；本叶只取“音频桥 + 拨入号码/访问码 + 主持人控制”子工作流，摘要若强调免费能力，建议注明录音的付费边界。",
+    "Signal 以 commercial:signal 记录，但官方页面显示其非营利、靠捐赠运营，且本单元快照仅为帮助中心正文，未附许可证/仓库字段；若数据集的 open_source track 严格要求仓库与完整许可证，建议明确 track 口径或改列并补证。就本叶内容匹配而言不构成阻断。",
+    "Zello Work 快照明确给出频道、按住 PTT 发送以及发送/接收状态，但没有用原话写“同一时间仅一人发言/无需拨号振铃”；floor control 与免设置即时投递是从 PTT 交互模型推断，后续可补一条更直接的官方表述。",
+    "Jitsi Meet 官网首页称无需账户即可使用，README 的 meet.jit.si 说明则称需要 Google/Facebook/GitHub 账户；README 又介绍 8x8 JaaS 商业托管。两处边界不影响 Apache-2.0 自托管核心匹配，但条目可补充“访客加入条件”和“社区版 vs JaaS”说明。",
+    "research.json 已如实记录 Zoom 的 Loading 壳、WhatsApp 的 JS 壳、FaceTime 404、Discord 仅有群组语音等失败/边界，均未作为最终证据；Discord 候选快照未列入本单元 REVIEW_SOURCES，因其未被 batch 引用，不影响结论。"
+  ],
+  "leaf_checks": {
+    "conference-calling-application": {
+      "application_ids": [
+        "commercial:freeconference-com"
+      ],
+      "result": "pass",
+      "definition_core": "FreeConference 官方功能页正文给出 over 15 free dial-in numbers worldwide、Dedicated Dial-in Number and access code、up to 100 participants、Schedule/invite，以及 In-Call 与 Video Conference Moderator Controls；录音页正文给出电脑端 RECORD 按钮与电话端 *9。共享音频桥、可加入音频地址、多方实时语音与组织者控制均有直接文本依据。",
+      "service_form": "持续运营的托管电话会议服务，注册账户/仪表盘、拨入或应用加入；不是一次性项目。",
+      "id_track": "commercial:freeconference-com 与 commercial track 匹配，条目名称、homepage 与官方来源一致。",
+      "source_basis": "已读取 REVIEW_SOURCES 中 450deedd...、f31ddc96...、22e978c9... 三个官方快照；batch.json 的 snapshot_path 与 research.json 的引用和 sha256 字段一致。",
+      "gap": null,
+      "notes": "快照有 Moderator Controls 与 access code，但未单独写主持人独立 PIN；组织者角色由主持人控制权体现，若严格按定义中的“distinct credentials”可补一条 moderator access 说明。"
+    },
+    "internet-calling-application": {
+      "application_ids": [
+        "commercial:signal"
+      ],
+      "result": "pass",
+      "definition_core": "Signal 官方帮助文档正文给出：从联系人列表或输入号码选择联系人，点电话图标发起 1:1 语音通话；通话屏幕显示 Calling/Connecting、对方在线时 Ringing、接通后计时；未接通显示 No Answer 并挂断；桌面快捷键含 Answer call、Decline call、End call。个人身份、指定联系人、状态化实时语音与互联网传输成立（Troubleshooting 明确双方需联网才会 Ringing）。",
+      "service_form": "持续运营的加密通信应用/服务；1:1 语音通话是其持续提供的子工作流。",
+      "id_track": "commercial:signal 与 commercial track、条目名称及官方帮助来源一致；track 口径见 non_blocking_notes。",
+      "source_basis": "已读取 REVIEW_SOURCES 中 d53eaa61...、b884db12...、488b4f94... 三个 Signal 官方 JSON 快照；正文包含联系人选择、呼叫状态、No Answer 与桌面快捷键。",
+      "gap": null,
+      "notes": "只取 1:1 互联网语音通话；不把群组语音房或 PSTN 电话线路计入。"
+    },
+    "push-to-talk-application": {
+      "application_ids": [
+        "commercial:zello-work"
+      ],
+      "result": "pass",
+      "definition_core": "Zello Work 官方指南正文给出 1:1、1:many、1:all；Network channels 由管理员创建，Channels tab 显示分配给成员的频道；PTT 按钮默认 hold-to-talk，按住发送语音，并区分 transmitting/receiving 状态；Available 状态 incoming messages are played in real-time。固定通话组、按住传输与被动接收成立。",
+      "service_form": "面向团队的持续运营网络对讲服务（商业 SaaS）。",
+      "id_track": "commercial:zello-work 与 commercial track 匹配；文章明确仅适用于 Zello Work（非 Friends & Family），与条目边界一致。",
+      "source_basis": "已读取 REVIEW_SOURCES 中 f03b2778...、ef7c8751... 两个 Zello 官方支持快照；正文包含频道、PTT 按钮、发送/接收状态和实时播放说明。",
+      "gap": null,
+      "notes": "floor control 与免设置即时投递为 PTT 模型推断，见 non_blocking_notes。"
+    },
+    "video-calling-application": {
+      "application_ids": [
+        "commercial:signal"
+      ],
+      "result": "pass",
+      "definition_core": "Signal 官方文档正文给出：在与联系人的会话中点摄像头图标发起 1:1 视频通话；对方接听后互见，通话中可开关本侧视频；状态经历 Calling/Connecting、Ringing 与接通后计时；桌面快捷键含带视频接听、拒接与结束通话。个人定向视频呼叫、实时音视频与有界生命周期成立。",
+      "service_form": "持续运营的加密通信应用/服务；1:1 视频通话是其持续提供的子工作流。",
+      "id_track": "commercial:signal 与 commercial track、条目名称及官方帮助来源一致；同 internet-calling 的 track 口径说明。",
+      "source_basis": "已读取 REVIEW_SOURCES 中 d53eaa61...、b884db12...、488b4f94... 三个 Signal 官方 JSON 快照；正文包含摄像头图标、接听后互见、Calling/Ringing、带视频接听/拒接/结束。",
+      "gap": null,
+      "notes": "Signal 主界面是即时通讯；本叶只取 1:1 视频通话子工作流，不把群组视频聊天或会议房间计入。"
+    },
+    "video-conferencing-application": {
+      "application_ids": [
+        "github:15225670"
+      ],
+      "result": "pass",
+      "definition_core": "Jitsi 官网正文写与 whole team 视频、通过 simple custom URL 邀请用户加入会议、为每个会议设置 meeting URL、共享桌面/演示、集成聊天；README 写 video conferencing platforms、HD audio/video、content sharing、mobile apps、browser based。可召集地址、实时音视频与多方共享舞台成立。",
+      "service_form": "开源视频会议软件，可自托管，同时有 meet.jit.si 托管服务；持续维护的软件服务形态。",
+      "id_track": "github:15225670 与 repo metadata 的 id/full_name (jitsi/jitsi-meet) 一致；track 为 open_source。",
+      "source_basis": "已读取 REVIEW_SOURCES 中 4f50f963... repo metadata、fe5ff196... license、cd50b8dd... README、99779c47... homepage；license API 的 content 为 Apache License 2.0 全文，README 说明 Debian/Docker 自托管。",
+      "gap": null,
+      "notes": "README 同时介绍 8x8 JaaS 商业托管；Apache-2.0 仓库可作为社区核心，但社区版与 JaaS 的功能边界在捕获资料中着墨较少，见 non_blocking_notes。"
+    }
+  },
+  "limits": "只读审查；未运行或部署任何应用，未测试实时通话、拨入、PTT 或会议加入，未核验价格、完整架构和全部社区版功能。未独立重算 SHA-256，仅核对 batch.json 与 REVIEW_SOURCES.json 的 path/sha256 字段一致。部分快照为单行 HTML/JSON，read 工具按 2000 字符截断；关键句通过定向检索确认，并对 FreeConference/Signal 官方页面做只读上下文复核，未用简介、元数据或 Loading 壳替代核心正文。input.json 的 progress 仍为 not_searched，本报告以 research.json/batch.json 的 case_found 记录为准；未读取其他单元或采集脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-003/ses_groveopencodegop003review1_1792933645.jsonl",
+  "batch_sha256": "dc3756449df68b787d2bc84e9bb4e16596753d4e4284d37a5e55252cb5aa6ddd",
+  "research_sha256": "5b4bf3e72c472bc7d8609b03f1a4e7f6c9e55db418acc739edbf6c891e1dee78",
+  "input_sha256": "c51e439c0136b75c3ac8e736fdadecf7cc10bb6c1b54c1015c0516590fcebc45"
+}

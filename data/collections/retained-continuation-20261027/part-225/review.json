@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "university-advancement-platform：无案例留档符合规则；research.json 记录了两轮检索、候选逐项排除理由和 service_boundary，且明确不断言“不存在”。其中 UniSchema 与 CiviCRM 仅依据检索摘要，未存快照，后续复核可补，但不影响“证据不足”的结论。",
+    "academic-timetabling：FET 的许可与 README 记录被用于说明“桌面/命令行形态不符合服务形态”的排除理由，但该两项快照未列入本单元 REVIEW_SOURCES，本次无法独立复核；该记录只支持排除项，不影响 UniTime 的入选结论。",
+    "ai-tutoring-application：OpenTutorAI CE 的 README/docs 同样未出现在本单元快照清单中，仅作为边界候选留档；其排除理由不影响 OATutor 的判定。",
+    "curriculum-management：Module-Management 为 TUM CIT 模块级治理系统、硕士论文产物，README 仅见 PDF 导出，未证明 SIS 同步或完整专业目录；research.json 与 batch.json 已按“模块级、机构特定”收窄，建议保持该措辞，不要升级为“完整课程目录平台”。",
+    "ai-tutoring-application：OATutor 代码为 MIT，但 README 明确内容库为 CC BY 4.0；批次摘要只写 MIT，建议在许可证说明中区分代码与内容许可，避免读者误以为全部资产均为 MIT。",
+    "input.json 中各叶 progress 仍为 not_searched、application_ids/research_records 为空，与 research.json/batch.json 中 4 个 case_found 及对应 ID 不一致；若下游以 progress 为准会丢失案例关系，建议同步进度字段（不影响本次内容判定）。",
+    "input.json 顶层 phase 为 included_without_cases，但本单元 4 个叶子已有 case_found；属阶段标记与实际结果不一致，建议校正措辞。",
+    "curriculum-management：research.json 的 source_urls 未列入许可证端点，但 fetch_outcomes 记录了已抓取 license；属记录轻微不一致，不影响 MIT 判定。",
+    "academic-timetabling：UniTime README 未逐字出现“发布课表”或“教室双重预订检查”，相关能力由“多部门协同构建/修改课表、学生排课、最小化学生冲突”合理推得；建议表述保持“综合排课系统”层面，不写成已验证的具体发布流程。",
+    "Submitty 的 features 快照为完整 HTML 页面，虽含导航，但功能段落（作业收集、重新提交、迟交政策、评分、grade inquiry、成绩汇总）正文完整，可作为核心工作流证据使用。"
+  ],
+  "leaf_checks": {
+    "university-advancement-platform": {
+      "application_id": null,
+      "verdict": "pass_no_case_documented",
+      "basis": "input.json 该叶无 case；research.json assessment=insufficient_evidence，记录两轮检索，逐项说明 CUCentralAdvancement/giving-backend（CMS，且快照显示 archived=true）、NPPatch（通用非营利捐赠录入）、UniSchema（webhook 归一化）、CiviCRM（通用非营利 CRM）均缺机构关系基础、带指定用途捐赠记录或记录式潜在捐赠者循环。",
+      "gap": "本单元无该叶应用快照，仅审查检索留档；UniSchema/CiviCRM 为摘要级核验，未存快照。留档充分且未作不存在断言，可通过。"
+    },
+    "academic-timetabling": {
+      "application_id": "github:29594752",
+      "verdict": "pass",
+      "basis": "UniTime 元数据 id=29594752 与批次一致、archived=false、language=Java、spdx_id=Apache-2.0；LICENSE 快照解码为 Apache License 2.0 全文；README 正文说明其为综合教育排课系统，支持课程/考试课表、变更管理、教室与其他事件共享、学生排课与教师排课、多部门协同、可与 SIS 对接，属持续使用的 Web/自托管服务形态。核心（教学活动、共享受限资源、学期时间结构、冲突约束、机构级课表）均有正文支撑。",
+      "gap": "README 未逐字描述“发布”与房间双重预订检查，属由功能结构合理推断；FET 排除记录所用快照未纳入本单元，无法复核。"
+    },
+    "ai-tutoring-application": {
+      "application_id": "github:228995724",
+      "verdict": "pass",
+      "basis": "OATutor 元数据 id=228995724、archived=false、language=JavaScript、spdx_id=MIT；LICENSE 快照解码为 MIT 全文；README 正文明确基于 ITS 原则、BKT 技能掌握估计、按最弱技能自适应选题、提示/脚手架与答案解析、集中技能模型、用户登录与学习记录、课程 lesson 学习目标，静态站点可部署并可选 Firebase/LTI 后端持续运行。四项定义属性齐备。",
+      "gap": "README 未展示完整交互界面，但核心机制（作答→BKT 更新→选题）有正文与代码结构说明；内容库另有 CC BY 4.0 许可，代码许可判定不受影响。"
+    },
+    "assignment-management": {
+      "application_id": "github:16236118",
+      "verdict": "pass",
+      "basis": "Submitty 元数据 id=16236118、archived=false、language=PHP、spdx_id=BSD-3-Clause；LICENSE.md 快照解码为 BSD 3-Clause 全文，README 亦声明 BSD-3；官方 features 快照正文覆盖作业收集（个人/团队、拖放/ZIP/Git）、重新提交与超量惩罚、截止时间与 late day、人工/评分标准/分区评分、grade inquiry、成绩汇总，并有课程注册与 SIS 同步形成班级名册，构成教师创建→学生提交→评价→返回的完整循环。",
+      "gap": "features 页为产品自述文档，未做运行时验证；核心对象与回传路径在正文明示，足以支持类型判定。"
+    },
+    "curriculum-management": {
+      "application_id": "github:860334186",
+      "verdict": "pass_with_narrowed_scope",
+      "basis": "Module-Management 元数据 id=860334186、archived=false、language=TypeScript、spdx_id=MIT；LICENSE 快照解码为 MIT 全文；README 正文说明其为 CIT 集中管理模块提案、审查与批准的治理平台，含按字段结构化反馈、基于反馈的版本管理与版本历史、模块重叠检测、PDF 导出、角色（教授/学术项目顾问/质量管理/考试委员会）与 Docker 部署，覆盖“课程记录→提案-审查-批准→版本化结果”的治理核心，未越界到学生管理、授课交付或排课。",
+      "gap": "为模块级、TUM 特定系统，未见完整专业目录与 SIS 同步，对外发布仅 PDF 导出；research.json/batch.json 已明确收窄，属可接受的边界案例。"
+    }
+  },
+  "limits": "本次仅做只读初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 所列 13 个快照（4 个 repository_metadata、4 个 license、4 个 readme、1 个 Submitty features 文档），全部按 path 原样读取，未运行程序、未写文件、未访问其他单元。GitHub 元数据快照为单行 JSON，读取时展示被截断，仓库 ID、archived、language 与 spdx_id 通过针对性字段匹配确认，许可证全文由 license 快照解码内容核对，未逐字段通读整份元数据。未做部署或运行时验证（各条 runtime_tested=false）。research.json 中 FET、UniSchema、CiviCRM、OpenTutorAI 的相关判断缺少本单元快照，仅作为排除项或摘要级留档，未参与入选结论。university-advancement-platform 无案例，仅能审查检索与缺口留档，不能据此确认市场不存在该类开源产品。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-225/ses_groveopencodegop225review2_1793032010.jsonl",
+  "batch_sha256": "9709e88fc783331f0911175a34b98ba234816cca4857143a842c86081fb44e39",
+  "research_sha256": "44cdc6784d550a0d53cdadb4a7f5edec4b074e3d7667da14f0dbe372c507f49b",
+  "input_sha256": "7b852e28b1cc2ebaf38fc1c6d3124dac16d865fd8c9f30f0b6f93f4d8e86c0ce"
+}

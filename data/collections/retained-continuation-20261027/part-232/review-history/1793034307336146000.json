@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "child-welfare-management",
+      "application_id": "github:72849464",
+      "issue": "该条目的核心匹配证据存在来源归因错误和证据缺口。batch/research 称“README 说明 Primero 面向儿童保护与社会工作者管理弱势儿童数据”，并称“README 同时说明 CPIMS+/GBVIMS+ 配置包需另行申请”；但实际 README 快照只有标题、徽章、PostgreSQL 说明、开发/生产部署和致谢，没有这些内容。产品用途实际来自仓库 description 元数据，配置限制实际来自 LICENSE 前言与仓库 description。API 文档快照只列出 cases、incidents、tracing_requests、potential_matches、flags、attachments、assigns、referrals、transfers、forms、roles/permissions、audit_logs 等端点，能证明儿童/家庭个案、事件、寻亲、转介与记录分配的基础个案工作流，但没有展开报告筛选决定、安全/风险评估、安置/永久性等本叶定义性核心；而 CPIMS+/GBVIMS+ 配置又被明确排除在开源核心之外。现有证据最多支持“儿童保护个案管理核心”，不足以完整支持该叶的定义性核心。",
+      "fix": "修正来源引用：将产品用途改引仓库 description/元数据，将 CPIMS+/GBVIMS+ 限制改引 LICENSE 前言（并保留仓库 description 佐证）。补充可公开核验的儿童保护核心正文，例如 CPIMS+ 表单、筛查/评估/安置流程文档或相关代码；若这些内容不可公开取得，则在条目中明确匹配范围仅为个案/事件/寻亲/转介核心，并记录筛查、风险评估、安置/永久性未获证据，必要时将该叶降为 no-case/insufficient evidence。"
+    }
+  ],
+  "non_blocking_notes": [
+    "tax-administration-system / github:1308925398：README 明确自述为 early production-oriented foundation、first vertical slice，已证明纳税人创建/注册审批、申报草拟与校验、负债计算、提交与评估、评估借记、支付接收与分配、支付贷记、账本读取、审计事件；但未证明按税种分账、欠款持续、退款、法定通知/执法。条目已标“早期版本”，建议在 summary 中同样点明这些未覆盖项。",
+    "Primero LICENSE 前言为 AGPL v3 “or later”，条目 license 记为 AGPL-3.0；若需要精确 SPDX，可写 AGPL-3.0-or-later，并在 license_review 中说明采用 GitHub AGPL-3.0 分类还是 LICENSE 原文。",
+    "Primero deployment 写 PostgreSQL 13+，README 只明确支持 14/15（14 为默认、15 为新增），13 的依据不足，属措辞精度问题。",
+    "input.json 的 progress 仍为 not_searched、application_ids/research_records 为空，与 batch/research 的 case_found 不一致；若 input.json 是采集前快照可忽略，否则应同步更新，避免流水线元数据矛盾。",
+    "housing-assistance-management、immigration-case-management、public-benefits-management 的候选来源（Housing-Aid、DHA-Sync、IMCS、openIMIS dist）未在 REVIEW_SOURCES 中提供快照，排除理由主要依据 research.json 的检索/抓取记录；留档已说明缺口，但独立复核无法重读候选原文，建议后续补充候选快照或明确标注“未留快照”。",
+    "public-benefits-management 的 research.source_urls 未列 openimis-dist_dkr/license，尽管 fetch_outcomes 记录了该次抓取；建议补入以保持来源清单完整。",
+    "Primero 的 homepage https://www.primero.org 抓取失败已在 research 中记录，条目改用仓库/API 来源，不影响当前结论。"
+  ],
+  "leaf_checks": {
+    "tax-administration-system": {
+      "status": "pass",
+      "basis": "github:1308925398；仓库元数据 id/description 与 README 一致；LICENSE 快照为完整 Apache-2.0 文本；README 首个纵向切片明确覆盖纳税人创建/注册审批、申报草拟与校验、负债计算、提交与评估、评估借记、支付接收与分配、支付贷记、账本读取、审计事件，足以支撑纳税人登记加 assess→post→settle 核心循环。",
+      "gaps": "README 自述为早期基础而非成品；按税种分账、欠款持续、退款、法定通知/执法未在快照中证明。属早期阶段证据深度限制，不构成类型错配。"
+    },
+    "child-welfare-management": {
+      "status": "changes_required",
+      "basis": "github:72849464；LICENSE 快照为完整 AGPL v3 文本，并注明 CPIMS+/GBVIMS+ 配置 JSON 包需另行联系；API 文档列出 cases、incidents、tracing_requests、potential_matches、flags、attachments、assigns、referrals、transfers、forms、roles/permissions、audit_logs，可证明儿童/家庭个案、事件、寻亲、转介与记录分配的基础个案工作流。",
+      "gaps": "README 快照本身不含产品用途描述，batch/research 误将仓库 description 的内容归因于 README；API 索引未展开报告筛选、安全/风险评估、安置/永久性；CPIMS+/GBVIMS+ 配置不在开源核心，儿童保护专用流程的证据边界未闭合。"
+    },
+    "housing-assistance-management": {
+      "status": "pass_no_case",
+      "basis": "research.json 记录两次检索；Housing-Aid 为保障性住房/单元分配全栈候选，README 未见租金补贴发放、补贴资金路径或受助家庭援助生命周期，且仓库无许可证元数据；其余结果为数据/新闻类仓库。按本叶“援助计划—家庭资格认定—补贴发放—合规报告”的服务边界排除，未建 batch 条目。",
+      "gaps": "候选来源未提供快照；排除理由依赖 research.json 的抓取记录。"
+    },
+    "immigration-case-management": {
+      "status": "pass_no_case",
+      "basis": "research.json 记录 DHA-Sync 为 MIT 的政府内部移民/庇护案件管理，覆盖登记、文件、状态、面试、遣返、审计，但未见申请人外部提交、回执/通知/决定送达或身份/许可签发；IMCS 无许可证元数据。按本叶“外部发起、对外问责”核心排除，未建 batch 条目。",
+      "gaps": "候选来源未提供快照；排除理由依赖 research.json 的抓取记录。"
+    },
+    "public-benefits-management": {
+      "status": "pass_no_case",
+      "basis": "research.json 记录 openIMIS 的 openimis-dist_dkr 为 Docker 部署配置而非完整应用，LICENSE 声明 AGPL v3 但 GitHub 分类为 Other/NOASSERTION；未见以家庭为单位的资格认定、福利发放、重算/追偿生命周期；其余 social protection 仓库无清晰许可证。按 insufficient_evidence 留档，未建 batch 条目。",
+      "gaps": "只核对了 dist 仓库，未评估 openIMIS 主应用；候选来源无快照，license URL 未列入 source_urls。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未重新计算 sha256、未做部署或运行时测试、未访问其他单元。GitHub API 元数据快照为单行 JSON，read 工具预览在 2000 字符处截断，archived/pushed_at 等尾部字段未能完整查看；ID、description、license 以可见前缀及 license/README/API 快照交叉核对。Housing-Aid、DHA-Sync、IMCS、openIMIS dist 等被排除候选未在 REVIEW_SOURCES 中提供快照，相关结论依据 research.json 的检索/抓取留档。未获取或测试 CPIMS+/GBVIMS+ 受限配置包。本单元无商业条目，未做商业真实性核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-232/ses_groveopencodegop232review1_1793033569.jsonl",
+  "batch_sha256": "b76ae625e05bb15fc8096ae6ca60b233337587131a11b6aa63cd170cfe374572",
+  "research_sha256": "319e505fcf49248d1d815624dee08a84165c2241730e4ec26e6d2ac376ad4b71",
+  "input_sha256": "2bcdaa7899282f99313809fdf19b9786d6ca2d1686ef3921836b7d516659f336"
+}

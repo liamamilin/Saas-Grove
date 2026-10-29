@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "infrastructure-as-code-platform",
+        "name_zh": "基础设施即代码平台",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/571",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "OpenTofu open source infrastructure as code platform"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "infrastructure-as-code-platform",
+        "name": "Infrastructure-as-Code Platform",
+        "name_zh": "基础设施即代码平台",
+        "aliases_zh": [
+          "IaC平台",
+          "基础设施代码化平台"
+        ],
+        "overview": "An **Infrastructure-as-Code Platform** is a system in which infrastructure resources — compute, network, storage, and higher-level services on cloud or on-prem platforms — are declared in machine-readable, versionable files, and the platform itself creates, changes, and destroys those resources by driving the target platforms' APIs, while holding a persistent record of the resources it manages.\n\nThe defining core is three structures held together:\n\n```text\nInfrastructure declared as code\n  (versionable files describing what should exist — the source of truth)\n└── bound to\n    Managed lifecycle execution\n      (the platform computes and executes create / update / destroy\n       operations against the target platforms' APIs)\n    └── tracked in\n        The managed-resource record\n          (persistent bindings between each declared resource and the\n           real object it created or adopted)\n```\n\nRemove any one and the category collapses: without declarations it is ad-hoc API scripting; without execution it is a diagramming or documentation tool; without the managed-resource record it is one-shot provisioning — able to create resources but unable to answer \"what did I create,\" re-apply incrementally, or destroy what it manages as a set.\n\nEverything else commonly associated with the category — plan/preview steps, provider ecosystems, reusable modules, drift detection, remote state, collaboration consoles, policy checks — is widespread in current products but is not what makes a product an infrastructure-as-code platform. A first-generation template service with none of the modern collaboration layer, and a bare CLI tool with a local record file, both satisfy the defining core completely.\n\nThe category's central promise is that infrastructure has a **source of truth in code and a managed lifecycle**: the same declaration can be applied repeatedly, changes are computed as diffs against what already exists, and removing a resource from the code removes the real object.",
+        "overview_zh": "**基础设施即代码平台**是一个系统，其中基础设施资源——计算、网络、存储以及云或本地平台上的高级服务——在机器可读、可版本化的文件中声明，平台本身通过驱动目标平台的API来创建、更改和销毁这些资源，同时保留其管理的资源的持久记录。\n\n定义的核心是三个结构紧密结合：\n\n```text\n以代码声明的基础设施\n  （可版本化的文件描述应该存在的内容——真实来源）\n└── 绑定到\n    受管理的生命周期执行\n      （平台计算并执行针对目标平台API的创建/更新/销毁操作）\n    └── 在受管理资源记录中跟踪\n        （每个声明的资源与其创建或采用的真实对象之间的持久绑定）\n```\n\n移除任何一个，类别就会崩溃：没有声明就是临时API脚本；没有执行就是绘图或文档工具；没有受管理资源记录就是一次性配置——能够创建资源但无法回答“我创建了什么”、增量重新应用或作为一组销毁其管理的内容。\n\n其他通常与此类别相关的内容——计划/预览步骤、提供者生态系统、可重用模块、漂移检测、远程状态、协作控制台、策略检查——在当前产品中很普遍，但不是使产品成为基础设施即代码平台的原因。第一代模板服务没有现代协作层，以及一个带有本地记录文件的裸CLI工具，都完全满足定义的核心。\n\n该类别的核心承诺是基础设施具有**代码中的真实来源和受管理的生命周期**：相同的声明可以重复应用，更改根据现有内容计算为差异，并且从代码中移除资源就会移除真实对象。",
+        "dc": "**1. Infrastructure declared as code.** The user writes machine-readable declarations that describe the infrastructure that should exist — virtual machines, networks, subnets, load balancers, DNS records, databases, message queues, and higher-level services. The essential property is that declarations describe **the desired end state, not the steps**: a declaration says \"a load balancer with these listeners exists,\" and the platform works out how to create or change it. Declarations are plain files: they can be versioned, reviewed, reused, and shared like any other code, and the history of the files is the history of the infrastructure.\n\n**2. Managed lifecycle execution.** The platform is the actor that turns declarations into real infrastructure. It translates each declared resource into calls against the target platform's API — creating objects that do not exist, changing objects whose declared properties differ, and destroying objects that the declaration no longer describes. Execution is computed, not scripted: the platform derives the operations and their order from the declaration and from what it already manages, and it can run the same declaration again safely.\n\n**3. The managed-resource record.** The platform holds a persistent record that binds each declared resource to the real object it created (or later adopted). This record is what makes the lifecycle *managed*: it lets the platform compute what changed since the last run, apply only the differences, destroy exactly the objects it tracks when they leave the declaration, and detect when the real world has been changed by other means. The record takes different physical forms across products — a file the team stores in a backend, a stack held by a cloud service, objects in a control plane — but the binding function is constant.",
+        "dc_zh": "**1. 基础设施声明为代码。** 用户编写机器可读的声明，描述应存在的基础设施——虚拟机、网络、子网、负载均衡器、DNS记录、数据库、消息队列以及更高级的服务。声明的本质是描述**期望的最终状态，而不是步骤**：声明说“存在一个具有这些监听器的负载均衡器”，平台则负责创建或更改它。声明是纯文本文件：它们可以像任何其他代码一样进行版本控制、审查、重用和共享，文件的记录就是基础设施的历史。\n\n**2. 托管生命周期执行。** 平台是将声明转化为实际基础设施的执行者。它将每个声明的资源转换为目标平台API的调用——创建不存在的对象、更改声明属性不同的对象，以及销毁声明不再描述的对象。执行是计算的，而不是脚本化的：平台从声明和其已管理的内容中推导出操作及其顺序，并且可以安全地再次运行相同的声明。\n\n**3. 托管资源记录。** 平台持有持久记录，将每个声明的资源与其创建（或后来采用）的真实对象绑定。这个记录是使生命周期*被管理*的关键。",
+        "rules": "### The record is the authority on what is managed\n\nThe platform manages exactly what its record binds — no more, no less. Resources created outside the platform are invisible to it until imported; resources it created are fully its responsibility, including destruction. This one-to-one binding between declaration and real object is what keeps the lifecycle coherent, and products treat violations of it (two declarations binding the same object) as errors.\n\n### Preview before execution, with destroys explicit\n\nThe computed plan distinguishes creates, updates, and destroys, and destructions are shown explicitly because they are the dangerous class. Execution follows the reviewed plan.\n\n### Re-application converges\n\nApplying the same declaration again changes nothing if reality already matches it. This idempotent behavior is what makes repeated runs, drift correction, and environment replication safe.\n\n### Order is derived, not scripted\n\nThe platform derives operation order from declared dependencies. Authors state what depends on what (or express relationships structurally); they do not write step-by-step procedures. This is the declarative contract that separates the category from plain automation scripts.\n\n### Concurrency is guarded\n\nTwo simultaneous changes against the same record can corrupt it, so shared record backends provide locking or serialized runs. Solo local use does not need this; teams do.\n\n### The record is sensitive\n\nThe record can contain resource attributes that are secret-like (passwords, keys, connection strings), and it is itself the map of the estate. Products provide encryption of sensitive values in the record, marking of sensitive outputs, and integration with external vaults; storing the record in an unprotected shared location is treated as a defect.\n\n### Drift is expected and surfaced\n\nReal infrastructure gets changed outside the platform — consoles are too convenient. Products differ in whether they detect drift automatically, on schedule, or on demand, and whether they auto-reconcile; but every mature product has an answer to \"the world changed behind my back.\"",
+        "rules_zh": "### 记录是管理内容的权威\n\n平台精确管理其记录绑定的内容——不多不少。在平台外部创建的资源对其不可见，直到导入；其创建的资源完全由其负责，包括销毁。声明与真实对象之间的这种一对一绑定保持生命周期一致，产品将违反此绑定（两个声明绑定同一对象）视为错误。\n\n### 执行前预览，销毁明确\n\n计算的计划区分创建、更新和销毁，销毁被明确显示因为它们是危险类别。执行遵循审查过的计划。\n\n### 重新应用收敛\n\n如果现实已经匹配，再次应用相同声明不会更改任何内容。这种幂等行为使重复运行、漂移纠正和环境复制安全。\n\n### 顺序是派生的，而非脚本化的\n\n平台从声明依赖派生操作顺序。作者声明什么依赖什么（或结构化表达关系）；他们不编写逐步过程。这是将类别与普通自动化脚本区分开的声明式契约。\n\n### 并发受保护\n\n对同一记录的两个同时更改可能损坏它，因此共享记录后端提供锁定或序列化运行。单独本地使用不需要这个；团队需要。\n\n### 记录敏感\n\n记录可以包含类似机密的资源属性（密码、密钥、连接字符串），它本身是资产的映射。产品提供记录中敏感值的加密、敏感输出的标记，以及与外部保险库的集成；将记录存储在不安全的共享位置被视为错误。",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 116,
+    "phase": "directory",
+    "parent": 116,
+    "slugs": [
+      "infrastructure-as-code-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "319d20e89e5dbc1717adc974efe205b1e7a94e273a5d71256e9f647e4c3b3593"
+  }
+}

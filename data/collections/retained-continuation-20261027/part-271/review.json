@@ -1,0 +1,67 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "locksmith-business-management 与 plumbing-business-management 共用 OpenFieldService（github:1201466005）。该应用是可按服务类型配置的通用现场服务管理系统，锁匠/管道匹配依赖 README 的行业目录与通用“客户-服务地点-工单-派工-开票”核心，而不是垂直专用工作流。叶子定义明确允许单店/多技术员以工单列表、日历和开票满足核心，因此不阻断；锁具/钥匙台账、价格手册、会员/提案等深度能力未被证实，不应据此过度断言。",
+    "OpenFieldService README 自述为 issue #6 的第一交付切片，并明确排除 ownership transfers、component hierarchies、maintenance plans 等能力；其“production-ready”属于项目自述。README 中的数据模型、API 和工单-派工-开票链路可支撑核心匹配，成熟度不是本次类型匹配的阻断项。",
+    "PestPac 的化学药剂跟踪、白蚁检查只出现在页面导航；正文核心证据是排程、任意频率复发服务、技术员工作量平衡、许可证告警、路线和客户排程。商业条目只要求基本真实性和类型匹配，因此不阻断，但该叶关于“客户服务结构/现场化学记录”的正文证据深度有限。",
+    "SmartMoving、PestPac、Skimmer 的来源均为厂商产品/功能页（batch 标为 documentation），不是独立评测或部署文档；商业条目仅按基本真实性和类型匹配核对，未验证价格、部署、数据迁移或实际运行。",
+    "Skimmer 技术员/计费快照是压缩 HTML，逐行读取受限；已按同 URL 的只读页面文本核对功能表，且快照中的 JSON-LD、标题和功能表开头与页面一致。池服务核心（路线/停靠、多水体读数、检查清单、开票/收款）有正文支持。",
+    "input.json 的 leaf progress 仍是采集前状态（case_status=not_searched、application_ids/research_records 为空），而 batch.json/research.json 已记录 case_found 和具体 application；本次以 batch/research 与快照为准。若下游依赖 input 的 progress 字段，应另行同步。",
+    "pest/pool 的开源检索留档对 OpenFieldService 的描述可更精确：该通用 FSM 数据模型已有 is_recurring/recurrence_interval 基础复发字段，并列出 Pool Service 示例，但缺少完整服务计划/occurrence、路线密度和泳池水化学能力。这不影响改用 PestPac/Skimmer 的结论，但后续检索留档宜区分“基础复发字段”与“完整行业计划能力”。",
+    "OpenFieldService 未声明独立的社区版/企业版边界；MIT 覆盖仓库代码，README 的 Clawnify 托管部署入口不构成附加许可限制。"
+  ],
+  "leaf_checks": {
+    "locksmith-business-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:1201466005"
+      ],
+      "basis": "读取 GitHub 仓库页、README 全文和 LICENSE 全文。README 行业目录明确列出 Locksmith（住宅开锁、换锁芯、装门锁、配钥匙、开保险柜）；功能表与数据模型提供客户/服务地点（sites）、工单排程与状态、技术员派工、检查清单/材料、从完成工单生成发票及收款状态。定义性核心（客户+服务地点→工单生命周期→技术员→计费）可覆盖。",
+      "license_and_identity": "LICENSE 为完整 MIT 文本（Copyright 2026 Clawnify），无附加限制；仓库页元数据 repository_id=1201466005、public=true、is_fork=false，与 batch 的 github:1201466005 一致。",
+      "gaps": "通用 FSM，非锁匠专用；未提供锁具/钥匙结构化台账、价格手册、估价/电子签名等深度锁匠能力。README 明确锁具工作以工单文本/项目/照片记录，符合定义对非结构化台账的允许；缺口不阻断。"
+    },
+    "moving-company-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:smartmoving"
+      ],
+      "basis": "读取 SmartMoving 官方 moving-company-software 页面正文。页面把 estimate & inventory→booked job→schedule→dispatch→field→billing 描述为同一作业链；明确“estimate becomes the booked job”“dispatch works from the exact job”“crew gets address/schedule/notes on phone”“storage stays tied to same customer and job”“billing works from completed job automatically”。符合两点搬迁、按物品估价、作业组/卡车执行、资金闭环核心。",
+      "type_match": "商业搬家公司的运营侧管理软件，不是消费者比价/预订平台或通用货运；产品身份、首页和类型匹配。",
+      "gaps": "来源为厂商产品页，未独立验证；商业条目只做基本真实性和类型匹配，未研究价格/部署/实际运行。"
+    },
+    "pest-control-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:pestpac"
+      ],
+      "basis": "读取 PestPac 官方 pest-control-scheduling-software 页面正文。正文覆盖按技术员平衡工作量、任意频率复发服务（first Monday、weekly、monthly、quarterly 等）、将作业派给缺少许可证技术员时自动告警、路线/客户排程、移动端进度与服务完成、账单/付款计划排程；产品身份明确为害虫防治排程与派工软件。",
+      "type_match": "商业害虫防治公司运营侧排程/派工软件，类型匹配；复发服务、持证技术员和路线是害虫业核心特征。",
+      "gaps": "页面是排程功能页，未在正文展开“客户服务结构/物业记录”和现场化学应用记录；化学药剂跟踪、白蚁检查只见于导航。对商业条目按基本真实性和类型匹配可通过，但该叶核心结构证据深度有限。"
+    },
+    "plumbing-business-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:1201466005"
+      ],
+      "basis": "读取 GitHub 仓库页、README 全文和 LICENSE 全文。README 行业目录明确列出 Plumbing（疏通、管道维修、热水器安装、下水道检测、漏水检测）；功能表与数据模型提供客户/服务地点、工单排程与状态、技术员派工、材料使用、检查清单、从完成工单生成发票及收款状态。定义性核心（客户+服务地点→工单生命周期→管道工→计费）可覆盖。",
+      "license_and_identity": "LICENSE 为完整 MIT 文本（Copyright 2026 Clawnify），无附加限制；仓库页元数据 repository_id=1201466005、public=true、is_fork=false，与 batch 的 github:1201466005 一致。",
+      "gaps": "通用 FSM，非管道专用；未提供会员计划、多选项提案、统一定价捆绑等深度能力。定义允许单店/多技术员以工单列表、日历和开票满足核心；缺口不阻断。"
+    },
+    "pool-service-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:skimmer"
+      ],
+      "basis": "读取 Skimmer 官方 technicians 与 billing 页面。技术员页正文覆盖按技术员路线/服务停靠、路线构建与优化、多个服务地点与多个水体、化学读数与服务历史、LSI/投药计算、检查清单、工作单/一次性维修与安装、从完成工作开票；计费页覆盖报价→作业、自动/批量发票、在线/线下收款、AutoPay、QuickBooks 同步。符合客户+受服务水体→定期/一次性访问→技术员→计费核心。",
+      "type_match": "商业泳池服务公司运营侧系统，不是社区/设施泳池管理或水质监测硬件；产品身份和类型匹配。",
+      "gaps": "来源为厂商功能页，未独立验证；商业条目只做基本真实性和类型匹配。快照为压缩 HTML，关键正文用同 URL 只读页面文本辅助核对。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元。已按 REVIEW_SOURCES.json 的 path 原样读取全部 7 个快照，并核对 batch.json/research.json 的 ID、track、source、sha256 与 leaf_matches。未做部署或运行时测试；商业条目仅核对基本真实性和类型匹配，未补充价格、架构或迁移研究；GitHub API 403 已记录，但仓库页、README 与 LICENSE 快照可用；Skimmer 快照为压缩 HTML，关键正文用同 URL 只读页面文本辅助核对；input.json 的 leaf progress 为采集前状态，未作为内容证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-271/ses_groveopencodegop271review1_1793041638.jsonl",
+  "batch_sha256": "283691ed9e81bec704d8804a1129616576c0f09047c5ace99368a89621e24173",
+  "research_sha256": "f9ddb3d0ed4043c345526f26bdd961cbfbf1e71a90ab18165b208ac05b324533",
+  "input_sha256": "096fcf09e00382298ba9b4dae8bdb1d420df3acaf5c70f9554a2e64e0f899b16"
+}

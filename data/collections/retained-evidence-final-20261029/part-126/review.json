@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "application_id": "github:223431735",
+      "note": "批次摘要把“完整自托管应用服务”归因到 all-in-one 部署略显含混：该 quickstart 文档自述用于 development/testing/learning，README 也把生产部署指向产品文档。真正支撑生产自托管的是 README 能力表中 “Fully Self-Hostable … No vendor dependencies. Open source, Apache 2.0.” 一行。建议后续在摘要或 leaf_matches 中把“可自托管运行”的依据锚定到该能力行，quickstart 只作为控制台与运行时形态证据。"
+    },
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "application_id": "github:223431735",
+      "note": "社区版边界未在条目中显式写明。快照实际显示：controller/路由器/ZAC/tunneler 与 SDK 均在 Apache-2.0 开源侧，可完整自托管；README 末尾另列 NetFoundry 托管网络为独立商业路径（含 SLA/全球 edge fabric）。建议补一句边界说明，避免把托管服务误当成开源仓库内容。"
+    },
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "application_id": "github:223431735",
+      "note": "README 的 Getting Started/Learn More 链接已迁至 netfoundry.io 文档域，而条目 homepage 与既往抓取目标是 openziti.io；研究记录中已如实留档 openziti.io 文档跨主机重定向（snapshot=null）。若需强化“身份/策略/会话”细节，可另采 netfoundry.io 零信任模型页，但现有 README 正文已覆盖核心属性，不构成阻断。"
+    },
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "application_id": "github:223431735",
+      "note": "条目对 Network Access 模式的排除是恰当的范围收窄，但值得注明该模式仍按服务授权，只是出口位于网络边界；这样可避免读者误以为产品整体只做网络级接入。"
+    },
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "application_id": "github:223431735",
+      "note": "runtime_tested=false 已如实标注；本类开源条目仅依据官方 README、许可证与管理台文档判断，未做登录/授权路径实测，属可接受留档方式。"
+    }
+  ],
+  "leaf_checks": {
+    "zero-trust-network-access-ztna": {
+      "application_id": "github:223431735",
+      "track": "open_source",
+      "id_and_track_match": "批次 id github:223431735 与元数据快照 80d3e3a0… 中的 \"id\":223431735、\"full_name\":\"openziti/ziti\"、\"fork\":false、\"archived\":false 一致；仓库属 openziti 组织，Apache-2.0 开源，track=open_source 成立。homepage https://openziti.io 与元数据 homepage 字段一致。",
+      "definitional_core": "README 快照（eb59b0e0…）为核心正文而非简介：第46行 “Each service is individually authorized. No 'once you're in, you can reach everything' problem.”，第214–222行逐次连接校验身份有效性、存在授予该身份访问所请求服务的策略、经授权 edge router，任一失败即拒绝，并明确“no implicit trust based on network location”“each service is independently authorized”。第224–236行说明 dark service 无监听端口、由服务或伴随 tunneler 主动外联注册、仅经 overlay 在认证授权后可达。三项定义核心（资源为授权单位、身份默认拒绝、产品自有连接路径且应用不暴露）均有正文明证，非仅关键词。",
+      "product_identity_and_type": "产品身份为零信任网络平台，提供 Network/Host/Application 三种模型；条目明确只以 Host Access（服务主机侧 tunneler，服务仅接受 localhost 连接，服务对网络不可见）与 Application Access（SDK 内嵌身份）为依据，排除 Network Access 网关式网络边界接入，规避了“网络级授予即 VPN”的边界问题。README 第44–50行“Replace VPNs”与第82–91行能力表支持其作为 VPN 替代的按服务访问产品，而非纯 SSO 前置或防火墙。",
+      "service_form": "快照 4b2d10ca…（官方 quickstart/docker/all-in-one/README.md）显示 docker compose up 后可在浏览器打开 https://localhost:1280/zac/ 控制台，并以 docker compose exec quickstart ziti edge list identities 列出 quickstart-router 与 Default Admin，配置/PKI/数据库持久化于卷，可通过 ZITI_HOME 挂载到宿主机；README 第130–141行亦称该 compose 栈同时启动 controller、edge router 与 Ziti console，第90行 “Web-based admin console included”，第91行 “Fully Self-Hostable … No vendor dependencies”。据此可认定其为可持续运行、带管理控制台的自托管应用服务，补足此前“仅客户端/CLI/引擎”的缺口（说明：quickstart 自述用于开发测试学习，生产自托管依据为 README 能力表）。",
+      "license": "许可证快照 1c33ec1251…（api.github.com/repos/openziti/ziti/license）返回 name=\"LICENSE\"、size=11340、content 为 base64 的 Apache License Version 2.0, January 2004 完整正文（含 TERMS AND CONDITIONS 条款起始），\"spdx_id\":\"Apache-2.0\"；元数据快照同样含 \"spdx_id\":\"Apache-2.0\"；README 第7、16、91行标注 Apache 2.0。仓库身份、许可证标识与完整许可证正文三者一致，无 NOASSERTION 或自定义限制。",
+      "community_boundary": "开源侧包含 controller、edge router、ZAC 控制台、tunneler 与 SDK（README 第183–206、246–260行及仓库清单），Apache-2.0 且可无厂商依赖完整自托管；README 第330–332行另列 NetFoundry 托管 OpenZiti 网络为独立商业服务。边界可辨，但条目未显式记录，已在 non_blocking_notes 建议补充。",
+      "commerce_check": "不适用：track 为 open_source，无商业定价或商业版声明需要真实性核验。",
+      "gaps_and_disclosures": "研究记录已如实留档：https://openziti.io/docs/learn/introduction/ 返回 redirect_cross_host、snapshot=null；未做部署运行（runtime_tested=false，条目 deployment 亦写明“本记录未实际部署运行”）；替代品扫描（Firezone/Teleport/Pomerium）仅作线索且未纳入，未据此推断其他开源 ZTNA 不存在。这些缺口披露充分，符合留档可通过条件。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读文档审查：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的四个快照（按 path 原样读取，未访问项目根目录 sources/），未运行部署、未做登录或授权路径实测，未读取 HISTORY.json 或其他单元资料。仓库元数据与许可证快照为单行 JSON，read 预览在 2000 字符处截断，故 id/fork/archived/homepage/spdx_id 等字段用定向匹配逐项确认；许可证正文为 base64，仅核验了头部版本声明、内容长度（11340 字节）与 spdx_id 一致性，未逐字解码全文。结论基于 2026-10-26 与 2026-10-29 的快照时点，不覆盖此后上游 README/许可证变动。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-126/ses_groveopencodegop126review1_1793246988.jsonl",
+  "batch_sha256": "29273a7708d9c96e8a34840f95fa67be7682cbb24c2b8dca098cb56862182477",
+  "research_sha256": "67a6ee584d25dfc6d8728d6938d66d1e42bb98b4f537609cd85ee97028923445",
+  "input_sha256": "aeebbbd0e9d60e202e3ea1b2e8336c519c2eedd4962b4f49314381099432ee4c"
+}

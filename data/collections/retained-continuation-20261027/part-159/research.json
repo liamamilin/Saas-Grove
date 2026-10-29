@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "production-planning",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:12776324"
+      ],
+      "query": "GitHub API repos/frePPLe/frepple；读取 README、COPYING、doc/features.rst，核对需求预测/净算/BOM/计划订单主链",
+      "source_urls": [
+        "https://api.github.com/repos/frePPLe/frepple",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/COPYING",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/README.md",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/doc/features.rst"
+      ],
+      "note": "采用 frePPLe Community Edition。README 与 features.rst 证明需求预测、库存净算、BOM/工艺路线、计划/排程与 Odoo 连接器发布订单；COPYING 明确社区版 MIT、企业/云版商业。GitHub license API 对仓库返回 NOASSERTION，故用完整 COPYING 文本核对。官网 frepple.com 在当前环境访问失败（curl 000），未据此写断言。",
+      "service_boundary": "只覆盖开源 Community Edition（MIT）自托管形态；Enterprise/Cloud 的额外能力、托管与支持不计入。产品含详细排程，与 MES/车间执行分界；未核企业价格与功能。",
+      "search_attempts": [
+        "2026-10-26 GitHub API 查询 frePPLe/frepple 元数据，确认 id=12776324、full_name=frePPLe/frepple",
+        "2026-10-26 读取仓库 README、COPYING、doc/features.rst，核对功能与许可",
+        "frepple.com 直接抓取失败（000），改用同仓库文档，不重复抓取官网"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/frePPLe/frepple",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，已保存快照"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/COPYING",
+          "kind": "license",
+          "result": "HTTP 200，已保存完整 MIT 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，已保存快照"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/doc/features.rst",
+          "kind": "documentation",
+          "result": "HTTP 200，已保存快照"
+        },
+        {
+          "url": "https://frepple.com/",
+          "kind": "homepage",
+          "result": "访问失败（curl 000），未保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "shop-floor-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:iobeya"
+      ],
+      "query": "GitHub search repositories: SQCDP；shop floor management tiered meetings；iObeya 官方 DMS 用例页与首页",
+      "source_urls": [
+        "https://www.iobeya.com/use-cases/daily-management-system/",
+        "https://www.iobeya.com/"
+      ],
+      "note": "GitHub 的 SQCDP/车间管理结果多为 0 star 客户端看板、无许可证或纯静态页面；其中一个 MIT 项目明确无服务器、无数据库，仅 index.html，不能按 SaaS 应用处理。商业 iObeya 官方 DMS 页直接覆盖 Tier 1 班前看板、分层站立会、升级、问题/行动卡、现场观察与 SQCDP，故建立关系。",
+      "service_boundary": "商业企业软件平台（云/本地部署未核），仅记录公开用例；不核价格、架构、部署或实时机器遥测。与 MES 的工单执行/工艺路线分界，关系限定在车间日常管理例行程序。",
+      "search_attempts": [
+        "2026-10-26 GitHub search repositories q=SQCDP（10 条）：多为 0 star 客户端/无许可证项目",
+        "2026-10-26 GitHub search repositories q=shop floor management tiered meetings：无合适结果",
+        "Web 搜索两次无返回结果，未反复调用",
+        "2026-10-26 抓取 iObeya DMS 用例页与首页并读取正文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.iobeya.com/use-cases/daily-management-system/",
+          "kind": "documentation",
+          "result": "HTTP 200，已保存快照，正文含分层看板/升级/行动卡"
+        },
+        {
+          "url": "https://www.iobeya.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，已保存快照，确认产品身份"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "calibration-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1400859503"
+      ],
+      "query": "GitHub search repositories: calibration management in:name,description；仓库 CalibraFacil/calibrafacil",
+      "source_urls": [
+        "https://github.com/CalibraFacil/calibrafacil",
+        "https://raw.githubusercontent.com/CalibraFacil/calibrafacil/main/LICENSE",
+        "https://raw.githubusercontent.com/CalibraFacil/calibrafacil/main/README.md"
+      ],
+      "note": "检索结果混杂设备/色彩/汽车标定项目；Calibra Fácil 是面向 ISO/IEC 17025 校准实验室的完整开源应用，README 证明仪器/资产与到期日、校准工作流、GUM、参考标准有效期、证书与客户门户。GitHub API 元数据/许可证请求遇 403 rate limit，改用仓库 HTML meta 与完整 raw LICENSE 核对。GageList 官网 403 Cloudflare，未用作证据。",
+      "service_boundary": "MIT 开源自托管；面向校准实验室的仪器/工单/证书管理，不是现场校准器控制软件。未核具体实验室认证状态或商业支持。",
+      "search_attempts": [
+        "2026-10-26 GitHub search repositories q=calibration management in:name,description：筛选出 CalibraFacil/calibrafacil",
+        "2026-10-26 GitHub 仓库 HTML 读取 repository id 与 full_name",
+        "GitHub API 元数据/许可证请求返回 403 rate limit，未重试；改用 HTML + raw LICENSE",
+        "GageList 官网抓取返回 403 Cloudflare，未采用"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/CalibraFacil/calibrafacil",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，已保存快照，meta 证明 id=1400859503"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/CalibraFacil/calibrafacil/main/LICENSE",
+          "kind": "license",
+          "result": "HTTP 200，已保存完整 MIT 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/CalibraFacil/calibrafacil/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，已保存快照"
+        },
+        {
+          "url": "https://api.github.com/repos/CalibraFacil/calibrafacil",
+          "kind": "repository_metadata",
+          "result": "HTTP 403 rate limit，未保存"
+        },
+        {
+          "url": "https://www.gagelist.com/",
+          "kind": "homepage",
+          "result": "HTTP 403 Cloudflare 挑战，未保存"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "capa-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:9799744"
+      ],
+      "query": "GitHub search repositories: CAPA quality management in:name,description；仓库 pHAlkaline/phkapa",
+      "source_urls": [
+        "https://api.github.com/repos/pHAlkaline/phkapa",
+        "https://raw.githubusercontent.com/pHAlkaline/phkapa/master/LICENSE.txt",
+        "https://raw.githubusercontent.com/pHAlkaline/phkapa/master/README.md"
+      ],
+      "note": "pHKapa 是面向不合格管理的开源 CAPA 项目；仓库描述与 README 证明不合格登记、评审、计划（根因/行动计划）、实施、验证，以及问题来源与成本。GitHub license API 返回 NOASSERTION，故用完整 LICENSE.txt 文本核对 MIT。",
+      "service_boundary": "MIT 开源自托管 Web 应用（PHP/CakePHP + MySQL/MariaDB）。来源未证明电子签名、审计追踪或与投诉/审计表单的自动联动，故不写入这些断言。",
+      "search_attempts": [
+        "2026-10-26 GitHub search repositories q=CAPA quality management in:name,description：筛选出 pHAlkaline/phkapa",
+        "2026-10-26 读取仓库元数据、完整 LICENSE.txt 与 README，核对阶段与许可",
+        "未运行应用或连接数据库"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/pHAlkaline/phkapa",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，已保存快照，id=9799744"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pHAlkaline/phkapa/master/LICENSE.txt",
+          "kind": "license",
+          "result": "HTTP 200，已保存完整 MIT 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pHAlkaline/phkapa/master/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "industrial-laboratory-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:labware"
+      ],
+      "query": "开源候选 SENAITE（senaite.com / senaite.lims）；商业 LabWare QA/QC 官方页与首页",
+      "source_urls": [
+        "https://www.labware.com/lims/saas/qaqc",
+        "https://www.labware.com/",
+        "https://www.senaite.com/",
+        "https://github.com/senaite/senaite.lims"
+      ],
+      "note": "先核开源 SENAITE：官网与 README 证明样品—分析—复核—报告发布、仪器结果导入与审计追踪，但未证明生产批次放行、COA 审批或 ERP 回写，缺少本叶定义中的处置交付物证据，故不建立关系并留档候选与缺口。改用官方 LabWare QA/QC 页：明确 lot management & release、规格外 hold/调查、COA 自动生成/审批，核心匹配更完整。",
+      "service_boundary": "商业 LIMS 基本记录；不核价格、部署、验证服务或客户案例。SENAITE 作为开源候选保留但未进入关系，缺口是生产批次放行/COA/ERP 回写证据。",
+      "search_attempts": [
+        "2026-10-26 核对 senaite.com 与 senaite/senaite.lims 仓库/README，检查样品—分析—复核—报告与批次处置能力",
+        "2026-10-26 抓取 labware.com QA/QC 页与首页，读取正文",
+        "GitHub API 对 senaite 的元数据/许可证请求遇 403 rate limit，未用于 batch 许可证明",
+        "商业 LIMS 页面核对：LabVantage 首页/制造业页返回 403 CloudFront，Thermo Fisher 旧 LIMS 页 404；改用可读取的 LabWare QA/QC 官方页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.labware.com/lims/saas/qaqc",
+          "kind": "documentation",
+          "result": "HTTP 200，已保存快照，正文含 lot release/COA"
+        },
+        {
+          "url": "https://www.labware.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，已保存快照"
+        },
+        {
+          "url": "https://www.senaite.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，已保存快照（候选核对）"
+        },
+        {
+          "url": "https://github.com/senaite/senaite.lims",
+          "kind": "repository_metadata",
+          "result": "HTTP 200，已保存快照（候选核对）"
+        },
+        {
+          "url": "https://api.github.com/repos/senaite/senaite.lims",
+          "kind": "repository_metadata",
+          "result": "HTTP 403 rate limit，未保存"
+        },
+        {
+          "url": "https://www.labvantage.com/",
+          "kind": "homepage",
+          "result": "HTTP 403 CloudFront，未保存"
+        },
+        {
+          "url": "https://www.thermofisher.com/us/en/home/industrial/informatics/lims.html",
+          "kind": "documentation",
+          "result": "HTTP 404，未保存"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

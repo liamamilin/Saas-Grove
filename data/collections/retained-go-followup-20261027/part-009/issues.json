@@ -1,0 +1,39 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "slug": "data-virtualization-platform",
+      "application_id": "github:97518356",
+      "issue": "条目把 Dremio 作为 Apache-2.0 开源自托管虚拟化平台，但功能与核心证据混用了 Dremio Cloud/Enterprise 资料。`sources/36b9912a...` 是 `docs.dremio.com/dremio-cloud/bring-data/`，正文称每个 Dremio 项目内置由 Apache Polaris 提供支持的 Open Catalog；而 `dremio/dremio-oss` 的 README 与仓库树没有 Polaris/Open Catalog 内容。`sources/aa235914...` 的平台页又把 Dremio Cloud、Dremio Enterprise 与仅称 free query engine 的 Dremio Community Edition 分列。条目还宣称“内置基于 Apache Polaris 的 Open Catalog”“跨 NoSQL 联邦查询”等，未限定在 Apache-2.0 社区版。另 `sources/e98747de...` README 的 OSS Only 段说明默认构建捆绑非 OSS 免费依赖，`-Ddremio.oss-only=true` 会减少部分连接器功能，条目未披露该社区版边界。许可证本身（LICENSE 为 Apache-2.0 全文）和仓库 ID 正确，但开源产品范围与商业 Cloud/Enterprise 能力被混写。",
+      "fix": "二选一并写清边界：若保留 github:97518356/open_source，改为 Dremio Community Edition / dremio-oss，删除或明确标注 Polaris Open Catalog、跨 NoSQL 联邦查询等仅见 Cloud/Enterprise 资料的能力，补充 README 的 OSS-only 构建与非 OSS 依赖说明，并改用 OSS/社区版文档支撑虚拟化核心；若条目实际指 Dremio Cloud/Enterprise，则改 track/application_id 为商业产品，去掉把 Apache-2.0 当作产品许可证的表述。"
+    },
+    {
+      "slug": "database-management-console",
+      "application_id": "github:3217621",
+      "issue": "phpMyAdmin 的引用能证明它是 MySQL/MariaDB 的 Web 管理界面，能管理数据库、表、视图、索引、用户与权限，并支持服务器维护和多服务器管理；但引用正文没有展示叶定义要求的“运行中部署的状态感知”核心——服务器状态/健康、会话、变量、重启/停止、备份保护等。官网的 Server maintenance with configuration suggestions 是优化建议，不是部署状态；功能列表重心仍在 schema、数据和 SQL，按叶定义应警惕其更接近 SQL 客户端/数据库 IDE。batch 理由中“状态信息均有正文证据”的说法超出实际快照。",
+      "fix": "补充 docs.phpmyadmin.net 中 Server status、Server variables、Sessions、用户/权限或服务器维护的正文，并写入 leaf_matches；若仍无法证明状态感知和部署级操作，应将 phpMyAdmin 归入 SQL 客户端/数据库 IDE，或换用真正面向运行中数据库部署的控制台案例。"
+    },
+    {
+      "slug": "data-integration-platform",
+      "issue": "bounded corrections exhausted"
+    },
+    {
+      "slug": "data-lake-platform",
+      "issue": "bounded corrections exhausted"
+    },
+    {
+      "slug": "data-quality-platform",
+      "issue": "bounded corrections exhausted"
+    },
+    {
+      "slug": "data-virtualization-platform",
+      "issue": "bounded corrections exhausted"
+    },
+    {
+      "slug": "database-management-console",
+      "issue": "bounded corrections exhausted"
+    }
+  ],
+  "previous_review_path": "var/collection/beam-continuation-20261025/part-134/project/review.json",
+  "previous_review_is_approval": false
+}

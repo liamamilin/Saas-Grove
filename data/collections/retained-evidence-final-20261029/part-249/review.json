@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 leaf progress 仍为 boundary_unresolved，且 application_ids 为空；当前 research.json/batch.json 已记录 case_found 与 github:1198042797。建议最终汇总时同步叶状态，避免输入与批次记录不一致。",
+    "Aegir 是自托管 Next.js + Convex Web 应用，未做部署/运行验证，也未证明多租户或生产运营；本次按完整 Web 应用服务形态接受，不将其等同于已运营的商业 SaaS。",
+    "license_review.rationale 称仓库页面亦标注 MIT，但在留档的仓库元数据 HTML 中未直接检出 MIT 徽标；许可证结论应主要依据已读取的完整 raw LICENSE，MIT 判定不受影响。",
+    "README 指向 public/fonts/README.md 的字体许可，本次未读取该文件；根仓库代码的 MIT 许可不受影响，若需完整分发合规可另行核对第三方字体许可。",
+    "SwimTopia、OpenTrack 等商业候选因 403 或无正文快照未纳入，research.json 已如实记录抓取缺口；这不构成本叶的内容缺口。"
+  ],
+  "leaf_checks": {
+    "sports-meet-management": {
+      "result": "pass",
+      "application_id": "github:1198042797",
+      "definitional_core": "README 明确为 swimming meet management，管理 meet teams/events、registrations、results、standings、galleries 与 competition documents；convex/schema.ts 定义 meets、meetEvents（distance/stroke/gender/legs/order）、registrations（studentId + meetEventIds）、results（meetEventId/timing/rank/points）与 heatAssignments（heat/lane），覆盖比赛容器→多赛事项目→报名→逐项结果的定义性闭环。",
+      "service_form": "Next.js 16 Web 前端加 Convex 后端，README 说明 Next.js 提供界面、Convex 提供后端，属于可部署的完整 Web 应用，不是纯客户端、CLI、解析器或计时设备工具；未实测部署与多租户。",
+      "identity_and_track": "github:1198042797 与仓库元数据中的 repository_id=1198042797、nwo=TonyRoyze/aegir 一致；仓库公开且 is_fork=false；track=open_source 与 MIT 许可证匹配。",
+      "license": "raw LICENSE 为完整 MIT 文本，含版权声明（2026 Vidura Gunawardana）、许可授予与免责声明；license_review 的 spdx_id=MIT、scope=repository 与快照一致。",
+      "community_boundary": "未发现 open-core、社区版与商业版的功能分割或额外许可限制；根 LICENSE 覆盖该仓库。Convex 是外部后端依赖，不作为 Aegir 的社区版边界。",
+      "gaps": "未运行应用、未部署 Convex、未验证生产规模与多租户；results 通过 studentId 与 meetEventId 关联，未直接引用 registrationId，但可由 meetId/studentId/meetEventId 与报名对应；未读取第三方字体许可。",
+      "sources": [
+        "https://github.com/TonyRoyze/aegir",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/README.md",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/LICENSE",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/docs/meet-configuration-migration.md",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/convex/schema.ts"
+      ]
+    }
+  },
+  "limits": "仅只读核对本单元 REVIEW_SOURCES.json 列出的 5 个 Aegir 快照，即仓库元数据、README、LICENSE、迁移文档与 convex/schema.ts；未运行 shell、未写文件、未读取其他单元，也未依赖 research.json 中提及但不在 REVIEW_SOURCES.json 的历史 SCM 快照；未执行应用或 Convex 部署，未验证多租户、生产运营及第三方字体与依赖许可；未独立重算快照 SHA-256，仅按给定 path 原样读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-249/ses_groveopencodegop249review1_1793265445.jsonl",
+  "batch_sha256": "04b581c8b69d11ed96e5a07e4968a1ae95360e621bf910a8cd2c1e4b6d207fa5",
+  "research_sha256": "f2e3f8eed399f6e64041a00f8c0e393a7c085704fb7fe48dee098295454133b5",
+  "input_sha256": "5e77cccac89045a7a71830293e8963c8f405558b55225b2f31dbf759d32872b5"
+}

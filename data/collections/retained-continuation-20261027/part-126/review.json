@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "enterprise-content-management 的 research 说明把 LogicalDOC 对比矩阵写成“Retention Policies 仅 Business/Enterprise 为 YES”；公开矩阵实际为 Enterprise/Cloud 勾选、Business 未勾选。Community 仍未包含 Retention Policies，故“不建立 ECM 关系”的结论不变，建议只修正这句说明。",
+    "enterprise-search-platform 的 Fess README 只明确 role-/permission-based filtering，未证明逐源 ACL 自动继承；batch 已明确不作该断言，保留该边界即可。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，与 batch/research 中 3 个已建案例不一致；这是输入快照与产物的同步问题，不影响本次内容判断。",
+    "MRBS 的 deployment 写 PHP 7.2+，INSTALL 明确为 PHP 7.2.5+；属轻微精度差异。",
+    "Fess 的“20+ 语言检索”略宽于 README 的“multilingual UI and text analysis (20+ languages)”；不影响类型匹配。"
+  ],
+  "leaf_checks": {
+    "enterprise-content-management": {
+      "result": "no_case_accepted",
+      "application_ids": [],
+      "evidence": "batch 无条目。research.json 记录 LogicalDOC Community（github:117357780）候选；同单元快照显示 README/LICENSE（LGPL-3.0）、Templates 文档、Retention Policies 文档与版本对比矩阵。Community 具备集中仓库、元数据/文档类型、权限、版本和检索，但 Retention Policies 在 Community 未勾选（Enterprise/Cloud 才有），缺少 ECM 核心的保留与最终退役/处置，故未建关系合理。",
+      "gap": "无合格 ECM 案例；LogicalDOC Community 因生命周期保留/处置不足被排除，商业 LogicalDOC Enterprise 未建条。"
+    },
+    "enterprise-records-management": {
+      "result": "case_found",
+      "application_ids": [
+        "commercial:microsoft-purview-records-management"
+      ],
+      "evidence": "官方 Microsoft Learn 正文明确其为 records management system；支持 record/regulatory record 声明、file plan、事件驱动保留、处置审查与删除证明，并对记录编辑/删除施加限制；regulatory record 标签不可被包括全局管理员在内的任何人移除，保留期只能延长。商业 track 与记录管理类型匹配，满足基本真实性要求。",
+      "gap": "仅有商业案例，未取得开源记录管理完整核心证据；未做运行时验证。"
+    },
+    "enterprise-resource-scheduling-platform": {
+      "result": "case_found",
+      "application_ids": [
+        "github:387898302"
+      ],
+      "evidence": "仓库元数据 id=387898302、fork=false；README/INSTALL 说明管理员创建 Area/Room 并预约；官方首页确认冲突预防、重复预约、日/周/月视图、只读/用户/管理员访问级别。COPYING 为完整 GPL v2 正文，LICENSE 明确 GPL v2 并另列第三方组件；共享资源登记、时间预约、冲突处理与共享日程核心齐全。",
+      "gap": "未做运行时验证；未声称审批流、签到或爽约释放。"
+    },
+    "enterprise-search-platform": {
+      "result": "case_found",
+      "application_ids": [
+        "github:12801725"
+      ],
+      "evidence": "仓库元数据 id=12801725、fork=false；README 自称 enterprise search server，内置爬虫覆盖网站、文件系统、数据库及云/SaaS 源，提供统一搜索 UI、REST API、角色与权限过滤；Apache-2.0 许可证 API 含完整正文。多源统一检索与权限过滤核心成立。",
+      "gap": "README 未确认逐源 ACL 自动继承；batch 已避免该断言。"
+    },
+    "legal-entity-management": {
+      "result": "no_case_accepted",
+      "application_ids": [],
+      "evidence": "batch 无条目。research.json 记录商业候选 Dilitrust、Wolters Kluwer、MinuteBox 官方页分别 403/404；开源候选 noamrazbuilds/entity-compliance-tracker（id=1172934784，MIT）有实体登记和结构/所有权图，但 Document 仅保存 entity_id/title/document_type/url/description/created_at 且为普通 CRUD，Entity 更新直接覆盖、删除直接级联，无受控公司记录文件库及变更事件/生效日期/审计，核心不足，故未建关系。",
+      "gap": "无合格法律实体管理案例；商业官方页抓取失败仅有 fetch_outcomes 记录，开源候选为原型且缺两个核心层。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未读取其他单元。REVIEW_SOURCES.json 仅列 10 个批次相关快照；research.json 另引用的 LogicalDOC 与 entity-compliance-tracker 快照位于同单元 data/collections/sources/，已按实际 path 补读。Dilitrust/Wolters Kluwer/MinuteBox 的 403/404 只有 fetch_outcomes，无快照。LogicalDOC 对比矩阵快照为单行压缩 HTML，读取工具只能显示前段；另做一次只读网页抓取核对版本列，未用于建立 batch 条目。GitHub license API 快照为 base64 JSON，完整正文位于 content 字段。未做部署或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-126/ses_groveopencodegop126review2_1793007959.jsonl",
+  "batch_sha256": "f864e12d766ed3f72913921abfedf3a237744d21ce7128a250916f5e23f53bb4",
+  "research_sha256": "595a6096ffd46e1fb8365ac410c7ff24ff857edb74b4e5de2c2ab45071c3fdd1",
+  "input_sha256": "c234145050254af8f7d7e8d5856a0991330bccf7e2d5c39855554de2303ccfa4"
+}

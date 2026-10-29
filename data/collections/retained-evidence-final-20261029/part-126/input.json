@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 27,
+  "offset": 650,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "zero-trust-network-access-ztna",
+        "name_zh": "零信任网络访问 / ZTNA",
+        "domain_id": "15",
+        "parent_id": "15.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/597",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "直接核验 GitHub 仓库 openziti/ziti 的元数据、README、许可证，核对服务级零信任访问模型"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "zero-trust-network-access-ztna",
+        "name": "Zero Trust Network Access / ZTNA",
+        "name_zh": "零信任网络访问 / ZTNA",
+        "aliases_zh": [
+          "零信任访问",
+          "零信任接入",
+          "ZTNA安全接入"
+        ],
+        "overview": "A **Zero Trust Network Access (ZTNA)** product is a security access service that gives users identity-verified, policy-controlled connections to specific private applications — without ever letting them join the network those applications live on.\n\nThe defining core is small:\n\n```text\nPrivate application / resource (the unit of access)\n  → access decided per user (and device) identity, deny-by-default\n    → connection path owned and enforced by the product, per session\n      → the application itself stays unexposed\n```\n\nThree properties hold the type together. Remove any one and it stops being a ZTNA:\n\n- **The private application is the unit of access.** The product defines discrete protected resources — an application, host, or service addressed by hostname, IP and port, or an application segment — and grants access per resource, never per network. A product that grants access to a network is a VPN, not a ZTNA.\n- **Access is decided from identity, deny-by-default.** Every connection attempt is evaluated against policy bound to the specific resource; nothing is reachable without an explicit entitlement. A product that grants reachability based on network location is a firewall, not a ZTNA.\n- **The product owns the connection path.** The user's device reaches the resource only through the product's enforcement point, connection by connection — the user never joins a network, and in the dominant implementation the application is never exposed to the public internet. A product that only puts a login page in front of a publicly reachable application is an SSO implementation, not a ZTNA.\n\nThe category's standing enemy is the corporate VPN, and every structural choice is made against it: VPNs grant network-level access, expose public gateways, and permit lateral movement; ZTNA grants application-level access, hides the application, and connects the user to exactly the resources policy allows — nothing more.\n\nZTNA exists in the market in two forms: as **standalone products** and as the **private-access service inside broader SASE/SSE platforms**. The service is the same in both; the platform adds convergence (internet security, data protection, and other services under one policy plane). The boundary is documented in Related Application Types.",
+        "overview_zh": "一个 **零信任网络访问** 产品，是一种安全接入服务。它能为用户提供经过身份验证、由策略控制的、连接到特定私有应用程序的通道，而无需让这些用户加入应用程序所在的网络。\n\n其定义性的核心非常精简：\n\n```text\n私有应用程序/资源（访问的单位）\n  → 访问决定基于用户（和设备）身份，默认拒绝\n    → 连接路径由产品拥有和执行，按会话分配\n      → 应用程序本身保持不暴露\n```\n\n三个属性将这一类型紧密联系在一起。移除其中任何一个，它就不再是ZTNA：\n\n- **私有应用程序是访问的单位。** 产品定义离散的受保护资源——一个通过主机名、IP和端口或应用程序分段寻址的应用程序、主机或服务——并按资源（而非网络）授予访问权限。授予网络访问权限的产品是VPN，而非ZTNA。\n- **访问基于身份决定，默认拒绝。** 每个连接尝试都根据绑定到特定资源的策略进行评估；没有明确授权的资源均不可访问。基于网络位置授予可达性的产品是防火墙，而非ZTNA。\n- **产品拥有连接路径。** 用户设备仅通过产品的执行点、逐个连接地访问资源——用户永远不加入网络，在主流实现中，应用程序也永远不会暴露于公共互联网。仅在公开可达的应用程序前放置登录页面的产品是SSO实现，而非ZTNA。\n\n该类产品的天敌是企业VPN，每一个结构选择都是针对它而做出的：VPN授予网络级访问，暴露公共网关，并允许横向移动；ZTNA授予应用级访问，隐藏应用程序，并将用户精确连接到策略允许的资源——仅此而已。\n\nZTNA在市场上有两种存在形式：作为 **独立产品** 和作为 **更广泛的SASE/SSE平台内的私有访问服务**。服务本身是相同的；平台增加了融合（互联网安全、数据保护和其他服务，统一在单一策略平面下）。其边界在相关应用类型中已有文档说明。",
+        "dc": "```text\nResource (private application / host / service)\n  ├── defined by address: hostname, IP + port, CIDR, or app segment\n  ├── bound to an enforcement point placed near it\n  └── reachable only through the product\nIdentity (user, from the enterprise IdP; device, as a policy input)\n  └── evaluated against\nPolicy (per-resource rules: who + from what + to what → allow/deny)\n  └── grants\nSession (a per-user, per-resource, time-bounded connection)\n```\n\n**Resource.** The object of record. A resource is a specific private destination — an internal web application, an SSH host, a database, a desktop, an OT device — defined by an address (hostname, IP/port, CIDR range, or a named application segment) and attached to the network location where it lives. Resources are the granularity of everything: policy is written per resource, connections are established per resource, and logs are recorded per resource. The resource, not the network, is what a user is allowed to reach.\n\n**Identity.** The decision input. The product delegates authentication to the organization's identity provider — it is never the source of truth for who users are. User and group identity come from the IdP; device identity and posture come from the client agent and often from third-party endpoint tools. Revoking a user in the IdP is what cuts access.\n\n**Policy.** The rule set that binds identity to resources. A policy names a resource (or set of resources), the users/groups who may reach it, and commonly additional conditions: device posture, location, authentication strength. Evaluation is deny-by-default — a resource with no matching allow rule is unreachable, including for users who can authenticate successfully.\n\n**Session.** The granted connection. Access is not a standing network membership but a sequence of evaluated, time-bounded connections between one user (on one device) and one resource. Sessions expire, re-authenticate, and can carry restrictions (for example, read-only or clipboard-disabled remote sessions for untrusted populations).",
+        "dc_zh": "```文本\n资源 (私有应用/主机/服务)\n  ├── 由地址定义：主机名、IP+端口、CIDR或应用分段\n  ├── 绑定到靠近资源的执行点\n  └── 只能通过该产品访问\n身份 (来自企业身份提供商的用户；作为策略输入的设备)\n  └── 被评估于\n策略 (基于资源的规则：谁+从哪里+访问什么→允许/拒绝)\n  └── 授予\n会话 (基于用户、基于资源、有时间限制的连接)\n```\n\n**资源。** 核心对象。资源是一个特定的私有目标——内部Web应用、SSH主机、数据库、桌面、OT设备——由地址（主机名、IP/端口、CIDR范围或命名的应用分段）定义，并附着在其所在的网络位置。资源是一切的粒度：策略按资源编写，连接按资源建立，日志按资源记录。允许用户访问的是资源，而非网络。\n\n**身份。** 决策输入。该产品将身份验证委托给组织的身份提供商——它本身从不是用户身份的来源。用户和组身份来自身份提供商；设备身份和状态来自客户端代理，通常也来自第三方终端工具。在身份提供商中吊销一个用户是切断访问的方式。\n\n**策略。** 将身份与资源绑定的规则集。策略",
+        "rules": "- **Deny-by-default is the ground state.** A resource is unreachable until a policy explicitly allows a user. Authentication alone grants nothing — a successfully logged-in user without an entitlement still reaches nothing.\n- **The user never joins a network.** Connections are established per resource, per session. Lateral movement is structurally limited because there is no network to move laterally within — the enforcement component admits only the specific connections policy allows.\n- **Applications are hidden by design.** Enforcement components dial out to the control plane; nothing listens on the public internet. In the dominant implementation there is no publicly discoverable endpoint for the private applications at all.\n- **Identity is consumed, not owned.** The product relies on the enterprise identity provider for users, groups, and authentication. Revoking a user in the IdP is what cuts access; the product is not the source of truth.\n- **Device posture is a policy input, not a gate of its own.** Posture conditions (managed device, encryption, security-software state) attach to access rules; in some products they are re-evaluated continuously during a session, so access can lapse when a device stops complying.\n- **Sessions are bounded.** Access grants expire and re-authenticate; they are not standing permissions.\n- **Everything is logged.** Access decisions — allowed and denied — are recorded as a structural behavior, not an add-on.",
+        "rules_zh": "- **默认拒绝是基线状态。** 资源在策略明确允许用户之前是不可访问的。仅靠身份验证不会授予权限——一个成功登录但没有授权的用户仍然无法访问任何东西。\n- **用户永远不加入网络。** 连接按资源、按会话建立。横向移动在结构上受到限制，因为根本不存在可以进行横向移动的网络——执行组件仅允许策略允许的特定连接。\n- **应用程序按设计隐藏。** 执行组件向外拨号连接到控制平面；公共互联网上没有任何监听。在主流实现中，私有应用程序根本没有公开可发现的端点。\n- **身份被使用，而非拥有。** 产品依赖企业身份提供商来获取用户、组和身份验证。在身份提供商中撤销用户才是切断访问的方式；产品不是真实来源。\n- **设备状态是策略输入，而非独立的网关。** 状态条件（受管设备、加密、安全软件状态）附加到访问规则上；在一些产品中，它们在会话期间会被持续重新评估，因此当设备停止合规时，访问可能会失效。\n- **会话是有期限的。** 访问授权会过期并需要重新进行身份验证；它们不是永久性权限。\n- **一切均被记录。** 访问决策（允许和拒绝）作为结构性行为被记录，而非附加功能。",
+        "parent_id": "15.01",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 126,
+    "phase": "directory",
+    "parent": 126,
+    "slugs": [
+      "zero-trust-network-access-ztna"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "dd92ff300e050ed1f5f218390431b2d6b8d93c63e672bf8827a6bd304a5a84b9"
+  }
+}

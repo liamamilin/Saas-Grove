@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "restaurant-pos",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1131488273"
+      ],
+      "query": "restaurant POS software; open source restaurant POS self-hosted",
+      "source_urls": [
+        "https://api.github.com/repos/satisfecho/pos",
+        "https://api.github.com/repos/satisfecho/pos/license",
+        "https://api.github.com/repos/satisfecho/pos/readme"
+      ],
+      "note": "改用开源 POS2（satisfecho/pos）：GitHub 仓库 id 1131488273，许可证 API 证明 AGPL-3.0；README 记录菜单/产品配置、桌台、顾客扫码点单、订单从 pending 到 paid 的状态流、Stripe/Revolut/现金/卡支付、厨房屏及 Docker Compose 自托管。原有 Floreant POS 检索也抓取了仓库元数据、许可证和官网，但其许可证为 MPL 变体且 GitHub 标记 NOASSERTION，完整许可未核实，故未作为开源条目。复核后收窄：README 只明确顾客扫码下单与员工订单管理，未单独证明员工新建订单或分账/并账/转台；关系只按已见的扫码点单-订单-支付-关闭流程记录。",
+      "service_boundary": "仅记录可自托管的完整餐厅 POS 应用；开源核心与可选的 satisfecho.de 托管服务分开。商业对照不纳入本叶。",
+      "search_attempts": [
+        "web search: restaurant POS software",
+        "web search: open source restaurant POS self-hosted Floreant POS github",
+        "GitHub API repository search: restaurant pos (HTTP 403 rate limit)",
+        "fetch https://api.github.com/repos/satisfecho/pos, /readme, /license"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26 fetched satisfecho/pos metadata: id 1131488273, license AGPL-3.0",
+        "2026-10-26 fetched satisfecho/pos README: menu, tables, order lifecycle, payments, kitchen display, Docker Compose",
+        "2026-10-26 fetched Floreant POS metadata, license and homepage: GitHub license NOASSERTION, not entered",
+        "GitHub repository search returned HTTP 403 rate limit; no repeated calls",
+        "2026-10-26 re-read README: guest QR ordering and staff order management documented; staff-initiated new-order creation and split/merge/transfer not documented, so the batch wording was narrowed"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "restaurant-procurement-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:bluecart"
+      ],
+      "query": "restaurant procurement platform",
+      "source_urls": [
+        "https://www.bluecart.com",
+        "https://www.bluecart.com/restaurant-procurement-software"
+      ],
+      "note": "原有主页快照是供应商侧批发软件（面向分销商“卖给餐厅”），不能支持买方采购关系；已补抓官方餐厅采购页。正文明确支持供应商目录与实时价格/可供性、数字采购订单、移动收货、供应商发票与采购订单逐行匹配并在付款前标记价格/数量/商品差异。未核实价格回写等内部实现，故不作该断言。",
+      "service_boundary": "仅记录餐厅买方侧采购平台；BlueCart 同时有供应商侧产品，本关系只引用买方采购页。商业条目只做基本官方来源记录。",
+      "search_attempts": [
+        "web search: restaurant procurement platform",
+        "fetch https://www.bluecart.com/restaurant-procurement-software"
+      ],
+      "fetch_outcomes": [
+        "old homepage snapshot: supplier-side wholesale software, insufficient for buyer-side relation",
+        "2026-10-26 fetched buyer-side procurement page: supplier catalogs, POs, receiving, invoice matching"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "restaurant-reservation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:resy"
+      ],
+      "query": "restaurant reservation platform",
+      "source_urls": [
+        "https://resy.com",
+        "https://resy.com/restaurants",
+        "https://resy.com/join/reservations/"
+      ],
+      "note": "原 resy.com 主页及 /os 仅返回消费者端 SPA 壳，文本只有发现/订位营销，不能证明运营端预订簿。初审指出 /restaurants 会规范化到 /join 营销页；复核确认该跳转，且 SEO keywords 不作为工作流证据，故撤回 /restaurants 作为关系来源。已改抓官方运营端 /join/reservations 页面：正文说明 reservations and experiences、availability planning 控制哪些库存可预订、桌台节奏与重排、walk-in 与取消候补（Notify）、信用卡担保及定金/预付、含标签/备注/到访历史/消费的客人档案，并说明顾客可通过 Reserve with Google 直接预订、候补可即时认领。页面未展开自动防超订算法，故不作该断言。",
+      "service_boundary": "仅记录餐厅运营端预订平台；Resy 同时是食客发现网络，发现/营销层不作为核心匹配依据。商业条目只做基本官方来源记录。",
+      "search_attempts": [
+        "web search: restaurant reservation platform",
+        "fetch https://resy.com/restaurants",
+        "fetch https://resy.com/os",
+        "fetch https://resy.com/join/reservations/",
+        "HEAD https://resy.com/restaurants (redirect record)"
+      ],
+      "fetch_outcomes": [
+        "resy.com homepage and /os returned an SPA shell without operator booking workflow text",
+        "https://resy.com/restaurants returned HTTP 301 to the /join marketing page; its snapshot (60f66073...) is no longer used for the relationship because the page is marketing/SEO oriented",
+        "2026-10-26 fetched https://resy.com/join/reservations/: operator reservations and experiences, availability planning for bookable inventory, table pacing, waitlists/Notify, card holds and deposits, guest profiles, Reserve with Google booking path"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "self-service-restaurant-ordering",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:grubbrr"
+      ],
+      "query": "self-service restaurant ordering kiosk",
+      "source_urls": [
+        "https://grubbrr.com/",
+        "https://grubbrr.com/products/self-ordering-kiosk-machine/"
+      ],
+      "note": "官方自助点餐机产品页正文明确 GRUBBRR 是面向餐厅等场所的自助点餐平台：顾客在场所安装的自助机上浏览/定制订单、核对并确认选择、指定取餐地点，订单直接进入厨房；平台与现有 POS、会员和支付系统集成，并提供自动追加销售、非接触支付。商业仅作基本记录，未研究价格、架构或部署细节。主页快照仅作为背景，不再作为关系正文依据。",
+      "service_boundary": "仅记录场所提供并控制的自助点餐终端；不把顾客自有设备上的在线点餐或员工 POS 混入本关系。",
+      "search_attempts": [
+        "web search: self-service restaurant ordering kiosk",
+        "fetch https://grubbrr.com/",
+        "fetch https://grubbrr.com/products/self-ordering-kiosk/",
+        "HEAD https://grubbrr.com/products/self-ordering-kiosk/ (redirect record)"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26 homepage snapshot re-read: the long single-line HTML contains body paragraphs (Why Do Enterprise Restaurants Choose GRUBBRR, 93+ POS, Order Progress Board, Kitchen Display), but it is retained only as background",
+        "https://grubbrr.com/products/self-ordering-kiosk/ returned HTTP 301 to /products/self-ordering-kiosk-machine/",
+        "2026-10-26 fetched /products/self-ordering-kiosk-machine/: customers customize and confirm kiosk orders, orders go straight to the kitchen, POS/loyalty/payment integrations, upselling"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "creator-affiliate-dashboard",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:awin"
+      ],
+      "query": "creator affiliate dashboard",
+      "source_urls": [
+        "https://www.awin.com/us/publishers"
+      ],
+      "note": "官方创作者/影响者页正文说明创作者可加入品牌联盟计划、创建并分享专属联盟链接、按成交赚取佣金、查看业绩与头部合作关系，并通过创作者端应用收款。作为创作者侧联盟仪表板记录；未核实具体后台支付门槛和税务流程。",
+      "service_boundary": "仅记录创作者/发布者侧的联盟账户与收益界面；品牌侧联盟计划管理和其他联盟网络不纳入本关系。商业条目只做基本官方来源记录。",
+      "search_attempts": [
+        "web search: creator affiliate dashboard",
+        "fetch https://www.awin.com/us/publishers"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26 fetched Awin creator page: programs, affiliate links, commissions, performance tracking, payments"
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "lean-construction-planning",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "GitHub repository search: \"last planner\" construction; last-planner; \"lean construction\"; PPC construction planning; weekly work plan construction; construction constraint management",
+      "source_urls": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/LICENSE",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/schedule-advanced/scheduleAdvancedGuide.ts",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/planning-and-cost-control.md"
+      ],
+      "note": "GitHub 仓库搜索命中数个 Last Planner/精益施工条目，但多为 0 星、无许可证的演示仓库或只读取 Touchplan 数据的看板，未发现可自托管且覆盖完整闭环的独立开源产品。随后在 OpenConstructionERP 仓库树中定位 schedule-advanced 模块并读取其模块指南：指南明确把 master schedule 转成 phase plans、六周 look-ahead、约束日志（设计/材料/设备/人力/前置工作）、周承诺、完成/风险状态、未完成原因和 PPC，并区分基线以查看进度偏差。规划与成本控制文档也确认该模块属于 Lean delivery 的 Last Planner working。据此将 OpenConstructionERP 的 Last Planner 子模块作为本叶案例；它是完整子模块而非独立产品，仓库为 AGPL-3.0 开源核心并另提供可选商业许可，本条目只对应开源核心。未运行应用，运行态与多租户行为未测试。",
+      "service_boundary": "OpenConstructionERP 是可自托管的 Web/桌面建筑 ERP，本叶仅对应其 schedule-advanced（Last Planner/CPM）子模块；该模块不是独立售卖的精益规划 SaaS，也未验证多租户、席位或商业版边界。",
+      "search_attempts": [
+        "websearch 四个查询（last planner / lean construction / takeoff / progress billing）返回 HTTP 401，按任务要求未重复调用。",
+        "api.github.com 仓库搜索：\"last planner\" construction（2 条）、last-planner（138 条）、\"lean construction\"（26 条）、PPC construction planning（0 条）、weekly work plan construction（2 条）、construction constraint management（11 条），按星数查看前若干条。",
+        "读取 OpenConstructionERP GitHub 仓库树（git/trees?recursive=1）并按 lean/last/planner/lookahead/constraint/commit 等关键词筛选路径。",
+        "读取 scheduleAdvancedGuide.ts 与 planning-and-cost-control.md 正文。"
+      ],
+      "fetch_outcomes": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP -> 200，HTML 元数据 repository_id=1199643986、nwo=datadrivenconstruction/OpenConstructionERP。",
+        "https://api.github.com/repos/datadrivenconstruction/OpenConstructionERP -> 403 rate limit exceeded；改用公开 GitHub 仓库页，未使用认证。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/schedule-advanced/scheduleAdvancedGuide.ts -> 200，快照 sha256=36bb3ed25fe2ecfa909978ab8b0bc7aba3413d3fda0af33745d53a545e537441。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/planning-and-cost-control.md -> 200，快照 sha256=b14d81508ad6739fe08d5fb265114ad728b8c1bde1e2f1432cf43ae43743a248。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "preconstruction-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "GitHub repository search: preconstruction; construction estimating; construction takeoff; bid leveling construction; construction management open source",
+      "source_urls": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/LICENSE",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/tendering-and-bids.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/cases/data/track-an-opportunity-from-enquiry-to-tender.playbook.ts",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/crm/crmGuide.ts"
+      ],
+      "note": "仓库搜索发现 OpenConstructionERP、bidwright、GEstimator 等候选。bidwright 已读 README，核心是估算/报价与 AI 代理，未显示分包供应链询价、逐项平衡和授标闭环；GEstimator 是桌面估算工具，服务形态不符。OpenConstructionERP 的 CRM 指南说明机会/交易按阶段看板推进，记录金额、货币、概率、活动与赢/输原因，赢单后链接到 Bid Management 与 Contracts；其 playbook 记录从询价联系人到赢单转项目再进入招标的连续线索，tendering 文档则说明从已定价 BOQ 裁出 bid packages、通过门户发给 shortlist、收集投标、按同一基准逐项比较并平衡、授标后把范围调整转为变更单并把承诺带入成本控制。四条定义属性（pursuit 持久记录、priced scope、供应链询价平衡、授标移交）均有正文依据。未运行应用，实际投标门户与权限边界未测试。",
+      "service_boundary": "对应 OpenConstructionERP 的 CRM 机会记录、tendering/bid-management 与 award 子流程，属于自托管建筑 ERP 的施工前模块组合，不是独立 preconstruction SaaS；未验证外部投标人门户的部署与权限隔离。",
+      "search_attempts": [
+        "websearch 返回 HTTP 401，未重复调用。",
+        "api.github.com 仓库搜索：preconstruction（62 条）、construction estimating（875 条）、construction takeoff（248 条）、bid leveling construction（10 条）、construction management open source（25 条）；按星数查看候选描述。",
+        "读取 bidwright README（估算/报价平台，未显示供应链 leveling/award）与 OpenConstructionERP 仓库树中的 tendering/bid_management/crm 路径。",
+        "读取 tendering-and-bids.md 与 track-an-opportunity-from-enquiry-to-tender.playbook.ts 正文。"
+      ],
+      "fetch_outcomes": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP -> 200，元数据证明仓库身份。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/tendering-and-bids.md -> 200，快照 sha256=d240c8c1013ca50aebdd7d4c56cc5bf56cea53dda609dbafe08c6e905326d249。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/cases/data/track-an-opportunity-from-enquiry-to-tender.playbook.ts -> 200，快照 sha256=8d71480ba0e6e928948e0818a5459962176beee37bd22d53b075fd31c12e2c4c。",
+        "https://raw.githubusercontent.com/braedonsaunders/bidwright/HEAD/README.md -> 200，仅用于排除候选，未纳入批次。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/crm/crmGuide.ts -> 200，快照 sha256=9d1f120b32b8967ae07f0e4ec0447adb542fd079e242d606d1bd2e52cda345f4。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "progress-billing",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "GitHub repository search: progress billing construction; pay application construction; construction progress billing; construction management open source",
+      "source_urls": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/LICENSE",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/backend/app/modules/contracts/aia.py",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/backend/app/modules/contracts/retention.py"
+      ],
+      "note": "GitHub 搜索到的 progress billing 仓库多为小型未许可项目、ERPNext 扩展或 Excel 模板，未找到比 OpenConstructionERP 更完整且许可明确的自托管实现。读取 contracts/aia.py 后确认其建立在既有 ProgressClaim/ProgressClaimLine、认证 FSM、保留款计算和财务发票桥之上，提供 AIA G702/G703 的延续行计算、前次申请值、累计完成值、保留款列和 G702 汇总；默认按国家 gate 到 US/CA/AU，但通用进度索赔引擎并非仅限该地区。retention.py 进一步说明按 SOV 行累计已完成工作和现场材料、按合同保留政策计算与释放保留款。三条核心（编号申请序列、合同锚定累计计算、提交-审查-认证）有代码级依据；两方审查 UI 与外部付款方权限未运行验证。",
+      "service_boundary": "对应 OpenConstructionERP contracts 模块的进度索赔/AIA G702-G703/保留款与最终结算功能，属于自托管应用内模块；不是通用发票工具，也未测试与会计系统或付款方的真实对接。",
+      "search_attempts": [
+        "websearch 返回 HTTP 401，未重复调用。",
+        "api.github.com 仓库搜索：progress billing construction（17 条）、pay application construction（20 条）、construction progress billing（17 条）、construction management open source（25 条）。",
+        "检查 OpenConstructionERP 仓库树中的 contracts、progress、payment_application、g702、g703、sov 路径，并读取 contracts/aia.py 与 contracts/retention.py。",
+        "排除仅做通用发票、桌面 Excel 或未许可的小型 progress billing 仓库。"
+      ],
+      "fetch_outcomes": [
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/backend/app/modules/contracts/aia.py -> 200，快照 sha256=9fe8ae1f8217a41b474ede9bacf0b8334737d7c30192f09851152bde07fc353e。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/backend/app/modules/contracts/retention.py -> 200，快照 sha256=a80ceceb0055d7b5b4b51430a31d7c022a416ad5d628e4d23a695ea6fd57121d。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md -> 200，含 JCT interim payments、CCDC progress draw、billing 等模块线索。",
+        "GitHub API license endpoint 因 rate limit 未使用；改抓 raw LICENSE 全文并人工核对。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "project-controls-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "GitHub repository search: construction management open source; project controls construction; earned value construction; construction planning platform",
+      "source_urls": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/LICENSE",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/planning-and-cost-control.md"
+      ],
+      "note": "GitHub 搜索发现 OpenConstructionERP 及若干 Excel/EVM 小项目；未发现比其更完整、许可明确的自托管项目控制平台。OpenConstructionERP 规划与成本控制文档明确把 4D 进度（活动、依赖、关键路径）与 5D 成本模型（把定价 BOQ 摊到进度形成 S 曲线、现金流、预算和挣值）结合，提供基线化、进度/成本偏差、EAC/ETC 预测、变更/风险控制和 exec project-controls 仪表板；README 也列出 Finance & Earned Value。其仓库树包含 project_controls、full_evm、schedule_advanced、boq quantity_baseline 等模块。据此认定覆盖集成基线、测量循环与治理报告三个核心；但未验证实际 EVM 计算、基线锁定和多项目组合的运行时行为。",
+      "service_boundary": "对应 OpenConstructionERP 的 4D/5D、project_controls、full_evm 与报表模块，属于自托管平台内的项目控制功能；不是纯成本或纯进度工具，也未验证与外部 ERP/会计的总账级集成。",
+      "search_attempts": [
+        "websearch 返回 HTTP 401，未重复调用。",
+        "api.github.com 仓库搜索：construction management open source（25 条）、project controls construction（351 条）、earned value construction（37 条）、construction planning platform（243 条）。",
+        "读取 OpenConstructionERP 仓库树中的 project_controls/full_evm/schedule_advanced/boq baseline 路径，并读取 planning-and-cost-control.md 与 README。"
+      ],
+      "fetch_outcomes": [
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/planning-and-cost-control.md -> 200，快照 sha256=b14d81508ad6739fe08d5fb265114ad728b8c1bde1e2f1432cf43ae43743a248。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md -> 200，快照 sha256=d640bceecae06c83cc5b9d1acf06eb179761df9ed26113663efc97ff4f6e907a。",
+        "GitHub 仓库页 -> 200，repository_id=1199643986；未做部署或运行时验证。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "quantity-takeoff",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "GitHub repository search: construction takeoff; construction estimating; quantity takeoff; preconstruction",
+      "source_urls": [
+        "https://github.com/datadrivenconstruction/OpenConstructionERP",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/LICENSE",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/quantity-takeoff.md"
+      ],
+      "note": "搜索发现 OpenTakeoff、OpenConstructionERP、bidwright、GEstimator 等。OpenTakeoff 已读 README：明确是 client-only browser app（无账户、不上传），虽为完整测量应用但服务形态偏纯客户端；bidwright 的 takeoff 与估算工作表/报价深度绑定；GEstimator 为 GTK 桌面估算。OpenConstructionERP 的 quantity-takeoff 文档说明以项目 PDF/DWG/IFC 文件为尺寸来源，按页校准比例尺后测量距离/面积/计数，DWG 可按图层读取几何，BIM 按构件分组提取，测量结果作为可追溯对象写入 BOQ 工程量；规则校验与 AI 建议均需人工确认。三条核心（施工文件作为尺寸来源、图上测量对象、按项目累计）有正文依据；未运行提取引擎，BIM/CAD 解析与协作未实测。",
+      "service_boundary": "对应 OpenConstructionERP 的 takeoff/DWG takeoff/BOQ 模块，是自托管 Web 应用中的完整工程量提取子模块；不是纯浏览器单页工具，也未验证大图纸集性能或多人并发。",
+      "search_attempts": [
+        "websearch 返回 HTTP 401，未重复调用。",
+        "api.github.com 仓库搜索：construction takeoff（248 条）、construction estimating（875 条）、quantity takeoff 相关 preconstruction（62 条）、construction planning platform（243 条）。",
+        "读取 OpenTakeoff README（确认 client-only browser app）、bidwright README（takeoff 与估算链接）以及 OpenConstructionERP quantity-takeoff.md。",
+        "检查 OpenConstructionERP 仓库树中的 takeoff、dwg_takeoff、boq、bim_hub 路径。"
+      ],
+      "fetch_outcomes": [
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/docs/user-guide/quantity-takeoff.md -> 200，快照 sha256=1cb53ae06109c631c267a484ee4019db305924a093713142a029831e7384eb80。",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md -> 200，含 CAD/BIM takeoff、PDF takeoff、BOQ 说明。",
+        "https://raw.githubusercontent.com/Kentucky-ai/opentakeoff/HEAD/README.md -> 200，仅用于服务形态排除，未纳入批次。",
+        "https://raw.githubusercontent.com/braedonsaunders/bidwright/HEAD/README.md -> 200，仅用于候选比较，未纳入批次。"
+      ],
+      "archived": false
+    }
+  ]
+}

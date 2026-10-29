@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "LICENSE.txt 是完整的 GNU GPL v3 正文（含第 0–17 条与 How to Apply 附录），项目在附录版权行填入 “Church Presenter … Copyright (C) 2026” 并保留 “either version 3 … or any later version” 的授权措辞；严格来说 SPDX 可能更接近 GPL-3.0-or-later，batch.json 记为 GPL-3.0 属常见简写，不影响开源可用性，若下游要求精确 SPDX 可对齐。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，note 仍复述旧 hold；research.json 已改为 case_found 并记录解除理由。两者并存不矛盾于现有证据，但建议下游以 research.json/batch.json 为准或同步状态，避免沿用旧的“仅客户端/CLI/引擎”结论。",
+    "research.json 提及本单元未提供的 catalog scope_reason（离线做法不构成排除理由）；本叶定义本身明确允许单机、单投影仪离线运行，故结论不依赖该外部文档，但该引用无法在本单元内核对。",
+    "主页快照以营销文案、meta 与静态 HTML 为主，本次未将其作为核心工作流证据；核心判断依据为 README.md 与 FEATURES.md 的具体行为描述（歌曲库/经文按引用检索/Schedule/输出与预览/舞台监视器）。",
+    "周边与独立交付物未核对：iOS/Android 客户端（主页 App Store 链接与 “5 Platforms” 表述）、README 指向的独立 ChurchPresenter-Signage 播放器仓库，以及捆绑 ffmpeg/OMT/MiniLM 的 THIRD_PARTY_*.md 许可条款均未取快照；这些属于定义核心之外的附加能力，不影响本叶判断。",
+    "主页写 “35 UI Languages”，FEATURES.md 写 34 种界面语言，两快照存在小口径差异，与本叶核心无关。",
+    "Cloud of Worship 的未纳入有留档（LICENSE/LICENSE.md/COPYING 404、API 403、主页重定向），属如实记录的缺口；因此不应将本单元解读为“该类目仅此一个开源产品”，枚举范围仍受检索限制。"
+  ],
+  "leaf_checks": {
+    "worship-presentation-software": {
+      "status": "passed",
+      "case_ids": [
+        "github:1142020579"
+      ],
+      "evidence_read": [
+        "data/collections/batch.json（entry github:1142020579）",
+        "data/collections/research.json（leaf_cases[0]）",
+        "data/collections/sources/02d03ef42d76119f569ef3602c52dc10b852f7f17f6e98f76471af962c5517dd.txt（仓库页，含 README 渲染与仓库 id 1142020579）",
+        "data/collections/sources/92926c41ed160c0a2187f1b86d2b90849ce0d3f8e46a99a23eef47cd1b083ef1.txt（完整 GPL v3 文本）",
+        "data/collections/sources/047ac9bf8f6610e66e35a8d2ae35d8cae673fc5e6bd0467b6df74f5ad4c75e11.txt（README）",
+        "data/collections/sources/06bd138bb766a92d725e41d2d3cecb7fb100bdf58065330387720ea2979a02b7.txt（FEATURES.md）",
+        "data/collections/sources/7c79804a5722ea090ca343967f14145818c80c78e8ab9e2e58005fe9bdcb55c8.txt（官方主页）",
+        "data/collections/sources/07be1f87a1a0a8c09270e5e0798eaf5178961808997a09ca2cd488a7fc7390c8.txt（GitHub API 仓库元数据）"
+      ],
+      "definitional_core": "FEATURES.md 提供了定义核心的具体行为而非仅简介：Songs & Lyrics 一节有可累积的歌曲库（按文件夹索引、数千首、多歌本）、结构化主歌/副歌编辑与逐节/逐行显示；Bible & Scripture 一节按书/章/节引用取自内置或下载译本并自动渲染，支持双/多译本；Images & Media 一节有图片、视频、音频与网络流；Service Planning 一节有从歌曲、经文、幻灯片、媒体等拖拽组成的 run of show，可保存、重开、自动保存与崩溃恢复；Projection & Output 与 Live preview 明确操作员预览与观众输出分离，并有按输出独立的 profile；舞台监视器与手机远程控制亦有明确描述。定义中的“内容库—按场次排布的提示列表—现场提示循环—操作员/观众界面分离”四层均能对上，且歌词逐块推进、CCLI 使用统计与版权信息等规则行为也有对应描述。",
+      "service_form": "README 的 Project layout 明确指出 composeApp 就是应用本身（jvmMain 为应用代码），FEATURES.md 描述的是面向操作员的完整桌面应用工作流，而非库/CLI/引擎或设备控制；主页提供 Windows/macOS/Linux 下载与发行版本，表明是可持续使用的成品软件。定义允许单机单投影仪运行，因此 Windows/macOS/Linux 桌面形态不构成排除理由；本叶不要求 SaaS 托管。",
+      "identity_and_track": "track=open_source 与 GPL-3.0 仓库一致；GitHub API 快照显示 id=1142020579、full_name=ChurchPresenter/ChurchPresenter、fork=false，与 batch.json 的 github_repository_id、repository_url、name 完全对应；仓库页 HTML 亦含 repository:1142020579 与同名标题，仓库身份无冲突。",
+      "license": "data/collections/sources/92926c41…txt 为完整 GNU GPL v3 文本（Preamble + 第 0–17 条 + END OF TERMS AND CONDITIONS + How to Apply），非片段或摘要；README 的 License 节与 FEATURES.md 的 Free & Open 节均声明 GPL-3.0，主页亦写 GNU GPL v3。license_review 的 scope=repository 与 SPDX 声明基本相符，仅存在 “or later” 措辞的 SPDX 精度小事（见 non_blocking_notes）。",
+      "community_edition_boundary": "主页与 FEATURES.md 明确 “No subscriptions, no per-seat fees”“$0 Free Forever”，未发现付费版/企业版分割或功能门禁；社区版即完整产品。捆绑 ffmpeg/OMT/MiniLM 与独立 Signage 播放器、移动客户端属附加项，未在本单元核对，但不影响本叶核心边界。",
+      "gaps": [
+        "未安装或运行应用，未做运行时验证（batch.json 亦标注 runtime_tested=false）。",
+        "未取 THIRD_PARTY_FFMPEG.md、THIRD_PARTY_OMT.md、THIRD_PARTY_MINILM.md 快照，捆绑第三方许可证未独立核对。",
+        "未取 Cloud of Worship 的完整许可证文本（记录为 404），该替代候选的排除属如实留档而非穷尽性结论。",
+        "主页快照为营销页，仅作补充；核心证据依赖 README.md 与 FEATURES.md。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 6 个快照（按给定 path 原样读取，sources 前缀相对 data/collections 解析）；未运行 shell、未写文件、未安装或运行应用、未访问其他单元或项目根目录下不存在的 sources/。未独立重算快照 sha256，仅核对 REVIEW_SOURCES.json、batch.json 与文件名中的 sha 一致性；未验证 GitHub 仓库的实时状态、归档状态、发行物内容与捆绑第三方组件许可；未对独立 Signage 仓库与移动客户端取证；检索充分性仅依据 research.json 记录的查询与抓取结果，无法确认是否存在未检索到的同类开源产品。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-229/ses_groveopencodegop229review1_1793262216.jsonl",
+  "batch_sha256": "58254df00f829d3fe5727dc2900ee9794658258d3d760b2bdf776064a7132e0f",
+  "research_sha256": "c7eb7887a346569a06d3ece749750b6e615ed98966b6bbd7a735916eeaa6641e",
+  "input_sha256": "faf619a8abe41885036a2dbebcadb374da95f35a59df62aea46a54cf25e0ab2c"
+}

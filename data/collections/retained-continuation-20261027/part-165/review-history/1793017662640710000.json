@@ -1,0 +1,71 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "construction-contract-administration",
+      "application_id": "commercial:cmic-project-controls",
+      "issue": "归档快照 b6f87a2c... 只包含 CMiC 站点导航、Project Controls 介绍和解决方案简介等页面前段；batch.json/research.json 所依赖的 Subcontract Management、Change Management、Billing、commitments/payments、audit trail 等正文段落未出现在快照中。因此无法从该快照核实合同记录、动态价值、合同付款和合同生命周期，合同管理叶的核心证据不足。另行只读抓取同一公开页面可见这些段落，说明更像归档抓取不完整，而非产品没有该功能。",
+      "fix": "重新抓取该页面的完整渲染正文，至少覆盖 Subcontract Management、Change Management、Billing 和 audit trail 段落，或补充分节快照/PDF 正文；同步更新 REVIEW_SOURCES.json 与 batch.json 的 snapshot_path、sha256，并重新核对合同管理叶的匹配。若完整页面仍不覆盖主合同、合同生命周期或保留金等核心属性，需重新评估是否保留该叶案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json/research.json 的 case_found 及具体 application_id 不一致；不影响本次内容判断，但下游使用前应同步元数据。",
+    "CMiC Project Controls 本质是建筑 ERP 的项目控制/成本模块，合同管理只是其分包合同、变更和账单能力的一侧；即使补全快照，也不宜把它描述为专门的合同全生命周期产品。",
+    "BuildingConnected 快照未明确出现 intent-to-bid/decline 状态，ContraClaim 快照未明确出现 claims register/portfolio 视图，Procore 成本页未给出字面 budget-vs-committed-vs-actual 报表；这些属于商业基本类型匹配下的非阻断细节。",
+    "各案例均为厂商官网/营销页或厂商长文，未做运行时或独立功能验证；商业审查只核对基本真实性和类型匹配。",
+    "本单元未收录开源案例；research.json 中的 GitHub 检索结果与许可证缺口为采集者留档，未独立重跑，因此本次不涉及完整许可证及社区版边界核对。"
+  ],
+  "leaf_checks": {
+    "construction-bidding-platform": {
+      "application_id": "commercial:buildingconnected",
+      "track": "commercial",
+      "status": "pass",
+      "definitional_core": "招标包/邀请 + 已识别投标者群体 + 参与（邀请、投标板、截止日期、报价比较）的双边场所。",
+      "saas_service_form": "Autodesk 托管的建筑招标网络/Web SaaS，含总包/业主与分包商两侧入口。",
+      "basis": "快照 81ff50c9... 含 Builders Network、1.5M+ 网络、总包/业主 bid management、compare bids、分包商 online bid board、Plan Room、bid invites、due dates 等正文；可支持双边招标场所与 SaaS 形态。",
+      "gap": "未显示明确的 intent-to-bid/decline 状态；作为商业基本类型匹配可接受，未做运行时验证。"
+    },
+    "construction-claims-management": {
+      "application_id": "commercial:contraclaim",
+      "track": "commercial",
+      "status": "pass",
+      "definitional_core": "索赔记录（事件 + 合同权利 + 影响）+ 证据链 + 通知至裁决的受控生命周期 + 索赔登记/组合。",
+      "saas_service_form": "ContraClaim DMS Web SaaS/工作区。",
+      "basis": "快照 860ebfaa... 完整至 </html>，正文含 construction claims management、contracts/clauses/correspondence/evidence、first notice 至 final award、EOT、time-bar、variations、受控起草/审批流程；支持索赔记录、证据关联和生命周期。",
+      "gap": "索赔登记簿/组合视图未明确出现；商业基本类型匹配可接受，未做运行时验证。"
+    },
+    "construction-closeout-management": {
+      "application_id": "commercial:punchoutpro",
+      "track": "commercial",
+      "status": "pass",
+      "definitional_core": "项目收尾阶段的缺陷项（punch/snag）推动至独立验证关闭 + 收尾记录 + 业主签收/移交。",
+      "saas_service_form": "PunchOutPro 移动优先的施工收尾 SaaS，含免费试用/登录入口。",
+      "basis": "快照 5e448961... 完整至 </html>，正文含 punch item 捕获、按区域/专业分配、照片/时间戳证明、分包商完成、re-walk/verification、owner signoff、CO/closeout 文档、final payment/retainage、handoff；支持验证关闭与移交验收。",
+      "gap": "为厂商长文页面，未做运行时验证；核心流程描述充分。"
+    },
+    "construction-contract-administration": {
+      "application_id": "commercial:cmic-project-controls",
+      "track": "commercial",
+      "status": "gap",
+      "definitional_core": "已执行合同的结构化记录 + 随变更更新的合同价值 + 合同维度的付款/保留金 + 受控合同生命周期。",
+      "saas_service_form": "CMiC 建筑 ERP 的 Project Controls 模块，属商业托管 SaaS/ERP；模块化产品，非独立合同管理 SaaS。",
+      "basis": "快照 b6f87a2c... 可确认 CMiC Project Controls 的导航、Project Controls 介绍以及预算/时间/费用/供应商/成本等表述；但快照正文未出现 batch/research 所依赖的 Subcontract Management、Change Management、Billing、commitments/payments、audit trail 等核心段落，无法从归档快照核实合同记录、动态价值、合同付款和生命周期。",
+      "gap": "需重新抓取包含 Subcontract Management/Change Management/Billing 段落的完整渲染页或分节快照，并更新 sha256；若完整页面仍不覆盖合同生命周期/主合同，应重新评估该叶匹配。"
+    },
+    "construction-cost-management": {
+      "application_id": "commercial:procore-cost-management",
+      "track": "commercial",
+      "status": "pass",
+      "definitional_core": "项目成本预算（按成本行组织）+ 承诺/已发生成本记录 + 预算-实际/预测的持续对比。",
+      "saas_service_form": "Procore 托管 Web SaaS；Cost Management 与 Project Financials 同一产品族。",
+      "basis": "快照 d0c9d833... 含 project budget、real-time spending、invoices/changes、forecasts；快照 6d04c0fc... 含 prime contracts、commitments、subcontracts/purchase orders、change orders、direct costs、budget/invoice workflows；支持预算—承诺/实际—预测的核心。",
+      "gap": "产品页为营销材料，未做运行时验证；基本类型匹配充分。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元，未重算 sha256（仅比对 REVIEW_SOURCES.json 与 batch.json 中记录的哈希字符串）。按 REVIEW_SOURCES.json 的 path 原样读取 6 个快照。快照多为压缩长行 HTML，正文通过关键词/片段核对而非逐字全文通读；为区分归档缺失与页面无内容，额外只读抓取了 CMiC 与 BuildingConnected 的公开页面作交叉核对，但判定以归档快照为准。未做部署/运行时测试，未研究价格、架构或社区版；商业案例仅核对基本真实性和类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-165/ses_groveopencodegop165review1_1793017008.jsonl",
+  "batch_sha256": "03c8eac97fd60c59243e0508987a103e085acf08501c8cf78b9f9e17dd1e7295",
+  "research_sha256": "8df9aa6e4dfdbd0e1111d36eff577b2cdbc9eaf2927dfe05ffad83c34d08c3b6",
+  "input_sha256": "afa0151934e8672fa377fcf0f7dd3b44930cc7ab169ee93f606598c5f2100e0f"
+}

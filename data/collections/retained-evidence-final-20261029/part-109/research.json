@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "dev-container-workspace-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:440752086"
+      ],
+      "query": [
+        "DevPod devcontainer workspace platform official github",
+        "Coder open source self-hosted development workspace platform terraform templates github",
+        "coder/coder github self-hosted remote development environments"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/coder/coder",
+        "https://raw.githubusercontent.com/coder/coder/main/README.md",
+        "https://api.github.com/repos/coder/coder/license",
+        "https://raw.githubusercontent.com/coder/coder/main/LICENSE",
+        "https://raw.githubusercontent.com/coder/coder/main/LICENSE.enterprise",
+        "https://coder.com/docs/user-guides/workspace-management.md",
+        "https://coder.com/docs/user-guides/workspace-lifecycle.md",
+        "https://coder.com/docs/admin/templates.md",
+        "https://coder.com/docs/admin/integrations/devcontainers/integration.md",
+        "https://github.com/loft-sh/devpod",
+        "https://raw.githubusercontent.com/loft-sh/devpod/main/LICENSE",
+        "https://raw.githubusercontent.com/loft-sh/devpod/main/README.md"
+      ],
+      "note": "本轮针对原初审缺口（旧候选只证明客户端/CLI 形态）补采替代品，改以 Coder 自托管社区版作为成立案例。README 正文说明 Coder 是自托管平台：工作区用 Terraform 定义并接入 WireGuard 隧道，空闲自动关机；控制面文档证明模板是环境真源，用户从共享模板创建工作区、按模板版本停止后重建更新、整工作区可删除；Dev Containers 集成文档证明 devcontainer.json 被自动发现或在模板中用 coder_devcontainer 启动；编辑器仅以 VS Code 扩展、JetBrains 插件或 SSH 从外部接入。仓库 API 元数据核对 ID 440752086 与全名 coder/coder，LICENSE 与 licence API 均为 AGPL-3.0 全文；enterprise 目录另附源可用许可，故只按开源核心记录并在 summary 说明。旧 DevPod 候选仍保留为未采纳：其 README 明确自述 client-only、无需服务端，属客户端工具而非本叶应用服务，不据此断言该形态不存在。",
+      "service_boundary": "Coder 社区版是可持续使用的完整自托管应用服务：服务端控制面 + Web/CLI 客户端，环境在所选基础设施（Docker/K8s/云 VM）上配置并按定义重建或销毁；编辑体验由外部 IDE/SSH 提供，编辑器不是产品本体。企业功能（配额、审计等）在 enterprise 目录下另有许可，本条目仅记录开源核心范围，不声称企业版能力免费。DevPod 仅作历史候选保留，其 client-only 桌面/CLI 形态不成立为本叶案例。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "DevPod devcontainer workspace platform official github",
+          "status": "searched",
+          "result_urls": [
+            "https://raw.githubusercontent.com/loft-sh/devpod/main/README.md"
+          ],
+          "result_note": "历史查询，来自旧草稿；本轮未重复调用该查询接口。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "reuse existing loft-sh/devpod snapshots for repair review",
+          "status": "reused_existing_sources",
+          "result_urls": [
+            "https://github.com/loft-sh/devpod",
+            "https://raw.githubusercontent.com/loft-sh/devpod/main/LICENSE",
+            "https://raw.githubusercontent.com/loft-sh/devpod/main/README.md"
+          ],
+          "result_note": "历史复用记录；再次核对 README 第 42 行 client-only 自述，确认旧候选不构成本叶应用服务。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "Coder open source self-hosted development workspace platform terraform templates github",
+          "status": "no_results",
+          "result_urls": [],
+          "result_note": "搜索接口返回空结果；未据此推断不存在，改用已知官方仓库域名直接抓取核对。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "coder/coder github self-hosted remote development environments",
+          "status": "no_results",
+          "result_urls": [],
+          "result_note": "第二次搜索同样为空；按官方来源直连补证，仍不把无结果当作产品不存在的证据。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "direct official fetch: coder/coder repo, license, README and workspace/devcontainer docs",
+          "status": "fetched_official_sources",
+          "result_urls": [
+            "https://api.github.com/repos/coder/coder",
+            "https://raw.githubusercontent.com/coder/coder/main/README.md",
+            "https://api.github.com/repos/coder/coder/license",
+            "https://raw.githubusercontent.com/coder/coder/main/LICENSE",
+            "https://coder.com/docs/user-guides/workspace-management.md",
+            "https://coder.com/docs/user-guides/workspace-lifecycle.md",
+            "https://coder.com/docs/admin/templates.md",
+            "https://coder.com/docs/admin/integrations/devcontainers/integration.md"
+          ],
+          "result_note": "两组搜索无结果后，改为直接抓取官方 GitHub 与 coder.com 文档；均成功读取正文，见 fetch_outcomes。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "date": "2026-10-28",
+          "url": "https://api.github.com/repos/coder/coder",
+          "status": "fetched_and_read",
+          "sha256": "12efd0de505c5eef5b7fcd80a69402b92f122332fefbfcea12d1bcf025bdf77d",
+          "note": "仓库 ID 440752086、full_name coder/coder、homepage coder.com、archived=false、license spdx AGPL-3.0。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://raw.githubusercontent.com/coder/coder/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "3a5b8add747f1d78904dfbd8e0f2ee461ca29bce9950a5e58c877947c9447514",
+          "note": "正文明确 Self-Hosted Cloud Development Environments；Terraform 定义工作区、自动关机、编辑器外部接入、Dev Containers 集成入口与 coder server 启动流程。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://api.github.com/repos/coder/coder/license",
+          "status": "fetched_and_read",
+          "sha256": "20e3a26017675a7c9b91620750b75747c5187ec237ad9a45de2a312b4ec74b6c",
+          "note": "GitHub 许可证 API：spdx_id AGPL-3.0，content 解码后为 34523 字符完整 AGPL 正文。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://raw.githubusercontent.com/coder/coder/main/LICENSE",
+          "status": "fetched_and_read",
+          "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+          "note": "仓库根 LICENSE 全文为 GNU AFFERO GPL v3，与 API 分类一致。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://raw.githubusercontent.com/coder/coder/main/LICENSE.enterprise",
+          "status": "fetched_and_read",
+          "sha256": "b8768592764cbd705a1a314ff5359f422c8febb38d9f0cc476ad041829d9fe58",
+          "note": "enterprise 目录另有源可用许可，生产使用受服务条款与 license key 限制；据此把开源范围限定为社区核心。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://api.github.com/repos/coder/coder/contents/",
+          "status": "fetched_and_read",
+          "sha256": "fa142b4c239c592b7ed27f93cb9e22ce626768bef62fed93a1df08903c668e50",
+          "note": "根目录清单确认存在 LICENSE、LICENSE.enterprise 与 enterprise 目录，用于核对许可分层。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://api.github.com/repos/coder/coder/contents/enterprise",
+          "status": "fetched_and_read",
+          "sha256": "e5deec446f6fefad86448f1b4231363954adc87c6bf99782b42adb37e5a687ae",
+          "note": "企业功能以 Go 源码目录形式存在于同一仓库，无独立许可证文件；未运行或深入其实现。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://raw.githubusercontent.com/coder/coder/main/enterprise/LICENSE",
+          "status": "fetch_failed",
+          "sha256": null,
+          "note": "HTTP 404，该路径下无独立许可文件；改用 LICENSE.enterprise 取得企业条款。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/user-guides/workspace-management.md",
+          "status": "fetched_and_read",
+          "sha256": "119e595d2ccd1fe0bc9660b575f1e486c40e2ffc7523429d3b8c7d8161791d86",
+          "note": "正文：从共享模板创建工作区、团队成员环境一致、启动/停止/计划调度、按模板版本更新（先停止再重建）、删除。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/user-guides/workspace-lifecycle.md",
+          "status": "fetched_and_read",
+          "sha256": "b3060821ba737c40c908222d97003209f3fc4d5b1de4b75a0223c02e2985a2d9",
+          "note": "正文：控制面经 Terraform 配置工作区，Running/Stopped/Deleted 与失败状态、作业销毁全部资源、启动脚本与 dotfiles。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/admin/templates.md",
+          "status": "fetched_and_read",
+          "sha256": "7671a8b10fbcdf8a66468150a0c1bbc8339306c17d06e931c98d62bf4d5f519f",
+          "note": "正文：模板为 Terraform，定义工作区底层基础设施；镜像、参数、IDE/feature 扩展；Dev Containers 集成入口。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/admin/integrations/devcontainers/integration.md",
+          "status": "fetched_and_read",
+          "sha256": "8c896280a0b70edaa781cb10861795d97447781b0db7b659619c0596d7a691d1",
+          "note": "正文：可用 coder_devcontainer 资源或自动发现 devcontainer.json；需 devcontainers-cli；2.24 起默认启用。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/user-guides/workspace-management",
+          "status": "fetched_but_html_shell",
+          "sha256": "5fe1619b16ecce1b0f0fe14c63cac6e570b4741776bd04f57788cc03133a4adb",
+          "note": "HTML 外壳仅为导航与样式，未作为核心工作流证据；改取同页 .md 正文。"
+        },
+        {
+          "date": "2026-10-28",
+          "url": "https://coder.com/docs/admin/templates",
+          "status": "fetched_but_html_shell",
+          "sha256": "e98a8d8f5439aceb20d4e56c622339d8e7856e76009b24c922c50feb2d7f872e",
+          "note": "同样只有 HTML 外壳；核心判断依据改为 .md 正文版本。"
+        },
+        {
+          "date": "2026-10-24",
+          "url": "https://raw.githubusercontent.com/loft-sh/devpod/main/README.md",
+          "status": "existing_snapshot_read",
+          "sha256": "98b1a69b98256cbbab9fc5903909ac471b9202b76e300491d1d653f516788d14",
+          "note": "历史快照，本轮重读第 15/42/45 行：client-only、无需服务端、桌面应用 + CLI，确认不纳入本叶。"
+        },
+        {
+          "date": "2026-10-24",
+          "url": "https://raw.githubusercontent.com/loft-sh/devpod/main/LICENSE",
+          "status": "existing_snapshot_read",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "note": "历史 MPL-2.0 许可快照，仅用于说明旧候选身份，未进入本单元批次。"
+        },
+        {
+          "date": "2026-10-24",
+          "url": "https://github.com/loft-sh/devpod",
+          "status": "existing_snapshot_read",
+          "sha256": "c8e23862cb3cb7f0c79537459d33dab38e394110dc6ff059c1da3d09b37d91de",
+          "note": "历史仓库元数据快照，核对 GitHub ID 592748160。"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": [
+        {
+          "id": "github:592748160",
+          "name": "DevPod",
+          "reason": "README 自述 client-only、无需安装服务端后端，属桌面/CLI 客户端工作区编排工具，与本叶要求的可持续使用应用服务形态不符；保留为未采纳候选与完整来源，不改写其历史草稿，也不据此推断该形态无托管变体。"
+        }
+      ]
+    }
+  ]
+}

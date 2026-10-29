@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "paas-management-console",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:332880689"
+      ],
+      "query": "直接核验官方仓库 coollabsio/coolify；读取 GitHub 仓库页、README 与 LICENSE，未另做关键词搜索。",
+      "source_urls": [
+        "https://github.com/coollabsio/coolify",
+        "https://raw.githubusercontent.com/coollabsio/coolify/main/README.md",
+        "https://raw.githubusercontent.com/coollabsio/coolify/main/LICENSE"
+      ],
+      "note": "Coolify GitHub ID 332880689，完整 LICENSE 为 Apache-2.0。README 证明应用级部署、部署回滚、环境变量、域名/HTTPS、日志和团队权限，控制台/API/CLI 并存。未运行项目，部署与回滚行为仅据官方 README，runtime_tested=false。",
+      "service_boundary": "收录其自托管 PaaS 控制台的应用部署、发布回滚与应用级配置/路由/日志能力；服务器编排、数据库托管和容器终端虽在同一产品中出现，但与容器管理重叠，不作为本叶核心匹配依据。",
+      "search_attempts": [
+        {
+          "tool": "direct_official_repository_lookup",
+          "query": "https://github.com/coollabsio/coolify",
+          "outcome": "found official repository"
+        },
+        {
+          "tool": "github_rest_api",
+          "query": "https://api.github.com/repos/coollabsio/coolify",
+          "outcome": "HTTP 403 rate limit exceeded; switched to GitHub HTML metadata page"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/coollabsio/coolify",
+          "kind": "repository_metadata",
+          "outcome": "saved snapshot, repository id 332880689 and full_name coollabsio/coolify verified"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/coollabsio/coolify/main/README.md",
+          "kind": "readme",
+          "outcome": "saved snapshot and read; describes app deployments and rollback"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/coollabsio/coolify/main/LICENSE",
+          "kind": "license",
+          "outcome": "saved complete Apache-2.0 license text"
+        },
+        {
+          "url": "https://api.github.com/repos/coollabsio/coolify",
+          "kind": "repository_metadata",
+          "outcome": "failed HTTP 403 rate limit; not saved"
+        },
+        {
+          "url": "https://api.github.com/repos/coollabsio/coolify/license",
+          "kind": "license",
+          "outcome": "failed HTTP 403 rate limit; not saved"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pki-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:2316088"
+      ],
+      "query": "直接核验官方仓库 openxpki/openxpki 与官网；读取 GitHub 仓库页、README、LICENSE 和 openxpki.org 首页。",
+      "source_urls": [
+        "https://github.com/openxpki/openxpki",
+        "https://raw.githubusercontent.com/openxpki/openxpki/master/README.md",
+        "https://raw.githubusercontent.com/openxpki/openxpki/master/LICENSE",
+        "https://www.openxpki.org/"
+      ],
+      "note": "OpenXPKI GitHub ID 2316088，完整 LICENSE 为 Apache-2.0。官网说明 WebUI、多个 CA、CA 代际滚动、证书请求/续期/吊销工作流、注册协议与 HSM 支持；README 补充 SCEP/EST、报告和 Docker 部署。未部署或测试签发/吊销，runtime_tested=false。",
+      "service_boundary": "收录其作为 PKI/Trustcenter 的 CA 管理、策略/工作流驱动的证书签发与吊销、信任状态与报告能力；不把 HSM 硬件、外部 CA 服务或咨询支持本身算作本应用。",
+      "search_attempts": [
+        {
+          "tool": "direct_official_repository_lookup",
+          "query": "https://github.com/openxpki/openxpki",
+          "outcome": "found official repository"
+        },
+        {
+          "tool": "official_site_lookup",
+          "query": "https://www.openxpki.org/",
+          "outcome": "found certificate lifecycle and CA management description"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/openxpki/openxpki",
+          "kind": "repository_metadata",
+          "outcome": "saved snapshot, repository id 2316088 and full_name openxpki/openxpki verified"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openxpki/openxpki/master/README.md",
+          "kind": "readme",
+          "outcome": "saved snapshot and read; WebUI, multiple CAs, workflow, HSM evidence"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openxpki/openxpki/master/LICENSE",
+          "kind": "license",
+          "outcome": "saved complete Apache-2.0 license text"
+        },
+        {
+          "url": "https://www.openxpki.org/",
+          "kind": "homepage",
+          "outcome": "saved snapshot and read; request/renewal/revocation lifecycle evidence"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "saas-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:zylo"
+      ],
+      "query": "GitHub repository search: `saas management in:name,description`；另核对商业产品 Zylo 官网首页，并补充抓取可服务端渲染的 https://zylo.com/product 正文页。",
+      "source_urls": [
+        "https://zylo.com/",
+        "https://zylo.com/product"
+      ],
+      "note": "开源检索结果多为多租户 SaaS 建站或订阅计费脚手架，未找到以组织自身 SaaS 资产为记录、带许可证使用证据和续订/优化闭环的完整开源应用。保留商业基本记录：Zylo 的 /product 正文明确说明以财务数据建立持续更新的 SaaS/AI 支出系统记录，统一支出、使用与合同；连接已购许可证与实际使用以回收闲置席位；按节省潜力排序续订；识别重复应用；以可辩护的系统记录支持策略执行、审计准备与合规。复核首页快照时也可见上述正文段落（此前初审称快照仅有导航壳，与实际保存文件不符），但为避免只依赖首页，本次另抓取 /product 正文页作为主要依据。未深入价格/架构/部署，runtime_tested=false。",
+      "service_boundary": "收录 SaaS 资产记录、席位/使用证据、续订与许可证优化、重复应用识别和审计准备记录；不把其 AI 成本管理、咨询或采购服务扩展为本叶核心，也不把普通费用管理或单点订阅计费工具算入。",
+      "search_attempts": [
+        {
+          "tool": "github_repository_search",
+          "query": "saas management in:name,description",
+          "outcome": "no complete open-source SaaS estate management application found; results were SaaS builders or subscription billing scaffolds"
+        },
+        {
+          "tool": "official_vendor_page",
+          "query": "https://zylo.com/",
+          "outcome": "official homepage with SaaS estate, license reclamation, renewal and audit-readiness text in the saved HTML"
+        },
+        {
+          "tool": "official_product_page",
+          "query": "https://zylo.com/product",
+          "outcome": "server-rendered product body retrieved; system of record, unused-license reclamation, renewal prioritization, redundant-app identification and audit readiness confirmed"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.zylo.com/",
+          "kind": "homepage",
+          "outcome": "failed: redirected to different host zylo.com; not saved"
+        },
+        {
+          "url": "https://zylo.com/",
+          "kind": "homepage",
+          "outcome": "saved snapshot; rendered body paragraphs include unified system of record, reclaim unused licenses, renewal prioritization and audit readiness"
+        },
+        {
+          "url": "https://zylo.com/product",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; full product body confirms system of record, unused/underused license reclamation, renewal prioritization, redundant application identification and audit readiness"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "customer-identity-ciam",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:378310716"
+      ],
+      "query": "直接核验官方仓库 logto-io/logto 与官方文档；读取 GitHub 仓库页、README、LICENSE、docs Introduction，并补充抓取注册、注册确认、密码找回、账户设置与 Logto OSS 边界正文。",
+      "source_urls": [
+        "https://github.com/logto-io/logto",
+        "https://raw.githubusercontent.com/logto-io/logto/master/README.md",
+        "https://raw.githubusercontent.com/logto-io/logto/master/LICENSE",
+        "https://docs.logto.io/introduction",
+        "https://docs.logto.io/end-user-flows/sign-up-and-sign-in",
+        "https://docs.logto.io/end-user-flows/sign-up-and-sign-in/sign-up",
+        "https://docs.logto.io/end-user-flows/sign-up-and-sign-in/reset-password",
+        "https://docs.logto.io/end-user-flows/account-settings",
+        "https://docs.logto.io/logto-oss"
+      ],
+      "note": "Logto GitHub ID 378310716，完整 LICENSE 为 MPL-2.0，末尾 Exhibit B 声明 Incompatible With Secondary Licenses（更严谨 SPDX 可标 MPL-2.0-no-copyleft-exception）。注册页证明支持邮箱/手机验证码确认注册；重置密码页证明通过已验证邮箱/手机完成忘记密码与改密；账户设置页证明终端用户可管理资料、邮箱/电话/用户名、密码、MFA、社交账号与会话，账户删除由 Management API 管理端执行或由开发者封装为自助端点。README 与 sign-up-and-sign-in 文档证明应用以 OIDC 委托登录，README 另称多租户、企业 SSO、RBAC、OIDC/OAuth 2.1/SAML。logto-oss 文档明确 OSS 边界：Console 多租户、Console 协作者邀请、Console MFA、IdP 发起 SSO、内置邮件服务、Protected App、隐藏品牌与无限 SAML 应用属 Cloud 或需自托管许可；OSS 的 SAML 应用上限为 3；面向终端用户的多租户、RBAC 可在自有产品中通过 OSS 使用。未部署或跑通登录，runtime_tested=false。",
+      "service_boundary": "收录外部终端客户身份、自助注册/确认/登录/密码找回/账户设置、应用委托认证和组织侧 Console 配置；账户删除按 Management API 能力记录，不宣称开箱即用的终端用户删除页。其员工/企业 SSO 用法不作为本叶核心，也不把单独 SDK 或纯资料库算作 CIAM 应用。OSS 与 Cloud/自托管许可的功能边界按 logto-oss 文档区分，不把 Console 多租户、IdP 发起 SSO 或无限 SAML 应用等归为 OSS 核心能力。",
+      "search_attempts": [
+        {
+          "tool": "direct_official_repository_lookup",
+          "query": "https://github.com/logto-io/logto",
+          "outcome": "found official repository"
+        },
+        {
+          "tool": "official_docs_lookup",
+          "query": "https://docs.logto.io/introduction",
+          "outcome": "index/navigation page; feature labels only, so detailed flow pages fetched separately"
+        },
+        {
+          "tool": "official_docs_lookup",
+          "query": "https://docs.logto.io/end-user-flows/sign-up-and-sign-in/sign-up; https://docs.logto.io/end-user-flows/sign-up-and-sign-in/reset-password; https://docs.logto.io/end-user-flows/account-settings",
+          "outcome": "self-service enrollment with verification, password recovery, profile/credential/session management, and Management API account deletion evidenced"
+        },
+        {
+          "tool": "official_docs_lookup",
+          "query": "https://docs.logto.io/logto-oss",
+          "outcome": "OSS vs Cloud/self-hosted-license feature boundary explicitly listed"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/logto-io/logto",
+          "kind": "repository_metadata",
+          "outcome": "saved snapshot, repository id 378310716 and full_name logto-io/logto verified"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/logto-io/logto/master/README.md",
+          "kind": "readme",
+          "outcome": "saved snapshot and read; multi-tenancy, enterprise SSO, RBAC, OIDC/OAuth 2.1/SAML and SDK evidence"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/logto-io/logto/master/LICENSE",
+          "kind": "license",
+          "outcome": "saved complete MPL-2.0 license text including Exhibit B secondary-license restriction"
+        },
+        {
+          "url": "https://docs.logto.io/introduction",
+          "kind": "documentation",
+          "outcome": "saved snapshot; index/navigation with feature labels only, no detailed lifecycle body"
+        },
+        {
+          "url": "https://docs.logto.io/end-user-flows/sign-up-and-sign-in",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; OIDC sign-in flow and hosted experience evidence"
+        },
+        {
+          "url": "https://docs.logto.io/end-user-flows/sign-up-and-sign-in/sign-up",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; identifier sign-up and required email/phone verification at sign-up"
+        },
+        {
+          "url": "https://docs.logto.io/end-user-flows/sign-up-and-sign-in/reset-password",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; forgot-password flow via verified email/phone and password update"
+        },
+        {
+          "url": "https://docs.logto.io/end-user-flows/account-settings",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; prebuilt Account Center and Account/Management API capabilities for profile, credentials, MFA, sessions and account deletion"
+        },
+        {
+          "url": "https://docs.logto.io/logto-oss",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; OSS feature limitations and Cloud/self-hosted-license boundary"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "data-access-governance",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:varonis-data-access-governance"
+      ],
+      "query": "GitHub repository search: `data access governance` 与 `access governance in:name,description`；另核对 Varonis 官方 Data Access Governance 页面。",
+      "source_urls": [
+        "https://www.varonis.com/platform/data-access-governance"
+      ],
+      "note": "开源检索结果多为数据库代理、数据库变更治理或数据目录，未发现持续解析各存储自身权限、形成有效访问映射并支持复核/请求/修正闭环的完整开源应用。保留商业基本记录：Varonis 页面说明跨环境敏感数据访问可视化、嵌套权限解析、持续监控、权限复核/请求并清理不需要的访问、向最小权限收窄。未深入价格/架构/部署，runtime_tested=false。",
+      "service_boundary": "收录有效访问映射、权限复核/认证、访问请求审批和最小权限收窄闭环；敏感数据分类、活动监控、DLP 等作为扩展能力不单独定义本叶，也不把纯数据库代理或数据目录算作本应用。",
+      "search_attempts": [
+        {
+          "tool": "github_repository_search",
+          "query": "data access governance",
+          "outcome": "no complete effective-access governance application found; results were proxies, catalogs or governance-adjacent projects"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "access governance in:name,description",
+          "outcome": "no qualifying open-source application found"
+        },
+        {
+          "tool": "official_vendor_page",
+          "query": "https://www.varonis.com/platform/data-access-governance",
+          "outcome": "official page with effective access, reviews, requests and remediation evidence"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.varonis.com/platform/data-access-governance",
+          "kind": "documentation",
+          "outcome": "saved snapshot and read; access visualization, nested permissions, reviews and remediation evidence"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

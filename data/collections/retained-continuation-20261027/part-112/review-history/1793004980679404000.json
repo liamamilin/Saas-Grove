@@ -1,0 +1,60 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "issue": "叶匹配理由称 README 明确“机器人与人工并行，可在需要时转人工”，但 README 正文只有“chatbots that easily work side-by-side with humans”，没有描述机器人到人工的交接触发、上下文转移、坐席接管/干预，也没有描述会话记录或坐席控制台；“seamlessly transition interactions to human agents when needed”只出现在 GitHub 仓库 description（元数据）。因此该叶的第三个核心结构（受管的机器人↔人工接缝）目前由元数据而非核心正文支撑，属于核心匹配缺口。",
+      "fix": "补充 Tiledesk 官方文档或 README 中关于 bot→human handoff、坐席接管/干预、会话记录与坐席控制台的正文，并在 leaf_matches 中引用；若无法取得，缩小该叶匹配理由或暂不将 Tiledesk 作为该叶案例。"
+    },
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "issue": "MIT 许可证快照对应 Tiledesk/tiledesk 部署/编排仓库；README 把 Tiledesk Server、Dashboard、Design Studio、Chat21 等列为部署内容，但未给出这些组件的源仓库和许可证。批次以“MIT”概括整个产品，许可证证据范围大于已核对的仓库范围，社区版组件边界也未逐项说明。",
+      "fix": "补充各组件的源仓库与许可证核对，并在条目中限定 MIT 的适用范围；或明确说明 MIT 仅覆盖部署仓库，列出社区版包含的组件及 Enterprise 私有镜像的边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 not_searched，application_ids 与 research_records 为空，与 batch.json、research.json 中的 case_found 不一致；建议同步，避免下游把本单元误判为无案例。",
+    "Tiledesk 的 Enterprise 边界只说明私有镜像需凭据，未逐项列出 Enterprise 功能；这不影响社区核心 MIT 代码的判断，但建议补充。",
+    "Frappe Helpdesk 的 README 未明确写出工单状态生命周期（open→resolved→closed）和通信线程；同叶 osTicket 的 README 已明确建单、分配、坐席解决，故该叶整体仍成立。",
+    "Gong 快照是 Document360 SSR HTML，正文与导航、脚本混在超长行中；已按页面中的 conversation intelligence、transcribe/transcription、calls/emails/meetings、CRM、deal、revenue、insight 等关键词核对，但未能逐段完整抽取正文。",
+    "EvaluAgent 页面是官方质量保证产品页而非文档；商业叶只要求基本真实性和类型匹配，评分卡、录音/工单查看、校准、申诉、评估者监控等均有正文支持。",
+    "QMTool 无许可证、CallMiner 页面以导航为主、Fireflies 308、Zammad README 未展开生命周期等缺口已在 research.json 如实记录，按任务规则不阻断。",
+    "四个开源条目的仓库 ID 与许可证 SPDX 均与快照一致（Tiledesk MIT、LiveHelperChat Apache-2.0、Frappe AGPL-3.0、osTicket GPL-2.0），许可证快照含完整文本；未做运行验证，与 runtime_tested=false 一致。",
+    "osTicket 与 Live Helper Chat 的 README 偏功能列表，未提供部署运行验证；本单元只做资料审查，不要求部署测试。"
+  ],
+  "leaf_checks": {
+    "contact-center-quality-management": {
+      "status": "verified",
+      "basis": "EvaluAgent 官方 QA 页正文支持 multi-channel scorecards、In-Built Call Player/Ticket Viewer、Check-the-Checker/Calibration、appeals、Monitor Agents/Evaluators、coaching；坐席-交互-评分-质量档案核心成立。",
+      "gap": "商业条目，未研究价格、架构、部署或运行验证；无阻断缺口。"
+    },
+    "conversation-intelligence-platform": {
+      "status": "verified_with_limits",
+      "basis": "Gong 官方帮助文档“Welcome to Gong”为文档页；页面含 conversation intelligence、capture/record、transcribe/transcription、calls/emails/meetings、CRM、deal/revenue、insight 等正文关键词，支持捕获-转写-信号-组织级洞察的基本类型匹配。",
+      "gap": "快照为 SSR HTML，正文未能逐段完整抽取；未运行验证。"
+    },
+    "customer-service-chatbot-platform": {
+      "status": "gap",
+      "basis": "Tiledesk 仓库 id=278604441、MIT 完整文本、README 支持开源 Live Chat + integrated Chatbots、多渠道脚本、bots side-by-side with humans；但 README 正文未记录 bot→human 交接、坐席接管或会话记录/坐席控制台。",
+      "gap": "机器人→人工接缝与坐席会话记录仅有仓库 description（元数据）支撑；MIT 证据为部署仓库级，组件许可证未逐项核对，社区版组件边界不完整。"
+    },
+    "customer-support-chat": {
+      "status": "verified",
+      "basis": "Live Helper Chat 仓库 id=7068587、Apache-2.0 完整文本；README 明确网站 live support、site widget、multiple operators、multiple chats、chats archive/transcript、chat transferring、work hours/availability、visitor distribution，覆盖自有聊天入口-实时人工会话-坐席控制台核心。",
+      "gap": "未做运行验证；无阻断缺口。"
+    },
+    "help-desk": {
+      "status": "verified",
+      "basis": "Frappe Helpdesk id=419635982、AGPL-3.0 完整文本，README 支持 ticket management、agent/customer dual portals、assignment rules、SLA、knowledge base、saved replies；osTicket id=12063996、GPL-2.0 完整文本，README 明确 website/email/phone 建单、tickets saved and assigned to agents、agents resolve。",
+      "gap": "Frappe README 未明确生命周期状态，由 osTicket 的完整闭环补齐；未做运行验证。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或运行任何产品；只读取 REVIEW_SOURCES.json 列出的快照，未读取 sources 目录中未列出的额外文件，也未访问其他单元或实时网页。商业条目仅核对官方页面/文档的基本真实性与类型匹配，未研究价格、架构、部署或运行。Gong 快照为 Document360 SSR HTML，超长行使正文无法逐段完整抽取，只能结合页面结构和关键词核对。input.json 的 progress 与 batch/research 不一致，本报告以 batch.json、research.json 和实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-112/ses_groveopencodegop112review1_1793004130.jsonl",
+  "batch_sha256": "c858fcb0813cc3a0564db19ae818990e719c352f897d77ac254926ed5afb95fd",
+  "research_sha256": "ab836f68d1dfa32b8577963329d5b9b48c8011dd502f6e4fa18e703b7e84bfdc",
+  "input_sha256": "3b77750048e40804efa83944318c5af29b261a0c10d9891d1226b9370c6a9573"
+}

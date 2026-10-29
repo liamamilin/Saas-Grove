@@ -1,0 +1,18 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "polling-application",
+      "severity": "blocking",
+      "problem": "唯一候选 Slido 的已存档来源 sources/3e37556b1e8bd3e478834327455534ebd6c36deb2a73ca2172b106d3ac378c24.txt 只有 2 行：一行 head/meta（关键词堆砌含 polls/quiz/live polls）与一段 New Relic 引导脚本，正文未落盘。对 multiple choice、word cloud、rating、ranking、QR code、实时结果、Excel/PDF/Google Sheets 导出逐词检索均无正文命中，仅 meta 命中。research 的 fetch_outcomes 与 batch reason 却写成“正文列出…”，属于以 HTTP 成功+元数据/关键词代替正文证据，正是契约禁止的做法。",
+      "fix": "重新抓取并保存 Slido 官方正文（可改用官方帮助中心/产品文档的静态页），确认确实存在“问题+预设选项→参与者投票→聚合结果”的定义性核心后再保留 case_found；若仍抓不到正文，则 assessment 改 insufficient_evidence、case_ids 置空、batch 中移除该 leaf_match 与 commercial:slido 条目（该条目无其他叶子），并在 fetch_outcomes 如实记录“仅壳页/meta，正文未取得”。不得保留现有“正文含…”表述。"
+    },
+    {
+      "leaf": "meeting-action-item-management",
+      "severity": "info",
+      "problem": "以“缺应用内到期日证据”判 boundary_unresolved 且 archived:false，符合“证据不足留档、不改范围”；但同叶 meeting-notes 判 insufficient_evidence，两者失败原因不同却都无 case，建议最终复核时统一说明二者区别，避免被读成同一缺口。",
+      "fix": "无需改数据；在最终报告中保留“行动项：主体成立、仅日期维度未证”与“会议纪要：议程/结论结构未证”的区分即可。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-003/project/review.json"
+}

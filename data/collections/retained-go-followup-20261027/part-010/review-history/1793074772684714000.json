@@ -1,0 +1,77 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "telecom-expense-management",
+      "application_id": "commercial:tangoe",
+      "issue": "两份 Tangoe 快照（TEM 产品页与 Invoice Audit 页）实际只有 <head> 元数据、脚本和页脚导航，文件中没有 <body>/<main>、h1/h2 标题或可读产品正文。当前能核对的只是页面标题与 meta description 的概括，无法核对发票捕获与结构化、按服务清单/合同费率/历史账单审计、差异追踪到争议/贷记/调整、节省结果等核心闭环；batch summary 与 research note 关于“正文覆盖”的表述没有快照依据，属于用简介/元数据替代核心正文。",
+      "fix": "重新抓取保留渲染后正文的 Tangoe 官方 TEM 与 Invoice Audit 页面，或改用官方产品文档/数据表，至少证明发票审计对账与差异→争议/贷记/节省结果的闭环；若仍受反爬或 JS 渲染阻断，应如实记录抓取缺口并换用可读官方来源，同时修正 batch summary、leaf_matches.reason 与 research.note，避免继续声称正文已覆盖。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]，与本单元 batch.json/research.json 的 case_found 不一致；本次以 batch/research/快照为准，建议下游同步 progress，避免误判为无案例。",
+    "Traefik 的 research.service_boundary 说明了其面向自身数据面而非第三方硬件负载均衡器，但未显式写明 Traefik Proxy（MIT 开源仓库）与 Traefik Hub/Enterprise 商业产品的边界；当前证据未混用商业版功能，建议补充边界说明。",
+    "NetBox 条目没有 license_review 对象，但 license 快照已含 Apache-2.0 完整正文（size=10174）和 SPDX 标识；建议补一个 license_review 以与 Traefik/OpenWISP 条目一致。",
+    "research 中提到的 phpIPAM README 与 Archivematica README 候选快照未列入 REVIEW_SOURCES；它们只作候选、不作为 batch 证据，属于留档可追溯性的小缺口。",
+    "Traefik 的 TCP/UDP routing 与“listeners”措辞未在本次引用的 Service 文档正文中直接展开，建议 summary 更贴近已引用的 HTTP service 证据；不影响负载均衡核心匹配。",
+    "Tangoe 的 homepage 快照 URL 实际是 TEM 产品页而非站点根页，kind 标注略有偏差，不影响类型判断。"
+  ],
+  "leaf_checks": {
+    "ip-address-management-ipam": {
+      "status": "pass",
+      "track": "open_source",
+      "application_ids": [
+        "github:52796596"
+      ],
+      "basis": "按 REVIEW_SOURCES 的 path 读取 NetBox 仓库页、README、官方 IPAM 文档和 license 快照。README 说明 NetBox 是网络 source of truth，以数据模型记录 IP 地址等资源并提供 REST API；IPAM 文档正文明确 Aggregate→Prefix→IP Range→IP Address 的 CIDR 层级、自动父子层级、容器/非容器前缀利用率、VRF 隔离及每个 VRF 的重复地址控制。仓库页 repository_id=52796596 与条目一致；license 快照为 Apache-2.0 完整正文（size=10174，含 SPDX 标识）。research 已记录 license API 403 后复用同仓库旧快照的缺口。",
+      "gap": null,
+      "notes": "IPAM 页重点证明地址空间记录、层级、利用率和 VRF；分配/回收/查找空闲地址的操作流程未逐项展开，但按定义中“纯地址账簿”标准，核心仍成立。"
+    },
+    "load-balancer-management": {
+      "status": "pass",
+      "track": "open_source",
+      "application_ids": [
+        "github:42408804"
+      ],
+      "basis": "Traefik README 明确其为 HTTP reverse proxy 和 load balancer；官方 Service 文档正文说明 loadBalancer service 将请求路由到 servers 列表，列出 wrr/p2c/hrw/leasttime 策略、healthcheck 将不健康 server 移出轮换、sticky sessions 及不健康 server 的重新分配。仓库页 repository_id=42408804 与条目一致；LICENSE.md 为完整 MIT 文本。",
+      "gap": null,
+      "notes": "条目是自带数据面的反向代理/负载均衡器，管理面为动态配置、API 与 Web UI，而非管理第三方硬件 LB；本次引用的 Service 页未单独展开 listener/entrypoint 正文，但不影响核心结构匹配。"
+    },
+    "network-management": {
+      "status": "pass",
+      "track": "open_source",
+      "application_ids": [
+        "github:77444607"
+      ],
+      "basis": "OpenWISP README 称其为 configuration manager，覆盖 adoption、provisioning、管理 VPN 等；官方结构文档正文列出 Config App 的设备配置管理、JSON-Schema/NetJSON 编辑器、配置模板、变量、设备组，以及 SSH/SNMP 连接；Push Operations 正文说明配置变更后 OpenWISP 会在后台通过 SSH 触发设备更新，并给出“在 OpenWISP 改设备名→观察设备配置更新”的验证步骤。仓库页 repository_id=77444607 与条目一致；LICENSE 为完整 GPL-3.0 文本。",
+      "gap": null,
+      "notes": "证据覆盖设备记录（现有/新增设备、设备组）、配置实体和写入路径；配置修订/回滚页面未引用，版本化/恢复深度证据仍有小缺口，但不影响本类型核心判定。"
+    },
+    "telecom-expense-management": {
+      "status": "fail",
+      "track": "commercial",
+      "application_ids": [
+        "commercial:tangoe"
+      ],
+      "basis": "两份 Tangoe 快照（TEM 产品页和 Invoice Audit 页）实际只含 <head> 元数据、脚本与页脚导航；文件中没有 <body>/<main>、h1/h2 或可读产品正文。可确认的只有页面标题“Telecom Expense Management (TEM)”/“Invoice Audit & Optimization”和 meta description 的概括；无法核对发票捕获与结构化、按服务清单/合同费率/历史账单审计、差异→争议/贷记/调整、节省跟踪等核心闭环。",
+      "gap": "核心正文缺失；batch summary 与 research note 关于“正文覆盖发票审计、计费错误、未使用服务、争议处理与节省跟踪”的说法没有快照依据。",
+      "notes": "商业身份和类型名称基本真实，但未达到“不能用简介/元数据替代核心正文”的要求，因此本叶当前没有可用案例。"
+    },
+    "archive-storage-management": {
+      "status": "pass",
+      "track": "commercial",
+      "application_ids": [
+        "commercial:sharearchiver"
+      ],
+      "basis": "ShareArchiver 官方首页正文说明 policy-based engine 将 stagnant data 迁移到 Azure/AWS S3 等低成本存储层；Archive Storage Solutions 正文说明可归档到 on-prem/cloud、以零大小 file stubs 替换不常用文件、保留 e-discovery/search，并按需 unarchive；页面还说明 speedy data restores。对应归档目标、受管转换和检索路径三要素。",
+      "gap": null,
+      "notes": "商业产品仅做基本真实性与类型匹配；未核价，未验证“降低 80%”等营销数字，也未把备份/灾难恢复当作核心类型依据。"
+    }
+  },
+  "limits": "仅使用本单元提供的只读资料（REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json）及 REVIEW_SOURCES 列出的 17 个快照；按给定 path 原样读取，未运行产品、未做部署/价格/架构测试、未重算快照哈希、未读取其他单元。Tangoe 缺正文的结论来自快照文件实际内容（无 body/main/标题/正文），未以实时网页补抓替代。商业产品仅做基本真实性与类型匹配，未验证营销数字或商业条款。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-140/ses_groveopencodegop140review2_1793011345.jsonl",
+  "batch_sha256": "06a0456e5f2c88ec37b7cc8ff7b557b8bae390d48af6a6c36aa33914ddc98a18",
+  "research_sha256": "6ecac4d908fe1a730b47bb2ba307c1bf2057ce071263c8f413e17c1bdfa7e31e",
+  "input_sha256": "b9f23fedff2a6bb62fc002995e532de515f308060b4d8ea0166c9bd76fcf70ee"
+}

@@ -1,0 +1,31 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Culvia 的选集交接以“把 picked 文件复制到目标目录，再导出 CSV”为主；Export Workflows 明确 Lightroom XMP、Capture One session/catalog 或 sidecar 写入仍属未来工作，摘要中“供后续 Lightroom/Capture One 流程使用”宜限定为 CSV/复制式交接，不应表述为已完成 sidecar 导入。",
+    "Culvia 的人工决定保存在本地 SQLite，并非逐张写在图像旁的 sidecar；这仍是非破坏性的，且叶定义允许“复制到选集文件夹”的输出，但“决定记录在图片旁”的表述偏宽。",
+    "Photo Triage 的初判依赖 Anthropic API，人工复核是写盘前的检查点；摘要“AI 初判只是加速手段”成立的前提是用户实际执行复核，宜保留这一限制说明。",
+    "Culvia 默认仅监听 127.0.0.1，属于本地 Web 服务；若本库的“服务形态”要求网络可达的托管/自托管服务，应以 Photo Triage 的自托管形态为主，并说明 Culvia 可通过 host 参数调整。",
+    "Culvia 自述 alpha，Photo Triage 为小项目且依赖外部付费 API；两者均未做部署实测，成熟度和长期维护性属非阻断观察。",
+    "input.json 的 progress 仍为 boundary_unresolved 且 application_ids 为空，而 batch.json/research.json 已列出两个案例；建议同步单元进度元数据，避免入库状态与内容不一致。",
+    "Photo Triage 的 Docker 镜像会捆绑 exiftool，Culvia 可能包含本地模型资源；条目中的 MIT 仅指仓库代码，若发布镜像/二进制，宜另行标注第三方组件许可证。",
+    "本叶未提交商业案例，商业基本真实性和类型匹配检查不适用；Narrative、Aftershoot 的抓取失败已如实记录，未作为通过案例。"
+  ],
+  "leaf_checks": {
+    "photo-culling-application": {
+      "result": "passed",
+      "definitional_core": "Culvia 的 README、Getting Started 和 Export Workflows，以及 Photo Triage 的 README，均给出完整工作流正文：以拍摄/RAW 文件夹为批次，逐张做 pick/hold/reject、星级/色标或拒绝/评级决定，再以复制选集或 XMP sidecar 交付；两者都不编辑像素、不做终身图库，符合叶的“批次—逐张决定—选集输出”三项结构。",
+      "service_form": "Culvia 是本地 Web 应用（culvia-web/culvia-supervisor，默认 127.0.0.1，另有可选桌面外壳）；Photo Triage 是自托管 Flask Web 应用（局域网访问，Docker Compose/systemd 常驻）。两者均为可持续运行的 Web 应用服务，不是单纯 CLI、引擎、SDK 或设备控制。",
+      "identity_track": "batch 中 github:1262723706 对应 yangzhg/culvia，github:1298027412 对应 elpicoso/photo-triage-app；repository metadata 的 id、full_name、private/fork 状态与 batch 一致，track 均为 open_source。",
+      "license_and_community_boundary": "两项均为 MIT：repository metadata 给出 MIT，license API 快照内含完整 MIT 授权正文；未发现 open-core、付费社区版或闭源模块声明，完整仓库即社区版。Photo Triage 的 Anthropic API 与 exiftool 属外部依赖，不是许可证边界。",
+      "source_basis": "逐字读取 REVIEW_SOURCES.json 列出的 8 个快照：Culvia 的 README、Getting Started、Export Workflows、repository metadata、license；Photo Triage 的 README、repository metadata、license。另核对 batch.json 的条目/来源和 research.json 的检索、抓取与缺口记录。",
+      "gaps": "未做部署实测；Culvia 自述 alpha，Photo Triage 为小项目且需 Anthropic API 密钥；Culvia 默认本地回环，Photo Triage 的 AI 初判依赖外部 API。上述为成熟度/形态说明，不构成核心正文缺口。"
+    }
+  },
+  "limits": "本次为只读快照审查：未运行应用、未做部署或运行时验证，未重新计算 SHA-256，未访问实时 URL；仅核对本单元 REVIEW_SOURCES.json 列出的 8 个快照，未复核未列入该文件的保留候选/未采用候选（如 PhotoX、Facet、ShotSieve、Riffle）的历史快照。定义字段 rules/rules_zh 在读取时被工具按行截断，已核对可见部分；核心 overview/dc 与案例正文完整读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-024/ses_groveopendesignp024review1_1793153769.jsonl",
+  "batch_sha256": "ce8b1778740aae2016a050805e58685d1d2defb20b6eb3e0fa5612a593120ac6",
+  "research_sha256": "18ea460e09ba22fea659ee92fa8b0abb3dd688ec422a5629437538050d89570b",
+  "input_sha256": "f3f3b83ac4e72de6b265a7285256db0aab48637bb4ee67315ae64b48644d68db"
+}

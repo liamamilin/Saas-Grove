@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "clinical-data-management",
+        "name_zh": "临床数据管理",
+        "domain_id": "22",
+        "parent_id": "22.04",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "OpenClinica github open source EDC clinical data management"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "OpenClinica github open source EDC clinical data management"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/109",
+            "result": "insufficient_evidence",
+            "note": "主会话最终复核：本条声明LGPL-3.0，但license_evidence_url指向的是GPLv3全文；另存COPYING.LESSER补充条款，尚未明确适用范围。旧正式产品GPL-3.0核心字段保持，新增关系暂缓，保留全部许可来源。",
+            "query": "OpenClinica github open source EDC clinical data management"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：本条声明LGPL-3.0，但license_evidence_url指向的是GPLv3全文；另存COPYING.LESSER补充条款，尚未明确适用范围。旧正式产品GPL-3.0核心字段保持，新增关系暂缓，保留全部许可来源。"
+      },
+      "definition": {
+        "slug": "clinical-data-management",
+        "name": "Clinical Data Management",
+        "name_zh": "临床数据管理",
+        "aliases_zh": [
+          "临床试验数据管理"
+        ],
+        "overview": "**Clinical Data Management** software is the data-management system of clinical trials: it holds each study's collected trial data as a governed, attributable record, checks that data against study-specific validation rules, drives every problem it finds through a documented query-and-resolution loop with the people who supplied the data, reconciles external data sources and coded terminology into the record, and finally declares the record complete and clean in a controlled event — the database lock — from which analysis-ready data is extracted for statistics and regulatory submission.\n\nIts purpose is the quality half of trial data work. Capturing trial data at sites is the territory of electronic data capture (EDC); running the trial's operations is the territory of a CTMS. Clinical data management is what happens to the data between those two: the sustained cleaning, verifying, and finalizing work performed by sponsor and CRO data-management teams, whose profession has its own international standards body, practice guide, and certifications. In the current market the software almost always bundles capture alongside management, and often randomization and patient-reported collection as well; that bundling is a packaging posture, not the substance of the Type. The substance is the governed study record and the machinery that turns raw trial data into a declared-clean database.",
+        "overview_zh": "**临床数据管理**软件是临床试验的数据管理系统：它作为受监管、可溯源的记录，保存每项研究收集的试验数据；根据研究特定的验证规则检查数据；将发现的所有问题通过有文档记录的查询与解决流程，传递给提供数据的人员处理；将外部数据源和编码术语协调纳入记录中；最后在一个受控事件——数据库锁定——中宣布记录完整且干净，并从中提取可用于统计和监管提交的分析就绪数据。\n\n其目的是完成试验数据工作中的质量部分。在研究点捕获试验数据是电子数据捕获（EDC）的领域；运行试验运营是临床试验管理系统（CTMS）的领域。临床数据管理则处理这两个环节之间的数据：由申办方和CRO数据管理团队执行的持续清洗、验证和定稿工作，该职业拥有自己的国际标准机构、实践指南和认证。在当前市场上，该软件几乎总是将捕获与管理捆绑在一起，通常也包括随机化和患者报告数据采集；这种捆绑是一种包装方式，而非该类型的实质。其实质是受监管的研究记录以及将原始试验数据转化为已宣布干净的数据库的机制。",
+        "dc": "The world of this application consists of four structures. If any one is removed, the software stops being clinical data management and becomes something simpler — a capture tool, a ticketing system, or a reporting layer.\n\n**The governed study data record.** Each study has a structured record of its collected data: participants (subjects) organized under sites, with visits or events, each holding the protocol-specified data items — forms capturing diagnoses, medications, measurements, adverse events, and everything else the protocol requires. Every value is attributable (who entered or changed it, when, and why), and the record is deliberately non-destructive: nothing meaningful is silently deleted. This record is the system of record for the trial's data — the thing the rest of the machinery cleans, defends, and finally freezes.\n\n**Validation that raises discrepancies.** Before data ever arrives, the study carries a validation design: edit checks and rules expressing what values and combinations are expected — ranges, required fields, logical consistency across items. When captured or imported data violates an expectation, the system automatically raises a **discrepancy record** (most of the market calls these queries). Data managers can also raise queries manually on values that pass automated checks but look wrong to a human. Each discrepancy attaches to a specific data element and carries a status that expresses who is responsible for the next action.\n\n**The resolution loop.** A discrepancy is a conversation with an endpoint: the query is assigned to the person who can answer it (usually at the site), that person either corrects the data or explains it, the originator verifies the response, and the discrepancy is closed. Closed discrepancies are final — they are never deleted, even if raised in error, because the query trail is itself evidence. Changes to already-completed data force a recorded reason for change. This loop, repeated across thousands of data points and months of enrollment, is the heartbeat of the Type: capture creates data, the loop makes it clean.\n\n**Controlled finalization — lock and extraction.** The work has a terminal event. When the study's data is in, discrepancies are resolved, and reconciliations are complete, the study database is **locked**: the record becomes read-only as the declared-clean, analysis-ready version of the trial's data. Data managers plan for this event throughout the study — dashboards track query aging and completeness precisely because open items block the lock. From the locked database, datasets are extracted for statistical analysis and submission. If something must change after lock, the unlock is a governed exception performed with a recorded reason and a re-lock.",
+        "dc_zh": "这个应用的世界由四种结构组成。如果移除其中任何一种，软件就不再是临床数据管理，而变成更简单的工具——数据采集工具、工单系统或报告层。",
+        "rules": "### Nothing is silently deleted\n\nDiscrepancy records, once raised, cannot be deleted — closing them is the only exit, and even a query raised in error stays in the trail. The audit trail — who changed what, when, and why — is the evidentiary spine of the whole system, because trial data is subject to regulatory inspection.\n\nRemoval of participants or data is typically implemented as a soft operation rather than a deletion: the record is retained and viewable but excluded from editing and extracts, restorable later, with the change recorded and a reason attached.\n\n### Changes to completed data require a reason\n\nOnce a form or record is marked complete, edits force a recorded reason for change. This converts silent corrections into documented events and keeps the record's history defensible.\n\n### Query status encodes responsibility\n\nA query's status tells the organization who must act next: raised, awaiting response, resolution proposed, verified and closed. Only authorized roles can close a query. The loop ends only when the originator accepts the answer — the site's reply alone does not clean the data.\n\n### The lock is gated and terminal\n\nA database cannot be locked while expected work remains: open queries, incomplete forms, unresolved coding, or unreconciled external data each block the declaration. After lock, the record is read-only; changes happen only through a governed unlock with recorded reason and re-lock. Products present the gating criteria differently, but the pattern — clean-then-freeze, freeze-then-extract — is the discipline's shape.\n\n### Separation of duties\n\nSite contributors enter and explain data; monitors verify it against source; data managers control the record and close the loop; coding and medical review sit with qualified specialists. Access rights follow these roles, and the same value can be seen by everyone while being editable by only one of them.\n\n### Validation is designed, not improvised\n\nWhat counts as wrong is fixed at study build — allowed values, ranges, cross-field logic, required fields. The software can only be as good as the validation design, which is why rule specification is a first-class activity and why imported data is checked against the same rules as hand-entered data.",
+        "rules_zh": "### 无任何内容被静默删除\n\n差异记录一旦提出，便无法删除——关闭它们是唯一的出路，即使是错误提出的查询也留在追踪中。审计追踪——谁在何时、因何更改了什么——是整个系统的证据脊梁，因为试验数据受到监管机构的检查。\n\n移除参与者或数据通常作为软操作而非删除来实现：记录被保留且可查看，但被排除在编辑和提取之外，以后可恢复，并记录更改及附加原因。\n\n### 对已完成数据的更改需要原因\n\n一旦表单或记录标记为完成，编辑会强制要求记录更改原因。这将静默更正转化为有文档记录的事件，并保持记录历史的可辩护性。\n\n### 查询状态编码责任\n\n查询的状态告诉组织接下来谁必须行动：已提出、等待响应、建议解决方案、已验证并关闭。只有授权角色可以关闭查询。只有当提出方接受答案时循环才结束——仅有研究点的回复并不能清洗数据。\n\n### 锁定是受控的终端操作\n\n在预期工作未完成前，数据库无法锁定：未关闭的查询、不完整的表单、未解决的编码或未对账的外部数据每项都会阻止宣布。锁定后，记录变为只读；更改仅通过受控的解锁（记录原因）和重新锁定发生。产品对门槛标准的呈现方式不同，但模式——清洗后冻结，冻结后提取——是该学科的形态。\n\n### 职责分离\n\n研究点贡献者录入和解释数据；监查员根据源数据对其进行验证；数据管理员控制记录并关闭循环；编码和医学审阅由合格专家负责。访问权",
+        "parent_id": "22.04",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 168,
+    "phase": "directory",
+    "parent": 168,
+    "slugs": [
+      "clinical-data-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "d55df6095da70c3ca48eb5950ddc0ec4c266dbe761e1cc033d4af17eaed0a86c"
+  }
+}

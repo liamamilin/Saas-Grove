@@ -1,0 +1,35 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "competency-management-platform",
+      "application_id": "commercial:skills-base",
+      "issue": "批次将 Skills Base 作为胜任力管理平台案例，并在 summary 与 leaf_matches.reason 中断言“按角色设定目标熟练度、员工五点量表自评并由经理验证、平台比较实际与目标形成差距、矩阵与报表”。但被引两篇“官方正文”快照（705d7708…/skills-gap-analysis-tool、9b5c8a51…/competency-framework）实际只含 HTML head、meta、导航模板与页脚，没有可读产品正文；全文检索到的相关文字仅为页面 meta 描述（“skills management software…verified skills”“Competency Framework”）。这属于以简介/元数据替代核心正文，模型—角色期望—个人档案—差距比较在该商业案例中均未被来源支持，类型匹配也无法由正文确认。",
+      "fix": "补抓并留存 Skills Base 可读正文快照（产品/功能页或帮助文档），正文需直接写明角色/岗位目标熟练度、自评与经理验证形成的个人档案、实际与目标差距或矩阵；若无法取得正文，则将该条降为仅基本真实性与类型匹配的记录，删除 summary、leaf_matches.reason、research.note 中未获正文支持的具体能力断言（五点量表、经理验证、按角色目标熟练度、差距/矩阵），并在 research.json 中如实记录该抓取缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "HRPulsar 的 license_review.rationale 提到 NOTICE 说明社区版/企业版边界，但 REVIEW_SOURCES.json 未包含 NOTICE 快照；README 第 74–78 行已独立写明 Community Edition 为 AGPLv3、Enterprise Edition 另行商业许可，边界仍可成立，建议改引 README 或补存 NOTICE。",
+    "HRPulsar 官网快照（4d1abe56…）为 Next.js HTML 外壳，只有 title/meta 等，不能作为核心工作流证据；批次仅用它佐证官网与云端形态，核心证据来自 docs/features.md，使用方式可接受。",
+    "HRPulsar features 文档还覆盖招聘、考试、人才市场等模块，batch 的 leaf_matches 与 research.note 已把范围收在胜任力模块，建议保持该边界措辞，避免后续把相邻模块计入本叶。",
+    "research.json 中“原缺口已补齐”“逐条覆盖模型、角色目标等级、自评+经理验证档案与差距比较”的表述与 Skills Base 快照实际内容不符，修复时需同步改为可核对的说法。",
+    "未部署或运行任何产品（runtime_tested=false），符合本次只读初审要求；不影响以官方正文核对核心与许可。"
+  ],
+  "leaf_checks": {
+    "competency-management-platform": {
+      "status": "changes_required",
+      "definition_core": "HRPulsar 官方 features 正文覆盖定义核心三层：Competency Framework 为分层能力库（能力组/能力/指标/学习材料、熟练度等级、发布与停用、审计，lines 146–161）；Positions 与 Specializations 把所需等级附着到岗位及“能力×职级”矩阵（lines 128、138–141）；Competence Snapshot 按岗位所需能力展示最近一次已完成评估的等级，保留高于/低于要求的项，等于或低于通过线统一标为 gap，并可由差距创建发展计划（lines 79–89）。另有自评/180°/360° 评估与角色化参与者（lines 324–376），以及按差距生成发展计划（lines 424–448）。",
+      "service_form": "README 与 features 显示为持续使用的完整 Web 应用：FastAPI + Next.js、Docker Compose 自托管（PostgreSQL/Redis/反向代理）、多租户与 REST API；README 与官网 meta 均写明可自托管或使用云端，符合软件服务形态，而非仅 SDK/文档/框架。",
+      "identity_track": "github:1211443189 与仓库元数据 id=1211443189、full_name=HRPulsar/hrpulsar、fork=false 一致；track=open_source，homepage 与 repository_url 指向同一官方仓库/站点；研究记录中的 case_ids 与 batch id 一致。",
+      "license_boundary": "license 快照为 GitHub contents/license 响应，size=34523，content 的 base64 解码开头即 “GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007” 完整文本；README 第 74–78 行明确 Community Edition 采用 AGPLv3（含 Section 7 组合许可），企业版模块另行商业许可。batch 以 community_core 范围申报，未把企业版功能计入开源范围，社区版边界成立。",
+      "commercial_check": "commercial:skills-base 仅能由快照确认名称、域名与“skills management software…verified skills”的元数据定位，以及一个标题为 Competency Framework 的页面；两篇被称“官方正文”的快照没有可读正文，无法核对角色目标熟练度、自评+经理验证、差距/矩阵等核心断言。按“不得以简介/元数据替代核心正文”的要求，该商业案例的类型匹配未获正文支持，需修复。",
+      "gaps": "Skills Base 两篇文档快照正文缺失（仅 head/meta/导航模板/页脚）；HRPulsar NOTICE 未留存（README 已覆盖许可边界）；未做运行时验证，符合任务限制。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元；仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、research.json 及 REVIEW_SOURCES.json 列出的 8 个快照。快照均按给定 path 原样读取；Skills Base 页面与 HRPulsar 官网为长行 HTML，读取显示存在 2000 字符截断，故以全文检索核对关键词与正文缺失情况。许可证快照为 base64 编码的 34,523 字符文本，核对了开头 AGPLv3 标题/序言与 size，未逐字解码全部 34k 文本。未做部署、运行时或价格/架构补充研究；不把 HTTP 成功、导航、meta 或关键词本身当作核心工作流证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-066/ses_groveopendesignp066review1_1793175170.jsonl",
+  "batch_sha256": "9f23209af47cf29fb8396c3dbb81c915e70879242fa2a06754b51c19fc4e863a",
+  "research_sha256": "6c3faabe189e6ce266b1036add77ca413954993a906b5911ff1e89a92b273a5a",
+  "input_sha256": "e2eec5ee398cdd209989d8179a6406386cda78b8b5b468a04679e48b9711249e"
+}

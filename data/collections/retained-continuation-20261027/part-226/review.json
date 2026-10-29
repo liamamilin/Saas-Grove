@@ -1,0 +1,82 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "election-results-management",
+      "application_id": "commercial:comitia",
+      "issue": "batch.json 摘要、leaf_matches.reason 与 research.json note 均称官网页列出“选举之夜结果发布（Election night reporting）”模块，但实际读取的首页快照中没有该表述；快照仅见 JSON-LD 的 Turing“escrutinio y totalización de resultados”与 Sistema de Operaciones Electorales“centralización de información y seguimiento”。该未取证表述被用于支撑“对外结果发布”这一项定义性核心。",
+      "fix": "删除“选举之夜结果发布”及由其支撑的“对外结果发布”结论，改为仅陈述 Turing 的计票/结果总计；若要保留，补抓 https://comitiacorp.com/turing 或结果发布页正文快照并在 sources/leaf_matches 中引用。"
+    },
+    {
+      "slug": "election-results-management",
+      "application_id": "commercial:comitia",
+      "issue": "该条的类型匹配主要建立在首页 JSON-LD 服务元数据和通用营销文案上；在所引快照中 Turing 仅出现在 JSON-LD 服务条目，正文未见产品说明，未读到结果接收、报告单位聚合、核票对账或官方结果状态的正文证据。按“不能用简介/元数据替代核心正文”的要求，现有依据不足以支撑当前匹配理由的强度。",
+      "fix": "补抓 Turing 产品页正文作为核心证据；若无法取得，将条目降为“产品类别基本匹配、工作流未核验”，并在 summary/reason 中明确这一边界。"
+    },
+    {
+      "slug": "rulemaking-public-consultation-platform",
+      "application_id": "commercial:citizen-space",
+      "issue": "leaf_matches.reason 与 research.json note 称 featureList 的 Activity templates“明确写明可用于 statutory consultation、permits 与 licensing”，但所引 Delib 页面快照的 featureList 只有“Activity templates”，全页检索不到 statutory、permits、licensing；该具体表述没有来源依据。",
+      "fix": "删除“statutory consultation、permits、licensing/法定咨询模板”表述，或补充包含该说明的官方快照；匹配理由改用页面正文已支持的 consultation、ask questions、analyse responses、Response publishing。"
+    }
+  ],
+  "non_blocking_notes": [
+    "openstates: MIT 许可证快照只覆盖仓库代码；摘要“MIT 许可的开源立法数据”把数据/API 内容也置于 MIT 之下，数据内容许可未取证，建议限定为“仓库代码 MIT”。",
+    "openstates: README 只说明网站与 v2 GraphQL API、Docker/AWS/Ansible；PostgreSQL 等技术栈字段未在快照中直接出现，建议标注为推断或补证。",
+    "openstates: 该仓库是网站/API 前端，法案数据采集管线在别的仓库；社区版边界应写明“本条目是网站与 API，不是完整数据管线”，许可证审查 scope 为 repository 是合适的。",
+    "legislative-management-system: 该叶为排除性结论，研究记录引用 SalimJarmakani 仓库 README/LICENSE/init.sql/Bill.php 等并给出 sha256，但这些快照未出现在 REVIEW_SOURCES.json，无法独立复核；建议像 voter-registration-system 一样明确标注为“不可独立复核的检索记录”。",
+    "election-results-management: research.json 提到的 VotingWorks VxSuite（GPL-3.0）同样没有本单元快照；该排除理由应按检索记录对待，不影响 COMITIA 条目的独立核对。",
+    "input.json 的 progress 仍为 not_searched、phase 为 included_without_cases，与本单元 batch/research 已有 3 个 included 应用不一致；建议同步元数据，避免下游误读。",
+    "comitia 摘要“投票计票（Turing）”把投票与计票混在一起；Turing 的官方描述是 escrutinio y totalización de resultados（计票/结果总计），建议改为“计票与结果总计”。",
+    "Citizen Space 页面标题为“Citizen Engagement Platform”，与咨询平台类型存在边界张力；正文的 consultation、asking questions、Response publishing 支持当前归类，建议保留边界说明。"
+  ],
+  "leaf_checks": {
+    "election-results-management": {
+      "status": "included_with_unverified_core",
+      "application_ids": [
+        "commercial:comitia"
+      ],
+      "evidence": "读取 data/collections/sources/4699737f450789a9fbc562752bb35885ec5be7fa2dfede51d21185f4efb4885b.txt：JSON-LD 将 Turing 描述为“Tecnología electoral para el escrutinio y totalización de resultados”，将 Sistema de Operaciones Electorales 描述为“centralización de información y seguimiento”；首页正文为通用营销内容。",
+      "core_check": "仅能确认计票/结果总计产品类别；未确认竞赛级结果记录、报告单位聚合、核票对账、官方状态或对外发布。",
+      "gaps": "“选举之夜结果发布”不在快照中；未抓取 Turing 产品页；未测试运行时。"
+    },
+    "legislative-management-system": {
+      "status": "no_case_insufficient_evidence",
+      "application_ids": [],
+      "evidence": "research.json 记录 GitHub 检索与 SalimJarmakani/Legislation-Process-Management-System 的 README、LICENSE、init.sql、Bill.php、BillRepository.php、routes.php 抓取；结论为有自增编号和四态状态，但无阶段受控版本、无议院日程工具、无秘书处审批发布。",
+      "core_check": "三项定义结构未共同成立，未收录；结论方向保守。",
+      "gaps": "候选源码快照未列入 REVIEW_SOURCES.json，无法独立复核；只能视为采集记录。"
+    },
+    "legislative-tracking-platform": {
+      "status": "included_verified",
+      "application_ids": [
+        "github:91511370"
+      ],
+      "evidence": "GitHub 页面 meta 显示 repository_id 91511370；LICENSE 快照为完整 MIT 文本；README 说明网站与 v2 GraphQL API；follow-button.js 提供 Follow Bill；process_subscriptions.py 实现 query/bill 订阅、按 state/chamber/session/sponsor/classification/status 检索、按 latest_action_date 检测变化并按 DAILY/WEEKLY 邮件投递。",
+      "core_check": "镜像记录、关注定义、变化检测与推送成立；不参与法案生命周期操作。",
+      "gaps": "未说明 Congress 覆盖、现运营方、议员/委员会资料；生产部署未核实；数据采集管线不在该仓库；MIT 仅覆盖仓库代码，数据内容许可未取证。"
+    },
+    "rulemaking-public-consultation-platform": {
+      "status": "included_basic_match_with_unsupported_detail",
+      "application_ids": [
+        "commercial:citizen-space"
+      ],
+      "evidence": "Delib 产品页快照正文称 Citizen Space 为面向政府的 consultation and engagement platform；featureList 列 End-to-end consultation and engagement、Response publishing、Activity templates、Centralised management dashboard；正文称从 publishing information 到 asking questions、analysing responses。",
+      "core_check": "机构侧发布咨询、结构化收集意见、分析并发布回应的商业基本匹配成立（模块级）；日期窗口/状态机和程序容器未核验。",
+      "gaps": "“statutory consultation、permits、licensing”未见于快照；Response publishing 是否等同于处置结果发布未核验。"
+    },
+    "voter-registration-system": {
+      "status": "no_case_documented_gap",
+      "application_ids": [],
+      "evidence": "research.json 记录 GitHub 检索、TrustTheVote registrar（CC BY-SA 3.0、README 近空）、KNOWiNK Poll Pad（电子投票名册）、VR Systems 403、Laxton（身份集成商）等结果，并明确说明本单元未留存这些快照、排除理由按不可独立复核的检索记录保留。",
+      "core_check": "未找到同时具备选民记录、机构登记生命周期与选区放置证据的候选；未硬凑，方向合理。",
+      "gaps": "无快照可复核；后续需补证登记记录、资格生命周期和选区放置。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元；仅使用 REVIEW_SOURCES.json 列出的 7 个本地快照（comitia 首页、openstates 仓库页/MIT/README/follow-button/process_subscriptions、delib 产品页），未访问外网、未运行产品；商业条目只到官网首页或产品页文案级，未验证登录后工作流、部署、价格与数据许可；legislative-management-system 与 voter-registration-system 的候选来源未在本单元留存快照，其排除理由只能按研究记录对待；input.json 的 progress/phase 与 batch/research 不一致，审查以 batch/research 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-226/ses_groveopencodegop226review2_1793032342.jsonl",
+  "batch_sha256": "db072d604e3048f1d07d69e8de17672b1133037881d8cbf99c2d29e356df95db",
+  "research_sha256": "1e7da821dc5c5c91f97b95ca069d0b2ec6fc5c09ecfe63d799dffa66b0718f3e",
+  "input_sha256": "8b57f6152aed5ff4bf80a50f59b2cbadb74049d9f2bc053b66bdbfc4e70dd524"
+}

@@ -1,0 +1,69 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "disaster-recovery-platform",
+      "application_id": "commercial:zerto",
+      "issue": "batch.json 的 summary/leaf_matches 与 research.json 的 note 将“近同步持续复制”“应用恢复”“基于日志的恢复”“Failover Live & Testing”作为官网正文证据；但按 REVIEW_SOURCES.json 原样读取的首页快照 065d73e2... 中，near-synchronous、journal-based、application recovery 等具体正文表述未出现，Failover Live & Testing 仅见于导航链接，continuous data protection 主要见于 meta/导航。商业类型匹配本身可由标题/元数据支持，但具体核心工作流表述与留档快照不一致，属于以元数据/导航替代正文的来源问题。",
+      "fix": "重新抓取并保留包含上述正文表述的 Zerto 官方产品页或首页快照，或把 summary/leaf_matches 收窄为快照可支持的内容（灾难恢复/数据保护、持续数据保护、导航所列 Failover Live & Testing），并在 research.json 中如实记录正文缺口；不要以导航标签或 meta 描述作为核心工作流证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "capacity-management：Kapacity 上游仓库已于 2025-10-20 归档并转为只读，条目已如实披露；作为存量自托管能力保留可以，但不应表述为持续维护或持续更新的服务。",
+    "capacity-management：README 能证明指标历史预测、容量风险识别和自动扩缩容，但没有文档化总容量、可用容量或 headroom 视图；capacity position 只有间接证据，建议在正文或 leaf_check 中保留这一限制。",
+    "cloud-management-platform：ManageIQ 的 README 是平台级概览，可支持单一平台管理混合 IT、发现/监控、置备与编排；外部云/虚拟化连接器和资源退役流程未在快照中逐项出现，建议补充官方文档或明确标注为未核验缺口。",
+    "container-management：Dockge 的“可观察工作负载状态”只由实时进度和 Web 终端输出支持，README 未给出 CPU/内存等资源消耗指标；条目已避免称其为完整监控产品，建议保留该边界。",
+    "cloud-cost-management-finops：OpenCost 的 UI 位于独立 opencost-ui 仓库，条目使用“配套 UI”是准确的；商业 Kubecost 版本的功能与授权边界未研究，条目只记录 Apache-2.0 开源发行版，建议在发布说明中保留该边界。",
+    "input.json 的 progress 仍显示五个叶子 case_status=incomplete、application_ids=[]，与 batch.json/research.json 的 case_found 及具体 application_id 不一致；若下游使用该 progress，应先同步，或标注其为历史输入快照。",
+    "四个开源条目的 license 快照均包含完整许可证正文（Kapacity/OpenCost/ManageIQ 为 Apache-2.0，Dockge 为 MIT），SPDX 标识与正文一致；本次未做许可证兼容性或法律意见审查。",
+    "Zerto 首页快照与当前线上首页存在版本/渲染差异；线上页面可见近同步复制、journal-based recovery 等表述，但本次审查未把线上页面作为留档证据。"
+  ],
+  "leaf_checks": {
+    "capacity-management": {
+      "status": "pass_with_caveat",
+      "application_ids": [
+        "github:617356410"
+      ],
+      "evidence": "README 快照 7ccf6332... 第 17-19、31-49 行明确为 cloud native capacity solution，包含基于指标时间序列预测副本需求的 Intelligent HPA、异常流量/潜在容量风险检测、稳定性检查/灰度/自动回滚防护及多阶段缩容；仓库页快照 ff931fbb... 第 428 行显示 2025-10-20 被所有者归档并转为只读；license API 快照 d03076fd... 为完整 Apache-2.0 正文；repository_id 617356410 与 track=open_source 一致。",
+      "gaps": "README 未展示总容量/可用容量/headroom 或独立容量仪表盘；匹配主要落在容量风险与容量决策，且项目已归档，不能据此认定持续维护。"
+    },
+    "cloud-cost-management-finops": {
+      "status": "pass",
+      "application_ids": [
+        "github:178079595"
+      ],
+      "evidence": "README 快照 ad1625c2... 第 7-30 行明确给出 Kubernetes 与多云支出现状/历史可见性、按集群/节点/命名空间/控制器/服务/Pod 分配、AWS/Azure/GCP 成本监控、云厂商 billing API 集成、Prometheus /metrics、成本 API、kubectl cost CLI 与配套 UI；license API 快照 c674962e... 为完整 Apache-2.0 正文；repository_id 178079595 与 track=open_source 一致。账单/定价摄取、成本模型、组织维度分配和可见性四个核心均有正文依据。",
+      "gaps": "UI 在独立 opencost-ui 仓库；商业 Kubecost 版本边界未研究；未部署、未连接云账号。"
+    },
+    "cloud-management-platform": {
+      "status": "pass_with_caveat",
+      "application_ids": [
+        "github:20789757"
+      ],
+      "evidence": "README 快照 71dded0f... 第 14-25 行声明以单一平台管理容器、虚拟机、网络和存储，提供发现/监控/利用率/性能/报表、基于策略的资源与配置管理，以及置备、工作负载管理与编排；license API 快照 d52c0433... 为完整 Apache-2.0 正文；repository_id 20789757 与 track=open_source 一致。统一清单与置备/编排核心有正文依据。",
+      "gaps": "README 为平台级概览，未逐项展示外部云账户/虚拟化平台的接入方式，也未展示资源退役流程；connected cloud estates 和 lifecycle/retiring 环节只有概括或间接证据。"
+    },
+    "container-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:708775091"
+      ],
+      "evidence": "README 快照 30189a5b... 第 5-28 行明确为自托管 Docker Compose 栈管理器，支持创建/编辑/启动/停止/重启/删除 compose 栈、更新镜像、多 Docker 主机 agent、交互式编辑器/Web 终端，并实时显示拉取/启停进度与终端输出；license API 快照 26c30664... 为完整 MIT 正文；repository_id 708775091 与 track=open_source 一致。",
+      "gaps": "可观察状态限于进度/终端输出，未核验 CPU/内存等资源消耗指标；仅 Compose 栈管理，不应扩展为 Kubernetes 编排器或完整监控产品。"
+    },
+    "disaster-recovery-platform": {
+      "status": "changes_required",
+      "application_ids": [
+        "commercial:zerto"
+      ],
+      "evidence": "首页快照 065d73e2... 的 title/meta 与导航可支持 disaster recovery、continuous data protection、Failover Live & Testing 的类型信号；但正文未出现 near-synchronous、journal-based、application recovery 等具体工作流表述，快照正文对持续复制与故障切换核心的支撑不足；文档页抓取 timeout/403 已在 research.json 留档。",
+      "gaps": "缺少可核对的正文级持续复制/故障切换证据；需补官方产品页快照或收窄 summary/leaf_match，并如实记录正文缺口。"
+    }
+  },
+  "limits": "本次为只读初审；未部署任何产品，未连接云账号、Docker 主机或 Kubernetes 集群，未做故障切换演练，也未核验价格、架构或法律合规。仅依据 REVIEW_SOURCES.json 指定快照及本单元 input.json、batch.json、research.json；部分 GitHub 仓库页为 HTML 且预览会截断，只能核对可见元数据、README 与许可证正文。Zerto 首页快照与线上页面存在版本/渲染差异，线上页面仅用于上下文，不作为留档证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-041/ses_groveopencodegop041review1_1793083619.jsonl",
+  "batch_sha256": "f34e22a9bda4e99f857fae81f2128b8ab6c4f0ded8fd45d67b26b23b8ca804bc",
+  "research_sha256": "ad66e81880b57dae6b1c925a53ef20f3a8561f606ec89c29999336d72a69304a",
+  "input_sha256": "2d4887ad759fab7b6f562b4cc96268a752b93f2e5a9f007bf886bd06acc281fb"
+}

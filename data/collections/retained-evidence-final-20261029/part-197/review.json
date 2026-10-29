@@ -1,0 +1,73 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:63231221",
+      "note": "research.json 的 source_urls 与 fetch_outcomes 列出 https://4science.com/dspace-8-is-now-available/ 并称已保存补充快照，但该 URL 不在 batch.sources 或 REVIEW_SOURCES.json 中，本单元无法复核；该来源明确未用于 DSpace-CRIS 身份或三项核心匹配，不影响结论。",
+      "suggestion": "保留该引用则补充快照与 sha256；否则从 source_urls/fetch_outcomes 移除，或改写为未留存说明。"
+    },
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:63231221",
+      "note": "input.json 的 progress 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 batch.json/research.json 已按 case_found 关联 github:63231221；这是单元清单滞后，不是 batch 内容错误。",
+      "suggestion": "调用方合并时同步更新 input/progress 的 case_status 与 application_ids，避免最终目录把该案例丢掉。"
+    },
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:63231221",
+      "note": "官方介绍 PDF 明确把 Deposit control and deduplication tools 标为 add-on module，并另列 network labs add-on；batch.features 的“潜在重复检测”未在条目内注明该限定，而 research.service_boundary 已说明部分增强为附加模块。",
+      "suggestion": "可在 features 或边界说明中区分开源仓库内的重复检测与商业/附加模块增强，避免读者高估社区版范围。"
+    },
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:63231221",
+      "note": "github:63231221 指向 4Science/DSpace 这一 DSpace 官方 fork 的 main-cris 发行分支，而非独立的 DSpace-CRIS 仓库；research.json 已记录 4Science/DSpace-CRIS 为 404，身份说明总体清楚。",
+      "suggestion": "条目可继续保留“4Science optimized DSpace & DSpace-CRIS distribution”的表述，避免把 fork 误读为独立产品仓库。"
+    },
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:63231221",
+      "note": "technology_stack 中的 Angular 主要依据 README 指向的 dspace-angular 前端仓库名，快照未逐字写明 Angular；前端仓库许可证也未单独留存。",
+      "suggestion": "若后续需要更严格的技术栈/许可证覆盖，可补充前端仓库的许可证快照；当前不影响后端 BSD-3-Clause 与 Web 应用形态的结论。"
+    }
+  ],
+  "leaf_checks": {
+    "research-information-management-cris": {
+      "slug": "research-information-management-cris",
+      "name": "Research Information Management / CRIS",
+      "application_id": "github:63231221",
+      "application_name": "DSpace-CRIS",
+      "definitional_core": {
+        "linked_record_corpus": "4Science 产品页（37a79...）与官方介绍 PDF（a46e...）确认可在单一系统管理研究人员/团队、部门/组织单位、实验室/基础设施、项目/合作、合同/活动、成果/专利/奖励等，并通过关系链接；开源页（083c...）说明以机构知识库为核心、覆盖研究成果、专利、项目、奖励、研究人员画像/CV、组织与资助方。符合“机构自身研究的关联记录语料库作为记录系统”。",
+        "multi_channel_acquisition_and_attribution": "DSpace-CRIS 9 发布说明（d074...）明确 OpenAlex 出版物与元数据可自动导入、研究人员可认领出版物；PDF（a46e...）展示 ORCID 建议未认领出版物、研究人员可选择并自动导入、可添加或认领自己的论文，并列出存缴控制与去重工具；产品页（37a7...）说明与 ORCID、PubMed、WoS 等外部系统交换信息；Fraunhofer Publica 案例说明与 ORCID、书目/文献计量数据库、HR/IDM 等内外部来源集成。仓库中的 DuplicateDetectionServiceImpl（64e5...）与 live import 包文档（52c5...）进一步支持重复检测和多来源导入。足以证明“候选记录进入—匹配/认领—去重检测”的持续调和形态，而非静态档案。",
+        "institutional_picture_served_out": "PDF（a46e...）展示研究人员公开/私有画像、可定制 profile URL、分析/报告仪表盘、按机构/作者等聚合的统计；产品页（37a7...）与开源页（083c...）说明公开研究展示与机构报告。符合“画像、报告、公开展示”的输出属性。",
+        "verdict": "三项定义性核心均有官方产品材料、发布说明与仓库代码交叉支持；wiki 文档 403 的缺口已如实记录，未用摘要、元数据或导航替代核心正文。"
+      },
+      "service_form": "README（c620...）说明 DSpace-CRIS 是 Java Web 应用，需数据库（PostgreSQL 或 Oracle）、Servlet 容器（通常 Tomcat）与 Solr；后端提供 REST API、OAI-PMH、SWORD 等接口，前端为独立 dspace-angular UI。属可自托管的完整 Web 软件服务，不是单纯库或组件；deployment 的 web/self-hosted 与资料一致。",
+      "identity_and_track": "batch 使用 github:63231221；仓库页（56c1...）meta 确认 repository_id=63231221、nwo=4Science/DSpace、fork=true、parent=DSpace/DSpace、默认 ref=main-cris；仓库描述明确为“4Science optimized DSpace & DSpace-CRIS distribution”。track=open_source 与公开仓库、BSD-3-Clause 一致。ID 指向 fork/发行分支而非独立 DSpace-CRIS 仓库，research.json 已记录 4Science/DSpace-CRIS 404，身份链条可接受。",
+      "license": "LICENSE 快照（baf9...）为完整 BSD 3-Clause 文本，包含三条款与免责声明；README（c620...）明确 DSpace-CRIS source code 按 BSD 3-Clause 发布；batch.license=BSD-3-Clause、license_evidence_url 指向该 LICENSE，SPDX 标识与文本一致。许可证覆盖范围为 repository，README 同时提示第三方库可能使用其他许可证。",
+      "community_edition_boundary": "README 说明 DSpace-CRIS 是 DSpace 的开源扩展；PDF（a46e...）明确 Deposit control and deduplication tools 为 add-on module，并另列 network labs add-on；research.json 的 service_boundary 已写明部分存缴控制/去重增强可能以附加模块提供、核心认领与重复检测在开源仓库。边界总体可辨；batch.features 的“潜在重复检测”未在条目内注明 add-on 限定，属非阻断措辞问题。",
+      "source_evidence": [
+        "data/collections/sources/56c1dd0e2e1b9358aa9a2f0f2835ad1fbbc60fe9917084168a7136fd86e55805.txt：4Science/DSpace 仓库页，确认 repo id 63231221、fork、main-cris 分支与 DSpace-CRIS 发行描述",
+        "data/collections/sources/c620553a4583528c9e4277f3a55b2d08ca35c1aafbd9bddb3301e01e0b4782d1.txt：main-cris README，确认开源 CRIS/RIMS 扩展、Java Web 应用运行要求、前后端架构与 BSD-3-Clause",
+        "data/collections/sources/baf9ee18d437bf88b271cb233298c1b032d38b7e1629274069651ebcdbddd005.txt：完整 BSD 3-Clause LICENSE",
+        "data/collections/sources/37a79b37269dd431a42b91ab9fb8d0dbc36c96821f0e74e66f43cecad18e6cf7.txt：4Science 产品页，确认 CRIS/RIMS 定位、实体范围与外部系统交换",
+        "data/collections/sources/d074abce0618cef644a69fc99789a3a0dd9579b92b1d1635700b22579e3f7492.txt：DSpace-CRIS 9 发布说明，确认 OpenAlex 自动导入与研究人员认领",
+        "data/collections/sources/083c28450517a186f0119d2342d071f0eba3f792e93b2b0c52bd178a1955f47e.txt：4Science 开源页，确认数据模型、机构知识库核心与画像/CV/组织/资助方覆盖",
+        "data/collections/sources/a46e0ed74a6d99af55926e363e0269a0f7681409ac2562d04ff9e309b6ad055c.txt：官方介绍 PDF 的 pdftotext 全文，含研究员画像、ORCID/认领/导入、报告、公开展示、add-on 边界与 Fraunhofer 案例",
+        "data/collections/sources/64e5721c0aa5b101d0c539de2fa1ab81de0d490c6a40ca1642421bb09c3f869c.txt：DuplicateDetectionServiceImpl 源码，支持潜在重复检测",
+        "data/collections/sources/52c5e4939b13e15f2790dc87fa8d058905412a31987eb9f7769f59369da92ec0.txt：live import 外部来源包文档"
+      ],
+      "gaps": "wiki.lyrasis.org 的 DSpace-CRIS 文档页两次 403、GitHub API 403/限流、4Science/DSpace-CRIS 404 均由采集记录如实留存，未使用非官方镜像；PDF 快照为 pdftotext 提取文本而非原始 PDF；未运行 DSpace-CRIS 实例，runtime_tested=false。这些缺口属于已记录的资料获取限制，不构成核心证据替代。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未重新计算快照哈希、未重新抓取线上页面，结论基于本单元 input.json、batch.json、research.json 以及按 REVIEW_SOURCES.json 的 path 逐一读取的 9 个留存快照。wiki.lyrasis.org 403、GitHub API 403/限流、4Science/DSpace-CRIS 404 为采集记录，本次未复验；PDF 快照为 pdftotext 提取文本而非原始 PDF，页数与版式未独立核验；未做部署或运行测试（runtime_tested=false），未验证具体机构配置、价格或商业 add-on 合同；VIVO 历史快照与 dspace-8 补充快照不在本单元 REVIEW_SOURCES，未纳入核对；前端 dspace-angular 仓库许可证未单独快照；input.json 的 progress 仍为 boundary_unresolved/空 application_ids，与 batch/research 的 case_found 存在清单滞后，需调用方合并时同步。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-197/ses_groveopencodegop197review1_1793257648.jsonl",
+  "batch_sha256": "722de5ec846efbd8e21b0066e14014ed914debdcb2ff49aee44a69ddeb1fc697",
+  "research_sha256": "f81ec18f3e744b06722c465abfdeb86a8a8c032f9bd0bea29a5aee58963f6798",
+  "input_sha256": "d8873e80a280bf48301203f1b44b9ca273101ff4c41737289f4917b18392b77b"
+}

@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "data-observability-platform",
+      "application_id": "github:401275197",
+      "issue": "Elementary OSS is documented as a dbt package plus CLI that runs alongside dbt jobs, reads dbt artifacts and test results, produces an observability report, and sends alerts. The batch and research themselves state that the OSS form is not a resident platform and does not demonstrate a stateful incident lifecycle. That matches only a monitoring-detection-alerting subflow, while this leaf's defining core requires continuous platform-run health evaluation and a stateful incident worked to resolution. Marking it case_found overstates the type and service-form match.",
+      "fix": "Do not count github:401275197 as a data-observability-platform case. Either change the research assessment to no_case and remove the leaf_match while retaining the documented gap, or replace it with a product whose sources show platform-scheduled continuous checks and stateful incident handling. If Elementary is kept as a related tool, place it outside this leaf and keep the OSS/Cloud boundary explicit."
+    },
+    {
+      "slug": "data-observability-platform",
+      "application_id": "github:401275197",
+      "issue": "research.json cites the Elementary OSS quickstart snapshot a6eee7f9175efd762dc447f070666695199c24fe8971a2573aaa1172e3b423bc as support, but that path is absent from REVIEW_SOURCES.json and from the batch entry's sources. The quickstart body primarily documents installation of the dbt package, not CLI installation or a persistent platform/incident lifecycle, so the citation also overstates what that snapshot proves.",
+      "fix": "Add the snapshot to REVIEW_SOURCES.json and batch.sources with an accurate kind and description, or remove it from research.source_urls and fetch_outcomes and rely on the README for the CLI claim. If retained, describe it only as dbt-package installation evidence."
+    }
+  ],
+  "non_blocking_notes": [
+    "Superset's README supports external SQL sources, chart and dashboard authoring, and security roles plus authentication, but does not expand consumer distribution or row/column-level data permissions. The batch avoids claiming those; if the leaf's two-layer access control must be directly evidenced, add an official docs snapshot.",
+    "Marquez's README supports the lineage graph and dependency browsing, but does not document a dedicated impact-analysis workflow; it also notes that the default HTTP API has no authentication or authorization. The batch acknowledges both and does not overclaim.",
+    "RAWGraphs' README documents tabular, CSV, and pasted input, D3.js-based SVG output, browser-only processing, and editable or embeddable results; field-to-channel mapping is inferred from the tool's purpose rather than explicit README text. A user-guide snapshot would strengthen the evidence.",
+    "Grafana's README labels the repository AGPL-3.0-only but points to LICENSING.md for Apache-2.0 exceptions; the batch's single AGPL-3.0-only field reflects the repository default rather than a uniform file-level license.",
+    "input.json still shows phase included_without_cases and progress case_status not_searched with empty application_ids and research_records for all five leaves, while batch.json and research.json contain five case_found records. If downstream readers use progress, synchronize it with the repaired records.",
+    "GitHub metadata snapshots were used for repository identity only, namely repository id, repository name, and not-fork status; core workflow evidence came from README, documentation, and license snapshots."
+  ],
+  "leaf_checks": {
+    "business-intelligence-platform": {
+      "status": "pass_with_documented_gap",
+      "basis": "Read README data/collections/sources/0f9fecb2c68733121efe9aaa968a935c0b81b281935e6b24c4455887860fe3c4.txt, LICENSE data/collections/sources/ff254eb676d6ed2b36f26a74e7c50411cd57e11823f3e91004ffe48fcfd273cf.txt, and repository metadata data/collections/sources/52250c1d88a27d7f8e3b021788c097023dd040758f6b97b109371397921153a0.txt. Repository id 39464018 and apache/superset match; the README calls Superset an enterprise-ready BI web application and lists SQL data-source connections, no-code chart building, dashboards, and security roles and authentication.",
+      "gap": "The snapshot does not expand consumer distribution or row/column-level data permissions; the batch and research correctly avoid claiming them. The type match is based on the product's own BI description and feature list."
+    },
+    "dashboard-platform": {
+      "status": "pass",
+      "basis": "Read README data/collections/sources/fc8a867bf09f319b9288746ab0148faff2e92ed39cd702252ce59161e576c019.txt, roles documentation data/collections/sources/10bd96c6c702189e8e0c38c4aa5401971269dee26eea50957fbcf19f0af852b4.txt, go.mod data/collections/sources/68fbbea07cb56b728597a9cb96c31e00b38edbb56681706ae5a926daaf515ffd.txt, LICENSE data/collections/sources/0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0.txt, and repository metadata data/collections/sources/28e08e89ad7dacd9fe1ac95a96f1895d7575d742bcf5ad8f1f5cdcdab2003077.txt. Repository id 15111821 and grafana/grafana match; the README supports multi-source query, visualization, alerting, and dashboard sharing, while the roles page documents Viewer, Editor, and Admin roles plus dashboard and folder permissions.",
+      "gap": "Data-source-level RBAC is Enterprise/Cloud and is correctly excluded. The snapshots do not give a step-by-step refresh configuration, but the query-backed dashboard description supports the currency element."
+    },
+    "data-lineage-platform": {
+      "status": "pass_with_documented_gap",
+      "basis": "Read README data/collections/sources/f6b947a608190eae9b65644b57ed186cdbb898f8a6a763fc4a244c7c074150b8.txt, LICENSE data/collections/sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt, and repository metadata data/collections/sources/d8fa695c2d8717dd4a94333f2bfabd9b4ce824e34cf7bfa2dec6b4c09d8290a6.txt. Repository id 139907613 and MarquezProject/marquez match; the README describes an OpenLineage-based metadata service that maintains provenance and a web UI lineage graph of job and dataset dependencies.",
+      "gap": "No dedicated impact-analysis workflow is claimed; the README also states that the default HTTP API has no authentication or authorization. The batch acknowledges both and does not overclaim."
+    },
+    "data-observability-platform": {
+      "status": "fail_type_mismatch",
+      "basis": "Read README data/collections/sources/a4a605a4c2151f2c3adfc0eb4ef272d3b82fe632b2d39e2e867ad2b43972af87.txt, LICENSE data/collections/sources/abbb092d07754c3dbfa05c4748e9262db9ee3163df77ef69f07cdb201fcc67c3.txt, and repository metadata data/collections/sources/8089d2a252c0bdcca5cabd4c523d8018b1f3478b5c5c0e326ab8dd9d5ed6bf0a.txt. Repository id 401275197 and elementary-data/elementary match. The README calls the OSS form an open-source CLI for dbt-native data observability, and the quickstart snapshot a6eee7f9175efd762dc447f070666695199c24fe8971a2573aaa1172e3b423bc documents dbt-package installation.",
+      "gap": "The leaf's core requires continuous platform-run health evaluation and a stateful incident record worked to resolution. The sources show a dbt-run report and alert tool, not a resident platform or an incident lifecycle; the batch and research themselves describe only a monitoring-detection-alerting subflow."
+    },
+    "data-visualization-application": {
+      "status": "pass",
+      "basis": "Read README data/collections/sources/e58be75b9e8f355c45579e5b7413257385346010757f2aee4268a7919c4dddc3.txt, LICENSE data/collections/sources/36878f63187e9be7638d06f67896513263761af9e842ec7c3ab4c702c010a3e7.txt, and repository metadata data/collections/sources/b3c4512225710507208864f6ef59ad906a2a1ce7c8f33e2ef62f5deae8f5c4be.txt. Repository id 9496329 and rawgraphs/rawgraphs-app match; the README documents tabular, CSV, and pasted input, D3.js-based SVG output, browser-only processing, and editable or embeddable results.",
+      "gap": "Field-to-channel mapping is inferred from the tool's purpose rather than explicit README text; this is not blocking for the type match."
+    }
+  },
+  "limits": "Read-only review of this unit only; no shell, file writes, runtime deployment, or live URL fetching. Repository ids were checked from saved GitHub metadata HTML; SHA-256 hashes were not recomputed. Core workflow evidence came from saved README, documentation, and license snapshots; metadata pages were used only for identity. The Elementary quickstart snapshot a6eee7f9175efd762dc447f070666695199c24fe8971a2573aaa1172e3b423bc exists in data/collections/sources but is absent from REVIEW_SOURCES.json and batch.sources, so it was treated as auxiliary. Several workflow details, including Superset consumer and data-level permissions, Marquez impact analysis, RAWGraphs field mapping, and Grafana refresh behavior, are not expanded in the snapshots and are noted as gaps rather than proven.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-065/ses_groveopencodegop065review1_1792991994.jsonl",
+  "batch_sha256": "955b1d6c785e24256bb3a2a2e54f22a7cce187e2c6d1882e457f5ac0fadad21a",
+  "research_sha256": "019226263f338fa70ae614c0076c74d91eddd159beb1c6606485ce97530eee94",
+  "input_sha256": "f4f7b6fdf354ac321afe4ef60b64b1165716784c8d506322ad44a6e536b8276e"
+}

@@ -1,0 +1,48 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "battery-energy-storage-management",
+      "application_id": "github:1185021318",
+      "issue": "OpenLEMS 的 README 核心正文将其定位为本地/边缘 EMS：核心是 PCS、BMS、电表、光伏、负荷等设备接入，储能柜/多柜/微电网的实时监控、告警、本地策略与电价削峰填谷。它没有证明自己是以储能资产组合为主系统记录的产品，也没有组合结算、所有权人/投资人财务报告、质保与衰减约束闭环、故障修复协调等证据。该叶定义把 money & stakeholder resolution 列为核心分支，并明确提示站点级能源管理属于类型漂移；把 OpenLEMS 作为本叶完整成立关系，核心覆盖不足且类型边界未解决。",
+      "fix": "将 OpenLEMS 从 batch 的 leaf_matches/entries 移除或降为 boundary candidate，并在 research 中保留为未采纳草稿；若仍要纳入，需补充能证明其以 BESS 资产组合为主记录、覆盖结算/所有权人报告及质保/健康约束闭环的核心正文，并明确其与站点级 EMS 的边界。FlexGen HybridOS 可继续作为本叶的商业案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "OpenLEMS 的 batch license 字段写作 AGPL-3.0，README 徽章写的是 AGPL-3.0-only；license 快照为完整 AGPLv3 文本。建议统一为 AGPL-3.0-only，避免许可证标识歧义。",
+    "input.json 的 progress 仍为 boundary_unresolved、application_ids 为空，research.note 也保留“边界未决/保留候选”措辞，而 batch 已写 case_found 并列出两个应用；建议同步单元状态和 application_ids，避免下游误读。",
+    "research.json 还记录了 bess-ems、open-ems、PowerMaker 的抓取结果和历史复用说明，但这些快照未登记在 REVIEW_SOURCES.json，batch 也未收录；建议将它们明确标注为未采纳研究草稿或补登记，避免与成立关系混淆。",
+    "FlexGen HybridOS 的官方页面正文覆盖充放电模式管理、站点/组合调度、实时监控、性能/健康/可用性、收入优化与计量核对，类型匹配；但页面属于厂商营销材料，未独立核验客户、合同、价格或实际交付。",
+    "OpenLEMS 未发现独立的付费社区版功能门槛；README 的商务合作主要是私有化部署、方案咨询和技术交流，AGPL-3.0-only 覆盖仓库代码。社区版边界本身未构成阻断问题。",
+    "OpenLEMS README 公开了在线演示的管理员密码，属于演示环境安全提示，不影响本次类型核对，但正式引用时建议避免扩散。",
+    "即使 OpenLEMS 被降为边界候选，本叶仍有 FlexGen HybridOS 作为有效商业案例，不建议把叶子整体标为无案例。"
+  ],
+  "leaf_checks": {
+    "battery-energy-storage-management": {
+      "slug": "battery-energy-storage-management",
+      "status": "changes_required",
+      "applications_checked": [
+        "github:1185021318",
+        "commercial:flexgen-hybridos"
+      ],
+      "id_and_track": {
+        "github:1185021318": "open_source；仓库元数据 id 1185021318 与 github_repository_id 一致，full_name 为 OpenLoaf/OpenLEMS。",
+        "commercial:flexgen-hybridos": "commercial；slug 与官方 FlexGen HybridOS 产品页对应，商业条目无需 GitHub 仓库 ID。"
+      },
+      "open_source_license_and_boundary": {
+        "license": "LICENSE 快照为完整 GNU Affero GPL v3 文本；README 标注 AGPL-3.0-only；batch 记为 AGPL-3.0（建议统一）。",
+        "community_edition": "未发现单独的社区版/付费版功能分界；商务合作偏向私有化部署与方案咨询，仓库代码按 AGPL-3.0-only 提供。"
+      },
+      "definitional_core": "FlexGen 官方页面正文覆盖充放电管理、站点与组合级调度、实时监控、性能/健康/可用性管理、收入优化与计量核对，符合本叶四支核心。OpenLEMS 只覆盖储能柜记录、受约束的充放电操作和告警/日志，未覆盖 money & stakeholder resolution，且以本地/站点 EMS 与设备集成为中心，属于部分/边界匹配。",
+      "service_form": "FlexGen 是厂商软件平台，强调 web-based controls、站点/组合调度和演示/报价流程，类型匹配。OpenLEMS 是自托管本地/边缘 Web 服务，部署在边缘控制器、工业网关、工控机或现场服务器，不是云端多租户 SaaS；若目录严格要求 SaaS 形态，应降为边界候选。",
+      "evidence": "已读取 OpenLEMS 仓库元数据、README、LICENSE 快照，以及 FlexGen HybridOS 官方产品页快照。OpenLEMS 正文明确支持储能柜/多柜/微电网、SOC 上下限、充放电策略、时段电价与削峰填谷、告警与日志、MQTT/Modbus 导出；未证明组合结算、所有权人财务报告、质保/衰减闭环或修复协调。FlexGen 页面正文明确列出充电/放电模式管理、站点/组合调度、实时监控、性能管理、收入优化与 revenue check meter。",
+      "gaps": "未运行或部署应用，未做硬件联调、价格/合同/客户核验；OpenLEMS 的 money/reporting 与 fleet system-of-record 范围未验证；FlexGen 的功能陈述来自厂商页面，未独立验证实际交付。"
+    }
+  },
+  "limits": "只读审查；未运行或部署应用，未做硬件联调、价格/合同/客户核验；未读取其他单元，未运行 shell，未写文件。OpenLEMS 的 README 和 LICENSE 快照是 GitHub API 的 base64 JSON，正文按快照核对，并用同仓库 raw README 辅助解码阅读；商业条目仅核对官方页面基本真实性和类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-149/ses_groveopencodegop149review1_1793250040.jsonl",
+  "batch_sha256": "76eb10894797fc701979204cb380aa659df7bf54a79b040c9af7eb7a62cb9aad",
+  "research_sha256": "da1632d9299fc19e6d990547e808a7d1a5591c8d3f3bed6739d63d59c6c2a85a",
+  "input_sha256": "3baec83fe65a9a3573137d7a341f6563806f84249b3610d9956cb9c78774c228"
+}

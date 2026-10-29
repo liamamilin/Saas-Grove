@@ -1,0 +1,43 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "government-revenue-management",
+      "application_id": "github:433455714",
+      "issue": "核心类型匹配被过度声明。已读取的官方正文（features 页、首页、README、docs/metadata-fund.md）一致描述的是“收款进入—按账户参考与基金分配—退款/转账/日记账—suspense—eReturns 清点—总账对账”的现金受理与收入分配链路，没有任何一处说明应收金额如何产生（账单/通知）、账户是否结转未付余额、以及逾期后的罚金/提醒/移交追讨。而本叶定义明确把“应收账户（载有欠款余额）”与“应收至收缴周期（含逾期后果）”列为不可或缺的结构；entry 的 leaf_matches 却用“付款核销”直接等同于该周期成立，并据此判定三个核心结构齐备。按现有快照，该产品更接近议会侧收入受理/分配与对账系统，而非“欠政府之款”的记录系统，关系是否成立尚不能确认。",
+      "fix": "两种处理任选其一并保持 batch.json 与 research.json 一致：(1) 将该关系降级为未成立候选（case_status 保持 boundary_unresolved，entries 中移除 leaf_match 或标注 candidate），并在 note 中写明缺失的是应收余额、账单/通知与逾期处理；(2) 若坚持成立，补充能直接证明应收账户余额、账单或收费通知、逾期/欠款处理（罚金、提醒、分期、移交追讨）的官方正文（如文档站的账户/欠款/分期页面或对应模块文档），再据实重写 leaf_matches.reason，不得以“付款核销”替代“应收至收缴周期”。"
+    }
+  ],
+  "non_blocking_notes": [
+    "官网首页称系统“originally developed by Barnsley using .NET framework 4.8.1 now upgraded to .NET core 10”，而 README 与 entry 的 technology_stack 均为 .NET Framework 4.8.1；建议在 technology_stack 或 deployment 中注明“公开仓库为 .NET Framework 4.8.1 版本”，避免技术栈表述与官网宣传冲突。",
+    "官网 features 页与首页均说明“计划在与项目伙伴及 MHCLG 商定治理安排后发布更新版本”，说明公开仓库可能滞后于托管服务所用版本；建议在条目中补一句社区版/托管服务边界说明（同一 AGPL 代码库，Tailwind Digital 提供实施、托管与支持），以免读者误认为存在功能不同的闭源商业版。此项不构成许可证问题：LICENSE.MD 为完整 AGPLv3 正文，含 “END OF TERMS AND CONDITIONS” 与 “How to Apply These Terms”，仓库页、features 页页脚与首页均标注 GNU AGPLv3。",
+    "features 列表“按基金代码、VAT 代码与支付方式代码配置不同收入来源”略强于正文；原文为基金代码、VAT 代码与支付方式“均可配置”（Configurable settings），并未称其为不同收入来源。建议改为“可配置基金代码、VAT 代码与支付方式”，属措辞精度问题。",
+    "eReturns 条目写成“批次对账”略强于正文（正文为按模板记录现金、PDQ、支票的清点/cashing up）；“衔接总账与财务报告”来自 features 页副标题，范围应限定在“收入、付款直至总账与对账”，可不改，但建议收紧措辞。",
+    "KPRA-GIMS、navariltd/utility-billing、HA5ANT/Municipal-Utility-Billing-System 的落选理由与缺 README 的记录在该叶留档中完整（含 404 与仓库根目录读取结果），保留为候选的处理方式符合要求，无需在 batch 中建关系。"
+  ],
+  "leaf_checks": {
+    "government-revenue-management": {
+      "definition_core": "部分成立、关键结构缺失。付款人账户方面：features 页 Accounts 仅描述“账户参考校验 + 账户持有人导入，确保付款分配到正确的议会账户”，未说明账户是否载有应收余额；收缴周期方面：仅有付款受理与核销（在线/MOTO/支票/现金/银行文件/DWP 文件）、退款、转账、日记账、基金重分配、suspense、eReturns 清点，全文检索未见 bill/notice/arrears/penalty/enforcement 类内容，欠款产生与逾期后果无正文支撑；归属与问责方面成立：基金代码可配置、基金元数据（credit note、eReturns 默认基金、suspense 日记账基金、Payment Portal 基金）、eReturns 清点与“through to general ledger and reconciliation”表述可支撑基金归属与对账。",
+      "service_form": "符合开源可自托管形态：README 给出 LocalGov IMS 三个应用（PaymentPortal、Admin、Api）、.NET Framework 4.8.1、SQL 数据库及构建运行步骤；官网另提供 Tailwind Digital 托管服务与演示环境，属同一代码库的服务化交付，非独立 SaaS 订阅产品。",
+      "identity_track": "ID 与 track 一致：仓库页确认 repository id 433455714、nwo LocalGovIMS/localgov-ims、默认分支 main、public、非 fork；batch id “github:433455714”、track “open_source”、homepage 与 repository_url 与快照 URL 对应。",
+      "license": "AGPL-3.0 记录正确：LICENSE.MD 快照为完整 GNU Affero General Public License v3 文本（含 “Version 3, 19 November 2007”、“TERMS AND CONDITIONS”、“END OF TERMS AND CONDITIONS”、“How to Apply These Terms”），features 页页脚与首页 “How it's built” 均标注 GNU AGPLv3，license_evidence_url 与快照一致。",
+      "community_boundary": "未发现私有版/社区版拆分：仓库根目录仅 .github、diagrams、docs、src、CODE_OF_CONDUCT.md、LICENSE.MD、README.md、azure-pipelines.yml 等，托管服务由 Tailwind Digital 提供；但官网称更新版本待治理安排确定后发布、且称已升级至 .NET Core 10，公开仓库可能并非最新版本，属需注明的边界信息（非阻断）。",
+      "sources_read": [
+        "data/collections/sources/c861a4a809eae1cd0765b8d48a35e746784723a14b9a30c639cca5dcc8738d1f.txt",
+        "data/collections/sources/db96ad463afade9766bc1748b753064477c7a5e55a88b9ae181e03360b966625.txt",
+        "data/collections/sources/8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef.txt",
+        "data/collections/sources/69d74e33ef407faf167d9b2631c472569a18bc8ec0a27e79aa2594d7b475eba2.txt",
+        "data/collections/sources/dbd163e11e6b3988dfa274219ba5b791e5a8ce64fabc86ba5a519e0575cde1b5.txt",
+        "data/collections/sources/1b92937f20862fd113d778f01c19f74a42c3040522d855256abb7540e8dfc996.txt"
+      ],
+      "gap": "缺少应收产生与逾期处理的产品正文；文档站 documentation 页、账户/欠款模块文档、源码内相关模块说明均未采集。另 KPRA-GIMS 仅有 research.json 记录，本单元未提供其快照，无法独立复核其页面与许可证。",
+      "verdict": "存在一条真实、可核对的开源项目，ID/track/许可证均无误；但定义性核心中“应收至收缴周期”未获正文支撑，需按 finding 处理后再定关系。"
+    }
+  },
+  "limits": "仅做只读审查，未运行或部署应用，未访问网络补抓文档站其他页面；结论以本单元提供的 6 个 LocalGov IMS 快照与 batch.json/research.json 为限。GitHub 仓库页为动态渲染 HTML（readme 字段为 null），未包含许可证侧栏、star 等元数据，仓库识别依赖页面内嵌 repository id/nwo。未能用命令重算快照 SHA-256，仅确认快照文件名、URL 与 batch 记录一一对应。KPRA-GIMS 等历史候选无本单元快照，只能依据 research.json 的文字记录判断其留档充分性，未复核其正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-208/ses_groveopencodegop208review1_1793259380.jsonl",
+  "batch_sha256": "a908fd2729dd4b6e927aa2171342ce76118a53341e6172b20c025018287d8b22",
+  "research_sha256": "5920f6a502e99f01e46212ac84e144c339043873eb7098ddd365c2345649d301",
+  "input_sha256": "145703ec9fb2c7ed76d57e8b4d00347e87356eea1ebba9bf89d2dd451213efe9"
+}

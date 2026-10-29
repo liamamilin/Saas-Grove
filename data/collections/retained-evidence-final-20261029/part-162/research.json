@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "hospital-management-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:399456228"
+      ],
+      "query": "self-hosted open source hospital management system web application GitHub billing inpatient",
+      "source_urls": [
+        "https://github.com/earthians/marley",
+        "https://raw.githubusercontent.com/earthians/marley/develop/README.md",
+        "https://raw.githubusercontent.com/earthians/marley/develop/license.txt",
+        "https://marleyhealth.io/",
+        "https://marleyhealth.io/docs",
+        "https://marleyhealth.io/docs/v13/user/manual/en/healthcare/inpatient_record",
+        "https://marleyhealth.io/docs/v13/user/manual/en/healthcare/patient_encounter"
+      ],
+      "note": "本轮先复用并复核 Open Hospital 既有的 4 个真实快照：README 明确该仓库只负责组装 portable/all-in-one 包，应用本体是 Java Swing 桌面程序（PORTABLE 或 CLIENT 部署），OH API 与 React Web UI 仍标注 WIP；用户手册虽覆盖登记、门诊/住院、药房、实验室与手工计费，但组件仓库许可证未逐仓绑定，Web 业务界面不完整。原初审问题成立，故将 Open Hospital 移出成立关系，仅在 withheld_candidates 与本单元 HISTORY/REUSED_SOURCES 中保留轨迹，不声称其不存在。随后做两组定向查询：Bahmni 是完整开源 HMIS，但由 OpenMRS/OpenELIS/Odoo 多仓库组合，无单一可绑定仓库 ID，未写入 batch；CARE 后端 README 未体现计费闭环，且前端为独立仓库，未选。最终选中 Marley Health（earthians/marley，GitHub ID 399456228）：仓库页与 README 证明其为 Frappe/ERPNext 上的开源医院信息系统（HIS）Web 应用，GPL-3.0 完整 license.txt；官方文档证明医院以 Medical Department / Healthcare Service Unit 组织科室与病房，Patient Encounter 可下住院单生成 Inpatient Record 并分配空房、管理 ADT；Patient Encounter 文档 2.6 明确可用 Sales Invoice 的 Get items from > Prescription 与 Healthcare Services 拉取就诊中的药品、检验和临床服务计费，账户/支付由 ERPNext 承载。new fetch 与历史复用已分开：Open Hospital 快照为历史复用，Marley 的仓库/许可/文档快照为本轮新抓取；未运行任何第三方项目，runtime_tested=false。",
+      "service_boundary": "开源、自托管的 Web 医院信息系统（Frappe/ERPNext 的 healthcare 业务子模块）：覆盖医院科室/服务单元、患者登记、门诊预约与就诊、住院入院/病房分配/ADT、临床医嘱与检验，并通过 ERPNext 销售发票承接就诊中的药品、检验与临床服务计费及账户支付。不把 ERPNext 通用 ERP 或 Frappe 框架本身算作本产品，也不扩展到 EHR 临床深度、LIS/PACS 内部机制或独立收入周期管理；许可结论仅覆盖 earthians/marley 仓库，ERPNext/Frappe 依赖按其自身许可证。",
+      "search_attempts": [
+        {
+          "query": "Bahmni GitHub repository hospital information system open source license",
+          "status": "searched",
+          "candidate": "Bahmni",
+          "result": "官方许可页与组织页确认 Bahmni 为完整开源 HMIS，但由 OpenMRS/OpenELIS/Odoo/PACS 多仓库组合，按组件分别为 AGPL-3.0/MPL-2.0/MIT，无单一可绑定 github_repository_id；仅记录为已评估候选，不写入 batch。"
+        },
+        {
+          "query": "self-hosted open source hospital management system web application GitHub billing inpatient",
+          "status": "searched",
+          "candidate": "earthians/marley (Marley Health)",
+          "result": "检索结果同时出现 CARE HMIS、Bahmni 与多个小型/学生项目；经官方仓库和文档核对后选择 Marley Health，CARE 因后端 README 缺计费闭环且前端独立未选，小型项目因成熟度或文档不足未选。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Bahmni/bahmni",
+          "status": "failed",
+          "kind": "repository_metadata",
+          "detail": "HTTP 403 rate limit exceeded"
+        },
+        {
+          "url": "https://api.github.com/repos/Bahmni/bahmni/license",
+          "status": "failed",
+          "kind": "license",
+          "detail": "HTTP 403 rate limit exceeded"
+        },
+        {
+          "url": "https://github.com/Bahmni/bahmni",
+          "status": "failed",
+          "kind": "repository_metadata",
+          "detail": "HTTP 404 Not Found（该组织无此单仓库）"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Bahmni/bahmni/master/README.md",
+          "status": "failed",
+          "kind": "readme",
+          "detail": "HTTP 404 Not Found"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ohcnetwork/care/master/README.md",
+          "status": "fetched",
+          "kind": "readme",
+          "detail": "CARE 后端 README；功能列出床位/ICU 资源分析、机构管理、远程医疗、患者管理与会诊历史，未列计费闭环，且前端为独立仓库"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ohcnetwork/care/develop/README.md",
+          "status": "fetched",
+          "kind": "readme",
+          "detail": "与 master 分支内容同一 SHA-256"
+        },
+        {
+          "url": "https://github.com/frappe/health",
+          "status": "fetched",
+          "kind": "repository_metadata",
+          "detail": "页面重定向至 earthians/marley（GitHub ID 399456228，GPL-3.0）"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frappe/health/develop/README.md",
+          "status": "fetched",
+          "kind": "readme",
+          "detail": "Marley Health README（旧仓库地址），自述开源 HIS，覆盖门诊/住院管理，安装于 Frappe/ERPNext"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/earthians/marley/develop/README.md",
+          "status": "fetched",
+          "kind": "readme",
+          "detail": "与旧地址内容同一 SHA-256；batch 采用此实际抓取收据"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frappe/health/develop/LICENSE",
+          "status": "failed",
+          "kind": "license",
+          "detail": "HTTP 404 Not Found；实际文件名为 license.txt"
+        },
+        {
+          "url": "https://github.com/earthians/marley",
+          "status": "fetched",
+          "kind": "repository_metadata",
+          "detail": "仓库页确认 repository_id=399456228、full_name=earthians/marley、默认分支 develop、SPDX GPL-3.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/earthians/marley/develop/license.txt",
+          "status": "fetched",
+          "kind": "license",
+          "detail": "完整 GNU GPL v3 文本"
+        },
+        {
+          "url": "https://marleyhealth.io/",
+          "status": "fetched",
+          "kind": "homepage",
+          "detail": "官方首页：开源、可自托管，集成 ERPNext 会计/资产/采购/库存能力"
+        },
+        {
+          "url": "https://marleyhealth.io/docs",
+          "status": "fetched",
+          "kind": "documentation",
+          "detail": "文档索引：Patient、Patient Encounter、Inpatient Record、Healthcare Service Unit、Medical Department、Lab Test、保险与费用等模块"
+        },
+        {
+          "url": "https://marleyhealth.io/docs/v13/user/manual/en/healthcare/inpatient_record",
+          "status": "fetched",
+          "kind": "documentation",
+          "detail": "Practitioner 在 Patient Encounter 下住院单生成 Inpatient Record，入院分配空房，ADT 在 Inpatient Record 内管理"
+        },
+        {
+          "url": "https://marleyhealth.io/docs/v13/user/manual/en/healthcare/patient_encounter",
+          "status": "fetched",
+          "kind": "documentation",
+          "detail": "2.6 计费：Sales Invoice 的 Get items from > Prescription 拉取药品/检验，Get items from > Healthcare Services 拉取临床操作；Observations 可在发票提交时自动创建"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": [
+        {
+          "id": "github:195297119",
+          "reason": "Open Hospital：本仓库为 portable/all-in-one 包组装，应用为 Java Swing 桌面程序（PORTABLE/CLIENT），OH API 与 React Web UI 仍为 WIP；组件仓库许可证未逐仓绑定，Web 业务界面不完整。原初审问题未能在该候选上闭合，移出成立关系并保留全部旧快照与 HISTORY 轨迹，不声称产品不存在。"
+        }
+      ]
+    }
+  ]
+}

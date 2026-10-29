@@ -1,0 +1,55 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "special-education-management",
+      "application_id": "github:18207637",
+      "issue": "MyIEP 的核心匹配只有 README 简介与仓库根目录文件名，缺少定义性流程正文；转介→评估→资格认定→IEP→服务/进展→会议→监护人同意→合规时限均未获证实，leaf_matches 却以目录元数据声称覆盖 goals、accommodations、transition、parent view，属于用简介/元数据替代核心正文。",
+      "fix": "补充官方文档或代码级流程快照（如 new_student.php、add_goals.php、edit_transition_plan.php、guardian_view.php、student_archive.php 的实际页面/字段），证明个案流程及计划版本、服务记录、进展、会议、同意与时限；若补不到，将本叶改为 insufficient_evidence（不列 case），或换用有完整特教流程证据的产品。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 中 4 个已收录案例不一致；若下游依赖 input progress，应同步更新。",
+    "Open edX 快照证明自助注册、audit track、退课保留 learner state、Progress 页完成百分比与当前成绩；公开目录浏览、证书、讨论区未直接取证，leaf_matches 未声称这些，核心开放注册+课程+进度已成立。",
+    "Gibbon 快照证明 Admissions 模块/申请表单/Form Groups/Year Group 汇总与 Markbook 按学生录入成绩；考勤、费用、成绩单、timetabling、家校沟通、学年 rollover 未逐项取证，reason 已限缩。",
+    "Edulog 仅有官网首页正文；路线规划、GPS 追踪、学生乘车、司机管理、家长应用可证，但站点分配、资格规则、AM/PM 运行与每日校正未细化，按商业基本记录可接受。",
+    "school-counseling-management 的 GitHub Search、Scoir、Naviance URL 未在 REVIEW_SOURCES 中留快照，no-case 结论只能依据 research 记录；建议补存快照或明确注明未保存。",
+    "SchoolBus 候选的 24 stars/MIT 与 README 结论没有对应快照，未作为案例，仅留档；不影响本叶以 Edulog 成立。",
+    "MyIEP README 自述 Under Development、最后 release 2007、最后 push 2016；batch summary 未提维护状态，建议在摘要中注明成熟度，避免读者误判为持续维护产品。",
+    "MyIEP 根目录文件名为 accomodations.php（拼写少一个 m），与 reason 的 accommodations 对应；家长查看对应 guardian_view.php，而非 parent；‘学年审查’在根目录清单中没有直接对应文件，仅 archive 可见。",
+    "Open edX LICENSE 在 AGPL-3.0 全文后附 edX 澄清段落，仍为 AGPL-3.0；license_review 的 complete 说法可保留。"
+  ],
+  "leaf_checks": {
+    "mooc-platform": {
+      "status": "pass",
+      "basis": "Open edX（github:10391073）：仓库元数据确认 openedx/openedx-platform 与 repository_id 10391073；README 正文说明 CMS/Studio 创作与 LMS 交付；LICENSE 快照为 AGPL-3.0 全文；官方文档快照证明学习者在开课期内可自助注册、注册并激活账号、批量注册默认进入 audit track、退课保留 learner state，Progress 页显示题目分数、完成百分比与当前成绩。",
+      "gaps": "公开目录浏览/发现、证书、讨论区未在新增快照逐项取证；leaf_matches 未声称这些，核心开放注册+课程+进度已成立。"
+    },
+    "school-counseling-management": {
+      "status": "no_case_recorded",
+      "basis": "research.json 记录 assessment=insufficient_evidence：实际查询 GitHub Search API（10 条），检查 sharonselah 候选（无 README/许可证）、Scoir 首页，Naviance 首页空或被 Incapsula 拦截；batch.json 无 application。",
+      "gaps": "REVIEW_SOURCES 无该叶任何快照，GitHub 搜索/Scoir/Naviance 结论只能依据 research 记录；作为如实记录的检索/抓取缺口，可通过，但不能据此新增案例。"
+    },
+    "school-management-system": {
+      "status": "pass",
+      "basis": "Gibbon（github:12769307）：仓库元数据确认 GibbonEdu/core 与 repository_id 12769307；README 说明开源学校管理平台；LICENSE 快照为 GPL-3.0 全文；官方 Student Enrolment 文档正文证明 Admissions 模块、申请表单、Form Groups（Roll Groups）与 Year Group 汇总；Markbook 文档正文证明按学生录入 grades/rubrics/comments/uploads。",
+      "gaps": "考勤、费用、成绩单、timetabling、家校沟通、学年 rollover 未逐项取证；reason 已限缩，学校行政核心与类型匹配成立。"
+    },
+    "school-transportation-management": {
+      "status": "pass",
+      "basis": "Edulog（commercial:edulog）：官网正文 H1 为 Student Transportation Platform，正文明确 school bus routing、GPS fleet tracking、student ridership、driver management、parent communication apps、reporting；商业基本真实性与类型匹配成立。",
+      "gaps": "仅首页营销正文；站点分配、资格规则、AM/PM 运行与每日校正未细化；未核价格、架构与部署。"
+    },
+    "special-education-management": {
+      "status": "changes_required",
+      "basis": "MyIEP（github:18207637）：仓库元数据确认 ChelseaSchool/MyIEP 与 id 18207637，description 为 Web Based IEP and Special-Education Program Management；LICENSE 快照为 GPL-2.0 全文；README 说明源自 IEP-IPP、GPLv2、K-12/ESL/gifted、Under Development；根目录清单可见 goals、short_term_objectives、accomodations、assistive_technology、transition_plan、guardian_view、student_archive 等文件名。",
+      "gaps": "没有文档或代码级流程正文；转介、评估、资格认定、会议、监护人同意、法定时限均未证实；reason 的模块覆盖来自目录元数据，不能作为核心工作流证据。"
+    }
+  },
+  "limits": "只读审查；未部署或运行任何应用；未执行 shell、未写文件、未读取其他单元。所有 REVIEW_SOURCES 快照均按 path 原样读取。Gibbon 的 docs 快照为 VitePress 单行 HTML，read 工具按行截断正文，故以同一官方 URL 的只读 webfetch 复核 Student Enrolment/Markbook 正文；快照标题、结构与正文一致。school-counseling-management 与 SchoolBus 候选的检索/引用 URL 没有归档快照，无法独立复核；未做价格、架构、部署或运行测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-077/ses_groveopencodegop077review1_1792994203.jsonl",
+  "batch_sha256": "354ed2ca33d148bf47f56d95c77eec5561a053787629ff06a856c5a441a63924",
+  "research_sha256": "d355fe7e126fb5540b97bf4a672a9d49617cca94061a2641ccd90620c1367ada",
+  "input_sha256": "d11698fe72603cb7cc82e4443afd597f44406ca8aaa0c0eb6da44adf998e15f5"
+}

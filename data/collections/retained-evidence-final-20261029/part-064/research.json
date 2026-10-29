@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "bookkeeping-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:9301414",
+        "github:18471236",
+        "github:408868487"
+      ],
+      "query": "open source bookkeeping app github; hledger plain text accounting; self-hosted double-entry accounting web app",
+      "source_urls": [
+        "https://api.github.com/repos/hledgerorg/hledger",
+        "https://api.github.com/repos/hledgerorg/hledger/license",
+        "https://raw.githubusercontent.com/hledgerorg/hledger/HEAD/README.md",
+        "https://hledger.org/",
+        "https://hledger.org/hledger-web.html",
+        "https://api.github.com/repos/ledgersmb/ledgersmb",
+        "https://api.github.com/repos/ledgersmb/ledgersmb/license",
+        "https://raw.githubusercontent.com/ledgersmb/ledgersmb/master/README.md",
+        "https://ledgersmb.org/features",
+        "https://ledgersmb.org/faq",
+        "https://api.github.com/repos/bigcapitalhq/bigcapital",
+        "https://api.github.com/repos/bigcapitalhq/bigcapital/license",
+        "https://raw.githubusercontent.com/bigcapitalhq/bigcapital/HEAD/README.md",
+        "https://docs.bigcapital.app/",
+        "https://docs.bigcapital.app/deployment/docker.md",
+        "https://docs.bigcapital.app/api-reference/accounts/create-an-account.md",
+        "https://docs.bigcapital.app/api-reference/accounts/retrieves-the-account-types.md",
+        "https://docs.bigcapital.app/api-reference/manual-journals/create-a-new-manual-journal.md",
+        "https://docs.bigcapital.app/api-reference/reports/get-general-ledger-report.md"
+      ],
+      "note": "原留档缺口是 hledger 的 Web 形态与持久使用边界只有概述。本轮先复用 hledger 的历史 4 份快照核对仓库身份(9301414)、GPL-3.0 与复式记账/账户分类表述，再补采官方 hledger-web 手册正文：明确其可浏览与添加交易，--serve 常驻提供 Web UI 与 JSON API，读写同一 journal 并每次编辑写编号备份，可多用户共享且无访问控制。缺口已解决，同时边界收窄为本地优先的单 journal 工具。按“优先换完整开源 Web 应用服务”又补两组定向查询，新增 LedgerSMB（Web 复式记账+ERP，features 的 General Ledger and Journal Entry 与 FAQ 的 Close Period/Close As-of 关账正文，PostgreSQL 持久化）与 Bigcapital（账户类型 rootType+normal、手工日记账借贷行、总账报表 opening/running/closing balance，官方 Docker Compose 自托管，AGPL-3.0）。三条关系均只引用可读正文，未把截图标题或摘要当核心证据。",
+      "service_boundary": "收录对象均为企业账簿用途的开源自托管软件服务：hledger 为本地优先的纯文本复式记账工具，hledger-web 提供常驻 Web UI/API 但单 journal、无访问控制、默认仅监听本机，适合个人与小企业；LedgerSMB 为 Perl+PostgreSQL 的完整 Web 会计/ERP，覆盖科目、日记账、关账及销售采购库存；Bigcapital 为 Docker 自托管 Web 会计应用，覆盖科目表、手工日记账与总账报表。三者的社区版边界以官方文档为准，不含商业版附加服务；未做部署或运行验证。",
+      "search_attempts": [
+        {
+          "query": "open source accounting software github double-entry small business（复用历史记录）",
+          "result": "历史候选 hledger、GnuCash、LedgerSMB；本轮在共享 application-index 中复核 accounting/bookkeeping/ledger 相关开源项，确认 LedgerSMB、Bigcapital 在册且仓库身份可核，GnuCash 为桌面客户端故不纳入"
+        },
+        {
+          "query": "hledger web interface self-hosted（定向补证原缺口）",
+          "result": "抓取 hledger.org/hledger-web.html 官方手册正文，确认常驻服务、Web UI/JSON API 与 journal 持久化及备份行为，并读到无访问控制、默认 127.0.0.1 的限制"
+        },
+        {
+          "query": "self-hosted double-entry accounting web application docker（替代品定向查询）",
+          "result": "取得 LedgerSMB 的 README/features/FAQ 正文与 Bigcapital 文档 llms.txt 索引及其账户、手工日记账、总账报表、Docker 部署页面；Firefly III 已归 personal-finance-management-application，ERPNext 未取得记账子模块正文，均未加入本叶"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/hledgerorg/hledger",
+          "kind": "repository_metadata",
+          "status": "success",
+          "detail": "历史复用快照（2026-10-24 抓取，SHA 75dd44bb…），本轮阅读核对 id 9301414 / hledgerorg/hledger"
+        },
+        {
+          "url": "https://api.github.com/repos/hledgerorg/hledger/license",
+          "kind": "license",
+          "status": "success",
+          "detail": "历史复用快照（2026-10-24 抓取，SHA 1eeccaa7…），SPDX GPL-3.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/hledgerorg/hledger/HEAD/README.md",
+          "kind": "readme",
+          "status": "success",
+          "detail": "历史复用快照（2026-10-24 抓取，SHA 9b778a75…），复式记账与账户分类正文"
+        },
+        {
+          "url": "https://hledger.org/",
+          "kind": "homepage",
+          "status": "success",
+          "detail": "历史复用快照（2026-10-24 抓取，SHA 79100b66…）"
+        },
+        {
+          "url": "https://hledger.org/hledger-web.html",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮补采，回应原缺口；快照 2830e4d3…"
+        },
+        {
+          "url": "https://api.github.com/repos/ledgersmb/ledgersmb",
+          "kind": "repository_metadata",
+          "status": "success",
+          "detail": "本轮抓取 83972aad…，id 18471236 / ledgersmb/LedgerSMB"
+        },
+        {
+          "url": "https://api.github.com/repos/ledgersmb/ledgersmb/license",
+          "kind": "license",
+          "status": "success",
+          "detail": "本轮抓取 de88ba99…；GitHub SPI 为 NOASSERTION，content 解码为完整 GPL v2 正文，按 GPL-2.0 记录并附 license_review"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ledgersmb/ledgersmb/master/README.md",
+          "kind": "readme",
+          "status": "success",
+          "detail": "本轮抓取 0b048db0…；注意默认分支为 master，非 HEAD 重定向"
+        },
+        {
+          "url": "https://ledgersmb.org/features",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 55ac3419…，General Ledger and Journal Entry 模块正文"
+        },
+        {
+          "url": "https://ledgersmb.org/faq",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 67820558…，Close Period / Close As-of 关账正文"
+        },
+        {
+          "url": "https://api.github.com/repos/bigcapitalhq/bigcapital",
+          "kind": "repository_metadata",
+          "status": "success",
+          "detail": "本轮抓取 663b0691…，id 408868487 / bigcapitalhq/bigcapital"
+        },
+        {
+          "url": "https://api.github.com/repos/bigcapitalhq/bigcapital/license",
+          "kind": "license",
+          "status": "success",
+          "detail": "本轮抓取 0ec886db…，SPDX AGPL-3.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bigcapitalhq/bigcapital/HEAD/README.md",
+          "kind": "readme",
+          "status": "success",
+          "detail": "本轮抓取 4c76d10d…，会计与库存软件自述、AGPL 与 Docker 自托管说明"
+        },
+        {
+          "url": "https://docs.bigcapital.app/",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 6d62520d…，文档入口（自托管与 API 导航）"
+        },
+        {
+          "url": "https://docs.bigcapital.app/deployment/docker.md",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 7b5179ee…，docker-compose.prod.yml 自托管 Web 部署正文"
+        },
+        {
+          "url": "https://docs.bigcapital.app/api-reference/accounts/create-an-account.md",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 f114606f…，创建账户 API 正文"
+        },
+        {
+          "url": "https://docs.bigcapital.app/api-reference/accounts/retrieves-the-account-types.md",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 8bdb101a…，账户类型 rootType/normal/balanceSheet 正文"
+        },
+        {
+          "url": "https://docs.bigcapital.app/api-reference/manual-journals/create-a-new-manual-journal.md",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 1e35d8c7…，日记账分录借贷行与发布状态正文"
+        },
+        {
+          "url": "https://docs.bigcapital.app/api-reference/reports/get-general-ledger-report.md",
+          "kind": "documentation",
+          "status": "success",
+          "detail": "本轮抓取 11ef2140…，总账报表 opening/running/closing balance 正文"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

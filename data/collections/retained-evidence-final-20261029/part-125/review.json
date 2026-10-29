@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Teleport 的许可证边界已按 README 核对：仓库主体为 AGPL-3.0、/api 为 Apache-2.0、社区版构建为 modified Apache-2.0；研究记录中“未逐项核对 MWI 功能在社区版/企业版中的归属”属于功能级版本映射缺口，建议后续用官方 feature matrix 补证，不影响当前对源码许可证和核心正文的判断。",
+    "Infisical 的 LICENSE 明确 MIT 核心与 ee/ 目录单独许可，README 也重复该边界；研究记录“未逐一核对每个 auth method 的版本归属”属于功能级版本映射缺口，建议后续确认所主张的机器身份能力位于 ee/ 之外。",
+    "Infisical 条目的 summary/features 仍以密钥管理为主，机器身份能力主要写在 leaf_matches.reason；建议把角色、auth method、短期令牌、撤销/锁定/过期告警等补入 features，便于类型复核。",
+    "Infisical 的 technology_stack 含“Web安全基础设施平台”“Docker Compose自托管路径”“为应用与工作负载提供密钥管理接口”等类别或功能描述，不是严格技术栈；属元数据措辞问题。",
+    "Teleport 的 technology_stack 仅列 Go，README 还说明 Web UI 为 TypeScript；属元数据不完整，不影响核心匹配。",
+    "Infisical 文档把 access token 描述为 short-lived，但默认 Access Token TTL 为 30 天；这不改变其机器身份记录、撤销和过期告警的类型匹配，但下游若强调短期凭据，应说明 TTL 可配置。",
+    "input.json 仍为 boundary_unresolved 且 application_ids 为空，而 research.json 为 case_found 并列出 github:31558937、github:521655652，batch.json 也有对应 leaf_matches；本次以 batch/research 为当前结果，建议同步叶子状态和 ID，避免下游读取旧状态。",
+    "SPIRE 作为 withheld 候选留档，未计入本叶案例；失败的 git tree 抓取（响应超过 max_bytes）已记录并用 contents API 替代，未发现伪造成功状态。",
+    "Teleport 首页快照主要是样式/脚本，未作为核心证据；核心证据来自官方 MWI 文档和 introduction 正文。"
+  ],
+  "leaf_checks": {
+    "machine-identity-management": {
+      "status": "pass",
+      "applications": [
+        "github:31558937",
+        "github:521655652"
+      ],
+      "basis": "两个案例均按“以机器行为者为中心的记录 + 生命周期”核对，而非按密钥/证书工件或人类 IAM 归类。Teleport 的官方 Machine & Workload Identity 文档与 introduction 正文明确 bot 是机器的身份、bot 有角色、join token 指定 join method/proof、tbot 负责签发和续期短期 X.509/JWT、审计日志记录身份活动；README 说明 Auth Service、Proxy Service、Web UI 与自托管部署，构成持续使用的应用服务。Infisical 的官方 Machine identities 文档明确 application/workload 无用户账户即可作为机器身份，具有 role 和一个或多个 auth method，登录获得短期 access token，并支持撤销、身份锁定、凭据过期告警、删除身份撤销全部令牌；Docker Compose 文档给出自托管 Web 应用部署，backend/src/services 目录含 identity/identity-ua。",
+      "evidence": [
+        "Teleport：https://goteleport.com/docs/machine-workload-identity/introduction/ 正文含 bot、role、join token/proof、tbot、审计日志；https://goteleport.com/docs/machine-workload-identity/ 正文说明 tbot 自动签发和续期短期证书；README 含 Auth Service、Proxy Service、Web UI、自托管与许可分层；仓库元数据 id 31558937；license 快照含 AGPL-3.0 正文。",
+        "Infisical：https://infisical.com/docs/documentation/platform/identities/machine-identities 正文含无用户账户、role、auth methods、短期 access token、撤销/锁定/过期告警；LICENSE 为 MIT 并明确 ee/ 例外；Docker Compose 自托管文档含完整部署步骤；GitHub 页面 meta 含 repository id 521655652；contents API 列出 backend/src/services/identity 与 identity-ua。",
+        "类型边界：两者均只按非人类行为者记录和生命周期收录，未扩展到 Certificate Lifecycle Management、通用 PAM/IAM 或密钥管理；Teleport 仅主张 MWI 子模块，Infisical 仅主张 Machine Identities 子模块。"
+      ],
+      "gaps": "许可证边界已核对：Teleport 为源码 AGPL-3.0、/api Apache-2.0、社区版构建 modified Apache-2.0；Infisical 为 MIT 核心、ee/ 单独许可。未完成的是功能级版本归属（Teleport MWI 各功能、Infisical 各 auth method 在社区版/企业版中的分布），以及 input.json 仍保留补充前 boundary_unresolved/空 application_ids 的状态。历史 SPIRE 快照不在本单元 REVIEW_SOURCES，未独立复核。"
+    }
+  },
+  "limits": "本次仅用只读工具读取本单元输入、批次、研究和 REVIEW_SOURCES 指定的 12 个快照；未运行 shell、未写文件、未复算 SHA-256、未发起新的网络请求、未部署或运行应用。HTML 快照可能缺少客户端渲染内容，首页/导航类页面未作为核心证据；历史 SPIRE 快照不属于本单元审查输入，未独立复核；未做法律意见、企业版功能矩阵或运行时行为验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-125/ses_groveopencodegop125review1_1793247055.jsonl",
+  "batch_sha256": "b1f54026ce76ecd1b0d4098722e469c8f7a258766e3bbbc6d81094ac79583390",
+  "research_sha256": "68205153fdb8f0c1c3734cb37069e29c640629188b5da352014b7ab86a9a0448",
+  "input_sha256": "6b60f64ace224ab8316f403c801540940afbef74f997bdc2a447a531688c3c2c"
+}

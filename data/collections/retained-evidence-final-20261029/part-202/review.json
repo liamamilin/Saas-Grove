@@ -1,0 +1,46 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "government-transparency-portal",
+      "application_id": "github:71801692",
+      "issue": "Getafe 政府域名下的 Gobierto 门户正文已展示 Portal de Transparencia、预算与执行、官员/议程、资产申报、供应商/发票、指标等政府自身记录，并标注 2026-07-14 更新；Sant Feliu 预算页也列出政府自身预算、执行、人均支出与债务并标注 2026-10-27 更新。按本叶 dc 中「a product deployed in that government's name」的路径，这些正文已足以支撑一个政府透明门户候选，但叶仍记 boundary_unresolved 且 batch 为空，理由落在政府域名快照无法登记为来源。这是来源登记/校验限制，不是定义性核心不成立；记录与叶状态自相矛盾。",
+      "fix": "以 https://gobiernoabierto.getafe.es/ 为 homepage、https://github.com/PopulateTools/gobierto 为 repository_url，建立 github:71801692 的 open_source 条目：sources 纳入 Getafe 首页与 2026 预算页、GitHub 仓库页、README、README_EN、LICENSE-AGPLv3，leaf_match 引用 Getafe 预算/执行记录与 README 部署列表；Sant Feliu 可作为辅助审查证据，不必强行进入 batch sources。若 homepage 必须是厂商站，则把政府页面正式登记到 REVIEW_SOURCES 并在 leaf_match/note 中引用具体记录。若仍维持 boundary_unresolved，须给出类型不匹配的定义性理由（通用开放政府平台 vs 透明门户），不能仅以登记限制为由。"
+    },
+    {
+      "slug": "government-transparency-portal",
+      "issue": "研究记录把「政府域名不属于 www.gobierto.es 或 github.com」直接推成「无法加入 batch.sources」，但校验器允许 source 位于 entry.homepage 主机或 GitHub 仓库主机。把 homepage 设为政府门户、repository_url 设为 GitHub 后，政府页面与 GitHub 页面可同时通过校验；该绝对化说法不准确，会误导后续采集。",
+      "fix": "区分「homepage=gobierto.es 时政府页面不能作为 batch source」与「结构上完全无法登记」；按 finding 1 的 homepage/repository_url 组合重试，或只记录 REVIEW_SOURCES 只读这一实际限制，不要断言 batch 不可能同时容纳两类来源。"
+    },
+    {
+      "slug": "government-transparency-portal",
+      "application_id": "github:71801692",
+      "issue": "现有许可证证据是完整 AGPL-3.0 文本加 README/README_EN 的项目级声明，足以做内容核对；但若按 finding 1 建 open_source 条目，校验器要求 license_evidence_url 对应 GitHub license API 的 SPDX JSON，或一个绑定 reviewer/SPDX/scope/rationale 的 license_review 对象。当前资料两者都没有，条目会在许可证环节失败。",
+      "fix": "补抓 https://api.github.com/repos/PopulateTools/gobierto/license，或在条目中加入 license_review（source_url 指向 LICENSE-AGPLv3.txt，spdx_id=AGPL-3.0，scope=repository，rationale 说明完整 AGPL 文本与 README 声明一致）。"
+    }
+  ],
+  "non_blocking_notes": [
+    "OpenSpending 的排除成立：README 自述为第三方政府财政数据汇集/追踪平台，不是政府自身发布者；仓库 id 2334160、AGPL-3.0、2020-07-30 pushed_at 已核对，openspending.org 308 已留档，不影响本叶。",
+    "Getafe 的多条线证据强于 Sant Feliu；后者快照只是预算页。若建立关系，应以 Getafe 为主、Sant Feliu 为辅，避免把单页预算站点当作完整门户。",
+    "note 中「政府机构署名」略强于快照可见内容：快照可见政府域名、机构品牌与页脚版权，未见明确署名行；建议改为「政府域名下由政府机构运营/品牌」，不影响核心判断。",
+    "REVIEW_SOURCES.json 的 sources 为空，政府页面与 GitHub 快照都未登记；本次按 research.json 的 fetch_outcomes/snapshot_path 读取实际文件，属于审查限制，不是内容缺陷。",
+    "Gobierto 商业站 gobierto.es 当前以 Gobierto Contratación 为主，与 AGPL 仓库的开放政府平台产品面不同；建条目时不要把商业 Contratación 的功能/许可混入，社区版边界按 AGPL 仓库 scope=repository 处理。"
+  ],
+  "leaf_checks": {
+    "government-transparency-portal": {
+      "definitional_core": "已读 Getafe 开放政府首页（5a68...）、Getafe 2026 预算页（bead...）、Sant Feliu 2026 预算页（7e62...）。正文含 Portal de Transparencia、Presupuestos/Ejecución、Altos cargos y Agendas、Declaraciones、Proveedores y Facturas、Indicadores；预算总额/执行/人均/人口与更新日期在正文，Sant Feliu 有总支出/执行/人均/债务与更新日期。政府自身记录、聚合问责发布、公开访问三项在正文可见。",
+      "saas_service_form": "Gobierto README/README_EN 说明其为 Rails 多实体平台、可自托管，并以专业服务方式提供 SaaS；Getafe/Sant Feliu 是运行中的政府部署，属于持续使用的软件服务形态。",
+      "id_track": "batch.json entries 为空，本叶无 application_ids，无法在批次中校验 ID/track。候选 github:71801692：GitHub 页面 octolytics repository_id=71801692、full_name=PopulateTools/gobierto、public、非 fork，未见 archive 标记；track 应为 open_source。",
+      "license": "LICENSE-AGPLv3.txt 为完整 GNU AGPL v3 文本（含 TERMS AND CONDITIONS 与 END OF TERMS AND CONDITIONS），README/README_EN 一致声明 AFFERO GPL v3；仓库身份由 GitHub 页面元数据证明。内容核对通过；批次条目还需 GitHub license API JSON 或 license_review。",
+      "community_edition_boundary": "README 将代码整体置于 AGPL-3.0，Populate 提供商业实施/托管/SaaS；快照未显示独立专有社区版/企业版切分，但商业 Gobierto Contratación 与 AGPL 仓库的边界未展开。按 AGPL 仓库 scope=repository 可接受，属非阻断。",
+      "sources_and_gaps": "REVIEW_SOURCES.json 的 sources 为空；政府页面快照只在 research.json 的 fetch_outcomes 中给出 snapshot_path，未登记为审查来源。openspending.org 308、gobierto.org TLS 失败已记录；OpenSpending 作为第三方财政数据平台排除正确。",
+      "conclusion": "定义性核心在政府页面正文中已出现，候选形态成立；当前 boundary_unresolved 的理由是来源登记限制而非类型不匹配，需按 findings 建立关系或补充定义性不匹配理由。"
+    }
+  },
+  "limits": "REVIEW_SOURCES.json 的 sources 为空，无法按登记路径核对快照；本次仅依据 research.json 的 fetch_outcomes/snapshot_path 读取 data/collections/sources 下实际文件。未运行 shell、未写文件、未做实时抓取或部署测试；未逐一核对 Gobierto 微服务、商业 Gobierto Contratación、Sant Feliu 全站或 OpenSpending 微服务；openspending.org 308 与 gobierto.org TLS 失败未实时复核；batch.json 为空，无 ID/track 可校验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-202/ses_groveopencodegop202review2_1793258951.jsonl",
+  "batch_sha256": "1b980cc93287fb9e5440f457437112c35da1e6771aa4ce2733c4e12a4a3d4a30",
+  "research_sha256": "b166f1563352394d31d79298dc34a1ad059a82f6cd8ffac62928de0be5c67eab",
+  "input_sha256": "5f1638721e8ae5e357d5ea9ed525e7b57f52d8a29b7d7d5acdd377a8854e4b6c"
+}

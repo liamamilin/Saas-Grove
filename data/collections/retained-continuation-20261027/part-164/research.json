@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "self-storage-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:self-storage-manager"
+      ],
+      "query": "open source self storage management software github; cloud self storage management software unit inventory rental agreements tenant portal official",
+      "source_urls": [
+        "https://www.selfstoragemanager.com/contents/managementsoftware.aspx",
+        "https://api.github.com/repos/shawndibble/self-storage",
+        "https://raw.githubusercontent.com/shawndibble/self-storage/master/README.md"
+      ],
+      "note": "官网产品页正文明确 Self Storage Manager 是面向多设施自助仓储运营商的云软件：实时单元库存、在线预订/租赁、租赁协议与电子签名、入住/退租/换仓、循环费用与自动租金调整、逾期锁门和留置费用、租户门户与会计/运营报表，覆盖定义核心。开源优先检索到 shawndibble/self-storage（GPL-3.0，仓库已归档）；其 README 仅说明 Laravel 应用，代码模型只有 StorageUnit、Size、Invoice、InvoiceItem、Payment、User，单元直接挂用户，发票为一次性金额与到期日，没有循环租金协议/租期，缺 recurring-rent money loop，故未纳入 batch，仅留作候选与缺口记录。",
+      "service_boundary": "商业基础记录：仅核对官方产品页所载用途与核心工作流，不深入价格、架构、部署或运行测试；关系限定为自助仓储设施管理。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source self storage management software github",
+          "outcome": "返回多为对象存储/文件存储项目；发现 shawndibble/self-storage 候选，另见商业产品线索"
+        },
+        {
+          "tool": "websearch",
+          "query": "SiteLink self storage software features unit inventory rental agreements payments official",
+          "outcome": "定位 Storable/SiteLink 官方产品页及功能页"
+        },
+        {
+          "tool": "code_inspection",
+          "target": "https://github.com/shawndibble/self-storage",
+          "outcome": "检查模型、迁移与路由，确认无循环租金协议/租期，作为不纳入候选的缺口依据"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.selfstoragemanager.com/contents/managementsoftware.aspx",
+          "kind": "homepage",
+          "outcome": "saved",
+          "sha256": "f5816f47d7aaa0c072f8b745c7fe7b8c4668f3148f7df81c0823c20d7475b7cf"
+        },
+        {
+          "url": "https://api.github.com/repos/shawndibble/self-storage",
+          "kind": "repository_metadata",
+          "outcome": "saved",
+          "sha256": "209f1c07ae15358f940bd43264c5e71c0ce0ab358ae8ac084d937807ad0b3dd1"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/shawndibble/self-storage/master/README.md",
+          "kind": "readme",
+          "outcome": "saved",
+          "sha256": "047e1042b68edf5d0980eaf12d219da98d9c4f862ce16a941e451295c80f7caf"
+        },
+        {
+          "url": "https://www.storable.com/products/sitelink/",
+          "kind": "homepage",
+          "outcome": "saved_but_not_used",
+          "detail": "SiteLink 页面为 Windows 安装版加浏览器 myHub，最终改用明确标注 cloud-based 的 Self Storage Manager",
+          "sha256": "8cb0b9556613acdc2305c330adc3e638297bf435e4761d11427c9944422d34d0"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "short-term-rental-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1201444346"
+      ],
+      "query": "open source short term rental management property management github; self-hostable short-term rental PMS",
+      "source_urls": [
+        "https://api.github.com/repos/Gribadan/RentTools.io",
+        "https://api.github.com/repos/Gribadan/RentTools.io/license",
+        "https://raw.githubusercontent.com/Gribadan/RentTools.io/master/README.md"
+      ],
+      "note": "RentTools.io 为 MIT 许可、活跃仓库（id 1201444346）。README 明确其核心是短租房东后台：多房源组合、Airbnb/Booking.com/Vrbo 等 iCal 日历汇入并发布合并日历、双重预订检测、退房至入住清洁周转排班、住客护照/入住前表单、消息模板与入住率/ADR/收入报告。它未做渠道 partner API、动态定价、支付或业主结算，这些属于该类型的常见增强，不影响其作为短租运营后台的核心匹配。",
+      "service_boundary": "开源完整应用：自托管短租运营后台，覆盖房源组合、预订日历与周转运营；不将 iCal 渠道工具或清洁任务应用单独等同于本类型，也不声称具备业主信托会计。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source short term rental management property management github",
+          "outcome": "发现 OpenSTR（清洁管理）、LibreProperty（仅路线图无原型）、RentTools.io 与 OpenStay PMS 等候选"
+        },
+        {
+          "tool": "github_api",
+          "query": "repos/Gribadan/RentTools.io",
+          "outcome": "确认 MIT、仓库 id、默认分支 master、非归档"
+        },
+        {
+          "tool": "readme_review",
+          "target": "RentTools.io README",
+          "outcome": "确认日历同步/双重预订、清洁周转、多房源角色与报告等核心工作流"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Gribadan/RentTools.io",
+          "kind": "repository_metadata",
+          "outcome": "saved",
+          "sha256": "7bcb4bd33cbfa1d93ed49a0a344a3727d1055646b9bda11505093cc39051b9d7"
+        },
+        {
+          "url": "https://api.github.com/repos/Gribadan/RentTools.io/license",
+          "kind": "license",
+          "outcome": "saved",
+          "sha256": "3be30f5e2c786c9101210c945214c5dbd5d6a458ed30f499e827b1893575724d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Gribadan/RentTools.io/master/README.md",
+          "kind": "readme",
+          "outcome": "saved",
+          "sha256": "0d1cb3bae0f5687bc88e21be3d63088937c23740ea4c7a9a91047be22f23e66d"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "student-housing-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:room-choice"
+      ],
+      "query": "Room Choice student housing software features leasing billing bed level official; open source student housing management software github",
+      "source_urls": [
+        "https://www.roomchoice.com/features/"
+      ],
+      "note": "开源检索未见具备完整按床位租赁/学年计费核心的成熟项目（多为课程项目、宿舍报修或找房平台）。Room Choice 官方功能页正文明确：按 bed/room/unit 跟踪所有物业可用性、申请到入住的租赁流程、续租、电子签约、每日自动计费与滞纳金、住户账本、自助住户门户、多物业入住率/收入和租金报表。这覆盖了床位级租赁、续租与独立住户账本等定义核心，作为商业基本匹配记录。",
+      "service_boundary": "商业基础记录：仅核对官方功能页的用途与核心能力，不涉及价格、架构或部署；不把单纯找房/室友匹配平台或宿舍报修工具当作学生住房管理系统。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source student housing management software github",
+          "outcome": "结果多为课程/宿舍项目、找房平台或商业产品，未发现核心完整的成熟开源应用"
+        },
+        {
+          "tool": "websearch",
+          "query": "Room Choice student housing software features leasing billing bed level official",
+          "outcome": "定位官方首页、功能页与买家指南"
+        },
+        {
+          "tool": "official_page_review",
+          "target": "https://www.roomchoice.com/features/",
+          "outcome": "确认床位/房间/单元可用性、租赁续租、自动计费、住户门户与多物业报表"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.roomchoice.com/features",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "HTTP 308 永久重定向到同主机尾斜杠路径，采集器未跟随"
+        },
+        {
+          "url": "https://www.roomchoice.com/features/",
+          "kind": "documentation",
+          "outcome": "saved",
+          "sha256": "1bcba76a69e3e77970631af5b617295b2197d91c55291aab00958634e9e86248"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "tenant-resident-portal",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:appfolio-foliospace"
+      ],
+      "query": "AppFolio resident portal online rent payment maintenance requests official; open source tenant portal property management github",
+      "source_urls": [
+        "https://www.appfolio.com/property-manager/resident-experience"
+      ],
+      "note": "AppFolio FolioSpace 官方页正文明确其为 AppFolio Property Manager 的住户体验应用：在线支付租金（eCheck、卡、Apple Pay、Flexible Rent，支持 AutoPay）、提交维修请求、与物业团队消息沟通、完成入住任务，并贯穿申请到续租的住户旅程。来源同时说明核心住户门户功能（在线申请、支付、维修请求、消息）包含在其物业管理产品中，符合“账户锚定运营商记录、以居住关系为访问轴心”的住户门户定义。未做运行时或账号验证。",
+      "service_boundary": "商业基础记录：仅记录住户端门户/移动应用与其绑定的物业管理后台，不深入价格或部署；不把仅用于营销内容登录或短租客人界面当作住户门户。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source tenant portal property management github",
+          "outcome": "发现 OpenProperty、Parcelis、Condo、MicroRealEstate 等；前两者门户能力不明确，Condo 偏运营端，MicroRealEstate 的 SUL 非 OSI 许可，未作为开源关系"
+        },
+        {
+          "tool": "websearch",
+          "query": "AppFolio resident portal online rent payment maintenance requests official",
+          "outcome": "定位官方住户体验页与帮助中心"
+        },
+        {
+          "tool": "official_page_review",
+          "target": "https://www.appfolio.com/property-manager/resident-experience",
+          "outcome": "确认在线支付/AutoPay、维修请求、消息、入住任务与申请至续租旅程"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.appfolio.com/property-manager/resident-experience",
+          "kind": "homepage",
+          "outcome": "saved",
+          "sha256": "80828de5c0f5016c91344942a7a28f403f2bd8131b8041bf6616a91a062c3c73"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "change-order-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1199643986"
+      ],
+      "query": "open source construction change order management software github; OpenConstructionERP change orders approval contract budget",
+      "source_urls": [
+        "https://api.github.com/repos/datadrivenconstruction/OpenConstructionERP",
+        "https://api.github.com/repos/datadrivenconstruction/OpenConstructionERP/license",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+        "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/changeorders/changeordersGuide.ts"
+      ],
+      "note": "OpenConstructionERP 为 AGPL-3.0、活跃仓库（id 1199643986）。官方 changeordersGuide 明确该模块：变更订单记录已商定范围的变化，带原因、明细行、成本影响与工期天数；可关联合同；按 Draft→Submitted→Approved→Executed 流转并支持命名审批链；批准后作为修订承诺进入项目预算并修订合同金额。它是一个广义建筑 ERP 中的完整变更订单子模块，batch 关系按模块限定，未把整个 ERP 当作变更订单产品。",
+      "service_boundary": "开源模块关系：仅将变更订单子模块匹配到本类型；该产品同时是建筑 ERP，预算预测/现金流、开票和争议解决不属于本关系的主张范围。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source construction change order management software github",
+          "outcome": "发现 OpenConstructionERP、Redmine/ERPNext 类通用项目与商业 Procore 线索"
+        },
+        {
+          "tool": "github_api",
+          "query": "repos/datadrivenconstruction/OpenConstructionERP",
+          "outcome": "确认 AGPL-3.0、仓库 id、默认分支 main、非归档"
+        },
+        {
+          "tool": "repo_tree_and_guide_review",
+          "target": "changeorders module",
+          "outcome": "确认独立 changeorders/variations 模块、审批链与预算回写代码存在，并读取官方模块指南"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/datadrivenconstruction/OpenConstructionERP",
+          "kind": "repository_metadata",
+          "outcome": "saved",
+          "sha256": "692571eb1dba3814cd66b2c632bc622c9bc4c1013aaf49a74c6edca20c601912"
+        },
+        {
+          "url": "https://api.github.com/repos/datadrivenconstruction/OpenConstructionERP/license",
+          "kind": "license",
+          "outcome": "saved",
+          "sha256": "7743e907422ebfc0c90401e1054cf8097160abd53b249b88bacfde0f97b9f02d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/README.md",
+          "kind": "readme",
+          "outcome": "saved",
+          "sha256": "d640bceecae06c83cc5b9d1acf06eb179761df9ed26113663efc97ff4f6e907a"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/datadrivenconstruction/OpenConstructionERP/main/frontend/src/features/changeorders/changeordersGuide.ts",
+          "kind": "documentation",
+          "outcome": "saved",
+          "sha256": "55eed2fc62f2fa2193080623a113dce7ccb8a363cbe8bbd584b8e7b5c6814463"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

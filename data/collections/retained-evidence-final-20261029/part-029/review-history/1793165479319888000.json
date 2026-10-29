@@ -1,0 +1,50 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "non-linear-editing-system-nle",
+      "application_id": "github:1006414368",
+      "issue": "条目把两个不同版本的产品混为一体，产品身份与部署边界未闭合。README（main 分支）明确说明 opencut.app 仍运行 classic 版本、重写版将部署在 new.opencut.app，而 research 记录 new.opencut.app/editor 为 404；classic 代码库（github:1241019195）已归档。但条目中支撑 NLE 四项核心的全部证据（overlay/main/audio 三类轨道、修剪与波纹编辑、关键帧与蒙版、含音频 MP4 导出）都来自 main 分支重写版的 0.3.0/0.2.0 变更日志。官网 /changelog 出现相同文案，只能说明站点发布了该日志，不能证明 opencut.app 当前编辑器就是该版本。因此无法判断本条目描述的是“已上线服务”还是“未发布的重写仓库”，也无法据此确定开源仓库与线上社区版的边界。",
+      "fix": "二选一并统一 summary、deployment、features、leaf_matches：若条目指向在线服务，应补充 opencut.app 当前编辑器可核对的项目、时间线剪辑、导出正文，或改用 classic 的官方文档/README 证明；若条目指向重写仓库，应在条目中明确其为未发布重写版，删除或弱化“官方托管入口、可持续在线服务”表述，并写明它与 opencut.app 所运行 classic 版本的关系。"
+    },
+    {
+      "slug": "non-linear-editing-system-nle",
+      "application_id": "github:1006414368",
+      "issue": "服务形态的依据与留档记录不一致，且以 HTTP 可达性和元数据替代核心正文。leaf_matches.reason 以“/editor、/projects 均返回 200”加上首页描述，推出“构成可持续使用的在线应用服务”；但 research.fetch_outcomes 明确记录这两个地址仅为可达性检查、无快照、不作为工作流证据。首页快照为客户端渲染的 Next.js HTML，可读文本主要是 meta 描述（“video editor … In your browser”）与一个 Projects 链接，缺少项目创建、在线剪辑、导出流程的正文。按本轮标准，HTTP 成功与简介/元数据不能替代核心正文。",
+      "fix": "从 leaf_matches.reason 移除 200 可达性依据；改为引用并保留 opencut.app 或官方文档中描述项目创建、时间线编辑、导出流程的正文快照。若确实无法取得，应在 research 中如实记为缺口，并把“在线应用服务”降级为待证，而不是写成已成立。"
+    },
+    {
+      "slug": "non-linear-editing-system-nle",
+      "application_id": "github:1006414368",
+      "issue": "摘要与特征中“分割”的说法没有来源支持。summary 写有“剪辑修剪、分割、跨轨移动”，leaf_matches.reason 也写“剪辑可修剪、分割”；但所引 0.2.0、0.3.0 快照中出现的 split 仅是蒙版形状选项（0.3.0 “Choose from split, rectangle, ellipse …”），0.2.0 中与剪切相关的只有音频中断和修剪把手，均未说明可对时间线剪辑执行分割/切刀操作。该能力属于未证事实。",
+      "fix": "删除“分割”表述，或补充明确描述时间线剪辑分割（razor/split clip）的官方正文并保留对应快照；不要用蒙版形状的 split 充当剪辑分割证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，与本轮 research.json 的 case_found 及 batch.json 中的条目不一致；建议同步状态字段，避免后续单元沿用过期的边界结论。",
+    "0.3.0 中关于 SceneTracks（overlay/main/audio）、ripple diff、MediaTime 的条目属于工程实现说明，可支持“分层时间线”的结构判断，但不是用户工作流正文；若有面向用户的时间线/导出文档，优先引用会更稳。",
+    "Kdenlive 以“桌面客户端不满足服务边界”留档为 withheld，来源（GPL-3.0、项目/时间线/非破坏编辑/渲染）记录完整；注意本叶定义正文本身并未要求 SaaS，因此该排除属于本集合的服务形态约定，建议在留档中明确这是采集口径而非 NLE 定义的一部分。",
+    "技术栈列出 React，但所引快照只明示 Next.js/web 应用与 Rust/WASM；React 属于合理推断，非阻断。",
+    "首页快照为客户端渲染页面，抓取时未保留渲染后正文；后续采集若保存渲染文本，可减少对 meta 描述的依赖。",
+    "条目 runtime_tested=false 属正常，本轮不要求运行验证；README 说明仓库暂不接受外部贡献、桌面端尚无功能，这些只影响成熟度描述，不影响类型判断。"
+  ],
+  "leaf_checks": {
+    "non-linear-editing-system-nle": {
+      "applications_reviewed": [
+        "github:1006414368"
+      ],
+      "definition_core": "部分成立。0.3.0 变更日志给出 overlay/main/audio 三类轨道、剪辑修剪与多选同时移动/缩放、逐剪辑效果、蒙版、关键帧与图形编辑器、含音频 MP4 导出；0.2.0 给出波纹编辑、修剪把手，以及撤销修剪后恢复原片段位置和长度。这些可支持“分层时间线、非破坏性修剪、渲染导出”三项。可单独寻址的片段与持久项目仅由素材面板、项目缩略图、项目设置及“浏览器保护项目存储”间接支持，缺少“导入素材形成可寻址 clip”的明确正文。",
+      "service_form": "待证。opencut.app 为官方托管入口，但 README 说明该站仍运行 classic 版本；首页快照可读文本以 meta 描述和 Projects 链接为主，/editor 与 /projects 仅有 200 可达性记录且无快照，新站 /editor 为 404，缺少在线编辑工作流正文。不能以 HTTP 成功或首页简介替代核心正文。",
+      "identity_and_license": "仓库身份成立：元数据快照确认 id 1006414368、full_name OpenCut-app/OpenCut、archived=false、homepage=https://opencut.app；许可证快照含 MIT 完整文本，README 亦标注 MIT。问题在于被“服务化”的线上版是另一已归档代码库（classic，github:1241019195），条目未写明开源仓库、线上服务与归档 classic 三者的对应关系，社区版边界不清。",
+      "withheld_candidates": "Kdenlive（github:42723268）以桌面客户端形态留档为 withheld，GPL-3.0 与核心功能来源记录齐全；未据此判定不存在 SaaS/NLE 变体，处理有一致记录。",
+      "gaps": "缺少 opencut.app 当前编辑器版本的项目/时间线/导出正文；缺少素材导入为可寻址片段的正文；缺少对 opencut.app 与重写仓库版本的明确对应；/editor、/projects 无快照；“分割”能力无来源。",
+      "verdict": "changes_required"
+    }
+  },
+  "limits": "本次为只读初审，仅依据本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、research.json 及 REVIEW_SOURCES.json 所列 7 个快照（另读了 research 引用的 classic README）作出判断。未运行 shell、未写文件、未进行联网抓取或浏览器渲染。快照为单行 HTML/JSON，读取工具在约 2000 字符处截断，无法逐字核对 opencut.app 首页与 /changelog 的完整正文，故对首页正文的判断限于可读的 meta 描述、Projects 链接及点击关键词检索结果。共享 sources 目录中存在非本单元快照，检索时意外命中但未纳入任何结论。未做部署测试，也未补充价格、架构或运行时研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-029/ses_groveopendesignp029review1_1793164323.jsonl",
+  "batch_sha256": "75fcd9a6974d8a29fa8bca0920fadcae3fa22804e5820b4713f21cc0b763cb64",
+  "research_sha256": "a009776350b8a978de98f5e3bfad0147b0be88defa373b429aca54ae60b2e34e",
+  "input_sha256": "dccc730f315df5ce8bee21a2bc228ee20cc48ec4e104eb8cf7ea87006add0349"
+}

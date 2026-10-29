@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "README 末尾仍写 “Add a license before the first public release; no license is declared yet”，与仓库根目录的完整 Apache-2.0 LICENSE（11359 字节，GitHub license API spdx_id=Apache-2.0）冲突；研究记录已说明按 LICENSE 文件与 API 判定，建议后续更新 README 以消除歧义。",
+    "CivicOps 是 2026-09-10 新建、最后一次推送 2026-09-22、0 star/0 fork 的 0.1.0 release candidate；功能证据充分，但生产采用与长期运行未证明，属于成熟度提示，不构成本次类型核对的阻断项。",
+    "产品身份是“非营利组织运营平台”，赠款能力以 grants + grantreporting 子模块呈现；batch 已明确写为“业务子模块”，与本叶“接收方赠款管理”类型匹配，但下游展示时不宜表述为独立赠款管理产品。",
+    "义务管理以资助报告为中心（报告模板、期间、证据冻结、章节审批、定稿/导出），并配合 Grant.reportingDeadline；未见独立的交付物、任务指派或提醒实体，若后续按更严格的“义务机制”标准复核，这是较薄的一环。",
+    "资金纪律以 awardAmount 为上限，并做行锁与超支拒绝，支出按类别汇总；未见按类别的预算额度（line-item budget），当前“按赠款预算”应理解为以赠款总额为预算上限。",
+    "input.json 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，而 batch.json/research.json 已新增 github:1365010357；这是采集前状态与采集后结果的差异，建议下游同步单元状态。",
+    "research.json 引用的 gandhi 快照 sources/978449d7e5c880a9a8e20a36d5eec7c59c85f0834983b015718e9aacfac3fe18.txt 实际存在于 data/collections/sources，但未列入 REVIEW_SOURCES.json；该快照仅用于排除候选，不影响本叶收录，建议补入来源清单以保持可追溯。",
+    "研究记录中的 GitHub 搜索 total_count、候选无许可证等结论只有文字留档，没有搜索结果快照；按任务对已记录查询/抓取缺口的容忍度，可作为留档通过，但不作为其他产品存在性的证明。",
+    "Grant 报告导出（JSON/Markdown）由 README 的 Grant Reporting Assistant 章节和项目结构说明支撑；所提供的 GrantReportService.java 只覆盖生成/审批/定稿，导出实现未在本次快照中逐行核对。"
+  ],
+  "leaf_checks": {
+    "nonprofit-grant-management": {
+      "status": "case_supported",
+      "application_id": "github:1365010357",
+      "application_name": "CivicOps",
+      "definitional_core": "Grant.java 将赠款作为 organization 归属的持久记录，含 grantorName（外部资助方）、awardAmount、grantNumber、applicationDeadline/submittedDate/awardDate、startDate/endDate、reportingDeadline、restricted/restrictionDescription；状态机为 PROSPECT→APPLICATION_IN_PROGRESS→SUBMITTED→AWARDED→ACTIVE→CLOSED（另有 REJECTED/WITHDRAWN），CLOSED 后 update() 抛错。GrantExpenseService 仅允许 ACTIVE 赠款登记支出，findLockedByIdAndOrganizationId 行锁并以累计支出+awardAmount 上限拒绝超支。GrantReportService 按 grant 创建报告，套用模板章节、冻结证据快照、生成/编辑/审批章节，finalize 前校验必需章节与证据；README 另述报告 DRAFT→GENERATED→UNDER_REVIEW→FINALIZED、定稿不可变与 JSON/Markdown 导出。赠款记录、义务/报告、按赠款资金纪律三项结构均有核心正文证据。",
+      "service_form": "README 提供 Docker Compose 自托管、PostgreSQL/Flyway、Angular Web 界面、JWT/组织隔离、GRANT_MANAGER/ORG_ADMIN 等角色；grants 与 grantreporting 是可直接运行的组织级业务模块，不是 SDK、模板或仅元数据。部署形态为自托管开源应用（open_source track），非托管 SaaS。",
+      "identity_and_track": "batch id=github:1365010357 与仓库元数据 id=1365010357、full_name=sekacorn/CivicOps 一致；track=open_source 与公开仓库/Apache-2.0 一致；github_repository_id=1365010357 一致；archived=false。",
+      "license": "license API 快照 path=LICENSE、size=11359、sha=20e4bd85661f5fbc86e0a8aac3934ddabe776160，正文前缀为 Apache License Version 2.0；仓库元数据 license.spdx_id=Apache-2.0；tree 中 LICENSE 的 blob sha 与 license API 一致。判为完整 Apache-2.0。README 末尾“no license is declared yet”为过时/冲突表述，已在研究记录留档，不据此否定许可。",
+      "community_edition": "未发现 open-core 或社区版/企业版切分；仓库整体以 Apache-2.0 发布，社区版边界问题不适用。",
+      "gaps": [
+        "未做部署/运行测试（batch runtime_tested=false），生产可用性未验证。",
+        "仓库 2026-09-10 新建、0 star/0 fork、0.1.0 release candidate，外部采用证据不足。",
+        "义务机制以报告为主，未见独立任务/提醒/交付物实体。",
+        "资金上限为 awardAmount，未见按类别的预算额度。",
+        "README 的许可证表述与 LICENSE 文件冲突。",
+        "input.json 的 leaf 状态尚未反映本次新增案例。"
+      ],
+      "evidence_read": [
+        "README.md（含 Grant Management、Grant Reporting Assistant、Docker Compose、角色/路由）",
+        "Grant.java",
+        "GrantExpenseService.java",
+        "GrantReportService.java",
+        "LICENSE API 快照",
+        "仓库元数据快照",
+        "仓库 tree 快照"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 shell、部署、测试或修改文件。读取范围为 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 7 个快照；另读取了 research.json 引用且实际存在于 sources/ 的 gandhi 快照。仓库元数据快照为单行 JSON，读取工具预览在 2000 字符处截断，故 created_at/pushed_at/archived/license 等字段另以 GitHub API 当前响应交叉核对（非快照替身）；LICENSE 快照为 GitHub API base64 包裹，按 size/sha/前缀及 tree 中 blob 一致性核对，未逐字节解码全文。未复跑 GitHub 搜索，搜索 total_count 与候选结论取自 research.json 文字留档；未核验历史快照 SHA 与 gandhi 的 AGPL-3.0 断言（无对应许可证快照）。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-221/ses_groveopencodegop221review1_1793260653.jsonl",
+  "batch_sha256": "ebbefacbe5d886ae24724ad15c4c2e018407f47226d8e6f0c4e018cd7d59aa8f",
+  "research_sha256": "6ff9c8c900f1772e92b1e4dd75315f66c8caf352b3d8ed9aa7e8f2668ea129e2",
+  "input_sha256": "2ca1f6348c65fbf6f2ec23efdb28ad1f7f683e2eea833d88ee865efbc21f5d0e"
+}

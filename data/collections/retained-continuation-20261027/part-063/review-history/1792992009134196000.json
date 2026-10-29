@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:633927609",
+      "issue": "该叶唯一实质来源是 Promptfoo 仓库 README（另有仓库元数据和 MIT LICENSE）。README 自述为评估与红队 LLM 应用的 CLI/库，能力条目是测试 prompts 与 models、并排比较模型、CI/CD 检查、共享结果；agents 仅出现在仓库标题/标语，未展示 agent 执行或轨迹接入、agent 测试用例集、逐案评分，以及按 agent 版本/配置归属的持久化运行记录。以简介性 README 支撑 agent 评估的定义性核心，证据不足；batch 的 reason 写成“对 agent 运行自动化评估”，也超出 README 原文。另 README 明示评估“100% 本地运行”，是本地 CLI/库而非托管平台，需在服务形态边界中明确。",
+      "fix": "补充 Promptfoo 官方文档中 agent 评估的具体正文（如 agent provider/多轮执行、trajectory/trace 评分、数据集与运行记录、版本归属），据此改写 leaf reason；若补不到，移除该叶的 leaf_match，只保留 llm-evaluation-platform，并把 agent 作为未覆盖缺口留档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，而 batch.json 与 research.json 已记录 4 个应用和 5 个叶案例；合并前应同步状态，避免下游把本单元当作无案例。",
+    "Cleo MFT 产品页与 Hightouch 产品页快照为压缩 HTML，超长单行在只读工具中按 2000 字符截断；本次只能确认标题、描述、首屏与结构，未能逐句复核审计跟踪、监控告警、300+ 目的地等细节。建议后续保存可读正文，但本次不以 HTTP 成功替代正文。",
+    "Label Studio 的社区版/企业版边界仅在 README 中以 Starter Cloud 与 edition compare 链接提示，未逐项列出付费功能；当前案例只主张 README 明示的开源核心能力，未发现越界，但后续不要据此外推企业功能。",
+    "Promptfoo 已并入 OpenAI，README 声明仍为 MIT；若后续产品提供云端/企业版，应重新核对许可证与社区版边界，并避免把本地 CLI 描述为托管多租户服务。",
+    "Hightouch 首页定位已转为 Composable CDP/Agentic Marketing，Reverse ETL 是子产品；案例已正确限定在 /platform/reverse-etl 与 /docs/syncs/overview，后续不要用首页整体定位替代 Reverse ETL 关系。",
+    "llm-evaluation-platform 的 README 未展示数据集版本与运行版本归属；research 已留档且未过度断言，建议补官方 assertions/eval/view 文档增强，但不阻断。"
+  ],
+  "leaf_checks": {
+    "managed-file-transfer": {
+      "status": "pass",
+      "application_id": "commercial:cleo",
+      "basis": "Cleo 官方 MFT 产品页快照（e883cee...）标题为 Best Managed File Transfer (MFT) Solution for B2B MFT，描述称其整合、自动化并简化单一 B2B MFT 平台上的文件传输，首屏为面向供应链的安全文件交换 MFT 方案；首页快照（088d79b...）确认 Cleo 实体与 Cleo Integration Cloud 登录入口。研究记录如实说明旧首页仅有导航/JSON-LD、已补官方 MFT 产品页，并把关系限定为 MFT 子工作流，排除 EDI/API 等相邻能力。商业基本真实性与类型匹配成立。",
+      "gap": "产品页为压缩 HTML，正文超长单行被读取工具截断，未能逐句复核审计跟踪、交易伙伴级监控告警、收发记录查询等细节；按商业案例基本真实性标准不阻断。"
+    },
+    "reverse-etl-platform": {
+      "status": "pass",
+      "application_id": "commercial:hightouch",
+      "basis": "官方 /docs/syncs/overview 正文明确：一个 sync 连接一个 model 到一个 destination object、list 或 table，配置 model、sync type/mode（insert/update/upsert）、record matching、field mapping；使用 CDC 对比上次运行并只发送新增、变更、删除行；按计划或触发运行并报告每次运行结果。产品页标题/描述确认为 Hightouch Reverse ETL；首页确认 Hightouch 实体。外部数据源、同步绑定与业务对象激活核心成立。",
+      "gap": "首页已转向 Composable CDP/Agentic Marketing，案例正确限定为 Reverse ETL 子产品；未从快照逐字确认“300+ 目的地”与“数据湖”等营销性表述，属非关键措辞。"
+    },
+    "agent-evaluation-platform": {
+      "status": "fail",
+      "application_id": "github:633927609",
+      "basis": "仅有 Promptfoo 仓库元数据、MIT LICENSE、README。README 自述为评估/红队 LLM 应用的 CLI/库，能力条目为测试 prompts 与 models、并排比较模型、CI/CD 检查、共享结果；agents 只出现在仓库标题/标语，未出现 agent 执行/轨迹接入、agent 测试用例、评分器或按 agent 版本归属的运行记录。LICENSE 为完整 MIT 文本，仓库元数据 repository:633927609 与 batch 的 github_repository_id 一致，但核心类型证据不足。",
+      "gap": "缺 agent 评估专属正文；batch reason 的“对 agent 运行自动化评估”超出 README 原文。需补官方 agent 文档或移除该叶匹配。"
+    },
+    "data-labeling-platform": {
+      "status": "pass",
+      "application_id": "github:192640529",
+      "basis": "README 明确 Label Studio 是开源数据标注工具，支持 audio/text/images/videos/time series，多用户标注且标注绑定账号、多项目、可配置标签格式、从 S3/GCS/JSON/CSV 等导入、导出多种模型格式、模型预标注；LICENSE 为完整 Apache-2.0 全文（Copyright 2019 Heartex），仓库元数据 repository:192640529 / HumanSignal/label-studio 与 batch 的 github_repository_id 一致。受管数据项→标签方案→人工标注→标注记录→结构化导出的核心链成立。",
+      "gap": "README 未展开 review/rework、一致性、黄金标准等质量流程；这些属于 dc 而非定义性核心，且案例未作该层断言。社区版边界仅以 README 的 Starter Cloud/edition compare 链接区分，未逐项列出付费功能；当前只主张开源核心功能。"
+    },
+    "llm-evaluation-platform": {
+      "status": "pass",
+      "application_id": "github:633927609",
+      "basis": "README 自述为 LLM evals & red teaming，提供 CLI/库，自动化评估 prompts/models、并排比较模型、在 CI/CD 中自动检查、查看/共享结果；配合完整 MIT 许可证与 repository:633927609 身份，LLM 评估类型匹配成立。",
+      "gap": "README 未明确展示测试用例数据集、评分器定义、运行不可变及按 prompt/model/应用版本归属；research 已如实留档“未从 README 证明数据集版本与运行版本归属”，且未据此过度断言。建议补官方 assertions/eval/view 文档，但不阻断本叶类型匹配。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未部署或联网抓取，仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 11 个快照；未读取其他单元。未重新计算 sha256，仅核对文件名中的哈希与 batch/REVIEW_SOURCES 记录一致。Cleo/Hightouch 页面为压缩 HTML，read 工具对超长单行截断到 2000 字符，正文细节无法逐句复核；商业案例按基本真实性与类型匹配判断。未对开源项目做部署或运行验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-063/ses_groveopencodegop063review1_1792991635.jsonl",
+  "batch_sha256": "3507b0a3834a9a710c661bbf411fb3f764ee48b990e40189064d1a4fc190d9a7",
+  "research_sha256": "942596aab1fae57b44d05dce2462a52333c62485b7b5ae325760e3da82cc0506",
+  "input_sha256": "912d0ee20abaaa3f5b9e2e1028e96d7bbc57098027c002f8c5809bd5f57f15ba"
+}

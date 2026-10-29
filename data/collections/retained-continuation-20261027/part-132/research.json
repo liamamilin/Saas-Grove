@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "agent-observability-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:642497346"
+      ],
+      "query": "直接核对候选 langfuse/langfuse 的官方仓库 README、LICENSE 与 LLM Observability/Tracing 文档",
+      "source_urls": [
+        "https://api.github.com/repos/langfuse/langfuse",
+        "https://api.github.com/repos/langfuse/langfuse/license",
+        "https://raw.githubusercontent.com/langfuse/langfuse/main/README.md",
+        "https://langfuse.com/docs/observability/overview.md"
+      ],
+      "note": "Langfuse 以 SDK 采集 LLM 应用/智能体执行，重建嵌套 trace（模型调用、检索、嵌入、工具/智能体步骤），持久化存储并在 UI 中检视单条执行、会话与聚合指标。许可证为 MIT 核心加 ee/ 商业目录，已在条目中分清边界。",
+      "service_boundary": "可自托管的完整可观测服务；只观察、记录与展示执行，不运行或托管智能体，不执行运行时护栏/拦截；评测、提示词管理是附着能力。",
+      "search_attempts": [
+        "读取 notes/previous/fetch_oss.py 的候选清单，选择 langfuse/langfuse 直连官方来源核对（未运行旧脚本）",
+        "GitHub API 读取仓库元数据与许可证；raw.githubusercontent.com 读取 README；langfuse.com 读取 Observability 文档"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/langfuse/langfuse → 200，id=642497346，full_name=langfuse/langfuse",
+        "https://api.github.com/repos/langfuse/langfuse/license → 200，完整 LICENSE 正文，MIT 核心 + ee/ 商业目录",
+        "https://raw.githubusercontent.com/langfuse/langfuse/main/README.md → 200",
+        "https://langfuse.com/docs/observability/overview.md → 200，官方文档正文",
+        "https://langfuse.com/docs/tracing → HTTP 308 重定向，未使用；改抓上述 .md 官方页面"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ad-hoc-query-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:13926404"
+      ],
+      "query": "直接核对 notes/previous 候选 getredash/redash 的官方仓库 README、LICENSE 与仓库元数据",
+      "source_urls": [
+        "https://api.github.com/repos/getredash/redash",
+        "https://api.github.com/repos/getredash/redash/license",
+        "https://raw.githubusercontent.com/getredash/redash/master/README.md"
+      ],
+      "note": "Redash 是浏览器端即席查询应用：查询编辑器支持当场编写并执行 SQL/NoSQL，结果可表格/图表查看并继续调整；连接的是已配置的数据源。BSD-2-Clause 完整许可证由 GitHub license API 证明。仪表板、定时刷新、告警是围绕即席查询的延伸能力。",
+      "service_boundary": "查询在已连接的数据源上执行，Redash 不拥有这些数据；保存查询、仪表板、定时刷新与告警不改变其查询应用定位。",
+      "search_attempts": [
+        "读取 notes/previous/fetch_oss.py 的候选清单，选择 getredash/redash 直连官方来源核对（未运行旧脚本）",
+        "GitHub API 读取仓库元数据与许可证；raw.githubusercontent.com 读取 README"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/getredash/redash → 200，id=13926404，full_name=getredash/redash，archived=false",
+        "https://api.github.com/repos/getredash/redash/license → 200，spdx_id=BSD-2-Clause，完整 LICENSE 正文",
+        "https://raw.githubusercontent.com/getredash/redash/master/README.md → 200，README 正文（Query editor、35+ 数据源、可视化/共享）"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "analytical-query-editor",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:6358188"
+      ],
+      "query": "核对分析型平台自带查询界面：读取 Apache Druid Web Console 官方文档与仓库资料",
+      "source_urls": [
+        "https://api.github.com/repos/apache/druid",
+        "https://api.github.com/repos/apache/druid/license",
+        "https://raw.githubusercontent.com/apache/druid/master/README.md",
+        "https://druid.apache.org/docs/latest/operations/web-console/"
+      ],
+      "note": "Druid Web Console 的 Query 视图是绑定 Druid 自身数据的 SQL 编辑器：编辑并运行查询、查看结果、EXPLAIN、查询历史，符合分析查询编辑器的五个属性。补充核对 Trino Web UI 文档后发现其当前页面只描述集群监控与查询管理，未证明当前 SQL 编写/结果网格界面，故未采用。",
+      "service_boundary": "属于 Druid 分析平台内的查询编写子界面，不是可连接任意数据库的通用 SQL 客户端；控制台中的 datasource/ingestion/服务运维视图不改变 Query 视图的类型归属。",
+      "search_attempts": [
+        "候选 Trino Web UI：抓取官方 Web UI 文档，正文仅描述查询列表、监控与查询管理，未证明查询编写界面，排除",
+        "检索分析型平台自带查询控制台，选择 Apache Druid，读取官方 Web Console 文档与 README"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/apache/druid → 200，id=6358188，archived=false",
+        "https://api.github.com/repos/apache/druid/license → 200，spdx_id=Apache-2.0",
+        "https://raw.githubusercontent.com/apache/druid/master/README.md → 200，README 正文；含 Docker/源码构建与 druid-operator 说明",
+        "https://druid.apache.org/docs/latest/operations/web-console/ → 200，官方 Web Console 文档正文；含 Query 视图、Run/Preview/EXPLAIN/查询历史",
+        "https://trino.io/docs/current/admin/web-ui.html → 404；改查 https://trino.io/docs/current/admin/web-interface.html → 200，正文仅监控/查询管理，未采用"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "data-science-workbench",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:60374819"
+      ],
+      "query": "直接核对 JupyterLab 官方仓库 README、LICENSE 与 ReadTheDocs 文档",
+      "source_urls": [
+        "https://api.github.com/repos/jupyterlab/jupyterlab",
+        "https://api.github.com/repos/jupyterlab/jupyterlab/license",
+        "https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/README.md",
+        "https://jupyterlab.readthedocs.io/en/stable/",
+        "https://jupyterlab.readthedocs.io/en/stable/user/notebook.html"
+      ],
+      "note": "JupyterLab 是数据科学工作台：notebook 连接内核形成有状态会话，支持增量运行代码与内联富输出，并用于探索/可视化数据；内核与会话状态是其核心，notebook 文件只是表面形式。BSD-3-Clause 许可证由 GitHub API 证明。",
+      "service_boundary": "可自托管的交互式笔记本环境；不托管数据仓库，不提供模型训练/部署流水线；多用户托管可由 JupyterHub 叠加，但核心仍是交互式代码会话。",
+      "search_attempts": [
+        "依据 notes/previous 与已有候选选择 jupyterlab/jupyterlab，直接读取官方仓库与文档（未运行旧脚本）",
+        "GitHub API 读取仓库元数据与许可证；raw.githubusercontent.com 读取 README；ReadTheDocs 读取总览与 notebook 使用文档"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/jupyterlab/jupyterlab → 200，id=60374819，archived=false",
+        "https://api.github.com/repos/jupyterlab/jupyterlab/license → 200，spdx_id=BSD-3-Clause",
+        "https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/README.md → 200，README 正文",
+        "https://jupyterlab.readthedocs.io/en/stable/ → 200，文档总览（notebook 编写与编辑环境）",
+        "https://jupyterlab.readthedocs.io/en/stable/user/notebook.html → 200，Notebooks 文档正文（内核选择、增量运行、富输出）"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "graph-database-explorer",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:45993608"
+      ],
+      "query": "直接核对 neo4j/neo4j-browser 官方仓库 README、LICENSE 与 Neo4j Browser 文档",
+      "source_urls": [
+        "https://api.github.com/repos/neo4j/neo4j-browser",
+        "https://api.github.com/repos/neo4j/neo4j-browser/license",
+        "https://raw.githubusercontent.com/neo4j/neo4j-browser/master/README.md",
+        "https://neo4j.com/docs/browser-manual/current/",
+        "https://neo4j.com/docs/browser-manual/current/operations/result-frames/"
+      ],
+      "note": "Neo4j Browser 连接运行中的 Neo4j，用户用 Cypher 查询，结果按图/表/RAW/计划结果帧呈现，图帧展示节点与关系并可从结果继续展开，属于图数据库探索器。已如实记录仓库是经典版、维护有限，当前新版 Browser 为闭源构件，避免把新版闭源产品误标为开源。",
+      "service_boundary": "客户端式探索界面，操作受连接所用 Neo4j 账户权限约束；不负责部署运维。开源范围仅限本仓库的经典 Browser，不含当前闭源新版。",
+      "search_attempts": [
+        "读取 notes/previous/fetch_oss.py 候选清单，选择 neo4j/neo4j-browser 直连核对（未运行旧脚本）",
+        "GitHub API 读取仓库元数据与许可证；master 分支 README；Neo4j 官方 Browser 文档读取总览与结果帧页面",
+        "另核对 apache/age-viewer、kuzudb/explorer、ArangoDB、OrientDB 候选，因证据不足或形态不符未采用"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/neo4j/neo4j-browser → 200，id=45993608，archived=false",
+        "https://api.github.com/repos/neo4j/neo4j-browser/license → 200，spdx_id=GPL-3.0",
+        "https://raw.githubusercontent.com/neo4j/neo4j-browser/master/README.md → 200，README 正文；明确经典版维护有限、新版闭源",
+        "https://neo4j.com/docs/browser-manual/current/ → 200，Browser 文档总览（Cypher、图可视化、读写事务）",
+        "https://neo4j.com/docs/browser-manual/current/operations/result-frames/ → 200，结果帧文档正文（Cypher 编辑器、Graph/Table/RAW/Plan 帧）",
+        "https://api.github.com/repos/apache/age-viewer → 200；README 仅描述 AGE 图数据可视化，未证明引擎查询编辑工作流，未采用",
+        "https://api.github.com/repos/kuzudb/explorer → 200，archived=true，未采用"
+      ],
+      "archived": false
+    }
+  ]
+}

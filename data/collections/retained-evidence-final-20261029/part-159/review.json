@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Philips 快照是 Next.js 服务端渲染页面，正文主要序列化在脚本载荷中；本轮在该快照中检索到 'ICCA for perioperative care'、flowsheet、床旁设备数据等关键措辞，并做了一次只读页面正文核对，确认其 CE-marked/EU MDR 2017/745 与围手术期麻醉用途表述。建议后续留存一份可读正文快照，便于复核。",
+    "input.json 的 progress 仍为 insufficient_evidence、application_ids 为空，与本轮 batch/research 已记录 3 条商业案例不一致；这是输入快照与当前产物之间的状态差异，建议下游同步 progress，避免阶段状态混淆。",
+    "Picis 摘要写“覆盖术前评估、术中监护与 PACU”，官方 Anesthesia Manager 正文更准确地表述为 preoperative assessments through intraoperative monitoring to postoperative care；PACU 主要由套件中的 PACU Manager 承担。建议摘要改为“术后护理”以区分模块边界，不影响核心类型匹配。",
+    "GCAS-UFF 的 MIT LICENSE 与 README 'uso exclusivo e acadêmico'（UFF/HUAP 专属学术使用）存在边界冲突，Somno 的 LICENSE 文件也不是完整许可证正文；本轮未收录这些开源候选的处理正确，留档已说明原因。",
+    "商业条目摘要带有营销措辞，且未验证部署、价格、架构或运行时；这符合本轮只做基本真实性与类型匹配的范围。"
+  ],
+  "leaf_checks": {
+    "anesthesia-information-management-system": {
+      "status": "passed",
+      "identity_and_track": "3 个条目 ID 分别为 commercial:imdsoft-metavision-anesthesia、commercial:philips-intellispace-critical-care-and-anesthesia、commercial:picis-anesthesia-manager，track 均为 commercial，与 REVIEW_SOURCES.json 中 applications 完全对应；无 ID/track 冲突。",
+      "definition_core": "定义性核心是病例级、时间锚定的麻醉记录：自动采集连接设备（监护仪、麻醉机、呼吸机、输液泵等）的生理数据，并由认证麻醉提供者记录给药、气道/操作和临床事件；独立产品、围手术期套件模块或医院 EHR/重症平台中的麻醉模块均可接受。",
+      "commercial_basis": [
+        "commercial:imdsoft-metavision-anesthesia — 官方页标题即 'Anesthesia Information Management System & Perioperative Care'，覆盖 pre-op/intra-op/PACU，明确 'complete view of critical system & device data'、'Record events & medications with one click or a barcode scan'、与主要医院信息系统和数百种医疗设备集成；类型匹配成立。",
+        "commercial:philips-intellispace-critical-care-and-anesthesia — 官方页称其为 'Patient data management system'，设 'ICCA for perioperative care' 专节，说明麻醉医生与麻醉护士在围手术期记录护理，flowsheet 覆盖围手术期旅程，整合床旁监护仪、输液泵、呼吸机和检验系统数据；FAQ 确认用于围手术期/医院麻醉护理且为 CE-marked、EU MDR 2017/745 合规；作为重症/围手术期平台中的麻醉模块，类型匹配成立。",
+        "commercial:picis-anesthesia-manager — 官方页称其为 anesthesia EMR/charting solution，覆盖术前评估、术中监测到术后护理，自动采集多系统设备数据，提供 450+ 设备驱动（含呼吸机、输液泵、麻醉机、监护仪），并生成含人口学、用药、生命体征、检验和静脉液体的临床打印件；类型匹配成立。"
+      ],
+      "service_form": "三者均为持续使用的商业临床记录/患者数据管理软件，符合该类型 packaging-agnostic（独立产品、围手术期套件模块、重症/EHR 平台模块）的形态；未发现一次性工具或纯图表组件被当作 AIMS 收录。",
+      "open_source_check": "本叶未收录开源条目。复核结果：VSChart 是 React 麻醉图表，接收 VSCapture 导出的 CSV/JSON，未证明病例身份、提供者归属或设备直连；GCAS-UFF 的 README 只展示登录、患者列表等前端，并声明 UFF/HUAP 专属学术使用，与仓库 MIT LICENSE 冲突；Somno 的 LICENSE 文件仅写 'This is not a license' 并外链 GPLv3，未提供本仓库完整许可证正文；cloveropen/op 仅有模块清单，未证明完整服务端或设备自动采集。以上排除理由成立，故本轮没有通过完整许可证与社区版边界核对的开源条目。",
+      "gaps": "开源方向仍无同时满足完整许可证、完整应用服务形态与病例记录/自动设备数据核心的候选；商业条目未做部署、价格、架构或运行时验证，符合本轮范围。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行产品，未验证价格、架构、性能或运行时。已按 REVIEW_SOURCES.json 的 path 原样读取 3 个商业快照；另读取了本单元 data/collections/sources 下与 research.json 对应的 VSChart、GCAS-UFF、Somno、cloveropen/op 快照用于开源排除核对（这些文件未列入 REVIEW_SOURCES.json 的 sources 数组）。Philips 快照为 Next.js 服务端渲染页面，正文主要位于脚本序列化载荷，逐段通读受限；本轮另做了一次只读页面正文核对以确认其内容，但结论仍以快照中的 URL、产品身份和关键措辞为依据。未访问其他单元或外部数据库。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-159/ses_groveopencodegop159review1_1793251840.jsonl",
+  "batch_sha256": "a495c899fcd4501877577eadd731935e41fee6b6075a842eb0eb9cfc7e2b9e22",
+  "research_sha256": "8bc272f3eb6bbbf1e93b4e6edc1756be34f18af26131c772aece567c2fdcd766",
+  "input_sha256": "e4c4def5b3b8c02904a43c44fa9ffe4782acc87da1c08c09433d7160744d2d4d"
+}

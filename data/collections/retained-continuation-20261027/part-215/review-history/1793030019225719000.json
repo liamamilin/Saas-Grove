@@ -1,0 +1,78 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "clinical-documentation-platform",
+      "application_id": "commercial:suki",
+      "issue": "REVIEW_SOURCES 指定的 Suki 快照只是 React Router 应用壳和资源预加载，正文核心内容未落盘；可读文本仅有 title/meta（ambient clinical intelligence powers documentation, coding, clinical reasoning, Q&A），没有就诊对话捕捉、结构化记录生成、医生编辑或 EHR 同步等核心工作流正文。批量理由中的这些描述无法由该快照核实。",
+      "fix": "重新抓取可服务端渲染的 Suki 产品/解决方案页并保存正文快照，引用其中关于记录生成、医生审阅/编辑和写入患者记录的段落；若无法取得，移除 Suki 案例或将其降为不足以支撑该叶的留档。"
+    },
+    {
+      "slug": "clinical-documentation-platform",
+      "application_id": "commercial:abridge",
+      "issue": "Abridge 快照正文支持 ambient note、EHR 集成、患者历史和 auditable notes，但没有出现审阅、编辑、签名、time-to-sign 或 finalized note 的表述；批量摘要/理由声称医生在就诊后审阅编辑并缩短签名时间，超出快照可核实范围，也使“归责临床医生定稿”这一核心缺少直接证据。",
+      "fix": "把摘要/理由改为快照可支持的 note 生成、EHR 集成和可审计记录；或补充能显示 clinician review/edit/sign、finalized note 与 time-to-sign 的官方页面快照，再保留该核心结论。"
+    },
+    {
+      "slug": "population-health-management",
+      "application_id": "commercial:innovaccer",
+      "issue": "Innovaccer 快照是 contract-aware population health AI 页，正文强调读取 value-based contracts、给行动赋值、agents 处理 routine steps、团队处理 exceptions，并用 gap closure/outreach 统计佐证；没有出现 patient panel 作为管理单元、registry 或 worklist 刷新的正文。批量摘要/理由中的“以患者小组（panel）为管理单元”“工作队列刷新”无法由该快照核实。",
+      "fix": "按快照重写为“按价值合同对人群行动排序、代理执行常规步骤、团队处理例外、跟踪 gap closure/outreach 结果”，或补充能证明 panel/registry/worklist 的官方页面快照；该叶仍可由 Azara 支撑。"
+    },
+    {
+      "slug": "skilled-nursing-facility-management",
+      "application_id": "commercial:matrixcare",
+      "issue": "MatrixCare 的 SNF、RCM 和 MDS 快照可核实 billing/claims/reporting、MDS 评估/合规和临床记录，但三个快照均未出现 census/occupancy 作为核心记录或 census-driven billing 的正文；批量摘要/理由称“以 census 和应收为核心”“SNF 软件页明确以 census 与应收为报告核心”，缺少来源依据。",
+      "fix": "补充能显示 census/occupancy、census-driven billing 或 payer-day 资金路径的官方页面快照，或删除“census 为核心”的表述并只保留 billing/RCM、MDS/合规；该叶仍可由 PointClickCare 支撑。"
+    },
+    {
+      "slug": "clinical-communication-platform",
+      "application_id": "commercial:perfectserve",
+      "issue": "PerfectServe 快照支持按实时排班、角色和 coverage 路由，secure text/voice/video，患者上下文，以及 full audit trail；但没有出现未回复自动升级、delivery/read receipt 或 acknowledgement 的正文。批量摘要/理由声称“未回复消息自动升级、消息/送达/登录留审计、Connect 页补充送达跟踪与已读回执”，其中升级/送达/已读部分无法由这些快照核实。",
+      "fix": "删除或改写未获支持的 escalation/delivery/read-receipt 表述，仅保留 role/coverage routing、secure messaging、audit 和 patient context；或补充明确展示 delivery assurance/escalation/read receipt 的官方页面快照。该叶仍可由 Spok 支撑。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 phase 为 included_without_cases，progress 中各叶 case_status 仍为 not_searched、application_ids 为空，但 research.json 为 case_found 且 batch.json 已有条目；建议同步元数据，避免状态冲突。",
+    "PointClickCare 快照正文支持 “Automate MDS submission to iQIES”、billing/AR/claims、resident status 和 insurance coverage；PDPM 仅出现在导航链接（PDPM with Confidence/PDPM Coach），正文未说明 PDPM 支付，建议不要把 PDPM 写成已由正文证实的支付路径。",
+    "Azara 的 “defined population” 主要由 Registry Reports/Cohort Management 和 patient-level drill-down 支撑，未明确使用 attribution/empanelment 术语；对商业类型匹配足够，但如强调归因口径宜补来源。",
+    "Oracle Health HIE 的跨组织参与者社区主要由 QHIN/TEFCA 参与者网络和 “provider organizations can exchange...” 支撑；正文没有逐一列出参与机构治理流程，但信任框架、患者匹配和交换目的已足够支撑 HIE 核心。",
+    "research.json 引用了 OpenHIM 的 GitHub API/license/README，但 REVIEW_SOURCES.json 未包含这些快照；OpenHIM 未进入 batch，作为中间件候选留档不影响本单元 leaf，但建议补充快照或明确标注未本地复核。",
+    "Spok 与 PerfectServe 均为商业 SaaS；Spok 主页正文明确 “Confirmed delivery and intelligent escalation” 与 “Audit-ready records for every event”，是本叶 delivery assurance 的主要证据。",
+    "SaaS 形态：Azara 明示 SaaS model；PointClickCare 明示 cloud-based；Abridge、Suki、PerfectServe、Spok、Oracle 均为厂商托管云服务或网页/移动应用；未见自托管开源案例。",
+    "batch 内 9 个 ID 均为 commercial:*，track 一致为 commercial，leaf_matches 的 slug 均在本单元五叶内；未发现 ID/track 冲突或重复。"
+  ],
+  "leaf_checks": {
+    "population-health-management": {
+      "status": "core_supported_with_source_note",
+      "basis": "Azara DRVS 官方页明确 clinical/claims/PM/ADT 聚合、Risk Stratification、Registry Reports、Cohort Management、Patient Visit Planning 的 care gaps、100+ reports/600+ measures；Patient Outreach 页补充自动外展、response/follow-up 和 campaign performance。可支撑定义人群→分层→缺口→行动→衡量的闭环。",
+      "gaps": "Innovaccer 快照缺少 panel/registry/worklist 正文，批量摘要过度具体；见 findings。"
+    },
+    "skilled-nursing-facility-management": {
+      "status": "core_supported_with_source_note",
+      "basis": "PointClickCare 快照正文列出 resident status、insurance coverage validation、billing/AR/collections/claims、trust fund management 和 “Automate MDS submission to iQIES”；Increase Occupancy 页补充 census-mix、occupancy 和 admission decisions，足以支撑 census→payer money→assessment cycle 的商业类型匹配。",
+      "gaps": "MatrixCare 的 census 核心表述未被三个快照正文证实；PDPM 对 PointClickCare 也主要只见于导航。见 findings/non-blocking notes。"
+    },
+    "clinical-communication-platform": {
+      "status": "core_supported_with_source_note",
+      "basis": "Spok 主页正文明确 enterprise directory、role-based lookups、on-call scheduling、confirmed delivery、intelligent escalation、audit-ready records；Secure messaging 页补充 people/groups/roles 查找、EHR/on-call 集成、patient context 和 logged communications，覆盖四项核心属性。",
+      "gaps": "PerfectServe 快照缺少 escalation/delivery/read receipt 正文；见 findings。"
+    },
+    "clinical-documentation-platform": {
+      "status": "weak_core_evidence",
+      "basis": "Abridge 快照支持 AI-generated notes、patient history、EHR integration、auditable notes 和多专科；但未直接展示 clinician review/edit/sign 或 finalized note。Suki 快照仅有 title/meta 和应用壳，未落盘核心工作流正文。",
+      "gaps": "该叶的“归责临床医生定稿”缺少直接来源；Suki 不能按元数据计入核心。见 findings。"
+    },
+    "health-information-exchange-hie": {
+      "status": "core_supported",
+      "basis": "Oracle Health Interoperability 页描述 vendor-agnostic point-of-care HIE、跨来源临床数据聚合、longitudinal history、intelligent patient matching/record locating；QHIN 页补充 TEFCA 指定 QHIN、集中单一连接、provider/payer/consumer/public health 交换和 treatment/individual access/healthcare operations 等交换目的，覆盖跨组织社区、患者锚定交换、身份链接和治理框架。",
+      "gaps": "无开源 HIE 应用入 batch；OpenHIM 仅作为中间件候选且本地无 REVIEW_SOURCES 快照。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未做部署/价格/运行时测试。Suki 快照是 React Router 应用壳，核心正文未落盘；部分厂商页面为压缩 HTML/Elementor，读取工具按行截断，可能影响对长行正文的完整核对。REVIEW_SOURCES.json 未包含 research.json 所引 OpenHIM GitHub API/license/README 快照，故未独立复核其许可证和仓库身份。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-215/ses_groveopencodegop215review1_1793029212.jsonl",
+  "batch_sha256": "4ec3ac3b1819e18628a74787ed0a094f53febdbaedbf550db92cc03af84c756a",
+  "research_sha256": "1a52900f877e63e9cbd5ca3856ed85c5fbf2792003126ea4bfc1ed66a74e62df",
+  "input_sha256": "13df5be3634b6f718c6fcbed331bf6cf2dadf3332e9650f3479e00b3c4b10348"
+}

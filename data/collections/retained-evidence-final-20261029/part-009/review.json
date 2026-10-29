@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "public-data-portal / github:19141754：条目的 license 字段和 license_evidence_url 只覆盖 opendatateam/udata（AGPL-3.0 全文快照可核）；research.json 已注明配套前端 cdata 是独立仓库，license 为 NOASSERTION，但 batch 摘要和 features 仍把 cdata 作为面向公众的界面组成。建议在摘要或边界说明中明确写出“AGPL-3.0 仅覆盖 udata 后端仓库，cdata 许可未核验”；如果要把 cdata 视为交付门户的必需组件，则应补充其仓库元数据、README 与完整许可快照。当前不阻断，因为叶核心可由 udata 自身的 DCAT Dataset/Distribution 记录、公开 API 列表与检索、数据集许可字段正文支撑。",
+    "public-data-portal / github:19141754：batch 的 deployment 中“官方安装文档提供 Debian 类系统上的生产部署步骤（WSGI 应用、Celery worker、beat/cron 三类服务）”未见于本单元已抓取快照；getting-started 只覆盖本地 Docker Compose/uv 启动，adapting-settings 只覆盖 Celery 配置。建议引用 installation 页快照，或把该条改为已被正文证实的表述。",
+    "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]，而 batch/research 已记录 case_found（github:19141754）；建议同步 seed/progress 元数据，避免下游把该叶误判为无案例。",
+    "research.json 称本轮复核了 www.socrata.com 根路径与 /open-data/，而 input.json 的旧 note 称“本轮未重试”；两处留档口径不一致，建议统一为实际重试情况。",
+    "CKAN 的排除依据是上一轮快照（GitHub license API NOASSERTION、LICENSE.txt 短说明），本轮未重取；作为已记录的缺口可以接受，但不宜表述为对 CKAN 许可的当轮复核结论。",
+    "leaf_matches.reason 提到“administrative 文档”，但 source_urls 未列 administrative-tasks 页面；建议对齐引用清单，避免出现未列出来源的正文依据。"
+  ],
+  "leaf_checks": {
+    "public-data-portal": {
+      "definition_core": "通过。RDF 文档正文显示数据集以 DCAT Dataset 暴露（identifier、title、description、keyword、issued、modified、temporal、accrualPeriodicity、license），资源以 DCAT Distribution 暴露（downloadURL、accessURL、format、mediaType、byteSize、checksum），站点 site/catalog 与机构 organizations/{id}/catalog 以 DCAT Catalog 暴露；harvesting 文档说明远端元数据可入库并被检索；getting-started 与 harvesting 文档给出 /api/1/datasets/ 列表与 ?q= 检索。满足“维护的数据集记录—分发—公共发现—公共访问”的核心。",
+      "service_form": "通过。README 与官方文档表明 uData 是可自托管部署的开放数据平台后端（Python API、MongoDB、Redis、Elasticsearch、Celery worker），getting-started 说明 udata 与 cdata 为两个独立服务器，属于持续使用的软件服务形态，而非 SDK、索引引擎或单次数据交付。",
+      "id_track": "通过。github:19141754 与仓库元数据 id=19141754、full_name=opendatateam/udata、html_url 一致；track=open_source 与仓库性质一致；repository_url、github_repository_id 匹配。",
+      "license": "通过。license 快照为 GitHub license API 返回，spdx_id=AGPL-3.0，LICENSE 内容 base64 解码后为 GNU AGPL v3 全文（size=34520，含完整条款与 END OF TERMS AND CONDITIONS 标记）；仓库身份与许可证据一致。",
+      "community_boundary": "基本通过但需注意边界表述。AGPL-3.0 证据只覆盖 opendatateam/udata；research.json 已明确 cdata 为独立仓库且 license 为 NOASSERTION、未纳入本次许可范围，但 batch 摘要和 features 把 cdata 作为公众界面组成。当前叶核心可由 udata 后端 API/DCAT/检索正文支撑，故不阻断；建议在公开条目中显式写明该许可边界，或在把 cdata 视为必需交付组件时补充其许可证据。",
+      "evidence": [
+        "data/collections/sources/2fc4737252378d4fbc49515c53b7a82ce27e1db187ef60548346b5d60215a14b.txt（仓库元数据，id/full_name/default_branch/license）",
+        "data/collections/sources/4010baef447a59a26f0e5abcf7d0dcea9a01df64a0b1b7698140f75133ebfdb5.txt（license API，AGPL-3.0 全文）",
+        "data/collections/sources/0283484e34d48a02ddbccdaef1dad1871fd42c1f288203cb8d1735e2a9e03d0e.txt（README，data.gouv.fr 维护）",
+        "data/collections/sources/01776c2a3c5766ac251e6dc47b43b2a4b5b202d2b8f39b8a409b1029e6c7232e.txt（文档首页，后端/前端分离）",
+        "data/collections/sources/515e4e9ca1fb6713a2a257383f676fec4b57ff6e2d6ce199ecab346bc3f84151.txt（getting-started，API/worker/cdata）",
+        "data/collections/sources/6409349fc5ee259e0e68ec0f251bb2df161c8a4fd2af82974cc4294b4e2b0609.txt（RDF/DCAT Dataset、Distribution、Catalog 字段）",
+        "data/collections/sources/b7908cc3fa4179bc08864d06bf888cf6806188ee165eb424228ca02722a06755.txt（harvesting，检索与远端元数据）",
+        "data/collections/sources/2bc72fd562fc38de55d846d536cfe396747ba8f9e0fa28be6ef63b7177763f59.txt（settings，Elasticsearch/Mongo 回退、autocomplete、Celery）"
+      ],
+      "gaps": "cdata 的仓库元数据、README 与许可快照未提供，无法独立核验其许可证；installation 页未抓取，Debian/WSGI/beat-cron 的生产部署细节无法核对；未做运行时部署验证。上述缺口已由 research.json 部分记录，不影响本叶基于 udata 后端正文的核心判断。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 个快照；未运行 shell、未写文件、未读取其他单元、未进行外部抓取或运行时部署测试。因此无法独立核验 cdata 的许可证与 installation 页内容，也无法验证实际部署行为；对 Socrata/CKAN/Magda 的判断仅依据本单元留档，未重新抓取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-009/ses_groveopendesignp009review1_1793150887.jsonl",
+  "batch_sha256": "7c80aa7a51e4fdaf19b7a4988a9e475607703a157c6c1905a891949333fc053a",
+  "research_sha256": "26cad0a8a1a4329eba3f7fb0062d3011440c2c35c40386e6c2a079f62dcdee89",
+  "input_sha256": "aa122ed6174df9fa741b0921dd4ab9231814751e70cc3c28c6aacdfda68d9587"
+}

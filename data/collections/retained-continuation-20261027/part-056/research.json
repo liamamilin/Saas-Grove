@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "case-law-research-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:22257580"
+      ],
+      "query": [
+        "CourtListener official Case Law Research Platform",
+        "CourtListener citation graph official documentation"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/freelawproject/courtlistener",
+        "https://api.github.com/repos/freelawproject/courtlistener/license",
+        "https://raw.githubusercontent.com/freelawproject/courtlistener/main/README.md",
+        "https://www.courtlistener.com/api/rest/v4/",
+        "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/search/models.py",
+        "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/citations/models.py"
+      ],
+      "note": "初审指出原证据只证明判决存档与检索、未证明引文关系。复核后保留匹配：官方 API 索引列出 opinions-cited 端点，官方仓库 OpinionsCited 模型定义 citing_opinion/cited_opinion、depth 及双向 related_name，官方 citations 模型另记录未匹配引文的解析状态，足以支持“判决语料 + 检索 + 引文图”三层。Free Law Project 官方文档（www.courtlistener.com/help/api/rest/ 重定向到 wiki.free.law/c/courtlistener/help/api/rest/v4/citations）明确说明该引文网络，其快照已保留在 sources/0c180b…，但该主机不在 batch 允许来源范围，故仅作旁证、未登记为条目来源。未把注释中的 treatment 字段写成已实现的 citator。",
+      "service_boundary": "开源社区核心为判决意见检索与 citing/cited 引文图；不主张 treatment/citator 判断或商业订阅能力。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "CourtListener official Case Law Research Platform",
+          "status": "searched",
+          "result_urls": [
+            "https://api.github.com/repos/freelawproject/courtlistener"
+          ],
+          "result_note": "读取原有 GitHub 仓库元数据，仅确认判决数据存档与检索；未含引文关系。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://www.courtlistener.com/help/api/rest/opinions/",
+          "status": "fetch_failed",
+          "result_urls": [],
+          "result_note": "HTTP 404，旧文档路径不可用。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://www.courtlistener.com/help/api/rest/",
+          "status": "fetch_failed",
+          "result_urls": [],
+          "result_note": "采集脚本拒绝跨主机重定向；改用只读网页读取重定向后的官方文档，并另取官方仓库/API 来源。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://wiki.free.law/c/courtlistener/help/api/rest/v4/citations",
+          "status": "read",
+          "result_urls": [
+            "https://wiki.free.law/c/courtlistener/help/api/rest/v4/citations"
+          ],
+          "result_note": "官方文档正文写明 “network of citations between legal cases”“millions of citations between legal decisions”，并描述 Opinions Cited/Citing API；该主机不符合 batch 官方主机校验，未作为条目来源。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "CourtListener citation graph source",
+          "status": "searched",
+          "result_urls": [
+            "https://www.courtlistener.com/api/rest/v4/",
+            "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/search/models.py"
+          ],
+          "result_note": "官方 API 索引含 opinions-cited 端点；官方仓库 search/models.py 的 OpinionsCited 模型确认 citing/cited 双向引文关系。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/citations/models.py",
+          "status": "read",
+          "result_urls": [
+            "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/citations/models.py"
+          ],
+          "result_note": "官方仓库 citations 模型记录未匹配/已匹配引文的解析状态，补充引文图的实现证据；已登记为条目来源。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/freelawproject/courtlistener",
+          "status": "fetched_and_read",
+          "sha256": "8825fa025ab1358b6fd6ee99a660b3a8eafb247370ab0ce8f3361237e8f501d4",
+          "note": "官方仓库元数据；仅证明判决数据存档与检索，不含引文关系。"
+        },
+        {
+          "url": "https://api.github.com/repos/freelawproject/courtlistener/license",
+          "status": "fetched_and_read",
+          "sha256": "7ce8720df1c4caa6968b89de86b24d22acceddf8cf1d40609c1d9c2e5c264a92",
+          "note": "GitHub 返回 NOASSERTION；快照内完整 LICENSE 文本为 GNU AGPL v3 或任何更晚版本（AGPL-3.0-or-later）。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/freelawproject/courtlistener/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "560a76b72c00062ee64fc9c1d8bd123ee3e9d81ba6d6bb7f01c7de21c8978c6e",
+          "note": "README 仅描述仓库结构、贡献方式与许可证，不含引文关系。"
+        },
+        {
+          "url": "https://www.courtlistener.com/help/api/rest/opinions/",
+          "status": "fetch_failed",
+          "note": "HTTP 404。"
+        },
+        {
+          "url": "https://www.courtlistener.com/help/api/rest/",
+          "status": "fetch_failed",
+          "note": "跨主机重定向，采集脚本拒绝保存。"
+        },
+        {
+          "url": "https://wiki.free.law/c/courtlistener/help/api/rest/v4/citations",
+          "status": "fetched_and_read",
+          "sha256": "0c180bc8ecc0506080bc5a5071f38532bb45a05aaed9efa2fe25bbe9464308eb",
+          "note": "官方 Free Law Project 文档快照；正文明确 citation graph 与 opinions-cited 正反向参数。主机不在 batch 允许来源范围，快照保留但不登记为条目来源。"
+        },
+        {
+          "url": "https://www.courtlistener.com/api/rest/v4/opinions-cited/",
+          "status": "fetch_failed",
+          "note": "未认证请求返回 HTTP 401。"
+        },
+        {
+          "url": "https://www.courtlistener.com/",
+          "status": "fetch_failed",
+          "note": "HTTP 403。"
+        },
+        {
+          "url": "https://www.courtlistener.com/api/rest/v4/",
+          "status": "fetched_and_read",
+          "sha256": "86c6cb6dc4273918027be3df1db7892acc69c9fcd4a487067191af5a9d2ddd97",
+          "note": "官方 API 索引，含 opinions-cited 端点。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/search/models.py",
+          "status": "fetched_and_read",
+          "sha256": "b9ebe17c0b48487e35ed0ffeaf598ebf2f089f3e9d8524100ec4e5c8a61ebf9f",
+          "note": "官方仓库模型源码：OpinionsCited 定义 citing_opinion/cited_opinion、depth 与双向关联。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/freelawproject/courtlistener/main/cl/citations/models.py",
+          "status": "fetched_and_read",
+          "sha256": "2efa1eb459293c1eb77c4d665bb5958ee742ce22b5302fa3197cbcd6ceef673b",
+          "note": "官方仓库 citations 模型：记录未匹配引文的解析状态，补充引文图实现证据；已登记为条目来源。"
+        },
+        {
+          "url": "https://api.github.com/repos/freelawproject/courtlistener/contents/",
+          "status": "fetched_and_read",
+          "sha256": "ba222bc611830b94acf89ae68d76340b3b220bca78f78bc19ed96641189766b7",
+          "note": "GitHub contents 列表快照，仅用于定位源码目录，未作为能力证据。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "legal-document-automation",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:34148903"
+      ],
+      "query": [
+        "Docassemble official Legal Document Automation"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/jhpyle/docassemble",
+        "https://api.github.com/repos/jhpyle/docassemble/license",
+        "https://raw.githubusercontent.com/jhpyle/docassemble/master/README.md",
+        "https://docassemble.org/docs/interviews.html",
+        "https://docassemble.org/docs/documents.html"
+      ],
+      "note": "初审指出仅凭仓库 description 和 8 行 README 不能证明定义性核心。本次补充并快照官方文档正文：interviews 页说明 interview 是 YAML 文件、用户答案存入变量、可依据先前答案决定后续问题与顺序，并含 Python 逻辑；documents 页说明可从 Markdown 生成 PDF/RTF/DOCX，也可用 DOCX 模板 + Jinja2 变量生成 PDF/DOCX，或填充 PDF 表单字段。由此确认“变量/条件模板 + 采集数据 → 自动组装 → 可编辑文档”核心；完整许可证仍为 MIT。",
+      "service_boundary": "完整可自托管开源应用；不主张合同生命周期管理或生成式起草；本轮未运行部署。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Docassemble official Legal Document Automation",
+          "status": "searched",
+          "result_urls": [
+            "https://api.github.com/repos/jhpyle/docassemble"
+          ],
+          "result_note": "读取 GitHub 仓库元数据与 README，并用许可证端点核对完整 MIT 文本；README 功能信息有限。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://docassemble.org/docs/interviews.html / https://docassemble.org/docs/documents.html",
+          "status": "read",
+          "result_urls": [
+            "https://docassemble.org/docs/interviews.html",
+            "https://docassemble.org/docs/documents.html"
+          ],
+          "result_note": "官方文档正文覆盖 YAML interview、变量与条件提问，以及 DOCX/Jinja2、Markdown、PDF 表单的文档组装与 PDF/RTF/DOCX 输出。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/jhpyle/docassemble",
+          "status": "fetched_and_read",
+          "sha256": "5d7d9c7c6251d884e0a548560a52ff08e24db8effa940f7ec4c54ff036d35dc3",
+          "note": "官方仓库元数据快照：description 明确 guided interviews/document assembly，license 为 MIT。"
+        },
+        {
+          "url": "https://api.github.com/repos/jhpyle/docassemble/license",
+          "status": "fetched_and_read",
+          "sha256": "4b18f2a7ed1aba6f4c1a7074427fb6962a67e11c8be60acb4abcf5e3cfbbee68",
+          "note": "完整 MIT 许可证文本快照。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jhpyle/docassemble/master/README.md",
+          "status": "fetched_and_read",
+          "sha256": "a1c9c5fe78b19cfc4724e23d2c359e216459c70e2e68dd8ce868a2b5e645ae59",
+          "note": "README 快照仅含官网与支持入口，未用于扩写能力。"
+        },
+        {
+          "url": "https://docassemble.org/docs/interviews.html",
+          "status": "fetched_and_read",
+          "sha256": "6055c68416e0a3be05f323fc7398304f6ff722255f9044d1cd54838265ab87ff",
+          "note": "官方文档：interview 为 YAML 文件，答案存入变量，按先前回答决定问题与顺序，可嵌入 Python 逻辑。"
+        },
+        {
+          "url": "https://docassemble.org/docs/documents.html",
+          "status": "fetched_and_read",
+          "sha256": "ea3881e37fed8e9bc661e5c36de14cbea57677e70ac77bda3adbf35aa65be361",
+          "note": "官方文档：Markdown 生成 PDF/RTF/DOCX；DOCX 模板 + Jinja2 变量生成 PDF/DOCX；支持填充 PDF 表单字段。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "legal-research-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:westlaw"
+      ],
+      "query": [
+        "Westlaw official Legal Research Platform"
+      ],
+      "source_urls": [
+        "https://legal.thomsonreuters.com/en/products/westlaw"
+      ],
+      "note": "Westlaw 官方产品页正文覆盖法律研究服务、KeyCite 判例处理信号、法规版本对比与 Practical Law 实务资料，支持多内容家族 + 专业检索的类型关系；商业条目只记录基本产品信息。",
+      "service_boundary": "商业产品仅记录名称、官网、简短用途与类型关系，不深入价格、架构或部署。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Westlaw official Legal Research Platform",
+          "status": "searched",
+          "result_urls": [
+            "https://legal.thomsonreuters.com/en/products/westlaw"
+          ],
+          "result_note": "读取 Thomson Reuters 官方 Westlaw 产品页，核对法律研究、KeyCite、法规版本对比与 Practical Law 实务资料。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://legal.thomsonreuters.com/en/products/westlaw",
+          "status": "fetched_and_read",
+          "sha256": "5cedcb67bde9dd91178da9ca152cf8c1ff998efa1b2700fbdbf36284ab299a1d",
+          "note": "官方产品页快照；正文覆盖 legal research、KeyCite Overruling Risk、法规版本对比与 Practical Law 内容，支持多内容家族 + 专业检索。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "contract-analytics-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:luminance"
+      ],
+      "query": [
+        "Luminance official Contract Analytics Platform"
+      ],
+      "source_urls": [
+        "https://www.luminance.com",
+        "https://www.luminance.com/platform/product",
+        "https://www.luminance.com/llms.txt"
+      ],
+      "note": "初审指出首页 Framer 快照正文难以读取，原叙述超出可读内容。本次补充官方 /platform/product 页面快照，正文可直接读到：可对合同组合提问并获得 source-backed answers，呈现风险、义务、续约与商业机会，并分析跨行业、司法辖区的整个合同组合。官方 llms.txt 纯文本索引另概述该平台将合同组合转为可行动洞察，并列出 AI-powered contract repository 与 document search engine 页面。据此保留合同智能/分析匹配；不据首页导航扩写合同导入、条款抽取管线或完整 CLM。",
+      "service_boundary": "仅记录合同智能/分析层：合同组合问答与带来源依据的洞察；不主张合同导入、条款抽取管线或完整合同生命周期管理；商业资料仅基本记录。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Luminance official Contract Analytics Platform",
+          "status": "searched",
+          "result_urls": [
+            "https://www.luminance.com"
+          ],
+          "result_note": "读取 Luminance 官方首页；当时仅能确认 Contract Intelligence 定位，Framer 长行不便逐段核对产品正文。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://www.luminance.com/platform/product",
+          "status": "read",
+          "result_urls": [
+            "https://www.luminance.com/platform/product"
+          ],
+          "result_note": "官方产品页正文可读：对合同组合提问并给出 source-backed answers，呈现风险、义务、续约与商业机会，分析整个合同组合。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "https://www.luminance.com/llms.txt",
+          "status": "read",
+          "result_urls": [
+            "https://www.luminance.com/llms.txt"
+          ],
+          "result_note": "官方纯文本站点索引：概述 Contract Intelligence 平台将合同组合转为可行动洞察，并链接 contract repository 与 document search engine 页面。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.luminance.com",
+          "status": "fetched_and_read",
+          "sha256": "713473bea652b8ddb20b503e8a91906e6937b7bfccb2ae862199317a8f73558f",
+          "note": "官方首页快照；正文以 Contract Intelligence 与合同组合洞察为核心，Framer 长行不便逐段引用。"
+        },
+        {
+          "url": "https://www.luminance.com/platform/product",
+          "status": "fetched_and_read",
+          "sha256": "44a1b65376e21adf04d9f03fa66d2ce652f9f17188831ae6183a3d1e028fcb34",
+          "note": "官方产品页快照；正文写明对合同组合提问、source-backed answers、风险/义务/续约/商业机会，以及跨行业与辖区分析整个合同组合。"
+        },
+        {
+          "url": "https://www.luminance.com/llms.txt",
+          "status": "fetched_and_read",
+          "sha256": "9fb3a3b7206789dc4cd97f20beab7b7d68f99af38111c7403d192eec6653c6bd",
+          "note": "官方纯文本索引快照；概述 Contract Intelligence 平台将合同组合转为可行动洞察，并列出 contract repository、document search engine 等页面。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "due-diligence-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:dealroom"
+      ],
+      "query": [
+        "DealRoom official Due Diligence Platform"
+      ],
+      "source_urls": [
+        "https://dealroom.net"
+      ],
+      "note": "DealRoom 官方首页 JSON-LD 与正文展示 Due Diligence Management、协作 Q&A、尽调请求列表、请求项答复与交易进度报告，并有客户案例提及 140+ diligence requests。产品整体是更宽的 M&A 交易管理平台，本叶为 Diligence 模块级匹配；不把 VDR 或交易管道当作 DD 核心。",
+      "service_boundary": "尽调为其 M&A 平台中的 Diligence 模块；按尽调询问循环记录，数据室是配套能力，不作为本类型核心；商业资料仅基本记录。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "DealRoom official Due Diligence Platform",
+          "status": "searched",
+          "result_urls": [
+            "https://dealroom.net"
+          ],
+          "result_note": "读取 DealRoom 官方首页，核对 Diligence 工作区、请求列表、请求项答复与进度报告。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://dealroom.net",
+          "status": "fetched_and_read",
+          "sha256": "83e00a66e3729699f09ca56245e19f5a4aebda4a372a7c95b91e3ce270bba6d6",
+          "note": "官方首页快照；正文展示 Diligence 工作区、尽调请求列表、请求项答复与交易进度报告，并有 140+ requests 客户案例。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

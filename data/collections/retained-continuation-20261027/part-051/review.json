@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched 且 application_ids 为空，而 research.json 已记录 5 个 case_found；这是进度字段的版本不一致，不影响本次内容核对，但在写回时应同步。",
+    "SimCorp One 与 Addepar 的已读页面只说明平台/产品形态，未明确 SaaS/云交付方式；本次按商业基本真实性与类型匹配通过，未额外断言其部署模式。",
+    "Jube 的 README 现强调 agentic AI/Jooby，批次摘要保留规则、ML 与案例管理的能力描述；两者不矛盾，后续文案可同时说明其 AI 代理层与底层规则/ML 检测层。",
+    "Jube 未在已读资料中发现独立的社区版/企业版功能边界；本次按仓库整体 AGPL-3.0 处理，若存在商业托管版，应在条目中补充边界说明。",
+    "Nomentia 的衍生品、担保、敞口/风险、现金池仅出现在站点导航，未逐页核验；批次已明确不作为核心证据，后续不应把这些导航项升级为核心能力。",
+    "Sierra Chart 的工作区布局跨会话持久化、逐 tick 实时盈亏未在已读页面直接证实；批次已避免该断言，属于可接受的证据边界。",
+    "部分快照是原始 HTML，含大量 CSS/JS，且读取器会截断超长单行；本次只以正文段落和实际字段作结论，未把导航、标题或 HTTP 成功当作核心工作流证据。"
+  ],
+  "leaf_checks": {
+    "portfolio-management-system": {
+      "application_id": "commercial:simcorp-one",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "按原路径读取 e713...（Portfolio Management 正文）、dca3...（SimCorp One 概览）、09d3...（Operations）、f343...（Accounting）。Portfolio 正文确认跨资产组合数据的单一来源、实时头寸/分析/表现指标、组合构建与基于风险因子/ESG/自定义参数的模型与优化、订单生成、交易前合规检查、下单前模拟头寸/现金/风险影响；Operations 与 Accounting 补充交易捕获、结算、会计与报告，可支撑组合记录—管理意图—前瞻管理循环的商业基本匹配。",
+      "gaps": "Portfolio 页未逐字使用 investment book of record，也未在同一页完整展示执行回报入账；SaaS/云交付未明示。结论未把这些细节写成已证实事实。"
+    },
+    "professional-trading-terminal": {
+      "application_id": "commercial:sierra-chart",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "按原路径读取 17e6... 首页正文与 c81a... Trade Activity Log。首页确认其为专业桌面交易/图表平台，连接交易所实时行情，提供 ChartDOM 市场深度下单、订单路由以及手动/自动交易；Trade Activity Log 文档确认成交、持仓数量、账户、逐笔/累计盈亏字段及统计页，支撑实时行情—直接下单—持仓盈亏闭环的商业基本匹配。",
+      "gaps": "工作区布局跨会话持久化、逐 tick 实时盈亏未在已读页面直接证实；批次已明确不据此断言，未构成过度声明。"
+    },
+    "transaction-monitoring-platform": {
+      "application_id": "github:561734951",
+      "track": "open_source",
+      "status": "pass",
+      "evidence": "按原路径读取 97fa... 仓库元数据、77f6... 许可证 API、f25a... README。元数据确认 id=561734951、full_name=jube-home/aml-fraud-transaction-monitoring、description 为开源 AML/欺诈 ML 实时交易监控、license=AGPL-3.0；许可证 API 中 LICENSE 为 34,522 字节，正文以 GNU Affero General Public License v3 开头，未见附加限制；README 首段确认开源、实时 AML/欺诈交易监控，研究记录并载明规则/速度/制裁名单与有监督/无监督 ML 混合检测、案例管理、规则构建器、自托管/多租户/水平扩展。仓库身份、track、许可证及核心类型匹配成立。",
+      "gaps": "README/许可证快照为单行 base64 JSON，读取器按行截断，未能逐字复读全部特征段落；研究记录已如实记载 GitHub API 复抓 403 并沿用 2026-10-24 成功快照。未发现独立社区版/商业版边界，按仓库整体 AGPL-3.0 处理。"
+    },
+    "treasury-management-system": {
+      "application_id": "commercial:nomentia",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "按原路径读取 b922... 首页与 3eb8... Debt & Investments 正文。首页将产品定位为 SaaS-based cash and treasury management system；Debt & Investments 正文确认以单一交易登记簿管理外部与公司间贷款、债券、商业票据、存款、存单及融资额度，自动生成并随交易条款更新本金/利息/费用/应计现金流，处理估值并生成财资会计过账至 ERP，提供利用率、余量、到期与成本视图及实时跟踪，支撑企业自身财资交易台账与生命周期处理的商业基本匹配。",
+      "gaps": "衍生品、担保、敞口/风险、现金池只见站点导航，未逐页核验；确认/结算环节未在正文展开。批次已收窄表述，未把导航当作能力。"
+    },
+    "wealth-management-platform": {
+      "application_id": "commercial:addepar",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "按原路径读取 175e... Platform Overview 与 eddf... Why Addepar 正文。Platform Overview 确认公私资产统一建模、单一数据源、模型化客户与资产所有权结构、定制报告、品牌化客户门户，以及费用管理/账单计算与复核；Why Addepar 确认持续聚合客户在各机构的全部金融账户与投资、形成跨机构综合财富视图，并以专用费用管理系统处理复杂费率、资产排除、估值方法及账单审核，支撑客户关系与资产结构记录、综合财富视图、计费/报告机制的商业基本匹配。",
+      "gaps": "托管、交易执行、角色权限/合规监督未在已读页面证实；批次明确不写入，未过度声明。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元；按 REVIEW_SOURCES.json 的 path 原样读取 data/collections 下的快照，未重算 sha256（路径名与 batch 中 sha 一致）。快照为原始 HTML/JSON，超长单行会被读取器截断；Jube 的 README/许可证 base64 正文只能部分逐字复核，故另用同一 GitHub API/README 做只读一致性核对，但未用其替换快照中的核心事实。未做部署、登录、价格、架构或客户案例核验；商业产品仅按基本真实性与核心类型匹配审查。input.json 的 progress 与 research.json 的案例状态存在版本差，未作为内容结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-051/ses_groveopencodegop051review1_1792989776.jsonl",
+  "batch_sha256": "acc87bf3b6a37bc4ae8828876055e8fcadf58a70917f982c7d4452e8fda8bb04",
+  "research_sha256": "e622ee484029d5e1e0193e7424fb42ed78db5fac9ff9fd9774c754fc6aa484b7",
+  "input_sha256": "eef457eefd3baa62d3fbfd7004b4fda440912970d5ff7f68eb4e4ad3c64f7800"
+}

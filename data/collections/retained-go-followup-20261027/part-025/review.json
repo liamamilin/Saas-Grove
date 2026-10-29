@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:comitia：leaf_matches.reason 中的“支持多类别职位选举”未在所读 comitiacorp.com/en/turing 快照中找到对应表述，建议删除或补充证据；CO MTIA 是厂商/产品组合，实际匹配对象是 Turing，建议在名称或摘要中明确“COMITIA Turing”。",
+    "commercial:es-s-voter-registration：条目是选民登记与选举管理合并方案，匹配的是其中的选民记录模块；建议保持“模块匹配”措辞，避免被读成独立选民登记系统。",
+    "commercial:propylon-legislative-management：产品页标题/描述指向 LWB 360，条目名未出现该产品名；建议补充 LWB 360 以便产品身份核对。",
+    "来源 kind 标签可校正：comitia /en/turing 标为 documentation，propylon /rule-makers、citizen-space、essvote /vr 标为 homepage，实际均为产品页；不影响内容判断。",
+    "commercial:comitia 与 commercial:es-s-voter-registration 快照未出现 SaaS/cloud/hosted/subscription 交付证据；若本单元要求 SaaS 形态，应补证或注明可能为本地部署。",
+    "input.json 的 progress 仍为 application_ids: [] / review_pending，与 batch/research 的 case_found 不一致；提交后应同步进度元数据。research.json 引用的 SalimJarmakani、TrustTheVote、Granicus 快照未列入 REVIEW_SOURCES，建议补充以便追溯。"
+  ],
+  "leaf_checks": {
+    "election-results-management": {
+      "application_ids": [
+        "commercial:comitia"
+      ],
+      "basis": "读取 data/collections/sources/4699737f450789a9fbc562752bb35885ec5be7fa2dfede51d21185f4efb4885b.txt（comitiacorp.com/en）与 c83b03b6a354cdb6e4181a7e06bc2781e2a7764a52b0a90c917273a47fdf6cbd.txt（comitiacorp.com/en/turing）。Turing 正文列出 digital transmission of results and signed tally sheets、AI-powered interpretation and data entry、direct verification of data entry by the polling authority、standardized documentation reducing conflict in the final count；FAQ 提到 consolidación de resultados。可对应从计票环节接收、报告单位级录入/复核、汇总至最终计票。",
+      "gaps": "未取证临时/官方结果状态、选票核算对账、面向公众或上级机构的结果发布；未运行、未核验部署或 SaaS 交付。leaf_matches.reason 的“支持多类别职位选举”在快照中未见对应表述。",
+      "result": "商业基本类型匹配通过；仅覆盖结果传输/录入/汇总，完整 system-of-record 工作流为未取证项。"
+    },
+    "legislative-management-system": {
+      "application_ids": [
+        "commercial:propylon-legislative-management"
+      ],
+      "basis": "读取 data/collections/sources/70e4a61e96423463da5f41f17afb40389a695eae025b343ff224980269b4adc4.txt（propylon.com/rule-makers）。页面标题/meta 为 Legislative Management Software；正文可检索到 bill requests、drafting、amendments、version history、committee、minutes、calendar、record-keeping、journal、portal、attorney、clerk，覆盖法案记录与阶段推进、议院业务日程、秘书处操作位。另核对 SalimJarmakani 仓库快照：init.sql 四态、Bill.php 单一 draft_content、BillRepository 无阶段限制更新、routes 无 order paper，其 MIT 许可完整但不足以构成完整 LMS，排除理由成立。",
+      "gaps": "未逐项核验阶段盖章版本、提交截止窗口、两院交换与审批链；未运行、未核验具体部署。页面产品名为 LWB 360，条目名使用 Propylon Legislative Management。",
+      "result": "商业基本类型匹配通过；三项结构有正文支持，细节为未取证项。"
+    },
+    "legislative-tracking-platform": {
+      "application_ids": [
+        "github:91511370"
+      ],
+      "basis": "读取 de320316cb7d18db70c7c42363e5e0b3d05edb4615d2f44ea01699ae8dd5a75a.txt 确认 repository_id 91511370、openstates/openstates.org、网站与 v2 GraphQL API；9f902735b52e08dcd9eae02b6316d483e6e3dbf4c11d14624ed66a844f87ad80.txt 为完整 MIT 文本；39364658d906eddd341cc03990ba8df29443ca40a177a960013819158293b840.txt 说明 Docker/AWS/Ansible；7d924a6599de4805711540da1f6a62ac7b5368183465f264293846334dd52479.txt 提供 bill_sub POST/DELETE；c4dbc939114e56f81f4e9b1bbc8debf2b28175624a2c1f5732992767966c75b4.txt 支持 query 订阅按 state/chamber/session/sponsor/classification/status 检索、bill 订阅按 latest_action_date 判断变化，并按 DAILY/WEEKLY 邮件投递。",
+      "gaps": "仓库是网站/API，不是完整数据采集管线；快照未说明 Congress 覆盖、现运营方或议员/委员会资料；生产部署未核实；MIT 仅覆盖仓库代码，数据内容许可未取证。",
+      "result": "开源仓库身份与完整 MIT 许可通过；观察者侧镜像/关注/推送结构有代码证据，采集管线与数据许可为已披露缺口。"
+    },
+    "rulemaking-public-consultation-platform": {
+      "application_ids": [
+        "commercial:citizen-space"
+      ],
+      "basis": "读取 data/collections/sources/04f84bebd5dcbfabea0dca06e989d61fabc2e1823c2a92ca3bf252dcf2712b76.txt（delib.net/citizen_space/）。正文称 Citizen Space 为 consultation and engagement platform，覆盖 publishing information、asking questions、analysing responses，并列出 Response publishing、End-to-end consultation and engagement、Activity templates、Centralised management dashboard；页面另有 subscription tier 说明。",
+      "gaps": "未展示持久咨询程序容器、日期驱动的开放/关闭状态机、匿名/署名与发布同意、法定 rulemaking 机制；页面同时强调 geospatial mapping、quick polls、event registrations 等广泛参与能力，匹配仅到模块级；未运行。",
+      "result": "商业基本类型匹配通过；机构侧发布—收集—分析—回应发布有正文支持，程序容器与窗口状态机为未取证项。"
+    },
+    "voter-registration-system": {
+      "application_ids": [
+        "commercial:es-s-voter-registration"
+      ],
+      "basis": "读取 data/collections/sources/d3d9555ffbd095f55e0bbef29c533bfffb33e6bb5309ec72a4d249694e321d83.txt（essvote.com/vr）。正文列出 Voter Record Management（集中选民数据、跟踪/更新、州与联邦合规）、Duplicate Record Review（自动检测与解决重复记录）、Address Management with full GIS integration（精确选区分区与投票站分配）、Batch Document Scanning（申请/表格/支持文件）及 eligibility checks。",
+      "gaps": "未核验注销/移除/停用流程与完整登记生命周期状态机；页面是 Voter Registration and Election Management 合并方案，匹配的是选民记录模块；未运行、未核验部署或 SaaS 交付。",
+      "result": "商业基本类型匹配通过；选民记录、机构登记处理、选举地理放置三项有正文支持，移除流程与完整状态机为未取证项。"
+    }
+  },
+  "limits": "只读快照审查；未运行应用、未做部署/价格/架构核验、未访问实时站点；部分 HTML 快照为超长单行，读取工具按行截断，关键断言通过检索命中与正文片段确认，未逐字审阅全文；研究候选快照仅用于核对排除理由；商业条目的官方结果状态、对账、日期窗口、移除流程等未取证项按留档缺口处理。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-025/ses_groveopencodegop025review1_1793078198.jsonl",
+  "batch_sha256": "7ed1780ed4d51dde0157da570990f662ca5211e5a34030a8a2193d2bd9c8b820",
+  "research_sha256": "95b7fd8bbfbbe8202c782edd0212298611ee372522a21693540c4d03778e71fe",
+  "input_sha256": "f718198c61e56d262da0bc78440d81eb8a438cd9446a7b3dca3d4f32c2ad182a"
+}

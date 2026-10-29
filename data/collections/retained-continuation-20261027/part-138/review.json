@@ -1,0 +1,25 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json/research.json 的 case_found 不一致；这是输入进度元数据未同步，不影响本次内容判断，但建议流水线回填。",
+    "Ganeti 的引用来源（README、gnt-instance 手册）确认了实例创建/查询/修改/删除、启停、迁移、故障转移与节点放置，但未确认快照/存储能力；leaf_matches 已主动不写入快照断言。若分类把快照视为必需生命周期动作，应补充官方快照文档或改用覆盖该能力的案例。",
+    "Fleet 的 license 字段写作 MIT 是对“开源核心”的简化；LICENSE 快照还标明 docs/ 为 CC BY-SA 4.0、ee/ 为企业许可，建议在条目中显式写出 docs/ 许可，避免被误读为全仓库单一 MIT。",
+    "Istio 的 features 含“分布式追踪”，本次 README/Traffic Management 快照直接支持 telemetry、认证与授权，但未展开 tracing；建议补充 tracing 文档或收窄该措辞。",
+    "Nuclio 的 OpenFaaS 排除说明引用了 fetch_outcomes，但本单元未保存 OpenFaaS 快照，无法独立复核该排除；不影响 Nuclio 最终关系。",
+    "Nuclio 的 Web 仪表板细节主要来自 README 的 quick-start 与架构说明，未引用单独的 dashboard 文档；函数创建/部署/调用/日志的核心闭环仍成立。"
+  ],
+  "leaf_checks": {
+    "serverless-management-platform": "github:91797088 / open_source，metadata id 91797088 一致；Nuclio README 与 Apache-2.0 许可证快照确认 Web 仪表板创建项目/函数、函数部署与调用、HTTP/Kafka/定时触发、日志与指标，以及 Docker/Kubernetes 运行形态。函数作为记录单元、触发器作为可编辑绑定、部署→调用→观察闭环成立；Iguazio 托管版仅作商业旁支，不纳入开源关系。",
+    "service-mesh-management": "github:74175805 / open_source，metadata id 74175805 一致；Istio README 与官方 Traffic Management 文档确认 Istiod 控制面、服务注册表、VirtualService/DestinationRule 声明式路由与分流、重试/超时/熔断、服务身份与认证授权、遥测。东西向服务治理为核心，入口网关仅作边界能力；Apache-2.0 许可证快照完整。",
+    "virtualization-management": "github:25163509 / open_source，metadata id 25163509 一致；Ganeti README 与 gnt-instance 手册确认其位于 Xen/KVM 之上，管理节点与实例，支持实例创建/查询/修改/删除、启动/关闭/重启、迁移、故障转移及节点放置。BSD-2-Clause 许可证快照完整；快照/存储能力未在引用来源中确认，关系已如实收窄，未把未证实能力写入断言。",
+    "endpoint-management-uem": "github:309820286 / open_source，metadata id 309820286 一致；Fleet README、Enroll hosts、Configuration profiles 与 What are Fleet policies 文档确认 fleetd 手动注册、Apple Business/Microsoft Entra 自动注册、profiles 按平台下发并显示状态、policies 评估合规并显示 passing/failing、Unenroll/Turn off MDM/Delete/Wipe 退役流程。MIT Expat 开源核心与 ee/ 企业许可边界已在 LICENSE 快照中识别，leaf_matches 仅覆盖开源核心。",
+    "patch-management": "github:143291989 / open_source，metadata id 143291989 一致；Uyuni README、administration/client-configuration Patch Management 与 Systems > Software > Patches 文档确认软件通道中的补丁目录与克隆/同步、按客户端订阅通道和已安装版本判定适用性、单机或批量选择补丁并安排安装、Pending Actions 与状态列跟踪进度。GPL-2.0 许可证快照完整；关系仅覆盖补丁/更新循环，未扩展到通用配置管理或完整合规审计。"
+  },
+  "limits": "本报告仅依据本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 23 个快照做只读核对；未运行或部署任何产品，未执行 shell、未写文件、未读取其他单元，也未独立重算快照哈希。部分网页快照含导航与脚本噪声，核心判断以正文片段为准；Ganeti 快照/存储证据、OpenFaaS 排除依据、Fleet docs/ 许可细节及 Istio tracing 措辞存在上述非阻断缺口。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-138/ses_groveopencodegop138review2_1793011055.jsonl",
+  "batch_sha256": "d241a627ad3a007cace26fd89228570943721bdee8dcec62958d2a1cc30290d1",
+  "research_sha256": "d47a6ad28a110680424b583f475c37fc324f448338da9014953cd071c9708bb8",
+  "input_sha256": "3eaf54b5c9f45dc0d236488ea2fb247c25860aabe7b64610832e11aed886a2b8"
+}

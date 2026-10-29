@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，phase=included_without_cases；而 research.json 与 batch.json 已记录 4 个 case。若下游依赖 input.json 的 progress 建立叶—应用关系，需要同步更新；否则应明确以 batch.json/research.json 为准。",
+    "NetBox 的 LICENSE.txt 快照止于 END OF TERMS AND CONDITIONS，未含 Apache-2.0 的可选 APPENDIX；许可条款本身完整，README 徽章与 GitHub license API 快照均确认 Apache-2.0。若流程要求逐字全文，建议补充附录；同时 batch 中 NetBox 没有 license_review 块，与 SteVe 的写法不一致，建议补一段许可说明以利审计。",
+    "NetBox 条目的 features 含“端口”“VRF”“提供商”，technology_stack 含 Python/Django，但所读 README 快照只明确 racks/devices/cables/IP/VLANs/circuits/power/VPNs 与 REST API；这些细节未在本单元快照中直接出现，建议补证或弱化措辞。",
+    "3-GIS 的证据仅为官网首页产品文案（planning/OSP design/model connectivity/asset inventory/as-built/operations），未取得产品文档或演示；作为商业条目的基本类型匹配可接受，但 SaaS 交付形态未在快照中明示。",
+    "Telna 条目的 homepage 为 https://www.telna.com/，实际审阅快照为 https://www.telna.com/connect；建议将 homepage 指向 Connect 产品页，避免产品身份歧义。",
+    "移动网络叶与光纤叶的开源排除对象（Magma、Open5GS、OpenNMS、FiberQ、NMS Prime、stastrelok/fiber-network-map 等）没有本单元归档快照，排除理由只能依据 research.json 的过程记录，无法独立复核；不影响已入库条目。",
+    "SteVe README 明确 Powerfill 的 OCPP 1.6 认证仅适用于 Powerfill 后端，不适用于 SteVe 独立开源发行版；条目未声称认证，但后续文案不应把该认证转写给 SteVe。",
+    "NetBox 的“记录生命周期”在快照中主要体现为状态字段与变更日志（change logging），未见订单/MACD、开通/断开或与运营商账单对账的工作流；其匹配更接近运营商侧资源库存形态，建议在条目说明中保留这一边界。"
+  ],
+  "leaf_checks": {
+    "ev-charging-network-management": {
+      "status": "case_found",
+      "application_id": "github:12617198",
+      "evidence": "按 REVIEW_SOURCES.json 读取 sources/b5c5…（repo metadata，repository_id=12617198，public，非 fork）、sources/8266…（README：2013 年起，Data Management > Charge Points 注册；heartbeat 后 Dashboard 显示状态；支持 OCPP 1.2S/J、1.5S/J、1.6S/J；Connector Status、Transactions、Operations OCPP v1.2/1.5/1.6 截图；Docker Compose/Kubernetes）、sources/8ceb…（GPL-3.0 全文，含 How to Apply 段落，674 行）。",
+      "core_check": "充电桩/连接器持久记录 + OCPP 实时双向连接 + Dashboard/状态/交易/OCPP 操作界面，覆盖定义的三结构；社区版 GPL-3.0，Powerfill 为独立商业服务且未混入条目。",
+      "notes": "README 的 OCPP 1.6 认证说明仅指 Powerfill 后端；不影响 SteVe 条目本身。"
+    },
+    "fiber-network-management": {
+      "status": "case_found",
+      "application_id": "commercial:3-gis",
+      "evidence": "按 REVIEW_SOURCES.json 读取 sources/ea2c…（3-GIS 官网正文：connected network record for planning, designing, building, documenting, managing fiber and copper networks；OSP design；construction/field updates/asset inventory/maintenance/operations；model connectivity；as-builts connected to the network record；trace circuits 与 available capacity）。",
+      "core_check": "光纤/铜缆设施记录 + 连接建模 + 设计→施工/as-built→运维生命周期均有正文依据；商业条目按基本真实性与类型匹配通过。",
+      "notes": "开源候选 FiberQ/NMS Prime/stastrelok 等在 research.json 中被排除，但无归档快照；3-GIS 证据为首页文案，SaaS 形态未明示。"
+    },
+    "mobile-network-management": {
+      "status": "no_case_documented_gap",
+      "application_id": null,
+      "evidence": "research.json 记录 GitHub 搜索、Magma/Open5GS/OpenNMS 核对、Ericsson Network Manager 与 Nokia NetAct 的 403/挑战页，assessment=insufficient_evidence，case_ids=[]；未建立条目。",
+      "core_check": "未找到同时具备现网移动元素（基站/小区）记录、配置写入、故障与性能闭环的可验证案例；核心缺口已如实留档。",
+      "notes": "被排除项目的 README 未归档，排除理由无法在本单元独立复核；符合“无案例但记录检索/抓取缺口”的通过条件。"
+    },
+    "sim-esim-management": {
+      "status": "case_found",
+      "application_id": "commercial:telna",
+      "evidence": "按 REVIEW_SOURCES.json 读取 sources/3998…（Telna /connect 正文：Comprehensive eSIM Lifecycle Management；service status、IMSIs、profiles、allocated packages、inventory；activate/deactivate data、SMS、voice；cloud network platform for CSPs/MNOs/MVNOs；Consumer & Industrial SIMs、eSIMs、MFF2s）。",
+      "core_check": "eSIM/SIM 凭证群体、生命周期状态、IMSI/配置文件/库存、服务启停与网络接入语义均有正文依据；商业类型匹配通过。",
+      "notes": "homepage 字段指向站点根而非 /connect；不影响类型判断。"
+    },
+    "telecom-inventory-management": {
+      "status": "case_found",
+      "application_id": "github:52796596",
+      "evidence": "按 REVIEW_SOURCES.json 读取 sources/d7b3…（repo metadata，repository_id=52796596）、sources/3674…（README：source of truth；racks/devices/cables/IP/VLANs/circuits/power/VPNs；inter-linked data model；custom validation；change logging；REST API；config templates；Community/Cloud/Enterprise）、sources/0d54…（Apache-2.0 条款至 END OF TERMS AND CONDITIONS）、sources/f0eb…（GitHub license API，spdx_id=Apache-2.0）。",
+      "core_check": "设备/电缆/电路等持久记录 + 变更日志/校验/权限形成的受治理单一参考，符合运营商侧电信资源库存核心；生命周期以状态与变更日志体现，未见订单/MACD/断开对账工作流。",
+      "notes": "Apache-2.0 原始文件缺可选附录，但条款完整且 API/README 确认 SPDX；NetBox Cloud/Enterprise 为独立商业服务，边界清楚。"
+    }
+  },
+  "limits": "只读审查：仅使用 REVIEW_SOURCES.json 列出的 9 个快照（SteVe 元数据/README/LICENSE、NetBox 元数据/README/LICENSE/license API、3-GIS 首页、Telna Connect 页）及 batch.json/research.json；未运行 shell，未重算 sha256，未访问实时网页或登录/Cloudflare 受限页面，未做部署或运行时测试。移动网络叶的被排除候选与光纤叶的部分开源候选没有归档快照，只能依据 research.json 的过程记录判断；3-GIS 与 Telna 为商业首页级证据，未核价、架构或部署细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-190/ses_groveopencodegop190review2_1793023292.jsonl",
+  "batch_sha256": "3dbb3f666ecca12314448985c1998d049388f19f63d4860c0357d857b5f12a22",
+  "research_sha256": "7069d05d0e1d0a1c80b4c9b7b321e879f6dd5342f2158b284ee51c446dd82675",
+  "input_sha256": "0250d98fdedb9eaf14e8c07625a23a1e668078706c0949fc3cb9c155f19d27c5"
+}

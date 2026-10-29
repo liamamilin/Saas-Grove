@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 34,
+  "offset": 825,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "dispatch-management",
+        "name_zh": "调度管理",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "dispatch-management",
+        "name": "Dispatch Management",
+        "name_zh": "调度管理",
+        "aliases_zh": [
+          "派工管理",
+          "作业调度",
+          "任务调度"
+        ],
+        "overview": "A **Dispatch Management** application is the dispatcher-facing operational system for assigning incoming work to available mobile resources and carrying each item to completion. Work that needs doing — freight loads, delivery orders, service jobs — enters a queue; the people and vehicles who can do that work are held as a roster with live availability; the dispatcher binds the one to the other; and both the work and the resources move through visible states until the work is done, all presented on a live dispatch board that shows the operation's current state.\n\nThe defining structure is small:\n\n```text\nQueue of dispatchable work (loads / orders / jobs — where and when)\n└── Roster of dispatchable resources with live availability (who and what is free now)\n    └── The assignment act (unassigned → assigned, managed as the central transition)\n        └── The live dispatch picture (work × resources × progress, kept current)\n```\n\nEverything else commonly associated with modern dispatch products — GPS and telematics feeds, driver or technician mobile apps, route optimization engines, customer notifications and tracking pages, automated scheduling, AI-assisted assignment — is widespread in current products but is not what makes a product a dispatch system. Radio-and-paper dispatch operations, pre-GPS trucking dispatch run on check calls, and dispatch software without any optimization engine all fit the same definition.\n\nWhen the work's industry semantics take over the definition — emergency incidents with response rules, courier orders with contracted rates and billing, passenger rides with fares — the product belongs to a specialized type (Computer-aided Dispatch, Courier Management, Taxi Dispatch). Dispatch Management is the transversal machinery those products all instantiate.",
+        "overview_zh": "一个**调度管理**应用程序是面向调度员的运营系统，用于将新进工作分配给可用的移动资源，并跟踪每项工作直至完成。待处理的工作——货运负载、配送订单、服务任务——会进入一个工作队列；能够执行这些工作的人员和车辆则作为一份具有实时可用性的花名册保存；调度员将两者进行匹配；随后，工作和资源都会经历可见的状态变化，直至工作完成，所有信息都呈现在一个实时调度面板上，反映运营的当前状态。\n\n其核心结构很简单：\n\n```text\n可调度的工作队列（负载/订单/任务——地点与时间）\n└── 具有实时可用性的可调度资源花名册（人员与当前空闲状态）\n    └── 分配行为（未分配 → 已分配，作为核心转换进行管理）\n        └── 实时调度全景（工作 × 资源 × 进度，保持更新）\n```\n\n其他通常与现代调度产品相关的功能——GPS和远程信息传输数据流、司机或技术人员移动应用、路线优化引擎、客户通知和追踪页面、自动排程、AI辅助分配——在当前产品中很普遍，但并非使产品成为调度系统的核心要素。无论是使用无线电和纸质的调度作业、在GPS出现前通过检查电话进行的卡车调度，还是完全没有优化引擎的调度软件，都符合此定义。\n\n当工作的行业语义主导定义时——例如带有响应规则的紧急事件、带有合同费率和计费的快递订单、带有车费的乘客出行——该产品则属于特定类型（计算机辅助调度、快递管理、出租车调度）。调度管理是这些产品都实例化了的横贯性基础机制。",
+        "dc": "- **The live dispatch picture.** Work, resources, and progress are presented as current state — a board, calendar, map, or whiteboard — shared by everyone coordinating the operation. The picture answers, at any moment: what is unassigned, who is available, what is in progress, what is late. It is the dispatcher's working surface and the operation's shared truth, and it survives the day: past items remain as the record of what was dispatched to whom.\n\nThe real-time posture is itself part of the definition: dispatch answers \"now\" questions. A system that only plans next week's routes or only logs completed work is doing something adjacent — scheduling or record-keeping — not dispatch.",
+        "dc_zh": "- **现场调度全景图。** 工作、资源和进度以当前状态呈现——一块看板、日历、地图或白板——供所有协调运营的人员共享。该全景图在任何时刻回答：什么任务未分配，谁有空闲，什么任务在进行中，什么任务已逾期。它是调度员的工作台与运营的共享真相，并且能够贯穿一天：历史项目保留为‘谁被派给了什么’的记录。\n\n其实时性本身就是其定义的一部分：调度回答的是‘当下’的问题。一个只规划下周路线或仅记录已完成工作的系统，做的是相关但不同的事情——排程或记录——而非调度。",
+        "rules": "- **Availability governs assignment.** A resource's availability state is the gate: assignment draws it down, completion restores it. Products that auto-assign are, in effect, automating against this state — which is why keeping it accurate (worker updates, location feeds, shift data) matters so much.\n- **The assignment is visible and reversible.** Reassignment is a normal operation, not an exception path; the item's history records what moved where and when.\n- **The dispatcher role persists.** Products differ in how much they automate — from pure drag-and-drop assignment to engines that assign without human action — but the researched market still centers on a human dispatcher role; where automatic assignment is offered, it selects among resources by their availability, skills, and location rather than replacing the operation's oversight of the day.\n- **Status names vary; the cycle does not.** Exact status labels are configured per product and industry. The conceptual cycle — unassigned → assigned → under way → complete, with the resource cycling available → committed → available — is the invariant; the vocabulary is not.\n- **Time pressure is the normal condition.** The system is designed for same-day churn: insertions, reorders, and changes are everyday operations, not edge cases.\n- **Dispatch ends where settlement begins.** Completing the work hands it to invoicing, payroll, or record systems. Dispatch management may carry commercial data, but the money frame — rates, billing, settlement — belongs to the host business system.",
+        "rules_zh": "- **可用性决定分配。** 资源的可用性状态是关键：分配会消耗它，完成则恢复它。自动分配的产品实际上是针对此状态进行自动化操作——这就是为什么保持其准确性（工作人员更新、位置数据流、班次数据）至关重要。\n- **分配可见且可撤销。** 重新分配是正常操作，并非异常路径；工作项的历史记录会记载转移的时间和地点。\n- **调度员角色持续存在。** 产品在自动化程度上各有不同——从纯粹的拖放式分配到无需人工操作的引擎分配——但目前研究的市场仍以人类调度员角色为中心；在提供自动分配的地方，它是根据可用性、技能和位置在资源中进行选择，而非取代运营对当天工作的监督。\n- **状态名称各异；循环不变。** 具体的状态标签因产品和行业而异。概念循环——未分配 → 已分配 → 进行中 → 完成，资源状态循环为 可用 → 已占用 → 可用——是不变的；词汇则不然。\n- **时间压力是常态。** 系统专为当日的动态变化而设计：插入、重排和变更是日常操作，而非边缘情况。\n- **调度在结算开始处结束。** 工作完成后便移交给开票、工资或记录系统。调度管理可能携带商业数据，但资金框架——费率、计费、结算——属于宿主业务系统。",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    },
+    {
+      "progress": {
+        "slug": "last-mile-delivery-platform",
+        "name_zh": "末端配送平台",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "last-mile-delivery-platform",
+        "name": "Last-mile Delivery Platform",
+        "name_zh": "末端配送平台",
+        "aliases_zh": [
+          "最后一英里配送平台",
+          "快递配送平台",
+          "末端物流平台"
+        ],
+        "overview": "A **Last-mile Delivery Platform** is the orchestration system for the final leg of goods delivery — the stretch from the point where a business hands its goods over to transport (a store, warehouse, kitchen, pharmacy counter, or regional hub) to the end recipient's door. The platform holds every final-leg delivery as a managed record, organizes that pool of work into routes and assignments across the delivery capacity available to the business — its own drivers, contracted drivers, or integrated third-party delivery networks — and drives each delivery through field execution to a captured delivery confirmation.\n\nThe defining core is deliberately small, three structures that have to be present together:\n\n```text\nOrder flow (commerce systems)\n  ↓ intake\nDelivery task (recipient/destination + timing + status)\n  ↓ orchestration (route / assign / dispatch)\nDelivery capacity (own drivers · contracted · third-party networks)\n  ↓ field execution\nDelivery confirmation (signature / photo / timestamp)\n  ↓\nRecipient layer (notifications · live tracking · ETA)\n```\n\nEverything else commonly associated with the category — route optimization, branded tracking pages, on-demand delivery networks, courier/3PL billing machinery, AI assistance — is a capability layer that mature products frequently carry, not what makes the product this Type. A business running its own final-leg delivery with nothing but a task list, a dispatcher, and driver phones still fits the Type; a product that only shows delivery status without orchestrating execution does not.",
+        "overview_zh": "一个**最后一公里配送平台**是货物配送最后一段的调度系统——即从商家将货物移交运输（商店、仓库、厨房、药房柜台或区域枢纽）到最终收件人门口的这段过程。平台将每次最后一公里的配送作为一条受管记录进行管理，将这批工作根据商家可用的配送能力——自有司机、签约司机或已集成的第三方配送网络——组织成路线和分配，并驱动每次配送通过现场执行直至完成，并捕获配送确认。\n\n其定义的核心是刻意设计的三个必须同时存在的结构：\n\n```text\n订单流（电商系统）\n  ↓ 接收\n配送任务（收件人/目的地 + 时间 + 状态）\n  ↓ 调度（路线 / 分配 / 派单）\n配送能力（自有司机 · 签约司机 · 第三方网络）\n  ↓ 现场执行\n配送确认（签名 / 照片 / 时间戳）\n  ↓\n收件人层（通知 · 实时追踪 · 预计到达时间）\n```\n\n其他通常与此类别相关的一切——路线优化、品牌化追踪页面、按需配送网络、快递/第三方物流计费机制、AI辅助——是成熟产品常具备的能力层，而非构成此**类型**产品的核心要素。一家仅靠任务清单、调度员和司机电话来运营自有最后一公里配送的商家，仍符合此类型；而一个只显示配送状态却不调度执行的产品，则不属于此类型。",
+        "dc": "The system's world is organized around the **delivery task**: one final-leg movement of goods to an end destination, held as a persistent record from creation to closure. A task carries:",
+        "dc_zh": "系统的世界围绕着**配送任务**组织：一次货物向最终目的地的最终段移动，从创建到关闭作为一个持久记录保存。一个任务承载：",
+        "rules": "**Status is attributed, time-stamped, and overridable.** Field events drive the lifecycle, but the dispatcher holds governance: an in-transit task can be force-completed with notes when the driver cannot act, and a completion status can be edited after the fact with the change recorded. The system trusts the field but does not depend on it.\n\n**Timing commitments are measured, not decorative.** When a task carries a completion window, the platform compares projected arrival against the commitment and surfaces at-risk or delayed work to the dispatcher — the same data that drives customer ETA messages. A delivery whose window has passed is still delivered, but the miss is visible everywhere it matters.\n\n**Addresses are structured.** Destination entry is validated (street-level geocoding, with coordinate entry as the fallback), because the downstream machinery — routing, navigation, ETAs — depends on geocodable destinations.\n\n**The recipient binding controls the communications layer.** Recipient notifications can only go out when the task carries the recipient's contact details; products commonly allow a task to proceed without any recipient, in which case the recipient-facing layer is suppressed for that delivery. The recipient layer is a consequence of the record, which keeps customer communication consistent with operational reality.\n\n**Assignment is reversible until execution closes it.** Work can be unassigned, moved between drivers, and resequenced throughout the day; the third-party option extends the same reversibility to outsourced capacity. Only a closed completion (or a dispatcher's recorded override) fixes the outcome.\n\n**Proof of delivery is the closing evidence.** Signature, photo, timestamp, and location are captured at the point of completion and retained against the record — the basis for dispute resolution and for the recipient-facing delivery confirmation.\n\n**Mixed fleets produce one picture.** When work is dispatched to third-party networks, provider status updates land in the same task record as driver updates; operational and customer-facing views do not fork.",
+        "rules_zh": "**状态被赋予、带时间戳且可覆盖。** 现场事件驱动生命周期，但调度员掌握管控权：当司机无法操作时，运输中的任务可附备注强制完成；完成状态可在事后编辑并记录变更。系统信任现场但不完全依赖。\n\n**时间承诺是衡量的，而非装饰性的。** 当任务带有完成时间窗口时，平台将预计到达时间与承诺进行比较，并向调度员显示面临风险或已延迟的工作——这些数据也用于生成客户的预计到达时间信息。一个窗口期已过的配送仍会送达，但延迟会在所有相关处可见。\n\n**地址是结构化的。** 目的地输入经过验证（街道级地理编码，坐标输入作为后备），因为下游机制——路线规划、导航、预计到达时间——依赖于可地理编码的目的地。\n\n**收件人绑定控制沟通层。** 只有当任务带有收件人联系方式时，收件人通知才能发出；产品通常允许任务在没有任何收件人的情况下进行，此时该配送的面向收件人层将被抑制。收件人层是记录的衍生结果，这保持了客户沟通与运营实际的一致性。\n\n**分配在执行关闭前是可逆的。** 工作可以在全天被取消分配、在司机之间移动以及重新排序；第三方选项将这种可逆性扩展到了外包能力。只有已关闭的完成（或调度员记录的覆盖）才能最终确定结果。\n\n**配送证明是完结证据。** 签名、照片、时间戳和位置在完成时捕获并保留，",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    },
+    {
+      "progress": {
+        "slug": "on-demand-delivery-platform",
+        "name_zh": "即时配送平台",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "on-demand-delivery-platform",
+        "name": "On-demand Delivery Platform",
+        "name_zh": "即时配送平台",
+        "aliases_zh": [
+          "即时物流平台",
+          "按需配送应用"
+        ],
+        "overview": "An **On-demand Delivery Platform** is the delivery-machinery application that fulfills individual delivery requests in near-real time: a business requests a delivery, the platform matches that request to available delivery capacity at request time, and the requester follows the delivery live until it closes with proof of delivery.\n\nThe defining core is small:\n\n```text\nOn-demand delivery request (pickup → drop-off, items, timing, terms)\n└── Real-time matching to available delivery capacity\n    └── Requester-facing live delivery loop\n        └── Delivery confirmation with proof\n```\n\n\"On-demand\" describes how fulfillment is arranged, not only how fast: each request is priced, matched, executed, and confirmed as its own unit of work, with immediate (ASAP) fulfillment as the dominant mode and scheduled windows riding the same machinery. The platform is defined by this request loop — not by owning drivers, not by selling to consumers, and not by route planning. The same machinery serves a platform-operated courier network, a crowdsourced driver base, a merchant's own fleet, or third-party delivery services reached through a gateway.\n\nWhen the center of gravity shifts to planning and sequencing a day's delivery tasks over routes, the product is drifting toward a Last-mile Delivery Platform; when it shifts to aggregating many sellers on a consumer surface, toward a Food Delivery Marketplace; when it adds customer accounts, contracted rates, and billing for a delivery operator's own business, toward a Courier Management Platform.",
+        "overview_zh": "一个**按需交付平台**是能够近乎实时地满足单个交付请求的交付机械应用：企业发起一个交付请求，平台在请求时将该请求与可用的交付运力进行匹配，请求发起者可以实时跟踪交付过程直至交付完成并提供交付证明。\n\n其定义的核心非常简洁：\n\n```text\n按需交付请求（取件 → 送件，物品，时间安排，条款）\n└── 与可用交付运力实时匹配\n    └── 面向请求者的实时交付循环\n        └── 附带证明的交付确认\n```\n\n“按需”描述的是履约的安排方式，而不仅仅是速度：每个请求的定价、匹配、执行和确认都是一个独立的工作单元，即时（尽快）履约是主要模式，预约时间窗口也基于相同的机制运行。该平台由这个请求循环所定义——不在于拥有司机，不在于直接面向消费者销售，也不在于路线规划。同样的机制可以服务于平台运营的快递网络、众包司机基础、商家自有车队，或通过网关接入的第三方交付服务。\n\n当产品的重心转向规划和安排一天内按路线的交付任务时，该产品便倾向于**最后一公里交付平台**；当重心转向在消费者界面上聚合众多卖家时，倾向于**外卖配送市场**；当其增加了客户账户、合同费率和针对交付运营商自身业务的计费功能时，倾向于**快递管理平台**。",
+        "dc": "**The on-demand delivery request.** The unit of record is a persistent, individually identified request for one goods movement. It carries:\n\n- **pickup point** — the store, restaurant, warehouse, or branch the items leave from, with contact and readiness time\n- **drop-off** — the recipient and destination address, with contact details and delivery instructions\n- **items/manifest** — what is being carried: item names, quantities, sizes/weights, declared value\n- **timing commitment** — either ASAP (fulfill as soon as possible) or a scheduled window (pickup-ready and drop-off deadlines); both are attributes of the same request\n- **commercial terms** — the price quoted for this delivery, commonly tips, and per-delivery fees\n- **verification requirements** — what proof must be collected at pickup and drop-off (signature, photo, barcode scan, PIN, ID check), chosen per business and per vertical\n- **status** — a real-time lifecycle from request through courier assignment, pickup, transit, to delivered, failed, or canceled\n\n**Real-time matching to available delivery capacity.** When a request arrives, the platform matches it to an available courier or driver drawn from a supply pool. The pool varies by product — the platform's own or managed courier network, a crowdsourced driver base, the business's own drivers, or third-party delivery services reached through an integration gateway — but the matching act is the same shape: per-request assignment at request time (an offer a courier accepts, an automatic assignment by proximity and availability, or an assignment to a named third-party service after an estimate), with reassignment when a courier cancels. No pre-built route plan is the organizing object; a request may be batched with others on one courier, but batching serves the request, not a route.\n\n**The requester-facing live delivery loop.** The requesting business initiates the delivery through the platform — an API call, a dashboard form, a bulk upload, or an automatic feed from its e-commerce/POS system — and then follows it: status events as they happen, the assigned courier's identity and (in mature products) live location, an ETA, and finally the proof of delivery. The end customer commonly receives a tracking link and notifications under the business's brand. The platform is the delivery channel of record for the request: what it says about the delivery is what the business and its customer rely on.",
+        "dc_zh": "**即时配送请求。** 记录单位是一个持久的、单独标识的货物运输请求。它包含：\n\n- **取货点** — 货物离开的商店、餐厅、仓库或分支机构，包含联系信息和准备时间\n\n- **送货点** — 收件人和目的地地址，包含联系详情和配送说明\n\n- **物品/清单** — 携带的内容：物品名称、数量、尺寸/重量、申报价值\n\n- **时间承诺** — 尽快完成或预定时间窗口（取货准备就绪和送货截止时间）；两者都是同一请求的属性\n\n- **商业条款** — 此次配送的报价，通常包括小费和每单配送费\n\n- **验证要求** — 在取货和送货时必须收集的证明（签名、照片、条形码扫描、PIN码、身份检查），根据业务和垂直领域选择\n\n- **状态** — 从请求、快递员分配、取货、运输到送达、失败或取消的实时生命周期\n\n**实时匹配可用配送能力。** 当请求到达时，平台将其与供应池中可用的快递员或司机匹配。供应池因产品而异——平台自有或管理的快递网络、众包司机库、业务自有司机，或通过集成网关连接的第三方配送服务——",
+        "rules": "### The request is stage-gated\n\nOnce a courier is assigned and moving, most of the request freezes: pickup details and items are typically locked, while drop-off notes and contact details remain editable until near arrival. Tips, where present, commonly move one-way (increase-only). The lifecycle, not the dashboard, decides what may still change.\n\n### Matching is perishable\n\nQuotes expire within minutes; courier acceptance is competitive; a courier cancellation throws the request back into the pool and reassignment changes its batch identity. The requester's commitment and the courier's acceptance are separate events, and the space between them is where the platform actively works.\n\n### Proof requirements are vertical-aware\n\nVerification is configured per request and per business: age-restricted goods (alcohol, tobacco, prescriptions) commonly require recipient ID checks, and products may force an alternative outcome such as a return when the check fails; high-value or fraud-prone deliveries lean on signature or barcode scans; leave-at-door deliveries lean on photos. The platform enforces what the business configures.\n\n### Failures have defined exits\n\nA delivery that cannot be completed is not silently dropped: it is recorded as failed with a reason, an undeliverable action is taken (commonly an automatic return request back to the sender), and the commercial consequences (refunds, claims, credits) follow defined paths. Cancellation reasons are commonly attributed to the party that caused them.\n\n### The platform is the channel of record\n\nWhat the platform reports — status, courier identity, ETA, proof — is what the business tells its customer. This is why branded tracking pages and notification content matter commercially, and why the platform's status events, not the business's own guesswork, drive customer communication.\n\n### Contact is platform-mediated\n\nContact between couriers, store staff, and (in some products) end customers commonly runs through mediated channels — masked phone numbers, PIN-protected call connect — rather than raw personal numbers. The platform shields both sides' direct contact details as a structural privacy behavior, not a feature.",
+        "rules_zh": "### 请求具有阶段性门控\n\n一旦快递员被分配并开始移动，请求的大部分内容即被锁定：取件详情和物品通常被锁定，而送件备注和联系信息在接近送达前仍可编辑。如果存在小费，通常只能单向变动（只能增加）。生命周期，而非控制面板，决定了哪些内容仍然可以更改。\n\n### 匹配具有时效性\n\n报价在几分钟内过期；快递员接受具有竞争性；快递员取消会将请求扔回匹配池，重新分配会改变其批次标识。请求者的提交和快递员的接受是两个独立事件，二者之间的间隔正是平台积极运作的空间。\n\n### 证明要求具备行业感知性\n\n验证按每个请求和每个商家进行配置：受年龄限制的商品（酒精、烟草、处方药）通常需要收件人身份验证，当验证失败时，产品可能强制执行替代结果，如退回；高价值或易欺诈的交付依赖签名或条形码扫描；“留在门口”的交付依赖照片。平台执行商家所配置的要求。\n\n### 失败有明确的退出路径\n\n无法完成的交付不会被静默丢弃：它被记录为失败并注明原因，采取无法投递操作（通常是一次自动的返回发件人的请求），商业后果（退款、索赔、信用额度）遵循既定路径。取消原因通常归咎于导致它的一方。\n\n### 平台是记录渠道\n\n平台报告的内容——状态、快递员身份、预计到达时间、证明——就是商家告知其客户的内容。这就是为什么品牌化的跟踪页面和通知内容具有商业重要性，也是为什么平台的状态事件，而非商家的内部系统，构成对客户的事实来源。",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    },
+    {
+      "progress": {
+        "slug": "parcel-management-platform",
+        "name_zh": "包裹管理平台",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "parcel-management-platform",
+        "name": "Parcel Management Platform",
+        "name_zh": "包裹管理平台",
+        "aliases_zh": [
+          "快递管理平台",
+          "包裹处理系统"
+        ],
+        "overview": "A **Parcel Management Platform** is the shipper-side system of record for sending parcels through parcel carriers. It holds every outbound shipment as a persistent record, produces shipping options (rates and service levels) from connected carrier accounts, commits each shipment by purchasing postage and generating the carrier label, and then manages the shipment through handoff and tracking — all in one place, across carriers.\n\nThe problem it solves is structural: parcel carriers each run their own systems, rates, and label formats. A business that ships through more than one carrier — or that ships enough volume to care about price, speed, and reliability — needs a single place where shipments are prepared, compared across carriers, paid for, labeled, handed off, and tracked. The platform is that place.\n\nThe defining core is small:\n\n```text\nOutbound parcel shipment (the unit of record)\n└── Carrier layer: connected carrier accounts → shipping options (rates/services)\n    └── Commitment act: purchase postage → generate the carrier label\n        └── The shipper's standing operation: accounts, postage funds,\n            and an accumulating population of shipments\n```\n\nThe boundary is equally important: the platform **transacts** the ship — it buys delivery from parcel carriers on the shipper's behalf — but it does not **execute** it. Once the labeled parcel is handed to the carrier (at a pickup, a drop-off, or a carrier facility), the carrier performs the carriage, and the platform's role becomes tracking, exception handling, and record-keeping. Products that instead orchestrate their own delivery workforce are a different Application Type (see Related Application Types).",
+        "overview_zh": "一个**包裹管理平台**是发件人通过包裹承运商发送包裹的系统记录。它将每个出站包裹作为持久记录保存，通过已连接的承运商账户生成运输选项（费率和服务等级），通过购买邮资并生成承运商标签来提交每个包裹，然后管理从交接至追踪的整个流程——所有操作在一个平台上跨承运商完成。\n\n它解决的是结构性问题：每个包裹承运商都有自己独立的系统、费率和标签格式。一个通过多家承运商发货的企业——或发货量大到需要关注价格、速度和可靠性的企业——需要一个单一平台来准备发货、比较不同承运商、支付费用、生成标签、进行交接和追踪。该平台就是这样一个地方。\n\n其核心定义虽小但完整：\n\n```text\n出站包裹运输（记录单位）\n└── 承运商层：已连接的承运商账户 → 运输选项（费率/服务）\n    └── 提交操作：购买邮资 → 生成承运商标签\n        └── 发件人的常规运营：账户、邮资资金，\n            以及不断累积的包裹集合\n```\n\n边界同样重要：平台**处理**运输——它代发件人向包裹承运商购买配送服务——但并不**执行**配送。一旦贴好标签的包裹移交给承运商（在取件点、投递点或承运商设施），承运商负责实际运输，平台的角色转变为追踪、异常处理和记录保存。那些自行管理配送团队的产品则属于另一种应用类型（参见相关应用类型）。",
+        "dc": "**3. The shipper's standing operation.**\nThe platform is not a one-off label machine. Carrier accounts and **postage funds** live in the platform and are managed there (prepaid balances, payment methods, per-carrier billing arrangements). Shipments accumulate as a managed population — searchable history, tracking status, spend reporting — so the operation persists and improves across shipments. This is what makes it a management platform rather than a single purchase.\n\nThe three stand or fall together. A shipment database with addresses but no carrier commitment is just a list. A rate-and-label engine with no records is a calculator. Accounts and funds with no shipments are an empty wallet. A one-off label purchase — no accounts, no history, no operation — is below the Type.",
+        "dc_zh": "**3. 发货人的持续运营。** 该平台不是一个一次性的标签生成器。承运商账户和**邮费资金**存储在平台中并在此管理（预付余额、支付方式、按承运商计费安排）。发货记录积累为一个受管理的整体——可搜索的历史、跟踪状态、支出报告——因此运营在多次发货中持续并改进。这正是它成为一个管理平台而不是单一购买的原因。\n\n三者相辅相成。一个拥有地址但没有承运商承诺的发货数据库只是一个列表。一个没有记录的费率和标签引擎只是一个计算器。没有发货记录的账户和资金是一个空钱包。一次性的标签购买——没有账户、没有历史、没有运营——低于该类型。",
+        "rules": "**The label is a financial commitment.** Creating a label purchases postage. Whether the money moves at label creation (prepaid platform accounts) or at invoice time (post-billed own accounts) depends on the carrier arrangement — but every label is a binding purchase, which is why voiding and refunding are first-class operations.\n\n**The platform stops at the handoff.** Delivery is the carrier's act. The platform cannot re-route a parcel in transit, fix a delivery, or re-dispatch a driver; delivery problems route through carrier claims, reshipment (a new shipment), or recipient communication. This is the structural line between this Type and the delivery-execution Types.\n\n**Tracking depth is carrier-dependent.** Automatic status updates (in transit, delivered) work for most major carriers and services but not all; products maintain supported-carrier lists and offer manual refresh where auto-updates are unavailable.\n\n**Address quality gates everything.** Validation before label purchase prevents failed deliveries and carrier address-correction fees; dimensional-weight pricing makes accurate dimensions a cost variable, not a nicety.\n\n**International shipments carry paperwork.** Cross-border parcels need customs declarations and often commercial invoices; the platform generates these at label time, and missing or inconsistent declarations cause customs delays.\n\n**The shipment record is the audit trail.** Spend reporting, claims, and channel notifications all hang off the shipment record; products keep labels, costs, and events attached to it for reconciliation.",
+        "rules_zh": "**标签是财务承诺。** 创建标签即购买了邮资。资金是在标签创建时转移（预付平台账户）还是在开票时转移（后付自有账户），取决于承运商安排——但每个标签都是有约束力的购买，这就是为什么作废和退款是一流操作。\n\n**平台止于交接。** 配送是承运商的行动。平台无法重新安排在途包裹、修复配送问题或重新派遣司机；配送问题通过承运商索赔、重新发货（新的运输）或与收件人沟通来解决。这是此类型与配送执行类型之间的结构分界线。\n\n**追踪深度取决于承运商。** 自动状态更新（运输中、已送达）适用于大多数主要承运商和服务，但并非全部；产品维护受支持的承运商列表，并在自动更新不可用时提供手动刷新。\n\n**地址质量决定一切。** 在购买标签前进行验证可防止配送失败和承运商地址更正费用；体积重定价使得准确尺寸成为成本变量，而非可选项。\n\n**国际运输需要文件。** 跨境包裹需要海关申报单，通常还需要商业发票；平台在生成标签时生成这些文件，缺失或不一致的申报会导致海关延误。\n\n**运输记录是审计线索。** 花费报告、索赔和渠道通知都依赖于运输记录；产品将标签、成本和事件附加在其上以便对账。",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    },
+    {
+      "progress": {
+        "slug": "proof-of-delivery-platform",
+        "name_zh": "送达证明平台 (PoD Platform)",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "proof-of-delivery-platform",
+        "name": "Proof of Delivery Platform",
+        "name_zh": "送达证明平台 (PoD Platform)",
+        "aliases_zh": [
+          "签收管理平台",
+          "交货证明系统"
+        ],
+        "overview": "A **Proof of Delivery (POD) Platform** is the delivery-side evidence system of record: it captures verifiable proof that a delivery did — or did not — happen as claimed, and manages that proof as a durable, shareable record.\n\nThe problem it solves is old: a delivery business must be able to prove, later and to a third party, what was delivered, when, where, and to whom — or document why a delivery failed. The paper delivery note signed by the recipient was the traditional answer; this Application Type is its digital replacement and successor.\n\nThe defining structure is small:\n\n```text\nDelivery event of record\n└── Point-of-delivery evidence capture\n    (signature / photo / scan, with time and location context)\n    └── Evidence record as managed, shareable archive\n```\n\nEverything else commonly associated with these products — GPS driver tracking, customer notifications, barcode scanning, offline mode, route planning — is widespread in current products but is not what makes the product a POD platform. When the center of gravity shifts to dispatching jobs and optimizing routes, the product is drifting toward delivery management; when it shifts to showing consignees where their shipment is, it is drifting toward shipment visibility.",
+        "overview_zh": "**交付证明 (POD) 平台** 是交付侧的证据记录系统：它捕获可验证的证据，证明交付是否如声称般发生，并将该证据作为持久、可共享的记录进行管理。\n\n它解决的问题由来已久：交付业务必须能够事后向第三方证明，交付了什么、何时、何地、交给了谁——或记录交付失败的原因。由收件人签署的纸质交付单是传统答案；此应用程序类型是其数字替代品和继承者。\n\n定义结构很小：\n\n```text\n交付事件记录\n└── 交付点证据捕获\n    (签名/照片/扫描，带时间和位置上下文)\n    └── 作为管理、可共享存档的证据记录\n```\n\n与这些产品常见的其他所有功能——GPS 驾驶员跟踪、客户通知、条形码扫描、离线模式、路线规划——在当前产品中普遍存在，但不是使产品成为 POD 平台的关键。当重心转移到调度作业和优化路线时，产品正向交付管理漂移；当重心转移到向收件人显示其货物位置时，产品正向货物可见性漂移。",
+        "dc": "**1. The delivery event of record.**\nA persistent, identified record for each delivery attempt — bound to the recipient/address and the goods involved, and carrying the outcome: delivered, failed, or partially delivered. The record survives the moment: it is retained after the stop is completed, so it can be produced later. This is the unit the whole application exists around. Without it, the product is just a capture utility or a status list.\n\n**2. Point-of-delivery evidence capture.**\nThe person performing the delivery captures evidentiary artifacts at the stop, bound to that delivery event. At minimum one evidentiary form is captured — a signature, a photo, or a scan — with time and location context attached automatically. Capture requirements are configurable: an operation can make signature, photo, recipient name, or specific data inputs (such as a payment amount or a temperature reading) mandatory, so a driver cannot close a stop without the required proof. Without capture at the point of delivery, the product becomes back-office data entry.\n\n**3. The evidence record as managed, shareable archive.**\nCaptured proofs are stored, searchable, retrievable, and distributable. The back office can find any delivery's proof by customer, address, driver, or date; download it; and send it to the customer, a shipper, or an auditor. The record's purpose is precisely to be shown later to someone who was not there. Without this, capture produces orphaned photos with no institutional memory.\n\nThese three structures are jointly held: a delivery tracker without capture is a status board; capture without the event record is a camera; an archive without capture is a filing cabinet; capture and archive without the event binding is a generic signature tool.",
+        "dc_zh": "1. 作为记录的交付事件。每个投递尝试的持久化、可识别记录，绑定至收件人/地址及所涉货物，并承载结果：已送达、未送达或部分送达。此记录具有持续性：在投递点完成后仍被保留，以便后续调取。这是整个应用存在的核心单元。没有它，产品仅是一个采集工具或状态列表。\n2. 送达点的证据采集。执行投递的人员在投递点采集证据制品，并绑定至该交付事件。至少采集一种形式的证据——签名、照片或扫描件——并自动附带时间与地点上下文。采集要求可配置：运营方可将签名、照片、收件人姓名或特定数据输入（如支付金额或温度读数）设为必填项，使司机在未提供所需证明前无法完成该投递点。若无送达点的采集功能，该产品将退化为后端数据录入工具。\n3. 作为可管理、可共享档案的证据记录。采集的证明被存储、可搜索、可检索且可分发。后端人员可通过客户、地址、司机或日期查找任何交付的证明；可下载它；并可将其发送给客户、托运方或审计人员。此记录的目的正是为了在日后可以被出示。",
+        "rules": "### Capture requirements gate stop completion\n\nThe operation defines what proof a stop requires before it can be marked complete — signature, photo, recipient name, or specific data inputs. Required proof cannot be skipped; this is the mechanism that makes the archive trustworthy.\n\n### Failed deliveries are documented, not deleted\n\nA failed stop is a retained record with a reason (from a configurable list), commonly with photos and notes. Failed attempts can be reattempted; the attempt history stays attached to the delivery.\n\n### Time and location are attached automatically\n\nEvery proof carries the time and location of capture, recorded by the system rather than typed by the driver. This is what turns a photo or signature into evidence: it answers \"was the driver actually there.\"\n\n### The archive is the product's memory\n\nProof records persist long-term, searchable across deliveries. The characteristic back-office moment is a customer query weeks later — the operator searches, retrieves the POD, and sends it.\n\n### Offline tolerance\n\nField connectivity is unreliable; mature products capture proof offline and synchronize when the connection returns, so evidence production does not depend on network availability.",
+        "rules_zh": "### 捕获要求限制停靠完成\n\n操作定义了停靠在标记为完成之前需要的证据——签名、照片、收件人姓名或特定数据输入。必需证据不可跳过；这是使存档可信的机制。\n\n### 失败交付被记录，而非删除\n\n失败的停靠是保留的记录，带有原因（来自可配置列表），通常附带照片和备注。失败的尝试可以重新尝试；尝试历史保持附加在交付上。\n\n### 时间和位置自动附加\n\n每个证据都带有捕获的时间和位置，由系统记录而非驾驶员输入。这就是将照片或签名转化为证据的原因：它回答“驾驶员是否确实在那里”。\n\n### 存档是产品的记忆\n\n证据记录长期保留，可跨交付搜索。典型的后台时刻是几周后的客户查询——操作员搜索、检索 POD 并发送。\n\n### 离线容忍\n\n现场连接不可靠；成熟产品离线捕获证据并在连接恢复时同步，因此证据生产不依赖于网络可用性。",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 178,
+    "phase": "complete",
+    "parent": 34,
+    "slugs": [
+      "dispatch-management",
+      "last-mile-delivery-platform",
+      "on-demand-delivery-platform",
+      "parcel-management-platform",
+      "proof-of-delivery-platform"
+    ]
+  }
+}

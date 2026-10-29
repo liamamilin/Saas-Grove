@@ -1,0 +1,83 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，顶层 phase 仍为 included_without_cases；这与 batch.json/research.json 中五个 case_found 及实际案例不一致。内容审查不受影响，但下游若依赖 progress 字段，需要同步更新。",
+    "MyTripPlanner 的 LICENSE 头部写明 'either version 3 of the License, or (at your option) any later version'，严格按 SPDX 更接近 AGPL-3.0-or-later；batch 记为 AGPL-3.0 属于许可证表达式精度问题，不改变其为完整 AGPLv3 文本及开源属性。",
+    "MyTripPlanner 是单用户自托管 PWA，不是多租户 SaaS；其 AI 助手依赖 Claude/ChatGPT 付费订阅，但核心行程规划不依赖订阅。research.json 已如实记录这一服务边界，建议在对外摘要中也明示。",
+    "TravelyOS 的 back-office 是更广泛 tour-operator 套件中的供应层模块；按叶子定义可作为 Travel Supplier Management，但记录身份最好注明其为模块级证据，而非独立 TSM 产品。",
+    "luca 的公开页对 task 的路由、状态流转、跨班次持久化描述有限，FAQ 中还存在占位文本；本次按商业案例的基本真实性和类型匹配保留，未将其视为完整核心工作流的深度证明。",
+    "CampLife 首页未逐项列出营位水电接口、车长限制、营位类型等属性，也未展示 folio 结算细节；本次按商业案例的基本匹配保留。",
+    "Mangobeds 首页未展示性别分段宿舍配置、具体床位分配界面及 folio 结算细节；本次按商业案例的基本匹配保留。",
+    "research.json 对未入选开源候选 BookCars、OpenCampground、NanabBot、JackTheButler、Hostel PRO、HostelFlow 的拒绝理由有记录，但未附这些候选的快照；不影响本单元入选案例的核对。",
+    "建议后续将单行压缩 HTML 快照统一转为可读正文快照，避免审阅时正文被截断而只能依赖实时页面交叉核对。"
+  ],
+  "leaf_checks": {
+    "travel-itinerary-planner": {
+      "application_ids": [
+        "github:1287426927"
+      ],
+      "track": "open_source",
+      "status": "verified",
+      "basis": "已读取 batch.json 的 MyTripPlanner 记录、research.json 的 travel-itinerary-planner 记录，以及 REVIEW_SOURCES.json 指定的 repository_metadata、license、README 三个快照。README 明确多旅程仪表盘、按日时间线、stop/drive/food/hotel/info 五类项目、真实道路路线、预算、本地数据目录与导出/导入分享。",
+      "definition_core": "满足三层结构：以 trip 为持久记录单位（多旅程仪表盘，可创建、复制、删除、导入）；项目绑定到 trip 并锚定地点与时间（景点、餐饮、酒店、交通、笔记）；按日序列与地图路线双重安排形成可遵循计划。Booking.com 仅用于查询酒店并生成外链，不完成预订、出票或支付，符合规划器描述性而非事务性的边界。",
+      "service_form": "浏览器端 PWA 加本地 Node 服务，数据持久化到本地文件夹，属于持续使用的软件应用形态；单用户自托管，不是多租户 SaaS，research.json 已如实记录。",
+      "identity_and_license": "仓库 ID 1287426927、full_name Prot10/MyTripPlanner 与 batch 一致；LICENSE 快照为 32689 字节，另以同一 raw LICENSE URL 核对到完整 AGPLv3 条款并以 END OF TERMS AND CONDITIONS 结束，未发现附加限制；无独立社区版/商业版分界，整个仓库即完整开源版本。",
+      "gaps": "未运行应用，未测试 Booking.com 抓取、OSRM 路由或离线失败回退；AI 功能依赖第三方订阅，但核心规划不依赖。"
+    },
+    "travel-supplier-management": {
+      "application_ids": [
+        "commercial:travelyos"
+      ],
+      "track": "commercial",
+      "status": "verified_basic",
+      "basis": "已读取 batch.json 与 research.json 的 TravelyOS 记录，并读取官方 back-office 页面快照；快照为单行压缩 HTML，正文另以同一 URL 的公开页面交叉核对。页面正文明确酒店/DMC/交通供应商目录、合同费率与有效期、合同 allotments、采购单、供应商应付与对账，并说明报价和预订从同一库存取数。",
+      "definition_core": "满足三项结构：供应商基础档案（酒店、DMC、交通供应商目录及联系人/付款条件）；合同贸易条款（contracted rates、seasonal allotments、validity periods、spot rates 区分）；转售与运营绑定（报价/预订与 live trips 共用库存，采购单、供应商应付及发票对账）。",
+      "service_form": "买方侧 back-office 供应层，面向 tour operator/DMC 的采购、配额和应付；不是 DMC 行程编排、OTA 前台或酒店 CRS/渠道管理器。",
+      "identity": "TravelyOS（RapidRabbit）官方 back-office 页面，商业 track 与 homepage 一致。",
+      "gaps": "未展示 buy rate 加 margin 的卖价计算细节、供应商确认请求流程或部署方式；页面是更广泛 tour-operator 套件中的模块，按商业基本匹配保留。"
+    },
+    "campground-rv-park-management": {
+      "application_ids": [
+        "commercial:camplife"
+      ],
+      "track": "commercial",
+      "status": "verified_basic",
+      "basis": "已读取 batch.json 与 research.json 的 CampLife 记录，并读取官方首页快照；快照正文与同一 URL 的公开页面均说明从 online booking 到 check-out 的营地管理，功能含 Online Reservations、Site Guarantee、Mobile Check-in、Point of Sale、Cash and Accrual Accounting、Recurring Billing、Remote and Mass Meter Reading、Dynamic Pricing、Custom Business Rules，FAQ 明确支持 nightly/seasonal/monthly stays。",
+      "definition_core": "满足运营方营地管理的四项结构的基本形态：营地/营位库存由 site guarantee、营地地图与费率配置体现；预订与库存绑定；前台通过 mobile check-in/check-out 和每日运营推进住宿；费用通过 POS、会计、循环计费与押金/付款形成住宿账户并结算。",
+      "service_form": "面向 campground/RV park 运营方的 Web/iOS/Android 管理 SaaS，不是露营者跨营地预订平台；页面自称自 2006 年起服务 1000+ parks。",
+      "identity": "CampLife, LLC 官方产品站 software.camplife.com，商业 track 与 homepage 一致。",
+      "gaps": "首页未逐项展示营位类型、水电接口、车长限制等属性，也未展示 folio 结算细节；未做部署或前台流程实测，按商业基本匹配保留。"
+    },
+    "digital-concierge": {
+      "application_ids": [
+        "commercial:luca"
+      ],
+      "track": "commercial",
+      "status": "verified_basic",
+      "basis": "已读取 batch.json 与 research.json 的 luca 记录，并读取官方 hotel 页面快照；快照正文与同一 URL 的公开页面均说明 email/WhatsApp 数字沟通、AI 即时回答常规问题、复杂请求转为员工 task、PMS 集成、数字 check-in/check-out、数字宾客目录与 QR 点单。",
+      "definition_core": "满足四项结构的基本形态：宾客通过 PMS/check-in 与住宿锚定；email、WhatsApp、QR 等数字受理面；宾客请求/问题/订单形成由酒店处理的记录或 task；酒店团队承接复杂请求并完成服务。AI 仅承担常规问答，复杂事项转人工，符合自动化有边界的定义。",
+      "service_form": "酒店物业侧模块化 guest experience/digital concierge SaaS，不是通用客服聊天机器人；页面明确面向酒店，且与 PMS、POS 集成。",
+      "identity": "luca（culture4life GmbH）官方 hotel 页面，商业 track 与 homepage 一致。",
+      "gaps": "页面未详细说明请求状态、SLA、升级和跨班次持久化，FAQ 中有占位文本；未测试 PMS 集成或消息渠道，按商业基本匹配保留。"
+    },
+    "hostel-management-system": {
+      "application_ids": [
+        "commercial:mangobeds"
+      ],
+      "track": "commercial",
+      "status": "verified_basic",
+      "basis": "已读取 batch.json 与 research.json 的 Mangobeds 记录，并读取官方 hostel 方案页快照；快照正文与同一 URL 的公开页面均说明 bed-level dorm 与 private room 库存、可按床位或整间宿舍销售、快速 check-in/check-out、团体预订、OTA 同步、booking engine、invoicing 与在线支付。",
+      "definition_core": "满足三项结构的基本形态：床位/房间库存以 dorm beds 与 private rooms 为一等可售单元；员工操作入住/退房并处理到达与离开；每次住宿通过 invoicing、payments 和 OTA/booking engine 形成财务记录。共享宿舍床位语义明确，区别于通用酒店 PMS。",
+      "service_form": "运营方 hostel PMS/channel manager/booking engine SaaS，不是面向旅客的 hostel 搜索预订平台；页面明确面向 hostels，并覆盖 hotels、colivings 等物业类型。",
+      "identity": "Mangobeds 官方 hostel management software 页面，商业 track 与 homepage 一致。",
+      "gaps": "页面未展示性别分段宿舍配置、具体床位分配界面及 folio 结算细节；未做部署或前台流程实测，按商业基本匹配保留。"
+    }
+  },
+  "limits": "本次为只读初审，未运行应用、未登录、未支付、未部署、未测试 PMS/OTA/支付集成。GitHub 仓库元数据和 LICENSE 快照为单行 JSON，read 工具按 2,000 字符截断；LICENSE 内容为 base64，已用同一 raw LICENSE URL 核对完整 AGPLv3 文本。商业站点快照为单行压缩 HTML，read 预览被截断，正文以同一 URL 的公开页面交叉核对，未做快照与实时页面的字节级比对。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-097/ses_groveopencodegop097review1_1792999577.jsonl",
+  "batch_sha256": "bfeb1a6d4e87b0389d0a4b75b473f9407c249056c4ae12383e8893a662994352",
+  "research_sha256": "68ab8dd0f4d4e3e5221141e680d3391ed8364cd8399f14d94083545010896232",
+  "input_sha256": "c761d7ae5440290473b6e72391a270028f965e61b5e43d0aa82e90913f4a905b"
+}

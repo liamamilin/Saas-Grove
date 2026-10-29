@@ -1,0 +1,77 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:11232735",
+      "issue": "SculptGL 的 summary 称可用 Brush/Clay/Smooth/Pinch/Crease 等工具变形网格，但所引 src/editing/tools/Tools.js 注册的 13 个工具（Brush、Inflate、Twist、Smooth、Flatten、Pinch、Crease、Drag、Paint、Move、Masking、LocalScale、Transform）中没有 Clay；english.js 中的 Clay 位于材质/着色项（Albedo、Roughness、Metallic、Clay），并非笔刷。同一 entry 的 features 列表也未列 Clay，摘要与自身证据、features 相互矛盾。",
+      "fix": "将 summary 的笔刷示例改为 Tools.js 实际注册的工具（如 Brush/Flatten/Inflate/Drag/Smooth/Pinch/Crease），或明确注明 Clay 是材质/着色选项而非笔刷；features 与 leaf_matches 无需改动。"
+    }
+  ],
+  "non_blocking_notes": [
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:11232735",
+      "note": "summary 写“开发停止”，而 README 原文为“不再维护（仅少量小修）”；建议改为“基本停止维护、仍可部署使用”，属措辞层面，不影响类型判断。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:11232735",
+      "note": "四项核心的证据来自 Tools.js 工具注册、english.js 界面字符串与 Export.js 导出聚合，属源码/界面正文而非简介；官网 help/about/manual 均 403 并已如实留档，未运行应用，可接受。后续如能补一次运行时或官方手册来源会更稳。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:11232735",
+      "note": "公开入口页快照仅为 HTML 启动壳（canvas + sculptgl.js + 隐藏文件输入），仅被用作浏览器交付形态证据，未被当作功能正文，用法正确；但该快照不足以支持任何笔刷或导出功能声明。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:1427684344",
+      "note": "technology_stack 中的 WebGPU 与 egui 在本次保留的 README/CONTROLS/SCULPTING_FOUNDATIONS/WEB_HOSTING 快照中均无直接依据（文档只述 Rust/WASM 静态包、native thread/browser worker）；建议补来源或从技术栈移除，避免与“正常工作室为 WASM+WebGL2”的实际状态混淆。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:1427684344",
+      "note": "README 声称支持多对象与雕刻图层，而 0.1.6 的 SCULPTING_FOUNDATIONS 明确“场景仍为单网格，多对象、图层等仍待做”。entry 已在 leaf_matches 说明并把这些功能排除在 features 之外，处理正确；建议摘要层面也保持同样的限定，避免读者据 README 误判成熟度。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:1427684344",
+      "note": "双许可中仅保留 LICENSE-APACHE 全文（10834 字节，含 Apache License Version 2.0 与 limitations under the license 条款），MIT 文本只在 README 中作为链接提及；如需完整呈现双许可，建议补一份 LICENSE-MIT 快照。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "application_id": "github:1427684344",
+      "note": "README 已披露 public alpha 的已知缺陷（重复笔画可能停止堆积、密集网格卡顿、无自动保存/崩溃恢复）；这与“定义性核心成立”不冲突，但属于可用性风险，摘要保留“公开 alpha”限定是必要的。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "note": "research.json 中 obrush.app 的 200 结果，以及 Nomad Sculpt/Womp 的 withheld 证据，均未包含在 REVIEW_SOURCES.json 的保留快照内，本次无法独立复核；这些内容未写入 batch，不影响两个入选条目的核对结论。"
+    },
+    {
+      "slug": "digital-sculpting-application",
+      "note": "input.json 的 progress 仍为 boundary_unresolved、phase 为 included_without_cases，而 research.json 已改为 case_found 并新增两条 application；建议在合并时同步状态字段，避免单元元数据与批次内容不一致。"
+    }
+  ],
+  "leaf_checks": {
+    "digital-sculpting-application": {
+      "leaf_definition": "数字雕刻应用：持久 3D 表面 + 沿笔触的类画笔变形 + 每笔触可调参数（大小/强度/衰减/压力）+ 可导出的持久 3D 模型；主要工具转为组件级/参数化构建时属相邻的 3D 建模类型。",
+      "applications_checked": [
+        "github:11232735",
+        "github:1427684344"
+      ],
+      "core_match": "SculptGL：Tools.js 注册 Brush/Inflate/Twist/Smooth/Flatten/Pinch/Crease/Drag/Move/Masking 等变形工具，english.js 给出 Radius/Intensity/Hardness、Negative、Alpha、压力半径/强度，Export.js 与 english.js 文件区给出 .sgl 工程及 OBJ/PLY/STL 导出，四项核心均有源码/界面正文支撑。OBrush：README 列出 Draw/Clay/Move/Smooth/Crease 等笔刷与遮罩、顶点绘制、X 对称、压力；CONTROLS.md 给出左键拖拽雕刻、Shift 临时 Smooth、半径快捷键与压力调制；SCULPTING_FOUNDATIONS 给出细分级别、体素重网格、PNG alpha 与版本化 .obrush 工程及 OBJ/PLY/STL 互操作，四项核心成立，且未把 README 的多对象/图层声明计入。",
+      "service_form": "两者均为浏览器交付的静态应用并有公开入口：SculptGL 由 webpack 构建 app/ 静态站点，README 说明访问 app/index.html，公开实例 stephaneginier.com/sculptgl/ 返回同一启动页（仅作交付形态证据）；OBrush 的 WEB_HOSTING 明确为 Rust/WASM 静态应用，雕刻与文件处理在访问者设备本地完成、无远程模型上传端点，公开实例 obrush.app 由 README/WEB_HOSTING 记录。SculptGL 仓库已归档、开发基本停止，但仍可自托管且公开实例存在，符合本类型“无账户/本地文件”的形态界定，不作为阻断。",
+      "identity_and_track": "github:11232735 与 repository_metadata 的 id=11232735、full_name=stephomi/sculptgl、默认分支 master 一致；github:1427684344 与 id=1427684344、full_name=Reza2kn/OBrush、默认分支 main 一致；两者 track 均为 open_source，与各自仓库主体相符，未发现同名冒充或 fork 身份问题。",
+      "license_and_community_boundary": "SculptGL：LICENSE API 快照为完整 MIT 文本（1072 字节，base64 起始即 MIT License，含许可与免责声明全段），repository_metadata license key=mit、spdx_id=MIT，与 entry 的 MIT 记录一致。OBrush：LICENSE API 快照为完整 Apache-2.0 文本（10834 字节，含 Apache License Version 2.0 条款），spdx_id=Apache-2.0，README 声明“MIT 或 Apache-2.0 任选”，entry 以 Apache-2.0 记录并保留双许可事实，license_review 说明合理。两者均为整仓开源、无 open-core/付费社区版分层，未发现需额外标注的社区版边界。",
+      "gaps": "未运行应用、未做部署验证；SculptGL 官方手册 403、公开页仅为启动壳，核心证据依赖仓库源码与界面字符串；OBrush 为 public alpha，且 README 与 0.1.6 文档在多对象/图层上存在矛盾（entry 已排除该功能）；obrush.app、Nomad、Womp 相关抓取结果未保留在本单元 REVIEW_SOURCES 中，未独立复核。",
+      "status": "changes_required：入选与四项核心匹配成立，但 SculptGL 摘要中的 Clay 笔刷描述与所引 Tools.js/features 不符，需按 findings 修正后通过。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 14 个快照（按 path 原样读取，未猜测或替换路径），未联网、未运行 shell、未写文件、未读取其他单元。未安装或运行 SculptGL/OBrush，未做部署与运行时验证，因此对四项核心的判断基于源码、界面字符串与仓库文档正文，而非实际交互。SculptGL/OBrush 的许可证以 GitHub license API 快照的字节数、base64 文本起始与 spdx 标记核验完整文本，未逐字解码全文比对。data/collections/sources 目录中还有未被 REVIEW_SOURCES.json 声明的文件（可能对应 Nomad/Womp/开发记录等），本次未将其作为依据，故 research.json 中相关 withheld 内容与 obrush.app 抓取结论无法独立复核。SculptGL 官网 help/about/manual 403、入口页仅为启动壳，属已留档缺口；OBrush 为公开 alpha，README 与 0.1.6 文档的功能范围存在已披露矛盾。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-048/ses_groveopendesignp048review1_1793170238.jsonl",
+  "batch_sha256": "8d87a671208cc0affe044eb4903cc2af9f9aaf16f0abaf81bdd40aa6378431d3",
+  "research_sha256": "5c44190e5137d535829d5783fcf54280f741e55340494652ba1cc97497e55abf",
+  "input_sha256": "202c99694b8dd074f9dfb65e1fa1e24a0d2b64d2e801784364fd90564c7daf76"
+}

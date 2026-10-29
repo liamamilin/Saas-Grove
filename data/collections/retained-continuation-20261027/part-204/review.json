@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "ClimateView 是城市/区域综合气候行动规划平台，适应只是其内容域之一；现有 summary 已写“综合”，后续文案不应表述为纯适应专用工具。",
+    "Moody's 页面主要证明物理/转型风险分析、情景量化以及接入压力测试、披露和投资决策工作流，未直接展示持久化风险台账或周期性监测闭环；按商业案例的基本类型匹配保留，避免声称替代客户的风险登记册。",
+    "Cloud Carbon Footprint 仅覆盖公有云用量口径，报告期锁定/审计追踪未在来源中明确；保留“云口径碳核算子模块”的边界，不应升级为全组织 Scope 1/2/3 平台。",
+    "Jupiter 的 leaf_match 理由提到 API 交付，但本次核对的首页正文未直接出现 API；不影响物理气候风险平台的核心匹配，建议补源或删去该措辞。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致；若下游消费 progress，应同步为已检索状态。",
+    "research.json 提及 ClimateView CCAP 快照 6370afc4...、Climate X、OS-Climate/CarbonPlan 与 Hyperledger 等辅助或负向检索记录，但未列入 REVIEW_SOURCES；这些未用于本单元结论。"
+  ],
+  "leaf_checks": {
+    "nature-risk-management": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:ibat"
+      ],
+      "evidence": "IBAT 官方 Services 正文（快照 f98559b9...，与同日官网一致）明确：Biodiversity Risk Screening 覆盖 project sites、supply chains、investments；可批量上传大型 portfolio（ESRI、KML、KMZ、Excel），支持多个点、多边形或线要素，最多 1,000 个站点；按运营类型自动适用 5/10/20/50 km 缓冲区；叠加 WDPA、KBA、IUCN Red List/STAR；Disclosure Preparation Report 用两阶段方法判定敏感站点并给出 high/medium/low significance score，用于站点优先级和 TNFD、GRI、ESRS、SFDR 披露。对应“地点绑定→权威自然数据评估→风险判定→优先级/披露”核心。",
+      "gaps": "来源主要证明筛查、优先级和披露准备，不证明完整的自然风险台账、响应措施负责人和持续监测闭环；本叶定义核心止于优先级与披露，按筛查型自然风险管理应用保留即可。"
+    },
+    "climate-adaptation-planning": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:climateview"
+      ],
+      "evidence": "ClimateView SECAP 正文（快照 84d51450...，与同日官网一致）列明 Main Components：Baseline Emission Inventory、Climate Risk and Vulnerability Assessment（RVA）、Action Plan for mitigation and adaptation measures；计划通常以 2030 为时间范围并每 4-5 年更新。Platform 正文（快照 939a7d26...）列明 Action Editor 管理 policies、projects、initiatives，Target Balancing 构建情景，Assess interventions 创建、评估并监测干预措施及其影响，并以 indicators/dashboards 跟踪进展。可对应“危害/脆弱性证据→适应计划→离散措施→进展跟踪”核心。",
+      "gaps": "ClimateView 是综合气候行动规划平台，适应只是其中一个内容域，不应表述为纯适应专用产品；本地快照为单行压缩 HTML，读取工具截断，正文已用同日官方页面逐项核对。"
+    },
+    "climate-risk-management": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:moodys-climate-risk"
+      ],
+      "evidence": "Moody's 页面标题和正文为 Physical & Transition Risk Management：以 facilities、infrastructure、customer assets 和 portfolio 为对象；覆盖物理与转型风险、near/mid/long-term 情景，量化潜在损害和中断的财务成本；明确接入 stress testing、risk disclosure and regulatory reporting、investment decisioning、portfolio planning 等工作流，并提及 PortfolioStudio。可作为组织侧气候风险管理与决策支持的基本商业记录。",
+      "gaps": "页面未直接展示持久化风险敞口台账、评估版本记录或周期性监测闭环，证据更偏分析、模型与工作流集成；按商业案例的基本真实性和类型匹配保留，避免写成完整风险管理套件。"
+    },
+    "physical-climate-risk-platform": {
+      "status": "pass",
+      "case_ids": [
+        "commercial:jupiter"
+      ],
+      "evidence": "Jupiter 首页正文（快照 9cbba554...，与同日官网一致）明确 asset-level、multi-peril projections，scenario steps 按 5 年递增，覆盖 now to 2100；提供 damage & loss modeling，并将结果翻译为 credit、loss、cashflow 指标；支持 portfolio & asset level risk assessment and management、portfolio-level analysis、entity modeling、adaptation planning & ROI、regulatory disclosure & compliance。对应“已定位资产→气候条件化灾害预测→hazard-to-impact 计算→资产级结果与组合视图”核心。",
+      "gaps": "首页正文未直接出现 API 交付；不影响核心类型匹配，leaf_match 中的 API 措辞建议补源或删去。快照为单行压缩 HTML，正文已用同日官方页面核对。"
+    },
+    "carbon-accounting-platform": {
+      "status": "pass",
+      "case_ids": [
+        "github:313740591",
+        "commercial:ibm-envizi"
+      ],
+      "evidence": "Cloud Carbon Footprint：GitHub metadata 快照确认 id=313740591、full_name=cloud-carbon-footprint/cloud-carbon-footprint、archived=false；license API 快照返回完整 Apache-2.0 文本（size 11346），README 明确核心逻辑由 CLI 与 website（api/client）组成；官网说明支持 AWS、Google Cloud、Microsoft Azure，将云用量按方法论转换为能耗与 CO2e，可按 provider、account、service、time period 下钻并 CSV 导出，作为 Scope 3 云排放测量。IBM Envizi：SaaS，覆盖 Scope 1/2/3、GHG Protocol、维护型排放因子库、组织层级 roll-up、数据健康检查与审计追踪、多框架 ESG 披露。两者共同覆盖组织边界、活动数据、因子、计算清单和可追溯性核心。",
+      "gaps": "Cloud Carbon Footprint 仅覆盖公有云口径，报告期锁定/审计追踪未在来源中明确，应保留“云口径子模块”边界；完整组织级核心由 IBM Envizi 满足。CCF 为 Apache-2.0 全量开源仓库，未发现独立商业社区版分界。"
+    }
+  },
+  "limits": "只读初审，未运行 shell、未部署或执行产品功能测试，未重算快照 sha256；所有快照均按 REVIEW_SOURCES.json 的 path 原样读取。IBAT、Moody's、IBM Envizi 快照为可分行 HTML，正文可核；ClimateView、Jupiter 及 CCF 首页快照为单行压缩 HTML，读取工具按行截断至 2,000 字符，核心正文改用同一 URL 的同日官方页面交叉核对。商业案例仅核对基本真实性和类型匹配，未研究价格、架构、安全或合同条款；research.json 中 CCAP、Climate X、OS-Climate/CarbonPlan、Hyperledger 等辅助或负向检索记录未列入 REVIEW_SOURCES，未用于结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-204/ses_groveopencodegop204review1_1793026311.jsonl",
+  "batch_sha256": "1dacfe66078dcb62e4131bca7f087f8376476ef450ed298d619c2cb100f5e7ab",
+  "research_sha256": "376540938d363eefdf1181db2ed39c2ea582dda96d9e7ef5157603fa4a86042b",
+  "input_sha256": "424afcc11ef303e66c287bbdf82d497e019c8ac783f1b2004c85d721a404bcb4"
+}

@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "email-infrastructure-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:88740103"
+      ],
+      "query": "Postal open source email infrastructure management",
+      "source_urls": [
+        "https://api.github.com/repos/postalserver/postal",
+        "https://api.github.com/repos/postalserver/postal/license",
+        "https://raw.githubusercontent.com/postalserver/postal/main/README.md",
+        "https://docs.postalserver.io/welcome/feature-list"
+      ],
+      "note": "复用上一轮候选 Postal。官方 README 说明其为面向网站/Web 服务器的完整邮件服务器；官方功能页进一步列出 SMTP/HTTP API 注入、DKIM 签名、域名 DNS 检查、投递队列/历史、webhook、抑制列表和多组织/多服务器，覆盖发送基础设施、发送域认证、程序化注入与递送结果反馈四项核心。",
+      "service_boundary": "自托管开源邮件投递应用；本轮仅核对官方仓库、许可证、README 与文档，未部署或运行（runtime_tested=false）。入站邮件与 webhook 为其附带能力，不据此扩展为邮件营销或邮件安全产品。",
+      "search_attempts": [
+        "复用 notes/previous 候选 Postal",
+        "GET https://api.github.com/repos/postalserver/postal 核对仓库身份与许可证",
+        "读取官方 README 与 docs.postalserver.io 功能列表"
+      ],
+      "fetch_outcomes": [
+        "fetched https://api.github.com/repos/postalserver/postal (repository_metadata) sha256=1045c11f18c2e456f810f9f9665fdcb5552e0ce6a2c336e15d115b9d3e842d7d",
+        "fetched https://api.github.com/repos/postalserver/postal/license (license) sha256=70b3cfd296de076a4049ad1ec36c2a306240c45357b08a8712495f77a40719d9",
+        "fetched https://raw.githubusercontent.com/postalserver/postal/main/README.md (readme) sha256=cd12bd3c9dae6282fcad76a214c341a698ca3425a4070ede411de1d6dc157bf0",
+        "fetched https://docs.postalserver.io/welcome/feature-list (documentation) sha256=afd65c5dc217e0c1b8919346baa6fd070bfd48ffe9dc6a310c1109fd5298764a"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:679421146"
+      ],
+      "query": "OpenTofu open source infrastructure as code platform",
+      "source_urls": [
+        "https://api.github.com/repos/opentofu/opentofu",
+        "https://api.github.com/repos/opentofu/opentofu/license",
+        "https://raw.githubusercontent.com/opentofu/opentofu/main/README.md",
+        "https://opentofu.org/docs/language/state/",
+        "https://opentofu.org/docs/intro/core-workflow/"
+      ],
+      "note": "复用上一轮候选 OpenTofu。README 说明其以配置文件声明基础设施并提供 plan、资源图和变更自动化；官方 state 文档说明状态文件保存声明资源与真实对象的绑定并用于计算后续变更；core workflow 文档给出 write/plan/apply。覆盖 IaC 声明、托管生命周期执行与托管资源记录。",
+      "service_boundary": "开源 CLI 工具，状态默认保存在本地或配置的后端；本轮仅核对官方仓库、许可证和文档，未安装或运行（runtime_tested=false）。它是完整 IaC 工具而非仅模板或绘图工具；未包含 TACOS 协作层。",
+      "search_attempts": [
+        "复用 notes/previous 候选 OpenTofu",
+        "GET https://api.github.com/repos/opentofu/opentofu 核对仓库身份与许可证",
+        "读取官方 README、state 文档与 core workflow 文档"
+      ],
+      "fetch_outcomes": [
+        "fetched https://api.github.com/repos/opentofu/opentofu (repository_metadata) sha256=7dc2fede6f1acaaf16136af6cc41a23d37bf6726363a497061b63f36a8d00d6f",
+        "fetched https://api.github.com/repos/opentofu/opentofu/license (license) sha256=ec8ba028933d25252e2830905e58527fd026a6c5ef790e093cf02967a21acfc8",
+        "fetched https://raw.githubusercontent.com/opentofu/opentofu/main/README.md (readme) sha256=60c539cfab196b4b39768781ee871f07b34aadcada2f4bef42393810e3dbfb92",
+        "fetched https://opentofu.org/docs/language/state/ (documentation) sha256=f7fdc5956a92ccdb4d39e591bd55e57d95a5053b5687310d5154791760a2e2f5",
+        "fetched https://opentofu.org/docs/intro/core-workflow/ (documentation) sha256=66bb0242b853a860da0baaf9709ac7a948fda51d77b4807b6b2eeb5b7226c842"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "infrastructure-automation-platform",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "AWX open source infrastructure automation platform",
+      "source_urls": [
+        "https://api.github.com/repos/ansible/awx",
+        "https://raw.githubusercontent.com/ansible/awx/devel/README.md",
+        "https://raw.githubusercontent.com/ansible/awx/devel/LICENSE.md",
+        "https://raw.githubusercontent.com/ansible/awx/devel/licenses/awx.txt",
+        "https://raw.githubusercontent.com/ansible/awx/devel/docs/overview.md",
+        "https://raw.githubusercontent.com/ansible/awx/devel/docs/rbac.md"
+      ],
+      "note": "保留上一轮候选 AWX（ansible/awx，GitHub ID 91594105）。README、overview 与 RBAC 文档显示其以 Web UI/REST API/任务引擎集中执行 Ansible 内容，管理清单、作业模板和平台托管凭证并实施角色权限，产品核心与基础设施自动化平台三项结构相符。但许可证证据未能按本单元许可规则闭合：GitHub license API 返回 NOASSERTION；仓库根 LICENSE.md 只包含 Apache-2.0 条款主体而缺少附录，仓库内 licenses/awx.txt 虽有完整 Apache-2.0 文本（含附录），但该文件路径不满足许可证据的许可文件名要求，无法绑定为条目许可来源。因此本轮不建立 batch 关系，保留候选、官方 URL、抓取结果和具体缺口，未把该结果当作 AWX 不存在。",
+      "service_boundary": "AWX 是 Red Hat Ansible Automation Platform 的上游社区项目，可自托管；本轮只读官方仓库、README、文档和许可证文本，未部署或运行（runtime_tested=false）。因完整 Apache-2.0 文本未落在可绑定的许可文件路径，暂不把候选写成成立的开源关系，保留为待复核缺口。",
+      "search_attempts": [
+        "复用 notes/previous 候选 AWX",
+        "GET https://api.github.com/repos/ansible/awx 核对仓库身份",
+        "GitHub license API 返回 NOASSERTION 后改读 devel/LICENSE.md 与 devel/licenses/awx.txt 完整文本",
+        "读取 README、docs/overview.md 与 docs/rbac.md"
+      ],
+      "fetch_outcomes": [
+        "fetched https://api.github.com/repos/ansible/awx (repository_metadata) sha256=a84515c2af0e9dac43f0a1cdf7aa8311c3da2b4d22f137a8978ae3eb0716052c",
+        "fetched https://api.github.com/repos/ansible/awx/license (license) sha256=1430a43f65c96d3fcd685bece246a979748c6d27ac59e72972f31dad43479853; spdx_id=NOASSERTION, not used as license evidence",
+        "fetched https://raw.githubusercontent.com/ansible/awx/devel/README.md (readme) sha256=aaa5834410482cf7ed325d306dc28a58d171b90e24f4af9c8a2ee52218ccb7bb",
+        "fetched https://raw.githubusercontent.com/ansible/awx/devel/LICENSE.md (license) sha256=3e3f8281fb9edb7500ebed9d9f6fb008a3fce50220a4d318cf94dc9eccfb128a; Apache-2.0 terms body but no appendix, insufficient for license_review",
+        "fetched https://raw.githubusercontent.com/ansible/awx/devel/licenses/awx.txt (license) sha256=cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30; complete Apache-2.0 text with appendix, but file basename is not a license filename accepted by the evidence rule",
+        "fetched https://raw.githubusercontent.com/ansible/awx/devel/docs/overview.md (documentation) sha256=eb57d014f4489961653b81868d44c1bf60b734297a826e6a0f405d7962db945b",
+        "fetched https://raw.githubusercontent.com/ansible/awx/devel/docs/rbac.md (documentation) sha256=ceca01cb71c2b255bf7c8eb3d8d01fd70feeeaad08296e96b4576011d574799b",
+        "failed https://www.ansible.com/awx: redirected to a different host; homepage source not used"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "kubernetes-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:26337322"
+      ],
+      "query": "Rancher open source kubernetes management platform",
+      "source_urls": [
+        "https://api.github.com/repos/rancher/rancher",
+        "https://api.github.com/repos/rancher/rancher/license",
+        "https://raw.githubusercontent.com/rancher/rancher/main/README.md",
+        "https://www.rancher.com/products/rancher",
+        "https://ranchermanager.docs.rancher.com/v2.15/rancher-manager"
+      ],
+      "note": "复用上一轮候选 Rancher。官方 What is Rancher 文档说明其可供给/导入 Kubernetes 集群、集中认证与 RBAC、监控告警、Helm 应用目录与 Fleet 持续交付；README 与仓库元数据确认开源仓库；产品页区分免费 Rancher 与商业 SUSE Rancher Prime 支持。覆盖集群资产库与 Kubernetes 原生操作面。",
+      "service_boundary": "Apache-2.0 开源 Rancher 社区版可自托管；SUSE Rancher Prime 是商业支持/发行版，本轮未把 Prime 能力当作社区版核心。仅只读官方仓库、许可证与文档，未部署或运行（runtime_tested=false）。",
+      "search_attempts": [
+        "复用 notes/previous 候选 Rancher",
+        "GET https://api.github.com/repos/rancher/rancher 核对仓库身份与许可证",
+        "读取官方 What is Rancher 文档与产品页"
+      ],
+      "fetch_outcomes": [
+        "fetched https://api.github.com/repos/rancher/rancher (repository_metadata) sha256=1561be6797284a5cd716920ff561c1ebbfee8d36db91f86974500b38a4b31ced",
+        "fetched https://api.github.com/repos/rancher/rancher/license (license) sha256=12946ec5c965868fe2ef3db17d0a3b87edde7abcb72e6dc65c71cc9aee026705",
+        "fetched https://raw.githubusercontent.com/rancher/rancher/main/README.md (readme) sha256=8db98126d2571e4c5258c57b44da28c2765e97af91ad789b1b53a647686d0756",
+        "fetched https://www.rancher.com/products/rancher (homepage) sha256=d870c236c9d4d1d4703b0598187fd90638ae6ee46a5fd73c9c143e81ec5963ad",
+        "fetched https://ranchermanager.docs.rancher.com/v2.15/rancher-manager (documentation) sha256=277dbaaaf60917daf624a67fcf96feceb6fe558b5eefa019d2bc968d8b95bca6",
+        "fetched https://ranchermanager.docs.rancher.com/ (documentation) sha256=6b147906fa46bafb1c6569f5b6b0bb7c36af980d70124b1711169874f150aab3; response is a redirect notice to /v2.15/rancher-manager",
+        "failed https://rancher.com/docs/rancher/v2.x/en/overview/: HTTP 502"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "observability-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:326404870"
+      ],
+      "query": "SigNoz open source observability platform",
+      "source_urls": [
+        "https://api.github.com/repos/SigNoz/signoz",
+        "https://raw.githubusercontent.com/SigNoz/signoz/main/README.md",
+        "https://raw.githubusercontent.com/SigNoz/signoz/main/LICENSE"
+      ],
+      "note": "复用上一轮候选 SigNoz。README 与仓库元数据说明其 OpenTelemetry 原生的日志/指标/追踪/异常/告警/仪表板统一平台，并强调跨信号关联调查；许可证文件确认社区核心采用 MIT，但 ee/ 与 cmd/enterprise/ 目录另按企业许可。覆盖多信号摄取、共享上下文与跨信号调查。",
+      "service_boundary": "开源核心社区版可自托管（Docker/K8s/Linux），SigNoz Cloud/Enterprise 为商业服务；本轮只按 MIT 社区核心记录，未把云版或企业版功能当作开源核心，未部署或运行（runtime_tested=false）。",
+      "search_attempts": [
+        "复用 notes/previous 候选 SigNoz",
+        "GET https://api.github.com/repos/SigNoz/signoz 核对仓库身份",
+        "GitHub license API 返回 NOASSERTION 后读取根 LICENSE 完整文本，确认核心 MIT 与企业目录边界",
+        "读取官方 README"
+      ],
+      "fetch_outcomes": [
+        "fetched https://api.github.com/repos/SigNoz/signoz (repository_metadata) sha256=3a30d5fa1475ce56d25aed6db6b52ccd46b335536bd892b4ad524b3115d74d9d",
+        "fetched https://api.github.com/repos/SigNoz/signoz/license (license) sha256=8758aba6c79ae8e27da1b76ede7759b29574bbeddfdc97f81656f16a4bee1b5f; spdx_id=NOASSERTION, not used as license evidence",
+        "fetched https://raw.githubusercontent.com/SigNoz/signoz/main/README.md (readme) sha256=25621be3e5a76e70740b3b55a36b35a9074af930c6c189df633c7e9cadbceb73",
+        "fetched https://raw.githubusercontent.com/SigNoz/signoz/main/LICENSE (license) sha256=449417bc4e96c1787726c58de4b846b2d5146076e4a0a82a2093452ec0882abf"
+      ],
+      "archived": false
+    }
+  ]
+}

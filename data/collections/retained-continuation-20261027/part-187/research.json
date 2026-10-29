@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "wastewater-utility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:muni-link"
+      ],
+      "query": "open source water utility billing software github self-hosted；wastewater utility billing；Muni-Link utility billing water sewer trash official",
+      "source_urls": [
+        "https://muni-link.com/features/billing",
+        "https://muni-link.com/product",
+        "https://github.com/navariltd/utility-billing",
+        "https://github.com/tpt-solutions/tpt-water-utility",
+        "https://github.com/LwaziNcubeX/AquaBills"
+      ],
+      "note": "开源检索到 navariltd/utility-billing、tpt-water-utility、AquaBills 等公用事业计费项目，但 navariltd 文档只列水/电/气，未明确支持污水；其余项目规模小或未证明污水处理账务闭环，未采纳。Muni-Link 官方 billing 与 product 页面明确 water、sewer、stormwater 的账户、抄表、计费、收款与服务工单，故只记录其污水处理计费关系；押金、欠费付款计划、停复水终账单等页面未展开，未写成断言。工作区无 review.json，notes/previous 为空，本轮没有可复用的旧草稿或初审意见。",
+      "service_boundary": "商业云端公用事业 CIS/计费平台；本叶只取污水服务作为账户收费项目及客户与收款主流程，未核价、部署、现场工单细节。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source water utility billing software github self-hosted",
+          "outcome": "返回 tpt-solutions/tpt-water-utility、navariltd/utility-billing、AquaBills、openrarp 等；均为水或综合公用事业计费，未见明确污水 CIS 完整应用"
+        },
+        {
+          "tool": "github_search_api",
+          "query": "wastewater utility billing",
+          "outcome": "0 条结果"
+        },
+        {
+          "tool": "websearch",
+          "query": "Muni-Link utility billing water sewer trash official",
+          "outcome": "命中官方 billing/product 页面，确认 water、sewer、stormwater 计费与账户/收款/服务工单"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://muni-link.com/features/billing",
+          "kind": "homepage",
+          "outcome": "success",
+          "snapshot": "sources/a93a1eda4150a9fc94ef11152f30e96cecf39daa61bf90f8de925b7819a5e198.txt"
+        },
+        {
+          "url": "https://muni-link.com/product",
+          "kind": "homepage",
+          "outcome": "success",
+          "snapshot": "sources/16fcda69f02afd0c92d007f4bb67fb911cf9e781c31b102098944670bbdeb10f.txt"
+        },
+        {
+          "url": "https://www.muni-link.com/",
+          "kind": "homepage",
+          "outcome": "failed: redirected to a different host",
+          "snapshot": null
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "water-network-monitoring",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:takadu"
+      ],
+      "query": "open source water network monitoring leak detection github；water network monitoring leak detection",
+      "source_urls": [
+        "https://www.takadu.com/",
+        "https://github.com/SWN-group-at-TU-Berlin/LILA",
+        "https://github.com/KIOS-Research/BattLeDIM",
+        "https://github.com/KIOS-Research/LeakDB"
+      ],
+      "note": "开源结果多为算法、基准数据集或设备固件（LILA、BattLeDIM、LeakDB 等），不是完整可自托管的网络监控应用；按任务边界不把算法组件或数据集标成应用。TaKaDu 官网正文明确 24/7 分析管网与外部系统数据、自动检测漏损/水质/压力事件和资产故障，并管理事件到解决，故记录商业基本项。",
+      "service_boundary": "商业云端中央事件管理（CEM）；消费 SCADA/外部数据做检测与事件管理，不承担 SCADA 控制。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source water network monitoring leak detection github",
+          "outcome": "返回 LILA、BattLeDIM、LeakDB、ESP32 固件及研究代码；无完整监控应用"
+        },
+        {
+          "tool": "github_search_api",
+          "query": "water network monitoring leak detection",
+          "outcome": "按星数返回 8 个项目，多为原型/研究代码，部分无许可证；未发现完整自托管应用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.takadu.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "snapshot": "sources/3622114cc9468a10d27ea29f796c253aaef43747bbbf53afb5c369a2b58dc1cc.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "water-quality-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hach-wims"
+      ],
+      "query": "open source water quality management system github drinking water compliance；water quality management compliance；Hach WIMS water quality management system compliance official",
+      "source_urls": [
+        "https://aquaticinformatics.com/products/hach-wims-water-information-management-solution-platform/",
+        "https://aquaticinformatics.com/blog/water-quality/wims-rio-frequent-questions/",
+        "https://github.com/open-environment/open-waters",
+        "https://github.com/water-utility/water-utility",
+        "https://github.com/rickjeffsolutions/floc-desk"
+      ],
+      "note": "Open Waters 面向 Tribal/State 环境水体数据与 EPA WQX 提交，主题是 ambient waters，不是水厂饮用水合规，按定义边界不采纳；water-utility/water-utility 仓库无许可证，且定位为 Python patterns，不能按开源应用采纳；floc-desk 是加药优化，不是水质合规记录系统。Hach WIMS/Rio 官方页明确面向饮用水与污水公用事业，集中实验室/过程/现场数据，保留审计追踪并生成 NetDMR、MOR 等报告；FAQ 进一步说明 Sample Manager 可跟踪采样计划，但不发送采样到期通知、不跟踪许可到期，故未把这两项写成能力。",
+      "service_boundary": "商业水质信息与合规平台；WIMS 可本地部署，WIMS Rio 为云端；产品也服务污水场景，本叶只取饮用水水质数据、采样计划与合规记录；官方 FAQ 明确不发送采样到期通知、不跟踪许可到期。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source water quality management system github drinking water compliance",
+          "outcome": "返回 Open Waters、water-utility/water-utility、floc-desk 等；前两者分别偏环境水体与代码模式，未找到完整饮用水 WQMS 应用"
+        },
+        {
+          "tool": "github_search_api",
+          "query": "water quality management compliance",
+          "outcome": "返回多为 IoT 监测、数据分析或环境水体项目；未见完整饮用水合规应用"
+        },
+        {
+          "tool": "websearch",
+          "query": "Hach WIMS water quality management system compliance official",
+          "outcome": "命中 Hach 与 Aquatic Informatics 官方产品页，确认 WIMS/WIMS Rio 的数据、审计与监管报告能力"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://aquaticinformatics.com/products/hach-wims-water-information-management-solution-platform/",
+          "kind": "documentation",
+          "outcome": "success",
+          "snapshot": "sources/b49333cc84ac763a28d434b4bda704a5249cd08a0f28a9f60c66135b0ea11895.txt"
+        },
+        {
+          "url": "https://aquaticinformatics.com/blog/water-quality/wims-rio-frequent-questions/",
+          "kind": "documentation",
+          "outcome": "success",
+          "snapshot": "sources/fc04fcc723f21d6bfd8403f2859a8bfd26895577e6ecad01d33d6cf384c6b15c.txt"
+        },
+        {
+          "url": "https://www.hach.com/wims",
+          "kind": "documentation",
+          "outcome": "failed: HTTP 404",
+          "snapshot": null
+        },
+        {
+          "url": "https://www.hach.com/digital-solutions/wims",
+          "kind": "documentation",
+          "outcome": "success but superseded by the Aquatic Informatics product page",
+          "snapshot": "sources/4f3622ea4aa7e744a30266065783a6a0d2bbc1e52c8412a4738d94f1864ca3aa.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/water-utility/water-utility",
+          "kind": "repository_metadata",
+          "outcome": "success; license is null, candidate rejected as open source",
+          "snapshot": "sources/9b5284ed78b73ff2b231a8bd9c9394600a19e825d178f0ae49a28bfbc2c40e71.txt"
+        },
+        {
+          "url": "https://www.hach.com/digital-solutions/claros/solutions/data-management",
+          "kind": "documentation",
+          "outcome": "success; overlaps product page, not used",
+          "snapshot": "sources/b3d10519f4dcf34063c39fc4d6d2c19703e638ce028a4daa9e9ee5df3fccd102.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "water-utility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:muni-link",
+        "github:867131396"
+      ],
+      "query": "open source water utility billing software github self-hosted；water utility billing；Muni-Link utility billing water sewer trash official",
+      "source_urls": [
+        "https://github.com/navariltd/utility-billing",
+        "https://api.github.com/repos/navariltd/utility-billing",
+        "https://api.github.com/repos/navariltd/utility-billing/license",
+        "https://raw.githubusercontent.com/navariltd/utility-billing/develop/README.md",
+        "https://muni-link.com/features/billing",
+        "https://muni-link.com/product"
+      ],
+      "note": "navariltd/utility-billing 是 AGPL-3.0 的 ERPNext 子模块，README 支持水/电/气服务、抄表、费率/价格表、批量出账、收款及会计集成；它不是独立 CIS，欠费停复水、押金、付款计划和终账单未在仓库文档明确，故关系收窄为供水计费子模块。Muni-Link 官方页补充完整供水 CIS/计费、收款与服务工单关系。两条关系均不声称未核实的部署或现场能力。",
+      "service_boundary": "开源自托管 ERPNext 子模块 + 商业云端 CIS；只记录供水客户、抄表与计费主流程，不外推未记载的押金、欠费、停复水或现场派工细节。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source water utility billing software github self-hosted",
+          "outcome": "返回 navariltd/utility-billing、tpt-water-utility、AquaBills、openrarp 等；navariltd 具完整许可证、README 与自托管说明，被采纳"
+        },
+        {
+          "tool": "github_search_api",
+          "query": "water utility billing",
+          "outcome": "返回多为移动端/计算器/小型项目；navariltd 是少数有文档与许可证的完整子模块"
+        },
+        {
+          "tool": "websearch",
+          "query": "Muni-Link utility billing water sewer trash official",
+          "outcome": "命中官方 billing/product 页面，确认供水账户、计费、收款与服务工单"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/navariltd/utility-billing",
+          "kind": "repository_metadata",
+          "outcome": "success",
+          "snapshot": "sources/ba9c4058469f7505a5c39027fa24ab83aba0564b2c2eff252b909dbb2eb9f686.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/navariltd/utility-billing/license",
+          "kind": "license",
+          "outcome": "success",
+          "snapshot": "sources/a4dd7987198cb333d5168b2cc025d251c5d1356a0f604d7a68d95c4a070be326.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/navariltd/utility-billing/develop/README.md",
+          "kind": "readme",
+          "outcome": "success",
+          "snapshot": "sources/70cae28b7bb3d52401874e086941166f839beb6b7fc6ae9adfa82c1645c2a9c7.txt"
+        },
+        {
+          "url": "https://muni-link.com/features/billing",
+          "kind": "homepage",
+          "outcome": "success",
+          "snapshot": "sources/a93a1eda4150a9fc94ef11152f30e96cecf39daa61bf90f8de925b7819a5e198.txt"
+        },
+        {
+          "url": "https://muni-link.com/product",
+          "kind": "homepage",
+          "outcome": "success",
+          "snapshot": "sources/16fcda69f02afd0c92d007f4bb67fb911cf9e781c31b102098944670bbdeb10f.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "network-construction-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:3-gis"
+      ],
+      "query": "open source telecom network construction management field work github；telecom construction management fiber；3-GIS fiber network construction management as-built official",
+      "source_urls": [
+        "https://www.3-gis.com/telecom/fiber-construction-field-operations",
+        "https://www.3-gis.com/software/3-gis-web",
+        "https://github.com/Geodock-GmbH/Qonnectra",
+        "https://github.com/arianneorpilla/sitescape",
+        "https://github.com/CamoRageaholic1/fiber-ops-dashboard"
+      ],
+      "note": "开源检索命中 Qonnectra（光纤网络文档/竣工记录）、sitescape（现场照片与文档同步）、fiber-ops-dashboard（CC BY-NC-SA，仅进度看板）等；均缺少设计到现场工单、检查验收、竣工回写的完整建设执行链，未采纳。Sitetracker 官方 telecom 页仅返回导航和页脚，未形成正文证据，未据此记录。3-GIS 官方页明确设计生成工单/可施工工作包、施工更新、承包商协作、检查与竣工回写，故记录商业基本项。",
+      "service_boundary": "商业光纤/铜缆网络记录与施工执行平台，支持 SaaS 或本地部署；只取设计到现场工作、检查与竣工回写，不把长期网络记录本身等同于建设管理系统。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source telecom network construction management field work github",
+          "outcome": "返回 SpliceWarden、sitescape、towerforge、fiber-ops-dashboard、Qonnectra 等；无完整设计到验收的建设执行系统"
+        },
+        {
+          "tool": "github_search_api",
+          "query": "telecom construction management fiber",
+          "outcome": "未返回可采纳的完整应用"
+        },
+        {
+          "tool": "websearch",
+          "query": "3-GIS fiber network construction management as-built official",
+          "outcome": "命中 3-GIS 官方施工/现场与 Web 页面，确认设计、工单、施工更新、检查与竣工回写"
+        },
+        {
+          "tool": "websearch",
+          "query": "Sitetracker telecom construction management field work official",
+          "outcome": "命中官方 telecom 页但抓取正文仅为导航/页脚，未作为证据"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.3-gis.com/telecom/fiber-construction-field-operations",
+          "kind": "documentation",
+          "outcome": "success",
+          "snapshot": "sources/bbf84169503af5bc51492bab422059f494ed775c288ed1831d1bfd34d19838d3.txt"
+        },
+        {
+          "url": "https://www.3-gis.com/software/3-gis-web",
+          "kind": "documentation",
+          "outcome": "success",
+          "snapshot": "sources/1408bf2b7088e3d2d8100f9adad95e508851e66e2375403e278bd12a351d99c6.txt"
+        },
+        {
+          "url": "https://www.sitetracker.com/solutions/telecom/",
+          "kind": "homepage",
+          "outcome": "success but navigation-only, not used",
+          "snapshot": "sources/7a522422e7763919741eda16fffaffa8154a640393a9f139f8888b82ab534251.txt"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

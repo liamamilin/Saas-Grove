@@ -1,0 +1,32 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "restaurant-pos",
+      "application_id": "github:1131488273",
+      "issue": "叶的定义性核心没有被正文证据完整覆盖。已读 README 证明的是：员工配置产品/菜单和桌台，顾客通过桌台二维码在顾客自己的设备上浏览、下单，员工管理订单状态并收款，厨房显示与报表。它没有证明员工从配置菜单新建订单，也没有证明账单/check 作为可累积、可拆分/并账/转台的结算容器；该条 leaf_match 也已明确说明未记录 staff-initiated new-order creation 或 split/merge/transfer。按叶定义，顾客在自己设备上点单属于在线点餐/自助点餐方向，不能仅凭仓库名或 metadata 中的 “Restaurant POS” 补足 POS 核心。",
+      "fix": "二选一：(a) 撤回该 restaurant-pos 关系，按“已检索但无符合核心的案例”留档，并说明 POS2 是顾客扫码点单与员工订单管理/收款的混合形态；(b) 补充能证明员工菜单点单、开台/加菜、账单累积与拆分/并账/转台、权限控制的官方正文快照，并据此改写 leaf_match 与摘要。不要把仓库描述或功能列表当作核心证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "restaurant-pos 的摘要还列出 reservations、provider portal、SaaS paywall 等非 POS 核心模块，建议明确它们是附加模块，避免与叶核心混淆。",
+    "restaurant-pos 的 README 许可证表述为 AGPL-3.0-or-later（version 3 or later），batch 的 “AGPL-3.0” 是常用简写；如追求 SPDX 精确性可写 AGPL-3.0-or-later。",
+    "Resy 页面主要证明运营端能力；guest-facing booking path 的直接正文证据（独立 widget 或托管预订页）不如运营端能力充分，建议后续补证或在 leaf_match 中限定表述。",
+    "BlueCart 首页快照是供应商侧产品，买方采购关系仅由 /restaurant-procurement-software 页支撑；条目已注明，建议继续保持只引用买方页。",
+    "Awin 页面是创作者营销/产品介绍，未展示后台佣金 pending/confirmed/paid 的实际界面；商业条目只做基本记录，若后续需要核心细节应补官方帮助文档。",
+    "GRUBBRR 页面未单独证明 order progress board 或 kitchen display 的具体行为，batch 已不主张；保持该边界即可。"
+  ],
+  "leaf_checks": {
+    "restaurant-pos": "已读 repository metadata（id 1131488273，AGPL-3.0）、license 快照和 README 快照：菜单/产品、桌台、顾客扫码点单、订单 pending→paid 生命周期、Stripe/Revolut/现金/卡支付、厨房屏、Docker Compose；自托管 AGPL 与 satisfecho.de 托管服务有区分。缺口：正文未证明员工菜单点单建单和 check 拆分/并账/转台/权限关闭，核心更接近顾客扫码在线点单；见 findings。",
+    "restaurant-procurement-platform": "BlueCart 首页快照为供应商侧批发软件，不能单独支持买方采购；已读 /restaurant-procurement-software 文档页，正文支持供应商目录与实时价格/可供性、数字采购订单、移动收货、供应商发票逐行匹配并在付款前标记差异。商业基本真实性和类型匹配成立；未验证价格、架构或后台实现。",
+    "restaurant-reservation-platform": "Resy 的 /join/reservations/ 正文支持 reservations & experiences、availability planning（控制可预订库存）、table pacing、walk-in/取消候补 Notify、信用卡担保/定金/预付、含备注/标签/到访历史/消费的客人档案；Notify 说明客人可认领并即时预订，另有 Reserve with Google 集成线索。原 /restaurants 已撤回，页面未展开自动防超订算法，batch 也未作该断言。商业类型匹配成立。",
+    "self-service-restaurant-ordering": "GRUBBRR 自助点餐机产品页正文支持顾客在场所安装的自助机上浏览/定制、核对并确认订单、指定取餐地点，订单直接进入厨房；页面还说明与现有 POS/会员/支付系统集成、菜单导入、自动追加销售。场所提供/控制终端和现场履约的核心有正文依据；未验证具体 kitchen display/order progress board 行为。",
+    "creator-affiliate-dashboard": "Awin 创作者/影响者页正文支持加入品牌联盟、创建并分享专属联盟链接、按成交赚取佣金、查看业绩与头部合作关系、通过创作者端应用收款，并提供 Link Builder/Offers/Product Search/Storefronts；属于创作者侧而非品牌侧。商业基本真实性和类型匹配成立；未核实后台佣金 pending/confirmed/paid 状态和支付门槛。"
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 的 path 原样读取本单元引用的 10 个快照，sources 目录中未被引用的旧快照未使用。GitHub API 的 README/license 为单行 base64 JSON，已按其可见内容与公开 raw README 交叉核对；商业 HTML 快照为单行长文本，正文用快照与公开页面交叉核对。未做部署/运行时测试，未补充价格、合同、架构或后台实现研究；商业条目只判断基本真实性和类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-102/ses_groveopencodegop102review2_1793001187.jsonl",
+  "batch_sha256": "e529c9e7e4a298a74be8d368f2a4842c114430d0950fc4f669e16408814102e5",
+  "research_sha256": "f2ceb39c375e8b88fe64701a5753a85f4ebd5a64def42b91e32f263a8871be5e",
+  "input_sha256": "c35dca40b6f887d2bcb38f2b2f14ea8b21c03225ade54b5eff4548ef469be5a1"
+}

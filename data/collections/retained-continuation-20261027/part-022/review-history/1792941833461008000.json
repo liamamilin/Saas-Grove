@@ -1,0 +1,82 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "digital-audio-workstation-daw",
+      "also_affects": "music-production-application",
+      "application_id": "github:8757552",
+      "issue": "Ardour 的 license 记为“GPL-2.0”（仅 v2），但本单元所引 https://raw.githubusercontent.com/Ardour/ardour/master/COPYING 在 GPL 全文前明确写“Ardour's license (GPL v2.0 or later)”，实际应为 GPL-2.0-or-later。同一批次的 license_review.rationale 又称“包含该 SPDX 标识对应的标题、版本与全部条款，未发现额外限制”，与正文不符：正文除 GPLv2 条款外还有 Ardour 的 Plugin Clarification 段落，且自述为 v2 或更高版本。",
+      "fix": "把 Ardour 的 license 改为 GPL-2.0-or-later（或明确写“GPL-2.0 or later”），并改写 license_review.rationale：说明 COPYING 由插件声明与 GPLv2 全文组成、项目自述为 v2 或更高；digital-audio-workstation-daw 与 music-production-application 两叶共用该条目时一并更新。"
+    },
+    {
+      "slug": "beat-making-application",
+      "application_id": "github:3967129",
+      "issue": "Hydrogen 的 license 记为“GPL-2.0”，但同一批次所引官方 README 末尾明确写“Hydrogen is distributed under GPLv2+”，即 GPL-2.0-or-later；COPYING 为 GPLv2 基础文本，两种表述并存时条目未作说明，许可标识偏低，且该条目缺少 Ardour 那样的结构化 license_review 记录。",
+      "fix": "按 README 将 license 记为 GPL-2.0-or-later（或写明“GPL-2.0 or later”），并补一条 license_review：依据 README 的 GPLv2+ 表述与 COPYING 全文，注明基础文本为 GPLv2、仓库声明为 v2 或更高，避免仅按 COPYING 判定为 v2-only。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Hindenburg PRO：官方页只给出“record - transcribe - edit - montage - mix - publish”标语、语音定位与波形/转写双编辑面，未出现“单集为持久工作单元”、标题/简介/show notes/章节等发布上下文的正文；research.json 已如实记录该缺口并收窄表述，建议后续用 Hindenburg 官方工作流文档补强，不把 publish 一词当作发布上下文完整的证据。",
+    "Ardour：官方二进制构建为付费/订阅获取（源码 GPL），条目 deployment 只写“官方安装包”，建议注明源码与官方构建的获取差异，把开源/付费边界写清。",
+    "LMMS、Hydrogen 条目缺少 Ardour 那样的 license_review 块（license 与 license_evidence_url 已有），建议补齐结构一致性；LMMS README 未声明许可，其 GPL-2.0 仅由 LICENSE.txt/API 支撑，建议在 license 依据中写清来源。",
+    "loop-based 叶的 research note 称“未取得音高/调性自动适配的正文证据”，但所引 MAGIX loops 教程实际含“all the content fits together automatically”，并写明可在循环选择上方用 7 个 pitch 改调、BPM 变化会改变轨道循环；建议补记，不影响结论。",
+    "GarageBand 为闭源但免费预装的消费级产品，放入 commercial track 时建议在 track 语义或 summary 中说明“商业闭源、免费提供”，并把 homepage 从 apple.com 首页改为产品页，避免与付费商业产品混淆。",
+    "MAGIX Music Maker 有 Free/Premium/Ultimate/Unlimited 版本边界：来源页说明免费版仅含 1 个 Soundpool、且不含 CD 刻录模块，条目未注明版本前提；该叶证据来自完整版教程与产品页，不影响类型匹配。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空、phase=included_without_cases，与 batch.json/research.json 的 case_found 不一致；本次以 batch/research 与实际快照为准，建议流水线同步进度，避免状态互相矛盾。",
+    "digital-audio-workstation-daw 与 music-production-application 为同一产品族（Ardour/LMMS 双叶重复匹配），定义文本已说明联合审查与“工作站名为规范名”的建议；建议目录层最终合并或建立别名，避免同一产品跨叶重复计数。",
+    "Ardour 的 README 快照仅 150 字节、只指向官网，不能作为产品证据；本批次把 features 页作为核心证据的用法正确，建议保留该分工说明。Hindenburg 当前产品页已出现“Hindenburg PRO 2”，条目名“Hindenburg PRO”作为产品线名可接受。"
+  ],
+  "leaf_checks": {
+    "digital-audio-workstation-daw": {
+      "applications": [
+        "github:8757552",
+        "github:15778896"
+      ],
+      "core_check": "Ardour 官方 features 页按 Recording（多源录制、playlist comping、layering）、Composing（step entry、pianoroll、tempo ramp）、Editing（session 非破坏编辑、无限撤销）、Mixing（Mixer view、VCA、bus、pan）、Exporting（stem/Quick Export WAV、FLAC 归档、响度分析）分节，覆盖持久多轨工程、项目内创作素材、混音与渲染交付四项核心。LMMS README 自述 cross-platform DAW，列出 Song Editor/Pattern Editor/Piano Roll/Mixer 与 MIDI 导入导出；官方导出文档给出 Project > Export、WAV/OGG 选项，并提及 .mmpz 工程文件，四项核心齐备。",
+      "identity_license": "仓库 id 8757552、15778896 与条目一致，均为非 fork 官方组织仓库；Ardour COPYING 为完整 GPLv2 条款（含 Ardour 插件声明，自述 v2 或更高），LMMS LICENSE.txt 为 GPLv2 全文。Ardour 许可标识偏低问题见 findings。",
+      "result": "定义性核心与身份通过；Ardour 许可标识需修正"
+    },
+    "podcast-editing-application": {
+      "applications": [
+        "commercial:hindenburg-pro"
+      ],
+      "core_check": "Hindenburg PRO 官方产品页明确定位“spoken-word audio editing software built for journalists and audio storytellers”，面向 broadcasters/journalists/podcasters，页面图注给出 waveform editing 与 transcript-based workflows，工作流标语为 record-transcribe-edit-montage-mix-publish。语音优先的捕获/编辑与面向发布的方向成立；但“单集为持久工作单元”与发布上下文（标题、简介/show notes、章节）在该页无正文证据。research.json 已如实记录该缺口并收窄 relation 表述，未据此断言单集资产状态或发布流程。",
+      "identity_commercial": "commercial:hindenburg-pro 的 id、产品名与来源 URL 一致，来源为厂商官方产品页，基本真实性与“播客/口播编辑应用”类型匹配成立。",
+      "gap": "单集工作单元与发布上下文缺少官方正文，留档已记录；建议后续用官方播客工作流/文档页补强。",
+      "result": "商业基本真实性与类型匹配通过；定义性核心中“单集/发布上下文”为已留档缺口"
+    },
+    "beat-making-application": {
+      "applications": [
+        "github:3967129",
+        "commercial:magix-music-maker"
+      ],
+      "core_check": "Hydrogen 官方手册含 Sound Library（Drumkit/Pattern/Song Manager）、Pattern Editor（鼓机步进、Note Properties、Piano Roll）、Song Editor（pattern 放置/链式编排、自动化）与 Export Song（Export to a single track 立体声混音、Export to separate tracks 分轨），覆盖音源层、以小节为界的重复节奏型、模式编排与渲染音频四项核心；README 自述 advanced drum machine、可加载多套 drumkit、time-stretch。MAGIX 产品页的 Beatbox Pro 3、自定义鼓组与 drum loops 仅作商业对照，单靠该页不足以覆盖编排与渲染。",
+      "identity_license": "仓库 id 3967129、full_name hydrogen-music/hydrogen 与条目一致；COPYING 为 GPLv2 文本，但 README 明确写 GPLv2+，许可标识问题见 findings。",
+      "result": "定义性核心与身份通过；许可标识需修正"
+    },
+    "loop-based-music-production-application": {
+      "applications": [
+        "commercial:magix-music-maker"
+      ],
+      "core_check": "MAGIX《Making Music with Loops》教程：循环是数秒长的音频片段，可从 Loops/Soundpool 面板拖入 arranger，多轨组合并可拖动尾端重复填充；教程写明在 transport 设置歌曲 BPM（默认 120，降速到 90 后轨道循环随之变化），并可在循环选择上方用 7 个 pitch 改调，另有“all the content fits together automatically”的自动匹配表述。产品页提供 Soundpool 库、Loop Browser、拖拽工作流；刻录教程说明 File > Export > Burn audio CD-R(W) 会先把当前项目导出为 WAV。循环库、时间线装配、速度/调性锁定与音频交付均有正文支撑。",
+      "identity_commercial": "commercial:magix-music-maker 的 id、产品名与来源一致，三份来源均为 MAGIX 官方页，基本真实性与“基于循环的音乐制作”类型匹配成立；版本边界（Free/Premium 等）见 non_blocking_notes。",
+      "result": "通过"
+    },
+    "music-production-application": {
+      "applications": [
+        "github:8757552",
+        "github:15778896",
+        "commercial:garageband"
+      ],
+      "core_check": "Ardour features 页与 LMMS README/官方导出文档覆盖持久工程、轨道内用户创作素材、混音与音频渲染；GarageBand 官方页“Record. Mix. Master.”章节说明可录制多 take 并保存为 multi-take region、最多 255 条音频轨、reverb/EQ/音量/声像混音，以及通过分享或导出到 Music app 交付，商业案例的基本真实性与音乐制作应用类型匹配成立。",
+      "identity_license": "该叶与 digital-audio-workstation-daw 为同一产品族（定义文本已说明联合审查与规范名建议），三款 id 与来源一致；Ardour 许可标识偏低问题见 findings。",
+      "result": "定义性核心通过；Ardour 许可标识需修正"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未部署或运行任何产品，未读取其他单元，仅使用本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 17 个快照（按 path 原样读取，sources 前缀相对 data/collections 解析）。GitHub API 的 repository_metadata/license 快照为单行 JSON，读取时行内内容被截断，仓库 id、full_name、description 及许可证正文只按可见部分核对，未能读取 JSON 尾部 license.spdx_id 字段；LMMS 许可正文以 base64 存储，仅能确认其为 GPLv2 文本开头，未逐字解码全文。Hindenburg、GarageBand、MAGIX 的来源为厂商官方营销/教程页，无法验证实际功能行为；未额外联网检索或补充价格、架构、版本与运行测试，也未核对快照 sha256 与文件内容的密码学一致性。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-022/ses_groveopencodegop022review1_1792941550.jsonl",
+  "batch_sha256": "6f7acf9ddb12dd980eafb122a5b93d3fd80a49bceb86439bc127d4170b10379e",
+  "research_sha256": "6c4e7c080f72c82853b250e5103b411cf520271c4d0cc68c06314dec0f56bc50",
+  "input_sha256": "203308faf0969a6d304dbcf34384bbc19f22405cd059c364b00ce55dd27ca809"
+}

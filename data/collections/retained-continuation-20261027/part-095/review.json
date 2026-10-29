@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 not_searched，application_ids 与 research_records 为空，与 research.json 已记录的案例不一致；属于进度元数据陈旧，建议后续同步，不影响本次内容结论。",
+    "religious-event-management：Planning Center Registrations 官方页可证活动类别、容量、家庭报名、多场次、候补、支付/折扣与签到；但页面未逐项展开 registration 到 person record 的写回，按商业条目“基本真实性与类型匹配”标准接受，未据此断言完整 registry 闭环。",
+    "religious-education-management：EcclesiaCRM SundaySchool 文档可证班级 group、Teacher/Student 成员、逐次 call the register、Validate Attendance 与历史/统计导出；未证学期注册、费用、升级/滚动复制，研究记录已如实列为缺口。",
+    "pastoral-care-management：无 case；Planning Center 首页仅有 care 用例与 prayer request，EcclesiaCRM pastoral-care 文档未提供快照到 REVIEW_SOURCES，无法独立复核其笔记/可见性/仪表盘细节；以 insufficient_evidence 留档通过。",
+    "ministry-scheduling：Planning Center Services 同时包含 worship planning 与 volunteer scheduling；本叶只归因 volunteer teams、positions、assignments、blockout、reminders、serve requests，避免与 worship-planning 重复。",
+    "开源条目的许可证快照是 GitHub license API 的 base64 内容，解码后为完整 MIT 文本；README 亦标 MIT，未发现社区版/付费版功能切割的相反证据。",
+    "ChurchCRM 文档文字正文清晰；EcclesiaCRM 文档大量依赖截图，但建组、加教师/学生、点名、验证出勤等关键步骤有文字标题与步骤支撑。"
+  ],
+  "leaf_checks": {
+    "ministry-scheduling": {
+      "assessment": "passed",
+      "application_ids": [
+        "commercial:planning-center",
+        "github:30856851"
+      ],
+      "tracks": [
+        "commercial",
+        "open_source"
+      ],
+      "evidence": "ChurchCRM 官方文档：ministry/team/position 作为可排班记录；Schedules/Occurrences 与日历事件关联；staffing view 显示 Min/Max、需求与空缺；分配状态含 Pending/Accepted/Declined/Cancelled/Substituted/Completed；替换提案由协调员或团队负责人 Approve/Reject；邮件、提醒队列、Unfilled Positions 与 Ministry Dashboard 均在正文。Planning Center Services 官方页：volunteer teams、custom positions、assign people、blockout dates、auto-schedule、reminders、serve request 响应。",
+      "license_and_boundary": "ChurchCRM license API 快照解码为完整 MIT 文本，README 说明 free/open-source/self-hosted，GitHub 元数据 id 30856851 与仓库 ChurchCRM/CRM 一致；未发现社区版功能切割。Planning Center 为商业订阅产品，页面含价格层级。",
+      "gap": "ChurchCRM 文档未明确展示 blockout/availability 细节，由 Planning Center 页面补齐；未做运行时验证。"
+    },
+    "pastoral-care-management": {
+      "assessment": "no_case_gap_accepted",
+      "application_ids": [],
+      "tracks": [],
+      "evidence": "research.json 明确 assessment=insufficient_evidence；Planning Center 首页只有 care 用例与 prayer request；EcclesiaCRM pastoral-care 文档在来源列表中，但 REVIEW_SOURCES 未提供对应快照，且研究记录认定未证“care need→指定照顾者→联系/跟进→解决”的指派循环，因此未建立 case。",
+      "license_and_boundary": "本叶无应用关系，不涉及开源许可证或商业版本边界。",
+      "gap": "无案例；缺口已如实记录。cited EcclesiaCRM pastoral-care 文档未归档快照，无法独立复核其具体功能表述；这是可接受的留档缺口。"
+    },
+    "religious-education-management": {
+      "assessment": "passed",
+      "application_ids": [
+        "github:115276245"
+      ],
+      "tracks": [
+        "open_source"
+      ],
+      "evidence": "EcclesiaCRM 官方 SundaySchool 文档：创建 SundaySchool group；添加/删除 Teacher 与 Student；教师可 call the register；创建点名事件并 Validate Attendance；保留最近数月出勤列表及统计，可导出 CSV/PDF；支持徽章/二维码点名与按性别、月份等名单。仓库元数据 id 115276245 与 phili67/ecclesiacrm 一致。",
+      "license_and_boundary": "license API 快照解码为完整 MIT 文本，README 说明 open source/self-hosted，未发现社区版功能切割。",
+      "gap": "文档未证按学期注册、费用、升级/滚动复制和完整班级会议时间表；研究记录已明确这些维度未计入匹配。核心的班级、教师/学生成员与逐次出勤已有正文支撑。"
+    },
+    "religious-event-management": {
+      "assessment": "passed",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "tracks": [
+        "commercial"
+      ],
+      "evidence": "Planning Center Registrations 官方页：attendee categories、attendance caps、household signups、multiple event times、waitlists、payments/discounts、post-event attendance/check-in；首页确认其属于 church management 套件。",
+      "license_and_boundary": "商业订阅产品，页面展示按 event attendees 计价；不涉及开源许可证。",
+      "gap": "页面未逐项展开 registration 到 person record 的持久写回与 follow-up 闭环；按商业基本真实性与类型匹配标准接受，未据此断言完整 registry 绑定。"
+    },
+    "religious-small-group-management": {
+      "assessment": "passed",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "tracks": [
+        "commercial"
+      ],
+      "evidence": "Planning Center Groups 官方页：People can find and join small groups；group types 含 Sunday School；leader 可 take attendance；attendance/engagement/drop-off reporting；open signups；confidential groups 隐藏成员；按范围授权的 permissions；首页确认 ChMS 身份。",
+      "license_and_boundary": "商业订阅产品，页面展示按 group members 计价；不涉及开源许可证。",
+      "gap": "页面未明确展示 open/request/closed 加入规则与成员上限；研究记录已说明未据此断言。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行应用、未部署、未执行 shell、未写文件，仅读取本单元的 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 16 个快照。Planning Center 快照为原始 Next.js HTML，长单行导致部分正文只能依赖关键词命中与同 URL 官方页面渲染文本交叉核对；未提供 pastoral-care 文档快照，因此该叶只按留档缺口核对。未做运行时验证，也未补充价格、架构或部署测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-095/ses_groveopencodegop095review2_1792999823.jsonl",
+  "batch_sha256": "32bf090d84f450cd40d51d92ad8619d4cca3867573fb2ee93142db4ca0ec6e04",
+  "research_sha256": "3f1d38eb81817a698deb4c89ad9c47dcbe30c467ec0e4f7f3513b51b9e8c1a70",
+  "input_sha256": "10b34df5f2fda2b4d2dc28ef7270c0eb24776e8c7af6a1d34dc75b73bd478201"
+}

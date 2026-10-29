@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "farm-equipment-telematics",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:john-deere-operations-center"
+      ],
+      "query": "websearch（HTTP 401，停止重试）；GitHub REST 搜索 telematics agriculture OR farm / farm equipment telematics；官方核验 John Deere JDLink 与 Operations Center",
+      "source_urls": [
+        "https://www.deere.com/en-us/products-solutions/technology-solutions/precision-ag-technology/operations-center",
+        "https://www.deere.com/en/technology-products/precision-ag-technology/data-management/jdlink/"
+      ],
+      "note": "GitHub 公开检索未找到可核实的农机专用完整开源车队遥测平台，未把通用 telematics/适配器项目硬套。采用 John Deere 官方 JDLink 与 Operations Center：机器无线接入、位置/使用数据/诊断、历史性能与车队利用率、近实时作业监控均有正文。商业只做基本记录。",
+      "service_boundary": "商业联网农机平台加 JDLink 连接硬件；实时车队视图与机器历史为核心，跨品牌数据能力未展开。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source farm equipment telematics fleet management platform GitHub",
+          "outcome": "HTTP 401，按任务要求不重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "telematics agriculture OR farm in:name,description",
+          "outcome": "返回通用车辆遥测、保险遥测与小型项目，未见农机专用完整平台"
+        },
+        {
+          "tool": "official_page_review",
+          "query": "John Deere JDLink / Operations Center",
+          "outcome": "读取官方页面正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.deere.com/en-us/products-solutions/technology-solutions/precision-ag-technology/operations-center",
+          "kind": "homepage",
+          "sha256": "3a3c201f13740f4ff27a728a7a264cdaedded7ebc1499007261632ffa07f59f5",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://www.deere.com/en/technology-products/precision-ag-technology/data-management/jdlink/",
+          "kind": "documentation",
+          "sha256": "55c66e6ed70e0c9d98f7406de94ae55cf5c934e78f174056c600af8a80597d62",
+          "outcome": "fetched_and_snapshotted"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "farm-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:16508135"
+      ],
+      "query": "websearch（HTTP 401）；GitHub REST 搜索 farm management in:name,description；核验 farmOS 仓库、许可证、README 与官方 User Guide",
+      "source_urls": [
+        "https://api.github.com/repos/farmOS/farmOS",
+        "https://api.github.com/repos/farmOS/farmOS/license",
+        "https://raw.githubusercontent.com/farmOS/farmOS/4.x/README.md",
+        "https://farmOS.org/",
+        "https://farmOS.org/guide/",
+        "https://farmOS.org/guide/assets/",
+        "https://farmOS.org/guide/logs/"
+      ],
+      "note": "选择 farmOS：GPL-2.0 开源 Web 农场管理应用；官方文档覆盖位置/资产（Land、Plants、Animals、Equipment）、日志式活动/观察/投入/收获/实验室检测记录、计划、数量、报告与地图；仓库身份、许可证和部署资料齐全。未部署或运行。",
+      "service_boundary": "开源 Web 应用，自托管为主；Farmier 为独立商业托管服务，不并入开源核心能力。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source farm management platform GitHub",
+          "outcome": "HTTP 401，不重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "farm management in:name,description sort=stars",
+          "outcome": "返回 farmOS、Tania、Ekylibre 等候选"
+        },
+        {
+          "tool": "github_api_repo",
+          "query": "farmOS/farmOS 仓库元数据与 license API",
+          "outcome": "确认 repository id 16508135、默认分支 4.x、GPL-2.0"
+        },
+        {
+          "tool": "official_page_review",
+          "query": "farmOS.org 首页与 User Guide",
+          "outcome": "读取正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/farmOS/farmOS",
+          "kind": "repository_metadata",
+          "sha256": "bae6a7758c70366615865e997a77782fa937ef6ea20559be5984927a4ef703a3",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://api.github.com/repos/farmOS/farmOS/license",
+          "kind": "license",
+          "sha256": "7c4f6b823a4b929b2660bf9ab55b1298532df259ba914ba9543312804284494a",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/farmOS/farmOS/4.x/README.md",
+          "kind": "readme",
+          "sha256": "c2097cd86495dc9a6fca45989d8042b3f374844168c832cf0a5f62db6d9f5f25",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://farmOS.org/",
+          "kind": "documentation",
+          "sha256": "e6d54d72bf0f5d528a2654b398e749e6c872c38276d02a3f803f3aa5e87ae142",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://farmOS.org/guide/",
+          "kind": "documentation",
+          "sha256": "39c946ce47391dc6d13877509777b8d319b4f2f4043fa6cd21b7a51c2ceaae89",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://farmOS.org/guide/assets/",
+          "kind": "documentation",
+          "sha256": "13c4570b668188ed936eab05347cb99c69f5e4a7f53885362ee547daf68b615c",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://farmOS.org/guide/logs/",
+          "kind": "documentation",
+          "sha256": "5103b74d8c037502ddc4bca681befd6f28688215fe2e09ca04dab36a576c6c3d",
+          "outcome": "fetched_and_snapshotted"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "geological-modeling-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:petex-move-suite"
+      ],
+      "query": "websearch（HTTP 401）；GitHub REST 搜索 geological modeling / 3D geological modelling；官方核验 Petex MOVE Suite（Leapfrog 官方页 403）",
+      "source_urls": [
+        "https://www.petex.com/products/move-suite/"
+      ],
+      "note": "开源候选 GemPy、LoopStructural 自述为 Python 库，OpenGeo3D 为网格建模工具，均未达到完整平台证据；未把库当应用。采用 Petex MOVE Suite 官方页：MOVE Core 统一数据/2D/3D 视图构建并验证剖面与三维模型，3D Kinematic 支持恢复、正演、情景测试。",
+      "service_boundary": "商业专业地质建模桌面套件，不是浏览器 SaaS；按叶定义匹配地质建模平台，但不声称在线多租户。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source 3D geological modeling software GitHub Groundhog GemPy",
+          "outcome": "HTTP 401，不重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "geological modeling / 3D geological modelling sort=stars",
+          "outcome": "GemPy、LoopStructural 自述 library；其余为研究代码或小型工具"
+        },
+        {
+          "tool": "official_page_review",
+          "query": "Petex MOVE Suite 官方页",
+          "outcome": "读取完整正文并保存快照；Leapfrog 官方页 HTTP 403，未绕过"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.petex.com/products/move-suite/",
+          "kind": "homepage",
+          "sha256": "826ebe7e787c8c62f917ef97641a27b44dcc2448547f312796f08581852a0d63",
+          "outcome": "fetched_and_snapshotted"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "precision-agriculture-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:climate-fieldview"
+      ],
+      "query": "websearch（HTTP 401）；GitHub REST 搜索 precision agriculture；官方核验 Climate FieldView 处方、数据采集与分析页",
+      "source_urls": [
+        "https://climate.com/en-us.html",
+        "https://climate.com/en-us/solutions/build-prescriptions.html",
+        "https://climate.com/en-us/solutions/gather-information.html",
+        "https://climate.com/en-us/solutions/analyze-data.html"
+      ],
+      "note": "GitHub 结果多为 QGIS 插件、分析库、机器学习示例或机器人项目，未找到同时具备处方—执行—回传验证的完整开源平台。采用 Climate FieldView：官方页证明种子/施肥/植保处方创建与导出/无线发送、Drive 采集设备数据、保存种植与施用记录并分析产量。处方与实际的逐项偏差评分未在页面明确展示，已收窄不声称。",
+      "service_boundary": "商业数字农业 SaaS 加 FieldView Drive 硬件；核心为处方与设备数据回传/分析，未验证具体格式兼容和处方偏差评分。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source precision agriculture prescription variable rate platform GitHub",
+          "outcome": "HTTP 401，不重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "precision agriculture in:name,description sort=stars",
+          "outcome": "QGIS 插件、pyprecag、机器人/机器学习项目，未见完整平台"
+        },
+        {
+          "tool": "official_page_review",
+          "query": "Climate FieldView 首页、Build Prescriptions、Gather Information、Analyze Data",
+          "outcome": "读取正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://climate.com/en-us.html",
+          "kind": "homepage",
+          "sha256": "6441f5cd0eb4d8d5f257835d28134c21c2726b83fd718370792a9228b8655be1",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://climate.com/en-us/solutions/build-prescriptions.html",
+          "kind": "documentation",
+          "sha256": "a8624ea95c14843acb42cfa1af92f0b5b84b209d284705f8180d913413bf44af",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://climate.com/en-us/solutions/gather-information.html",
+          "kind": "documentation",
+          "sha256": "8f7932c766951c3f78b8e1c70edc6d07ac3eb8096684b0901f750b75f34f9f88",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://climate.com/en-us/solutions/analyze-data.html",
+          "kind": "documentation",
+          "sha256": "4a8bbd4e3a9b42aeb83fe440e8a475210da5ec1591904fa089b4fb6f7df3cac1",
+          "outcome": "fetched_and_snapshotted"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "soil-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:soil-test-pro"
+      ],
+      "query": "websearch（HTTP 401）；GitHub REST 搜索 soil management / soil sampling OR soil test；官方核验 Soil Test Pro 首页与实验室页",
+      "source_urls": [
+        "https://soiltestpro.com/",
+        "https://soiltestpro.com/soil-testing-labs/"
+      ],
+      "note": "GitHub 结果多为 R/Python 分析包、机器学习示例、单个传感器或灌溉项目，未见完整开源土壤采样—实验室—结果—建议应用。采用 Soil Test Pro：官方页证明田块/网格/分区采样、实验室送样与结果回传、施肥建议/处方/控制器文件、多年采样历史。",
+      "service_boundary": "商业土壤采样与养分管理 SaaS（移动 App + Web）；土壤记录与实验室结果为核心，处方/控制器文件为下游输出，不等同于灌溉或纯传感器平台。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source soil management soil test platform GitHub agriculture",
+          "outcome": "HTTP 401，不重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "soil management / soil sampling OR soil test sort=stars",
+          "outcome": "R/Python 包、机器学习示例、传感器或小型项目，未见完整应用"
+        },
+        {
+          "tool": "official_page_review",
+          "query": "Soil Test Pro 首页与 Soil Testing Labs",
+          "outcome": "读取正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://soiltestpro.com/",
+          "kind": "homepage",
+          "sha256": "032483c6fd83bbd3bf2797cbfd758d149b1665cfa3feab8d5069331a8b8a9467",
+          "outcome": "fetched_and_snapshotted"
+        },
+        {
+          "url": "https://soiltestpro.com/soil-testing-labs/",
+          "kind": "documentation",
+          "sha256": "dac0cc7663af3d74953281ffe2f68879a6df0bafd6561d36a222459ad44b1052",
+          "outcome": "fetched_and_snapshotted"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

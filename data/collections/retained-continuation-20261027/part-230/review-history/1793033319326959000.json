@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "government-transparency-portal",
+      "application_id": "github:2334160",
+      "issue": "叶匹配只证明了“政府财政数据”这一主题和可自托管平台形态，没有证明该叶的核心“政府自身作为发布者、以政府名义主动发布自身行为记录”。仓库描述为“gather and analyse the financial transactions of governments around the world”，README 说明主要用途是 openspending.org 这一面向全球政府财政的追踪站点，并称项目起源于可视化英国财政的“Where does my money go”；按定义，这更接近公民/媒体型平台或开放财政数据平台，而非政府透明门户。批次理由“其公共门户以政府财政记录为组织对象”用数据主题替代了发布者身份，不能单独支撑该核心。",
+      "fix": "补充能证明某政府以自身名义部署/运营该门户的证据（政府实例、部署方与发布者归属、发布内容为该政府自身记录），或把该条改判为边界/非本类型（公民财政透明平台或开放数据平台）并从 leaf_matches 移除，或替换为政府运营的透明门户产品；同时改写 leaf_matches.reason，不再以“政府财政记录”主题代替“政府发布者”核心。"
+    }
+  ],
+  "non_blocking_notes": [
+    "commercial:granicus-govservice 的 summary 写有“许可、执照、311”，但所引官方页正文只描述在线表单、服务请求、工作流、客户门户与单一记录系统，未出现 permit/license/311 字样；建议把 summary 收窄到页面可证范围，避免把产品能力扩大到未引用的模块。",
+    "commercial:granicus-govservice 的“all online services/one-stop shop”和多机构聚合属于厂商页概括性表述，快照未展示具体服务目录或跨机构清单；作为商业条目的类型匹配可以接受，但建议标注为厂商自述，勿当作独立验证。",
+    "commercial:tyler-enterprise-records-management 两份快照均未出现 parcel、plat 或 legal description；批次理由已明确不作强断言，处理得当，但建议在条目层也保留“宗地绑定未直接取证”的说明，或补充含宗地/法律描述的官方页。",
+    "commercial:tyler-enterprise-permitting-licensing 的页面是套件级介绍，许可条件、有效期、签发后许可记录留存等细节未展开；条目已把范围收窄到许可审批，方向正确，建议在条目中显式写明与 licensing/inspection/code enforcement 的边界。",
+    "github:2334160 的许可证快照是平台编排仓库的 LICENSE.txt（完整 AGPL-3.0 文本），README 另有项目级 AGPL 声明；各微服务仓库未逐一核对许可证，若要在条目中表述“整个平台均为 AGPL-3.0”，建议补一条项目级说明或组件核对记录。",
+    "github:2334160 的研究记录称仓库最近推送为 2020 年，且 openspending.org 首页抓取返回 308；条目未标注维护/活跃状态，建议补充最后验证时间或维护状态，避免把旧代码当成当前在线服务。",
+    "petition-public-comment-platform 无批次条目，research 记为 boundary_unresolved；Pytition README 与 EngagementHQ 演示页快照可支持“缺少机构处置闭环”的判断，但两者不在 REVIEW_SOURCES 清单中（因无 batch entry），建议在留档说明中点明这一来源范围，便于复核。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids 为空，与 research/batch 的 case_found 不一致；这是研究前快照，不应作为否定案例的证据，建议下游同步时避免覆盖。"
+  ],
+  "leaf_checks": {
+    "government-service-portal": {
+      "application_ids": [
+        "commercial:granicus-govservice"
+      ],
+      "status": "core_supported_with_marketing_claims",
+      "basis": "读取 sources/eb59...（Granicus 官方产品页）：H1 为 Service Request Management (govService)；正文说明政府可用在线表单、工作流、案件管理和客户门户，客户门户覆盖 all online services、可做 one-stop shop，居民可提交在线请求并保持知情，后台用 one system of record 跟踪请求；页面自述 web-based/low-code，面向 public sector/local government。条目名称、homepage、track 与快照一致。",
+      "gaps": "厂商营销页，未列出具体跨机构服务目录、支付或身份验证细节；all online services/one-stop shop 是厂商概括，未独立验证；未运行产品。类型匹配可接受。"
+    },
+    "government-transparency-portal": {
+      "application_ids": [
+        "github:2334160"
+      ],
+      "status": "core_not_established",
+      "basis": "读取 sources/01037...（仓库元数据）、ff99...（LICENSE API，LICENSE.txt 为完整 AGPL-3.0 文本）、0f0a...（README）：仓库 id 2334160 与条目一致；README 说明平台用于汇集/探索政府财政，含 os-api、os-admin、os-viewer、os-explorer、os-data-importers 等微服务和 docker-compose 自托管；许可证为 AGPL-3.0。",
+      "gaps": "核心“政府发布者”未成立：仓库描述与 README 表明 openspending.org 是面向全球政府财政的第三方汇集/追踪站点，没有政府以自身名义部署/发布的证据，故叶匹配需按 finding 修正。另：最近推送 2020 年、首页 308 为研究记录，未实时复核。"
+    },
+    "petition-public-comment-platform": {
+      "application_ids": [],
+      "status": "documented_no_case",
+      "basis": "research.json 记 boundary_unresolved、无 case_ids、无批次条目；其检索/抓取留档列出 Pytition 与 EngagementHQ。核对 sources/d563...（Pytition README）：有请愿创建、预览发布、署名、CSV 导出，未见机构处置/公开回应闭环；sources/eeaa...（EngagementHQ 演示页）只展示 1,000 签名获回应、10,000 签名考虑辩论等流程说明和示例，未见机构回应正文在活动记录中留存的证据。",
+      "gaps": "本叶无案例，属如实记录的边界未决；未把演示页/README 当作完整处置闭环证据。若后续纳入案例，需补机构处置公开发布的实证。"
+    },
+    "land-records-cadastre-system": {
+      "application_ids": [
+        "commercial:tyler-enterprise-records-management"
+      ],
+      "status": "core_supported_with_parcel_gap",
+      "basis": "读取 sources/8cb4... 与 20748...（Tyler 官方页）：产品定位为 county recording office 的 land and official records 软件；正文列出 record/file land records、transfer documents、trust deeds、mortgages、UCC、tax liens，含 indexing、imaging、records retrieval、cashiering；Recording Access 允许居民通过 web portal 电子提交，staff 可 review 后 accept/reject；Records Public Access 支持公众 search/download/retrieve/purchase；页面另述 SaaS/cloud、redaction、Torrens、historical index。名称/homepage/track 与快照一致。",
+      "gaps": "两份快照均未出现 parcel/plat/legal description，宗地这一脊柱未被直接证明；批次理由已明确不作强断言，处理得当，但条目层仍应保留该缺口或补证。"
+    },
+    "permit-management": {
+      "application_ids": [
+        "commercial:tyler-enterprise-permitting-licensing"
+      ],
+      "status": "core_supported",
+      "basis": "读取 sources/90d5...（Tyler 官方页）：产品面向 local governments，正文说明 permit issuance and regulatory approval 的端到端工作流、online application submissions、AI-powered electronic plan review/online submittals、concurrent reviews、24/7 online portal（含申请、检查请求、支付）、inspections/code enforcement/compliance，并以 unified system 作为 single source of truth。名称/homepage/track 与快照一致。",
+      "gaps": "页面为套件级介绍，许可条件、有效期、签发后许可记录留存等未细述；licensing/inspection/code enforcement 属相邻类型，条目已收窄到许可审批，边界说明可更显式；未运行产品。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何产品，也未访问实时网页；仅依据本单元 input.json、batch.json、research.json 与 sources 快照。REVIEW_SOURCES.json 所列 7 个快照均按原 path 读取；GitHub 仓库元数据快照为单行 JSON，读取器截断，archived/pushed_at 等字段未能直接核验，故仓库活跃状态仅采信 research 记录。许可证以 LICENSE API 快照中的完整 AGPL-3.0 文本与 README 交叉核对；未逐一核对 OpenSpending 各微服务仓库的许可证。为核对 petition 缺口，另按 research.json 的 sha256 定位并读取了未列入 REVIEW_SOURCES 的 Pytition README 与 EngagementHQ 页面快照。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-230/ses_groveopencodegop230review1_1793032831.jsonl",
+  "batch_sha256": "4c11773348163ce8c2de413ddbe957c90c9754ff487f0fa9751d15c5cb8f24d3",
+  "research_sha256": "997bd427267986505675cfabb65e135687b632084ef29af0b5a5b9e1dfd6168d",
+  "input_sha256": "beaa4ee160b2fe0f50dcd452cf2c52bc51f6ea9f09a9e9194c9f8d2ed91a7cce"
+}

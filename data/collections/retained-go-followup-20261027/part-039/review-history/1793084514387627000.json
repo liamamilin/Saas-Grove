@@ -1,0 +1,44 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "project-scaffolding-code-generator",
+      "application_id": "github:11407242",
+      "issue": "Cookiecutter 的模板、参数化生成、输出起始项目三要素在 README 中成立，仓库 id 与 BSD-3-Clause 许可证也核对无误。但它是安装在开发者机器上的命令行模板生成器：命令在当前工作目录生成项目后退出，工具不提供托管或自托管的团队工作区/服务；条目自己的 service_boundary 也写明“工具本身不托管或持续管理生成结果”。本单元采集契约明确排除“纯 CLI、生成引擎不能仅因开源/联网就当 SaaS”，因此当前把本地 CLI 作为该叶的 case_found 不成立。",
+      "fix": "优先改收有官方正文证明的托管/自托管项目脚手架服务；若没有，则从 batch.entries 和 leaf_matches 移除 github:11407242，将 research 该叶 assessment 改为 insufficient_evidence、case_ids 置空，并在 note 保留 Cookiecutter 候选与服务形态缺口。不要把纯 CLI 关系标为成立。"
+    },
+    {
+      "slug": "sql-client",
+      "application_id": "github:25126616",
+      "issue": "pgcli 的 README 能证明连接外部 PostgreSQL、交互执行 SQL、表格化行集与 SELECT/耗时反馈，类型三要素成立；id 与 BSD-3-Clause 许可证也正确。但它是本地终端 REPL，不是托管或自托管的 SQL 客户端服务；service_boundary 自述“开源终端 SQL 客户端”。即使 SQL Client 类型定义允许终端客户端，本单元的服务形态规则仍不允许把纯 CLI 仅凭开源/联网当作 SaaS 成立关系。",
+      "fix": "替换为有官方正文的在线/自托管 SQL 客户端服务并保留 case_found；或在 batch/research 中移除该关系，assessment 改为 insufficient_evidence、case_ids 置空，保留 pgcli 作为候选并记录服务形态缺口。若目录确实要收终端客户端，应在叶级 scope/notes 中明确例外，不能默认按 SaaS 成立。"
+    },
+    {
+      "slug": "web-development-ide",
+      "application_id": "github:2935735",
+      "issue": "Brackets 的 README 能证明 HTML/CSS/JavaScript 文件夹编辑、Quick Edit 与 Live Preview，类型三要素成立；MIT 许可证与仓库 id 也正确。但它是 Adobe 已停止支持的桌面代码编辑器（README 明示 2021-09-01 EOL，仓库元数据 archived=true，最后推送 2022-06-12），不是在线/自托管的 Web IDE 服务，也不是持续运营产品；当前作为 case_found 计入 SaaS 案例，服务形态与持续性都不成立。leaf 的 archived=false 仅表示采集记录未归档，不能改变上述产品事实。",
+      "fix": "改用活跃的托管/自托管 Web IDE，并以官方正文证明编辑—构建/服务—浏览器预览循环；若保留 Brackets，只能作为历史候选，不应建立成立关系。相应从 batch.entries/leaf_matches 移除 github:2935735，research 该叶 assessment 改为 insufficient_evidence 或 boundary_unresolved、case_ids 置空，并在 note 中保留 EOL/archived 事实与服务形态缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Brackets 的 EOL/仓库归档已在 batch 摘要、deployment 和 research service_boundary 中如实披露；若下游保留历史案例，建议增加产品状态字段或在导入时过滤，避免把 leaf archived=false 误读为活跃产品。",
+    "SonarQube：README 明确 Community Build、静态分析、Quality Gate 和 Java 21/Gradle 自托管启动，足以支持基本类型匹配；但未逐字证明持久 issue/metric 历史、组织/仓库绑定，且 Community Build 不含分支/PR 分析。建议补一份官方 docs 快照覆盖完整五段核心，或把 leaf match 的“每次变更”限定为 CI 门禁分析。",
+    "pgcli 的 LICENSE.txt 快照从“All rights reserved.”开始，缺版权持有人行；GitHub API 与正文条款仍确认 BSD-3-Clause。建议补抓仓库版权声明或在 note 说明该缺失，避免被下游当作完整法律文本。",
+    "BrowserStack：条目名“BrowserStack Automate”与 ID commercial:browserstack、平台级 homepage 不完全同层，摘要又把 Live 纳入；建议明确 ID 为平台身份、Automate 为主产品，或改用产品级 ID/名称，避免与 Live 条目混淆。",
+    "BrowserStack research 的 fetch_outcomes 同时列 https://www.browserstack.com 与 https://www.browserstack.com/ 且 sha 相同，属重复记录；可去重，不影响证据。",
+    "homepage 规范：Cookiecutter 指向 PyPI 而非项目/文档主页；pgcli、Brackets 使用 http；SonarQube 指向公司首页而非产品页。均为可读性/规范问题，不改变身份与核心匹配。"
+  ],
+  "leaf_checks": {
+    "project-scaffolding-code-generator": "依据：README 6645f3e153b13a68c43131aad90dcdb538bc1b3ed1060d67c54fe1d42316bd2f（从 cookiecutters/项目模板创建项目、cookiecutter.json 提示、pre-/post-generate hooks、当前工作目录输出）、仓库元数据 b742ef097253a493cd75079eab8b48bfb77bb5d4b93216068fa51d14084ef937（id=11407242，archived=false）、License API b05b6f3f903048a4f972b234340b5cf65694096750ea73961838506685ef2c0a（BSD-3-Clause，完整条款与版权行）。类型三要素成立。阻断：产物是本地 CLI/模板生成器，生成后离开工具；service_boundary 自述不托管；按本单元服务形态规则不能记为 SaaS 成立关系，见 finding。",
+    "sql-client": "依据：README 5b2b3f4afe851103ed6593b62fd28645035aa5cec5cf233ef60a0e3c0778fbfb（“A REPL for Postgres”、数据库名/DSN 连接、交互执行 SQL、表格行集与 SELECT/耗时）、元数据 4021d242feea425df5e9c5bb78e0d5a8709502640d14f046db2fd1b0b57874db（id=25126616，archived=false，BSD-3-Clause）、License API c182aa38cc1cea663adbea635e8384e676843802be8c17ae7880db4b036873f9（BSD-3-Clause 正文）。类型三要素成立。阻断：本地终端 REPL，不是托管/自托管服务，见 finding。另：LICENSE 正文缺版权人行，非阻断。",
+    "web-development-ide": "依据：README 9ce1c6cb5ec11eedae030d63b7e1f8eec7d245036ec1b1fae3b15f3db83b23dd（面向 HTML/CSS/JavaScript 的代码编辑器、File > Open Folder、Quick Edit、Live Preview 推送编辑并在源码/浏览器间跳转）、元数据 24196263dc25fc27f060542066ae7d7a6f7ae975900ca987f518091187cd51ad（id=2935735，archived=true，pushed_at=2022-06-12）、License API ff57c709e91901abfa4a3f246e638ba1ad031c1e15b25062ea4aee00665f2efd（MIT 完整正文）。类型三要素成立。阻断：桌面客户端且 Adobe 2021-09-01 EOL、仓库已归档，服务形态/持续性不成立，见 finding；leaf archived=false 仅为记录级标记。",
+    "browser-compatibility-testing-platform": "依据：首页 8c40279532f07553ed25cb5cc09cc807c15de13f0a125a2463965d493f954c98（3,500+ 浏览器、真实 iOS/Android 设备、Live 手动跨浏览器入口、Automate 导航）、Automated Website Testing 文档 8b254f6f56079055494b1292193f69bbbdadaf1d6e73ce26fb6037227d2ead34（Cloud Selenium Grid、3000+ 桌面浏览器/真实移动设备、并行测试、CI/框架集成、开发环境/防火墙后测试、会话清理）。商业条目只要求基本真实性和核心类型匹配，成立；未研究价格/架构/部署。快照为压缩 HTML，正文长行由同 URL 官方页面确认（见 limits）。",
+    "code-quality-platform": "依据：README 018a24c87f6694520e4035d346fe0204770c39db305c570da279132ec64d7fb5（Community Build 源码、缺陷/漏洞/可维护性静态分析、Quality Gate on new code、Java 21/Gradle 自托管启动、分支/PR 分析/装饰、SCA、IaC 属商业版）、元数据 976ac67767246c960bf9c50815438b26f32ec6e2d3a730cec508b76371bed5ed（id=1222504，archived=false，LGPL-3.0）、License API a39e18ddc0394830eb8924ba8ac1b672c295e5681d61de587ba0a3f3735e2533（LGPL-3.0 完整正文）。自托管服务形态与社区版边界成立。非阻断缺口：README 未逐字证明持久 issue/metric 历史与仓库绑定接入；Community Build 不含分支/PR 分析，“每次变更”只能按 CI 门禁理解。"
+  },
+  "limits": "只读审查；未运行 shell/Python、未写文件、未运行或部署任何第三方项目；未读取其他单元、共享 application-index/applications 或认证资料。按 REVIEW_SOURCES.json 的 path 原样读取 14 个快照（sources 前缀相对 data/collections），并核对 batch/research；未独立重算 sha256，按文件名/清单对照。BrowserStack 两个快照是压缩 HTML，正文位于超长行，只读工具无法逐字展开；用同一官方 URL 的只读页面确认了 Selenium Grid、3000+ 浏览器/设备、并行、CI 集成、防火墙测试等关键句，未把该页面写成新快照。未做价格、架构、部署或运行测试；未复核共享索引中的同名/同 ID 记录，因此 commercial:browserstack 的跨单元唯一性只能按本单元资料判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-039/ses_groveopencodegop039review1_1793083638.jsonl",
+  "batch_sha256": "1e5b81c171b0f1fcedcbeabdd1b5ab29c6acbb4cb6370507aa1c4e4ccb42320a",
+  "research_sha256": "9301b45a54f6bf145ebd0d1e59e66da4144aac6b7f4092be546b6bd16552f122",
+  "input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+}

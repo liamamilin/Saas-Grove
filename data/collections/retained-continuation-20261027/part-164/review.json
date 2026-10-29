@@ -1,0 +1,72 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态（五个叶子均 case_status=not_searched、application_ids/research_records 为空，phase=included_without_cases），与 batch.json/research.json 中的 case_found 和实际 application_ids 不一致；若下游依赖 progress 建立索引，应同步更新。",
+    "Room Choice 功能页未逐字展开学年租期、预租赁比例和集中 turn 的具体规则；其学生住房定位、bed/room/unit availability、续租与 resident ledger 已足以支持商业类型匹配，但严格证明定义核心时可补充学年条款或预租赁材料。",
+    "OpenConstructionERP 采用 AGPL-3.0 与商业许可双轨；batch 标注 AGPL-3.0 对开源仓库成立，商业许可仅解除 AGPL 义务，不是另一套功能受限的社区版。",
+    "changeordersGuide 的审批链未明确对方/付款方参与角色；合同关联以及预算和合同金额回写已足以支持模块级匹配，但 counterparty 批准的证据细度可补充。",
+    "research.json 中 shawndibble/self-storage 的代码模型细节与 SiteLink 的 saved_but_not_used 记录未列入 REVIEW_SOURCES，属于检索/缺口留档，未作为 batch 案例；本次未据其下结论。",
+    "RentTools.io 的 README 明确未做 channel partner API、dynamic pricing 和 public marketplace；research note 将 payments/owner settlement 也列为未覆盖，属合理缺口记录，但 README 未逐条否定。",
+    "Room Choice 与 AppFolio 页面为 JS/大段 HTML，read 预览会截断；核心正文通过快照内精确短语检索确认，并用同 URL 公开页面辅助理解，未将实时页面作为唯一依据。",
+    "OpenConstructionERP 与 RentTools.io 的 license API 快照为 base64 内容，已核对 SPDX/文件头与全文长度，未逐字解码全篇。"
+  ],
+  "leaf_checks": {
+    "self-storage-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:self-storage-manager"
+      ],
+      "track": "commercial",
+      "basis": "读取 Self Storage Manager 官方 Management Software 页快照（f5816f47...）：明确 cloud-based、multi-facility self storage operators；实时 unit inventory、Online Reservations/Rentals、Customer Portal、recurring charges、automatic rent increases、Move-in/Move-out/Transfer/Payment、Rental agreement、late/lien fees、gate lockout、Management/Operations/Accounting Reports。",
+      "core_check": "覆盖可租赁单元库存、租赁协议、实时占用状态、循环租金资金循环四个定义核心；商业基本真实性与自助仓储类型匹配成立。",
+      "gaps": "未做运行时、价格或架构核验；batch 已注明 runtime_tested=false，不影响本次内容初审。"
+    },
+    "short-term-rental-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:1201444346"
+      ],
+      "track": "open_source",
+      "basis": "读取 RentTools.io GitHub metadata（id 1201444346、archived=false、fork=false、default_branch=master）与 README：free/open-source property manager for short-term rental hosts；多房源、Airbnb/Booking.com/Vrbo iCal 汇入并回发合并日历、manual reservations 与 double-booking detection、退房至入住清洁周转、住客护照/预到表单、occupancy/ADR/revenue 报告与 CSV、每房源公开 iCal feed。",
+      "core_check": "覆盖房源组合、夜间预订日历与入住运营循环，不是单纯 iCal 渠道工具或清洁任务应用；短租运营后台类型匹配成立。",
+      "gaps": "未做 channel partner API、dynamic pricing、payments/owner trust accounting，属常见增强而非定义核心；未做运行时测试。"
+    },
+    "student-housing-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:room-choice"
+      ],
+      "track": "commercial",
+      "basis": "读取 Room Choice 官方 Features 页快照（1bcba76a...）：标题 Student Housing Software Features；Revenue & Billing 含 late fee、installment plans、daily automated billing、real-time ledger；Leasing & Renewals 含 e-signature、application pipeline、bed/room/unit availability、renewals keeping same bed；Portfolio 含 multi-property dashboard、occupancy/revenue、portfolio-level reporting；Resident Experience 含 self-service portal、payments、documents。",
+      "core_check": "按 bed/room/unit 的库存、申请到入住与续租、per-resident ledger、自助门户和多物业报表，符合学生住房运营核心；商业基本真实性与类型匹配成立。",
+      "gaps": "功能页未逐字展开学年租期、预租赁比例和集中 annual turn；床位级独立租约由 bed availability、keeping same bed 与 resident ledger 支持但非逐字说明，属证据细度而非阻断。"
+    },
+    "tenant-resident-portal": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:appfolio-foliospace"
+      ],
+      "track": "commercial",
+      "basis": "读取 AppFolio FolioSpace 官方页快照（80828de5...）及页内 FAQ：resident experience app from AppFolio，application to renewal；move-in tasks、secure rent payments、communicate with property team；FAQ 明确 eCheck/card/Apple Pay/Flexible Rent + AutoPay、submit maintenance requests、central inbox、natively built into AppFolio platform（formerly Property Manager），既有 Resident Portal 用户无需新建账户。",
+      "core_check": "住户账户锚定运营商平台记录，并以居住关系提供支付、维修请求、消息、入住和续租自助操作；符合租户/住户门户核心，不是营销登录页或短租客人界面。",
+      "gaps": "未做运行时或账号验证；页面为 Nuxt/大段 HTML，read 预览截断，核心正文以快照内精确短语与 FAQ 核对。"
+    },
+    "change-order-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:1199643986"
+      ],
+      "track": "open_source",
+      "basis": "读取 OpenConstructionERP GitHub metadata（id 1199643986、archived=false、default_branch=main）、README 与 changeordersGuide：变更订单记录 agreed scope 变化、reason、line items、cost impact 与 schedule days；可关联 live contract；Draft→Submitted→Approved→Executed，支持拒绝与 named approval chain；批准后作为 revised commitment 进入 project budget，contract value 同步修订；支持 Export CSV。",
+      "core_check": "合同关联变更记录、明细成本/工期影响、审批门、执行到合同金额与项目预算四项均有模块指南证据；关系限定于 change orders 模块，未把整个建筑 ERP 当作本类型。",
+      "gaps": "指南未明确审批链中的对方/付款方签署角色，也未逐条展示 downstream commitments/billing；属证据细度，不阻断模块级匹配；未做运行时测试。"
+    }
+  },
+  "limits": "本次仅只读检查本单元 input.json、batch.json、research.json 以及 REVIEW_SOURCES.json 列出的 10 个快照；未运行应用、未登录、未做部署/价格/架构测试，未读取其他单元。Room Choice 与 AppFolio 快照为大段 JS/HTML，read 预览截断，核心正文以快照内精确短语检索并与同 URL 公开页面辅助核对；OpenConstructionERP 与 RentTools.io 的 license API 快照为 base64，已核对 SPDX/文件头与全文长度而非逐字解码全篇。research.json 中 shawndibble/SiteLink 等缺口快照未列入 REVIEW_SOURCES，未作为 batch 结论依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-164/ses_groveopencodegop164review1_1793016983.jsonl",
+  "batch_sha256": "f5801223f7492d3d4987baa387a0414c9913abc9a51de9c9f986406aa670d0f9",
+  "research_sha256": "6f8fab12a4f9f7906f2930c2fdac0f12eaea19b369fea5f71ced89a55a7fdd93",
+  "input_sha256": "e2b13f708990a755317663dc672a888730b532c6624d61d60a13a1dc0d21339e"
+}

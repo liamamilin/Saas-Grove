@@ -1,0 +1,27 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "international-commerce-management：Shopify Markets 是 Shopify 平台内的市场管理能力，并不是独立售卖的独立产品；把它作为该类型的商业实例可以接受，但后续装配时宜在名称或边界说明中注明其平台内能力属性，避免被误读为独立 SaaS SKU。",
+    "international-commerce-management：两个快照的可见正文能支持市场对象、按市场配置货币/语言/目录/税费/配送以及集中管理；跨境关税/进口费代收与每市场绩效报表未被直接证实，research 已将其列为边界注记，建议不要在后续摘要中写成已证实。",
+    "advertising-campaign-management：Amazon Ads 的第二个来源在 batch 中标记为 documentation，但实际是 Sponsored Products 的 solutions/product 页面，而不是帮助中心操作文档；活动、预算、出价、定向与 ROAS 等表述来自产品营销正文，类型匹配成立，但“帮助文档”措辞不够准确。",
+    "data-management-platform-dmp：Lotame Spherical 当前自述为 data collaboration platform，并包含 first-party data onboarding、identity resolution、clean room/CDP 邻接能力；其 DMP 归属主要依据 audience segments 向 DSP/ad server 激活交付，建议在条目摘要中保留这一边界，避免与 CDP 混淆。",
+    "retail-loss-prevention-platform：Auror 摘要中的“跨店与跨零售商关联嫌疑人和车辆”比正文更强；正文明确的是 incident reporting、case management and resolution、跨店/跨零售商协作与 patterns，车辆能力只出现在结构化 featureList 的 Vehicle Recognition 标签中。",
+    "retail-shrink-management：Sensormatic 相关快照只出现在 research.json 的 source_urls/fetch_outcomes 中，未列入 REVIEW_SOURCES，也未有 batch 条目；不影响“无案例、边界未解决”的留档结论，但归档完整性可以改进，后续若复用该候选应补齐可复核快照。",
+    "input.json 的 progress 仍为 not_searched、application_ids 与 research_records 为空，与 research.json 中四个 case_found 不一致，疑为修复前状态；装配时应以 batch.json/research.json 为准，避免用 input.json 覆盖已完成的采集结果。",
+    "本单元四个商业条目的 ID 粒度不完全一致（shopify-markets 为产品/能力级，amazon-ads 与 lotame 为产品族/厂商级），引用本身一致且未断链；若数据集要求统一产品级 ID，建议后续规范化。"
+  ],
+  "leaf_checks": {
+    "international-commerce-management": "已按 REVIEW_SOURCES 原样读取 Shopify Markets 首页与帮助中心快照。帮助页正文说明可创建市场、选择市场类型，并通过 customizations 按市场覆盖 currency、product availability、theme content、domains、languages、taxes 与 shipping options，backup region 处理未匹配任何 active market 的客户；首页正文可见 pricing、payment、customs、performance 等表述。以 market 为配置对象、按市场承载销售主张与税费/配送义务、集中管理，类型核心成立。跨境关税/进口费代收与每市场绩效报表未在可见正文中直接证实，research 已如实标注为边界注记；旧 403 记录不影响现存完整快照。",
+    "retail-loss-prevention-platform": "已按 REVIEW_SOURCES 原样读取 Auror 首页与 Auror Core 快照。首页正文明确 incident reporting、case management and resolution、stores/retailers/law enforcement 的安全协作，以及把 incidents 变成 patterns 的跨店/跨主体聚合；结构化数据列出 Intel、Investigate、Insights、Subject/Vehicle Recognition 等能力。损失事件记录、受管调查处置与 estate 级聚合的类型核心成立。具体事件字段、证据保全、告警处置与权限细节未在可见正文中逐项核实；未做运行时验证。",
+    "retail-shrink-management": "research.json 将该叶记为 boundary_unresolved，case_ids 为空，batch.json 无对应条目。检索与抓取留档较完整：包含 Sensormatic Shrink Analyzer、Shrink Visibility 的抓取记录，一次猜测路径 HTTP 404，以及按页面导航补抓 Category Level Shrink 的记录；说明候选页面展示损失事件分析、品类影响与热点映射，但未证明账面应有与实际盘存的估值缺口、按销售比/estate→location→category→item 的持续追踪及完整成因归因，故未建立案例关系。按“无案例但如实记录缺口”的留档可以通过。限制：Sensormatic 快照未列入 REVIEW_SOURCES，无法在本单元独立复核其正文。",
+    "advertising-campaign-management": "已按 REVIEW_SOURCES 原样读取 Amazon Ads 首页与 Sponsored Products 快照。Sponsored Products 正文可见 campaign、start date、budget、bid、keyword/targeting、ROAS 等表述，页面说明广告出现在 Amazon 搜索结果与商品页；广告主端活动对象、真实投放连接、预算/出价约束与按活动反馈的类型核心成立。预算按日强制执行的节奏与报表字段细节主要来自产品营销正文，未见操作型帮助文档；未开户投放验证。",
+    "data-management-platform-dmp": "已按 REVIEW_SOURCES 原样读取 Lotame 首页与 Spherical 平台快照。Spherical 正文包含 first-party data onboarding/management、audience creation and modeling、segment customers、audience enrichment、identity resolution and activation；并明确连接 SSPs、DSPs、ad servers、social platforms、CDPs、data warehouses、clean rooms，且可控制 audience segments 跨浏览器/设备向 leading DSPs syndication。多源受众数据→受管细分→向广告系统交付的 DMP 核心成立。页面自述为 data collaboration platform，含 CDP/clean room 邻接能力，需按 DMP 边界理解；未接入数据源验证。"
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元；仅使用 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES 列出的 8 个快照（Shopify 2、Auror 2、Amazon Ads 2、Lotame 2）。快照为原始 HTML，部分正文位于超长单行且工具预览有截断，相关段落通过定向字符串命中与局部读取核对，未逐字通读全部脚本/样式。retail-shrink-management 的 Sensormatic 快照未列入 REVIEW_SOURCES，无法独立复核正文，仅能依据 research.json 的检索/抓取留档判断其无案例结论。未做 live fetch、部署、开户或运行时测试；本单元无开源条目，未涉及完整许可证与社区版边界核查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-038/ses_groveopencodegop038review2_1792944224.jsonl",
+  "batch_sha256": "a4d0083ddbb30ef4d84a7f4424586067556028ca5ea449f369cb4ddfb7abc813",
+  "research_sha256": "fb2989283095fd89028cef801476cb1b206e587fb91dbd518ac2a09e8d54ab67",
+  "input_sha256": "899e773ea88c99aca6818e3d2731a83532e1ed63c89d4b75cbaef47c205ce6dc"
+}

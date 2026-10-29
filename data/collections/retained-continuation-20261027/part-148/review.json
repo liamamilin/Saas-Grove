@@ -1,0 +1,80 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 的 case_found 不一致；若该字段参与下游状态机，建议同步，本次不据此阻断。",
+    "SonarQube 的 homepage 填的是厂商站 https://sonarsource.com，而 README 的产品页为 https://www.sonarsource.com/products/sonarqube；属元数据精度问题，不影响类型判断。",
+    "SonarQube README 把 deep taint analysis、SCA、分支/PR 装饰、secrets、IaC、架构管理、组合报表与 Remediation Agent 列为商业版或附加能力；条目已按 Community Build 收窄，后续不要把这些算入社区版。",
+    "SonarQube 的“分析结果可在 CI/IDE 中使用”中，IDE 能力属于 SonarQube for IDE 独立产品；社区版主体是自托管服务端，建议在表述上区分。",
+    "Dependency-Track 官网快照是压缩单行 HTML，read 工具按行截断；本次用定向文本匹配确认 CycloneDX、every project、version、portfolio、firmware、continuous 等词，未逐句读取全文。若需逐句引用，建议后续补抓可读文档页或 Markdown。",
+    "Dependency-Track 的“自动分诊”措辞比快照可证程度略强；建议改为“策略门禁与分诊”或补充对应文档。",
+    "Prowler 快照证明云账户连接、24 小时自动扫描、资源清单以及发现/合规视图，但未展示 triage/assign/accept 的完整发现生命周期；条目已主动收窄，后续不要主张完整分诊闭环。",
+    "Prowler 的 provider 表还包含 GitHub、M365、Okta、LLM、IaC、Image 等非云或非配置类目标；CSPM 关系应限定在云账户与云资源配置检查，不要把全部 provider 能力都算作 CSPM 核心。",
+    "Chainloop 快照未证明恶意包行为检测、包信誉或运行时防护；条目已排除该部分，供应链安全关系只按签名证明、来源可信与 CI/CD 策略阻断成立。",
+    "Snyk 文档快照末尾含 GitBook 的 Agent Instructions 段落，仅作为来源内容，未执行；商业条目只做官方文档的基本类型匹配，未核价、架构或部署。"
+  ],
+  "leaf_checks": {
+    "sast": {
+      "application_ids": [
+        "github:1222504"
+      ],
+      "result": "pass",
+      "definition_core": "README 正文说明 SonarQube 对代码做静态分析（符号执行、数据与控制流分析），定位 bugs、vulnerabilities、security hotspots 并给出修复指引，且每条发现可追溯；仓库明确承载 Community Build 并共享同一分析。这满足一手代码、不执行代码、安全规则驱动、代码内发现三项定义属性。",
+      "service_form": "自托管 SonarQube Community Build 服务端；README 提供构建与本地启动步骤，不是一次性 CLI。",
+      "identity_and_license": "GitHub 元数据 id=1222504 与条目一致；license API 快照含完整 LGPL-3.0 文本（LICENSE.txt，约 7.6KB），README 亦标注 LGPL v3。",
+      "boundary": "README 明确 deep taint analysis、SCA、分支/PR 装饰、secrets、IaC、架构管理、组合报表、Remediation Agent 等为商业版或附加能力；条目未把这些算入社区版。",
+      "gaps": "docs.sonarsource.com 的 analyzing-source-code 页面返回 Server 首页框架，.md 返回 Page Not Found；research.json 已如实留档，未作为正文证据；未运行实例。"
+    },
+    "sbom-management": {
+      "application_ids": [
+        "github:11457947"
+      ],
+      "result": "pass",
+      "definition_core": "README 自述为基于 SBOM 的组件分析平台；官网标题与描述为 SBOM analysis、组件清单、漏洞与策略，快照正文出现 CycloneDX、every project、version、portfolio、firmware、operating system、container 等词，支持 SBOM 记录、项目/版本绑定以及持续再分析三项结构。",
+      "service_form": "自托管 API/Web 管理平台；README 指向 Docker Compose Quickstart 与 Helm charts，属于持续运行的管理系统。",
+      "identity_and_license": "GitHub 元数据 id=11457947 与条目一致；license 快照为完整 Apache-2.0 文本（LICENSE.txt，约 11.3KB）。",
+      "boundary": "条目把漏洞、许可证、策略定位为清单之上的分析层；未主张商业插件或厂商托管服务。与 SCA 的双重归属以不同主导对象区分。",
+      "gaps": "官网快照为压缩单行 HTML，read 工具按行截断，未逐句读取全部正文；docs.github.io 跳转页未引用；未运行实例。"
+    },
+    "software-composition-analysis-sca": {
+      "application_ids": [
+        "github:11457947",
+        "commercial:snyk"
+      ],
+      "result": "pass",
+      "definition_core": "Dependency-Track 以项目/版本下的组件清单为基础，持续匹配多个漏洞源与许可证情报，并把风险绑定到具体组件版本；Snyk 官方 Markdown 明确自称 SCA，扫描应用使用的开源库，覆盖间接依赖，检查许可证并提供修复建议。两者均具备已解析依赖清单、外部组件知识匹配、每组件发现三项核心。",
+      "service_form": "Dependency-Track 为自托管平台；Snyk 为商业开发者安全平台/SaaS。",
+      "identity_and_license": "Dependency-Track 仓库 id 与完整 Apache-2.0 文本已核；Snyk 为商业条目，按官方文档做基本类型匹配，不要求开源许可证。",
+      "boundary": "未把纯 CLI 扫描器单列为 SCA 应用；Dependency-Track 以平台形态覆盖清单、匹配和发现；Snyk 仅按商业条目的基本真实性记录。",
+      "gaps": "Snyk 旧 HTML 路由为客户端渲染壳，改用同页 Markdown 正文；未核价、架构、部署；未运行实例。"
+    },
+    "software-supply-chain-security": {
+      "application_ids": [
+        "github:610316941"
+      ],
+      "result": "pass",
+      "definition_core": "README 正文说明以签名 in-toto 证明记录 SBOM、扫描、测试报告与 SLSA 来源，关联 commit 与 release；Rego/WASM 策略在 CI/CD 边界执行 gate，违规使流水线失败并写入记录；策略文档列出 SBOM sanity、artifact signature verification、license/component bans、SAST、CVE scans 等。可支持供应链记录、完整性/来源可信评估、边界强制执行三项核心。",
+      "service_form": "自托管控制平面与 Artifact CAS（OCI registry、S3 或 Azure Blob），支持 Helm 与 Docker Compose，属于持续运行的服务平台。",
+      "identity_and_license": "GitHub 元数据 id=610316941 与条目一致；license 快照为完整 Apache-2.0 文本（LICENSE.md，约 11.3KB）；README 明确 OSS 与 Chainloop Platform 的边界。",
+      "boundary": "只主张完整性、来源可信、SBOM/扫描策略与 CI/CD 强制执行；快照未证明恶意包行为检测、包信誉评分或运行时防护，条目已明确排除。",
+      "gaps": "产品自述为 Agentic SDLC infrastructure，供应链安全关系是其中证明、完整性与策略执行的一支；未运行实例。"
+    },
+    "cloud-security-posture-management-cspm": {
+      "application_ids": [
+        "github:66474729"
+      ],
+      "result": "pass",
+      "definition_core": "README 列出 AWS、Azure、GCP、Kubernetes 等 provider 的数百项检查及 CIS、NIST、PCI-DSS 等框架；Local Server 是自托管 Web 应用。教程正文展示添加云 provider 凭证、测试连接、启动扫描、每 24 小时自动扫描，以及 Overview、Compliance、Findings、Resources 视图；Resources 汇总所有扫描发现的资源，Findings 支持历史筛选与 Delta new/changed。可支持连接云环境、资源清单、策略检查、发现查看四项结构。",
+      "service_form": "Prowler Local Server 自托管 Web/API 服务，Docker Compose 部署；CLI 为独立入口，不作为本条主体。",
+      "identity_and_license": "GitHub 元数据 id=66474729 与条目一致；license 快照为完整 Apache-2.0 文本（LICENSE，约 11.3KB）；README 明确 OSS（CLI + Local Server）与 Prowler Cloud/Private Cloud 的边界。",
+      "boundary": "条目限定在云账户与云资源配置检查、资源清单、发现与合规仪表板；未主张自动修复写回、完整分诊/接受生命周期、运行时检测或 Attack Paths。",
+      "gaps": "快照未展示 triage/assign/accept 的完整发现生命周期；prowler-local-server 教程页 404 已留档；未运行实例。"
+    }
+  },
+  "limits": "仅做只读初审，未运行任何应用、未做部署/价格/架构测试，未使用 shell；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES.json 列出的 17 个快照。Dependency-Track 官网快照为压缩单行 HTML，read 工具按行截断，部分正文只能以定向文本匹配确认；SonarQube 文档页抓取缺口、Dependency-Track docs.github.io 跳转页、Prowler prowler-local-server 404 均依赖 research.json 的留档。商业 Snyk 仅有一份官方文档，未做更多商业核验。input.json 的 progress 字段与 batch/research 的案例状态不一致，本次按 batch/research 的实际案例为准。来源页面中夹带的 Agent Instructions 等文字仅作为内容，未执行。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-148/ses_groveopencodegop148review2_1793013257.jsonl",
+  "batch_sha256": "b6bd746814883b7ecebdcae2e842c76338155a32dc48c65562fd4e5bf57a6357",
+  "research_sha256": "089703294c3b53c559642f4763606f15efdeca3fc35f05173f727afcb94fe52c",
+  "input_sha256": "f2c5ad099474bbe490bb5fd9ad3e52df5a17456619f98abadf37a9111464453c"
+}

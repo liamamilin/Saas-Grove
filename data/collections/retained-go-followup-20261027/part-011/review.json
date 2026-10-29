@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Somleng（github:61023964）的 features 写有“电话号码的创建、更新、查询与删除”，但已引用的 docs.html 正文只核到创建、配置、查询与 CSV 导入，未见删除或释放流程；建议删去“删除”，或补充 Account API 中对应删除接口的正文引用。",
+    "Somleng 的 CPaaS 核心中“usage/cost 汇总”未在官方正文核到，现有证据只覆盖按消息/通话的逐笔记录及号码月价；batch.json 未写入计费汇总，处理正确，后续不要据此扩展计费能力。",
+    "cert-manager 的 features 中“ACME DNS-01/HTTP-01 等签发方式（文档导航可见）”只有导航层面的依据，建议补充 Issuer/ACME 文档正文引用，或弱化为未逐项核验。",
+    "AKHQ 的 features 写有“查看/管理 Schema Registry 与 Kafka Connect 状态”，现有正文主要证明 schema/connect 相关操作与资源权限，未直接证明“状态”视图；建议收窄措辞或补充 UI 文档依据。",
+    "cert-manager 与 AKHQ 的 license_review 均称“仓库页面标注的许可证一致”，但已抓取的仓库元数据快照未包含许可证标签文本；许可证结论本身有完整 LICENSE 正文支撑，建议理由只引用 LICENSE/README，避免依赖未留存页面元素。",
+    "AKHQ 的 akhq.io 首页与 /docs/ 快照是 VuePress JS 壳，只有 meta description；batch.json 的 core 匹配已排除它们，处理正确，后续不要再作为核心工作流证据。",
+    "desktop-application-delivery 的定义正文写有“研究样本中的每个产品都支持应用程序发布”等样本性表述，但本单元没有实际样本产品；建议改为通用定义措辞，避免与无案例状态冲突。",
+    "message-queue-management 的定义把死信浏览/重投、连接终止列入操作干预示例；AKHQ 的 batch 条目未声称这些能力，核心匹配成立，但不要在后续摘要中补写成已证实。",
+    "REVIEW_SOURCES.json 只列出 batch 中 4 个应用的 19 个快照，未列 desktop-application-delivery 的 OpenUDS 候选快照；本次已按 research.json 的路径直接读取这些文件，建议后续在无案例叶的留档中一并登记，便于复核。",
+    "certificate-lifecycle-management 的 repository_metadata 未显示许可证标签，GitHub API license 端点 403 已如实记录；LICENSE 正文完整，403 不构成缺口。"
+  ],
+  "leaf_checks": {
+    "application-portfolio-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:sap-leanix-application-portfolio-management"
+      ],
+      "evidence": "读取 7c629c0f43e8… 的 SAP LeanIX 官方产品页正文：Build a trustworthy inventory（发现应用、众包数据、质量封印）、Understand dependencies and impact（业务上下文、明确 ownership、依赖与影响）、Optimize application spend（TCO/使用情况报告、Gartner TIME 分类、退役影响分析），以及按 functional fit/technical fit/cost/lifecycle status 评估和 continuous application rationalization。应用登记、可问责所有权、逐应用评估、生命周期/处置与合理化循环均有正文依据；商业 track 与产品身份一致，未把 80% transparency 等营销指标当作核心证据。",
+      "gaps": "仅有官方产品页，未使用产品文档或试用环境；但商业条目只要求基本真实性与类型匹配，现有正文已覆盖定义性核心，未发现需修复的过度声明。"
+    },
+    "certificate-lifecycle-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:92313258"
+      ],
+      "evidence": "读取 11e1d6795f90… 的 cert-manager 文档正文：Certificate 资源经 Issuer/ClusterIssuer 生成 CertificateRequest，签发证书与私钥写入指定 Secret，并按 duration/renewBefore 自动续订、按请求重新签发；a8f3d7f27297… README 说明其以 Kubernetes 资源类型提供证书获取、续订与使用；8a00947caf93… 仓库元数据显示 repository_id=92313258；c71d239df917… LICENSE 为完整 Apache License 2.0（含 END OF TERMS 与 APPENDIX）。该叶定义明确包含只签发/续订的集群内控制器，服务边界与证据一致。",
+      "gaps": "未核到企业级证书发现、跨端点部署、审批与吊销工作流，batch 未据此扩展；ACME DNS-01/HTTP-01 仅来自文档导航，属非阻断的次要 feature 表述；GitHub API license 端点 403 已如实记录。"
+    },
+    "cpaas-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:61023964"
+      ],
+      "evidence": "读取 cb5ee38931fc… 的 Somleng docs 正文：Dashboard 的 Authentication、Carrier Settings、Accounts（Account SID/Auth Token，carrier managed/customer managed）、Phone Numbers（E.164、短码、字母数字发送方 ID，创建/配置/CSV 导入）、Voice、Messaging、Team 等管理面；并核到 Messages、Phone Calls、Verifications/Error Logs 等逐笔记录入口。3149502811dc… 官网称其为开源 CPaaS，26a836c383e3… README 标注 MIT，e8a49b238763… LICENSE 为完整 MIT，01a5dab95189… 元数据 repository_id=61023964。管理面核心（平台账户、发送方资源、编程凭证、流量记录）有正文依据。",
+      "gaps": "未核到 usage/cost 汇总（仅有号码月价），features 中“电话号码删除”未见正文依据；均未写入核心结论，属于可收窄的次要表述。"
+    },
+    "desktop-application-delivery": {
+      "status": "documented_gap_no_case",
+      "application_ids": [],
+      "evidence": "已逐份读取 research.json 引用的 OpenUDS 快照：7fea53744125… README 仅说明 connection broker/VDI 管理部署/应用虚拟化/桌面服务整合；a7e5cc309271… 元数据同；d800cea460f6… 官方 Admin Configuration Guide 仅覆盖默认 root 凭据，cf003e451870… 官方 User Guide 仅覆盖登录；9bbc3809fef8… GitHub Pages 为模板占位；774ad354ad58… 为社区文档且为 JS 壳；2fc0a0cae386… 为完整 BSD-3-Clause。batch.json 无该叶条目，未声称已发布资源目录、按用户/组授权、远程交互会话或受管主机群。",
+      "gaps": "官方正文不足以证明桌面/应用交付的定义性核心，因此未收录 OpenUDS；research.json 如实记录 www.openuds.org TLS 主机名不匹配、GitHub Pages 占位、官方 doc/source 仅有登录内容及社区文档非官方来源。该叶按 included_without_cases 的留档缺口通过，不把“未检索到”写成“不存在”。"
+    },
+    "message-queue-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:148059143"
+      ],
+      "evidence": "读取 7e8e1f95756e… 的 akhq.md（topic data 分页与排序、topic 列表 consumer groups 列、HIDE_EMPTY 空组隐藏）、54951cdb0dff… audit.md（topic 创建/配置/分区/删除、记录生产/删除、empty topic、offset 更新/删除、删除 consumer group、Schema Registry 与 Kafka Connect 动作）、a1fd0fad67ce… groups.md（TOPIC/TOPIC_DATA/CONSUMER_GROUP/ACL 资源及 UPDATE_OFFSET/DELETE_OFFSET 动作）、79cdf7cbb3f9… api.md（list topic 暴露 consumer groups/offsets，消息搜索/详情接口）；ae2c5c3f720f… README 与 55b6cb57c148… LICENSE（完整 Apache-2.0）、2c3e52771dca… 元数据 repository_id=148059143。topic 拓扑、消息数据、consumer state/offset 与清空/删除等操作干预均有正文依据，batch 未声称未核到的 lag、死信或连接终止。",
+      "gaps": "consumer lag/depth、flow rates、死信浏览/重投、连接终止未在官方正文核到；akhq.io 首页与 docs 快照为 JS 壳，仅 meta description，未作为核心证据。核心类型匹配仍成立。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未重算 sha256、未做在线抓取、部署或运行时测试；结论以 REVIEW_SOURCES.json 列出的 19 个快照及 research.json 引用的 OpenUDS 候选快照为据。无法独立复核 TLS 主机名不匹配、GitHub API 403 等抓取结果，也无法查看未留档的产品 UI/API 或仓库页面许可证标签；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-011/ses_groveopencodegop011review1_1793075213.jsonl",
+  "batch_sha256": "a2a5ddd56250daf431153ba211403d7eff7510e4696e7087c820f81c93d4aecd",
+  "research_sha256": "e1b5987c7c306a222fba6cc14067c63e8c8175baa7edf4e8d1051ce683633d41",
+  "input_sha256": "5bab7d0a70b4767cda9292f1467d2632a6f578278aa43c0d5a9db681fafb2639"
+}

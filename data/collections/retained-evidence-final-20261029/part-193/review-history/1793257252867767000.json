@@ -1,0 +1,40 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "academic-accreditation-management",
+      "application_id": "github:886218841",
+      "issue": "核心匹配不成立：条目以 MIT-ARS（YCN-club/accreditation-api + accreditation-website）作为该叶案例，但已读核心正文只证明“按 NAAC/NBA/NIRF 等外部口径集中录入机构数据、按领域/层级分类、跨认证复用、按所选认证导出 PDF”。schema.sql 中不存在标准/条目（criterion）、逐条合规响应、证据实体或证据与标准的关联表，也无认证周期/历次报告实体；accreditation 相关仅为 programs.accreditation_status、number_of_times_accredited，以及若干 link_to_relevant_document(s) 的 URL 字段。export-data.mdx 的流程是选择认证/排名机构及类别后下载该类别数据的 PDF，属数据报表导出，而非自评/合规报告汇编。该叶定义的五项属性中，“逐条合规响应”“证据链接到标准”“常备周期与纵向连续性”未见正文（README、schema、导出文档、前端 README 均未提及），batch 自己的 leaf_matches reason 也承认“叙述式自评和文档证据库未在已读正文中证实”，但 summary 仍称“覆盖认证准备与报告汇编”，与定义核心不符。research.json 的 service_boundary 也自述为“完整认证数据与报告子模块”，未达整叶核心。",
+      "fix": "两条路径择一：(1) 将该 application 从 academic-accreditation-management 的 leaf_matches 移出（保留条目本身及其历史留档，叶改回 insufficient_evidence 并如实记录仅有数据采集/PDF 导出子模块、无逐条响应与证据链的缺口），并按无案例留档口径通过；或 (2) 补充能直接证明叶核心的官方正文证据（例如标准/条目模板、逐条响应编辑与审核、响应—证据挂接、报告/自评汇编、周期与历史留存对应的代码实体或文档），再恢复 leaf_match；同时把 summary/leaf_matches 中“覆盖认证准备与报告汇编”改为与正文一致的表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "QualifAi（github:1289329993）的排除处理留档完整：本单元 sources/ 中确有 7728cdcd…（metadata）、7c542786…（README）、ff258496…（MIT LICENSE）三个历史快照，research 明确记录其仅有 React/Vite 前端、无服务端/数据库、不能证明完整自托管服务，且未把它当作通过案例，处理合理。",
+    "batch 中 accreditation-website 的 LICENSE 来源复用了与 accreditation-api LICENSE 相同的 snapshot_path 与 sha256（8486a10c…），REVIEW_SOURCES.json 只列出一条 LICENSE 路径。因按内容寻址，同哈希可支持“两仓库许可证文本相同”的判断，AGPL-3.0 正文也确为完整文本（含 “Version 3”“TERMS AND CONDITIONS”“END OF TERMS AND CONDITIONS”）；若需严格溯源，建议对前端仓库 LICENSE 单独抓取留档，并把 license_review.scope 从“repository”改为覆盖 api+website 两仓库。",
+    "SPDX 记录为 AGPL-3.0；LICENSE 正文为标准 AGPLv3 文本，如需精确可写 AGPL-3.0-only，并在说明中注明无“or later”表述。属表述精度问题，不影响开源判定。",
+    "仓库已归档（metadata 页面与两个 README 均含归档提示），batch 已在 summary 与 research 中如实标注；归档本身不构成事实错误，但意味着无持续维护的社区版，“社区版边界”实为整仓 AGPL、无开源/商业分版。",
+    "条目摘要“完整自托管应用”有 README 的前后端开发/standalone 部署说明支撑，但未见将前后端组合部署的 compose/编排文档；措辞可保留，若强调“完整”可补充组合部署依据。",
+    "input.json 的 progress 仍停留在 QualifAi/insufficient_evidence（application_ids 为空），与本单元新的 research.json/batch.json（case_found，github:886218841）不一致；这是采集推进后的正常状态差，合入时建议同步刷新 progress，避免下游误读。",
+    "摘要把 NIRF 与 NAAC/NBA 并列；NIRF 属排名而非认证，摘要已写“认证/排名标准”，与导出文档一致，不影响判定。"
+  ],
+  "leaf_checks": {
+    "academic-accreditation-management": {
+      "slug": "academic-accreditation-management",
+      "application_id": "github:886218841",
+      "application_name": "MIT-ARS (Accreditation and Reporting System)",
+      "track": "open_source",
+      "identity": "已核对 repository_metadata 066ae56e…：页面 title/描述为 “GitHub - YCN-club/accreditation-api: The backend API for MIT Bengaluru's Accreditation System.”，octolytics-dimension-repository_id=886218841、repository_nwo=YCN-club/accreditation-api、repository_public=true、repository_is_fork=false，与条目 id github:886218841、repository_url 一致；track=open_source 正确。",
+      "license": "已读 LICENSE 8486a10c… 全文首尾：标准 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 文本，含 TERMS AND CONDITIONS 与 END OF TERMS AND CONDITIONS/How to Apply，属完整许可证而非片段；条目 license=AGPL-3.0 与 license_evidence_url 对应。前端仓库许可证仅以同一哈希快照复用，见 non_blocking_notes。",
+      "saas_form": "README 9428e611… 证明 Sanic + Poetry + PostgreSQL + Docker 后端与 JWT/.env/RSA 配置、开发启动流程；前端 README c7c6f272… 证明 Next.js standalone 部署、集中数据录入与 PDF 导出。属持续使用的自托管 Web 应用形态，但本次未部署实测（runtime_tested=false 已记录）。",
+      "core_workflow_evidence": "website README 明确四项：集中录入、按领域与层级分类、跨认证复用重叠参数、按用户指定认证导出；export-data.mdx 给出 Home → Export Data → 选择 NAAC/NBA/NIRF → 选择类别（示例 NAAC 3.4.3 专利/版权）→ 下载 PDF，另有手动按 Events/Faculty/Students 导出。schema.sql 显示数据模型为 institutes/programs/departments/branches/students/faculty/events/awards/publications 等机构数据表，认证相关仅 PROGRAM_ACCREDITATION_STATUS 枚举、programs.accreditation_status、number_of_times_accredited 及零散 link_to_report/link_to_relevant_document(s) 字段。",
+      "core_assessment": "定义性核心仅部分成立：外部标准仅以导出类别口径出现，未作为可配置的逐条标准结构；无逐条合规响应实体、无证据库及响应—证据关联、无自评/合规报告汇编（仅按类别数据 PDF）、无跨周期历史留存实体。按叶定义“五项属性缺一即不再可识别”，本条目只落在认证/排名数据采集与报表导出子模块，不能作为该叶的整叶案例；batch 的 leaf_matches reason 亦承认自评与文档证据库未证实，构成必须修复的核心匹配问题。",
+      "gaps_recorded": "research.json 已记录 GitHub REST API repository/license 端点 403 rate limit、改用仓库页与 raw 文件、未部署实测、QualifAi 文件树无服务端等缺口；缺陷在于把该子模块作整叶匹配并称“覆盖认证准备与报告汇编”，而非留档不实。"
+    }
+  },
+  "limits": "本次为只读静态初审：按 REVIEW_SOURCES.json 原样读取了全部 6 个快照（api 仓库页 metadata、api README、api LICENSE、schema.sql、website README、export-data.mdx），并交叉核对 batch.json、research.json、input.json；未运行 shell、未写文件、未部署或运行 MIT-ARS，未访问 GitHub 在线页面、演示视频或组织 README，未核验前端仓库的独立 metadata/文件树。inflated：未对 sources/ 中 QualifAi 的三个历史快照（7728cdcd…、7c542786…、ff258496…）做二次正文阅读（它们不在 REVIEW_SOURCES.json 清单内），故 QualifAi 排除结论依据 research 记录与文件存在性，未独立复核其正文细节。前端 LICENSE 与后端 LICENSE 共用同一快照与哈希，无法在不访问网络的情况下区分“两仓库文本相同”与“复用同一文件”。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-193/ses_groveopencodegop193review1_1793256902.jsonl",
+  "batch_sha256": "6198992244bd1ea4a3895ca8e5917caa09964322719dd8f999cfac88b90d13f0",
+  "research_sha256": "c693f99310e43741d56a74883c9be2da189e841f3cdb8eccf5937e4dd4eb79d0",
+  "input_sha256": "7eb4059c939caec89a23e4156d175f3479a2c0456a4f85487cc941755230f976"
+}

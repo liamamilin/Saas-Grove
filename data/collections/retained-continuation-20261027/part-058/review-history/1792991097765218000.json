@@ -1,0 +1,56 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "database-ide",
+      "application_id": "github:44662669",
+      "issue": "DBeaver 开源条目的 features 将“支持任何提供 JDBC/ODBC 驱动的数据库”写成社区版能力；但同批官网首页的 DBeaver PRO 功能卡明确把“Connection through ODBC drivers”列为商业版能力，README 的 PRO 列表也把 ODBC 列入 PRO。这把 PRO 能力混入 Apache-2.0 社区版描述，社区版边界不准确。",
+      "fix": "将 features 改为“支持任何提供 JDBC 驱动的数据库”，并在 features 或 deployment 中注明 ODBC 连接属于 DBeaver PRO；同时修正 research.json 中“未把 PRO 专属能力写成社区版能力”的表述，避免社区版与 PRO 能力混写。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Sourcetrail 已于 2021 年归档，条目已如实标注；作为离线/历史开源桌面案例可以成立，但若目录要求持续维护的服务形态，建议补充或替换为在维护产品。",
+    "Sourcegraph 的“100 至 1M+ 仓库”“仓库集/修订版过滤”“字面量/正则”等细节，未能在当前快照可见部分逐项核对；产品页可见 any number of code hosts、路径/语言/自定义模式过滤、Symbol search、Commit + Diff Search 与浏览器内导航，足以支持 code-search 类型匹配。建议后续措辞只引用快照可复核的内容。",
+    "Sourcegraph 首页快照当前以 Context Layer / Code understanding 定位为主；leaf reason 中“官网首页亦以 Code Search 为核心产品”与快照不完全一致，建议改引 /code-search 产品页或调整措辞。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 batch/research 已有 5 个案例；若下游读取 progress 判断完成度，应同步更新，否则仅属元数据陈旧。",
+    "DBeaver 的 ER 图、导入导出/迁移、执行计划等来自官方 README，官网社区版卡片未逐项列出；未发现与 PRO 边界冲突，但建议在 features 中注明来源与版本边界。"
+  ],
+  "leaf_checks": {
+    "code-intelligence-platform": {
+      "application_id": "github:47690142",
+      "result": "pass_with_note",
+      "basis": "Sourcetrail README 与 DOCUMENTATION.md 显示其索引全部命名符号及关系，Graph 视图展示 function call、type use、file include 等入向/出向依赖，Code 视图列出符号全部源码位置并支持跳转，对应语义模型、含义解析界面与读侧目的。README 与 LICENSE 快照一致标识 GPL-3.0；仓库 2021 年归档已在条目中披露。",
+      "gaps": "产品为离线桌面/按项目分析工具，非托管 SaaS；归档后不再维护。定义明确允许旧式/桌面变体，故不阻断。"
+    },
+    "code-review-platform": {
+      "application_id": "github:285304",
+      "result": "pass",
+      "basis": "Review Board README 说明其跟踪待审代码、图形和文档变更，diff viewer 支持 interdiffs、移动行检测和讨论；官方 Approving Changes 手册记录 Ship It!、Fix It then Ship It!、开放 issue 影响批准及可配置批准策略，覆盖“提议变更的审查工作流 + 可归因裁决”。MIT 许可证完整；自托管与 RBCommons 托管边界已披露。",
+      "gaps": "未运行软件；未核验 Power Pack 商业扩展的具体能力。"
+    },
+    "code-search-platform": {
+      "application_id": "commercial:sourcegraph",
+      "result": "pass_with_note",
+      "basis": "官方 Code Search 产品页显示跨代码库/多代码主机的搜索、路径/语言/自定义模式过滤、Symbol search、Commit + Diff Search，以及浏览器内代码导航；首页有企业定位、Pricing 与 demo。类型匹配与商业基本真实性成立。",
+      "gaps": "“100 至 1M+ 仓库”“仓库集/修订版过滤”等具体数字和过滤项在当前快照可见部分未直接出现；属于非关键措辞，未阻断。"
+    },
+    "database-ide": {
+      "application_id": "github:44662669",
+      "result": "changes_required",
+      "basis": "DBeaver README 与官网显示其连接外部数据库（100+ 驱动、JDBC/ODBC）、schema editor、SQL editor、data editor、ER 图、导入导出/迁移、执行计划与元数据/维护能力，覆盖连接、目录、SQL 执行、对象/数据开发和持久桌面环境；Apache-2.0 社区版与 DBeaver PRO 商业版边界在 deployment 中披露。",
+      "gaps": "features 将 ODBC 写成社区版能力，与官网 PRO 卡片“Connection through ODBC drivers”冲突，需修正。"
+    },
+    "integrated-development-environment-ide": {
+      "application_id": "github:102083576",
+      "result": "pass",
+      "basis": "Apache NetBeans README 定位为开源开发环境；官网补充语法/语义高亮与重构；官方 javase-intro 教程以 Java Application/Class Library 项目为容器，覆盖创建/编辑源码、Compile and Build、Run、JUnit 测试、断点/变量查看/Step Into 调试；quickstart 辅助核对项目创建与运行。Apache-2.0 许可证完整。",
+      "gaps": "未运行软件；教程分别最后复核于 2023/2019，但核心流程证据仍充分。"
+    }
+  },
+  "limits": "只读审查，未运行或部署任何软件，未使用 shell、未写文件、未读取本单元之外的资料，也未做实时网络复核。REVIEW_SOURCES.json 所列 20 个快照均按原 path 读取；部分快照为单行 JSON/HTML（GitHub 元数据、base64 许可证、Sourcegraph SPA），读取器在约 2000 字符处截断，无法逐字通读全部许可证正文与压缩页面；已通过可读正文、grep 命中、文件大小和 README/API 标识核对关键事实。未核验商业价格、部署架构、客户案例，也未独立重新计算快照 sha256。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-058/ses_groveopencodegop058review1_1792990685.jsonl",
+  "batch_sha256": "0ebe0f24a67810c9d59ddd07433c4725cc3f546b91361b93d2634a119638ea07",
+  "research_sha256": "8f7a0cab13afc8cc6aa2bf363af42b7edd81ff7abcb028cb1fa48155122c367e",
+  "input_sha256": "494fac3da0166a53707eeea4308d159e665032e03af62098addee1a7ea0ca162"
+}

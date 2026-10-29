@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "invoicing-application / github:222873550：README 的 roadmap 勾选项是项目自述“已完成”，且版权年份停在 2022；这不影响本叶成立，但如后续复用，建议补一次产品文档或最近提交记录，避免把长期未更新的项目描述成活跃维护产品。",
+    "subscription-billing-platform / github:6325420：README 只到“subscriptions / invoicing / dunning”层面，未列出订阅试用、支付失败、取消等具体状态名；当前 reason 已明确“具体状态机实现未逐项核验”，建议保持这一限定，不要补写未经来源支持的状态名。",
+    "tax-compliance-platform / commercial:vertex：快照是解决方案营销页，能证明实时判定、免税证书、signature-ready/e-file format 申报表与申报/审计报告，但未描述税务交易持久记录的存储模型；本叶“交易级记录”结构目前属页面未覆盖的留档缺口，商业条目按基本类型匹配通过。",
+    "tax-filing-platform / commercial:tax1099：首页明确写有 eFile with IRS, SSA & CFSF、IRS-rejected 表单重报、TIN matching、Audit Trails 与更正入口；“受理（accepted）”回执状态没有单独措辞，建议后续把“受理”改为“拒绝/重报与状态处理”，或补一个状态说明来源。",
+    "tax-preparation-application / commercial:taxact：快照正文是 Nuxt 单行 HTML，读取工具按行截断，正文细节无法在快照视图内完整展开；本次以同一官方页面只读渲染复核了“guided filing / import tax data / calculate deductions and credits / Free Edition 仅 1040 且不附表”等关键措辞，建议后续保存纯文本快照以便复核。",
+    "五个条目的 verification_status 均为 official_sources_reviewed、runtime_tested 均为 false，与 notes/repair-u053.md 声明一致；本次初审同样未做部署或运行时验证。"
+  ],
+  "leaf_checks": {
+    "invoicing-application": {
+      "case_ids": [
+        "github:222873550"
+      ],
+      "verdict": "核心与类型匹配成立",
+      "evidence": "仓库元数据 id=222873550、full_name=crater-invoice-inc/crater、description=Open Source Invoicing Solution for Individuals & Businesses；README 开头说明其为 open-source web & mobile app，用于跟踪费用与付款并创建专业发票与估算单，roadmap 已完成项含 Customer View page、Multiple Companies、Recurring Invoices、Customer Portal、Accept Payments、docker image；license 快照为完整 AGPL v3 正文（34523 字节，首行 GNU AFFERO GENERAL PUBLIC LICENSE Version 3）。据此核对客户/发票单据/发送与付款状态三个定义性结构，且未扩展为会计账簿或平台计费。",
+      "gaps": "README 未显式写“编号发票”和更正机制；roadmap 部分在快照的单行 base64 中被读取工具截断，已用同仓库 master 原始 README 只读复核，内容与快照开头一致。"
+    },
+    "subscription-billing-platform": {
+      "case_ids": [
+        "github:6325420"
+      ],
+      "verdict": "核心与类型匹配成立",
+      "evidence": "仓库元数据 id=6325420、full_name=killbill/killbill、description=Open-Source Subscription Billing & Payments Platform；README 自述 open source subscription billing and payments platform，处理 catalogs and pricing、subscriptions、usage metering、invoicing、payments across gateways、credits、tax 与 dunning，并说明可在自有基础设施运行；license 快照为完整 Apache License Version 2.0 正文（11357 字节）。订阅作为持久对象驱动周期计费与资金状态这一主线有据，开源核心与自托管边界清楚。",
+      "gaps": "README 未逐项列出试用、支付失败、取消等生命周期状态名；“自动周期开票”属订阅计费语义的合理推断而非原文逐字表述，reason 已限定“具体状态机实现未逐项核验”。"
+    },
+    "tax-compliance-platform": {
+      "case_ids": [
+        "commercial:vertex"
+      ],
+      "verdict": "类型匹配成立，核心结构有部分留档缺口",
+      "evidence": "Vertex 官方 Sales & Use Tax 页快照写明：从 real-time tax determination 到 exemption certificate management、returns 与 reporting；Generate signature-ready and e-file format returns across multiple jurisdictions；Manage exemption certificates、Generate reports for filing and audit defense；另有“Outsource monthly returns, filing, and remittance”服务卡片。batch.summary 已按初审收窄为“申报表及电子申报格式生成”，不再声称 Vertex 实际向税务机关传输或提交。",
+      "gaps": "页面未细述交易级税务记录如何持久化，也未证明实际申报/传输；按商业条目“基本真实性 + 类型匹配”通过，叶定义中的“记录凭证 + 申报流水线”只得到部分覆盖，reason 已如实记录该缺口。"
+    },
+    "tax-filing-platform": {
+      "case_ids": [
+        "commercial:tax1099"
+      ],
+      "verdict": "核心与类型匹配成立",
+      "evidence": "Tax1099 官方首页快照列示 eFile with IRS, SSA & CFSF；表单覆盖 1099 系列、W-2、941、940 等；提供 Resubmission of IRS-rejected forms、Form 1099/ACA Corrections、Schedule eFile、real-time/bulk TIN Matching、Audit Trails，并有 Create, validate, schedule, and deliver forms 与 eFile Federal, State & SSA with a guided end-to-end workflow 的表述；schema 标注 IRS Authorized e-Filing。对应申报记录—机关格式/校验—授权通道—拒绝重报循环的申报方侧核心。",
+      "gaps": "首页未用“accepted”字样明示受理回执，记录保存年限未提；均为营销页粒度限制，不影响商业条目的基本类型匹配。"
+    },
+    "tax-preparation-application": {
+      "case_ids": [
+        "commercial:taxact"
+      ],
+      "verdict": "核心与类型匹配成立",
+      "evidence": "TaxAct 官方首页快照标题与描述为在线报税，面向 individuals and businesses；正文含 guided filing / step-by-step 填报、import tax data、calculate deductions and credits、e-file 与 editions 按情形分层；FAQ 明示 Free Edition 仅适用于“using IRS Form 1040 only without having to attach any forms or schedules”，并列明不覆盖的投资、自雇、逐项扣除等情形。对应纳税人情况输入—表格组装—按维护规则计算—闭合可提交申报表的定义核心。",
+      "gaps": "快照为 Nuxt 单行 HTML，读取工具截断，附表资格逻辑与申报表跨年持久化未逐项核验；reason 已限定只写页面明示内容。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元，未部署或运行任何产品。按 REVIEW_SOURCES.json 的 path 原样读取了全部 9 个来源快照（data/collections/sources 下），并核对了 input.json、batch.json、research.json 与 issues.json/repair 记录。GitHub 的 readme/license 快照是单行 base64 JSON，读取工具按行截断 2000 字符，因此 Crater README 的 roadmap 段与部分许可证尾文无法在快照视图内完整展开；对 Crater README 另做了同仓库 master 原始地址的只读复核，对 TaxAct 首页另做了同一官方页面的只读渲染复核，二者均只用于确认快照中已出现的措辞与结构，未替代快照结论，也未引入新的事实主张。商业条目每个仅有一个官方营销页/解决方案页，无法核验后台实现、真实申报传输、记录保留年限与状态机细节；previous_review_path 指向本单元外的 part-014，未读取，仅以 issues.json 中列出的既有 finding 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-053/ses_groveopencodegop053review1_1792990089.jsonl",
+  "batch_sha256": "86e1657c6e08b8c5b25e8aded115943acd67e46753d85ad946f39569fd705fff",
+  "research_sha256": "799b2a8a2f490abfe168cd5dea26b977055f119d894401992e9f717cecfa0f30",
+  "input_sha256": "e89d9a6c751780255fc65dc6f206c9cbd2854814e6700cbda3abd97b058672c6"
+}

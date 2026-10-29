@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "film-production-management 的 rules_zh 小标题“预算估算是成本跟踪”与英文“Budget estimating is not cost tracking”及正文相反，建议改为“预算估算不是成本跟踪”；正文已明确实际成本、工资与成本报告属于制作会计，未影响本叶应用关系，故不阻断。",
+    "production-accounting-platform 的 GreenSlate 软件页直接证明应付账款、剧组支出、采购订单与薪资过账总账；周成本报告和银行对账来自同站服务页，属于服务交付描述，未展示预算/EFC/承诺的软件细节。商业案例按基本真实性和类型匹配通过。",
+    "royalty-management-platform 的 Qlero 官方页覆盖合同分成、预付款与抵扣、CSV/Excel 报表导入、可追溯报表、期间关闭、自账单与付款文件导出；未见独立支付执行或 ERP 集成文档，按商业基本匹配通过。",
+    "cinema-management-system 的 Vista 运营页覆盖销售、库存、票房/现金流、票务验票、卖品、Film Manager 排片和 Film Hire 发行商付款；未逐项展示场次库存与座位图，按商业基本匹配通过。",
+    "cinema-scheduling-application 的 Filmgrail Planning Tool 明确与票务/后台系统集成而非替代 POS，符合排片不售票、不结算的边界；其作为 Filmgrail 平台内排片模块的定位与定义中的模块化交付表述一致。",
+    "film-production-management 的 StudioBinder 三页正文形成剧本导入、按场元素标注、条板/自动排期、通告单生成及发送/查看/确认的连续证据；未做运行测试。",
+    "本单元五个叶子均未导入开源应用；SBS、DMP、影院管理候选和 OSFPM 分别因缺少实际成本/总账、结算环节、许可证或完整仓库边界而留档排除，未发现开源许可证或社区版边界被误用。",
+    "input.json 的 progress.application_ids 仍为空且 research_records 标注 collector_draft_unapproved，而 batch.json/research.json 已记录五个商业案例；建议合并时同步 progress 元数据，本次以 batch/research 的实际关系审查。"
+  ],
+  "leaf_checks": {
+    "production-accounting-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:greenslate-production-accounting"
+      ],
+      "basis": "已读取 batch/research 与两个 GreenSlate 快照：产品页正文列出 Accounts Payable、Crew Expenditures、Purchase Orders，并写明薪资直接过账 General Ledger；服务页正文写明 weekly production cost reports 与 monthly bank reconciliations。应用为 commercial track，ID 与 REVIEW_SOURCES 的 applications 一致，类型匹配制作会计平台。",
+      "gaps": "软件页未直接展示预算/EFC/承诺的成本报告循环；周成本报告来自服务页。商业案例仅要求基本真实性与类型匹配，故不阻断。"
+    },
+    "royalty-management-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:qlero-royalty-management"
+      ],
+      "basis": "已读取 Qlero 快照并用同 URL 官方页正文核对：结构化 deal models、advances/recoupments、CSV/Excel 社会团体/子出版商/直授收入导入、source-level statements、draft/review/publish/close、closed periods auditable、self-bill invoicing 与 payment-file export。覆盖合同条款→摄入→计算→报表→支付文件→期间关闭。ID/track 与来源一致。",
+      "gaps": "快照为压缩单行 Next.js HTML，read 只能显示前 2000 字符；已用快照内关键短语命中确认正文存在，并读取同 URL 页面补足上下文。未提供独立支付执行/ERP 文档。"
+    },
+    "cinema-management-system": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:vista-cinema"
+      ],
+      "basis": "已读取 Vista 快照并用同 URL 官方页正文核对：运营页正文列出 sales、stock management、box office、cash flow、reporting、ticket validation、digital signage，以及 Film Manager 排片和 Film Hire 发行商付款；Food & Beverage 与 POS 也在同页。应用为 commercial track，ID 与来源一致，类型匹配影院运营商业务系统。",
+      "gaps": "快照为压缩单行 HTML，read 只能显示前 2000 字符；页面是运营总览，未逐项展示场次库存、座位图和按场次定价。商业基本匹配通过。"
+    },
+    "cinema-scheduling-application": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:filmgrail-planning-tool"
+      ],
+      "basis": "已读取 Filmgrail 两个快照：planning-tool 正文写明按 every hall 铺排一周节目、自动导入/更新影片、完成排期发布到网站/应用/榜单，并明确与 ticketing/back-office 集成而非替代 POS；FAQ 说明多数影院在 box office 系统内排片，独立工具提供跨屏幕视觉周排片与一键发布。覆盖影片/影厅资产→场次编排→发布排期。ID/track 与来源一致。",
+      "gaps": "正文未逐项展示座位模式、价格卡或场次级销售配置；作为排片编排与发布应用已足够。"
+    },
+    "film-production-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:studiobinder"
+      ],
+      "basis": "已读取 StudioBinder 三个快照：script-breakdown 页正文写明导入剧本、按场 select-and-tag 道具/服装/演员等元素，并与 script、stripboards、shot lists、call sheets 同步；film-scheduling 页正文写明每个 scene 自动进入 stripboard、drag-and-drop 或按场景条件 auto-schedule、日断点/横幅，并从 stripboard 生成自动填充 cast/locations/map/weather 的 call sheet；call-sheet 页正文写明 SMS/email 发送并跟踪 sent/viewed/confirmed/undeliverable。覆盖剧本场景→拍摄日程→每日通告单。ID/track 与来源一致。",
+      "gaps": "未做运行测试；未验证分集/季容器边界。商业基本匹配通过。"
+    }
+  },
+  "limits": "本次为只读桌面初审：未运行应用、未做部署/支付/导入测试，未核验价格与架构；Qlero 与 Vista 快照为压缩单行 HTML，read 工具按 2000 字符截断，正文核对依赖快照内关键短语命中及同 URL 官方页面文本；本单元无开源条目，故未实际核查开源完整许可证或社区版边界；未读取其他单元，未执行 shell 或写文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-035/ses_groveopencodegop035review1_1793079123.jsonl",
+  "batch_sha256": "5292d8a9de0a96c6bd7541d2f3b0889557d1010b2b3e7b66f729a1e91220bfb9",
+  "research_sha256": "6cd8c53272ec3d7b23ce7bafeff3acfdc87b14ac1b2f0a8c33c9c3137cbd60da",
+  "input_sha256": "cf2a7c87b8717189a610df8b8b0e3fedd4b31816275ab57691e7c97befd06c90"
+}

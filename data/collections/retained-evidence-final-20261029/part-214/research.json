@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "continuing-education-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1174129021"
+      ],
+      "query": "web: open source continuing education credit management system github CE credits compliance; github: continuing education credits tracking web application open source license; GitHub API: continuing education management / continuing education credits",
+      "source_urls": [
+        "https://github.com/noamrazbuilds/legal-training-tracker",
+        "https://api.github.com/repos/noamrazbuilds/legal-training-tracker",
+        "https://api.github.com/repos/noamrazbuilds/legal-training-tracker/license",
+        "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/README.md",
+        "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/data/seed/cle_requirements.json",
+        "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/ltt_app/services/cle_service.py",
+        "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/ltt_app/models/user.py"
+      ],
+      "note": "历史复用：HISTORY.json 与 issues.json 中此前记录出现的候选包括 CLE-Blockchain/prototype（原型）、ucdev/ce-platform（无许可证、以 CME 为主）、devJennyy/cce-wmsu（继续教育中心活动管理），均未达到完整应用与许可证门槛；旧记录只作为事实背景复用，本轮未把旧草稿当作通过。本轮补采：GitHub 搜索 API 未认证限流返回 403，改以公开 Web 检索定位替代品并直接核对官方仓库。新发现 noamrazbuilds/legal-training-tracker（GitHub id 1174129021）：MIT 许可证（license API 的 spdx_id=MIT 且返回完整 MIT 正文），仓库为 FastAPI + Streamlit 自托管 Web 应用；User/BarAdmission 模型表示被跟踪个人，CLECredit 模型绑定个人、辖区、活动、学分值、完成日期与证书信息，data/seed/cle_requirements.json 含 12 个美国州的报告周期、总学分与伦理/技能/多元化/网络安全专项要求，cle_service.py 计算报告窗口内的个人合规状态，README 说明 Docker/本地自托管及角色权限。已保存仓库元数据、许可证、README、种子要求、CLE 服务与用户模型快照。排除项：CPDTrack 为 CC BY-NC-SA 4.0（非 OSI 许可，不纳入）；CREDU 仓库无许可证；X-Ray-Tech 的 GitHub 许可为 NOASSERTION/Other，未确认完整 OSI 许可证；LicenseFit 仅由检索摘要判断为客户端型跟踪器，未取得正文，不据此断言其服务形态。未运行第三方项目，runtime_tested=false。",
+      "service_boundary": "继续教育管理聚焦个人学分授予、要求框架与个人合规状态；本案例的 CLE 模块满足该核心，许可证的签发/续期仍由州律师协会负责，不在应用内完成。通用 LMS 的课程交付本身不足以纳入；该应用因 CLE 学分与合规模块成立，培训课程与测验只是附加能力。",
+      "search_attempts": [
+        {
+          "query": "GitHub API search repositories: continuing education management in:name,description",
+          "candidates": [],
+          "outcome": "HTTP 403：未认证搜索配额已用尽（x-ratelimit-remaining: 0），无候选返回；记录为失败检索，不据此断言不存在。"
+        },
+        {
+          "query": "GitHub API search repositories: continuing education credits in:name,description,readme",
+          "candidates": [],
+          "outcome": "HTTP 403：同一未认证搜索配额限制，无候选返回；记录为失败检索。"
+        },
+        {
+          "query": "web search: open source continuing education credit management system github CE credits compliance",
+          "candidates": [
+            "Android-Tipster/licensefit",
+            "rickjeffsolutions/mortcos-cert",
+            "electrafrost/credu",
+            "OthmaneAzzouzi/Continuing-Education-Validation-System",
+            "noamrazbuilds/legal-training-tracker",
+            "gerardbalaoro/cpdtrack",
+            "394-s26/X-Ray-Tech"
+          ],
+          "outcome": "获得多个 CE/CPD 候选；进一步核对许可证与形态后仅保留 MIT 且具备完整 CLE 学分/要求/合规模块的 legal-training-tracker。"
+        },
+        {
+          "query": "web search: github \"continuing education\" credits tracking web application open source license",
+          "candidates": [
+            "gerardbalaoro/cpdtrack",
+            "noamrazbuilds/legal-training-tracker",
+            "Uncanny Continuing Education Credits（商业 WordPress 插件）"
+          ],
+          "outcome": "CPDTrack 功能匹配但许可证为非商业 CC BY-NC-SA 4.0；Uncanny 为商业插件；legal-training-tracker 为 MIT 完整 Web 应用，作为本叶案例。"
+        },
+        {
+          "query": "direct repository license/form checks: noamrazbuilds/legal-training-tracker, electrafrost/credu, 394-s26/X-Ray-Tech, gerardbalaoro/cpdtrack",
+          "candidates": [
+            "noamrazbuilds/legal-training-tracker",
+            "electrafrost/credu",
+            "394-s26/X-Ray-Tech",
+            "gerardbalaoro/cpdtrack"
+          ],
+          "outcome": "legal-training-tracker: MIT，FastAPI+Streamlit，自托管；credu: 无许可证；X-Ray-Tech: NOASSERTION/Other；cpdtrack: CC BY-NC-SA 4.0。仅前者满足开源许可与完整应用形态。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/noamrazbuilds/legal-training-tracker",
+          "status": "success",
+          "note": "HTTP 200，仓库 id=1174129021、full_name=noamrazbuilds/legal-training-tracker、license.spdx_id=MIT；快照 441927647b8d8c957c056a631aa8ec239b69532fcd4d2d822c917fa2c0522ebb。"
+        },
+        {
+          "url": "https://api.github.com/repos/noamrazbuilds/legal-training-tracker/license",
+          "status": "success",
+          "note": "HTTP 200，license.spdx_id=MIT 并返回完整 MIT 许可证正文；快照 9d6067d2cb87314244d7f53e43b9231347f3b43ae113182a45a08465ea2798dd。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/README.md",
+          "status": "success",
+          "note": "HTTP 200，正文说明 CLE 跟踪、12 州要求、角色权限、Docker/本地部署与技术栈；快照 472bdefcb0167c6d9b10404a74c1ab145828563507a92509cc59af1188ec9232。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/data/seed/cle_requirements.json",
+          "status": "success",
+          "note": "HTTP 200，12 条州级要求数据，含报告周期、总学分及专项学分；快照 df21b22bdfa18fd520f257955e0d9ddcd550d99860e04624add0b3314aa082e0。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/ltt_app/services/cle_service.py",
+          "status": "success",
+          "note": "HTTP 200，正文实现学分增删改查与按辖区报告窗口计算 compliant/at_risk/non_compliant；快照 5fb9a5ffb8879ed0f6e3193f3eab123cce6439677b103fba79625192b621284e。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/legal-training-tracker/HEAD/ltt_app/models/user.py",
+          "status": "success",
+          "note": "HTTP 200，User 与 BarAdmission 模型表明被跟踪个人及其律师资格；快照 39e726c06e5a106118e2f85e08c2b6f34fbd15501b1df988d5c0f91f405905f7。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/gerardbalaoro/cpdtrack/HEAD/license.md",
+          "status": "rejected_license",
+          "note": "HTTP 200；正文为 Creative Commons BY-NC-SA 4.0，非 OSI 开源许可证，不能作为开源案例；功能匹配但不纳入。"
+        },
+        {
+          "url": "https://api.github.com/repos/electrafrost/credu",
+          "status": "rejected_license",
+          "note": "HTTP 200；repository license 为 null，未提供许可证，不能作为开源案例。"
+        },
+        {
+          "url": "https://api.github.com/repos/394-s26/X-Ray-Tech",
+          "status": "rejected_license",
+          "note": "HTTP 200；license.spdx_id=NOASSERTION（Other），未确认完整 OSI 许可，不能作为开源案例。"
+        },
+        {
+          "url": "https://android-tipster.github.io/licensefit/",
+          "status": "not_fetched",
+          "note": "仅得检索摘要，称其为 MIT 的按辖区规则计算跟踪器；未取得正文核对服务形态，且按摘要更接近纯客户端工具，保留缺口，不据此断言其完整应用能力。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

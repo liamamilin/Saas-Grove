@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 6,
+  "offset": 125,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "font-editor",
+        "name_zh": "字体编辑器",
+        "domain_id": "04",
+        "parent_id": "04.18",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-006/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "官方仓库与许可证直达：github.com/fontforge/fontforge、raw COPYING.gplv3 与 README"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/121",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "官方仓库与许可证直达：github.com/fontforge/fontforge、raw COPYING.gplv3 与 README"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "font-editor",
+        "name": "Font Editor",
+        "name_zh": "字体编辑器",
+        "aliases_zh": [
+          "字体设计软件",
+          "字体制作工具"
+        ],
+        "overview": "A **Font Editor** is an application for creating and modifying fonts: it holds a typeface as a persistent project of glyphs, lets the user draw and edit each glyph's artwork directly on a surface that carries the font's own geometry, and generates font files that other software can install and use to render text.\n\nThe defining structure is small:\n\n```text\nFont project\n└── Glyph set (glyphs mapped to characters)\n    └── Glyph artwork, edited directly on a font-geometry surface\n        └── compiled into\n            └── installable font files\n```\n\nEverything else commonly associated with font tools — kerning, OpenType features, hinting, variable fonts, color glyphs — is widespread in current products but is not what makes the application a font editor. A tool that only manages installed fonts, only converts font formats, or only draws letter shapes without a font project around them is a different kind of application.",
+        "overview_zh": "一款**字体编辑器**是用于创建和修改字体的应用程序：它将一种字体保存为包含字形（glyphs）的持久化项目，允许用户在承载字体自身几何结构的表面上直接绘制和编辑每个字形的图形，并生成其他软件可以安装和使用以渲染文本的字体文件。\n\n其核心结构非常精简：\n\n```text\n字体项目\n└── 字形集（字形映射到字符）\n     └── 字形图形，直接在字体几何表面上编辑\n         └── 编译为\n             └── 可安装的字体文件\n```\n\n通常与字体工具相关联的其他功能——字距调整（kerning）、OpenType 特性、提示（hinting）、可变字体、彩色字形——在当前产品中非常普遍，但这并不是使该应用程序成为字体编辑器的本质特征。一个仅管理已安装字体、仅转换字体格式，或仅绘制字母形状而没有围绕这些形状构建字体项目的工具，属于另一种类型的应用程序。",
+        "dc": "- **Font project** — the persistent, editable container for one typeface (or font family). It is a structured document the user creates, names, saves, and revisits. Everything else in the application lives inside it. A project typically starts from a glyph-set template (a chosen script or character range, pre-populated with empty glyph slots) or from an existing font file opened for editing.\n\n- **Glyph set** — the font's content: the collection of glyphs the typeface contains. Each glyph is identified by a name and/or mapped to character code points, and the set is navigable as a whole through a font view (a grid or list showing every glyph in the font). The glyph set is what distinguishes a font project from a folder of letter drawings: it is a mapped, organized character inventory, not a pile of artwork.\n\n- **Glyph** — the unit of design work. A glyph carries:\n  - its **artwork** — the shape, drawn as outline contours (Bézier curves with editable points) or, in some products, as bitmap cells;\n  - its **font-specific data** — above all the advance width (how far the pen advances after the glyph) and sidebearings, positioned in the font's own coordinate system.\n\n- **Font-geometry editing surface** — glyph artwork is not drawn on a free canvas but on a surface structured by the font's geometry: an em-based coordinate system (a font-wide unit size chosen when the font is created), a baseline at a fixed vertical origin, and reference lines for heights (cap height, x-height, ascender, descender). This geometry is what makes glyph editing different from ordinary vector drawing: every shape is drawn relative to the same baseline and measured in the same em units.\n\n- **Generated font files** — the project's output. The editor compiles the glyph set, its artwork, and the font-wide data into font files in standard formats (TrueType and OpenType are the common families, with web font formats also common) that operating systems, browsers, and design applications can install and use to set text. The generated file — not the project file — is the deliverable that ships to users.",
+        "dc_zh": "- **字体项目** — 一个字体（或字体家族）的持久、可编辑容器。这是一个结构化文档，用户创建、命名、保存并重新访问。应用程序中的所有内容都包含在其中。项目通常从字形集模板（一个选择的脚本或字符范围，预填充空字形槽）或从打开的现有字体文件开始编辑。\n\n- **字形集** — 字体的内容：字体包含的字形集合。每个字形通过名称识别和/或映射到字符代码点，整个集合通过字体视图（显示字体中每个字形的网格或列表）可导航。字形集区分字体项目与字母绘图文件夹：它是一个映射的、有组织的字符清单，而不是一堆艺术品。\n\n- **字形** — 设计工作的单位。一个字形承载：\n  - 其**artwork** — 形状，绘制为轮廓轮廓（带有可编辑点的贝塞尔曲线）或在某些产品中为位图单元格；\n  - 其**font-specific data** — 主要是前进宽度（字形后笔前进的距离）和侧边距，位于字体自己的坐标系中。\n\n- **字体几何编辑表面** — 字形艺术品不是在自由画布上绘制，而是在由字体几何结构定义的表面上绘制：一个基于em的坐标系统（字体创建时选择的字体范围单位大小）。",
+        "rules": "- **Glyphs live in the font's coordinate system.** All artwork is positioned relative to the baseline and measured in em units; the advance width is part of the glyph's data, not an afterthought. Moving a glyph's drawing does not move its metrics.\n- **Path direction matters.** Outline fonts use winding rules: outer contours and inner contours (counters) must run in correct, opposite directions or the shape renders wrong. Editors surface and can fix direction as a first-class operation.\n- **The glyph set is the unit of completeness.** A font is judged by its coverage: which characters it maps. Adding a glyph means adding it to the set with a proper name/mapping — drawing alone does not put a character in the font.\n- **Components stay linked.** A composite glyph references its base glyphs; editing the base updates the composites. Decomposing (flattening) a composite is an explicit, usually irreversible step.\n- **Outline compatibility governs interpolation.** Where multiple masters/variable fonts are used, corresponding glyphs must have matching point structures across masters; editors detect and help repair incompatibilities.\n- **Coordinate precision is constrained by the target format.** Some font formats require integer coordinates; editors round or manage precision when generating, which can subtly alter shapes.\n- **Editing an existing font is a supported path.** Opening a compiled font file for modification is a normal workflow; products differ in how completely they preserve the font's existing feature data through edits (at least one product makes round-trip feature preservation a headline capability; others document partial preservation).\n- **The project is the source; the font file is the artifact.** Regeneration after edits is the normal release loop; the generated file is not expected to be re-edited as a project without importing it back.",
+        "rules_zh": "- **字形存在于字体的坐标系中。** 所有图形都相对于基线定位，并以 em 单位测量；推进宽度是字形数据的一部分，而非事后补充。移动字形的绘制内容不会移动其度量数据。\n- **路径方向很重要。** 轮廓字体使用缠绕规则：外轮廓和内轮廓（字怀）必须以正确且相反的方向运行，否则形状会渲染错误。编辑器将方向显示并能够将其作为一等操作进行修复。\n- **字形集是完整性的单位。** 字体根据其覆盖范围来评判：它映射了哪些字符。添加一个字形意味着将其以正确的名称/映射添加到集合中——仅绘制并不能将字符放入字体中。\n- **组件保持链接。** 复合字形引用其基础字形；编辑基础字形会更新复合字形。分解（展平）复合字形是一个明确的、通常不可逆的步骤。\n- **轮廓兼容性控制插值。** 在使用多个母版/可变字体时，对应的字形必须在各母版之间具有匹配的点结构；编辑器检测并帮助修复不兼容性。\n- **坐标精度受目标格式限制。** 某些字体格式要求整数坐标；编辑器在生成时进行舍入或管理精度，这可能会微妙地改变形状。\n- **编辑现有字体是受支持的路径。** 打开编译后的字体文件以进行修改是常规工作流程；产品在通过编辑保留字体现有特性数据的完整程度上有所不同（至少有一款产品将往返特性保留作为主要功能；其他产品则记录部分保留）。\n- **项目是源；字体文件是产物。** 编辑后的重新生成是常规发布循环；生成的",
+        "parent_id": "04.18",
+        "domain_id": "04"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 56,
+    "phase": "directory",
+    "parent": 56,
+    "slugs": [
+      "font-editor"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "e24318c48d435fa5480c41425c6893331a29f641b7727161bc1a2c57bbd0f459"
+  }
+}

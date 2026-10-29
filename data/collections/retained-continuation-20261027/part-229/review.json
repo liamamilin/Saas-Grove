@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "constituent-relationship-management",
+      "application_id": "github:5769803",
+      "issue": "uReport 的快照只能证明两件事：仓库描述中的「issue tracking and constituent relationship management system … Open311 endpoint」标签，以及 README 开头一句「CRM web application … lightweight constituent management tool」。README 其余内容均为安装、Docker、测试和开发说明，没有任何正文描述持久居民记录、跨渠道互动归档、累积关系历史，或 triage→route→work→respond→close 的服务流程。按本叶定义，这些恰是区分 CRM 与 311/工单系统的核心；目前证据更像 Open311 工单跟踪工具，定义性核心未被证实。",
+      "fix": "补充能展示居民/选民记录、互动历史和工作人员服务流程的官方正文来源（项目 Wiki、安装后功能文档、市政部署说明或案例），并据此收敛 summary/features；若确实没有此类来源，应撤下该叶匹配，换用有政府 constituent CRM 正文证据的应用。"
+    },
+    {
+      "slug": "government-open-data-portal",
+      "application_id": "github:19141754",
+      "issue": "uData 的来源是 README 单句标语（可定制开放数据平台、由 data.gouv.fr 维护）加安装/开发文档。文档正文只出现 /api/1/datasets/ 接口、样例数据导入、DCAT 采集命令和搜索索引，没有描述数据集记录的元数据维护、文件/API 分发、公共目录浏览检索以及许可条款治理。batch 中「公共目录/搜索与数据重用」等表述属于推断，门户四要素未被正文证实。",
+      "fix": "补充说明数据集创建与元数据、分发文件/API、公共目录检索与复用许可的官方文档页，或引用 data.gouv.fr 等公开部署页面作为来源；同时按来源修改 features。若无法补充，应把该叶记录为证据缺口，而不是已验证匹配。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]，与 batch/research 中五叶均已有 case 的情况不一致；建议同步进度元数据，避免下游误判。",
+    "Decidim：batch 摘要与 leaf_match 中的「合并提案与官方回应」在快照里只有间接支撑（proposals、accountability、deliberation、transparency），建议补 decidim.org/features 或文档来源，或收敛该措辞。",
+    "uData：technology_stack 中的 Flask 未在快照正文出现（Python、MongoDB、Redis、Elasticsearch 有文档依据），可在补源后保留或删除。",
+    "uData 的 LICENSE 快照（57c8ff33…）与 uReport LICENSE 共用同一路径和哈希，REVIEW_SOURCES 中该路径记录的 URL 是 uReport 的 LICENSE；正文为完整 AGPL-3.0，许可结论不受影响，但建议按仓库分别记录来源 URL 以便追溯。",
+    "Alaveteli 的 LICENSE 还注明 lib/acts_as_xapian 为 MIT；按仓库整体记 AGPL-3.0 可接受，若要求逐文件精确，可在条目中注明该例外。仓库含 locale_alaveteli_pro，但快照未展示社区版/商业版功能边界，未发现冲突。",
+    "NICE 仅有一份营销行业页；商业基本真实性与类型匹配足够，页面可见面向各级政府、公民服务和人工支持等内容，FedRAMP/路由/队列等词出现在快照中，但长行截断导致上下文未能逐段核读。",
+    "四个开源项目均未发现独立的社区版/企业版许可分界；Alaveteli 的 Pro 相关目录与 uData 的 cdata 前端属于部署/服务层，不改变仓库 AGPL 的结论。"
+  ],
+  "leaf_checks": {
+    "civic-engagement-platform": "已核对 github:65914086。仓库快照确认 repository_id 65914086、nwo decidim/decidim；README 说明其为 Ruby on Rails 参与式民主框架、最初为巴塞罗那市政府参与网站，并列出 participation spaces（initiatives/assemblies/processes）及 meetings、surveys、proposals、participatory budgets、accountability 等组件；decidim.org 首页正文列出参与式流程、征集与投票提案、参与式预算、线上线下会议和审议。机构开设参与空间→居民结构化贡献→机构处理→结果/问责反馈的循环基本成立，「提案合并/官方回应」只有间接证据。许可证 76a97c… 为完整 AGPL-3.0（含 END OF TERMS AND CONDITIONS）。定义性核心通过，仅有措辞层面的非阻断问题。",
+    "constituent-relationship-management": "已核对 github:5769803。仓库快照确认 repository_id 5769803、City-of-Bloomington/uReport，描述为面向地方政府的 issue tracking + constituent relationship management + Open311；README 正文只有一段产品说明（CRM Web 应用、轻量级选民管理、context-switched feeds），其余为安装和测试。未见居民记录、跨渠道互动归档、累计关系历史或工作人员生命周期正文；许可证 57c8ff33… 为完整 AGPL-3.0。核心证据不足，详见 findings。",
+    "foi-public-records-request-platform": "已核对 github:1125389。仓库快照确认 repository_id 1125389、mysociety/alaveteli；README 说明其为跨国 FOI 请求平台、源自英国 WhatDoTheyKnow，并列出多国部署；alaveteli.org 首页正文给出查找机构→撰写请求→请求与回复公开发布的流程，并说明通知/提醒/跟进及 25+ 司法辖区使用。许可证 c20f65… 含 mySociety 许可说明和完整 AGPL-3.0（含 END OF TERMS AND CONDITIONS），另注明 acts_as_xapian 为 MIT。受理、跟踪、公开处置的 FOI 核心成立；机构内部审查/编辑工具未在快照中展开，属非阻断。",
+    "government-contact-center": "已核对 commercial:nice-cxone。仅一份 NICE 政府行业页快照；可见面向市/县/州/联邦各级政府、以公民/constituents 为服务对象，涉及知识管理、自助服务、人工支持、主动外联、回调量下降和公共信任。快照中亦出现 routing/queue/FedRAMP/omnichannel 等词，但 JS 页面正文集中在超长行且被读取工具截断，未能逐段核对全部上下文。商业只要求基本真实性与类型匹配：政府联络中心/CCaaS 定位成立，track 为 commercial，无需开源许可证。",
+    "government-open-data-portal": "已核对 github:19141754。仓库快照确认 repository_id 19141754、opendatateam/udata，README 称其为可定制开放数据平台并由 data.gouv.fr 维护；官方文档为安装/开发指南，正文出现 /api/1/datasets/、样例数据导入、DCAT 采集和搜索索引，并说明 cdata 是独立前端。未见数据集记录元数据、文件/API 分发、公共目录浏览检索和许可条款的正文说明；许可证 57c8ff33… 为完整 AGPL-3.0。门户四要素证据不足，详见 findings。"
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未访问其他单元或外部网络，仅依据 REVIEW_SOURCES.json 所列快照（sources/ 相对 data/collections 原样读取）以及 batch.json、research.json、input.json。GitHub 快照为 HTML，部分超长行被读取工具截断；NICE 页面为 Next.js 单页，正文集中在超长行，只能确认关键词和可见 FAQ 段，未能逐段核对全部上下文。未做部署或运行时验证，未补充价格、架构或额外市场资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-229/ses_groveopencodegop229review2_1793032903.jsonl",
+  "batch_sha256": "ac3a6ea43983c37f1ac5cff26f2ef65649874de0faa1edab7177763d175ddc45",
+  "research_sha256": "7364a0dd4ff6bb697c21cec0d6383fe1a6472e7d63d017045499d218750fb5a1",
+  "input_sha256": "4782f15a6fff4d2d35d5ac7f198573e1a0c7ffc4482b74b4debc14c01a6517b4"
+}

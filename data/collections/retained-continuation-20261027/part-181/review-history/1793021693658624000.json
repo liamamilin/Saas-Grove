@@ -1,0 +1,82 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "freight-forwarding-system",
+      "application_id": "github:383096173",
+      "issue": "现有快照只能支持“Document Generator”这一定位：README（initial_public_release_unstable）与 docs 首页列出的内容是 Ocean/Air Freight、B/L、AWB、Delivery order、Shipment advice、Cargo Manifest、CFS Report、C&F Agents、Consolidation、Job Costing；但快照全文未出现 consignment、booking 或 sea/air export/import 作业组织，REVIEW_SOURCES 也没有可核对的代码快照，无法支撑 research.json 与 leaf_matches 所称的 SeaExportFreightBooking、forwarder booking、B/L 与 job costing 视图。因此“按海/空运出口与进口作业组织订舱”“代码中存在……booking……”以及“安排承运”等定义性核心主张目前无法按已归档资料核对，属于用功能清单/文档生成器首页替代核心工作流证据。",
+      "fix": "补充并归档能证明 consignment/job 单条记录、承运人订舱与分腿、两端服务、双向费用与 job costing 的代码/模型/视图或文档段落，并据此改写 summary 与 leaf_matches；同时校正 features 中 README 未出现的“供应商记录”等措辞（README 只写 C&F Agents）。若无法补齐，应按定义把仅生成单证、未证明持有货物记录和安排承运的产品移出 freight-forwarding-system，或明确降级为 document generator 案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    {
+      "slug": "cruise-operations-platform",
+      "note": "Oracle 页面实际是 SPMS、Cruise Fleet Management、SilverWhere 与 POS 的组合行业页；条目名是 SPMS，但 summary/leaf reason 把同页配套的 Fleet Management（岸上船队视图）也并入。建议在条目中区分 SPMS 与配套产品，避免把套件能力写成单一 SPMS 模块。页面未显式出现 voyage/itinerary，航次绑定由邮轮船上 PMS 场景推断；商业基本真实性与类型匹配成立。"
+    },
+    {
+      "slug": "freight-brokerage-platform",
+      "note": "warp-tools 是多个可独立自托管应用的集合，Mini TMS 与 Load Board 不是默认集成的单一平台；schema 中的 invoiceRef/carrierPaymentRef 与 invoiced/paid 状态更接近结算跟踪，真实开票/付款由单独的 Invoice & Payment Tracker 承担，而集成仍列为后续项。建议把“开票/付款”措辞限定为引用/状态跟踪，并保留现有 service_boundary 说明。"
+    },
+    {
+      "slug": "freight-forwarding-system",
+      "note": "即使补充代码证据，也建议把“到货通知”与 README 的 Shipment advice 对齐，并避免使用 README 未出现的 export/import、supplier 字样；当前 README 明确只有 Ocean/Air Freight。"
+    },
+    {
+      "slug": "marina-management",
+      "note": "Dockly 的 README 明确是 2026 年关闭的参考项目：支付为模拟、无生产部署；只提供临时泊位预订与分段计价，未实现长期租赁/周期租金、发票/账单、计量公用事业计费和尺寸适配约束。条目 summary/features 已如实写成“演示支付/临时预订”，但若按 marina 定义的四项核心衡量，深度只覆盖泊位库存、临时协议、占用和部分收费循环；建议在 leaf_matches 中注明这是 transient-only/演示实现，或后续补充更完整的商业或开源案例。"
+    },
+    {
+      "slug": "marine-fleet-management",
+      "note": "SeaVesselManager 的 About 正文支持船队仪表板、按时间/运行小时生成工单、备件、证书、采购审批与运行小时；但“按设备层级的单船技术档案”主要只由导航中的 Asset Management 指向，正文未展开设备层级；船岸断连同步也未在该页正面说明。另 Community Edition 边界是“最多 4 艘船、全模块、自托管、30 天后申请免费 licence”，条目只写“自托管 Community Edition”，建议补上 4 艘上限和 licence 激活条件。"
+    },
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，而 batch.json/research.json 已有 5 个 case；若下游读取 progress，应同步状态以避免不一致。"
+  ],
+  "leaf_checks": {
+    "cruise-operations-platform": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "commercial:oracle-hospitality-cruise-spms"
+      ],
+      "basis": "读取 Oracle 官方页面快照：SPMS 为 guest/crew/staff/temporary visitor/group 的中央数据库；离线 check-in；cashless accounting、invoicing、cabin account；gangway security module 处理 passenger/crew embarkation 并统计在船人数；handheld mobile mustering 可离线；shore excursion 与 onboard event ticket；Cruise Fleet Management 将船上交易自动转至岸上、guest data 关联 reservation system；crew accommodations/certificates/working hours/payroll。",
+      "gaps": "页面未显式出现 voyage/itinerary 字样，航次绑定由邮轮船上 PMS 场景推断；页面是 SPMS/Fleet/SilverWhere/POS 组合行业页，未验证部署、价格或客户使用。"
+    },
+    "freight-brokerage-platform": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "github:1200808834"
+      ],
+      "basis": "warp-tools MIT 全文（1077 bytes）、repo id 1200808834 与 full_name wearewarp/warp-tools 一致；Mini TMS README/schema：shipment 全生命周期、customerRate/carrierRate/margin、carrierId/carrierName/carrierRate、carrierPaymentRef、rate con、check calls、invoiceRef；Load Board README：load lifecycle、carrier assignment with live margin、rate confirmation；主 README：Carrier Management/Compliance、Invoice & Payment Tracker 等。",
+      "gaps": "套件为多个 standalone 应用，Mini TMS 与 Invoice Tracker 的集成仍列为后续项；开票/付款是引用/状态层，未验证真实结算；未运行。"
+    },
+    "freight-forwarding-system": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:383096173"
+      ],
+      "basis": "GPL-2.0 全文（18092 bytes）、repo id 383096173 与 full_name anwar-gazi/freightforward 一致；README 与 docs 首页：Document Generator for Freight Forwarding Business，Ocean/Air Freight、B/L、AWB、Delivery order、Shipment advice、Cargo Manifest、CFS Report、C&F Agents、Consolidation、Job Costing。",
+      "gaps": "快照未出现 consignment、booking、sea/air export/import；未归档 research/leaf_matches 所称的 SeaExportFreightBooking、forwarder booking 等代码视图，无法核对“以货物作业为中心、安排承运”的核心。"
+    },
+    "marina-management": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "github:1120219587"
+      ],
+      "basis": "MIT 全文（1078 bytes）、repo id 1120219587 与 full_name docklyapp/dockly-app 一致；README：berth inventory CRUD/manual occupancy、manager dashboard（occupancy/arrivals/30-day revenue）、visual plan editor、boat garage、hourly/daily booking、PostgreSQL exclusion constraint 防重叠、24h block + hourly prorating、demo payment、multi-tenant roles。",
+      "gaps": "README 明确未建 facturación、seasonal rates、cancellation；无长期租赁/周期租金、发票/账单、计量公用事业计费、尺寸适配；支付模拟、无生产部署，项目自述 2026 关闭的参考项目。"
+    },
+    "marine-fleet-management": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "commercial:seavesselmanager"
+      ],
+      "basis": "SeaVesselManager About 快照：modern planned maintenance/fleet management platform；Fleet Dashboard、Asset Management（导航）、time/running-hours 自动工单、spare parts across vessels/warehouses、certificate management（vessel/crew）、procurement requisitions→PO with approval chains、running hours；Community Edition 最多 4 艘船、全模块、自托管、30 天后申请免费 licence。",
+      "gaps": "正文未展开按设备层级的单船技术档案；船岸断连同步未在该页正面说明；Asset Management 主要只出现在导航；页面另有 Voyages/Cargo/Docking 模块，未验证部署/价格。"
+    }
+  },
+  "limits": "只读审查；已按 REVIEW_SOURCES.json 的 path 原样读取 15 个快照。未运行任何代码，未访问实时网页，未验证部署、价格、客户使用或会计/支付集成。GitHub metadata 为单行 JSON，read 工具在 2,000 字符处截断，个别字段无法逐字展开（license 快照与 README 已读）；FreightForward docs 为单行 HTML，正文超出预览部分仅用关键词检索核对（booking/consignment/sea export/import 均无匹配）。未计算文件哈希，未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-181/ses_groveopencodegop181review1_1793020934.jsonl",
+  "batch_sha256": "e9907b4f5f2f72918965a4ea74c87df0d456c3eee0be5622a7f8d3d622781105",
+  "research_sha256": "5bf37625a280f6298edd5a6d8cd4440caabdef5299579dde26b707e95e7e4a40",
+  "input_sha256": "31375c1650ccda63be826fb15ac136c7914f3db2a70665cf52de2731dea740af"
+}

@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Azara 的人群由 Registry Reports 与 Cohort Management 的静态/动态分组界定，正文未出现 attribution/empanelment 的正式归属术语；当前摘要未把它写成已归属名册，属于可接受的证据边界。",
+    "PointClickCare 与 MatrixCare 的已引正文能证明 SNF 专属的 resident status、保险校验、MDS/iQIES 或 MDS 数据、billing/AR/collections，但未直接展示 census 作为计费驱动或床位级持久状态；MatrixCare 的 census 仅出现在报告维度。两条例目均未越过证据作此断言。",
+    "PerfectServe 与 Spok 的机构目录、值班/角色路由、送达确认、升级与审计有正文支持；“用户不可自助注册”这一组织身份细节未单独明示，不影响基本类型匹配。",
+    "Suki 的 Solutions 页支持实时捕捉、结构化记录、同步前编辑和回写 EHR；未明示签名/attestation 步骤，按商业基本类型匹配仍可接受。",
+    "Oracle OHIN 的 patient matching/record locating 以 Benefits 表述出现，且 QHIN 本身是网络服务；本次未做技术验证，摘要措辞与来源一致。",
+    "本批没有开源应用条目；OpenHIM 仅作为中间件候选留在 research，MPL-2.0 与仓库身份只出现在研究记录，未进入 batch，因此没有社区版边界需要核验。",
+    "research.json 保留了未进入 batch 的候选与失败抓取记录（Innovaccer、Suki 帮助文章、Abridge assistant 等）；这些不作为当前条目证据，但后续复核应继续区分候选记录与已引用快照。",
+    "input.json 的 progress.application_ids 仍为空，而 batch 已有案例；这是上游元数据滞后，不是本批内容错误。"
+  ],
+  "leaf_checks": {
+    "population-health-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:azara-healthcare"
+      ],
+      "track": "commercial",
+      "basis": "Azara DRVS 正文（https://www.azarahealthcare.com/solutions/drvs）写明 scalable population health management、Clinical/Claims/Practice Management/ADT 聚合、从 enterprise 到 individual patient detail 的多级 drill-down，并列出 Registry Reports（按慢性病、年龄/性别、payer、co-morbidities 等追踪特定患者人群）、Risk Stratification、Cohort Management；Patient Visit Planning 页按每日预约生成患者级清单与 care gap alerts；Patient Outreach 页以自动 text outreach 跟踪 response/follow-up，并用 DRVS Measures/APO Campaign Performance 量化效果；DRVS 正文另写明 SaaS model。",
+      "gaps": "正文未使用 attribution/empanelment 术语，定义人群由 registry/cohort 过滤条件与静态/动态分组界定；未做 runtime、价格或架构验证。"
+    },
+    "skilled-nursing-facility-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:pointclickcare",
+        "commercial:matrixcare"
+      ],
+      "track": "commercial",
+      "basis": "PointClickCare SNF 平台页正文：track resident status、validate insurance coverage、Automate MDS submission to iQIES、billing/accounts receivable/collections/claims、trust fund management、clinical documentation/incident reports；Increase Occupancy 页：census-mix、occupancy、admission decisions。MatrixCare SNF 页：census and financial accounts receivable 报告、billing/reimbursement/quality/compliance；RCM 页补充收入周期；MDS 资源页：MDS coordinator、user-defined assessments、resident clinical record。",
+      "gaps": "两家的已引正文都未直接把 census 写成计费驱动或床位级持久核心记录；MatrixCare 仅把 census 作为报告维度。按商业基本类型匹配保留，未据此扩写。"
+    },
+    "clinical-communication-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:perfectserve",
+        "commercial:spok"
+      ],
+      "track": "commercial",
+      "basis": "PerfectServe Clinical Collaboration 正文：Dynamic Intelligent Routing 使用 real-time schedules/roles/coverage/clinical context 决定接收者；Message escalation 与 “Unanswered messages climb the chain automatically”；Connect 页：patient context/attachments/delivery tracking/read receipts，审计记录 “Every message, delivery event, and sign-in”。Spok 安全消息页：与 provider directory、EHR、on-call schedules 集成，按 people/groups/roles 查找，通信 logged/auditable；主页：Confirmed delivery and intelligent escalation、Audit-ready records for every event。",
+      "gaps": "机构目录/角色路由与审计有正文；未单独证明用户不可自助注册。未做 runtime 验证。"
+    },
+    "clinical-documentation-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:abridge",
+        "commercial:suki"
+      ],
+      "track": "commercial",
+      "basis": "Abridge Clinicians 页：“A structured, specialty-specific note is ready for review the moment the visit ends. Editing tools adapt to clinician preferences, reducing time-to-sign”；首页：“Finalized notes, coding specificity, orders, and patient summaries—ready for review, billing, and follow-up”，并称 notes 集成 EHR workflow。Suki Solutions 页：real-time capture patient encounter→structured notes、clinicians tailor notes before syncing to EHR、edit via typing or voice、sent back to EHR where relevant sections updated。",
+      "gaps": "Suki 仅一条 Solutions 快照，未明示签名/attestation；Abridge/Suki 均未展示完整审计/修订生命周期。按商业基本类型匹配保留。"
+    },
+    "health-information-exchange-hie": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:oracle-health-information-network"
+      ],
+      "track": "commercial",
+      "basis": "Oracle QHIN 页：Oracle Health Information Network, Inc. 是 TEFCA Designated QHIN；centralized, single point of data connectivity；provider organizations 与其他 providers、payers、consumers、public health organizations、government agencies 交换 clinical data；Benefits 段列 intelligent patient matching and record-locating；FAQ 列 treatment、individual access、healthcare operations 等 exchange purposes。互操作页 National exchanges 段以 OHIN 描述 unified health data connectivity、patient matching/record locating 与 QHIN 身份。",
+      "gaps": "OHIN 是 QHIN 网络服务；patient matching/record locating 仅以产品 Benefits 表述，未做技术验证；未纳入开源 HIE 应用。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 REVIEW_SOURCES.json 列出的 17 个快照及 batch/research；未运行 shell、未写文件、未读取其他单元。未做部署测试、价格/架构/安全审计。部分页面为 Nitro/React/SSR 压缩 HTML，长行在工具中只能读取截断预览，但关键定义句已按原文匹配；MatrixCare 的 SNF/RCM 页面正文主要位于单行压缩 HTML，无法逐段通读。未覆盖未进入 batch 的候选（Innovaccer、OpenHIM、eHealth Exchange 等）；本批无开源应用条目，故未做完整许可证/社区版边界核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-019/ses_groveopencodegop019review2_1793077404.jsonl",
+  "batch_sha256": "7b3316843a29a99c96fa8cb117b2448aca903112f54b122156eac3da81b43c9a",
+  "research_sha256": "d997d8542331c81540cf156e511aee6f304e160994f27a1f7983cd267f98a773",
+  "input_sha256": "ac79b7ee9b6b3d7b8cfa0f008f16e70902bd55f2337948db2841de7b464ff5d9"
+}

@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍写 case_status=not_searched、application_ids=[]，且 phase=included_without_cases，与 batch.json/research.json 中五个 case_found 不一致；建议同步元数据，避免下游误判本单元无案例。",
+    "VectorCraft 的 license 字段记为 MIT，但仓库为 MIT OR Apache-2.0 双许可，GitHub /license 快照实际返回 Apache-2.0；license_review 已说明按单 SPDX 约定取 MIT，LICENSE-MIT 与 LICENSE-APACHE 全文均在。建议后续用 SPDX 表达式或独立字段记录双许可，并注明品牌与资产例外：README 明确商标不随代码许可，资产各有其开放许可。",
+    "Pixelorama 的 README 功能段未逐项列出铅笔、橡皮、填充等工具，也未直接写画布尺寸在创建时固定；受限低分辨率画布与逐像素工具主要由 pixel art、sprite、tile 定位，以及像素完美线条、索引模式、网格与平铺功能推定，建议补官方文档或截图加固。",
+    "Pinta 的 Save Project 文档写明 Quick Save 一律保存为 JPEG，分层工程需 Save As OpenRaster(.ora)；条目 summary 与 features 可更明确区分保存与导出，避免把 Quick Save 误读为保留图层。",
+    "SVG-Edit 的 FAQ 自标可能过时，服务器保存说明针对 2.5.1 扩展，V7 的保存与下载流程未单独取证；条目 technology_stack 中的 Web Components 未在快照正文出现，建议补证或收窄。",
+    "PhotoX 的部署要求为 macOS 15+ 且 Apple Silicon，条目只写 macOS 15+；README 另列 LibRaw（LGPL 2.1）与 exiftool（Artistic 1.0）第三方组件，建议在部署与许可说明中补充。"
+  ],
+  "leaf_checks": {
+    "pixel-art-editor": {
+      "application_id": "github:202983854",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "官方 README 功能段明确 Pixelorama 为开源像素画多功能工具，面向 sprite、tile 与动画；列像素完美线条、索引模式、像素专用旋转与缩放算法、图层与帧时间轴、洋葱皮、帧标签、平铺与等距网格，以及 PNG、APNG、spritesheet、GIF、视频导入导出。仓库元数据 id=202983854 与条目一致；/license 快照含完整 MIT 文本。",
+      "gap_or_note": "README 未逐项列出铅笔、橡皮、填充等工具，也未直接写画布尺寸在创建时固定；受限低分辨率画布系由 sprite、tile、pixel-art 定位与网格、平铺功能推定，属可补强证据，不阻断。"
+    },
+    "raster-image-editor": {
+      "application_id": "github:2358713",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 说明 Pinta 为 Paint.NET 3.0 的 GTK 克隆，用于绘图与图像编辑；官网与 General Overview 文档给出铅笔（1 像素）、画笔、油漆桶、橡皮、克隆、选区、缩放与平移等直接像素工具，以及 Open 打开既有图像、Save 保存当前图像；Save Project 文档给出 Save 与 Save As 及 PNG、BMP、ICO、JPEG、TIFF、TGA、OpenRaster(.ora) 导出表。仓库 id=2358713 与条目一致；/license 快照含完整 MIT 文本。",
+      "gap_or_note": "Quick Save 文档称一律保存为 JPEG，分层工程需 Save As .ora；图标为 CC BY 3.0 资产例外。均不影响通用位图编辑器核心。"
+    },
+    "illustration-application": {
+      "application_id": "github:1398097510",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 自称矢量插画、现代矢量艺术应用；Why VectorCraft 与截图列钢笔、直接选择、真实贝塞尔锚点与控制柄、图层与实时混合、路径查找器、渐变网格、透视网格；原生 .vectorcraft(JSON) 文档、SVG 与 PDF 导入导出、PNG/JPEG/WebP 导出。仓库 id=1398097510 与条目一致；LICENSE-MIT 与 LICENSE-APACHE 全文快照均在，README 明确 MIT OR Apache-2.0 at your option。",
+      "gap_or_note": "README 的 Made in VectorCraft 示例均由命令 API 与 MCP 生成，手绘作者性主要由钢笔、直接选择工具与截图支持；项目自述 alpha（约 65% ready），不影响类型判定。"
+    },
+    "vector-graphics-editor": {
+      "application_id": "github:21611548",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 与官方站点称 SVG-Edit 为浏览器内 JavaScript SVG 绘图编辑器；Editor.md 说明 Path 工具创建路径，Select 后可独立调整节点与旋转缩放；FAQ 说明默认 open/save 行为及服务器保存扩展与 filesave.php；ConfigOptions 说明预载既有 SVG 与用户此前保存。仓库 id=21611548 与条目一致；/license 快照含完整 MIT 文本。",
+      "gap_or_note": "FAQ 自标可能过时且服务器保存说明针对 2.5.1 扩展，V7 保存与下载流程未单独取证；technology_stack 的 Web Components 未在快照正文出现。属补充核对项，不阻断。"
+    },
+    "photo-culling-application": {
+      "application_id": "github:1241807594",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 定位 PhotoX 为 macOS culling viewer：打开拍摄文件夹或 CFExpress、SD 卡，逐帧星级、色标、拒绝，决定写入 .xmp 边车且不修改原图，Lightroom 与 Photomator 可读，支持按 rating、reject 过滤。仓库 id=1241807594 与条目一致；/license 快照含完整 Apache-2.0 文本；README 另列 LibRaw（LGPL 2.1）与 exiftool（Artistic 1.0）第三方组件。",
+      "gap_or_note": "未明确提供把选中子集一键导出或移动到文件夹的流程，交接主要靠 XMP 边车与过滤视图；部署要求 macOS 15+ Apple Silicon，条目只写 macOS 15+。均不阻断。"
+    }
+  },
+  "limits": "只读审查；仅使用 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 25 个快照，未读取其他单元、未运行应用或部署测试、未重算 sha256。GitHub API 元数据为单行长 JSON，read 工具在 2000 字符处截断，未能逐字段查看 archived、stars、license 对象等尾部字段；仓库 id、full_name 与许可证端点内容已核对。未另行抓取未列出的官方文档，Pixelorama 画布约束、SVG-Edit V7 保存流程等按现有快照判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-018/ses_groveopencodegop018review2_1792941147.jsonl",
+  "batch_sha256": "94fc58fe989afe82a9a03e7944f9e2e74445129ee36ef1709caaf7a40b1129be",
+  "research_sha256": "d6954b7a0fada543039ff7980406d1fcd949d863b133ab08bbb3017aea869339",
+  "input_sha256": "54168aa36848de53e773cbaf3f08ce9a52cdab5bffed79211dfbd8e8477e0391"
+}

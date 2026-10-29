@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "underwriting-workbench",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1255299527",
+        "commercial:kalepa"
+      ],
+      "query": "retained-evidence-20261028 u063: open source underwriting workbench insurance github; GitHub search API: underwriting+insurance+in:name,description; underwriting+workbench; underwriting rules / referral / authority official docs",
+      "source_urls": [
+        "https://api.github.com/repos/kishorjakkula/LatticePolicy",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/README.md",
+        "https://api.github.com/repos/kishorjakkula/LatticePolicy/license",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/SUBMISSION_INTAKE.md",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/issue-50-underwriting-referral-workflow.md",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/admin-underwriting-rules-engine.md",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/issue-316-underwriting-authority.md",
+        "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/server/src/services/uw.service.ts",
+        "https://kalepa.com/",
+        "https://kalepa.com/platforms/quote-bind"
+      ],
+      "note": "本轮补证解决了原缺口。历史记录（opencode-go/part-015 与 included-go-final-20261025）只核对了 Kalepa 首页，未能确认 accept/decline/refer 决策记录与移交，故留为 boundary_unresolved；本轮找到并核实了完整开源应用 LatticePolicy（GitHub id 1255299527，Apache-2.0，LICENSE 正文与 license API 一致，非归档，Docker Compose 自托管）。官方文档与源码证明其具备定义核心：提交作为独立案件被摄取并可人工逐值确认（docs/SUBMISSION_INTAKE.md）；evaluateUW 以运营商配置的承保规则返回 Eligible/Refer/Decline 及原因（server/src/services/uw.service.ts）；Refer 生成 underwriting_referrals 记录，含状态、理由、指派、评论、决定人与时间，并在批准前阻断 bind/renew/rewrite/endorse（docs/tasks/issue-50-underwriting-referral-workflow.md）；有效期的承保授权额度超限自动转介并要求显式 override 权限与理由（docs/tasks/issue-316-underwriting-authority.md）；决定后由同一平台的报价/绑定/签发流程继续（README）。因此接受“记录承保决定并交接下游”的结构，但按来源只描述为同一平台内的报价/绑定环节，不断言其为独立第三方保单主记录系统。Kalepa 仍作为商业案例保留（官方首页 + Quote & Bind 页，本轮两份快照重新抓取，均显示 Preferred/Refer/Decline 与 single workspace 报价绑定）；商业仅基本记录，不深入价格与架构。旧研究轨迹未删除，历史 final_review 的 hold 决定保留。",
+      "service_boundary": "开源部分：LatticePolicy 为自托管的 P&C 承保与保单管理框架（Apache-2.0），在运营商自有租户内完成提交摄取、按规则/授权额度的承保判定（Eligible/Refer/Decline）、转介审批与审计记录，并衔接同一平台的报价、绑定与签发。商业部分：Kalepa 为面向承运人/MGA 的 SaaS 承保工作台，覆盖提交摄取、清分、分诊、风险分析、评级、报价与绑定；官方页面未主张其承担保单主记录，故不主张出单或保单管理归属。",
+      "search_attempts": [
+        {
+          "query": "open source underwriting workbench insurance github (websearch)",
+          "result": "搜索工具当日配额耗尽，未返回结果；改用 GitHub 搜索 API 直接核对，未把工具失败当作“不存在”。"
+        },
+        {
+          "query": "GitHub search API: underwriting+insurance+in:name,description (total 688)",
+          "result": "前 20 项多为模型/演示/样例仓库（如 aws-samples 演示、car-damage-detector、文档分类模型）；发现 kishorjakkula/LatticePolicy（Apache-2.0，P&C 承保+保单管理框架）为可核验完整应用候选并深入核对。"
+        },
+        {
+          "query": "GitHub search API: underwriting+workbench (total 37)",
+          "result": "多为 0-1 star 的个人原型/演示，未见许可证或无完整应用；保留为未成立候选，不收录。"
+        },
+        {
+          "query": "GitHub search API: openunderwriter (total 6)",
+          "result": "OpenUnderwriter/openunderwriter 为 2015 年后未更新的 GPL-2.0 仓库，无 README 正文、无应用服务可核验，未收录；其余为镜像/无许可证副本。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/kishorjakkula/LatticePolicy",
+          "kind": "repository_metadata",
+          "status": "success"
+        },
+        {
+          "url": "https://api.github.com/repos/kishorjakkula/LatticePolicy/license",
+          "kind": "license",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/README.md",
+          "kind": "readme",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/SUBMISSION_INTAKE.md",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/issue-50-underwriting-referral-workflow.md",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/admin-underwriting-rules-engine.md",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/docs/tasks/issue-316-underwriting-authority.md",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kishorjakkula/LatticePolicy/main/server/src/services/uw.service.ts",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://kalepa.com/",
+          "kind": "homepage",
+          "status": "success"
+        },
+        {
+          "url": "https://kalepa.com/platforms/quote-bind",
+          "kind": "documentation",
+          "status": "success"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OpenUnderwriter/openunderwriter/master/README.md",
+          "kind": "readme",
+          "status": "failed_404"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

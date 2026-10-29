@@ -1,0 +1,80 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶子标为 not_searched，application_ids 与 research_records 为空，与 batch.json、research.json 中的 case_found、boundary_unresolved 记录不同步；这属于流水线状态元数据，不影响本次内容核对，但后续写入时应刷新。",
+    "commercial:fireflies 同时匹配 ai-meeting-assistant 与 meeting-recording-transcription-application；batch.json 已明确说明这是同一产品的双重类型而非两个独立案例，下游统计不应重复计为两个独立产品。",
+    "meeting-action-item-management 的 Fireflies Tasks Feed 正文在 Edit a Task 处出现“a deadline”这一可编辑细节，但没有到期日字段、日期选择器或逾期提示；研究记录因此按 boundary_unresolved 留档。若分类口径把 deadline 属性本身视为足够，可再评估恢复该叶关联；当前按留档缺口规则不阻断。",
+    "Slido 具备 Present mode、主持驱动的会议或活动投票等 Audience Response System 相邻特征；batch.json 已说明按“问题+预置选项→投票→聚合结果”的 polling 核心记录，建议后续关注类型漂移而非本次阻断。",
+    "Slido 产品页快照 3e37556b… 只有两行，核心文案位于内嵌的 JS/RSC 数据中，不是易读的渲染正文；本次通过逐词检索确认 multiple choice、predefined options、link/QR、Excel/PDF/Google Sheets 等核心语句存在，并由 4f9b4b8d… 官方帮助正文交叉核对。后续采集宜优先保存可读正文。",
+    "818c1569…（会前设置）列在 batch.json 的 Fireflies sources 中，但未出现在任何 leaf_match 或 research fetch_outcomes 的正文引用里；该页仅作背景资料，不影响本次结论。",
+    "3e37556b… 的 kind 标为 homepage，但实际是 features-live-polling 产品功能页；仅为来源元数据分类问题。",
+    "本单元没有开源条目，因此未触发完整许可证、仓库身份和社区版边界核对；商业条目仅按基本真实性和类型匹配审查。"
+  ],
+  "leaf_checks": {
+    "ai-meeting-assistant": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:fireflies"
+      ],
+      "basis": "读取 c3264c6d… 与 5261fe0e…：Fireflies 官方正文说明 bot、Chrome 扩展、桌面或移动端及上传音视频捕获会议，生成带说话人标签的转录、AI 摘要（含 Action Items）和 AskFred 问答与搜索；dc722f9b… 的 Notepad 也显示摘要、转录、录音与行动项汇于按会议打开的工作区。满足“已识别会议场合→系统捕获→机器生成记录（转录+AI 理解）”的定义核心。",
+      "sources_checked": [
+        "c3264c6d14964d7311d3a39d3d3486e7de897eb742391c99a06de08d99bccc54",
+        "5261fe0e832a5fcb54795acb3f149dd0881fb3461672ba510f1a13f27100b0ac",
+        "dc722f9bb01db064003017c4974ac97e08b4d4cdd0c47ff79740f304f52414ef"
+      ],
+      "notes": "SaaS 商业形态；ID/track 为 commercial:fireflies，和 batch、research 一致。与 meeting-recording-transcription-application 的双重类型已在 batch.json 说明。"
+    },
+    "meeting-action-item-management": {
+      "result": "pass_with_documented_gap",
+      "application_ids": [],
+      "basis": "核对 7c934d76… 与 c3264c6d…：Fireflies Tasks Feed 确有会议行动项自动或手动生成、指派给本人、同事、参会者、用户组或邮件地址、重指派、勾选完成与撤销、My Tasks 和 All Tasks 持续跟踪；但正文只在 Edit a Task 处顺带提到可修改 deadline，没有到期日字段、日期选择器或逾期提示。研究记录已用两次检索和两次抓取说明该缺口，并按 boundary_unresolved 移除关联。",
+      "sources_checked": [
+        "7c934d763bf433ee5d1d93b1b71ad5cdf5c05ad948b77d1c03d6eaa7d549ed39",
+        "c3264c6d14964d7311d3a39d3d3486e7de897eb742391c99a06de08d99bccc54"
+      ],
+      "gap": "缺少应用内到期日字段或逾期语义的证据；按“无案例但如实记录检索、抓取和缺口”的规则通过。"
+    },
+    "meeting-notes-application": {
+      "result": "pass_with_documented_gap",
+      "application_ids": [],
+      "basis": "核对 dc722f9b…、5261fe0e… 和 818c1569…：Notepad 是会后会议工作区，保存 AI 生成的 summary、full transcript、video recording、analytics 和 action items，左栏为 AI 摘要与笔记、右栏为转录，可编辑转录或切换摘要模板；Summaries 的 Meeting Notes 是 AI 生成要点小节。未呈现人工撰写、以议程—决策为主线的会议纪要结构。研究记录用两次检索和两次抓取留档。",
+      "sources_checked": [
+        "dc722f9bb01db064003017c4974ac97e08b4d4cdd0c47ff79740f304f52414ef",
+        "5261fe0e832a5fcb54795acb3f149dd0881fb3461672ba510f1a13f27100b0ac",
+        "818c1569545204cc18d0743ea55fc2ff29f59d6db6e00f32207561a739c85f47"
+      ],
+      "gap": "没有人工撰写的议程—决策结构；Notepad 的“notes”为 AI 生成或可再生成，按留档缺口规则通过。"
+    },
+    "meeting-recording-transcription-application": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:fireflies"
+      ],
+      "basis": "读取 c3264c6d… 与 dc722f9b…：Fireflies 支持 bot、浏览器扩展、桌面或移动端录制及音视频上传，自动转录并带说话人标签，Notepad 将转录、录音、摘要与行动项保存为按会议打开的持久工作区，Meetings 列表可回到历史会议；正文还支持转录编辑、搜索、分享和下载。满足“录音→转录→绑定为会议记录→可检索会议库”的核心。",
+      "sources_checked": [
+        "c3264c6d14964d7311d3a39d3d3486e7de897eb742391c99a06de08d99bccc54",
+        "dc722f9bb01db064003017c4974ac97e08b4d4cdd0c47ff79740f304f52414ef"
+      ],
+      "notes": "SaaS 商业形态；与 ai-meeting-assistant 为同一产品的双重类型，batch.json 已说明。"
+    },
+    "polling-application": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:slido"
+      ],
+      "basis": "读取 4f9b4b8d… 与 3e37556b…：Slido 官方帮助正文说明选择 Multiple choice、输入问题与答案选项、Start 运行投票，Present mode 实时展示结果，默认按流行度排序并以百分比显示；官方产品页正文说明参与者可用链接或二维码从任意设备投票、结果实时显示，并可导出到 Excel、PDF 或 Google Sheets，且列出 multiple choice、word cloud、quiz、rating、open text、ranking、survey 等类型。满足“问题+预置选项→低摩擦分发投票→聚合结果”的核心。",
+      "sources_checked": [
+        "4f9b4b8d35021ce9474b5544e199403df28947d7663fdc791f95b0387b459d1a",
+        "3e37556b1e8bd3e478834327455534ebd6c36deb2a73ca2172b106d3ac378c24"
+      ],
+      "notes": "SaaS 商业形态；ID/track 为 commercial:slido，与 batch、research 一致。具备 Audience Response System 的 Present mode 邻近特征，batch.json 已说明按 polling 核心记录。"
+    }
+  },
+  "limits": "只读独立初审；未运行 shell、未写入文件、未访问其他单元。未部署或运行 Fireflies/Slido，未做运行时验证，未计算快照 sha256。部分快照是原始 HTML/JS，正文位于内嵌 hydration 数据或打包脚本中；已按 REVIEW_SOURCES.json 的 path 原样读取并用官方页面交叉核对。仅审查本单元 5 个叶子和 7 个快照，未涉及本单元之外的数据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-014/ses_groveopencodegop014review2_1792940263.jsonl",
+  "batch_sha256": "5578f6764e56819fc288046e76024e219ccda300e371ed09652e7305ae4dcb9c",
+  "research_sha256": "d05a4f3196f5032cd2c58afefc37cc08e44a3d6802590129ad98db0b0e89da03",
+  "input_sha256": "af3b1e4189f6f9d4e9addb75cb2ffe009ac417bbfdf48078921af7ab222dc8e1"
+}

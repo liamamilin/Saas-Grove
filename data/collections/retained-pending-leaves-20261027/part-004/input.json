@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "browser-compatibility-testing-platform",
+        "name_zh": "浏览器兼容性测试平台",
+        "domain_id": "12",
+        "parent_id": "12.02",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "BrowserStack Automate official Browser Compatibility Testing Platform"
+            ]
+          },
+          {
+            "record": "retained-continuation-20261027/part-059/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": [
+              "BrowserStack Automate official Browser Compatibility Testing Platform"
+            ]
+          },
+          {
+            "record": "retained-go-followup-20261027/part-039/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": [
+              "BrowserStack Automate official Browser Compatibility Testing Platform"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "browser-compatibility-testing-platform",
+        "name": "Browser Compatibility Testing Platform",
+        "name_zh": "浏览器兼容性测试平台",
+        "aliases_zh": [
+          "跨浏览器测试平台",
+          "浏览器兼容性测试工具"
+        ],
+        "overview": "A **Browser Compatibility Testing Platform** gives a web team on-demand access to a large, selectable catalog of browser environments — browsers and specific versions running on operating systems (and, in many products, real devices and screen resolutions) that the team could not practically assemble on its own — and runs the team's own web application inside whichever environment is chosen. The tester observes what happens, either by driving the remote browser interactively, by executing existing test scripts against a hosted browser grid, or by capturing screenshots in bulk across many configurations at once.\n\nThe problem it solves is structural: a web application must work on combinations of browser, browser version, and operating system that no individual machine can host. An old browser may not install on a modern operating system; a Safari version may exist only on macOS; yesterday's browser release and a five-year-old browser must both be checked before release. The platform maintains that environment matrix as a service, so verifying compatibility becomes a matter of selecting an environment and pointing it at a URL rather than maintaining a room full of machines.\n\nThe boundary of the Type: the platform's own artifact is **the environment and the observable session** — not the test cases (they belong to the team, or to test-management products), not ongoing operational vigilance (that is monitoring), and not consumer browsing (that is a web browser).",
+        "overview_zh": "一个**浏览器兼容性测试平台**为网络团队提供按需访问一个大型、可选的浏览器环境目录的能力——包括运行在操作系统上的浏览器及特定版本（在许多产品中，还包括真实设备和屏幕分辨率），这些环境是团队自身难以实际组织的——并在所选环境中运行团队自己的 Web 应用程序。测试员通过交互式驱动远程浏览器、针对托管的浏览器网格执行现有测试脚本，或一次性跨多种配置批量截取屏幕截图来观察发生的情况。\n\n它解决的问题是结构性的：Web 应用程序必须在浏览器、浏览器版本和操作系统的多种组合上运行，而任何单台机器都无法承载所有组合。一个旧版浏览器可能无法在现代操作系统上安装；某个 Safari 版本可能只存在于 macOS 上；昨天的浏览器版本和五年前的浏览器都必须在发布前进行检查。该平台将该环境矩阵作为一种服务进行维护，因此验证兼容性就变成了选择一个环境并将其指向 URL 的问题，而不是维护一整间机房的机器。\n\n类型的边界：平台自身的产出物是**环境和可观察的会话**——而不是测试用例（它们属于团队或测试管理产品），也不是持续的运营监控（那是监控），更不是消费者浏览（那是 Web 浏览器）。",
+        "dc": "An **environment** is one selectable combination in the platform's catalog: a browser type and version running on an operating system, commonly extended with device model and screen resolution. The catalog deliberately spans versions and operating systems the team cannot run locally — legacy browsers kept available long after their end of life, pre-release (beta/developer) channels of upcoming versions, and operating systems the team does not use. This catalog is the platform's backbone: every workflow begins by choosing from it, and its breadth is the compatibility dimension itself. In mature products the catalog is large and explicitly enumerated, with each combination linked to both a manual and an automated way to run against it.",
+        "dc_zh": "一个**环境**是平台目录中的一个可选组合：一个浏览器类型和版本运行在操作系统上，通常扩展以设备型号和屏幕分辨率。该目录故意涵盖了团队无法在本地运行的版本和操作系统——生命周期结束后仍长期可用的旧版浏览器、即将版本的预发布（测试版/开发者）渠道，以及团队不使用的操作系统。该目录是平台的支柱：每个工作流都始于从中选择，其广度本身就是兼容性维度。在成熟产品中，目录庞大且明确枚举，每个组合都链接到手动和自动两种运行方式。",
+        "rules": "- **The environment is executed exactly as selected.** A run or session pinned to a specific browser version runs in that version — this pinning is the point; \"latest\" is just one selectable value among many, and pre-release channels are selectable too.\n- **Concurrency is the scarce resource.** Plans commonly bound how many sessions/runs execute at once; large matrix runs are sized against that limit, and parallel execution is the platform's unit of scale.\n- **Sessions are ephemeral and cleaned.** Hosted environments are provisioned for the task and released afterward; vendors commonly state that session data is wiped so successive customers never share residue. Testing state must live in the target application or test code, not in the environment.\n- **Private targets require the tunnel.** The platform can only see what it can reach; localhost and firewalled staging are invisible until a connector relays them. Conversely, anything reachable through the tunnel is testable by every mode.\n- **Automated statuses must be reported back.** The platform records what the test framework emits; pass/fail per environment typically arrives through the framework's integration or an API call. Result matrices and badges reflect reported state, not the platform's own judgment of the page.\n- **The catalog is maintained, not static.** New browser and OS releases appear (often including beta channels), and very old environments are eventually retired; a team's support matrix therefore needs occasional re-validation against the current catalog.\n- **Legacy environments exist precisely because local installation is impractical** — that is the platform's core value, not a niche feature. Testing an end-of-life browser is one of the most common reasons to open the product.",
+        "rules_zh": "- **环境将完全按照所选方式执行。** 固定到特定浏览器版本的运行或会话将在该版本中运行——这种固定正是关键所在；“最新版”只是众多可选值中的一个，预发布渠道也是可选的。\n- **并发是稀缺资源。** 计划通常限制同时执行的会话/运行数量；大规模矩阵运行会针对此限制进行评估，而并行执行是平台的扩展单位。\n- **会话是临时性的并会被清理。** 托管环境为任务而配置并在任务完成后释放；供应商通常声明会话数据会被清除，因此后续客户永远不会共享残留物。测试状态必须存在于目标应用程序或测试代码中，而不是环境中。\n- **私有目标需要隧道。** 平台只能看到它能触及的内容；localhost 和防火墙后的预发布环境在连接器中继它们之前是不可见的。相反，任何通过隧道可达的目标都可以通过所有模式进行测试。\n- **自动化状态必须被报告回平台。** 平台记录测试框架发出的内容；每个环境的通过/失败状态通常通过框架的集成或 API 调用到达。结果矩阵和徽章反映的是报告的状态，而不是平台自己对页面的判断。\n- **目录是维护的，而不是静态的。** 新的浏览器和操作系统版本会发布（通常包括 beta 渠道），非常古老的环境最终会被淘汰；因此团队的支持矩阵需要偶尔根据当前目录进行重新验证。\n- **遗留环境之所以存在，恰恰是因为本地安装不切实际**——这是平台的核心价值，而不是一个细分功能。测试一个生命周期结束的浏览器是打开该产品最常见的原因之一。",
+        "parent_id": "12.02",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 4,
+    "phase": "directory",
+    "parent": 39,
+    "source_run": "go-followup-20261027",
+    "input_status": "review_pending",
+    "slugs": [
+      "browser-compatibility-testing-platform"
+    ],
+    "old_input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+  },
+  "previous_continuation": {
+    "unit": 39,
+    "phase": "complete",
+    "parent": 59,
+    "slugs": [
+      "project-scaffolding-code-generator",
+      "sql-client",
+      "web-development-ide",
+      "browser-compatibility-testing-platform",
+      "code-quality-platform"
+    ],
+    "old_input_sha256": "4f4388a1ed964ed00e89029169aed08a93af25f9a79766fe0976f0fea5ab129b"
+  }
+}

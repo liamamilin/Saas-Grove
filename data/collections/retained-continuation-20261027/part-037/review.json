@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "digital-download-commerce-platform / github:3961425：readme 标注 'GPLv2 or later'，批次 license 字段写作 'GPL-2.0'；license 快照含完整 GPLv2 文本。建议将字段精确为 'GPL-2.0-or-later'，不影响开源结论。",
+    "dropshipping-platform / commercial:dsers：AliExpress 集成页说明批量下单前仍需审核，并明确 'not unattended fulfillment'；摘要 '自动批量下单' 可细化为 '批量下单（可自动/需审核）'，避免读者理解为完全无人值守。",
+    "multi-marketplace-seller-platform / commercial:linnworks：当前 reason 已收紧且有正文支持；被删除的 'channel-specific titles/pricing' 实际在同页有直接表述（Channel-specific titles, descriptions, and images... / Set channel-specific pricing...），如需要可恢复，不影响当前结论。",
+    "marketplace-seller-management / github:790821454：deployment 写 '依赖 PostgreSQL、Redis 与 Docker'；README 将 Docker 描述为容器化部署方式，未列为运行前置依赖，建议改为 'PostgreSQL、Redis（可用 Docker 部署）'。",
+    "input.json 的 progress 仍为 phase=included_without_cases、case_status=not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；若下游读取 input.json，应刷新进度元数据。"
+  ],
+  "leaf_checks": {
+    "dropshipping-platform": {
+      "application_id": "commercial:dsers",
+      "track": "commercial",
+      "status": "pass",
+      "core_match": "供应源连接（供应商商品导入/映射）+ 订单批量路由至供应商 + 供应商直发终端客户 + 运单号/状态回写卖家店铺",
+      "license_boundary": "不适用（商业）",
+      "basis": "读取 data/collections/sources/b03ecb45df5a501d42f84fabf38791249f646107934fc87cc20b594ec34afa96.txt（首页）与 01f38dd984d113f413e9d8eac533397efafca775b7d6f3c51d4d251425718b7e.txt（AliExpress 集成页）。集成页正文列出 product import、supplier and variant mapping、incoming orders、batch placement、status and tracking，并说明供应商收到订单后直接发货给买家；首页展示连接 Shopify/WooCommerce/Wix/eBay 等店铺及 AliExpress/1688/Alibaba 供应源。",
+      "notes": "集成页同时说明 batch 前需 review，且 'not unattended fulfillment'；未安装应用或实际下单。"
+    },
+    "digital-download-commerce-platform": {
+      "application_id": "github:3961425",
+      "track": "open_source",
+      "status": "pass",
+      "core_match": "数字商品绑定文件 + 购买后自动生成安全下载链接 + 客户账户取回 + 卖家收款/报表",
+      "license_boundary": "仓库 awesomemotive/easy-digital-downloads（GitHub ID 3961425），license API 快照含完整 GPLv2 文本；readme 将 subscriptions、software licensing、content restriction 等标为 Pro，未计入社区核心。",
+      "basis": "读取 10d90a99950329ae060043f082b3cac6938c8ef8c1d5bd00dd25a281dd4a7206.txt（metadata，id=3961425）、d94691cac02b6a842ce69fb22c5479b791c6d968932487461868de7c1f80fadd.txt（license，license.txt GPLv2 全文）、9d0c5f15ad31c45ba39c796f87458213ef2cd7656f6f6bed71c909a5d199a8b4.txt（readme）：任意文件类型、变体/捆绑、购买后唯一安全下载链接（有效期/次数/IP）、客户资料与购买历史、退款、销售/收入报表。",
+      "notes": "readme 写 'GPLv2 or later'，批次 license 字段为 'GPL-2.0'，精度差异见 non_blocking_notes；未部署 WordPress 实例。"
+    },
+    "marketplace-seller-management": {
+      "application_id": "github:790821454",
+      "track": "open_source",
+      "status": "pass",
+      "core_match": "运营方卖家目录（持久卖家记录）+ 入驻状态生命周期（pending_approval/open/suspended/terminated）+ 按卖家/类目/商品佣金与结算",
+      "license_boundary": "仓库 mercurjs/mercur（GitHub ID 790821454），MIT 全文；README 明确 MIT 覆盖 core repo，Enterprise 模块另授权且未计入。",
+      "basis": "读取 eacca81596e2337f0472eddbb7ff731acbeb41145d45724baf0b8965ebb55e40.txt（metadata，id=790821454）、418167178e27f0bbfbdbb5066369fa8babc618ba025133328deddae6ff08c577.txt（MIT 全文）、b6f4457485654159c4d16226282874b8503a1cac956e1aec3bd20cc6079e3d28.txt（README：Admin Panel 管理 vendors/commissions/rules，Vendor Panel，Medusa 核心）、f9752eb1c760a11cb02bff5646177bb5c6ee3cdaec012e3582c5bbe12f89c0b4.txt（features：Vendor Account/Vendor Management/Vendor Onboarding 状态生命周期、Commission 规则引擎、Payouts、Admin & Vendor Dashboards）。",
+      "notes": "核心卖家管理模块在 features 页标为 Open Source；Seller CRM、Seller Governance & Scoring、Seller Verification 等标为 Enterprise，未计入；未部署测试。"
+    },
+    "multi-marketplace-seller-platform": {
+      "application_id": "commercial:linnworks",
+      "track": "commercial",
+      "status": "pass",
+      "core_match": "多渠道连接 + 中央目录 + 渠道可售 listing + 双向库存/订单循环",
+      "license_boundary": "不适用（商业）",
+      "basis": "读取 97c1a5d130e44e82bc57c194bada5378620eef00657b86fd2cb66aef9989ec8b.txt（首页）与 23adc47584602352d7940ff4fd054c64474e5a7a8dfcb13321f2b9d583df2c71.txt（多渠道销售页）：100+ 渠道连接、中央目录与 channel-specific attributes/pricing、渠道 listing 创建/发布/更新、Inventory deduction across all channels at the point of order、订单统一视图与 Rules Engine、Tracking number syncs back to all channels。",
+      "notes": "当前 reason 未写渠道差异化标题/价格；该页实际有 'Channel-specific titles, descriptions, and images' 与 'Set channel-specific pricing'，属可恢复细节；未连接实际店铺。"
+    },
+    "cross-border-commerce-platform": {
+      "application_id": "commercial:global-e",
+      "track": "commercial",
+      "status": "pass",
+      "core_match": "海外市场作为受管销售上下文 + 按市场本地货币/支付/结账 + 订单承载关税税费/合规/国际配送",
+      "license_boundary": "不适用（商业）",
+      "basis": "读取 8fed0584c3c7816968f01c522855885951e503abf86958af92c41863141cb108.txt（首页）与 e7f91bca74ebf2e417d133bc983edb07f1b0992b1f9abfa7c0aef4100c31e1ff.txt（platform 页）：local currency、localised checkout、shipping methods、tax and duty 的 guaranteed final cost、local/alternative payment methods、Merchant of Record 承担 payment/tax/regulations、merchant portal 管理 200+ markets。",
+      "notes": "条目已披露 MoR 模式，跨境交易记录卖方为 Global-e；未接入商户店铺或支付账户验证结算。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算快照 sha256、未执行或部署任何应用、未连接店铺/支付账户；DSers 与 Mercur features 快照为单行压缩 HTML，read 仅显示行首，核心正文通过精确字符串命中与同 URL 线上页面交叉核对，未能逐段渲染全文；未独立重放检索查询；Global-e 仅依据公开平台页评估，未进入商户门户。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-037/ses_groveopencodegop037review1_1792943913.jsonl",
+  "batch_sha256": "073086406d1ac1f278ec8e966f285ce25f5b1d1c97a933cae0c6a9da1f8afd70",
+  "research_sha256": "7fa6939d2191e5b0c8162e76b31f2cbfa55b699368b2f0d0129fe99aa8ea5553",
+  "input_sha256": "815d5f7aeb7ab758cd601780de957c2474e7f8d9ff50e18b499937ce50de8b3c"
+}

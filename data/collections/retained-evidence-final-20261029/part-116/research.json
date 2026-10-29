@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "infrastructure-as-code-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:349578094"
+      ],
+      "query": "Terrakube open source infrastructure as code platform self hosted Terraform OpenTofu",
+      "source_urls": [
+        "https://api.github.com/repos/terrakube-io/terrakube",
+        "https://api.github.com/repos/terrakube-io/terrakube/license",
+        "https://raw.githubusercontent.com/terrakube-io/terrakube/main/README.md",
+        "https://terrakube.io/",
+        "https://docs.terrakube.io/readme.md",
+        "https://docs.terrakube.io/user-guide/workspaces.md",
+        "https://docs.terrakube.io/user-guide/workspaces/terraform-state.md",
+        "https://opentofu.org/docs/language/state/",
+        "https://opentofu.org/docs/intro/core-workflow/",
+        "https://raw.githubusercontent.com/opentofu/opentofu/main/README.md"
+      ],
+      "note": "原缺口：历史候选 OpenTofu 只被证明为 CLI 工具，未证明本叶所需的可持续使用应用服务形态，故上一轮为 boundary_unresolved。本轮先复核历史材料（OpenTofu 仓库/许可证/README/state/core workflow 快照，未重抓、按原抓取时间复用），确认其证据本身真实但形态仍为命令行工具，维持不作为本叶案例，保留为 withheld 候选。随后按“旧候选为 CLI/引擎时优先换完整开源 Web 应用服务”的要求做定向替代品查询，取得 Terrakube：官方仓库元数据证明 id=349578094、full_name=terrakube-io/terrakube、非归档、Apache-2.0；许可证接口返回完整 Apache License 2.0 正文；README 与官方站点说明其为自托管 IaC 自动化与协作平台，托管 VCS 中的 Terraform/OpenTofu 代码并在工作区执行 plan/apply/destroy，状态与运行输出写入对象存储；官方工作区文档说明每个工作区持有独立状态，状态页可查看 JSON 与可视化资源图。三项定义核心（代码声明、受管生命周期执行、受管资源记录）均由该应用服务正文覆盖，且服务形态为可自托管的完整 Web 平台，故本轮判为 case_found。仅阅读官方文档，未安装、未部署、未运行（runtime_tested=false）。",
+      "service_boundary": "自托管开源应用服务：由 UI、API、Private Registry、Executor 组成的多用户平台，可部署于 Kubernetes（Helm）或 Docker Compose，依赖 PostgreSQL/Azure SQL、Redis 与对象存储；IaC 执行由平台调度（内置执行器、自托管 agent 或临时 Kubernetes Job），并非仅本地 CLI。社区版即完整平台代码（Apache-2.0），未发现功能阉割的付费版边界；本轮只核对官方仓库、许可证与文档，未做部署实测。历史上报的 OpenTofu 为命令行工具，状态默认本地文件或远端后端，仍不属于本叶的应用服务形态，仅作为被平台调用的执行引擎记录，不列为案例。",
+      "search_attempts": [
+        "复用并核对历史候选 OpenTofu 的既有快照（repository_metadata/license/readme/state/core-workflow），判定其形态为 CLI 工具，维持不纳入本叶",
+        "定向查询一：完整开源 IaC Web 应用服务（Terrakube）替代 CLI 候选",
+        "GET https://api.github.com/repos/terrakube-io/terrakube 核对仓库身份、归档状态与许可证",
+        "GET https://api.github.com/repos/terrakube-io/terrakube/license 取得完整许可证正文",
+        "读取官方 README 与 docs.terrakube.io 首页、Introduction、Workspaces 文档",
+        "按状态记录线索补读官方 Terraform State 文档，确认受管资源记录的持久化与查看",
+        "历史候选不作为本轮通过依据；未对 OpenTofu 作替代品否定判断"
+      ],
+      "fetch_outcomes": [
+        "reused https://api.github.com/repos/opentofu/opentofu (repository_metadata) sha256=7dc2fede6f1acaaf16136af6cc41a23d37bf6726363a497061b63f36a8d00d6f（历史快照，原抓取时间 2026-10-26T18:16:19+08:00）",
+        "reused https://api.github.com/repos/opentofu/opentofu/license (license) sha256=ec8ba028933d25252e2830905e58527fd026a6c5ef790e093cf02967a21acfc8（历史快照）",
+        "reused https://raw.githubusercontent.com/opentofu/opentofu/main/README.md (readme) sha256=60c539cfab196b4b39768781ee871f07b34aadcada2f4bef42393810e3dbfb92（历史快照）",
+        "reused https://opentofu.org/docs/language/state/ (documentation) sha256=f7fdc5956a92ccdb4d39e591bd55e57d95a5053b5687310d5154791760a2e2f5（历史快照）",
+        "reused https://opentofu.org/docs/intro/core-workflow/ (documentation) sha256=66bb0242b853a860da0baaf9709ac7a948fda51d77b4807b6b2eeb5b7226c842（历史快照）",
+        "fetched https://api.github.com/repos/terrakube-io/terrakube (repository_metadata) sha256=41c6f0cbc296909db25527f258d19322efd313e87fc7691215a274195c77f85c",
+        "fetched https://api.github.com/repos/terrakube-io/terrakube/license (license) sha256=f05b4d26d1b9db2102ac33be485a9f8b929fe52f99b8411aff179d91990a26b9",
+        "fetched https://raw.githubusercontent.com/terrakube-io/terrakube/main/README.md (readme) sha256=ff62de04270c4e031c5d409cfff74b6257728d248271b257959caf9dab38c570",
+        "fetched https://terrakube.io/ (homepage) sha256=e5563217117bffa6a17328f5e06ab5a91731fb053edbb255cad7dd8fab1462df",
+        "fetched https://docs.terrakube.io/ (homepage) sha256=9f6c01fb1069665b06681143a16ea132d30b82cc921c36842924fb7a13d64916（导航为主，仅作站点归属核对，未用作功能正文）",
+        "fetched https://docs.terrakube.io/readme.md (documentation) sha256=7a82c43c0aa568c3f99c546ba3341b9459afd6b5ad3dd4855b3ec5fb7a40f442",
+        "fetched https://docs.terrakube.io/user-guide/workspaces.md (documentation) sha256=005d0e029979e49dfcaa6bcfbc6598ca90c710d39b65aa00a279fcd1f8012b4b",
+        "fetch failed https://docs.terrakube.io/user-guide/workspaces/readme.md (documentation) sha256=75797052c549d73351bd66cbceabac1f5e6196c106549f6c92ead272fb54633a — 返回 Page Not Found，未作为证据；按同页建议改用 workspaces.md 与 terraform-state.md",
+        "fetched https://docs.terrakube.io/user-guide/workspaces/terraform-state.md (documentation) sha256=76b4c9dfd3d9451794e3f7f01f8962b324af2bbe6366f411b94a6c777cd59381",
+        "not fetched https://terrakube.org（DNS/连接失败，未作为来源）",
+        "not fetched https://www.terrakube.io/（连接失败，未作为来源）"
+      ],
+      "archived": false,
+      "historical_reuse": [
+        {
+          "id": "github:679421146",
+          "assessment": "boundary_unresolved（历史）",
+          "role": "上一轮候选 OpenTofu；本轮复核后仍判定为 CLI 工具，不作为本叶案例，理由与历史一致且已核对原始快照"
+        }
+      ],
+      "withheld_candidates": [
+        {
+          "id": "github:679421146",
+          "name": "OpenTofu",
+          "reason": "官方来源只证明其为 MPL-2.0 命令行 IaC 工具（本地或远端后端状态文件），未证明本叶所需的持续可用的应用服务形态；保留候选，不推断不存在自托管 Web 变体（其自身的 registry/cloud 协作层属于其他产品或第三方 TACOS，未在本轮证据中）。"
+        }
+      ],
+      "collector_note_unapproved": "本轮替代品为 Terrakube，非历史 OpenTofu 的直接改名或同仓库产物，身份独立（github:349578094）。OpenTofu 历史说明原样保留于 HISTORY.json，未删除。"
+    }
+  ]
+}

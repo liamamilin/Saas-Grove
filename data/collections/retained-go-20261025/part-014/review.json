@@ -1,0 +1,69 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "portfolio-management-system",
+      "entry_id": "commercial:simcorp-one",
+      "issue": "batch.leaf_matches[0].reason 与 research.note 均称“实时IBOR”，但所引 SimCorp Portfolio Management 快照仅证明单一组合数据源、实时头寸/分析、组合构建、订单生成与交易前合规检查，未出现 IBOR 或 investment book of record 的表述。",
+      "required_fix": "删除“IBOR”，改为快照可支持的“实时组合头寸与现金数据的单一来源/组合记录”，或补充能证明 IBOR 的官方来源与快照；research.note 同步收窄。"
+    },
+    {
+      "slug": "tax-compliance-platform",
+      "entry_id": "commercial:vertex",
+      "issue": "batch.summary 称“申报表生成与报送”，但快照仅证明生成 signature-ready / e-file format returns 及申报与审计报告，未证明由 Vertex 实际向税务机关传输或提交。",
+      "required_fix": "将 summary 收窄为“申报表及电子申报格式生成”，或补充官方来源证明实际报送/提交能力；不要仅凭 returns and reporting 推断传输。"
+    }
+  ],
+  "non_blocking_notes": [
+    "SimCorp 条目复用共享 ID、名称、track 与 summary 的做法正确；除 IBOR 措辞外，组合记录、订单生成与交易前合规的证据链基本成立。",
+    "Addepar 的“客户关系记录”主要由 client structures、客户门户与计费场景间接支持，快照未展示完整 CRM/家庭关系台账；已按财富平台边界留档，不据此否决。",
+    "Billtrust 的“账簿一致”以 200+ ERP/银行连接器和现金应用为据，持续回写与字段级同步未逐项核验；属证据粒度问题，不影响 AR 类型判断。",
+    "Nomentia 快照对确认、结算等交易生命周期后半段着墨较少，但统一交易登记、自动现金流/利息/会计与利用率/到期视图足以支持企业 TMS 类型。",
+    "SAS 的逐债务人信用质量由 Credit Scoring 等关联方案间接支持，风险引擎页更偏敞口计量与聚合；建议后续补一条直接评级/评分证据，不阻塞本批。",
+    "Stampli 与 Medius 的 ERP 交接主要写在集成能力层，未见字段级过账示例；商业条目按基本真实性与类型匹配审查，可保留。",
+    "Sierra Chart 的工作区持久化、Jube 的具体监管报送格式、Vertex 的机关受理回执、Regnology 的受理回执流程均已如实留档为未核验，不应在后继材料中升级为确定事实。",
+    "TaxAct 快照为 SSR/JS 较重页面，正文内容已能读到；建议后续复抓时优先保存可读正文版本，便于复核。",
+    "采集与初审使用同一模型，独立性弱于跨模型审查；以上结论仍应由主会话做最终人工复核。"
+  ],
+  "leaf_checks": {
+    "portfolio-management-system": "SimCorp One 官方页证明实时组合数据、头寸/现金视图、组合构建、订单生成及交易前合规；但“IBOR”未在快照出现，已列入 finding。",
+    "professional-trading-terminal": "Sierra Chart 首页证明实时交易所行情、ChartDOM/订单路由、手动与自动交易；Trade Activity Log 证明成交、持仓数量及逐笔/累计盈亏，工作区持久化未核验并已留档。",
+    "transaction-monitoring-platform": "Jube README 与仓库元数据证明实时 AML/欺诈监控、规则/速度/制裁名单与 ML、案例管理和可自托管多租户；AGPL-3.0 许可证正文已读，监管报送格式未核验。",
+    "treasury-management-system": "Nomentia Debt & Investments 页证明债务/存款/商业票据/存单的统一交易登记、自动现金流/利息/费用/会计及利用率/到期/成本视图；确认与结算细节未在快照展开。",
+    "wealth-management-platform": "Addepar Platform Overview 与 Why Addepar 证明账户/另类资产聚合、统一数据模型、品牌化客户门户、定制报告及费用/账单机制；客户关系记录的 CRM 化程度属边界留档。",
+    "accounts-payable-automation": "Stampli 官方 AP Automation 页证明发票捕获、编码、审批路由、重复检查与 ERP 集成；会计过账仅到集成层，未核字段级。",
+    "accounts-receivable-management": "Billtrust 首页证明开票、付款、信用、催收、现金应用同平台，自动应用汇款并持续更新信用决策；账簿同步以 200+ ERP/银行连接器为据，持续回写未逐项核验。",
+    "collections-automation-platform": "Chaser 官方页证明与会计系统双向同步、邮件/短信/电话催款、客户门户、付款计划及付款后停止提醒；争议/核销状态未证实并已删除相关断言。",
+    "corporate-tax-management": "ONESOURCE Tax Provision 页证明 ERP/Excel 数据汇集、税务报告/附注/分录自动生成与实体级下钻；Income Tax 页证明多辖区企业税申报与电子报送，间接税未并入。",
+    "invoice-processing-platform": "Medius Invoice Automation/Capture 页证明纸/邮件/EDI/电子发票摄取、ML 编码、审批路由、异常标记及 SAP/Oracle/NetSuite/Dynamics 集成；付款执行未计入核心。",
+    "invoicing-application": "Crater README 证明客户/发票/估算单、费用与付款跟踪、周期发票、客户门户、多公司及 Stripe，AGPL-3.0 许可证正文已读；未把它当会计账簿。",
+    "subscription-billing-platform": "Kill Bill README 证明目录/定价、订阅、用量计费、开票、跨网关付款、信用、税与催收及自托管，Apache-2.0 已读；具体生命周期状态名未核验。",
+    "tax-compliance-platform": "Vertex Sales & Use Tax 页证明实时判定、免税证书、跨辖区 signature-ready/e-file format returns 与审计报告；实际传输/提交未证明，summary 的“报送”需收窄。",
+    "tax-filing-platform": "Tax1099 首页证明 IRS/SSA/CFSF 电子报送、更正/作废、计划申报、被拒重报、TIN 匹配、记录保存与审计轨迹；受理/拒绝循环有据。",
+    "tax-preparation-application": "TaxAct 首页证明个人/企业引导式填报、数据导入、扣除/抵免计算、生成可提交申报表及 Free Edition 仅 1040 无附表限制；具体资格逻辑未逐项核验。",
+    "aml-platform": "Unit21 首页证明交易监控、案件管理、支付/制裁筛查、SAR/STR/CTR/314(a)/goAML 报送及完整审计轨迹；具体报送格式未逐项核验。",
+    "credit-decisioning-platform": "Provenir Decisioning 页证明低代码规则/模型、数据编排、受治理 AI 代理、决策解释/审计叙事与转人工案件；Solutions 页列信贷准入场景，放款与申请文件管理未并入。",
+    "credit-management-platform": "HighRadius Credit Management 页证明信用评估、额度执行、订单阻断/解除、持续敞口监控与定期复审；不延伸为其 AR 或催收全流程。",
+    "credit-risk-platform": "SAS Risk Management 与 Risk Engine 页证明贷款组合信用模型、敞口计算/聚合、CVA、监管资本、ECL 与压力测试；逐债务人评级量表仅由 SAS Credit Scoring 链接间接支持。",
+    "financial-risk-management-platform": "Murex MX.3 ERM 页证明市场/信用/流动性风险同平台、实时限额与敞口监控、FRTB/SA-CCR/IM 及共享参考数据/统一计算框架；企业聚合与监控闭环有据。",
+    "fraud-detection-platform": "Feedzai 首页与 Transaction Fraud 页证明 AI 实时风险决策、规则/警报分析师处置、Farol 协助警报与 SAR，以及支付流程内实时拦截；拒付模块未证实。",
+    "liquidity-risk-platform": "Murex 银行财资页有流动性阶梯、HQLA 缓冲、压力测试与限额检查，ActiveViam 页仅到流动性状况/抵押品/情景；缺充足度量口径与假设治理，故 boundary_unresolved、无案例，404 已留档。",
+    "market-risk-platform": "ActiveViam Atoti Market Risk 页证明整合风险/估值引擎数据、VaR/SVaR/成分增量 VaR/ES、敏感性下钻、动态 KPI/限额、实时告警与 what-if；Atoti Limits 页补充限额评估与违规工作流。",
+    "regulatory-reporting-platform": "Regnology Reporting Hub 页证明细粒度模型、map once/report many、10,000+ 校验规则、KRI/异常监控、数据血缘与 regulator-ready submission；机关受理回执细节未展开。",
+    "sanctions-screening-platform": "Sanction Scanner AML Screening 页证明 3000+ 名单、PEP/负面媒体、阈值与黑白名单、匹配历史/审计日志、每日持续重筛及案件管理；交易监控模块未并入本叶。"
+  },
+  "limits": {
+    "read_only": true,
+    "validation_command_run": false,
+    "reason": "初审会话按约定只读，未写文件、未运行 shell 或 validate；batch 与 research 的一致性由人工比对。",
+    "evidence_basis": "以 data/collections/sources 快照为主，辅以少量官方公开页面只读核对（GitHub API、Provenir、ActiveViam、TaxAct、Jube docs）；未重新抓取全部 25 叶。",
+    "independence": "采集与初审使用同一模型，独立性弱于跨模型审查；仍需主会话最终人工复核。",
+    "not_verified": "未验证运行时行为、UI 工作区持久化、字段级 ERP 集成、监管报送受理回执及第三方数据准确性。",
+    "scope": "仅覆盖本批 25 叶、24 个应用条目和 1 个 boundary_unresolved；未评价其他批次。"
+  },
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-014/ses_groveopendesignp014review2_1792845749.jsonl",
+  "batch_sha256": "4e8767e1919b4ec30afc146f0370c47ded697b0e809a655c93a5ffef8632964a",
+  "research_sha256": "f49b07b23b7330dd80c276a4b3c4d2e355181c4df530aa736d6ad80c1f4091cd",
+  "input_sha256": "945a5d096c148c3b290d44a1202fe3e5cecc15fc9141fd0a3173b05d6f194e37"
+}

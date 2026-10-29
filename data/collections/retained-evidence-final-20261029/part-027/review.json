@@ -1,0 +1,47 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "raw-photo-editor / input.json：progress 仍记录 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json 与 research.json 已列为 case_found 并含 github:1001684671、github:1420087667；这是输入快照与研究成果之间的状态同步问题，建议下游入库时更新，不影响本次正文核对。",
+    "github:1001684671 / RapidRAW：可选 Cloud 是生成式 AI 的付费托管便利，并非托管版 RAW 编辑器；README 明确核心功能不以付费墙锁定，核心编辑可离线或自托管，引用时不要写成 open-core 或 SaaS 专属。",
+    "github:1420087667 / albedo：PWA 安装与 SQLite/OPFS 细节在保留快照中只有 README 的 works offline once installed 与 SQLite 支撑，OPFS 与 PWA manifest 未在保留正文直接出现；这属于非关键措辞，可以保留，但不宜作为关键证据。",
+    "github:1420087667 / albedo：图层合成与排版是 RAW 开发之上的附加能力，research.json 的 service_boundary 已限定不扩大叶子范围；后续引用时不要把 albedo 归为通用平面设计工具。",
+    "github:1001684671 / RapidRAW：官网 700,000+ 下载与 metadata star 数是时点指标，不宜作为可持续性或核心工作流的主要依据；核心证据已由官方文档正文提供。",
+    "research.json：引用 catalog scope_rule 支持离线形态不排除，但该规则未随本单元提供；叶定义本身已把相机厂商捆绑转换器列为满足核心的实例，建议正式留档注明 scope_rule 的来源位置。",
+    "license 字段精度：albedo README 写 AGPL-3.0-only，batch.json 写 AGPL-3.0；二者同属一个许可证族且许可证全文一致，若下游要求精确 SPDX 表达式，可以统一为 AGPL-3.0-only。"
+  ],
+  "leaf_checks": {
+    "raw-photo-editor": {
+      "result": "pass",
+      "case_ids": [
+        "github:1001684671",
+        "github:1420087667"
+      ],
+      "definitional_core": "四项定义性属性均有官方正文支撑。RapidRAW：File Formats 页证明以 rawler 解码各厂商 RAW、使用相机色彩矩阵并重建剪裁高光，并证明编辑保存在 .rrdata 边车 JSON 中原图不被覆盖；Adjustments/Basic 页证明曝光作用于 tone mapper 之前的 raw 光数据，且曝光、对比度、高光、阴影、白/黑等均为可反复调整的参数；Export 页证明编辑被渲染为 JPEG/PNG/TIFF/WebP/JPEG XL/AVIF/CUBE LUT 成品并含尺寸、DPI、水印与元数据选项。albedo：README 证明以 LibRaw 打开 CR2/CR3/NEF/ARW/RAF（Bayer 与 X-Trans）/ORF/RW2/PEF/DNG 等 RAW，在 GPU 上做 RCD/X-Trans 去马赛克、高光重建、Lensfun 校正与 AgX/DCP 配置，XMP 边车与预设读写，导出全分辨率 JPEG、DNG 与 16 位 TIFF；首页说明照片以智能对象进入、可随时修改其开发。",
+      "service_form": "RapidRAW 是完整 GUI 桌面应用，提供 Windows/macOS/Linux/Android 安装包、持续发布与官网 70 万+ 下载，CLI 只是附加的批量导出；文档中的 Adjustments、Export、Masks 等面板正文证明它是可操作的应用，而非仅引擎或 CLI。albedo 是可直接打开的浏览器 Web 应用，首页提供 Open albedo 入口，README 说明 npm run build 可产出 dist/ 静态站点、安装后可离线使用、无账号且不上传照片。叶定义明确把相机厂商捆绑的离线转换器列为满足核心的较简单实例，因此本地/离线分发本身不构成排除；两者均属可持续使用的应用形态。",
+      "identity_track_license": "两个条目均为 open_source，ID 与仓库身份一致：github:1001684671 对应 CyberTimon/RapidRAW，github:1420087667 对应 ZahakJ/albedo；metadata 中 id、full_name、private=false、fork=false 可见，homepage 与 repository_url 指向同一产品。许可证均为 AGPL-3.0：两仓库 /license 快照均为 34,523 字节的 AGPL v3 全文响应，README/官网亦标 AGPL；albedo README 明写 AGPL-3.0-only，RapidRAW README 标 AGPL-3.0。未发现许可证与 track 矛盾。",
+      "community_edition_boundary": "RapidRAW 没有 open-core 社区版切割：应用源代码完整 AGPL，README 明确核心功能不因付费墙锁定；官方 Cloud 只是可选的生成式 AI 托管便利，且可改用本地 ComfyUI 自托管，batch.json 的 deployment 已如实写成可选云订阅。albedo 没有付费版与社区版的二分，公开仓库为 AGPL-3.0-only，另提供向版权人获取其他条款的双许可选项，不影响公开版完整性。",
+      "evidence": [
+        "REVIEW_SOURCES.json 中 11 个 path 均已按 data/collections 基准原样读取。",
+        "https://api.github.com/repos/CyberTimon/RapidRAW（仓库身份、id=1001684671、fork=false）",
+        "https://raw.githubusercontent.com/CyberTimon/RapidRAW/main/README.md（RAW 支持、.rrdata 边车、非破坏流程、平台分发、可选云订阅）",
+        "https://api.github.com/repos/CyberTimon/RapidRAW/license（AGPL-3.0，全文响应 34,523 字节）",
+        "https://www.getrapidraw.com/（完整 GUI 编辑器、700,000+ 下载、长期维护表述）",
+        "https://www.getrapidraw.com/docs/file-formats（rawler 解码、相机色彩矩阵、高光重建、.rrdata 边车、导出格式）",
+        "https://www.getrapidraw.com/docs/adjustments/basic（曝光作用于 raw 光数据、参数化调整面板）",
+        "https://www.getrapidraw.com/docs/other-panels/export（导出面板将编辑渲染为成品文件）",
+        "https://api.github.com/repos/ZahakJ/albedo（仓库身份、id=1420087667、fork=false）",
+        "https://raw.githubusercontent.com/ZahakJ/albedo/main/README.md（LibRaw RAW 格式、GPU 开发、XMP 边车、JPEG/DNG/TIFF 输出、离线与自托管）",
+        "https://api.github.com/repos/ZahakJ/albedo/license（AGPL-3.0，全文响应 34,523 字节）",
+        "https://zahakj.github.io/albedo/（浏览器内 RAW 开发、智能对象、可随时修改开发、无账号/不上传）"
+      ],
+      "gaps": "无阻断性缺口。RapidRAW 的四项核心均有官方文档正文；albedo 的四项核心有官方 README 与首页的具体技术描述。非阻断缺口：albedo 的逐相机支持矩阵、manual 正文与 PWA manifest 未保留；RapidRAW 的 star/下载量为时点指标；input.json 状态尚未与 batch/research 同步。均已在本报告 notes 与 limits 中记录。"
+    }
+  },
+  "limits": "本次仅做只读初审：未运行 RapidRAW 或 albedo，未做部署、性能、价格或逐相机支持测试，未使用 shell 计算文件哈希。已按 REVIEW_SOURCES.json 的 11 个 path 从 data/collections/sources 原样读取快照；GitHub 元数据为单行 JSON，读取显示在 2,000 字符处截断，故 star 数、created_at、archived 与 license 对象的尾部字段未逐项复核，仓库 id、full_name、private、fork 以及许可证响应大小与首段可见。两份 /license 快照均为 34,523 字节的 AGPL v3 全文响应，但未逐字解码全篇。catalog scope_rule 未随本单元提供，离线形态判断主要依据叶定义正文；搜索计数沿用 research.json 记录，未重新执行查询。未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-027/ses_groveopendesignp027review1_1793154631.jsonl",
+  "batch_sha256": "3864f76565a68eb5e09c25fcd65a64d0ebce695d4f486d9fd61df16b27b99b11",
+  "research_sha256": "6e88af6a63cced960ed71f92444a7fbca11b38318383eb1ae59cf24d016b77df",
+  "input_sha256": "d275cb32b1f2b51b28ea61859f6db970e52f48ce046a689a43dfe21b030b2220"
+}

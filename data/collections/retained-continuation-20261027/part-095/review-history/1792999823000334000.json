@@ -1,0 +1,83 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "religious-education-management",
+      "application_id": "commercial:planning-center",
+      "issue": "该叶的定义性核心是‘在册学生记录—班级（教师/教理讲授者与学期上课安排）—逐次课程出勤’，并明确说明自身不是 check-in 系统。唯一快照是 Planning Center 首页：与儿童/教育最接近的内容只有 Check-Ins（'Check in kids'、attendance/volunteer tools）、Groups（'Community engagement & chat'）与 Registrations（'Signups, tickets, & payments'）；精确检索未命中 education、Sunday school、catechesis、faith formation、classroom、teacher、curriculum 等教育管理正文。batch 的 reason 把 children's ministry 加 groups/registrations 推定为 education programs，属于关键词/简介级推断，不能证明教师带领的班级、学期注册与逐次课程出勤。",
+      "fix": "从 religious-education-management 的 leaf_matches 移除 commercial:planning-center，research 改为 insufficient_evidence / case_ids 为空（或换用官方页面能确证 enrolled student、class/teacher、session attendance 的宗教教育产品）；同时删除或修正‘已按定义性核心核验’的 note 与 service_boundary 表述，避免将 check-in/groups/registrations 当作宗教教育管理。",
+      "evidence": [
+        "data/collections/batch.json：religious-education-management 的 leaf_match 仅引用 https://www.planningcenter.com，reason 为 children's ministry 与 groups/registrations。",
+        "data/collections/sources/70f6eb653788f9eaf9a36d2c11a6367e259e582a8b283418cbc0e48154268569.txt：可命中 'Check in kids'、'Groups'、'Registrations'，但未命中 'education'、'Sunday school'、'catechesis'、'faith formation'、'classroom'、'teacher'、'curriculum'。"
+      ]
+    }
+  ],
+  "non_blocking_notes": [
+    "当前四个被标为 case_found 的叶共用同一 Planning Center 首页快照。首页能支持商业产品身份与基本类型匹配，但 response/substitution、event person write-back、group roster/attendance 等核心行为未逐项留证；如后续提高证据等级，可补产品页。",
+    "Planning Center Services 同时覆盖 Worship Planning；本叶根据 volunteer scheduling 与 role assignment 将其归入 ministry-scheduling 可成立，但需避免与 worship-planning 叶重复归因。",
+    "pastoral-care-management 的缺口留档只有一条通用查询、未列候选产品；按任务可通过。首页虽有 'Care for families & volunteers' 用例与 prayer request 功能，但不足以证明 care-need→assigned caregiver→restricted record 核心，留档可保留并补强措辞。",
+    "input.json 的 progress 仍写 case_status=not_searched、application_ids=[]，顶层 phase=included_without_cases，与 batch/research 的 case_found 不一致；若该文件参与下游合并，建议在写回时同步状态。",
+    "本单元无开源条目，完整许可证与社区版边界检查不适用。"
+  ],
+  "leaf_checks": {
+    "ministry-scheduling": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "evidence": [
+        "快照正文可命中 'Build service plans, schedule volunteers, coordinate rehearsals' 与 'assign people to roles'，导航为 'services — Worship planning & scheduling'。",
+        "首页提供 Sign up for free / subscription 说明，符合商业 SaaS 形态；ID commercial:planning-center、track commercial 一致。"
+      ],
+      "notes": "岗位/场合/分配/响应是 Services 的核心能力，商业基本类型匹配可通过；替换与响应闭环未在首页逐项展开，属非阻断。"
+    },
+    "pastoral-care-management": {
+      "status": "pass_with_documented_gap",
+      "application_ids": [],
+      "evidence": [
+        "research.json：assessment=insufficient_evidence，case_ids=[]，source_urls=[]；search_attempts 与 fetch_outcomes 记录了检索及无保留来源。",
+        "首页只有 'Care for families & volunteers' 用例和 'submit prayer requests' 功能，未形成 care need→assigned caregiver→visibility-restricted record 的产品正文。"
+      ],
+      "notes": "按任务，真实记录的检索/抓取缺口可通过；该留档较薄，后续可补查具名 pastoral care 产品，但不阻断。"
+    },
+    "religious-education-management": {
+      "status": "fail",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "evidence": [
+        "唯一快照为 Planning Center 首页，仅见 Check-Ins、Groups、Registrations 及 children's ministry 用例。",
+        "精确检索未命中 education / Sunday school / catechesis / faith formation / classroom / teacher / curriculum；该叶明确排除 check-in 系统并要求 enrolled student、class、session attendance。"
+      ],
+      "notes": "见 findings；不能以 children's ministry 用例或 groups/registrations 关键词替代定义性核心。"
+    },
+    "religious-event-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "evidence": [
+        "快照导航 'registrations — Signups, tickets, & payments'、'calendar — Scheduling, facilities, & resources'；正文可命中 'register for events'、'Add to calendar from registration confirmations'、'Require approval for new events'。",
+        "首页提供商业 SaaS 注册/订阅入口。"
+      ],
+      "notes": "活动创建、报名选项、容量与支付由 Registrations 支撑；registration→person record→participation write-back 未在首页逐条展开，商业基本类型匹配可通过，深度核验需产品页。"
+    },
+    "religious-small-group-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:planning-center"
+      ],
+      "evidence": [
+        "快照导航 'groups — Community engagement & chat'；正文可命中 'Group engagement'、'chat with group members'。",
+        "首页提供商业 SaaS 注册/订阅入口。"
+      ],
+      "notes": "Groups 是教会小组产品，基本类型匹配；首页未展示 leader roster、join rules、per-meeting attendance/health reporting，深度核验需产品页，非阻断。"
+    }
+  },
+  "limits": "本次审查仅使用 REVIEW_SOURCES.json 指定的一份快照（data/collections/sources/70f6eb653788f9eaf9a36d2c11a6367e259e582a8b283418cbc0e48154268569.txt，Planning Center 首页），并以 input/batch/research 为记录依据；快照是单行压缩 HTML，读取器对超长单行截断，正文通过精确短语命中核对而非逐段通读；未重算 SHA-256（禁止 shell）、未登录或运行产品、未做部署测试，也未检索本单元之外的资料。商业条目按基本真实性与类型匹配标准审查，未要求补齐价格或架构细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-095/ses_groveopencodegop095review1_1792999003.jsonl",
+  "batch_sha256": "da1e7d25e86668d20d6b3ad79eb828e119e9330b3d0d7c1e742f4fff92d8ea07",
+  "research_sha256": "f16c83a09f012631dcd433a70e17dc1703831a16b589ee3e91e46ddb822bc3d7",
+  "input_sha256": "10b34df5f2fda2b4d2dc28ef7270c0eb24776e8c7af6a1d34dc75b73bd478201"
+}

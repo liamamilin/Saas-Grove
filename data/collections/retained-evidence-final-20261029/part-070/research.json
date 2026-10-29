@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "legal-entity-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1046293319",
+        "commercial:minutebox",
+        "commercial:athennian"
+      ],
+      "query": "github open source legal entity management subsidiary register software; company minute book entity management open source",
+      "source_urls": [
+        "https://api.github.com/repos/vsaintloup/minutebooks",
+        "https://api.github.com/repos/vsaintloup/minutebooks/license",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/README.md",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/corps/models.py",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/documents/models.py",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/documents/views.py",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/registers/models.py",
+        "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/orgs/models.py",
+        "https://www.minutebox.com",
+        "https://www.athennian.com"
+      ],
+      "note": "【历史复用与初审问题】上一轮初审指出唯一候选 noamrazbuilds/entity-compliance-tracker 缺少“公司记录文件库”（治理文件按实体存储并受访问控制）与“已记录变更”（有生效日期的可追溯事件）。该结论依据其 README 与公开源码（Document 仅存 entity_id/title/document_type/url/description/created_at；documents 路由与服务为普通 CRUD，删除即 db.delete；Entity 只有 created_at/updated_at，update 直接覆盖）成立，本轮未重新抓取该仓库，沿用历史快照 239cd84…/08e9d2a…/5a2aec5…/6265674…，不将旧候选恢复为成立关系。【本轮补采】另起两条有区别的定向检索（GitHub 仓库检索 + 商业厂商官网），找到并核对新的开源完整应用 vsaintloup/minutebooks（GitHub API id 1046293319，fork=false，未归档，MIT 完整许可证正文）：其 Corporation 模型持有法定名称、d/b/a、管辖地（CBCA/LSAQ）、注册编号、商业编号、注册办事处与记录办事处；Director/Officer 通过 Party（人或法人）绑定公司并带 started_on/ended_on；股份发行/转让/赎回独立成表并带 occurred_on，可聚合出股权结构；Document 按 corp 归档章程/会议记录/决议/证书并保存实际文件与 SHA-256；documents/views.py 依组织成员身份做对象级权限过滤，ShareLink 提供带到期时间的只读账簿共享。故主体记录、结构层、受控文件库与带日期变更四项核心均有源码证据，建立关系。【边界】该仓库 README 自述 MVP，实体存续状态与实体间持股比例字段未在已读源码出现；README 提到 audit/历史，但已读模型未注册 auditlog/simple_history，故未声称审计轨迹。商业侧仅按官方首页正文记录 MinuteBox 与 Athennian 的基本用途与类型关系，不深入价格、架构或部署。【身份说明】旧候选 lquantprojects/entity-compliance-tracker 在 GitHub API 与网页均 404，canonical 以 noamrazbuilds/…（id 1172934784）为准，该 404 结论来自历史抓取记录。",
+      "service_boundary": "法律实体管理要求四项：已识别且带管辖地的主体记录、以数据形式持有的结构层（实体↔实体与人员↔实体）、按实体归档并受访问控制的公司记录文件库、以及带生效日期的可追溯变更。开源候选 MinuteBooks 以 Corporation/Director/Officer/Party/ShareIssuance/ShareTransfer/Document 模型同时覆盖前四项，属可自托管的完整 Web 应用（Django + DRF + 对象级权限），而非客户端、SDK、引擎或设备工具；其会计/开票与工单模块仅作附属，不作为本类型依据。商业候选仅纳入官网正文明确覆盖实体记录、公司记录簿/文件管理与结构或权限控制的平台：MinuteBox 以 Entity & Subsidiary Management、Corporate Minute Book、Registry Services 与合规日历佐证；Athennian 以 Entity & People Records、Appointments/D&O、Equity & Debt Structures、Structure Charts、Document Management 与 audit trails 佐证。未纳入纯注册代理申报服务、仅提供主体检索 API/MCP 的封装、以及低代码/文档管理底座等不具备本类型完整工作流的项目。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "legal entity management corporation subsidiary open source",
+          "status": "searched",
+          "result_urls": [],
+          "result_note": "历史轮次：GitHub 候选未确认核心，未转案例。本轮沿用，不视为新检索。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "legal entity management software official site subsidiaries entity records",
+          "status": "searched",
+          "result_urls": [
+            "https://www.dilitrust.com/dilitrust-governance-suite/legal-entity-management",
+            "https://www.wolterskluwer.com/en/solutions/legisway/managing-corporate-entities",
+            "https://www.minutebox.com"
+          ],
+          "result_note": "历史轮次：定位商业候选但官方页 403/404，未凭摘要建条。本轮沿用。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "github open source legal entity management subsidiary register software",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/noamrazbuilds/entity-compliance-tracker",
+            "https://github.com/topics/corporate-governance"
+          ],
+          "result_note": "历史轮次：找到 entity-compliance-tracker，后被初审与源码复核判定核心不足，未保留关系。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "entity-compliance-tracker canonical repository and governance document storage inspection",
+          "status": "sources_rechecked",
+          "result_urls": [
+            "https://api.github.com/repos/noamrazbuilds/entity-compliance-tracker",
+            "https://api.github.com/repos/noamrazbuilds/entity-compliance-tracker/git/trees/main?recursive=1",
+            "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/models/document.py",
+            "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/models/entity.py",
+            "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/routers/documents.py",
+            "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/services/entity_service.py",
+            "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/services/document_service.py"
+          ],
+          "result_note": "历史轮次：确认 Document 仅存外部链接、Entity 覆盖式更新，核心不足；本轮据此保持该候选不成立。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "entity management subsidiary governance / legal entity management / corporate entity management / subsidiary management / minute book entity / entity register companies（GitHub 仓库检索，6 次）",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/DinduOffiah/EntityForge",
+            "https://github.com/robonley/LegalEase",
+            "https://github.com/worlds-biggest-software-project/100-corporate-secretary-platform",
+            "https://github.com/djrprofessional/Legal-Entity-Governance-Tracker",
+            "https://github.com/prajitnanu/governance-os"
+          ],
+          "result_note": "EntityForge 为控股公司内部运营看板；LegalEase 与 100-corporate-secretary-platform 无许可证；Legal-Entity-Governance-Tracker 为无许可证简化原型；governance-os 无 LICENSE 文件（API license 为 null）。均未作为成立关系。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "\"entity management\" license:mit / \"legal entity\" in:name,description license:mit / \"minute book\" in:name,description / \"entity management\" in:name,description / subsidiary governance / \"registered agent\" management / topic:entity-management / topic:corporate-governance / minutebook license:mit（GitHub 仓库检索，继续收窄到许可证与命名）",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/vsaintloup/minutebooks",
+            "https://github.com/noamrazbuilds/entity-compliance-tracker",
+            "https://github.com/sajidmanzoor730/discern-entity-compliance-platform",
+            "https://github.com/Nwyr-34/ACRA-Corporate-Entities-Backend"
+          ],
+          "result_note": "命中 vsaintloup/minutebooks（MIT）并核对其源码；entity-compliance-tracker 仍为旧候选；discern-entity-compliance-platform 无许可证；ACRA 后端仅为新加坡注册信息 CRUD，缺公司记录与变更历史。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "legal entity management software official site（直接抓取厂商官网正文核对）",
+          "status": "searched",
+          "result_urls": [
+            "https://www.minutebox.com",
+            "https://www.athennian.com"
+          ],
+          "result_note": "两家官网正文可直接读取，均明确覆盖实体记录、公司记录/文件管理与合规维护，按商业基本记录纳入。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.dilitrust.com/dilitrust-governance-suite/legal-entity-management",
+          "status": "fetch_failed",
+          "note": "历史抓取：HTTP 403 Forbidden，未取得正文，未建条；本轮未重试。"
+        },
+        {
+          "url": "https://www.wolterskluwer.com/en/solutions/legisway/managing-corporate-entities",
+          "status": "fetch_failed",
+          "note": "历史抓取：HTTP 403 Forbidden，未取得正文，未建条；本轮未重试。"
+        },
+        {
+          "url": "https://www.minutebox.com/entity-subsidiary-management/",
+          "status": "fetch_failed",
+          "note": "历史抓取：HTTP 404 Not Found，未取得正文；本轮改用站点首页正文。"
+        },
+        {
+          "url": "https://api.github.com/repos/noamrazbuilds/entity-compliance-tracker",
+          "status": "fetched_and_read",
+          "sha256": "c77be466d2b934db290f096b62428c7b10e4736a96905f77eb260f432113989e",
+          "note": "历史快照：仓库 id 1172934784、MIT、fork=false。本轮复用，未重新抓取。"
+        },
+        {
+          "url": "https://api.github.com/repos/noamrazbuilds/entity-compliance-tracker/license",
+          "status": "fetched_and_read",
+          "sha256": "24c2877cb7e4454319cc5556b6ce36e12cf67c1956c6b77dad5bc8f273684176",
+          "note": "历史快照：MIT 完整正文。本轮复用。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "67f62db57c9666009e03152220f98eb6881aaa708aa59e271f1bb5964202b0a5",
+          "note": "历史快照：功能自述含治理文件字段与结构图；与源码对照后判定文件库为元数据级。本轮复用。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/models/document.py",
+          "status": "fetched_and_read",
+          "sha256": "239cd84c94c50f33372d778cd2bdce18bd95460fc20ba2dc8747e15cc239da5b",
+          "note": "历史快照：Document 无文件内容、版本或访问控制，仅外部 url 字段。本轮复用。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/models/entity.py",
+          "status": "fetched_and_read",
+          "sha256": "08e9d2a40f236aa70fd2a34068c52ee12f67a926571c76e449db2516f9532e03",
+          "note": "历史快照：Entity 仅 created_at/updated_at。本轮复用。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/services/entity_service.py",
+          "status": "fetched_and_read",
+          "sha256": "e7f6d1d9d6ebf472f423448da96c586edbd9f9f255090b8b5a0f2fb7d2abff02",
+          "note": "历史快照：update 直接 setattr 覆盖，无变更事件。本轮复用。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/noamrazbuilds/entity-compliance-tracker/main/ect_app/services/document_service.py",
+          "status": "fetched_and_read",
+          "sha256": "5a2aec5cd19a42938295f25286f5531e9e24f348560fb98ff27182401931ac46",
+          "note": "历史快照：文档服务普通 CRUD，删除即执行。本轮复用。"
+        },
+        {
+          "url": "https://api.github.com/repos/lquantprojects/entity-compliance-tracker",
+          "status": "fetch_failed",
+          "note": "历史抓取：HTTP 404，README 指向的上游地址不存在。本轮未重试。"
+        },
+        {
+          "url": "https://api.github.com/repos/vsaintloup/minutebooks",
+          "status": "fetched_and_read",
+          "sha256": "505f0dee74153ffa479aef801be54b5c8b688249092f4577ac3d88c1737cfa9c",
+          "note": "本轮补采：id 1046293319、full_name 一致、fork=false、未归档、MIT、默认分支 main。"
+        },
+        {
+          "url": "https://api.github.com/repos/vsaintloup/minutebooks/license",
+          "status": "fetched_and_read",
+          "sha256": "35be30502c3717cabc908fef450c9c89bc48ac685f07447d23e91d30de3f1f37",
+          "note": "本轮补采：GitHub license API 返回 MIT 及完整正文，与仓库 LICENSE 一致。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "0702f42e07ead3ae645f2c8ebb6559e2ef2e1ed53e2d7c4b09dc25600a57733f",
+          "note": "本轮补采：读取功能清单、数据模型说明、部署方式，并如实记录其自述 MVP 状态。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/corps/models.py",
+          "status": "fetched_and_read",
+          "sha256": "eb739608762825a5c41b2fed3bb2998c22dc769b6129ff0bbb35fa89665639a8",
+          "note": "本轮补采：Corporation/Person/Entity/Party/Director/Officer/ShareLink 字段与日期区间已核对。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/documents/models.py",
+          "status": "fetched_and_read",
+          "sha256": "6bf47f78ad09ad20c83bf980ae8d1555dbae663b2a41be7e8b6450a80c93855d",
+          "note": "本轮补采：Document 按 corp 外键与类别归档，含 FileField、SHA-256、content_type 与上传人。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/documents/views.py",
+          "status": "fetched_and_read",
+          "sha256": "8f0a3040ac3460ea68a79bb6efda6d00e5fd894af6c79de6f958a45488d553ee",
+          "note": "本轮补采：IsOrgMember 对象级权限、按组织成员过滤查询集、上传时校验成员身份。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/registers/models.py",
+          "status": "fetched_and_read",
+          "sha256": "0833c205d7678c9cab3375c1ece0c412e4cb49c2da412e8396c81beb54b76834",
+          "note": "本轮补采：股份类别、证书、发行/转让/赎回各自独立建表并带日期，cap table 由事件聚合。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/vsaintloup/minutebooks/main/orgs/models.py",
+          "status": "fetched_and_read",
+          "sha256": "7c3f860b3a2d2bd74bbd48ea479f444be5ed8508da5042cdf267a21ad2b2c388",
+          "note": "本轮补采：Organization/Membership 及 OWNER/LAWYER/STAFF/CLIENT_ADMIN/VIEWER 角色，作为访问控制依据。"
+        },
+        {
+          "url": "https://www.minutebox.com",
+          "status": "fetched_and_read",
+          "sha256": "f55af0794ea180d14cc658209aa904e1993057180311bb8e6ad82b17bf6b3841",
+          "note": "本轮补采：官网正文含 Entity & Subsidiary Management、Corporate Minute Book、Registry Services、Compliance Calendar Tracking 等条目。"
+        },
+        {
+          "url": "https://www.athennian.com",
+          "status": "fetched_and_read",
+          "sha256": "d529452a09143e9b1b267fc60b1675912278e02ab7c177471786a2f38e70e875",
+          "note": "本轮补采：官网正文含 Entity & People Records、Appointments/D&O、Equity & Debt Structures、Structure Charts、Document Management、granular permissions/audit trails。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

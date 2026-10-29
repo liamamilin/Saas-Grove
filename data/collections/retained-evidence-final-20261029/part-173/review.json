@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "pharmacy-management-system",
+      "note": "RxSolution 官方 eManual 未出现“药剂师逐方审核并由系统记录该核查”的直接正文；现有 boundary_unresolved 结论与该证据一致。最接近的线索是 Chapter 22 第54行“Prescriptions are checked, packaged…”及第213/221-222行的 Dispenser/Picked 字段，但均未指明审核人、审核时点或系统记录。若后续取得操作层证据（如独立复核状态、复核角色或界面），可重新评估是否纳入。"
+    },
+    {
+      "slug": "pharmacy-management-system",
+      "note": "研究记录称已抓取 GPL-3.0 LICENSE 与 README，但 data/collections/sources 仅保留手册、技术简报与仓库树快照，未保留 LICENSE/README 快照；仓库身份与完整许可证文本在本单元内无法二次核验。若将来把 RxSolution 提升为案例，应补存完整许可证原文、仓库 ID/分支快照，并核对是否存在社区版/开源核心边界。"
+    },
+    {
+      "slug": "pharmacy-management-system",
+      "note": "深入核对的候选仅 RxSolution，两次补充 websearch 均为 0 结果，检索覆盖面偏窄。作为“无案例”留档当前可以接受，但建议在检索记录中明确写出“未穷尽其他开源药房系统候选”的覆盖缺口，避免被理解为已排除全部候选。"
+    },
+    {
+      "slug": "pharmacy-management-system",
+      "note": "定义内中文术语略有不一致：overview_zh 用“药店管理系统”，name_zh 与目录名为“药房管理系统”；属措辞差异，不影响核心判定。"
+    },
+    {
+      "slug": "pharmacy-management-system",
+      "note": "所引 PDF 快照为 pdftotext 文本转录而非 PDF 二进制，行号引用经抽查与转录文本一致（如 Ch21 第37-40、491-492、525行；Ch22 第54、221-222行；Ch19 第32行；Ch17 第161行）。若需更强的原文可核性，可另行留存 PDF 原件及其哈希。"
+    }
+  ],
+  "leaf_checks": {
+    "pharmacy-management-system": {
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "core_definition_check": "RxSolution 官方 eManual 正文可支撑四项结构中的三项以上：Chapter 21 第37-40行定义处方为处方者为患者开具的用药医嘱，并说明系统保存患者全部处方及已给药记录；Chapter 19 第32-36行定义 regimen 并说明用于处方与调配；Chapter 17 第161行说明患者记录含 prescription history；Chapter 21 第156-179、477-485行说明标签视图与药品标签打印；Chapter 21 第488-492、525-526行说明 Post 关闭并最终确定处方、从 demander 库存扣减已配发药品。但未能证明定义性核心与规则中的“药剂师审核关卡及其完成记录”：Chapter 16 第33行仅定义 dispenser 为按处方分发治疗者，第91-100行只说明专业编号、岗位及按产品等级授予的调剂权限；Chapter 22 第54行的“checked”未指明由药剂师执行或由系统记录；第221-222行的 Picked 是拣货；Chapter 21 第510-524行的 Post 弹窗仅校验处方头信息完整性。故按证据收窄为 boundary_unresolved 是合理且有正文依据的。",
+      "service_form_check": "TechBrief 第68-71行说明可单机、局域网或广域网多用户使用；第82-105行给出 Windows XP/Server 2000/2003、SQL 2005 等部署环境；第57-58行说明用户通常为药师或临床人员并记录产品交给患者后的信息。形态为持续使用的本地部署软件系统，非一次性服务；但本叶未纳入任何应用，故无需进一步判定 SaaS 交付形态。",
+      "id_track_check": "input.json 中 application_ids 为空，research.json 中 case_ids 为空，batch.json entries 为空，无 application_id 或 track 可核对；三者一致，未出现“已纳入但无 ID”或“排除却留在批次”的矛盾。",
+      "license_check": "研究记录称仓库为 MSH/RxSolution（仓库 ID 133311194）、GPL-3.0 且已抓取完整许可证文本；但本单元 sources/ 未保留 LICENSE 与 README 快照，REVIEW_SOURCES.json 的 sources 为空，无法在本单元内独立复核完整许可证条文与社区版边界。由于该候选未进入 batch、未作为案例使用，此缺口不构成阻断，仅作为留档限制记录。",
+      "evidence_read": [
+        "data/collections/sources/232653995f49adfe7afce691b0fa5db7dd6e2a3031347a7def14172166e2daaa.txt (Chapter 21 - Prescription)",
+        "data/collections/sources/8ce5e79821bd7a6bfb0131131b10a20507c4e24c8501b73cfddb3573bbca3712.txt (Chapter 16 - Dispensers)",
+        "data/collections/sources/4b1e08126766dc7f248b51b4e8b10b202b7575552e49c5344bdc0c8d24b1c132.txt (Chapter 22 - Down-Referral)",
+        "data/collections/sources/31d36a9f507e330976fc33de5f5e3e086b959b78c7cf380466b41e56c5041c9f.txt (Chapter 15 - Prescriber)",
+        "data/collections/sources/528f9c69e1255262df282c036e2e53392bbae144b1ea112a2c8d38631c49cb20.txt (Chapter 17 - Patient)",
+        "data/collections/sources/ed0c96b477d987c636001e762b42acb951aab06662f1be46304e77560b979092.txt (Chapter 19 - Regimen)",
+        "data/collections/sources/8c244ea9e0da8189cff32e6fdbf02f1c42f5cbc1494f53727fc2bf8193894452.txt (TechBrief-Tools-RxSolution)",
+        "data/collections/sources/5df3308b2fbd681cdd6bc7d21a8ce17a1bc8a5dc16e111a13f1c09d05d9bd81c.txt (Chapter 25 - Reports)",
+        "data/collections/sources/0c784d439fb071a8559f4784a367515dd07c072867fd07d641eb22c833f81364.txt (GitHub tree API)"
+      ],
+      "gaps": [
+        "无任何已纳入应用，故无法核对案例级 SaaS 交付形态与 ID/track 一致性。",
+        "LICENSE 与 README 抓取结果未留存快照，完整 GPL-3.0 文本及社区版/开源核心边界无法在本单元内复核。",
+        "仅深入核对 RxSolution 一个候选，检索覆盖是否穷尽无法从现有记录确认。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未写文件、未发起网络请求，也未读取其他单元；所有结论仅基于 input.json、data/collections/batch.json、data/collections/research.json 及 data/collections/sources/ 下 9 个实际快照。REVIEW_SOURCES.json 的 sources 为空，快照路径按 research.json 的 fetch_outcomes 以 data/collections 为基准原样读取。所读 PDF 证据均为 pdftotext -layout 文本转录而非 PDF 二进制，部分页面仅有版式文本、图表内容不可见；RxSolution 的 LICENSE 与 README 快照缺失，因此完整许可证条文、仓库分支与社区版边界未能独立复核。本叶无应用与案例，SaaS 交付形态、application_id/track 及批次级许可证核对无对象可查。",
+  "_note": "root-level extra key not needed",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-173/ses_groveopencodegop173review1_1793254098.jsonl",
+  "batch_sha256": "134834dde8f683728e102aa9d42670b17aa624d01949a304752e84049d4ba201",
+  "research_sha256": "78d26140e2ee55927a55c4e4a4525ba601bde1979a2b2f73000a23b754ab3ad8",
+  "input_sha256": "cb59c5ad1c585f645854fe8465cb7e57c84f6214f47e2c1759d8997c02bc5ce6"
+}

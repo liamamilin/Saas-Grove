@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "license 字段继承 GitHub API 的 AGPL-3.0，而项目 README 写的是 AGPL-3.0-or-later；两者同属 AGPL-3.0 家族且许可证全文完整，建议下游统一为 AGPL-3.0-or-later，或明确标注 SPDX 口径。",
+    "OpenBooks 的产品身份是通用 business suite 中的 feature-fenced 非营利模块，不是独立非营利套件；本叶按可选模块收录是诚实的，但展示层应保留该边界，避免被误读为专用非营利产品。",
+    "batch 中“无独立 SKU/付费版”的判断主要来自单一 AGPL 仓库、Feature 开关和 README 的零 per-seat 表述；未见定价页或版本文档直接证明，建议措辞改为“资料未见独立 SKU/付费版”。",
+    "input.json 的 progress 仍是 insufficient_evidence 且 application_ids 为空，属于采集前状态；batch/research 已给出 github:1324163874，建议同步该字段以免下游误读。",
+    "research.json 引用的目录清单快照 sources/90603abce90397fb475dda060fb80abe9ac8452d6e29126358e19eea4a900a83.txt 以及历史 Steward/Nonprofit Ledger 快照未列入 REVIEW_SOURCES.json/batch.sources；不影响本叶核心结论，但留档清单可补齐以便复核排除项。",
+    "源码快照来自 main 分支，未固定 commit/tag；建议在来源中记录 commit SHA 或 release tag，降低后续复核漂移。",
+    "README 明确 alpha 且未完成独立会计/安全认证，batch 已如实保留；展示时不应把代码能力或集成测试表述为可直接投产承诺。"
+  ],
+  "leaf_checks": {
+    "nonprofit-fund-accounting": {
+      "application_ids": [
+        "github:1324163874"
+      ],
+      "track": "open_source",
+      "status": "passed",
+      "core": "funds.ts 定义 operating/restricted/endowment/plant/board_designated 五类基金，createFund 要求 fund 段存在且 is_balancing，并保存 restriction_class 与 off/advisory/hard 预算控制；fund-posting.ts 以 extra_dims.fund 入账，非零残差缺基金时以 fund_missing 拒绝，缺省时回填默认基金，按基金汇总并通过 due-from/due-to 配对生成基金间平衡腿；fund-balancing.integration.test.ts 的 assertBalancedByFund 断言每基金合计为零且每基金两行；releases.ts 以 draft/pending_approval/posted/void 状态、框架类别对、可用净资产、期间与留本董事会拨款校验限制解除；functional.ts 固定 program/management_general/fundraising 三类并在缺映射时拒绝；statements.ts 支持 fundId 过滤，输出 netAssetsByClass、活动、功能费用、现金流调节和基金 tie-out。定义性核心三项均有对应源码或集成测试。",
+      "service_form": "README 与 batch 显示为 Next.js Web 应用、Docker Compose 自托管，配套 PostgreSQL 16、Redis 7、MinIO 与后台 worker；另有设置向导、Web 界面和行业示例公司，属于持续部署使用的软件应用，不是库或纯文档。非营利能力通过 Company Settings → Features 的 nonprofit/fundAccounting/functionalExpenses 等开关启用；feature-fence 测试验证关闭后相关调用被拒绝且内置报表定义被 feature gate。",
+      "identity_license": "仓库元数据快照确认 id 1324163874、full_name braedonsaunders/openbooks、archived:false，与 batch 的 github:1324163874、repository_url 一致；许可证 API 快照含完整 34,523 bytes AGPL 文本，spdx_id 为 AGPL-3.0，README 标 AGPL-3.0-or-later；README 同时明确 alpha 且未完成独立会计/安全认证。",
+      "gaps": "runtime_tested:false，未部署或运行应用；源码快照来自 main 分支未固定 commit；历史候选 Steward/Nonprofit Ledger 的 README 快照与目录清单快照不在本单元 REVIEW_SOURCES 中，未独立复核；未检查独立定价页/付费版文档；homepage 仅按仓库元数据快照核对，未做在线可达性测试。上述缺口不关闭本叶的基金会计核心证据。"
+    }
+  },
+  "limits": "只读初审，未运行 shell、未写文件、未部署应用、未执行测试或网络重抓；仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 11 个快照。元数据与许可证快照为单行 JSON，读取显示会截断，但已用 grep 核对 id、homepage、archived、spdx_id 等关键字段；releases.ts、statements.ts、functional.ts 等长文件按关键段落核对。历史候选快照、目录清单快照未在本单元来源清单中，无法独立复核；源码取自 main 分支而非固定 commit，后续可能漂移。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-220/ses_groveopencodegop220review2_1793261677.jsonl",
+  "batch_sha256": "22158f726b1698de4007a523509a367a8a9103da045428567a1a82d3a922d31e",
+  "research_sha256": "679d01b82ba2d8fd02cfd679187f3a0de5692006da843722078c11168aa59273",
+  "input_sha256": "546167b8291a40e1a0b44407306e44552595566e5f640fc3e58d736b0c447b2f"
+}

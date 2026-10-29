@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "engineering-requirements-management / github:263988764：Apache-2.0 全文快照 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 已存在且内容为标准 Apache-2.0 条款，但未登记在 batch.sources 与 REVIEW_SOURCES；建议补登 url/kind/sha256，并在 license_review 中说明 GitHub /license 返回 Other/NOASSERTION 是因仓库 LICENSE 仅为声明和链接。",
+    "UID 在 StrictDoc 中是可选的（用户指南 6.2.4.2），无 UID 的文档无法互相追溯；条目中“带稳定 UID”宜表述为支持 UID/MID，而非默认全部需求都有 UID。",
+    "变更管理依赖 Git 提交与 diff/changelog，产品自身未证实基线冻结、电子签名和审批门禁；维持当前收窄范围，避免被读成完整 ALM/合规需求平台。",
+    "官方用户指南明确 Web 服务器未加固、作为共享 Web 服务器部署不实用；服务形态应记为本地或受控内网自托管，不宜称多租户 SaaS。",
+    "docs 快照只含 23.4 Diff/changelog 与 24.2 限制的目录/锚点，未见正文；如要直接支撑“diff/changelog 视图”和限制说明，建议补该节正文。",
+    "未发现独立社区版/企业版或专有附加条款；可在条目中显式写“单一 Apache-2.0 代码库，无社区版/商业版边界”。",
+    "input.json 仍为 insufficient_evidence、application_ids 为空，而 batch/research 已有案例；建议同步进度状态或注明 seed 记录保留原因，避免下游误读。"
+  ],
+  "leaf_checks": {
+    "engineering-requirements-management": {
+      "application_id": "github:263988764",
+      "name": "StrictDoc",
+      "track": "open_source",
+      "result": "pass_with_notes",
+      "identity": "GitHub 仓库元数据 id=263988764、full_name=strictdoc-project/strictdoc，描述为 technical documentation and requirements management；与 batch 的 github:263988764 及 README/用户指南一致，仓库未归档、非 fork。",
+      "core": "用户指南正文证实：需求以带 UID 的 SDoc/Markdown 记录保存（6.2.4.2，UID 可选）；文档被解析为文档树并支持文档/章节/需求结构；需求通过 RELATIONS 的 Parent/Child/File 类型链接，并可派生 Requirements Traceability 与 Documentation Coverage（6.2.4.10、概述）；需求到源代码追溯标注为实验性；Web UI 可查看和编辑并写回文件。变更管理依赖 Git 提交与 diff/changelog，未发现产品内基线冻结、电子签名或审批门禁，故按批次的收窄范围成立。",
+      "license": "仓库 raw LICENSE 为 Apache-2.0 适用声明（Copyright 2020-2026 Stanislav Pankevich, Maryna Balioura）并给出 apache.org 全文地址；NOTICE 再次写明 Apache License 2.0；sources 目录中的 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30 全文快照经完整读取为标准 Apache-2.0 第1-9节及附录，未发现附加限制。GitHub /license API 因 LICENSE 仅为声明而返回 Other/NOASSERTION，不影响许可证身份判断。",
+      "service_form": "Python 3.10+ 本地工具，支持 pip/Docker 安装，strictdoc server 默认 127.0.0.1:5111，提供本地 Web UI 与静态 HTML/PDF/ReqIF/Excel 导出；官方指南明确服务器未加固、共享部署不实用，故属于本地或受控内网自托管应用，不是多租户 SaaS。",
+      "community_edition": "未发现企业版/社区版拆分、专有附加模块或额外商业条款；仓库与 NOTICE 均指向单一 Apache-2.0 代码库。",
+      "evidence": [
+        "data/collections/sources/d30d50eeb34f11d8aeb63c07c49fe523704a063076e78959ce52c9249d0326de.txt",
+        "data/collections/sources/3e071d7bea4ea7851cdc023b525df5a8c8bd4647826db65674cd551dc7959471.txt",
+        "data/collections/sources/bb8853bf7e3398f01642f0eb125f8f3dad6c714499ef931b17bde7c93e5883d7.txt",
+        "data/collections/sources/0323e94adfa6581cb2119178089ef952793c8c7fe3d234fbacccda03e2c35f7e.txt",
+        "data/collections/sources/3392558ba768e0454ed2340433d5b9daf1ef32860368b9bf82b87a441fcd0438.txt",
+        "data/collections/sources/d929e44291248fbf463a8d22201bf958162dbbc2634c1d1eb230f41b6cf3b968.txt",
+        "data/collections/sources/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt"
+      ],
+      "gaps": [
+        "Apache-2.0 全文快照未登记在 REVIEW_SOURCES 和 batch.sources，仅见于 batch.license_review 与 research.fetch_outcomes 的 sha256 引用。",
+        "用户指南快照未包含 23.4 Diff/changelog 与 24.2 Web UI 限制的正文，只有目录/锚点及 6.2.4.1.1 中的一句功能提及。",
+        "未见产品内基线冻结、电子签名、审批门禁证据；变更管理依赖外部 Git，属于收窄后的核心匹配。"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 StrictDoc，未安装、部署或做运行时测试；未用 shell 重算 sha256，仅按 REVIEW_SOURCES 与 batch 所列 sha 读取快照；REVIEW_SOURCES 未登记 Apache-2.0 全文快照 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30，因 batch.license_review 明确给出其 sha256，按 sources 目录同名文件读取；用户指南快照为静态导出，23.4/24.2 等章节仅有目录或索引锚点而无正文；未核查上游最新提交、价格或商业社区版政策。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-139/ses_groveopencodegop139review1_1793248603.jsonl",
+  "batch_sha256": "b03f2637cdcb4be23994944cd1d3a27280feb2f22a9cec7becb7a0f85147057b",
+  "research_sha256": "dced1ce762a61c45728b09dc3e62745e710e4348a4b1e143732ce205118cdc5a",
+  "input_sha256": "cdb2f95906b9d50d09d12cc6a2f86ed22dd711019e487becf00f47eb260ded74"
+}

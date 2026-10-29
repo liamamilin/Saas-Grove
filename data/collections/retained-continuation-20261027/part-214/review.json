@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "patient-scheduling / github:679584：OpenEMR 的匹配依据仅是 README 功能列表中的 “scheduling” 一词，未展示预约对象、服务/就诊类型、时段计算或 booking→arrival→outcome 生命周期。条目已把关系收窄为“集成 EHR 内的预约调度能力”并写明缺口，故不阻断；后续若要作为强类型案例，建议补 OpenEMR 官方 scheduling/calendar 文档。",
+    "operating-room-management / github:21764480：证据主要来自官网 Operating Theatre 模块卡与 README 的 “Appointment & Theatre Management”；“手术室作为可调度容量、冲突重排、当日实时看板、利用率闭环”未获正文证明，条目已明确不主张，建议发布时保留该边界。",
+    "patient-flow-management / github:20765902：README 列出 A&E including Tracking、Graphical Bed Management、Ward transfers、Ward View、eDischarge，但未描述统一实时全院流程看板、滞留原因/预警或床位周转状态机；条目已收窄，建议保留说明。",
+    "nursing-information-system / github:127197836：Open-eObs 的正文强于护理观察与病区任务，但未证明入院护理评估、护理计划、出院记录与交接全流程；另外元数据快照显示该仓库为 fork=true（AppertaFoundation 对 NeovaHealth/openeobs 的 fork），建议在仓库身份处注明 fork 关系及上游维护状态。",
+    "long-term-care-ehr / github:1211634422：CareSync 的 support plans/goals/consent 接近护理计划，但无结构化评估→再评估引擎；中文摘要“护理管理系统”易与 nursing-information-system 混淆，建议改用“住宿照护管理系统”。",
+    "github:21764480 的官网多处写 MIT，而仓库 LICENSE 与 /license API 均为 GPL-3.0；条目已按 GPL-3.0 记录并在 license_review 留档，建议最终文案继续保留该不一致说明，避免沿用官网 MIT 字样。",
+    "github:21764480 的 features 中 “ADT 与护理文书” 的转科（T）未被首页/README 明确支持（仅见 admission→discharge、bed management、nursing documentation），建议改为“入院/出院”或补充来源。",
+    "github:20765902 的 README 要求使用者发送联系方式以接收 Clinical Safety Notice，并声明不保证临床安全；这不是许可证限制，但属于使用条件，建议在条目中保留该说明。",
+    "github:679584 的技术栈未列 Node.js 24（README 构建要求），属信息完整性小项，不影响匹配。"
+  ],
+  "leaf_checks": {
+    "long-term-care-ehr": {
+      "application_id": "github:1211634422",
+      "name": "CareSync",
+      "evidence": "按 REVIEW_SOURCES 路径读取 README 全文与 LICENSE、仓库元数据：README 自述为英国小型住宿照护机构的开源照护管理系统，列出 service user/client 管理、support plans、capacity & consent、goal tracking、append-only 数字 MAR（given/refused/pending）、AM/PM 班次任务板与 2–4pm 交接备注、审计轨迹、四类角色与 8 年保留、PWA 自托管；LICENSE 为完整 AGPL-3.0 文本；元数据 id=1211634422，track=open_source，非 fork。",
+      "core_check": "以住户为中心的持续记录、支持计划、班次护理记录与给药闭环均有正文支持；结构化评估→再评估引擎、出院/转院与计费未证明，条目已明确收窄，未把缺口写成能力。按收窄后的长期护理记录关系核对通过。",
+      "result": "pass"
+    },
+    "nursing-information-system": {
+      "application_id": "github:127197836",
+      "name": "Open-eObs",
+      "evidence": "读取 README 全文：定位为急性与精神科医院的电子观察、病区管理和任务管理软件；移动端提交血糖、血制品、EWS、身高、神经科、体位血压、体重等观察；提供 Ward Dashboard、交互图表、Patient Acuity Board、Patient Record/Report、Patient Visit Management、Staff Allocation，以及 Overdue tasks、Ward staff Workload board，另有精神科监测与 Rapid Tranquilisation 标记。LICENSE 为完整 AGPL-3.0 文本；元数据 id=127197836、fork=true。",
+      "core_check": "床旁护理观察记录与班次/病区操作层有正文支持；入院护理评估、护理计划、出院记录、交接未证明，条目已注明不主张。按“护理记录与班次操作层”的收窄关系核对通过；仓库为 fork 的身份问题记入非阻断建议。",
+      "result": "pass"
+    },
+    "operating-room-management": {
+      "application_id": "github:21764480",
+      "name": "CareCode Open HMIS",
+      "evidence": "读取官网快照：Operating Theatre 模块卡明确 scheduling、pre-operative documentation、intra-operative records、anaesthesia、professional fee settlement；README 全文列出 Appointment & Theatre Management、Inpatient（admission to discharge、bed management、nursing documentation、surgical records、inpatient billing）等；LICENSE 为完整 GPL-3.0 文本；元数据 id=21764480，track=open_source。官网 MIT 与仓库 GPL-3.0 的不一致已在 license_review 留档。",
+      "core_check": "手术病例排程与术前/术中记录有正文支持；手术室容量建模、冲突重排、当日实时看板、利用率闭环未证明，条目已明确不主张。按完整 HMIS 中的手术室模块关系核对通过。",
+      "result": "pass"
+    },
+    "patient-flow-management": {
+      "application_id": "github:20765902",
+      "name": "openMAXIMS",
+      "evidence": "读取 README 全文：PAS 含 NHS e-Referral、RTT、Graphical Bed Management、Outpatient Appointment Management；EPR 含 Observations and Notes、A&E including Tracking、Clinical Assessments、eDischarge；10.5 含 Elective List Management、Theatres 术前评估、Ward transfers、Ward View；另说明 HL7/API 与临床安全免责。LICENCE.TXT 为完整 AGPL-3.0 文本；元数据 id=20765902，track=open_source。",
+      "core_check": "急诊追踪、床位、转科、病区视图、出院等流转环节有正文支持；统一实时全院流程看板、滞留原因/预警、床位清洁周转状态机未证明，条目已注明不主张。按流转模块关系核对通过。",
+      "result": "pass"
+    },
+    "patient-scheduling": {
+      "application_id": "github:679584",
+      "name": "OpenEMR",
+      "evidence": "读取 README 全文：自述 Free and Open Source electronic health records and medical practice management application，features 列 integrated EHR、practice management、scheduling、electronic billing、internationalization，支持 Windows/Linux/macOS 等平台，并给出 Docker/开发构建入口。LICENSE 为完整 GPL-3.0 文本；元数据 id=679584，track=open_source。",
+      "core_check": "仅证明集成 EHR 中存在 scheduling 能力；预约对象、服务/就诊类型、时段计算、booking→arrival→outcome、单一 schedule of record 未展开，条目已把关系限定为集成调度能力并写明缺口。按该收窄关系核对通过；证据层级偏浅已记入非阻断建议。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查。仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES 列出的 16 个快照（README、homepage、license、repository_metadata）；快照路径按 REVIEW_SOURCES.json 原样读取，sources 前缀相对于 data/collections。未运行 shell、未写文件、未访问其他单元。未部署或运行任何应用，未独立验证 README 之外的运行行为、UI 或代码实现。开源许可证依据 GitHub /license API 返回的完整 LICENSE 内容与文件大小核对（GPL-3.0/AGPL-3.0 头部与完整文本均在快照中），未逐字解码全部 base64 正文。仓库归档/维护状态仅依据元数据快照字段，未进一步核实；openeobs 快照为 AppertaFoundation fork，已在建议中提示。research.json 中被拒候选（pflegeos、OpenMRS Operation Theater、Operank-Scheduling、Zephyrus、open-nursing-core 等）的拒绝理由为采集记录，未独立复核其被拒仓库。本单元全部条目为 open_source，无商业条目需要价格/商业真实性核查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-214/ses_groveopencodegop214review1_1793028349.jsonl",
+  "batch_sha256": "26bbb032bcb0efd10d810faf743fbede708ea7fbe01be956c185ca7cf2208543",
+  "research_sha256": "a3719e40ee6793e58ce50065368e330132e81337b4a6bb4b8da0dab706d943d4",
+  "input_sha256": "e033a49d927c60c33c11aa1c58085371406663e20a55f02ebeffb62e6b0021c7"
+}

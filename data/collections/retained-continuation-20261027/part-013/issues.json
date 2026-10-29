@@ -1,0 +1,18 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "group-availability-scheduling-application",
+      "severity": "blocking",
+      "problem": "Calendly 两个来源的正文同样未落盘：help/how-to-set-up-a-meeting-poll 快照中检索 vote、candidate、40、Book Meeting、Meeting polls 均无正文命中，只有 meta description 的“create a poll, share it, and book the best time”。因此“组织者选最多 40 个候选时间→受邀者投票→查看结果→Book Meeting→发送日历邀请”这套关键流程无来源正文支撑；research 的 fetch_outcomes 却声称“内嵌正文含…”。",
+      "fix": "本叶核心可由 Nextcloud Calendar Proposals 独立支撑（已读到正文：候选时段、Yes/No/Maybe 矩阵、各时段票数、选定最受欢迎时段并创建事件、邮件通知），建议直接删除 Calendly 关联；若保留 Calendly，必须先补存含投票流程的官方正文并把 fetch_outcomes 改成实际结果。删除关联时同步修改 batch leaf_matches、research case_ids 与 Calendly 条目的 leaf 列表。"
+    },
+    {
+      "leaf": "meeting-scheduling-application",
+      "severity": "blocking",
+      "problem": "Calendly about-scheduling 快照检索 event type、reusable booking page、one-on-one、round robin、collective、available hours、booking page 均无正文命中，页面仅 meta 与导航/脚本；batch reason 却列出“四类 event type、可用时间与已连日历决定候选时段、自动写入日历”等细节。现有证据不足以证明主持可用时间定义候选时段、访客自助预约、生成会议记录三项。",
+      "fix": "同叶已有 Nextcloud Calendar Appointments 正文（时长/增量/每周可用时间/缓冲/每日上限、公开或秘密链接、未登录访客填姓名邮箱预约、写入指定日历），可单独成立。建议移除 Calendly 关联并按实际抓取结果改写 fetch_outcomes；若保留 Calendly，需补存含 event type/可用时间/写入日历的官方正文。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-003/project/review.json"
+}

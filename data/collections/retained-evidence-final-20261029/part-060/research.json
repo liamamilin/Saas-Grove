@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "call-center-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1331444342"
+      ],
+      "case_found": true,
+      "query": "先复核既有 FreePBX Queues 候选（历史 insufficient_evidence：仅为 ACD 队列配置模块，缺坐席工作界面与实时/历史度量），按定义三项核心（电话/系统分配/系统跟踪可用性的坐席）寻找完整开源 Web 应用形态的替代候选；检索 GitHub、核查仓库身份、完整许可证与服务形态，取得正文后决定是否建立关系。",
+      "source_urls": [
+        "https://api.github.com/repos/rasonyang/ai-native-callcenter",
+        "https://api.github.com/repos/rasonyang/ai-native-callcenter/license",
+        "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/README.md",
+        "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/01-telephony.md",
+        "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/05-frontend.md"
+      ],
+      "note": "本轮补采成功，建立 1 条关系（新候选，非复用旧草稿）。AI Native Call Center（GitHub ID 1331444342）是自托管完整开源呼叫中心应用：FreeSWITCH 吸收 SIP/RTP 实时语音，外部呼入与坐席外呼共用同一呼叫账本，每次通话有独立 call id 与 CDR；01-telephony.md §4 说明队列定义由 PostgreSQL 渲染为 callcenter.conf，含 strategy（LONGEST_IDLE_AGENT 默认、ROUND_ROBIN、TOP_DOWN、AGENT_WITH_LEAST_TALK_TIME、AGENT_WITH_FEWEST_CALLS、RANDOM）、tier 层级/位置，坐席腿由 mod_callcenter 发起并在坐席接听后 bridge，另有 RONA（智能体不应答转 On Break）、溢出动作与放弃原因统计；同文档坐席 FSM 给出 LOGGED_OUT/NOT_READY(原因)/READY 与话后处理 ACW，READY 才参与分配，ACW 期间镜像为 On Break 使队列不下发新通话，设备注册丢失自动转 NOT_READY(DEVICE_LOST)。05-frontend.md 给出坐席工作台路由 /agent（弹屏、接听、保持、话后处置）、/agent/calls（本人 CDR），主管 /supervisor 实时看板、/supervisor/agents、/supervisor/queues，管理端 /admin/cdr、/admin/reports、/admin/routing，故实时与历史度量亦有正文。README 明确单二进制内含 Web 界面与 REST/SSE，附一键安装与 Docker Compose 全栈（PostgreSQL + FreeSWITCH + 应用），属自托管完整应用而非客户端/SDK/引擎。许可证：GitHub license API 返回 Apache-2.0 并附完整 Apache License 2.0 文本（11357 字节，含 'TERMS AND CONDITIONS' 与 'limitations under the License'），可在同一仓库校验，故记为 Apache-2.0。限制：仅阅读公开文档与仓库元数据，未部署运行（runtime_tested:false）；产品以 AI 语音应答为默认入口，人工队列为主要的人机转接路径，定义核心仍成立，但若独立审阅认为 AI 优先入口改变了'呼叫中心平台'的主形态，属可讨论的边界而非事实缺陷。历史轨迹保留：FreePBX Queues 仍为 ACD 队列配置模块，不建立关系，见下方 service_boundary 与 fetch_outcomes；该历史结论未删除、未升级为本轮通过。",
+      "service_boundary": "收录对象为自托管完整呼叫中心应用服务（应用 + FreeSWITCH + PostgreSQL，提供坐席与主管 Web 工作台），非纯 SIP 客户端、软电话扩展、ACD 库或队列配置模块。边界说明：产品默认以 AI 语音先应答、再转人工队列，若平台扩展为聊天/邮件/社媒为主则属 contact-center-platform；若以云服务方式交付同一核心则属 CCaaS 叶。历史候选 FreePBX Queues 仍仅作 PBX 上的队列配置/ACD 组件：module.xml 与 README 只覆盖 FIFO 队列、ring strategy、caller announcements、max wait，仓库树只有队列配置/API/视图，未提供坐席工作界面与实时/历史报表，故不建立平台关系（历史 insufficient_evidence 结论维持，未删除其候选与来源）。许可证备注（保留原核对结果）：FreePBX Queues 的 GitHub API 为 SPDX GPL-2.0，而 README 第 18 行与 module.xml 第 7 行写 GPLv2+（对应 GPL-2.0-or-later）；若日后恢复该条应按 GPL-2.0-or-later 记录并保留这两处依据。",
+      "search_attempts": [
+        "复用历史：读取 notes/previous（本工作区为空）与 HISTORY.json 中两条同叶记录（beam-continuation-20261025/part-111、included-continuation-final-20261027#/leaf_cases/478），核对 FreePBX Queues 的既有结论与许可证分歧，未把旧草稿当本轮通过",
+        "query: application-index.json 全量 1211 产品按 call/contact/pbx/asterisk/dial/voice/queue/agent/freeswitch 关键词筛查，确认无该叶既有产品关系（无重号风险）",
+        "query: GitHub search repositories — topic:call-center、topic:acd、call+center+asterisk、contact+center、predictive dialer、vicidial、issabel、fusionpbx 等 8 组",
+        "query: GitHub users/vicidial、orgs/goautodial、orgs/IssabelFoundation 仓库清单，核对候选身份与服务形态",
+        "fetch: ai-native-callcenter 仓库元数据、license、README、docs/design/01-telephony.md、docs/design/05-frontend.md（全部成功并保存快照）",
+        "补充读取（未保存为批次来源）：goautodial/v4.0 根目录清单与 README、pchero/jade README、IssabelFoundation 仓库描述",
+        "复核历史失败抓取：docs.freepbx.org/modules/queues（SSL EOF）与 wiki.freepbx.org Queues+Module+User+Guide（跨主机重定向）本轮未再重试，原记录保留"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/rasonyang/ai-native-callcenter",
+          "status": "ok",
+          "note": "id 1331444342，full_name rasonyang/ai-native-callcenter，license Apache-2.0，default_branch main，archived false，2026-10-28 仍有推送。"
+        },
+        {
+          "url": "https://api.github.com/repos/rasonyang/ai-native-callcenter/license",
+          "status": "ok",
+          "note": "spdx_id Apache-2.0，content 解码后为完整 Apache License 2.0 全文（11357 字节）。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/README.md",
+          "status": "ok",
+          "note": "正文含 FreeSWITCH 呼入呼出、mod_callcenter 队列转人工、坐席浏览器工作台+主管实时看板、单 CDR 与录音、一键安装；说明单二进制内含 Web 界面与 REST/SSE。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/01-telephony.md",
+          "status": "ok",
+          "note": "§2 坐席状态机（LOGGED_OUT/NOT_READY/READY/ACW、RONA、DEVICE_LOST），§4 队列策略/tier/agent 参数、队列事件与 CDR queue_wait_sec、溢出与放弃原因。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/rasonyang/ai-native-callcenter/main/docs/design/05-frontend.md",
+          "status": "ok",
+          "note": "路由清单含 /agent 工作台与 /agent/calls、/supervisor 实时看板与队列/人员视图、/admin/cdr、/admin/reports；并说明 my queue 计数与 SLA 阈值、话后处理与今日 AHT/ACW 指标。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/goautodial/v4.0/master/README.md",
+          "status": "ok_not_used",
+          "note": "正文确认预测/预览/手动拨号 + 入站 IVR 与 ACD、报表与 CRM；但仓库无 LICENSE 文件、license API 返回 404，SPDX 无法核定，未作为案例来源。"
+        },
+        {
+          "url": "https://api.github.com/repos/goautodial/v4.0/license",
+          "status": "error",
+          "note": "HTTP 404，仓库未提供可核验许可证文本。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pchero/jade/master/README.md",
+          "status": "ok_not_used",
+          "note": "BSD-2-Clause，正文有入站/出站分配、坐席呼叫分配与录音；但坐席与管理员 Web 前端在 jade-me/jade-agent/jade-manager 等独立仓库，主仓库自 2018 年后无推送，本轮未逐一核对各前端许可证与状态，暂不建立关系。"
+        },
+        {
+          "url": "https://api.github.com/orgs/IssabelFoundation/repos?per_page=100",
+          "status": "ok_not_used",
+          "note": "callcenter 社区模块（IssabelFoundation/callcenter，ECCP）已归档且无 SPDX 许可证，无法核定完整许可证，不纳入。"
+        },
+        {
+          "url": "https://sangomakb.atlassian.net/wiki/spaces/PG/pages/24608891/Queues+Module",
+          "status": "historical_process_only",
+          "note": "历史轮次读取（约 5285 字符，Dynamic Members 登录/登出、expected wait、timeout），域名非官方主机白名单，本轮未复取，仍不作批次来源。"
+        },
+        {
+          "url": "https://docs.freepbx.org/modules/queues",
+          "status": "historical_error",
+          "note": "历史轮次 SSL UNEXPECTED_EOF_WHILE_READING；本轮未重试，保留原失败记录。"
+        },
+        {
+          "url": "https://wiki.freepbx.org/display/FPG/Queues+Module+User+Guide",
+          "status": "historical_redirected_off_host",
+          "note": "历史轮次跳转至 sangomakb.atlassian.net；本轮未重试，保留原记录。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

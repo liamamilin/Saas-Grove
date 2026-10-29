@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "api-gateway-management-console",
+      "application_id": "github:194645908",
+      "note": "批次 deployment 写有『可独立构建部署』。README 正文（91ec…20c.txt 第13行）称项目不再独立发布，而按 APISIX 发布用固定 git tag 构建并内嵌；文档（8a88…7bac.txt 第97–101行）也只说 3.0.1 是重构前最后一个独立版本。从源码自建并不等于独立发行版，因此这句话不算硬性矛盾；建议改为『仅随 APISIX 发布构建内嵌，独立发行版止于 3.0.1（旧架构）』，以免读者误判维护形态。"
+    },
+    {
+      "slug": "api-gateway-management-console",
+      "application_id": "github:656052275",
+      "note": "README 自述『intended to be a local testing tool』，研究记录已在 service_boundary 中如实说明并给出允许部署到公网服务器、随 Kong Gateway 提供的依据，处理恰当。条目名称已带 OSS 后缀，但未明写与 Kong Manager Enterprise/Konnect 商业版的社区版边界；建议在 features 或 summary 中补一句『OSS 版为 Apache-2.0 独立仓库，企业版 Manager 不在本仓库』，使社区版边界更显式。"
+    },
+    {
+      "slug": "api-gateway-management-console",
+      "application_id": "github:194645908",
+      "note": "官方文档正文明确可图形化配置 routes、plugins、upstream services，并经 Admin API Key 与 APISIX 交互，但未逐项点名消费者凭证、key-auth、限流配额等具体执行策略。Kong 侧由插件配置界面覆盖同类能力；本叶不因此不成立，若后续补证，可引用 APISIX 插件文档强化『执行策略』一层的直接证据。"
+    },
+    {
+      "slug": "api-gateway-management-console",
+      "application_id": "github:656052275",
+      "note": "research.json 的 source_urls/fetch_outcomes 仍保留旧候选 Kong/kong 的元数据、README、license（对应 sources/0e21…14f、376442…d0b、a72f…8c8 等历史快照），并明确标注 reused_historical_snapshot、不作通过证据，处理透明；这些 URL 未进入 batch entry，不构成来源错配。"
+    },
+    {
+      "slug": "api-gateway-management-console",
+      "note": "research.json 记录了一次替代品 web search 因搜索配额耗尽（TinyFish 50/50）无结果，且未据此断言不存在，属如实留档的检索缺口，可接受。"
+    },
+    {
+      "slug": "api-gateway-management-console",
+      "application_id": "github:194645908",
+      "note": "APISIX Dashboard 文档快照为 HTML，含站点导航与脚本，但第20–21行起 Overview 正文完整（web 界面、内置默认启用、可配置 routes/plugins/upstream services），第44–45行说明 Admin API 与 Key 认证，核心工作流证据来自正文而非导航或元数据。"
+    }
+  ],
+  "leaf_checks": {
+    "api-gateway-management-console": {
+      "status": "pass",
+      "definition_core": "定义性核心三要素均有正文证据。(1) 作用于网关运行时的控制面：Kong README（252b…8347 第7、13行）自述为 Kong Gateway 的免费开源 UI，经 admin API 查看/编辑全部 Kong 对象且不需要独立数据库；APISIX 官方文档（8a88…7bac 第21行）称 Dashboard 提供直观 web 界面操作管理 APISIX，经 Admin API 交互（第45行），与数据面分离。(2) 以暴露的 API 表面为核心管理对象：Kong README 第47行可查看 service 上配置的 routes 与 plugins 并下钻编辑，第15行 Service edit 图示；APISIX 文档第21行可配置 routes、plugins、upstream services。(3) 配置经部署/管理 API 写入成为行为：Kong 直接写 Admin API（无独立库，第13行），APISIX 经 Admin API + Admin API Key 生效（第44–45、75–77行）。执行策略层由插件配置界面承载（Kong README 第49行插件配置 UI 与提示），未逐项点名凭证/限流，属可补强而非缺失。",
+      "service_form": "两者均为面向运维人员的自托管 Web 管理控制台，可持续使用：Kong Manager OSS 随 Kong Gateway 提供（README 第19行），可本地或公网服务器部署（第23、35–41行）；APISIX Dashboard 内嵌于 APISIX 默认启用（文档第24、32行），访问 127.0.0.1:9180/ui/（第70行）。非一次性演示或元数据条目。",
+      "identity_track": "ID 与 track 核对一致：github:656052275 对应快照 fa12…c0f 中 \"id\":656052275、full_name Kong/kong-manager、description \"Admin GUI for Kong Gateway (Official)\"，track=open_source；github:194645908 对应快照 b6dd…0f99 中 \"id\":194645908、full_name apache/apisix-dashboard、description \"Dashboard for Apache APISIX\"，track=open_source。两仓库 \"archived\":false，非 fork（\"fork\":false）。父叶 12.04、domain 12 与 input.json 定义一致，均属网关控制面控制台而非网关运行时、Admin API 本体或 CLI。",
+      "license": "Kong：license 快照 c7b4…ef3b 为 Kong/kong-manager LICENSE（11344 字节，ref=main），base64 正文以 \"Apache License Version 2.0, January 2004\" 开头并含 \"END OF TERMS AND CONDITIONS\" 编码片段，与 Apache-2.0 全文一致；README 第7行亦称 free and open-source。APISIX：license 快照 c7c6…55f7 为 apache/apisix-dashboard LICENSE（12643 字节，ref=master），正文以 Apache License 2.0 开头，README 第3、31行与页脚 ASF 声明一致。两处 license_evidence_url 均指向对应 GitHub license API，仓库身份与许可证归属匹配。",
+      "community_boundary": "Kong 侧为独立仓库 Kong/kong-manager，条目标名 Kong Manager OSS，README 明示免费开源且随 Kong Gateway（OSS）提供，未把企业版 Manager/Konnect 混入，边界基本成立；仅未显式写出与 Enterprise 版的对照（见 non_blocking_notes）。APISIX Dashboard 为 Apache 基金会单一 Apache-2.0 项目，无开放核心拆分，README 第12–13行、文档第97–98行说明只随 APISIX 发布构建内嵌，社区版边界清晰。",
+      "commercial_check": "本单元无商业条目，商业真实性与类型匹配项无适用对象。",
+      "source_integrity": "按 REVIEW_SOURCES.json 的 path 原样读取全部 6 个快照（fa12…c0f、252b…8347、c7b4…ef3b、b6dd…0f99、91ec…320c、c7c6…55f7、8a88…7bac，其中 6 项对应 2 个应用），batch.json 中 snapshot_path 经 data/collections 前缀解析后与实际文件一一对应，sha256 与文件名一致；未发现仅凭 HTTP 成功、简介元数据或关键词替代正文的情形。research.json 中历史 Kong/kong 快照已标注复用且不作通过证据，检索配额耗尽缺口如实记录。",
+      "notes": "Kong README 自述本地测试工具，但同段给出公网服务器部署方式与随网关分发事实，服务形态可成立；APISIX『可独立构建部署』措辞与不再独立发布略有张力，均列 non_blocking_notes。"
+    }
+  },
+  "limits": "只读静态核对，未部署运行、未实际打开 UI 验证读写路由/插件与发布生效，runtime_tested 均为 false；仅有 2 个开源控制台案例，无商业条目可核，未独立检索补充新候选（研究记录载明 web search 配额耗尽）。仓库元数据与 license JSON 为单行超长 JSON，read 工具按 2000 字符截断，仅能确认 id/full_name/description/archived/fork 等前段字段与许可证 base64 起始段及 END OF TERMS 片段，未能逐字通读整份许可证文本；APISIX 文档快照为 HTML，含站点导航与脚本噪声，仅以 Overview/FAQ 正文为准。所有结论基于本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的快照，未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-102/ses_groveopendesignp102review1_1793200070.jsonl",
+  "batch_sha256": "7964217c9042bbffc52b0bf370f6af6c3943b1c2ec63e12c82e33dc28ff00dd5",
+  "research_sha256": "65d5a9dc8cecc4ea480390dabed9bc7b3ee146b1dd45a6ef3a30507bef069795",
+  "input_sha256": "cb2f4cc148f8c9b70c28eaff944fde4dea136e84813a7c1285abe0f3decb9cda"
+}

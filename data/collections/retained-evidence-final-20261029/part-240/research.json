@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "restaurant-pos",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1006743050"
+      ],
+      "query": "restaurant POS software; open source restaurant POS self-hosted; open source restaurant POS self-hosted web application 2026 GitHub",
+      "source_urls": [
+        "https://api.github.com/repos/vul-os/beepbite",
+        "https://api.github.com/repos/vul-os/beepbite/license",
+        "https://api.github.com/repos/vul-os/beepbite/readme",
+        "https://raw.githubusercontent.com/vul-os/beepbite/main/docs/user-guide.md",
+        "https://api.github.com/repos/satisfecho/pos",
+        "https://api.github.com/repos/satisfecho/pos/license",
+        "https://api.github.com/repos/satisfecho/pos/readme"
+      ],
+      "note": "上一轮初审缺口已复核并保留修正：POS2（satisfecho/pos）的 README 只证明顾客扫码点单、员工管理订单状态与收款、厨房屏和报表，仍无员工从配置菜单新建订单、账单拆分/并账/转台或关闭权限的正文，故本单元不再把 github:1131488273 计入成立关系，旧候选及其快照仅作为历史轨迹保留；这是已读正文后的关系撤回，不是断言该叶子不存在。本轮做了一组有区别的定向补证，改为核查完整开源 Web 应用，新增 BeepBite（vul-os/beepbite，GitHub id 1006743050，Apache-2.0）：官方 README 与用户指南明确描述员工在 POS Workspace 开台/开单、从按类别分组的菜单网格加菜并配置修改器/课程/86、账单以 tab 持续挂账、按座位把已下单的 check 拆成各自独立 tender 的分账、移动/分配桌台，以及现金/卡/转账/券 tender 和按原因码触发的经理 PIN 审批（void/comp/折扣）；每个座位付清后桌台才清台，构成支付后的受控关闭。该产品为自托管 Go API + React 应用，使用自有 PostgreSQL，无托管收费版；快速 POS/自助点餐模式被其文档明确区分，不作为本叶匹配依据。本轮未运行任何第三方项目，未验证部署。另核查 Odoo 餐厅 POS 文档（员工建单、Transfer/Merge、Bill Splitting 均有正文）但其 GitHub 许可证 API 返回 NOASSERTION，无法在本轮以 LGPL-3.0 完成机器可核验的许可证明，故未纳入；URY 的官方文档覆盖桌台、建单、桌台/服务员转移和结算，但拆账仅见代码/PR 而非官方使用正文，未作为本轮新增案例。此前 Floreant POS 的 GitHub 许可证同样为 NOASSERTION，仍未纳入。",
+      "service_boundary": "本叶只接受员工在餐厅自有交易界面从配置菜单建单、账单可累积并在开放状态下拆分/转台、支付后受控关闭的餐厅 POS。BeepBite 的自托管完整 POS Workspace 符合该边界；其 /q 快速 POS/自助点餐模式（无挂账、无分账、无经理授权）属于自助点单方向，明确排除在匹配理由之外。BeepBite 没有托管收费版，开源核心即完整功能集；本轮未新增商业对照，也未运行任何第三方项目。",
+      "search_attempts": [
+        "historical reuse: web search: restaurant POS software",
+        "historical reuse: web search: open source restaurant POS self-hosted Floreant POS github",
+        "historical reuse: GitHub API repository search: restaurant pos (HTTP 403 rate limit)",
+        "2026-10-29 targeted: web search: open source restaurant POS self-hosted web application 2026 GitHub",
+        "2026-10-29 targeted: web search: Odoo 18 restaurant POS documentation split bill transfer table order",
+        "2026-10-29 targeted: web search: URY restaurant POS documentation split bill table transfer settle invoice ERPNext",
+        "2026-10-29 targeted: fetch BeepBite official repository metadata, license, README and docs/user-guide.md",
+        "historical reuse (repair review): re-read existing satisfecho/pos README, license and metadata snapshots; no new query"
+      ],
+      "fetch_outcomes": [
+        "2026-10-29 new: fetched BeepBite repository metadata: id 1006743050, full_name vul-os/beepbite, license Apache-2.0, homepage vulos.org/projects/beepbite",
+        "2026-10-29 new: fetched BeepBite license API: SPDX Apache-2.0, complete Apache License 2.0 text",
+        "2026-10-29 new: fetched BeepBite README: self-hosted restaurant POS, POS till with table bar/menu grid/running cart, tabs, splits, voids, comps, manager approval, tenders, KDS",
+        "2026-10-29 new: fetched BeepBite docs/user-guide.md: staff open table/tab, menu grid with categories and modifiers, Split Check by Seat into per-seat totals each with Tender, move/assign table, manager PIN approval for void/comp/discount, payment via cash/card/transfer/voucher",
+        "2026-10-29 new: checked Odoo 18 restaurant documentation: staff order entry, Transfer/Merge and Bill Splitting documented, but GitHub license API reports NOASSERTION; not entered",
+        "2026-10-29 new: checked URY README and official POS docs: table/order/bill/transfer and role-gated settlement documented; item-level split is documented only in code/PR, so not entered this round",
+        "2026-10-26 historical reuse: satisfecho/pos metadata id 1131488273, license AGPL-3.0",
+        "2026-10-26 historical reuse: satisfecho/pos README covers guest QR ordering, staff order status, payments, kitchen display and Docker Compose",
+        "2026-10-26 historical: Floreant POS metadata, license and homepage checked; GitHub license NOASSERTION, not entered",
+        "2026-10-27 historical repair: re-read existing satisfecho/pos snapshots; guest QR ordering and staff order management documented, staff menu order entry and check split/merge/transfer not documented, so the relation was withdrawn",
+        "2026-10-26 historical: GitHub repository search returned HTTP 403 rate limit; no repeated calls",
+        "2026-10-29 verified: withdrawn satisfecho/pos relation is absent from this unit's batch"
+      ],
+      "archived": false
+    }
+  ]
+}

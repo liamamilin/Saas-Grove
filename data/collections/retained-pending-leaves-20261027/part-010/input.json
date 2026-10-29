@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 30,
+  "offset": 725,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "supplier-quality-management",
+        "name_zh": "供应商质量管理",
+        "domain_id": "16",
+        "parent_id": "16.04",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-160/state.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": null
+          },
+          {
+            "record": "retained-go-followup-20261027/part-042/state.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": null
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "supplier-quality-management",
+        "name": "Supplier Quality Management",
+        "name_zh": "供应商质量管理",
+        "aliases_zh": [
+          "供应商质量控制",
+          "供应商品控"
+        ],
+        "overview": "A **Supplier Quality Management** application is the buying manufacturer's quality-side system of record over its supplier base. It holds suppliers — and the parts, materials, and services they supply — as quality-managed records whose approval and qualification status the buyer maintains; it records quality problems attributed to supplier-provided material and works them to closure in a structured loop that the supplier participates in; and it accumulates quality evidence about each supplier and its material, using that evidence to evaluate suppliers and to adjust their standing.\n\nThe problem it solves: a finished product can be no better than the poorest-quality input it is made from. Once a manufacturer buys components and materials from outside suppliers, it must control quality it does not itself produce — qualify suppliers and their parts before and during use, check and disposition incoming material, push quality problems back to the supplier for structured correction, and keep an evidence trail that shows the whole of it to auditors and customers.\n\nIts defining structure is small — three structures held together:\n\n```text\nSupplier(-part) quality standing of record\n  (approval / qualification status maintained by the buyer, gating use of the material)\n└── Two-sided supplier quality issue loop\n    (problem recorded → supplier responds → material dispositioned → closure earned)\n    └── Quality evidence base feeding the standing\n        (inspection results, audits, certificates, complaint history, performance data)\n```\n\nEverything else commonly associated with these products — part-approval methodologies such as PPAP and first-article inspection, 8D problem solving, receiving-inspection engines, scorecards, supplier portals, supplier audits — is widespread in mature products but is packaging around that core, not the core itself.\n\nWhen the center shifts — to the whole internal quality system, to the corrective-action loop alone, to commercial supplier standing, to risk signals, or to the demand-and-fulfillment loop — the product has drifted into a neighboring Application Type.",
+        "overview_zh": "一个**供应商质量管理**应用程序是采购方制造商在其供应商群体上的质量侧系统记录。它将供应商——以及它们供应的零部件、材料和服务——作为受质量管控的记录予以持有，由采购方维护其批准和资质状态；它记录归因于供应商提供材料的质量问题，并在供应商参与的结构化闭环中推动其解决；它积累关于每个供应商及其材料的质量证据，并使用这些证据来评估供应商并调整其状态。\n\n它解决的问题是：成品的质量不可能优于其所采用的最劣质输入。一旦制造商从外部供应商处采购零部件和材料，它就必须控制其自身未生产的质量——在使用之前和期间对供应商及其零部件进行资质认证，检查和处置来料，将质量问题推回给供应商进行结构化纠正，并保留完整的证据链向审计员和客户展示全部过程。\n\n其定义性结构是小而精的——由三个紧密结合的结构组成：\n\n```text\n供应商(-零部件)在案的质量状态\n  （由采购方维护的批准/资质状态，控制着材料的使用）\n└── 双向的供应商质量问题闭环\n    （问题记录 → 供应商响应 → 材料处置 → 获得关闭）\n    └── 为状态提供依据的质量证据库\n        （检验结果、审计、证书、投诉历史、绩效数据）\n```\n\n其他通常与这些产品关联的一切——诸如PPAP和首件检验等零部件批准方法、8D问题解决法、来料检验引擎、记分卡、供应商门户、供应商审计——在成熟产品中普遍存在，但它们是围绕核心的包装，而非核心本身。\n\n当重心发生转移——转向整个内部质量体系、仅转向纠正措施闭环、转向商业供应商状态、转向风险信号、或转向需求与履行闭环——产品就已漂移到相邻的应用类型中。",
+        "dc": "**1. The supplier(-part) quality standing of record.** The system's subject is the supplier base as a quality-managed population. Each supplier is a persistent identified record; at the finer grain, so is each part, material, or service the supplier provides — because quality approval is usually granted per supplier-part combination, not per company. On these records the buyer maintains an approval and qualification standing: whether this supplier, and this supplier's part, are approved for use, under what conditions, and on what evidence. The standing is not decorative — it gates use. A supplier or part that is not released cannot be procured, cannot be received into usable stock, or cannot ship, depending on how deeply the product is connected to procurement systems. Realizations vary: an approved-vendor list with approvals managed at the individual part or service level; a quality info record per supplier-material combination with a release status, blocking of purchasing functions, and validity limits; a part-approval record with submission, approval, and waiver states. Without this structure the product is a supplier directory or a part catalog.\n\n**2. The two-sided supplier quality issue loop.** When delivered material or a supplier's process produces a quality problem — a failed incoming inspection, a defect found in production traced to a supplier lot, a nonconforming delivery — the problem is recorded as an event attributed to the supplier and the affected part/lot. The event is then worked in a structured loop that crosses the company boundary: the buyer defines the problem and expects a response; the supplier (or the buyer on the supplier's behalf) documents containment of the immediate risk, root-cause analysis, corrective actions, and their implementation; the buyer tracks response deadlines, escalates overdue responses, and verifies effectiveness before the record closes. Alongside the loop, the affected material is dispositioned under buyer authority: returned, sorted, accepted under an approved deviation or concession, or scrapped. The loop is two-sided by design — one shared record, worked by both parties, with each side seeing what the buyer allows. Without it the product is internal corrective-action machinery, or a complaint log with a supplier field.\n\n**3. The quality evidence base feeding the standing.** The standing is maintained by evidence, and the evidence accumulates on the same records: incoming and source inspection results, supplier audit findings, certificates (certificates of analysis or compliance, quality-system certifications), complaint and corrective-action history, and computed performance figures such as defect rates on delivered material. This evidence drives evaluation — supplier scorecards and ratings that make the population comparable — and drives standing adjustments: approving, restricting, or removing a supplier or part, tightening or relaxing inspection intensity, granting inspection relief to certified suppliers, or exiting the relationship. Without it the approved list is unmoored from anything verifiable, and the issue loop has no data context.\n\nThe three structures are jointly held: an approved list with no issue loop is a vendor register; an issue loop with no standing is CAPA with a supplier field; evidence with no standing is an inspection archive. Together they make the system a *quality system of record for externally supplied input*.",
+        "dc_zh": "1. 供应商（-部件）质量状况记录。系统的主体是作为质量受管理群体的供应商基础。每个供应商是一个持久标识的记录；在更细的粒度上，供应商提供的每个部件、材料或服务也是如此——因为质量批准通常是按供应商-部件组合授予的，而不是按公司。在这些记录上，买方维护批准和资格状态：此供应商和此供应商的部件是否被批准使用，根据什么条件，以及基于什么证据。状态不是装饰性的——它控制使用。未释放的供应商或部件无法采购，无法接收为可用库存，或无法发货，具体取决于产品与采购系统的连接深度。实现方式各异：一个批准的供应商列表，其中批准在单个部件或服务级别管理；每个供应商-材料组合的质量信息记录，具有发布状态、采购功能阻止和有效期限；一个部件批准记录，具有提交、批准和豁免状态。没有此结构，产品将是供应商目录或部件目录。\n\n2. 双向供应商质量问题循环。当交付的材料或供应商的过程产生质量问题时——一次失败的来料检验，在生产中发现的追溯到供应商批次的缺陷，一个不合规的交付",
+        "rules": "### The standing gates use\n\nApproval status is operational, not informational: unapproved suppliers or parts are blocked from procurement, from receipt into usable stock, or from shipment, depending on integration depth. Release can carry conditions — validity periods, quantity limits, required certificates, mandated inspection intensity — and exceeding them blocks the transaction.\n\n### The buyer controls the standing\n\nSuppliers submit evidence and respond to issues, but approval, restriction, and removal are buyer decisions. The same asymmetry holds inside shared records: suppliers work their assigned steps and keep internal notes private; the buyer sees the whole.\n\n### Closure is earned\n\nAn issue closes only when containment, root cause, corrective actions, and effectiveness verification are complete and approved. Overdue supplier responses are escalated, not silently tolerated. A failed verification reopens the loop.\n\n### Containment precedes disposition\n\nAffected material is controlled — quarantined, held, or blocked — before its fate is decided. Disposition (return, sort, scrap, use-as-is under an approved deviation) requires buyer authority recorded on the record; a deviation or concession is granted by the buyer before the material may be used or shipped, not after.\n\n### Evidence is retained and attributed\n\nInspection results, audit findings, approvals, dispositions, and supplier responses are kept as attributed, retrievable records. They are the substance of supplier audits, customer audits, and regulatory inspection — and the input to every standing decision.\n\n### Inspection intensity follows performance\n\nThe standing and the evidence tune the inspection regime: tightened plans and sampling for new or struggling suppliers, reduced inspection or skip-lot relief for proven and certified ones. Relief is earned by documented evidence (certification, audit results, sustained performance), not assumed.\n\n### The record population is cross-linked\n\nIssues link to parts, lots, suppliers, inspections, audits, and corrective actions. This fabric is what turns isolated defects into supplier-level patterns — repeat issues on the same part or supplier — and what produces traceability when a customer asks which lots were affected.",
+        "rules_zh": "### 状态控制使用准入\n\n批准状态是操作性的，而非信息性的：未批准的供应商或零部件被阻止采购、被阻止接收为可用库存或被阻止发货，具体取决于集成深度。批准可附带条件——有效期、数量限制、所需证书、规定的检验强度——超出这些条件会阻止交易。\n\n### 采购方控制状态\n\n供应商提交证据并响应问题，但批准、限制和移除是采购方的决定。在共享记录中，同样的不对称性也存在：供应商完成其分配的步骤，并将内部记录保持私密；采购方则看到全局。\n\n### 关闭需要赢得\n\n一个问题只有在控制措施、根本原因、纠正措施和有效性验证都完成并获得批准后才能关闭。逾期的供应商响应会被升级处理，而非默许。验证失败会重新打开闭环。\n\n### 控制先于处置\n\n受影响的材料在决定其命运之前，要被控制——隔离、暂扣或阻止。处置（退回、分拣、报废、在批准的偏差下原样使用）需要采购方权限并记录在案；偏差或让步是由采购方在材料可能被使用或发货之前授予的，而非之后。\n\n### 证据被保留并归因\n\n检验结果、审计发现、批准、处置和供应商响应被作为有归因、可检索的记录保存。它们是供应商审计、客户审计和监管检查的实质内容——也是每一个状态决定的输入。\n\n### 检验强度随绩效调整\n\n状态和证据调整检验机制：对新的或表现不佳的供应商实行更严格的计划和抽样，对表现良好的供应商减少检验或放宽批次要求",
+        "parent_id": "16.04",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 10,
+    "phase": "directory",
+    "parent": 42,
+    "source_run": "go-followup-20261027",
+    "input_status": "incomplete",
+    "slugs": [
+      "supplier-quality-management"
+    ],
+    "old_input_sha256": "9da5a689d1bfa43ffcf53d35ef6c633849d23545b0413031b46179230e54e504"
+  },
+  "previous_continuation": {
+    "unit": 42,
+    "phase": "complete",
+    "parent": 160,
+    "slugs": [
+      "inspection-metrology-software",
+      "manufacturing-qms",
+      "product-test-management",
+      "statistical-process-control-spc",
+      "supplier-quality-management"
+    ],
+    "old_input_sha256": "cab3e0dbca26f9bdfddfd4429c4e4cf9c6a3f3ab6935a735b099271ab7329802"
+  }
+}

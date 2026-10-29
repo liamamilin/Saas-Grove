@@ -1,0 +1,43 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "instant-messaging-application：input.json 仍标记 phase=included_without_cases、application_ids 为空、case_status=boundary_unresolved，而 batch.json 与 research.json 已记录 github:26661222 为 case_found。research.review_response 已说明这是上一阶段快照，且本单元结论以 batch.json 和 research.json 为准；建议后续同步单元清单，避免下游按无案例处理。",
+    "instant-messaging-application：Telegram 历史快照（sha256 97e4257588fce10c5d8ae359c18afdbaaebfb6e4a7ee20dfb3c85b6e3f28e733）出现在 research.json 的 fetch_outcomes 中，文件也存在于 sources 目录，但未列入 REVIEW_SOURCES.json，也未作为本案来源。该候选已被 withhold，本案结论不依赖它；建议补充声明或从本单元来源清单中移除，保持来源记录一致。",
+    "instant-messaging-application：条目称官方 Web、Android、iOS 客户端为 Apache-2.0，该表述来自服务端 README 第 3 行与官网第 98 行，未逐个读取 tinode/webapp、tinode/tindroid、tinode/ios 仓库自身的 LICENSE。条目已把 license 与 license_review.scope 限定为服务端仓库，故 GPL-3.0 结论不受影响；若未来把客户端并入应用许可结论，应分别取证。",
+    "instant-messaging-application：application_id 指向服务端仓库 tinode/chat，而用户可见的完整 IM 应用还需部署独立客户端仓库。条目已在 summary、features、deployment 中披露该拆分，建议在 summary 或 leaf_matches 中进一步明确“ID 为服务端仓库、完整产品由多仓库组成”，减少身份歧义。",
+    "instant-messaging-application：research.review_response 称条目已披露可选闭源 TNPG 及付费支持，但 batch.summary 只写了 TNPG 闭源且核心自托管不依赖，未提付费支持或官方托管服务。TNPG 闭源与社区版可用性已披露，商业边界基本成立；建议对齐该处措辞。",
+    "instant-messaging-application：Tinode 的 fnd/tag 用户发现、匿名用户和只读频道，比定义中“联系人图即可达图”的狭义描述更宽；但 1:1 与成员自建群组仍是主流程，四项定义核心成立，建议在 service_boundary 中保留这一细微差别说明。",
+    "instant-messaging-application：README 第 5 行自述为 beta-quality software（feature-complete and stable but probably with a few bugs）；这不影响类型与许可判断，可在部署预期中注明。",
+    "instant-messaging-application：license.spdx_id 使用 GitHub 返回的 GPL-3.0，现代 SPDX 写法为 GPL-3.0-only；不影响许可识别，属于非阻断措辞。"
+  ],
+  "leaf_checks": {
+    "instant-messaging-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:26661222"
+      ],
+      "definition_core": "通过。API 文档第 77 行说明每个用户有 usr 前缀唯一 ID；第 86 行说明 P2P 主题严格建立在两个用户之间且以对端用户 ID 命名；第 87 行说明群组主题需显式创建；第 1179 行说明 {data} 是唯一持久化到数据库的消息类型，第 449 行说明可按消息 ID 分页获取历史；第 1137-1138、1161-1164 行说明 {note.recv}/{note.read} 会改变服务端持久状态并回传；README 第 75-102 行列出一对一/群组消息、送达/已读/输入状态、消息编辑转发回复置顶收藏等功能。四项定义核心（个人可寻址身份、特定参与者间可达性、对话线程、持久历史）均有正文证据。",
+      "service_form": "通过。INSTALL.md 第 21、139-151 行给出二进制/源码自托管、数据库初始化、浏览器访问 http://localhost:6060/ 以及以 -static_data 挂载独立 Web 客户端的方式；README 第 3、19-21、75-123 行说明完整服务端、官方客户端、数据库后端与部署方式；官网第 60-62、129-130 行明确 Self-Hosting。属于客户可持续自行运营的完整开源即时通讯服务，而不是一次性工具或仅元数据条目。",
+      "identity_track": "通过。GitHub 仓库 API 快照显示 id=26661222、full_name=tinode/chat、fork=false，与 batch.json 的 github_repository_id 和 application_id github:26661222 一致；homepage 与 repository_url 均指向 tinode.co 与 github.com/tinode/chat；track=open_source 与仓库性质相符。",
+      "license": "通过。LICENSE 快照为完整 GNU GPL v3 正文（首行 GNU GENERAL PUBLIC LICENSE / Version 3, 29 June 2007，35147 字节，至标准附录结束，无附加限制条款）；GitHub license API 快照含 spdx_id=GPL-3.0、size=35147，且该响应与 LICENSE 内容对应；license_review 明确 scope=repository，仅覆盖服务端仓库，未外推到客户端仓库。",
+      "community_boundary": "通过。API 文档第 620-626 行说明 Tinode Push Gateway 为 proprietary 服务，同时存在 Google FCM 与 stdout 适配器，核心自托管不依赖 TNPG；README 第 3、46-54 行说明官方 Web/Android/iOS 客户端为独立 Apache-2.0 仓库；条目已披露客户端另仓获取及 TNPG 可选闭源，社区版主流程可完整自托管。付费支持与官方托管仅见于 README 第 28、33 行及官网，未写入条目，属非阻断补充项。",
+      "sources_checked": [
+        "data/collections/sources/3a4df8d64711c05026d3cebb478bc30921ae2b387724bfb8ea2d914a9b5e8b2d.txt",
+        "data/collections/sources/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt",
+        "data/collections/sources/2054bbf1d41b3ad935ce9e90d0be4c6b8f2a90706bb8db0ddfb0d7cc0cbce57f.txt",
+        "data/collections/sources/82688179d12e863cc0d9bd2b573378cb3395758263dd40da1b5b9c1df311815e.txt",
+        "data/collections/sources/54ce4aefb7b40e38eb9af0071c69b65cfdd2e0706fa860a50715966e53bdde2a.txt",
+        "data/collections/sources/56a601bb8af742525bc3b99197a79a3cb3396be33cc04d16fee1b2819fa702e9.txt",
+        "data/collections/sources/113523b408e05ee2990f6b4649b067e210140febe47f17dcf71856ff573b95cb.txt"
+      ],
+      "gaps": "未运行或部署 Tinode，未验证实际消息收发；未打开客户端仓库自身 LICENSE；research.json 中 Telegram 历史快照未列入 REVIEW_SOURCES.json，但本案未依赖该快照；input.json 的阶段状态与 batch/research 不一致，已在 non_blocking_notes 说明。以上缺口不影响基于服务端/LICENSE/API 正文对定义核心、身份、许可与社区边界的判断。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未联网复核、未部署 Tinode，也未读取其他单元或采集者历史脚本。快照严格按 REVIEW_SOURCES.json 的 path 原样读取（以 data/collections 为基准）；由于无法计算 SHA-256，仅核对快照文件名与记录哈希一致，未独立校验字节级哈希。GitHub 仓库元数据为单行 JSON，文本预览存在长度截断，但 id、full_name、fork 等关键字段可读。未逐仓核对 tinode/webapp、tinode/tindroid、tinode/ios 的许可证文件。本单元仅一个叶子 instant-messaging-application。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-002/ses_groveopendesignp002review2_1793148853.jsonl",
+  "batch_sha256": "03eb22075487f204710661bc13e17de35ec91387f9097f67472db4a0638ea077",
+  "research_sha256": "5ad2cf279077ba7a72c46f6a1275a25a1059bfc22d3ec00ec072239a80b38b71",
+  "input_sha256": "0015ff3adccb6786cd0deedbbac5e1a13b6a7275a20e4cd0ba56cdf0864725c9"
+}

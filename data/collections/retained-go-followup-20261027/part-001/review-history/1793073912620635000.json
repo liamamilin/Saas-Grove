@@ -1,0 +1,69 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "graphic-design-application",
+      "application_id": "github:258967860",
+      "issue": "Graphite 条目把 license 与 license_review.spdx_id 都写成单一 MIT，但同一条目的 README 明示源代码按 MIT 或 Apache-2.0 二选一双许可，LICENSE-MIT 与 LICENSE-APACHE 全文均已保存，GitHub license API 也把仓库识别为 Apache-2.0；当前单值 MIT 漏掉 Apache-2.0 选项，与摘要中的“双许可”及已有证据不一致，不能视为完整的许可证记录。",
+      "fix": "将 license 与 license_review.spdx_id 改为 \"MIT OR Apache-2.0\"（或等价 SPDX 表达式），license_evidence_url 保留或同时指向 LICENSE-MIT、LICENSE-APACHE（也可指向 README 的 License 节），并在 rationale 中说明双许可及“unless otherwise noted within the repository”的范围。"
+    }
+  ],
+  "non_blocking_notes": [
+    "personal-cloud-drive / Nextcloud：README 本身只写 store、sync、share，“从网页访问”更适合归到 user manual 的 web interface/access 页面；建议补充并引用 access_webgui 或 managing 正文，以完整覆盖 Web 端上传、下载、建文件夹、移动、重命名、删除、分享的操作循环。现有 quota 与 desktop_mobile_sync 页面足以支持配额、共享和设备可达，暂不阻断。",
+    "personal-cloud-drive / Cloudreve：条目已如实标注为部分匹配，且未把未证明的配额、第一方客户端能力写成事实；建议将其降为次级/相关记录，避免在 leaf_matches 中与完整案例混同。Pro 版通过 --license-key 另行授权的社区版边界记录正确。",
+    "personal-workflow-automation-platform / Huginn：定义写的是 hosted service，Huginn 是自托管服务；README 的 Event 日志不等同于独立的逐次运行历史/状态面板。保留现有边界说明即可，类型仍可成立。",
+    "template-based-design-platform / OpenDesign：模板库只有约六类 LinkedIn 模板、单一格式，未证明多格式/主题组织、关键词检索或运营方持续更新；作为窄场景模板平台可以成立，但不要描述成 Canva 级的大型可搜索模板库。",
+    "graphic-design-application / Graphite：alpha 状态、有限实验性光栅能力、仅网页版部署均已如实记录；桌面客户端未被确认，不应补写。",
+    "digital-painting-application / Krita：GitHub 仓库是镜像，规范仓库在 invent.kde.org/graphics/krita；不影响数字绘画类型与 GPL-3.0 许可证核对。",
+    "personal-cloud-drive / Nextcloud：文件目录索引页保留为抓取记录可以，但不应作为核心工作流证据；当前记录已基本遵循这一点。"
+  ],
+  "leaf_checks": {
+    "personal-cloud-drive": {
+      "applications": [
+        "github:60243197",
+        "github:120156076"
+      ],
+      "basis": "已读 Nextcloud README（store/sync/share）、quota 页（账户配额、共享文件计入所有者配额、回收站）、desktop_mobile_sync 页（Windows/macOS/Linux 桌面客户端、Android/iOS 移动客户端、Web interface 入口）与仓库元数据及 COPYING（AGPL-3.0-or-later）；已读 Cloudreve README（多存储、上传/下载、WebDAV、分享）、quickstart（浏览器注册访问、Pro --license-key 边界）与 GPL-3.0 全文；两个仓库 ID 与元数据一致。",
+      "result": "Nextcloud 覆盖个人云盘核心：远程文件集合、账户配额、设备无关可达、文件操作与共享；Cloudreve 仅部分匹配（未证明账户级配额与第一方客户端），不应视为完整案例，但已如实标注，作为次级记录不阻断本叶。",
+      "gaps": "Cloudreve 的账户配额与第一方桌面/移动客户端未在已读快照中证明；Nextcloud 的完整 Web 文件操作循环最好再用 access_webgui/managing 正文补强。"
+    },
+    "personal-workflow-automation-platform": {
+      "applications": [
+        "github:8681349"
+      ],
+      "basis": "已读 Huginn README：Agents 创建并消费事件、沿有向图传播，明确类比 IFTTT/Zapier；监视 RSS、IMAP、Webhook、MQTT 等事件源，触发邮件/消息/存储动作；提供 Web 管理界面与 Docker/自托管运行方式；MIT 全文及仓库 ID 8681349 已核。",
+      "result": "外部服务为作用对象、可视化配置的持久 Agent 图、服务端无人值守执行三项核心成立；自托管与“事件日志而非独立运行历史面板”的边界已保留，属非阻断缺口。",
+      "gaps": "未证明独立的逐次运行历史/状态面板；未证明集中式 connector catalog 与每服务链接账户模型。"
+    },
+    "graphic-design-application": {
+      "applications": [
+        "github:258967860"
+      ],
+      "basis": "已读 Graphite README 与仓库元数据：矢量/光栅 2D 创作、图层与节点混合的非破坏编辑；features 页首段称当前 alpha 是 vector art and graphic design 工具，支持有限的实验性光栅编辑；网页编辑器 editor.graphite.art；LICENSE-MIT 与 LICENSE-APACHE 全文及 GitHub license API 已读。",
+      "result": "画布构图、对象可编辑、用户主导创作、成品输出四项类型核心成立；但许可证字段单值 MIT 与双许可证据不一致，需按 finding 修正。alpha、有限光栅和仅网页部署已如实记录。",
+      "gaps": "features 页正文为超长单行，读取工具截断，未能逐段复核“按任意尺寸导出”“以数据保存并重绘”等细节。"
+    },
+    "template-based-design-platform": {
+      "applications": [
+        "github:1200449429"
+      ],
+      "basis": "已读 OpenDesign README：自称开源 Canva 替代；内置约六类 LinkedIn 模板（Quote Card、Announcement、Tips List 等）；Fabric.js 画布对象编辑；模板字段可由数据/Agent 填充；10 种 Google Fonts；导出多页 PDF 与 2x PNG；SQLite 自动保存；MIT 全文及仓库 ID 1200449429 已核。",
+      "result": "模板库—选定模板后个性化—成品导出三段结构成立，作为窄场景模板设计平台通过；模板库规模小、单一 LinkedIn 格式，未证明多格式/主题组织、关键词检索或持续维护，不得夸大。",
+      "gaps": "无多格式/主题组织、关键词搜索、运营方持续更新模板的已读证据。"
+    },
+    "digital-painting-application": {
+      "applications": [
+        "github:43975673"
+      ],
+      "basis": "已读 Krita README：free and open source digital painting application，面向从零完成专业作品的艺术家；features 页列出 100+ 预置笔刷、笔刷稳定器、图层、2D 帧动画、导出视频或静态图、PSD 支持；GPL-3.0 COPYING 全文及仓库 ID 43975673 已核。",
+      "result": "空白画布创作、笔刷驱动标记、位图画布、保存/导出四项核心成立；桌面应用与 GitHub 镜像身份已注意，不影响类型判断。",
+      "gaps": "macOS 及各平台安装包细节未逐项核到；GitHub 为镜像，规范仓库在 invent.kde.org/graphics/krita。"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、未写文件、未读取其他单元。所有快照按 REVIEW_SOURCES.json 的 path 原样读取，sources 前缀按 data/collections 解析。部分大型 HTML 快照为超长单行，读取工具按 2000 字符截断，Graphite features 正文及 Krita features 长行未能逐段全文复核，相关细节仅按可见部分和已保存来源判断。未做部署或运行时测试，未核商业价格，未读取采集者 TASK.md，因此对其“允许自托管完整应用”的约定只能按研究记录中的说明处理，无法独立验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-017/ses_groveopencodegop017review2_1792940883.jsonl",
+  "batch_sha256": "a3d4cd65abba75e0805b086df6d8e58a2e4ad4cb8509571ee98c5b3c2ea58fda",
+  "research_sha256": "9b97d7641493448e98c8c61858c56cf12d32774fa7bc70c46bb1edc87f8d0656",
+  "input_sha256": "5b0ac96ef0a8f07ee5ce9890edba6ce36c20f91edb525e897028e6262d9a9411"
+}

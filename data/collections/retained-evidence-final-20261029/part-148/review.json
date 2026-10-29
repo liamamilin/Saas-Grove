@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "POD 证据覆盖签名、照片、条码/QR 扫码、短信验证码及 created_at 时间戳，但快照未明确证明 POD 记录包含现场地理坐标；定义中的 geolocation 宜作为可选形态，不宜写成已核实事实。",
+    "Service Rates 快照证明按里程、固定距离、按点、多区、包裹及算法费率计价，并按 Service Area、Zone、Order Config 作用域匹配，未证明按“客户账户合同费率”绑定；这不影响“配置费率→Service Quote→开票”的业务框架，但引用时避免扩大为 per-customer contracted rates。",
+    "许可边界表述可更精确：官方许可表将 public-facing SaaS without releasing changes、闭源嵌入、白标列为需商业许可；摘要的“闭源修改或对外提供修改版 SaaS”未完整覆盖这些情形。对自营快递/配送业务自托管而言，免费使用结论不受影响。",
+    "research.json 的 fetch_outcome 写 SPDX=AGPL-3.0，但所存 license 快照是 contents 风格载荷，未见 spdx_id 字段；许可证正文首行确为 GNU Affero General Public License Version 3，结论不受影响，仅来源描述宜更严谨。",
+    "历史负例 webbywonder/courierman 的仓库、迁移与控制器快照未列入 REVIEW_SOURCES，本次无法独立复核其排除理由；该负例未进入 batch，不影响 Fleetbase 成立关系。",
+    "Fleetbase 同时提供 AGPL-3.0 与商业许可，属双许可；“社区版”并非独立发行版，摘要用语可保留，但宜避免暗示存在单独打包的社区版。",
+    "未运行部署或运行时测试，因此 POD、调度、报价和开票结论均基于官方文档正文，而非实际执行结果。"
+  ],
+  "leaf_checks": {
+    "courier-management-platform": {
+      "status": "verified",
+      "application_id": "github:540371158",
+      "definition_core": "四项定义性核心均有官方正文证据：①订单——订单概览明确 pickup/dropoff、entities、customer、driver、vehicle、status、含条码/QR 的 tracking number；②分派——订单可 assign/reassign driver、dispatch 到 Navigator，README 展示 unassigned orders，订单列表支持 bulk assign/dispatch；③执行闭环——订单详情含逐状态时间戳的 activity timeline、逐件状态、司机/车辆归属，POD 文档明确签名、照片、扫码、短信四种方式，且 require_pod 会阻断活动完成；④业务框架——Service Rates 计价并生成 Service Quote，Ledger 在订单加入 PurchaseRate 后自动生成草稿发票。",
+      "saas_form": "Fleetbase Cloud 托管与 Docker/自建云自托管两种持续运营形态；官方文档覆盖订单接收、司机调度、现场 POD、费率计价与开票，属于配送运营商日常使用的软件服务，而非一次性工具或仅靠简介/元数据支撑。",
+      "identity_track": "批次 ID github:540371158 与仓库元数据 id=540371158、full_name=fleetbase/fleetbase、fork=false 一致；定向核对确认 archived=false、default_branch=main；track=open_source 与 AGPL-3.0 许可证一致。",
+      "license": "license 快照为 LICENSE.md 全文（size=34353），正文首行为 GNU Affero General Public License Version 3；licensing 页确认核心 API、Console、Fleet-Ops/Storefront/Pallet/Ledger 官方扩展及 Navigator/Storefront 移动端整体采用 AGPL-3.0。",
+      "community_boundary": "licensing 页明确自托管自用、商业物流运营、内部修改、发布自有扩展免费；public-facing SaaS without releasing changes、闭源嵌入、白标需商业许可；修改后通过网络提供需按 AGPL-3.0 公开修改。批次“自托管用于自营快递/配送业务”的边界结论成立。",
+      "evidence": [
+        "repository metadata: data/collections/sources/0c30c7341e0bdbd648df0360855b10051f77c91c84cdb9931501d2e8c2cbfcd8.txt",
+        "license: data/collections/sources/f25f3e8369f8fa5e1d671b795e7dcc23bfd83058124c1c0b4e3b7f75c72b8fc7.txt",
+        "README: data/collections/sources/f90c307471ecb43b2cf4f58f82bd0f8ef4f6c6a119ba92d471f3cad0f86bcf99.txt",
+        "licensing: data/collections/sources/b6d2813437ea2b4eb3cbd2a3fa8eb89e16a5b62ee47129e0aed4c2c496cc98ee.txt",
+        "orders overview: data/collections/sources/735987a3666871f273039f98badf1dd6a0f370a43003f8f088dc48b62bcf2eb1.txt",
+        "proof of delivery: data/collections/sources/eeb97636096761c4fe7e19724220ed587a6f11a97b36b0a0b9bf67dd071b1f54.txt",
+        "service rates: data/collections/sources/a8fd0f2a16918d9e34ee0eb77fd10fc20019f6ca3242bb68791f64c778c26bb9.txt",
+        "ledger: data/collections/sources/a161675005597250d22492991d867cda609716177b0cdc27b9ca817ff7e4ced5.txt"
+      ],
+      "gaps": [
+        "未做部署或运行时验证（runtime_tested=false）。",
+        "POD 现场地理坐标、客户级合同费率绑定未在快照中明确；不影响本叶核心类型成立，但不宜在摘要中扩大表述。",
+        "service-rates 无 /overview 的 URL 曾 404，research.json 已如实记录并改用 overview 快照，属可接受留档。"
+      ]
+    }
+  },
+  "limits": "本次仅做只读文档审查；未运行 shell、未写文件、未部署或运行 Fleetbase；未重算快照 SHA-256（无 shell/哈希工具）；未读取本单元以外资料。部分 GitHub API 与 Next.js HTML 快照为单行超长文本，读取工具将单行截断到约 2000 字符，关键字段（id/full_name/fork/archived/default_branch、POD 方法、费率方法、发票集成）通过定向文本检索确认。未独立核实 Fleetbase Cloud 的价格、SLA 与商业许可具体条款。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-148/ses_groveopencodegop148review1_1793250070.jsonl",
+  "batch_sha256": "57ee4b92bee3637dd6666559e721552ed5da99ff89efc26b6b09142a08912432",
+  "research_sha256": "34df8ea5578c36657b5af78451f8a014a7be9348ea1182a76bd59c6fa4503645",
+  "input_sha256": "d40e16a86be9a0ed0a3e0691d1bd9eda8fe850a5fe88d6da1b720742eacb926e"
+}

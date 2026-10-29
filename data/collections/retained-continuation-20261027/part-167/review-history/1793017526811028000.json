@@ -1,0 +1,76 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "construction-quality-management",
+      "application_id": "commercial:procore",
+      "issue": "叶匹配理由称 quality-safety 快照正文包含“检查清单模板、失败检查项转观察记录、实时历史、事件与薄弱项清单”，但实际快照只有 Quality & Safety 营销页的工具卡片（Inspections、Observations、Forms、Incidents、Action Plans 等）和客户证言；可见正文未出现 checklist/template、failed item→observation、action history、weakness list 等表述。仅凭工具名和“Track, assign, and report upon multiple types of observations and corrective actions”一句，不能证明“检查记录→不符合→纠正→验证关闭”的定义性闭环。",
+      "fix": "补引并归档 Procore Inspections 与 Observations 的产品页或帮助页，取得检查清单、失败项转观察、指派/纠正/异方验证关闭的正文证据；若无法补引，则把理由缩减为“页面显示 Inspections 与 Observations/纠正措施工具”，并将检查清单与验证闭环明确列为未核实缺口。"
+    },
+    {
+      "slug": "construction-project-management",
+      "application_id": "commercial:procore",
+      "issue": "摘要与叶匹配理由称该页覆盖“变更单”并“提及关键路径”，还称组织业主、总包、分包与供应商；实际快照可见 RFI、Submittals、Meetings、Correspondence、Drawings/revisions、Directory 权限，以及 owners/partners、general contractors、vendors，但可见正文未出现 change order/变更单、critical path/关键路径，也未明确列出分包商。",
+      "fix": "删除“变更单”“关键路径”和未明示的“分包”，或补引相应 Procore 页面与快照；保留快照可证的 RFI、提交物、会议、通信、图纸修订、目录权限及业主/总包/供应商协作。"
+    }
+  ],
+  "non_blocking_notes": [
+    "construction-scheduling：batch.json 的 homepage 指向 https://oracle.com/ 而非产品页 https://www.oracle.com/construction-engineering/primavera-p6；不影响产品身份，但建议改为产品页。",
+    "construction-scheduling：P6 产品页只出现成本基线，未证明排程基线；research.json 已如实留档该缺口，故不阻断。",
+    "construction-safety-management：README 标注 pre-launch，并说明 company-specific migration tooling 为 private、ignored、excluded from the public pnpm workspace；摘要“社区核心即完整平台”宜补充这一私有边界，但未见单独的付费企业版，故不按许可/社区版问题阻断。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json/research.json 的 case_found 不一致；建议发布前同步，避免下游把已找到案例误判为未检索。",
+    "construction-project-management：research.json 引用的 OpenConstructionERP README 与 construction-safety-management 的 api.github.com/repos/braedonsaunders/beaconhs/readme 抓取未在 REVIEW_SOURCES.json 中归档；两者均未作为案例采用，仅作检索留档，不阻断。",
+    "commercial:procore 与 commercial:openspace 的快照均为营销页，未做登录、部署或运行时验证；本审查只核对公开正文与类型匹配。"
+  ],
+  "leaf_checks": {
+    "construction-project-management": {
+      "verdict": "基本类型匹配；证据表述需修正",
+      "basis": "Procore 官方项目页可见正文以项目为单位连接团队与项目信息，并列出 RFI、Submittals、Meetings、Correspondence、Drawings（含 revisions）、Directory（project team members and vendors with customizable permissions）等工具，能够对应项目容器、多组织参与和跨方协调记录三项核心；track=commercial，ID=commercial:procore。",
+      "gaps": "可见正文未出现变更单、关键路径或明确的分包商表述；页面为营销工具列表，未展示 RFI/提交物/审批的具体状态流。",
+      "sources": [
+        "data/collections/sources/40b38189762b9df90baafe5074cdcb26c574897299187369720ce5b1d706e238.txt"
+      ]
+    },
+    "construction-quality-management": {
+      "verdict": "证据不足，需补源或缩减表述",
+      "basis": "Procore Quality & Safety 页标题与工具卡片显示 Inspections、Observations（“Track, assign, and report upon multiple types of observations and corrective actions”）、Forms、Incidents、Action Plans、Photos & Videos，客户证言也提到 mobile observations and inspections；可识别为商业建筑质量/安全工具，但可见正文没有检查清单模板、失败检查项转观察、实时动作历史或独立验证门槛的流程描述。",
+      "gaps": "定义性核心“检查记录→不符合记录→纠正→异方验证关闭”未被引用快照正文证明；现有证据主要是工具名和一句能力概述，不能支撑叶匹配理由中的具体流程断言。",
+      "sources": [
+        "data/collections/sources/35ee73ed6b5fc1f2ec23c42bc849725c7de754891f6d4c66fa4aecb3b2dedb57.txt"
+      ]
+    },
+    "construction-reality-capture-platform": {
+      "verdict": "通过",
+      "basis": "OpenSpace Capture 官方页正文写明 360° 相机、无人机、智能手机与激光扫描采集，Spatial AI 自动映射到平面图和 BIM，按时间/日期浏览，Split View 并排比较两个日期，Capture coverage confirmation 用于发现未记录区域，Field Notes 自动钉到位置，并与 Procore Punch/Observation/Issue 双向集成；页内还提到订阅与导出，能够对应带日期、可定位、可比较的现场视觉历史核心。",
+      "gaps": "营销页未展示处理队列的完整状态机；未做运行时捕获验证。开源替代检索已如实记录未发现完整平台。",
+      "sources": [
+        "data/collections/sources/cb7965019d16a81196d86724e9a26b69fdd368ab77631d79a2396456a0bdf0a0.txt"
+      ]
+    },
+    "construction-safety-management": {
+      "verdict": "通过",
+      "basis": "BeaconHS README 正文写明面向工业建筑的多租户 HSE 平台，含事件全分类与调查工作流（事件时间线、贡献因素、5-whys 根因、预防步骤）、CAPA 的验证关闭/照片证据/逾期报告/批量改派、检查与危险评估、项目/站点/人员锚定、逐条变更审计与 PostgreSQL RLS；repository metadata 显示 id=1242815792、full_name=braedonsaunders/beaconhs，LICENSE 快照为 34,523 字节的 AGPL-3.0 完整文本，README 许可证章节与徽章一致；track=open_source。",
+      "gaps": "仓库标注 pre-launch，未部署或运行测试；company-specific migration tooling 为私有且不在公开 workspace，但未见付费企业版分割。",
+      "sources": [
+        "data/collections/sources/a9a1ca7f7bd0dd1068172758f8aaad4d99e739807cbb0c2da38e4bace4ceb618.txt",
+        "data/collections/sources/d7e8126ef12447540be677b477f7f7c7cf5ac3eeb0a0e411e70601d67574b275.txt",
+        "data/collections/sources/755243b88ef8493a9516ba7131c055cb94fa5c18314f7a679c5f0cf893bc7ca9.txt"
+      ]
+    },
+    "construction-scheduling": {
+      "verdict": "通过（排程基线缺口已留档）",
+      "basis": "Oracle Primavera P6 产品页正文以 Primavera P6 CPM Schedule 为核心，写明规划/排程/控制大型项目、多用户访问、多项目并行、成员状态更新、资源与成本联动；P6 帮助页 About Trace Logic 正文写明活动的前驱/后继依赖关系、critical activities 的红色边框标识、约束与负浮动，能够对应以活动和依赖计算日期、识别关键路径并持续维护项目计划的核心；track=commercial，ID=commercial:oracle-primavera-p6。",
+      "gaps": "排程基线未获正文证明，产品页仅出现成本基线；research.json 已如实记录，不把基线作为已核实断言。",
+      "sources": [
+        "data/collections/sources/702bce2aa9f0b1fcf4fe18139576e2252025cc7208f7e6762bdd80b963ca6ff1.txt",
+        "data/collections/sources/2405ccef272a85e489e9c66f4214c2ce39750c3c5b6b587971ba95a255776c7b.txt"
+      ]
+    }
+  },
+  "limits": "只读独立初审；仅使用 read/grep 读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中列出的 8 个快照；未运行 shell、未写文件、未访问其他单元或外部网络。快照为 HTML 或单行 JSON，读取器对超长行有截断，故以可见正文和关键词检索核对；未计算 SHA-256，未做产品登录、部署或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-167/ses_groveopencodegop167review1_1793017113.jsonl",
+  "batch_sha256": "888ef6a6ce37692e4de952a68ba04d2c918570220c01ff1d57b143ba3352c0b1",
+  "research_sha256": "ab92df34a79d6b8cdb47ee8bddb888eb69323ab3e44becf3dbaa0a154fef8038",
+  "input_sha256": "7df33928dec6b3efede398fe2d8727ae18495c83eb443c1f39ea67cbbf1f25da"
+}

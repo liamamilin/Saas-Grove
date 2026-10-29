@@ -1,0 +1,81 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 中的 case_found 和 case_ids 不一致；这是单元进度元数据陈旧，不影响本单元正文核对，但建议后续刷新，以免下游误判为无案例。",
+    "freight-audit-payment-platform 的 Cass 条目是托管/外包式货运审计与支付服务并配套 CassPort 门户，并非纯自助 SaaS；按商业条目“基本真实性+类型匹配”可通过，但“平台”措辞宜在关系说明中注明服务交付形态。",
+    "procure-to-pay-platform 与 procurement-management-platform 共用 ERPNext；research.json 已按 P2P 取发票匹配/付款链、采购管理取供应商/申请/订单/收货来拆分证据，未把同一条链重复计数，属于可接受的双类型匹配，但下游使用时应保留该 scope 说明。",
+    "ERPNext 是 ERP 原生实现，P2P/采购管理定义中“ERP 仍为记录系统”在其场景中表现为该 ERP 自身即账簿，而非外部 ERP 集成；这不影响链路核心，但关系描述可注明 ERP-native。",
+    "开源条目未发现独立的社区版/企业版功能切分证据；InvenTree 为 MIT、ERPNext 为 GPL-3.0 的完整仓库许可证，社区版边界只能按“未发现限制性分版”记录，未做额外版本比对。",
+    "e2open 的 global-trade 快照 kind 标为 documentation，但内容是官方产品专页而非传统文档；正文含能力描述，不影响核心核对。",
+    "ERPNext 文档记录的抓取 URL 为 docs.frappe.io/erpnext/user/manual/en/...，快照 canonical 为 docs.frappe.io/erpnext/...，属站点重定向，不影响快照内容。"
+  ],
+  "leaf_checks": {
+    "freight-audit-payment-platform": {
+      "application_ids": [
+        "commercial:cass-freight-audit-payment"
+      ],
+      "definitional_core": "Cass 官方服务页正文（snapshot 017640...）明确列出 full transportation invoice management、validation、audit、accrual、process 与 payment，并列出 Freight Audit、Freight Payment、Freight Accounting、Freight Invoice Management、Business Intelligence、Parcel Spend Management；正文还说明 CassPort 提供成本与货件可见性。覆盖货运发票验证、审计/应计、处理/支付与成本可见性核心。",
+      "service_form": "托管/外包式货运审计与支付服务，配套 CassPort 门户；非纯自助 SaaS，但属于该类型的商业服务形态。",
+      "id_track": "commercial:cass-freight-audit-payment；名称与官方页面标题 Freight Audit and Payment | Cass Information Systems 一致。",
+      "license": "不适用（商业）。",
+      "community_boundary": "不适用（商业）。",
+      "gaps": "仅一个官方服务页快照，未逐项证明合同费率级稽核、承运人争议/索赔时限和重复发票检测；这些属于规则细节，商业条目按基本类型匹配通过。",
+      "status": "pass"
+    },
+    "global-trade-management": {
+      "application_ids": [
+        "commercial:e2open-global-trade"
+      ],
+      "definitional_core": "e2open Global Trade Application Suite 专页正文（snapshot 10a427...）列出 Due Diligence Screening（按全球拒绝方名单筛查客户、供应商和伙伴）、Export Management（国家管制、受限方筛查、许可证判定与跟踪、文件生成）、Import Management（进口单证与供应商/报关行/承运人协作）、Duty Management（递延/退税、EU Customs Warehousing、U.S. FTZ、Duty Drawback）、Customs Filing（海关自主申报）。覆盖筛查、许可判定、关税/单证与报关输出核心。",
+      "service_form": "商业 Global Trade Application Suite，属于 SaaS/托管套件形态。",
+      "id_track": "commercial:e2open-global-trade；名称与专页标题 Global Trade Management Software Suite for Full Compliance 一致。",
+      "license": "不适用（商业）。",
+      "community_boundary": "不适用（商业）。",
+      "gaps": "未逐项证明产品分类主数据、许可证容量扣减和项目库存对账；商业条目只要求基本真实性和类型匹配。",
+      "status": "pass"
+    },
+    "inventory-management-system": {
+      "application_ids": [
+        "github:85894461"
+      ],
+      "definitional_core": "InvenTree 官方 Stock 文档（snapshot 8ac22c...）定义 Stock Item 为 Part 在特定地点的实际数量实例，记录 Part、Location、Quantity、Status、Serial Number、Batch Code；Stock Tracking 文档（snapshot b61025...）说明每次调整自动生成跟踪项，记录用户、日期和数量变化，事件类型包含 created、counted、manually added、manually removed、location changed、received against Purchase Order、shipped against Sales Order；Adjusting Stock 文档（snapshot 0201bb...）覆盖 move、add、remove、count、merge。满足物品级+地点库存记录、仅通过记录化库存事件变更的核心。",
+      "service_form": "开源自托管 Web 应用；官方 Docker 文档（snapshot 93bb5e...）确认提供 Docker 镜像与 Docker Compose 部署说明。",
+      "id_track": "github:85894461；repo metadata id 为 85894461，full_name 为 inventree/InvenTree，description 为 Open Source Inventory Management System。",
+      "license": "MIT；license endpoint（snapshot de624e...）返回 MIT License 全文，覆盖仓库 LICENSE。",
+      "community_boundary": "未发现独立社区版/企业版切分；按完整 MIT 仓库记录。",
+      "gaps": "未在快照中证明盘点审批后过账、负库存处理、成本核算方法；这些是规则或成熟能力，不影响定义性核心。",
+      "status": "pass"
+    },
+    "procure-to-pay-platform": {
+      "application_ids": [
+        "github:1864233"
+      ],
+      "definitional_core": "ERPNext 官方 Buying 文档（snapshot d0290f...）给出 Material Request（可选）→ Request for Quotation → Supplier Quotation → Purchase Order → Purchase Receipt → Purchase Invoice → Payment Entry 的标准链；PO 是商业承诺、PR 记录实收并影响库存、PI 形成应付、PE 结算；正文明确可比较 ordered、received、billed、paid quantities，支持部分收货/开票和 three-way matching。Purchase Order 文档（snapshot 269283...）补充 PO 生命周期、收货/开票状态与部分履行。满足 P2P 定义链。",
+      "service_form": "开源自托管 ERP（含 Buying 模块）；README 提供 Self-Hosted/Docker 部署入口。",
+      "id_track": "github:1864233；repo metadata id 为 1864233，full_name 为 frappe/erpnext。",
+      "license": "GPL-3.0；license endpoint（snapshot ec31fb...）返回 GNU GPL v3 全文（license.txt），README 标称 100% Open-Source。",
+      "community_boundary": "README 提到 Frappe Cloud 托管，但仓库为完整 GPL-3.0 ERP；未发现功能分版证据。",
+      "gaps": "Material Request 在文档中为可选；预算控制在正文无证据，research.json 已删除该断言；审批步骤只以 obtain required approval 描述，未展开审批矩阵。",
+      "status": "pass"
+    },
+    "procurement-management-platform": {
+      "application_ids": [
+        "github:1864233"
+      ],
+      "definitional_core": "ERPNext Buying 文档（snapshot d0290f...）覆盖 Supplier 主数据（币种、价目表、付款条件、税类、应付科目）、可选 Material Request/审批队列、Purchase Order 承诺、Purchase Receipt 收货跟踪、Buying workspace 查看待收货/待开票订单；Purchase Order 文档（snapshot 269283...）覆盖供应商来源、订单状态与部分履行。满足供应商基础+需求审批+采购订单+履约跟踪的采购管理核心。",
+      "service_form": "开源自托管 ERP 的采购模块；非独立 SaaS。",
+      "id_track": "github:1864233；与 P2P 叶共用同一仓库身份，research.json 已按叶拆分证据。",
+      "license": "GPL-3.0；同上，license endpoint 返回 GNU GPL v3 全文。",
+      "community_boundary": "未发现独立采购管理社区版；按完整 GPL-3.0 ERP 记录。",
+      "gaps": "供应商准入/资格认证在快照中未展开；预算检查无正文证据；发票匹配/付款链留给 P2P 叶，未在本叶重复。",
+      "status": "pass"
+    }
+  },
+  "limits": "只读审查；未运行 shell，未重新计算 sha256，只按 REVIEW_SOURCES.json 的 path 原样读取快照，并与 batch.json 中的文件名、URL、仓库 ID 交叉核对；未访问外网重新抓取，依赖 2026-10-24/26 的既有快照；未做部署测试、价格或架构研究；未读取其他单元。商业条目仅做基本真实性和类型匹配，未逐项验证所有规则细节；开源条目未做版本或分版比对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-121/ses_groveopencodegop121review1_1793006580.jsonl",
+  "batch_sha256": "bbe678f357575e5405c39baa43a394ef0e211786667ecf3acd837387367cb62b",
+  "research_sha256": "c9c84ff66b71a84b113e822a56ba462ef94e465778b9d2f023a510251d5f8c44",
+  "input_sha256": "aeac8ada16ff726b6156232a909eddfe1c9758dbc196baecc65e94f4a716db83"
+}

@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "许可证范围表述：README 的 License 段说明采用的是分层许可和双许可：核心部分为 AGPL-3.0，modules/ 目录为 AFL-3.0，并向无法接受 AGPL 义务、OEM、白标及 hosted/SaaS 场景提供商业许可。batch.license=AGPL-3.0 可以理解为其根 LICENSE 和主许可，但 research.service_boundary 中「AGPL-3.0 覆盖仓库」的说法不够精确，建议补充 modules 例外以及 hosted/SaaS 商业许可边界；这不改变其开源属性，也不构成付费功能门控。",
+    "社区版边界：README 称没有按用户收费，也没有付费解锁模块，自托管社区版功能完整；同时说明 hosted/SaaS 需要商业许可。因此「社区版即完整产品」应理解为自托管功能完整，不应理解为可以免费对外提供 SaaS 托管服务。",
+    "batch.features 把「机器故障」列为预定义问题类别，但 README 只明确列出 material shortage、quality issues、tool failures、etc.；机器故障更适合视为由 etc. 和 Breakdown 推断出的类别，建议不要当作已确认的第四类核心类目。",
+    "Andon 事件闭环目前只有升级和路由到主管、生产角色的证据，没有看到跨维护、质量、物料职能的任务分派、责任人指派或响应/解决时限指标；按定义核心的「 routed response」可在主管角色层面成立，但跨职能链式响应尚未证实。",
+    "OEE、质量检验与处置、维护事件和物料谱系主要来自 isa95.md 的自述式 ISA-95 映射，该文档本身明确列出 CAPA/SPC/Cpk、MTBF/MTTR、补货/库位、B2MML XML 等缺口；这些不影响三项定义核心，但不宜表述为完整 MOM 覆盖。",
+    "集成证据支持计划导入（CSV/Excel、REST 创建工单）和机器数据（MQTT），以及通过 REST 暴露绩效；但没有明确显示向 ERP 推送实际产量/状态的写回或 webhook，因此「实际/状态上行」目前只有部分证据。",
+    "supervisor-guide 称 dashboard 每 30 秒自动刷新，README 也称 real-time/live updates；把「实时」理解为近实时轮询更准确，不影响实时运营图景成立。",
+    "batch.runtime_tested=false，未做部署或运行时验证；本案结论基于官方正文、许可证和仓库元数据，属于文档级核对。",
+    "input.json 仍记录 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json 和 research.json 已以 OpenMES 建立 case_found；这是从种子状态到研究结果的更新，建议下游同步叶子状态，避免同一单元出现两种状态。",
+    "research.note 对 Qcadoo、Carbon、mes4u 的排除理由（框架/NOASSERTION、非 OSI 许可、2020 年后未更新）没有对应的保留快照，当前无法独立复核；这些候选不参与最终关系，故不阻断。"
+  ],
+  "leaf_checks": {
+    "factory-operations-management": {
+      "application_id": "github:1159568793",
+      "application_name": "OpenMES",
+      "track": "open_source",
+      "result": "supported_with_non_blocking_notes",
+      "definition_core": {
+        "live_operational_picture": "supervisor-guide 的 Dashboard 与 Monitoring Production Lines 段给出产线实时状态（Running、Changeover、Breakdown、Planned stop、Unplanned stop）、进行中工单、产线详情中的工单、活动批次与工序进度、当班产线历史；README 另称实时工单/批次状态、MQTT 机器数据和 WorkstationStateChanged 事件。可支撑「机器/产线/工位 + 当前工作 + 当前状态」的实时图景。停机原因目前以状态类别和停机报表分解体现，未见标准化原因代码表。",
+        "event_and_response_loop": "README 的 Issue & Andon System 与 supervisor-guide 的 Issue Management 给出操作员上报、预定义类别、升级主管、Open→Acknowledged→Resolved→Closed、resolution notes、critical 问题自动阻断工单。属于有路由（主管/生产角色）、有标准工作流、跟踪到解决的闭环；未见到跨维护/质量/物料职能的任务分派或响应时限指标。",
+        "operational_performance_record": "supervisor-guide 的 Reports and Analytics 给出计划与实际数量、按状态/停机原因的停机报表、批次周期时间、问题趋势、准时交付；README 给出 throughput、cycle time、issue trends；isa95.md 给出 OEE dashboard、gauges、PDF reports 及 /api/v1/oee。可支撑按产线/工单/批次的运营绩效记录。"
+      },
+      "saas_service_form": "OpenMES 是 Laravel + PostgreSQL 的多用户 Web 应用，具备 Admin/Supervisor/Operator 角色、平板/PWA 操作员端、Docker Compose 自托管和在线 demo，属于持续使用的软件服务形态，不是库或组件；track=open_source，自托管不要求订阅。",
+      "identity_track": "github:1159568793 与 GitHub API 的 repository id 1159568793、batch.github_repository_id 一致；full_name 为 Mes-Open/OpenMes，homepage 为 getopenmes.com，default_branch 为 main，archived=false；track=open_source 与公开 AGPL 仓库匹配。",
+      "license_and_community_boundary": "REVIEW_SOURCES 的 license 快照为 /repos/Mes-Open/OpenMes/license 的完整 AGPL-3.0 文本（size 34523，base64 content）；README 声明 core 为 AGPL-3.0。社区边界：modules/ 为 AFL-3.0；商业许可面向 AGPL 义务、OEM/白标、hosted/SaaS；README 称无按用户收费、无付费解锁模块，自托管社区版功能完整。batch 只记录主许可 AGPL-3.0，未记录 modules 例外和 hosted/SaaS 商业许可边界，属于表述不完整而非许可不实。",
+      "evidence_read": [
+        "data/collections/sources/79cd987480662899c877f270735d29851ee220e8715d3aaec4908acfdd5ccdc0.txt",
+        "data/collections/sources/0ee12524bc1a733eec6147a1308e4380383491f5d0f5c05806b13468e6b19641.txt",
+        "data/collections/sources/217dba89650d4097c4cfdd36dcb5e1da9d816fddccbbd8ae1355793c75f4dd5e.txt",
+        "data/collections/sources/7120034ea08e83f0fb221120ebb74a63ff125dd5ad4cfec6624f65c4f33aa6fe.txt",
+        "data/collections/sources/caa75ec4dccc4c06acbc68efe6a8182bc4b4cefe5b5ab38afa6c8801bc4f0cd7.txt"
+      ],
+      "gaps": "未做部署/运行时测试；停机原因以状态类别和报表分解体现，未看到标准化原因代码表；未看到跨职能路由、任务指派、响应/解决时限；实际数据向 ERP 的推送只有 REST/API 暴露与导入证据，未见明确 ERP 写回；OEE/质量/维护/谱系覆盖主要来自 ISA-95 自述映射，文档自列 CAPA/SPC/MTBF 等缺口；input.json 的 boundary_unresolved 状态尚未与 batch/research 的 case_found 同步。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未重算 sha256、未做部署或运行时测试；只读取本单元文件，未读取其他单元。REVIEW_SOURCES 的 5 个快照均按 path 原样读取。repository_metadata 快照是单行 JSON，read 预览在 2000 字符处截断，archived/pushed_at/license/default_branch 等后段字段另用 GitHub API 只读响应交叉核对；license 快照为 base64 编码的完整 AGPL 文本，未逐字解码全文。历史 smart-industry/IMES 快照及 Qcadoo/Carbon/mes4u 的排除依据不在 REVIEW_SOURCES 中，未独立复核；本报告不是法律意见。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-141/ses_groveopencodegop141review1_1793249159.jsonl",
+  "batch_sha256": "e2175e8d815905888689624b6aa509b4e9db145a0f9b22a34a2e5b0896d1d0a6",
+  "research_sha256": "35825f7b8df579521060090fb329df14791182d1fddee34149034346429b089d",
+  "input_sha256": "e463d7777093c16b4b3af970b75f34a9c3ae22110dcd7b59d33ae6569783bbd6"
+}

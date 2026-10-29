@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，与本轮 research.json（assessment=case_found，case_ids 两条）和 batch.json（两条 open_source 条目）不一致；该输入是轮次前的种子状态，合并入库时应同步刷新为 case_found 与两个 application_id，避免最终库状态回退。",
+    "SVG-Edit 的打开/保存由默认扩展 ext-opensave 提供，ConfigObj.js 的 noDefaultExtensions 允许关闭该默认列表；batch 表述为“默认 opensave 扩展”是准确的，但如需强调可配置性可在描述中略作限定。",
+    "SVG-Edit features 中“打开既有或预载的 SVG 文档”的“预载”一词来自旧 FAQ 语境，本轮引用的 ext-opensave.js 只直接证明本地 fileOpen/loadSvgString 路径，措辞可收敛为“打开本地 SVG 文档”，不影响核心判断。",
+    "SVG-Edit 的 technology_stack 标注 Web Components，快照中仅见 se-menu-item 等自定义元素及模块化 Editor.js 用法，属合理概括而非阻断性问题；docs 站点快照 a58bee… 是 README 的渲染副本，与 README 证据重复，可保留作冗余来源。",
+    "Method Draw 的仓库元数据/许可证快照为单行 JSON，读取工具仅展示前 2000 字符；已用检索确认 archived 不为 true、homepage 指向 editor.method.ac、license 为 MIT，但 pushed_at/最后提交时间未逐字核对，条目本身也未声称活跃维护，故不影响结论。",
+    "两个案例均以本地文件（浏览器下载/打开）持久化文档，不含账号体系或服务端文档存储；叶定义只要求“可重新打开的持久文档 + 标准输出”，SVG 文件往返已满足，不构成缺口。",
+    "research.json 的 fetch_outcomes 仍列有 FAQ 与 ConfigOptions 两个 reused_snapshot（fa3fd0…、338fc0…），它们未进入 REVIEW_SOURCES 与 batch 引用；快照存在且本轮结论未依赖它们，无需处理。"
+  ],
+  "leaf_checks": {
+    "vector-graphics-editor": {
+      "status": "verified_with_two_open_source_cases",
+      "cases": [
+        "github:21611548",
+        "github:4767074"
+      ],
+      "definition_core": "三要素均有正文级证据。矢量对象模型与直接几何编辑：SVG-Edit 的 docs/tutorials/Editor.md 说明 Path 工具绘制路径、Convert to Path、选中后再次点击可独立操纵路径节点并保留常规缩放/旋转；Method Draw 的 src/index.html 含路径/矩形/椭圆/直线/文本工具与 Edit Path 面板（节点 X/Y、直线/曲线段类型、增删节点、开闭子路径），以及 Convert to Path、Reorient path。持久文档与标准输出：SVG-Edit ext-opensave.js 的 clickOpen 经 fileOpen 读取文件后调用 loadSvgString 载入，clickSave 用 svgCanvasToString 序列化并写成 image/svg+xml、扩展名 .svg；Method Draw svgcanvas.js 的 save() 输出 image/svg+xml 的 .svg 下载、setSvgString() 载入 SVG、rasterExport() 生成 PNG。",
+      "service_form": "两者均为浏览器交付的完整编辑器应用而非仅 SDK/引擎。SVG-Edit README 自述为在任何现代浏览器运行的 SVG 绘图编辑器，给出 Netlify 在线构建入口与部署到自有 Web 服务器的构建步骤，editor UI 由 menu/button/面板组成；Method Draw README 自述为 web based vector drawing application，线上实例 editor.method.ac 快照即完整编辑器页面（File/Edit/Object/View 菜单、工具条、属性面板），并给出静态托管与 gulp build 部署方式。属可持续使用的 Web 应用形态，不要求多租户或实测部署。",
+      "identity_track": "ID 与 track 一致。SVG-Edit：github:21611548 对应仓库元数据 id=21611548、full_name=SVG-Edit/svgedit、repository_url 与 homepage 匹配，track=open_source。Method Draw：github:4767074 对应仓库元数据 id=4767074、full_name=methodofaction/Method-Draw、homepage=editor.method.ac，track=open_source。两者均非 fork 的空壳，SVG-Edit 元数据 fork=false。",
+      "license": "开源完整许可证成立。SVG-Edit license 接口快照返回 LICENSE-MIT.txt 全文（Copyright (c) 2009-2022 by SVG-edit authors，标准 MIT 授予/免责条款），仓库元数据 license 字段 spdx_id=MIT，与 batch 的 MIT 声明一致。Method Draw license 接口快照返回 LICENSE 全文（Copyright (c) by Mark MacKay，完整 MIT 条款），README 亦标注 Published under an MIT License，与 batch 声明一致。",
+      "community_boundary": "社区版边界无缺失。SVG-Edit 仓库同时含完整 editor 与 @svgedit/svgcanvas 库，二者同处 MIT 仓库；batch 明确描述的是完整编辑器，并把 npm 嵌入包仅列为部署/集成补充，未把 SDK 当作服务本体。Method Draw 仓库即完整编辑器源码（src 可静态托管、gulp build 产出 dist），线上实例为完整应用；未见开源版被裁剪出商业版核心功能，README 反而指向 SVG-Edit 作为更完整方案，属定位差异而非社区版阉割。",
+      "evidence_read": [
+        "data/collections/sources/e9dfd025708067bd4d86718a3c9f28d61ecf57c276e49650b5e4d2f3323ec6f6.txt",
+        "data/collections/sources/c05ae3d3b61731d5ff2b4944f987aa848c28aba24d450f4f2d5aad9959b05f94.txt",
+        "data/collections/sources/2fc0ef81072339d512ed0f506bac1140754dac242f5f669437e042f58adaca87.txt",
+        "data/collections/sources/a58bee0ea7fb715ca03e410c6f25028379d75884d34fa84f9860c5811674184f.txt",
+        "data/collections/sources/a8e390d541e7d554b1a6ee9c9639c98d958dd55defa60cdf9c90d5c867ad26a8.txt",
+        "data/collections/sources/ea89ea1aa09c23997a902900f851d9d899a175b7472873c4fd326f2fe90cba07.txt",
+        "data/collections/sources/7910fa00b99e7e0b25f9909daac559455a36dc4e53ad83f2ae092513560bdc9b.txt",
+        "data/collections/sources/697356013014707690ece7a247fe0b6d78a0f39c77d054764ac2bb9f52fd31d5.txt",
+        "data/collections/sources/05fae991b04c700cb37a4350297351e149d26621e38242b72f03d3b97c78507b.txt",
+        "data/collections/sources/b4cb9894e7e2c5a6f0b853fd8c95c48c9ce2a47e7989e420ceeafd32bd507e6b.txt",
+        "data/collections/sources/dee35ecfd9833c6fda696baa0e966bfa03790a58efa41a82324acd506f67e46b.txt",
+        "data/collections/sources/10a96d52a06af6710af8f1dab50af84abfa3426229d49839bab6cb0860825fa3.txt",
+        "data/collections/sources/9e4fad244644d855fb4de565a60201df907329da62600be4bd44cba4b6d832c3.txt"
+      ],
+      "gaps": "未做部署运行或交互实测（runtime_tested:false）；未逐字节复算快照 SHA-256；未覆盖其他单元以查重 ID。核心工作流均由官方 README、用户文档正文与默认扩展/画布源码正文支撑，未以简介、元数据或 Loading 页替代。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未执行项目或部署测试、未写文件；快照按 REVIEW_SOURCES.json 的 path 原样读取（sources 前缀以 data/collections 为基准），未复算 SHA-256，仅核对文件名与声明哈希一致；仓库元数据与 license 快照为单行 JSON，读取预览截断于约 2000 字符，归档状态、license spdx_id、homepage 等关键字段改用内容检索确认；未访问网络复核上游现状；未读取其他单元，无法检查跨单元重复 application_id；input.json 为轮次前种子状态，其 boundary_unresolved 记录未作为否定证据使用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-023/ses_groveopendesignp023review2_1793154014.jsonl",
+  "batch_sha256": "5dab2160a519760fdb2682613b2ce8b0769452346578a0d987fd48112eea3df2",
+  "research_sha256": "11d026012beac8a6b5b17ad9c381383678bbd2748d52f1af1dcc9dd981ec5539",
+  "input_sha256": "354146fdbc0118a6d7c386bbfffa33aec0337126f5d76864fe5319e5639943db"
+}

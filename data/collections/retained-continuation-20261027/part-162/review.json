@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的叶子 progress 仍为 case_status=not_searched、application_ids 为空，顶层 phase 为 included_without_cases，而 research.json 与 batch.json 已记录 5 个案例；若下游依赖 input progress，应同步状态，否则可视为采集前占位。",
+    "ShowingTime 快照可证明 showing management、实时排程、确认预约后的 Secure Access、反馈与报表，但未展示每房源提前量、禁看时段、拒绝/改约等 rulebook 细节；research note 已如实记录该缺口，batch 摘要未扩写规则细节，不阻断商业类型匹配。",
+    "RentSpree 的 accept/deny 与 adverse action 主要出现在页面 SoftwareApplication featureList/结构化数据中，正文更多展示申请收集、提交跟踪与审批后的租约；“同一面板比较申请人”属轻微扩写，建议后续补 help-center 或产品页佐证。",
+    "SiteSeer 快照为压缩单行 HTML，本次读取工具按行截断，未能逐段引用正文；标题/描述及正文关键词支持 site selection/market analytics 类型，建议留一份可读的 features 页快照便于审计。",
+    "RoboDK 是本地安装的商业软件（含试用/授权），不是多租户云 SaaS；若本单元要求纯 SaaS 交付形态，需要另行确认，但不影响其 Robotics Engineering Platform 类型匹配。",
+    "RentSpree 同时以 tenant screening 为主营能力，ShowingTime 同页还包含 listing media、Listing Showcase、dotloop；本条按产品页主工作流匹配可成立，但若分类体系另有 Tenant Screening/Property Listing 叶，建议确认主归属。",
+    "来源 kind 将部分营销/解决方案页标为 documentation（如 ShowingTime agents、RentSpree rental-application、RealPage affordable），建议修正元数据；不影响内容核对。",
+    "本单元无开源案例，故未做许可证与社区版边界核对；research.json 已记录开源检索及 Webots/Gazebo/MoveIt 等排除理由。"
+  ],
+  "leaf_checks": {
+    "robotics-engineering-platform": {
+      "application_id": "commercial:robodk",
+      "result": "pass",
+      "basis": "读取 data/collections/sources/d3954fb1fecb2ece679b8e4197115daec8358252e3ea2ddae6b65cdcbb4d977c.txt：首页正文称 RoboDK 是 simulate and program robot arms offline 的 complete solution；Software Features 列出 Robot Simulation & Offline Programming、Robot Programs（generate robot programs offline for any robot controller）、Support 3D Models/Digital Twin、Post Processors（ABB RAPID、Fanuc、KUKA KRC、Motoman Inform、Universal Robots）等，覆盖机器人/工作单元模型、行为程序与虚实交付。",
+      "gaps": "未展示具体控制器下载/回传操作或版本管理界面；商业案例仅按官网能力声明核对，未做运行测试。"
+    },
+    "property-showing-platform": {
+      "application_id": "commercial:showingtime",
+      "result": "pass",
+      "basis": "读取 showingtime.com 与 showingtime.com/agents 快照：首页 H1 为 Showing Management and Market Stats，正文写明 appointment scheduling、listing activity reports、Real-Time Scheduling、Feedback、Reporting；agents 页的 Appointment Center、Lockbox Integration 与 Secure Access 明确以 confirmed showing appointments 信息衔接准入。预约记录、确认关卡、看房后反馈/报表均有正文支撑。",
+      "gaps": "未展示每房源 rulebook 的提前量、禁看时段、拒绝/改约、no-show 等细节；该类细节缺口已在 research note 中记录，未阻断类型匹配。"
+    },
+    "rental-application-platform": {
+      "application_id": "commercial:rentspree",
+      "result": "pass",
+      "basis": "读取 rentspree.com/rental-application 快照：页面提供在线 rental application、从 MLS/listing 生成申请链接、跨多个物业跟踪提交、在单一 dashboard 管理并分享给 property owner；FAQ 说明申请经批准后签署租约；featureList 明确 Accept/Deny tool with automated adverse action notices，并有州别申请表。可对应申请记录、单元/房源绑定、双边流程与决定记录。",
+      "gaps": "accept/deny 与 adverse action 主要见 featureList/结构化数据；正文未展示逐单元申请详情或比较界面；商业案例按基本真实性与类型匹配通过。"
+    },
+    "site-selection-platform": {
+      "application_id": "commercial:siteseer",
+      "result": "pass",
+      "basis": "读取 siteseer.com 快照：标题与 meta 明确为 Site Selection & Market Intelligence Software；正文出现 location profiles、evaluate、sales forecast、market potential、void/competitive 等表述，与 batch 的候选地点、地理证据、比较/预测评估描述一致；未发现其仅为通用 GIS 或数据门户的反证。",
+      "gaps": "快照为压缩单行 HTML，读取工具按行截断，未能逐段引用具体产品工作流；未做登录后产品验证。"
+    },
+    "affordable-housing-management": {
+      "application_id": "commercial:realpage-onesite-affordable",
+      "result": "pass",
+      "basis": "读取 realpage.com/affordable 快照：正文写明 With OneSite Affordable at its core，处理 move-ins、certifications、compliance，做 LIHTC 州报告，并遵循 HUD、Tax Credits、Rural Housing 与 50058 Public Housing 项目；页面另列 Affordable Waitlist、Document Management、rent/property damage collections 与实时合规状态分析。可对应计划规则、家庭认证、合规证据与运营方软件形态。",
+      "gaps": "未展示资格认定和租金限额计算的具体界面；页面为 Affordable 组合营销页而非 OneSite 专属文档；Yardi/MRI 抓取 403 已在 research 记录。"
+    }
+  },
+  "limits": "本次为只读静态审查：未运行 shell、未写文件、未做运行测试，未访问登录后产品界面或实时网页；未重算 sha256，仅核对 REVIEW_SOURCES.json 的 path/文件名、快照域名与内容；部分快照为压缩单行 HTML（尤其 SiteSeer），读取工具按行截断，无法逐段引用正文；商业案例仅按官方页面做基本真实性与核心类型匹配，未核价、未核架构；本单元无开源案例，未做许可证/社区版边界核对；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-162/ses_groveopencodegop162review1_1793016373.jsonl",
+  "batch_sha256": "8f7a0b721538df8be02585a2b45c444d34defd25eca42df4fa103a063d328fc4",
+  "research_sha256": "3cf3854087ee89d5428c5a0d7cbc500b7cdf08b15162476902b6aae14a970e62",
+  "input_sha256": "1085cff306dc999e4c73a915cce058c3d4063a2ae8d0eeaae7f3482674660032"
+}

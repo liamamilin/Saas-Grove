@@ -1,0 +1,29 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中 `progress.case_status` 仍为 `not_searched`，且 `application_ids`、`research_records` 为空，与 `research.json` 的 `case_found` 和 `batch.json` 的条目不一致；如果该进度字段会进入最终索引，需要同步更新，否则它只是采集前的占位数据。",
+    "MuseScore：README 的官方功能表支持记谱输入、编辑、MusicXML/MIDI/MEI、播放与打印/PDF，但没有逐字写明原生乐谱文件的保存/打开；条目已在 leaf_match 中如实注明这一缺口，持久文档是由记谱软件的文件工作流推定的，不影响类型判定。",
+    "MuseScore：LICENSE.txt 除 GPLv3 正文外，还包含字体例外及 GNU Freefont License 的说明；`GPL-3.0` 用于程序代码是成立的，但字体/资产许可与代码许可并不是同一层，如果目录需要资产级许可边界，可另行注明。",
+    "FreeCAD：条目只有 `license` 与 `license_evidence_url`，没有像 Ardour/MuseScore 那样的 `license_review` 对象；根 LICENSE 快照开头为 LGPL 2.1 全文，建议补充解码后的 SPDX/scope 说明，并注意第三方组件可能有不同许可。",
+    "forScore：research 的 `service_boundary` 写的是 iPad/iPhone，官网同时写 iOS/iPadOS/macOS/visionOS；平台范围被低估，但不影响阅读器类型与核心匹配。",
+    "SheetAble：research 引用了 SheetAble 的 GitHub/README/docs/FAQ，并据此排除该候选，但 `REVIEW_SOURCES.json` 没有对应快照；由于 SheetAble 未进入 `batch.json`，也未计入本叶关系，这不影响本叶通过，建议下次将排除依据一并留档。",
+    "GarageBand：`batch.json` 的 `homepage` 写的是 `https://www.apple.com`，而非产品页 `https://www.apple.com/mac/garageband/`；来源 URL 本身是正确的，建议统一为产品页。",
+    "Ardour：`COPYING` 快照包含 GPLv2 全部条款，并在 END OF TERMS AND CONDITIONS 结束，但没有附上标准 GPLv2 的 How to Apply 附录；这不影响 `GPL-2.0-or-later` 的结论，但严格留档时可说明该文件是项目自带的 COPYING 版本。features 页页脚简写为 “GNU Public License v2”，与 COPYING 的 “GPL v2.0 or later” 存在措辞差异，建议在 license_review 中记录该页脚并说明以 COPYING 为准。",
+    "Ardour：GitHub 仓库描述为 “Mirror of Ardour Source Code”，条目将其作为 `repository_url`；该仓库属于 Ardour 组织，仓库 id 与许可证均可核对，但如果目录要求 canonical repo，宜注明官方主仓库/镜像关系。",
+    "FreeCAD：PartDesign 手册证明的是草图/特征式参数化实体建模，属于定义中允许的 solid-based/等效控制结构路径，而非网格点线面直接雕刻；leaf_match 的“可直接编辑几何”应按该类型定义理解，措辞可再精确。"
+  ],
+  "leaf_checks": {
+    "virtual-recording-studio": "已核对 GarageBand 官方产品页正文（录音、软件乐器/循环、255 轨、压缩/visual EQ、分享/导出到 Music App 或铃声）与 Ardour Features 页正文（多轨录音、MIDI/pianoroll、非破坏性编辑、Mixer、WAV/分轨导出、session 归档），二者共同覆盖持久工程—轨道素材—混音—音频交付。Ardour 仓库 id 8757552 与 COPYING 的 GPL-2.0-or-later（Plugin Clarification 明写 “GPL v2.0 or later”）已核对。服务形态为本地桌面 DAW；GarageBand 的“保存/打开工程”未逐字出现，但 iCloud 跨设备 song 工作流与多 take 保存可支持持久工程，商业条目不阻断。",
+    "music-notation-editor": "已核对 MuseScore 仓库 id 4454793、README 功能表（WYSIWYG 虚拟谱纸输入、编辑功能、MusicXML/MIDI/MEI、播放、打印/PDF）与 LICENSE.txt 的 GPLv3 全文（含字体例外说明），支持乐谱语义编辑与五线谱渲染核心；README 没有逐字写原生乐谱保存/打开，条目已如实注明，持久文档按记谱文件工作流推定。服务形态为本地桌面记谱工具，未发现商业社区版混用。",
+    "sheet-music-reader": "已核对 forScore 官网正文（动态曲库、PDF 导入/iCloud、批注、演出曲目单、重排页面、书签、音频跟练、自适应缓存翻页、免提翻页），覆盖乐谱—阅读界面—演奏者库三项核心，商业类型匹配。SheetAble 被明确排除且未进入 batch；其排除依据的来源未在 REVIEW_SOURCES 留快照，作为非阻断留档缺口。服务形态为 iPad/iPhone（官网还列 macOS/visionOS）本地阅读应用，云同步/目录需联网。",
+    "3d-modeling-application": "已核对 FreeCAD 仓库 id 5736080、README/官网（开源参数化 3D 建模器、模型历史、2D 草图到 3D、读写 STEP/IGES/STL/OBJ 等）与 PartDesign 手册正文（Body、New/Edit Sketch、Pad/Pocket、特征累积），覆盖 3D 场景、可编辑几何（草图/特征等效控制结构）、交互视口与持久模型文档；根 LICENSE 为 LGPL 2.1 全文，开源身份成立。未提供 license_review 对象，第三方组件/“or later”措辞未展开，作为非阻断许可留档建议。",
+    "digital-sculpting-application": "已核对 Nomad Sculpt 官网（“A sculpting and painting application”，iPad/Android/Steam/桌面）与官方 manual/tools、manual/files 的 SSR 正文：tools 快照含 Clay/Brush/Smooth/Inflate/Crease/Pinch/DelLayer/Nudge/Stamp、radius/intensity/pressure/textures；files 快照含 Save/Open/rename、.nom 与 glTF/OBJ/STL/PLY/FBX 导入导出及 render。四项核心（持久表面、笔刷笔画、笔触参数、可导出模型）成立，商业类型匹配。工具页为单行 SSR HTML，读取工具截断长行，仅能按关键术语命中确认。"
+  },
+  "limits": "本次为只读独立初审；未运行应用、未做部署或交互测试，未写入文件，未运行 shell，未读取 TASK.md、notes、历史脚本或其他单元。仅核对 REVIEW_SOURCES.json 所列的 17 个快照，未重新抓取网络；未计算 sha256。Nomad 的 VitePress 手册页为单行 SSR HTML，读取工具对超长行截断，部分上下文只能通过关键术语/文件格式命中确认。FreeCAD 的 LGPL 许可证快照是 base64 JSON，头部与文件大小可核对，但未逐字解码末尾。SheetAble 等未进入 batch.json 的候选来源没有快照，未独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-023/ses_groveopencodegop023review2_1792942467.jsonl",
+  "batch_sha256": "ca86605e2fa068d1335975ac39464a15803bf9db1101cf6582a24ddb4b6e6089",
+  "research_sha256": "f25159113a3b3905a0c87b0bc10843949ce5ad2758e18295ac1259c85abc876c",
+  "input_sha256": "902e297274a35d8021f8266dcb8778b7973706da86064db28f43d84aee1ebdce"
+}

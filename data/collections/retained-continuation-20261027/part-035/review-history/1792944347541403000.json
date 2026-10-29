@@ -1,0 +1,65 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "recurring-commerce-management",
+      "application_id": "commercial:skio",
+      "issue": "本叶被判为 case_found，但核心证据不足。被引用的 Subscription Management 快照是未完成渲染的 Document360 页面壳：左侧分类仍是 categories-loading，正文区没有文章段落；billing dates 只出现在 meta description 与页面状态副本中。Orders 与 Auto-Merge 文档能证明 Subscription/Recurring order 分类、订单明细、Activity Log、View in Shopify，以及同一客户订单在发送 Shopify 前合并并按合并日计费，但在这些可核对正文中没有出现跳过、暂停、取消、换品、拆分等承诺生命周期操作，也没有订阅承诺字段、下次扣款日或未来订单计划的产品界面描述。因此定义性核心的“订阅承诺记录、衍生订单计划、承诺生命周期管理”尚未得到正文支撑，batch 的 summary/leaf_match 与 research 的“四支柱均有正文”结论缺少依据。",
+      "fix": "重新抓取实际文章正文，优先使用 markdown/API 端点（例如参照已成功抓取的 orders-1.md，尝试 https://help.skio.com/docs/subscription-management.md 或 Document360 文章 API），不要保存客户端渲染壳。正文中逐项核对：订阅承诺的客户/商品/频率/下次扣款日/状态/收货地址；未来订单计划；每周期扣款→订单→移交 Shopify；以及跳过、暂停、取消、换品等操作。把新快照加入 batch 与 REVIEW_SOURCES 并更新 sha。取得正文前，应删除或降级 summary/leaf_match 中未被正文支持的“下次扣款、状态、频率、时间线、拆分、跳过/暂停/取消、挽留流程”等表述，并把本叶标为证据缺口。"
+    },
+    {
+      "slug": "recurring-commerce-management",
+      "application_id": "commercial:skio",
+      "issue": "research.json 对 https://help.skio.com/docs/subscription-management 的 fetch_outcome 记为 HTTP 2xx 且正文有效，并注明“订阅记录、下次扣款与生命周期操作”，note 还称“订阅承诺记录、订单计划、周期执行与生命周期管理均有正文”。该快照实际只有页面壳和元数据，正文未落盘，来源记录与文件不符。",
+      "fix": "把该 fetch outcome 改为“仅取得页面壳，文章正文缺失/待补”，在 note 中如实记录抓取缺口；不要用 HTTP 2xx、meta description 或导航充当正文证据。取得并保存正文后，再更新状态与 sha。"
+    }
+  ],
+  "non_blocking_notes": [
+    "store-credit-stored-value-platform：产品页正文可证明客户余额、商户主导的礼品卡/退款转积分/补偿发放，以及部分使用并在结账补足差额的支付方式；但没有展示逐笔余额变动流水、审计台账或未偿负债报表，只说明已用积分进入 WooCommerce REST API 订单数据。research 已如实记录该缺口，故不阻断，但严格核验定义中“余额活动记录”一项时仍建议补一份官方文档。",
+    "loyalty-program-management：快照可读正文集中在赚取规则、VIP 等级和奖励入口；退货扣回、过期政策、会员余额页未展开，research 已记录。平台页是单行压缩 HTML，兑换目录的完整措辞未能逐字读取，建议后续用帮助中心文章补证。",
+    "subscription-commerce-platform：WooCommerce Subscriptions 页面也把 SaaS/服务计费列为适用场景，且没有直接展示“即将到来的订单队列”；本叶匹配主要依赖周期计划、续订日对齐、未来续订生成订单和生命周期管理。若严格按每周期产生发货的边界，应使用其物理订阅和发货证据，避免把纯 SaaS 计费用例计入。",
+    "commercial:woocommerce-store-credit 与 commercial:woocommerce-subscriptions 都是自托管付费扩展，产品页数据标记 isSaaSProduct=false，并非厂商托管的 SaaS；作为商业软件与类型匹配可以接受，但若本单元严格要求托管 SaaS 形态，需要另行说明或调整。",
+    "b2b-e-commerce-platform：README 抓自 master，许可证文件来自 3.0 分支；两者都指向 v3.0 与 MIT，未发现冲突，但未核对 master 与 3.0 的逐字一致性。",
+    "recurring-commerce-management：Auto-Merge Billing 文档 frontmatter 标记 stale: true（2025-12-02），只能作为辅助证据；Orders 文档更新于 2026-02，相对较新。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；这是登记状态问题，不影响本次内容核对，但应在入库前同步。",
+    "多个商业来源的 kind 标为 documentation，实际是产品/营销页；不影响类型核对，但来源分类可以更精确。"
+  ],
+  "leaf_checks": {
+    "loyalty-program-management": {
+      "application_id": "commercial:loyaltylion",
+      "result": "pass",
+      "basis": "官方首页正文可见 Flexible rewards（购买、订阅、推荐、评价等行为赚取积分/奖励）、VIP tiers、Advanced analytics；平台页正文可见 Ways to earn rewards（Account creation、Birthday、Purchase、Referral、Write a review）及 reward options 入口，快照中还出现 discount、voucher、shipping 等奖励/兑换相关词。可核对到品牌配置赚取规则、会员累积与奖励兑换的核心，且是持续使用的电商忠诚度 SaaS。",
+      "gaps": "退货扣回、过期政策、会员余额页未在快照正文展开；兑换目录的完整段落受单行 HTML 限制未逐字读取；research 已记录部分缺口；未做运行时验证。"
+    },
+    "store-credit-stored-value-platform": {
+      "application_id": "commercial:woocommerce-store-credit",
+      "result": "pass_with_recorded_gap",
+      "basis": "产品页正文明确每位顾客有一个可在多个订单消费的商店积分余额；发放来源包括购买礼品卡、管理员发送的奖励/善意补偿/替代退款的积分；余额在购物车、结账和 My Account 展示，部分使用后余额保留，订单金额超过余额时用其他支付方式补足，并可用于运费；属于 WooCommerce 商店闭环的客户余额。客户余额、商户主导发放、作为支付方式兑换三项有正文。",
+      "gaps": "页面没有展示独立的逐笔余额变动/审计流水或未偿负债报表，只说明已用积分进入 WooCommerce REST API 订单数据；research 已如实记录该缺口。该实现以 coupon 承载余额，属于定义允许的实现方式，但第四项“余额活动记录”证据偏弱。"
+    },
+    "recurring-commerce-management": {
+      "application_id": "commercial:skio",
+      "result": "fail_evidence_gap",
+      "basis": "可核对正文：首页将 Skio 定位为 Shopify 订阅平台；Orders 文档区分 Subscription/Recurring order，展示订单明细、Activity Log 和 View in Shopify；Auto-Merge 文档说明同一客户的多笔订阅订单在发送 Shopify 前合并并按合并日计费。这些只覆盖订单分类、部分订阅对象引用和周期计费的局部证据。",
+      "gaps": "Subscription Management 快照是未渲染正文的客户端壳，没有订阅承诺字段、下次扣款日、未来订单计划或跳过/暂停/取消等生命周期管理的可核对正文；Orders 与 Auto-Merge 也未覆盖这些操作。见 findings。"
+    },
+    "subscription-commerce-platform": {
+      "application_id": "commercial:woocommerce-subscriptions",
+      "result": "pass",
+      "basis": "产品页正文可见：按周/月/年订阅计划、自动续订扣款、失败自动重试并通知、订阅者在 My Account 升降级/暂停/取消/更新地址和支付方式、商家在 WP admin 增删商品/改日期/调整续订总额/改状态、同账单日对齐、多个订阅合并为单次续订订单；订阅承诺、计划/续订、周期执行和生命周期管理均有正文支撑。",
+      "gaps": "未直接展示“即将到来的订单队列”；页面也把 SaaS/服务计费列为适用场景。库存缺货与固定期限到期未展开，未做运行时验证。"
+    },
+    "b2b-e-commerce-platform": {
+      "application_id": "github:1067194123",
+      "result": "pass",
+      "basis": "README 正文说明公司可注册组织并经管理员审批、管理多用户与角色权限；管理员可按公司配置 Company Catalogs 的产品/类目可见性与 flat/percentage/quantity-tier 定价；Company Credit 提供按公司信用额度、审计台账和 Pay By Credit 结算；并支持采购订单、RFQ、报价、快速下单和请购清单。组织账户层、目录→购物车→订单核心、账户中介定价与结算三点齐备。仓库 id 1067194123 与 github:1067194123 一致。",
+      "gaps": "许可证为 MIT：license API 快照含完整 MIT 文本（Copyright (c) 2025 Webkul），README 也声明 MIT；未发现社区版/专有层边界声明。README 来自 master、许可证来自 3.0 分支，未逐字比对分支差异；未部署验证审批/履约深度。"
+    }
+  },
+  "limits": "只读初审，仅使用本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 与 REVIEW_SOURCES 列出的 11 个快照；未运行 shell、未写文件、未部署或登录产品、未访问其他单元或实时网页。未做运行时、网络或价格/架构补充研究。LoyaltyLion 快照是单行压缩的 Webflow HTML，WooCommerce 页面是多行 HTML 可读正文，Skio 的 Subscription Management 是未渲染正文的 Document360 客户端壳；阅读器对超长单行的截断限制已计入结论。快照内容为抓取时点，不能证明当前线上状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-035/ses_groveopencodegop035review1_1792943833.jsonl",
+  "batch_sha256": "f904eecdea604920441b0714f2056a9aaf21cb1f721e01a7ca8721ac8b9a81cc",
+  "research_sha256": "d0c4556f0188bd60c03e95e6dcb016f668f33c91a7def0a0515e962b75b4b59c",
+  "input_sha256": "3010e4db8fa1afdc88ce89a4322f3a497413ec9a8fbdf6bcc0d7b9328a7eb8b4"
+}

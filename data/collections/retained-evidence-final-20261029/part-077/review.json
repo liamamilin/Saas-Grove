@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "github:1172934784 的 README 快速开始仍写 `git clone https://github.com/lquantprojects/entity-compliance-tracker.git`，而该地址已 404（research.json fetch_outcomes 已如实记录）；仓库元数据（octolytics-dimension-repository_id=1172934784、nwo=noamrazbuilds/entity-compliance-tracker、public、非 fork）与 LICENSE/README 均以 noamrazbuilds 为准。建议在条目 deployment 或备注中显式标注“README clone 地址过期，以本仓库为准”，避免使用者按过期地址克隆失败。",
+    "batch.json 的 leaf_matches.reason 写“准备/申报/确认→留档的核心闭环”，但实际源码仅见 pending→filed 与 filed_date 记录（mark_as_filed），未见向登记机关确认的步骤，也未见分录回执/证书等确认物按 filing 归档；实体记录中的 governance documents 并不等于申报确认证据。建议把措辞收敛为“申报状态与完成日期留痕”，不要暗示已实现当局确认与证据留存。",
+    "summary 中的“实体文件归档”一词偏强：README 只说明实体记录包含 governance documents 字段，未展示独立文档库或版本化归档能力；可改为“实体治理文件字段”以贴合证据。",
+    "定义规则强调义务的复现性（年度申报次年自动重排）。README 与 filing_service.py 未见重复义务自动生成/顺延逻辑，batch 与 leaf_matches 也未作此断言，属正确的克制表述；后续如补充采集，可留意该能力是否存在，暂不影响类型判定。",
+    "开源条目为 SQLite（prototype）+ 示例数据、未部署运行；建议在描述中保持“自托管 Web 应用”定位，不要暗示已生产可用或已通过运行验证（当前 runtime_tested=false 已如实标注）。",
+    "商业条目 diligent-entities 的“受权限控制的企业记录、跨 100+ 管辖区义务跟踪、集中证据/可审计”均来自官方产品页正文；页面同段的“backed by managed compliance support”“Request pricing”“318% ROI”等营销与价格类表述未纳入条目，处理得当。若后续要写申报执行方（产品代报/托管服务代报/客户代理自报），需另找官方正文，现不应推断。",
+    "Diligent 的 homepage 指向官网首页，实际产品页为 /products/entities；两快照均已留档，不影响核对，仅提示条目 homepage 与产品页可区分展示。",
+    "diligent.com 页面快照为整页 HTML 单行超长文本，逐段 read 会被截断；本次以 grep 命中原文关键句并结合同 URL 的只读抓取交叉确认，未改变结论。"
+  ],
+  "leaf_checks": {
+    "entity-compliance-management": {
+      "status": "pass",
+      "applications_checked": [
+        "github:1172934784",
+        "commercial:diligent-entities"
+      ],
+      "definitional_core": "两项条目均以“法律实体”为管理单元，并挂载法定合规义务与到期跟踪。开源条目 README 明确实体记录含名称、管辖地、实体类型、成立日期、注册代理、董事/高管、filing 与治理文件，并跟踪 good-standing；filing_service.py 以 FilingDeadline 按 entity_id 组织申报记录，含 due_date、status、filed_date，并有 upcoming/overdue 查询与 overdue 批量置位，构成“实体登记→义务与截止日→跨实体日历→状态跟踪”的骨架。商业条目官方产品页正文写明将 entity data、ownership、authorities、filings 集中于 permissioned corporate record，跟踪 100+ 管辖区义务，并强调 centralized evidence、stronger auditability 与 missed deadlines，核心类型成立。",
+      "service_form": "开源条目为可自托管的多页 Web 应用（ect_app FastAPI 后端 + ect_frontend Streamlit 前端 + Dockerfile/docker-compose + start.sh/start.bat），含 APScheduler 定时提醒与 SMTP/Slack 通知，属持续运行的软件服务形态，非库、CLI 片段或纯静态页；仓库目录树与 README 相互印证。商业条目为厂商在售 SaaS 产品页（含 Request a demo / Request pricing），形态匹配。",
+      "identity_and_track": "github:1172934784 与仓库快照中的 repository_id=1172934784、nwo=noamrazbuilds/entity-compliance-tracker 一致，公开且非 fork，track=open_source 恰当；commercial:diligent-entities 对应 diligent.com 官方 Entities 产品，track=commercial 恰当。research.json 的 case_ids 与 batch.json entries 一一对应。",
+      "license_and_community_boundary": "LICENSE 快照为完整 MIT 正文（21 行，含授权条款与免责声明，Copyright (c) 2026 Noam Raz and Pleasant Secret Labs），与 README License 段一致，仓库亦存在 LICENSE 文件；未见附加限制、双许可或商业版拆分条款。README 提到的 Hosted Version 标注“Coming soon”，不存在需界定的付费/社区功能切分，社区版边界无冲突。GitHub license API 403 已由完整 LICENSE 原文替代，属可接受的替代证据。",
+      "commercial_basics": "Diligent Entities 真实性成立：官网导航将其列于 Governance/Compliance 下的 Entities，产品页正文与 Fortive 客户案例（300+ entities）可用；摘要所述权限化记录、所有权/授权/申报集中、100+ 管辖区义务跟踪、审计可追溯均能在产品页原文找到对应。未写入价格、架构、部署或“由谁实际代报”，无过度断言。",
+      "evidence_read": [
+        "data/collections/batch.json",
+        "data/collections/research.json",
+        "sources/53cf0ec6a4631001b9fd23449f398693dae8d50056253101bbb479510068a11d.txt（仓库页：标题/描述、仓库树、README 正文）",
+        "sources/67f62db57c9666009e03152220f98eb6881aaa708aa59e271f1bb5964202b0a5.txt（README 全文）",
+        "sources/5c1168bd8375d8b508a280b7e72a42f219bc2ab9a7d2a134b2fcfabffb07b5dc.txt（完整 MIT）",
+        "sources/d2d69acb6ea6537870c52632c5a8a5cf23ced89d553205a66cf4526c90024e5d.txt（filing_service.py）",
+        "sources/021890d9027247bc0d2e3e644b7df051e57871fa3b86f24af0def866f1de8be0.txt（diligent.com 首页）",
+        "sources/fbaa3844c7a401b2ec333a952350e643ee04058c478f1b82a1c9e0947565ecd0.txt（/products/entities 产品页）"
+      ],
+      "residual_gaps": [
+        "开源条目未部署运行，实体模型与字段细节主要依据 README 与仓库树，仅申报生命周期有源码直证；未核对 auth/权限与确认证据存储。",
+        "未见重复义务自动顺延、向登记机关直报或机构数据回读的实现证据（条目本身也未作此断言）。",
+        "README 的 clone 地址指向已 404 的 lquantprojects 组织，属文档陈旧，已在留档中说明且不影响仓库身份与许可判定。",
+        "商业条目仅作官方页面级核对，未验证价格、合同形态与实际申报执行方式（按任务要求不作扩展）。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 6 个快照文件（按 path 原样读取，sources 前缀相对 data/collections）；未运行 shell、未写文件、未 clone 或部署、未执行测试、未访问其他单元。Diligent 产品页快照为整页 HTML、存在超长单行，read 工具逐段输出会被截断，故以 grep 命中原文关键句做定位，并对同一 URL 做了一次只读网页抓取以交叉确认文案存在；未核验快照字节数与 fetch_outcomes 中记录的 1,002,728 字节是否完全一致。GitHub API 403 与 README clone 地址 404 均按 research.json 留档接受，未重新发起请求验证。未评估功能完整性、可用性或安全性，也未验证商业产品的定价与申报执行责任划分。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-077/ses_groveopendesignp077review1_1793194330.jsonl",
+  "batch_sha256": "39f5137633be327538b05797ddb64e021fe6fe6d7bf3ddcc646889b8d17800c7",
+  "research_sha256": "35ba6b62de20c9c7b1706918d39624da3d43e081178cdc7ab862336c0630e138",
+  "input_sha256": "1c76c1e48c4d1127611fb4f0a091826c71690b65ac5124ec5ffde65fd66bebf6"
+}

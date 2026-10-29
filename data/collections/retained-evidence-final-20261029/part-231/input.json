@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 51,
+  "offset": 1250,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "event-credential-badge-management",
+        "name_zh": "活动凭证/徽章管理",
+        "domain_id": "26",
+        "parent_id": "26.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-051/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source GitHub event badge credential management"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/989",
+            "result": "boundary_unresolved",
+            "note": "复核原 finding 成立：badgeprint 的 README 仅证明 CSV 导入参与者、二维码/条码/后台/API 签到、按姓名/组织/活动信息打印及重打 Brother QL 标签；未证明凭证类型体系（参会者、工作人员、讲者、展商、VIP 等）、按类别模板或类别驱动权限，且仓库主题自标 label-printing。该叶定义明确“没有类别及其后果，软件退化为标签打印”，故移除 batch 关系，保留 badgeprint 为相邻候选。补充检索未找到可核验的完整替代案例；idento 为 proprietary，仅有事件级徽章模板，不满足凭证类别体系。",
+            "query": "open source event badge design template credential categories self-hosted GitHub"
+          }
+        ],
+        "archived": false,
+        "note": "复核原 finding 成立：badgeprint 的 README 仅证明 CSV 导入参与者、二维码/条码/后台/API 签到、按姓名/组织/活动信息打印及重打 Brother QL 标签；未证明凭证类型体系（参会者、工作人员、讲者、展商、VIP 等）、按类别模板或类别驱动权限，且仓库主题自标 label-printing。该叶定义明确“没有类别及其后果，软件退化为标签打印”，故移除 batch 关系，保留 badgeprint 为相邻候选。补充检索未找到可核验的完整替代案例；idento 为 proprietary，仅有事件级徽章模板，不满足凭证类别体系。"
+      },
+      "definition": {
+        "slug": "event-credential-badge-management",
+        "name": "Event Credential / Badge Management",
+        "name_zh": "活动凭证/徽章管理",
+        "aliases_zh": [
+          "证件管理",
+          "门禁管理",
+          "参会证管理"
+        ],
+        "overview": "An **Event Credential / Badge Management** application designs, produces, personalizes, issues, and maintains the credentials — badges, encoded cards, and digital passes — that identify people at an event and distinguish what they are there as: attendee, staff or crew, speaker, exhibitor, VIP, or press. In many products the credential also carries access meaning, determining which sessions or zones its holder may enter.\n\nThe badge is a dual-purpose object: it is the holder's public identity surface (name, organization, role, brand) and the operator's instrument of control (a scannable, revocable, replaceable record of who is present and what they are entitled to). An application of this Type is built around managing that object — not around selling admission, not around capturing registrations, and not around running the event app.\n\nThe defining core is deliberately small:\n\n```text\nThe event's credential-type program\n└── Holder assignment records (person ↔ event ↔ credential type)\n    └── Design-to-artifact rendering (template + holder data → badge/pass)\n        └── Issuance and replacement operations (pre-print or on-demand)\n```\n\nRegistration, ticketing, agenda, and engagement systems surround it and feed it; remove the produced credential and its issuance, and what remains is one of those other Types.",
+        "overview_zh": "一个**活动凭证/证件管理**应用程序负责设计、制作、个性化、发放和维护用于标识活动参与者的凭证——徽章、编码卡和数字通行证——并区分参与者身份：参会者、工作人员或团队成员、演讲者、参展商、贵宾或媒体。在许多产品中，凭证还承载访问权限含义，决定持有者可进入哪些会议或区域。\n\n徽章是一个双用途物品：它是持有者的公共身份展示面（姓名、组织、角色、品牌），也是运营方的管控工具（可扫描、可撤销、可替换的在场人员及其权限记录）。此类应用程序围绕管理该对象构建——而非围绕销售入场资格、捕捉注册信息或运行活动应用。\n\n定义核心是刻意精简的：\n\n```text\n活动的凭证类型体系\n└── 持有者分配记录（人员 ↔ 活动 ↔ 凭证类型）\n    └── 从设计到实物的呈现（模板 + 持有者数据 → 徽章/通行证）\n        └── 发放与更换操作（预印或按需）\n```\n\n注册、票务、日程和参与系统围绕其运行并提供数据；若移除生成的凭证及其发放，剩余部分即属于其他类型。",
+        "dc": "**1. The credential-type program.** The event defines a set of holder categories. The category is the master switch of the whole system: it determines which design layout is used, which data appears on the credential, which color or medium marks the holder at a glance, and — commonly — what the holder may access. A category set may be as small as a single \"attendee\" type for a small meeting; it grows into multi-category programs (attendees, speakers, staff, exhibitors, press, VIPs) as events scale. Without categories and their consequences, the software degenerates into label printing.\n\n**2. Holder assignment records.** Each credential is anchored to an identified person bound to the event under one category. Holder records arrive from registration data, imports, or on-site capture (walk-ins), and are maintained over the event's life: edited, moved between categories, voided, replaced. The record — not the piece of paper — is the system of record; the badge is its rendered projection. This is why a badge can be reprinted at any time from current data.\n\n**3. Design-to-artifact rendering.** Per-category design templates merge holder data into the produced artifact: a physical badge (sheet-printed or on-demand thermal/plastic), an encoded credential (QR/barcode, RFID-class media), or a digital pass in an app or wallet. Preview before production is standard because the badge is a brand surface as much as an operational one. One and the same holder data commonly renders into adjacent artifacts too — participant lists, place or escort cards — which is why design and data are kept separate.\n\n**4. Issuance and replacement operations.** Production and handover are managed, stateful operations: badges are either produced in batches before the event or printed on demand at the moment of check-in; either way, the system tracks that a person was issued a credential, and it reissues when credentials are lost, damaged, or issued with stale information. Reprint-at-the-desk for lost badges is a routine, designed-for operation across the sampled products, from academic tools to enterprise platforms.",
+        "dc_zh": "**1. 凭证类型程序。** 活动定义一组持有者类别。类别是整个系统的主开关：它决定使用哪种设计布局、凭证上显示哪些数据、哪种颜色或介质让持有者一目了然，以及——通常——持有者可以访问什么。类别集可以小到一个小会议的单一“与会者”类型；随着活动规模扩大，它发展为多类别程序（与会者、演讲者、工作人员、参展商、媒体、贵宾）。没有类别及其后果，软件退化为标签打印。\n\n**2. 持有者分配记录。** 每个凭证都锚定到一个在活动下绑定到一个类别的已识别人员。持有者记录来自注册数据、导入或现场捕获（临时入场），并在活动生命周期内维护：编辑、在类别之间移动、作废、替换。记录——而不是那张纸——是记录系统；徽章是其渲染投影。这就是为什么徽章可以随时从当前数据重新打印。\n\n**3. 设计到产物的渲染。** 每个类别的设计模板将持有者数据合并到生成的产物中：物理徽章（ sheet-printed 或按需热敏/塑料）、编码凭证（QR/条码、RFID类介质）或应用或钱包中的数字通行证。生产前预览是标准做法，因为徽章是b",
+        "rules": "- **The category drives everything.** Change a holder's category and the design, the printed data, and (where present) the access entitlements all follow. Nothing about the badge is edited freehand on the artifact itself; all changes happen on the record.\n- **The record, not the paper, is the truth.** Badges are re-renderable at any time from current data; a reprint is a rendering operation, not a correction. On-demand printing exists precisely to keep the artifact synchronized with late edits.\n- **Issuance is a state change, and it is logged.** Recording arrival is an attributed, dated action, and the desk's ability to perform it is a governed permission — one researched product explicitly recommends a separate system account per desk so actions can be attributed afterward.\n- **Fee status gates the express path.** Commonly, arrival processing interacts with payment state: some products disable express check-in until fees are settled and force an explicit confirmation, while others capture payment at the desk. Unpaid and walk-in cases are deliberately routed to special handling instead of succeeding silently.\n- **Desk roles are deliberately limited.** Where role models are documented, issuance staff can search, check in, and print, but cannot see fee details, take payments, alter registrations, or undo cancellations — those belong to administrator roles.\n- **Access enforcement is scale-dependent.** Session/zone admit-deny machinery appears where events are large or security-conscious; its absence does not disqualify a product from the Type, and its presence does not change the defining core.\n- **The door must keep working.** Check-in and badging are treated as availability-critical surfaces; several products document continued operation through connectivity loss.\n- **Data flows back out.** Check-in and attendance data is kept as the event's attendance record and pushed to CRM/marketing systems, closing the loop that started at registration.",
+        "rules_zh": "- **类别驱动一切。** 更改持有者类别后，设计、打印数据以及（若存在）访问权限全部随之改变。徽章实物本身没有任何自由编辑；所有更改都发生在记录上。\n- **记录而非纸张才是真相。** 徽章可随时根据当前数据重新呈现；重新打印是呈现操作，而非更正。按需打印正是为保持实物与后期编辑同步而存在。\n- **发放是状态变更，并会记录在案。** 记录到达是带归属、带日期的操作，柜台执行此操作的能力是受控权限——某款调研产品明确建议为每个柜台设置独立系统账户，以便后续操作可追溯。\n- **费用状态是快速通道的门控。** 通常，到达处理与支付状态交互：某些产品在费用结清前禁用快速签到并要求明确确认，另一些则在柜台捕获支付。未支付和临时参与者刻意进入特殊处理，而非静默通过。\n- **柜台角色刻意受限。** 在有角色模型文档的产品中，发放人员可搜索、签到和打印，但无法查看费用详情、收取支付、修改注册或撤销取消——这些属于管理员角色。\n- **访问执行取决于规模。** 会议/区域准入机制出现在大型或安全敏感活动中；其缺失并不妨碍产品属于此类型，其存在也不改变定义核心。\n- **门口必须持续运作。** 签到和发证被视为可用性关键界面；多款产品文档记录了在连接中断时继续运营。\n- **D",
+        "parent_id": "26.01",
+        "domain_id": "26"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 231,
+    "phase": "directory",
+    "parent": 231,
+    "slugs": [
+      "event-credential-badge-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "84538d84fa89f54ea1b3af2e0b827c40fa96efc618cac24416b1373ea2e47ed9"
+  }
+}

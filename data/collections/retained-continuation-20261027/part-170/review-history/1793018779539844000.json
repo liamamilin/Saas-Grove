@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "building-energy-management",
+      "application_id": "github:71057302",
+      "issue": "核心类型证据不足。所引 README 只把 OpenEMS 描述为面向储能、光伏、充电桩、热泵等设备的开源能源管理/控制平台：Edge 采集数据并执行控制算法，Backend 做站点聚合、监控与控制，UI 提供实时/历史视图。README 未展示本叶定义所需的建筑/站点级能耗记录（账单或计量数据）、跨时间/建筑/基线的比较分析，以及报告、告警、节约跟踪等实际工作流；其“PLC-like control / control algorithms”恰是叶定义中偏向 BMS 的特征。batch 的 leaf_match 称其覆盖“比较分析/用能优化”，超出 README 可证范围。",
+      "fix": "补充 OpenEMS 官方文档或产品页中能耗数据建模、计量/账单接入、分析/报表/告警/节约跟踪的实际工作流证据，并重新判定；若实时控制仍是主用途，应归入 BMS/EMS 叶，或改选有能耗分析与报告核心证据的开源 BEM 应用。"
+    },
+    {
+      "slug": "building-energy-management",
+      "application_id": "github:71057302",
+      "issue": "许可证范围标注不准确。README 明确 OpenEMS Edge/Backend 为 EPL-2.0、仅 OpenEMS UI 为 AGPL-3.0；但条目 license=AGPL-3.0 且 license_review.scope=community_core，等于把以 EPL-2.0 发布的 Edge/Backend 社区核心标成 AGPL-3.0。GitHub /license 快照只证明 UI 的 AGPL 文件，不能证明整个社区版为 AGPL。",
+      "fix": "将 license 改为复合表达（如 “AGPL-3.0 (OpenEMS UI) / EPL-2.0 (OpenEMS Edge, Backend)”），或把 scope 明确为 “OpenEMS UI”，并补充 EPL-2.0 许可证文本或链接；不要用单一 AGPL-3.0 表示整个社区版。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 五叶均为 case_status=not_searched、application_ids=[]、research_records=[]，根 phase=included_without_cases；而 research.json 五叶均为 case_found，batch.json 有五个条目。若 input.json 是最终公开资料，应同步这些字段；若它只是采集前快照，建议在留档中注明，避免下游把五叶误判为未检索。",
+    "Gordian 页面以评估服务为主，但页面同时明确 Gordian Cloud Platform、Asset Capture 移动应用和 Self-Assessment 软件能力；当前条目已把范围限定在软件/平台，建议保留该边界说明，不要把供应商实施的评估服务当作应用核心。",
+    "Facilio 页面是更广泛设施管理平台中的预防性维护模块，建筑/站点层级主要通过“asset category/location”“property operations”隐含体现，未展示完整 building→floor→room 的设备层级。按商业基本类型匹配可通过；若执行更严格的 building plant register 核对，建议补充资产层级页。",
+    "Condo Control 正文未直接写“防止重复预订”，该表述只出现在 meta description；正文的设施页面配置、可约时长/频率限制、管理员审批/拒绝和住户支付已足以支持商业类型匹配，不阻断。",
+    "construction-equipment-management 的中文名“建筑设备管理系统”容易与楼宇设备/BMS 混淆；叶定义和 Tenna 记录均指施工机械，建议考虑改为“施工设备管理”以减少歧义。"
+  ],
+  "leaf_checks": {
+    "building-condition-assessment": {
+      "status": "pass",
+      "basis": "Gordian 页面正文列出 FCA+、FCA、Modeled Assessment、Self-Assessment 四种评估路径，并说明 Asset Capture 现场采集照片/资产信息、Gordian Cloud Platform 作为资产数据 single source of truth、RSMeans 成本数据以及多年资本计划；覆盖建筑组合、资产级状况、成本转换和资本计划核心。",
+      "notes": "页面是服务与软件混合的产品页，但 Gordian Cloud Platform 与 Asset Capture 足以支撑应用形态；记录已限定在软件/平台，未把评估服务本身当作应用。"
+    },
+    "building-energy-management": {
+      "status": "fail",
+      "basis": "已读 OpenEMS README、仓库元数据和 AGPL 许可证快照。README 描述 Edge/UI/Backend 三组件、设备监控、历史/实时视图、站点聚合和 PLC-like 控制；但没有展示建筑/站点级能耗记录、账单或计量数据管理、跨建筑/基线比较分析、报告/告警/节约跟踪等本叶核心工作流。许可证仅 UI 为 AGPL-3.0，Edge/Backend 为 EPL-2.0，条目的 community_core 范围标注不准确。",
+      "notes": "OpenEMS 更接近以设备控制/优化为主的 EMS/BMS 平台；核心匹配和许可证范围均需修正，详见 findings。"
+    },
+    "amenity-booking-platform": {
+      "status": "pass",
+      "basis": "Condo Control 的 Amenity Booking 页面正文说明运营者创建/定制设施页面、展示楼宇设施、限制可约时长和频率，住户在线预约并支付费用/押金、同意条款，管理员收到通知后审批或拒绝，结果通知住户，并支持移动端预约支付；覆盖运营者定义的设施清单、封闭住户群体、有时限预约和楼宇侧控制界面。",
+      "notes": "该模块属于更广泛的社区管理平台，记录已限定在 amenity booking 模块；重复预订防止仅在 meta description 出现，不影响商业类型匹配。"
+    },
+    "building-maintenance-management": {
+      "status": "pass",
+      "basis": "Facilio 预防性维护页正文说明按资产类别/位置/优先级/关键性配置 PPM、自动生成并分派工单、技术人员或供应商移动端执行检查清单并查看资产历史、按资产/位置统计成本、使用历史数据做维护预算，面向物业/设施运营；覆盖预防性+纠正性工单、资产历史和成本汇总核心。",
+      "notes": "页面是更广泛设施管理平台中的 PM 模块，建筑/站点层级为隐含表达；按商业基本真实性和类型匹配可通过。"
+    },
+    "construction-equipment-management": {
+      "status": "pass",
+      "basis": "Tenna 页面正文明确面向承包商混合车队，统一管理自有/租赁的重型设备、道路车辆、工具和附件；提供可搜索的设备台账（位置、工地分配、工作历史、成本、工时、附件）、利用率/位置/操作员跟踪、工地间调度与转移、预防性维护/工单/检查以及 TCO 成本跟踪；覆盖设备资产登记、运行状态和作业分配核心。",
+      "notes": "页面为 use-case 营销页但功能描述具体；GPS/远程信息处理是采集手段，条目未把纯 telematics 当作本叶核心。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未部署或运行任何应用，未重算快照 sha256/字节数，未解码完整许可证 JSON；仅依据提供的 7 个快照（Gordian、Condo Control、Facilio、Tenna 产品页，OpenEMS README/仓库元数据/AGPL 许可证文件）及 batch.json、research.json。商业产品只核基本真实性和类型匹配，未核价格、架构、服务交付或运行时行为；OpenEMS 官方文档站未抓取，EPL-2.0 全文未在快照中，核心与许可证判断受 README 概述范围限制。未读取其他单元或采集者过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-170/ses_groveopencodegop170review1_1793018200.jsonl",
+  "batch_sha256": "5c3e472d82d3f37f7ea7b8548bcef798d611be230ba67f09650e793a7b5684e2",
+  "research_sha256": "cacdef4c9a26f6129fd0f4fdf48670e5919b58ec31605d4f8e2c1abaf7b4740d",
+  "input_sha256": "a44ad13b28dab01fbc530639939276fa254724506f75eddaf41588254c63a586"
+}

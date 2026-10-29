@@ -1,0 +1,89 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "restaurant-reservation-platform",
+      "application_id": "commercial:resy",
+      "issue": "The cited snapshot 60f66073...txt is a Resy /join marketing SPA shell reached from /restaurants, not an operator reservation-book page. Its readable content is limited to title/meta/keywords, hero image markup and footer; it contains no body text for an operator reservation book, capacity inventory by time/table/menu, waitlists, card holds or deposits, or guest profiles. The batch leaf_match and summary assert these capabilities as described by the page, which overstates the snapshot and relies on meta/SEO text instead of core body.",
+      "fix": "Capture and archive a server-readable operator page (for example /join/reservations or an official help-center article) that evidences reservation records, capacity-gated availability and the guest booking path. Narrow batch summary and leaf_match to the actual page text, record the /restaurants to /join redirect in source metadata, and if no body can be captured, record the gap instead of asserting these capabilities."
+    },
+    {
+      "slug": "self-service-restaurant-ordering",
+      "application_id": "commercial:grubbrr",
+      "issue": "The cited snapshot 12e0d741...txt contains head/meta, JSON-LD SoftwareApplication/Organization metadata, navigation, forms and image alt text, but not the homepage body. Statements such as 'Why Do Enterprise Restaurants Choose GRUBBRR', 93+ POS integration, Order Progress Board and Kitchen Display are absent from the archived snapshot, so customer kiosk composition and in-venue order fulfillment cannot be verified from core body. The batch reason says the official homepage body proves these points, which is not supported by the read snapshot.",
+      "fix": "Re-capture a rendered snapshot that includes the homepage body, or cite a specific product page (self-ordering kiosk, order progress board, kitchen display) with readable body text and update batch sources and reason accordingly. If capture still fails, record the fetch gap and do not mark the leaf as body-evidenced."
+    }
+  ],
+  "non_blocking_notes": [
+    "restaurant-pos: README evidence centers on guest QR ordering plus staff order management, payment and kitchen display. Staff-initiated creation of a new order and check split/merge/transfer are not separately documented; the match is accepted on the evidenced order-payment-closure flow, but the wording 'staff compose orders' should be narrowed or supported by the staff-orders documentation.",
+    "restaurant-pos: README states AGPLv3-or-later while the entry label is AGPL-3.0; the LICENSE snapshot is the full AGPL-3.0 text. If label precision matters, use AGPL-3.0-or-later, otherwise no content change is required.",
+    "restaurant-procurement-platform: the homepage snapshot remains supplier-side wholesale software; it is acceptable only as background. The buyer-side leaf should continue to rely on the restaurant procurement page.",
+    "restaurant-reservation-platform: /restaurants canonicalizes to /join; this redirect and the marketing-page nature of the source should be recorded, and SEO keywords should not be treated as reservation-workflow evidence.",
+    "self-service-restaurant-ordering: the live grubbrr.com page currently contains a body, but the archived snapshot does not. The archive should be re-captured from rendered HTML rather than JSON-LD or image alt text.",
+    "creator-affiliate-dashboard: the Awin page supports creator-side program participation, trackable links, commissions, performance tracking, payments and storefronts, but does not show pending/confirmed/paid commission states or program approval details. This is acceptable for the commercial basic-match requirement.",
+    "input.json still records progress as not_searched with empty application_ids for all leaves while batch.json and research.json record case_found cases; updating this metadata would improve consistency but does not change the leaf content judgments."
+  ],
+  "leaf_checks": {
+    "restaurant-pos": {
+      "status": "passed_with_limitation",
+      "application_id": "github:1131488273",
+      "sources_read": [
+        "data/collections/sources/babc42732bae04f64bf617deeb408e4fae0cf287df3a908975effc692051cdfd.txt",
+        "data/collections/sources/81ae50e3028496565f89de6893d2a51f348fc6307e93ca6060f9d3d94c70fc3f.txt",
+        "data/collections/sources/1b8ba5eda9d58c1fd07a153d0989a9a5a868f2e46b81f0275f25244c857ea190.txt"
+      ],
+      "core_assessment": "README documents menu/products, tables, an order lifecycle pending to preparing to ready to delivered to paid, Stripe/Revolut plus cash/card settlement, kitchen display, reports and self-hosting. The order-payment-closure flow is evidenced, but the primary ordering path is guest QR ordering; staff creation of a new order and check split/merge/transfer are not explicitly documented. The leaf match is accepted only with that limitation.",
+      "license": "The LICENSE snapshot is the complete GNU Affero General Public License v3 text (Version 3, 19 November 2007; 34,523 bytes). README declares AGPLv3-or-later. Self-hosting is described as fee-free under AGPLv3, with satisfecho.de as an optional hosted service, so the community/hosted boundary is visible.",
+      "service_form": "Open-source self-hosted restaurant POS/ordering system with an optional hosted service; the repository, license and deployment documentation support the open-source track.",
+      "note": "The match does not prove split/merge/transfer check surgery, and it does not separately prove staff-composed new orders. These are recorded limitations rather than body defects."
+    },
+    "restaurant-procurement-platform": {
+      "status": "passed",
+      "application_id": "commercial:bluecart",
+      "sources_read": [
+        "data/collections/sources/2405347c404dbfb00370819c87ca3e92beb502015aacd99ffc7610c05a74b93b.txt",
+        "data/collections/sources/a8b15c2b0583e68650a4e3aa37ea7c1cc3c2aba1deb658804f00232dbe9200ea.txt"
+      ],
+      "core_assessment": "The restaurant procurement page body describes supplier catalogs with live pricing and availability, digital purchase orders populated from supplier catalogs, mobile ordering and receiving, multi-location procurement, and line-by-line invoice matching with price, quantity or product discrepancies flagged before payment approval. This aligns with the supplier-record, purchase-order and delivery-invoice closure core. The entry correctly avoids asserting unverified price write-back behavior.",
+      "service_form": "Commercial SaaS for restaurant buyers. The homepage snapshot is supplier-side, but the leaf match cites the buyer-side procurement page, so the boundary is correct.",
+      "note": "Keep the supplier-side homepage as background only; do not use it to support the buyer-side relationship."
+    },
+    "restaurant-reservation-platform": {
+      "status": "failed",
+      "application_id": "commercial:resy",
+      "sources_read": [
+        "data/collections/sources/7adfadda7bd0c6361dc3a29dde12d413b52ae78918fbd20cdbce9980ec55ed00.txt",
+        "data/collections/sources/60f66073a05c1465e1af82156c9a4cea446a22ca22fcbbba7b77480df1ef4fe6.txt"
+      ],
+      "core_assessment": "Not established. The homepage snapshot is a consumer SPA shell, and the /restaurants snapshot is a /join marketing SPA shell whose readable content is only title/meta/keywords, hero markup and footer. It does not show a reservation as the unit of record, capacity-gated availability, or a guest-facing booking path. The batch reason's time/table inventory, waitlist, card-hold/deposit and guest-profile claims are not supported by the read snapshot.",
+      "service_form": "The page metadata identifies Resy as hospitality reservation software, so the commercial type is plausible, but core workflow evidence is missing.",
+      "note": "Needs an operator-side page or official help documentation with readable body text; also record the /restaurants to /join redirect."
+    },
+    "self-service-restaurant-ordering": {
+      "status": "failed",
+      "application_id": "commercial:grubbrr",
+      "sources_read": [
+        "data/collections/sources/12e0d741be894d288225d5601821b111f4270c5852e837382c76cb2323bc1408.txt"
+      ],
+      "core_assessment": "Not established from the archived snapshot. The snapshot contains metadata, JSON-LD, navigation, forms and image alt text, but no homepage body describing customers composing orders on venue-installed kiosks or orders entering POS/kitchen fulfillment. The batch reason relies on body content that the snapshot does not contain.",
+      "service_form": "Metadata identifies GRUBBRR as a self-ordering kiosk platform integrating with POS systems, so the commercial type is plausible, but the core body is absent.",
+      "note": "The live page currently has body text, but the archived snapshot does not; the snapshot is controlling and must be re-captured."
+    },
+    "creator-affiliate-dashboard": {
+      "status": "passed",
+      "application_id": "commercial:awin",
+      "sources_read": [
+        "data/collections/sources/76df0073ec353e24afc69b2e27088246afae85f3f3f06882a3d8f9163e5120b8.txt"
+      ],
+      "core_assessment": "The creator page body describes joining brand affiliate programs, creating and sharing unique affiliate links across blogs, social posts, videos and newsletters, earning commission when a sale is generated, tracking sales and top partnerships, receiving secure payments, and using the Awin app and Storefronts. This supports the creator-side affiliate account, trackable assets, commission earnings and payments core.",
+      "service_form": "Commercial affiliate network with a creator/publisher-side account and app; brand-side program management is correctly excluded from the leaf.",
+      "note": "The page does not show pending/confirmed/paid commission ledger states or program approval screens, but that depth is not required for the commercial basic-match check."
+    }
+  },
+  "limits": "Read-only review: no shell commands, no file writes, and no reading of other units. All nine paths in REVIEW_SOURCES.json were read as-is with the data/collections base for batch snapshot_path values, and batch/research URLs and hashes were cross-checked. Some archived HTML lines exceed the viewer's 2,000-character display limit, so key phrases were checked with exact-text searches; live public pages (Bluecart, Resy, Grubbrr, Awin and the satisfecho README) were also fetched only to distinguish archive-capture gaps from absent content, while pass/fail judgments remain based on the archived snapshots. No deployment or runtime testing, price research, architecture review, or additional market research was performed.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-102/ses_groveopencodegop102review1_1793000493.jsonl",
+  "batch_sha256": "e00a8fb46c3f897ba0817949a02f8a455a9834faecd11675939079a14ac8608a",
+  "research_sha256": "b510a601d419df2e96adb3ccccd456608b778eb606de03826f7f8b0f2e2724ef",
+  "input_sha256": "c35dca40b6f887d2bcb38f2b2f14ea8b21c03225ade54b5eff4548ef469be5a1"
+}

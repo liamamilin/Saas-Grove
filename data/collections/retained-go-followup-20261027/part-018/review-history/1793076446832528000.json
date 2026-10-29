@@ -1,0 +1,55 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "epro-ecoa-platform",
+      "application_id": "commercial:medable-ecoa",
+      "issue": "batch.json 的 leaf_match 把“combines eClinROs, ePROs, ePerfOs, eObsROs, and digital measures”当作 Medable eCOA+ 产品页（https://www.medable.com/platform/ecoa-epro）的原文引用，但实际快照正文没有 eClinRO、eObsRO、ePerfO 任一词，也没有该句。快照可以核实的只有：eCOA/ePRO 定位，400+ reusable/pre-validated instruments、assessments 和 diaries，BYOD/TeleVisit，Digital measures，notifications/reports/submission-ready data，以及 FDA/CFR21 Part 11/HIPAA/GDPR。也就是说，summary 和 leaf_match 把报告者类型的覆盖范围扩大到了 eClinRO/eObsRO/ePerfO，却缺少来源支持；research.json 里“复核快照后该缺口不成立、产品页有报告者类型原文”的说法，与本次实际读取的快照不符。",
+      "fix": "删除这条直接引用，把 summary 和 leaf_match 收窄到快照可以证实的 eCOA/ePRO 能力，包括 ePRO/eCOA 采集、400+ 预验证工具、评估日程、通知/报告/可提交数据、Part 11/HIPAA/GDPR；如果必须保留 eClinRO/eObsRO/ePerfO 覆盖，需要补充并归档明确写出这些报告者类型的官方来源快照，再按四项核心结构重新核对。同时修正 research.json 中与该快照不符的复核结论。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Medable summary 中的“可视化评估日程”，是对 Studio 页 Point-n-Click Schedule of Assessments Builder 的概括；“400+ 预验证量表库”对应页面原文 400+ reusable, pre-validated instruments, assessments and diaries。引用问题修正后，建议措辞与原文对齐。",
+    "Alora Home Health 页面同时面向 Medicare 认证、非 Medicare 及混合机构；summary 写“面向 Medicare 认证家庭健康机构”是收窄表述，并非事实错误。",
+    "Alora Hospice 页面未显式展开 death discharge、revocation、readmission，也未把舒适导向写成独立模块；summary 未据此扩展，符合商业基本记录标准。",
+    "Folk Care README 写 MIT license，clone/badge 链接指向 neighborhood-lab/folkcare，而仓库实际是 neighborhood-lab/folk-care；batch 以仓库 LICENSE 和 GitHub 元数据为准并留档，建议下游统一使用 repository_url 与 LICENSE。",
+    "Folk Care 的 managed service、Production SaaS 与开源自托管版的边界未由 README 明确说明；batch 的“未发现 premium/enterprise 闭源模块”属于缺失性判断，建议标注为未证实，而非已证实。",
+    "Open Hospital 的 GPL-3.0 证据是 release/portable 包组装仓库的 LICENSE；OH CORE/GUI/API/UI 组件在独立仓库且许可证未留档，建议补 license_review，或把许可表述收窄为“本仓库 GPL-3.0”。",
+    "Open Hospital 的 Accounting 为手工录入、患者级账单，未与临床模块自动联动；batch 已收窄 summary，但若按 encounter 计费核心严格评估，该叶只能算部分匹配。其部署为 desktop/client-server，不是托管 SaaS，batch 已在 research 中记录。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；不影响本次基于 batch/research 的核对，但建议同步进度元数据。",
+    "research.json 对 Medable newsroom 快照正文的断言不在 REVIEW_SOURCES 中，无法复核；batch 未依赖该页，建议不要把未归档快照作为证据。"
+  ],
+  "leaf_checks": {
+    "epro-ecoa-platform": {
+      "status": "changes_required_source_mismatch",
+      "basis": "Medable eCOA+ 产品页快照正文可见 Reusable eCOA Library（400+ reusable, pre-validated instruments, assessments and diaries）、BYOD/provisioned devices、Cross-platform TeleVisit、Digital measures、notifications/reports/submission-ready data、FDA/CFR21 Part 11/HIPAA/GDPR；Studio 产品页正文可见 Point-n-Click Schedule of Assessments Builder，可将 assessments、instruments、COAs 加入 patient schedule，配置 standard visits、visit cycles、site/remote/unscheduled visit types。SaaS 形态由 Studio 页的 SaaS 表述及云端平台定位支持。",
+      "gaps": "产品页快照没有 eClinRO/eObsRO/ePerfO 字样，也没有 batch 引用的“combines eClinROs, ePROs, ePerfOs, eObsROs, and digital measures”原句；因此 eClinRO/eObsRO/ePerfO 覆盖和该直接引用不成立。eCOA/ePRO 的工具、患者报告、日程和受监管记录四项核心大体成立，但报告者类型范围需收窄或补证。"
+    },
+    "home-care-agency-management": {
+      "status": "verified_with_documented_gaps",
+      "basis": "Folk Care GitHub 元数据 ID 1084967884、full_name neighborhood-lab/folk-care；README 正文列出 client/demographics、caregiver/staff、service patterns/automated scheduling、visit tracking、GPS/geofence EVV/offline sync、care plans/tasks、family portal、billing/invoicing/payment tracking；LICENSE 为完整 AGPL-3.0 文本（版权 2025 Brian Edwards / Neighborhood Lab）；README 说明可自托管或使用 managed service。",
+      "gaps": "Payroll processing 仅 backend complete/frontend partial，未证明完整发薪前端；README 写 MIT，且 clone/badge 指向 neighborhood-lab/folkcare，与 LICENSE 和仓库 folk-care 不一致；managed service 与开源自托管版的边界未由 README 明确说明。"
+    },
+    "home-health-ehr-management": {
+      "status": "verified_commercial_basic",
+      "basis": "Alora Home Health 产品页正文：OASIS/Non-OASIS assessments、CMS-485 与 living plan of care、六学科（skilled nursing、home health aide、PT、OT、speech therapy、medical social worker）的 assessment/evaluation/POC/visit notes、prior authorization tracking、all-payer claims（Medicare、Medicaid、VA、private insurance、private pay）、pre-billing QA、cloud data。商业 SaaS/云形态成立。",
+      "gaps": "页面未显式使用 episode/recertification 字样；以 certification period、living POC 和 authorization 间接支持授权疗程结构。未做运行时验证。"
+    },
+    "hospice-management": {
+      "status": "verified_commercial_basic",
+      "basis": "Alora Hospice 产品页正文：HOPE/LCD/CTI、IDG meetings（pre-meeting notes、agenda、signatures、与 orders/POC 集成）、bereavement assessment/plans/Bereavement Monitor、per diem by level of care、NOE alerts、all-payer claims、payroll、cloud-based。商业 SaaS/云形态成立。",
+      "gaps": "页面未显式展开 death discharge、revocation、readmission；comfort orientation 由 FAQ 的 comfort/quality of life 与 symptom follow-up 支持。未做运行时验证。"
+    },
+    "hospital-management-system": {
+      "status": "verified_open_source_with_scope_notes",
+      "basis": "Open Hospital README：free/open-source HIMS、Java/Maven、PORTABLE/CLIENT、release/portable 包组装仓库；用户手册 1.15.2 正文覆盖 OPD patient registration/visits、admission/discharge、ward pharmacy stock、laboratory、accounting/billing/payments、appointments/therapy；LICENSE 快照为完整 GPL-3.0 文本。",
+      "gaps": "Accounting 明确未与其他模块自动联动、费用需手工录入、账单为患者级，不是 encounter 自动计费闭环；部署为 desktop/client-server，不是托管 SaaS；组件仓库 OH CORE/GUI/API/UI 的许可证未单独留档，GPL-3.0 仅对本仓库有直接证据。"
+    }
+  },
+  "limits": "本次仅做只读静态核对：读取 REVIEW_SOURCES.json 列出的 10 个快照、batch.json、research.json 与 input.json，未运行应用，未做部署、价格或架构测试，未访问网络。Medable newsroom 快照未列入 REVIEW_SOURCES，无法独立复核；Open Hospital 组件仓库许可证未归档；Folk Care 的 managed-service 条款及 README/LICENSE 冲突已按仓库 LICENSE 处理，但仍属文档不一致；商业产品只做基本真实性和类型匹配，不验证具体功能实现。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-213/ses_groveopencodegop213review2_1793028904.jsonl",
+  "batch_sha256": "c38c55d2d9b7055fdeacf3422f0b9e724e9d297d021f3567911ab7abfdec7149",
+  "research_sha256": "d95abb7f84f1bd8e2622644342faf89a3471f842ce66854868b05f35138dc5c6",
+  "input_sha256": "4addb6f6956fab4e1630f1bd5788f0573f42fe44c579642597e6faaf5bf11843"
+}

@@ -1,0 +1,33 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "legal-billing-application",
+      "application_id": "github:1331339595",
+      "issue": "DeedBox 的官方 README 将其定位为面向律所的完整 practice management system：matters/conflicts、documents、workflows、key dates、client portal 与 time and billing 属于同一产品。本叶定义把法律计费应用限定为“money loop standing alone”，并明确把含事项工作区（文档、截止日期、冲突）的产品归入 Law Practice Management。当前仅凭 README 的计费章节，把同一完整 PM 产品同时匹配到 legal-billing-application，属于产品身份与类型边界不匹配；research.json 中该叶的 service_boundary 也遗漏了这一边界。DeedBox 仍适合 law-practice-management-system，但不宜同时作为独立 legal billing 案例。",
+      "fix": "二选一：（1）将 DeedBox 从 legal-billing-application 移除，补充检索一个以计费与客户资金为核心、可独立成立的 legal billing 产品（商业或开源），并在 research.json 记录检索与取舍；（2）若允许同一产品的模块级多叶匹配，补充可验证材料证明该计费模块是独立产品/独立可售模块，并在 service_boundary 中写明其与完整 PM 系统的边界。若两者都做不到，应将该叶标为 no_case 并如实记录缺口，不能继续以 DeedBox 作为该叶案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍是旧脚手架：五个叶均为 case_status=not_searched、application_ids=[]、research_records=[]，phase 为 included_without_cases，但 batch.json 与 research.json 已有四个案例且 continuation.phase=complete；发布前应刷新这些元数据，避免与正文记录冲突。",
+    "ImmiBox 的证据来自官方 features 页正文，覆盖案件生命周期、工作流、USCIS/DOL e-filing、问卷/表格、动态案件状态、截止日期与 LCA/PWD 库；但客户记录的数据模型（如外国人登记号、亲属/雇主关系）和案件类型驱动表格的细节未展开，作为商业基本真实性足够，深度仍偏营销页。",
+    "Lawmatics 的 intake 与冲突检查页正文支持自定义表单、文件请求、电子签署、matter 上的 collections 与 onboarding，以及 intake 开始时的冲突标记和 approve/deny/flag；但“已记录接案决定”和“matter 已在律所记录系统中开立”主要由页面措辞和 matter 对象隐含，未见到帮助中心级流程文档。",
+    "One Legal 的证据是加州/内华达的提交者侧 eFiling 服务，产品页正文有 court-approved eFiling、Matters 标签、订单状态/发票与 Re-File，支持文档覆盖案件发起、后续提交、完整/部分驳回、已接受文件保留、仅重交被拒文件及法院费用代付开票；地区范围有限但类型匹配成立。",
+    "DeedBox 的社区版边界只由 README 的 free/open-source/complete/self-hosted 表述和单一 AGPL-3.0 许可证体现；未发现单独的付费版或企业版说明。若上游存在商业版，应补充社区版/商业版功能边界。",
+    "DeedBox 的许可证快照是 GitHub license API 的 JSON（base64 正文），已核对 SPDX 标识 AGPL-3.0、文件大小 34523 与正文开头；完整许可证正文随快照保存，但本次未逐字解码全文。",
+    "research.json 对 legal-billing-application 只复用了 DeedBox README，没有单独检索“独立计费产品”的搜索记录；这与上述类型边界问题相关，修复时应同时补齐检索留档。"
+  ],
+  "leaf_checks": {
+    "immigration-practice-management": "通过。ImmiBox 官方 features 正文（快照 66599e...）明确其为移民案件管理解决方案，含案件生命周期/工作流、问卷与 USCIS 表格、USCIS/DOL e-filing、动态案件状态、截止日期、LCA/PWD 库；页脚说明由 Ideateq 以订阅方式提供、云托管，符合执业者侧移民案件系统。客户记录与案件类型驱动细节偏薄，但商业基本真实性与核心类型成立。",
+    "law-practice-management-system": "通过。DeedBox GitHub 元数据（id 1331339595，deedbox-maintainers/deedbox-app，未归档）与 README 正文支持事项/当事人/冲突、时间与计费、信托账册与对账、文档/电子签名/客户门户、工作流与关键日期、报告；许可证快照为 AGPL-3.0 正文（SPDX AGPL-3.0，size 34523），README 说明免费、开源、完整、自托管，未发现社区版/商业版切分。",
+    "legal-billing-application": "核心计费能力有正文依据：README 的 Time and billing 与 Client money 段落支持费率、草稿账单、审批、开票、信用票据、核销、争议、利息、提醒、分期、对账单、信托账册与银行对账。但产品身份是完整 PM 系统（含事项/冲突/文档工作区），与本叶“money loop standing alone”的边界冲突，见 findings；不能仅凭计费章节通过。",
+    "legal-e-filing-platform": "通过。One Legal 产品页正文（快照 87389c...）写明加州/内华达法院认可的 eFiling、在线订购与状态跟踪、Matters 标签查看案件信息/文件/订单状态/发票、Re-File 重新提交被拒提交；两份官方支持文档正文覆盖案件发起与后续提交、完整/部分驳回、书记员驳回原因展示、已接受文件保留、仅重交被拒文件、法院费用代付后开票。属于提交者侧平台，非法院端案件管理系统。",
+    "legal-intake-client-onboarding": "通过。Lawmatics intake 页正文（快照 7a3639...）支持自定义 intake 表单、预约、电子签署、文件请求、matter 上的 collections，以及将线索转入客户并完成 onboarding 的流程；冲突检查页正文（快照 f35bd5...）写明 intake 开始时自动标记潜在冲突，并可 approve/deny/flag 新客户。潜在客户记录、承接前筛查、决定与入案闭环均有正文依据；商业基本真实性成立。"
+  },
+  "limits": "本次为只读初审：未运行应用、未部署、未做运行时或价格/架构测试；未解码许可证 base64 全文，只核对了 GitHub license API 的 SPDX 标识、文件大小、正文开头与快照完整性；部分快照为压缩 HTML，正文以精确短语核对，未把 HTTP 成功、标题或 meta 当作核心证据；未读取其他单元，未使用 shell 或写文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-129/ses_groveopencodegop129review2_1793008323.jsonl",
+  "batch_sha256": "37ee81e693eeb2b67431e337be6f727cf97d71113eeea5b44bf32ba535c67ba3",
+  "research_sha256": "2388e769577dd3b183b5471d5c607e6ce865bfd9f70116e160ce2911e2c772b8",
+  "input_sha256": "1f4054f98cbd4071d6a03959c87087e9dd49ecf312defb79c4f385507b25de99"
+}

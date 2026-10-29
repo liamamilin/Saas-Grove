@@ -1,0 +1,44 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "pretix 条目的许可证说明（AGPLv3 加第7条附加条款、GitHub spdx_id 为 NOASSERTION）出现在 batch 摘要和 research note 中，但 REVIEW_SOURCES.json 未列入许可证快照，无法独立复核；该条目按商业托管版登记，核心与类型匹配由官方文档支持，故不阻断。若保留该许可表述，建议补充许可证快照或删去无法独立复核的细节。",
+    "input.json 的 progress 仍显示各叶 case_status 为 not_searched、application_ids 与 research_records 为空，与 research.json 中 ticket-inventory-management 的 case_found、case_ids=[commercial:pretix] 以及 batch.json 不一致；若下游消费 progress 字段，应同步状态。",
+    "ticket-inventory-management 对 pretix 的匹配是“完整活动票务系统中的配额/可用性库存子模块”，并非把 pretix 整体当作库存层；batch 与 research 的 service_boundary 已明确该边界，后续使用时应保持这一范围。",
+    "其余四叶仅记录了商业厂商行业页/搜索结果和候选仓库元数据，未抓取正文；research.json 已如实标注 insufficient_evidence 及具体缺口，符合“无案例但留档”的要求。若要进一步降低不确定性，可补充抓取一两个候选 README/LICENSE 或商业产品功能页。",
+    "pretix 官网快照主要是导航和营销内容，核心证据来自 Products 指南与 Quotas API 文档；当前 leaf_matches 已正确引用后者，未把官网简介当作核心正文。"
+  ],
+  "leaf_checks": {
+    "ticket-inventory-management": {
+      "status": "case_found",
+      "basis": "读取 pretix.eu 首页、docs.pretix.eu/guides/products/ 与 docs.pretix.eu/dev/api/resources/quotas.html：产品必须加入 quota；quota 有 capacity、items、variations、subevent、close_when_sold_out、release_after_exit 等字段；availability 接口返回 total_size、available_number、pending_orders、paid_orders、cart_positions、blocking_vouchers、waiting_list。Products 文档还记录销售渠道限制、销售时间窗、voucher-only、membership/bundle 门控及按场次容量设置。与叶子“准入库存+受控批次+实时核对”的核心匹配；commercial:pretix 的 ID/track 与商业托管版说明一致。",
+      "gap": "REVIEW_SOURCES 未提供许可证快照，无法独立复核 AGPLv3+Section 7 的表述；但该条目按商业登记，不要求开源许可证，且不阻断核心/类型判断。"
+    },
+    "zoo-aquarium-visitor-operations": {
+      "status": "insufficient_evidence",
+      "basis": "research.json 记录了对 Ticketure、RocketRez、Gateway Ticketing 等商业厂商的检索，仅见行业页摘要未读正文；开源候选 Mayura78/Zoo-Management-System 的 GitHub 元数据许可证为 null/NOASSERTION，描述偏动物内部管理，未证明入场产品、会员、教育/团体、现场消费一体的访客运营核心。",
+      "gap": "无合格案例；未抓取候选正文/LICENSE，无法确认其是否具备完整访客运营核心。缺口已如实记录，符合无案例留档要求。"
+    },
+    "destination-management-company-platform": {
+      "status": "insufficient_evidence",
+      "basis": "research.json 记录了 Spark、destinationlab、VoyageOS、R24k、DMCraft、Destinno、DMC Quote 等商业平台的检索，仅有摘要；开源候选 Travelmint/Automated-software-for-travel-industry 许可证为 null/NOASSERTION、最后推送 2016，未读正文证明供应商净价、行程/报价及客户应收/供应商应付双向账务核心。",
+      "gap": "无合格案例；候选正文/LICENSE 未取得，DMC 双向账务核心未验证。缺口已记录。"
+    },
+    "tour-operator-management-system": {
+      "status": "insufficient_evidence",
+      "basis": "research.json 核查 tourapp/tourapp（许可证 null/NOASSERTION、最后推送 2013）、mantrabrain/yatra（WordPress 插件、许可证 null/NOASSERTION）、PHPTRAVELS（自称 open source 但为一次性商业许可证）及 Nairoo/Travter/Trawelio 等商业方案；未找到许可证、产品身份和“自有产品目录→日期出发班次→预订生命周期”核心均可核验的完整开源应用。",
+      "gap": "无合格案例；候选正文/LICENSE 未完整读取，核心工作流未验证。缺口已记录。"
+    },
+    "travel-agency-management-system": {
+      "status": "insufficient_evidence",
+      "basis": "research.json 核查 moizkamran/ExcursioX（许可证 null/NOASSERTION，搜索摘要称 MIT 但未取得 LICENSE 正文，定位 Travel CRM+票务/酒店预订）、projectworldsofficial/Tours-and-travels-in-php（许可证 null/NOASSERTION、2017 后未更新、学生项目式系统）及商业 Tern；未验证持久客户档案、按客户行程聚合第三方服务分段、客户收款/服务费与供应商佣金/应付双向资金核心。",
+      "gap": "无合格案例；候选正文/LICENSE 未取得，双向资金核心未验证。缺口已记录。"
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未部署或运行任何应用，未做运行时验证；来源证据仅使用 REVIEW_SOURCES.json 列出的 3 个 pretix 快照（官网、Products 指南、Quotas API）及 batch/research 记录，采集笔记仅用于理解过程。四个无案例叶子没有对应来源快照，只能依据 research.json 的检索/缺口记录判断，无法独立复核其 GitHub 元数据和商业厂商页面。未独立计算快照哈希；许可证快照未包含在 REVIEW_SOURCES 中，故 pretix 的许可证细节仅能作为非阻断备注。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-096/ses_groveopencodegop096review1_1792999393.jsonl",
+  "batch_sha256": "395777ad5ad6d841f5b5ae8474e7dc2509b9ea3526a2f51d497f4a0d11d2ac31",
+  "research_sha256": "ac7674ee236d7942956f8ecdd83840ed1c9e067265cb8e5207ef0dadf3016f7e",
+  "input_sha256": "ef4e98356b874881b977d255cd51e1fec9d18ce2fd5c89195dca9533770b7df4"
+}

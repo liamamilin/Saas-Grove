@@ -1,0 +1,27 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "darktable 与 Converseen 的 repository_metadata 快照实际是 GitHub 仓库 HTML 页面，而非 API JSON；仓库 ID 和名称仍可核对，建议统一 kind 或补充 API 快照。",
+    "RapidRAW 的官方云 AI 为可选付费订阅，README 明确核心功能不锁付费墙；条目 deployment 的“可自建或使用官方云服务”可进一步写明这是可选 AI 服务，而非应用本体的托管部署。",
+    "research.json 记录了一次 getrapidraw.com/docs/ 抓取（sha 494e...），但该快照不在 REVIEW_SOURCES.json/batch 引用中；研究记录已注明其仅为导航页且未用作核心证据，属于已留档缺口。",
+    "input.json 的 progress 仍为 not_searched、application_ids/research_records 为空，与 research.json 的 case_found 和 batch 条目不一致；建议后续汇总时同步，但不影响本次内容核对。",
+    "五个案例均为桌面或本地应用（DaVinci 为桌面加云协作），不是托管 SaaS；叶定义未要求托管交付，按持续使用的软件产品形态核对。",
+    "PhotoDemon 的 LICENSE.md 后续含第三方插件/组件许可证，BSD-2-Clause 仅覆盖项目自身代码；条目 rationale 已说明，建议在 license 字段说明中保持该范围。",
+    "darktable 的 SPDX 写法为 GPL-3.0，Converseen 为 GPL-3.0-or-later；若 schema 要求 SPDX 3.0 粒度，建议统一，但现有快照只支持 GPLv3 全文与 README 声明。",
+    "DaVinci 官方页面提到 Free/Paid/Studio 版本，条目未标注协作功能所属版本；商业条目按基本索引处理，建议后续补版本边界。"
+  ],
+  "leaf_checks": {
+    "photo-editor": "核对 github:4917029 PhotoDemon。已读 API 元数据、README、license 快照。README 正文自述 portable photo editor，列出 levels/curves/shadow-highlight/white balance、perspective correction/noise removal/content-aware fill、real-time effect previews、multi-layer、PSD/XCF/PSP/RAW 及 save 能力，覆盖照片对象、摄影操作、用户驱动逐图交互与保存交付。API 元数据 id=4917029 与条目一致；license 快照 base64 开头为两项条件加免责声明、无背书条款的 BSD-2-Clause，README 亦声明 BSD。桌面便携应用，非托管 SaaS，叶定义未要求托管交付；未发现付费社区版边界。",
+    "photo-workflow-catalog-application": "核对 github:3791835 darktable。已读仓库页、README、LICENSE 快照。README 首段明确 photography workflow application and non-destructive raw developer，说明以数据库管理 digital negatives、zoomable lighttable 浏览、darkroom 开发并导出本地/远端；数据库段提到 library database 保存整份图像清单与编辑历史，覆盖记录库与生产周期。仓库页 meta repository_id=3791835 与条目一致；LICENSE 快照为 GPLv3 全文。桌面应用，非托管 SaaS；未发现付费社区版边界。",
+    "raw-photo-editor": "核对 github:1001684671 RapidRAW。已读 API 元数据、README、LICENSE 与 cull-and-rate 文档。README 正文说明 rawler 解码多种相机 RAW、WGSL/GPU 处理管线、调整参数存入 .rrdata 边车且不改原图、导出 JPEG/PNG/WebP/AVIF/TIFF/JXL/LUT，覆盖 RAW 输入、参数化开发循环与渲染输出；cull 文档补充库/评分工作流。API 元数据 id=1001684671 与条目一致；LICENSE 快照为 AGPLv3 全文，README 明示 AGPL-3.0。README 说明内置/自建 AI 免费、官方云 AI 为可选付费项且核心功能不锁付费墙；条目 deployment 仅笼统写“可自建或使用官方云服务”，建议补明该边界（非阻断）。",
+    "image-batch-processor": "核对 github:9392534 Converseen。已读仓库页、README、COPYING 与官网快照。README 正文自述 cross-platform batch image processor，可一次对任意数量图片执行 convert/resize/rotate/flip，并将整份 PDF 逐页转图，可设 size/resolution/filename；官网重复同一描述。覆盖多图输入、一次配置的操作定义、自动批量执行与输出规则。仓库页 meta repository_id=9392534 与条目一致；README 的 License 段明示 GPLv3 or later，COPYING 快照为 GPLv3 全文，故 GPL-3.0-or-later 成立。主要定位为转换/缩放，但包含多项批量图像操作，仍属批处理器而非纯格式转换器。",
+    "collaborative-video-editor": "核对 commercial:davinci-resolve。已读官方 collaboration 页面。正文说明用 Blackmagic Cloud ID 登录 DaVinci Resolve Project Server 建立 project library、分配任意数量协作者、多人同一 timeline 工作、改动在 viewer 中查看并接受后才应用，另有 bin/timeline 自动锁定为 read-only 及 Private Project Server；覆盖共享持久项目、具名成员与协调机制。页面以 timeline/color grade/publish 语境表明视频剪辑核心。商业条目只作基本真实性与类型匹配，官方来源成立。"
+  },
+  "limits": "只读独立审查；未运行 shell、未写文件、未做部署或运行测试，也未读取其他单元。已按 REVIEW_SOURCES.json 的 path 核对 15 个快照；其中 darktable 与 Converseen 的 repository_metadata 为 GitHub HTML 页面，PhotoDemon、darktable、RapidRAW、Converseen 的 license 为 GitHub API 的 base64 响应，无法用哈希工具复核 sha256，许可证结论基于可读的 base64 开头与 README/官网声明。input.json 的 progress 字段仍显示 not_searched，与 batch/research 不一致，本次以 batch/research 和实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-019/ses_groveopencodegop019review2_1792941032.jsonl",
+  "batch_sha256": "5ba931e68862669fa51ab322ccfe0bf8dd1c30e5789954bff4dc8d41fc637377",
+  "research_sha256": "9c38336de4d7f47fb5fde865dd2a3dd2056f29578c1c842bf4ed98e2fff6a6e4",
+  "input_sha256": "90df92f28859db15f6f0e746bbfa72fe1c7ecc32d44b18d8542c7322f1539ecc"
+}

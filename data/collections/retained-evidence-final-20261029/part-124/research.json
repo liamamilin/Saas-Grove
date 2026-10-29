@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "identity-governance-iga",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1344090273",
+        "commercial:sailpoint-identityiq",
+        "commercial:microsoft-entra-id-governance",
+        "commercial:omada-identity"
+      ],
+      "query": "复核 midPoint 与 Syncope 的 IGA 核心闭环和许可证，并定向补采可核验的自托管开源及商业 IGA 应用服务",
+      "source_urls": [
+        "https://api.github.com/repos/ponofinlayson-web/iag",
+        "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/README.md",
+        "https://api.github.com/repos/ponofinlayson-web/iag/license",
+        "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/REQUIREMENTS.md",
+        "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/ARCHITECTURE.md",
+        "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/CHANGELOG.md",
+        "https://api.github.com/repos/Evolveum/midpoint/license",
+        "https://raw.githubusercontent.com/Evolveum/midpoint/master/README.md",
+        "https://docs.evolveum.com/midpoint/reference/support-4.11/certification/",
+        "https://api.github.com/repos/apache/syncope/license",
+        "https://raw.githubusercontent.com/apache/syncope/master/README.md",
+        "https://syncope.apache.org/docs/4.0/reference-guide.html",
+        "https://www.sailpoint.com/products/identity-security-software/identity-iq",
+        "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id-governance",
+        "https://omadaidentity.com/"
+      ],
+      "note": "历史复用与本轮补证分开记录。上一轮已核对 Evolveum midPoint 与 Apache Syncope，本轮重新抓取官方来源复核：midPoint 的 README 自称 comprehensive IGA 并列出请求审批、权限管理与审计，4.11 Access Certification 文档也证明其具备认证活动，核心闭环成立；但其 GitHub license API 仍返回 NOASSERTION（LICENSE 指向 LICENSE.EUPL，正文为 EUPL-1.2+，未取得 API 可识别的 SPDX），按当前采集器规则无法完成许可证证明，故未建立 batch 关系。Syncope 的 Apache-2.0 证据完整，但 4.0 参考指南正文主要覆盖供应、同步、审计等，未找到认证/访问审查章节，不能证明完整的 IGA 决策闭环，故同样未建立关系。本轮补采到自托管开源应用 ponofinlayson-web/iag（GitHub id 1344090273，MIT，API 可识别 SPDX 与完整许可证文本）：README 与 CHANGELOG 说明其从 CSV/LDAP/Entra ID/SQL 汇入身份与权限、建立权限目录、运行认证活动并作出批准/撤销决定，再以邮件、Webhook、目录写回和 SCIM 执行修复；ARCHITECTURE 说明 nginx + 三个 FastAPI 副本 + PostgreSQL 的 Web 服务形态。需要留档的文档不一致：REQUIREMENTS 与 ARCHITECTURE 的 design-slot 文字仍把部分连接器、SoD、修复执行和 SCIM 列为后续能力，而 README/CHANGELOG 0.1.0 已列为发布内容，仓库 routers 中也有对应模块；因此按公开发布说明纳入，但未运行验证。商业侧仅按官方产品页记录 SailPoint IdentityIQ、Microsoft Entra ID Governance、Omada Identity 的基本用途与类型关系，未研究价格、架构或部署。以上“未找到/未证明”只描述本轮检索与文档范围，不断言产品不存在；未运行任何第三方项目，runtime_tested:false。",
+      "service_boundary": "IGA 位于 IAM 运行层之上，负责权威访问模型、结构化人工决策（请求审批、认证/访问审查、策略违规）和向期望状态的修复；纯 SSO/MFA、仅供应/同步、仅特权凭据保管或会话控制的产品不纳入本类型。",
+      "search_attempts": [
+        {
+          "action": "search",
+          "target": "GitHub API: openiam repositories",
+          "outcome": "仅见 rnkrsoft/OpenIAM、henrik242/openiam-idm-ce 等非官方或旧仓库；OpenIAM 组织下未找到带完整许可证的现行 IGA 主仓库，未纳入。"
+        },
+        {
+          "action": "search",
+          "target": "GitHub API: identity governance access certification repositories",
+          "outcome": "发现 ponofinlayson-web/iag、andrelair-platform/ktayl-iam 等候选；前者 MIT 且 README 明确认证活动与修复，后者为特定 IS 定制且部分能力仍在 backlog。"
+        },
+        {
+          "action": "search",
+          "target": "GitHub API: identity governance access certification in:name,description（按星标）",
+          "outcome": "结果多为实验室/模拟/文档仓库，未发现其他同时具备可识别 OSI 许可证与完整 IGA 闭环的成熟自托管应用。"
+        },
+        {
+          "action": "search",
+          "target": "Web: Apache Syncope access certification attestation access review feature",
+          "outcome": "未得到 Syncope 认证活动功能的官方正文；参考指南抓取后也未检出相应章节。"
+        },
+        {
+          "action": "search",
+          "target": "Web: open source identity governance access certification self-hosted IGA github Apache-2.0",
+          "outcome": "返回多为商业 IGA 列表或实验室项目；未取得新的合格开源项目。"
+        },
+        {
+          "action": "search",
+          "target": "Web: Wren IDM access certification identity governance feature",
+          "outcome": "Wren:IDM 官网以身份治理为宣传语，但其许可证为 NOASSERTION，且未取得认证活动正文，本轮不纳入。"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/ponofinlayson-web/iag",
+          "outcome": "HTTP 200，仓库 id 1344090273，default_branch main，license MIT"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/README.md",
+          "outcome": "HTTP 200，正文说明身份汇入、认证活动、修复执行、SCIM 与审计"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/ponofinlayson-web/iag/license",
+          "outcome": "HTTP 200，SPDX MIT，含完整 MIT 许可证正文"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/Evolveum/midpoint/license",
+          "outcome": "HTTP 200，但 license.spdx_id 为 NOASSERTION，path 为 LICENSE"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/apache/syncope/license",
+          "outcome": "HTTP 200，SPDX Apache-2.0"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/ponofinlayson-web/iag",
+          "result": "HTTP 200，快照 5af058038c3fe49f1d1015a990d75f505cbabfda4c06cdf9385a1435e231ea2e"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/README.md",
+          "result": "HTTP 200，快照 7f13aaf7ebe1fdde0c0330d4edc6ce497f6edef9329aabd2451e89062aa5ed06"
+        },
+        {
+          "url": "https://api.github.com/repos/ponofinlayson-web/iag/license",
+          "result": "HTTP 200，快照 8fcf2a094165a1088cb29e0c97f5f714981c5f8426da586bcd0eb3a4d0c68acb"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/REQUIREMENTS.md",
+          "result": "HTTP 200，快照 326e92ef7ab4a76334d43475d8cd07339685158b423e48b0a8688b72519de74b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/ARCHITECTURE.md",
+          "result": "HTTP 200，快照 3518423c6093b52507e5ba713e30d4b50ccbabeadadfd674a6ee764bdf575d2d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ponofinlayson-web/iag/main/CHANGELOG.md",
+          "result": "HTTP 200，快照 7c11d2e855cd5b76a350b2c9679ed79b54654516985abcd41b58f0fc8bf5e26f"
+        },
+        {
+          "url": "https://api.github.com/repos/Evolveum/midpoint/license",
+          "result": "HTTP 200，快照 810c40cf0420bcbef0e9193ac6f4952b741e9731a768c28bf7fa4edc46b24372，SPDX NOASSERTION"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Evolveum/midpoint/master/README.md",
+          "result": "HTTP 200，快照 44ab3f6c87791e1d118838127eb8ddcb7572334c15eb5ae23a88e550de14b51a"
+        },
+        {
+          "url": "https://docs.evolveum.com/midpoint/reference/support-4.11/certification/",
+          "result": "HTTP 200，快照 c2c749dba8646246eecec0dba2318d6f3cd12d75aed4ae6abdda03560bf26211，含 Access Certification 正文"
+        },
+        {
+          "url": "https://api.github.com/repos/apache/syncope/license",
+          "result": "HTTP 200，快照 bae46345e2fbdf249864cf08d63793dfb8aa50d32f50e0d3a82b2fe0c1ee1a60，SPDX Apache-2.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/apache/syncope/master/README.md",
+          "result": "HTTP 200，快照 81b54a41f824050dfd40f8b86eac24ac325ab42b3d831611e96bea63e76467c3"
+        },
+        {
+          "url": "https://syncope.apache.org/docs/4.0/reference-guide.html",
+          "result": "HTTP 200，快照 377363524d969cf153944a98c3fee3c691ecb0703aac7e5077ca79db80eec2ec"
+        },
+        {
+          "url": "https://www.sailpoint.com/products/identity-security-software/identity-iq",
+          "result": "HTTP 200，快照 bee029efad2be2e65f3c920cee974006015b12dd3a88e70b467e2b4b19315209"
+        },
+        {
+          "url": "https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id-governance",
+          "result": "HTTP 200，快照 f9fba565ca9795bc3eba048c5429669723f6f84a86b605d587ee086c5eeb04d0"
+        },
+        {
+          "url": "https://omadaidentity.com/",
+          "result": "HTTP 200，快照 74de8e98d1859f88e23dd5e137936d11a848149edf452dceea731dde9a93db4c"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

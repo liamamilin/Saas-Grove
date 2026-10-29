@@ -1,0 +1,112 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "leaf": "personal-dashboard",
+      "entry_id": "github:792861139",
+      "severity": "high",
+      "issue": "摘要称“服务端定时刷新数据”、reason 称“服务端持续抓取外部数据”，但 Glance README 的 FAQ 明确写道：不会后台周期性请求，信息只在页面加载时抓取并缓存，必须手动刷新页面（README 第 311-317 行）。这直接与定义核心“at-a-glance currency（自动刷新或同步）”冲突，且 research.note 把“刷新周期”写成“未核实项”，与已读正文相反。",
+      "required_fix": "改写摘要与 leaf reason 为“按页面加载抓取并按 widget 缓存，需手动刷新”，删除“定时/持续抓取”表述；在 note/service_boundary 记录该时效性限制。若最终复核认定自动刷新是硬性条件，应将 assessment 改为 boundary_unresolved（archived 仍为 false），不得以错误描述保留 case_found。"
+    },
+    {
+      "leaf": "graphic-design-application",
+      "entry_id": "github:258967860",
+      "severity": "medium",
+      "issue": "batch 的 deployment 写“提供桌面应用下载”，但官方 features 页与 README 只说明当前 alpha 可在 editor.graphite.art 使用；桌面应用发布仍在 roadmap（Alpha 5“Desktop app release and 1.0 launch”）。这是无来源支持的部署声明。",
+      "required_fix": "删除“提供桌面应用下载”，仅保留网页版入口；或在取得官方桌面版发布页后补充来源。features 中“按任意尺寸导出图像”有官方正文支持，可保留。"
+    },
+    {
+      "leaf": "video-compositing-application",
+      "entry_id": "github:13233158",
+      "severity": "medium",
+      "issue": "features 列“虚拟摄像头等输出方式”，但所引 README、官网首页与 Sources Guide 快照均未出现 virtual camera；该输出方式无本批来源支持。另“并发输出”在官网只表述为推流或录制，未明确同时进行。",
+      "required_fix": "删除“虚拟摄像头”或补充官方来源；将“并发输出”改为来源可证的“推流或录制输出”，除非补充同时多路输出的官方说明。"
+    },
+    {
+      "leaf": "raster-image-editor",
+      "entry_id": "github:2358713",
+      "severity": "medium",
+      "issue": "reason 与 features 声称“保存为常见图像格式/打开并保存常见位图格式”，但本批 Pinta README 与官网首页快照只证明绘图、图像编辑、效果/调整与无限撤销，未出现保存/导出格式或持久化说明。定义核心“Persist as image”缺少正文证据。",
+      "required_fix": "补充官方文档/发布页中关于打开与保存/导出图像格式的正文，或把 reason 缩小到已证内容并在 note 记录持久化缺口；若仍无法证明，assessment 应为 boundary_unresolved。"
+    },
+    {
+      "leaf": "vector-graphics-editor",
+      "entry_id": "github:21611548",
+      "severity": "medium",
+      "issue": "reason 称“以标准 SVG 文档存取”，但 README、官网首页与 Editor.md 快照只证明浏览器内 SVG 绘制、路径工具与节点独立编辑；未出现打开/保存标准 SVG 的正文。定义核心“persistent document + standard output”证据不足。",
+      "required_fix": "补充官方保存/导出 SVG 的文档或 FAQ 正文；否则缩小 reason 并记录缺口，或将 assessment 改为 boundary_unresolved。"
+    },
+    {
+      "leaf": "personal-cloud-drive",
+      "entry_id": "github:120156076",
+      "severity": "medium",
+      "issue": "Cloudreve 官方文档明确存在 Pro 版（启动需 --license-key、proupgrade），而 batch/reason 未说明条目对应社区/GPL 仓库、所列能力属于社区版；另 reason 称“通过 Web、WebDAV 与客户端在多设备上传下载”，但所引 README 只明确 WebDAV 与浏览器端，桌面客户端仅出现在文档目录索引，未在已读正文证明。",
+      "required_fix": "在摘要或 reason 中写明：条目为 Cloudreve 社区版（GPL-3.0 仓库），Pro 为另行授权的版本，所列功能均来自社区 README；删除或补证“客户端”可达性（例如引用桌面客户端文档正文）。Nextcloud 侧证据充分，无需改动。"
+    },
+    {
+      "leaf": "time-blocking-application",
+      "entry_id": "github:78243781",
+      "severity": "medium",
+      "issue": "reason 引用 Schedule Planner 页面解释“设定时限、选定结果、回看完成情况”，并称任务可完成/重新安排；README 只明确 planner/schedule 时间轴、timeboxing 与时间追踪，未直接写重新安排/结转。所存 use-case 快照是单行 Astro HTML，正文引用无法在可读片段中确认。",
+      "required_fix": "重新抓取并保存含正文的官方页面，逐句引用“拖入时间槽、重新安排、未完成任务结转”等；若无法取得，缩小 reason 为 README 可证的“任务排入 schedule 时间轴 + timeboxing/时间追踪”，不要声称完成/结转循环已证。"
+    },
+    {
+      "leaf": "motion-graphics-application",
+      "entry_id": "github:1691967",
+      "severity": "low",
+      "issue": "reason 称“可交付动画成品”，但 README 与官网首页快照只证明矢量/位图图层、关键位置补间、50+ 图层、骨骼与表达式；未直接出现渲染/导出格式或成片输出说明。定义核心“Delivery as a rendered moving image”证据偏弱。",
+      "required_fix": "补充官方渲染/导出文档（帧渲染、视频/图像序列输出），或把“可交付”限定为“用于制作 2D 动画”，并在 note 保留输出格式未核实。"
+    },
+    {
+      "leaf": "personal-workflow-automation-platform",
+      "entry_id": "github:8681349",
+      "severity": "low",
+      "issue": "定义 dc 含“Run history（每次执行记录状态）”，reason 只笼统称服务端执行；README 展示的是 Events 浏览与 Agent 图，未明确逐次运行历史/状态面板。自托管与“托管执行”的边界也仅靠任务约定成立。",
+      "required_fix": "在 reason 中明确记录载体是 Agent/Event 日志，不称“逐次运行历史面板”；同时保留“自托管运行、按任务约定视为完整应用”的边界说明。若坚持 Run history 为硬性条件，assessment 应为 boundary_unresolved。"
+    }
+  ],
+  "leaf_checks": {
+    "personal-dashboard": "Glance 的 widget 目录与 YAML pages/columns 自组界面有 README/配置文档支撑，但 README FAQ 明确“需刷新页面、无后台周期请求”，摘要“定时刷新/持续抓取”为错误陈述，时效性核心须改写或按边界留档。",
+    "personal-organizer": "Yuvomi README 证明任务/日历/笔记/联系人/预算共用单一 SQLite，并有“模块互相通信”实例（餐食→购物、收据→账目），单库、跨域关联与个人/家庭范围成立。",
+    "productivity-activity-tracker": "ActivityWatch README 与官方分类文档证明自动记录前台应用/窗口标题/浏览器标签、AFK 检测、持久事件与用户可编辑分类规则；不内建评分符合 dc 允许的仅分类形态。",
+    "time-blocking-application": "README 证明 planner/schedule 时间轴、timeboxing 与时间追踪；完成/重新安排/结转及 use-case 方法句未能在可读快照中确认，须补可读正文或收窄 reason。",
+    "file-manager": "FileGator README 与官方文档证明管理服务器本地目录及 S3/FTP 等适配器中的真实层级，并列出 copy/move/rename/create/delete/zip/unzip，三类核心齐全。",
+    "personal-cloud-drive": "Nextcloud 的 README、配额页与桌面/移动同步页证明远程主副本、账户配额与设备可达；Cloudreve README 证明远程存储、上传下载、WebDAV、分享，但“客户端”与社区版/Pro 边界须明示。",
+    "personal-workflow-automation-platform": "Huginn README 证明事件驱动 Agent 图、监视 RSS/IMAP/Webhook/MQTT、对外发信/写入存储及自托管常驻执行；逐次运行历史未直接证明，应改为 Event/Agent 记录并保留自托管边界。",
+    "graphic-design-application": "Graphite features 页证明矢量/平面设计画布、图层+节点非破坏编辑、按当前分辨率重绘并可按任意尺寸导出图像；alpha 与实验性光栅已如实保留，但“桌面应用下载”无来源。",
+    "template-based-design-platform": "OpenDesign README 证明约六类 LinkedIn 预制模板、Fabric.js 画布定制、字段填充与多页 PDF/2x PNG 导出，模板库—定制—交付三段成立；库规模小已在 reason 说明，可作为薄库接受。",
+    "digital-painting-application": "Krita README 明确其为数字绘画应用，官方 features 页证明 100+ 笔刷、稳定器、图层/矢量/文本、2D 动画及导出图像或视频，空白画布起笔与位图持久化成立。",
+    "pixel-art-editor": "Pixelorama README 证明像素完美线条、索引模式、像素专用缩放、图层/帧时间轴、洋葱皮、平铺与 PNG/APNG/GIF/精灵表/视频导出，受限像素画布与逐像素编辑成立。",
+    "raster-image-editor": "Pinta README/官网证明其为绘图与图像编辑程序，具备效果/调整、实时预览、无限撤销与图层；但所引快照未证明保存/导出图像格式，持久化核心证据不足。",
+    "illustration-application": "VectorCraft README 证明矢量插画定位、钢笔/直接选择编辑真实贝塞尔锚点、图层、原生 .vectorcraft(JSON) 文档及 SVG/PDF/PNG/JPEG/WebP 导出，四项核心齐全。",
+    "vector-graphics-editor": "SVG-Edit README/官网证明浏览器内 SVG 绘图编辑器，Editor.md 证明路径工具与节点独立调整；打开/保存标准 SVG 的正文缺失，持久文档与标准输出未证。",
+    "photo-culling-application": "PhotoX README 证明按拍摄文件夹/存储卡整批浏览、星级/色标/拒绝决定写入 XMP 边车且不改原图、可按评级过滤并与 Lightroom/Photomator 交接，批次—逐张决定—选集成立。",
+    "photo-editor": "PhotoDemon README 证明便携照片编辑器、图层与可编辑文本、色阶/曲线/阴影高光/白平衡、透视校正/降噪/内容感知填充及实时预览；BSD-3-Clause 由 license_review 绑定，许可证全文逐字复核受快照截断限制。",
+    "photo-workflow-catalog-application": "darktable README 明确其为摄影工作流应用与非破坏 RAW 开发器，在数据库中管理数字底片、以 lighttable 浏览筛选、在 darkroom 开发并导出到本地或远端，库记录与生产循环双结构成立。",
+    "raw-photo-editor": "RapidRAW README 证明非破坏 GPU RAW 编辑器，官方文档列出 Adjustments/Color/Curves/Detail/Masks/Inpaint/Export 等面板及导出选项，RAW 输入、参数化开发与渲染输出成立。",
+    "image-batch-processor": "Converseen README/官网证明一次配置即可对任意数量图像转换/缩放/旋转/翻转、整份 PDF 逐页转图，并可设尺寸、分辨率与文件名，多图输入—一次定义—自动输出成立。",
+    "collaborative-video-editor": "DaVinci Resolve 官方协作页证明 Blackmagic Cloud ID/Project Server 项目库、分配协作者、多人同一时间线、改动须接受后生效及私有 Project Server；商业条目仅作基本真实性与类型匹配，成立。",
+    "non-linear-editing-system-nle": "Kdenlive README 与官方时间线/导出文档证明持久项目、可寻址剪辑、多轨道任意排列与音视频拆分、效果/合成/字幕及渲染导出，NLE 四项核心成立。",
+    "video-editor": "OpenShot README 证明无限轨道/图层、剪辑缩放裁剪旋转切割、实时预览转场/合成/叠加、标题字幕、高级时间线与 FFmpeg 多格式渲染，剪辑—时间线—非破坏—导出成立。",
+    "motion-graphics-application": "Synfig README/官网证明矢量+位图图层、按关键位置自动补间、50+ 图层类型、骨骼与表达式参数；渲染/导出成片的正文未直接出现，交付核心证据偏弱。",
+    "video-compositing-application": "OBS README/官网/Sources Guide 证明多来源场景、无限场景与转场、每源音频混合、实时推流或录制，多源—实时混合—输出成立；虚拟摄像头为无来源的附加声明。",
+    "visual-effects-compositing-application": "Natron README/官网证明节点式离线合成、多通道 EXR/OpenFX、Roto/跟踪/色键/遮罩细化、曲线/摄影表及无头渲染输出，既有影像—逐源合成—离线渲染成立。"
+  },
+  "limits": [
+    "本次会话在完成阅读与抽查后达到代理最大步骤限制，未能运行 scripts/collect_cases.py validate、重新计算 sha256 或执行任何 shell；结论基于已读文件与来源快照。",
+    "初审为完全只读：未写 review.json、未修改 batch/research/sources，未部署或运行任何第三方项目；runtime_tested:false 仅接受为采集声明，未独立验证。",
+    "大量快照是单行 HTML 或 base64 License API JSON，阅读器按行截断；部分引文只能通过 grep 命中确认存在，无法逐字复核全句。",
+    "PhotoDemon 与 OpenShot 的 license_review 依赖完整许可证原文；其 base64 正文未在本会话完整解码，BSD-3-Clause 的“neither the name”条款与 GPL-3.0 全文仅能按已知文本结构与采集说明判断，最终复核应独立确认。",
+    "Glance、Cloudreve、Super Productivity 等页面为单行 Astro/SSR 输出；Graphite features 页虽可读，但桌面版是否发布仍以官方发布页为准，本批未见桌面下载来源。",
+    "初审与采集使用同一模型（open-design/deepseek-v4.1-flash），独立性弱于不同模型复核；最终仍需主会话/人工核对结构、许可证、类型匹配与重复产品。",
+    "商业条目只做基本真实性与类型匹配，DaVinci Resolve 未做深入调研；未核对其版本/授权分层与协作功能的商业可用范围。",
+    "社区版/付费版边界只在 Nextcloud 与 Cloudreve 文档中显式暴露；其余开源产品的付费托管或企业附加功能未逐一排查，不能据此推断不存在付费层。",
+    "搜索日志存在 403 rate limit 与若干 0 结果，部分叶子的候选覆盖有限；本次未重新检索，不把“未找到”当作不存在。",
+    "未独立验证来源抓取时间、快照不可篡改性或 URL 当前可达性；仅按本批 sources/ 内容与 batch 引用一致性审查。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-004/ses_groveopendesignp004review2_1792819653.jsonl",
+  "batch_sha256": "e0ee8974b4feb467bd66b71d13999094e091b0895c3189a92863a0f438a2a1ff",
+  "research_sha256": "4229420b575495a2bcc454bc57084ad7e2ba8b2b9134aa4db952689c04cb281c",
+  "input_sha256": "e2e863c82116efb3d844fe243f31e5d89b4cc735ff83f9c0b13dacab86752c72"
+}

@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "leaf": "help-center",
+      "application_id": "github:202291859",
+      "severity": "blocking",
+      "issue": "help-center 以 Chatwoot 匹配并标注「仅计 MIT 社区核心」，但所引来源没有证明 Help Center portal 的 edition 边界：README 是产品宣传并同时推广付费 Captain；帮助中心文档分类还列出 Enterprise Edition 与 Purchasing a Paid Self-Hosted Chatwoot License；entry 的 license_review 只说明 enterprise/ 目录另有许可，不能推出该功能在社区核心。",
+      "required_fix": "补一份能证明 edition 边界的官方来源（如官方版本/功能对比页明确 Help Center 在 Community/MIT 版、官方文档明确社区版可用，或代码路径在 enterprise/ 之外），并把 URL 加入 leaf_match.source_urls、同步 reason/note；若无法证明，则从 Chatwoot 的 leaf_matches 移除 help-center，research 该叶 assessment 改为 boundary_unresolved（或 insufficient_evidence）、case_ids 置空，保留候选、查询、URL、fetch_outcomes 与 archived:false，不改 included 范围和其他叶子。"
+    }
+  ],
+  "leaf_checks": {
+    "business-messaging-application": "依据：Chatwoot 的 MIT 仓库 README、官网共享收件箱页 meta 与网站聊天设置文档共同显示企业统一收件箱承载网站/邮件/社交客户会话、分配与私密备注，并有互动历史；共享收件箱页正文多为 JS 壳，实质证据部分依赖 README。",
+    "community-chat-platform": "依据：Discord 官方 Advanced Community Server Setup 与 Roles/Permissions 文档显示 server 为顶层容器、下设 category/text/voice channels，成员加入后按角色获得访问并可读历史，社区—房间—共享流成立。",
+    "customer-to-business-messaging-application": "依据：Chatwoot 网站聊天设置文档给出企业创建 website inbox、嵌入 widget、添加 agent，客户从企业网站发起会话，企业端在共享收件箱处理并保留记录。",
+    "group-messaging-application": "依据：Zulip Apache-2.0 仓库的官方 DM 文档给出成员自选 1:1/小组参与者、仅参与者可见、DM feed 可从未读处回看并滚动；成员定义集合与持久共享会话成立，单条消息作者归属未逐字引用。",
+    "instant-messaging-application": "依据：Telegram 官方 FAQ 给出手机号/用户名寻址、向联系人发消息、云端消息跨设备同步；个人身份、已知参与者可达性与持久历史成立。",
+    "disposable-email-service": "依据：MailTub 的 Apache-2.0 仓库 README 明确 self-hosted disposable email、免注册即时地址、内置收件箱、WebSocket 实时收信与 1h/6h/24h/7d 过期，三项核心齐备。",
+    "email-client": "依据：Roundcube 的 GPL-3.0 仓库 README 给出浏览器 IMAP 客户端、MIME、地址簿、文件夹与搜索；发信由官网 sender identities/SMTPUTF8 及 entry 内 about 页支持，匹配成立，但 leaf_match 引用未列 about 页。",
+    "email-collaboration-application": "依据：Dispatch 的 AGPL-3.0 仓库 README 给出连接 Gmail/Outlook/IMAP、共享收件箱、内部评论、分配、共享草稿与实时在线状态，真实邮件、团队共管与协作层成立。",
+    "shared-mailbox-application": "依据：Microsoft 官方文档给出共享邮箱自有地址、Full Access/Send As、成员授权可撤销、邮件就地保存在共享存储；实体、多成员访问与单一公共存储成立。",
+    "webmail-application": "依据：Fastmail 官方域名页标题/描述给出 Hosting email for your domain，采集记录另引速度页称 webmail 与搜索；商业条目基本类型匹配成立，但快照正文为 JS 载荷，inbox/login 与浏览器端完整撰写流程未逐字复核。",
+    "conference-calling-application": "依据：FreeConference.com 官方首页/功能页给出 15+ 拨入号码、Join Meeting/access-code、最多 100 人、主持人控制与录音；托管音频桥、可加入地址与组织者控制成立。",
+    "internet-calling-application": "依据：Signal 官方帮助文档给出从联系人发起 1:1 语音、Calling/Connecting、Ringing、No Answer 挂断及接听/拒接/结束快捷键；个人定向实时语音生命周期成立。",
+    "push-to-talk-application": "依据：Zello Work 官方指南给出管理员配置频道、按住 PTT 发送、被动接收与历史回放；固定通话组与按住传输成立，单话权/抢占未在引用正文展开。",
+    "video-calling-application": "依据：Signal 官方帮助文档给出 DM 内发起 1:1 视频、Ringing/接通、摄像头开关、接听/拒接/结束；定向视频呼叫与有界生命周期成立。",
+    "video-conferencing-application": "依据：Jitsi Meet 的 Apache-2.0 仓库 README 与产品页给出浏览器多人房间、HD 音视频、内容共享、URL 邀请；可寻址会议、实时会话与多方共享成立。",
+    "virtual-meeting-platform": "依据：定义明确 virtual meeting platform 与 video conferencing 是同一类型的两个名称，复用 Jitsi Meet 同一组来源；可寻址会议、实时音视频与多方共享成立。",
+    "webinar-platform": "依据：Zoom Webinars 官方页给出品牌注册页、受众、主持/嘉宾、投票/问答、聊天、录制与参与报告；一对多非对称广播成立。",
+    "social-profile-network": "依据：ORCID 官方说明给出持久 iD、个人维护记录、在机构主页/邮件签名展示、与出版/资助/仓储系统互操作；档案、共享命名空间与对外消费成立。",
+    "discussion-board": "依据：Discourse 的 GPL-2.0 仓库 README、功能页与界面文案给出创建主题、扁平回复、帖子修订历史与 Posted by 作者归属；常驻空间、异步回复、持久线程成立。",
+    "private-community-platform": "依据：Discourse 官方设置文案给出 login required 禁止匿名阅读、invite only 关闭公开注册，功能页列 private spaces；封闭场所、受管成员与成员参与空间成立。",
+    "live-video-chat-application": "依据：Discord 官方视频与群聊文档给出好友 DM 内双向视频、成员资料/好友列表、私信与置顶消息等持久社交上下文；用户选择对象、实时视频与社交语境成立。",
+    "ai-research-assistant": "依据：GPT Researcher 的 Apache-2.0 仓库 README 给出 planner/execution 代理、20+ 来源、网页/本地文档、带引用报告与导出；研究任务、来源、AI 分析与来源归属成立。",
+    "answer-engine": "依据：OpenAI 官方帮助页标题/描述给出 ChatGPT 搜索网页、引用来源并给出直接回答；问题锚定、系统作答与提问时 grounding 基本成立，快照为 JS 载荷、正文提取有限。",
+    "knowledge-question-answering-application": "依据：Onyx 的 MIT 社区核心 README 给出连接并索引组织应用、Agentic RAG 提问回答、Slack/Discord bot 与 RBAC，ee 目录另许可；所有者语料、受众提问与系统答案成立，带来源表述强于已引正文。",
+    "help-center": "依据/缺口：Chatwoot 帮助中心指南给出创建 portal、分类、文章并发布，README 也列 Help Center；但引用未证明该功能属于 MIT 社区核心而非 enterprise/，需补证或降级。"
+  },
+  "limits": [
+    "初审与采集使用同一模型 open-design/deepseek-v4.1-flash，独立性弱于跨模型审查；这是 TASK.md 要求保留的限制。",
+    "只读复核 input.json、batch.json、research.json 与本批 sources 快照；未写文件、未运行 shell、未重新抓取、未部署或运行第三方项目，全部 runtime_tested:false。",
+    "商业条目只按官方来源核对基本真实性与类型匹配，未做定价、套餐、账号或功能实测；Fastmail、FreeConference、ChatGPT 等页面的正文由 JS 载荷承载，能读到的正文有限。",
+    "notes/part-001-fix-20261024.md 仍记 23 个 leaf_matches，当前 batch 实为 18 个应用、25 个 leaf_matches、25 叶 case_found；本报告以 batch/research 为准，建议最终复核同步旧记录。",
+    "Jitsi Meet 同时服务 video-conferencing-application 与 virtual-meeting-platform，按定义两者是同一类型的两个市场名称；这是同一产品的两个叶，不是重复 ID，但最终覆盖统计不应把它当成两个独立产品。",
+    "help-center 的结论是社区版边界未被引用来源证明，不是断言该功能一定为付费独占；补证后可通过。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-001/ses_groveopendesignp001review2_1792816050.jsonl",
+  "batch_sha256": "d6799138dc04aa522cbe482b57e90babdcce548d2745397f868dfff52ac3adeb",
+  "research_sha256": "e81449918bb3e02dde2f0663e584ae352735a0b2448b86a14473eacbf4132955",
+  "input_sha256": "37f2fb4abedba03fc9c08d55367c5a068e83171390322432c8cbef54634d6a64"
+}

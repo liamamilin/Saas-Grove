@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "sql-client",
+        "name_zh": "SQL客户端",
+        "domain_id": "12",
+        "parent_id": "12.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "pgcli official SQL Client"
+            ]
+          },
+          {
+            "record": "retained-continuation-20261027/part-059/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": [
+              "pgcli official SQL Client"
+            ]
+          },
+          {
+            "record": "retained-go-followup-20261027/part-039/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": [
+              "pgcli official SQL Client",
+              "Self-hosted web SQL client service"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "sql-client",
+        "name": "SQL Client",
+        "name_zh": "SQL客户端",
+        "aliases_zh": [
+          "数据库客户端",
+          "SQL查询工具"
+        ],
+        "overview": "A **SQL Client** is an interactive front-end that connects to a running SQL database system and lets the user work on it by writing and executing SQL, with results returned in inspectable form.\n\nThe defining structure is small:\n\n```text\nConnection to an external running SQL database system\n└── SQL as the primary working interface (author → execute)\n    └── Results returned in inspectable form (row sets + status/error feedback)\n```\n\nEverything else commonly associated with database tools — a graphical interface, a schema sidebar, saved connections, autocomplete, editable result grids, SSH tunnels — is widespread in current products but is not part of the defining core. The oldest and simplest form of the Type, the interactive terminal client, still satisfies the definition completely today.\n\nA SQL Client holds no data of record. The data lives in the connected database server; the client is the surface through which a person converses with it in SQL.\n\nWhen a product adds a schema catalog as its primary navigation, object/data development surfaces, and a persistent script workspace, it becomes a Database IDE. When a product centers on operating the deployment itself (configuration, backups, lifecycle), it becomes a Database Management Console. The SQL Client is the query surface those products are built around.",
+        "overview_zh": "一个 **SQL Client** 是一个交互式前端，它连接到一个正在运行的 SQL 数据库系统，允许用户通过编写和执行 SQL 来进行操作，并以可检查的形式返回结果。\n\n其核心定义结构很简单：\n\n```text\n连接到一个外部的、正在运行的 SQL 数据库系统\n└── SQL 作为主要工作接口（作者 → 执行）\n    └── 结果以可检查的形式返回（行集 + 状态/错误反馈）\n```\n\n其他通常与数据库工具相关的一切功能——图形用户界面、模式侧边栏、保存的连接、自动完成、可编辑的结果网格、SSH 隧道——在现代产品中普遍存在，但并非其定义核心的一部分。该类型最古老、最简单的形式——交互式终端客户端——在今天仍然完全满足定义。\n\nSQL Client 不持有任何记录数据。数据存储在连接的数据库服务器中；客户端只是人通过 SQL 与之对话的表面。\n\n当一个产品添加一个模式目录作为其主要导航、对象/数据开发界面以及一个持久的脚本工作空间时，它就变成了一个 Database IDE。当一个产品以运维部署本身（配置、备份、生命周期）为中心时，它就变成了一个 Database Management Console。SQL Client 是这些产品构建所围绕的查询表面。",
+        "dc": "```text\nConnection to an external running SQL database system\n└── SQL as the primary working interface (author → execute)\n    └── Results returned in inspectable form (row sets + status/error feedback)\n```\n\nThree properties. If any one is removed, the product is no longer recognizable as a SQL Client:\n\n- **Connection to an external running database system** — the client is a front-end; the database of record lives on the server it connects to. Without this, the product is a driver, a library, or a connection manager.\n- **SQL as the primary working interface** — the user works by writing SQL statements and executing them against the connection, whether typed at a prompt, written in an editor, or supplied as a script file. Without this, the product is a point-and-click data browser, not an SQL client.\n- **Results returned in inspectable form** — queries return row sets the user can read; every statement returns status and error feedback. Without this, execution is fire-and-forget — a batch runner, not a conversation.\n\nThe binding to SQL itself is part of the definition. Tools with the same shape over other engine classes — graph query languages, vector search, time-series, SPARQL — are different Application Types.",
+        "dc_zh": "连接到外部运行的SQL数据库系统\n└── SQL作为主要工作接口（编写 → 执行）\n    └── 结果以可检查的形式返回（行集 + 状态/错误反馈）",
+        "rules": "### The client holds no data of record\n\nEverything the client shows — rows, schema, status — is read from the connected server at execution time. The client is a mirror and a messenger, not a store. Close the connection and the client retains only its own conveniences (saved connections, query history).\n\n### Execution is authoritative and immediate\n\nStatements execute on the server as they are submitted. A destructive statement is not made safe by the client; safety comes from postures the client offers (read-only modes, confirmation dialogs, error gates that stop a script at the first failure) and from the server's own permissions. This is why error feedback is a first-class part of the results surface, not an afterthought.\n\n### The catalog view is a convenience, not the authority\n\nWhat the sidebar or describe command shows is queried from the server. If the schema changes elsewhere, the client's view changes with the next refresh. The client never becomes the system of record for the schema.\n\n### One conversation, one connection (terminal clients)\n\nA terminal client session is bound to one connection at a time; switching means reconnecting. Graphical clients commonly hold several connections in parallel tabs. Both satisfy the Type; the difference is convenience, not structure.\n\n### Scripts run as written\n\nWhen a file of statements is executed, the client sends them in order and reports per-statement outcomes. Products differ in whether a failure stops the run, whether the whole file is wrapped in one transaction, and how errors are reported to the calling shell — but the invariant is that the script's SQL is executed as authored, with results and errors visible.",
+        "rules_zh": "### 客户端不持有记录数据\n\n客户端显示的所有内容——行、模式、状态——都是在执行时从连接的服务器读取的。客户端是一面镜子和一个信使，而不是一个存储。关闭连接后，客户端只保留其自身的便捷功能（保存的连接、查询历史记录）。\n\n### 执行是权威且即时的\n\n语句在提交时即在服务器上执行。破坏性语句不会因客户端而变得安全；安全性来自客户端提供的模式（只读模式、确认对话框、在第一个失败处停止脚本的机制）以及服务器自身的权限。这就是为什么错误反馈是结果表面的一个核心组成部分，而不是事后的想法。\n\n### 目录视图是便捷的，而非权威的\n\n侧边栏或描述命令显示的内容是从服务器查询的。如果模式在其他地方发生变化，客户端的视图将在下次刷新时随之改变。客户端永远不会成为模式的记录系统。\n\n### 一次对话，一个连接（终端客户端）\n\n一个终端客户端会话一次绑定到一个连接；切换意味着重新连接。图形客户端通常在并行选项卡中持有多个连接。两者都满足该类型；区别在于便捷性，而非结构。\n\n### 脚本按原样运行\n\n当执行一个包含语句的文件时，客户端按顺序发送它们并报告每个语句的结果。产品之间的不同之处在于失败是否停止运行、整个文件是否包装在一个事务中、以及如何向调用 shell 报告错误——但不变的是，脚本的 SQL 按原样执行，结果和错误都可见。",
+        "parent_id": "12.01",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 2,
+    "phase": "directory",
+    "parent": 39,
+    "source_run": "go-followup-20261027",
+    "input_status": "review_pending",
+    "slugs": [
+      "sql-client"
+    ],
+    "old_input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+  },
+  "previous_continuation": {
+    "unit": 39,
+    "phase": "complete",
+    "parent": 59,
+    "slugs": [
+      "project-scaffolding-code-generator",
+      "sql-client",
+      "web-development-ide",
+      "browser-compatibility-testing-platform",
+      "code-quality-platform"
+    ],
+    "old_input_sha256": "4f4388a1ed964ed00e89029169aed08a93af25f9a79766fe0976f0fea5ab129b"
+  }
+}

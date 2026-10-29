@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍是研究前状态（case_status=not_searched、phase=included_without_cases、application_ids 为空），与 research.json/batch.json 的 case_found/boundary_unresolved 不一致；不影响本次内容判断，但下游使用前应同步更新。",
+    "REVIEW_SOURCES.json 只登记了三个已收录应用的 8 个快照；research.json 引用的 easyeia 3 个快照和 GreenSustainAbility 3 个快照未列入清单。文件实际存在且已按同一 sources 目录读取，建议补登记以保持来源可追溯。",
+    "commercial:mapistry 的第三个来源 URL 为 /use-case-visibility，但快照 canonical 为 /product-calendar-task-tracking（合规日历页）；建议改引 canonical URL 或重新抓取，避免来源身份歧义。",
+    "github:1296093906 的社区版边界是根据单一 MIT 仓库、README 项目结构和无额外许可声明推断的，未读取完整仓库树；若仓库另有 premium/enterprise 目录，应以仓库树或 release 证据补充。",
+    "commercial:enfos 的 ERO 页面以 ASC 410-30 财务义务为主，逐次采样事件管理、实验室数据导入和关闭后场地保留登记未被正文明确证明；当前摘要已收窄，建议保留该边界说明，避免把它写成环境数据平台。",
+    "commercial:mapistry 的 “Limit monitoring” 仅出现在功能标签行，缺少独立正文说明；作为商业基本匹配可用，但不宜据此展开具体限值工作流。",
+    "未做运行时或部署验证；所有判断基于官方页面、README、仓库元数据与许可证快照。"
+  ],
+  "leaf_checks": {
+    "contaminated-site-management": {
+      "status": "case_found (commercial:enfos) — accepted",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 enfos.com/environmental-remediation-obligation 与主页快照。ERO 正文以场地/资产为锚，明确污染土壤、地下水、地表水，site-specific contamination，discovery-to-closure，remediation strategy、cleanup phasing、closure criteria、progress，以及技术与会计审计轨迹；主页确认其为 SaaS 平台。",
+      "gaps": "未明确证明逐次采样事件/实验室结果管理、GIS、关闭后场地保留登记；batch summary 已如实收窄为“未证实采样结果管理或实验室数据导入”，商业基本类型匹配成立。"
+    },
+    "ehs-hse-platform": {
+      "status": "case_found (github:1296093906) — accepted",
+      "basis": "仓库元数据 id=1296093906、README 与 license API 快照核对一致；README 明确为自托管 PHP + SQLite 的 EHS 平台，覆盖 Likelihood×Consequence 风险评估、文档多级审批、事件登记/调查/根因/即时响应/纠正措施（含 Environmental Issue 类别）、作业许可、人员与权限，记录带时间戳和版本。license 正文为完整 MIT。",
+      "gaps": "未证实独立的空气/水/废物环境登记册、化学品/SDS、培训、承包商模块；社区版边界由单一 MIT 仓库和 README 结构推断，未读取完整仓库树。仍满足“统一事件登记 + 纠正措施循环”的 EHS 主干。"
+    },
+    "environmental-compliance-management": {
+      "status": "case_found (commercial:mapistry) — accepted",
+      "basis": "Mapistry 主页与两个产品页正文明确为工业设施“Environmental (not safety) software”：Title V 空气许可、雨洪、废水、SPCC、废物等环境义务，移动检查、合规日历/任务、计算、限值监测、纠正措施、文档云与记录留存；不是通用 EHS 平台。",
+      "gaps": "未证实法规内容库或自动适用性扫描；“Limit monitoring” 仅有功能标签，缺少独立正文细节。商业基本真实性与环境合规类型匹配成立。"
+    },
+    "environmental-impact-assessment-platform": {
+      "status": "boundary_unresolved — no case; documented gap accepted",
+      "basis": "easyeia 的首页、About、System 快照显示其为 NSW EIA 云平台：按点/线/多边形定义活动区域、检索环境约束、生成含地图的评估/约束报告、完成 Part 5 (Division 5.1) 报告、按组织授权链进行报告审批并留存评估文档。",
+      "gaps": "未证明主管部门的法定审查、决定文书、公告/公示期或公开登记对接；因此缺少 authority gate，不建立类型关系。GitHub/EIA 检索与排除理由已如实留档；相关候选快照未列入 REVIEW_SOURCES.json，但文件存在并已直接读取。"
+    },
+    "environmental-incident-management": {
+      "status": "boundary_unresolved — no case; documented gap accepted",
+      "basis": "GreenSustainAbility 元数据/README/license 快照显示其可跟踪环境事件、根因和纠正措施，并有指标、审计、排放与碳足迹；EHSBase 也有 Environmental Issue 事件类别和纠正措施。两者均缺少环境介质/物质刻画、可报告性判定、机构通知或环境监管报送。",
+      "gaps": "两次 websearch 返回 HTTP 401，GitHub 搜索 26 个结果但搜索列表未落盘，env-incident-service/EIMP 仅见搜索描述未读正文；研究记录已如实说明这些缺口，故不建立关系、保留 boundary_unresolved。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 的 path 原样读取了 8 个快照，并直接读取 research.json 引用但未列入清单的 easyeia 与 GreenSustainAbility 快照（均位于本单元 data/collections/sources）。未重新计算 SHA-256；未做部署、运行时或价格/架构验证。EHSBase 与 GreenSustainAbility 的 README/license API 快照为 base64 编码，另经同一仓库 raw URL 读取明文以核对内容，未替代快照本身。未能核对 GitHub 搜索结果列表、完整仓库树或实时重定向；input.json 的 progress 为研究前状态，本次以 batch.json/research.json 为最终状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-202/ses_groveopencodegop202review2_1793026029.jsonl",
+  "batch_sha256": "cf3fcb763aa9639ab16a80755da8f8e1c16e643f964f3d00c20a9d12797f03d6",
+  "research_sha256": "68eae9976d7359a1c2dc9a73a6a5fac696e14ef973d8459fdc18245ad751b40d",
+  "input_sha256": "0e9d83d9ad917f7f07b81070fa7ae9f4cb961e5a7b8e3c70a09ea001ef35ad5f"
+}

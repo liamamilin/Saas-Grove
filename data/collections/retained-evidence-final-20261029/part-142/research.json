@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "manufacturing-traceability",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "制造可追溯性：是否存在以追溯为首要产品身份、具备独立产品/服务形态，且覆盖单元标识、单元绑定生产记录与前后向追溯闭环的应用",
+      "source_urls": [
+        "https://docs.carbon.ms/docs/reference/traceability",
+        "https://docs.carbon.ms/docs/reference/mes",
+        "https://raw.githubusercontent.com/crbnos/carbon/main/LICENSE",
+        "https://bytefactory.ai/traceability-genealogy",
+        "https://github.com/eclipse-tractusx/traceability-foss",
+        "https://github.com/KrishnaNaicker/TraceLink",
+        "https://www.traceflo.io/",
+        "https://getopenmes.com/",
+        "https://github.com/Mes-Open/OpenMes",
+        "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/README.md"
+      ],
+      "note": "初审问题已处理：Carbon Traceability 是 Carbon ERP/MES/QMS 套件内的追溯模块（Traceability 页面位于 ERP 的 Inventory 之下），不满足本叶“以追溯为首要产品身份、具备独立产品/服务形态”的要求，本轮已将其从 batch 关系与 entry 中移除；Carbon 只保留其 MES/ERP 身份，不再作为本叶案例。历史复用部分：既有快照中的 byteFACTORY Traceability & Genealogy 能证明序列号/批次、BOM 父子关系、过程/质量/物流记录与双向追溯，但官方首页把 traceability 列为 AI-native MES 平台的产品模块，仍属套件模块；Eclipse Tractus-X Trace-X（Apache-2.0）是沿供应链跟踪零件的开放应用，基于 BoM AsBuilt/AsPlanned 与 SerialPart/Batch，未见按生产订单/工序捕获单元级生产事件，属供应链零件追溯边界；TraceLink（MIT）自述为 ideathon 的单 HTML PWA/演示数据项目，未采用；TraceFlo 首页只抓到 SPA 空壳和脚本入口，未取得可读的核心正文，不能把脚本内容当作证据。本轮补采部分：针对“完整开源 Web 应用服务”重新检索后核对 OpenMES（AGPL-3.0，官方首页、GitHub 仓库与 README），其产品身份明确为 Manufacturing Execution System，追溯（lot/serial、forward/backward genealogy）是 MES 的生产监控与审计功能之一，核心仍是工单、排程、批次执行和设备集成，按定义属于“恰好产生可追溯性的 MES”，不作为独立可追溯性应用。本轮检索还出现 NEXUS WMS（仓库管理）、spibyc/plm（工程 PLM）、GreenShoeGarage/Lamina（增材制造工装/构建板）、TraceabilityInternet/TraceabilityDriver（给既有追溯系统加装的驱动模块）等候选，按检索摘要分别为 WMS、PLM、设备/工装工具或模块，不是以制造追溯为首要身份的完整独立应用，未作为案例。未取得正文：TraceFlo 仍只有前端壳；本轮没有把搜索摘要、导航或 HTTP 200 当作核心工作流证据。结论是“本轮未找到可成立的独立制造可追溯性应用”，不是断言该类型不存在；batch.entries 为空，case_ids 为空。",
+      "service_boundary": "只接受以制造可追溯性为首要产品身份、具备独立应用/服务形态并覆盖单元标识、单元绑定生产记录与前后向追溯闭环的产品。Carbon、byteFACTORY、OpenMES 等 MES/ERP 套件内模块不计；Trace-X 等供应链零件追溯网络不计；TraceLink 原型与 TraceFlo 空壳不计。未做部署或运行测试，runtime_tested 不适用。",
+      "search_attempts": [
+        {
+          "action": "reuse_existing_snapshot",
+          "url": "https://docs.carbon.ms/docs/reference/traceability",
+          "outcome": "历史快照已读取：能证明 tracked entity、物料事件和双向 genealogy，但页面属于 Carbon ERP/MES/QMS 套件，产品身份不成立；本轮据此移除关系。"
+        },
+        {
+          "action": "reuse_existing_snapshot",
+          "url": "https://docs.carbon.ms/docs/reference/mes",
+          "outcome": "历史快照已读取：追溯事件来自工单执行的消耗与生产，进一步确认其依附 MES/ERP 数据核心。"
+        },
+        {
+          "action": "websearch",
+          "detail": "本轮第 1 组：open source manufacturing traceability software lot serial genealogy standalone application github",
+          "outcome": "返回 Carbon、OpenMES、Eclipse Tractus-X Trace-X、Tulip、Jodoo 等；其中 OpenMES 为新的开源候选，其余多为 MES/套件或商业产品。"
+        },
+        {
+          "action": "websearch",
+          "detail": "本轮第 2 组：open source production traceability system serial number batch genealogy web app self-hosted",
+          "outcome": "结果混入 Gramps Web 等家族谱系软件，同时出现 NEXUS WMS、spibyc/plm、Lamina、TraceabilityDriver 等；按描述分别为 WMS、PLM、工装工具和驱动模块，未采用。"
+        },
+        {
+          "action": "fetch_homepage",
+          "url": "https://getopenmes.com/",
+          "outcome": "HTTP 200；官方首页标题与正文明确为 Open Source Manufacturing Execution System，追溯/genealogy 被列为 MES 的一项能力，不是独立产品身份。"
+        },
+        {
+          "action": "fetch_repository_metadata",
+          "url": "https://github.com/Mes-Open/OpenMes",
+          "outcome": "HTTP 200；仓库身份 Mes-Open/OpenMes（GitHub repository id 1159568793），topics 含 manufacturing-execution-system、mes、shop-floor，确认是 MES 应用。"
+        },
+        {
+          "action": "fetch_readme",
+          "url": "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/README.md",
+          "outcome": "HTTP 200；README 自述为 self-hosted open-source MES，Traceability 只作为完整审计轨迹列出，未见独立单元级追溯工作流或独立追溯产品形态，不采用。"
+        },
+        {
+          "action": "historical_candidate_review",
+          "detail": "byteFACTORY、Trace-X、TraceLink、TraceFlo 沿用既有研究与快照，不在本轮伪装为新抓取。",
+          "outcome": "byteFACTORY 为 MES 套件模块；Trace-X 为供应链零件追溯；TraceLink 为 ideathon 原型；TraceFlo 仅有 SPA 壳。均不成立。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.carbon.ms/docs/reference/traceability",
+          "status": "existing_snapshot",
+          "outcome": "历史快照；追溯实体、事件记录与双向 genealogy 正文可读，但产品身份为套件模块。"
+        },
+        {
+          "url": "https://docs.carbon.ms/docs/reference/mes",
+          "status": "existing_snapshot",
+          "outcome": "历史快照；确认追溯事件来自工单执行的消耗与生产。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/crbnos/carbon/main/LICENSE",
+          "status": "existing_snapshot",
+          "outcome": "历史快照；AGPLv3 社区核心，企业文件另按商业许可。仅用于核对 Carbon 身份边界，不作为本叶案例许可证。"
+        },
+        {
+          "url": "https://bytefactory.ai/traceability-genealogy",
+          "status": "historical_reuse",
+          "outcome": "历史研究记录与快照；页面覆盖追溯能力，但产品属于 AI-native MES 套件，不采用。"
+        },
+        {
+          "url": "https://github.com/eclipse-tractusx/traceability-foss",
+          "status": "historical_reuse",
+          "outcome": "历史研究记录；供应链零件追溯，未见单元级生产事件闭环，不采用。"
+        },
+        {
+          "url": "https://github.com/KrishnaNaicker/TraceLink",
+          "status": "historical_reuse",
+          "outcome": "历史研究记录；单 HTML PWA/演示数据原型，不采用。"
+        },
+        {
+          "url": "https://www.traceflo.io/",
+          "status": "historical_reuse",
+          "outcome": "历史抓取仅得到 SPA 空壳，无核心正文；未取得正文。"
+        },
+        {
+          "url": "https://getopenmes.com/",
+          "status": "200",
+          "outcome": "本轮抓取并保存快照 9030de79289141204440b0d2f2fb2e47ff087f176ba03eeac75fe8779f4854fb；明确为 MES，不采用。"
+        },
+        {
+          "url": "https://github.com/Mes-Open/OpenMes",
+          "status": "200",
+          "outcome": "本轮抓取并保存快照 c0a729d36692f96c7b9ba45b16edfb28d6c98e1e2714f83841c03ebead47c800；仓库元数据证明 MES 身份。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Mes-Open/OpenMes/main/README.md",
+          "status": "200",
+          "outcome": "本轮抓取并保存快照 0ee12524bc1a733eec6147a1308e4380383491f5d0f5c05806b13468e6b19641；README 未显示独立追溯产品形态。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 与交付物不一致：五个叶子的 case_status 均为 not_searched、application_ids/research_records 为空，顶层 phase 仍为 included_without_cases，而 batch.json 有 4 个条目、research.json 有 4 个 case_found。内容本身可核，但合并前应回填 progress，否则下游可能把这 4 个案例当作无案例丢弃。",
+    "batch.json 中 github:16106733 与 github:14051004 的 leaf_matches.source_urls 把许可证 URL 也列为产品定位依据，但这两份许可证快照只含许可文本，不含产品说明；建议产品定位仅指向仓库 README 快照，许可证 URL 只用于 license_review。",
+    "research-funding-discovery-platform：batch summary 与 leaf_matches.reason 使用“匹配”一词，Pivot-RP 快照正文只有“searchable database of global funding opportunities”“Find and share thousands of funding opportunities”“automated alerts and deadlines reminders”“Get the right funding opportunities to the right researchers”，未直接出现 matching 功能描述；属措辞层面，可保留或改为“发现/检索/提醒”。",
+    "commercial:agilent-ilab 的 homepage 填的是帮助文档站 help.ilab.agilent.com，而非产品站（如 ilab.agilent.com）；不影响真实性判断，建议区分产品主页与文档站。",
+    "github:16106733 条目名为“Kuali Research”，仓库标题为“Kuali Coeus”，README 同时使用两个名称（“Kuali Research (KC)…using MIT's proven COEUS system as its baseline design”）；属同一代码库的命名沿革，非身份错误。仓库仅提供 AGPL 代码，Kuali 商业托管版与该开源仓库的边界在资料中未记录，建议后续补一条边界说明。",
+    "research-compliance-management 的“无案例”是检索范围结论而非产品不存在的证明；research.json 已如实记录 Cayuse 抓取非 UTF-8、InfoEd 无快照、Awesome 清单非完整应用，符合留档要求，建议下一轮再尝试可访问的官方正文页。",
+    "开源两例的正文证据为官方 README 产品描述级别：Dataverse 未在快照中出现 DOI/版本化/许可条款/禁运等治理细节，Kuali 未出现 proposal/award 模块文档；类型匹配成立，但更细的工作流证据未采集，属可接受的资料深度限制。"
+  ],
+  "leaf_checks": {
+    "research-compliance-management": {
+      "verdict": "documented_gap_accepted",
+      "evidence": "REVIEW_SOURCES.json 未列该叶快照；research.json 记 assessment=insufficient_evidence，query 1 条、search_attempts 4 条（含 websearch 2026-10-26）、fetch_outcomes 3 条：Cayuse 官方页直抓返回非 UTF-8、InfoEd 未存快照、开源候选仅 Awesome-Research-Administration 清单非完整应用；case_ids 为空。",
+      "core": "无案例，未做产品正文核对；定义要求的多领域合规框架（提交→审查判定→可审计记录）未被任何快照证实，也未据简介或 Kuali README 推断 IRB/IACUC/COI 关系，处理正确。",
+      "id_track": "无 application_id，无 ID/track 冲突。",
+      "license": "无开源案例，不涉及许可证核对。",
+      "gap": "多领域合规框架与单一伦理审查（IRB/IACUC）类型的边界尚未用产品正文界定；research.json 已如实声明该缺口，符合“如实记录检索/抓取缺口可通过”的口径。"
+    },
+    "research-core-facility-management": {
+      "verdict": "case_verified",
+      "evidence": "逐字读取 3 份官方帮助快照：300394-list-all-cores（核心设施清单、My/Other/Partner Institutions 范围选择、按名称检索）；264646-using-a-core-overview（“visit the storefront for Core Facilities and directly request services or reserve resources”，页签 About Our Core / Schedule Equipment / Request Services / View My Requests / Contact Us，另有 Studies、Order Products、Animal Acquisition）；266094-confirm-usage（管理员按预约确认使用以准备计费、批量确认、调整 scheduled/logged/billable 时间、上传实际使用与预约匹配合并、Use and Cost 价格与 override、Add-on Charges、Payment Info、Charge Name 出现在 invoices 与 billing files）。",
+      "core": "共享仪器/服务目录（storefront + 资源/服务列表）✓；经身份识别的用户预约与服务请求（Schedule Equipment / Request Services，预约归属 owner/lab/group）✓；使用→计费循环部分成立（使用确认、价格、附加费、付款信息、发票/计费文件命名）✓；“费率层级/补贴/发票周期/收入报表”未在快照中出现，未过度声称。",
+      "id_track": "commercial:agilent-ilab，track=commercial，与 Agilent 官方帮助域（help.ilab.agilent.com）一致，基本真实性成立；未发现 ID 冲突。",
+      "license": "商业闭源，不适用。",
+      "gap": "价格层级、补贴、发票生成与部署形态未核验；research.json 已在 service_boundary 中如实限定，属商业基本核对范围内的可接受缺口。"
+    },
+    "research-data-management": {
+      "verdict": "case_verified",
+      "evidence": "读取 IQSS/dataverse 仓库元数据快照：仓库标题“Open source research data repository software”，repository_id=14051004，默认分支 develop，根目录含 pom.xml、LICENSE.md、docker/、modules/、src/；README 正文“Welcome to Dataverse®, the open source software platform designed for sharing, finding, citing, and preserving research data… makes it easy for research organizations to host, manage, and share their data with the world”，并有 demo.dataverse.org、dataverse.org features/integrations/REST API 入口。另读 LICENSE.md 全文：Apache License 2.0，含 1–9 条、END OF TERMS AND CONDITIONS 与 “Copyright 2014 Dataverse Project” 附录，文本完整。",
+      "core": "数据集作为持久、可引用的记录单元与“保存/发现/共享/引用”的治理生命周期在产品描述层面成立；DOI、版本语义、许可条款元数据、禁运、墓碑等细则未出现在被引快照中，未据此声称。",
+      "id_track": "github:14051004，track=open_source，与快照 meta repository_id=14051004、repository_nwo=IQSS/dataverse 完全一致。",
+      "license": "Apache-2.0，SPDX 与 LICENSE.md 正文一致，为完整许可证文本；仓库无 open-core/企业版拆分声明，社区版边界无冲突。",
+      "gap": "治理工作流细节（版本化、访问条款、禁运、删除问责）未采集；不影响类型判定。"
+    },
+    "research-funding-discovery-platform": {
+      "verdict": "case_verified_basic",
+      "evidence": "读取 Clarivate 官方 Pivot-RP 页面快照正文：h1“Pivot-RP™”，正文“Pivot-RP is a searchable database of global funding opportunities with powerful workflow, intelligence and discovery tools, trusted by over 700 of the world's leading research institutions”，列表“Find and share thousands of funding opportunities…”“Search and discover more than 5 million previously awarded grants, across dozens of international global funders”“Get automated alerts and deadlines reminders”“Locate potential collaborators…”。research.json 同时留档旧 Ex Libris 企业首页快照“200 OK 但无 Pivot/资助发现内容，已拒绝不再引用”，与快照清单一致（该 URL 未出现在 REVIEW_SOURCES.json）。",
+      "core": "多资助方机会语料库 + 面向寻求者的检索/发现/提醒 ✓；“匹配（matching）”未逐字出现，仅有“把正确的机会给正确的研究者”及协作人定位，属措辞外推。",
+      "id_track": "commercial:clarivate-pivot-rp，track=commercial，与 Clarivate 官方域名一致；旧快照替换过程已留档，未发现 ID/来源错配。",
+      "license": "商业闭源，不适用。",
+      "gap": "仅有营销落地页，无产品文档/工作流正文；价格、架构、部署未研究（商业基本核对允许）。"
+    },
+    "research-grant-management": {
+      "verdict": "case_verified_basic",
+      "evidence": "读取 kuali/kc 仓库元数据快照：标题“GitHub - kuali/kc: Kuali Coeus”，repository_id=16106733，默认分支 master，根目录含 coeus-db/coeus-impl/coeus-webapp/pom.xml/license.txt；README 正文“Kuali Research (KC) for Research Administration is a comprehensive system to manage the complexities of research administration needs from the faculty researcher through grants administration to federal funding agencies. KC is using MIT's proven COEUS system as its baseline design…”，安装前置为 Maven 3.3.x / Java 1.8.x / Tomcat 7.x / MySQL 5.6.x，依赖含 kc-s2sgen（S2S 提交生成器）、kc-api、kc-rice。另读 license.txt 全文：GNU Affero GPL v3，含 0–17 条、END OF TERMS AND CONDITIONS 与 How to Apply 附录，文本完整。",
+      "core": "机构侧科研管理/资助管理范围 ✓；机构作为提交方的前置环节有 S2S 生成器与“federal funding agencies”线索支撑；post-award（award 记录、预算执行、subaward、结项）未在快照中出现，未据此声称。",
+      "id_track": "github:16106733，track=open_source，与快照 meta repository_id=16106733、repository_nwo=kuali/kc 一致；条目名 Kuali Research 与仓库标题 Kuali Coeus 为 README 自述的同一代码库双名。",
+      "license": "AGPL-3.0，SPDX 与 license.txt 正文一致，为完整许可证文本；未发现社区版/商业版拆分声明，商业托管版与本仓库的边界未记录。",
+      "gap": "缺少 proposal/award 模块级正文，post-award 循环证据不足；类型匹配成立但工作流深度有限。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未读取其他单元；未重算快照 sha256（仅按 REVIEW_SOURCES.json 的 path 原样读取并与文件名/引用 URL 对照）；未做外部联网复核、部署测试或运行时验证；HTML 快照按原始文本读取，脚本渲染内容与图片内信息不可见；商业产品仅依据所引官方页面做真实性与类型匹配判断，未核价、未核架构；GitHub 快照中未见 archived 标记，但未单独核验仓库活跃度与最新提交日期；本报告基于 2026-10-26 的本地资料状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-082/ses_groveopencodegop082review1_1792995504.jsonl",
+  "batch_sha256": "2ad4145cd35594e1b4933c2b88862407087cc524140a52536412a58c3f303087",
+  "research_sha256": "c135c04c184aec0b835c9d4f4a3a2801a6cfd24b9d6b986304eb71d913bbcfd6",
+  "input_sha256": "0857a9b794d46ab48ca111af42fdbc8624a9bb02cb91eed11c2f2859628cc24f"
+}

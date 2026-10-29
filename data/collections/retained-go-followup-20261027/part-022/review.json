@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "bibliometrics-platform：research.json 称已保存 bibliometrix/Biblioshiny 的 GitHub metadata 与 license API 快照并据此排除该候选，但 REVIEW_SOURCES.json 与本单元 sources 中没有对应文件；该候选只是被排除项，不影响 Scopus 叶匹配。若保留排除理由，建议补快照，或改成“未在本单元独立复核”的说明。",
+    "electronic-lab-notebook-eln：eLabFTW 的 README 能确认产品类别、实验/资源管理、可信/区块链时间戳和高级权限，但没有直接展示记录容器、版本历史、审计轨迹或签署/见证；research.json 已把匹配收窄为“ELN + 时间戳 + 权限”，batch 的 leaf reason 也可同步收窄，避免读者以为这些属性都已由正文证明。",
+    "animal-research-ethics-iacuc-platform：该应用是演示原型，无登录，身份由自选 X-Actor 声明，审计在无身份时记为 system；协议、评审、修订/续审、事件和设施检查流程在源码中成立，但“机构级授权”不成立。展示时保留 batch 的演示原型限定，不宜写成生产级 IACUC 平台。",
+    "academic-search-engine：README 的许可证文件名/拼写（LICENSE.md、APGL 3+）与实际 LICENSE.AGPLv3.txt 不一致；research.json 已留档，展示时建议使用实际文件名，并按项目声明写成 AGPL-3.0 或 AGPL-3.0-or-later。",
+    "academic-journal-management：OJS 的 GPL-3.0 标识可进一步精确为 GPL-3.0-only 或 GPL-3.0-or-later（取决于项目声明）；当前完整 GPLv3 文本已足以支持开源许可结论。",
+    "bibliometrics-platform：Scopus 的官方定位仍是 abstract and citation database，Metrics 页提供期刊/文章/作者/机构影响力指标与跨期刊比较；若下游需要严格区分引文数据库和文献计量分析平台，可注明 Scopus 分析层与 SciVal 的边界。",
+    "academic-journal-management：index 页为 isBookIndex，仅作导航；核心证据已由 submission/review/copyedit/production/publication 五章正文承担，保留此区分即可。"
+  ],
+  "leaf_checks": {
+    "academic-journal-management": {
+      "result": "pass",
+      "application_ids": [
+        "github:375152"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 路径读取 pkp/ojs 仓库快照（repository id 375152）与完整 GPLv3 LICENSE；pkp-docs 的 submission.md 证明投稿进入 Submission 阶段并分配编辑、可作桌面决定或转评审，review.md 证明审稿人分配、状态跟踪、新评审轮次、修改请求和最终决定，copyedit.md/production.md/publication.md 证明文字编辑、校样制作、期号创建与出版，publication.md 还证明已发布内容的版本化。期刊范围由 Journal Manager 设置、section/category 分配和期号容器体现。",
+      "gaps": "README 仅用于确认期刊管理定位；index 页为 isBookIndex，仅作导航；未部署。"
+    },
+    "academic-search-engine": {
+      "result": "pass",
+      "application_ids": [
+        "github:300025829"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 路径读取 fatcat-scholar 仓库 API 快照（id 300025829）、README 和完整 AGPLv3 LICENSE；README 说明本仓库是 scholar.archive.org 的全文检索界面，覆盖 25M+ 开放研究论文，数据流为 fatcat release/work → Elasticsearch 索引文档 → 查询 → 带高亮/首页缩略图的结果，符合“学术语料库 + 查询 + 书目记录结果列表”的核心。",
+      "gaps": "README 的许可证文件名/拼写与实际文件不一致（research 已留档）；本地索引依赖 Internet Archive 集群，非员工无开箱即用部署路径；未部署。"
+    },
+    "animal-research-ethics-iacuc-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:1314262819"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 路径读取仓库 API 快照（id 1314262819）、README、ROADMAP 与路由源码：README 证明 Appendix A 协议申请、FCR/DMR 评审、审稿人分配、投票/评论、人员培训/OHSP 和动物使用台账；amendments.js 证明修订理由必填、单一在途、字段级 diff、批准生成协议版本以及 Continuing/De Novo Review；pam.js 证明 incident 的 Open→CAPA→Closed；facilities.js 证明设施/半年检查/缺陷；license API 快照包含完整 Apache-2.0 文本（size 11357）。",
+      "gaps": "演示环境自述不用于生产；access.js 为自选身份、非认证，audit.js 无身份时 actor=system，机构级授权/合规审计不成立；动物使用台账需按“协议监督”而非动物设施管理理解。仅按演示原型匹配。"
+    },
+    "bibliometrics-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:scopus"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 路径读取 Scopus 首页与官方 Metrics 页：首页确认其为 abstract and citation database 并提供作者主页/作者检索；Metrics 页正文确认期刊/文章/作者/机构影响力指标，含 CiteScore、SJR、SNIP（可跨领域比较期刊）、citation benchmarking percentile、Field-weighted Citation Impact、h-index、citation overview 和可视化分析，符合“引文语料 + 实体指标 + 比较分析”的文献计量平台核心。商业案例按基本真实性和类型匹配核对。",
+      "gaps": "Metrics 页是产品营销/说明页，Scopus 的主要定位仍是引文数据库，深度分析可能由 SciVal 承担；未订阅、未实测。"
+    },
+    "electronic-lab-notebook-eln": {
+      "result": "pass",
+      "application_ids": [
+        "github:7167597"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 路径读取 elabftw/elabftw 仓库快照（repository id 7167597）、README 和完整 AGPLv3 LICENSE；README 说明其为研究人员的 free electronic lab notebook，提供实验存储/组织、资源数据库、可信时间戳、区块链时间戳、高级权限、导入导出和浏览器访问，足以确认 ELN 类别及防篡改/权限方向。",
+      "gaps": "README 未直接证明实验记录容器、版本历史、审计轨迹或签署/见证；research.json 已把匹配收窄为“ELN + 时间戳 + 权限”，未把这些属性当作已由正文证明；未部署。"
+    }
+  },
+  "limits": "本次为只读静态审查：未部署应用、未调用 API、未订阅 Scopus、未计算快照 SHA-256；快照按 REVIEW_SOURCES.json 的 path 原样读取。Scopus 页面为单行 HTML，正文只能按页面标题、meta 与关键词（CiteScore、SJR、SNIP、percentile、Field-weighted Citation Impact 等）核对。bibliometrix 的引用快照未随本单元 REVIEW_SOURCES 提供，未独立复核。input.json 的 progress 仍是审查前状态（application_ids 为空），本报告以 batch/research 的实际案例为准。未读取其他单元、采集脚本或历史过程文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-022/ses_groveopencodegop022review1_1793077173.jsonl",
+  "batch_sha256": "588e03a3b23b0e95d79768e8e5b70209e68c32dabc19be2f5fd7a89317a30996",
+  "research_sha256": "13bdc8cc9537167e227f28819ca027f42d3ee3a3317b5abf78913f2ebf9c6f4b",
+  "input_sha256": "f2483318b605766eeea6e505c62f2618d06ed769bf49fb52eeb8b12c9fb125bb"
+}

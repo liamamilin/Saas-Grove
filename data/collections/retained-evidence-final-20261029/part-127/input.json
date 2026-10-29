@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 27,
+  "offset": 650,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "network-security-platform",
+        "name_zh": "网络安全平台",
+        "domain_id": "15",
+        "parent_id": "15.03",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/604",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "GitHub API 查询 opnsense/core；读取 README、license 与官方 firewall 文档"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "network-security-platform",
+        "name": "Network Security Platform",
+        "name_zh": "网络安全平台",
+        "aliases_zh": [
+          "网络安全网关",
+          "统一威胁管理平台"
+        ],
+        "overview": "A **Network Security Platform** is the inline enforcement system of network security: enforcement points positioned where traffic between network zones passes through them, governed by a managed security policy that decides — per traffic session — whether traffic may pass, must be blocked, or must be transformed. Mature products additionally inspect admitted traffic for threats, but the enforcement decision under policy is the core.\n\nThe defining core is small:\n\n```text\nInline enforcement points on network traffic paths\n└── Managed security policy (ordered rules, evaluated per session)\n    ├── Match: zones/interfaces · addresses · services · (commonly) users & applications\n    ├── Decide: allow / deny / transform (NAT, shaping)\n    └── Default posture: traffic no rule admits is denied\n```\n\nEverything else commonly associated with the category — the threat-prevention engine suite (intrusion prevention, anti-malware, URL filtering, application control), VPN, user-identity integration, centralized multi-device management, high availability, cloud and SASE delivery — is standard in mature modern products but is not what makes the product this Type. A stateful firewall appliance with an ordered rule set and no threat-prevention engines satisfies the definition; so does a cloud-native firewall service operated from a web console.\n\nThe Type exists because organizations need a control point that can actually stop traffic — not observe it, not alert on it, but enforce a decision on the wire at the boundaries between trust zones: internet perimeter, data-center segmentation, branch edges, and cloud networks.",
+        "overview_zh": "一个**网络安全平台**是网络安全的内联实施系统：实施点位于网络区域间流量经过之处，由受管安全策略管控，该策略针对每个流量会话决定——流量可以放行、必须阻断或必须被转换。成熟产品还会进一步检查已接纳的流量以检测威胁，但策略下的实施决策是核心。\n\n其定义性的核心非常小：\n\n```text\n网络流量路径上的内联实施点\n└── 受管安全策略（有序规则，按会话评估）\n    ├── 匹配条件：区域/接口 · 地址 · 服务 · （常见）用户与应用程序\n    ├── 决策：允许 / 拒绝 / 转换（NAT、整形）\n    └── 默认姿态：未被任何规则放行的流量将被拒绝\n```\n\n与该类别通常相关的其他所有功能——威胁防护引擎套件（入侵防御、反恶意软件、URL过滤、应用控制）、VPN、用户身份集成、集中式多设备管理、高可用性、云和SASE交付——在成熟的现代产品中是标准配置，但并非该产品类型之所以为此类型的定义要素。一个具有有序规则集但无威胁防护引擎的状态防火墙设备符合定义；同样，一个从Web控制台操作的云原生防火墙服务也符合定义。\n\n此类型存在的原因在于，组织需要一个能够实际阻断流量——而非仅仅观察、或仅生成告警——的控制点，以在信任区域的边界（互联网边界、数据中心分段、分支边缘和云网络）对流量执行决策。",
+        "dc": "**1. Inline enforcement points on network traffic paths.** The platform's enforcement points sit where traffic between network zones passes through them — as routed gateways between interfaces, as transparent bridges or virtual wires, or as instances inserted into cloud networks. Traffic is steered through them, which is what makes enforcement possible: the platform can deny a connection, not merely record it. This is the structural opposite of an out-of-band sensor, which watches copies of traffic and cannot block anything by itself.\n\n**2. The managed security policy.** The policy is an ordered set of rules, administered as an estate and deployed to enforcement points. Each rule:\n\n- **matches** a traffic session on attributes — source and destination zones or interfaces, source and destination addresses, services (ports/protocols), and, in mature products, the authenticated user and the identified application;\n- **decides** an action — allow or deny, plus transformations such as network address translation and traffic shaping;\n- **carries** the protections applied to admitted traffic (the security profiles: intrusion prevention, anti-malware, web filtering, and similar engines);\n- **governs logging** of the decisions it produces.\n\nTwo structural properties make this a security policy rather than routing configuration. First, evaluation is per **session**: traffic passing through the platform is matched into sessions, the matching rule applies to the session's bidirectional flow, and the session is tracked from establishment to teardown. Second, the **default posture**: traffic that matches no allow rule is denied. Mature products ship this posture explicitly — one documented realization is a predefined, read-only rule pair that allows traffic within a zone and denies traffic between zones — while simpler products express it as an implicit final deny.\n\nThe policy is also an **administrative object with governance**: rules are named and ordered, changes are attributed and auditable in mature products, and rule usage is reviewable so stale rules can be retired. This managed-estate quality is what separates the Type from per-device configuration fragments.\n\nEach element is load-bearing. Remove the inline position and the product becomes an out-of-band detector or a monitor. Remove the managed policy and it becomes forwarding configuration — a router with access lists. Remove the default-deny posture and the policy stops being a security control.",
+        "dc_zh": "**1. 网络流量路径上的内联执行点。** 平台的执行点位于网络区域间的流量通过之处——作为接口间的路由网关、透明桥或虚拟线路，或插入云网络的实例。流量被引导通过它们，这使得执行成为可能：平台可以拒绝连接，而不仅仅是记录。这是带外传感器的结构相反，后者观察流量的副本且不能自行阻止任何东西。\n\n**2. 托管安全策略。** 策略是一个有序的规则集，作为整体管理并部署到执行点。每个规则：\n- **匹配**流量会话的属性——源和目标区域或接口、源和目标地址、服务（端口/协议），以及在成熟产品中，已认证的用户和已识别的应用；\n- **决定**一个动作——允许或拒绝，以及转换如网络地址转换和流量整形；\n- **携带**应用于允许流量的保护（安全配置文件：入侵防御、反恶意软件、网页过滤和类似引擎）；\n- **治理**它产生的决策的日志记录。\n\n两个结构属性使其成为安全策略而非路由配置：首先，评估是每个**会话**的：流量通过...",
+        "rules": "- **First-match ordering decides.** Rules are evaluated in order and the first matching rule decides; later rules are not consulted for that session. Specific rules must precede general ones, and mis-ordered rules silently never apply — ordering review is a standing operational task.\n- **The default posture denies.** Traffic matching no allow rule is denied. One documented realization is a predefined, read-only rule pair allowing intra-zone traffic and denying inter-zone traffic; other products express the same posture as an implicit final deny. Under this posture, a policy built only from allow rules is safe by construction; a default-allow posture with deny exceptions is not.\n- **No policy, no passage.** Traffic passing through an enforcement point must be admitted by some rule; in the absence of policy, traffic does not pass. This is why new deployments begin with policy authoring, not just device installation.\n- **Logging is configured per rule.** Enforcement decisions are logged according to each rule's logging settings — for example at session end, with some products allowing logging at session start instead of or in addition to session end. Logging choices directly shape what the SOC can see, so logging policy is part of security policy.\n- **Changes are governed.** Mature products commonly provide staged change governance — attributed changes, audit comments, and configuration history — while simpler products apply changes directly. In both cases the operational norm is change control, because an erroneous rule can sever production traffic.\n- **Engines and content are frequently subscription-gated.** Threat-prevention engines, URL categories, and threat-intelligence feeds are commonly licensed as subscriptions on top of the platform; at least one product documents explicitly what happens when licenses expire. The open-source pole instead extends capability through add-on packages.\n- **Encryption bounds visibility.** Encrypted traffic is inspected by metadata unless the platform decrypts it; decryption is a policy-governed, selective capability with its own configuration area, not a blanket behavior.\n- **The management plane is itself a target.** Vendor documentation treats administrative-access hardening as a first-class topic — the platform that guards the network must not be the easiest way in.\n- **High availability preserves enforcement.** Enforcement points are commonly deployed as failover pairs or clusters so that policy enforcement survives component loss; the policy estate is the same on both members.",
+        "rules_zh": "- **首次匹配顺序决定。** 规则按顺序评估，第一条匹配的规则即做出决策；后续规则对该会话不再检查。具体规则必须排在通用规则之前，顺序错误的规则会静默地永不应用——顺序审查是一项持续的运营任务。\n- **默认姿态是拒绝。** 未匹配任何允许规则的流量将被拒绝。一个文档化的实现方式是预定义、只读的规则对：允许区域内流量，拒绝区域间流量；其他产品以隐式最终拒绝表达相同姿态。在此姿态下，仅由允许规则构建的策略在结构上是安全的；而采用默认允许、带拒绝例外的姿态则不然。\n- **无策略，则无通过。** 通过实施点的流量必须由某条规则放行；在没有策略的情况下，流量不会通过。这就是为什么新部署从策略制定开始，而不仅仅是设备安装。\n- **日志记录按规则配置。** 实施决策根据每条规则的日志设置进行记录——例如在会话结束时，有些产品允许在会话开始时记录，或同时在开始和结束时记录。日志选择直接影响SOC的可视性，因此日志策略是安全策略的一部分。\n- **更改受治理。** 成熟产品通常提供暂存变更治理——可归因的更改、审计注释和配置历史——而较简单的产品则直接应用更改。在这两种情况下，运营规范都是变更控制，因为一条错误的规则可能会切断生产流量。\n- **引擎和内容通常需要订阅。** 威胁防护引擎、URL类别和威胁情报源通常作为平台之上的订阅许可；至少有一个产品文档……",
+        "parent_id": "15.03",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 127,
+    "phase": "directory",
+    "parent": 127,
+    "slugs": [
+      "network-security-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "1142aef3558549f1d7b145239de98272ac4788ae4c2f2e787b453bc0ba3f5942"
+  }
+}

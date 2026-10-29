@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Medable 的关键句位于产品页超长压缩 HTML 的正文段落中，已用精确短语与 </p> 结构定位；该页为厂商自述，未做浏览器渲染或运行时验证。",
+    "Medable 摘要中的“400+ 预构建且经验证”与页面原文“400+ reusable, pre-validated instruments, assessments and diaries”措辞略有差异，不影响结论。",
+    "Folk Care 的 README 写 MIT，而仓库 LICENSE 为 AGPL-3.0，GitHub API 归类为 Other/NOASSERTION；batch 已以 LICENSE 为准并在 license_review 留档，建议摘要中也提示该冲突。",
+    "Folk Care README 的 clone/badge 链接指向 neighborhood-lab/folkcare（404），与 repository_url 中的 folk-care 不一致；部署时应使用条目中的 repository_url。",
+    "Folk Care 托管服务与开源自托管版的功能边界未明确；batch 已披露，未发现闭源或付费模块证据，暂按全量开源记录。",
+    "Open Hospital 为 desktop/client-server（PORTABLE 或 CLIENT）部署，非托管 SaaS；本次按“持续使用的软件服务形态”接受，若单元严格要求云端 SaaS 需重新评估。",
+    "Open Hospital 的许可证只按 packaging repo 核对，OH CORE/GUI/API/UI 等组件仓库未逐仓留档；建议后续补核组件许可证或明确整体许可结论的适用范围。",
+    "Open Hospital 手册显示账单可通过 IN/OUT 关联住院或门诊，但费用条目仍需手工录入且 Accounting 不与临床模块自动联动；“账单为患者级”的表述略粗，建议改为“患者/就诊关联但手工录入、非自动计费闭环”。",
+    "被拒绝的开源候选（OpenDataCapture、cPRO、tmccormi/homehealth、AbdullahArean/Hospice）未在本单元归档快照，拒绝理由按 research 记录采信，未独立复核。",
+    "input.json 的 progress.application_ids 仍为空且 phase 为 included_without_cases，与 batch/research 的 case_found 状态不一致；属流程元数据滞后，不影响本单元内容结论。",
+    "商业条目仅核对厂商官方页面，未核验价格、架构、部署隔离或独立安全认证；符合本次“商业基本真实性”要求。"
+  ],
+  "leaf_checks": {
+    "epro-ecoa-platform": {
+      "application_ids": [
+        "commercial:medable-ecoa"
+      ],
+      "status": "passed",
+      "basis": "读取 3da5702f（eCOA+ 产品页）、970ac577（Studio 页）、d4458704（官方知识中心指南）。产品页正文含 “Medable’s eCOA+ combines eClinROs, ePROs, ePerfOs, eObsROs, and digital measures”，并列出 400+ reusable/pre-validated instruments、BYOD/provisioned devices、TeleVisit、notifications/reports/submission-ready data、FDA/CFR21 Part 11/HIPAA/GDPR；Studio 页正文含 Point-n-Click Schedule of Assessments Builder，可配置 standard visits、visit cycles、site/remote/unscheduled visit types；指南正文列出 ePRO/eClinRO/eObsRO/ePerfO。结局工具、受试者相邻报告者、方案化定时施测、受监管研究记录四项结构均有正文依据。",
+      "service_form": "SaaS：Studio 页明确称 “Use SaaS...”，并区分 full/self-service。",
+      "id_track": "commercial:medable-ecoa / commercial，ID 与 track 一致。",
+      "gaps": "无成立的开源案例；OpenDataCapture/cPRO 的拒绝理由见 research，但其快照未归档，未独立复核。"
+    },
+    "home-care-agency-management": {
+      "application_ids": [
+        "github:1084967884"
+      ],
+      "status": "passed",
+      "basis": "读取 0b6c6422（repo metadata）、170eaa7d（LICENSE）、c1a0ce71（README）。repo id 1084967884，full_name neighborhood-lab/folk-care，default_branch develop，archived=false；LICENSE 为完整 AGPL-3.0 文本（size 35356，版权 2025 Brian Edwards / Neighborhood Lab）；README 覆盖 clients、caregivers、service patterns/automated scheduling、visit tracking、GPS/geofence EVV + offline、care plans/tasks、family portal、billing/invoicing/payment tracking；payroll 标注 70% complete（backend done），未宣称完整发薪。客户+护理员、计划访视、交付访视记录、计费/发薪四项结构有依据，发薪为部分完成。",
+      "service_form": "SaaS：README 明确 “Production SaaS” 与 “Self-host or use our managed service”。",
+      "id_track": "github:1084967884 / open_source，ID 与 track 一致。",
+      "gaps": "托管服务与开源自托管版的功能边界未明确；README 的 MIT 表述与 LICENSE 的 AGPL-3.0 冲突（batch license_review 已留档）；README clone/badge 指向 folkcare 404。"
+    },
+    "home-health-ehr-management": {
+      "application_ids": [
+        "commercial:alora-home-health"
+      ],
+      "status": "passed",
+      "basis": "读取 fb60b739（Alora 官方 Home Health EMR 页）。正文覆盖 OASIS/Non-OASIS assessments、CMS-485 与 living POC、六个学科（SN/HHA/PT/OT/SLP/MSW）的 assessment/POC/visit notes、prior authorization（含超额提醒/硬停）、Medicare/Medicaid/VA/private insurance/private pay claims、pre-billing QA、offline point-of-care；页面称 cloud-based，可用浏览器/手机/平板访问。机构端患者记录、授权疗程/POC、现场访视记录、索赔/合规循环有依据；页面未显式使用 episode/recertification 字样，但 certification period 与 living POC 支持授权疗程结构。",
+      "service_form": "SaaS：cloud-based，浏览器/移动端访问。",
+      "id_track": "commercial:alora-home-health / commercial，ID 与 track 一致。",
+      "gaps": "开源侧无成立案例；tmccormi/homehealth 与 OpenEMR Home-Based Care 的检索/拒绝理由见 research，但其快照未归档，未独立复核。"
+    },
+    "hospice-management": {
+      "application_ids": [
+        "commercial:alora-hospice"
+      ],
+      "status": "passed",
+      "basis": "读取 3e58ddb7（Alora 官方 Hospice 页）。正文覆盖 IDG 会议预记录/议程/电子签名/与 POC 集成、HOPE 与 LCD、bereavement assessment/care plans/Bereavement Monitor、按 level of care 的 per diem、NOE 提醒、all-payer claims、payroll、comfort/terminal/end-of-life 定位，并称 visits 完成后自动流入 Billing/Payroll；页面称 cloud-based。舒适导向记录、IDG 共享 POC、丧亲延续、per diem/NOE 收入循环有依据；death discharge/revocation/readmission 未显式展开，research 未过度宣称。",
+      "service_form": "SaaS：cloud-based。",
+      "id_track": "commercial:alora-hospice / commercial，ID 与 track 一致。",
+      "gaps": "开源侧无成立案例；AbdullahArean/Hospice 仅为医院管理课程项目，拒绝理由见 research，未归档快照。"
+    },
+    "hospital-management-system": {
+      "application_ids": [
+        "github:195297119"
+      ],
+      "status": "passed",
+      "basis": "读取 9a71916a（repo metadata）、d16b6acd（LICENSE）、7b14a063（README）、ce084f06（用户手册 1.15.2）。repo id 195297119，full_name informatici/openhospital，default_branch master，archived=false；LICENSE 为完整 GPL-3.0 文本（size 35149），但仅限 packaging repo；README 称 free/open-source HIMS，Java/Maven，PORTABLE 单机或 CLIENT 多客户端部署，组件在 OH CORE/GUI/API/UI 独立仓库；手册覆盖 OPD 登记/访视、住院 admission/discharge、pharmacy/ward stock、laboratory、price list、patient bills/payments（IN/OUT 标注 admission 或 OPD）、appointments/therapy。医院机构、患者/就诊、服务到金钱三项均有依据；计费条目需手工录入且 Accounting 未与临床模块自动联动，服务到金钱为部分闭环。",
+      "service_form": "非托管 SaaS：desktop/client-server（PORTABLE 或 CLIENT）；按“持续使用的软件服务”接受，非云端 SaaS。",
+      "id_track": "github:195297119 / open_source，ID 与 track 一致。",
+      "gaps": "组件仓库许可证未逐仓留档；账单“患者级”表述略粗（手册显示 IN/OUT 关联 admission/OPD）；非托管 SaaS。"
+    }
+  },
+  "limits": "只读审查；未运行应用、未做部署/运行时/浏览器渲染验证；仅读取本单元 input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 12 个快照，未读取其他单元。被拒绝的开源候选（OpenDataCapture、cPRO、tmccormi/homehealth、AbdullahArean/Hospice）在本单元没有归档快照，相关拒绝理由只能按 research 记录采信。部分 GitHub license API 快照未能读取到 license/spdx 对象（可能被响应截断），许可证结论主要依据完整 LICENSE 文本与文件 size；商业页面为厂商自述，未核验价格、架构、安全认证或租户隔离。Medable 产品页为超长压缩 HTML，关键句通过精确短语与段落标签定位，未做可视化渲染核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-018/ses_groveopencodegop018review1_1793076446.jsonl",
+  "batch_sha256": "9a06bead4b32d57fb897d4eba44876aec40e941e9ae443aa2cac3b1dccc64274",
+  "research_sha256": "4a111f1f186dc3c1a740699a52f12a85b554ff163958075d84ad2867b1ce76d1",
+  "input_sha256": "d048b069531ce29e21c5af8d78fbe2cf80aeb76899daefa52ccadbbe4ae79343"
+}

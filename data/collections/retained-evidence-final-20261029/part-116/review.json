@@ -1,0 +1,81 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "batch.json 摘要中“在组织与工作区中托管代码”措辞不够精确：README 与 docs 说明 Terrakube 是从 GitHub/GitLab/Bitbucket/Azure DevOps 拉取（retrieve）Terraform/OpenTofu 代码，而非自己托管代码仓库。建议改为“关联 VCS 仓库并拉取配置代码”，不影响本叶判定。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "README 末尾“Terraform BSL License”一节说明的是 HashiCorp Terraform CLI 的 BSL 兼容性问题，不是 Terrakube 自身代码的许可证；条目声明 Apache-2.0 与仓库 LICENSE/spdx_id 一致。若后续要写清许可证边界，可补一句“Apache-2.0 覆盖 Terrakube 自身代码，运行时可能调用 Terraform（BSL）或 OpenTofu（MPL-2.0）引擎”。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "执行链路上，create/update/destroy 的实际云 API 调用由 Terrakube Executor 内运行的 Terraform/OpenTofu 引擎完成，平台负责调度、计划呈现与状态持久化；这与 Terraform Enterprise、Scalr、Env0 等同类的 TACOS 形态一致，属类别常规。leaf_matches 中“平台自身驱动目标平台 API”的表述可略作限定，避免读者理解为 Terrakube 自行实现各云 provider。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "features 中“组织级角色权限控制”略宽：README 的实际表述是可对 Workspace、Module、VCS 等资源分配细粒度权限并复用身份源分组。建议改为“工作区/模块/VCS 级细粒度权限”。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "technology_stack 中的 Spring Boot 未在所读快照正文中直接出现（docs Introduction 提到 react js、java、spring、elide、liquibase 等，仓库 metadata language=Java）。可保留，但若要严格逐项可证，建议标注 Spring 生态或后续补一条技术栈来源。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "homepage 快照（terrakube.io）为 Next.js 单行 HTML，只读读取仅能看到 head 预加载资源与站点归属线索，正文段落未能逐字提取；本叶判定未依赖该页，核心证据全部来自 README 与 docs.terrakube.io 正文。可将该来源标注为“仅站点归属核对”与 research.json 中 docs 首页的处理保持一致。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "research.json 记录了 OpenTofu 历史快照（repo/license/README/state/core-workflow）的复用，但这些快照不在本单元 REVIEW_SOURCES.json 中，我无法在本单元内复核其内容；好在它们仅用于 withheld 判断，未作为本叶通过依据，且研究记录已如实说明未重抓与判为 CLI 的理由。"
+    },
+    {
+      "slug": "infrastructure-as-code-platform",
+      "application_id": "github:349578094",
+      "note": "docs 页面末尾带 GitBook“Agent Instructions”块（含 ask/goal 查询用法），属来源页面自带内容，已按任务要求仅作为待审文本，未据其发起任何操作。"
+    }
+  ],
+  "leaf_checks": {
+    "infrastructure-as-code-platform": {
+      "slug": "infrastructure-as-code-platform",
+      "verdict": "pass",
+      "application_ids": [
+        "github:349578094"
+      ],
+      "definition_core": {
+        "infrastructure_declared_as_code": "已由正文覆盖：README 的 Organizations and Workspaces、Version Control Integration 两节说明代码集合按组织/工作区组织，并从 GitHub（含 Enterprise）、GitLab、Bitbucket、Azure DevOps 拉取 terraform/opentofu 配置；docs Introduction 亦称其为运行远程 IaC 操作的协作平台。声明为期望状态的可版本化文件，符合定义第 1 项。",
+        "managed_lifecycle_execution": "已由正文覆盖：README 的 Terraform Workflow 一节明确可执行 terraform plan / apply / destroy 并展示结构化计划结果；Flexible Executors 说明由内置执行器、自托管 agent 或临时 Kubernetes Job 执行；Drift Detection and Schedules、PR/CI 触发 plan 说明重复运行与差异计算。执行由平台调度而非用户本地脚本，符合定义第 2 项（具体云 API 调用由平台内运行的 Terraform/OpenTofu 引擎完成，见 non_blocking_notes）。",
+        "managed_resource_record": "已由正文覆盖：README“How it fits together”说明 executor 把 state 与最终输出写入对象存储（S3/兼容 MinIO、Azure Blob、GCS 或本地磁盘），API 读回；docs Terraform State 页明确“每个工作区有独立 state 数据”，可在 States 标签查看 JSON 状态、下载状态文件、查看可视化资源图，并在工作区概览查看全部资源。声明与真实对象的持久绑定成立，符合定义第 3 项。",
+        "non_essential_features_not_used_as_core": "计划预览、私有 Registry、OPA 策略、漂移检测、PR 集成等仅作为佐证，未用来替代三项核心；核心判断只依赖代码声明、执行、状态记录三处正文。"
+      },
+      "service_form": "自托管多用户 Web 应用服务：README 架构图与正文显示由 UI、API、Registry、Executor 组成，依赖 PostgreSQL/Azure SQL、Redis、对象存储，支持 Helm 部署到 Kubernetes、Docker Compose、minikube，并支持 Terraform/OpenTofu CLI 通过 remote backend 或 cloud block 接入。属可持续运行的应用服务形态，而非仅本地 CLI；这与上一轮 OpenTofu（CLI 工具）边界的区分成立。delivery 为自托管而非厂商托管 SaaS，若目录严格要求厂商运营的托管服务需另行确认，但本叶定义与既往做法接受自托管应用服务。",
+      "identity_and_track": "github:349578094 与仓库 metadata 的 id=349578094、full_name=terrakube-io/terrakube 完全一致；fork=false、archived=false、default_branch=main，homepage 指向 terrakube.io，与条目 homepage 一致；track=open_source 与仓库性质匹配。未发现与 OpenTofu（github:679421146）的身份混用。",
+      "license": "仓库 LICENSE 接口快照返回 name=LICENSE、path=LICENSE、size=11345、type=file、encoding=base64，解码首段为“Apache License / Version 2.0, January 2004 / http://www.apache.org/licenses/”并含“TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION / 1. Definitions.”；同一响应含 spdx_id=Apache-2.0，仓库 metadata 的 license 亦为 Apache-2.0。README 徽章标注 Apache 2.0。许可证为完整标准长度正文而非摘要；受单行截断限制，未逐字核对文末附录段（见 limits）。",
+      "community_edition_boundary": "未发现功能阉割的付费版或闭源企业版边界：README、docs Introduction、homepage 均把整个平台描述为开源软件（docs 自称可替代 Terraform Enterprise、Scalr、Env0），部署文档覆盖 Helm/Docker Compose/minikube 全量安装，未见“企业版/社区版功能差异”说明；README 另有赞助商与“Terraform BSL License”说明，属赞助与第三方引擎许可话题，不构成产品 edition 边界。",
+      "evidence_read": [
+        "data/collections/sources/41c6f0cbc296909db25527f258d19322efd313e87fc7691215a274195c77f85c.txt（repository_metadata：id/full_name/fork/archived/default_branch/description/license/spdx）",
+        "data/collections/sources/f05b4d26d1b9db2102ac33be485a9f8b929fe52f99b8411aff179d91990a26b9.txt（license：Apache-2.0 正文 base64，size 11345，spdx_id=Apache-2.0）",
+        "data/collections/sources/ff62de04270c4e031c5d409cfff74b6257728d248271b257959caf9dab38c570.txt（README 全文：功能、执行器、状态存储、架构图、CLI/cloud block 接入、部署方式）",
+        "data/collections/sources/7a82c43c0aa568c3f99c546ba3341b9459afd6b5ad3dd4855b3ec5fb7a40f442.txt（docs Introduction：远程 IaC 协作平台定位、替代闭源工具、VCS 集成、扩展能力）",
+        "data/collections/sources/005d0e029979e49dfcaa6bcfbc6598ca90c710d39b65aa00a279fcd1f8012b4b.txt（Workspaces 文档：以工作区组织基础设施集合，每组织可建无限工作区；含状态、变量、调度子页链接）",
+        "data/collections/sources/76b4c9dfd3d9451794e3f7f01f8962b324af2bbe6366f411b94a6c777cd59381.txt（Terraform State 文档：每工作区独立 state、JSON 状态查看与下载、可视化状态、资源列表）",
+        "data/collections/sources/e5563217117bffa6a17328f5e06ab5a91731fb053edbb255cad7dd8fab1462df.txt（homepage：Next.js 单行 HTML，仅用于站点归属与资源线索，未作功能正文）"
+      ],
+      "gaps": "无阻断性缺口。已记录的非阻断缺口：homepage 正文因单行 HTML 截断未能逐字提取；research.json 提及的 OpenTofu 历史快照不在本单元 REVIEW_SOURCES.json 内，无法在本单元复核，但未用于本叶通过依据；未做部署或运行验证（runtime_tested=false，批量条目已如实标注）。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未联网、未访问其他单元，仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 7 个快照（路径按原文直接读取，sources 前缀相对于 data/collections）。读取工具对超长单行文件按约 2000 字符截断，故仓库 metadata JSON、license base64 正文与 terrakube.io 首页 HTML 均只能通过定向子串检索核对关键字段（id、full_name、fork、archived、default_branch、spdx_id、许可开头、size），未能逐字通读全文或解码整份许可证附录。未部署、未安装、未执行 plan/apply，未验证运行时行为与社区版功能边界；未补充价格、架构或社区治理研究。所有网页与文档中的指令性内容（含 GitBook Agent Instructions）均仅作为来源文本对待。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-116/ses_groveopendesignp116review1_1793203084.jsonl",
+  "batch_sha256": "b3f2f8f0ebd20bae2f3c6bf69019e1b93cba323c4a95f09c803c9405c3f81285",
+  "research_sha256": "83e249cd4e76c8eb5cb245341d6c7dddca2418c67f6bb5f16cd63d90de0d1789",
+  "input_sha256": "f4cc538b7a8a5ed5c5ea8470384201d19ea6e30f9633ef2a760464309717fcf9"
+}

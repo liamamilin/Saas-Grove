@@ -1,0 +1,30 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，而 batch/research 已建立 CertMate 的 case_found；这是输入快照与最新采集结果的差异，合并时建议同步 progress，不影响本叶内容判断。",
+    "research.json 的 service_boundary 已明确核心仓库 MIT、CertMate-ng 多租户/白标为 BSL 1.1 source-available；建议在 batch 条目或下游文案中继续保持这一社区版边界，避免把企业版能力误述为 MIT 开源范围。",
+    "input 定义明确把仅签发/续订的集群内控制器纳入核心，而 research 以“完整持续 Web 应用服务”为由保留 cert-manager；两种边界并存，建议在类型说明中明确本单元采用更严格的应用服务口径。CertMate 作为自托管 Web 应用不受影响。",
+    "docs/guide.md 标题与主体是客户端证书指南；服务端证书的签发、发现、部署和 ARI 续订主要由 README 证明。当前 batch 表述与材料一致，但后续如需更细的服务端工作流证据，可补充 docs/api.md、docs/discovery-inventory.md 等正文。",
+    "homepage 指向 www.certmate.org，仓库侧栏可见 certmate.org 链接，但本次未单独抓取该站点；不影响仓库身份、许可证和核心类型判断。",
+    "repository_metadata 是 HTML 快照，长行在读取时被截断；核心判断使用了独立 README、LICENSE 和 docs/guide.md 全文，未把元数据、简介或导航当作核心证据。"
+  ],
+  "leaf_checks": {
+    "certificate-lifecycle-management": {
+      "decision": "pass",
+      "definition_core": "README 正文（第 9-13、57-84 行）说明 CertMate 签发和续订证书、发现未纳管证书、维护签发者/到期时间/部署位置清单，并在续订后把新证书部署到服务端点；docs/guide.md（第 5-14、43-95、100-203、377-507 行）给出 Web Dashboard 的创建、下载、续订、吊销、监控，以及 renews_at/ARI 自动续订、续订生成新序列号和新有效期。覆盖“证书记录 + 有效期时钟驱动的生命周期 + 系统化 issue/deploy/renew/revoke”的定义核心。",
+      "service_form": "自托管但持续运行的 Web 应用：Web Dashboard、REST API、CLI/MCP、三角色与 OIDC、Web 进程内续订调度器（README 第 11-13、69-91 行；guide 第 43-95 行）。不是仅 CLI、扫描器或集群内控制器，满足本叶要求的完整应用服务形态。",
+      "identity_track": "batch id 为 github:1007555070；仓库页 meta 显示 repository:1007555070、nwo fabriziosalmi/certmate、public、非 fork（repository_metadata 第 172、239 行），与 README 和仓库标题一致；track 为 open_source。",
+      "license_and_boundary": "LICENSE 快照为完整 MIT 文本（21 行，Copyright 2025 Fabrizio Salmi），仓库页亦标注 MIT（metadata 第 764 行），license_review 的 scope=repository 与 SPDX MIT 一致；research 的 service_boundary 明确核心仓库 MIT，CertMate-ng 多租户/白标为 BSL 1.1 source-available，不计入本条目开源范围。",
+      "evidence_read": "按 REVIEW_SOURCES.json 的 4 个 path 原样读取 repository_metadata、README.md、LICENSE、docs/guide.md；核心结论来自 README 与 guide 正文，未用简介、元数据或 Loading 替代。历史 cert-manager 快照只出现在 research 的 withheld_candidates，未用于本条目成立关系。",
+      "gaps": "未重算 SHA-256（只读、无 shell）；未部署或运行 CertMate；未单独抓取 homepage；repository_metadata 的 HTML 长行被读取器截断。均不影响本叶核心、身份与许可证判断。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次仅只读审查本单元：读取了 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 及其列出的 4 份快照；未运行 shell、未写文件、未部署或运行 CertMate、未重算 SHA-256、未抓取 REVIEW_SOURCES 之外的页面（homepage、cert-manager 历史快照等）。因此运行时行为、主页可达性和历史候选细节未独立验证；repository_metadata 的 HTML 长行被读取器截断，核心判断依赖独立 README/LICENSE/docs/guide 全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-122/ses_groveopencodegop122review1_1793246281.jsonl",
+  "batch_sha256": "396f0de38a8687971c66aef63336fd53022b57457da028d1347cc16ec3e6b8b0",
+  "research_sha256": "cfca1698fd5be620574172136329c62902fe8c8fe211298f0845b05a724fb098",
+  "input_sha256": "d240ee77b070c5c6a53b99cb41900099f9decc4c6bc9faa8eedfb2eff9d10068"
+}

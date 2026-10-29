@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "academic-timetabling",
+      "application_id": "github:79754204",
+      "issue": "FET 被列为学术排课案例，但 README 与批次 deployment 均表明它是需编译/运行的桌面应用（另有命令行版本），不是可持续提供的 SaaS/托管服务形态；research 记录也承认部署字段已收窄为桌面应用。其排课核心与 AGPL-3.0 许可本身成立，但服务形态不符合本单元要求。",
+      "fix": "将 FET 从 academic-timetabling 的 leaf_matches/case_ids 中移除，或明确降级为“非 SaaS 参考工具”且不计入案例；该叶保留 UniTime 作为 Web/自托管排课案例即可。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将所有叶标记为 not_searched、application_ids 为空，phase 为 included_without_cases；这与 research.json 中四个 case_found、一个 insufficient_evidence 以及 batch.json 的 5 个条目不一致。本次以 batch.json/research.json 的实际记录为准；若下游读取 progress，建议同步更新或明确其为采集前快照。",
+    "FET README 写的是 GNU Affero GPL version 3 or later，批次 license 简写为 AGPL-3.0；许可证全文已核对，若需 SPDX 精确可标为 AGPL-3.0-or-later。",
+    "OATutor 的代码为 MIT，但 README 说明配套内容仓库为 CC BY 4.0（内容以子模块/独立仓库提供）；复用其题库、提示和脚手架时需同时满足 CC BY 4.0 的署名要求。",
+    "Module-Management 是 TUM CIT 的模块级治理系统；research 记录已注明其未证明完整专业目录、SIS 同步和 effective-dating，本次按模块级课程治理接受，但不应表述为完整课程目录或 SIS 替代品。",
+    "university-advancement-platform 的 research 记录引用了 giving-backend、NPPatch、UniSchema、CiviCRM 等候选，但 REVIEW_SOURCES.json 未列出这些快照；本次未将其作为核心证据，no-case 结论仅依据 research 记录中的检索与排除说明。",
+    "ai-tutoring-application 的边界候选 OpenTutorAI 的 README/docs 不在 REVIEW_SOURCES.json 中，本次未作为案例证据；其排除理由保留在 research 记录中。",
+    "Submitty 的 BSD-3-Clause 许可证快照已核对；其 README 另列有第三方组件许可证清单（LICENSE-THIRD-PARTY），本次未逐项展开，部署时需一并遵守。"
+  ],
+  "leaf_checks": {
+    "university-advancement-platform": {
+      "status": "no_case_documented",
+      "basis": "batch.json 无该叶条目；research.json 记录 assessment=insufficient_evidence、case_ids=[]，包含两轮检索 query/search_attempts，并逐项说明 giving-backend（MIT，已归档，捐赠页面/基金 CMS）、UniSchema（webhook 归一化，非 CRM）、NPPatch（通用非营利 Salesforce 包，缺高校机构关系基础与潜在捐赠者研究）、CiviCRM（通用非营利 CRM）均未同时覆盖支持者登记册（含非捐赠者）、带指定用途的捐赠记录、记录式潜在捐赠者循环。",
+      "gaps": "未找到完整开源高校发展平台；research 记录已如实保留检索/抓取缺口，未把候选简介当作核心工作流证据。REVIEW_SOURCES.json 无该叶快照；input.json progress 仍标 not_searched，应以 research 记录为准。"
+    },
+    "academic-timetabling": {
+      "status": "case_found_with_form_issue",
+      "basis": "UniTime：README 说明课程/考试排课、变更管理、教室共享、学生/教师排课、多部门协同和 SIS 接口；license 快照为 Apache-2.0 全文；metadata id/full_name 匹配且 archived=false。FET：README 说明可自动生成学校/高中/大学课表，含教师、教室、学生、活动与冲突输出；license 快照为 AGPL-3.0 全文；metadata id/full_name 匹配且 archived=false。",
+      "gaps": "FET 是桌面/命令行应用，deployment 明确为桌面应用，不符合 SaaS/托管服务形态；UniTime 作为 Web/自托管案例覆盖排课核心。未做部署运行验证。"
+    },
+    "ai-tutoring-application": {
+      "status": "case_found",
+      "basis": "OATutor README 说明其基于智能辅导系统原则，使用 BKT 估计技能掌握度、按薄弱技能自适应选题，含提示/脚手架、答案检查、用户登录/日志、技能模型；license 快照为 MIT 全文；metadata id/full_name 匹配且 archived=false；静态 Web 可部署。",
+      "gaps": "OpenTutorAI 仅作为边界候选，未计入案例；其 README/docs 不在 REVIEW_SOURCES.json。未做运行验证。"
+    },
+    "assignment-management": {
+      "status": "case_found",
+      "basis": "Submitty README 说明课程管理、作业提交、考试与评分系统；官方 features 页面列出个人/团队作业收集、拖放/ZIP/Git 提交、重新提交与超量惩罚、截止日期/late day、人工/评分标准/TA 分区评分、成绩汇总、grade inquiry、角色权限；license 快照为 BSD-3-Clause 全文；metadata id/full_name 匹配且 archived=false。",
+      "gaps": "features 页面为官方功能页而非逐步工作流文档；未做运行验证。"
+    },
+    "curriculum-management": {
+      "status": "case_found_narrowed",
+      "basis": "Module-Management README 说明模块提案创建、按字段结构化反馈、审查/批准/拒绝、基于反馈的版本管理与历史、模块重叠检测、PDF 导出、教授/审查者/APA/QM/考试委员会角色，以及 Docker/Keycloak/PostgreSQL 部署；license 快照为 MIT 全文；metadata id/full_name 匹配且 archived=false。",
+      "gaps": "仅模块级、TUM CIT 机构特定；未证明完整专业目录、SIS 同步、effective-dating 或学生系统对齐；research 记录已如实收窄。未做运行验证。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未部署或运行任何应用、未写文件、未读取其他单元；已读取 REVIEW_SOURCES.json 列出的 16 个快照，未使用未列出的候选快照作为核心证据；GitHub metadata 为单行 JSON，读取器对单行有 2000 字符截断，故 id/full_name/archived/license 以可见字段与 license/README 快照交叉核对；未验证实时 URL、最新版本、价格、架构或运行时行为；本单元无商业条目。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-225/ses_groveopencodegop225review1_1793031655.jsonl",
+  "batch_sha256": "116824b0bbb5020b1a6a3486e866d92d3fcd496eb1519ab6d38f43239aff033a",
+  "research_sha256": "91414b0e255557fb894cff4796b3c4fa1c954525fe995c9509c0504fbc1d6700",
+  "input_sha256": "7b852e28b1cc2ebaf38fc1c6d3124dac16d865fd8c9f30f0b6f93f4d8e86c0ce"
+}

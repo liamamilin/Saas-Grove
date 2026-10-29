@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 53,
+  "offset": 1300,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "restaurant-pos",
+        "name_zh": "餐厅POS系统",
+        "domain_id": "26",
+        "parent_id": "26.05",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-053/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "restaurant POS software"
+          },
+          {
+            "record": "retained-continuation-20261027/part-102/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "restaurant POS software; open source restaurant POS self-hosted"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/165",
+            "result": "insufficient_evidence",
+            "note": "初审指出 POS2（satisfecho/pos）的正文只证明顾客扫码点单、员工管理订单状态并收款、厨房屏和报表，没有证明员工从配置菜单新建订单，也没有证明账单/check 作为可累积、可拆分/并账/转台的结算容器及关闭权限。复核重读既有 README、许可证和仓库元数据快照后确认该缺口成立：该候选是顾客扫码点单与员工订单管理的混合形态，按叶定义更接近在线/自助点单，不能仅凭仓库名或 metadata 中的 “Restaurant POS” 补足核心。按初审给出的修复选项 (a) 撤回 restaurant-pos 关系并留档，不把该候选计入本叶成立案例；这是已检索并读过正文后的判断，不据此推断整个叶子不存在。原有 Floreant POS 因许可证未核实仍未纳入。",
+            "query": "restaurant POS software; open source restaurant POS self-hosted"
+          }
+        ],
+        "archived": false,
+        "note": "初审指出 POS2（satisfecho/pos）的正文只证明顾客扫码点单、员工管理订单状态并收款、厨房屏和报表，没有证明员工从配置菜单新建订单，也没有证明账单/check 作为可累积、可拆分/并账/转台的结算容器及关闭权限。复核重读既有 README、许可证和仓库元数据快照后确认该缺口成立：该候选是顾客扫码点单与员工订单管理的混合形态，按叶定义更接近在线/自助点单，不能仅凭仓库名或 metadata 中的 “Restaurant POS” 补足核心。按初审给出的修复选项 (a) 撤回 restaurant-pos 关系并留档，不把该候选计入本叶成立案例；这是已检索并读过正文后的判断，不据此推断整个叶子不存在。原有 Floreant POS 因许可证未核实仍未纳入。"
+      },
+      "definition": {
+        "slug": "restaurant-pos",
+        "name": "Restaurant POS",
+        "name_zh": "餐厅POS系统",
+        "aliases_zh": [
+          "餐饮POS",
+          "餐厅收银系统",
+          "餐饮管理系统"
+        ],
+        "overview": "A **Restaurant POS** is the restaurant's operator-facing transaction system: restaurant staff compose a guest's food-and-beverage request as an **order** by selecting from the operation's configured menu, the charges accumulate on a **check** that is the unit of amount due, **payments** settle the check, and closing the check completes and records the transaction.\n\nIts defining core is small:\n\n```text\nConfigured menu (items · prices · customization options)\n└── Order — composed by staff on the restaurant's own transaction surface\n    └── Check / tab — the accumulating settlement unit\n        └── Payment(s)\n        └── Controlled closure\n```\n\nThree properties hold jointly. Remove menu-configured staff order entry and what remains is a payment terminal, a cash register, or a customer self-service channel. Remove the check as an accumulating settlement container and what remains is a stream of immediate paid sales — retail sale semantics — or a kitchen ticket with no money. Remove payment-and-closure and what remains is order entry that never settles.\n\nEverything commonly associated with modern restaurant POS — tables and floor plans, covers and seats, courses, tips, kitchen routing, cash drawers, dayparted menus, online-order integration, loyalty — is widespread in current products but is not part of the defining core. Older and differently-shaped implementations fit the same definition: the paper guest check written from a printed menu and settled at a cash drawer, and the fixed-workstation terminal generation still in service in many operations, both satisfy the core without any cloud, tablet, or integrated-payment requirement.\n\nThe Type's edges are sharp. When the composing actor becomes the customer on the customer's own surface, the product is drifting toward Restaurant Online Ordering or Self-service Restaurant Ordering. When the center becomes the plan-to-actual management loop rather than the live transaction, it is a Restaurant Management System. When the sale completes at the moment of payment with no open settlement container, it is Retail POS sale semantics.",
+        "overview_zh": "餐厅POS是餐厅面向操作人员的交易系统：餐厅员工通过从运营配置的菜单中选择菜品，将顾客的餐饮需求组成**订单**，费用累积在**账单**上，账单是应收款项的结算单位，**支付**结算账单，关闭账单即完成并记录交易。\n\n其定义的核心很简单：\n\n```text\n配置的菜单（菜品·价格·定制选项）\n└── 订单 — 由员工在餐厅自身的交易界面上组成\n    └── 账单 / 持续计费 — 累积的结算单位\n        └── 支付\n        └── 受控关闭\n```\n\n三个属性共同成立。移除菜单配置的员工订单录入，剩下的就是一个支付终端、收银机或顾客自助渠道。移除账单作为累积结算容器，剩下的就是一笔笔即时付款的销售——零售销售语义——或者一张没有金额的厨房小票。移除支付和关闭，剩下的就是永不结算的订单录入。\n\n与现代餐厅POS常见的关联功能——桌面和平面图、就餐人数和座位、分餐、小费、厨房路由、钱箱、按时段的菜单、在线点餐集成、忠诚度计划——在当前产品中普遍存在，但不属于定义核心。更早或不同形态的实现也符合同一定义：从印刷菜单上手写客人账单并在收银机结算的纸质时代做法，以及许多运营中仍在使用的固定工作站终端一代，都满足核心要求，无需任何云、平板或集成支付功能。\n\n该类型的边界清晰。当组成行为者变为顾客在顾客自己的界面上操作时，产品就倾向于餐厅在线点餐或餐厅自助点餐。当重点从实时交易变为计划到实际的管理循环时，它就是餐厅管理系统。当销售在支付时即完成，没有开放的结算容器时，它就是零售POS销售语义。",
+        "dc": "**Menu-configured order entry.** An authorized employee composes the guest's request as an order by selecting from the operation's configured menu — items carrying prices, organized in groups, with customization options (modifiers) that change or constrain each item. The menu configuration is what makes the transaction a restaurant transaction: the same surface without it is a payment terminal. Items not on the menu (for example a corkage charge) exist in some products as permission-gated exceptions, not as the primary path.\n\n**The check as the accumulating settlement unit.** The order's charges — items, modifiers, taxes, adjustments — accumulate on a check (also called a tab or guest check) that is the unit of amount due. The check persists until settled: it can stay open across a service period, and while open it is subject to surgery — items added, discounted, comped, voided, moved between checks or guests, checks split, merged, or transferred between servers.\n\n**Payment and controlled closure.** Payments settle the check, in full or across splits. Closing the check completes and records the transaction. Closure is gated: the balance must be settled, and the exceptions around it (voids, refunds, reopening) are permission-gated.\n\nA useful conceptual reading separates the two central objects:\n\n```text\nOrder = what must be fulfilled\nCheck = what must be settled\n```\n\nProducts differ in how explicitly they draw this line. In the clearest articulations a single order contains one or more checks — a party of guests paying separately produces multiple checks on one order. In other products the two words are used interchangeably. The conceptual split holds across the researched sample even where the vocabulary does not.",
+        "dc_zh": "**菜单配置的订单输入。** 授权员工通过从运营配置的菜单中选择来组成客人的请求作为订单——项目带有价格，按组组织，带有自定义选项（修改器），这些选项改变或约束每个项目。菜单配置使得交易成为餐厅交易：没有它的相同界面只是一个支付终端。不在菜单上的项目（例如开瓶费）在某些产品中作为权限控制的异常存在，而不是主要路径。\n\n**账单作为累积结算单位。** 订单的费用——项目、修改器、税金、调整——累积在账单上（也称为标签或客人账单），这是应付金额的单位。账单持续到结算：它可以在服务期间保持打开状态，并且在打开时，它可能被修改——添加、折扣、赠送、作废、在账单或客人之间移动、拆分、合并或在服务员之间转移。\n\n**支付和受控关闭。** 支付结算账单，全额或跨拆分。关闭账单完成并记录交易。关闭受控制：余额必须结算，其周围的异常（作废、退款、重新打开）受权限控制。\n\n一个有用的概念性解读将两个核心对象分开：\n\n```text\n订单 = 必须履行的内容\n账单 = 必须结算的内容\n```",
+        "rules": "### The check is the settlement container\n\nThe check persists until settled and is editable while open. Closure normally requires the amount due to be satisfied; exceptions (comp the balance, void and close) are permission-gated. This open-container semantics is the Type's signature: it is what separates a restaurant transaction from an immediate paid sale.\n\n### Money movement is permission-gated\n\nVoids, comps, refunds, discounts, price overrides, drawer access, and no-sales each carry their own permission in mature products, typically exercised by managers. Comped and voided items commonly remain visible in sales and inventory reporting rather than disappearing.\n\n### Lifecycle states are conceptual; labels are not universal\n\nOpen → paid → closed is the conceptual lifecycle; exact state names, and whether \"paid\" is a distinct state, vary by product and tender. Some products allow reopening a closed check; some restrict or archive orders after a period.\n\n### The POS consumes the menu of record\n\nMenu maintenance lives in an administration or menu-management surface; changes must be published or synced before they appear on the ordering screens. The POS holds the operational catalog that drives order entry; it does not own catalog maintenance as its center.\n\n### Sales feed the siblings\n\nEach closed sale is the depletion input for inventory and the raw input for management reporting. The POS does not own the stock record or the plan-to-actual control loop; it feeds them.\n\n### Availability is controlled at the point of sale\n\nMarking an item unavailable (86) is a live, in-service action taken on the ordering surface, distinct from the inventory system's stock record.\n\n### Offline behavior\n\nIn products that support it, orders and payments captured during connectivity loss are processed when connectivity returns — evidence that payment processing is a separate concern from the transaction itself.",
+        "rules_zh": "### 账单是结算容器\n\n账单在结算前持续存在，且在开放状态下可编辑。关闭通常需要满足应收款项；例外情况（赠送余额、作废并关闭）受权限控制。这种开放容器语义是该类型的标志：它将餐厅交易与即时付款销售区分开来。\n\n### 资金流动受权限控制\n\n在成熟产品中，作废、赠送、退款、折扣、价格覆盖、钱箱访问和无交易操作各自拥有独立的权限，通常由经理执行。被赠送和作废的菜品通常在销售和库存报表中仍然可见，而不会消失。\n\n### 生命周期状态是概念性的；标签并非通用\n\n开放 → 已支付 → 已关闭是概念生命周期；具体的状态名称，以及“已支付”是否是一个独立状态，因产品和支付方式而异。某些产品允许重新开放已关闭的账单；某些产品在一段时间后限制或归档订单。\n\n### POS使用的是权威菜单\n\n菜单维护在管理或菜单管理界面中进行；更改必须发布或同步后才会出现在点餐屏幕上。POS持有驱动订单录入的运营目录；它不以目录维护为中心。\n\n### 销售供给姐妹系统\n\n每笔关闭的销售是库存的消耗输入，也是管理报表的原始输入。POS不拥有库存记录或计划到实际的控制循环；它为其提供数据。\n\n### 可用性在销售点控制\n\n标记菜品不可用（86）是在点餐界面上进行的实时、服务中的操作，不同于库存系统的库存记录。\n\n### 离线行为\n\n在支持此功能的产品中，连接中断期间捕获的订单和支付",
+        "parent_id": "26.05",
+        "domain_id": "26"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 240,
+    "phase": "directory",
+    "parent": 240,
+    "slugs": [
+      "restaurant-pos"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "15229329ec428fb83e544164d1ef36237fddfbd6e22516cdd20175995248998d"
+  }
+}

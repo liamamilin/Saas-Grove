@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "research.json 的 service_boundary 中“自托管不含用户管理功能”的依据来自 self-host 页面的 meta/og 描述，正文只给出本地脚本、Kubernetes 与 Comet 托管部署路径；该细节不影响社区版边界结论（README 正文已明确 server、web 应用、datasets、experiments、evaluations 等组件均在 Apache-2.0 下可免商业许可自托管），但建议后续引用时以正文表述为准。"
+    },
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "research/batch 提到 evaluate() “以 experimentId 返回”与具体代码示例，但 evaluate_your_llm 快照中的代码块在读取时被截断，未能直接逐行核对；持久化 experiment、experiment_config（prompt 模板/模型参数）、prompt 版本关联与并排比较均由该页正文明确支持，故不构成缺口。"
+    },
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "仓库元数据快照为单行 JSON 且在 2000 字符处截断，仅可直接读到 id=638951438、full_name=comet-ml/opik、fork=false；archived 与 license.spdx_id 字段落在截断区，research.json 中“元数据证明 archived=false/license.spdx_id”的表述证据强度偏弱。许可证结论已由完整 LICENSE 全文与 README 正文独立支撑，建议后续元数据类证据保留完整字段。"
+    },
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "batch 与 summary 以“ExactMatch”为例描述内置启发式指标，快照正文举的是 equals/contains 等启发式指标并说明有预置指标集；示例名称建议与正文对齐，属措辞层面。"
+    },
+    {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "input.json 仍记录 case_status=boundary_unresolved、application_ids=[]，与本单元 batch/research 已建立 Opik 关系不一致，属上游登记状态待同步；内容证据本身成立。"
+    }
+  ],
+  "leaf_checks": {
+    "agent-evaluation-platform": {
+      "slug": "agent-evaluation-platform",
+      "application_id": "github:638951438",
+      "application_name": "Opik",
+      "definition_core": "通过。evaluate_your_llm 正文给出五步链路：为 LLM chain/agent 接入 track 追踪、定义 evaluation task（每个 dataset item 调用被测应用）、选用 Dataset 作为测试用例集、选用启发式或 LLM-as-a-judge 指标逐案评分、运行 experiment 并在 Opik UI 中下钻用例、并排比较多次 experiment；experiment_config 记录 prompt 模板、模型与参数，experiment 可关联 prompt 版本。evaluate_agents 正文补充 agent 步骤级评估（工具调用、记忆检索、计划、中间消息）与“Dataset = 用户查询 + 期望的正确工具使用”的含预期用例形态，并给出数据集 + 自定义 metric + evaluation task → 生成 experiment 的完整示例。四个定义要素（评估钩子、含预期/准则的测试数据集、逐案评分、归属于版本配置的持久化可比较运行）均有正文支撑，非简介或关键词推断。",
+      "service_form": "通过。README 正文明确仓库包含 server 后端、web 应用、tracing、datasets、experiments、evaluations、prompt 管理与 agent optimization，并给出 ./opik.sh 本地启动后访问 localhost:5173 的完整套件路径；self-host 文档正文给出本地安装与 Kubernetes 部署、SDK/OPIK_URL_OVERRIDE 指向自建实例。属可持续使用的完整应用服务（server + Web UI + 持久化 experiment），而非仅 CLI/SDK，符合持续使用形态要求；本轮未部署实测，未以 HTTP 成功代替正文证据。",
+      "identity_track": "通过。id github:638951438 与元数据 id=638951438、full_name=comet-ml/opik、fork=false 一致；batch 条目标 open_source，与 Apache-2.0 自托管定位及 README/homepage 的开放源代码表述一致，无 track 错配或重复身份问题。",
+      "license": "通过。sources/0236cf…txt 为完整 Apache License 2.0 全文（含 TERMS AND CONDITIONS、第 1–9 条、END OF TERMS AND CONDITIONS 与 APPENDIX，版权 Comet ML, Inc），非片段；README 正文自述 Apache-2.0 licensed 并称 full platform（backend included）均在 Apache-2.0 下，homepage 亦称 open-source 版本包含核心可观测与评估能力。",
+      "community_edition_boundary": "通过。README 正文声明可免商业许可自托管完整平台（含后端），对比表与 FAQ 复述 open source = Apache-2.0（full platform）、self-hosted = Yes；homepage 正文说明核心 AI 可观测与评估功能集在源码中免费提供，同时存在面向企业团队的更高版本。据此边界为：评估/实验/比较与自托管服务端在社区开源版内，企业/托管形态为额外商业选项，边界表述与正文一致。",
+      "sources_read": [
+        "data/collections/sources/5e33a34fc51c2e101e969f8b6dd95f12608b1af8d04bd36c8a2f6543337f6322.txt",
+        "data/collections/sources/0236cf0195e033d15c120e610d44943e8e478ffed5d60fbba1b5a6b96e778a47.txt",
+        "data/collections/sources/f4fffa79c792d196ae93d61ea7a3c503ff16821007543bb2ffda8b4ae3fcf716.txt",
+        "data/collections/sources/ac90a55296353659ee067f465e2678bd59ee1c9392cc356f75d1e5250006f412.txt",
+        "data/collections/sources/ec51ded90926931f95b5de8e2ad662965b135729fe617cc02e88c8be8628acf2.txt",
+        "data/collections/sources/6bf79de6435bcb602a5c2c1e1d6ccb8a5ac7c1914a8b948bd3aaac7a36846da7.txt",
+        "data/collections/sources/245561cb940858bfe60ec521827157299fe022d3b7419b0831c9038b7c4a8093.txt",
+        "data/collections/sources/1d00003a981ccfbab00e36233c05811f8826226c225d852fc0e55f705807165d.txt"
+      ],
+      "documented_gaps": [
+        "未部署或运行 Opik，未验证 UI 行为，属采集留档已声明的未实测项。",
+        "Promptfoo 仅作历史未采纳候选留档（CLI/本地查看器形态），本轮不作为本叶关系，也未据此推断不存在托管变体，留档方式可接受。"
+      ],
+      "conclusion": "pass"
+    }
+  },
+  "limits": "仅使用本单元只读文件：REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 个快照，按给定 path 原样读取，未运行 shell、未写文件、未访问网络或其他单元。文档类快照为服务端渲染 HTML，读取时行内容在 2000 字符处截断（尤其代码块与仓库元数据单行 JSON），因此 evaluate() 返回 experimentId 等代码级细节及元数据中 archived/license.spdx_id 字段未能直接核对，已改用正文与 LICENSE 全文交叉验证。未执行部署、抓取补采或价格/架构研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-110/ses_groveopendesignp110review1_1793202021.jsonl",
+  "batch_sha256": "7a232b25fea917ce441ab3cc64141ff053adb43ab264d30e3d1bc8dfdf8757e3",
+  "research_sha256": "8509f8993d8427a4dead4fc819c3c3fa9efd3c3ead87703db2daca398c793eda",
+  "input_sha256": "2eaaa705be8dda39726084e39f46f66bc2f1bfaa4ab2a866e5831ca00fa22216"
+}

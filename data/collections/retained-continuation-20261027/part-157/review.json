@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "DocDokuPLM 的 PLM 证据主要来自官方 README 的功能清单与仓库页：文档版本控制、产品结构/BOM、变更管理、工作流均有直接条目；但未取用户指南或代码验证变更请求→评审/批准→发布的具体流程，也未验证发布定义向 ERP/生产的交接。采集记录已明确标注“不主张”，不影响 PLM 类型判断，建议后续补充更深层官方文档或代码证据。",
+    "OCA/field-service 是 19.0 分支上的模块套件，而非单一打包应用；各模块 README 能证明序列化设备登记、设备保修关联、服务订单/协议关联、维修与备件，但未证明按单元自动判定适用覆盖，也未证明结算/开票链。条目已明确不主张该部分，建议继续保持这一边界，避免把“模块组合”表述为已验证的完整售后闭环。",
+    "frePPLe 的 README 将 .deb 包标注为 deprecated，但 batch 的 deployment 仍将其列为可用部署方式；不影响开源身份和 APS 类型，建议标注 deprecated 或改为 Docker/源码优先。",
+    "frePPLe 的 doc/features.rst 混合描述 Community/Enterprise/Cloud 的能力，未逐项标注企业版专属功能；条目限定为 Community Edition 时，建议补充 edition feature matrix，避免把企业版能力计入社区版范围。",
+    "product-configuration-management 与 factory-operations-management 两叶的候选快照（OCA/product-configurator、jukbot/smart-industry）未列入 REVIEW_SOURCES，无法按本次审查路径复核其正文；research 已记录抓取 hash 和核心缺口，建议后续把候选快照纳入来源清单或明确标注未留存。",
+    "DocDokuPLM 的维护/发布活跃度未核实；仓库页未显示归档标记，README 引用 2.5 用户指南，不能据此判断当前服务活跃度。"
+  ],
+  "leaf_checks": {
+    "product-configuration-management": {
+      "application_id": null,
+      "status": "no_case_documented_gap",
+      "evidence": "research.json assessment=boundary_unresolved，case_ids=[]；记录 OCA/product-configurator 16.0 的 README、LICENSE、product_config.py 与 product_configurator_mrp README 抓取结果，指出仅有配置模型/in-not 规则和制造订单配置向导，缺少模型测试/发布/版本/生效期生命周期；batch 未建立条目。",
+      "conclusion": "按“无案例但如实记录检索、抓取和缺口”的留档通过；本轮不能把该候选认定为产品配置管理案例。"
+    },
+    "product-lifecycle-management-plm": {
+      "application_id": "github:4630534",
+      "status": "case_found_with_documented_gap",
+      "evidence": "batch 条目 DocDokuPLM，track=open_source；仓库页 repository_id=4630534，与 github:4630534 一致；README 列出文档版本控制、产品结构/BOM、产品配置、流程/工作流、变更管理、浏览器查看 CAD/文档；LICENSE.txt 为完整 AGPL-3.0 文本，README 标注 AGPL v3。",
+      "conclusion": "PLM 类型匹配成立；产品数据记录、版本化定义、变更管理与工作流有 README 直接证据。ERP/生产交接及变更审批细节未核实，采集已标注不主张；作为非阻断证据深度限制记录。"
+    },
+    "advanced-planning-scheduling-aps": {
+      "application_id": "github:12776324",
+      "status": "case_found",
+      "evidence": "batch 条目 frePPLe Community Edition，track=open_source；仓库页 repository_id=12776324，与 github:12776324 一致；README 明确定位 demand forecasting 与 advanced planning and scheduling；doc/features.rst 描述有限产能/资源日历、工序与工艺路线、前后向排程、约束/非约束计划、setup matrix、交互式甘特图调整及 Odoo/ERP 集成；COPYING 为完整 MIT 文本，并说明 Community 版 MIT、Enterprise/Cloud 版为商业扩展。",
+      "conclusion": "APS 的操作级有限产能排程核心成立，排程对象、资源约束、计划调整与再生循环均有直接能力证据；社区版 MIT 边界在 README/COPYING 中有说明。"
+    },
+    "aftermarket-service-management": {
+      "application_id": "github:136248488",
+      "status": "case_found_with_documented_gap",
+      "evidence": "batch 条目 OCA/field-service，track=open_source；仓库页 repository_id=136248488，与 github:136248488 一致，默认分支 19.0；fieldservice README 提供服务地点、订单阶段与订单生命周期；fieldservice_equipment_stock 在序列号产品收货/交付时自动创建 FSM 设备；fieldservice_equipment_warranty 关联设备与产品保修；fieldservice_agreement 关联服务订单与协议；fieldservice_repair 管理设备维修与备件；LICENSE 为完整 AGPL-3.0。",
+      "conclusion": "安装基数、服务权益记录和服务需求三结构有模块级证据；按单元自动判定覆盖与结算/开票链未核实，采集已明确不主张，按已记录缺口通过。"
+    },
+    "factory-operations-management": {
+      "application_id": null,
+      "status": "no_case_documented_gap",
+      "evidence": "research.json assessment=boundary_unresolved，case_ids=[]；记录 jukbot/smart-industry 的 README、LICENSE 及 dashboard/track 页面抓取结果，指出项目自述仍在 heavy development、部署暂停，仅有机器/工单状态、OEE 和通知列表等片段，缺少事件—响应闭环、停机原因编码及与 ERP/机器层的计划/实际交互；batch 未建立条目。",
+      "conclusion": "按“无案例但如实记录检索、抓取和缺口”的留档通过；本轮不能把该候选认定为工厂运营管理案例。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行时测试。已按 REVIEW_SOURCES.json 的 14 个 path 原样读取全部批次来源快照；未读取其他单元、采集者 TASK.md 或历史脚本。research.json 中两个 boundary_unresolved 叶的候选快照（OCA/product-configurator、jukbot/smart-industry）未列入 REVIEW_SOURCES，无法按同一路径复核其正文，仅能依据 research 的抓取记录判断。未做外部网络复核，也未核验 DocDoku 维护活跃度、frePPLe edition feature matrix、OCA 结算链或定义文本翻译。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-157/ses_groveopencodegop157review2_1793015427.jsonl",
+  "batch_sha256": "15902e5fc8a401887044964a248bb8a7696b3d271096d266167c6552b538ba30",
+  "research_sha256": "93af7139b19e577fd4c7151d2ae730087b0bfe21485ccc3ec6508aebb35b845e",
+  "input_sha256": "0f27a1a8da6919de913b1930841206632f602cb0ed425f200e9ff4282a9863d2"
+}

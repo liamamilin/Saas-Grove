@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 7,
+  "offset": 150,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "e-commerce-fulfillment-management",
+        "name_zh": "电子商务履约管理",
+        "domain_id": "05",
+        "parent_id": "05.08",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-007/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "复核已保存的 ShipBob 官方首页快照并重新抓取 https://www.shipbob.com/ ，核对渠道接入、自有库存入库、拣货/打包/发货表述"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/145",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引首页主要证明第三方仓储拣配及履约服务，未证明本条目对应客户独立运营的SaaS履约管理产品；没有将实体履约服务直接当作软件案例。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "复核 ShipBob 官方首页快照（2026-10-24 抓取）中 200+ 零售渠道、50+ 履约中心与集成表述，收窄 reason 中“50+ 集成”“同步商品”的措辞"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引首页主要证明第三方仓储拣配及履约服务，未证明本条目对应客户独立运营的SaaS履约管理产品；没有将实体履约服务直接当作软件案例。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "e-commerce-fulfillment-management",
+        "name": "E-commerce Fulfillment Management",
+        "name_zh": "电子商务履约管理",
+        "aliases_zh": [
+          "电商履约系统",
+          "订单履行管理"
+        ],
+        "overview": "**E-commerce Fulfillment Management** is the seller-side system that manages the fulfillment operation behind an e-commerce business: it receives orders from the seller's connected selling channels, holds them as stateful work records, commits them against the seller's own stored inventory at fulfillment location(s), drives the physical pick-and-pack work through a state-governed loop, turns each order into a carrier shipment with a tracking identity, and reports completion back to the selling channel so the order's journey closes.\n\nThe defining structure is small:\n\n```text\nOrder from a selling channel\n  → fulfillment work record (state, holds)\n  → allocation against the seller's stored inventory at a fulfillment location\n  → pick → pack (scan-verified)\n  → carrier shipment (label, tracking)\n  → completion reported back to the channel\n```\n\nThe product family is marketed under several near-interchangeable names — fulfillment management software, order fulfillment platform, fulfillment software — and the market realizes one Type across two operating poles: software the seller's own staff operate, and fulfillment services where a provider's staff execute the work inside its own fulfillment centers while the seller manages the operation through the provider's platform. A third, closely related realization is the fulfillment house (3PL) that runs fulfillment for many client brands on the same kind of system.\n\nEverything else commonly associated with modern fulfillment — multi-location routing, automation rules, rate shopping, branded tracking, SLA dashboards, AI stock placement — is widespread in current products but is capability layered on top of the core, not what makes the product a fulfillment management system.",
+        "overview_zh": "**电商履约管理** 是卖家端的系统，用于管理电商业务背后的履约运营：它接收来自卖家已连接销售渠道的订单，将其作为有状态的工作记录保存，在履约地点针对卖家自有库存进行扣减，通过状态治理的循环驱动实体的拣选与打包工作，将每个订单转化为带有追踪标识的承运商发货，并将完成状态报告回销售渠道，从而闭合订单的旅程。\n\n其定义性结构很小：\n\n```text\n来自销售渠道的订单\n   → 履约工作记录（状态，挂起）\n   → 针对卖家在履约地点存储的库存进行分配\n   → 拣选 → 打包（扫描验证）\n   → 承运商发货（标签，追踪）\n   → 完成状态报告回渠道\n```\n\n该产品家族在营销上使用几个近乎可互换的名称——履约管理软件、订单履约平台、履约软件——市场在一个类型（Type）下实现了两个运营极点：由卖家自有员工操作的软件，以及由服务商员工在其自有履约中心内执行工作、而卖家通过服务商平台管理运营的履约服务。第三种紧密相关的实现形式是履约中心（3PL），它在同类系统上为众多客户品牌运行履约。\n\n现代履约通常关联的其他所有内容——多地点路由、自动化规则、费率比较、品牌化追踪、SLA 仪表盘、AI 库存放置——在当前产品中很普遍，但它们是叠加在核心之上的能力，而非使产品成为履约管理系统的本质。",
+        "dc": "Four structures jointly make the Type. Remove any one and the product stops being a fulfillment management system.\n\n**1. Channel orders as the unit of fulfillment work.** Orders arrive from the seller's connected selling channels — storefronts, marketplaces, retail connections — and additionally by manual entry, spreadsheet upload, postal/mail-order intake, or API. Each order exists as a persistent work record carrying its items and quantities, the recipient and address, the requested service level, and a fulfillment state. The order record is what the whole system works on; it is not a copy of a receipt but the live object that moves through fulfillment.\n\n**2. The seller's own stored inventory as the stock of record.** The goods being fulfilled are inventory the seller owns, held at a fulfillment location — the seller's own warehouse, a fulfilment house's building, or a provider's fulfillment center where the stock is stored and handled on the seller's behalf. Products are held as SKU records with quantities per location; allocation commits stock to orders; inbound receiving (often tracked against advance shipping notices) replenishes it. This is the boundary that keeps the Type distinct from supplier-stock models: if the goods sit in a supplier's inventory and are only forwarded, the operation is dropshipping, not fulfillment from own stock.\n\n**3. The order-to-shipment execution loop.** Each order is allocated against stock at a location, physically picked, packed and verified, and turned into a carrier shipment — a label is produced, the package is dispatched, and a tracking identity comes into existence. The loop is the system's engine: everything before it prepares the order, everything after it reports the result.\n\n**4. Completion reported back to the order's source.** When an order is despatched, the system records the despatch date and tracking number and updates the integrated selling channels automatically, so the channel's own order status advances and the customer can be told the order shipped. The loop-closing is structural: without it, the system is an internal warehouse tool rather than a management system connected to the seller's commerce.\n\n```text\nSelling channels ──orders──▶ Fulfillment work records\n                                   │  holds / policies / allocation\n                                   ▼\n        Seller's stored inventory ◀──receiving (ASN)── inbound stock\n                                    │  pick → pack → verify\n                                    ▼\n                         Carrier shipment (label, tracking)\n                                    │\n                                    └──tracking/carrier/order id──▶ back to channels & customer\n```",
+        "dc_zh": "四个结构共同构成该类型。移除任何一个，产品就不再是履行管理系统。1. 渠道订单作为履行工作的单位。2. 卖家自有存储库存作为记录库存。3. 订单到发货的执行",
+        "rules": "**The order's state governs the work.** Fulfillment states are not decoration: they determine which orders appear in which workers' queues and which actions are legal. A ready order with allocated stock enters picking; a despatched order has completed the loop; a cancelled order releases its stock allocations back to inventory. Products differ in how many states they expose and what they name them, but the state-driven queue is structural.\n\n**Holds gate the queue.** An order under an unresolved hold — payment, documentation, fraud, confirmation, a future release date, or an open query — does not enter picking, regardless of its other properties. Some holds are set automatically by rules or integrations; releasing each is a distinct, attributable act.\n\n**Allocation decrements real stock.** Committing an order consumes the location's available quantity; the resulting stock position is what syncs outward to the selling channels. Inaccurate inventory breaks the loop twice — overselling on the storefront and failed allocation in the warehouse — which is why inventory fidelity is treated as structural rather than cosmetic.\n\n**Stock shortages follow a configured policy, not an improvisation.** When allocated stock turns out to be unavailable, mature products apply a configured policy — hold for manual reprocessing, back-order with automatic reprocessing on receipt, or split the order — rather than leaving the outcome to ad-hoc workarounds. The policy is the seller's or operator's choice, configured in the system; the exact options vary by product.\n\n**Channel notification is a controlled act, not a side effect.** Products let sellers choose when the channel learns of a despatch (at label creation, at carrier first scan, at a set time) and let them suppress or delay notifications — because a premature or wrong tracking number sent to a marketplace is hard to walk back. Some products do not re-notify the channel when a voided label is replaced, a documented trap that delayed-notification settings exist to avoid.\n\n**The fulfilled goods are the seller's own.** In every realization, the stock being picked belongs to the seller — held in its own warehouse or in a fulfilment house's or provider's building on its behalf. The operator stores, handles, and ships but does not own the goods; the seller directs the operation through the system and pays for fulfillment activity. This is the structural line against supplier-stock fulfillment models.\n\n**Service-pole operations carry performance commitments.** Where a fulfilment house or provider operates the buildings, the system typically reflects service-level commitments — ship-within-SLA targets, accuracy guarantees, claims handling for lost or damaged shipments — because the operator, not the seller, is accountable for execution quality.\n\n**Client billing follows activity (fulfillment-house variant).** In multi-client operations, fulfillment events (picks, packs, storage days, goods-in handling) are priced against the client's rate card and invoiced from the same records that drive the operation — making the operational and commercial ledgers one system.",
+        "rules_zh": "**订单的状态治理工作。** 履约状态不是装饰：它们决定哪些订单出现在哪些工作人员的队列中，以及哪些操作是合法的。具有已分配库存的就绪订单进入拣选；已发货订单完成了循环；已取消订单将其库存分配释放回库存。产品在暴露多少状态及其命名上有所不同，但状态驱动的队列是结构性的。\n\n**挂起门控队列。** 处于未解决挂起状态的订单——支付、文档、欺诈、确认、未来发布日期或开放查询——无论其其他属性如何，都不进入拣选。一些挂起由规则或集成自动设置；释放每一个都是独立的、可归因的行为。\n\n**分配减少真实库存。** 提交订单消耗地点的可用数量；由此产生的库存位置是向外同步到销售渠道的内容。不准确的库存会两次破坏循环——在店面超卖和在仓库分配失败——这就是为什么库存保真度被视为结构性而非表面性的。\n\n**库存短缺遵循配置的策略，而非即兴发挥。** 当分配的库存结果不可用时，成熟产品应用配置的策略——挂起等待手动重新处理、背单并在收到时自动重新处理、或拆分订单——而不是将结果留给临时变通方法。策略是卖家或操作员的选择，在系统中配置；具体选项因产品而异。\n\n**渠道通知是受控行为，而非副作用。** 产品让卖家选择渠道何时得知发货（在标签创建时、在承运商首次扫描时、在设定时间）并允许他们抑制或延迟通知",
+        "parent_id": "05.08",
+        "domain_id": "05"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 58,
+    "phase": "directory",
+    "parent": 58,
+    "slugs": [
+      "e-commerce-fulfillment-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "575ae510f9c721007e9e396d0ba9d124a2f848cd505e91b9d5a9091c7e32cd0e"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "坐席通话的音频承载在独立仓库 rasonyang/web-sip-phone（Chrome 扩展），本单元未抓取该仓库，未核对其许可证与可用性；batch 的 features/deployment 也未提这项外部依赖。主应用本体（呼叫账本、队列分配、坐席状态、工作台与报表、REST/SSE）均在 Apache-2.0 仓库内，故不阻断；建议在 features 或 deployment 中补一句“坐席语音由独立 web-sip-phone 扩展承载，本仓只做呼叫控制”，并在需要时补该仓库的许可证核对。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "deployment 中“Linux 安装至 /opt/aicc、macOS 安装至 ~/.aicc”的具体路径未出现在任何已引用快照中（README 仅给出 releases/latest/download/install.sh 与 deploy/ 文档链接，deploy/one-line-installer.md 未抓取）。属外围细节，不影响类型、身份与许可证判断；建议删除具体路径或补抓部署文档快照。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]（沿用历史 FreePBX Queues 结论），而 batch.json/research.json 现在已记录 github:1331444342 为案例。两者不冲突（前者为输入时的历史状态），但下游合并时应以 batch/research 为准，避免叶状态与条目关系不一致。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "边界讨论：本产品默认由 AI 语音先应答每个外部号码，再转人工队列。三项定义核心仍在正文中完整成立（呼入/呼出、mod_callcenter 队列与策略分配、READY/NOT_READY/ACW 坐席可用性），故按 call-center-platform 收录合理；若后续版本以聊天/邮件/社媒为主则应改归 contact-center-platform，若以云服务交付同一核心则应归 CCaaS。建议在 service_boundary 中保留这一判断依据（现已包含，可保留）。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "来源内部有一处轻微矛盾：05-frontend.md §4 仍写“ACW countdown from wrap_up_until”，而 01-telephony.md §2 的 2026-08-19 修订明确取消了 ACW 倒计时（无 timer，需坐席 Done 结束）。batch/research 采用 01 的口径（无倒计时、ACW 期间镜像 On Break 使队列不下发），与正文主流描述一致；此为上游文档未同步，不是条目缺陷，建议后续复核时留一句说明。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:1331444342",
+      "note": "两份 design 文档含有明确标注“designed, not implemented”的段落（如 switchData、启动时从 PG 载入快照、adopt-as-new 宽限窗口），均属外围能力，不涉及电话/队列分配/坐席可用性三项核心。README 的 Status 写明 human path、AI path、product surface 与 packaging 已构建并对着真实 FreeSWITCH 与真实 provider 验证，足以支撑实现态判断；若日后加强证据，可优先引用 README Status 段落。"
+    }
+  ],
+  "leaf_checks": {
+    "call-center-platform": {
+      "application_id": "github:1331444342",
+      "name": "AI Native Call Center",
+      "track": "open_source",
+      "definition_core": "三项定义核心均有正文支撑，非简介/元数据推断。(1) 电话为工作单元：README 说明呼叫到达 FreeSWITCH、以 SIP/RTP 承载，AI 腿是应用内 SIP 端点，外部呼入(DID)与平台外呼(F4 AI outbound、F5 click-to-dial)共用同一呼叫账本，每次通话一个 call id 与一条 CDR；01-telephony.md §3 给出 F1 呼入、F4 外呼、F5 坐席外呼的具体 ESL/拨号路径。(2) 系统管理分配：01 §4 明确队列定义由 PostgreSQL 渲染为 callcenter.conf，strategy 枚举含 LONGEST_IDLE_AGENT(默认)/ROUND_ROBIN/TOP_DOWN/AGENT_WITH_LEAST_TALK_TIME/AGENT_WITH_FEWEST_CALLS/RANDOM，tier 带 level/position，坐席腿由 mod_callcenter 发起并在坐席接听后 bridge；§3 F3 描述 offer→接听→bridge 全流程，F7 描述溢出(bot_flow/forward/announce_hangup)与放弃原因。(3) 坐席为运营角色且可用性被系统跟踪：01 §2 坐席 FSM 给出 LOGGED_OUT/NOT_READY(带原因)/READY/ACW，READY 才参与分配，NOT_READY 与 ACW 镜像为 callcenter On Break，设备注册丢失自动 NOT_READY(DEVICE_LOST)，RONA 由 FS→Go 镜像为 NOT_READY(SYSTEM)。",
+      "tools_and_metrics": "坐席处理工具：05-frontend.md §2 路由含 /agent 座席工作台（弹屏、RingingBanner/Transcript/WrapUp 卡片）、/agent/calls（本人 CDR）、/agent/contacts、/agent/callbacks；§4 说明接听/保持/挂断经 REST（后端 uuid_phone_event），座席 SPA 不处理音频。实时度量：README 说明主管有 live wallboard、queue view、roster；05 §2 含 /supervisor、/supervisor/agents、/supervisor/queues，§2 修订条说明 cockpit“My queue”按队列自身 slaThresholdSec 变红、Today 卡读 GET /reports/me。历史度量：/admin/cdr、/admin/reports 在 05 §2 的已发布路由清单中，01 §2/§4 说明 CDR 含 queue_wait_sec、missed_reason(ABANDONED_WAITING/RINGING/SHORT_ABANDONED) 与录音、转写。故定义中“实时与历史地衡量”亦有正文依据。",
+      "service_form": "自托管完整应用服务形态成立：README 明确为一个 Go 二进制内含 REST API、事件流与整个 Web 界面，外加 PostgreSQL 与 FreeSWITCH，并提供 Linux/macOS 一键安装与 deploy/README。非纯 SIP 客户端、软电话扩展、ACD 库或队列配置模块。唯一需注意的边界：坐席音频由独立仓库 web-sip-phone 的 Chrome 扩展承载，本仓负责呼叫控制与信令（已记入 non_blocking_notes）。交付形式为自托管而非云服务，故归 call-center-platform 而非 CCaaS 叶，research 的 service_boundary 表述与之相符。",
+      "identity_and_track": "GitHub 元数据快照 cae16238… 中 id=1331444342、full_name=rasonyang/ai-native-callcenter、html_url 与 batch 的 homepage/repository_url 一致，private=false、fork=false、default_branch=main，无 archived:true / disabled:true；entry 的 github_repository_id 1331444342 与 track=open_source 与公开仓库事实匹配。",
+      "license": "许可证记录为 Apache-2.0，核对成立：license 快照 20009e37… 中 path=LICENSE、size=11357、sha=261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64（即标准 Apache License 2.0 全文的已知 blob），content 解码开头为“Apache License Version 2.0, January 2004 http://www.apache.org/licenses/”，并含“TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION”及 Definitions 全文；仓库元数据 license 字段为 apache-2.0 / SPDX Apache-2.0；README 第 162–164 行亦写“Apache-2.0. See LICENSE”。属完整许可证文本而非仅 SPDX 标签，符合开源完整许可证要求。",
+      "community_edition_boundary": "快照中未见任何 open-core / 企业版 / 功能阉割的表述：README 以“open-source call center”自述，全部功能（AI 应答、队列转人工、坐席工作台、主管看板、CDR/报表、报表 API、部署打包）都在同一 Apache-2.0 仓库内描述，未标注付费模块或闭源组件。仅有的外部依赖（web-sip-phone 扩展、可选的 cascade-realtime-gateway）被 README 明示为独立组件而非本产品的付费版本边界；其许可证未核对，属可补强项而非社区版边界缺陷。",
+      "historical_candidate_check": "叶内历史候选 FreePBX Queues 的结论保留且未升级：research/input 记录其仅为 FreePBX/Asterisk 的 ACD 队列配置模块（module.xml 与 README 仅覆盖 FIFO/ring strategy/caller announcements/max wait，仓库树只有队列配置/API/视图，无坐席工作界面与实时/历史报表），不足以证明平台核心，故不作为案例；其许可证分歧（API 为 GPL-2.0、README/module.xml 写 GPLv2+ 即 GPL-2.0-or-later）已如实留档并给出恢复时的记录方式。本条不作为本单元阻断项。",
+      "gaps": "未部署运行（runtime_tested=false，verification_status=official_sources_reviewed），所有判断基于 5 份已保存快照（仓库元数据、license、README、01-telephony.md、05-frontend.md）；未抓取 web-sip-phone 仓库、deploy/one-line-installer.md、docs/openapi.json。research 中 goautodial/v4.0（无 LICENSE，license API 404）、pchero/jade（前端在独立仓库、自 2018 无推送）、IssabelFoundation/callcenter（已归档且无 SPDX）、FreePBX 官方文档历史上 SSL/跨主机重定向失败等检索与抓取缺口已如实记录，且均未计入案例，符合“已有来源充分即可、缺口如实留档”的要求。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅使用 read/grep 读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 5 份快照（路径按 data/collections 基准原样读取，未猜测或缩写）。未运行 shell、未写文件、未读取其他单元、未做网页再抓取。因此：(1) 未部署或运行该应用，无法验证运行时行为，实现态判断依赖 README 的 Status 段落与 design 文档中的“live/M0-verified”标注；(2) design 文档包含明确标注“designed, not implemented”的前瞻段落，本次只据此排除外围能力，不能证明未标注部分全部已实现；(3) 仓库元数据快照为单行 JSON，受读取工具单行截断影响，archived/visibility/license/默认分支等字段以定向检索命中为准，未能逐字段通读全文；(4) license 全文以 size=11357、已知 Apache-2.0 blob sha、解码后开头与条款片段交叉确认，未完整解码全部 base64；(5) 独立组件 rasonyang/web-sip-phone、deploy/one-line-installer.md、docs/openapi.json 未在快照内，其许可证与内容未核对；(6) 未检查该应用在其他单元中的重复收录情况。以上限制不影响本单元定义核心、服务形态、身份/track 与许可证的记录通过。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-060/ses_groveopendesignp060review1_1793173885.jsonl",
+  "batch_sha256": "1980e9e79200e76f6507e044cd9ba9c422132d4828d33c2f49f82f63406f4363",
+  "research_sha256": "974cb32ebae71386c188867b622d7f0e6749feefcd045c0d456d65e8d6f8234b",
+  "input_sha256": "251857243986788fd9bd8df2f4ce4f68a58d28e44842e8f168f3bf33d47fe5b2"
+}

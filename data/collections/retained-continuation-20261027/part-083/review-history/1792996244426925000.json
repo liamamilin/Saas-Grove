@@ -1,0 +1,69 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "research-information-management-cris",
+      "application_id": "github:6448802",
+      "issue": "VIVO 官方 README 主要证明关联记录的编辑、检索、浏览、可视化与分面检索，覆盖人员、项目、设施、资助、学术成果和公开画像；但没有证明本叶定义所必需的多渠道采集，以及与机构人员匹配、去重、认领和验证的持续调和循环。研究记录本身也承认该能力由独立的 VIVO Harvester 承担，不能归到 VIVO 核心仓库。按本叶三属性缺一不可的标准，VIVO 是研究展示与发现平台，不足以作为完整 CRIS 的 case_found。",
+      "fix": "补充 VIVO 与 VIVO Harvester 作为同一部署方案的官方文档，明确采集、匹配、去重和认领边界后保留该案例；否则将本叶改为 boundary_unresolved/no case，并在研究记录中保留该核心缺口，不要以 VIVO 核心仓库证明 CRIS 的采集调和能力。"
+    },
+    {
+      "slug": "research-project-management",
+      "application_id": "github:10199599",
+      "issue": "OSF 官方帮助文章主要证明项目与组件容器、贡献者权限、Wiki/Files、隐私、注册归档和 Analytics；没有证明本叶定义所必需的科研工作项，即实验、研究或任务及其负责人、状态、截止日期，也没有计划、分配、执行、跟踪、评审和报告的协调循环。按本叶定义，OSF 是研究协作与文档容器，不是科研项目管理应用；批次仍将其列为 case_found 并写入 leaf_matches，summary 也称其为项目管理平台。",
+      "fix": "从 research-project-management 的 leaf_matches 和 case_ids 中移除 OSF，或补充能直接证明任务级工作项与协调循环的官方产品文档；若无法补充，将本叶标记为 boundary_unresolved/no case 并保留缺口说明，同时收敛 batch summary 的项目管理表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与本单元 batch/research 中的四个案例不一致；若下游以 input.json 作为进度源，应在修复阶段同步，不影响本次内容判断。",
+    "Indico README 将论文评审与拖放式日程分列，未逐字说明仅录用作品进入日程；research.json 的直接证据措辞可收敛为由会议组织工作流与日程模块共同支持，不影响类型判断。",
+    "OSF 帮助文章快照的抓取 URL 为 category/351-projects-home，正文 canonical 为 article/353-welcome-to-projects；属正常跳转，正文可用。",
+    "research.json 记录了 eLabFTW 三个文档快照和 OSF 主页 JS 壳快照，但 REVIEW_SOURCES.json 未登记这些文件；若仅作检索或边界留档可不阻断，若作为引用证据应补入 manifest 或注明用途。",
+    "eLabFTW 的 user-guide 快照 canonical 为 /docs/category/user-guide，而 research.json 记录的抓取 URL 为 /user-guide.html；疑似重定向，若需精确 provenance 可更新记录。",
+    "iSkyLIMS README 提到 Clinic 支持模块，但核心叙述仍是 genomics facility 的 WetLab/DryLab 研究流程；研究记录已注明非临床诊断 LIMS，类型边界可接受。",
+    "iSkyLIMS README 未展示 freezer/rack/box 存储位置和细粒度角色权限；这些是本叶规则或标准能力而非四属性核心，不阻断，但不宜据此扩展为完整冷库管理描述。"
+  ],
+  "leaf_checks": {
+    "research-information-management-cris": {
+      "status": "core_gap",
+      "application_id": "github:6448802",
+      "evidence": "VIVO 官方 README 正文显示其支持编辑、检索、浏览和可视化研究活动，覆盖人员、项目、设施、资助、学术成果与事件，并提供分面检索；BSD-3-Clause 许可证全文已核对，仓库 ID 为 6448802，track 为 open_source，形态为 Web/self-hosted。关联记录语料与机构展示面有正文支撑。",
+      "gap": "缺少多渠道采集、人员匹配、去重、认领和验证的持续调和循环；研究记录承认该能力由独立 VIVO Harvester 承担。按本叶三属性缺一不可，不能作为完整 CRIS 的 case_found。",
+      "verdict": "需修复（见 findings）"
+    },
+    "research-lims": {
+      "status": "pass",
+      "application_id": "github:132910351",
+      "evidence": "iSkyLIMS README 正文显示 WetLab 以项目、样本、文库制备、pool 和测序运行为对象，按登记、sample-sheet 交付、数据处理、统计生成和完成推进，并按样本、项目、运行和调查出报告；DryLab 管理分析请求、状态、文件和交付。GPL-3.0 许可证 API 快照含完整 GPLv3 文本，仓库元数据 ID 为 132910351，track 为 open_source，部署为 Web/self-hosted/Docker。样本记录、来源与谱系、受管流程和可溯源结果均有正文支撑。",
+      "gap": "README 未展开 freezer/rack/box 存储位置和细粒度角色权限；这些是本叶规则或标准能力，不是四属性核心。未做运行时部署验证。",
+      "verdict": "通过"
+    },
+    "research-project-management": {
+      "status": "core_gap",
+      "application_id": "github:10199599",
+      "evidence": "OSF 官方帮助文章正文显示 OSF Project 是研究生命周期的协作工作区，含 Components、Contributors、Wiki、Files、隐私、注册或长期记录、Analytics；Apache-2.0 许可证全文已核对，仓库 ID 为 10199599，track 为 open_source，形态为 Web/self-hosted。项目容器、研究内容、权限与归档有正文支撑。",
+      "gap": "缺少科研工作项（实验、研究或任务）的负责人、状态、截止日期，以及计划、分配、执行、跟踪、评审和报告的协调循环。按本叶定义，OSF 是协作与文档容器，不是科研项目管理应用；研究记录承认该缺口，但 assessment 仍为 case_found。",
+      "verdict": "需修复（见 findings）"
+    },
+    "scholarly-conference-management": {
+      "status": "pass",
+      "application_id": "github:2113067",
+      "evidence": "Indico 官方 README 正文显示其为 CERN 开发的 Web 事件管理工具，具备会议组织工作流：Call for Abstracts、摘要评审、论文评审、可配置注册表单、支付集成、拖放式日程管理、材料归档；MIT 许可证全文已核对，仓库 ID 为 2113067，track 为 open_source，形态为 Web/self-hosted。会议容器、投稿到评审与录用的管线、日程与注册能力均有正文支撑，类型匹配成立。",
+      "gap": "README 未逐字说明仅录用作品进入日程，属合理推断；不影响类型判断。未做运行时部署验证。",
+      "verdict": "通过；措辞见 non_blocking_notes"
+    },
+    "scientific-instrument-management": {
+      "status": "pass_with_recorded_gap",
+      "application_id": null,
+      "evidence": "研究记录对检索与抓取缺口的留档较完整：GitHub Search API 多组查询；eLabFTW Resources 与 Scheduler 文档快照显示资源登记、可预约资源、拖放预约和绑定实验，但没有维护、维修或校准记录，也没有由服务记录驱动的 in service/down/under maintenance 状态门控；BookedScheduler 上游仓库 404。没有同时满足仪器登记、共享时段分配、维护校准与运行状态门控三结构的案例。",
+      "gap": "按无案例但如实记录检索与抓取缺口的规则可通过；eLabFTW 仅为带资源预约的 ELN，未收录是正确的。",
+      "verdict": "通过（boundary_unresolved，缺口已留档）"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、未部署、未访问外部网络、未读取其他单元；依据本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 data/collections/sources 下快照。未重新计算 SHA-256，未独立核验 GitHub 归档状态或 SPDX 标识，以快照和批次记录为准。本单元无商业条目，商业真实性与类型匹配检查不适用。eLabFTW 文档快照未列入 REVIEW_SOURCES，仅用于边界核对；无法验证运行时行为、价格和架构。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-083/ses_groveopencodegop083review1_1792995833.jsonl",
+  "batch_sha256": "156d69b334afd1c78fe397bf399010a525e2e4df9e682006529b3aca0bc050bd",
+  "research_sha256": "4a89a511fd48df6caf030dd896a3f1d4bdf0fdebbe933a8e2ab40da0f7a79c56",
+  "input_sha256": "b0d4fde7446b4f262d6769389526b4953d83d8e7d16f902024aa22f3edb9d6e1"
+}

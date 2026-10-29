@@ -1,0 +1,46 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "conversation-intelligence-platform",
+      "application_id": "commercial:gong",
+      "issue": "唯一引用的快照 data/collections/sources/1e28f0ea7b3b43227bc8a1dfccaef149bc75dd6fe80dfa03abf4dba03e41ab3d.txt 实际是 Document360 帮助中心壳页：标题为 Welcome to Gong，正文区域只见导航、样式、加载骨架和脚本状态，未包含捕获对话、机器转录、衍生信号、CRM 集成或组织级聚合等可核对正文。research.json 的 fetch_outcomes 却记录“正文含自动录制/转写 calls、emails、meetings 及对话分析、CRM 集成”，batch.json 的 leaf_matches 也据此建立关系；这是用元数据/Loading 壳替代核心正文，无法证明该叶定义性核心。",
+      "fix": "重新抓取该页在 HTML 中声明的 Markdown 版本 https://help.gong.io/docs/getting-started-welcome-to-gong.md 或其他含正文的官方文档，按 REVIEW_SOURCES.json 的 path 规则保存并核对后再更新 research.json 与 batch.json 的 reason；若仍无法取得正文，应删除 commercial:gong 关系，将该叶记为无案例/来源缺口，并如实记录抓取失败，而不是保留现有结论。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Tiledesk 的 application 级 license=MIT 只对应部署编排仓库 Tiledesk/tiledesk；batch 与 research 已在 summary、license_review 和 deployment 中限定范围并记录 Server 源仓库 404、移动端组件 AGPL-3.0、Enterprise 私有镜像等边界，建议再增加独立的 license_scope 字段，避免读者把整个产品理解为单一 MIT。",
+    "Frappe Helpdesk 的 batch deployment 写“自托管部署未在 README 展开”，但实际 README 含 Production Setup/Self Hosting 的 easy-install 步骤与 Docker 开发步骤；建议修正该描述，不影响核心与许可证判断。",
+    "Tiledesk README 的 Web/Android/iOS 表述兼指渠道与人工作席应用，batch 中“Web/Android/iOS 多渠道机器人会话”可更精确，避免把移动坐席应用误读为机器人渠道。",
+    "EvaluAgent 来源是营销功能页而非产品文档，评分卡、校准、申诉、评估者监控等内容足以支持商业类型匹配，但不宜据此扩展页面未明示的能力；Gong 的“销售参与、预测”等收入智能边界描述在修复来源时也应删除或补证。",
+    "Frappe Helpdesk README 对工单生命周期和来回通信的描述较简，核心闭环主要依据 Ticket Management、双门户、自动分配、SLA 和“resolve customer queries”合理归纳；若采用更严格口径，建议补充其官方文档快照。"
+  ],
+  "leaf_checks": {
+    "contact-center-quality-management": {
+      "status": "pass",
+      "basis": "读取 EvaluAgent 官方质量保证页快照 a94e649a...txt：页面明确多通道自定义评分卡、评估界面内播放录音/查看工单、校准与 Check-the-Checker、坐席申诉、Monitor Agents/Monitor Evaluators、KPI 与 line-item 报告、反馈和辅导，能覆盖坐席—交互记录—评估表—评分记录—坐席质量档案的核心。来源为商业营销功能页，未做运行验证，符合商业产品只查基本真实性和类型匹配的口径。"
+    },
+    "conversation-intelligence-platform": {
+      "status": "changes_required",
+      "basis": "唯一引用的 Gong 快照 1e28f0ea...txt 为 Document360 壳页，正文未包含 capture/transcription/analytics/CRM 等关键词或工作流说明；无法核对“捕获对话—机器转录—衍生信号—组织级访问聚合”的定义性核心。research.json 对正文内容的描述与快照不符，需重新抓取或撤销该关系。"
+    },
+    "customer-service-chatbot-platform": {
+      "status": "pass",
+      "basis": "读取 Tiledesk README、architecture/schema、prechat form、requests API、transcript-on-close、custom-assignment 与 components 快照：README 定位为开源 Live Chat + integrated Chatbots；schema 说明 Automation Designer 配置 human handoff、Dashboard/移动应用供坐席 take over、MongoDB 保存会话历史；prechat 教程说明机器人 handoff 到人工并在 conversation panel 读取用户数据；requests 模型含 transcript、participants、participatingAgents/Bots、hasBot、status、assigned_at、closed_at、notes；custom-assignment 说明部门 round-robin 与 pooled 未分配队列。许可证方面 MIT 全文已核，但仅覆盖部署编排仓库；组件许可存在 MIT/AGPL 差异、Server 源仓库 404 已在 batch/research 如实记录。"
+    },
+    "customer-support-chat": {
+      "status": "pass",
+      "basis": "读取 Live Helper Chat README、仓库元数据与 Apache-2.0 完整许可证快照：README 明确为网站提供免费开源实时支持，含 site widget、page embed、multiple operators、multiple chats、chats archive、transcript print/mail、transfer、departments、visitor tracking 等，能覆盖自有聊天入口—访客实时会话—坐席控制台的核心；仓库 id=7068587 与 batch 一致，Apache-2.0 为仓库级完整许可。"
+    },
+    "help-desk": {
+      "status": "pass",
+      "basis": "读取 Frappe Helpdesk 与 osTicket 的 README、仓库元数据和许可证快照：Frappe README 明确 100% 开源 Ticket Management、客服/客户双门户、工单自动分配、SLA、知识库与预置回复，仓库 id=419635982、AGPL-3.0 全文已核；osTicket README 明确用户经网站/邮件/电话建单、工单保存并分配给坐席、坐席回复解决，仓库 id=12063996、GPL-2.0 全文已核。两例共同覆盖请求—工单—共享队列/分配—坐席回复—解决的核心，Frappe 的生命周期细节偏简但不影响本叶有 osTicket 强证据。"
+    }
+  },
+  "limits": "本次仅用只读方式读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的快照；未运行 shell、未写文件、未读取其他单元、未做部署/运行验证、未做外部补充抓取或价格/架构研究。Gong 快照为客户端壳页，无法核对正文；Tiledesk 组织仓库快照为单行压缩 JSON，未能逐仓库枚举许可证，仅核对已引用的 license API 文本及 batch/research 的边界记录；商业产品仅核对官方页面基本真实性与类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-112/ses_groveopencodegop112review2_1793004980.jsonl",
+  "batch_sha256": "6150dc26acc9f8ed44945ddbc71039674cf68013f9c772fc90fe646d53b93f10",
+  "research_sha256": "b16c0c89ac814fefb7801afdbb5db41ea53a44aa54a2d4649f336f67247dddb9",
+  "input_sha256": "3b77750048e40804efa83944318c5af29b261a0c10d9891d1226b9370c6a9573"
+}

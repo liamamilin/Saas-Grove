@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "pathology-information-system",
+        "name_zh": "病理信息系统",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source pathology information system github"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/923",
+            "result": "insufficient_evidence",
+            "note": "开源检索结果很少。Starling（Apache-2.0）是较完整的开放病理平台，README 显示其有登录、工作列表、病例详情、全切片查看器、会话安全提示与审计，但明确定位为连接医院 LIS 与 AI 决策支持的平台；未说明标本登记、大体检查、组织块/切片制备，也未说明病理医师诊断签署。OpenAPLIS 仓库仅有 50 字节 README 和很小的 Electron 骨架，不构成完整系统。因此没有足够证据把任一候选认定为完整病理信息系统；保留候选、URL、抓取结果与具体缺口。",
+            "query": "open source pathology information system github"
+          }
+        ],
+        "archived": false,
+        "note": "开源检索结果很少。Starling（Apache-2.0）是较完整的开放病理平台，README 显示其有登录、工作列表、病例详情、全切片查看器、会话安全提示与审计，但明确定位为连接医院 LIS 与 AI 决策支持的平台；未说明标本登记、大体检查、组织块/切片制备，也未说明病理医师诊断签署。OpenAPLIS 仓库仅有 50 字节 README 和很小的 Electron 骨架，不构成完整系统。因此没有足够证据把任一候选认定为完整病理信息系统；保留候选、URL、抓取结果与具体缺口。"
+      },
+      "definition": {
+        "slug": "pathology-information-system",
+        "name": "Pathology Information System",
+        "name_zh": "病理信息系统",
+        "aliases_zh": [],
+        "overview": "A **Pathology Information System** is the pathology department's system of record for its diagnostic work on tissue and cell specimens. It accessions each submitted specimen as a **case** bound to an identified patient and the requesting context, drives the preparation of that case's diagnostic material — the gross examination, the tissue blocks, the microscopic slides — and completes the case when a pathologist examines the prepared material and signs out a diagnosis that becomes the patient's pathology report of record.\n\nThe problem it solves is one no general laboratory system handles well: pathology is not machine measurement. A specimen arrives as a piece of tissue with a request attached; days of technical work transform it into labeled glass slides; and the outcome is a narrative diagnosis authored by a physician who examined that material. Every step must keep the right name attached to the right piece of tissue, and the case is not finished until a pathologist puts their signature on it. Before such systems, departments ran this on an accession ledger, hand-written grossing sheets, hand-labeled cassettes and slides, dictation and typed reports — a workflow this software digitizes stage for stage.\n\nThe defining core is small: a case of record, the specimen-to-slide preparation workflow, and the pathologist's diagnosis made final at sign-out. Everything else commonly associated with modern products — barcode labeling, synoptic cancer protocols, whole-slide imaging, EMR interfacing, workload dashboards — is standard capability that mature products add, not what makes the product a pathology information system.\n\nWhen the organizing unit shifts from the case to the ordered test and the outcome shifts from a signed-out diagnosis to a validated instrument result, the product is operating as a different Application Type — the Laboratory Information System (LIS).",
+        "overview_zh": "**病理信息系统**是病理部门用于记录其在组织和细胞标本上诊断工作的系统。它将每个提交的标本作为**案例**进行登记，该案例与已识别的患者和请求上下文绑定，驱动该案例诊断材料的制备——大体检查、组织块、显微镜载玻片——并在病理学家检查制备的材料并签署诊断后完成案例，该诊断成为患者的正式病理报告。\n\n它解决的问题是普通实验室系统无法很好处理的：病理学不是机器测量。标本作为一块组织到达，附有请求；几天的技术工作将其转化为标记好的玻璃载玻片；结果是由检查该材料的医生撰写的叙述性诊断。每个步骤都必须将正确的名称与正确的组织块关联，直到病理学家签名之前，案例都不会完成。在这些系统出现之前，部门使用登记簿、手写的大体检查表、手标记的盒架和载玻片、口述和打印报告来运行此流程——该软件将此工作流程逐阶段数字化。\n\n定义的核心很小：一个记录案例、标本到载玻片的制备工作流程，以及病理学家在签署时最终确定的诊断。其他通常与现代产品相关的内容——条形码标记、综合癌症方案、全切片成像、EMR接口、工作负荷仪表板——是成熟产品添加的标准功能，并非使产品成为病理信息系统的关键。\n\n当组织单位从案例转向订购的测试，结果从签署的诊断转向验证的仪器结果时，该产品作为不同的应用类型运行——实验室信息系统（LIS）。",
+        "dc": "```text\nPatient / subject of record\n└── Pathology case of record (accessioned; requesting context attached)\n    └── Specimens / parts received and verified\n        └── Prepared diagnostic material\n            (gross description → blocks → slides/stains, identity carried at every step)\n        └── Pathologist's interpretation of the material\n            └── Diagnosis & report, final on sign-out\n                └── Retained case record + retained material (blocks, slides, images)\n```\n\nThree properties. If any one is removed, the product is no longer recognizable as this Type:\n\n- **The case of record.** Every unit of work is a persistent, individually accessioned case that binds the patient, the submitted specimen or specimens (often several parts under one case), and the requesting context. Everything the department does — every block cut, every stain run, every word dictated — attaches to the case, and the case is retained as an attributed, auditable, confidential record. Without the case, there is only a loose collection of specimens and paperwork.\n- **The specimen-to-material preparation workflow.** The system exists to manage the transformation of raw tissue into diagnostic material: the gross examination is described, tissue is submitted into blocks, blocks are cut and stained into slides (or, for cell-based cases, prepared and stained). Specimen identity travels with the material at every step — labels, barcodes, chain of custody — and mismatches are intercepted rather than discovered at sign-out. This is the workflow that manufactures what the diagnosis reads from. Without it, the system is a case registry with nothing happening, or a separate tissue tracker.\n- **Pathologist diagnosis authoring and sign-out.** The case completes when a pathologist examines the prepared material and authors the diagnosis. Sign-out is the act that makes the report final — a professional medical act of record, performed by name, with the case's remaining work (pending stains, recuts, special studies) resolved first. The signed-out report is the patient's pathology result; changes afterwards happen as tracked amended reports. Without this, the system is a specimen log with no medical outcome.\n\nThese properties are jointly held. A case log without preparation and diagnosis is a filing system. A preparation tracker without cases is block-and-slide logistics. A dictation tool without the case and material underneath is just word processing. The joint hold is the Type.",
+        "dc_zh": "记录的患者/研究对象\n└── 记录的病理病例（已登记；附带申请上下文）\n    └── 接收并核对的标本/部分\n        └── 制备的诊断材料\n            （大体描述 → 组织块 → 切片/染色，身份在每一步中携带）\n        └── 病理医师对材料的解读\n            └── 诊断与报告，签发时最终定稿\n                └── 保留的病例记录 + 保留的材料（组织块、切片、图像）",
+        "rules": "### Sign-out completes the case\n\nThe case is not finished when the slides are cut; it is finished when the pathologist signs it out. Work blocks between material completion and sign-out — pending stains, unresolved add-on studies — keep the case open. This gate, not the technology, is what makes the report defensible.\n\n### Specimen identity is a safety discipline\n\nThe material's identity must never detach from the case. Labels and barcodes attach identity at the bench; mismatches stop the case and route it to a person for resolution. The department's own operating rule — catch the mistake at the bench, not at sign-out — is built into the workflow.\n\n### The material is retained evidence\n\nBlocks and slides (or their digital images) are kept as the physical basis of the diagnosis, retrievable for recuts, additional studies, second opinions and comparison with later cases. Losing the link between a case and its material is treated as a patient-safety event, not a filing problem.\n\n### Signed-out reports change only as amended reports\n\nA diagnosis of record is not overwritten. Post-sign-out changes are issued as tracked amendments that preserve the prior version — the paper era's equivalent being the reissued report over the signed original.\n\n### The report is a physician's product\n\nAuthoring and sign-out belong to named medical professionals; system users around them prepare, track and distribute. Teaching settings may route preliminary reads through trainees, but the signing pathologist carries the accountability.\n\n### Everything that changes is logged\n\nCase creation, part and block records, stage movements, add-on requests, diagnosis edits and sign-outs are attributed and retained. The audit trail is what inspectors and accreditors examine.\n\n### Access follows the station\n\nPermissions are organized around the production line — what a histotechnologist, a grossing assistant, a resident and a signing pathologist can see and do differ — and the record itself is confidential patient data governed by the applicable privacy regime.",
+        "rules_zh": "### 签署完成案例\n\n案例在载玻片切割时并未完成；当病理学家签署时才算完成。材料完成和签署之间的工作阻塞——待处理的染色、未解决的附加研究——使案例保持开放状态。这个关口，而非技术，才是使报告具有防御性的原因。\n\n### 标本身份是安全纪律\n\n材料的身份绝不能与案例分离。标签和条形码在工作台上附加身份；不匹配会阻止案例并将其路由给个人解决。部门自身的操作规则——在工作台上捕获错误，而非在签署时——被内置到工作流程中。\n\n### 材料是保留的证据\n\n组织块和载玻片（或其数字图像）作为诊断的物理基础保留，可检索用于重新切割、额外研究、第二意见和与后续案例的比较。丢失案例与其材料之间的关联被视为患者安全事件，而非归档问题。\n\n### 签署后的报告仅以修订报告形式更改\n\n正式诊断不会被覆盖。签署后更改作为跟踪的修订发布，保留先前版本——纸质时代的等效物是在签署原件上重新发布报告。\n\n### 报告是医生的产品\n\n撰写和签署属于命名的医疗专业人员；周围的系统用户准备、跟踪和分发。教学环境可能通过受训者路由初步阅读，但签署病理学家承担问责。\n\n### 一切更改都记录在案\n\n案例创建、部分和组织块记录、阶段移动、附加请求、诊断编辑和签署都被归因和保留。审计跟踪是检查员和认证机构审查的内容。\n\n### 访问遵循工作站",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 165,
+    "phase": "directory",
+    "parent": 165,
+    "slugs": [
+      "pathology-information-system"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "1f2c74cc0c435bed7ba15402eff21ebd14534279ba0be3eddece38aa60d5ae79"
+  }
+}

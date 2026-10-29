@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "air-cargo-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:champ-cargospot-neo-airline"
+      ],
+      "query": "open source air cargo management system github AWB；官方产品页核对 CHAMP Cargospot neo Airline / Handling",
+      "source_urls": [
+        "https://www.champ.aero/",
+        "https://www.champ.aero/products/cargo-management/cargospot-neo-airline",
+        "https://www.champ.aero/products/cargo-management/cargospot-handling"
+      ],
+      "note": "CHAMP Cargospot neo Airline 产品正文明确航班舱位/运力管理、预订与重订、AWB 库存控制、SSIM/SSM/ASM 航班计划、运价与货物优先级；Cargospot Handling 正文覆盖 ULD/散舱 manifest、departure control、weight & balance、进口交付、异常与费用。二者组合满足 AWB、航班运力分配、机场到机场生命周期三要素。未找到可核对的完整开源航空货运应用；GitHub 上的 airline-cargo-management-system 仅 5 次提交、未显示许可证，IATA ONE-Record 为标准仓库而非应用，均未纳入。",
+      "service_boundary": "航空公司/地面代理控制空运提单、航班舱位与货运站操作的运营系统；货代门到门、纯追踪门户和仓库系统不属于本关系。",
+      "search_attempts": [
+        {
+          "type": "websearch",
+          "query": "open source air cargo management system github AWB",
+          "outcome": "仅见标准仓库、学术/小型项目与商业厂商，无完整可核对开源应用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.champ.aero/",
+          "outcome": "200，官网产品导航与行业定位"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.champ.aero/products/cargo-management",
+          "outcome": "200，但正文以导航为主，未作为核心证据"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.champ.aero/products/cargo-management/cargospot-neo-airline",
+          "outcome": "200，读取到运力/预订/AWB/航班计划正文"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.champ.aero/products/cargo-management/cargospot-handling",
+          "outcome": "200，读取到货运站/manifest/weight&balance/费用正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.champ.aero/",
+          "status": "ok",
+          "note": "homepage 快照已保存"
+        },
+        {
+          "url": "https://www.champ.aero/products/cargo-management/cargospot-neo-airline",
+          "status": "ok",
+          "note": "documentation 快照已保存"
+        },
+        {
+          "url": "https://www.champ.aero/products/cargo-management/cargospot-handling",
+          "status": "ok",
+          "note": "documentation 快照已保存"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "aircraft-maintenance-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1153079753",
+        "commercial:swiss-as-amos"
+      ],
+      "query": "open source aircraft maintenance management MRO software github；核对 Simple Aircraft Manager 与 Swiss-AS AMOS",
+      "source_urls": [
+        "https://api.github.com/repos/marbindrakon/simple-aircraft-manager",
+        "https://api.github.com/repos/marbindrakon/simple-aircraft-manager/license",
+        "https://raw.githubusercontent.com/marbindrakon/simple-aircraft-manager/main/README.md",
+        "https://www.swiss-as.com/",
+        "https://www.swiss-as.com/core-optional-modules"
+      ],
+      "note": "Simple Aircraft Manager 为 Unlicense 开源、自托管 Django 应用，README 明确飞机/机队登记、飞行小时、部件 TBO/服务间隔、适航状态、AD 到期/逾期、检查与维修日志，满足最小飞机登记+到期清单+适航记录闭环。AMOS 官网与模块页证明航空公司/MRO 的持续适航、维修计划/工包、生产执行与维修控制。未把 Trax eMRO 纳入：其 /en/products 抓取仅 3KB 客户端壳，/products/emro 返回同一壳页，emro 子页 SSL 失败。",
+      "service_boundary": "面向运营人或 MRO 的飞机维修与持续适航系统；通用设备 CMMS、仅航班运行平台或 MRO 商务报价系统不属于本关系。",
+      "search_attempts": [
+        {
+          "type": "websearch",
+          "query": "open source aircraft maintenance management MRO software github",
+          "outcome": "发现 Simple Aircraft Manager、学术模拟项目与商业 MRO 厂商"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.trax.aero/",
+          "outcome": "200 但返回 Episerver JSON 首页数据，未形成可用正文"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.trax.aero/en/products",
+          "outcome": "200，仅约 3KB 客户端壳页，无产品正文，未采用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.trax.aero/en/products/emro",
+          "outcome": "SSL UNEXPECTED_EOF，失败"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.trax.aero/products/emro",
+          "outcome": "返回同一壳页，无正文，未采用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://api.github.com/repos/marbindrakon/simple-aircraft-manager",
+          "outcome": "200，id/full_name 与许可证核对"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.swiss-as.com/core-optional-modules",
+          "outcome": "200，读取到 Engineering/Planning/Production/Maintenance Control 正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/marbindrakon/simple-aircraft-manager",
+          "status": "ok",
+          "note": "repository_metadata 快照"
+        },
+        {
+          "url": "https://api.github.com/repos/marbindrakon/simple-aircraft-manager/license",
+          "status": "ok",
+          "note": "license 快照，SPDX=Unlicense"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/marbindrakon/simple-aircraft-manager/main/README.md",
+          "status": "ok",
+          "note": "readme 快照"
+        },
+        {
+          "url": "https://www.swiss-as.com/",
+          "status": "ok",
+          "note": "homepage 快照"
+        },
+        {
+          "url": "https://www.swiss-as.com/core-optional-modules",
+          "status": "ok",
+          "note": "documentation 快照"
+        },
+        {
+          "url": "https://www.swiss-as.com/amos-modules",
+          "status": "ok",
+          "note": "documentation 快照，补充模块总览"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "airline-crew-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1170139933",
+        "commercial:aims-crew-management"
+      ],
+      "query": "open source crew scheduling airline github；核对 SmartCrew 与 AIMS Crew Management",
+      "source_urls": [
+        "https://api.github.com/repos/RaKa8904/SmartCrew",
+        "https://api.github.com/repos/RaKa8904/SmartCrew/license",
+        "https://raw.githubusercontent.com/RaKa8904/SmartCrew/main/README.md",
+        "https://www.aimsairlinesoftware.com/",
+        "https://www.aimsairlinesoftware.com/crew-management"
+      ],
+      "note": "SmartCrew 为 MIT 全栈应用，README 明确机组/资质/机型等级、值勤与休息及周月值时约束、冲突检测、三端 roster、投标/换班、调度告警与 FIDS；作为开源完整应用纳入，但不采信其“enterprise-grade”自述为生产规模证明。AIMS Crew Management 产品页提供机组规划/跟踪、值勤规章、自动合法性/覆盖检查、配对、投标、standby、异常与训练/体检记录。未纳入仅有配对优化算法、学术脚手架或虚拟航司的项目。",
+      "service_boundary": "以航班计划为机组需求、在值勤/休息与资质约束下生成并维护个人值勤表的航空公司系统；通用员工排班、培训内容平台、飞行计划或运行控制不属于本关系。",
+      "search_attempts": [
+        {
+          "type": "websearch",
+          "query": "open source crew scheduling airline github",
+          "outcome": "发现 SmartCrew、crewml、CP-SAT 排班与学术项目；仅 SmartCrew 为可自托管完整应用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.aims.aero/",
+          "outcome": "302 至 aimsairlinesoftware.com，按新官方域名继续"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.lufthansa-systems.com/en/products/netline-crew",
+          "outcome": "SSL UNEXPECTED_EOF，失败，未采用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.jeppesen.com/crew-management",
+          "outcome": "重定向到不同主机，未采用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://api.github.com/repos/RaKa8904/SmartCrew",
+          "outcome": "200，id/full_name 核对"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.aimsairlinesoftware.com/crew-management",
+          "outcome": "200，读取到机组规划/合法性/投标正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/RaKa8904/SmartCrew",
+          "status": "ok",
+          "note": "repository_metadata 快照"
+        },
+        {
+          "url": "https://api.github.com/repos/RaKa8904/SmartCrew/license",
+          "status": "ok",
+          "note": "license 快照，SPDX=MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/RaKa8904/SmartCrew/main/README.md",
+          "status": "ok",
+          "note": "readme 快照"
+        },
+        {
+          "url": "https://www.aimsairlinesoftware.com/",
+          "status": "ok",
+          "note": "homepage 快照"
+        },
+        {
+          "url": "https://www.aimsairlinesoftware.com/crew-management",
+          "status": "ok",
+          "note": "documentation 快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "airline-operations-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:aims-operations-control"
+      ],
+      "query": "open source airline operations control center software github；核对 AIMS Operations Control",
+      "source_urls": [
+        "https://www.aimsairlinesoftware.com/",
+        "https://www.aimsairlinesoftware.com/operations-control"
+      ],
+      "note": "AIMS Operations Control 产品页明确 Aircraft Movement Control：按机尾自动重分配并联动维护计划、6 小时至 1 个月实际/预计视图、SITA 动态报文、延误与机组值勤冲突提示、快速重排、授权 override，以及维修计划与航班计划构建。满足运营日航段、机尾轮转、实时状态与 OCC 修订传播。开源检索仅见 AirOps 单提交代理系统、TurnControl 演示看板和 phpVMS 虚拟航司，不构成完整 OCC 平台，未纳入。",
+      "service_boundary": "航空公司 OCC 用于运营日航班/机尾/实时状态与恢复决策的协调平台；订座、机组合法性排班、单一飞行计划、机场资源或维修系统不属于本关系。",
+      "search_attempts": [
+        {
+          "type": "websearch",
+          "query": "open source airline operations control center software github",
+          "outcome": "无完整开源 OCC；仅代理工作流、演示看板与虚拟航司项目"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.aimsairlinesoftware.com/",
+          "outcome": "200，确认 Operations Control 产品线"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.aimsairlinesoftware.com/operations-control",
+          "outcome": "200，读取到机尾重分配/延误恢复/实际s正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.aimsairlinesoftware.com/",
+          "status": "ok",
+          "note": "homepage 快照"
+        },
+        {
+          "url": "https://www.aimsairlinesoftware.com/operations-control",
+          "status": "ok",
+          "note": "documentation 快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "airline-reservation-passenger-service-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1300432801",
+        "commercial:navitaire-new-skies"
+      ],
+      "query": "open source airline reservation system PSS github self-hosted；核对 Openfront Airline 与 Navitaire New Skies",
+      "source_urls": [
+        "https://api.github.com/repos/openshiporg/openfront-airline",
+        "https://api.github.com/repos/openshiporg/openfront-airline/license",
+        "https://raw.githubusercontent.com/openshiporg/openfront-airline/master/README.md",
+        "https://www.navitaire.com/",
+        "https://www.navitaire.com/new-skies-reservation-system"
+      ],
+      "note": "Openfront Airline 为 MIT 自托管应用，README 明确航线/班期/日期航班/舱位/库存 bucket/hold、offer/booking、旅客/客票/座位/值机/登机牌/行李/舱单，以及支付对账、换开退款和不正常航班恢复；其边界声明不做运行控制/飞行计划/机组合法性，符合 PSS 商业脊柱。Navitaire New Skies 产品页证明预订/分销、IBE、GDS/电子客票/支付、Single Order 与 GoNow 旅行当天服务。Amadeus PSS 页面抓取仅 84 字节，未采用；学术 PHP 订票项目与 pnrsh 均非完整 PSS，未纳入。",
+      "service_boundary": "航空公司销售自有航班座位并服务旅客的订座/旅客服务系统；跨航司消费者搜索、收益管理、运行控制或航空货运不属于本关系。",
+      "search_attempts": [
+        {
+          "type": "websearch",
+          "query": "open source airline reservation system PSS github self-hosted",
+          "outcome": "发现 Openfront Airline、学术订票项目与商业 PSS；仅 Openfront 为完整可自托管应用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.navitaire.com/",
+          "outcome": "200，官网产品导航"
+        },
+        {
+          "type": "fetch",
+          "url": "https://www.navitaire.com/new-skies-reservation-system",
+          "outcome": "200，读取到预订/分销/IBE/电子客票/旅行当天服务正文"
+        },
+        {
+          "type": "fetch",
+          "url": "https://amadeus.com/en/airlines/passenger-service-system",
+          "outcome": "200 但仅 84 字节，无正文，未采用"
+        },
+        {
+          "type": "fetch",
+          "url": "https://api.github.com/repos/openshiporg/openfront-airline",
+          "outcome": "200，id/full_name 核对"
+        },
+        {
+          "type": "fetch",
+          "url": "https://raw.githubusercontent.com/openshiporg/openfront-airline/main/README.md",
+          "outcome": "404，改抓 master 成功"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openshiporg/openfront-airline",
+          "status": "ok",
+          "note": "repository_metadata 快照"
+        },
+        {
+          "url": "https://api.github.com/repos/openshiporg/openfront-airline/license",
+          "status": "ok",
+          "note": "license 快照，SPDX=MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openshiporg/openfront-airline/master/README.md",
+          "status": "ok",
+          "note": "readme 快照"
+        },
+        {
+          "url": "https://www.navitaire.com/",
+          "status": "ok",
+          "note": "homepage 快照"
+        },
+        {
+          "url": "https://www.navitaire.com/new-skies-reservation-system",
+          "status": "ok",
+          "note": "documentation 快照"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

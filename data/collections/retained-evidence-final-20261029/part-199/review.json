@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Genemod 的摘要写成“可将单元标记为 down 后阻止预约”，官方页面原文是“flag units as down before someone books them”。这句话能支持“先标记停机、再安排预约”的操作控制，但没有逐字说明系统会硬性拒绝预约；建议改成“标记 down 并在预约前提示或限制”，或者补充一条帮助文档来证明会硬性阻断。",
+    "QBench 的引用来源是厂商博客文章，不是产品文档或帮助文档，正文里还有不少“A LIMS can...”这类一般性表述。其中 QBench 自身的段落足以支持设备预约、维护计划和校准历史，但没有明确写出冲突检测或防止重复预约。作为商业基本匹配可以接受；如果要求严格的产品文档，建议补充来源。",
+    "QBench 的定位是 LIMS/QMS 平台，设备管理是其完整子模块，不是独立的仪器管理产品。batch 已注明这一点，类型边界可以接受；但如果下游要求“以仪器管理为核心产品”，仍需区分。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch/research 已有两个 commercial 案例，且 assessment=case_found。这是输入和产出状态不同步，不影响本次内容判断，但建议同步，避免下游误读。",
+    "两个快照都是原始 HTML，正文位于超长单行：Genemod 在第 8 行，QBench 在第 290 行。人工审阅和 diff 不太方便，建议同时保留可读文本快照。",
+    "开源边界已经如实留档：NEMO 因为使用 NIST Software Licensing Statement，且 GitHub 标记为 NOASSERTION，不属于 OSI SPDX，所以未收录；eLabFTW 正文只证明登记和预约，没有维护或校准；BookedScheduler 的上游身份未核实。未发现需要阻断的许可问题。"
+  ],
+  "leaf_checks": {
+    "scientific-instrument-management": {
+      "status": "pass",
+      "applications": [
+        "commercial:genemod",
+        "commercial:qbench"
+      ],
+      "definition_core": "Genemod 官方设备页正文明确写出仪器目录（一个仪器下可有多个 unit，包含 location、model、booking rules）、设施级预约日历（Day/Week 视图、跨站点时区、“Conflict detection before a booking is confirmed”）、培训门控预约，以及维护和校准跟踪（“Log service dates, schedule preventive maintenance, and flag units as down before someone books them”）。QBench 官方文章正文明确写出设备记录字段（equipment ID、manufacturer、model、serial number、location、responsible owner）、“QBench supports equipment reservations”、“QBench supports calibration history alongside recurring equipment maintenance schedules”，以及“QBench release notes document controls that allow administrators to make unavailable equipment unusable and limit reservation options to instruments marked in service”。两者都覆盖仪器登记、共享时段分配，以及服务/校准记录影响运行状态和可用性这三个结构。",
+      "saas_form": "Genemod 是云端 SaaS，官网提供 Request a demo / Sign up free，设备与核心设施管理在同一 workspace；QBench 是 Cloud-Based LIMS，页面标题和正文都称 cloud-based。两者都不是本地安装型或纯咨询型产品。",
+      "id_track": "batch 中 commercial:genemod 和 commercial:qbench 的 id 前缀与 track=commercial 一致；homepage 分别为 genemod.net 和 qbench.com，与来源 URL 域名一致，未发现 ID、track 或身份错配。",
+      "open_source_license": "batch 没有开源条目，因此不需要逐项核对开源完整许可证或社区版边界。research 已留档：NEMO 的 LICENSE.md 为 NIST Software Licensing Statement，GitHub 标记 NOASSERTION，非 OSI SPDX，因此未收录；eLabFTW 仅证明资源登记和预约，正文没有维护或校准；BookedScheduler 上游仓库身份未核实，且为纯预约形态。边界判断和抓取失败记录均已如实保留。",
+      "evidence": [
+        "data/collections/sources/93e2beedcb3210f60919c53bc8f4892fdd8ba7139b6c1277a12ecb5553284543.txt（Genemod，sha256 与 REVIEW_SOURCES 一致）：正文包含 instrument catalog、多个 unit、conflict detection、training-gated booking、maintenance/calibration tracking，以及“flag units as down before someone books them”等原文。",
+        "data/collections/sources/e4283e8ffeb21603f5eb155486172c14a60e11be7831269e4baae08b25b0f0cf.txt（QBench，sha256 与 REVIEW_SOURCES 一致）：正文包含“QBench supports equipment reservations”“QBench supports calibration history alongside recurring equipment maintenance schedules”“limit reservation options to instruments marked in service”等原文。"
+      ],
+      "gaps": "没有运行或登录产品；Genemod 的 down 状态是否在系统中硬性拒绝预约，QBench 是否显式阻止重复预约，正文措辞没有逐字说明。这是商业基本匹配下的轻微证据缺口；没有核验价格、架构和部署。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 以及其中列出的两个快照，并用同一 URL 的公开正文辅助核对。没有运行或登录任何产品，没有做部署、价格、架构或许可证法律意见核验。快照是原始 HTML，正文位于超长单行；已用精确短语检索确认正文存在，但未能在本工具中逐字展示全文。没有复核 GitHub API 速率限制等外部失败条件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-199/ses_groveopencodegop199review1_1793257934.jsonl",
+  "batch_sha256": "ff0872376644c7b745067dab52b73f3f374b18c5fc2f8dec27f8f810ee04ea86",
+  "research_sha256": "bcff8a21de8306ffca64ffd67ec9355b022d6b743a2c715c1d19a0473997c6f4",
+  "input_sha256": "d493e44ccc5e472aa3df72af5d02b91f19e4265047a6b7a789fc9f30ed9a4369"
+}

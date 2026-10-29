@@ -1,0 +1,86 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "creator-content-planner",
+      "application_id": "github:664013991",
+      "note": "“不设功能门槛”是对功能而言：README 明确“Both provide the same core Postiz product and features / We do not gate features or limit the license”，但同表仍显示 Cloud 各套餐在渠道数、每月帖子数、团队成员数上按套餐限额。若后续面向读者复用该摘要，建议写成“功能不阉割，Cloud 按套餐限量”，避免被读成容量无限。"
+    },
+    {
+      "slug": "racquet-club-management",
+      "application_id": "courtreserve",
+      "note": "research.json 的会员页描述包含“规则/生效日期”，但实际快照中的会员页只明确到会员组、家庭/同住成员、会员签到、会员报表、开票/财务、自动扣缴会费与免责协议；“规则与限制”出现在 court-reservations 页，未见“生效日期”字样。属于措辞超出证据的轻微问题，不影响俱乐部侧场地库存与受管预订的类型判断，建议后续收窄表述。"
+    },
+    {
+      "slug": "exhibition-planning-platform",
+      "application_id": "gallery-systems-tms-collections",
+      "note": "TMS 侧证据来自 HubSpot 托管的指南下载页（FAQ 折叠区），而非产品帮助文档；object packages、planning stages、user permissions、exhibition history 等关键词确实出现在该页，但完整句子因单行 HTML 过长未能逐字展开。research.json 已自我限定“不扩写具体阶段名称”，处理得当；若继续扩充该叶，建议补 TMS 官方帮助或指南正文。"
+    },
+    {
+      "slug": "exhibition-installation-management",
+      "application_id": "axiell-collections",
+      "note": "布展叶只有 Axiell 一个案例，且该能力存在于馆藏系统内部而非独立布展产品；这与定义文档“本样本中不作为独立产品出售”的说明一致，不算缺口，但该叶的样本多样性有限，后续可留意是否存在真正的独立布展执行产品。"
+    },
+    {
+      "slug": "creator-content-planner",
+      "note": "input.json 的 progress 仍为 phase=included_without_cases、case_status=incomplete、application_ids=[]，与 research.json 的 assessment=case_found 及 batch.json 的 leaf_matches 不一致。continuation.phase=complete 说明这是续跑时未回写的进度块；本轮判断以 batch.json/research.json 与实际快照为准，但若下游读取 progress，建议同步刷新，避免被误读为“本单元无案例”。"
+    }
+  ],
+  "leaf_checks": {
+    "creator-content-planner": {
+      "application_id": "github:664013991",
+      "verdict": "pass",
+      "definitional_core": "四要素均有正文证据：①连接自有渠道——channels/connect 文档明确“A channel is one connected social account”，并列出 OAuth redirect、自行提供凭据、应用内对话框、浏览器扩展四种连接流程；②内容日历为组织界面——calendar/overview 明确“The calendar is both the plan and the record”，日/周/月/列表视图，列表视图按 All/Scheduled/Draft/Published 过滤；③计划帖子——scheduling 文档说明 composer 中 Save as Draft / Add to calendar / Post Now，日期选择器与 Pick time 设定未来时段，同帖跨渠道时各渠道保留自己的日期与时间；④计划到发布转换——到点发布，成功后卡片转为 published 且 Preview 指向线上帖子，失败时卡片红圈并在 tooltip 显示平台错误且不静默重试。",
+      "saas_form": "仓库为开源自托管版（Docker/Coolify/Railway/VPS，自备 PostgreSQL、Redis、存储与环境变量），另有官方托管 Postiz Cloud；README 明确二者共用核心功能且不设功能门槛，属持续使用的软件服务形态。",
+      "identity_track": "仓库页元数据确认 repository_id=664013991、nwo=gitroomhq/postiz-app、is_fork=false，与条目 id github:664013991、github_repository_id 664013991 一致；track=open_source 成立。",
+      "license_community_boundary": "LICENSE 快照为完整 GNU AGPL v3 文本（标题、版本 3、§1–§17、免责与责任限制、END OF TERMS AND CONDITIONS、How to Apply 及项目版权行），非摘要或缺章；README 声明源码以 AGPL-3.0 发布。社区版边界清晰：该仓库即开源自托管版，Cloud 为独立托管服务，无功能阉割。",
+      "gaps": "GitHub REST API 三处 403（研究记录已如实留档），仓库身份改用 HTML 仓库页核对；无逐渠道文案变体的直接文档（仅按渠道独立时间），但定义允许仅自动发布，故不构成阻断。"
+    },
+    "exhibition-installation-management": {
+      "application_id": "axiell-collections",
+      "verdict": "pass",
+      "definitional_core": "三结构均有帮助正文：①展示场合锚定场地与日期窗口——exhibition 记录含 proposed/actual start/end dates、多场地 itinerary，venue 记录“captures details about a locale for the duration it is required for a specific exhibition”；②安装范围清单——Create exhibition items 任务按勾选对象生成 Exhibition items 记录，分别挂在 catalogue 记录与 exhibition、venue 记录之间，exhibition 的 Items 面板列出全部参展项（含最终被拒者），venue 的 Items 只列该场地在场项；③单件安装状态——Exhibition items 的 Venues 面板逐场地保存 Start date/End date、Not on display 标记、Status（pending installation / installed / deinstalled / completed / cancelled）与 Status date。",
+      "saas_form": "产品页与首页说明 Axiell Collections 为浏览器访问的 Web 馆藏管理软件（“All you need is a web browser, no plug-ins required”），并提供 hosted in the cloud 的托管形态，属持续使用服务。",
+      "identity_track": "id=axiell-collections，track=commercial；产品与帮助站点均为 axiell.com 官方域名，身份一致。",
+      "license_community_boundary": "商业闭源，无许可证或社区版边界问题需核。",
+      "gaps": "该结构是馆藏系统内的展览执行层，非独立布展产品；现场施工排班、索具、运输不在软件范围（研究记录已声明，未据此断言）。帮助页首抓因本机 CA 校验失败，已记录后改用 curl 重抓。"
+    },
+    "exhibition-planning-platform": {
+      "application_ids": [
+        "axiell-collections",
+        "gallery-systems-tms-collections"
+      ],
+      "verdict": "pass",
+      "definitional_core": "Axiell 单独即可覆盖三结构：①展览记录为具名、有日期、带场地的计划——Exhibition details 含 title、category/exhibition type、proposed 与 actual 起止日期、itinerary 场地、Status（pending…completed）及 Status history（含操作人与时间）；②策展清单与对象记录关联——Exhibition items 记录在 catalogue 对象与 exhibition/venue 之间建立关联，Items 面板逐项列示并可改状态；③规划推进——状态从 pending 经 pending approval/approved/accepted 推进，场地每次被提议需走各自 exhibition 专属 venue 记录的审批流程。TMS 侧补齐同类证据：产品页说明 TMS Collections 为 web-based 且统一连接 cataloguing、exhibitions、loans、locations and movements 与 reporting；指南下载页 FAQ 提及创建/管理展览记录、用户访问控制、以 object packages 细化参展清单、规划阶段与持久的展览历史。",
+      "saas_form": "两者均为商业 Web 馆藏系统内的展览层（Axiell 提供浏览器访问与云托管；TMS Collections 产品页自述 web-based 并作为 TMS Suite 核心），属持续使用的软件服务形态。",
+      "identity_track": "id=axiell-collections、gallery-systems-tms-collections，track 均为 commercial；来源均为厂商官方域名，身份一致。",
+      "license_community_boundary": "均为商业闭源，无许可证或社区版边界问题。",
+      "gaps": "两者都不是独立展览规划产品，研究记录已如实说明；TMS 证据止于指南下载页 FAQ，未取得完整指南，因此未扩写具体阶段名称，也未把 TMS 关联到逐件布展状态。"
+    },
+    "golf-course-management": {
+      "application_id": "club-caddie",
+      "verdict": "pass",
+      "definitional_core": "①开球时间表为容量记录——官网正文自述“most powerful cloud based tee-sheet and online reservation engine”，承接 daily fee golfers、members、官网与移动 App 预订，以及联赛（含 alternating sides）、outings、maintenance 封场；②多渠道路径写入同一开球容量——官网/社媒/自有 App 预订，并可选对接 PGA Tee Times、GolfNow、Supreme Golf、Golfback、CBS Sports Golf Book 等开球时间市场；③下场与营收记录——报告覆盖 rounds played、revenue、member A/R、G/L accounting、inventory、golfer spend、employee sales，符合“预订转为打球与营收记录”的核心。",
+      "saas_form": "官网明确整套套件托管于云（Microsoft Azure），无需本地服务器，可随处通过浏览器/Windows 应用使用，属典型订阅式 SaaS。",
+      "identity_track": "id=club-caddie，track=commercial，homepage=clubcaddie.com，官方站点身份一致。",
+      "license_community_boundary": "商业闭源，无许可证或社区版边界问题。",
+      "gaps": "仅抓取官网首页正文，未取产品文档；球手档案分类与费率基准、预付/取消规则、硬件能力均未被证据覆盖，条目与 research.json 也未据此断言。"
+    },
+    "racquet-club-management": {
+      "application_id": "courtreserve",
+      "verdict": "pass",
+      "definitional_core": "①场地时间库存——court-reservations 页说明可完全自定义的拖拽式场地日程（颜色、类别、自定义字段）、Custom Schedulers 可按组织内不同场地使用不同排程、Closures 可一键因天气关场；②场地预订——Prime Time Intervals 限制高峰时段、Rules & Restrictions 设定预订规则与准入、Cancellation Penalties、Recurring Reservations、Check-in Players、Ball Machines 可设各自预订规则，构成带生命周期的具名时段占用；③受管访问下的已识别预订者——会员页含 Groups、Families（同住成员与家庭会籍）、Custom Ratings、Member Check-In；④比赛与营收记录——Member Reports 与 Invoicing/Financials（开票、收取会费、自动扣款）、Waivers。首页标题即“Pickleball & Tennis Club Management Software”，并有 Padel 入口，覆盖球拍类运动范围。",
+      "saas_form": "官网面向俱乐部运营方提供云端俱乐部管理平台（预订、会员、支付、球员体验一体化），属持续使用的 SaaS。",
+      "identity_track": "id=courtreserve，track=commercial，homepage=courtreserve.com，官方站点身份一致。",
+      "license_community_boundary": "商业闭源，无许可证或社区版边界问题。",
+      "gaps": "未抓帮助中心；费率算法、比赛评级计入规则、支付清算实现均未取证且未被断言；会员页未见“生效日期”字样（见 non_blocking_notes）。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何应用、未做部署或交互测试，未执行 shell，未写文件，未读取本单元之外的资料。核对范围限于 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 17 个快照（严格按给定 path 从 data/collections 基准读取，sha256 与 batch/REVIEW_SOURCES 一致）。未联网补抓或复核线上现状。已知取证缺口：Postiz 的 GitHub REST API 三次 403，仓库身份改由 HTML 仓库页 metadata 核对；Axiell 两个帮助页首抓因本机 CA 校验失败（CERTIFICATE_VALIDATE_FAILED/VERIFY_FAILED）改用 curl 重抓并留档；TMS 侧证据来自 HubSpot 指南下载页，其超长单行 HTML 在读取时被截断，关键词（object packages、stages、permission、history）已通过检索确认存在，但无法逐字通读整段 FAQ 正文。商业产品仅依据官网/帮助页做基本真实性与核心类型匹配，未核价、未核架构、未核客户案例真实性；开源项仅核 Postiz 一项，未做依赖级许可证扫描。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-044/ses_groveopencodegop044review1_1793084565.jsonl",
+  "batch_sha256": "05eb790fc00048b970f8154b53e23c268d3e6cf0a270321b0606ff1e11d4d200",
+  "research_sha256": "8350c53887309aa3a62ec885ea1eee082fd212f6b097c2baed88640dbaac7dcc",
+  "input_sha256": "cb0e282db813280ba6e4f3a136e2d83722383b56c53c565162067b5e66b1789c"
+}

@@ -1,0 +1,96 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "homepage 写作 https://opencue.io，而 README 指向 www.opencue.io、官方文档为 docs.opencue.io；属可达入口差异，不影响产品身份。"
+    },
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "research.json 说明替代候选 Flamenco 为 GPL-3.0、Go/SQLite、源码位于 projects.blender.org，但本单元未保留 flamenco.blender.org 的快照（仅有 api.github.com/repos/blender/flamenco 404 记录）。该细节未进入条目，也不支撑叶子结论，建议今后补快照或降级为未核实线索。"
+    },
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "license 快照为 GitHub contents API 单行 JSON（size=9245，content 为 base64 且含 Apache License 2.0 开头），仓库元数据亦含 spdx_id=Apache-2.0、default_branch=master；本次只读工具按行截断显示，未逐段解码全文核对每条条款，但文件名、体积与 SPdx 标识相互一致。"
+    },
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "cueweb/README.md 自述“most Cuetopia features, Cuecommander integration planned for next phase”，而概念文档与 features 已列 CueCommander 面板；条目只声称作业/层/帧监视与重试、终止等操作，未越界，故不阻断。"
+    },
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "research.json 中“整仓社区版无商业切分”属于依据仓库与文档未见企业版/付费分层的推断性表述，建议改写为“仓库及官方文档中未见商业版/企业版分层证据”，避免把缺失证据表述为已证实事实。"
+    },
+    {
+      "slug": "rendering-management-application",
+      "application_id": "github:133735379",
+      "note": "batch 的 technology_stack 中 Java 由 deploying-cuebot 的 java -jar cuebot.jar 启动方式与 Cuebot 构建说明支撑，条目未给出证据链接映射，属可读性改进项。"
+    }
+  ],
+  "leaf_checks": {
+    "rendering-management-application": {
+      "slug": "rendering-management-application",
+      "parent_id": "04.14",
+      "domain_id": "04",
+      "application_ids": [
+        "github:133735379"
+      ],
+      "result": "pass",
+      "summary": "OpenCue 的官方服务端、官方概念文档与 CueWeb 文档共同覆盖了本叶定义性核心：持久化渲染作业→帧级可执行单元→按 proc/标签限定的渲染容量池→派发与状态跟踪→失败帧自动重试→全部帧完成后关闭作业。此前“仅证到客户端/CLI”的缺口由 deploying-cuebot、opencue-overview、cueweb-rest-gateway、deploying-cueweb 与 cueweb/README 的实际正文闭合，而非仅凭简介或导航。",
+      "definitional_core": {
+        "job_as_managed_record": "README 正文：break down complex jobs into individual tasks，submit jobs to a configurable dispatch queue；opencue-overview 列出 Cuebot 管理 job submissions。",
+        "frame_level_decomposition": "monitoring-reference 表格给出 FRAME_STARTED/FRAME_COMPLETED/FRAME_FAILED/FRAME_RETRIED（触发方 RQD，FRAME_RETRIED=Automatic retry）；cueweb/README 有 Jobs/Layers/Frames 三表、帧状态筛选、按帧 Retry/Eat/Kill 与帧范围选择器。",
+        "capacity_estate": "README：Tagging systems 将特定作业分配到特定机型；host 可拆分为多个 procs，各自保留 core 与 memory；opencue-overview 重申同一能力。",
+        "dispatch_and_track_loop": "opencue-overview：Cuebot 为 central management server，负责 distributing work to render nodes 并响应 API；RQD 在渲染主机注册、接收指令、上报结果；monitoring-reference 中 JOB_FINISHED 定义为 All frames complete。",
+        "logistics_not_pixels": "README/opencue-overview：支持 Katana、RenderMan、Arnold 等第三方渲染器；CueSubmit 作为 Maya/Blender/Nuke 插件提交作业；入口与文档说明渲染在渲染节点由渲染器执行，管理器不自行成像。",
+        "boundary_vs_adjacent": "与 3D Rendering Application 的边界由“管理器启动渲染器、自身不计像素”划清；未把渲染引擎或基础设施控制当成本叶核心。"
+      },
+      "service_form": {
+        "continuous_multi_user_service": "deploying-cuebot 正文：A typical OpenCue deployment runs a single instance of Cuebot, which is shared by all users；Cuebot 常驻服务器运行、承担作业管理与向渲染节点派发；需 PostgreSQL 数据库与共享文件系统（大型部署常用 NFS）。",
+        "browser_service_surface": "opencue-overview：OpenCueWeb 为 web-based interface，将 CueGUI 核心功能带到浏览器；cueweb-rest-gateway 与 cueweb/README 给出 Next.js/React 应用、REST Gateway、JWT、OAuth/LDAP 登录、Docker/Docker Compose/Kubernetes 部署；deploying-cueweb 有对应反向代理与 Kubernetes 内容。",
+        "deployment_claims_consistent": "batch 的 deployment 三项（Cuebot+PostgreSQL+共享文件系统且单实例共享、RQD 以 Python/Rust 注册上报、Docker Compose/镜像/K8s 与 CueWeb 容器部署）均可在上述快照正文中对应。"
+      },
+      "identity_and_track": {
+        "id": "repository_metadata 的 id=133735379、full_name=AcademySoftwareFoundation/OpenCue、fork=false、archived=false，与条目 id github:133735379 及 repository_url 完全一致。",
+        "track": "open_source，与整仓 Apache-2.0 许可及官方开源文档一致；非商业条目，无需商业真实性核对。",
+        "name_and_summary": "条目名称、summary 与 repository description（A render management system you can deploy for visual effects and animation productions）及 overview 正文一致，未见夸大或跨类表述。"
+      },
+      "license_and_community_boundary": {
+        "license": "license 快照来自官方 GitHub license API：path=LICENSE、sha=b172c1fa…、size=9245、download_url 指向 master/LICENSE，base64 内容以 “Copyright Contributors to the OpenCue Project / Apache License / Version 2.0, January 2004” 开头；repository_metadata 中亦为 spdx_id=Apache-2.0。许可与条目 license 字段一致。",
+        "community_edition": "代码、文档、CueWeb、REST Gateway、监控栈均在同一 Apache-2.0 仓库与同一官方文档站内发布，未发现社区版功能阉割或企业版分层证据；建议把“无商业切分”表述改为“未见分层证据”（见 non_blocking_notes）。",
+        "not_license_metadata_only": "除 SPDX 标识外，快照包含整份 LICENSE 文件对象（blob sha 与 9245 字节体积），不是仅许可名称的元数据。"
+      },
+      "snapshot_integrity": {
+        "path_base": "全部 9 个快照均按 REVIEW_SOURCES.json 的 path 原样从 data/collections/ 前缀读取，未使用项目根目录 sources/，未缩写或改写摘要。",
+        "coverage": "repository_metadata、license、README、monitoring-reference、opencue-overview、deploying-cuebot、cueweb-rest-gateway、deploying-cueweb、cueweb/README 九个引用均有对应快照；batch 中 9 条 sources 与 REVIEW_SOURCES 一一对应。",
+        "core_text_not_placeholder": "两份概念/部署文档快照为服务端渲染 HTML，正文段落（如 Cuebot 组件职责、单实例共享、NFS、FRAME_* 事件表）可直接读取，未以导航、Loading、简介或 SEO 元数据替代核心正文。"
+      },
+      "research_record_consistency": {
+        "status_change_justified": "input.json 原为 boundary_unresolved、application_ids 为空；research.json 以新增官方服务端文档与 CueWeb 文档支撑 case_found，并明确声明不采纳旧草稿、不据此推断本类不存在替代实现，状态变更与证据同步，无“以旧草稿充当通过”的痕迹。",
+        "documented_gaps": "已记录 www.opencue.io 重定向被拒、docs.opencue.io 旧路径 404、api.github.com/repos/blender/flamenco 404、Flamenco 源码不在 GitHub 致未建条目等缺口；Flamenco 的 GPL-3.0 等细节缺少快照，仅作非阻断留档问题。",
+        "commercial_scope": "本单元无商业条目，未出现需核对的定价、厂商运营或付费层级声明。"
+      },
+      "verified_claims_examples": [
+        "Cuebot 为 central management server：管理作业提交、向渲染节点派发、响应客户端 API — opencue-overview、deploying-cuebot 正文。",
+        "单一 Cuebot 实例由全体用户共享 — deploying-cuebot 正文。",
+        "需 PostgreSQL 与共享文件系统（NFS）— deploying-cuebot 正文。",
+        "FRAME_STARTED/COMPLETED/FAILED/RETRIED、JOB_FINISHED=All frames complete — monitoring-reference 事件表。",
+        "OpenCueWeb 为 Next.js/React 浏览器应用，经 REST Gateway 访问 gRPC — cueweb-rest-gateway、cueweb/README、deploying-cueweb。",
+        "作业拆为独立任务进入可配置派发队列、host 拆 proc、标签限定机型、作业在中央渲染机群执行 — README 正文。"
+      ],
+      "notes": "未发现需阻断的事实、许可、身份或核心类型问题；Flamenco 线索缺快照与若干措辞性改进已列入 non_blocking_notes。"
+    }
+  },
+  "limits": "只读初审：仅使用 read/grep 读取本单元的 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 9 个快照，未运行 shell、未写文件、未读取采集者脚本或其他单元，也未做联网复核或部署/运行时测试。无法在本环境计算 sha256，快照完整性依据 REVIEW_SOURCES 的 path/sha 对应关系、文件内容与条目引用的一致性判断。文档快照为大体量 HTML 与单行 JSON，只读工具按行截断显示，核心正文通过定向检索加段落读取核对；Apache-2.0 全文未逐条解码验证，仅确认仓库 spdx_id、LICENSE blob 元数据与内容开头。flamenco.blender.org 无保留快照，其 GPL-3.0/Go/SQLite 细节未独立核实；本单元无商业条目，商业真实性仅按“不适用”处理。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-050/ses_groveopendesignp050review1_1793169953.jsonl",
+  "batch_sha256": "300b22ecb413eaca31976b93945345e256e72b3a10245f73ebff8740b82dbe63",
+  "research_sha256": "e26deb231a98e522c4e8cb2ab5bb5138be39175b5d1ef6c5030bf7d7c841750a",
+  "input_sha256": "db08fc7c8c9539a14adda303c1e8afb3d4c19fa88d3799b11fb4000b4424b901"
+}

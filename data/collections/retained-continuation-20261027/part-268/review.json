@@ -1,0 +1,111 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "elevator-service-management",
+      "application_id": "github:1239364445",
+      "issue": "该应用只提供客户级电梯档案、按电梯记录的服务访问、客户故障消息转给当日值班技术员以及 Stripe 单次服务收款，未体现本叶定义性核心中的建筑→输送单元层级、维护协议/AMC 的范围与周期性预防维护、法规测试周期/运行证书/违规整改，以及按单元保存的回呼历史与按资质派工。批次 leaf_matches 亦自述“维护协议/AMC、周期测试、运行证书与违规整改未提供，关系不覆盖合同维护与合规循环”，却仍将其作为本叶案例并称覆盖“单元级资产/服务/回呼/计费子集”，与定义的“AMC 是业务模式支柱”不符；README 中故障报修是站内 Alert 消息，未证明绑定到具体电梯或形成单元级回呼记录。",
+      "fix": "移除 elevator-service-management 对 github:1239364445 的 leaf_match，并将该叶改为无案例、保留检索与边界缺口记录；或替换为明确提供 AMC/维护合同范围、周期预防维护、法规测试与运行证书/违规跟踪、单元级回呼历史的电梯维保产品。若因资料限制暂保留，必须将关系降级为“非核心/仅部分能力”，不得再声称覆盖该叶定义性核心，并补充引用仓库 docs/ 下的 Database Design/System Design 以核实能力边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "OpenFieldService 是 vertical-agnostic 的通用现场服务应用，家电维修、清洁和电气三个叶的关系主要依据 README 的垂直示例表与通用客户/服务地址/作业/派工/开票核心；未按垂直分别验证行业专属工作流，但各叶已把关系收窄到核心，属可接受的范围说明。",
+    "OpenFieldService 的 equipment records 在 README 中明确为 optional；家电维修叶不依赖强制设备台账，符合定义中“工单文本、行项目、照片和备注”即可承载工作描述的核心。",
+    "清洁叶只有 jobs 表的 is_recurring/recurrence_interval 字段，未证明 series/occurrence 生成、覆盖例外、主管巡检评分、客户门户、薪资联动或合同批量计费；采集已在 service_boundary 中限定为核心关系，建议后续不要把这些能力写成已具备。",
+    "Sunrise CMS 仍标注 in development；README 未细述公共族谱查询与逐条传记字段，interment 核心主要由 contracts.md 的 preneed/at-need 合同与 README 的安葬工单说明支撑，关系已收窄，未见明显虚假陈述。",
+    "Elevator Service Manager 自述为 learning/portfolio project，README 也提示真实部署前需调整 DEBUG、ALLOWED_HOSTS、SQLite 和 Stripe webhook；这些属于成熟度问题，不是本次类型或许可证阻断项。",
+    "三份 LICENSE 均为完整 MIT 文本，覆盖仓库级代码；未发现 open-core、社区版/企业版分割或附加限制。",
+    "OpenFieldService、Sunrise CMS 和 Elevator Service Manager 的 GitHub API 元数据请求均记录为 HTTP 403 rate limit，采集改用 github.com 页面和 raw 文本；该查询缺口已如实留档，不阻断。",
+    "所有条目 runtime_tested=false；本审查只做文档与快照核对，未部署或执行任何工作流。"
+  ],
+  "leaf_checks": {
+    "appliance-repair-management": {
+      "application_ids": [
+        "github:1201466005"
+      ],
+      "identity_track": "OpenFieldService；仓库元数据快照显示 repository_id 1201466005，track=open_source，名称与仓库 URL 一致。",
+      "service_form": "自托管 Web 现场服务管理应用（Preact + Hono + SQLite），README 提供 clone/install/dev 启动方式，属于持续使用的软件服务形态。",
+      "core_match": "pass",
+      "license": "LICENSE 快照为完整 MIT 文本（含授权、版权、免责声明），license_review 的 spdx_id=MIT 与快照一致。",
+      "community_boundary": "仓库级 MIT，未发现社区版/商业版功能切割；README 中的 Clawnify 部署按钮不构成许可证限制。",
+      "evidence": [
+        "README 明确列出 Appliance Repair 垂直（washer/dryer、refrigerator、dishwasher、oven、garbage disposal）",
+        "README 记录客户、服务地址/可选 sites、作业状态与周历、技术员派工、设备序列号与服务历史、检查表/物料、完工发票",
+        "README 的 jobs 数据模型含 status、scheduled_date、technician_id，invoices 由 completed job 生成"
+      ],
+      "gaps": "估价/电子签名、维护计划、客户门户、保修覆盖裁定、零件适用性未包含；这些不是该叶核心，关系已收窄。"
+    },
+    "cemetery-management": {
+      "application_ids": [
+        "github:936669638"
+      ],
+      "identity_track": "Sunrise CMS；仓库元数据快照显示 repository_id 936669638，track=open_source，名称与仓库 URL 一致。",
+      "service_form": "Node.js/Express/EJS/Bulma 自托管 Web 应用，README 说明可在普通工作站运行、无需独立数据库服务器。",
+      "core_match": "pass",
+      "license": "LICENSE.md 快照为完整 MIT 文本，package.json 的 license 字段也为 MIT，二者一致。",
+      "community_boundary": "README 自述 completely free/open source，未发现社区版/企业版分割或附加限制。",
+      "evidence": [
+        "README 明确其用于 cemetery records，支持 Unlimited Cemeteries/Burial Sites/Contracts",
+        "README 说明内置安葬（interments）与墓穴维护工单",
+        "docs/contracts.md 说明合同跟踪 preneed 墓位预订与 at-need 墓位安葬，并在逝者安葬后设置结束日期",
+        "package.json 的 name/description/license 与仓库身份、MIT 许可证一致"
+      ],
+      "gaps": "仍标注 in development；公共族谱门户、逐条传记字段、容量/权利/起掘等规则未在已读资料中细述；安葬记录主要以合同与工单形式体现，关系已收窄。"
+    },
+    "cleaning-business-management": {
+      "application_ids": [
+        "github:1201466005"
+      ],
+      "identity_track": "OpenFieldService；repository_id 1201466005，track=open_source，名称与仓库 URL 一致。",
+      "service_form": "自托管 Web 现场服务应用，README 提供本地启动方式，属于持续使用的软件服务形态。",
+      "core_match": "pass",
+      "license": "LICENSE 快照为完整 MIT 文本，spdx_id=MIT 与快照一致。",
+      "community_boundary": "仓库级 MIT，未发现社区版/商业版功能切割。",
+      "evidence": [
+        "README 明确列出 Cleaning 垂直（house cleaning、deep clean、move-in/move-out、carpet cleaning、window washing）",
+        "README 记录的客户 sites 含 access instructions，可承载入户说明",
+        "jobs 数据模型含 is_recurring/recurrence_interval，且有技术员派工、检查表、物料与完工发票",
+        "README 的 service type catalog 支持按垂直配置服务、默认价格与时长"
+      ],
+      "gaps": "未证明 series/occurrence 生成、覆盖例外、主管巡检评分、客户评分、客户门户、薪资联动、合同批量计费；关系限于核心。"
+    },
+    "electrical-service-management": {
+      "application_ids": [
+        "github:1201466005"
+      ],
+      "identity_track": "OpenFieldService；repository_id 1201466005，track=open_source，名称与仓库 URL 一致。",
+      "service_form": "自托管 Web 现场服务应用，README 提供本地启动方式，属于持续使用的软件服务形态。",
+      "core_match": "pass",
+      "license": "LICENSE 快照为完整 MIT 文本，spdx_id=MIT 与快照一致。",
+      "community_boundary": "仓库级 MIT，未发现社区版/商业版功能切割。",
+      "evidence": [
+        "README 明确列出 Electrical 垂直（panel upgrade、outlet installation、lighting、ceiling fan、troubleshooting）",
+        "README 记录客户与服务地址、作业生命周期/排程、技术员派工、可选设备记录、检查表/物料、完工发票",
+        "数据模型含 jobs.status、technician_id、scheduled_date 以及 invoices/invoice_lines"
+      ],
+      "gaps": "未提供估价/电子签名、定金、采购单、项目阶段管理与大型合同管理；关系限于服务呼叫型电气作业。"
+    },
+    "elevator-service-management": {
+      "application_ids": [
+        "github:1239364445"
+      ],
+      "identity_track": "Elevator Service Manager；仓库元数据快照显示 repository_id 1239364445，track=open_source，名称与仓库 URL 一致。",
+      "service_form": "Django/Python 自托管 Web 应用，README 提供 Python 3.9 + Django 3.1.5 的部署步骤，属于软件服务形态，但自述为 learning/portfolio project。",
+      "core_match": "partial",
+      "license": "LICENSE 快照为完整 MIT 文本，spdx_id=MIT 与快照一致。",
+      "community_boundary": "仓库级 MIT，未发现社区版/商业版功能切割。",
+      "evidence": [
+        "README 明确其为电梯维保公司应用，提供客户、逐部电梯技术档案、按电梯的服务访问记录、故障 Alert 消息与周值班表",
+        "README 的 model 说明为 User、week、elevators、service、Message，未见 building、maintenance agreement、test/certificate 等模型",
+        "README 的 Stripe Checkout 仅覆盖单次服务付款，未见合同周期性计费或会计集成"
+      ],
+      "gaps": "未覆盖定义性核心中的建筑→单元层级、AMC/维护协议范围与周期预防维护、法规测试周期/运行证书/违规整改、按资质派工、按单元回呼历史；故障报修是转给当日值班技术员的站内消息，未证明绑定具体电梯。该叶应改为无案例或替换为覆盖 AMC 与合规循环的产品。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 指定的 11 个 sources/ 快照；未运行应用、未部署、未执行工作流、未写文件、未读取其他单元。GitHub API 元数据请求的 403 rate limit 已由采集记录，metadata 快照为 github.com HTML 页面而非 API JSON；未读取仓库源码及未被引用的 docs/ 页面，因此对 Elevator Service Manager 的“未提供 AMC/合规”判断主要依据 README 的功能与模型说明。三份许可证均按快照原文核对为完整 MIT；商业真实性检查不适用（本单元均为 open_source）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-268/ses_groveopencodegop268review2_1793041564.jsonl",
+  "batch_sha256": "c1c26ae0a9359943d562d15ce9d9cf0ed187682b4e4c93771ef5b5810d7c4d92",
+  "research_sha256": "258f38dd21dd70ec1aa95f5c8045df2c633b14c7dac26ed09feb1af2606b7348",
+  "input_sha256": "56382de4b506b340cfab213f9f002b5e22d5a258131c85932609862c35c0a1cd"
+}

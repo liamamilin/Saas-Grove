@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "diagramming-application",
+      "application_id": "github:67508428",
+      "issue": "batch.json 中该条目的 features 写有“并可在支持的存储上实时协作”，但所引 jgraph/drawio 的 README 明确写明“draw.io does not support real-time collaborative editing in this version, currently.”，并说明该仓库是 test/评估版本、生产部署另有付费版本。该表述把生产/集成部署能力混入 Apache-2.0 测试仓库的 features，社区版边界不清；虽然 diagramming-application 的四项核心并不依赖实时协作，但条目事实表述仍需修正。",
+      "fix": "删除 features 中的实时协作表述，或明确限定为生产版/Confluence 等集成部署能力；在 features/deployment 中注明 Apache-2.0 测试仓库不支持实时协作，并保留 README 的 test version/付费生产版边界说明。",
+      "evidence": "data/collections/batch.json 的 github:67508428 features；data/collections/sources/749486eaa18f4569a45add47b4d1feae09df45044291eec2ce67f0506ef41c51.txt（README）第 29、35 行。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Miro 页面是商业产品页，正文支持无限画布、便笺/聚类、画笔、思维导图、投票、计时器、公开板协作和模板库；但“文件”“实时反应”“可命名/自动持久化”并非逐字出现，属于推断或产品常识。按商业基本真实性和类型匹配不阻断，建议收窄 reason/features 措辞。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]，与 batch.json/research.json 的 case_found 不一致；本次以 batch/research/snapshots 复核，建议同步 manifest。",
+    "research.json 的 drawio 首页 fetch_outcome 声称包含 shape libraries、real-time collaboration、local/desktop storage，但该快照主要是 JS 外壳、iframe 示例和 CTA；核心证据取自 docs/features 与 docs/manual，建议收紧该 fetch 记录。",
+    "research.json 的 SlideMaster fetch_outcome 提到“统一字体/水印”，快照正文可见版式、占位符和文字格式，未明确出现 watermark；batch reason 未依赖该点，建议核对措辞。",
+    "drawio README 同时称其为 diagramming and whiteboarding application；本条只映射 diagramming-application，因图表文档、形状、连接线、形状库四项核心成立且未要求排他，可接受。",
+    "DocSpace 同时映射 collaborative-presentation-editor 与 presentation-application；房间文件模式支持 authored deck，SavePrintDownload 的 Fast/Strict 协同模式又支持共享实时编辑，两个叶子分别成立，未见排他规则。",
+    "Miro 页面称 public boards 可无限访客、无需登录；collaborative-canvas/digital-whiteboard 的“已识别参与者”仅部分明示，但团队协作和 collaborator access 足以支持商业基本匹配。"
+  ],
+  "leaf_checks": {
+    "collaborative-presentation-editor": {
+      "status": "pass",
+      "basis": "README 的 Collaboration rooms 明示邀请用户实时共同撰写/编辑文档，编辑器清单含 Presentation Editor；Community 安装页列出创建/编辑演示文稿和 real-time co-editing；管理文档页有 New presentation、版本管理、锁定 co-authors；ManageSlides 证明有序幻灯片（新增/复制/移动/隐藏）；SetSlideParameters 证明统一固定幻灯片尺寸/方向/主题；InsertText、InsertAutoshapes、InsertImages、InsertTables、ManipulateObjects 证明有界画布上的自由元素放置；SlideMaster 证明版式；SavePrintDownload 的 Fast/Strict 模式证明协同编辑与自动保存；PreviewPresentation 证明放映/演讲者备注。",
+      "gap": "未运行产品；未独立验证并发合并和权限分级的运行时行为；DocSpace Community 是整体工作区，演示文稿作为房间文件承载。"
+    },
+    "presentation-application": {
+      "status": "pass",
+      "basis": "管理文档页可在房间中 New presentation 并管理版本；ManageSlides 证明有序幻灯片及隐藏；SetSlideParameters 证明固定页面尺寸/方向与主题；SlideMaster 证明母版/版式；SupportedFormats 的 Download as 表证明 PDF、PDF/A-2a、ODP、PPTX/PPTM 等导出；SavePrintDownload 证明自动保存、另存、下载和打印；PreviewPresentation 证明全屏放映与演讲者模式。",
+      "gap": "未运行产品；同一 DocSpace 也支持实时协同，但 authored-file 模式有独立正文证据。"
+    },
+    "collaborative-canvas": {
+      "status": "pass",
+      "basis": "Miro 官方页面标题/正文：A Collaborative Digital Whiteboard for Teams、infinite intelligent canvas；正文列 Sticky Notes/Clustering、Pen、Mind Map、Voting、Timer、public boards 的 1-click collaborator access、Template Library。",
+      "gap": "仅商业产品页；自动保存、可命名板、已识别光标/在线状态未逐字明示，按基本类型匹配接受；未运行产品。"
+    },
+    "diagramming-application": {
+      "status": "core_supported_entry_boundary_fix_required",
+      "basis": "draw.io docs/features 与 docs/manual 正文：从 shape libraries 拖放形状、在形状间画 fixed/floating connectors、手动改路径或自动 reroute、标签/元数据、多页/图层/导出；仓库元数据 id=67508428、LICENSE 为完整 Apache-2.0，README 说明 test/评估版与付费生产版。",
+      "gap": "图表文档、语义形状、绑定连接线、形状词汇表四项核心成立；但 entry features 的“实时协作”与 README 的“does not support real-time collaborative editing in this version”冲突，需按 finding 修正社区版边界；未运行产品。"
+    },
+    "digital-whiteboard": {
+      "status": "pass",
+      "basis": "Miro 官方页面标题/正文：collaborative digital whiteboard for teams；Sticky Notes/Clustering、Pen 自由绘制并把 sketch 转为 shapes/notes/connection lines、图片库、Voting/Timer、public boards collaborator access、Template Library。",
+      "gap": "仅商业产品页；同时在线共同标记/自动持久化未逐字明示，按基本类型匹配接受；未运行产品。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行任何产品；仅读取本单元 REVIEW_SOURCES.json 指定快照以及 batch.json/research.json；未重新计算哈希或抓取新网页；部分快照为 Next.js/HTML，正文与导航/CSS 混杂；无法验证动态实时光标、自动保存、权限分级等运行时行为；商业条目仅按官方产品页做基本真实性和类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-011/ses_groveopencodegop011review1_1792939008.jsonl",
+  "batch_sha256": "f25305a99f82297df9718869862fb99d4bcaa7d91ca2a2ef22df861735135e83",
+  "research_sha256": "2c8c49862b17b7ff3702ca10c299ebbbde1f88067c3f0c275d411fd5beca2a43",
+  "input_sha256": "ca80fc94bfb99294c653f9c698963409886c8d3de9089f35b40e0c681f59dc18"
+}

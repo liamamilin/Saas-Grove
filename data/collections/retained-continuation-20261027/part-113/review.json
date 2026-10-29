@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Chatwoot 条目的 homepage 写成 https://www.chatwoot.com/help-center，这是帮助中心/文档入口，不是产品主页；建议改为 https://www.chatwoot.com/。这不影响仓库身份、许可证判定和叶匹配。",
+    "Chatwoot 的全渠道依据来自 README 的 Omnichannel Support Desk、统一收件箱、渠道清单、联系人资料与互动历史；README 没有逐条展示“客户跨渠道切换后仍落在同一会话记录”，当前按统一收件箱加单一坐席工作区接受，后续如需更严格证据可补官方工作流文档。",
+    "MikoPBX 的 IVR 依据是 README 功能段落中的 IVR menus、inbound/outbound call rules、custom call-flow programming 和 dialplan application editor；提示音录制、DTMF 收集、流程版本与号码绑定属于电话语义下的合理推断，README 未给出操作细节。",
+    "Remotely 的 EnforceAttendedAccess 在 README 中描述为对无人值守远程控制尝试弹出用户许可提示，摘要里的“可强制用户同意的会话”表述略宽，建议按原设置语义收紧。",
+    "CallMiner 快照的 URL 是 /platform/，页面 canonical 指向 /products/eureka；内容确为 CallMiner 平台页，建议来源记录采用最终有效 URL，避免后续复核歧义。",
+    "MikoPBX README 提到付费扩展市场和付费支持；条目已说明核心功能免费，但未显式写明付费模块不属于 GPL 核心，社区版边界可再明确一句。",
+    "Chatwoot 的 GitHub 许可证 API 返回 NOASSERTION，条目已用 license_review 说明 enterprise/ 独立许可、其余为 MIT Expat；展示层建议保留“社区核心 MIT”限定，避免把整个仓库简单标为 MIT。"
+  ],
+  "leaf_checks": {
+    "ivr-platform": {
+      "application_id": "github:190705676",
+      "status": "pass",
+      "basis": "README 正文写明 Asterisk 22 PBX 引擎、IVR menus、inbound/outbound call rules、holidays/night-time call switcher、custom call-flow programming、dialplan application editor、call recording；仓库元数据 id=190705676、full_name=mikopbx/Core、license.spdx_id=GPL-3.0、archived=false；LICENSE 快照为完整 GPLv3 文本。自动化呼叫处理、可配置呼叫流程、语音交互三项有直接依据。",
+      "gaps": "README 是功能级描述，未展示提示音、DTMF 收集、流程版本和号码绑定的具体操作；未做运行时验证。"
+    },
+    "omnichannel-customer-service-platform": {
+      "application_id": "github:202291859",
+      "status": "pass",
+      "basis": "README 将 Chatwoot 定位为自托管客户支持平台，Omnichannel Support Desk 把网站聊天、邮件、Facebook、Instagram、Twitter、WhatsApp、Telegram、Line、SMS 集中到一个 inbox；另有 contact profiles/interaction history、teams、auto-assignment、private notes、business hours、reports。仓库 id=202291859、track=open_source；LICENSE 快照确认 enterprise/ 独立许可，其余为 MIT Expat，条目已将范围限定为社区核心。",
+      "gaps": "跨渠道“同一会话记录延续”未被逐字证明，证据主要是统一收件箱和联系人历史；homepage 指向 help-center。"
+    },
+    "remote-customer-support-platform": {
+      "application_id": "github:176523594",
+      "status": "pass",
+      "basis": "README 提供 /get-support 终端用户支持请求页、quick support 客户端、Branding、RemoteControl Viewer/RemoteControl API、EnforceAttendedAccess/RemoteControlNotifyUsers、EnableRemoteControlRecording、server/organization admin；移动端远程控制说明含点击、右键、拖拽控制。仓库 id=176523594、GPL-3.0、archived=false，LICENSE 为完整 GPLv3。",
+      "gaps": "README 自述为 remote control and remote scripting solution，支持关系由 /get-support 与 quick support 组合推定；未展示一次完整“请求→技师接入→屏幕/控制”的会话流程，EnforceAttendedAccess 语义偏无人值守。输入定义中 dc 字段只列角色/品牌，与 overview 的实时远程会话核心不完全一致，本次按 overview 核对。"
+    },
+    "self-service-support-portal": {
+      "application_id": "github:12063996",
+      "status": "pass",
+      "basis": "osticket.com/features 的 Customer Portal 段说明所有支持请求与回复对最终用户在线存档，用户可用邮箱加工单号登录，或注册账户查看全部关联工单，并可建设知识库供用户自助；README 说明用户可通过网站、邮件或电话创建工单，功能页 Custom Fields/Help Topics 说明可按请求类型配置表单。仓库 id=12063996、GPL-2.0、archived=false，LICENSE 为完整 GPLv2。",
+      "gaps": "门户证据主要来自厂商功能页的两段介绍，未展示提交、跟踪的实际界面流程；未做运行时验证。"
+    },
+    "support-conversation-analytics": {
+      "application_id": "commercial:callminer",
+      "status": "pass",
+      "basis": "CallMiner /platform/ 正文写明 capture/analyze 100% omnichannel customer interactions、transcriptions 打 sentiment/emotion 标签、pre-built topics、root-cause analysis、omnichannel customer journey mapping、recorder live monitoring/playback 和 conversation analytics；覆盖语料库、机器结构化、跨会话洞察三项核心。commercial track 与对话分析类型匹配。",
+      "gaps": "仅做商业基本核对，未验证定价、部署和数据接入；快照 canonical 为 /products/eureka。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未计算 sha256、未发起 HTTP 请求或部署测试。GitHub 仓库元数据为单行 JSON，read 截断在 2000 字符，archived/spdx_id 等字段仅用字面匹配确认，未能逐字段通读。input.json 中部分 definition 长字段也被读取工具截断，远程叶由于 dc 字段与 overview 不一致，主要按 overview 核对；分析叶 dc 的第三段不可见，按 overview 的三段结构核对。商业产品只做基本真实性与类型匹配。未复核未采用的候选快照（RustDesk、MeshCentral、Comcent 等）正文，仅确认其在 research 中的留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-113/ses_groveopencodegop113review2_1793004966.jsonl",
+  "batch_sha256": "e618ebc33dd3dbdedd051d437fe67df7ab03620c811437e31ad9818a009493ec",
+  "research_sha256": "99f22f055cc3538c0e14fd6ae802dae2e07aa2e35b8365b0c12e20b9c8da33b8",
+  "input_sha256": "a19d9ae8c52e549e266a0e0ab902f5273efd6dc7b399c901b1ebed49f8e29f50"
+}

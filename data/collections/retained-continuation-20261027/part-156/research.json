@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "system-simulation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:modelon-impact"
+      ],
+      "query": "websearch: Modelon Impact system simulation platform official；GitHub API: OpenModelica/OpenModelica 许可证核对",
+      "source_urls": [
+        "https://www.modelon.com/modelon-impact/",
+        "https://help.modelon.com/latest/articles/ao_what_is_modelon_impact/"
+      ],
+      "note": "官方产品页与帮助中心正文确认 Modelon Impact 为系统仿真平台：Modelica 多领域模型、瞬态/稳态仿真、并行仿真、结果可视化、版本历史，并提供 Modelon 托管 SaaS 与客户自托管两种部署。开源候选 OpenModelica（GitHub id 34993481）核心匹配，但其 LICENSE 为 OSMC Public License（GitHub 标 NOASSERTION、正文含 All rights reserved），不是 OSI 认可许可，按规则不得标开源，故未进入 batch；本轮只核对了 OpenModelica，没有继续扩大检索其他开源实现，故这是检索范围缺口，不据此断言不存在。未运行产品，未核对价格。",
+      "service_boundary": "浏览器访问的云 SaaS 或客户自托管服务器的系统级动态仿真平台；不是桌面单机，也不是对几何体做离散化的 CFD/FEA 工具。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "Modelon Impact system simulation platform official",
+          "outcome": "命中 modelon.com 产品页与 help.modelon.com 帮助中心"
+        },
+        {
+          "tool": "github_api",
+          "query": "repos/OpenModelica/OpenModelica + license",
+          "outcome": "仓库核心匹配，但许可证为 OSMC-PL，非 OSI，排除开源条目"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.modelon.com/modelon-impact/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "ef1ce826df2ead0fcffb6a5dd07150d2b6ad588df2f35eda1dae0277e6683855"
+        },
+        {
+          "url": "https://help.modelon.com/latest/articles/ao_what_is_modelon_impact/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "257ed52991f141f4946dd87960b247c89ea033b6a11730f35dd7759063fa8cd7"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenModelica/OpenModelica",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "sha256": "d36136382f0197320f551fa213699f61fbf87e735d372a5e5af2d281e13c1048"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenModelica/OpenModelica/license",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "8cf6aa9f15b03168cec7b7bc62bff81932d7aa0ef0369a1ed0235dae17756738"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "bill-of-materials-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4630534"
+      ],
+      "query": "GitHub API: docdoku/docdoku-plm metadata/readme/license；官方用户指南: 产品结构、BOM、配置、基线",
+      "source_urls": [
+        "https://api.github.com/repos/docdoku/docdoku-plm/readme",
+        "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html"
+      ],
+      "note": "DocDokuPLM（GitHub id 4630534，AGPL-3.0）README 明确列出 Product Structure、Product Configuration（effectivities/alternatives/substitutes）和 Bill of Materials；官方用户指南含 Part assembly、Configuration、Baseline、Product structure explorer，支持产品结构定义、配置与基线冻结。该产品整体为 PLM 套件，BOM 是其完整模块，按“完整子模块”收录并收窄表述，未声称独立 BOM 单品。仓库最近 push 2021-05-10，未运行验证；BOM 行单位/数量校验细节未逐页核对。 另核对 InvenTree（GitHub id 85894461，MIT）官方 BOM 文档，BOM 行/单位/替代件/继承 BOM 有正文，但其定位为库存管理、BOM 属其模块；本轮优先采用产品结构/配置/基线更完整的 DocDokuPLM，InvenTree 留作候选。",
+      "service_boundary": "自托管浏览器访问的 PLM 套件中的产品结构/BOM 模块；控制对象是产品结构与配置/基线，不把库存台账或采购执行算作本叶核心。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "repos/docdoku/docdoku-plm metadata/readme/license",
+          "outcome": "确认仓库身份、AGPL-3.0 与 BOM/产品结构模块描述"
+        },
+        {
+          "tool": "fetch",
+          "query": "docdokuplm.com 2.5 用户指南",
+          "outcome": "读取 Part assembly、Configuration、Baseline、Product structure explorer 等章节"
+        },
+        {
+          "tool": "fetch",
+          "query": "InvenTree 官方 BOM 文档",
+          "outcome": "确认 BOM 行/单位/替代件/继承 BOM，但产品为库存管理，留作候选"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "sha256": "19d52b3bb6347046f424eda7173637ff81f08c942daeffb03aa73de6912f1344"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm/license",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "919f2604f53f6718b2841203ae766cda4f7419d08d902b186c76f3d70c431be1"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm/readme",
+          "kind": "readme",
+          "status": "ok",
+          "sha256": "c2c0b121430a27e94ea5b584c560ba9fad9cd3fa22f39bb434c918ee05eb88d8"
+        },
+        {
+          "url": "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "9fd27b9f47d3d97816833b941b6c45afa27966752e99ad642187b7d0b3b64ea5"
+        },
+        {
+          "url": "https://api.github.com/repos/InvenTree/InvenTree",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "sha256": "345717b94a9d6fb3c5fa65c6199491bf93fb4170a100cc2610fefd777a59f53d"
+        },
+        {
+          "url": "https://docs.inventree.org/en/stable/manufacturing/bom/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "3db6335afb2af351259e0c7d96094fbfbad975d703ac132703b122f3b58258b6"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "engineering-change-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4630534"
+      ],
+      "query": "websearch: DocDokuPLM change management documentation engineering change order；GitHub API + 官方流程页/用户指南/REST API",
+      "source_urls": [
+        "https://www.docdokuplm.com/features/processes/",
+        "https://www.docdokuplm.com/docdoku-plm/rest-api-reference/",
+        "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html"
+      ],
+      "note": "DocDokuPLM（GitHub id 4630534，AGPL-3.0）README 列 Change Management 与 Process Management；官方流程页说明文档、零件等对象可挂工作流；用户指南含 Workflow、Lifecycle state、Roles、Issues/Requests/Orders；REST API 提供变更请求/变更单接口及 affected-documents/affected-parts/affected-requests 绑定。可证明变更记录绑定受影响工程对象并经受控流程，但未核对电子签名、生效日期等细节，正文不写这些断言。整体是 PLM，本叶按完整变更管理模块收录。",
+      "service_boundary": "自托管 PLM 套件中的变更管理模块，管理变更请求/单及其对零件、文档、请求的绑定与工作流；不把商业合同变更或泛化审批流算作本叶核心。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "DocDokuPLM change management documentation engineering change order",
+          "outcome": "命中官方 Change and Process Management 页、用户指南与 REST API"
+        },
+        {
+          "tool": "fetch",
+          "query": "官方流程页与 REST API 正文",
+          "outcome": "确认工作流、Issues/Requests/Orders、affected-documents/affected-parts 接口"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.docdokuplm.com/features/processes/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "8a0e77bf64b911a33f2e2dd7d55cdbb08aea6beaccec7dd63f1b795d63975932"
+        },
+        {
+          "url": "https://www.docdokuplm.com/docdoku-plm/rest-api-reference/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "c142abc21d07a8dfa40072f5880eee9e0e32c598935c34c1a8386855a9c971cd"
+        },
+        {
+          "url": "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "9fd27b9f47d3d97816833b941b6c45afa27966752e99ad642187b7d0b3b64ea5"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm/readme",
+          "kind": "readme",
+          "status": "ok",
+          "sha256": "c2c0b121430a27e94ea5b584c560ba9fad9cd3fa22f39bb434c918ee05eb88d8"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "engineering-document-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4630534"
+      ],
+      "query": "GitHub API: docdoku/docdoku-plm + Mayan EDMS 镜像核对；官方 2.5 用户指南: 文档管理/版本/工作流/发布",
+      "source_urls": [
+        "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html",
+        "https://api.github.com/repos/docdoku/docdoku-plm/readme"
+      ],
+      "note": "DocDokuPLM（GitHub id 4630534，AGPL-3.0）README 列 Document Management: Version control, workflows, templates, links；官方用户指南正文含 master/revision/iteration 版本谱系、check-in/check-out、ACL、文档模板、公开/私有发布、状态与迭代变更订阅、Roles/Lifecycle state/Tasks。Mayan EDMS 的 GitHub 仓库（id 184955400）README 明确标注该镜像不再维护并指向 GitLab，故未采用。未核对 transmittal/分发包形态，正文只写到版本谱系、权限、工作流与发布。",
+      "service_boundary": "自托管 PLM/DMS 套件中的工程文档管理模块；文档为注册记录并具修订谱系、受控状态与发布，不把施工项目跨组织文档分发或纯文件网盘算作本叶核心。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "repos/Mayan-EDMS/mayan-edms readme",
+          "outcome": "镜像 README 标注不再维护，弃用该 GitHub 仓库"
+        },
+        {
+          "tool": "fetch",
+          "query": "DocDokuPLM 2.5 用户指南文档管理与工作流章节",
+          "outcome": "确认版本谱系、检出/检入、ACL、工作流和发布"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docdokuplm.com/docdoku-plm/user-guide/en/2.5/index.html",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "9fd27b9f47d3d97816833b941b6c45afa27966752e99ad642187b7d0b3b64ea5"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm/readme",
+          "kind": "readme",
+          "status": "ok",
+          "sha256": "c2c0b121430a27e94ea5b584c560ba9fad9cd3fa22f39bb434c918ee05eb88d8"
+        },
+        {
+          "url": "https://api.github.com/repos/Mayan-EDMS/mayan-edms/readme",
+          "kind": "readme",
+          "status": "rejected_outdated_mirror",
+          "sha256": "52a9174ffdb701ad2710db94490cd4b99bad66eb42111403e45828e86ea726bc"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "engineering-requirements-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:263988764"
+      ],
+      "query": "GitHub API: strictdoc-project/strictdoc metadata/readme/license；官方用户指南: requirements/UID/traceability",
+      "source_urls": [
+        "https://api.github.com/repos/strictdoc-project/strictdoc/readme",
+        "https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_01_user_guide.html"
+      ],
+      "note": "StrictDoc（GitHub id 263988764）README 与官方用户指南确认其为需求/技术文档管理工具：需求以稳定 UID 的 SDoc/Markdown 记录保存，组织为文档树/规范，支持需求与源代码的双向可追溯链接、Web 编辑、diff/changelog 与 HTML/PDF 导出，并可运行本地 Web 服务器。GitHub license API 返回 NOASSERTION，但 LICENSE 正文为 Apache-2.0 标准声明、README 亦写明 Apache License 2.0，故按已读正文做 license_review 标为 Apache-2.0。基线冻结、电子签名、审批门禁未在已读正文中证实，关系已收窄为需求记录+规范结构+追溯核心，未写入这些能力。未运行服务。",
+      "service_boundary": "可本地安装/自托管的 Python 需求与规范文档应用（Web UI + 静态导出）；变更依赖文本文件版本控制与内置 diff/changelog，不把它扩展为完整 MBSE 或 PLM。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "repos/strictdoc-project/strictdoc metadata/readme/license",
+          "outcome": "确认仓库身份、README 需求管理说明与 Apache-2.0 声明"
+        },
+        {
+          "tool": "fetch",
+          "query": "strictdoc.readthedocs.io 用户指南",
+          "outcome": "读取需求 UID、文档树、Traceability、Diff/changelog、Web 服务器等正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "sha256": "d30d50eeb34f11d8aeb63c07c49fe523704a063076e78959ce52c9249d0326de"
+        },
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc/license",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "3e071d7bea4ea7851cdc023b525df5a8c8bd4647826db65674cd551dc7959471"
+        },
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc/readme",
+          "kind": "readme",
+          "status": "ok",
+          "sha256": "bb8853bf7e3398f01642f0eb125f8f3dad6c714499ef931b17bde7c93e5883d7"
+        },
+        {
+          "url": "https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_01_user_guide.html",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "0323e94adfa6581cb2119178089ef952793c8c7fe3d234fbacccda03e2c35f7e"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "load-balancer-management",
+      "application_id": "github:117503394",
+      "note": "单元元数据与批次不一致：input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 research.json 已是 case_found 且 batch.json 已绑定 github:117503394。建议下游以 batch/research 为准并同步 input 状态，避免该案例被当作“无案例”丢弃。"
+    },
+    {
+      "slug": "load-balancer-management",
+      "application_id": "github:117503394",
+      "note": "research.json 的 fetch_outcomes 记录了本轮抓取 https://roxy-wi.org/description（sha256=6ffbc59d...），但该快照未进入 REVIEW_SOURCES.json 与 batch.json 的 sources，也未在 leaf_matches 中作为证据引用。该页面未被当作核心证据，不影响结论；若后续需要补充“监听器/后端池/健康门控”的直接正文，建议补留该快照。"
+    },
+    {
+      "slug": "load-balancer-management",
+      "application_id": "github:117503394",
+      "note": "Roxy-WI 产品面覆盖 HAProxy、NGINX、Apache、Keepalived 四类服务，是一个多服务控制台。批次已把摘要与 leaf_matches 收敛到 HAProxy 模块（监听器/后端配置、Runtime API 后端控制、统计与后端健康），这一收敛是恰当的；建议在条目描述中继续明确“本关系基于 HAProxy 负载均衡管理模块”，避免读者把整个产品等同于单一负载均衡管理器。"
+    },
+    {
+      "slug": "load-balancer-management",
+      "application_id": "github:117503394",
+      "note": "batch.json 的 features 均为仓库 README/官网公开的社区可用能力（配置表单与编辑器、Runtime API 后端控制、统计视图、配置版本与服务操作）；README 与官网明示 Change Center 需 Premium、OIDC 需 Enterprise/Premium、HA 集群工作流按套餐，社区版与付费能力边界已正确区分，未把商业功能混入开源条目。"
+    },
+    {
+      "slug": "load-balancer-management",
+      "application_id": "github:117503394",
+      "note": "license_review 的 scope 标注为 repository，README 与官网也以整仓库 Apache-2.0 呈现；未逐一核验仓库内是否另有独立授权的子目录或许可例外（快照中未发现 enterprise/ee 类目录）。这属于许可覆盖深度的说明性限制，不构成阻断。"
+    },
+    {
+      "slug": "load-balancer-management",
+      "note": "定义性核心中的“分发策略（算法/权重）”在快照中是通过“配置表单 + 详细文本编辑器可编辑 HAProxy 配置”间接支持的，未出现单独引用 balance/weight 管理界面的正文；作为 HAProxy 配置管理工作台，该推断合理，属措辞层面的取证强度说明。"
+    }
+  ],
+  "leaf_checks": {
+    "load-balancer-management": {
+      "application_id": "github:117503394",
+      "name": "Roxy-WI",
+      "track": "open_source",
+      "verdict": "pass",
+      "identity_and_type": "batch.json 的 id=github:117503394、name=Roxy-WI、homepage=https://roxy-wi.org、repository_url=https://github.com/roxy-wi/roxy-wi 与仓库页快照一致；仓库页 meta 中 octolytics-dimension-repository_id=117503394、repository_nwo=roxy-wi/roxy-wi、is_fork=false、network_root_id=117503394，标题为“Web interface for managing Haproxy, Nginx, Apache and Keepalived servers”，产品身份与 ID 无错配。track=open_source 与官方仓库、Apache-2.0 许可证相符。",
+      "defining_core": "满足。官网 /haproxy-web-interface 正文（非仅 meta/简介）列出“Configure listeners and backends”“Operate HAProxy at runtime … including backend server controls”“Inspect traffic and backend health … server states”，并含三步实操流程（部署管理应用、经 SSH 添加服务器与 HAProxy 配置路径/统计设置、查看配置版本并做后端健康与 Runtime API 操作）；README“What you can do”表格同样给出配置管理、服务动作、后端与日志检查等操作面。对应定义结构：分发点=HAProxy listeners（地址/端口/协议）、受管后端集=backends、分发策略=配置表单/文本编辑器可编辑的 HAProxy 配置（间接证据）、健康门控轮换=统计页服务器状态与后端健康检查、Runtime API 的 server 状态控制。",
+      "service_form": "满足持续使用的软件服务形态：自托管 Web 应用，含持久化数据（DB）、后台 worker 与调度（README 的 worker health/调度、仓库树中 roxy_wi_gunicorn.py、scheduler_runner.py、requirements.txt），以 Linux 包 / Docker Compose / Helm 部署并长期运行管理既有 HAProxy 服务器；非一次性脚本或纯 CLI 工具。",
+      "license": "满足开源完整许可证要求。data/collections/sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt 为完整 Apache License 2.0 正文（含 1–9 条全部条款与 APPENDIX 样板声明，共 201 行），与 batch.json license=Apache-2.0、license_evidence_url 指向同一 raw LICENSE 一致；README 徽章与结尾“Roxy-WI is licensed under Apache 2.0”互证。",
+      "community_boundary": "已核对。README 明示“Some capabilities require a subscription. Change Center requires Premium”；官网列明 Change Center 需 Premium、OIDC 需 Enterprise/Premium、监控服务/配置向导/备份/HA 集群工作流各有套餐要求，同时提供“Free Manual plan”。batch.json 的 features 与 leaf_matches 仅取社区可用能力（配置表单与编辑器、Runtime API 后端控制、统计视图、配置版本比较与服务操作），未借用付费功能，边界清晰。",
+      "source_quality": "四个快照均按 REVIEW_SOURCES.json 的 path 原样读取并通过 sha256 命名核对：仓库页为真实 GitHub 仓库 HTML（含仓库 ID、描述、README 正文渲染），README 为完整正文（228 行），LICENSE 为完整许可证文本，官网页为完整落地页正文（371 行）且含能力卡片、FAQ、部署要求与“Reviewed 2026-10-18”。未出现以简介/元数据/Loading 页替代核心正文的情况。",
+      "gaps": "无阻断性缺口。说明性限制：分发策略（算法/权重）为配置编辑器可编辑 HAProxy 配置的间接证据；仓库内子目录许可未逐项核验；本轮抓取的 https://roxy-wi.org/description 未留存快照且未被引用；未做部署或运行时验证（batch.json runtime_tested=false 如实记录）。历史 Traefik 候选（github:42408804）保留为 withheld_candidates，未恢复关系，也未推断同类产品不存在，符合留档要求。"
+    }
+  },
+  "limits": "仅做只读初审：未运行 shell、未写文件、未部署或运行时验证 Roxy-WI 与 HAProxy，功能结论完全依赖 REVIEW_SOURCES.json 列出的四个快照（GitHub 仓库页、master README、master LICENSE、roxy-wi.org HAProxy 落地页）及 batch.json/research.json/input.json 的文本内容；未访问 pricing、/description、/howto 等未被引用的页面，未核查仓库内各子目录的独立授权或第三方依赖许可，也未核验 HAProxy 算法/权重管理界面是否以独立 UI 形式提供（仅据配置编辑器间接认定）。input.json 的 phase/case_status/application_ids 与 batch.json、research.json 存在状态不一致，已记入 non_blocking_notes，未据此改变内容结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-120/ses_groveopencodegop120review1_1793246243.jsonl",
+  "batch_sha256": "86808de6446d1331ef7ed9637f2896ec21889efcd076393481f63c7c0ac039c5",
+  "research_sha256": "35812e1b61f0c530c82843e4cde8f327f2c8671be7a7a8a76360089dbfd47a74",
+  "input_sha256": "19680035a38c42de41fc5eef11a263b2e778a827d404e81e3baf606a62f156f1"
+}

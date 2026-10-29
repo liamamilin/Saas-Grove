@@ -1,0 +1,56 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "auto-repair-shop-management",
+      "application_id": "github:320998981",
+      "issue": "该案例的核心证据只支持“车辆 + 工单/估价/派工/收款”的简化作业跟踪：Job 仅有单个 charged 金额、状态、指派人和 paid 标记；Vehicle 仅有 number_plate 与 owner；README 模块列表与已读代码均未见 labor/parts 行项目、invoice 模型，也未见 VIN、里程或逐车服务历史。叶定义的核心要求 labor and parts 作为定价工作的实质，并要求维修订单覆盖从开具到开票/付款的完整生命周期；当前实现更接近 flat-price job tracker，batch 中“符合……最小核心”的表述过强。",
+      "fix": "补充或核验仓库其余 app/模板中的 labor/parts 行项目、invoice（或等价的分项计价与开票）模型，以及车辆 VIN/里程/服务历史；若仓库确无这些，改用更完整的开源汽修店管理项目，或将本叶改为无案例并记录检索缺口。至少应把 leaf_match 从“符合最小核心”降为部分匹配，不应作为完整维修订单管理案例计数。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与本单元 batch/research 的 5 个 case_found 不一致；若下游依赖 progress，建议同步，或明确 input.json 是父批次快照。",
+    "sports-scouting-platform：Wyscout 页面正文支持 1000+ 赛事视频/数据、advanced search、player lists、shadow teams shortlists、球员/球队/赛事报告和通过视频评估目标；但未展示球探自撰评估框架/评分模板，导航中的 /products/wyscout/scouting-area 也未抓取。当前按“视频评估 + 搜索/名单 + 数据报告”记录，未声称完整评估框架，属非阻断缺口。",
+    "sports-video-analysis：Hudl Sportscode 页面正文支持 custom coding/scripting、macOS offline coding、timeline/video、telestration/graphics、interactive player reports linked to video、跨设备共享；但未明确持久素材库/赛季归档。当前按 coding→报告→共享记录，未声称完整素材库闭环。",
+    "tactical-analysis-platform：Hudl Statsbomb 页面正文支持 3,400 events/match、300+ competitions、player-location data、xG/OBV/phases 等模型、可定制可视化与整合视频，并明确 tactical analysis 用途；但未明确教练组备赛报告/演示交付。当前按数据/分析平台记录，未声称完整战术准备应用。",
+    "sports-scheduling-platform：About 页正文覆盖赛程创建（日期/时间/地点/交通）、赛程与场地冲突、联盟/学区总排期、日历订阅、变更通知、公开可嵌入日历；首页提供按学校/队伍查看最新赛程的入口。页面也列有 division standings 与 School District Standings，已按附属能力处理，未声称赛事结果/对阵图/锦标赛管理。",
+    "auto-repair-shop-management：README 称供应商联系人目前没有用途，batch 的“供应商联系人档案”仅指存在 CRUD，不应理解为可用供应商流程；deployment 写“自托管 Django 应用”，但 README 只给 DigitalOcean 演示，未给逐步部署教程，属非关键措辞。",
+    "auto-repair-shop-management 的开源核验：repository metadata 显示 id=320998981、full_name=wangonya/auto-repair-saas、fork=false，未命中 archived=true；license API 返回 LICENSE 文件（size 11357，base64 内容以 Apache License Version 2.0 开头），spdx_id 为 Apache-2.0；未发现企业版/社区版分层，Apache-2.0 覆盖仓库整体。",
+    "Wyscout 与 Statsbomb 的原始域名（wyscout.com、statsbomb.com/iq）301 到 Hudl 的跨主机抓取限制已在 research 中如实记录；当前使用 Hudl 官方产品页正文，属可接受的抓取缺口。",
+    "sports-scheduling-platform 的 research 中保留了前稿 OpenLeague 的抓取记录，但该候选已因类型不符移出本叶，且未列入 REVIEW_SOURCES；不影响本单元结论。",
+    "四个商业案例均使用官方 About/产品页正文，而非简介、元数据或 Loading 占位；未做运行时、价格、架构或部署测试，符合本次只读初审范围。"
+  ],
+  "leaf_checks": {
+    "sports-scheduling-platform": {
+      "result": "pass",
+      "basis": "About 页正文（capabilities 列表）与首页正文：创建含日期/时间/地点/交通的赛程、赛程与场地冲突跟踪、联盟/学区 master scheduling、日历订阅、变更通知、公开可嵌入日历；首页可按学校/队伍进入最新赛程。覆盖 competition calendar → scheduled game → production → published/living schedule 的核心。",
+      "gap": "division standings 为附属能力；未做运行时/价格核验。"
+    },
+    "sports-scouting-platform": {
+      "result": "pass_commercial_basic",
+      "basis": "Hudl Wyscout 产品页正文：1000+ 赛事视频/数据、advanced search、player lists、shadow teams shortlists、球员/球队/赛事报告、通过视频 flag/evaluate targets；运动员为记录对象，页面未显示运动员账户或双向联系。",
+      "gap": "未展示球探自撰评估框架/评分模板；/products/wyscout/scouting-area 未抓取。按“视频评估 + 搜索/名单 + 数据报告”收窄，非阻断。"
+    },
+    "sports-video-analysis": {
+      "result": "pass_commercial_basic",
+      "basis": "Hudl Sportscode 产品页正文：custom coding/scripting、macOS offline coding、timeline/video、telestration/graphics、interactive player reports linked to video、跨设备共享。类型匹配教练端视频分析。",
+      "gap": "未明确持久素材库/赛季归档；按 coding→报告→共享收窄，未声称完整素材库闭环。"
+    },
+    "tactical-analysis-platform": {
+      "result": "pass_commercial_basic",
+      "basis": "Hudl Statsbomb 产品页正文：3,400 events/match、300+ competitions、player-location data、xG/OBV/phases 等模型、可定制可视化与整合视频，明确 tactical analysis 用途。事件数据可作为 match content corpus，模型/可视化可作为战术分解结构。",
+      "gap": "未明确教练组备赛报告/演示交付；按数据/分析平台记录，未声称完整 preparation loop。"
+    },
+    "auto-repair-shop-management": {
+      "result": "fail_core",
+      "basis": "README + jobs/models.py + vehicles/models.py：Contact（客户/供应商）、Vehicle（number_plate、owner）、Job（client、vehicle、pending/confirmed/in_progress/done、assigned、charged、payment_method、paid、payment_registered_on）、Dashboard（sales/top earners/jobs overview）；Apache-2.0 完整 LICENSE（size 11357）、仓库 id 320998981、fork=false、未命中 archived。",
+      "gap": "无 labor/parts 行项目、无 invoice 模型、无 VIN/里程/逐车服务历史；当前是 job/estimate/payment tracker，未满足叶定义中“labor and parts 作为定价工作的实质”和完整维修订单/开票核心。"
+    }
+  },
+  "limits": "本次为只读桌面审查，仅使用 input.json、batch.json、research.json、REVIEW_SOURCES.json 及按 path 原样读取的 10 个快照；未运行 shell、未写文件、未部署/登录/运行时测试、未重新计算 sha256、未抓取实时页面、未读取其他单元。商业产品页是营销正文，页面未展示某项能力不等于该能力不存在；GitHub 仅审阅 metadata、license API、README 与 jobs/vehicles 两个模型，未遍历完整仓库树。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-261/ses_groveopencodegop261review2_1793040678.jsonl",
+  "batch_sha256": "7247fe6530669eb699f1c55a04c95733ed915eef937f59c7f9e463010330c6e8",
+  "research_sha256": "443f1aa78d7e60a06cf2aeb6aa0d1b7a688957645bdeb7b8a7ca181306253ff4",
+  "input_sha256": "d2ba0e577fa9287b1ffd109201f870cf8ac2e207b78e78dc1403201fffa3f438"
+}

@@ -1,0 +1,48 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "instant-messaging-application",
+      "application_id": "github:26661222",
+      "issue": "batch.json 的 features 第 6 条称“Web 单页应用与服务端同仓配套”，这与所引 README 冲突：README 第 46、82 行明确 TinodeWeb 源码位于独立仓库 https://github.com/tinode/webapp/（Apache-2.0），tinode/chat 快照只能证明 Go 服务端；同时条目仅以单一 license=GPL-3.0 覆盖整个应用描述，未区分官方 Web、Android、iOS 客户端为独立仓库且采用 Apache-2.0。",
+      "fix": "删除“同仓配套”，改为“官方 Web 客户端 TinodeWeb 为独立仓库 tinode/webapp（Apache-2.0）”；如需保留“安装后自带 Web 界面/默认 6060 端口”，应改引 INSTALL.md 或部署文档，不能由 README 推断同仓；在 summary 或 license 字段说明中区分服务端 GPL-3.0 与官方客户端 Apache-2.0。"
+    },
+    {
+      "slug": "instant-messaging-application",
+      "application_id": "github:26661222",
+      "issue": "许可证来源记录与快照实际形态不一致：REVIEW_SOURCES.json、batch.json 和 research.json 均把 https://api.github.com/repos/tinode/chat/license 记为 license API 快照，但 2054bbf1... 快照实际是 GitHub contents API 响应（name/path/sha/size/content base64），不含 license 对象或 spdx_id；research.json 的 fetch_outcomes 却称“license API 返回 SPDX GPL-3.0”，该断言无法由该快照直接核对。",
+      "fix": "二选一并使三处记录一致：重新抓取 /license 端点，保留含 spdx_id 的响应；或将来源 URL 改为 https://api.github.com/repos/tinode/chat/contents/LICENSE、kind 改为 license_text，并把说明改为“根据完整 GPL-3.0 正文识别为 GPL-3.0”。"
+    }
+  ],
+  "non_blocking_notes": [
+    "batch.json 的“安装后浏览器访问默认 6060 端口使用 Web 应用”未在所引 README、API 文档或首页快照中出现，属部署细节；建议补引 INSTALL.md，或删除该具体端口表述，不影响本叶核心匹配。",
+    "README 与 API 文档均提到 Tinode Push Gateway（TNPG）是 proprietary 服务，首页/README 另提到付费支持和商业托管；核心自托管不依赖 TNPG，故不阻断，但建议在条目中披露这一可选的闭源组件，以明确社区版边界。",
+    "research.json 对 Telegram 候选的撤回说明充分，且未将其计入 batch；其历史快照 97e425... 存在于 sources 目录但未列入 REVIEW_SOURCES，也未作为本叶通过证据核对。",
+    "input.json 仍记录 case_status=boundary_unresolved 且 application_ids 为空，而 research.json/batch.json 已记录 Tinode 为 case_found；若 input.json 表示上一阶段快照可以保留，但建议在交接说明中明确时序，避免状态歧义。",
+    "API 文档说明电话凭证验证需要商业短信订阅（约第 269 行）；“按电话被寻址”可由 tags 成立，但不宜表述为开箱即用的短信验证。",
+    "快照文件名与 REVIEW_SOURCES.json 声明的 SHA-256 一致，但本次只读环境未重算摘要；建议流水线另保留摘要校验记录。"
+  ],
+  "leaf_checks": {
+    "instant-messaging-application": {
+      "status": "core_verified_entry_needs_factual_and_source_fixes",
+      "application_id": "github:26661222",
+      "track": "open_source",
+      "identity": "GitHub 仓库快照确认 id=26661222、full_name=tinode/chat、fork=false、default_branch=master，与条目 repository_url 和 github_repository_id 一致；track=open_source 与仓库公开可获取源码一致。",
+      "definitional_core": "README 与 docs/API.md 正文可逐项核对四项定义核心：个人可寻址身份（API 第 77、161 行的 usr ID）；特定已知参与者之间的可达性（API 第 414-418 行 P2P 主题由订阅对应用户 ID 建立，README 第 96 行联系人列表）；对话线程（API 第 414-432 行 P2P 与 group 主题、成员自建群组）；持久化历史（API 第 449 行按消息 ID 获取与分页、第 1028 行历史查询、第 1179 行仅 {data} 消息持久化）。送达/已读状态亦由 API 第 1138、1161-1164 行 {note.recv}/{note.read} 证明。未以简介、关键词或导航替代核心正文。",
+      "service_form": "README 第 5、19-21 行说明可安装运行并提供 Docker 说明；首页第 129-131 行明确“Self-Hosting”可自行托管；属客户可持续运营的自托管即时通讯应用，而非仅消费聊天场所。频道广播、机器人、集群等为附加能力，research 的 service_boundary 已将其排除，未影响主线判断。",
+      "license": "LICENSE 快照正文为完整 GNU GPL v3（size=35147，base64 内容以 GPL 3.0 开头），可支持服务端仓库为 GPL-3.0；但快照 URL 标注为 /license API 而实际响应为 contents API，且 research 的 SPDX 表述无法由该快照核对，已在 findings 记录。官方客户端为独立仓库、Apache-2.0，条目未区分，亦在 findings 记录。",
+      "community_boundary": "核心服务端与官方客户端均为开源，可自行构建部署；README/API 提到的 proprietary TNPG 推送网关及付费支持属可选外部服务，不构成核心功能锁定，但条目未披露，列为非阻断建议。",
+      "issues": [
+        "features 的“Web 单页应用与服务端同仓配套”与 README 指向独立 tinode/webapp 仓库矛盾",
+        "license 快照 URL 与实际 contents API 响应形态不一致，SPDX 表述缺乏快照依据"
+      ],
+      "gaps": "未部署或运行 Tinode；未读取 INSTALL.md、docker/README.md、docs/faq.md；未读取未列入 REVIEW_SOURCES 的 Telegram 历史快照；未重算快照 SHA-256。"
+    }
+  },
+  "limits": "本次为只读初审：未使用 shell、未写文件、未运行或部署 Tinode、未重算 SHA-256；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其列出的 5 个 Tinode 快照；未读取 INSTALL.md、docker/README.md、docs/faq.md，也未读取未列入 REVIEW_SOURCES 的 Telegram 历史快照；未做外网复核或额外价格、架构研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-002/ses_groveopendesignp002review1_1793148442.jsonl",
+  "batch_sha256": "d9399847443dde52cef748e189932ae2a690644531e7d295351f0d96af045cf5",
+  "research_sha256": "f68d831b7c1e1bb0e14b50eaf3b008a13eb27b633c07654a062319c209906e8a",
+  "input_sha256": "0015ff3adccb6786cd0deedbbac5e1a13b6a7275a20e4cd0ba56cdf0864725c9"
+}

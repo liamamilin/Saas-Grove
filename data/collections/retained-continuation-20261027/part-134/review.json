@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "data-virtualization-platform",
+      "application_id": "github:97518356",
+      "issue": "条目把 Dremio 作为 Apache-2.0 开源自托管虚拟化平台，但功能与核心证据混用了 Dremio Cloud/Enterprise 资料。`sources/36b9912a...` 是 `docs.dremio.com/dremio-cloud/bring-data/`，正文称每个 Dremio 项目内置由 Apache Polaris 提供支持的 Open Catalog；而 `dremio/dremio-oss` 的 README 与仓库树没有 Polaris/Open Catalog 内容。`sources/aa235914...` 的平台页又把 Dremio Cloud、Dremio Enterprise 与仅称 free query engine 的 Dremio Community Edition 分列。条目还宣称“内置基于 Apache Polaris 的 Open Catalog”“跨 NoSQL 联邦查询”等，未限定在 Apache-2.0 社区版。另 `sources/e98747de...` README 的 OSS Only 段说明默认构建捆绑非 OSS 免费依赖，`-Ddremio.oss-only=true` 会减少部分连接器功能，条目未披露该社区版边界。许可证本身（LICENSE 为 Apache-2.0 全文）和仓库 ID 正确，但开源产品范围与商业 Cloud/Enterprise 能力被混写。",
+      "fix": "二选一并写清边界：若保留 github:97518356/open_source，改为 Dremio Community Edition / dremio-oss，删除或明确标注 Polaris Open Catalog、跨 NoSQL 联邦查询等仅见 Cloud/Enterprise 资料的能力，补充 README 的 OSS-only 构建与非 OSS 依赖说明，并改用 OSS/社区版文档支撑虚拟化核心；若条目实际指 Dremio Cloud/Enterprise，则改 track/application_id 为商业产品，去掉把 Apache-2.0 当作产品许可证的表述。"
+    },
+    {
+      "slug": "database-management-console",
+      "application_id": "github:3217621",
+      "issue": "phpMyAdmin 的引用能证明它是 MySQL/MariaDB 的 Web 管理界面，能管理数据库、表、视图、索引、用户与权限，并支持服务器维护和多服务器管理；但引用正文没有展示叶定义要求的“运行中部署的状态感知”核心——服务器状态/健康、会话、变量、重启/停止、备份保护等。官网的 Server maintenance with configuration suggestions 是优化建议，不是部署状态；功能列表重心仍在 schema、数据和 SQL，按叶定义应警惕其更接近 SQL 客户端/数据库 IDE。batch 理由中“状态信息均有正文证据”的说法超出实际快照。",
+      "fix": "补充 docs.phpmyadmin.net 中 Server status、Server variables、Sessions、用户/权限或服务器维护的正文，并写入 leaf_matches；若仍无法证明状态感知和部署级操作，应将 phpMyAdmin 归入 SQL 客户端/数据库 IDE，或换用真正面向运行中数据库部署的控制台案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 not_searched / included_without_cases，而 batch.json 与 research.json 已有 5 个 case_found；这更像采集前快照，建议下游以 batch/research 为准并回填 progress，避免叶子被误判为无案例。",
+    "Databricks 的“细粒度访问治理”“集中元数据”在引用的 Unity Catalog 产品页中只有 one catalog、governance、access policies 等概括表述，未见 fine-grained、centralized metadata 原词；商业条目按基本真实性可通过，但建议补官方文档或弱化措辞。",
+    "NiFi 的 leaf_matches 中 Connection 指 FlowFile 队列连接，不是外部系统连接配置；NiFi 通过 Processor/Controller Service 访问外部系统，建议在理由中区分，避免与数据集成平台的外部连接定义混淆。",
+    "Qualitis 的用户手册快照很短，结果保留/历史趋势未见明确正文；当前 README 的报告、异常数据、日志足以支撑基本核心，但如需强调历史，建议补架构或结果管理文档。",
+    "research.json 对 Teiid 因 License API 返回 NOASSERTION 而未纳入的说明属于已如实记录的候选排除，不构成缺口。"
+  ],
+  "leaf_checks": {
+    "data-integration-platform": {
+      "status": "pass",
+      "basis": "NiFi 官方 README 说明其用于处理与分发数据，提供设计、控制、监控、版本化管道、保证投递和溯源；官方用户指南正文给出 Connection 连接 Processor、FlowFile 队列、定时/CRON/事件调度、监控与数据流章节。仓库 ID 27911088 与 GitHub 页面元数据一致，LICENSE 为 Apache-2.0 全文，形态为自托管 Java 服务端应用。连接外部系统、持久数据流、受管执行与运行可见性三项核心均有正文证据。",
+      "gaps": "Connection 在 NiFi 中是内部 FlowFile 队列，不是外部连接配置；外部访问由 Processor/Controller Service 承担，建议理由中区分。未做运行时部署测试。"
+    },
+    "data-lake-platform": {
+      "status": "pass_with_notes",
+      "basis": "Databricks Lakehouse Storage 产品页正文称 Delta Lake/Apache Iceberg 中保存一份源数据并可被任意引擎访问，并称有统一目录用于发现与治理；Unity Catalog 页正文称一个目录管理全部数据与 AI 资产、自动执行访问策略。商业 SaaS 形态与 data-lake-platform 的存储、目录、受治理多引擎访问基本匹配。",
+      "gaps": "引用为产品/营销页，细粒度权限、集中元数据、库表层次等具体表述未逐字出现；商业条目按基本真实性可通过，但建议补官方文档。"
+    },
+    "data-quality-platform": {
+      "status": "pass",
+      "basis": "Qualitis README 说明其为数据质量管理平台，支持单表/多表/自定义质量模型、空值/枚举/数字等预置校验模板、模型调度、质量报告、异常数据存储和日志；用户手册说明质量模型定义、结果可视化与监控；快速部署文档给出 Spring Boot + MySQL + Linkis/Spark 的自托管形态。仓库 ID 223347908 一致，LICENSE 为 Apache-2.0 全文。规则定义、执行、记录结果三项核心有正文证据。",
+      "gaps": "结果历史/趋势保留未明确成文；用户手册快照较短。"
+    },
+    "data-virtualization-platform": {
+      "status": "changes_required",
+      "basis": "Dremio 文档正文说明可连接 catalogs、对象存储和数据库并就地查询而不移动数据，SQL 视图是不复制源数据的虚拟表且始终反映父表状态；25.x Datasets 文档补充表/视图分层与权限。仓库 ID 97518356 一致，LICENSE 为 Apache-2.0 全文。虚拟化三项核心本身有正文证据。",
+      "gaps": "开源社区版边界不清：Polaris Open Catalog、跨 NoSQL 联邦查询来自 Dremio Cloud/Enterprise 资料，OSS 仓库 README/树未见对应内容；默认构建还捆绑非 OSS 依赖，OSS-only 构建会减少连接器功能。"
+    },
+    "database-management-console": {
+      "status": "changes_required",
+      "basis": "phpMyAdmin README 称其用于通过 Web 管理 MySQL，官网正文列出数据库/表/视图/字段/索引管理、服务器维护与配置优化建议、用户账户与权限管理、多服务器集中管理。仓库 ID 3217621 一致，LICENSE 为 GPL-2.0 全文，形态为自托管 PHP Web 应用。",
+      "gaps": "未展示运行中部署的状态/健康/会话等状态感知核心；功能重心偏 schema、数据和 SQL，存在滑向 SQL 客户端/数据库 IDE 的类型风险。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未做哈希重算、未部署或运行任何产品。仅读取 REVIEW_SOURCES.json 列出的 22 个快照及 batch/research；HTML 页面按正文段落读取，未执行 JavaScript。Databricks 仅有产品页，Dremio 无 OSS 专属文档，phpMyAdmin 无服务端状态页快照。许可证按 LICENSE API 快照的 size、前缀及 README 许可声明核对，未逐字解码比对全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-134/ses_groveopencodegop134review2_1793009493.jsonl",
+  "batch_sha256": "fd766784775d8ff5c3968d85f7d78c9ba3e1b825e9125e364befa3fb39f0b555",
+  "research_sha256": "98ac20398135338a15aa660a8e8528f0b2a5fc71a6e36e2cce468d54fb838631",
+  "input_sha256": "e4a5d7d37b1d4903136f01cb10da7fca3b97f506141f2ab9125c57f83b0344d7"
+}

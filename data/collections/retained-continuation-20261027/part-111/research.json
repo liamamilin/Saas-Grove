@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sales-order-capture",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1864233"
+      ],
+      "query": "复用共享 application-index 中 ERPNext 身份及既有 GitHub 快照；补抓官方 Sales Order 手册，核对草稿/提交、部分交付/开票、客户采购订单号、关闭/取消与承诺语义。",
+      "source_urls": [
+        "https://api.github.com/repos/frappe/erpnext",
+        "https://api.github.com/repos/frappe/erpnext/license",
+        "https://raw.githubusercontent.com/frappe/erpnext/develop/README.md",
+        "https://docs.frappe.io/erpnext/user/manual/en/sales-order"
+      ],
+      "note": "ERPNext 为 GPL-3.0 开源 ERP（GitHub ID 1864233，repo frappe/erpnext）。官方销售订单手册显示：保存为 Draft、Submit 后确认；订单本身只记录承诺，库存与会计影响由后续 Delivery Note/Sales Invoice 产生；支持部分交付或开票并跟踪剩余百分比；订单保存客户采购订单号及日期；Status 含 Draft/To Deliver and Bill/To Bill/Completed/On Hold/Closed/Cancelled；关闭保留历史，取消冲销，修订用 Amend 生成新草稿。",
+      "service_boundary": "仅把 ERPNext 的销售订单模块作为卖方侧订单捕获；报价/CPQ、库存拣货与多地点履约编排、开票与收款由相邻模块或系统承担，不将整个 ERP 泛化为该叶。",
+      "search_attempts": [
+        "shared: application-index.json + existing ERPNext sources",
+        "fetch: docs.frappe.io/erpnext/user/manual/en/sales-order (2.5MB 超出上限后以 8MB 重试成功)"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/sales-order",
+          "status": "ok",
+          "note": "首次 max-bytes 2.5MB 报超限；8MB 重试成功，正文含销售订单字段、状态与 FAQ。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-pricing-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:pricefx"
+      ],
+      "query": "按 notes/previous 中 p11 已探测的 Pricefx 定价管理页补抓官方正文，核对受治理价格记录、规则计算、模拟、审批/发布及 ERP 边界。",
+      "source_urls": [
+        "https://www.pricefx.com/platform/price-management/"
+      ],
+      "note": "Pricefx 官方 Price Management 页（2026-10-26 抓取）显示：一个受治理系统集中 list/base/customer prices；规则化 markup、indexes、corridors 可在成本/竞品变化时自动重算；scenario simulation 在价格上线前比较利润率影响；configurable approval workflows 带审计轨迹；可从策略到 live prices 的 define→simulate→publish→monitor 四步；并说明 approved prices 发布到 ERP、CRM、CPQ，ERP 存价但不是设计/测试/治理价格之处。",
+      "service_boundary": "商业定价治理应用；不把其报价(Quoting)、协议、返利、渠道管理等相邻模块泛化进本叶，也不声称其替代 ERP 的价格存储与执行。",
+      "search_attempts": [
+        "读取 notes/previous/p11-probe.out 与 probes22.txt 中 pricefx_pm 候选",
+        "fetch: pricefx.com/platform/price-management/"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.pricefx.com/platform/price-management/",
+          "status": "ok",
+          "note": "492311 bytes，正文含 simulation/approval workflow/ERP publish 段落。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "agent-scheduling-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:assembled"
+      ],
+      "query": "复用 notes/previous 中 assembled 候选；分别抓取官方 forecasting 与 scheduling 页面，核对需求预测→人员配置→排班→发布/调整的链路。",
+      "source_urls": [
+        "https://www.assembled.com/features/forecasting",
+        "https://www.assembled.com/features/scheduling"
+      ],
+      "note": "Assembled 官方页面显示：预测可按 queue、channel、site 细化，使用历史到达模式与 interval-level AHT 调整，并 right-size staffing、给出未来数月 staffing needs；排班页提供自动排班、预置业务规则/班次时长/合规要求、按 coverage needs 插入休息、周/月模板、草稿对比与情景压力测试（SLA/资源影响）、班次交换与按 staffing thresholds 自动批假，并通过 Slack/email 通知坐席。",
+      "service_boundary": "商业联络中心 WFM/排班平台；不延伸核验其 AI 坐席、语音/聊天渠道产品或价格部署。'Agent' 指人类客服坐席。",
+      "search_attempts": [
+        "读取 notes/previous probes22/23 与 p11-fetch-plan 的 assembled 候选",
+        "fetch: assembled.com/features/scheduling",
+        "fetch: assembled.com/features/forecasting"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.assembled.com/features/scheduling",
+          "status": "ok",
+          "note": "215467 bytes，正文含自动排班、规则、覆盖率、换班与批假。"
+        },
+        {
+          "url": "https://www.assembled.com/features/forecasting",
+          "status": "ok",
+          "note": "正文含 queue/channel/site 预测与 staffing right-size。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "call-center-platform",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "复用 notes/previous 中 FreePBX queues 候选，复核 GitHub 元数据、许可证、README、module.xml，并尝试补充官方文档；重点核对坐席登录/登出与可用状态、坐席通话处理/工作界面、实时与历史度量等平台核心。",
+      "source_urls": [
+        "https://api.github.com/repos/FreePBX/queues",
+        "https://api.github.com/repos/FreePBX/queues/license",
+        "https://raw.githubusercontent.com/FreePBX/queues/release/17.0/README.md",
+        "https://raw.githubusercontent.com/FreePBX/queues/release/17.0/module.xml"
+      ],
+      "note": "FreePBX Queues（GitHub ID 15717333）是 FreePBX/Asterisk 的队列配置模块。module.xml 仅描述 FIFO 队列、ring strategy、caller announcements、max wait；README 说明它是随自托管 PBX 安装的 PHP/JavaScript 模块。补充读取的 Sangoma KB（快照 84209d6f...，仅过程留档）可证 Dynamic Members 可登录/登出队列、expected wait 与超时转移，但仍未提供坐席通话处理工具/工作界面、实时和历史度量等平台正文；GitHub 仓库树只见队列配置/API（Api/Rest/Queues.php、views/form.php、qgrid.php），未见坐席工作台或报表模块；这不等于 FreePBX 其他模块不具备此类能力，但那些能力不在本条目允许来源内。当前证据只能支持 ACD 队列组件，不足以证明 Call Center Platform，故本条不作为案例，已从 batch 移除，候选与来源保留。许可证：GitHub API 返回 SPDX GPL-2.0，但 README 第 18 行与 module.xml 第 7 行均写 GPLv2+；GPLv2+ 对应 GPL-2.0-or-later；若恢复该条目应按 GPL-2.0-or-later 记录并保留 README/module.xml 这两处依据，不能直接沿用 API 的 GPL-2.0。",
+      "service_boundary": "FreePBX Queues 仅作为 PBX 上的 ACD 队列/分配子模块；不将其等同于呼叫中心平台。平台所需的坐席工作界面、通话处理工具、实时/历史报表未获允许来源证实，本次不建立平台关系。",
+      "search_attempts": [
+        "读取 notes/previous p11-fetch-plan/probes27 中 FreePBX queues/IVR 候选",
+        "fetch: api.github.com/repos/FreePBX/queues 与 /license",
+        "fetch: raw.githubusercontent.com/FreePBX/queues/release/17.0/{README.md,module.xml}",
+        "fetch: sangomakb.atlassian.net Queues Module（补充核对；域名非批次允许主机）",
+        "query: GitHub contents/tree release/17.0，核对是否存在坐席工作台/报表模块",
+        "attempt: docs.freepbx.org/modules/queues（SSL EOF）与 wiki.freepbx.org Queues+Module+User+Guide（重定向到 sangomakb.atlassian.net，跨主机）"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/FreePBX/queues",
+          "status": "ok",
+          "note": "GitHub ID 15717333，full_name FreePBX/queues，license GPL-2.0。"
+        },
+        {
+          "url": "https://api.github.com/repos/FreePBX/queues/license",
+          "status": "ok",
+          "note": "spdx_id GPL-2.0；与 README/module.xml 的 GPLv2+ 表述不一致。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/FreePBX/queues/release/17.0/README.md",
+          "status": "ok",
+          "note": "说明其为 FreePBX/Asterisk 的 PHP/JavaScript 模块，随自托管 PBX 安装；第 18 行写 GPLv2+。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/FreePBX/queues/release/17.0/module.xml",
+          "status": "ok",
+          "note": "含 FIFO 队列、ring strategy、caller announcements、max wait；第 7 行写 GPLv2+ 并链接 GPL-2.0 文本。"
+        },
+        {
+          "url": "https://sangomakb.atlassian.net/wiki/spaces/PG/pages/24608891/Queues+Module",
+          "status": "ok_process_only",
+          "note": "正文约 5285 字符，含 Dynamic Members 登录/登出、expected wait、timeout；域名不在批次官方主机白名单，不作为批次来源，且该页仍未提供坐席工作台/实时与历史报表。"
+        },
+        {
+          "url": "https://docs.freepbx.org/modules/queues",
+          "status": "error",
+          "note": "SSL UNEXPECTED_EOF_WHILE_READING，未能读取。"
+        },
+        {
+          "url": "https://wiki.freepbx.org/display/FPG/Queues+Module+User+Guide",
+          "status": "redirected_off_host",
+          "note": "跳转到 sangomakb.atlassian.net，非批次允许主机，未作为来源。"
+        },
+        {
+          "url": "https://api.github.com/repos/FreePBX/queues/contents/?ref=release/17.0",
+          "status": "ok",
+          "note": "仓库树只见队列配置/API/视图，未见坐席工作台或报表模块（仅限本仓库）。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cloud-contact-center-ccaas",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:amazon-connect-customer"
+      ],
+      "query": "复用 notes/previous 中 awsconnect 候选；抓取官方 What is Amazon Connect Customer 管理员指南与功能页，核对联络中心核心及云消费形态。",
+      "source_urls": [
+        "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+        "https://aws.amazon.com/connect/features/"
+      ],
+      "note": "官方指南（现名 Amazon Connect Customer，原 Amazon Connect）说明：客户通过语音、聊天、短信等渠道联系联络中心；连接客户到坐席、智能路由、按队列与 routing profiles 配置、实时跟踪绩效；管理员配置电话号码；按实际用量付费。功能页补充：agent workspace、队列服务水平告警、语音/聊天/短信/邮件全渠道，AWS 电信网络覆盖 158 国 DID/免费号码、72 国呼出号码并直连 40+ 一级运营商，无需自管多供应商或承诺峰值容量。",
+      "service_boundary": "商业 CCaaS；只记录云联络中心的类型匹配与基本用途，不深入价格档位、架构、合规驻留或部署细节。'Agent' 指人类坐席（页面也含 AI 能力，但本叶仅取人工联络中心运营）。",
+      "search_attempts": [
+        "读取 notes/previous/p11-probe.out 与 probes22 的 awsconnect 候选",
+        "fetch: docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+        "fetch: aws.amazon.com/connect/features/"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.aws.amazon.com/connect/latest/adminguide/what-is-amazon-connect.html",
+          "status": "ok",
+          "note": "15535 bytes，含队列、routing profiles、坐席、电话/聊天/短信、按用量付费。"
+        },
+        {
+          "url": "https://aws.amazon.com/connect/features/",
+          "status": "ok",
+          "note": "38768 字正文，含全渠道、agent workspace、电信号码覆盖与运营商直连。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

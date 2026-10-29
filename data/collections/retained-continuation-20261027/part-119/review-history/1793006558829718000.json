@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "financial-consolidation-platform",
+      "application_id": "commercial:onestream",
+      "issue": "OneStream 的唯一来源快照 sources/8750820020900e5dfdedbe9929a33577c529e6bc3d192754381543cc279d6c7c.txt 只有 HTML head 和 schema.org 元数据：文件共 20 行，内容在 structured-data 脚本内结束，未出现 <body>、页面正文或 </html>，正文没有落盘。batch 的 summary/leaf_matches 与 research.note 却具体声称该页说明了 accounts/currencies/ownership、自动化 intercompany eliminations、调整、数据质量校验、完整审计轨迹以及从报表下钻到交易明细；这些能力在快照中没有对应正文，只有 knowsAbout 列表出现 Financial Close & Consolidation。HTTP 成功和元数据不能替代核心正文，因此该叶的定义性核心（集团结构→实体数据→换算/抵消/调整→合并报表）无法核实。",
+      "fix": "重新抓取并保存 https://www.onestream.com/platform/ 的完整渲染正文（或改用包含 Financial Close & Consolidations 工作流说明的官方页面/文档），核对 ownership hierarchy、entity data collection、currency translation、intercompany elimination、adjustments、audit trail、drill-back 的实际表述后再写入 leaf_match；若该页只能由 JS 渲染，应在 research 中如实记录正文不可得的缺口，不得以 schema 元数据代替核心正文。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Advyzon：batch 把 https://www.advyzon.com/advisor-platform/ 记为 documentation 来源，但该快照的 canonical、og:url 和 title 均为 Enterprise Solutions（https://www.advyzon.com/enterprise-solutions/），正文讲企业级 billing/reporting/investment management/CRM 整合。research 已记录“实际呈现 Enterprise Solutions 内容”，属于已留档的落地页差异；建议在 source 记录中注明 canonical/跳转，避免把该快照当作 Advisor Platform 的直接页面证据。",
+    "Advyzon：三份快照能证明客户关系记录（emails/meetings/notes/tasks/opportunities/planning details/portfolio information/relationship history）、结构化账户/持仓/估值输入以及 goal/scenario/proposal 工作流，但未出现 household、co-client、dependents 的家庭粒度；作为商业基本类型匹配可以接受，描述时不要把 client 级记录直接写成已经证实的 household 模型。",
+    "Advyzon：Financial Planning 页明确把 Full Financial Planning 标为 Coming Soon，当前 live 的是 Goals-Based Investing；条目概括宜与此一致，避免暗示完整的长期现金流、税务、遗产规划已经可用。",
+    "StarCompliance：快照覆盖 personal account dealing 的 pre-clearance/post-trade、crypto、private investments、gifts & hospitality、outside business activities、political donations、firm trade surveillance 对 watch/restricted lists、broker-dealer registration、sales review、training/certification、MNPI/insider/restricted lists、conflicts 以及可配置 workflows、分级权限和报表分析；但没有直接出现 audit trail、immutable records 或 examiner evidence 的措辞。商业基本类型匹配通过，若后续强调“审计证据系统”宜补一条正文来源。",
+    "Planful：快照支持同一财务模型、planning/budgeting/forecasting、headcount 由 managers propose/finance approve、budget 对 committed spend/results、Actual Headcount Roll Forward 以及 close/consolidation；版本化 plan/scenario 机制和 actuals 独立层没有直接展开，属于非阻断的深度不足。",
+    "Madar：README 的 Release Boundaries 明确了不随仓库提供的第三方银行/托管/KYC/行情集成和监管授权，属于可接受的社区版边界说明；仓库没有单独的 community/enterprise 分层，但 README 描述的是完整可部署产品，不是裁剪的 SDK。",
+    "所有快照都是原始 HTML/JSON，read 工具会把超长单行截断到 2000 字符；部分正文只能通过 grep 关键词确认存在，未能逐段通读。"
+  ],
+  "leaf_checks": {
+    "financial-advisor-platform": {
+      "applications": [
+        "commercial:advyzon"
+      ],
+      "verdict": "pass_with_notes",
+      "evidence": "CRM 快照显示 emails、meetings、notes、tasks、opportunities、planning details、portfolio information、relationship history 汇聚于客户记录；Financial Planning 快照显示 goal creation、scenario modeling、portfolio alignment、proposal generation、progress monitoring，accounts/holdings/valuations 自动流入情景；Enterprise Solutions 快照显示 billing、reporting、investment management、CRM 共用单一数据基础。",
+      "gaps": "未出现 household/co-client/dependents 的家庭模型；Full Financial Planning 标为 Coming Soon，当前 live 的是 Goals-Based Investing；/advisor-platform/ 快照实际为 Enterprise Solutions 页面（research 已记录）。"
+    },
+    "financial-compliance-management": {
+      "applications": [
+        "commercial:starcompliance"
+      ],
+      "verdict": "pass",
+      "evidence": "StarCompliance Enterprise 页列出 personal account dealing 的 pre-clearance 与 post-trade oversight、crypto、private investments、gifts & hospitality、outside business activities、political donations、firm trade surveillance 对 watch/restricted lists、broker-dealer registration、sales compliance review、training/certification、MNPI wall crossings/insider lists/restricted lists、conflicts；并提供可配置 workflows、分级访问权限和报表分析，构成受监管机构的合规活动与可审查记录。",
+      "gaps": "未直接出现 audit trail/immutable/exam evidence 措辞；按商业基本真实性及类型匹配可接受。"
+    },
+    "financial-consolidation-platform": {
+      "applications": [
+        "commercial:onestream"
+      ],
+      "verdict": "insufficient_core_evidence",
+      "evidence": "OneStream 快照仅含 head 与 schema.org Organization/WebSite 元数据；knowsAbout 列表提到 Financial Close & Consolidation，但没有页面正文。",
+      "gaps": "无法核对合并集团/所有权层级、实体数据收集、币种换算、公司间抵消、调整、合并报表、审计轨迹与下钻；batch/research 中的具体能力描述在快照中没有对应文本。"
+    },
+    "financial-planning-analysis-platform": {
+      "applications": [
+        "commercial:planful"
+      ],
+      "verdict": "pass_with_notes",
+      "evidence": "Planful Solutions 页显示 FP&A solutions for every team that touches the plan、Every function connects back to the same financial model；包含 planning/budgeting/forecasting、managers propose 与 finance approve 的 headcount 流程、budget 对 committed spend/results、Actual Headcount Roll Forward，以及 close/consolidation FAQ。",
+      "gaps": "版本化 plan/scenario 与 actuals 独立层未直接展开；未明确 SaaS 订阅措辞。"
+    },
+    "fund-administration-platform": {
+      "applications": [
+        "github:1345752498"
+      ],
+      "verdict": "pass",
+      "evidence": "README 显示 multi-tenant investment operations/portfolio accounting、investor 与 investment-account registers、pooled/unitized 与 segregated 账户、double-entry 且 posted journal 不可变、NAV 计算/最终化与 maker-checker/SHA-256 hash、fees/high-water marks、subscriptions/redemptions、reconciliation、statements 发布、append-only audit events、investor portal。LICENSE 解码首行为 MIT License（文件 1072 bytes）；GitHub repo id 1345752498 与 batch 一致。",
+      "gaps": "Release Boundaries 明确不含第三方银行/托管/KYC/行情凭据及监管授权；无独立 community/enterprise 分层，但仓库为完整可部署产品。"
+    }
+  },
+  "limits": "只读独立初审：未运行 shell、未写文件、未读取其他单元；未做实时抓取、部署或运行测试。read 工具会把超长单行截断为 2000 字符，StarCompliance/Advyzon/Planful 等单行 HTML 的部分段落只能通过 grep 命中确认，未能逐段阅读；OneStream 快照在 head 的 structured-data 内结束，正文不可得；GitHub 元数据与 LICENSE JSON 的尾部字段（如 license.spdx_id、archived）也因单行截断未能直接查看。商业价格、部署架构和版本机制不在本次范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-119/ses_groveopencodegop119review1_1793006021.jsonl",
+  "batch_sha256": "6e5cda639fbe1205fa2d3d42ea7d3c950c85a2031f6abefb47106ef0d7f500b9",
+  "research_sha256": "b0102f22d808d8c1db8f0bd99c27f7ba454c756c99464aa9890b9bc944cfef5d",
+  "input_sha256": "e14896e86f815e76f94fd7c908a678468abc86abb1621f5e68047a7a0423307f"
+}

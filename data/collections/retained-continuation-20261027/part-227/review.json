@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched，且 application_ids/research_records 为空，与 batch.json、research.json 中的 case_found 不一致；若下游会读取 input.json，建议同步这些状态字段。",
+    "computer-aided-dispatch-cad：docs.resgrid.com 快照仅 17 行，实际只有 head、导航和脚本，没有研究记录所称的自托管、模块与部署正文；该叶的 CAD 核心判断应主要依据 README 正文，不应把 docs 导航当作工作流证据，建议把这次抓取改记为导航级，或补抓实际文档页。",
+    "computer-aided-dispatch-cad：README 明确 BigBoard、Dispatch、Relay 是独立仓库，基于 Resgrid API；而 Apache-2.0 许可审核的 scope 仅为 Resgrid/Core。若 features 继续保留 BigBoard/调度台能力，建议注明它们属于配套仓库并另行核对许可证，或收窄到 Core 自身能力。",
+    "computer-aided-dispatch-cad：features 中的“检查清单”“Windows 桌面”“记录管理（RMS）”未在已读 README 或 docs 快照中找到直接依据；建议删除或补充来源。",
+    "emergency-management-platform：Veoci 页面是单行压缩 HTML，读取器只显示前 2000 字符；已确认 one-click、timestamped/logged 等词，但 GIS、AAR/事后报告等具体措辞未逐项核验，建议按页面原文收窄摘要。",
+    "evidence-management-system：Axon 页面同样为压缩单行 HTML；已检索到 chain of custody、audit trail、prosecutor、retention，但 leaf_matches 中的“数字指纹”未在快照中出现，建议删除或补充来源；云端/SaaS 部署形态也未直接明示，可在摘要中改为“商业数字证据管理平台”。"
+  ],
+  "leaf_checks": {
+    "computer-aided-dispatch-cad": {
+      "application_id": "github:161860953",
+      "track": "open_source",
+      "core": "README 正文明确 Calls/Incidents 创建，人工与自动派遣人员、单位、角色或小组，单位状态与 AVL、运行日志；BigBoard 说明人员/单位状态、呼叫信息与地图，覆盖事件→分配→响应单元→实时画面核心。",
+      "service_form": "开源自托管 + 托管 SaaS；README 说明托管免费/付费版与开源源码使用同一代码库。",
+      "license": "Resgrid/Core 根 LICENSE 为完整 Apache License 2.0 原文；仓库元数据确认 repository id 161860953、master 分支、public、非 fork。",
+      "boundary": "Core 的 Apache-2.0 与托管/自托管边界清楚；但 BigBoard、Dispatch 是独立仓库，Core 的许可证审核不自动覆盖其配套应用。",
+      "result": "pass",
+      "notes": "docs 快照仅导航/head，未用作核心工作流证据；CAD 核心依据 README。"
+    },
+    "corrections-management-system": {
+      "application_id": "commercial:tyler-enterprise-corrections",
+      "track": "commercial",
+      "core": "Tyler Local Jail Administration 正文覆盖 intake/booking、按风险/床位/位置/日程进行 housing assignment、cell checks/security rounds、movement 记录与 release；另有 classifications/alerts。",
+      "service_form": "官方页面称 cloud-hosted/cloud-based 矫正管理套件，商业云端/SaaS 形态成立。",
+      "license": "不适用（商业产品）。",
+      "boundary": "商业产品，未涉及开源边界；按官方页面做基本真实性和类型匹配。",
+      "result": "pass",
+      "notes": "“移动点名”宜理解为移动 cell checks/security rounds，非传统 roll call；不影响类型匹配。"
+    },
+    "emergency-management-platform": {
+      "application_id": "commercial:veoci",
+      "track": "commercial",
+      "core": "官方 EM 页面定位为 Modern EOC 的 emergency management software；可见 Simplify Planning（计划集中、修订、时间戳日志）与 Centralize Your Response；首页定位 virtual EOC，覆盖 plan/respond/recover。",
+      "service_form": "商业虚拟 EOC/云端平台，Request a Demo；SaaS 形态基本成立。",
+      "license": "不适用（商业产品）。",
+      "boundary": "商业产品；页面同时含 Business Continuity、Mass Notification 等，本叶按 emergency management 归类，类型匹配。",
+      "result": "pass",
+      "notes": "压缩单行 HTML 限制逐段复核；one-click、timestamped/logged 等词可见，GIS/AAR 等具体措辞未逐项确认。"
+    },
+    "ems-operations-platform": {
+      "application_id": "commercial:eso",
+      "track": "commercial",
+      "core": "ESO EMS 页面明确 crews、calls、patient care、dispatch、scheduling、billing、performance；EHR 页面明确 ePCR 工作流、CAD/监护仪集成、NEMSIS、billing/quality，覆盖响应事件、人员车辆单元与患者护理报告核心。",
+      "service_form": "云端/订阅式 EMS 平台；页面有 subscription agreement、web-based scheduling，SaaS 形态成立。",
+      "license": "不适用（商业产品）。",
+      "boundary": "商业产品；Logis Dispatch 为套件中的调度模块，未把纯 CAD 当作本叶核心。",
+      "result": "pass",
+      "notes": "“实时可用状态”未直接出现，但 crews/assets response ready 与 scheduling 足以支持商业基本类型匹配。"
+    },
+    "evidence-management-system": {
+      "application_id": "commercial:axon-evidence",
+      "track": "commercial",
+      "core": "Axon Evidence 页面标题/描述为 digital evidence management；正文检索到 chain of custody、audit trail、prosecutor、retention，支持集中存储、上传、检索与披露，覆盖证据记录与持续保管链主题。",
+      "service_form": "商业数字证据管理平台；页面以 unlimited storage、upload 等描述托管服务，SaaS 形态基本可接受但未直接写 cloud/SaaS。",
+      "license": "不适用（商业产品）。",
+      "boundary": "商业产品；数字证据管理是 evidence management 的子域，类型匹配。",
+      "result": "pass",
+      "notes": "压缩单行 HTML 限制逐段复核；“数字指纹”未在快照中检索到，建议删去或补源；disposition 未直接出现。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或运行产品，也未读取其他单元；未重算 sha256。仅以本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 11 个已引用快照为依据。Veoci、Axon 等页面为压缩单行 HTML，读取器按 2000 字符截断，只能核对可见片段与全文关键词，未能逐段复核所有上下文；Axon 主站请求返回 403，已由 research.json 记录，未将额外网络请求作为结论依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-227/ses_groveopencodegop227review1_1793031897.jsonl",
+  "batch_sha256": "90da27a9527ef6663e8296bceca1714ff1eabbb04e36cc5b3ef0433b6f7497a9",
+  "research_sha256": "b397c92372b6267c2f092f4b89cf4819f1b20a60a1999c768d5cc239240cf07a",
+  "input_sha256": "808b554600d9abfb94753942631432ee247dc268667aedf6fac11ddbc9258da9"
+}

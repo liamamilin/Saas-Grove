@@ -1,0 +1,72 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "route-optimization-platform",
+      "application_id": "github:540371158",
+      "issue": "现有快照不足以确认 Fleetbase 是以路线计划为主导对象的路线优化平台。Fleet-Ops 文档首先把产品定义为订单、车队调度与履约控制台，Order 实体带有可配置状态生命周期和 POD；路线优化只是 Orchestrator 多阶段规划中的一个阶段。叶子定义明确把主导对象转向配送任务、状态和 POD 的产品划向 Last-mile Delivery Platform。批次理由中“生成、保存和重新优化路线计划”在快照中没有直接正文，只有 README 的“plan and schedule routes before committing”和概览表的“route optimization phases”。",
+      "fix": "补充 Fleet-Ops 路线规划/Orchestrator 的专用文档，直接证明停靠点或订单→求解→保存的路线计划→手工编辑或重新优化→派发是产品的主导工作流；若无法补充，应将 Fleetbase 从该叶移除，并在 research.json 中把该叶如实记为无合适案例（保留现有检索与缺口记录），或换用专用路线优化产品。"
+    },
+    {
+      "slug": "route-optimization-platform",
+      "application_id": "github:540371158",
+      "issue": "开源许可和社区版边界记录不完整。README 的 License 段明确 Fleetbase 为 AGPL-3.0 与 Fleetbase Commercial License 双许可，并说明扩展市场同时有免费和付费扩展；批次 summary 和 license 只写 AGPL-3.0，未记录双许可及付费扩展、商业许可边界。",
+      "fix": "在 summary 或 license 注记中补充“AGPL-3.0 双许可（另有 FCL 商业许可）”及付费扩展、商业许可边界；AGPL-3.0 可继续作为 open_source track 的许可证，但不要表述为唯一许可或暗示全部扩展均开源。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态（各叶 case_status=not_searched、application_ids 为空），与 batch 和 research 的 case_found 不一致；本次按 batch 和 research 判定，若下游读取 progress 需同步更新。",
+    "MoveInSync 固定路线页同时出现“no daily bookings”和“一次性或周期预订与选座”，属于固定路线与按需、拼车模式的不同表述；不改变员工交通核心，但引用时应区分模式。",
+    "IVU resource-planning 页面标题有“Ressource planning”拼写错误；IVU 摘要称支持本地或云部署，快照只直接展示 IVU.cloud 入口和软件套件，未展开本地部署细节；均不阻断商业基本核对。",
+    "Shippeo、RouteGenie 仅有官网首页，MoveInSync 与 IVU 另有产品、方案页；商业条目只做基本真实性和类型匹配，未做部署、价格或独立文档核验。",
+    "research.json 提到 TheTransitClock/transitime（GPL-3.0, id 31782022）作为未入库候选，但 REVIEW_SOURCES 没有该仓库快照；该候选未进入 batch，不影响本单元应用判定，后续若引用其许可证或 ID 需补快照。"
+  ],
+  "leaf_checks": {
+    "route-optimization-platform": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:540371158"
+      ],
+      "basis": "已读 repository metadata（id 540371158, full_name fleetbase/fleetbase）、AGPL license endpoint、README、Fleet-Ops 文档。README 说明 Fleet-Ops 覆盖 orders、drivers、vehicles、routes，Orchestrator 可在提交前 plan 和 schedule routes；文档表把 Orchestrator 描述为 vehicle allocation、driver allocation 和 route optimization phases。",
+      "gaps": "未看到路线计划编辑或重优化的直接正文；Fleet-Ops 的首要实体是 Order（状态生命周期、POD），路线优化只是 Orchestrator 的一个阶段，主导对象不符合叶子定义。"
+    },
+    "shipment-visibility-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:shippeo"
+      ],
+      "basis": "已读 Shippeo 首页正文：real-time multimodal transportation visibility；track every shipment、every ETA；road、rail、sea、air；predictive ETAs、instant alerts、AI agents clean data 和 resolve issues；neutral、integration-friendly，不承担承运或订舱。",
+      "gaps": "仅首页营销正文，无独立产品文档；商业基本真实性和类型匹配足够。"
+    },
+    "employee-transportation-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:moveinsync"
+      ],
+      "basis": "已读 MoveInSync 美国首页与固定路线页：企业、大学通勤平台；固定、按需、动态班车与拼车；员工搜索路线、一次性或周期预订、选座；QR、RFID、OTP 到场签到；实时位置、ETA、通知；运营控制中心。封闭员工群体、雇主定义网络、乘客与行程分配、登车核验四部分齐全。",
+      "gaps": "未展示 HR 导入或准入配置细节；固定路线页的“无每日预订”与“预订选座”需按产品模式区分。"
+    },
+    "non-emergency-medical-transportation-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:routegenie"
+      ],
+      "basis": "已读 RouteGenie 首页：all-in-one NEMT software；scheduling、routing、dispatching、billing；按乘客需求选车、multiload；no-show、cancel、breakdown、add-on；DriverGenie 和 CustomerGenie；FleetGenie 证书、保险提醒；Medicaid、保险、自费账单。",
+      "gaps": "仅首页；未展示完成核验或支付前置的具体流程；商业基本真实性和类型匹配足够。"
+    },
+    "public-transit-operations-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:ivu-suite"
+      ],
+      "basis": "已读 IVU 首页、Resource Planning、Dispatching：IVU.suite 面向 bus 和 rail；IVU.run 车辆时刻、多日计划、维护、规则；IVU.duty 乘务值勤、劳动法、公司协议、资质、冲突；IVU.vehicle 实时监控行程、告警、中断管理；IVU.crew 缺勤告警、冲突、薪资。计划与实时运营闭环均有正文。",
+      "gaps": "未直接看到干预记录或考勤明细的独立页面；商业基本真实性和类型匹配足够。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行产品、未做价格或架构核验，也未读取其他单元。仅使用 REVIEW_SOURCES.json 列出的本地快照，未访问实时网站；未重新计算 sha256（路径与文件名一致）。部分快照是单行 HTML 或 JSON，读取工具按 2000 字符截断，路线专用表格等少量文本不可见；核心段落已可读。许可快照为 base64 编码的 LICENSE.md，已核对 AGPL-3.0 标题、文件大小和仓库许可端点，未逐字解码全文。input.json 的 progress 与 batch 和 research 存在采集前后状态差异，本次以 batch 和 research 为核对对象。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-179/ses_groveopencodegop179review1_1793020240.jsonl",
+  "batch_sha256": "88954dab169842769bdd295f4711c275dc40c9d5b3b0202ba853cd6ca56e9878",
+  "research_sha256": "d58b3b555af050079dbdb58d74196319ce168da611762e46558db124992975ba",
+  "input_sha256": "9d0ad93af9a93958f3ec3faf40754612078224c9f28fbb531ec221d92b57a0f4"
+}

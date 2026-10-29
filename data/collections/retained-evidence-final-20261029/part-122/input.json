@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 27,
+  "offset": 650,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "certificate-lifecycle-management",
+        "name_zh": "证书生命周期管理（CLM）",
+        "domain_id": "14",
+        "parent_id": "14.07",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-141/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/61",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "certificate-lifecycle-management",
+        "name": "Certificate Lifecycle Management",
+        "name_zh": "证书生命周期管理（CLM）",
+        "aliases_zh": [
+          "证书管理平台",
+          "数字证书管理系统"
+        ],
+        "overview": "A **Certificate Lifecycle Management** application is a centralized system of record for digital certificates — primarily X.509 certificates such as TLS/SSL server certificates, client certificates, device certificates, and code-signing certificates — that tracks each certificate's lifecycle state against its validity period and drives that lifecycle forward: requesting and issuing certificates, deploying them to the systems where they are used, renewing or replacing them before they expire, and revoking or retiring them when they are no longer trustworthy or needed.\n\nThe problem it solves is structural: certificates carry a hard expiry date set by the certificate authority that issued them, they are deployed across thousands of scattered locations (load balancers, web servers, cloud services, appliances, clusters, keystores), and an expired or compromised certificate takes services down or breaks trust. Manually tracking that many expiry clocks fails predictably. A CLM application turns certificates into managed objects with an owner, a state, and a system-driven path to their next lifecycle event.\n\nThe defining core is small:\n\n```text\nCertificate record (the managed object)\n└── Lifecycle state driven by the certificate's validity clock\n    └── System-driven transitions\n        (issue → deploy → renew/replace ahead of expiry → revoke/retire)\n```\n\nEverything else commonly associated with the category — network discovery, CA-agnostic connectivity, approval workflows, provisioning integrations, dashboards — is standard capability that mature products carry, not what makes the product a CLM. A CA's own certificate portal (order, renew, reissue, download) and an in-cluster open-source controller that only issues and renews both satisfy the core; the definition deliberately includes them.",
+        "overview_zh": "一个**证书生命周期管理**应用是数字证书——主要是X.509证书，如TLS/SSL服务器证书、客户端证书、设备证书和代码签名证书——的集中记录系统。它跟踪每个证书在其有效期内的生命周期状态，并驱动该生命周期向前发展：请求和颁发证书、将其部署到使用它们的系统中、在它们过期之前续订或替换它们，以及在它们不再可信或不再需要时吊销或退役它们。\n\n它解决的问题是结构性的：证书携带有颁发机构设置的硬性到期日期，它们部署在数千个分散的位置（负载均衡器、Web服务器、云服务、设备、集群、密钥库）上，而一个过期或受损的证书会使服务中断或破坏信任。手动跟踪如此多的到期时间点是注定会失败的。CLM应用程序将证书转化为具有所有者、状态和系统驱动的下一个生命周期事件路径的受管对象。\n\n其定义核心很小：\n\n```text\n证书记录（受管对象）\n└── 由证书有效期时钟驱动的生命周期状态\n    └── 系统驱动的状态转换\n        （颁发 → 部署 → 在到期前续订/替换 → 吊销/退役）\n```\n\n与此类别通常关联的其他一切——网络发现、CA无关的连接性、审批工作流、配置集成、仪表板——是成熟产品所具备的标准能力，而不是构成该产品成为CLM的要素。CA自己的证书门户（订购、续订、重新签发、下载）和仅颁发与续订的集群内开源控制器都满足核心定义；该定义特意将它们包含在内。",
+        "dc": "- **Approval workflows** — routing of certificate requests (and, in many products, revocation requests) through designated approvers before execution.\n- **Deployment / provisioning** — delivering issued certificates to where they are used: agents or orchestrators installed on servers and appliances, connectors for load balancers, firewalls, web servers, cloud load-balancing and keystore services, secrets managers, and infrastructure-as-code or CI/CD toolchains. In Kubernetes-native form, certificates are delivered as cluster secrets or mounted volumes.\n- **Monitoring, notification, reporting** — expiry tracking with configurable notification windows and channels, dashboards over the inventory, reports, and alerts on discovered weaknesses. Some products surface readiness dashboards for industry-driven reductions in maximum certificate lifetimes.\n- **Revocation and retirement** — requesting revocation from the issuing CA (often through an approval workflow), monitoring revocation status, and retiring certificates that leave service.\n- **Governance** — organizational segmentation of the inventory (business units, departments, teams), role-based access, single sign-on, audit/event logs, and licensing metered per managed asset.\n- **Self-service and programmatic access** — a self-service portal where end users request and retrieve their own certificates; a REST API everywhere; CLIs in several products.",
+        "dc_zh": "- **审批工作流** — 在执行前，将证书请求（在许多产品中还包括吊销请求）通过指定审批者进行路由。\n- **部署/预配** — 将已签发的证书交付至使用地点：安装在服务器和设备上的代理或编排器、负载均衡器、防火墙、Web服务器、云负载均衡和密钥库服务、密钥管理器、基础设施即代码或CI/CD工具链的连接器。在Kubernetes原生形态中，证书以集群密钥或挂载卷的形式交付。\n- **监控、通知、报告** — 具有可配置通知窗口和通道的过期跟踪、资产清单仪表盘、报告，以及对已发现弱点的警报。某些产品会提供就绪仪表盘，以支持行业驱动的证书最大有效期缩短。\n- **吊销和退役** — 向签发CA请求吊销（通常通过审批工作流），监控吊销状态，以及退役已停止使用的证书。\n- **治理** — 按组织划分资产清单（业务部门、部门、团队）、基于角色的访问控制、单点登录、审计/事件日志，以及按管理资产计量的许可证。\n- **自助服务与程序化访问** — 供终端用户请求和获取其自身证书的自助服务门户；无处不在的REST API；命令行界面（CLI）。",
+        "rules": "### The validity clock is external and non-negotiable\n\nCertificates expire on a schedule set by the issuing CA and industry policy, not by the managing system. The system can only observe the clock and act ahead of it. This is why renewal automation, not storage, is the heart of the product — and why publicly trusted certificate lifetimes shortening over time steadily raises the stakes for this Type.\n\n### Renewal produces a new certificate, not an extension\n\nA renewed certificate is a newly issued object with a new validity window and (commonly) a new key. The old certificate does not lengthen; it must be replaced at every deployment target. A renewal that is not deployed does not prevent the outage — the lifecycle loop only closes when the endpoint actually serves the new certificate.\n\n### Issuance is policy-gated\n\nWhat may be issued — by which CA, with which key specs, for which names, valid for how long, by whom — is constrained by profiles and, in enterprise products, approval workflows. Central policy versus decentralized self-service is the permanent tension the profile object exists to manage.\n\n### Domain control validation gates public issuance\n\nIssuing publicly trusted certificates requires proving control of the requested domains. Products automate this through DNS integrations; without them, validation is a manual step in the issuance flow.\n\n### Revocation depends on the issuer\n\nThe managing system can request revocation and track its status, but revocation is performed by the issuing CA and its effect on relying parties varies by certificate type and trust model. Revocation is therefore a workflow with monitoring, not an instantaneous local state change.\n\n### Discovered certificates are brought under management, not owned by right\n\nDiscovery reveals certificates the organization did not know it had; records typically start unowned/unmanaged until someone assigns an owner and decides their fate. The inventory is thus both an operational tool and a continuous discovery of unknown risk.\n\n### Auditability is structural\n\nBecause certificates underpin trust, actions on them — requests, approvals, issuances, deployments, revocations — are logged as events that compliance processes consume.",
+        "rules_zh": "### 有效期时钟是外部且不可协商的\n\n证书根据颁发CA和行业策略设定的时间表过期，而非由管理系统设定。系统只能观察时钟并提前行动。这就是为什么续订自动化是产品的核心——而非存储——也是为什么公开受信任的证书有效期随时间缩短会持续提高该类型的重要性。\n\n### 续订生成新证书，而非延期\n\n续订的证书是一个具有新有效期窗口（通常）和新密钥的新颁发对象。旧证书不会延长；它必须在每个部署目标处被替换。未部署的续订不能防止中断——生命周期循环只有在端点实际提供新证书时才关闭。\n\n### 颁发受策略限制\n\n可以颁发的内容——由哪个CA、使用哪个密钥规格、用于哪些名称、有效期多长、由谁颁发——受配置文件限制，在企业产品中，还受审批工作流限制。集中策略与分散的自助服务是配置文件对象旨在管理的永恒张力。\n\n### 域名控制验证是公开颁发的门槛\n\n颁发公开受信任的证书需要证明对所请求域名的控制权。产品通过DNS集成实现自动化；没有它们，验证就是颁发流程中的一个手动步骤。\n\n### 吊销取决于颁发者\n\n管理系统可以请求吊销并跟踪其状态，但吊销是由颁发CA执行的，其对依赖方的影响因证书类型和信任模型而异。因此，吊销是一个带有监控的工作流，而非瞬时的本地状态变更。\n\n### 发现的证书被纳入管理，而非天然归其所有\n\n发现揭示了证书，但管理需要主动将其纳入受控生命周期。该过程通常始于扫描和清单化，随后进行所有权分配和策略执行。",
+        "parent_id": "14.07",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 122,
+    "phase": "directory",
+    "parent": 122,
+    "slugs": [
+      "certificate-lifecycle-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "e371dc8f6146171372fbabc16134059292c16bd30b204023ea2aef31aee886b4"
+  }
+}

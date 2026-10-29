@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "capacity-management",
+      "application_id": "github:617356410",
+      "severity": "blocking",
+      "issue": "官方仓库页快照（ff931fbbaeb3598e8a81e677ed6ca4e43bc05f508cd5c5c2d3ed05da1663a32f.txt）第428行明确显示 traas-stack/kapacity 已于2025-10-20被所有者归档并转为只读；但 research.json 将 capacity-management 的 archived 记为 false，batch.json 也未记录归档状态。该事实与快照不一致，且 README 中“still under active development”的表述已过时。",
+      "fix": "将 research.json 中 capacity-management 的 archived 改为 true，并在 batch 条目和研究记录中注明归档日期、只读状态及对“持续使用/持续维护”判断的影响；若本单元不接受归档项目，则替换为仍维护的容量管理案例并重新取证。若保留该案例，应在条目说明中标注 README 的 active development 说法已过时。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch/research 的 case_found 不一致；若下游读取 input.json，建议同步状态，但不影响本轮内容判断。",
+    "Kapacity 的 README 证据集中在时间序列预测副本数、容量风险识别与防护下扩缩容，未展示资源 headroom/容量仪表盘；作为“容量决策”子集可以接受，但不宜在摘要中扩展为完整容量态势平台。",
+    "ManageIQ 的 README 为平台级概览，能支持统一清单、置备与工作负载编排，但未逐项展示外部云/虚拟化连接器及资源退役流程；research.json 已如实留档该缺口，建议后续补一条官方连接器或生命周期文档。",
+    "Dockge 的“可观察工作负载状态”主要由实时进度与 Web 终端输出体现，README 未明确资源消耗指标；作为 Compose 栈管理器可以接受，但不宜描述为完整容器监控产品。",
+    "OpenCost 与商业 Kubecost 的关系未在条目中说明；OpenCost 仓库为 Apache-2.0 开源发行版，所列功能均出自该仓库 README，未发现付费墙限制，建议在社区版边界处补一句说明。",
+    "Zerto 摘要中的“计划内/计划外故障切换”在首页快照中主要体现为 Failover Live & Testing，未明确区分 planned/unplanned；核心类型不受影响，建议措辞与快照对齐。"
+  ],
+  "leaf_checks": {
+    "capacity-management": {
+      "application_ids": [
+        "github:617356410"
+      ],
+      "result": "issue",
+      "basis": "README（7ccf633272315c79b271952cfc19220292eec0ceca5037c0f54a289dd4a6374f.txt）证明其以指标历史预测副本数、识别容量风险并在稳定性检查/回滚防护下自动扩缩容，能对应容量风险与容量决策核心；仓库页（ff931fbbaeb3598e8a81e677ed6ca4e43bc05f508cd5c5c2d3ed05da1663a32f.txt）与 license API（d03076fd474529980cd8972eb488facf03f6b9e8b49131af9e3b7e39b4cbdaf0.txt）确认 github id 617356410、Apache-2.0 完整许可证。",
+      "gap": "仓库页明确显示2025-10-20已归档只读，research.json 的 archived=false 与快照不符；README 未展示独立 headroom/容量仪表盘，已由研究记录部分说明。"
+    },
+    "cloud-cost-management-finops": {
+      "application_ids": [
+        "github:178079595"
+      ],
+      "result": "pass",
+      "basis": "README（ad1625c2dd15d0987bd1b6264478edf75cf776f2d34b5887b2a3af2761b391e0.txt）明确摄取 Kubernetes 与 AWS/Azure/GCP 账单/定价数据，按集群、节点、命名空间、控制器、服务、Pod 分配成本，并通过 Cost API、Prometheus /metrics、kubectl cost 与配套 UI 呈现；仓库页（fc41fa6077cf3cd5229ba32f35ac67cc4a1307eed417a1d866d8df086a4d3294.txt）与 license API（c674962e70418661ec6ddf1c9160283880c199e594d4b5034599b1d0e98af6bc.txt）确认 github id 178079595、Apache-2.0 完整许可证。",
+      "gap": "未部署、未连接云账号；UI 位于独立 opencost-ui 仓库，README 已说明；商业 Kubecost 边界仅作非阻断提示。"
+    },
+    "cloud-management-platform": {
+      "application_ids": [
+        "github:20789757"
+      ],
+      "result": "pass",
+      "basis": "README（71dded0f45e41052ec3560f647ca1938928d8ca2a674dc4e1b18235331aff883.txt）声明以单一平台管理容器、虚拟机、网络和存储，并提供发现/监控/利用率、策略控制、置备、工作负载管理与编排；仓库页（7a1d615786122738be2945f8b70280614258027a36f7dd3e23a42999bb7202ac.txt）与 license API（d52c04331f643315f59b3068eed0b88da10aaa25c5463206a79745f3a9b5d6c3.txt）确认 github id 20789757、Apache-2.0 完整许可证；README 明确提供 community builds。",
+      "gap": "README 为平台级概览，未逐项核验外部云/虚拟化连接器、置备与退役工作流；research.json 已如实留档。"
+    },
+    "container-management": {
+      "application_ids": [
+        "github:708775091"
+      ],
+      "result": "pass",
+      "basis": "README（30189a5bc9d869934fcd34d11f44e1f9ac36387554d73fd318263ba014cbe32d.txt）说明其连接 Docker 主机/多 agent，以 compose.yaml 从镜像部署栈，提供创建/编辑/启动/停止/重启/删除、镜像更新、Web 终端与实时进度输出；仓库页（5570ac0195a5f127a2fbe04e836e415a9011ed61adede7825325ad67c8b0593a.txt）与 license API（26c30664cf821e9ce20940fddb76bb8d077d5d51b3e3d40b2dbe575346e35956.txt）确认 github id 708775091、MIT 完整许可证。",
+      "gap": "README 未明确资源消耗指标，第四项“可观察状态”主要靠进度/终端输出体现；未部署。"
+    },
+    "disaster-recovery-platform": {
+      "application_ids": [
+        "commercial:zerto"
+      ],
+      "result": "pass",
+      "basis": "Zerto 首页快照（065d73e2b018e3712a38f9423fcd4af9d1ff69d72f671444ab3456902bc7394f.txt）正文包含 near-synchronous data replication、always-on replication、application recovery、journal-based recovery、failover/testing 等表述，配合“disaster recovery”定位，能对应持续复制与恢复执行核心；商业条目不要求许可证审查。",
+      "gap": "仅首页可用，文档页抓取 timeout/403 已留档；未做故障切换演练，未核验价格/架构/部署。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署、未连接 Docker/Kubernetes/云账号、未做故障切换或恢复演练。已按 REVIEW_SOURCES.json 的 path 原样读取本单元全部来源快照（含 GitHub license API 的 base64 许可证内容、仓库页、README 与 Zerto 首页）；许可证按文件大小与内容标识核对为完整 Apache-2.0 或 MIT 文本，未逐字解码全文。Zerto 仅有首页，文档页 timeout/403 已由 research.json 留档；ManageIQ 的外部连接器/置备/退役工作流、OpenCost 的云账单摄取、Kapacity 的实际扩缩容行为未做运行时验证。Zerto 首页为超长单行 HTML，核心表述按关键词命中核对，未逐段通读全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-136/ses_groveopencodegop136review1_1793009933.jsonl",
+  "batch_sha256": "525f977f3d066304c27f8f26c036e1f90f6ac8774b65d6e73916cf6e7de42127",
+  "research_sha256": "dc57320f4b62f53eb628440d67b776577cc66a439d0ce7070ef91bed5c7996cc",
+  "input_sha256": "55a412c4cdd08405bbabb05437ebda882cc873cbb87cfd9c15fa06f4a038795e"
+}

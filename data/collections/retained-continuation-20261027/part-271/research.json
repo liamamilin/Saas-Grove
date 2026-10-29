@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "locksmith-business-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1201466005"
+      ],
+      "query": "open source locksmith business management software GitHub",
+      "source_urls": [
+        "https://github.com/clawnify/OpenFieldService",
+        "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/README.md",
+        "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/LICENSE"
+      ],
+      "note": "通过 websearch 找到通用现场服务开源应用 OpenFieldService；实际读取仓库页、README 与 LICENSE。README 的服务行业目录明确列出 Locksmith（住宅开锁、换锁芯、装门锁、配钥匙、开保险柜），应用提供客户/服务地点、工单生命周期、技术员派工、材料与发票。未找到锁匠专用开源项目；对锁具/钥匙结构化台账、价格手册等深度能力没有证据，不据此断言。",
+      "service_boundary": "运营侧锁匠公司业务管理，不是消费者开锁下单入口、锁具电商或纯调度看板。OpenFieldService 为通用 FSM，按服务类型配置覆盖锁匠核心；未提供锁具/钥匙台账，仍满足单店/多技术员所需的客户-工单-派工-计费核心。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source locksmith business management software GitHub",
+          "outcome": "返回多个同名 locksmith 基础设施项目及 Striven、Locksmith Drive、DreamzFSM、Cinderblock 等商业页面，未见锁匠业务管理开源项目。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/clawnify/OpenFieldService",
+          "result": "HTTP 403 rate limit exceeded"
+        },
+        {
+          "url": "https://api.github.com/repos/clawnify/OpenFieldService/license",
+          "result": "HTTP 403 rate limit exceeded"
+        },
+        {
+          "url": "https://github.com/clawnify/OpenFieldService",
+          "result": "HTTP 200，取得 repository_metadata 与 octolytics repository_id=1201466005"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/README.md",
+          "result": "HTTP 200，取得正文"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/LICENSE",
+          "result": "HTTP 200，取得完整 MIT 许可证文本"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "moving-company-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:smartmoving"
+      ],
+      "query": "open source moving company management software GitHub；github open source moving company software estimate crew truck dispatch inventory",
+      "source_urls": [
+        "https://www.smartmoving.com/moving-company-software"
+      ],
+      "note": "先检索开源搬家管理，返回结果多为 SmartMoving SDK、项目管理或物流平台，未找到具备“两点搬迁+按物品估价+作业组/卡车执行”核心的开源完整应用。转用搬家专用商业产品 SmartMoving，实际抓取官方产品页正文：估价与物品清单、已成为作业的预订、排程、派工、现场、账单同属一条作业链，作业组在手机接收地址/备注，仓储与客户及作业绑定。仅做基本类型记录，未研究价格与部署。",
+      "service_boundary": "搬家公司运营侧记录系统，不是消费者搬家比价/预订平台，也不是通用货运或仓储软件。核心匹配两个客户控制点之间的住户搬迁、按物品范围估价、作业组与卡车执行及资金闭环。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source moving company management software GitHub",
+          "outcome": "返回 SmartMoving SDK、condo 物业平台、通用项目管理/物流内容，无搬家业务开源完整应用。"
+        },
+        {
+          "tool": "websearch",
+          "query": "github open source moving company software estimate crew truck dispatch inventory",
+          "outcome": "返回 Fleetbase（物流/货运）、Spear OS、WeMove OS、SmartMoving、MoveitPro 等；仅 SmartMoving 等商业搬家专用产品具备核心流程。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.smartmoving.com/moving-company-software",
+          "result": "HTTP 200，正文覆盖估价/物品清单→预订作业→排程→派工→现场→账单及仓储。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pest-control-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:pestpac"
+      ],
+      "query": "open source pest control management software GitHub；github \"pest control\" software recurring service plans routing technician open source",
+      "source_urls": [
+        "https://www.pestpac.com/features/pest-control-scheduling-software"
+      ],
+      "note": "开源检索仅命中通用现场服务 OpenFieldService、农业害虫问答/成本计算器和 FieldRoutes MCP 封装，没有具备复发服务计划与药剂记录核心的害虫防治开源完整应用。通用 FSM 缺少复发计划与路线密度机制，未强行匹配。改用行业专用 PestPac，实际读取官方排程功能页正文：按技术员平衡工作量、任意频率复发服务、技术员许可证缺失告警、路线与客户排程；导航列有化学药剂跟踪、白蚁检查等专用能力。仅基本记录，不深入价格/架构。",
+      "service_boundary": "害虫防治公司运营侧系统，不是农业病虫害诊断、家庭 DIY 防治或单纯路线优化工具。核心为客户/服务结构、复发或一次性服务访问、持证技术员派工与计费；PestPac 的排程与许可证约束证据支持该边界。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source pest control management software GitHub",
+          "outcome": "命中 OpenFieldService（通用 FSM）、pest-control-advisor（农业问答）、PestControlMVC（教学项目）、FieldRoutes MCP（商业 API 封装），均非害虫防治业务完整开源应用。"
+        },
+        {
+          "tool": "websearch",
+          "query": "github \"pest control\" software recurring service plans routing technician open source",
+          "outcome": "仍以 OpenFieldService 及 BlazeRoutes、Servinix、DOP、PestPac 等商业产品为主，确认无专用开源完整应用。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.pestpac.com/features/pest-control-scheduling-software",
+          "result": "HTTP 200，正文覆盖复发服务频率、技术员许可证告警、路线与客户排程。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "plumbing-business-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1201466005"
+      ],
+      "query": "open source plumbing field service management software GitHub",
+      "source_urls": [
+        "https://github.com/clawnify/OpenFieldService",
+        "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/README.md",
+        "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/LICENSE"
+      ],
+      "note": "websearch 返回 OpenFieldService、open-fsm、Beveren FSM 等通用现场服务开源项目。实际读取 OpenFieldService 仓库页、README 与 LICENSE；README 服务目录明确列出 Plumbing（疏通、管道维修、热水器安装、下水道检测、漏水检测），应用提供客户/服务地点、工单、技术员派工、材料使用与发票。未找到管道专用开源项目；会员计划、多选项提案等能力无证据，不据此断言。",
+      "service_boundary": "管道服务与安装公司的运营侧管理，不是建材/卫浴电商、DIY 指导或纯派工看板。OpenFieldService 通用 FSM 通过服务类型配置覆盖服务呼叫、维修与更换安装的客户-工单-派工-计费核心；会员与提案模块缺失已明确收窄。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source plumbing field service management software GitHub",
+          "outcome": "返回 OpenFieldService、open-fsm、Beveren FSM、FieldOpt 等通用 FSM；无管道行业专用完整开源应用。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/clawnify/OpenFieldService",
+          "result": "HTTP 403 rate limit exceeded"
+        },
+        {
+          "url": "https://github.com/clawnify/OpenFieldService",
+          "result": "HTTP 200，取得 repository_metadata 与 octolytics repository_id=1201466005"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/README.md",
+          "result": "HTTP 200，取得正文"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/clawnify/OpenFieldService/main/LICENSE",
+          "result": "HTTP 200，取得完整 MIT 许可证文本"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pool-service-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:skimmer"
+      ],
+      "query": "open source pool service management software GitHub",
+      "source_urls": [
+        "https://www.getskimmer.com/product/technicians",
+        "https://www.getskimmer.com/product/billing"
+      ],
+      "note": "开源检索命中 SPMS（社区/设施泳池管理，非服务公司运营）、矿池/代理池同名项目及 Skimmer 的第三方 API 画像，未找到泳池服务公司开源完整应用。转用行业专用商业 Skimmer；首页仅有 meta/导航，未作为证据，改抓技术员与计费功能页正文：按技术员路线与服务停靠、多个水体/服务地点的化学读数与服务历史、LSI 与投药计算、检查清单、从常规服务和工作单批量开票与在线收款。仅基本记录。",
+      "service_boundary": "泳池服务公司运营侧系统，不是公共泳池/社区设施管理、水质监测硬件或化学品电商。核心为客户与受服务水体、定期维护停靠或一次性维修/安装作业、技术员路线与化学记录、计费；Skimmer 功能页证据覆盖该边界。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source pool service management software GitHub",
+          "outcome": "返回矿池/代理池同名项目、SPMS 社区泳池管理、Skimmer 第三方 API 画像等，无泳池服务公司开源完整应用。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.getskimmer.com/",
+          "result": "HTTP 200，但正文主要为导航与 meta 描述，未作为核心证据。"
+        },
+        {
+          "url": "https://www.getskimmer.com/product/technicians",
+          "result": "HTTP 200，正文覆盖路线、服务停靠、水体化学读数、LSI 投药、检查清单与发票入口。"
+        },
+        {
+          "url": "https://www.getskimmer.com/product/billing",
+          "result": "HTTP 200，正文覆盖报价、发票、批量开票与在线/线下收款。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

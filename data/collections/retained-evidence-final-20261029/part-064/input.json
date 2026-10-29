@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 15,
+  "offset": 350,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "bookkeeping-application",
+        "name_zh": "记账应用",
+        "domain_id": "08",
+        "parent_id": "08.07",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/2",
+            "result": "boundary_unresolved",
+            "note": "统一复核留档：hledger：已保存资料主要说明纯文本与本地工具；网页界面仅有概述或截图，服务化部署与持久使用边界仍需补证。",
+            "query": "open source bookkeeping app github; hledger plain text accounting"
+          }
+        ],
+        "archived": false,
+        "note": "统一复核留档：hledger：已保存资料主要说明纯文本与本地工具；网页界面仅有概述或截图，服务化部署与持久使用边界仍需补证。"
+      },
+      "definition": {
+        "slug": "bookkeeping-application",
+        "name": "Bookkeeping Application",
+        "name_zh": "记账应用",
+        "aliases_zh": [
+          "会计软件",
+          "财务软件",
+          "记账软件"
+        ],
+        "overview": "A **Bookkeeping Application** is the operational system of record for a business's books: it holds the business's financial transactions as durable records, classifies every transaction into the business's account structure (the chart of accounts), and accumulates them into persistent running balances — the books.\n\nIts purpose is to keep those books **current, tidy, and verifiable**: money coming in and going out is captured as it happens, each transaction is put into the right account, and recorded transactions are checked against independent financial records (bank and credit-card statements) so that errors are caught while they are still small. The output of good bookkeeping is a set of books that can be trusted — reviewed by the owner, handed to an accountant or bookkeeping professional, and used to produce reports and tax filings.\n\nThe defining core is deliberately small:\n\n```text\nBusiness entity's books\n└── Financial transaction records (dated, durable)\n    └── Classified into the chart of accounts\n        └── Persistent accumulating balances and history\n```\n\nEverything else commonly associated with the category — bank feeds, automatic categorization, reconciliation screens, receipt scanning, invoicing, sales tax, financial statements, accountant collaboration — is standard capability that mature products carry, not what makes the product a bookkeeping application. A single-entry cashbook kept carefully is still bookkeeping; a transaction list with no account structure is not.",
+        "overview_zh": "一个**簿记应用程序**是企业账簿的运营记录系统：它将企业的财务交易作为持久记录保存，将每一笔交易分类到企业的账户结构（即会计科目表）中，并将它们累积为持久的运行余额——即账簿。\n\n其目的是保持这些账簿**最新、整洁且可验证**：资金流入和流出在发生时被捕获，每笔交易被归入正确的账户，并记录的交易与独立的财务记录（银行和信用卡对账单）进行核对，以便在错误尚小时被发现。良好簿记的输出是一套可信赖的账簿——由所有者审查，交给会计师或簿记专业人士，并用于生成报告和税务申报。\n\n其定义性核心被刻意保持精简：\n\n```text\n商业实体的账簿\n└── 财务交易记录（带日期，持久化）\n     └── 分类到会计科目表\n         └── 持久累积的余额和历史\n```\n\n通常与该类别关联的其他所有内容——银行数据馈送、自动分类、对账界面、收据扫描、发票、销售税、财务报表、会计师协作——是成熟产品所具备的标准功能，而非使该产品成为簿记应用程序的决定性因素。一个被仔细维护的单式记账现金账簿仍然是簿记；而没有账户结构的交易列表则不是。",
+        "dc": "Three structures. Remove any one and the product stops being a bookkeeping application:\n\n- **Financial transaction records** — every economic event of the business (income received, expense paid, bill owed, transfer between accounts) is held as a dated, durable record. The record is the atom of the books; everything else is built from it.\n- **Chart of accounts** — the business's own categorized list of account types (revenue, rent, software, travel, and so on), organized under the classic groups: assets, liabilities, equity, revenue, and expenses. Every transaction is coded to an account. This classification is what turns a pile of receipts into books: it is the difference between a bookkeeping application and a mere transaction list.\n- **Persistent accumulating books** — records accumulate over time into running account balances and a retrievable history. The books survive the session, span accounting periods, and remain the reference for what happened financially. Closing the application does not destroy anything; the books are the memory.",
+        "dc_zh": "**财务交易记录** — 企业的每一个经济事件（收到收入、支付费用、应付账款、账户间转账）都作为带日期的持久记录保存。记录是账簿的原子；其他一切都由此构建。\n\n**科目表** — 企业自有的分类账户类型列表（收入、租金、软件、差旅等），组织在经典分组下：资产、负债、权益、收入和费用。每个交易都编码到一个科目。这种分类将一堆收据变成账簿：它是记账应用与单纯交易列表的区别。\n\n**持续累积的账簿** — 记录随时间累积成运行的账户余额和可检索的历史。账簿在会话间存活，跨越会计期间，并成为财务事件发生的参考。关闭应用程序不会破坏任何东西；账簿就是记忆。",
+        "rules": "### The books are the system of record\n\nEvery capability ultimately writes into the transaction records and account balances. Reports and dashboards are derived views; if the underlying records are wrong, the reports are wrong. Products therefore emphasize record hygiene: categorize carefully, reconcile regularly, keep evidence attached.\n\n### Reconciliation state is user-visible and consequential\n\nThe gap between the bank's statement and the books is not hidden: dashboards show unreconciled counts, and reconciliation summaries alert when balances disagree. This visibility is the product's main correctness mechanism — unreconciled items are the to-do list of bookkeeping.\n\n### Changes leave a trail\n\nMature products attribute changes to users and preserve version history, so the books can serve as evidence. Some products add approval gates before transactions are finalized. Adjustments made by the accountant are recorded as journal entries rather than silent edits.\n\n### Method choices shape the books\n\nTwo method decisions, made at setup, govern how transactions are recorded: the bookkeeping method (single-entry records each transaction once; double-entry records each as offsetting debit and credit) and the accounting method (cash basis counts money when it moves; accrual basis counts income when earned and expenses when billed). Most current products implement a double-entry engine, but the single-entry method remains a recognized variant for very small operations.\n\n### Business and personal money are kept apart\n\nThe books describe one business entity. Mixing personal spending into business records is the canonical bookkeeping mistake; products and their guidance push for a separate business bank account and entity-scoped records.\n\n### Falling behind is the failure mode\n\nThe books degrade gracefully but visibly: uncategorized transactions pile up, reconciliation gaps grow, and reports drift from reality. Products respond with catch-up/cleanup tooling and, in some cases, managed services that bring backlogged books current.",
+        "rules_zh": "### 账簿是记录系统\n\n每项功能最终都写入交易记录和账户余额。报告和仪表板是衍生视图；如果底层记录错误，报告也会错误。因此，产品强调记录卫生：仔细分类，定期核对，保留附件证据。\n\n### 对账状态对用户可见且后果重大\n\n银行对账单与账簿之间的差距并不隐藏：仪表板显示未对账的数量，对账摘要在余额不一致时发出警报。这种可见性是产品的主要正确性机制——未对账项目是簿记的待办事项列表。\n\n### 更改留下痕迹\n\n成熟产品将更改归因于用户并保留版本历史，因此账簿可以作为证据。一些产品在交易最终确定前添加审批关卡。会计师进行的调整记录为日记账分录，而非静默编辑。\n\n### 方法选择塑造账簿\n\n在设置时做出的两个方法决策，决定了交易如何记录：簿记方法（单式记账每笔交易记录一次；复式记账每笔记录为抵消的借方和贷方）和会计方法（现金制在资金移动时计数；权责发生制在收入赚取时计数收入，在开票时计数费用）。大多数当前产品实现复式记账引擎，但单式记账方法仍然是非常小型业务的公认变体。\n\n### 业务和个人资金分开\n\n账簿描述一个商业实体。将个人支出混入业务记录是典型的簿记错误；产品及其指南推动使用单独的业务银行账户和实体范围记录。\n\n### 落后是失败模式\n\nT",
+        "parent_id": "08.07",
+        "domain_id": "08"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 64,
+    "phase": "directory",
+    "parent": 64,
+    "slugs": [
+      "bookkeeping-application"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "ca192bf2ba6d608bb06210dffa0aafb3211b9d8cc530bb4113f5b61a9ab3943d"
+  }
+}

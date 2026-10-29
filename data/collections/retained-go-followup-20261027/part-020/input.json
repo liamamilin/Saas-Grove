@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "research-animal-facility-management",
+        "name_zh": "实验动物设施管理系统 (AFMS)",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source research animal facility management vivarium github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source research animal facility management vivarium github"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "research-animal-facility-management",
+        "name": "Research Animal Facility Management",
+        "name_zh": "实验动物设施管理系统 (AFMS)",
+        "aliases_zh": [
+          "实验动物管理系统",
+          "动物设施管理软件"
+        ],
+        "overview": "A **Research Animal Facility Management** application is the operational system of record for a facility that keeps laboratory animals for research — the vivarium and the colonies it hosts. Its job is to answer, at any moment and for any animal: *what is it* (species, strain or line, genotype), *where is it* (room, rack, cage or tank), *under which approved protocol does it live and get used*, *what has happened to it* (breeding, health, procedures, movements), and *what does keeping it cost*. It replaces paper cage cards, census books, breeding logs, and per-diem ledgers with a governed animal population that is continuously current.\n\nThe defining core is small:\n\n```text\nIdentified animals in the facility's care\n└── Housing locations with tracked occupancy (rooms / racks / cages / tanks)\n    └── Census-and-disposition loop\n        (arrive → house → move / breed / treat → use → disposition)\n        └── Research-use linkage\n            (animals held and used under approved protocols, with usage tracked)\n```\n\nEverything else commonly associated with this software — breeding and colony machinery, genotyping, cage-card printing, per-diem billing, health records, ordering, regulatory statistical reports — is standard capability that mature products add to make the facility operable. The same core also describes the lighter lab-level \"colony management\" tools used by individual research groups, which run the core with a smaller subset of that machinery.",
+        "overview_zh": "一个**研究动物设施管理**应用程序是用于饲养实验动物的研究设施——即动物房及其所容纳的动物群体——的运营记录系统。其工作是随时为任何动物回答：*它是什么*（物种、品系或品系线、基因型）、*它在哪里*（房间、笼架、笼具或水箱）、*它依据哪项获批方案生活和被使用*、*它经历了什么*（繁殖、健康、操作、移动）以及*饲养它的成本是多少*。它用一套受管控、持续更新的动物种群，取代了纸质的笼卡、普查记录本、繁殖日志和按日计费簿册。\n\n其定义性核心很小：\n\n```text\n设施照料下已识别的动物\n└── 带有跟踪占用情况的位置（房间 / 笼架 / 笼具 / 水箱）\n    └── 种群普查与处置循环\n        （到达 → 入住 → 移动 / 繁殖 / 处理 → 使用 → 处置）\n        └── 研究使用关联\n            （动物根据获批方案被饲养和使用，使用情况被跟踪）\n```\n\n与此软件通常关联的所有其他功能——繁殖和群体管理机制、基因分型、笼卡打印、按日计费、健康记录、订购、法规统计报告——都是成熟产品为使设施可运行而添加的标准功能。同样的核心也描述了单个研究团队使用的较轻量级的实验室级“群体管理”工具，它们使用核心功能，但仅运用上述机制中较小的一部分子集。",
+        "dc": "Four structures. Remove any one and the product stops being recognizable as this Type:\n\n- **The animal as the managed unit of care.** The central object is the individually identified animal (or colony unit) held in the facility's custody. It carries species, strain or line identity, genotype where relevant, ownership (the investigator or group responsible for it), and a life-stage state that advances with events — newborn, weaned, adult, in-breeding, ended. Exact state vocabularies vary by product; the pattern of an automatically advancing life-stage state is common.\n- **Housing location with tracked occupancy.** The facility's physical housing is modeled as a structure — rooms, racks, cages for terrestrial facilities; racks and tanks for aquatic ones — with capacities and occupancy. Every animal's current location is recorded, and the recorded location is expected to match physical reality. Facility-oriented products render this estate graphically (rack and tank displays with occupancy).\n- **The census-and-disposition loop.** The population is kept current through recorded life events: animals arrive (born into the colony, ordered from a vendor and received, transferred in), move between locations, breed, receive health events and procedures, and leave custody (euthanasia, transfer out, export, death). Because every event is recorded, counts — how many animals are alive on a given day, how many cages are active, how many were born, weaned, or ended — are computable for any date. This census is the facility's operating picture and the basis of its billing and reporting.\n- **Research-use linkage.** Animals are held and used under a governing research authorization — an approved animal-use protocol or study. The system tracks which animals belong to which protocol (assignment to animals or, in some products, to whole cages), and keeps usage accounts against the approved numbers: how many animals were approved, how many used, how many remain, with amendments raising the approved count. In some regimes the authorization is the regulated project license; in others the institutional protocol; in preclinical settings, the study. The common structure is that holding and using animals traces to a tracked authorization.",
+        "dc_zh": "四个核心结构，移除任一则产品不再被识别为此类：\n1.  **动物作为被管理的护理单元**。核心对象是设施内托管的个体识别动物（或群居单位）。它携带物种、品系或品系标识、相关时的基因型、所有权（负责的研究员或团体），以及随事件推进的生命阶段状态——新生、断奶、成年、繁殖中、终止。具体状态术语因产品而异；自动推进生命阶段状态的模式是通用的。\n2.  **带有占用跟踪的住房位置**。设施的物理住房被建模为一个结构——陆生设施的房间、架子、笼子；水生设施的架子和水箱——具有容量和占用情况。每只动物的当前位置都被记录，且记录的位置应与物理实际相符。面向设施的产品以图形方式（显示占用情况的架子和水箱显示）呈现此资产。\n3.  **普查与处置循环**。通过记录的生命事件保持种群数量的时效性：动物抵达（出生于种群、从供应商订购并接收、转入）、在位置间移动、繁殖、接受健康事件和程序，并离开托管（安乐死、转出、出口、死亡）。由于每个事件都被记录，计数——在任何给定时间有多少只动物存活——是持续和准确的。\n4.  **合规性与报告的基础**。所有记录的个体动物身份和事件历史是动物使用监管（如机构动物护理和使用委员会审查、兽医护理计划）、机构内审计以及关于动物种群和使用情况报告的基石。系统必须支持此报告义务。",
+        "rules": "- **Life-stage states advance with events.** An animal's state (newborn → weaned → adult → in-breeding → ended) changes automatically as husbandry events are recorded; only animals past weaning can enter breeding. Exact vocabularies and age thresholds are configurable and vary by product.\n- **Protocol usage is accounted, not assumed.** The system keeps a running account of animals used against the number approved on each protocol, with amendments recorded when the approved count changes. Whether over-assignment is blocked or merely surfaced varies by product; the accounting itself is the common structure.\n- **Location fidelity is the core discipline.** The recorded cage must match the physical cage; cage cards and scans exist to reconcile the two, and movements are recorded events.\n- **Ownership gates visibility.** Animals belong to owners (investigators or groups); other users see an owner's data only through granted permissions, and transfers of animals move ownership explicitly. Facilities shared between organizations run under separated authorization contexts.\n- **Capacity and density guard welfare.** Cage capacities and housing-density limits are modeled so overcrowding is surfaced or prevented; exact limits follow each facility's standards.\n- **Every change is attributed.** Because the record is the facility's compliance evidence, changes carry user and timestamp in an audit trail.\n- **Disposition is terminal but correctable.** Ending an animal or cage closes its custody; some products allow reversing an ended state to fix errors, with the correction itself recorded.\n- **Due dates drive the daily rhythm.** Weaning, plug checks, and breeder replacement generate alerts; missed husbandry events carry welfare and cost consequences (overdue weaning and extra cages are commonly cited cost drivers).",
+        "rules_zh": "- **生命阶段状态随事件推进。** 动物的状态（新生 → 已断奶 → 成年 → 繁殖中 → 已结束）随着日常管理事件的记录而自动变化；只有断奶后的动物才能进入繁殖。确切的术语和年龄阈值是可配置的，并因产品而异。\n- **方案使用是被核算的，而非被假定的。** 系统对实际使用的动物数量与各方案批准的数量进行实时核算，并在批准数量变更时记录修正案。是否阻止超额分配或仅将其显示出来因产品而异；核算本身是共同结构。\n- **位置保真度是核心准则。** 记录的笼具必须与实际笼具匹配；笼卡和扫描的存在是为了协调两者，移动是被记录的事件。\n- **所有权决定可见性。** 动物归属于所有者（研究者或团队）；其他用户只有通过授予的权限才能看到所有者的数据，动物转移会明确变更所有权。在组织间共享的设施在分离的授权上下文中运行。\n- **容量和密度守护福利。** 笼具容量和饲养密度限制被建模，以便发现或防止过度拥挤；具体限制遵循每个设施的标准。\n- **每项变更都被归因。** 因为记录是设施的合规证据，变更会携带用户和时间戳出现在审计跟踪中。\n- **处置是最终的但可纠正的。** 结束一只动物或笼具会关闭其监管状态；有些产品允许逆转已结束状态以修正错误，修正本身会被记录。\n- **到期日驱动日常节奏。** 断奶、交配检查和种公替换会产生警报；错过的日常管理事件会带来福利和成本后果（逾期断奶和额外笼具",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "scientific-core-facility-management",
+        "name_zh": "科研核心设施管理",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source scientific core facility management github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source scientific core facility management github"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "scientific-core-facility-management",
+        "name": "Scientific Core Facility Management",
+        "name_zh": "科研核心设施管理",
+        "aliases_zh": [
+          "科研设施管理平台",
+          "共享仪器服务系统"
+        ],
+        "overview": "A **Scientific Core Facility Management** application is the operating system of a shared scientific core facility — a \"core facility\" or \"shared resource\" that offers expensive scientific instruments and specialized services to a population of users drawn from many groups, and recovers its operating costs through usage-based charging.\n\nIt solves a specific operational problem: an institution buys instruments (sequencers, microscopes, flow cytometers, mass spectrometers, NMR spectrometers) that no single lab can afford or fully utilize, staffs them with experts, and opens them to a user community. The facility must control who may use what, schedule time on instruments, accept and fulfill service requests, record who used what for how long, and turn that recorded usage into charges billed to the groups' grants, departmental or hospital accounts, or external organizations.\n\nThe defining structure is small:\n\n```text\nShared instrument/service catalog (rate-bearing, presented as the facility's storefront)\n└── Identified user (member of a group with funding sources)\n    └── Reservation (instrument time) or Service Request (facility-performed work)\n        └── Recorded usage\n        └── Charge (priced at facility rates, internal/external tiers, subsidies)\n            └── Recharge to funding source → invoice/statement → utilization & revenue reporting\n```\n\nEverything else commonly associated with these systems — training and certification tracking, kiosks and hardware interlocks, maintenance management, sample manifests, publication tracking — is standard or optional machinery that makes the operation practical. It is not what makes the product this type.\n\nA note on naming: the market uses **\"scientific core facility\"**, **\"research core facility\"**, and simply **\"core facility\"** for the same kind of operation, and vendors sell one product category — core facility management software — to universities, research institutes, hospitals and medical schools alike. This document is written from the scientific-facility lens, with emphasis on the healthcare and cross-disciplinary breadth of the customer base; the atlas documents the same Type from the research-facility lens under **Research Core Facility Management**. The alias is recorded in the atlas status for taxonomy review, and each document points at the other.\n\nIts boundary: take away the usage-to-recharge economics and it becomes a resource calendar; take away the shared multi-group facility context and it becomes single-lab scheduling tooling; take away scheduling and charging and keep sample-and-assay workflows and it becomes a LIMS; replace the instruments and services with patient specimens and clinical orders and it becomes clinical laboratory territory (LIS), which is a different system even inside the same hospital.",
+        "overview_zh": "一个 **Scientific Core Facility Management** 应用程序是共享科学核心设施的操作系统——一个“核心设施”或“共享资源”，它为来自多个群体的用户提供昂贵的科学仪器和专业服务，并通过基于使用的收费来回收其运营成本。\n\n它解决了一个特定的运营问题：一个机构购买仪器（测序仪、显微镜、流式细胞仪、质谱仪、核磁共振波谱仪），这些仪器是任何单个实验室都无法负担或完全利用的，配备专家人员，并向用户社区开放。设施必须控制谁可以使用什么、安排仪器使用时间、接受和履行服务请求、记录谁使用了什么、使用多长时间，并将这些记录的使用转化为费用，计费到群体的资助、部门或医院账户或外部组织。\n\n其定义结构很小：\n\n```text\n共享仪器/服务目录（包含费率，作为设施的店面展示）\n└── 已识别用户（具有资金来源的群体成员）\n    └── 预约（仪器时间）或服务请求（设施执行的工作）\n        └── 记录的使用\n        └── 费用（按设施费率定价，内部/外部层级，补贴）\n            └── 向资金来源再收费 → 发票/对账单 → 使用率和收入报告\n```\n\n所有其他通常与此类系统相关的东西——培训和认证跟踪、信息亭和硬件互锁、维护管理、样本清单、出版物跟踪——是使运营可行的标准或可选机制。它不是使产品成为这种类型的原因。\n\n关于命名的说明：市场使用 **\"scientific core facility\"**、**\"research core facility\"** 和简单的 **\"core facility\"** 来指同一种运营，而供应商向大学、研究所、医院和医学院销售同一类产品——核心设施管理软件。本文档从科学设施视角编写，强调客户基础的医疗保健和跨学科广度；图集从研究设施视角记录同一 **研究核心设施管理** 类型。别名记录在图集状态中以供分类审查，每个文档都指向另一个。\n\n其边界：去掉使用-再收费经济学，它变成资源日历；去掉共享的多群体设施上下文，它变成单个实验室调度工具；去掉调度和收费，保留样本和分析工作流，它变成 LIMS；将仪器和服务替换为患者样本和临床订单，它变成临床实验室领域（LIS），这是在同一个医院内的不同系统。",
+        "dc": "Three structures held together. Each one is load-bearing: remove it and what remains is a different kind of software.\n\n**1. The shared instrument/service catalog.** The facility's offerings are held as managed objects: instruments that can be reserved as time on a schedule, and services that can be ordered as requests. Each offering carries a description, visibility controls (who may see and book it), and pricing. Presented together, the catalog is the facility's storefront — the place where users discover what the facility offers and on what terms. Without the catalog there is no facility being operated, only a list of assets or a rate sheet.\n\n**2. Identified-user reservations and service requests with usage attribution.** Users act as identified members of groups — labs, departments, or teams. They reserve time slots on an instrument's schedule, or submit a service request for work the facility will perform. Every reservation and request is attributed to the identified user and their group, and carries a payment source chosen from the sources assigned to that group. This attribution is the join key for everything downstream: access control, usage records, charges, and reporting. Without it, the system is an anonymous booking board.\n\n**3. The usage-to-recharge loop.** Recorded usage and completed work are priced at facility rates — with different tiers for internal and external customers, and subsidies where institutional policy provides them — accumulated as charges, and billed on a recurring cycle (commonly monthly) to funding sources: grant numbers, departmental or hospital accounts, project IDs, or purchase orders. The loop produces invoices or statements for the paying parties, and utilization/revenue reporting for the facility and institution. Without this loop, the product is a resource calendar.",
+        "dc_zh": "由三个支撑性结构构成，每个结构都不可或缺：移除其一，软件的性质将彻底改变。\n\n**1. 共享仪器/服务目录。** 设施的各类资源作为受管对象呈现：仪器可按时间段预约，服务可按请求订购。每个资源项包含说明、可见性控制（谁可查看和预约）以及定价。目录共同展示了设施的“门面”——用户在此发现设施提供的内容及相关条款。没有目录，运营的设施便不复存在，仅剩资产清单或价目表。\n\n**2. 实名用户预约、服务请求及使用归属。** 用户作为实验室、部门或团队等群组的已识别成员进行操作。他们可在仪器排期中预约时段，或提交需要设施执行的服务请求。每一项预约与请求均归属到已识别用户及其所属群组，并从该群组分配的支付源中选择付款方式。这种归属关系是后续所有环节的关键关联依据：访问控制、使用记录、计费及报告。缺失此环，系统将退化为匿名预约看板。\n\n**3. 使用到充值的闭环循环。** 已记录的使用和完成的工作按设施费率定价——对内外部用户采用不同计费层级。",
+        "rules": "### Financial approval gates the work\n\nA reservation or request is not merely \"booked\" — it carries a payment source, and spending typically requires approval by the group's financial authority (the group leader or a designated manager) before the facility starts work or the reservation is confirmed. Amounts below a configurable threshold are commonly auto-approved. This makes the group structure an access-control structure, not just an org chart.\n\n### Reservations have states and economics\n\nA reservation may be auto-confirmed or pending facility approval; approved reservations are commonly locked against casual change. Cancellation is rule-governed: deleting far enough ahead of the slot is free, late cancellation becomes a cancellation (often with a fee that must be accepted), and no-shows may be charged. These rules protect instrument utilization — the facility's scarcest resource.\n\n### Booked time is not always billed time\n\nWhere actual-usage capture exists (kiosk sessions, workstation apps, interlocks), the system distinguishes booked time from actual time, and billing may follow the actual usage. Walk-up sessions on open instruments are a first-class flow, not an exception.\n\n### Access is qualification-gated\n\nInstruments are commonly locked — procedurally and sometimes physically — until the user is trained: training records, verification steps, and progressive access levels determine who can book or operate what. Hardware interlocks and card readers enforce the same rule physically.\n\n### Rate tiers and subsidies are structural\n\nThe same instrument hour can carry different prices for internal academic users, external academic users, and commercial customers; subsidies can be applied automatically by eligibility; a single consumption can be split across several funds by percentage. The pricing model is part of the facility's policy, configured in the system.\n\n### Payment sources have lifecycles\n\nFunds expire (grants end, budget periods close); the system warns users when a chosen fund is near expiry. External customers may need formally approved standing purchase orders before they can pay at all.\n\n### The catalog is a visibility surface\n\nInstruments and services can be made visible or hidden to specific user groups; the same facility can present different offerings to internal and external populations.",
+        "rules_zh": "### 财务审批控制工作\n\n预约或请求不仅仅是“已预约”——它携带一个支付来源，支出通常需要群体财务负责人（群体负责人或指定管理员）的批准，设施才能开始工作或预约被确认。低于可配置阈值的金额通常自动批准。这使得群体结构成为访问控制结构，而不仅仅是组织结构图。\n\n### 预约具有状态和经济学\n\n预约可以是自动确认或等待设施批准；已批准的预约通常被锁定以防止随意更改。取消受规则约束：在时间段之前足够久取消是免费的，晚取消变成取消（通常带有必须接受的费用），未到场可能被收费。这些规则保护仪器利用率——设施最稀缺的资源。\n\n### 预约时间不总是计费时间\n\n在存在实际使用捕获（信息亭会话、工作站应用、互锁）的情况下，系统区分预约时间和实际时间，计费可能遵循实际使用。开放仪器的随到随用会话是一流流程，而不是例外。\n\n### 访问受资格控制\n\n仪器通常被锁定——程序性地，有时物理上——直到用户完成培训：培训记录、验证步骤和渐进访问级别决定谁可以预约或操作什么。硬件互锁和读卡器物理上执行相同规则。\n\n### 费率层级和补贴是结构性的\n\n相同的仪器小时可能对内部学术用户、外部学术用户和商业客户有不同的价格；补贴可以根据资格自动应用；单次消耗可以按百分比拆分到多个资金",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "scientific-data-management-system",
+        "name_zh": "科学数据管理系统（SDMS）",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source scientific data management system SDMS github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source scientific data management system SDMS github"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "scientific-data-management-system",
+        "name": "Scientific Data Management System",
+        "name_zh": "科学数据管理系统（SDMS）",
+        "aliases_zh": [
+          "科研数据管理系统（SDMS）",
+          "科学数据管理平台（SDMS）"
+        ],
+        "overview": "A **Scientific Data Management System** (SDMS) is a laboratory's system of record for its scientific data: it gathers the data that instruments, instrument-control software, applications and other lab systems produce into one centrally managed store, binds each data object to its scientific context at the moment of capture, and keeps that corpus searchable, secure, auditable and intact for as long as the organization needs it.\n\nThe problem it solves is specific and well known in R&D and testing laboratories: scientific data is generated continuously, in heterogeneous proprietary formats, on instrument PCs, in inboxes and on local drives — scattered across machines and people. Data that cannot be found, or whose origin cannot be reconstructed years later, is data the organization cannot defend, reuse or build on. An SDMS replaces that scattering with a governed store where the lab's data converges, carries its context with it, and survives staff turnover and project closeout.\n\nThe defining core is small — data captured into a central store, cataloged with scientific context, held under controlled long-term custody. Everything else commonly associated with these products (parsers and transform rules, built-in analytics, sample linkage, compliance regimes, AI-era search) is standard or optional capability that mature products add, not what makes the product an SDMS. When the organizing subject shifts to the sample and its journey through lab work (a LIMS) or to the experiment narrative (an electronic lab notebook), the product is a different Application Type.",
+        "overview_zh": "**科学数据管理系统 (SDMS)** 是实验室用于其科学数据的记录系统：它收集仪器、仪器控制软件、应用程序和其他实验室系统产生的数据，将其集中存储到一个中央管理库中，在捕获时将每个数据对象绑定到其科学上下文，并保持该数据集可搜索、安全、可审计且完整，只要组织需要。\n\n它解决的问题在研发和测试实验室中具体且众所周知：科学数据在仪器PC、收件箱和本地驱动器上以异构专有格式连续生成——分散在多台机器和人员之间。无法找到或无法在数年后重建其来源的数据，是组织无法辩护、重用或基于其构建的数据。SDMS用一个受控的存储库取代了这种分散，实验室的数据在此汇聚，携带其上下文，并在员工流动和项目结束后得以保留。\n\n定义的核心很小——数据被捕获到中央存储库中，带有科学上下文进行编目，在受控的长期保管下。其他通常与这些产品相关联的内容（解析器和转换规则、内置分析、样品链接、合规机制、AI时代搜索）是成熟产品添加的标准或可选功能，而不是使产品成为SDMS的关键。当组织主题转移到样品及其在实验室工作中的旅程（LIMS）或实验叙述（电子实验室笔记本）时，产品是不同的应用类型。",
+        "dc": "```text\nScientific data object of record\n└── Captured into the central store from its producing source\n    └── Context metadata (instrument/run, assay, sample or project, when, who)\n        └── Cataloged corpus, retrievable by scientific context\n            └── Controlled, auditable, integrity-preserving custody over time\n```\n\nFour properties, jointly held. If any one is removed, the product is no longer recognizable as an SDMS:\n\n- **The scientific data object as the managed unit of record** — the raw output files, results and datasets the lab produces are held as persistent, individually cataloged objects in a central store owned by the system, not scattered on the machines that generated them. The data itself — not samples, not experiments — is what the system keeps. Without this, the product is a file server.\n- **System-driven capture from data-producing sources** — the store is populated under the system's own machinery: rules that watch directories, integrations and adaptors that collect instrument output, ingestion from file systems, inboxes, databases and connected applications. The lab's data converges into the store rather than remaining dispersed. Without this, the product is a document repository that people must remember to file things into.\n- **Context metadata binding each object to its scientific origin** — at or near capture time, each data object acquires metadata describing what it is and where it came from: the instrument or system, the run or assay, the sample or project, the time, often the operator. This is what makes the corpus findable by scientific question (\"all data for this sample\", \"this run from last year\") rather than by folder path. Without this, the product is a backup drive.\n- **Controlled, auditable, integrity-preserving custody** — access is permissioned, actions are logged, records are protected against silent alteration, and the store is operated as a long-lived asset (retention over years, through staff turnover and project closeout). Without this, the product is shared storage with metadata.\n\nThese properties are jointly held. A capture pipeline with no catalog is a transfer utility. A catalog with no capture is a card index over nothing. A store with no governance is the anti-pattern every product in this category explicitly sells against.",
+        "dc_zh": "科学数据对象作为受控记录\n└── 从生成源头捕获至中央存储库\n    └── 关联上下文元数据（仪器/运行、检测、样本或项目、时间、人员）\n        └── 编目语料库，可通过科学上下文检索\n            └── 跨时间的受控、可审计、完整性的数据保管",
+        "rules": "### Data enters the store under system rules, not by memory\n\nThe defining behavior of the Type: capture is configured once and runs continuously. The design goal every product articulates is that nothing valuable stays trapped on the machine that produced it, and no one has to remember to archive.\n\n### The original data is preserved\n\nCaptured objects are held as the authoritative record of what the source produced. Structuring, parsing and annotation happen alongside — not instead of — the original; in mature products the original remains retrievable, with integrity protected against silent alteration. This is what makes the store defensible years later.\n\n### Context is attached at capture, not reconstructed later\n\nMetadata arrives with the data (from templates, parsing rules, and links to sample or experiment records). This is deliberate: context reconstructed by humans after the fact is exactly what the system exists to make unnecessary — especially after staff turnover.\n\n### Custody is governed\n\nAccess follows roles; actions are logged; in regulated deployments, changes require attribution and, where the workflow demands, approval with electronic signatures. The audit trail answers \"who accessed or changed what, when\" across the corpus's whole life.\n\n### The SDMS serves other systems rather than replacing them\n\nData captured in the store flows outward to the systems that do the lab's work (results back to a LIMS, data attached to experiments in an ELN, datasets out to analysis tools). The SDMS is authoritative for the data and its context — not for sample logistics (the LIMS's job) or experiment narrative (the ELN's job). Products bundle these functions; the functions remain distinct.\n\n### Retention outlives the project\n\nThe store is operated as a long-lived asset: data remains findable and intact after the project that produced it has closed and the people who produced it have moved on. Retention depth and policies vary by industry and deployment, but the long-lived posture is structural.",
+        "rules_zh": "### 数据在系统规则下进入存储库，而非依赖记忆\n\n类型的定义行为：捕获配置一次并持续运行。每个产品阐述的设计目标是，没有有价值的东西被困在产生它的机器上，没有人需要记住归档。\n\n### 原始数据被保留\n\n捕获的对象被保存为源产生内容的权威记录。结构化、解析和注释与原始数据并行发生——而非替代；在成熟产品中，原始数据仍可检索，完整性受到保护免受静默更改。这就是为什么存储库在数年后仍可辩护。\n\n### 上下文在捕获时附加，而非事后重建\n\n元数据随数据一起到达（来自模板、解析规则以及与样品或实验记录的链接）。这是有意的：由人事后重建的上下文正是系统存在以使其变得不必要——尤其是在员工流动之后。\n\n### 保管受管辖\n\n访问遵循角色；操作被记录；在受监管的部署中，更改需要归属，并且在工作流要求时，需要电子签名批准。审计跟踪回答“谁在何时访问或更改了什么”在整个数据集的生命周期中。\n\n### SDMS 为其他系统服务，而非替代它们\n\n存储库中捕获的数据流向执行实验室工作的系统（结果返回到LIMS，数据附加到ELN中的实验，数据集导出到分析工具）。SDMS 对数据及其上下文具有权威性——而非样本物流（LIMS的工作）或实验叙述（ELN的工作）。产品捆绑这些功能；功能保持 distinct。\n\n### 保留超越项目生命周期\n\n存储库作为长期资产运营：d",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "chromatography-data-system",
+        "name_zh": "色谱数据系统(CDS)",
+        "domain_id": "22",
+        "parent_id": "22.04",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source chromatography data system CDS github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source chromatography data system CDS github"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "chromatography-data-system",
+        "name": "Chromatography Data System",
+        "name_zh": "色谱数据系统(CDS)",
+        "aliases_zh": [
+          "色谱工作站",
+          "色谱数据处理系统"
+        ],
+        "overview": "A **Chromatography Data System (CDS)** is laboratory software that acquires detector signals from chromatography instruments (HPLC, GC, IC, CE, and hyphenated MS systems), turns those raw signals into identified and quantified peak results through integration and calibration against standards, and manages the results as persistent, reviewable records bound to named samples.\n\nThe defining structure is small:\n\n```text\nSample measurement (injection)\n└── Raw chromatographic signal — detector response over time, stored as reprocessable data\n    └── Peak integration — peaks detected against a baseline (retention time, area, height)\n        └── Calibration & quantitation — peak response converted to amount via standards\n            └── Result record — stored per sample, reviewable and reportable\n```\n\nA stored **method** — the parametric recipe governing acquisition and processing — sits over this chain and can be re-applied to stored data at any time.\n\nEverything else commonly associated with the category — direct instrument control, sequence automation, audit trails and electronic signatures, enterprise client/server deployment, system suitability testing, LIMS integration — is standard capability in mature products but is not what makes the software a CDS. Simpler and older forms of the Type (stand-alone computing integrators, non-regulated single-workstation packages) satisfy the core without any of them.\n\nThe CDS is not the laboratory's sample logistics system (that is a LIMS), not the experimenter's narrative documentation (an ELN), and not the instrument's own on-device control panel, although it commonly connects to all three.",
+        "overview_zh": "**色谱数据系统 (Chromatography Data System, CDS)** 是一款实验室软件，它从色谱仪器（HPLC、GC、IC、CE 以及联用的 MS 系统）获取检测器信号，通过积分和与标准品的校准，将这些原始信号转化为经识别和定量的峰结果，并将这些结果作为与指定样品关联的、持久化且可审查的记录进行管理。\n\n其定义性结构十分清晰：\n\n```text\n样品测量（进样）\n└── 原始色谱信号——检测器随时间响应的数据，以可再处理的形式存储\n    └── 峰积分——在基线上检测出的峰（保留时间、面积、高度）\n        └── 校准与定量——通过标准品将峰响应转换为含量\n            └── 结果记录——按样品存储，可供审查和报告\n```\n\n一个存储的**方法**——即控制数据采集与处理的参数化方案——贯穿此流程，并可随时重新应用于存储的数据。\n\n通常与此类别相关的所有其他功能——如直接仪器控制、序列自动化、审计追踪与电子签名、企业级客户端/服务器部署、系统适用性测试、LIMS 集成——都是成熟产品中的标准能力，但它们并非构成该软件为 CDS 的核心。更简单和更早期的此类系统形式（如独立计算积分仪、不受监管的单工作站软件包）无需包含这些功能也能满足核心定义。\n\nCDS 并非实验室的样品物流系统（那是 LIMS），不是实验人员的叙述性文档（那是 ELN），也不是仪器自身的本地控制面板，尽管它通常与这三者连接。",
+        "dc": "- **Raw chromatographic signal.** The detector's response over time — the chromatogram, possibly several parallel channels from multiple detectors — is captured (or imported from another system) and stored as a reprocessable data record. The stored signal is the foundation: everything downstream is computation applied to it, and it remains available unchanged for reprocessing.\n\n- **Peak integration.** The software detects peaks in the signal: it finds where peaks start and end, constructs a baseline, and produces a peak table — retention time, area, height for each peak. Integration parameters are configurable and, in mature products, can be adjusted interactively on the graph.\n\n- **Calibration and quantitation.** Peak responses are converted into amounts or concentrations. Standards of known content are measured under the same method; their responses form a calibration (response factors or curves) that is then applied to unknown samples. The two classical schemes — external standards measured separately, and an internal standard added to every vial — are both standard. Peak identification is tied to retention behavior against the calibration.\n\n- **Method.** A named, stored, versioned set of parameters covering how the data is acquired (where control exists) and how it is processed: integration rules, compound identification, calibration levels, calculations. The method is what makes results reproducible — reapplying the method to stored raw data regenerates the results.\n\n- **Sample-bound result records.** Every result belongs to an identifiable measurement of a named sample, and results are stored, reviewable, and renderable as a report. In regulated laboratories the record carries attribution (who did what, when) and signature state.\n\nIf the software does not store reprocessable raw data, or does not integrate peaks, or does not calibrate responses into quantities, it is not a CDS — it is a chart recorder, a signal viewer, or a generic data-acquisition tool.",
+        "dc_zh": "- **原始色谱信号。** 检测器随时间变化的响应——色谱图，可能来自多个检测器的几个并行通道——被采集（或从其他系统导入）并存储为可重新处理的数据记录。存储的信号是基础：所有后续计算都是对其应用的，并且它保持不变，可用于重新处理。\n\n- **峰积分。** 软件检测信号中的峰：它找到峰的起始和结束位置，构建基线，并生成峰表——每个峰的保留时间、面积和高度。积分参数是可配置的，在成熟产品中，可以在图形上交互式调整。\n\n- **校准和定量。** 峰响应被转换为量或浓度。已知含量的标准品在相同方法下测量；它们的响应形成校准（响应因子或曲线），然后应用于未知样品。两种经典方案——外标单独测量和内标添加到每个小瓶——都是标准的。峰识别与相对于校准的保留行为相关联。\n\n- **方法。** 一个命名的、存储的、版本化的参数集，涵盖数据如何采集（在存在控制的情况下）和如何处理：积分规则、化合物识别、校准水平、计算。方法就是...",
+        "rules": "- **Raw data is preserved.** Processing is a computation applied to stored raw data; reprocessing changes results, not the underlying signal. Mature products make the original data permanently retrievable and let every chromatogram be re-displayed exactly as it was originally processed. This is the property that separates a data system from a printout.\n- **The method governs the result.** Two analysts processing the same raw data under the same method should obtain the same results; differences come from method differences or explicit manual re-integration — which is why manual changes are recorded and (in regulated use) reviewed.\n- **Manual re-integration is a governed act.** Where results feed quality decisions, changing the integration by hand is permitted but visible: the before/after comparison and the audit entry are part of the record, and the reviewer, not the analyst alone, decides what stands.\n- **The sequence is the automation contract.** Once started, the run proceeds row by row without the analyst; each row carries its own status, and a failed or aborted injection does not silently consume the rest of the sequence without a trace.\n- **Suitability gates the batch.** In QC practice, results are only as good as the system suitability demonstrated by the standards and QCs inside the same sequence; mature products compute and flag this rather than leaving it to arithmetic outside the system.\n- **Attribution is structural.** In regulated deployments, actions are attributable to named users with distinct roles: the person who runs the instrument, the person who processes, and the person who approves are expected to be able to be different people, and the audit trail assumes it.\n- **The CDS holds instrument data, not sample logistics.** The sample list typically arrives from a LIMS (or is typed by the analyst), and results go back; the CDS is authoritative for the signal, the processing, and the computed result — not for the fate of the sample in the lab.",
+        "rules_zh": "- **原始数据被保留。** 处理是对存储的原始数据施加的计算；重新处理会改变结果，但不会改变底层信号。成熟的产品使原始数据永久可检索，并允许每张色谱图都能按照其最初被处理的方式重新显示。正是这一属性将数据系统与一份打印输出区分开来。\n- **方法决定结果。** 两位分析人员使用相同的方法处理相同的原始数据，应得到相同的结果；任何差异都源于方法差异或明确的手动重新积分——这就是为什么手动更改会被记录并在受监管的使用中被审核。\n- **手动重新积分是一种受控行为。** 在结果用于质量判定的情况下，允许手动更改积分，但此操作必须可见：更改前/后的对比和审计记录是记录的一部分，由审核人员（而非分析人员单独）决定最终结果是否成立。\n- **序列是自动化契约。** 一旦启动，运行便逐行进行，无需分析人员干预；每一行都有其自己的状态，一次失败或中止的进样不会在没有记录的情况下静默地消耗序列的其余部分。\n- **适用性是批次的门槛。** 在 QC 实践中，结果的质量仅取决于同一序列内标准品和质控品所证明的系统适用性；成熟产品会计算并标记这一点，而不是将其留给系统之外的计算。\n- **归属是结构性的。** 在受监管的部署中，操作应归属于具有明确角色的指定用户：运行仪器的人员、处理数据的人员以及批准结果的人员预计可能是不同的人，审计追踪也以此为基础设计。\n- **CDS 持有仪器数据，而非样品物流。** 样品列表通常排",
+        "parent_id": "22.04",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "clinical-data-management",
+        "name_zh": "临床数据管理",
+        "domain_id": "22",
+        "parent_id": "22.04",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "OpenClinica github open source EDC clinical data management"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "OpenClinica github open source EDC clinical data management"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "clinical-data-management",
+        "name": "Clinical Data Management",
+        "name_zh": "临床数据管理",
+        "aliases_zh": [
+          "临床试验数据管理"
+        ],
+        "overview": "**Clinical Data Management** software is the data-management system of clinical trials: it holds each study's collected trial data as a governed, attributable record, checks that data against study-specific validation rules, drives every problem it finds through a documented query-and-resolution loop with the people who supplied the data, reconciles external data sources and coded terminology into the record, and finally declares the record complete and clean in a controlled event — the database lock — from which analysis-ready data is extracted for statistics and regulatory submission.\n\nIts purpose is the quality half of trial data work. Capturing trial data at sites is the territory of electronic data capture (EDC); running the trial's operations is the territory of a CTMS. Clinical data management is what happens to the data between those two: the sustained cleaning, verifying, and finalizing work performed by sponsor and CRO data-management teams, whose profession has its own international standards body, practice guide, and certifications. In the current market the software almost always bundles capture alongside management, and often randomization and patient-reported collection as well; that bundling is a packaging posture, not the substance of the Type. The substance is the governed study record and the machinery that turns raw trial data into a declared-clean database.",
+        "overview_zh": "**临床数据管理**软件是临床试验的数据管理系统：它作为受监管、可溯源的记录，保存每项研究收集的试验数据；根据研究特定的验证规则检查数据；将发现的所有问题通过有文档记录的查询与解决流程，传递给提供数据的人员处理；将外部数据源和编码术语协调纳入记录中；最后在一个受控事件——数据库锁定——中宣布记录完整且干净，并从中提取可用于统计和监管提交的分析就绪数据。\n\n其目的是完成试验数据工作中的质量部分。在研究点捕获试验数据是电子数据捕获（EDC）的领域；运行试验运营是临床试验管理系统（CTMS）的领域。临床数据管理则处理这两个环节之间的数据：由申办方和CRO数据管理团队执行的持续清洗、验证和定稿工作，该职业拥有自己的国际标准机构、实践指南和认证。在当前市场上，该软件几乎总是将捕获与管理捆绑在一起，通常也包括随机化和患者报告数据采集；这种捆绑是一种包装方式，而非该类型的实质。其实质是受监管的研究记录以及将原始试验数据转化为已宣布干净的数据库的机制。",
+        "dc": "The world of this application consists of four structures. If any one is removed, the software stops being clinical data management and becomes something simpler — a capture tool, a ticketing system, or a reporting layer.\n\n**The governed study data record.** Each study has a structured record of its collected data: participants (subjects) organized under sites, with visits or events, each holding the protocol-specified data items — forms capturing diagnoses, medications, measurements, adverse events, and everything else the protocol requires. Every value is attributable (who entered or changed it, when, and why), and the record is deliberately non-destructive: nothing meaningful is silently deleted. This record is the system of record for the trial's data — the thing the rest of the machinery cleans, defends, and finally freezes.\n\n**Validation that raises discrepancies.** Before data ever arrives, the study carries a validation design: edit checks and rules expressing what values and combinations are expected — ranges, required fields, logical consistency across items. When captured or imported data violates an expectation, the system automatically raises a **discrepancy record** (most of the market calls these queries). Data managers can also raise queries manually on values that pass automated checks but look wrong to a human. Each discrepancy attaches to a specific data element and carries a status that expresses who is responsible for the next action.\n\n**The resolution loop.** A discrepancy is a conversation with an endpoint: the query is assigned to the person who can answer it (usually at the site), that person either corrects the data or explains it, the originator verifies the response, and the discrepancy is closed. Closed discrepancies are final — they are never deleted, even if raised in error, because the query trail is itself evidence. Changes to already-completed data force a recorded reason for change. This loop, repeated across thousands of data points and months of enrollment, is the heartbeat of the Type: capture creates data, the loop makes it clean.\n\n**Controlled finalization — lock and extraction.** The work has a terminal event. When the study's data is in, discrepancies are resolved, and reconciliations are complete, the study database is **locked**: the record becomes read-only as the declared-clean, analysis-ready version of the trial's data. Data managers plan for this event throughout the study — dashboards track query aging and completeness precisely because open items block the lock. From the locked database, datasets are extracted for statistical analysis and submission. If something must change after lock, the unlock is a governed exception performed with a recorded reason and a re-lock.",
+        "dc_zh": "这个应用的世界由四种结构组成。如果移除其中任何一种，软件就不再是临床数据管理，而变成更简单的工具——数据采集工具、工单系统或报告层。",
+        "rules": "### Nothing is silently deleted\n\nDiscrepancy records, once raised, cannot be deleted — closing them is the only exit, and even a query raised in error stays in the trail. The audit trail — who changed what, when, and why — is the evidentiary spine of the whole system, because trial data is subject to regulatory inspection.\n\nRemoval of participants or data is typically implemented as a soft operation rather than a deletion: the record is retained and viewable but excluded from editing and extracts, restorable later, with the change recorded and a reason attached.\n\n### Changes to completed data require a reason\n\nOnce a form or record is marked complete, edits force a recorded reason for change. This converts silent corrections into documented events and keeps the record's history defensible.\n\n### Query status encodes responsibility\n\nA query's status tells the organization who must act next: raised, awaiting response, resolution proposed, verified and closed. Only authorized roles can close a query. The loop ends only when the originator accepts the answer — the site's reply alone does not clean the data.\n\n### The lock is gated and terminal\n\nA database cannot be locked while expected work remains: open queries, incomplete forms, unresolved coding, or unreconciled external data each block the declaration. After lock, the record is read-only; changes happen only through a governed unlock with recorded reason and re-lock. Products present the gating criteria differently, but the pattern — clean-then-freeze, freeze-then-extract — is the discipline's shape.\n\n### Separation of duties\n\nSite contributors enter and explain data; monitors verify it against source; data managers control the record and close the loop; coding and medical review sit with qualified specialists. Access rights follow these roles, and the same value can be seen by everyone while being editable by only one of them.\n\n### Validation is designed, not improvised\n\nWhat counts as wrong is fixed at study build — allowed values, ranges, cross-field logic, required fields. The software can only be as good as the validation design, which is why rule specification is a first-class activity and why imported data is checked against the same rules as hand-entered data.",
+        "rules_zh": "### 无任何内容被静默删除\n\n差异记录一旦提出，便无法删除——关闭它们是唯一的出路，即使是错误提出的查询也留在追踪中。审计追踪——谁在何时、因何更改了什么——是整个系统的证据脊梁，因为试验数据受到监管机构的检查。\n\n移除参与者或数据通常作为软操作而非删除来实现：记录被保留且可查看，但被排除在编辑和提取之外，以后可恢复，并记录更改及附加原因。\n\n### 对已完成数据的更改需要原因\n\n一旦表单或记录标记为完成，编辑会强制要求记录更改原因。这将静默更正转化为有文档记录的事件，并保持记录历史的可辩护性。\n\n### 查询状态编码责任\n\n查询的状态告诉组织接下来谁必须行动：已提出、等待响应、建议解决方案、已验证并关闭。只有授权角色可以关闭查询。只有当提出方接受答案时循环才结束——仅有研究点的回复并不能清洗数据。\n\n### 锁定是受控的终端操作\n\n在预期工作未完成前，数据库无法锁定：未关闭的查询、不完整的表单、未解决的编码或未对账的外部数据每项都会阻止宣布。锁定后，记录变为只读；更改仅通过受控的解锁（记录原因）和重新锁定发生。产品对门槛标准的呈现方式不同，但模式——清洗后冻结，冻结后提取——是该学科的形态。\n\n### 职责分离\n\n研究点贡献者录入和解释数据；监查员根据源数据对其进行验证；数据管理员控制记录并关闭循环；编码和医学审阅由合格专家负责。访问权",
+        "parent_id": "22.04",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 20,
+    "phase": "repair",
+    "parent": 219,
+    "slugs": [
+      "research-animal-facility-management",
+      "scientific-core-facility-management",
+      "scientific-data-management-system",
+      "chromatography-data-system",
+      "clinical-data-management"
+    ],
+    "old_input_sha256": "5e9e375c25ae92bbb452432fd0a02215d50aaafb0d4bb8d6123b36035fb63eca"
+  },
+  "previous_continuation": {
+    "unit": 219,
+    "phase": "complete",
+    "parent": 42,
+    "slugs": [
+      "research-animal-facility-management",
+      "scientific-core-facility-management",
+      "scientific-data-management-system",
+      "chromatography-data-system",
+      "clinical-data-management"
+    ]
+  }
+}

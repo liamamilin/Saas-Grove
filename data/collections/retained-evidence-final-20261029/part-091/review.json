@@ -1,0 +1,49 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ai-coding-agent",
+      "application_id": "github:771302083",
+      "issue": "batch.json 的 leaf_matches[0].reason 与 research.json 的 note 均称“官方 Backends 文档说明工作区就是代理读写文件的项目目录、挂载目录、容器或云沙箱”。实际读取 REVIEW_SOURCES.json 指定的 Backends 快照 data/collections/sources/2c99006226701958a32a26708113d78e7075a8367bae3b40aa698a5068abb166.txt，可读正文只讲 Manage Backends、local/self-hosted/Cloud/Enterprise/DigitalOcean 后端与 sandbox，未出现 workspace 的定义，也未说明工作区是项目目录或挂载目录。该句被用来支撑“真实项目环境”这一核心，属于来源归因错误，不能视为已核实的核心正文。",
+      "fix": "删除该归因，改用 README 的实际表述：PROJECTS_PATH 是存放待访问项目文件夹的宿主目录，Docker 以 -v ${PROJECTS_PATH}:/projects 挂载，代理可访问 PROJECTS_PATH 下任意项目；并用 Conversations 的 workspace path、Files 文件树与 workspace information 佐证。Backends 页仅保留“可连接本地/Docker/VM/云后端”的能力说明。同步修正 research.json 的 note 与 search_attempts.result_note，确保四项核心只引用快照中实际出现的正文。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 与 continuation 仍写 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 batch.json/research.json 已改为 case_found 且包含 github:771302083；发布前应同步单元元数据或明确记录本次重定界，避免同一单元状态自相矛盾。",
+    "batch.json 的 features 将 Commits/Files 面板合并表述为展示 changes/commits/pull requests；按 Conversations 快照，概览面板展示 changes/repository/branch/commits/PR，Commits 抽屉展示提交与未提交改动，Files 只是文件浏览器。建议拆分表述。",
+    "batch.json 的“cloud backends”可能被读成包含 OpenHands Cloud/Enterprise 商业托管；research.service_boundary 已排除，但 entry 本身未显式写边界。建议在摘要或 features 中写明社区版范围，并说明 Agent Server/software-agent-sdk 是另一仓库，其许可证未在本单元核验。",
+    "research.json 已如实记录 GitHub API 元数据/许可证重抓 403 rate limit、沿用 2026-10-24 历史快照；该缺口留档不阻断，历史快照的仓库身份与 MIT 全文仍可核对。",
+    "Aider 作为 withheld candidate 的快照不在 REVIEW_SOURCES.json 中，本轮未独立重读；其“仅 CLI、非应用服务”的判断应标注为未复核，不影响已收录的 OpenHands 条目。",
+    "summary 的 http://localhost:8000 对 npm/源码启动成立；README 对 Docker 镜像另给 http://localhost:8000/canvas，建议补充限定，避免读者误以为所有部署方式同一入口。",
+    "research.json 引用的 raw LICENSE 交叉快照 e1d1fa9f3a8d7bef24449d488fcd8f00f8f272cac297bb9bed161eb6175b876a 未列入 REVIEW_SOURCES.json；entry 的 license_evidence_url 是 API license 快照，且该快照已含完整 MIT 文本，故不阻断；若继续把 raw 快照作为交叉证据，应登记来源。",
+    "research.json 的“对话是一次代理会话”是对 Conversations 页面内容的概括，页面本身未逐字如此定义；建议改为“对话视图展示消息、工具调用与文件改动”，避免把概括写成原文。"
+  ],
+  "leaf_checks": {
+    "ai-coding-agent": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:771302083"
+      ],
+      "definition_core": "任务委派：README 的 start conversations/automations 与 Conversations 的 composer、/goal objective 有正文；自主多步：Conversations 的 agent activity chip（读取文件/运行命令）、/goal 的 judge LLM 多轮循环、child conversations；真实项目环境：README 的 PROJECTS_PATH、Docker /projects 挂载、代理可访问项目，以及 Conversations 的 workspace path/Files 树；可审阅变更：Conversations 概览的 changes/repository/branch/commits/PR、Commits 抽屉的提交与未提交改动、git-actions 提示。四项核心均有实际正文，但“真实项目环境”的 Backends 归因错误，见 findings。",
+      "service_form": "自托管 Web 控制中心：npm/Docker/源码启动，UI 在 localhost:8000，对话、工作区与提交状态持久化在后端，支持定时/事件自动化；属于可持续使用的应用服务形态，不是纯 CLI/库；track=open_source，不是商业托管 SaaS。",
+      "identity_track": "github:771302083 与 API 元数据 id=771302083、GitHub 页面 octolytics repository_id=771302083/full_name=OpenHands/OpenHands 一致；repository_url 正确；leaf_matches 仅 ai-coding-agent；track=open_source 与公开 MIT 仓库匹配。",
+      "license": "REVIEW_SOURCES 指定的 license API 快照 21dfa6a405ef7718fa2d14ae48e41a3156acb89facd35c236c02f2cce6052ab4.txt 含 base64 完整 MIT 文本（size 1096；The MIT License，Copyright © 2025 OpenHands contributors，含 permission、conditions、warranty disclaimer）；API 元数据 1cfcd9174545dbe7812d9587252eaf35747fe085507103305a1086130abde099.txt 含 spdx_id=MIT。完整许可证与仓库身份均已核对。",
+      "community_boundary": "research.service_boundary 已限定为 OpenHands/OpenHands 仓库中 MIT 许可的 Agent Canvas 自托管 Web 应用及其本地/Docker/VM/云后端连接能力，排除 OpenHands Cloud/Enterprise 商业托管与第三方代理/LLM 的授权或托管。entry 摘要/features 仅隐含自托管，未显式写边界；Agent Server/software-agent-sdk 是另一仓库，其许可证未在本单元核验。建议补充，非阻断。",
+      "sources_read": [
+        "data/collections/sources/1cfcd9174545dbe7812d9587252eaf35747fe085507103305a1086130abde099.txt",
+        "data/collections/sources/21dfa6a405ef7718fa2d14ae48e41a3156acb89facd35c236c02f2cce6052ab4.txt",
+        "data/collections/sources/736a2c5ce1128c66c05447f5fa36d9289df4cacf60c39eb1e1bf7a2e5dfc51e5.txt",
+        "data/collections/sources/7e286c5b311d5d6160949f786f336cea4f01b4bee82f62689a146d38160009b8.txt",
+        "data/collections/sources/2c99006226701958a32a26708113d78e7075a8367bae3b40aa698a5068abb166.txt",
+        "data/collections/sources/79aa96d620278670d81a7211514feb5c3a11e68509c0c858c168b73dcfe523a8.txt"
+      ],
+      "gaps": "未部署或运行；未做实时抓取；GitHub API 重抓 403 已由 research 记录并沿用历史快照；Aider withheld 快照不在 REVIEW_SOURCES，未复核；raw LICENSE 交叉快照 e1d1... 不在 REVIEW_SOURCES；未核验 software-agent-sdk 的单独许可证；未测试真实浏览器工作流。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 6 个快照；未运行 shell、未写文件、未读取其他单元；未部署或运行 Agent Canvas，未做实时网页抓取；GitHub API 重抓在采集阶段遇 403 rate limit，本轮沿用历史快照；Aider 候选快照与 raw LICENSE 交叉快照不在 REVIEW_SOURCES，未独立重读；未核验 Agent Server/software-agent-sdk 的单独许可证；未验证当前线上首页、价格或商业条款。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-091/ses_groveopendesignp091review2_1793198482.jsonl",
+  "batch_sha256": "ecfae290863bbf2309ecf97faaaec18a5ae8a37eb36bc35b7eeb9c8527f9b00b",
+  "research_sha256": "9cf6cbf178a9ef7dd1548bd5d22211def0295c7d1dbe0822f445008ed7eb39d1",
+  "input_sha256": "8a03cca6620a520b35ec45154abb44aaef09aa769e48949f65173dddbe17c7a4"
+}

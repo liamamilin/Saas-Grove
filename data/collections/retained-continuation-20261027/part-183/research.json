@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "demand-response-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:flexigrid"
+      ],
+      "query": "open source demand response management platform self-hosted GitHub; GitHub demand response platform enrollment events baseline settlement open source utility",
+      "source_urls": [
+        "https://www.flexigrid.net/demand-response"
+      ],
+      "note": "优先查开源：openDSRIP（repository id 227469963）README 自述含资源聚合与 OpenADR/IEEE 2030.5 事件编排，但 GitHub license API 为 null、未见许可证文件，不能按开源收录，且未证明基线/结算闭环；vinerya/virtual-power-plant（MIT）有 DR 注册与 OpenADR VEN，但核心是 VPP 调度，未证实基线测量与补偿结算。Flexigrid 官方产品页正文列出 DR 计划类别及补偿结构、站点注册与容量申报、事件创建/激活/完成/取消、区间遥测、基线计算与 M&V、结算核对，四个核心结构均有直接依据，因此收录为商业基本记录。",
+      "service_boundary": "商业 OpenADR 聚合需求响应平台，面向聚合商/电网方运营；部署与租户模式、价格未在来源展开；未验证人工响应路径与具体基线算法实现，未运行产品。",
+      "search_attempts": [
+        "websearch: open source demand response management platform self-hosted GitHub → 返回 openDSRIP、FlexDR、JADE-DR-VPP、FlexMeasures 等候选",
+        "websearch: GitHub demand response platform enrollment events baseline settlement open source utility → 返回 openDSRIP、vinerya VPP、EnergyAtIt、Flexigrid 等候选",
+        "GitHub API: GET /repos/eprissankara73/openDSRIP 与 /license → repository id 227469963，license 为 null",
+        "webfetch: https://www.flexigrid.net/demand-response → 读取到完整产品正文"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26T21:21:08+08:00 GET https://www.flexigrid.net/demand-response → HTTP 200，24370 bytes，snapshot fa3107b49f466811ee49fb4205a5f58c434ecc2ed43290468c41d522dc5a0f82.txt",
+        "2026-10-26 GitHub API GET https://api.github.com/repos/eprissankara73/openDSRIP → HTTP 200，license 字段为 null；未将该仓库作为开源条目"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "derms",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ge-gridos-derms"
+      ],
+      "query": "open source DERMS distributed energy resource management system GitHub",
+      "source_urls": [
+        "https://www.gevernova.com/software/products/gridos/distributed-energy-resources-management-system"
+      ],
+      "note": "开开源候选核对：OpenEMS（AGPL-3.0）是完整 EMS/聚合平台，但以站点设备监控与储能控制为主，缺少配电网络模型锚定的 DER 注册和约束调度，类型不符；AUREX-ML/DERMS（Apache-2.0，2026 年新建、0 stars）自述 VPP/DERMS，未见电网模型、馈线约束或运行边界，证据不足；GridAPPS-D 官方 about 明确其不是软件包、不替代商业 ADMS，属开发测试平台。GE GridOS DERMS 官方页正文列 Model Manager（网络与 DER 资产数据）、Program Manager（项目/合同/注册）、Operations（态势可视化）、Optimization（按电网约束调度）、Forecasting 与 Gateway（OpenADR/IEEE 2030.5），覆盖本叶三项核心，故收录为商业基本记录。",
+      "service_boundary": "商业企业级 DERMS，面向公用事业/配电网运营方；价格与部署形态未展开；页面强调与 ADMS/AEMS/Edge DERMS/Markets 集成，不替代 SCADA/ADMS；未运行产品。",
+      "search_attempts": [
+        "websearch: open source DERMS distributed energy resource management system GitHub → 返回 AUREX-ML/DERMS、OpenEMS、openDSRIP、GridAPPS-D、EVSE_DERMS_Controls 等",
+        "websearch: GE Vernova GridOS DERMS official product page distributed energy resource management → 定位官方 DERMS 产品页",
+        "webfetch: https://www.gevernova.com/software/products/gridos/distributed-energy-resources-management-system → 读取到 Model/Program/Gateway/Operations/Forecasting/Optimization 模块正文"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26T21:21:09+08:00 GET https://www.gevernova.com/software/products/gridos/distributed-energy-resources-management-system → HTTP 200，195196 bytes，snapshot e9a101345a65c8a385462aba842e159258221449e5bbb8b69116fb77ea4109c7.txt"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "distribution-management-system-dms",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:milsoft-windmil"
+      ],
+      "query": "open source distribution management system DMS power flow utility GitHub; CYME Eaton distribution system analysis software official page power flow; Milsoft WindMil distribution analysis official product page",
+      "source_urls": [
+        "https://www.milsoft.com/engineering-operations/engineering-analysis/"
+      ],
+      "note": "开源候选：OpenDSS/DiTTo/DistOPF 属分析、转换或优化引擎/库，缺少完整应用工作台；GridAPPS-D 官方 about 明确不是软件包、不替代商业 ADMS；SOGNO 为模块化组件集合，未找到完整 DMS 成品。商业候选 CYME CYMDIST 官方 Eaton 页面首次抓取 read timeout，按规则仅换一个官方来源 cyme.com，仍遇 SSL EOF，故不以失败页面充数。Milsoft WindMil 官方页正文说明其建立覆盖公用事业网络、从交付点到电表的详细连通模型，执行潮流与故障电流计算，支持保护配合、容量/电压越限检查和转供方案预演，服务配电规划与运行决策；符合 DMS 的模型、电气分析、决策支持三层定义，故收录。",
+      "service_boundary": "商业配电工程分析软件，页面提供下载/安装与硬件软件要求，倾向本地安装；定位分析层，不含实时 SCADA 遥控；未运行产品。",
+      "search_attempts": [
+        "websearch: open source distribution management system DMS power flow utility GitHub → 返回 OpenDSS 生态、DiTTo、DistOPF、GridAPPS-D、SOGNO 等",
+        "websearch: CYME Eaton distribution system analysis software official page power flow → 定位 Eaton CYMDIST 产品页",
+        "collect_cases fetch: Eaton CYMDIST URL → read timeout",
+        "collect_cases fetch: https://cyme.com/software/ → SSL UNEXPECTED_EOF",
+        "websearch: Milsoft WindMil distribution analysis official product page → 定位 Milsoft Engineering Analysis 页面",
+        "webfetch/collect_cases fetch: https://www.milsoft.com/engineering-operations/engineering-analysis/ → 读取到模型、潮流、故障、保护配合、转供与规划正文"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26T21:21 GET https://www.eaton.com/us/en-us/products/utility-grid-solutions/software-modules/distribution-system-analysis-package-CYMDIST.html → 读取超时，未保存快照",
+        "2026-10-26 GET https://cyme.com/software/ → SSL EOF，未保存快照",
+        "2026-10-26T21:22:00+08:00 GET https://www.milsoft.com/engineering-operations/engineering-analysis/ → HTTP 200，75667 bytes，snapshot f04dca44e92db264e8eb9837e6471fdc23092c726f37105f396d5bd3f7136ee2.txt"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "energy-scheduling-settlement",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:yes-energy-powercore"
+      ],
+      "query": "energy scheduling settlement software official product page bid submission settlement statements reconciliation",
+      "source_urls": [
+        "https://www.yesenergy.com/products/powercore"
+      ],
+      "note": "开源候选：Shapeshifter（Apache-2.0）实现 USEF Flex Trading Protocol，规范有 FlexOffer/FlexOrder/FlexSettlement 与基线/偏差，但交付物是 Java 库和 XSD 规范，不是完整应用，且面向 DSO-聚合商本地灵活性市场，不是批发市场参与者的调度/结算系统；XM-Vance/OpenPTS（MIT，2026 年新建）是零售电力交易运营骨架，未证明批发投标提交、授标和结算单核对工作流。Yes Energy PowerCore 官方页正文明确连接投标、调度、eTag、计量、结算和合同计费，支持 ISO/RTO 提交与状态跟踪、影子结算、差异核对及区间级计费决定因素追溯，对应本叶调度提交与结算核验两条主线，故收录为商业基本记录。",
+      "service_boundary": "商业 ISO/RTO 与双边市场 bid-to-bill 平台；部署形态、价格未展开；交易、预测、计量为输入或相邻系统，不代替市场交易所；未运行产品。",
+      "search_attempts": [
+        "websearch: energy scheduling settlement software official product page bid submission settlement statements reconciliation → 返回 Yes Energy PowerCore、Adapt2、MCG IAM、PCI、PowerOptix 等",
+        "websearch: ION Openlink energy trading platform official product page ETRM deals positions risk → 用于区分交易平台与调度结算平台",
+        "webfetch: https://www.yesenergy.com/products/powercore → 读取到 bid-to-bill、影子结算、差异核对正文"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26T21:21:17+08:00 GET https://www.yesenergy.com/products/powercore → HTTP 200，159897 bytes，snapshot 6f412e544721e4475e1815fd114cf22f5dfe4c8ecbadf764b63cb6ce82dea291.txt"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "energy-trading-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ion-allegro"
+      ],
+      "query": "open source energy trading platform ETRM GitHub self-hosted; ION Openlink energy trading platform official product page ETRM deals positions risk",
+      "source_urls": [
+        "https://iongroup.com/products/commodities/allegro/"
+      ],
+      "note": "开源候选：ettec/open-trading-platform（GPL-3.0）是跨资产执行交易平台，含订单/执行/头寸，但未证明能源商品、交割期、实物/金融结算等能源交易记录结构；NCKU-CCS/energy-trading-platform（Apache-2.0）是绿能交易 API，更像多方撮合市场场所；quantenergx（MIT，0 stars）与 Enerra（无许可证元数据）成熟度和来源不足。ION Allegro 官方页正文把产品定义为面向公用事业和能源公司的 ETRM，集中实物与金融能源交易，提供 flexible deal capture、实时头寸与敞口、组合估值/风险以及 deal-to-cash 前后台流程，符合自有簿记交易、成交记录和头寸估值三层定义，故收录为商业基本记录。",
+      "service_boundary": "商业能源 ETRM，面向单一参与者的自有账簿，不是交易所/市场撮合场所；部署形态、价格未展开；未运行产品。",
+      "search_attempts": [
+        "websearch: open source energy trading platform ETRM GitHub self-hosted → 返回 Enerra、Mini-ETRM、NCKU-CCS energy-trading-platform、ettec/open-trading-platform、XM-Vance/OpenPTS 等",
+        "websearch: ION Openlink energy trading platform official product page ETRM deals positions risk → 返回 ION Openlink/Allegro 官方产品页",
+        "webfetch: https://iongroup.com/products/commodities/allegro/ → 读取到能源 ETRM、deal capture、position、deal-to-cash 正文"
+      ],
+      "fetch_outcomes": [
+        "2026-10-26T21:21:18+08:00 GET https://iongroup.com/products/commodities/allegro/ → HTTP 200，302833 bytes，snapshot 257d82becfe03ae70bada102e3762cacd28ac22ce7f8329bf14c844e3c3d26bc.txt"
+      ],
+      "archived": false
+    }
+  ]
+}

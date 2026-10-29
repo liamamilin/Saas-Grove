@@ -1,0 +1,26 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶标为 not_searched，且 application_ids 为空；实际案例已写入 batch.json 和 research.json。建议后续同步进度元数据，但这不影响本次内容核对。",
+    "Indico 的官方 README 证明了事件/会议容器、Call for Abstracts 与摘要评审、论文评审、注册支付、拖拽式日程和材料归档；但没有逐字证明“仅录用作品进入日程”这一衔接。research.json 已如实保留该限定，因此只作提示，不作为阻断问题。",
+    "iSkyLIMS 的 GPL-3.0 证据是 GitHub license API 返回的 base64 JSON（size 35147，内容以 GPLv3 开头，spdx_id=GPL-3.0）。这属于完整许可证内容，但不是直接可读的 raw LICENSE 文本；若后续要提升可读性，可以补一份 raw LICENSE 快照。",
+    "research.json 中 research-lims 的 search_attempts 夹有 lab equipment booking 查询，疑似沿用了相邻叶的检索记录；这不影响 iSkyLIMS 案例本身的成立。",
+    "REVIEW_SOURCES.json 只枚举了两个收录应用的 5 个快照；CRIS、OSF、eLabFTW 等无案例叶的来源快照虽然存在于 data/collections/sources，但没有在该清单中逐条映射。research.json 以 URL 和 fetch_outcomes 记录，核对时按内容识别。",
+    "iSkyLIMS README 同时提到 Clinic 模块，但其主体描述和所收录的工作流面向基因组学研究设施；research.json 中“非临床诊断 LIMS”的边界是合理解释，建议在边界说明中保留该限定。",
+    "Indico 官方定位是 general-purpose event management，但其 conference organization workflow 覆盖本叶的学术会议内容管线；batch 摘要将其表述为“学术会议管理平台”，这是面向本叶的收窄，并非事实错误。"
+  ],
+  "leaf_checks": {
+    "research-information-management-cris": "未收录应用；research.json 记录为 boundary_unresolved。已核对 VIVO 官方仓库快照（repo id 6448802）和 BSD-3-Clause 许可证全文：README 证明可编辑、检索、浏览和可视化研究人员、项目、设施、资助、成果与活动，并提供分面检索，但没有证明多源采集后与机构人员匹配、去重、认领和验证的持续调和闭环；VIVO-Harvester 仅有指向 wiki 的 README，未能补足该闭环。该叶没有 application_id、track 或已收录应用的许可证边界可核，排除原因记录真实，处理合理。",
+    "research-lims": "收录 github:132910351（iSkyLIMS，track=open_source）。仓库元数据 id 132910351 与 batch 一致，非 fork，默认分支为 main；GPL-3.0 license API 快照包含完整 GPLv3 内容（size 35147，spdx_id=GPL-3.0），按仓库整体收录，没有单独的社区版/企业版边界。README 正文覆盖项目、样本、文库制备、pool、测序运行、sample-sheet、数据处理、QC/统计、生信分析请求与交付，以及按样本/项目/运行/调查的报告，形成样本→文库/pool→运行→结果的可追溯链；属于自托管 Web/Django 形态，可持续使用。定义性核心匹配，未做运行时部署验证。",
+    "research-project-management": "未收录应用；research.json 记录为 boundary_unresolved。已核对 OSF 官方仓库快照（id 10199599）、Apache-2.0 许可证快照、帮助中心目录及“Welcome to OSF Projects”文章：OSF 提供项目/组件容器、贡献者权限、Wiki、Files、隐私、注册归档和 Analytics，但没有证明实验/研究/任务级工作项的负责人、状态、截止日期，也没有证明计划→分配→执行→跟踪→评审→报告的协调循环；osf.io 主页仅为 JS 应用壳，未作为核心证据。该叶没有 application_id、track 或已收录应用的许可证边界可核，排除原因记录真实，处理合理。",
+    "scholarly-conference-management": "收录 github:2113067（Indico，track=open_source）。仓库元数据 id 2113067 与 batch 一致，非 fork，默认分支为 master；MIT 许可证全文完整，按仓库整体收录，没有单独的社区版边界。README 正文证明事件/会议容器、Call for Abstracts 与摘要评审、论文评审、可配置注册表单与支付、拖拽式日程、材料归档和会议室预订；属于自托管 Web 形态，可持续使用。会议容器和投稿→评审→录用管线有直接模块证据；README 没有逐字说明“仅录用作品进入日程”的衔接，research.json 已保留该限定，属非阻断缺口。",
+    "scientific-instrument-management": "未收录应用；research.json 记录为 boundary_unresolved。已核对 eLabFTW 官方文档的 User guide、Resources、Scheduler 快照：Resources 可登记 Equipment 类资源并设为 bookable，Scheduler 可拖放预约并绑定实验，覆盖登记与共享时段分配；但文档没有维护/维修/校准记录，也没有由服务记录驱动的 in service/down/under maintenance 状态与不可预约门控。另记录 BookedScheduler 上游仓库 404，未使用个人镜像。该叶没有 application_id、track 或已收录应用的许可证边界可核，三结构未合一，排除原因记录真实，处理合理。"
+  },
+  "limits": "本次为只读初审，未运行部署/运行时测试，未写文件、未运行 shell、未读取其他单元。按 REVIEW_SOURCES.json 原样读取了 5 个快照；REVIEW_SOURCES.json 仅枚举两个收录应用的快照，CRIS、OSF、eLabFTW 等无案例叶的来源快照未在该清单中逐条映射，我依据 research.json 的 URL/fetch_outcomes 在 data/collections/sources 中按内容识别核对。GPL-3.0 快照为 GitHub API base64 JSON，我核对了 size、GPLv3 开头和 spdx_id，但未解码全文逐字校验。未复核快照抓取后的外部站点当前状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-083/ses_groveopencodegop083review2_1792996244.jsonl",
+  "batch_sha256": "93ca9c363909fad5a3eb8699751ff56062c540ab101ff1beb7f495a7d6e5d7b8",
+  "research_sha256": "2c2f46a04d4f9986ea21dff5a8759b5cc4c26af3f888314e047ab526d9d0a121",
+  "input_sha256": "b0d4fde7446b4f262d6769389526b4953d83d8e7d16f902024aa22f3edb9d6e1"
+}

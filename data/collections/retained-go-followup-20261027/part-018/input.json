@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 41,
+  "offset": 1000,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "epro-ecoa-platform",
+        "name_zh": "电子患者报告结局（ePRO）/ 电子临床结局评估（eCOA）平台",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source epro ecoa platform application"
+          },
+          {
+            "record": "retained-continuation-20261027/part-213/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source ePRO eCOA platform github clinical outcome assessment"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "epro-ecoa-platform",
+        "name": "ePRO / eCOA Platform",
+        "name_zh": "电子患者报告结局（ePRO）/ 电子临床结局评估（eCOA）平台",
+        "aliases_zh": [
+          "ePRO/eCOA系统",
+          "患者报告结局电子化平台",
+          "临床结局评估电子平台"
+        ],
+        "overview": "An **ePRO / eCOA Platform** is the outcome-measurement system of regulated clinical studies: it takes defined clinical outcome assessments — validated questionnaires, rating scales, and diaries — and administers them electronically to the people whose report they are (the patient, or a clinician rater or observer), on a schedule dictated by the study protocol, capturing every response as an attributable, time-stamped, auditable record that feeds the study's dataset.\n\nThe name decomposes along the same lines the industry uses. **ePRO** (electronic patient-reported outcome) covers assessments completed by patients themselves. **eCOA** (electronic clinical outcome assessment) is the umbrella: it also covers assessments reported by clinician raters (eClinRO), by caregivers or other observers (eObsRO), and performance tasks performed under electronic administration (ePerfO). The platform Type is defined at the eCOA level — patient reporting is the modal case, not the whole.\n\nThe reason this software exists as a distinct Type is threefold. First, the assessments themselves are scientific instruments — often copyrighted, licensed, and validated — whose wording, order, branching, and scoring must be reproduced faithfully and whose electronic implementation must be shown to behave like the validated original. Second, the schedule matters as much as the content: an outcome measure answered a week late is scientifically compromised, so the platform enforces completion windows, reminders, and timestamped capture. Third, the output is a regulated record: it may become evidence in a regulatory submission, so attribution and auditability are structural, not cosmetic.\n\nPaper diaries and rating scales remain the acknowledged predecessor — and are still marketed as an alternative in vendors' own decision guides — so nothing in the defining core depends on smartphones, BYOD, or any specific delivery device. Registries and post-approval studies run on the same machinery as randomized trials, so nothing depends on trial phase or randomization either.",
+        "overview_zh": "**ePRO / eCOA 平台**是受管制临床研究的结果测量系统：它采用已定义的临床结果评估——经过验证的问卷、评分量表和日记——并以电子方式将其分配给报告对象（患者、临床评分者或观察者），按照研究方案规定的计划进行，捕获每项响应作为可归属、带时间戳、可审计的记录，供研究数据集使用。\n\n名称的分解与行业使用的方式相同。**ePRO**（电子患者报告结果）涵盖患者自行完成的评估。**eCOA**（电子临床结果评估）是总称：它还包括临床评分者报告的评估（eClinRO）、护理人员或其他观察者报告的评估（eObsRO），以及在电子管理下执行的性能任务（ePerfO）。平台类型在eCOA层面定义——患者报告是典型情况，并非全部。\n\n这种软件作为独立类型存在的原因有三方面。首先，评估本身是科学仪器——通常有版权、许可和验证——其措辞、顺序、分支和评分必须忠实再现，其电子实现必须证明与经过验证的原始版本行为一致。其次，时间安排与内容同等重要：结果测量延迟一周回答在科学上会受损，因此平台强制执行完成窗口、提醒和带时间戳的捕获。第三，输出是受管制记录：它可能成为监管提交中的证据，因此归属和可审计性是结构性的，而非表面的。\n\n纸质日记和评分量表仍然是公认的前提——并且在供应商自己的决策指南中仍作为替代方案进行营销——因此定义核心中的任何内容都不依赖于智能手机、BYOD或任何特定的传递设备。注册研究和批准后研究使用与随机试验相同的机制，因此也不依赖于试验阶段或随机化。",
+        "dc": "```text\nThe Outcome Instrument\n  (a defined assessment — questionnaire / rating scale / diary —\n   with items, response options, branching logic, scoring)\n└── Direct Reporting by the Subject-Adjacent Reporter\n    (the patient, or the clinician rater / observer whose\n     report the assessment is — completed on a digital\n     administration surface, not transcribed by site staff)\n└── Protocol-Scheduled Administration\n    (instruments become due per the study's schedule — visits,\n     daily windows — driven by reminders, tracked for compliance)\n└── The Regulated Study Record\n    (every response attributable to a credentialed individual,\n     time-stamped, auditable, in a validated system, feeding\n     the study's dataset)\n```\n\nFour structures. If any one is removed, the software stops being an ePRO/eCOA platform:\n\n- **The outcome instrument.** The unit of configuration and capture is a whole assessment, not a loose form: items and response options in the author-approved order, branching and skip logic, scoring rules. Mature products maintain libraries of pre-configured, pre-validated instruments and license them from their authors — but even a study-specific diary is built as a validated instrument, tested against design intent before go-live. Without the instrument as the managed unit, the software is a generic form builder.\n- **Direct reporting by the subject-adjacent reporter.** The response must come from the person whose report it is: the patient describing their own symptoms and functioning, the caregiver observing a child, the clinician rater scoring a scale about the subject in front of them. Site staff do not transcribe routine trial data here — that is EDC. The platform issues each reporter their own credentials, so every response is born attributed. Without this property, the software collapses into EDC.\n- **Protocol-scheduled administration.** Assessments are not taken whenever convenient. The study design determines when each instrument is due — daily evening windows for symptom diaries, at visits for rater scales, at defined intervals for quality-of-life questionnaires — and the platform surfaces what is due, sends reminders, records completion timestamps, and tracks missed or late completions as compliance data. Without the schedule discipline, the software is an ad-hoc survey tool.\n- **The regulated study record.** What reporters submit is source data for a regulated study. The system records who entered each response and when, and keeps the audit trail intact through review and export. The data ultimately joins the trial dataset — as primary or secondary endpoints, safety signals, or evidence for regulators and health-technology assessments. Without the regulated-record posture, it is a consumer survey or wellness app.",
+        "dc_zh": "结局工具\n  （一个预设的评估工具 — 问卷 / 评分量表 / 日记 —\n   包含条目、应答选项、分支逻辑、评分规则）\n└── 受试者相邻报告者的直接报告\n    （患者，或提供报告的临床医生评分者 / 观察者 —\n     在数字化管理界面上完成，而非由研究中心工作人员转录）\n└── 方案化定时施测\n    （工具根据研究方案的时间表（访视、每日时间窗）到期施测 —\n     由提醒驱动，并对依从性进行跟踪）\n└── 受监管的研究记录\n    （每一份应答均可溯源至具有资质的个人，\n     带时间戳、可审计，在经过验证的系统中，\n     并汇入研究的数据集）",
+        "rules": "### Every response is born attributed\n\nReporters work under their own credentials; the platform stamps each submission with who, when, and (in mature products) contextual capture metadata. Attribution is not an afterthought of review — it is the mechanism that makes the record regulatory-grade.\n\n### The window is part of the measurement\n\nOutcome assessments carry scientific meaning only if completed on schedule. The platform therefore treats timing as data: completion timestamps, late or missed completions, and compliance rates are captured and reportable, not silently normalized. Reminders exist to protect the schedule; the schedule is protocol property, not user preference.\n\n### Instruments are administered as licensed\n\nValidated instruments often carry contractual and scientific constraints: approved wording, approved populations, approved modes of administration. The platform's licensing machinery exists so that what gets deployed is what the instrument's owner and the science permit — and custom diaries are built and validated to a comparable standard rather than sketched ad hoc.\n\n### Logic is configured, not improvised\n\nBranching, skip patterns, scoring, and cross-checks are fixed at configuration and verified before go-live, so every subject experiences the same instrument. Changes mid-study arrive as versioned amendments, with the running study migrating without erasing history.\n\n### The record is protected\n\nAudit trails answer who did what, when. Corrections and amendments leave traces. Access is role-scoped — a subject sees their own schedule; a coordinator sees their site; sponsor teams see the study; raters see the assessments they administer. The system posture (validated software, logged events, controlled access) is a precondition for the data to substitute for paper in a regulatory context.\n\n### The reporter may be anyone with a report\n\nThe machinery is indifferent to whether the reporter is a patient at home, a caregiver answering about a child, or a trained clinician scoring a scale — the schedule, attribution, and record machinery are identical. This is what makes the Type broader than \"patient app.\"",
+        "rules_zh": "### 每项响应天生可归属\n\n报告者使用自己的凭证工作；平台在每次提交上盖章，记录谁、何时，以及（在成熟产品中）上下文捕获元数据。归属不是审查的后续想法——它是使记录达到监管级别的机制。\n\n### 窗口是测量的一部分\n\n结果评估只有按时完成才具有科学意义。因此，平台将时间安排视为数据：完成时间戳、延迟或未完成，以及合规率被捕获并可报告，而不是被静默标准化。提醒的存在是为了保护时间表；时间表是方案属性，而非用户偏好。\n\n### 仪器按许可管理\n\n经过验证的仪器通常带有合同和科学约束：批准的措辞、批准的人群、批准的管理方式。平台的许可机制存在，以确保部署的内容是仪器所有者和科学允许的——自定义日记被构建并验证到可比标准，而非临时草拟。\n\n### 逻辑是配置的，而非即兴的\n\n分支、跳过模式、评分和交叉检查在配置时固定，并在上线前验证，因此每个受试者体验相同的仪器。研究中期变更以版本化修订形式到达，运行中的研究迁移而不删除历史。\n\n### 记录受保护\n\n审计跟踪回答谁做了什么、何时。更正和修订留下痕迹。访问是角色范围的——受试者看到自己的时间表；协调员看到自己的现场；赞助商团队看到研究；评分者看到他们管理的评估。系统姿态（经过验证的软件、日志事件、受控访问）是数据可替代的前提条件。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "home-care-agency-management",
+        "name_zh": "家庭护理机构管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source home care agency management application"
+          },
+          {
+            "record": "retained-continuation-20261027/part-213/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source home care agency management application"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "home-care-agency-management",
+        "name": "Home Care Agency Management",
+        "name_zh": "家庭护理机构管理",
+        "aliases_zh": [
+          "居家护理管理",
+          "上门照护机构管理",
+          "护工服务管理"
+        ],
+        "overview": "A **Home Care Agency Management** application is a home care agency's operating system for delivering scheduled personal and support care in clients' own homes. It holds the agency's two-sided population — the clients who receive care and the caregivers who deliver it — plans recurring home visits against each client's care needs, captures a record of every delivered visit at the point of care, and turns those delivered visits into the agency's money: invoices or claims to the people who pay for care, and paychecks for the caregivers who provided it.\n\nThe defining core is small:\n\n```text\nClient (care recipient at home)  +  Caregiver (agency staff)\n        └── Scheduled home visit (recurring, assigned)\n              └── Delivered-visit service record (time on site + care given)\n                    ├── Billed to the payor / client\n                    └── Paid to the caregiver\n```\n\nEverything else the market associates with this software — care plans, EVV check-in/out, family portals, AI matching, compliance tracking — is a standard capability layered on this core, not what makes the software what it is. A pre-digital agency running on paper visit logs signed by clients, a wall schedule, and an invoice book satisfies the same structure; today's products digitize it.\n\nWhen the center of gravity shifts to physician-ordered skilled clinical care under Medicare conditions of participation, the product has crossed into **Home Health EHR / Management**, a neighboring type that vendors themselves keep separate.",
+        "overview_zh": "一个**家庭护理机构管理**应用程序是家庭护理机构的操作系统，用于在客户家中提供计划的个人和支持护理。它维护着机构的双向人群——接受护理的客户和提供护理的护理人员——根据每个客户的护理需求计划定期家庭访问，在护理点捕获每次交付访问的记录，并将这些交付访问转化为机构的资金：向支付护理费用的人开具发票或索赔，以及向提供护理的护理人员支付工资。\n\n定义核心很小：\n\n```text\n客户（家中接受护理的人）  +  护理人员（机构员工）\n        └── 计划家庭访问（定期、分配）\n              └── 交付访问服务记录（现场时间 + 提供的护理）\n                    ├── 向支付方/客户计费\n                    └── 向护理人员支付\n```\n\n市场上与此软件相关的其他一切——护理计划、EVV签到/签出、家庭门户、AI匹配、合规跟踪——都是叠加在此核心上的标准能力，并非软件的本质。一个前数字化机构使用客户签名的纸质访问日志、墙上的时间表和发票簿也能满足相同的结构；今天的产品将其数字化。\n\n当重心转向Medicare参与条件下医生开具的专业临床护理时，产品已跨越到**家庭健康电子健康记录/管理**，这是一个相邻类型，供应商本身将其分开。",
+        "dc": "**Client.** The care recipient: an identified person, served in their own home, carrying contact and address details, care-relevant attributes (needs, preferences, mobility, pets, language), payor arrangement(s), and — in payer-funded contexts — an authorization of the hours or services they may receive. The client's home is the place of service; the client record is the anchor for everything scheduled and delivered there.\n\n**Caregiver.** The agency staff member who delivers care: an identified worker with availability, preferred weekly hours, skills and certifications, assigned clients, and pay rates. Caregiver records carry compliance state (credentials, training, screening) because agencies are responsible for who they send into homes.\n\n**Visit.** The unit of service delivery and the hub of the whole model. A visit is a dated, time-bounded appointment at a specific client's home, assigned to a specific caregiver, generated from a recurring pattern (e.g., \"every weekday 8–12\") and constrained by the client's care needs and authorized hours. Visits have a lifecycle: planned → assigned → (reassigned / open) → delivered → verified → billed and paid. The schedule is the calendar of visits; nearly every other object hangs off one.\n\n**Delivered-visit service record.** The per-visit evidence that service actually happened: actual clock-in and clock-out times captured at the client's home (in current US products, electronically with location verification — EVV; historically, a paper timesheet signed by the client), plus what was done during the visit — tasks completed from the care plan, notes, sometimes the client's signature. This record is the agency's authoritative service record: billing and payroll are both derived from it, so its integrity is the integrity of the agency's revenue and its labor cost.\n\n**The money translation.** Two directions off the same records:\n\n- *Revenue side* — delivered visits are grouped and billed to whoever pays: an invoice to a private-pay client or family, or a claim to a payer (Medicaid, a managed-care organization, long-term-care insurance, veterans programs) with claim submission, remittance matching, and denial handling in payer contexts.\n- *Cost side* — verified visit hours are computed into caregiver pay (regular hours, overtime, holiday, adjustments) and exported to payroll.\n\nRemove any one of the four structures and the type collapses into something else: no two-sided population → generic employee scheduling; no home visit → facility or appointment scheduling; no delivered-visit record → a calendar with nothing to bill against; no money translation → a documentation tool that doesn't run a business.",
+        "dc_zh": "**客户。** 即护理对象：一名明确身份的个人，在其家中接受服务；其信息包含联系与地址详情、护理相关属性（需求、偏好、活动能力、宠物、语言）、支付方安排，以及——在支付方资助的情境下——对其可接受服务时长或项目的授权。客户的家庭是服务发生的地点；客户记录是所有安排与交付于此的事务的核心锚点。\n\n**护理员。** 提供护理服务的机构工作人员：一名明确身份的工作者，具有可用性、首选每周工作时长、技能与资质证书、被分配的客户以及薪酬费率。护理员记录包含合规状态（凭证、培训、背景筛查），因为机构需对其派入家庭的人员负责。\n\n**服务访问。** 服务交付的基本单元，也是整个模型的核心枢纽。一次服务访问是在特定客户家中进行的、有日期与时间限制的预约，指派给特定护理员，并由重复模式（例如“每个工作日8-12点”）生成，同时受客户需求与授权时长的约束。服务访问具有完整的生命周期：计划中 → 已指派 → （重新指派 / 待开放） → 已完成 → 已核对 → 已计费并收款。服务日程表即是服务访问的排期；几乎所有其他对象都挂靠于其中。",
+        "rules": "- **The delivered-visit record gates the money.** Visits are not billed and caregivers are not paid from the plan — they are billed and paid from the verified record of what actually happened. In payer-funded US contexts, claims require valid verification data (the EVV elements: who, what, for whom, when, where, start/end); a visit that fails verification is a claim at risk. This is the software's central discipline.\n- **Verification is rule-driven with human exceptions.** Products auto-verify visits whose captured data matches configured tolerances and route only exceptions (late clock-in, wrong location, missing data) to office staff for review or correction.\n- **Authorizations bound the schedule.** Scheduled and delivered hours are measured against the client's authorized hours; over-delivery risks non-payment, under-delivery loses revenue — utilization views exist to manage exactly this edge.\n- **Compliance gates assignment.** Caregiver credentials, training, and screening state determine who may be scheduled to whom; expired credentials surface as scheduling blocks or warnings.\n- **Missed visits are first-class events.** A visit with no clock-in by its start window raises an alert; the coordinator must fill or cancel it, and the outcome (missed visit, make-up visit) is recorded because it affects both care and billing.\n- **Payor rules vary and are configuration.** Each payor (Medicaid program, MCO, LTC insurer, VA program) carries its own billing rules, rates, and verification requirements; agencies configure pay-and-bill rates per client, service, and authorization. In the US, EVV itself varies by state (open vs closed vendor models, aggregator integrations).\n- **Privacy is structural.** Client data is health-adjacent and protected (HIPAA framing in the US); caregiver visibility of client details is permission-scoped, and family portals expose only appropriate slices.",
+        "rules_zh": "- **交付访问记录控制资金。** 访问不是从计划中计费，护理人员也不是从计划中支付——它们是从实际发生情况的验证记录中计费和支付。在美国支付方资助的背景下，索赔需要有效的验证数据（EVV要素：谁、什么、为谁、何时、何地、开始/结束）；未通过验证的访问是风险索赔。这是软件的中心纪律。\n- **验证是规则驱动，有人工例外。** 产品自动验证捕获数据匹配配置容差的访问，仅将异常（迟到签到、错误位置、数据缺失）路由给办公室工作人员进行审查或更正。\n- **授权限制时间表。** 计划和交付的小时数根据客户的授权小时数进行衡量；过度交付可能导致拒付，交付不足则损失收入——利用率视图正是为了管理这种边缘情况。\n- **合规控制分配。** 护理人员凭证、培训和筛选状态决定了谁可以被分配给谁；过期凭证作为调度阻止或警告出现。\n- **漏访是一等事件。** 在开始时间窗口内未签到的访问会触发警报；协调员必须填补或取消它，结果（漏访、补访）被记录，因为它影响护理和计费。\n- **支付方规则各异且是配置项。** 每个支付方（Medicaid计划、MCO、LTC保险公司、VA计划）有自己的计费规则、费率和验证要求；机构根据客户、服务和授权配置支付和计费费率。在美国，EVV本身因州而异（开放与封闭供应商模型、聚合器集成）。\n- **隐私是结构性的。** 客户数据是健康相关的并受保护（美国的HIPAA框架）；护理数据与PHI交织；系统通过角色、支付方和服务类型划分访问权限。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "home-health-ehr-management",
+        "name_zh": "家庭健康电子病历管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source home health ehr management application"
+          },
+          {
+            "record": "retained-continuation-20261027/part-213/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source home health EHR software github OASIS visits"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "home-health-ehr-management",
+        "name": "Home Health EHR / Management",
+        "name_zh": "家庭健康电子病历管理",
+        "aliases_zh": [
+          "家庭医疗记录系统",
+          "居家护理管理系统",
+          "家庭健康记录软件"
+        ],
+        "overview": "A **Home Health EHR / Management** application is an agency-side system of record for delivering **skilled healthcare in patients' homes**. A home health agency — an organization whose clinicians (nurses, physical/occupational/speech therapists, home health aides) treat patients where they live — uses it to hold the patient's clinical record, organize care as physician-authorized episodes, document each visit at the point of care in the field, and convert that documented care into payer claims and quality/compliance reporting.\n\nThe defining core is small:\n\n```text\nHome-based patient of record\n└── Episode of skilled care under an authorizing plan of care\n    └── Scheduled visit, documented in the field\n        └── Clinical record entry (assessment + care delivered)\n    └── Revenue & compliance loop\n        └── Claims to payers + quality/compliance reporting\n```\n\nEverything else commonly associated with these products — offline mobile charting, smart scheduling, assessment-instrument scrubbing, analytics dashboards, AI documentation assistants — is standard capability layered on that core, not what makes the product a home health system.\n\nThe boundary that matters most: this Type records **skilled clinical care** (nursing and therapy under a plan of care). When the delivered service is non-skilled personal/support care and the visit record is a service/attendance record rather than a clinical chart, the product belongs to **Home Care Agency Management** instead. When care happens in a facility rather than the patient's home, it belongs to facility-based Types (skilled nursing, long-term care).",
+        "overview_zh": "一个**家庭健康EHR/管理**应用程序是机构端的记录系统，用于在**患者家中提供专业医疗护理**。家庭健康机构——其临床医生（护士、物理/职业/言语治疗师、家庭健康助手）在患者居住地治疗患者的组织——使用它来保存患者的临床记录，将护理组织为医生授权的疗程，在现场护理点记录每次访问，并将记录的护理转换为支付方索赔和质量/合规报告。\n\n核心定义很小：\n\n```text\n家庭记录患者\n└── 在授权护理计划下的专业护理疗程\n    └── 预约访问，在现场记录\n        └── 临床记录条目（评估+提供的护理）\n    └── 收入与合规循环\n        └── 向支付方索赔+质量/合规报告\n```\n\n其他通常与这些产品相关的一切——离线移动记录、智能调度、评估工具清洗、分析仪表板、AI文档助手——是叠加在该核心之上的标准功能，而不是使产品成为家庭健康系统的原因。\n\n最重要的界限：此类型记录**专业临床护理**（在护理计划下的护理和治疗）。当提供的服务是非专业个人/支持护理，且访问记录是服务/考勤记录而非临床图表时，产品属于**家庭护理机构管理**。当护理发生在设施而非患者家中时，它属于基于设施的类型（专业护理、长期护理）。",
+        "dc": "**The home-based patient of record.** The system's center is a persistent clinical record for one person receiving care at home. Unlike an office EHR, where the patient travels to the care site, here the agency's clinicians travel to the patient. The record holds demographics, coverage/payer information, clinical history, medications, and everything the agency documents over the course of care.\n\n**The episode of skilled care.** Care is not an open-ended stream of encounters; it is organized as a bounded **episode**: the patient is admitted, a **plan of care** authorizes which skilled services are delivered and how often, care proceeds through scheduled visits, and the episode ends at discharge — or continues through a re-authorization (commonly called recertification) when continued care is justified. The episode is the unit that governs both clinical accountability and billing periods. In US Medicare practice this structure is mandatory and heavily regulated; the abstract structure — a bounded, authorized course of skilled care — is what the Type requires.\n\n**The visit.** The unit of service delivery is the scheduled home visit: a dated, time-bounded appointment at a specific patient's home, assigned to a specific clinician of a specific discipline. Visits are generated from the plan of care's service pattern and constrained by clinician availability, geography, and continuity preferences (agencies try to send the same nurses to the same patients).\n\n**Field-captured clinical documentation.** Each visit produces a clinical record entry captured in the home: assessment findings, vital signs, interventions performed, the patient's response, and — at episode boundaries — comprehensive assessments. In US practice these include standardized assessment instruments — the OASIS instrument is the best-known — which feed both payment and publicly reported quality measures. Documentation is captured at the point of care, commonly offline, and passes a supervisory review before the visit record is complete.\n\n**The revenue and compliance loop.** Documented care converts into money and accountability:\n\n- **Claims/billing** — the agency bills payers for delivered skilled care, organized around episodes and visits. Payer connectivity (clearinghouses, direct payer-system connections) and outsourced revenue-cycle services cluster around this leg. Work-in-progress is tracked explicitly — \"unbilled episodes\" are a standing agency metric.\n- **Quality/compliance reporting** — the same clinical record feeds outcome measurement (improvement in mobility, bathing, transferring; prevention measures such as immunizations; utilization measures such as hospitalizations during care), regulatory submissions, and survey/audit readiness. Quality is not an add-on report; in regulated markets it is tied to payment and star ratings.",
+        "dc_zh": "**以家庭为基础的患者记录。** 系统的中心是一个持续的临床记录，针对一位在家接受护理的患者。与办公室EHR不同，患者旅行到护理点，而在这里，机构的临床医生旅行到患者处。记录包含人口统计学信息、覆盖/支付者信息、临床历史、药物以及机构在护理过程中记录的所有内容。\n\n**熟练护理的周期。** 护理不是一个开放式的接触流；它被组织成一个有限的**周期**：患者入院，一个**护理计划**授权提供哪些熟练服务以及频率，护理通过预定访问进行，并在出院时结束——或者在继续护理有正当理由时通过重新授权（通常称为重新认证）继续。周期是管理临床责任和计费期的单位。在美国Medicare实践中，这种结构是强制性的并受到严格监管；抽象结构——一个有限的、授权的熟练护理过程——是该类型所要求的。\n\n**访问。** 服务交付的单位是预定的家庭访问：一个在特定患者家中、有日期、有时间限制的预约，分配给特定学科的特定临床医生。访问由护理计划的服务模式生成，并受临床医生可用性、地理位置和连续性约束。",
+        "rules": "- **Documentation gates money.** A visit that is not documented and reviewed does not become a claim. Unbilled-episode aging is a first-class operational metric, and office productivity is measured in hours-to-close precisely because documentation backlogs directly delay payment.\n- **The episode bounds the work.** Services are delivered and billed within the authorized episode; continuing care past its boundary requires re-assessment and re-authorization (recertification). The episode, not the calendar month, is the natural billing and reporting frame.\n- **The plan of care authorizes the services.** What clinicians deliver in the home traces back to an authorized plan; changes to services route through the authorizing physician. Care outside the plan is a compliance exposure, not just a workflow deviation.\n- **Field capture is offline-tolerant.** Homes have unreliable connectivity; the field surface must capture complete clinical content offline and synchronize later. Sync success is monitored because it gates the review-and-billing chain.\n- **Review before completion.** Completed field documentation typically passes a supervisory/clinical review before the visit record closes — a quality and compliance control built into the workflow, not an afterthought.\n- **Quality data and payment share a source.** The same assessments that support claims also feed outcome measures and regulatory reporting; errors in clinical documentation therefore propagate into both money and quality ratings.\n- **Regulatory regimes shape the machinery, not the core.** In the US, standardized assessment instruments, episode payment models, visit-verification requirements in some state-funded contexts, and survey readiness drive substantial product machinery. These are regime-specific implementations; the underlying structure (authorized episode, documented visits, claims, quality reporting) is the Type itself.\n- **Privacy and security are structural.** The system holds protected clinical records about identifiable patients, accessed by distributed field staff — access control by role and branch is a standing requirement.",
+        "rules_zh": "- **文档记录决定资金。** 未记录和审查的访问不会成为索赔。未计费疗程老化是一个首要的操作指标，办公室生产力以关闭小时数衡量，正是因为文档积压直接延迟支付。\n- **疗程界定工作。** 服务在授权疗程内提供和计费；继续护理超过其界限需要重新评估和重新授权（重新认证）。疗程，而不是日历月，是自然的计费和报告框架。\n- **护理计划授权服务。** 临床医生在家中提供的服务追溯到授权计划；对服务的更改通过授权医生处理。计划外的护理是合规风险，而不仅仅是工作流偏差。\n- **现场捕获容忍离线。** 家庭连接不可靠；现场界面必须在没有连接的情况下捕获完整的临床内容，并在以后同步。同步成功受到监控，因为它制约审查和计费链。\n- **完成前审查。** 完成的现场文档通常在访问记录关闭前通过主管/临床审查——这是内置于工作流中的质量和合规控制，而不是事后考虑。\n- **质量数据和支付共享来源。** 支持索赔的相同评估也为结果衡量和监管报告提供数据；因此，临床文档错误会传播到资金和质量评级中。\n- **监管制度塑造机制，而非核心。** 在美国，标准化评估工具、疗程支付模式、某些州资助环境中的访问验证要求和调查准备推动了大量产品机制。这些是制度特定的实现。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "hospice-management",
+        "name_zh": "临终关怀管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source hospice management application"
+          },
+          {
+            "record": "retained-continuation-20261027/part-213/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source hospice management software github"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "hospice-management",
+        "name": "Hospice Management",
+        "name_zh": "临终关怀管理",
+        "aliases_zh": [
+          "安宁疗护管理",
+          "善终服务管理"
+        ],
+        "overview": "A **Hospice Management** application is a hospice provider's system of record for delivering and operating end-of-life care. It holds the terminally ill patient's comfort-focused clinical record, organizes care as an admitted episode that normally ends in a recorded death, coordinates an interdisciplinary team around one shared plan of care, keeps the family inside the care unit with support continuing after the patient dies, and converts documented care into payer revenue and quality/compliance artifacts.\n\nThe defining structure is small:\n\n```text\nTerminally ill patient of record (comfort-focused care)\n└── Admitted end-of-life episode\n    │   (authorizing admission → periodic re-authorization → discharge,\n    │    most often by death)\n    └── Interdisciplinary team loop around a shared plan of care\n        ├── Family as part of the care unit\n        │   (support continues after death — bereavement)\n        └── Revenue-and-compliance loop\n            (per-diem/claims billing + quality reporting)\n```\n\nEverything else commonly associated with hospice software — mobile point-of-care charting, predictive decline analytics, caregiver portals, volunteer hour tracking, US benefit machinery — is widespread in current products but is not what makes the product a hospice system. Older, non-US, and paper-era hospice programs fit the same definition without any of those specifics.\n\nWhen the comfort orientation, the death-bounded episode, or the family/bereavement continuation is removed, the product drifts toward a different Application Type — most importantly the Home Health EHR, whose platform families often sell both lines side by side.",
+        "overview_zh": "**临终关怀管理**应用程序是临终关怀提供者用于提供和运营临终关怀服务的记录系统。它保存绝症患者以舒适为重点的临床记录，将关怀组织为通常以记录死亡告终的入院诊疗阶段，围绕一个共享的关怀计划协调跨学科团队，在患者去世后继续支持家属，将记录的关怀转化为支付者收入和质量/合规性产物。\n\n定义结构如下：\n\n```text\n记录中的绝症患者（以舒适为重点的关怀）\n└── 入院临终阶段\n    │   （授权入院 → 定期重新授权 → 出院，\n    │    最常见为死亡）\n    └── 围绕共享关怀计划的跨学科团队循环\n        ├── 作为关怀单元一部分的家属\n        │   （死亡后继续支持 — 丧亲关怀）\n        └── 收入与合规循环\n            （每日/索赔计费 + 质量报告）\n```\n\n所有其他常与临终关怀软件相关的功能 — 移动床边记录、预测性衰退分析、护理者门户、志愿者工时跟踪、美国福利机制 — 在当前产品中普遍存在，但并非使该产品成为临终关怀系统的要素。较旧的、非美国的和纸时代的临终关怀项目符合相同定义，而无需这些具体功能。\n\n当移除舒适导向、死亡界定的诊疗阶段或家庭/丧亲延续时，产品会漂向不同的应用类型 — 最重要的是家庭健康EHR，其平台系列通常同时销售这两条产品线。",
+        "dc": "Five structures, held together in one system. If any one is removed, the product is no longer recognizable as hospice management:\n\n- **The terminally ill patient of record under comfort-focused care.** A persistent, identified clinical record for a person receiving end-of-life care whose goal is comfort and quality of remaining life — symptom and pain management, psychosocial and spiritual support — not cure or restoration. The comfort orientation is the deepest discriminator: it changes what is assessed (symptoms, beliefs and values, treatment preferences), what is treated, and what \"outcome\" means. Without it, the record is a restorative-care chart.\n\n- **The admitted end-of-life episode.** Care is organized as a bounded stay in the program: a formal admission gated by eligibility and consent (in the United States, terminal-prognosis certification and election of the hospice benefit), periodic re-authorization/recertification, and a recorded discharge. The discharge is most often a **death discharge** — death is a normal, recorded episode ending, not an error state — but live discharges (revocation, transfer) exist, and readmission is a first-class path back into the program. Without the bounded episode, the system is an unbounded caseload list; without the death-ending frame, it is home health.\n\n- **The interdisciplinary team loop around a shared plan of care.** Care is planned, delivered, and reviewed by a multi-discipline team — nursing, aide, social work, spiritual care, volunteers, physician — working from one shared plan of care that the team formally reviews and updates on a recurring cycle (the interdisciplinary group meeting, \"IDG\", in US vocabulary). The plan of care is the coordination object; the recurring team review is the coordination rhythm. Without this loop, charting becomes discipline-siloed notes.\n\n- **The family as part of the care unit, with support continuing after death.** Family members and caregivers are recorded as part of the care unit — caregiver contacts, family teaching, caregiver burden and experience — and after the patient's death the family remains a service recipient (bereavement support) while the patient record closes. The record's care unit outlives the patient. No other clinical Application Type holds this structure; it is the clearest structural signature of hospice records.\n\n- **The revenue-and-compliance loop.** The admitted episode and its documented care convert into payer-facing money — per-diem/level-of-care billing, claims, eligibility checks — and into quality/compliance artifacts: assessment-based quality reporting, family-experience surveying, and survey/audit readiness. Without this loop, the product is a documentation tool with no agency business.",
+        "dc_zh": "五个结构，在一个系统中结合在一起。如果任何一个被移除，该产品就不再能被识别为临终关怀管理：\n\n- **记录在案的接受以舒适为重点护理的绝症患者。** 一个持久的、已识别的临床记录，用于接受临终护理的人，其目标是舒适和剩余生活的质量——症状和疼痛管理、心理社会和精神支持——而不是治愈或恢复。舒适导向是最深层的区分因素：它改变了评估的内容（症状、信仰和价值观、治疗偏好）、治疗的内容以及“结果”的含义。如果没有它，该记录就是恢复性护理图表。\n\n- **入院的临终事件。** 护理被组织为程序中的有界停留：正式入院由资格和同意（在美国，终端预后认证和选择临终关怀福利）控制，定期重新授权/重新认证，以及记录的出院。出院最常见的是**死亡出院**——死亡是正常的、记录的事件结束，而不是错误状态——但存在非死亡出院（撤销、转移），重新入院是返回程序的一等路径。如果没有有界事件，系统就是一个无界的案件列表；如果没有以死亡结束的框架，它就是家庭健康。\n\n- **围绕共享护理计划的多学科团队循环。** 护理是计划",
+        "rules": "### The episode is bounded and re-authorized\n\nCare does not continue indefinitely by default. The admission authorizes a defined period; recertification/re-authorization must be completed on schedule for care to continue, and the deadline is tracked by the system.\n\n### Death is a normal, recorded episode ending\n\nThe system treats death discharge as the expected closure path — recorded, reported, and analyzed (length-of-stay and discharge-pattern analytics) — alongside live discharges (revocation, transfer) and readmission.\n\n### Documentation is per-discipline and time-attributed\n\nEach visit or contact is documented by the discipline that delivered it, with the time of the activity attributed to that specific patient. Overlapping or split time across patients is prohibited by convention and often by validation.\n\n### Corrections are amend-with-reason, not silent overwrites\n\nCompleted, signed documents are corrected through a formal amend/correct flow that records what changed and why; the change history stays visible in the chart. Documents can also be rejected by reviewers with comments and returned for rework.\n\n### The family remains a service recipient after death\n\nBereavement support is charted against family records after the patient's episode has closed — the only place in clinical software where the record's subjects routinely outlive the patient record.\n\n### Compliance is built into the record\n\nRequired fields, validation layers, quality item sets, and admission-audit reporting are part of the chart itself, because hospice agencies operate under survey and audit regimes. The same record feeds quality reporting and payment-vulnerability monitoring.\n\n### Care goals are comfort, not restoration\n\nAssessments and plans are oriented to symptom control, psychosocial and spiritual needs, treatment preferences, and beliefs/values — a different definition of \"outcome\" than restorative care, reflected throughout the record.",
+        "rules_zh": "### 阶段是有界限且需重新授权的\n\n关怀默认不会无限期继续。入院授权一个定义的期限；必须按计划完成重新认证/重新授权以继续关怀，系统会跟踪截止日期。\n\n### 死亡是正常、记录的阶段结束\n\n系统将死亡出院视为预期的关闭路径 — 被记录、报告和分析（住院时间和出院模式分析）— 与实时出院（撤销、转移）和重新入院并列。\n\n### 文档按学科记录并归因时间\n\n每次探访或联系由提供该服务的学科记录，活动时间归于特定患者。按惯例和通常通过验证，禁止重叠或跨患者分割时间。\n\n### 修正是附理由的修订，而非静默覆盖\n\n已完成的、签名的文档通过正式的修订/更正流程进行纠正，记录更改内容和原因；更改历史在图表中保持可见。审阅者也可以拒绝文档并附注释返回重做。\n\n### 患者死亡后家属仍为服务接受者\n\n在患者诊疗阶段关闭后，丧亲支持在家庭记录上记录 — 这是临床软件中记录的主体通常比患者记录更持久的地方。\n\n### 合规性内置于记录中\n\n必填字段、验证层、质量项集和入院审计报告是图表本身的一部分，因为临终关怀机构在调查和审计制度下运营。相同记录支持质量报告和支付漏洞监控。\n\n### 关怀目标是舒适，而非恢复\n\n评估和计划以症状控制、心理社会和",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "hospital-management-system",
+        "name_zh": "医院管理系统",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source hospital management system Open Hospital"
+          },
+          {
+            "record": "retained-continuation-20261027/part-213/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source hospital management system Open Hospital"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "hospital-management-system",
+        "name": "Hospital Management System",
+        "name_zh": "医院管理系统",
+        "aliases_zh": [
+          "医院信息管理系统",
+          "医疗管理系统"
+        ],
+        "overview": "A **Hospital Management System** (in many markets also called a Hospital Information System, HIS) is the hospital's own operational system of record. It holds the hospital as an administered institution — its locations, departments, wards and beds, staff, and priceable services — and runs the daily path of patients through that institution: registration at the front desk, outpatient visits, inpatient admissions and bed assignments, service delivery in the hospital's own departments (consultations, laboratory, pharmacy, radiology, operating theatres), and the translation of everything each patient consumes into charges, bills, and payments.\n\nThe defining core is small:\n\n```text\nHospital as administered institution\n└── Patient of record (registered at the front desk)\n    └── Visit / encounter (outpatient visit; inpatient admission episode)\n        └── Services delivered under the encounter (tests, drugs, procedures, bed days)\n            └── Charges → bill → payment / settlement\n```\n\nRemove the institutional structure and it becomes generic billing and scheduling software. Remove the patient and the encounter and it becomes an ERP or inventory system. Remove the money loop and it becomes a patient-registration and flow tool with no business record.\n\nWhat the system deliberately does **not** center is clinical depth. The patient's clinical chart (the EHR), the laboratory's internal machinery (LIS), the imaging archive (PACS), the pharmacy's dispensing internals, and the claims-and-denials back office (revenue cycle management) are neighboring Application Types. A Hospital Management System orders into those systems and bills for their services; many products bundle some of that depth as modules, but the center of gravity is the hospital's operations, not the patient's clinical record. One naming caution: in the US enterprise market this functional space is usually sold under EHR-suite and revenue-cycle branding, while the standalone \"HMS/HIS\" category is strongest in South Asia, the Middle East, Africa, Europe, and the open-source/public-health sector. The functional core is the same; the packaging differs by market.",
+        "overview_zh": "**医院管理系统**（在许多市场也称为医院信息系统，HIS）是医院自身的运营记录系统。它承载着作为管理机构的医院——其位置、科室、病房和床位、工作人员以及可计费服务——并运行患者在该机构中的日常路径：前台登记、门诊就诊、住院入院和床位分配、医院自身科室的服务提供（会诊、实验室、药房、放射科、手术室），以及将每位患者消耗的一切转化为费用、账单和支付。\n\n定义性核心很小：\n\n```text\n作为管理机构的医院\n└── 在册患者（在前台登记）\n    └── 就诊 / 医疗事件（门诊就诊；住院入院事件）\n        └── 在就诊下提供的服务（检查、药物、操作、住院日）\n            └── 费用 → 账单 → 支付 / 结算\n```\n\n移除机构结构，它就变成了通用的计费和调度软件。移除患者和就诊，它就变成了ERP或库存系统。移除资金循环，它就变成了没有业务记录的患者登记和流程工具。\n\n系统刻意**不**聚焦的是临床深度。患者的临床图表（EHR）、实验室内部机制（LIS）、影像归档（PACS）、药房配药内部流程以及理赔与拒付后台（收入周期管理）是相邻的应用类型。医院管理系统向这些系统发出指令并为其服务计费；许多产品将其中一些深度功能作为模块打包，但重心是医院的运营，而非患者的临床记录。一个命名注意点：在美国企业市场，这个功能空间通常在EHR套件和收入周期品牌下销售，而独立的“HMS/HIS”类别在南亚、中东、非洲、欧洲以及开源/公共卫生领域最为强大。功能核心是相同的；包装因市场而异。",
+        "dc": "**1. The hospital as administered institution.** The system holds the hospital's operational structure: locations and departments, wards with their bed layouts, staff and their roles, stores, and — critically — a catalog of priceable services with configurable rates. This structure is configured once and exercised constantly. It is what makes the system a *hospital's* system rather than a generic booking or billing tool: the wards, the operating theatres, the pharmacy store, and the lab are the hospital's own capacity.\n\n**2. The patient of record and the visit/encounter.** Patients are registered at the front desk — the system creates a persistent patient record (identity, photo, contact details, hospital-specific attributes) before any medical interaction happens. Every subsequent activity attaches to a **visit** (an outpatient encounter) or an **admission episode** (an inpatient encounter). The visit is the operational unit of the whole system: orders, services, movements, and charges all accumulate under it. A single patient accumulates many visits over time; the patient record is the long-lived thread, the visit is the working unit.\n\n**3. The service-to-money loop.** Services delivered under an encounter — consultations, laboratory tests, medications dispensed, procedures, imaging, bed days — are captured as charges against that encounter and settled through bills and payments. Mature products treat this as a first-class object chain: orders → charges → bill/invoice → payment, with discounts, cancellations, and refunds as normal billing operations, and payer (insurer/TPA/corporate) routing where the market requires it. In several products this layer literally rides on ERP-style ledgers — hospital billing is real accounting.",
+        "dc_zh": "**1. 作为管理机构的医院。** 系统持有医院的运营结构：位置和部门、病房及其床位布局、员工及其角色、仓库，以及——关键的是——一个可计费服务的目录，具有可配置的费率。此结构配置一次，但持续使用。它使系统成为医院的系统，而非通用的预约或计费工具：病房、手术室、药房仓库和实验室是医院自身的容量。\n\n**2. 在册患者和就诊/遭遇。** 患者在前台登记——系统创建一个持久化的患者记录（身份、照片、联系方式、医院特定属性），在任何医疗交互发生之前。随后的每个活动都附加到一个**就诊**（门诊遭遇）或**住院事件**（住院遭遇）。就诊是整个系统的运营单位：订单、服务、移动和费用都累积在其下。单个患者随时间积累许多就诊；患者记录是长期存在的线索，就诊是工作单位。\n\n**3. 服务到金钱的循环。** 在遭遇下提供的服务——咨询、实验室测试、分发的药物、程序、影像、床位日——被捕获为该遭遇的费用，并通过账单和支付结算。",
+        "rules": "- **Registration precedes service.** Medical interactions — consultation, tests, admission, procedures — start from a registered patient and an open visit. The front desk is a control point, not a formality.\n- **Visits have types, and admission is a type change.** The OPD/IPD distinction structures billing, movement, and reporting. Admission moves the patient from outpatient status into an inpatient episode; in one observed product this is an explicit visit-type change (the outpatient visit is closed and an inpatient visit opened at the admit step).\n- **Charges attach to the encounter, and discharge drives settlement.** Inpatient billing accumulates under the admission episode; the discharge step is normally when the final bill is settled. This is why ADT and billing are tightly coupled across the observed products.\n- **Beds are stateful, shared resources.** A bed's occupancy is visible institution-wide; transfers are recorded movements, not informal changes. Exceptions exist by design — for example, some products allow deliberate double assignment of a bed (documented for newborn-with-mother cases).\n- **The money loop has an exception vocabulary.** Edited, cancelled, and discounted bills; refunds; returns of dispensed goods — these are normal, modeled operations rather than out-of-system fixes, and products expose them as such (both in user workflows and in integration/reporting surfaces).\n- **Role separation is structural.** Non-clinical staff capture registration and payment data; nurses own movement; clinicians own orders; administrators own configuration. Who can see and change patient data is a governed, auditable matter — access logging of patient records is a standard expectation.\n- **Payer routing varies by market.** Whether settlement runs through cash, insurers, TPAs, corporate payers, or government schemes depends on the hospital's market; mature products in payer-heavy markets carry payer masters and claim-oriented billing, while cash-forward deployments may not.",
+        "rules_zh": "- **登记先于服务。** 医疗互动——咨询、检查、入院、操作——始于已登记患者和一次打开的就诊。前台是一个控制点，而非形式。\n- **就诊有类型，入院是类型变更。** 门诊/住院的区分构建了计费、移动和报告的框架。入院将患者从门诊状态移入住院事件；在一个观察到的产品中，这是一次明确的就诊类型变更（在入院步骤关闭门诊就诊并打开住院就诊）。\n- **费用附加于就诊事件，出院驱动结算。** 住院费用在入院事件下累积；出院步骤通常是最终账单结算的时候。这就是为什么在观察到的产品中，ADT和计费紧密耦合。\n- **床位是有状态、共享的资源。** 床位的占用情况在全机构可见；转移是记录在案的移动，而非非正式变更。设计上存在例外——例如，一些产品允许故意双人分配一个床位（例如为母婴同室情况记录在案）。\n- **资金循环有其异常词汇。** 编辑、取消和折扣账单；退款；已发药品退回——这些是正常的、建模的操作，而非系统外的修复，产品将这些作为操作功能暴露出来（既在用户工作流中，也在集成/报表界面中）。\n- **角色分离是结构性的。** 非临床人员负责登记和支付数据；护士负责移动；临床医生负责医嘱；管理员负责配置。谁可以查看和更改患者数据是受管理的、可审计的事项——患者记录的访问日志是标准要求。\n- **支付方路由因市场而异。** 结算是通过现金、保险",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 18,
+    "phase": "repair",
+    "parent": 213,
+    "slugs": [
+      "epro-ecoa-platform",
+      "home-care-agency-management",
+      "home-health-ehr-management",
+      "hospice-management",
+      "hospital-management-system"
+    ],
+    "old_input_sha256": "4addb6f6956fab4e1630f1bd5788f0573f42fe44c579642597e6faaf5bf11843"
+  },
+  "previous_continuation": {
+    "unit": 213,
+    "phase": "complete",
+    "parent": 41,
+    "slugs": [
+      "epro-ecoa-platform",
+      "home-care-agency-management",
+      "home-health-ehr-management",
+      "hospice-management",
+      "hospital-management-system"
+    ]
+  }
+}

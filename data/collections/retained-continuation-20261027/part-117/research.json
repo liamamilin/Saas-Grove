@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "insurance-underwriting-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:kalepa"
+      ],
+      "query": "复用 notes/previous 的 Kalepa 候选，未新增 websearch；直接抓取官方首页与 carriers 方案页，核对提交接收、风险评估、报价/绑定和转介/拒绝工作流。",
+      "source_urls": [
+        "https://kalepa.com/",
+        "https://kalepa.com/solutions/carriers/"
+      ],
+      "note": "现有官方正文可证：首页将流程列为 Submission Ingestion→Clearance→Triage→Risk Analysis→Rating→Quote & Bind→Portfolio Management，并出现 Preferred/Refer/Decline 结果；Carriers 页称其为 AI underwriting platform，平衡自动化与人工判断。据此保留一个商业核保平台关系。未主张审计轨迹细节、价格、架构或部署，也未运行产品。",
+      "service_boundary": "收录的是承运人/核保团队使用的核保工作台与提交编排产品；不把经纪人分销平台、保单管理系统或理赔系统并入本关系。官方页面描述的是核保决策与报价/绑定环节；保单签发仍由承运人的保单管理系统承担，本次不主张具体集成实现。",
+      "search_attempts": [
+        {
+          "action": "读取 notes/previous 候选清单与 Kalepa 文本摘录",
+          "outcome": "确认存在可复用的 Kalepa 官方 URL，转入本单元重新抓取"
+        },
+        {
+          "action": "直接抓取 https://kalepa.com/solutions/carriers/ 与 https://kalepa.com/",
+          "outcome": "两页均返回正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://kalepa.com/solutions/carriers/",
+          "kind": "documentation",
+          "status": "ok",
+          "bytes": 99245,
+          "sha256": "75fdfc2c6ed1378113116d1c7498393b60c010ae8ecb4cf6a5395b963d479fd0"
+        },
+        {
+          "url": "https://kalepa.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "bytes": 144507,
+          "sha256": "705f6873e8b2e079ed6952494903d9f425b55d56b5958e92fdb727f4ddb8a6ec"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "reinsurance-management-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:duck-creek-reinsurance"
+      ],
+      "query": "复用 notes/previous 的 Duck Creek reinsurance 候选，未新增 websearch；直接抓取官方 reinsurance 产品页，核对合约、分出/分入、理赔追偿与会计结算范围。",
+      "source_urls": [
+        "https://www.duckcreek.com/product/reinsurance/"
+      ],
+      "note": "官方正文可证其为再保险管理软件：覆盖 ceded 与 assumed 全生命周期，管理 treaties/facultative、ceded/assumed/retroceded program、分层与比例/非比例条款，并支持续期、理赔追偿、premiums/claims/commissions 多币种会计。据此保留一个商业再保险管理系统关系。页面未给出具体计算算法与客户完整账务流程，故不主张。",
+      "service_boundary": "收录的是保险公司/再保险人自用的再保险合同与结算记录系统；不把直接保单管理系统、普通理赔系统或经纪分销平台并入本关系。再保险追偿侧与直接理赔系统的边界按定义保留：本关系只覆盖再保险协议、分入/分出及对手方结算。",
+      "search_attempts": [
+        {
+          "action": "读取 notes/previous 候选与 Duck Creek 文本摘录",
+          "outcome": "确认可复用官方 reinsurance 产品 URL，转入本单元重新抓取"
+        },
+        {
+          "action": "直接抓取 https://www.duckcreek.com/product/reinsurance/",
+          "outcome": "返回正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.duckcreek.com/product/reinsurance/",
+          "kind": "documentation",
+          "status": "ok",
+          "bytes": 203914,
+          "sha256": "a0a6a3c4a6626d139db4bf9d1fcf31aef5542d70e4b4fdc8600257c9129fbd22"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "account-reconciliation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:blackline-account-reconciliation"
+      ],
+      "query": "复用 notes/previous 的 BlackLine 候选，未新增 websearch；直接抓取官方 account-reconciliations 产品页，核对双边余额、调节项、自动认证与审计轨迹。",
+      "source_urls": [
+        "https://www.blackline.com/products/financial-close/account-reconciliations/"
+      ],
+      "note": "官方正文可证其为账户对账软件：FAQ 说明银行对账单与总账余额的匹配；客户引文提及 subledger、GL balance、reconciling items 与 support；正文说明低风险对账可按预定义标准 auto-certify，并生成记录 human/AI 动作的审计轨迹，Verity Prepare 起草调节项后交人工复核。据此保留一个商业对账平台关系。首次抓取超默认字节上限，改用 4MB 上限成功。未主张账户×期间模型、materiality 阈值或编制/复核角色强制规则。",
+      "service_boundary": "收录的是财务团队用于账户实质验证与关账控制的对账平台；不把 ERP/总账、银行账户服务或仅做交易匹配的支付对账工具并入本关系。按定义，更正仍以分录回到 ERP，平台本身不维护总账。",
+      "search_attempts": [
+        {
+          "action": "读取 notes/previous 候选与 BlackLine 文本摘录",
+          "outcome": "确认可复用官方 account-reconciliations URL，转入本单元重新抓取"
+        },
+        {
+          "action": "抓取默认上限失败后，以 --max-bytes 4000000 重试同一官方 URL",
+          "outcome": "成功返回完整 HTML 正文并保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.blackline.com/products/financial-close/account-reconciliations/",
+          "kind": "documentation",
+          "status": "first_attempt_rejected_exceeds_1MB",
+          "bytes": null,
+          "sha256": null
+        },
+        {
+          "url": "https://www.blackline.com/products/financial-close/account-reconciliations/",
+          "kind": "documentation",
+          "status": "ok_after_retry_4MB",
+          "bytes": 2234008,
+          "sha256": "0255893a271b29eaecfaa3d8745716456af2d13090f2a26e7b25f1b2f1a9925d"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "actuarial-modeling-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1335844694"
+      ],
+      "query": "复用 notes/previous 的 OpenActuary 候选；重新抓取 GitHub 元数据与许可证，读取 README、CURRENT_STATE，并补抓完整需求规格以核对模型构建、运行与治理范围。",
+      "source_urls": [
+        "https://api.github.com/repos/openactuary-io/openactuary",
+        "https://api.github.com/repos/openactuary-io/openactuary/license",
+        "https://raw.githubusercontent.com/openactuary-io/openactuary/main/README.md",
+        "https://raw.githubusercontent.com/openactuary-io/openactuary/main/CURRENT_STATE.md",
+        "https://raw.githubusercontent.com/openactuary-io/openactuary/main/docs/openactuary-complete-spec.md"
+      ],
+      "note": "仓库身份 1335844694 与 full_name 已由 GitHub API 证明，许可证 API 返回 AGPL-3.0，README 明确核心 AGPL、SDK Apache-2.0。实现快照显示视觉模型构建器、Projects、连接器、orchestrator、scoring API 与部署；完整规格补充定价/准备金/资本建模需求。CURRENT_STATE 也披露多项 stub，因此只按已实现快照可证范围建立关系，不把需求规格当作已交付功能。",
+      "service_boundary": "收录的是保险公司精算团队自建/自托管的建模平台（开源核心），覆盖模型构建、数据接入、运行与评分；不把通用 BI、电子表格或仅提供单个定价公式的评分组件并入本关系。假设版本化与具体监管报送实现未见明确证据，故不纳入关系理由。",
+      "search_attempts": [
+        {
+          "action": "读取 notes/previous 的 OpenActuary 候选与 README 摘录",
+          "outcome": "确认仓库地址与候选身份，转入本单元重新抓取"
+        },
+        {
+          "action": "抓取 GitHub 元数据、license API、README 与 CURRENT_STATE",
+          "outcome": "均成功并保存快照；确认 id、许可证与实现范围"
+        },
+        {
+          "action": "补抓 docs/openactuary-complete-spec.md 核对精算建模需求",
+          "outcome": "成功；仅作为需求文档引用，区分于已实现快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openactuary-io/openactuary",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "bytes": 6854,
+          "sha256": "d63491eb626dadef3f583c366b05e1f94b9933f04fe34c253f221ab6c4aa4a1a"
+        },
+        {
+          "url": "https://api.github.com/repos/openactuary-io/openactuary/license",
+          "kind": "license",
+          "status": "ok",
+          "bytes": 48555,
+          "sha256": "77ec4d66d06dac837ab1fec039717a70e63ca99aeca4c1633cdad113bcc412d3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openactuary-io/openactuary/main/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "bytes": 5189,
+          "sha256": "ae5f033e323cd0cc68d73edf59a848340d7f1adffb9073e4b4a3ba9bbd4e292c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openactuary-io/openactuary/main/CURRENT_STATE.md",
+          "kind": "documentation",
+          "status": "ok",
+          "bytes": 12148,
+          "sha256": "e71fb0a0e8fcf117d773ed0854525a1a6a206164250b7e3da911a4235096c49b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openactuary-io/openactuary/main/docs/openactuary-complete-spec.md",
+          "kind": "documentation",
+          "status": "ok",
+          "bytes": 208788,
+          "sha256": "125fc326eb6fd51ed5ee9ed6f35b17aa064cf26b7da236a7513e3b0bd7519e27"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "algorithmic-trading-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:91629816"
+      ],
+      "query": "复用 notes/previous 的 Freqtrade 候选；重新抓取 GitHub 元数据与许可证，读取 README，核对策略、回测、模拟/实盘交易与运行监控。",
+      "source_urls": [
+        "https://api.github.com/repos/freqtrade/freqtrade",
+        "https://api.github.com/repos/freqtrade/freqtrade/license",
+        "https://raw.githubusercontent.com/freqtrade/freqtrade/develop/README.md"
+      ],
+      "note": "GitHub API 证明仓库 id=91629816、full_name=freqtrade/freqtrade；license API 返回 GPL-3.0。README 可证 Python 策略、历史数据回测、hyperopt/FreqAI、Dry-run、交易所交易、WebUI/Telegram 监控与强制退出。据此保留一个开源算法交易平台关系。未主张订单类型、部分成交或回测/实盘对账等 README 未展开的细节。",
+      "service_boundary": "收录的是交易者自行编写并运行策略的算法交易软件；不把纯行情终端、只提供条件单的手动交易平台或托管交易服务并入本关系。按定义，平台创建和管理订单/头寸，人工负责策略与监督。",
+      "search_attempts": [
+        {
+          "action": "读取 notes/previous 的 Freqtrade 候选与 README 摘录",
+          "outcome": "确认仓库地址与候选身份，转入本单元重新抓取"
+        },
+        {
+          "action": "抓取 GitHub 元数据、license API 与 README",
+          "outcome": "均成功并保存快照；确认 id、GPL-3.0 与核心交易流程"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/freqtrade/freqtrade",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "bytes": 6479,
+          "sha256": "47f2eb01c640b19652ef839df7ff0429207a9832edc20e0402d948969c08a9be"
+        },
+        {
+          "url": "https://api.github.com/repos/freqtrade/freqtrade/license",
+          "kind": "license",
+          "status": "ok",
+          "bytes": 49361,
+          "sha256": "3985eb5e18ca9df2d26962144027516e1cfd969b8083cdac497ddad1fad3268a"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/freqtrade/freqtrade/develop/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "bytes": 12770,
+          "sha256": "119d586166ae397b05f9763caf7f90e2d27792f90c8455c04ac3455e14a40d89"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

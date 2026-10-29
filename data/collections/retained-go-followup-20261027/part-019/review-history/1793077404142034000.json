@@ -1,0 +1,72 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "health-information-exchange-hie",
+      "application_id": "commercial:oracle-health-hie",
+      "issue": "条目身份与证据归属不一致：batch.summary 与 leaf_matches 把 Oracle Health HIE 说成提供“智能患者匹配和记录定位”并处于 TEFCA/QHIN 信任框架下，但 interoperability 页中该句的主语是 Oracle Health Information Network（OHIN）；QHIN 页也是 Oracle Health Information Network, Inc. 的实体页。Oracle Health HIE 自身段落只说明它是 vendor-agnostic point-of-care HIE、可聚合多来源临床数据，未直接证明跨组织患者身份链接或治理信任框架。",
+      "fix": "二选一：(a) 将 application_id/name 调整为 commercial:oracle-health-information-network / Oracle Health Information Network（QHIN），以 OHIN/QHIN 页为主证据，把 Oracle Health HIE 作为其能力或关联产品；(b) 保留 Oracle Health HIE 条目，但从 summary、leaf_matches.reason 和 research.note 中移除 OHIN 专属的 patient matching/record locating 与 TEFCA/QHIN 归属，并补充一条明确说明 HIE 由 OHIN/QHIN 承载的来源。同步更新 source_urls 与理由措辞。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Azara 的 Risk Stratification 主要以模块卡标题和 FAQ 形式出现，PVP 页提供 patient-level Risk Score；照护缺口、PVP 工作清单、外展效果与质量报告均有正文支撑。作为商业类型匹配可接受，但风险分层的工作流证据偏薄，建议补充 DRVS modules 页或将摘要限定为“风险分层模块/风险评分”。",
+    "MatrixCare 的 census 仅出现在报告维度句（“from census and financial accounts receivable...”），batch 已如实限定为“报告可查看 census 与财务应收”，未把 census 说成计费驱动或核心记录；当前按 SNF RCM/EHR/MDS 类型匹配保留，若按定义性核心严格审查仍需补 census 作为主运营对象的来源。",
+    "PerfectServe 摘要写“送达/已读/确认”，来源明确有 delivery tracking 与 read receipts，但未检索到独立 acknowledgement 文案；建议改为“送达/已读”或补充确认功能的来源。Connect 页的外部护理伙伴无需 PerfectServe license，但其核心许可团队仍在机构侧，不影响类型判断。",
+    "Suki 来源证明“capturing the patient encounter...structured notes”“tailor their notes before syncing to the EHR”“sent back to the EHR where relevant sections are updated”，但未直接出现命名临床医生签名/attestation；当前以医生审阅、编辑后写回 EHR 作为 finalization 证据，建议在摘要中保持这一限定。",
+    "Abridge 的 finalized note 与 Spok 的 confirmed delivery/intelligent escalation/audit-ready records 部分来自 homepage 功能卡；两者均有产品页支撑主体，homepage 仅作补充，按商业基本真实性可接受。",
+    "input.json 仍为 phase=included_without_cases、各叶 application_ids=[]，而 batch.json/research.json 记录 8 个 case_found 条目；建议同步进度元数据，避免下游把本单元当作无案例单元。",
+    "REVIEW_SOURCES.json 只列 batch 引用的 17 个快照；research.json 还引用 Innovaccer、Suki 帮助文章、OpenHIM metadata/license/README 等候选快照，文件在 sources/ 但未列入清单。它们不作为已纳入条目的核心证据，建议区分 case source 与 candidate/provenance 留档。",
+    "本单元没有开源应用条目；OpenHIM 仅作为中间件候选留档，未计为完整 HIE，因此没有可审的社区版边界或已纳入应用的完整许可证声明。"
+  ],
+  "leaf_checks": {
+    "population-health-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:azara-healthcare"
+      ],
+      "basis": "逐字核对 Azara DRVS、Patient Visit Planning、Patient Outreach 三个快照：DRVS 正文有多层级 drill-down、Registry Reports、Cohort Management、UDS/HEDIS/600+ measures，并说明 Clinical/Claims/ADT 数据来源；PVP 页说明按 provider schedule 生成患者级清单、显示 Risk Score、care gap alerts（Missing/Overdue/Out of Range/Due Soon）及缺口关闭统计；Outreach 页说明自动化外展及效果报告。商业 SaaS、ID/track 一致，符合基本真实性与 PHM 类型匹配。",
+      "gaps": "来源未明确使用 attributed/empaneled population 或“defined population as managed unit of record”的措辞，登记/队列是当前可接受的代理；风险分层主要见模块卡标题与 FAQ，工作流深度有限。"
+    },
+    "skilled-nursing-facility-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:pointclickcare",
+        "commercial:matrixcare"
+      ],
+      "basis": "PointClickCare SNF 平台页正文列出 track resident status、validate insurance coverage、billing/accounts receivable/collections/claims、trust fund management、Automate MDS submission to iQIES；Increase Occupancy 页补充 census-mix、occupancy 与 admission decisions。MatrixCare SNF 页有 census 与 financial accounts receivable 的报告句、quality measures，RCM 页覆盖 billing/claims/reporting，MDS 资源页说明支持 MDS 数据。两者均为商业 SNF EHR/运营或 RCM 平台，ID/track 一致。",
+      "gaps": "PointClickCare 未直接用“census”描述核心对象，而是 resident status/occupancy；MatrixCare 的 census 仅作为报告维度，未证明 census 驱动计费。census→money 的耦合按 SNF 产品类型推断，research.json 已如实记录该边界。"
+    },
+    "clinical-communication-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:perfectserve",
+        "commercial:spok"
+      ],
+      "basis": "PerfectServe 页正文有 Dynamic Intelligent Routing 依据 real-time schedules, roles, coverage, clinical context 寻址；“Unanswered messages climb the chain automatically”；Connect 页有 delivery tracking、read receipts、patient context 与 “Every message, delivery event, and sign-in...” 审计轨迹。Spok 安全消息页有 provider directory/EHR/on-call schedules 集成、people/groups/roles 查找、logged communications 与 auditability；主页有 confirmed delivery、intelligent escalation、audit-ready records、role-based lookups。两者均为机构侧安全通信 SaaS，ID/track 一致。",
+      "gaps": "PerfectServe 的“确认”未对应独立 acknowledgement 文案，来源是 delivery tracking/read receipts；Connect 页外部伙伴无需 license，但核心许可团队仍在机构侧，不影响类型。"
+    },
+    "clinical-documentation-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:abridge",
+        "commercial:suki"
+      ],
+      "basis": "Abridge Clinicians 页有 “A structured, specialty-specific note is ready for review the moment the visit ends. Editing tools adapt to clinician preferences, reducing time-to-sign”，首页有 “Finalized notes, coding specificity, orders, and patient summaries—ready for review, billing, and follow-up”，并说明 EHR workflow 集成。Suki Solutions 页有实时捕捉 patient encounter、structured notes、“clinicians can tailor their notes before syncing to the EHR”、specialty-specific note、打字/语音编辑，完成后 “sent back to the EHR where relevant sections are updated”。两者均为商业 ambient AI 文档 SaaS，ID/track 一致。",
+      "gaps": "Suki 来源未直接出现命名临床医生签名/attestation，当前以医生审阅、编辑后写回 EHR 作为 finalization 证据；Abridge 的 “finalized” 是厂商措辞，但 review/time-to-sign/EHR 写入链条完整。"
+    },
+    "health-information-exchange-hie": {
+      "result": "changes_required",
+      "applications": [
+        "commercial:oracle-health-hie"
+      ],
+      "basis": "Oracle interoperability 页确实把 Oracle Health HIE 描述为 standards-based、scalable、vendor-agnostic point-of-care HIE，可 aggregate clinical data from many connected sources，并提供 longitudinal medical history；QHIN 页确实把 Oracle Health Information Network, Inc. 描述为 TEFCA Designated QHIN，支持 provider organizations 与 other providers、payers、consumers、public health、government 交换临床数据，并提到 treatment/individual access/healthcare operations 等 exchange purposes。",
+      "gaps": "身份归属存在阻断问题：intelligent patient matching and record locating 的正文主语是 Oracle Health Information Network，不是 Oracle Health HIE；QHIN/TEFCA 页也是 OHIN 实体页。HIE 自身段落未证明跨组织患者身份链接或治理信任框架。OpenHIM 仅为中间件候选，未计为完整 HIE。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅使用 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 17 个快照，未运行 shell、未写文件、未读取其他单元。未重新计算 sha256，未做部署/运行时验证，未抓取新网页，未验证价格、架构、租户隔离或 SLA。部分快照为压缩 HTML 或 React SSR，正文通过定向检索与局部读取核对，未逐字通读全部导航、脚本与样式。商业条目只按官方页面做基本真实性与类型匹配；本单元无开源应用条目，未对社区版边界作实质审查，OpenHIM 仅作为候选中间件留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-019/ses_groveopencodegop019review1_1793076859.jsonl",
+  "batch_sha256": "1049938d1224115128c8b4ff75bcb421cd9d1c1a0be0207453f59d49add62617",
+  "research_sha256": "7f92aec2ae1fe00500a949156a7ce435394b45c6edf746d50296e513bf6aa7f0",
+  "input_sha256": "ac79b7ee9b6b3d7b8cfa0f008f16e70902bd55f2337948db2841de7b464ff5d9"
+}

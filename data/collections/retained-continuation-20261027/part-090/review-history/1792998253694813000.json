@@ -1,0 +1,77 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "online-donation-platform",
+      "application_id": "github:31054058",
+      "issue": "GiveWP 条目目前主要依据仓库 README 的产品简介句和仓库元数据，而不是核心功能正文。我读取的 README 只说明它是 WordPress 捐献/募款插件并提供在线捐赠平台定位，正文其余部分是开发、构建与贡献说明；没有证明常设捐赠表单或页面、捐赠作为交易记录、支付处理与结算、收据、组织端捐赠控制台或报告等定义性核心。batch.json 的 features 还列有「在线捐献表单」，但 README 未出现表单能力，属于用简介/元数据替代核心正文并外推功能。",
+      "fix": "补充 GiveWP 官方功能页或文档快照，至少覆盖在线捐赠表单/页面、一次性或定期捐赠、支付处理与资金结算、捐赠记录、组织端管理/收据/报告；据此重写 leaf_matches 与 features。若无法补充，应移除 GiveWP 的 online-donation-platform 关系及「在线捐献表单」等未证实功能，只保留可证的 WordPress 捐献插件身份和许可证信息。"
+    }
+  ],
+  "non_blocking_notes": [
+    "GiveWP README 第 9 行的许可证徽章仍标为 GPL-2.0+，并链接到另一个仓库的 license.txt；实际 LICENSE 快照与 batch 采用的 GPL-3.0 一致。建议在条目或来源说明中注明这一徽章口径不一致，避免后续误读。",
+    "CiviCRM 的 batch 中 deployment 字段称「与 Drupal/WordPress/Joomla/Backdrop 集成」，technology_stack 也列出这些 CMS，但所列 contact、contribution、events、case、peer-to-peer 功能页没有直接说明这些集成关系；建议补充部署/集成来源，或将相关字段标为待核。",
+    "CiviCRM 的 peer-to-peer 功能页能证明支持者创建并个性化个人募款页、设定目标、向个人网络分享，以及组织端实时查看活动进度和筹款人效果；但没有直接写明每笔捐赠记入筹款人以及资金结算至组织账户。同一应用的 contribution-pages 快照可以补足支付处理背景，仍建议补一条明确说明归因与结算的官方来源。",
+    "CiviCRM 页面出现 CiviCRM Spark 与 CiviCRM in the Cloud 的付费托管入口；建议在开源条目中明确 AGPL 核心与托管服务、付费扩展之间的社区版边界。GiveWP README 也说明多数 add-ons 为私有，建议避免让读者以为全部扩展均为开源。",
+    "两个无案例叶子的检索以 GitHub 为主，未覆盖商业 SaaS 供应商；若本单元范围仅限开源，这一限制可以接受，但建议在 research.json 中明确检索范围，避免被理解为全市场检索。",
+    "research.json 记录了 TolaActivity/TolaData 与 ImpactFlow 的候选抓取结果，但 REVIEW_SOURCES.json 没有列出这些候选快照；本次未独立重读这些候选快照，建议在来源清单中补齐，或注明它们只是检索留档而非本次复核来源。"
+  ],
+  "leaf_checks": {
+    "nonprofit-management-platform": {
+      "status": "pass",
+      "basis": "我读取了 CiviCRM 官方 contact-management、contribution-pages、events、case-management 快照：contact 页明确称其为开源非营利 CRM，并说明 One Record、交易自动写入联系人记录、与在线捐献、活动报名、会员管理集成；events 页称其为 all-in-one platform，且活动数据与 donor database 整合；case 页称 CiviCase 与 Contacts、Activities 集成；contribution 页称 CiviContribute 可在同一处管理捐赠、会员、活动费和筹款活动。以上足以支撑共享联系人记录下的多域员工端运营。CiviCRM 仓库元数据 id 8495499 与完整 AGPL-3.0 LICENSE 快照一致。",
+      "sources": [
+        "https://civicrm.com/features/contact-management/ (snapshot 8140cabdbbccadb55e06302838cafdfb3eb6d3c2cb73017119559ef18444de64)",
+        "https://civicrm.com/features/contribution-pages/ (snapshot cc037e9838a6b64ed93a11954f3d3c63d254d204eeba9bed252d0d59a7b97406)",
+        "https://civicrm.com/features/events/ (snapshot 50a8c4a7085886b65838579e61e1fdac583e114b54f2eef0a15dfbeb50e047a3)",
+        "https://civicrm.com/features/case-management/ (snapshot 0e5b4931d57c53b5ccbd4878c9302b49f6172c9e7bd3a90ebb23c508b970aa7e)",
+        "https://api.github.com/repos/civicrm/civicrm-core (snapshot cd112cdbfcd7306fa5688d9f4ff5f005c7354e25be562bf0600cc39a1d2058df)",
+        "https://api.github.com/repos/civicrm/civicrm-core/license (snapshot 1925789ddeb6107627083c6813b58486b2b4d217c372ed9e87c7d1447d059131)"
+      ],
+      "gaps": "未单独读取 membership-management 功能页；deployment 中的 CMS 集成和部分技术栈未由所列快照直接证明。"
+    },
+    "nonprofit-program-management": {
+      "status": "no_case_documented",
+      "basis": "research.json 记录了 GitHub 检索 TolaActivity/TolaData：TolaActivity 未提供许可证文件或 SPDX，TolaData 为 Apache-2.0 但已停止公开维护，且重心偏向指标、目标与结果框架/M&E；batch.json 没有该叶子的条目或 leaf_match，未建立关系。该叶子的查询、候选和边界理由均有留档。",
+      "sources": [
+        "research.json: search_attempts 与 fetch_outcomes（候选 URL 见记录）"
+      ],
+      "gaps": "候选快照未出现在 REVIEW_SOURCES.json，本次未独立重读；检索以 GitHub 为主，未覆盖商业 SaaS 项目管理产品。"
+    },
+    "online-donation-platform": {
+      "status": "changes_required",
+      "basis": "CiviCRM contribution-pages 快照正文证明可创建捐献页面或表单、接受一次性或定期捐赠、指定项目、使用多个支付处理器、发送收据或致谢、查看报告与仪表板、批量导出到会计软件；CiviCRM 仓库 id 8495499 和完整 AGPL-3.0 LICENSE 也一致。GiveWP 侧只有 README 产品简介和仓库元数据，未证明核心工作流。",
+      "sources": [
+        "https://civicrm.com/features/contribution-pages/ (snapshot cc037e9838a6b64ed93a11954f3d3c63d254d204eeba9bed252d0d59a7b97406)",
+        "https://api.github.com/repos/impress-org/givewp (snapshot a00c3f4989807f70a92fa7d0d2c3758514805109c4380ed41d57f56595fe0341)",
+        "https://raw.githubusercontent.com/impress-org/givewp/develop/README.md (snapshot ccd3bb4c01300ca5c11460869aba28ed145e96e9bc3e0612d1640683e0fde513)",
+        "https://api.github.com/repos/impress-org/givewp/license (snapshot 1ea0231f76e4d85ada71e89d1093ead1c1950ac77c679b3213d2db29935f6928)"
+      ],
+      "gaps": "GiveWP 缺功能或文档正文；README 未出现 donation form、payment/settlement、receipt、org console 等；batch 的「在线捐献表单」无直接来源。"
+    },
+    "peer-to-peer-fundraising-platform": {
+      "status": "pass_with_notes",
+      "basis": "CiviCRM peer-to-peer 快照正文证明支持者可以创建并个性化个人募款页、设定目标、向朋友家人同事等个人网络分享，组织端可实时跟踪活动进度并识别最有效的筹款人；这些内容支撑 supporter-held page、delegated solicitation 与 attribution/roll-up 三项结构。CiviCRM 仓库 id 8495499 与完整 AGPL-3.0 LICENSE 一致。",
+      "sources": [
+        "https://civicrm.com/features/peer-to-peer-fundraising/ (snapshot 591dda6ea5819328ceda9e096d25082a9889ce8b5c2427a75fdbb3308cf9b9b0)",
+        "https://api.github.com/repos/civicrm/civicrm-core (snapshot cd112cdbfcd7306fa5688d9f4ff5f005c7354e25be562bf0600cc39a1d2058df)",
+        "https://api.github.com/repos/civicrm/civicrm-core/license (snapshot 1925789ddeb6107627083c6813b58486b2b4d217c372ed9e87c7d1447d059131)"
+      ],
+      "gaps": "该页未直接写明每笔 gift 记入 fundraiser 以及资金结算至组织账户；同应用 contribution-pages 快照可佐证支付处理，但建议补充明确来源。"
+    },
+    "social-impact-measurement": {
+      "status": "no_case_documented",
+      "basis": "research.json 记录 ImpactFlow 候选为 Apache-2.0，README 可证项目会话、IPI/Outcomes Star 评估、SROI 与捐赠者影响力报告，但框架为内置标准，未见组织自定义指标框架或定性证据管理的明确证据；batch.json 没有该叶子的条目或 leaf_match，未建立关系。该叶子的查询、候选和边界理由均有留档。",
+      "sources": [
+        "research.json: search_attempts 与 fetch_outcomes（候选 URL 见记录）"
+      ],
+      "gaps": "候选快照未出现在 REVIEW_SOURCES.json，本次未独立重读；检索以 GitHub 为主，未覆盖商业 SaaS 影响力测量产品。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元；未做运行时或部署测试，也未通过 Web 复核。实际读取的是 REVIEW_SOURCES.json 列出的 10 个快照，以及 batch.json、research.json、input.json、REVIEW_TASK.md。research.json 中 TolaData/TolaActivity 与 ImpactFlow 的候选快照未出现在 REVIEW_SOURCES.json，未独立重读，仅依据其检索与抓取留档判断。CiviCRM 的功能页属于营销型功能页而非完整产品文档，部署/CMS 集成和社区版边界未能全部由所列快照直接证实。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-090/ses_groveopencodegop090review1_1792997499.jsonl",
+  "batch_sha256": "b44ddd948303c2ebc62ac9f09498ee0866e547277dbe47f357f757f12b3c0c81",
+  "research_sha256": "c33df6bf8f0449f7197457fb6323c5a74d62a60acd88e520782079bbac1425d7",
+  "input_sha256": "bc06501778a6c279e20a11239efffd1cad9564d682305b79a6af9346a22887b4"
+}

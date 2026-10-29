@@ -1,0 +1,64 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "code-enforcement-management",
+      "application_id": "github:116288758",
+      "issue": "已保存的实体类快照只有 CECase.java、CasePhase.java、NoticeOfViolation.java，没有 CodeViolation.java 或 Property.java。CECase 仅以字段类型引用 CodeViolation，未展示具体法规条款、整改期限或实际合规日期；NoticeOfViolation 只有通知文本与日期，未出现责任方/收件人字段；CECase.user 也不能证明是业主或责任方。因此“记录特定法规条款违规”和“对责任方的定向执法”两个定义性核心仅有间接证据，批次 features 中的“传票”“地块编号与地址检索”“实际合规日期”等表述也超出了已保存快照所能核对的范围。",
+      "fix": "补充 CodeViolation.java、Property.java（含业主/责任方字段）以及通知收件人、模板或数据库 schema 的快照，直接证明条款编号、责任方、整改期限与送达对象；若无法补齐，则将 summary/features 收窄到已证实字段，并在 research 中把 CodeViolation/Property 记为抓取缺口，明确“责任方与条款字段未验证”。"
+    }
+  ],
+  "non_blocking_notes": [
+    "public-budgeting-platform：来源 URL /products/budgeting-planning/ 的页面 canonical 为 /products/budgeting-and-performance/，批次 homepage 又是 opengov.com 根域；建议记录最终 canonical URL，避免来源追溯歧义。",
+    "court-case-management-system：Prisma schema 没有独立 DocketEntry/CaseEvent 模型，案卷时间线由 Document、Hearing、Motion、Deadline 与 AuditLog 组合推导；核心结构基本成立，但建议补充 docket 路由或 UI 快照以直接证明公开案卷。",
+    "code-enforcement-management：源码头部写的是 GPL-3.0-or-later，批次 SPDX 标为 GPL-3.0；许可证全文完整，建议统一 SPDX 标识或在 license_review 中说明采用 only 的依据。",
+    "public-financial-management-system / court-e-filing-platform：research 引用的 OpenGov Financial、Tyler ERP、public-efile.ts 候选快照存在于 sources/ 但未列入 REVIEW_SOURCES/batch；本次仅用于核对研究缺口，未作为包含应用的主证据，建议后续索引化。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；建议同步进度字段，避免输入与结果错位。",
+    "TPT Court 仓库在 GitHub 上呈 template 标识且 runtime_tested=false；本次只确认代码与数据模型存在，未验证生产部署或实际租户使用。",
+    "OpenGov 证据为产品营销页；商业条目仅按基本真实性和类型匹配核对，未验证实际租户工作流。"
+  ],
+  "leaf_checks": {
+    "public-budgeting-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:opengov-budgeting-performance"
+      ],
+      "evidence": "读取 df4c4abd...txt 正文：产品页明确面向州和地方政府“build, manage, and publish budgets”，覆盖 operating budgets、workforce planning、capital projects、performance reporting、online budget books，并在 FAQ 中说明 multi-fund、multi-department budgets；条目 ID 为 commercial:opengov-budgeting-performance，track=commercial。该证据足以支持商业条目的基本真实性和公共预算平台类型匹配。",
+      "gaps": "营销页未直接展开治理机构采纳/投票环节；来源 URL 与 canonical 不一致；未做运行时验证。"
+    },
+    "public-financial-management-system": {
+      "result": "pass_no_case",
+      "application_ids": [],
+      "evidence": "research.json 将该叶评估为 insufficient_evidence，并记录了 IFMIS、government budget management 等检索尝试；OpenGov Financial Management 快照可证明 general ledger、accounts payable、accounts receivable、fixed assets，Tyler ERP 快照可证明公共部门财务、预算监控、工资、收入与公用事业计费，但两者都未展开承诺/支付前的预算可用性校验或国库操作。该叶按无案例留档处理。",
+      "gaps": "没有包含应用；三合一核心未被已读页面完整证明；无案例缺口已如实记录。"
+    },
+    "code-enforcement-management": {
+      "result": "changes_required",
+      "application_ids": [
+        "github:116288758"
+      ],
+      "evidence": "仓库元数据确认 github_repository_id=116288758、public、非 fork；README 说明其为 Turtle Creek Valley Council of Governments 的法规执法与占用许可数据库；CECase.java 显示 Property/PropertyUnit、CodeViolation 列表、Event 列表、CasePhase、originationDate、closingDate；NoticeOfViolation.java 显示 noticeText、dateOfRecord、letterSentDate、letterReturnedDate；CasePhase.java 覆盖通知送达、初次/二次合规期、听证准备、听证后合规期与 Closed；LICENSE 为完整 GPLv3，project.properties 显示 gpl30、JSF/PrimeFaces、PostgreSQL。",
+      "gaps": "CodeViolation.java、Property.java、业主/责任方字段、通知收件人、传票/地块检索与“实际合规日期”均未在已保存快照中出现；核心“具体条款违规”和“责任方”只能间接推断，需补证或收窄 features。"
+    },
+    "court-case-management-system": {
+      "result": "pass",
+      "application_ids": [
+        "github:1259409130"
+      ],
+      "evidence": "仓库元数据确认 github_repository_id=1259409130、public、非 fork；LICENSE 为完整 MIT；README 说明管理 cases、documents、hearings、payments，并有法官/书记员/律师/公众角色；Prisma schema 的 Case 含 caseNumber、type、status、closeReason、filedAt、closedAt，关联 Party、Document、Hearing、Motion、Payment、Deadline，AuditLog 记录操作者、实体、动作与状态变更，UserRole 含 ADMIN/JUDGE/LAWYER/CLERK/PUBLIC。可支撑案件登记、当事人、文档、听证与结构化结果。",
+      "gaps": "没有独立 DocketEntry；案卷时间线需由多个模型组合推导；runtime_tested=false，未验证实际部署。"
+    },
+    "court-e-filing-platform": {
+      "result": "pass_no_case",
+      "application_ids": [],
+      "evidence": "research.json 将该叶评估为 boundary_unresolved；public-efile.ts 快照显示流程为选择法院、创建 Stripe PaymentIntent、缴费后直接创建 Case+Party+Payment，没有文件包、法院工作人员审查/接受/退回、退回原因与重提、立案回执或盖章副本等核心关卡；GitHub 检索记录称未发现其他许可证明确且核心匹配的完整开源电子立案平台。该叶按无案例留档处理。",
+      "gaps": "没有包含应用；TPT Court 的 public-efile 路由不满足法院审查关卡，已明确记录边界。"
+    }
+  },
+  "limits": "只读静态审查；未运行 shell、未部署应用、未做额外网络检索；以 REVIEW_SOURCES.json 索引的 12 个快照为主，另 spot-check 了 sources/ 中 5 个未索引的候选快照（OpenGov Financial、Tyler、public-efile.ts）用于核对 research 缺口；无法验证运行时行为、生产部署、动态页面内容，也未重新计算哈希。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-235/ses_groveopencodegop235review1_1793033995.jsonl",
+  "batch_sha256": "e92d8ae786b950b3c32614684a155d44e5939083ddbf761e4abac66b640ed2e7",
+  "research_sha256": "9e8a7dd3631665b15b662717019424aca4709d35bd1f1f681eea70e274f5f132",
+  "input_sha256": "6fdcf99bf4b2f99d05b589c9b6c40d654e2f5795b7761b10a1f760089596de79"
+}

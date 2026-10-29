@@ -1,0 +1,51 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "video-calling-application",
+      "application_id": "github:67111446",
+      "issue": "定义性核心第1、3项与本叶写法不一致，且不是措辞问题而是结构性差异：(a) 本叶要求“向特定个人发起呼叫并由对方接听（answered, not joined）”，而所引官方正文描述的是会话内的呼叫被“加入”——call.html 写 “If someone else starts a call, you may receive a notification… Tap Phone or Video to join, or tap the red button to decline”，conversations.html 写私密会话即“private chat or call with another Talk user”；仓库 Call API 的模型是 POST /call/{token} 加入某会话的呼叫，向个人“响铃”只是附加动作（POST /call/{token}/ring/{attendeeId}，且“When the room has no call in process”返回 400）。即呼叫本体存在于会话（房间）中，个人响铃是可选通知，被叫未接听/拒接并不会使该呼叫不存在。(b) 本叶 dc 明确要求“The product holds no persistent shared space beyond the call”，并以“rooms, offices, and meeting workspaces”为对照；而 Nextcloud Talk 的通话发生在持久会话中，chat 历史、文件、成员、会话设置均在通话后继续存在，官方 README 自述为 “A video & audio conferencing app for Nextcloud”，官网标题为 “Calls, chat and video conferencing…your private video conferencing tool”。批次已自认“该产品整体是会话/房间中心的协作平台”，仅裁取 1:1 子流程并不能把产品的组织对象从会话改为“呼叫本身”。按现写法（answered 而非 joined、无持久空间）该候选更贴近 01.04 下的视频会议/协作平台，而非本叶。",
+      "fix": "二选一并在资料中落实：(1) 若不改变本叶口径，请补充能证明“向个人定向发起、由被叫接听才建立连接、且该 1:1 呼叫为相对会话独立的有限会话（一方挂断即结束）”的一手正文（例如用户手册中 1:1 通话被叫必须应答才接通、主叫在被拒接后不处于通话中、以及 1:1 通话结束即终止的明确表述），并把条目改为不宣称“无持久空间”、明确说明产品主身份为会话/会议中心、仅 1:1 子流程计入；或 (2) 将该应用归入视频会议/协作平台叶（01.04 相应叶子），本叶留空并如实记录“已检索但未找到符合本叶核心的候选”。同时把 summary/leaf_matches 中“设备响铃并可接听进入”改为来源原话的“may receive a notification and your device may ring or vibrate… Tap Phone or Video to join, or tap the red button to decline”，避免把 join 表述为 answer。"
+    }
+  ],
+  "non_blocking_notes": [
+    "条目 features 第4条“并通过‘离开通话’结束本次会话”中的界面文案“离开通话”在所引用户手册快照（call.html）中不存在（该页 grep 无 Leave/Hang up/End call，仅有麦克风/摄像头控制与 reactions 等）；有界会话目前只由仓库 API 文档 80aee7b…（“Leave a call (but staying in the conversation for future calls and chat)”，DELETE /call/{token}，moderator 可 all）支撑。建议改为“按 Call API 的 leave 语义结束本次通话”，或补引含该按钮的用户手册/界面页，避免引用未出现的 UI 标签。",
+    "开源许可证核对通过：license 端点快照 ce5db1f… 为 COPYING（size 34520）的 base64 完整正文，解码首部为 “GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”；仓库元数据 fc744c6… 的 license.spdx_id 为 AGPL-3.0，id 67111446、full_name nextcloud/spreed、default_branch main 与条目一致，track=open_source 匹配。",
+    "社区版/商业组件边界建议写清：官网 14198e9… 明示 High Performance Backend 由 Nextcloud GmbH 提供（含 30 天托管试用），webinar/lobby、SIP 桥接等标注 “needs Nextcloud Talk High Performance Backend”。条目 deployment 只写“大规模通话可选用 High Performance Backend”，未说明该组件不在 AGPL 仓库范围内。建议补一句“本叶计入的 1:1 通话使用 AGPL-3.0 的 spreed 应用本体，无需 HPB；HPB/录音转写等为另行提供的商业或可选组件”，以免读者把 AGPL 覆盖范围扩大到 HPB。",
+    "部署形态：该应用是安装进自托管 Nextcloud 实例的应用（README：从 App Store 启用），属 open_source 轨道的自托管软件而非厂商托管服务；在本目录允许开源自托管条目的前提下可接受，无需按托管 SaaS 处理。",
+    "homepage 归一化差异：仓库元数据 homepage 为 https://nextcloud.com/talk（无尾斜杠），条目与来源 URL 为 https://nextcloud.com/talk/；同一页面，不影响结论。",
+    "research.json 对 Signal/Discord 的保留/移除理由与 input.json 中主会话结论一致，且明确区分“历史复用、非本轮检索、未视为已通过”；WhatsApp（JS 加载壳）与 FaceTime（HTTP 404）的抓取失败、conversation.html 404 均已如实记录，符合“缺口留档可通过”的要求，这些不阻断。"
+  ],
+  "leaf_checks": {
+    "video-calling-application": {
+      "slug": "video-calling-application",
+      "application_ids": [
+        "github:67111446"
+      ],
+      "evidence_read": [
+        "data/collections/sources/fc744c6af78c0599157138f2bbc5241b351ee828b4b439240031581092e48dce.txt（仓库元数据：id 67111446、nextcloud/spreed、license AGPL-3.0、default_branch main）",
+        "data/collections/sources/ce5db1f2cd62fe5dccc8450670d7dccdb6969c413666f657823c11b42cdb23c2.txt（COPYING，34520 字节，base64 首部为 AGPL v3）",
+        "data/collections/sources/d8e0e6f76200db39c666b1e63c47c34df0b575a87855f71c9dea9c905d0aa8ad.txt（README：video & audio conferencing app；私密/群组/公开通话；App Store 安装；TURN）",
+        "data/collections/sources/7101912d1e32faf0610bf371f385cb4a1676da4aa5bdb9a6fb2415fd88a0e5a9.txt（call.html：会话内 Start/Join call、移动端 Phone/Video、may ring、红色按钮 decline、麦克风/摄像头开关）",
+        "data/collections/sources/f87c27f0ed561647603542860e68716f7d75b82fa7cf589586a2756423e3be2f.txt（conversations.html：私密一对一会话即与另一位 Talk 用户的 chat or call，他人无法加入该会话/通话）",
+        "data/collections/sources/bd53c14782afe547d93d0c87d02fab026721b2ba26d65d0fc45e98e4a9d40756.txt（call_from_anywhere.html：头像菜单 Call {user}，浮动窗口直接发起）",
+        "data/collections/sources/80aee7b9677dec5dedaf903f6bcc7ebd63b0cb778e78bd6b49a4206f5e161338.txt（Call API：POST /call/{token} Join、POST /call/{token}/ring/{attendeeId} 需“room has no call in process”返回 400、DELETE /call/{token} Leave 且 staying in the conversation）",
+        "data/collections/sources/14198e91576b5607845f06f35f1805a839d048d547313b3bc9adf891e722e901.txt（官网：video conferencing tool、one-to-one or group calls、fully on-premise 100% open source、HPB 由 Nextcloud GmbH 提供）"
+      ],
+      "definitional_core": "部分成立但存在阻断性偏差：个人可达面（头像菜单 Call {user}、1:1 私密会话）与实时音视频（摄像头开关、视频通话）成立；但“被叫接听而非加入”和“呼叫之外无持久共享空间”两项与本叶 dc 不符——官方正文使用 join 语义、响铃仅是会话内呼叫的附加通知（无进行中的呼叫则 ring 返回 400），且通话寄居于持久会话（chat/文件/成员延续），产品自述为 conferencing app。见 findings 第1条。",
+      "service_form": "开源自托管应用（安装于客户自有 Nextcloud 实例），属 open_source 条目；非厂商托管 SaaS，但本目录开源轨道可接受。未做部署与运行时验证（runtime_tested=false），仅依据官方正文。",
+      "identity_and_track": "ID 一致：条目 github:67111446 与仓库元数据 id 67111446、full_name nextcloud/spreed、repository_url 相符；track=open_source 与 AGPL-3.0 相符。类型关系存在争议：官方定位为 Nextcloud 的音视频会议/协作应用，1:1 通话为其子流程。",
+      "license": "完整许可证已核对：COPYING 快照为 34520 字节 base64 全文，解码首部确为 GNU AGPL v3（2007-11-19），与 GitHub license.spdx_id=AGPL-3.0 一致；README 为 CC0-1.0（文档本身），不影响代码许可判断。",
+      "community_boundary": "核心 spreed 应用为 AGPL-3.0；官网表明 HPB（大规模会议、webinar/lobby、SIP 桥接所依赖）由 Nextcloud GmbH 提供，属另行提供的组件。条目仅提示“可选用 HPB”，未写明其许可/商业归属，属需澄清的边界表述（非阻断）。",
+      "research_record": "research.json 与 batch.json 一致：8 个来源 URL、SHA256、抓取时间齐全；search_attempts 记录 3 轮本轮检索及 3 条历史复用，fetch_outcomes 如实记录 conversation.html 404、WhatsApp 加载壳、FaceTime 404；Signal/Discord 以 withheld_candidates 说明移除理由，与 input.json 主会话结论一致，未把历史复用冒充本轮证据。",
+      "gaps": "本单元 REVIEW_SOURCES 仅提供 github:67111446 的 8 个快照，research 中引用的 Discord/Signal 历史快照（4fa3242…、d53eaa6…、b884db1…、488b4f9…）未随本单元提供，无法独立复核，但其仅用于“不纳入”的边界说明，不影响本叶结论；1:1 通话挂断的用户手册正文缺失，仅有 API leave 语义。",
+      "verdict": "changes_required：来源、ID、许可证、检索留档均扎实，但定义性核心（answered 而非 joined、呼叫之外无持久空间）与官方正文及产品自述存在实质冲突，须补证/收窄口径或改归会议类叶子。"
+    }
+  },
+  "limits": "本次为只读审查，仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 列出的 8 个快照（按 path 原样读取，未猜测或缩写路径），未运行 shell、未写文件、未访问其他单元、未联网复核。仓库元数据快照为单行超长 JSON，读取工具按 2000 字符截断显示，故仅通过定向检索确认 id/nextcloud/spreed、license.spdx_id=AGPL-3.0、homepage、default_branch 等关键字段，未逐字符通读全文。许可证快照为 base64 文本，已核对 name/path/size=34520 与解码首部为 AGPL v3，但未能逐行确认尾部的 “END OF TERMS AND CONDITIONS”，完整性判断依据文件大小与 GitHub license 端点语义。research 中引用的 Discord/Signal 历史快照未随本单元提供，无法独立复核；1:1 通话结束的用户手册正文缺失，仅有 Call API 的 leave 语义。未做部署、抓取或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-005/ses_groveopendesignp005review1_1793149560.jsonl",
+  "batch_sha256": "a5bf4a51234f5b224a7e1386fcfafd30e4da2bd5236700e018c69347d5994d6b",
+  "research_sha256": "ab9604bdd234f508fc3b2c0a5c0a0ab89ede034f74688adf752518cdb88ad813",
+  "input_sha256": "095e8bd040babccf77620d6170ddd54be2ef0343d6524f45cd3ea5b405175e3b"
+}

@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "creator-course-commerce-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:199892949"
+      ],
+      "query": "GitHub API 检索 codelitdev/courselit 的仓库身份与许可证；抓取官方 docs/README.md 与 docs/memberships.md，核对课程创作、结账、报价与会员访问",
+      "source_urls": [
+        "https://api.github.com/repos/codelitdev/courselit",
+        "https://api.github.com/repos/codelitdev/courselit/license",
+        "https://raw.githubusercontent.com/codelitdev/courselit/main/docs/README.md",
+        "https://raw.githubusercontent.com/codelitdev/courselit/main/docs/memberships.md"
+      ],
+      "note": "CourseLit 官方 docs 明确其用于在自己的网站销售在线课程和数字下载，README 列出课程创作、学生管理、Stripe 支付、网站/销售页；memberships 文档列出免费、一次性、订阅、分期方案，invoice 记录和支付成功后授予课程访问。核心课程-报价-结账-会员访问循环有正文证据，故作为开源课程电商平台成立。媒体资产依赖 MediaLit，官方说明可自建实例。",
+      "service_boundary": "自托管开源课程电商，不是纯 LMS，也不是只卖文件的通用结账工具；课程是主交易单位，报价绑定课程并授予会员访问。MediaLit 是媒体依赖，不影响课程/结账核心代码的开源身份。",
+      "search_attempts": [
+        {
+          "action": "GitHub API 仓库元数据",
+          "query": "repos/codelitdev/courselit",
+          "outcome": "确认 id 199892949、full_name、AGPL-3.0、默认分支 main、未归档"
+        },
+        {
+          "action": "GitHub license API",
+          "query": "repos/codelitdev/courselit/license",
+          "outcome": "确认 SPDX AGPL-3.0 与完整许可证正文"
+        },
+        {
+          "action": "官方文档抓取",
+          "query": "docs/README.md、docs/memberships.md",
+          "outcome": "确认课程创作、Stripe 结账、销售页、会员方案与课程访问授予"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/codelitdev/courselit",
+          "kind": "repository_metadata",
+          "result": "ok"
+        },
+        {
+          "url": "https://api.github.com/repos/codelitdev/courselit/license",
+          "kind": "license",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/codelitdev/courselit/main/docs/README.md",
+          "kind": "documentation",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/codelitdev/courselit/main/docs/memberships.md",
+          "kind": "documentation",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/codelitdev/courselit/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 404；仓库根目录无 README，改用 docs/README.md"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "creator-crm",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:9852918"
+      ],
+      "query": "GitHub API 检索 TryGhost/Ghost 的仓库身份与许可证；抓取官方 Members 文档与 README，核对成员记录、同意状态、标签和免费转付费流程",
+      "source_urls": [
+        "https://api.github.com/repos/TryGhost/Ghost",
+        "https://api.github.com/repos/TryGhost/Ghost/license",
+        "https://raw.githubusercontent.com/TryGhost/Ghost/main/README.md",
+        "https://docs.ghost.org/members"
+      ],
+      "note": "Ghost 官方 Members 文档明确成员记录字段（email、name、note、subscribed_to_emails、stripe_customer_id、status、labels、created_at），支持 CSV/Zapier/API 导入、按 tier 的访问级别和 Stripe 付费订阅。这覆盖一人一记录、联系身份、消息同意和免费受众转付费支持者的核心，故以发布平台内嵌的完整成员子模块成立。",
+      "service_boundary": "Ghost 的主身份是发布/订阅平台，Members 是内嵌的完整成员管理子模块，不是独立通用 CRM；已有证据只显示会员状态与 Stripe 客户号，未证明完整的一次性商品购买历史、打赏或互动事件流水，这些不写成已实现。",
+      "search_attempts": [
+        {
+          "action": "GitHub API 仓库元数据",
+          "query": "repos/TryGhost/Ghost",
+          "outcome": "确认 id 9852918、full_name、MIT、默认分支 main、未归档"
+        },
+        {
+          "action": "GitHub license API",
+          "query": "repos/TryGhost/Ghost/license",
+          "outcome": "确认 SPDX MIT"
+        },
+        {
+          "action": "官方文档抓取",
+          "query": "docs.ghost.org/members",
+          "outcome": "确认成员记录字段、标签、邮件同意、免费/付费/赠送状态、Stripe 订阅"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/TryGhost/Ghost",
+          "kind": "repository_metadata",
+          "result": "ok"
+        },
+        {
+          "url": "https://api.github.com/repos/TryGhost/Ghost/license",
+          "kind": "license",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/TryGhost/Ghost/main/README.md",
+          "kind": "readme",
+          "result": "ok"
+        },
+        {
+          "url": "https://docs.ghost.org/members",
+          "kind": "documentation",
+          "result": "ok"
+        },
+        {
+          "url": "https://ghost.org/help/members/",
+          "kind": "documentation",
+          "result": "HTTP 404；未采用，改读 docs.ghost.org/members"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "creator-revenue-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hurdlr"
+      ],
+      "query": "复核 Hurdlr 首页、/accounting、/invoicing 三个营销页；通过 Hurdlr University 帮助中心定位并抓取收入规则、发票状态/收款匹配、P&L、高级报表和按业务收入汇总文章，核对收入归因、已开票到已收款推进与汇总视图",
+      "source_urls": [
+        "https://www.hurdlr.com/",
+        "https://www.hurdlr.com/accounting",
+        "https://www.hurdlr.com/invoicing",
+        "https://university.hurdlr.com/en/articles/3730428-what-are-income-rules",
+        "https://university.hurdlr.com/en/articles/9904004-how-do-i-mark-my-invoices-as-paid-pro",
+        "https://university.hurdlr.com/en/articles/6593991-can-i-accept-payments-through-my-invoices-pro",
+        "https://university.hurdlr.com/en/articles/8396016-can-i-export-a-profit-loss-report",
+        "https://university.hurdlr.com/en/articles/3878797-what-advanced-reports-are-available-with-hurdlr-pro-pro",
+        "https://university.hurdlr.com/en/articles/1773186-how-do-i-view-total-mileage-expenses-and-earnings-per-business"
+      ],
+      "note": "复核发现三个旧快照并非只有 head/导航，正文含营销功能摘要；但它们都是营销功能页，不能单独证明工作流。补充的官方帮助中心正文可证：Income Rules 按收入类别、业务、客户自动标记从关联账户拉入的存款；Pro 发票有 Draft/Scheduled/Unpaid/Processing/Paid/Archived/Refunded 七种状态，通过 Stripe 收款完成时自动置为 Paid，线下收款可关联付款后置为 Paid；Stripe payout 与发票通常自动匹配，失败可手动匹配，现金/支票可关联银行交易或现金付款，支持部分付款及一对多/多对一匹配；P&L 汇总指定时间段收入与费用并可导出，Pro 高级报表含 Balance Sheet、Trial Balance、Aged Accounts、Income by Client，Web 端也可按业务查看收入/费用/里程汇总。据此保留商业基本记录，并把“会计报表”“已开票到已收款”收窄到上述正文可证范围。",
+      "service_boundary": "面向自由职业者/小企业的通用财务应用，不是专为内容创作者的多平台分成/打赏聚合器。已读材料只证明按收入类别、业务、客户及银行/Stripe 入账归集和发票收款匹配，未证明对 YouTube、Patreon、Gumroad 等平台 payout 的自动归集，不声称创作者平台分成对账。Invoicing（含发票状态与收款匹配）及 Balance Sheet、Trial Balance、Aged Accounts、Income by Client 等属于 Pro，不混入基础版。",
+      "search_attempts": [
+        {
+          "action": "官网首页抓取（旧记录，本次复核）",
+          "query": "https://www.hurdlr.com/",
+          "outcome": "旧记录称确认 income streams、expenses、tax estimates、Invoicing、Accounting、Core Financial Reports；复核正文可见这些营销摘要，但不足以单独证明工作流。"
+        },
+        {
+          "action": "官方功能页抓取（旧记录，本次复核）",
+          "query": "/accounting 与 /invoicing",
+          "outcome": "旧记录称确认发票、信用卡收款、collections、bank reconciliation、P&L/资产负债表；复核正文为营销功能页，故将 kind 更正为 homepage。"
+        },
+        {
+          "action": "复核旧营销页快照",
+          "query": "https://www.hurdlr.com/、/accounting、/invoicing",
+          "outcome": "三页正文含 income streams、信用卡收款、collections、bank reconciliation、Core Financial Reports 等营销摘要；但均为功能营销页，故将 /accounting、/invoicing 的 kind 由 documentation 更正为 homepage。"
+        },
+        {
+          "action": "官方帮助中心导航检索",
+          "query": "https://university.hurdlr.com/ 及 invoicing-pro、reports、income-expense-tracking 集合页",
+          "outcome": "在官方帮助中心定位到收入规则、发票状态、收款、P&L、高级报表和按业务汇总的报告文章。"
+        },
+        {
+          "action": "帮助中心发票/收款文章抓取",
+          "query": "how-do-i-mark-my-invoices-as-paid-pro、can-i-accept-payments-through-my-invoices-pro",
+          "outcome": "确认七种发票状态、Stripe/ACH 收款、Paid 状态更新、Stripe payout 与银行/现金付款匹配、部分付款。"
+        },
+        {
+          "action": "帮助中心收入/报表文章抓取",
+          "query": "what-are-income-rules、can-i-export-a-profit-loss-report、advanced-reports、earnings-per-business",
+          "outcome": "确认按收入类别/业务/客户自动标记入账、P&L 导出、Pro 高级报表和按业务收入汇总视图。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.hurdlr.com/",
+          "kind": "homepage",
+          "result": "ok；营销首页，正文含收入流/发票/报表功能摘要"
+        },
+        {
+          "url": "https://www.hurdlr.com/accounting",
+          "kind": "homepage",
+          "result": "ok；营销功能页，kind 由 documentation 更正为 homepage"
+        },
+        {
+          "url": "https://www.hurdlr.com/invoicing",
+          "kind": "homepage",
+          "result": "ok；营销功能页，kind 由 documentation 更正为 homepage"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/3730428-what-are-income-rules",
+          "kind": "documentation",
+          "result": "ok；收入规则按类别/业务/客户自动标记存款"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/9904004-how-do-i-mark-my-invoices-as-paid-pro",
+          "kind": "documentation",
+          "result": "ok；七种发票状态及付款/payout 匹配流程"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/6593991-can-i-accept-payments-through-my-invoices-pro",
+          "kind": "documentation",
+          "result": "ok；Stripe 信用卡/ACH 发票收款"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/8396016-can-i-export-a-profit-loss-report",
+          "kind": "documentation",
+          "result": "ok；P&L 收入/费用汇总与导出"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/3878797-what-advanced-reports-are-available-with-hurdlr-pro-pro",
+          "kind": "documentation",
+          "result": "ok；Pro 的 Balance Sheet/Trial Balance/Aged Accounts/Income by Client"
+        },
+        {
+          "url": "https://university.hurdlr.com/en/articles/1773186-how-do-i-view-total-mileage-expenses-and-earnings-per-business",
+          "kind": "documentation",
+          "result": "ok；Web 端按业务查看收入、费用与里程汇总"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "creator-storefront",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:148129143"
+      ],
+      "query": "GitHub API 检索 bagisto/bagisto 的仓库身份与许可证；抓取 README 与官方功能页，核对店铺、商品目录、结账/订单和支付集成",
+      "source_urls": [
+        "https://api.github.com/repos/bagisto/bagisto",
+        "https://api.github.com/repos/bagisto/bagisto/license",
+        "https://raw.githubusercontent.com/bagisto/bagisto/2.5/README.md",
+        "https://bagisto.com/en/features/"
+      ],
+      "note": "Bagisto README 定位为开源 Laravel 电商/多商户平台，可建单店或多商户店；官方功能页列出在线店铺、商品目录、多销售渠道、库存、订单管理、支付集成与 storefront/PWA。卖家可自托管自有品牌店铺、定义目录并在平台内结账，覆盖店铺-目录-购买-收入核心，故成立。",
+      "service_boundary": "通用开源电商平台，不是专为创作者设计的 POD/艺术家店铺；已读页面未展示平台代收后向卖家结算的 payout 账本，自托管模式更接近卖家直连支付，故不写平台托管余额、最低结算阈值或创作者专属社交渠道。",
+      "search_attempts": [
+        {
+          "action": "GitHub API 仓库元数据",
+          "query": "repos/bagisto/bagisto",
+          "outcome": "确认 id 148129143、full_name、MIT、默认分支 2.5、未归档"
+        },
+        {
+          "action": "GitHub license API",
+          "query": "repos/bagisto/bagisto/license",
+          "outcome": "确认 SPDX MIT"
+        },
+        {
+          "action": "官方页面抓取",
+          "query": "README 与 bagisto.com/en/features/",
+          "outcome": "确认在线店铺、商品目录、多销售渠道、订单管理、支付集成与自托管/Docker"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/bagisto/bagisto",
+          "kind": "repository_metadata",
+          "result": "ok"
+        },
+        {
+          "url": "https://api.github.com/repos/bagisto/bagisto/license",
+          "kind": "license",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bagisto/bagisto/2.5/README.md",
+          "kind": "readme",
+          "result": "ok"
+        },
+        {
+          "url": "https://bagisto.com/en/features/",
+          "kind": "documentation",
+          "result": "ok"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "digital-product-commerce-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:3961425"
+      ],
+      "query": "GitHub API 检索 easy-digital-downloads 仓库身份与许可证（旧路径 301 到 awesomemotive）；抓取 WordPress 插件 readme，核对数字商品、自动下载交付和卖家报表",
+      "source_urls": [
+        "https://api.github.com/repos/awesomemotive/easy-digital-downloads",
+        "https://api.github.com/repos/awesomemotive/easy-digital-downloads/license",
+        "https://raw.githubusercontent.com/awesomemotive/easy-digital-downloads/main/readme.txt"
+      ],
+      "note": "Easy Digital Downloads 的 readme 明确其用于销售数字产品，免费社区版含数字商品管理、购物车、结账、Stripe/PayPal/Square 支付、唯一下载链接与下载次数/过期限制、邮件收据、客户购买历史、退款、销售/收入报表和折扣码。购买成功自动生成受限下载链接，覆盖数字商品-购买-自动交付-卖家收益核心。",
+      "service_boundary": "它是 WordPress 插件而非独立 SaaS 后端，需 WordPress 站点承载；免费社区版与付费 Pro 扩展须分清，订阅、软件许可、会员内容限制、弃购恢复等为 Pro/扩展能力，不混入社区核心。卖家连接自己的 Stripe/PayPal，已读 readme 未证明平台代收代付。",
+      "search_attempts": [
+        {
+          "action": "GitHub API 仓库元数据",
+          "query": "repos/awesomemotive/easy-digital-downloads",
+          "outcome": "确认 id 3961425、full_name、GPL-2.0、默认分支 main、未归档；旧 easydigitaldownloads 路径返回 301"
+        },
+        {
+          "action": "GitHub license API",
+          "query": "repos/awesomemotive/easy-digital-downloads/license",
+          "outcome": "确认 SPDX GPL-2.0"
+        },
+        {
+          "action": "插件 readme 抓取",
+          "query": "readme.txt",
+          "outcome": "确认数字商品目录、结账、安全下载链接、收据、客户历史、退款与收入报表"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/awesomemotive/easy-digital-downloads",
+          "kind": "repository_metadata",
+          "result": "ok"
+        },
+        {
+          "url": "https://api.github.com/repos/awesomemotive/easy-digital-downloads/license",
+          "kind": "license",
+          "result": "ok"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/awesomemotive/easy-digital-downloads/main/readme.txt",
+          "kind": "readme",
+          "result": "ok"
+        },
+        {
+          "url": "https://api.github.com/repos/easydigitaldownloads/easy-digital-downloads",
+          "kind": "repository_metadata",
+          "result": "HTTP 301 Moved Permanently；改用 awesomemotive 仓库"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

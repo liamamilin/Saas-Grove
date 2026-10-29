@@ -1,0 +1,26 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将各叶标为 case_status=not_searched，且 application_ids/research_records 为空，与 research.json/batch.json 已存在的检索记录和 OpenRIMS-PV 条目不一致；这属于流程元数据滞后，不影响本次内容核对。",
+    "pharmacovigilance-platform 的核心工作流证据主要来自 OpenRIMS 官方主页和 OpenRIMS wiki 的 User Manual Chapter 1。该章正文仍以 PViMS（OpenPV 的前身/基础）命名，且未展开案例生命周期、follow-up、reportability 规则和定期汇总报告等细节；现有证据足以完成类型初审，但深度有限，建议后续补充案例处理与报告章节。",
+    "OpenRIMS-PV 是自托管 GPL Web 应用，不是厂商托管的订阅式 SaaS；本次按“持续使用的软件服务形态”接受，未按托管 SaaS 处理。",
+    "batch 中 homepage 写作 https://openrims.org/，实际快照 URL 为 https://www.openrims.org/，属同一站点重定向，不构成事实错误；technology_stack（C#/TypeScript/TSQL）未在已读快照中直接出现，属未复核元数据，不影响类型与许可判断。",
+    "medication-management-platform、academic-advising-platform、admissions-management 的 research.json 记录了抓取/检索，但 sources/ 下没有对应快照，其缺口结论按留档接受，未做原文独立复核。",
+    "pharmacy-management-system 对 RxSolution 的排除是保守且与定义中“药剂师审核关卡”规则一致的；抽查 Chapter 16/21/22/17 文本后，确实只看到 dispenser 定义、调剂权限、Post 校验处方头与扣库存，未见独立且可记录的药剂师审核，因此不纳入不构成漏采。",
+    "本次未核验仓库维护活跃度、商业/社区版功能差异及第三方依赖许可证，这些不属于本次初审的阻断项。"
+  ],
+  "leaf_checks": {
+    "medication-management-platform": "batch.json 无该叶条目；research.json assessment=insufficient_evidence，记录 websearch 无结果、GitHub “medication management in:name” 检索，以及 HospitalRun README 抓取，称其为面向发展中国家的 HIS，未证明“药品库存—患者用药方案—已核验给药事件”三部分核心；无 application_id/track/许可证可核，也无 HospitalRun 快照可复核原文。按如实留档缺口接受，不纳入。",
+    "pharmacovigilance-platform": "batch.json 有条目 github:658815259；repository metadata 快照显示 repository_id=658815259、public、非 fork，与 ID/track 一致；LICENSE 快照为完整 GPL-3.0 文本（含 Version 3、END OF TERMS AND CONDITIONS、How to Apply），license 字段与 license_review 一致。官方 homepage 快照明确 OpenRIMS-PV 供 clinicians/regulatory bodies/implementing partners/patients 报告 AE，覆盖 data collection/analysis/reporting，并支持 active monitoring 与 spontaneous reporting；wiki User Manual Chapter 1 正文进一步给出必填字段、因果评估/严重性、安全性信号生成、E2B case safety 导出。据此可作药物警戒平台类型初审；核心流程细节（案例生命周期、定期汇总报告）未在快照中展开，见 limits。",
+    "pharmacy-management-system": "batch.json 无该叶条目；research.json assessment=boundary_unresolved。RxSolution 的官方 eManual 文本快照可证处方、药品目录、患者处方史、regimen、Post 扣减 demander 库存与标签打印；但 Chapter 16 只把 dispenser 定义为按处方分发者并记录专业编号/调剂权限，Chapter 21 的 Post 弹窗仅校验处方头信息，Chapter 22 的 “checked” 未说明由药剂师执行或系统记录，故未证独立且可记录的药剂师审核关卡，边界未决不纳入。无 application_id/track/许可证可核。",
+    "academic-advising-platform": "batch.json 无该叶条目；research.json assessment=boundary_unresolved，记录 MSU Student Advising Portal README（仅移动端预约/日程骨架）与 BOA（GitHub license=Other）检索；未提供两者快照，无法独立复核原文。无法证明机构学术上下文学生记录、正式顾问—学生关系、咨询互动历史三结构。无 application_id/track/许可证可核。",
+    "admissions-management": "batch.json 无该叶条目；research.json assessment=boundary_unresolved，记录 OpenEduCat 官方招生页（申请、材料完整性、评分审核、录取/候补/定金）但 GitHub license=NOASSERTION 且无许可证文本；Fedena Apache-2.0 但 schema 仅 admission_no/admission_date，未证审核与决定流程。未提供 OpenEduCat/Fedena 快照，无法独立复核。无 application_id/track/许可证可核。"
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未做部署/运行时测试；仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、research.json，以及 REVIEW_SOURCES.json 列出的 5 个 OpenRIMS 快照，并抽查 research.json 明确引用的 RxSolution 文本快照；未读取其他单元或采集者 TASK.md。未计算校验哈希，按 REVIEW_SOURCES 的文件名/sha256 对应关系读取。medication-management、academic-advising、admissions-management 的抓取源没有归档快照，无法独立复核其原文；未核验技术栈、维护活跃度、第三方依赖许可证及商业/社区版功能差异。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-221/ses_groveopencodegop221review2_1793031239.jsonl",
+  "batch_sha256": "aa5a9fa336b45990fe138a3cee1005c85c987ab4d37f1480910cb0b939bd6b6d",
+  "research_sha256": "7820022e610b92cef4caf745f1c41d10294a93a6310f4260b8b793c36701f612",
+  "input_sha256": "f1c474ed9429c26b40ab4d3d48d75fd6a1c945a9de1caaff1939130e3c2fd748"
+}

@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "grantmaking-platform",
+      "application_id": "github:557508553",
+      "issue": "该叶的核心证据目前只有 navariltd/navari_gms 的 develop 分支 README 中的一句功能罗列（Grant call management、Evaluation of Grant Proposals、Management of Grant Awarding、Monitoring Outcomes、Managing Closeout）。这句话只列出阶段名称，没有展示资助计划的规则（目的、资格、条款、周期）、申请记录、评审与选择决策记录、授予金额与条款、分期付款或支付、后续报告等定义性链条的实际记录和工作流。按本叶定义，计划、外部申请、授予决策、受管执行四段缺一不可；当前证据属于简介或关键词级别，不能替代核心正文。",
+      "fix": "补充官方用户指南、文档、界面截图，或代码中的 doctype 记录证据（如 Grant Call、Grant Application、Grant Award、Grant Disbursement、Installment、Progress Report），逐段对应计划→申请→决策→授予→执行与报告；若无法补充，收窄条目表述，并在 research.json 中明确记录该核心证据缺口，或改用生命周期证据更完整的候选。"
+    }
+  ],
+  "non_blocking_notes": [
+    "donor-management-system、fundraising-management-platform、nonprofit-case-management（github:8495499）三个叶子共用以 CiviCRM 为来源。CiviCRM 是范围较广的非营利 CRM，同时覆盖联系人、捐献、活动、会员、个案和同伴募款；三个叶子各有独立正文支撑其核心，但条目应保留相邻类型说明，避免把 CiviCRM 的整体 CRM 身份误读为单一捐赠管理系统、单一筹款平台或单一个案系统。",
+    "donor-management-system（github:8495499）：contact-management 正文支撑捐赠者、支持者、志愿者和会员记录、giving history、互动记录和细分，并说明交易会自动落到联系人记录上；contribution-pages 正文补充在线捐献、收据、致谢和募款结果报告。捐献页本身是面向捐赠者的在线捐赠界面；按叶子边界，它只应作为组织方记录和关系维护的补充，不宜把在线捐赠流程当作该叶核心。",
+    "nonprofit-case-management（github:8495499）：case-management 正文支撑服务对象、案例类型与字段、可配置工作流、案例分配给员工或志愿者、活动记录、提醒和绩效报告；但没有直接展示 intake→active→recorded closure 的关闭状态。这属于深度缺口，建议后续补充生命周期末端证据，本次不阻断类型匹配。",
+    "monitoring-evaluation-platform（github:641978792）：官方项目页正文支撑变革理论、逻辑框架、指标关联、按时间与实体层级的数据采集、自动聚合和复合指标；报告环节目前只有 PDFReports 抽象基类和文件树中的报告、指标条目，未展示按周期或面向捐赠方的进展报告工作流。research.json 已如实记录这一文本缺口，本次不阻断，但建议补充具体报告页面或文档，以坐实报告闭环。",
+    "grantmaking-platform（github:557508553）：README 的安装命令指向 navari_grant_management_system.git，与受审仓库 navari_gms 名称不一致；仓库元数据、许可证和 README 标题均可对应 grants management，因此未作为身份不一致阻断，但建议核对是否为改名后的同一项目，并更新安装说明。",
+    "input.json 的 progress 仍为 case_status=not_searched 且 application_ids 为空，与 research.json 的 case_found 及 batch.json 条目不一致；本次以 batch.json、research.json 和快照为准，未把 input.progress 当作采集结果，但下游如果以该字段为准会误判。"
+  ],
+  "leaf_checks": {
+    "donor-management-system": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "读取 https://civicrm.com/features/contact-management/ 快照正文：组织维护捐赠者、志愿者、会员等联系人，记录 giving history、互动和细分，交易自动落到联系人记录上；读取 https://civicrm.com/features/contribution-pages/ 快照正文：CiviContribute 记录并报告财务和实物捐献、活动费、募款活动、收据与致谢、募款结果。两者组合覆盖成员记录、捐赠归属、累计历史和关系维护与细分四个核心。https://api.github.com/repos/civicrm/civicrm-core 确认 id=8495499；https://api.github.com/repos/civicrm/civicrm-core/license 返回完整 AGPL-3.0；README 确认 AGPL 许可及自托管方式，以及与 CMS 集成；核心仓库未见社区版限制。",
+      "gap": "捐献页是在线捐赠界面，核心匹配依赖联系人页的组织方记录，不把在线捐赠流程本身当作该叶核心；无阻断性缺口。"
+    },
+    "fundraising-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "读取 https://civicrm.com/features/contribution-pages/ 快照正文：可创建带目标、信息和捐赠选项的募款活动，支持支持者自建募款页面、按目标跟踪进度，并报告和评估募款结果与趋势；读取 https://civicrm.com/features/events/ 快照正文：活动页面、在线注册、票务与定价、签到和出勤；读取 https://civicrm.com/features/peer-to-peer-fundraising/ 快照正文：支持者自建页面、个人故事、图片、目标、实时进度与分析。三者覆盖倡议容器、机制组合、捕获界面、记录交易和计划级跟踪。仓库 id=8495499，AGPL-3.0 完整许可证。",
+      "gap": "CiviCRM 不是专用筹款平台，活动、捐献和同伴募款是同一 CRM 的组件；证据足以匹配该叶核心，但条目应说明其范围较广的 CRM 身份。"
+    },
+    "grantmaking-platform": {
+      "result": "changes_required",
+      "application_ids": [
+        "github:557508553"
+      ],
+      "basis": "https://api.github.com/repos/navariltd/navari_gms 确认仓库 id=557508553；README 标题为 Grants Management System（ERPNext/Frappe）；https://api.github.com/repos/navariltd/navari_gms/license 返回完整 GPL-3.0（LICENSE.md，约 35.1 KB）；仓库身份和许可证可核对。但核心正文仅为 develop 分支 README 的一句功能罗列，未提供计划规则、申请记录、评审决策、授予条款、分期支付和后续报告等链条证据。",
+      "gap": "核心链条证据不足，详见 findings；需补充官方文档、截图或 doctype 记录，或收窄表述并记录缺口。"
+    },
+    "monitoring-evaluation-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:641978792"
+      ],
+      "basis": "读取 https://www.monic.tech/ 快照正文：Monitoring 组件支持分布式数据采集、按日期与实体层级自动聚合、复合指标、细粒度权限和质量保证；Theory of Change builder 将投入、活动、产出、成果、影响与指标关联；Logical Framework 指定活动、产出、成果、目标，并将每行链接到指标。README 确认开源、.NET/SQL Server 和开发中状态；https://api.github.com/repos/capesean/MONIC 确认 id=641978792；https://api.github.com/repos/capesean/MONIC/license 返回完整 AGPL-3.0；https://raw.githubusercontent.com/capesean/MONIC/master/WEB/Code/Reports/PDFReports.cs 和文件树条目确认报告模块存在；未见社区版限制。",
+      "gap": "面向捐赠方的按周期进展报告工作流未在官方文本中直接展开，仅有报告模块和文件树证据；research.json 已记录该缺口，本次不阻断。"
+    },
+    "nonprofit-case-management": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "读取 https://civicrm.com/features/case-management/ 快照正文：非营利组织围绕个人或家庭服务对象开展个案管理，支持自定义案例类型和字段、可配置工作流、案例分配给员工或志愿者、阶段、任务和活动，记录电话、邮件、会议，保留完整互动历史，并提供提醒和绩效报告；Contacts/Activities 集成提供案例与对象的关联视图。仓库 id=8495499，AGPL-3.0 完整许可证。",
+      "gap": "未直接展示 intake→active→recorded closure 的关闭状态；核心类型匹配成立，但生命周期末端证据偏薄，建议补证。"
+    }
+  },
+  "limits": "只读审查；未运行应用，未做部署或运行时测试；未访问实时网页，仅按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources 下快照；CiviCRM、Navari、MONIC 的许可证为 GitHub license 接口返回的完整 base64 文本，按文件大小和开头确认许可证类型，未逐行解码全文；MONIC 的 git tree 快照是单行 JSON，读取输出在 2,000 字符处截断，只能确认文件树开头以及 Indicator、Report、Chart、Excel 等关键词存在，未能逐条核对具体报告文件路径；input.json 的 progress 与 batch.json、research.json 不一致，本次以 batch.json、research.json 和快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-088/ses_groveopencodegop088review1_1792997127.jsonl",
+  "batch_sha256": "45b244852d6772dd00459cde4eeff58711c0e502cedfbd4a20e7631d1379a016",
+  "research_sha256": "109b68e7f7ac2205cd2c9aedb78d28f69d8640860abe91f9338d1307a52f7676",
+  "input_sha256": "80d0c1ab90ab0e87ce12fb71a45e84d411bee7f25364b49b2bb8484f469300d1"
+}

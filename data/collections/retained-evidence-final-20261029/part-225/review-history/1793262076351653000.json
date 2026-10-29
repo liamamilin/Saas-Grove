@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "sponsorship-management",
+      "application_id": "github:156489936",
+      "issue": "承诺记录未承载完整的款项端。`db/seeds.rb` 中价格、容量、展位和邀请票都在 `Plan` 上，`Sponsorship` 只保存 `plan` 关联、主联系人和账单联系人及 `booth_requested/booth_assigned`；`app/views/sponsorships/_form.html.haml` 只有套餐选择、联系人、账单联系人、展位、票和备注字段，没有发票号、付款状态或收款状态；`README.md` 的 Roadmap 仍将 `Invoicing` 标为未完成。定义要求承诺记录同时承载 money side（金额、发票、付款状态）并经历 committed→paid→fulfilled，因此当前证据只能证明赞助商、定价套餐和展位/资料/票务等权益交付，不能证明承诺被带到付款/收款环节。batch 仍将该应用标为 `case_found` 并作为本叶唯一案例，结论偏早。",
+      "fix": "二选一：将 `github:156489936` 降为候选/`insufficient_evidence`（从 `batch.entries[0].leaf_matches` 移除该叶，`research.leaf_cases[0].assessment` 改为 `insufficient_evidence` 并保留缺口说明），或补充应用内可核对的发票/付款/收款状态与承诺金额证据（不能只用外部财务流程说明）。同时将摘要中“套餐价格……随承诺记录保存”改为“价格由所关联的套餐提供”，并删去或补证“撤回”，因为 README 的 `withdrawing` 仍未勾选。"
+    }
+  ],
+  "non_blocking_notes": [
+    "homepage 快照只显示登录入口和“当前无开放申请”，只能证明产品身份/入口，不能作为核心工作流证据；本次未据此下结论。",
+    "`sponsorships/_form.html.haml` 的资产上传区域显示 `(Loading)` 占位；本次未将该占位作为证据，核心判断依赖同一表单的联系人、套餐、展位、票和政策字段，以及 seeds/booth_assignments 视图。",
+    "展位分配、资料提交和票务有证据，但未看到覆盖所有权益（如 Logo 展示、冠名等级）的逐项履行状态；若定义要求逐项权益交付台账，需进一步确认。",
+    "该应用是自托管 Rails/PostgreSQL/S3 应用，不是厂商托管 SaaS；在 `open_source` track 下可接受，公开条目宜明确部署形态。",
+    "续约主要体现为“复用过往申请”，README 的 CRM/Manage past applications 仍未完成；作为会议场景的年度承诺管理，续约生命周期证据有限但不构成主要阻断。",
+    "Tendenci、Optimy、eventyay 的排除理由来自 research 记录，本单元未提供这些候选的独立快照，无法在本次初审中复核；不影响 SponsorApp 的证据链。",
+    "MIT 许可证为完整文本，未发现单独的社区版/商业版边界；若存在付费托管版，需另行说明。"
+  ],
+  "leaf_checks": {
+    "sponsorship-management": {
+      "status": "changes_required（款项端核心缺口）",
+      "definition_core": "赞助商（Organization/Sponsorship.organization）、定价套餐（Plan: price/price_text、capacity、booth_size、number_of_guests、words_limit）与承诺记录（Sponsorship: organization、plan、contacts、booth_requested/booth_assigned、requests）均有正文证据；README 的 Sponsor Management/Portal/Additional tickets/Booth details submission 与 booth_assignments 视图证明展位申请/分配、资料与票务等权益交付。",
+      "money_side_gap": "承诺记录仅通过 plan 关联价格，表单和 seeds 未见 invoice/payment/collection 字段或状态；README 的 Invoicing 仍未完成。定义要求的款项端（金额、发票、付款状态）和 committed→paid 生命周期未成立。",
+      "service_form": "Self-hosted Ruby on Rails web application（PostgreSQL/S3；多会议数据持久化），属于持续使用的软件服务形态；但非厂商托管 SaaS。",
+      "identity_track": "batch id `github:156489936` 与 repository metadata 的 id `156489936`、full_name `ruby-no-kai/sponsor-app` 一致；MIT 公开仓库，track=`open_source` 匹配。",
+      "license": "license 快照的 base64 内容可解码为完整 MIT 文本（含版权、许可、AS IS 免责声明）；repository metadata 与 research 记录 SPDX MIT。",
+      "community_edition": "未发现单独的社区版/商业版拆分或 open-core 限制；MIT 覆盖仓库。若存在付费托管版，本单元未提供边界说明。",
+      "source_basis": "已读取全部 7 个 REVIEW_SOURCES 快照；核心依据为 README、seeds.rb、sponsorships/_form、booth_assignments/show；homepage 仅为登录/无开放申请页，未作为核心工作流证据；表单中的 `(Loading)` 占位未作为证据。",
+      "assessment": "`research.json` 的 `case_found` 与 batch 的 leaf_match 结论偏早；在款项端补证前不应作为完整案例。"
+    }
+  },
+  "limits": "只读审查，未运行应用、未部署、未执行 shell、未写文件、未读取其他单元；仅使用本单元 input.json、batch.json、research.json 和 REVIEW_SOURCES.json 列出的 7 个快照。repository metadata 快照在 2000 字符处截断，archived/default_branch 等字段未能直接读取；license 快照的 SPDX 对象位于截断之后，但嵌入的 base64 可解码为完整 MIT 文本。seeds.rb 是示例种子数据，不能替代运行时行为验证；未核实外部财务/发票系统。Tendenci、Optimy、eventyay 的排除理由没有独立快照，无法复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-225/ses_groveopencodegop225review1_1793261661.jsonl",
+  "batch_sha256": "8982626b75a8ffc2562b1febe5a4417f0ef721d07e418b6a3355a3543f48ab9a",
+  "research_sha256": "b92c31e7615772a8a2288b00e1fd7f970ceaea9496f894f91917607dc680081b",
+  "input_sha256": "db74b8147a9f79174e412eec73a1374172cf03c0c0e6acdb54c3abf6e69c2a7b"
+}

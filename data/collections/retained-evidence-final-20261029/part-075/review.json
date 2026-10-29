@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "controls-management-platform",
+      "application_id": "github:16085812",
+      "issue": "批次条目把「失败测试关联/生成风险、测试退役、按控制定义测试」等整改与测试循环证据写在 leaf_matches.reason 和 summary 中，但 batch.json 的 sources 仅登记了首页、仓库元数据、LICENSE、README、治理页、合规页、开源部署页、download、download/manual、仓库目录元数据，没有登记承载这些关键事实的 support 文章；leaf_matches.source_urls 也只列了治理页/合规页/开源部署页三处，导致 reason 里「用户指南正文还记录失败测试会关联/生成风险、测试可退役」在条目内没有对应来源。核对时在 data/collections/sources 下实际存在 02.07《Control Tests and Evidence Collection》(57b187c4…，含 test_result_to_risk、失败测试内联提交/关联风险、retire/delete、证据按审计实例归档)、02.04《Mapping Controls Across Frameworks》(ee0a783b…，控制↔多框架映射模型) 以及 user-guide 目录页 (1bf3bce5…)，但这些快照未进入 batch.json sources，也未进入 REVIEW_SOURCES.json 清单。结果是条目对「整改联动」这一核心环节的引用链不闭合，下游仅按已登记来源无法复核该主张。",
+      "fix": "把已经抓取并落盘的 02.04、02.07（以及 user-guide 目录页，如仍作为导航依据）补入 batch.json 的 sources 数组，写全 url、sha256、snapshot_path、kind、fetched_at；同时把 https://support.simplerisk.com/kb/02-07-control-tests-and-evidence-collection 与 https://support.simplerisk.com/kb/02-04-mapping-controls-across-frameworks 加入 leaf_matches.source_urls，并在 REVIEW_SOURCES.json 中登记对应 path。若不愿扩充来源，则应删除 summary/features/leaf_matches 中仅由这些未登记正文支撑的整改、退役表述，二者取其一。"
+    }
+  ],
+  "non_blocking_notes": [
+    "SimpleRisk 整体是 GRC 套件（治理 + 风险管理 + 合规），并非只做控制管理；其 Governance（控制库、UI/CSV 添加控制、跨框架映射、政策层级、审计轨迹）与 Compliance（按控制定义可复用测试、框架/控制/单测试级审计、时间线、证据、审计师受限访问、控制级 posture 汇总）两个模块共同满足本叶定义，类型匹配成立，不需因此改判。",
+    "02.04 正文记录「mapping 只能在新建控制时设置，Update Control 不显示也不保存映射」的已知限制，属于产品功能限制而非身份或边界问题；如条目要面向用户描述映射能力，可在描述中使用「新建控制时建立映射」之类的限定措辞。",
+    "02.07 正文说明支持 frameworkless control（未映射任何框架的控制也可定义测试），与叶定义「映射是构成性的」存在措辞张力；这是产品实现细节，不构成收录阻断，但引用规则时不宜把「必须至少一个要求映射」写成 SimpleRisk 的硬性行为。",
+    "开源社区版边界清晰且有正文支撑：deployment/open-source 页明确 Core 为「free, open-source foundation」「not a trial or a stripped-down teaser」、不限用户、自托管，Compliance 可「Define unlimited tests across your frameworks and controls」；同页对照表写明 Open Source 不提供 Paid Extras，On-Premise/SaaS 才提供，batch 中「免费 Core 可自托管」与 deployment 字段（self-hosted/Docker/VM/manual/scripted）一致。",
+    "research.json 的 source_urls 还列了 /features 与 /extras：/features 自述为功能建议页、无功能正文，research 已注明未用作匹配依据，处理妥当；/extras 仅用于免费/付费边界，但该快照 (5ec64130…) 同样未登记进 batch.json sources 与 REVIEW_SOURCES.json，补登记时可一并处理，不必单独阻断。",
+    "input.json 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，与 research.json 的 assessment=case_found、case_ids=[github:16085812] 及 batch.json 中的条目不一致，属于补证前的旧状态；建议同步元数据，避免下游按「无案例」处理。",
+    "研究记录没有把 extra 检索到的 getprobo/probo、MarkAC007/scf-controls-platform-oss、Sectutor/GRCompliance-Core、LeeMangold/OpenGRC 等未核验线索塞进 case_ids，留档方式规范；OpenGRC 注记为 Elastic License 2.0 非 OSI，判断方向正确。"
+  ],
+  "leaf_checks": {
+    "controls-management-platform": {
+      "application_ids": [
+        "github:16085812"
+      ],
+      "definition_core": "已核对官方正文：/grc/governance 明确「One control library, mapped across all of your frameworks」，控制可在 UI 添加或 CSV 批量导入并映射到每个满足的框架，另有政策/标准/指南/程序文档层级与完整时间戳审计轨迹；/grc/compliance 明确「Define reusable tests that prove each control is doing its job」，可按框架、单个控制或单个测试发起审计，有审计时间线、证据、审计师受限访问与框架 posture 汇总；02.07 正文进一步给出测试定义字段、Pass/Fail/Inconclusive 结果、证据按审计实例归档、失败测试内联提交或关联既有风险（test_result_to_risk 双向链接）、通过后解除链接并可关闭风险、retire/delete 与历史保留、SoA 实现状态由活跃测试最新结果派生。控制对象—映射层—循环测试/证据—整改—控制级保证状态这条定义性结构成立。",
+      "service_form": "SimpleRisk Core 为持续使用的自托管 Web 应用（deployment/open-source：安装后即为可投产的完整 GRC 程序；download/manual：Apache/MySQL/PHP 组件栈；download：脚本/VM/Docker/手工四种安装），配套 SaaS 托管形态由厂商提供；不是一次性工具或纯文档模板。",
+      "identity_track": "application_id github:16085812 与仓库元数据 id=16085812、full_name=simplerisk/code、html_url=https://github.com/simplerisk/code 一致；homepage 与仓库 owner 均为 simplerisk；track=open_source 与 MPL-2.0 许可证及开源部署页一致。README 说明该仓库是只读发布镜像、开发在私有仓库进行，不影响开源发行版身份。",
+      "license": "已通读仓库内 LICENSE 全文：标题为 Mozilla Public License, version 2.0，含 1–10 节全部条款、Exhibit A 源代码形式许可声明与 Exhibit B「Incompatible With Secondary Licenses」声明，无截断，spdx_id=MPL-2.0 正确；README 与 raw LICENSE 的 URL、SHA-256 与批次登记一致。",
+      "community_boundary": "已核对：开源部署页称 Core 为免费开源基础版、不限用户、非试用/阉割版，包含 Governance、Risk Management、Compliance（无限测试）、Asset Management、Self-Assessments、Reporting、角色权限；注册后另获一键升级与 SCF 250+ 框架；Open Source 不提供 Paid Extras，On-Premise/SaaS 才提供；合规页与治理页均在 Extras 区块注明「Everything above is free in Core」。免费/付费边界与 batch 的 track、summary 表述一致。",
+      "gaps": "本叶定义性核心与许可证、仓库身份、社区版边界均可由已读取正文支撑；唯一阻断项是来源登记不完整——承载测试循环整改、测试退役与跨框架映射细节的 02.04/02.07/user-guide 快照虽已落盘，却未进入 batch.json sources 与 REVIEW_SOURCES.json，且 leaf_matches.source_urls 未列 02.07，导致条目内「失败测试关联风险整改」等主张缺少登记在册的引用链，需按 finding 补登记或收敛表述后复核。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未部署或运行 SimpleRisk，runtime_tested=false 属如实留档；未重新计算快照 SHA-256，仅按 REVIEW_SOURCES.json 与文件名哈希、URL、canonical 及抓取时间做一致性比对；按 REVIEW_SOURCES.json 原样读取了其列出的许可证、仓库元数据、仓库目录元数据、README、治理页、合规页、开源部署页、download、download/manual 等快照，并额外读取了同目录下未登记但被 research.json 引用的 02.04、02.07 正文与 user-guide 索引；首页、/extras、/features 快照仅按 grep 命中与 research 记录间接确认，未逐段通读；pricing 页未提供快照，价格与套餐细节未核；support 站点其余文章、SaaS 托管实例与商业条款未核，也不在本单元要求范围内。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-075/ses_groveopendesignp075review1_1793193270.jsonl",
+  "batch_sha256": "20f1d81d49dbc0d143c857df0b78ef194b45f6cf73bfac6dbc82ea4155ae3e08",
+  "research_sha256": "20e6f10eb536732c9c1676d423bbc4bf59aa094c291b48ed4b6c2343ef0d6642",
+  "input_sha256": "1899cc959d0cc391f0d58c55fa3cc56dd566a399d37b5e1597886671353cafb6"
+}

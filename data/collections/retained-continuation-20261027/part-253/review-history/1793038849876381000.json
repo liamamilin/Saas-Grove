@@ -1,0 +1,46 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "meal-planning-application",
+      "application_id": "github:319167362",
+      "issue": "batch.json 的 summary 和 leaf_matches 都称 Mealie“由计划生成购物清单”，但唯一核心正文快照 README（master）只在 Key Features 中分别列出“Meal Planner”（第49-50行）和“Shopping List”（第50行），并把购物清单描述为把必要食材放入清单，未说明清单由未来餐食计划派生、跨餐食合并，或随计划编辑更新。因此，本叶三项定义结构中的第三项“计划驱动采购”缺少核心正文证据，当前结论属于推断；不能仅凭“同时有计划和清单”推出二者存在派生关系。",
+      "fix": "补充 Mealie 官方文档中 meal planner→shopping list 生成/合并行为的页面快照（或代码/路由证据），登记到 sources；若无法补证，则修正 summary/leaf_matches，明确目前只证明“计划”和“清单”是两个独立功能，并重新评估本叶是否成立。"
+    },
+    {
+      "slug": "golf-tracking-handicap-application",
+      "application_id": "github:193416728",
+      "issue": "HandicapTracker 的 README 只有两行；entry.php 只呈现总分、球场评分/坡度、9/18 洞和日期，hndcp_trckr.php 只按 (score-rating)*113/slope 计算单轮差点差分，并把结果提交给 hndcp_insert.php。快照未包含 hndcp_insert.php、handicap-updater.php、recent-diffs.php 的内容，因此 batch 所称“更新个人差点指数”和“成绩历史持久保存”没有核心正文证据；“handicap-updater.php”只是文件名，不能充当指数维护的工作流证据。本叶整体仍有 TheGrint 支撑，但 HandicapTracker 这一案例的第三项“维护的差点数值”未被证实，leaf_match 表述过强。",
+      "fix": "补充 hndcp_insert.php、handicap-updater.php、recent-diffs.php（或数据库 schema）的快照并引用，证明成绩持久化和指数维护；若该项目实际只做单轮差分计算，则修正 summary/leaf_matches，删除“个人指数/差点指数维护”表述，并重新评估其与本叶的匹配度。"
+    },
+    {
+      "slug": "nutrition-coaching-platform",
+      "application_id": "github:1366620115",
+      "issue": "batch.json 将 MeroDiet 的许可证标为 GPL-2.0，license_review.spdx_id 也是 GPL-2.0；但 README 第72行和仓库渲染页第546行明确写“GPL-2.0-or-later. See LICENSE.”，LICENSE 快照为完整 GPL v2 文本。SPDX 标识应为 GPL-2.0-or-later，当前字段把“或更高版本”错误收窄为 GPL-2.0（通常对应 GPL-2.0-only），与项目声明不一致，属于许可证事实错误。",
+      "fix": "将 license 与 license_review.spdx_id 改为 GPL-2.0-or-later，并在 rationale 中引用 README 的“GPL-2.0-or-later”声明及 LICENSE 全文；不要改为 GPL-2.0-only，除非有相反证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "TheGrint 首页快照的结构化数据和 FAQ 支持 handicap tracking、hole-by-hole scorecard、40,000+ courses，以及“最近20轮最低8个差分”的更新规则，但未见“USGA 数据授权/官方差点”字样；batch/research 中该具体表述建议软化为“差点管理”或补证，不影响商业基本类型判断。",
+    "AllTrails 首页快照是压缩的 Next.js HTML，正文可读性有限；可确认 AllTrails 品牌及步道/地图/离线/导航相关正文或结构化信息，但未能逐项阅读离线地图、实时跟踪、转弯提示的完整上下文。商业条目按基本真实性和类型匹配通过；若要支撑三项核心细节，建议补一份可读的 feature/docs 快照。",
+    "Fishbrain 首页同样为压缩 HTML；可见“20M total catches logged”“Join 20 million anglers”以及 spots/reports/regs/catches 版块，商业基本类型匹配成立，但深度图、具体钓点数量和法规查询细节未在快照正文中逐项核对。",
+    "research.json 中 Wanderer、Trail Sense、IsraelHikingMap、Flame Coach、Anglers' Log 等落选候选给出了许可证或能力结论，但没有在 REVIEW_SOURCES 中留档对应快照；这不影响已入选条目，但削弱了落选理由的可复核性。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 research.json 的 case_found 和 batch.json 的 6 个应用不一致；若下游使用 progress 字段，应同步更新。",
+    "Mealie 的 README/LICENSE 快照取自 master，而仓库页默认分支为 mealie-next；建议在 sources 中固定默认分支或 commit，避免后续漂移。",
+    "research.json 的 hiking service_boundary 写“也不等同于球场/露营地运营系统”，“球场”疑似从高尔夫条目复制残留，宜改为步道/公园/露营地运营系统。",
+    "HandicapTracker 只支持总分和球场评分/坡度，不含逐洞成绩或发球台细目；这与叶定义中较完整的 tee set 结构有差距，建议在 leaf_match 中明确其为简化版差点计算器。"
+  ],
+  "leaf_checks": {
+    "golf-tracking-handicap-application": "两个案例均已读到快照。TheGrint 首页结构化数据和 FAQ 明确 handicap tracking、hole-by-hole scorecard、40,000+ courses，以及最近20轮最低8个差分的更新规则，商业基本类型匹配成立。HandicapTracker 的 entry.php/hndcp_trckr.php 证明球场评分/坡度、9/18 洞、日期、总分和差点差分计算；但 README 仅两行，且未读到 hndcp_insert.php/handicap-updater.php，故持久历史与个人指数维护未证实（见 findings）。未发现许可证全文问题：GPL-3.0 文本完整，仓库 ID 193416728 一致。",
+    "hiking-trail-application": "唯一案例为商业 AllTrails。首页快照可确认 AllTrails 品牌及步道搜索、地图/离线、导航相关的正文或结构化信息；商业条目按基本真实性和类型匹配通过，未发现事实性或许可证问题。快照为压缩 Next.js HTML，未能逐项阅读离线地图、实时跟踪、转弯提示的完整上下文；开源候选的落选理由有记录，但无对应快照。",
+    "meal-planning-application": "唯一案例 Mealie。README 明确自托管、食谱导入、未来一周 Meal Planner、Shopping List、Docker 和 AGPL；计划对象与食谱内容成立。但购物清单是否由计划派生并跨餐食合并未被 README 说明，第三项核心仅有推断（见 findings）。仓库 ID 319167362 与 AGPL-3.0 全文已核对，许可证本身无问题。",
+    "nutrition-coaching-platform": "唯一案例 MeroDiet。README 的四步流程（从业者编制计划→分配给客户→客户记录执行/替换/测量→从业者仪表盘复核合规与计划-实际营养）以及“roster-wide”支持客户名册、营养处方、复核闭环三结构；WordPress 插件自托管形态成立。仓库 ID 1366620115 与 GPL v2 全文已核对，但许可证 SPDX 与 README 的 GPL-2.0-or-later 不一致（见 findings）。",
+    "recreational-fishing-application": "唯一案例为商业 Fishbrain。首页快照可见“20M total catches logged”“Join 20 million anglers”以及 spots/reports/regs/catches 版块，支持水域/钓点知识与个人渔获记录的基本类型匹配；商业条目按基本真实性和类型匹配通过。首页为压缩 HTML，深度图、法规和具体钓点数未逐项核对；开源 Anglers' Log 因缺水域知识层未采用，已在 research 留档但无快照。"
+  },
+  "limits": "只读审查；仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 列出的 14 个快照，未运行 shell、未写文件、未访问其他单元，未做部署或运行时测试。未重新计算 sha256，仅按 REVIEW_SOURCES 的 path 原样读取，并核对文件名与 hash 的一致性。AllTrails、Fishbrain 首页为压缩的单行 Next.js HTML，读取时正文被截断，细节核对受限；商业条目因此主要按基本真实性和核心类型匹配判断。research.json 中部分落选候选和搜索/抓取结果没有对应快照，无法独立复核。input.json 的 progress 字段与 research/batch 不一致，未作为内容结论依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-253/ses_groveopencodegop253review1_1793038460.jsonl",
+  "batch_sha256": "4ec85dae1a36e74e1ab7fb35789f16e5bc3eadc0ef080e60984d3a4ceaca108a",
+  "research_sha256": "5775da720e6bf85572d2de740477e5eef276ba779feb102258fe27cf55bcbe59",
+  "input_sha256": "9f9d1196c1bf543a6b4fbead6434b56f29b229ae6a3fb50c1d13524440a063dd"
+}

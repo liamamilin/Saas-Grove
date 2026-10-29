@@ -1,0 +1,90 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "llm-observability-platform",
+      "application_id": "github:642497346",
+      "issue": "可观测性核心依据主要来自 Langfuse README 的功能段与 Quickstart（插桩、摄取 trace、跟踪模型/检索/嵌入/智能体动作、检查日志与会话），未抓取 /docs/tracing 正文；步骤级 trace 结构、持久化查询与聚合监控属于合理推断。",
+      "fix": "建议后续补充 tracing 文档快照，或在 leaf_match 中注明证据仅覆盖 README/Quickstart 层面的采集与检查。"
+    },
+    {
+      "slug": "ml-model-monitoring-platform",
+      "application_id": "github:315977578",
+      "issue": "Evidently 开源版 README 明确 alerting、数据集与用户管理属 Evidently Cloud；OSS 侧只证明参考数据集漂移评估、Report/Test Suite 通过失败条件与自托管 Monitoring UI 的时间序列查看，未明确模型版本绑定与告警通知。",
+      "fix": "边界已在 research 中如实收窄，可作为通过依据；建议在条目中进一步写明“OSS 不含告警通知、监控数据为推送式、模型身份以项目/报告组织”，避免读者按完整告警闭环理解。"
+    },
+    {
+      "slug": "prompt-management-platform",
+      "application_id": "github:642497346",
+      "issue": "Langfuse LICENSE 为 MIT，但 ee/、web/src/ee/、worker/src/ee/、packages/shared/src/server/ee/ 另按 ee/LICENSE；本次未抓取 ee/LICENSE，功能级 MIT 归属依赖 README 的“MIT except ee folders”声明。license_review.rationale 仍是通用模板，未写明该例外。",
+      "fix": "建议在 license_review.rationale 中显式记录 EE 目录例外，并补充 ee/LICENSE 快照或功能目录归属说明；当前 summary 与 scope=community_core 已足以支撑通过。"
+    },
+    {
+      "slug": "mlops-platform",
+      "application_id": "github:136202695",
+      "issue": "MLflow README 的 Model Training 段可支撑“运行记录→版本化模型→部署桥接”三结构，但运行记录中的代码/数据/环境引用与部署目标细节仅要点级；README 整体偏向 LLM/Agent 功能，易被误读。",
+      "fix": "建议后续补 tracking 与 deployment 文档快照，或在 leaf_match 中指明仅依据 Model Training 段与 Model Registry 文档的 OSS 部分。"
+    },
+    {
+      "slug": "mlops-platform",
+      "application_id": "github:136202695",
+      "issue": "research.json 的 mlops-platform 在 source_urls 与 fetch_outcomes 中记录了 Kubeflow README（sha 84a73f…），但 REVIEW_SOURCES.json 未登记该快照，无法按登记路径复核；该来源仅用于说明未采用候选与缺口。",
+      "fix": "建议登记该快照或从 source_urls 移除该 URL，仅保留在 note/search_attempts 中作为未采用候选记录；不影响 MLflow 的通过结论。"
+    },
+    {
+      "slug": "model-registry",
+      "application_id": "github:136202695",
+      "issue": "MLflow Model Registry 文档同时描述 OSS 与 Databricks/Unity Catalog 能力，条目虽已限定 OSS，但来源段落未区分。",
+      "fix": "建议在 leaf_match 或 service_boundary 中注明仅取文档“Model Registry in OSS MLflow”小节（UI/API、版本、别名、阶段、标签、血缘），Databricks 治理能力不计。"
+    }
+  ],
+  "leaf_checks": {
+    "llm-observability-platform": {
+      "application_ids": [
+        "github:642497346"
+      ],
+      "basis": "读取 Langfuse README 功能段与 Quickstart：对应用插桩并摄取 trace，跟踪 LLM 调用及检索、嵌入、智能体动作，检查/调试日志与用户会话；自托管 Docker Compose、ClickHouse 存储说明支撑持久化服务形态。对应“插桩捕获→trace→检查”核心。",
+      "boundary": "仅计 MIT 社区核心；README 明示 ee 目录除外，企业功能不计。",
+      "gaps": "未抓取 tracing 文档正文；步骤级 trace 结构与聚合监控为 README 层面的推断。"
+    },
+    "ml-model-monitoring-platform": {
+      "application_ids": [
+        "github:315977578"
+      ],
+      "basis": "读取 Evidently README：开源 Python 库用于评估、测试、监控 ML/LLM 系统；DataDriftPreset 以 current/reference 数据比较分布漂移；Report 可转为带 pass/fail 条件的 Test Suite；自托管 Monitoring UI 按时间展示指标与测试结果，符合“参考基准→重复评估→保留可比历史”的核心。",
+      "boundary": "仅计自托管 OSS 的报告/监控 UI 子工作流；README 明示 alerting、数据集/用户管理为 Evidently Cloud 功能，未计入。",
+      "gaps": "OSS 告警通知与显式模型版本绑定未被来源直接证明；监控数据为推送式而非自动采集生产流量。"
+    },
+    "mlops-platform": {
+      "application_ids": [
+        "github:136202695"
+      ],
+      "basis": "读取 MLflow README 的 Model Training 段：Experiment Tracking 记录模型、参数、指标与评估结果；Model Registry 管理模型全生命周期；Deployment 支持批量与实时评分（Docker、Kubernetes、Azure ML、SageMaker 等）。Model Registry 文档补充版本与运行血缘。三结构齐备。",
+      "boundary": "仅计 Apache-2.0 开源 MLflow；Databricks 托管/Unity Catalog 能力不计。",
+      "gaps": "运行记录对代码/数据/环境引用的细节与部署实现仅要点级；Kubeflow 候选快照未登记，无法复核。"
+    },
+    "model-registry": {
+      "application_ids": [
+        "github:136202695"
+      ],
+      "basis": "读取 MLflow Model Registry 文档：集中式模型存储、API 与 UI；注册模型具唯一名称并累积递增版本；别名（如 @champion）可变指向单一版本并可被部署按 models:/name@alias 消费；支持阶段（Staging/Production）、标签、描述与到 run 的血缘；OSS 提供 UI/API。符合“命名条目→版本→选择/消费”核心。",
+      "boundary": "仅计 OSS MLflow 的注册、版本、别名/阶段与消费；Databricks UC 治理能力不计。",
+      "gaps": "输入/输出 schema 在文档中仅 incidental 提及，未作为 OSS 核心证据。"
+    },
+    "prompt-management-platform": {
+      "application_ids": [
+        "github:642497346"
+      ],
+      "basis": "读取 Langfuse README：集中管理、版本控制、协作迭代提示，并强调服务端/客户端缓存；官方 Prompt Management 文档说明同名提示更新会新增版本，可用 production 标签，运行时通过 get_prompt 按名称或 version 取值，Python/JS SDK 与 Public API 均支持，默认返回 production 标签版本。四段结构成立。",
+      "boundary": "仅计 MIT 社区核心；ee 目录功能不计。",
+      "gaps": "文档快照为 HTML，缓存与低延迟表述主要来自 README；未抓取 prompt-version-control 专页。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 登记的 11 个快照，并按 path 原样读取（sources 相对 data/collections）；未运行 shell、未写文件、未部署或调用产品、未重算哈希、未做外部检索。HTML 快照经工具输出读取，个别页面显示被截断，但已核对关键段落。未读取 ee/LICENSE 与未登记的 Kubeflow 快照，因此相关许可细节与该候选的缺口只能按现有记录判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-064/ses_groveopencodegop064review1_1792991713.jsonl",
+  "batch_sha256": "50d9632e244d7659477da3b11201247c088757f3df2dd617076c3fddbf593144",
+  "research_sha256": "9edb838437de8e9585af191403b0009e39abb05f95892dd2b48796bf2a90d51e",
+  "input_sha256": "81588e336fc5c5f5077fcca2017a178c8b3231ffe930bc5b5a5fddf5131612f9"
+}

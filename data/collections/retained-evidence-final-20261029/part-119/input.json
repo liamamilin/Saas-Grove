@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "virtualization-management",
+        "name_zh": "虚拟化管理",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/577",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "Ganeti virtual machine cluster management official repository and gnt-instance manual"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "virtualization-management",
+        "name": "Virtualization Management",
+        "name_zh": "虚拟化管理",
+        "aliases_zh": [
+          "虚拟化管理软件",
+          "虚拟化平台",
+          "服务器虚拟化管理"
+        ],
+        "overview": "A **Virtualization Management** application is the operator's control layer over a virtualization estate: it holds **virtual machines as managed records** — software computers whose virtual hardware and run state are configured and operated at the hypervisor layer — and manages the **hypervisor hosts** whose physical resources back those machines, carrying every VM through its lifecycle: create, configure, power on and off, snapshot, migrate, and remove.\n\nIt exists to make server consolidation operable. Instead of individually administered physical servers, workloads run as VMs consolidated onto shared hosts, and this application is where staff run that estate day to day: bring hosts under management, create and place VMs, standardize new machines from templates, move running VMs off hosts for maintenance, and recover them after failures.\n\nThe boundary follows the layer it operates: it manages VMs and hypervisors — not the operating systems inside the guests, not the storage arrays behind the hosts, and not a cloud provider's account and resource structure. When the managed subject changes, the Type changes: converged compute-plus-storage clusters belong to Hyperconverged Infrastructure Management, the storage layer itself to Storage Management, and guest OSes as managed machines to Server Management.",
+        "overview_zh": "一款 **虚拟化管理** 应用是运维人员对虚拟化资产的管控层：它将 **虚拟机作为托管记录** 来持有——这些是虚拟硬件与运行状态在管理程序（hypervisor）层配置与操作的软件计算机——并管理支撑这些虚拟机的 **管理程序主机**，引导每台虚拟机历经其完整生命周期：创建、配置、开机与关机、快照、迁移和移除。\n\n它的存在是为了使服务器整合变得可行。负载不再运行在独立管理的物理服务器上，而是作为虚拟机整合到共享主机上，而这款应用正是工作人员日常运营这片资产的地方：将主机纳入管理、创建和放置虚拟机、从模板标准化新机器、为维护将运行中的虚拟机移离主机，以及在故障后恢复它们。\n\n其边界遵循其操作的层面：它管理虚拟机和管理程序——不管理客户机内部的操作系统，不管理主机背后的存储阵列，也不管理云提供商的账户与资源结构。当被管理对象改变时，其类型也随之改变：计算加存储的融合集群属于**超融合基础设施管理**，存储层本身属于**存储管理**，而作为被管理机器的客户机操作系统则属于**服务器管理**。",
+        "dc": "```text\nVirtualization Host (hypervisor, physical resources)\n└── holds & runs\n    └── Virtual Machine — managed record\n        ├── virtual hardware: vCPU, memory, virtual NICs, virtual disks,\n        │   firmware/boot settings\n        ├── run state: powered on / off / suspended\n        └── placement: which host it runs on\n        └── operated through: VM lifecycle (create → configure → run →\n            snapshot → migrate → remove)\n```\n\nThree structures are jointly required; remove any one and the product is no longer recognizable as virtualization management:\n\n- **The virtual machine as the managed object of record.** A VM is a software computer — one sampled product defines it as \"a software computer that, like a physical computer, runs an operating system and applications… consists of a set of specification and configuration files and is backed by the physical resources of a host\"; another calls it \"a software implementation of a computer.\" The record exists as managed configuration whether or not the machine is running: its virtual hardware (vCPU count, memory, virtual network interfaces, virtual disks, firmware and boot options) and its power state are held by the manager. Without the VM record, the product is hypervisor installer tooling or a bare inventory list.\n- **The virtualization host as the managed resource substrate.** Physical machines running hypervisors are themselves held as managed members of the estate — added, registered, configured, grouped. A VM is always placed on a host, and the host's CPU, memory, storage connections, and network fabric back the VM's virtual hardware. Without hosts under management, VMs have nowhere to run and no resources to draw on.\n- **Lifecycle authority over VMs at the hypervisor layer.** The manager does not merely observe: it creates VMs, configures their virtual hardware, powers them on and off, captures snapshots, migrates them between hosts, and removes them — with the placement decision (which host) as part of each operation. Without this authority, the product is an observation console, and observation-only estate tooling belongs to Infrastructure Monitoring.\n\nNote what the core does **not** include: multi-host centralization, clustering, templates, migration, high availability, virtual networking as a first-class estate object, guest agents, containers, cloud connections. All of these are widespread — a single-host hypervisor console with just a VM list and lifecycle actions is still unmistakably this Type — but they are the market's standard dressing, not the definition.",
+        "dc_zh": "虚拟化主机（虚拟机管理程序，物理资源）\n└── 持有并运行\n    └── 虚拟机 — 受管记录\n        ├── 虚拟硬件：vCPU、内存、虚拟网卡、虚拟磁盘、固件/启动设置\n        ├── 运行状态：开/关/挂起\n        └── 放置位置：在哪个主机上运行\n        └── 操作方式：虚拟机生命周期（创建 → 配置 → 运行 → 快照 → 迁移 → 移除）\n\n三个结构共同要求；移除任何一个，产品将不再可识别为虚拟化管理：\n\n- **虚拟机作为受管记录对象。** 虚拟机是一个软件计算机——一个采样产品将其定义为“一个软件计算机，像物理计算机一样运行操作系统和应用程序…由一组规范和配置文件组成，并由主机的物理资源支持”；另一个称之为“计算机的软件实现”。记录作为受管配置存在，无论机器是否运行：其虚拟硬件（vCPU数量、内存、虚拟网络接口、虚拟磁盘、固件和启动选项）和其电源状态由管理器持有。没有虚拟机记录，产品是虚拟机管理程序安装工具或一个简单的清单列表。\n- **虚拟化主机作为管理资源基底。** 运行虚拟机管理程序的物理机器是",
+        "rules": "### The record outlives the run state\n\nA VM's configuration persists while it is powered off; powering a VM on places it on a host, and powering it off returns it to a stopped record. Configuration changes split into those the manager can apply to a running machine (hot-add of disks, NICs, memory, or vCPUs where supported) and those that require power-off.\n\n### Placement is decided by the manager under policy\n\nThe manager chooses the host for each VM start or migration. Placement can legitimately refuse: one sampled product documents that a VM will not start on a host its scheduling policy considers overloaded, and another prevents starting a VM with more virtual cores than the host has physical cores. Scheduling policies (load thresholds, affinity rules, resource weights) are configurable.\n\n### Live migration carries compatibility constraints\n\nMoving a running VM between hosts requires the destination to present the guest a compatible virtual environment. Managers let operators control this at configuration time — generic virtual CPU types and pinned virtual hardware versions exist precisely so a VM can move between dissimilar hosts — and locally bound resources (such as passed-through physical devices) block live migration.\n\n### Snapshots are point-in-time and branchable\n\nA snapshot captures the VM's configuration (and optionally its memory) at a moment; the VM can be restored to it, and some products allow a new VM to be created from a snapshot. Snapshot chains are managed objects with their own lifecycle (create, restore, delete).\n\n### Duplicated guests need identity customization\n\nCloning and templating duplicate a machine wholesale, so products provide first-run customization (host-name, network identity, and OS-specific preparation) to avoid colliding guest identities. Preparing a clean reference VM before converting it to a template is a documented, standard step.\n\n### Permissions scope the surface\n\nThe self-service boundary is structural: VM-user roles see only machines assigned to them, and assignment is done by administrators per VM. Estate-wide configuration (hosts, clusters, storage, networks) remains with administrator roles.\n\n### Conflicting operations are serialized\n\nProducts guard against concurrent conflicting changes to the same object — in one sampled product, a VM under migration, backup, or snapshot carries an explicit configuration lock until the task completes.",
+        "rules_zh": "### 记录比运行状态更持久\n\n虚拟机的配置在其关闭时仍然保留；将虚拟机关机会将其置于主机上，而将其关闭则返回为停止状态的记录。配置更改分为管理器可以应用于运行中机器的更改（支持情况下的热添加磁盘、网卡、内存或 vCPU）和需要关机的更改。\n\n### 放置由管理器根据策略决定\n\n管理器为每次虚拟机启动或迁移选择主机。放置可以合理地拒绝：一个被抽样的产品文档指出，如果调度策略认为主机过载，虚拟机将不会在该主机上启动；另一个产品则防止启动虚拟核心数超过主机物理核心数的虚拟机。调度策略（负载阈值、亲和性规则、资源权重）是可配置的。\n\n### 实时迁移具有兼容性约束\n\n在主机之间移动运行中的虚拟机需要目标主机向客户机呈现兼容的虚拟环境。管理器让运维人员在配置时控制这一点——通用虚拟 CPU 类型和固定的虚拟硬件版本的存在正是为了让虚拟机可以在不同主机间移动——而本地绑定的资源（例如直通的物理设备）会阻止实时迁移。\n\n### 快照是时间点且可分支的\n\n快照在某一时刻捕获虚拟机的配置（及其内存，可选）；虚拟机可以还原到该快照，一些产品允许从快照创建新的虚拟机。快照链是具有自身生命周期（创建、还原、删除）的托管对象。\n\n### 重复的客户机需要身份定制\n\n克隆和模板整体复制一台机器，因此产品提供首次运行定制（主机名、网络身份和特定于操作系统的准备）以避免客户机身份冲突。",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 119,
+    "phase": "directory",
+    "parent": 119,
+    "slugs": [
+      "virtualization-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "1fd490a05c1347510149eaf1307627352d8d7c27eb90044a53c9c447fb67d019"
+  }
+}

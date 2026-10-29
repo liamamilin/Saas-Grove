@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "code-editor",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:172953845"
+      ],
+      "query": [
+        "open source self-hosted browser-based code editor full web application code-server",
+        "code-server 官方 FAQ 工作区/文件夹、文件打开与浏览器编辑核对"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/coder/code-server",
+        "https://api.github.com/repos/coder/code-server/license",
+        "https://raw.githubusercontent.com/coder/code-server/main/README.md",
+        "https://coder.com/docs/code-server/FAQ"
+      ],
+      "note": "本轮针对原缺口（只证明桌面客户端、未证明可持续使用的应用服务）补证：改用同一开源仓库身份下以浏览器交付的完整应用 code-server，而不是继续沿用桌面版 Visual Studio Code / Code - OSS 草稿。仓库元数据（id=172953845，full_name=coder/code-server）与 MIT 完整许可证文本已核对；README 明确“Run VS Code on any machine anywhere and access it in the browser”；官方 FAQ 进一步给出服务形态与编辑工作流：启动时生成 config.yaml 并监听 127.0.0.1:8080、默认密码认证、有 healthz 端点与重连宽限期，可设多实例/常驻服务；工作集来自 workspace/folder 参数、命令行目录或上次打开的目录，能通过 payload 直接打开指定文件的指定行列，配置与扩展沿用 VS Code（~/.local/share/code-server）。据此三项核心均有正文依据：纯文本缓冲区编辑、文件系统持久化工作集、代码呈现/查找/导航（VS Code 工作台）。",
+      "service_boundary": "仅覆盖开源 code-server（coder/code-server，MIT）自托管形态：用户在自己或团队的服务器上运行该服务并从浏览器访问，服务端持有项目文件。它同时已在共享库中作为 cloud-ide 案例（远程工作区/远程执行）；本关系不重复声明厂商托管云 IDE，也不覆盖 Coder 商业平台、Microsoft 官方 Visual Studio Code 分发版或其市场/闭源扩展。不声称多租户能力：FAQ 明确多租户需每用户 VM，不是内置 SaaS 多租户。",
+      "search_attempts": [
+        {
+          "date": "2026-10-28",
+          "query": "open source self-hosted browser-based code editor full web application code-server",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/coder/code-server",
+            "https://coder.com/docs/code-server/FAQ"
+          ],
+          "result_note": "首轮定向检索即命中 code-server 官方仓库与文档，并出现同类候选 openvscode-server、Eclipse Theia、KodExplorer；本轮按“至多两组有区别查询”选择已具备官方文档与许可证据的 code-server 深入核对，其余仅作检索记录，不据此断言其符合本叶。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "code-server 官方 FAQ 工作区/文件夹、文件打开与浏览器编辑核对",
+          "status": "searched",
+          "result_urls": [
+            "https://coder.com/docs/code-server/FAQ",
+            "https://raw.githubusercontent.com/coder/code-server/main/docs/README.md"
+          ],
+          "result_note": "直接抓取官方 FAQ，读到工作区/文件夹选择、按 URL 打开文件至行列、配置/扩展存储、healthz、重连宽限期、多租户说明等正文；同时确认仓库 README 实际位于 docs/README.md（旧记录中的 raw README.md URL 现返回 404），据此补齐可达的官方 README 快照。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/coder/code-server",
+          "status": "reused_historical_snapshot",
+          "sha256": "d00ef74b97f84fb0dd90506a0c3c9027c5c4b87743f792f5b5399f25f733d439",
+          "note": "复用共享 application 记录中的官方仓库元数据快照（2026-10-24），未改抓取时间；用于核对 id=172953845、full_name=coder/code-server、language=TypeScript。"
+        },
+        {
+          "url": "https://api.github.com/repos/coder/code-server/license",
+          "status": "reused_historical_snapshot",
+          "sha256": "39e085e6b980b9b15e2c48127e59328870d11bc64864089ab1fa6cd3b8395114",
+          "note": "复用共享记录中的官方许可证快照（2026-10-24），MIT 完整文本，spdx_id=MIT；原 SHA/时间原样保留。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/coder/code-server/main/README.md",
+          "status": "fetch_failed",
+          "note": "本轮重取返回 HTTP 404：仓库 README 实际位于 docs/README.md。原共享快照（34ea1186…，2026-10-24）内容经核对与 docs/README.md 一致，仍作为 readme 来源保留，并在此记录失败与新路径。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/coder/code-server/main/docs/README.md",
+          "status": "fetched_and_read",
+          "sha256": "34ea118681ed7212d8b1e3e1be602d09e8829838e5f2b0e3e0b184b00109ab78",
+          "note": "本轮抓取成功，SHA 与旧 README 快照完全一致，证明旧快照即当前 docs/README.md 内容；为免伪造旧 URL 的成功状态，批次中该快照仍标注原 URL，本记录另注真实路径。"
+        },
+        {
+          "url": "https://coder.com/docs/code-server/FAQ",
+          "status": "fetched_and_read",
+          "sha256": "30239287dd0869c9fceb0bf9fbb24cac14cf13e18766980eec88bb5d0b8b8dfb",
+          "note": "本轮新抓取的官方文档快照（2026-10-28T22:26:27+08:00），正文含服务启动/认证、工作区选择、文件定位打开等关键证据。"
+        }
+      ],
+      "archived": false,
+      "previously_withheld": [
+        {
+          "id": "github:41881900",
+          "name": "Code - OSS / Visual Studio Code",
+          "reason": "历史候选仅证明桌面客户端与官方产品分发形态，未证明可持续使用的应用服务；README 同时说明官方分发版受 Microsoft 产品许可，开源范围限于 Code - OSS 仓库。本轮不以旧草稿充当通过，也不据此断言不存在对应的 Web/SaaS 变体。"
+        }
+      ],
+      "historical_reuse_note": "历史记录（beam-continuation-20261025/part-057、opencode-go/part-021、retained-go-20261025/part-021、included-continuation-final-20261027）均保留原路径与 SHA，仅作事实复用；其中 case_found 为历史草稿判断，非本轮批准。本轮为新增的浏览器交付开源应用服务证据。"
+    }
+  ]
+}

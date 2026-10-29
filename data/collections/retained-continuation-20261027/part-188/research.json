@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "telecom-bss",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:csg-bss"
+      ],
+      "query": "CSG BSS 官方页面；GitHub 搜索 open-source telecom/voip BSS 替代候选（telecom billing system、voip billing、oss bss）。",
+      "source_urls": [
+        "https://www.csgi.com/solutions/business-support-system"
+      ],
+      "note": "本单元无既有 review.json；issues.json 的 findings 为空，previous_review_path 指向其他单元，未作为本单元输入。官方 BSS 页面正文明确列出 product catalog、order capture and management、rating and charging、billing and invoicing、revenue management、customer and account management，并解释 BSS 与 OSS 的分工，属于套件级电信 BSS 核心。开源方向实际检索到 A2Billing（AGPL-3.0）、ASTPP（AGPL-3.0）、MagnusBilling（LGPL-3.0）、OV500、Freeside 等，但均为 VoIP 计费/交换或 ISP 计费工具，未检索到覆盖目录-订单-计费-关怀完整商业链的成熟开源 BSS 套件；CGRateS 仅覆盖 OCS/charging，故未将其强行标为 BSS 套件。",
+      "service_boundary": "CSG BSS 为商业电信 BSS 软件；官方页面描述为可模块化组合的 BSS 能力，本次仅记录商业基本类型匹配，未深入价格、许可、托管架构或部署细节，runtime_tested:false。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "telecom billing system stars:>50；voip billing stars:>50；oss bss stars:>5",
+          "result": "命中 A2Billing、ASTPP、MagnusBilling、OV500、Freeside 及少量低星 BSS/OSS 原型；未发现成熟的完整开源电信 BSS 套件。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source telecom BSS suite github",
+          "result": "HTTP 401 认证失败；按约定未重复调用，改用 GitHub 搜索与官方页面直取。"
+        },
+        {
+          "tool": "official_page_read",
+          "query": "https://www.csgi.com/solutions/business-support-system",
+          "result": "读取正文，确认套件级 BSS 功能及 BSS/OSS 边界。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.csgi.com/solutions/business-support-system",
+          "http_status": 200,
+          "result": "已保存 UTF-8 官方页面快照；正文包含 product catalog、order capture、rating and charging、customer and account 等关键表述。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-field-service",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:csg-field-service-management"
+      ],
+      "query": "CSG Field Service Management 官方页面；GitHub 搜索 field service management（stars:>20/200）寻找开源替代。",
+      "source_urls": [
+        "https://www.csgi.com/products/field-service-management"
+      ],
+      "note": "官方正文明确该产品面向 cable、broadband、fiber 运营商，描述工单排程/派工、技能与容量匹配、移动端技工应用、实时跟踪、承包商工作、SLA 与工单闭环，电信现场服务的定义性结构完整。开源候选 OCA/field-service（AGPL-3.0，201 stars）是 Odoo 模块集合而非独立电信 FSM；Beveren-Software-Inc/Field_Service_Management（AGPL-3.0，25 stars）是 ERPNext 通用 FSM 插件；两者均未体现电信 CPE/光纤/基站等现场工作主题，故未采用。",
+      "service_boundary": "CSG Field Service Management 为商业电信级 FSM 产品；本次仅依据官方产品页记录商业基本类型匹配，未深入价格、托管架构、移动端部署或第三方集成验证，runtime_tested:false。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "field service management in:name,description stars:>200；同条件 stars:>20",
+          "result": "命中 OCA/field-service（AGPL-3.0，401? 实际 201 stars）与 Beveren-Software-Inc/Field_Service_Management（AGPL-3.0，25 stars）等；前者为 Odoo 模块集合，后者为 ERPNext 通用 FSM，均非独立电信现场服务应用。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source telecom field service management",
+          "result": "未调用（本会话 websearch 已返回 401，按约定不重复）。"
+        },
+        {
+          "tool": "official_page_read",
+          "query": "https://www.csgi.com/products/field-service-management",
+          "result": "读取正文，确认 telecom/cable/broadband/fiber 定位及排程、派工、移动端、技能/容量、承包商与闭环能力。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.csgi.com/products/field-service-management",
+          "http_status": 200,
+          "result": "已保存 UTF-8 官方页面快照；正文包含 purpose-built for cable, broadband, and fiber、skills、capacity、work orders、contractors 等表述。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-network-design",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sunvizion-network-planning"
+      ],
+      "query": "复用共享 commercial:sunvizion-network-planning 的既有官方来源；GitHub 搜索 FTTH design、network planning telecom、fiber management 寻找开源替代。",
+      "source_urls": [
+        "https://www.sunvizion.com/products/network-planning"
+      ],
+      "note": "复用已有正式应用身份与共享来源快照，未修改共享文件，仅将快照复制进本单元。官方正文说明该产品是 GIS-based end-to-end network design，覆盖 FTTH、HFC、5G backhaul，支持从 Network Inventory 提取版本到规划工作区、实时记录变更、检测计划与现网冲突、完成后合并回主库存，核心与电信网络设计高度一致。开源方向仅检索到 QGIS 插件型 FTTH 设计项目（无许可证、23 stars）和 NetBox 光纤管理插件（AGPL-3.0、25 stars），前者是组件/论文插件，后者偏光纤资产管理而非设计工作台，均不足以替代完整应用。",
+      "service_boundary": "SunVizion Network Planning 为商业电信 OSS/BSS 产品；官方页面显示其与 Network Inventory 配套，本次仅记录商业基本类型匹配，未验证价格、许可、部署模式或实际库存集成，runtime_tested:false。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "ftth design in:name,description stars:>10；fiber management stars:>20；network planning telecom in:name,description stars:>10",
+          "result": "命中 mirastary/FTTH-Fiber-Optic-Network-Design-System（QGIS 插件、无许可证、23 stars）、jsenecal/netbox-fms（AGPL-3.0、25 stars）等；前者为插件，后者为光纤管理而非设计工作台，未采用。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source telecom network design fiber",
+          "result": "未调用（本会话 websearch 已返回 401，按约定不重复）。"
+        },
+        {
+          "tool": "reuse_source",
+          "query": "共享 sources/d44c2cd7...txt",
+          "result": "读取既有官方快照并复制到本单元，sha256 校验一致。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sunvizion.com/products/network-planning",
+          "http_status": 200,
+          "result": "复用共享快照（fetched_at 2026-10-23T19:03:43.582642+08:00，sha256 d44c2cd7...），内容包含 GIS-based end-to-end network design、FTTH、HFC、5G backhaul、planning workspace、merge back to inventory 等。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-number-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:twilio-phone-numbers"
+      ],
+      "query": "Twilio Phone Numbers 官方页面；GitHub 搜索 telephone number inventory、did management，以及 VoIP 计费平台的 DID 模块。",
+      "source_urls": [
+        "https://www.twilio.com/en-us/phone-numbers"
+      ],
+      "note": "官方正文覆盖号码搜索与即时购买、号码库存/账户内转移、携入与号码托管、监管要求与 Trust Hub 验证、号码有效性/类型校验，能够支撑号码资源的获取、分配使用、携转与合规生命周期。开源方向检索到 ASTPP（AGPL-3.0，README 明确 DID management）、A2Billing（AGPL-3.0，DID resale）与 MagnusBilling（LGPL-3.0，DIDs）；这些是 VoIP 计费/交换平台，DID 只是计费附属模块，未找到能证明独立号码生命周期、唯一性/隔离/回收与携转作为系统记录的成熟开源专用应用，故未强行建立开源关系。",
+      "service_boundary": "Twilio Phone Numbers 为商业云通信平台的号码产品；本次仅记录商业基本类型匹配，未深入价格、号码覆盖国家、托管架构或 API 细节，runtime_tested:false。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "number management in:name,description telephony stars:>50；telephone number inventory in:name,description；did management in:name,description stars:>5",
+          "result": "未发现成熟专用号码管理项目；命中 nick-garcia/phonos（MIT、0 stars、玩具级）及大量无关 DID 项目；另检索到 ASTPP、A2Billing、MagnusBilling 的 DID 功能。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source telephone number management DID inventory",
+          "result": "未调用（本会话 websearch 已返回 401，按约定不重复）。"
+        },
+        {
+          "tool": "official_page_read",
+          "query": "https://www.twilio.com/en-us/phone-numbers",
+          "result": "读取正文，确认搜索/购买、库存、porting、regulatory、validation 等号码管理能力。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.twilio.com/en-us/phone-numbers",
+          "http_status": 200,
+          "result": "已保存 UTF-8 官方页面快照；正文包含 search/buy、manage inventory、porting、regulatory requirements、validity/line type 等表述。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-order-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:csg-quote-and-order"
+      ],
+      "query": "CSG Quote & Order / Order Management 官方页面；GitHub 搜索 telecom order management、service order management telecom。",
+      "source_urls": [
+        "https://www.csgi.com/solutions/quote-to-cash/order-management"
+      ],
+      "note": "官方正文明确将合同/报价转为结构化订单，按共享目录把订单分解为技术和服务任务，跨 network、IT、field、partner 编排并跟踪依赖/状态，支持在途变更（MAC）、库存预留、SLA 与回写 billing/care，和电信订单管理的记录-分解-编排-完成链路一致。开源方向实际检索到的 telecom order management 仓库多为 0-1 star 的 API/课程原型（如 telecom-provision-hub），未发现成熟的完整开源电信订单管理应用；未用通用 ERP 订单模块强行匹配。",
+      "service_boundary": "CSG Quote & Order 为商业电信 B2B CPQ/订单管理产品；官方页面描述其叠加在既有 stack 上并连接网络、IT 与合作伙伴系统，本次仅记录商业基本类型匹配，未深入价格、部署架构、TM Forum API 实现或实际集成验证，runtime_tested:false。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "telecom order management in:name,description；service order management telecom in:name,description",
+          "result": "命中 kambidi1973/telecom-provision-hub（Apache-2.0、1 star）及多个 0 star 的 API/课程项目；未发现成熟、完整、可自托管的电信订单管理应用。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source telecom order management OSS BSS",
+          "result": "未调用（本会话 websearch 已返回 401，按约定不重复）。"
+        },
+        {
+          "tool": "official_page_read",
+          "query": "https://www.csgi.com/solutions/quote-to-cash/order-management",
+          "result": "读取正文，确认订单分解、跨系统编排、依赖/状态、在途变更、库存与回写等能力。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.csgi.com/solutions/quote-to-cash/order-management",
+          "http_status": 200,
+          "result": "已保存 UTF-8 官方页面快照；正文包含 decompose orders、orchestrate delivery、dependencies、moves/adds/changes、feed billing and care 等表述。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

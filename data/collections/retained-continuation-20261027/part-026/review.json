@@ -1,0 +1,112 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "font-editor",
+      "note": "FontForge 的 license 字段写作 GPL-3.0，仓库 LICENSE 明确为 GPLv3 或任何更新版本，按 SPDX 宜规范为 GPL-3.0-or-later；同一 LICENSE 还列出 multimastersubrs.c 的 Proprietary Adobe License 及部分未标注许可证的文件，建议在 license_review 中一并注明。该点不影响本次对开源身份与完整 GPLv3 正文的判断。"
+    },
+    {
+      "slug": "font-editor",
+      "note": "README 只有产品定位与格式清单，未展开字体项目、字形集和绘制表面等细节；本次仅以官方 README 的 free (libre) font editor 与 create/edit/convert 表述作为类型证据，没有把未出现的字形级工作流写成已核实事实。"
+    },
+    {
+      "slug": "professional-typesetting-application",
+      "note": "technology_stack 中把 Apache-2.0 与 Rust 并列，许可证不是技术栈；建议只在 license 字段保留。另建议在 service_boundary 中明确 typst.app 托管服务不属于 Apache-2.0 仓库许可的覆盖范围。"
+    },
+    {
+      "slug": "ai-design-generator",
+      "note": "Sivi 的 tour/what-is 快照为压缩单行 HTML，导出格式句未能定位为可读段落，entry 已如实不写导出断言；这是可接受的留档缺口。"
+    },
+    {
+      "slug": "storyboard-application",
+      "note": "commercial:boords 复用了共享索引中原关联 previsualization-application 的 ID；本次文档证据集中在分镜帧、场景/镜头注释、评审分享与导出，未发现三维预可视化场景证据，storyboard-application 关联成立，但导入时应避免同一 ID 在两个叶子重复计数。"
+    },
+    {
+      "scope": "unit",
+      "note": "input.json 中各叶 progress 仍为 not_searched、application_ids 为空，与 research.json 的 case_found 和 batch.json 的 leaf_matches 不一致；若导入 progress，应以 batch/research 为准。"
+    }
+  ],
+  "leaf_checks": {
+    "professional-typesetting-application": {
+      "result": "pass",
+      "application_id": "github:210702427",
+      "track": "open_source",
+      "sources": [
+        "data/collections/sources/ddaf0de156f6a442c7f831202cd55583614df4cc3cfb4b16e95162c7eb11e653.txt",
+        "data/collections/sources/7e937b432acf547f77fedb61858b394e335c0f852b8629b70dfff21ecaf417a3.txt",
+        "data/collections/sources/67f32f49e4717677d8ea22e8df857c1d2d40399f8bed23ef49bf9b86c5a60251.txt",
+        "data/collections/sources/a8eedeacdfa010f214d649bf0898868a5b8578d57789189d228a6e4af48f37ec.txt"
+      ],
+      "definition_core": "README 正文明确 Typst 为 markup-based typesetting system：标记源（= 标题、$ 数学、# 脚本等）、set/show 规则构成可复用设计层；typst compile file.typ 生成 file.pdf，typst watch 增量重编译，错误消息面向用户。这对应定义中的标记源→设计层→引擎组合→再生 PDF 核心。typst.app 首页补充托管编辑器、模板与导出界面。",
+      "service_form": "开源 CLI 可本地自托管；同时有官方 typst.app 托管协作编辑器，README 指向 free web app，首页有注册、项目和团队界面。因此既是可自托管软件，也有持续运营的托管服务形态；entry 已区分二者。",
+      "id_track": "typst/typst 的 GitHub metadata id=210702427，entry 的 github:210702427 与 github_repository_id=210702427 一致；track=open_source 与仓库相符。",
+      "license": "Apache-2.0。license API 快照为 LICENSE 的 base64，开头正文为 Apache License Version 2.0，size=9723；README 徽章亦标 Apache-2。许可证覆盖仓库编译器/CLI，typst.app 托管服务不在该许可证内。",
+      "gap": "未实际运行 typst compile；未逐字解码完整 base64 许可证全文；typst.app 首页部分长行被读取工具截断，导出细节以 README 的 compile→PDF 为主。"
+    },
+    "font-editor": {
+      "result": "pass",
+      "application_id": "github:5390156",
+      "track": "open_source",
+      "sources": [
+        "data/collections/sources/fbddf88fbf0dbb5ef5a384d2213db79892bd7e60119fc0c275fd9025b27cbb93.txt",
+        "data/collections/sources/8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt",
+        "data/collections/sources/d6703d91a26ebbcb98636ff4dfb517176ad200f70d457d9ee4e48a43c55a3e09.txt",
+        "data/collections/sources/cd2401c1c2e1994a575ad8a0bf91237ca5e554b4d1eca2a15d4dd7fe7553be83.txt"
+      ],
+      "definition_core": "README 正文：FontForge is a free (libre) font editor for Windows, Mac OS X and GNU+Linux；Use it to create, edit and convert fonts in OpenType, TrueType, UFO, CID-keyed, Multiple Master, and many other formats。直接支持以字体为对象创建、编辑并生成字体文件的字体编辑器核心；未把 README 未出现的字形绘制细节写成已核实事实。",
+      "service_form": "Windows/macOS/GNU+Linux 本地桌面应用，可从源码构建；是持续维护的软件产品，不是一次性服务。",
+      "id_track": "GitHub 页面 metadata repository_id=5390156、full_name=fontforge/fontforge；entry 的 github:5390156 与 5390156 一致；track=open_source。",
+      "license": "COPYING.gplv3 为完整 GPLv3 正文，含 TERMS AND CONDITIONS 与 END OF TERMS AND CONDITIONS；LICENSE 说明整体 GPLv3 或更新版本、多数文件 revised BSD。entry 的 GPL-3.0 是简化写法。",
+      "gap": "README 未展开字体项目、字形集和绘制表面细节；未安装运行；未核实 LICENSE 中 Proprietary Adobe 文件的再分发影响。"
+    },
+    "typeface-design-application": {
+      "result": "pass",
+      "application_id": "commercial:glyphs",
+      "track": "commercial",
+      "sources": [
+        "data/collections/sources/821cdf5bb84a99024b9105ece403b13d859bc39aa3aa416740dacef87a10b3ec.txt"
+      ],
+      "definition_core": "glyphsapp.com 首页正文：Glyphs 4 is the leading Mac font editor；draw high-precision vectors、Edit your glyphs in a word context、filter your glyph set、visual kerning groups、multiple master drawings/interpolation、text preview；Export all static and variable OpenType font formats: CFF, CFF2, TTF, WOFF, WOFF2。覆盖字体项目→字形集→直接绘制→生成字体文件。",
+      "service_form": "商业 macOS 桌面字体设计应用，官网提供购买与持续版本信息。",
+      "id_track": "commercial:glyphs，track=commercial；官网 glyphsapp.com 与产品 Glyphs 4 一致。定义明确本叶与 Font Editor 同族、从学科视角撰写；本次用 Glyphs 与 font-editor 的 FontForge 区分，未重复使用同一产品。",
+      "license": "商业产品，本次不要求开源许可证；未把官网营销文案当作开源许可。",
+      "gap": "首页为营销页且带 noindex；未安装或导出测试；未核对当前价格与授权条款。"
+    },
+    "storyboard-application": {
+      "result": "pass",
+      "application_id": "commercial:boords",
+      "track": "commercial",
+      "sources": [
+        "data/collections/sources/5845079c9897870cd3cac88771c794079fe1748beb3f051edfc07ea4376766bd.txt",
+        "data/collections/sources/f1f3d7a8d56c80b6c6f3f1906d919f1c21b6f2f5e00c4a87726d37ad1ae9008f.txt"
+      ],
+      "definition_core": "boords.com/docs/storyboard-views 正文：global view 打开 storyboard、frames、grid/shot list、frame editor（draw/annotate、shapes、text、images、camera overlays）、Review 分享（guest 评论、链接/密码）；/docs/export-formats 正文：PDF、Word、spreadsheet、images、animatic MP4、After Effects、Premiere/Resolve 等。覆盖分镜格→按场景/镜头排序→可评审分发。",
+      "service_form": "在线故事板与评审工具，浏览器访问、分享链接、客户 guest 评论；持续运营的 SaaS 形态。",
+      "id_track": "commercial:boords，track=commercial；官方文档域名 boords.com 与产品 Boords 一致。",
+      "license": "商业产品，不要求开源许可证。",
+      "gap": "未登录实际项目或导出；未验证 Free/paid 计划当前差异；commercial:boords 原关联 previsualization-application，导入时需避免重复计数。"
+    },
+    "ai-design-generator": {
+      "result": "pass",
+      "application_id": "commercial:sivi",
+      "track": "commercial",
+      "sources": [
+        "data/collections/sources/cd911d27d915c840044c6ecd38c070bc2142d567a7ffcd4149b65eb0bdad0b8b.txt",
+        "data/collections/sources/a39f84c6f75c3e2107e24fbb7ff5ba802662163e67a0563153522b950909d27f.txt",
+        "data/collections/sources/61b1e90f0987eff7993e31a65df173c8243320c25134d3c47d7e15d51cce31b2.txt"
+      ],
+      "definition_core": "sivi.ai/tour/ai-design-generator 正文：Enter text prompts and watch the AI design generator create high-quality business visuals in just ~1-2 min. Layered editable designs in any size and in 72+ languages；what-is 页正文与关键词含 AI design generator 从 text prompt 生成 ads/banners/posters/social posts/thumbnails 等成品设计、Large Design Model、separate layers、real text、CTA、background。覆盖描述意图→机器组合设计→分层可编辑结果。",
+      "service_form": "sivi.ai 在线生成服务，页面有 prompt 表单、Generate AI Designs 入口与账号/试用入口；持续运营的 SaaS 形态。",
+      "id_track": "commercial:sivi，track=commercial；sivi.ai 官方域名与产品 Sivi 一致。what-is 页还把 Sivi 与模板工具、图像生成器区分开，支持其属于设计生成器而非纯图像生成器。",
+      "license": "商业产品，不要求开源许可证。",
+      "gap": "tour/what-is 为压缩单行 HTML，读取窗口无法把导出格式句定位为可读段落，entry 已不写导出断言；未实际生成或验证输出质量。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未执行或登录任何应用，也未读取其他单元、采集脚本或历史过程文件；仅依据 input.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 列出的 14 个快照。部分快照（typst.app、Glyphs、Boords、Sivi）为压缩或单行 HTML，读取工具按行截断，长段落只能依据可读片段与关键词命中核对，未重新抓取。Typst 的 license API 快照为 base64，未逐字解码全文；未重算 SHA-256；未验证实时价格、账号可用性、生成质量或编译/导出结果。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-026/ses_groveopencodegop026review1_1792942019.jsonl",
+  "batch_sha256": "1c6044febad02dccbf1be4b8fe61527a37883705f517d06deeadc3a6c21060e6",
+  "research_sha256": "be0d885e8754f8b45a67c60c7442e129dfed939d3200f6880e205d31e991413b",
+  "input_sha256": "d4d4e9d5fbaa85c139eac8fd676546b5a948504f2c87dd643257b7252bbf9ddd"
+}

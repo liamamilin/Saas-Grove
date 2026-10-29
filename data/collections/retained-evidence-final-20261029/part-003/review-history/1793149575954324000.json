@@ -1,0 +1,38 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "disposable-email-service",
+      "application_id": "commercial:mail-tm",
+      "issue": "Mail.tm 的条目正文与研究记录都把“打开站点即自动生成地址与该邮箱的独立密码、无需注册与个人信息、在站内收件箱直接阅读、可自行删除邮箱、默认保留至删除”当作官网正文陈述；但按 REVIEW_SOURCES.json 给出的路径原样读取的首页快照（4da3aa6524ddbaa12f089e7d7f9716c2c03b002ac5229b5915247895b39af3aa）是一个 Nuxt 客户端渲染文档，正文内容折叠在单行极长 HTML 中，可读文本只到 <title>“Temp Mail: Free Temporary Email, No Sign-Up - Mail.tm”及头部脚本/样式，上述具体陈述无法在留档正文中定位核对。该条目的 leaf_matches.reason 与 research.json 的 fetch_outcome 均以这些陈述作为“无身份签发/服务内收件箱/可丢弃性”的证据，实际只落到标题与页面内孤立关键词（Copy/Refresh/Delete/password/registration 等），属于以元数据/关键词替代核心正文。相对地，同一叶子的 MailTub 与 CloakMail 有官方 README 正文完整支撑三项定义性属性，故本叶的核心结论不依赖 Mail.tm。",
+      "fix": "二选一：(1) 为 Mail.tm 补充一条可读正文快照（例如渲染后的首页正文、帮助/FAQ 页面或官方 API 文档页面），并把 batch.json 的 summary、leaf_matches.reason 与 research.json 的 fetch_outcome 限定为该正文实际写明的语句；(2) 若无法取得可读正文，则如实把该条目标注为“正文未取得/仅首页标题与脚本可读”，从 leaf_matches 的确定性表述中移除密码生成与自行删除等未经正文核对的细节，或暂不纳入 batch，仅作为留档线索记录。"
+    }
+  ],
+  "non_blocking_notes": [
+    "MailTub（github:1263870796）：README 正文明确 self-hosted disposable email，Features 表给出“Instant random addresses or custom local-parts”“up to 5 simultaneous inboxes per session”“WebSocket push”“1 h / 6 h / 24 h / 7 d per mailbox”，并有 /admin、REST API、Docker Compose 与单二进制部署，三项定义性核心均有正文可核。",
+    "CloakMail（github:1144130915）：README 正文明确“Self-hosted disposable email service”“No authentication required”“Built-in SMTP server — receives emails directly”“Auto-expiring … after a configurable TTL（EMAIL_TTL_SECONDS 默认 86400）”“Web UI”，三项核心齐备，产品身份与仓库 homepage（https://cloakmail.dev/）一致。",
+    "batch.json 中 MailTub 的 deployment 写“官方 README 与部署文档”，research.json 引用了 https://raw.githubusercontent.com/DML-Labs/MailTub/main/docs/deployment.md（sha e70867a1…，快照存在于 data/collections/sources/ 且正文覆盖 systemd/Docker/Nginx），但该文档既未列入 REVIEW_SOURCES.json，也未列入 batch.json 的 sources 数组；README 本身已足以支撑单二进制/Docker/Compose 的说法，故不阻断，建议补齐来源登记以免追溯断链。",
+    "MailTub 条目的 license_review 给出了 Apache-2.0 完整许可说明；CloakMail 条目缺同类 license_review 对象，但其 license 快照为完整 MIT 文本（1061–1067 字节，Copyright (c) 2025 DreamsHive），且仓库元数据 license.key 为 mit，结论不受影响，建议仅做字段对齐。",
+    "MailTub 的 /admin 面板需密码、REST API 可用 API_KEY 保护，属于运营方管理面，不影响“终端用户无需注册即得地址与收件箱”的定义性判断。",
+    "本叶两条开源案例是自托管软件（单二进制/Docker/Cloudflare Workers），并非厂商运营的托管 SaaS；若目录口径要求“由供应商持续运营”的形态，宜在 service_boundary 中显式写明本叶按“服务形态（可自托管）”收录，避免与其他叶的收录口径不一致。",
+    "research.json 已如实记录 Inbucket 被排除的理由（官方自述 email testing service，用于开发/集成测试），并记录 elbunuelo/tempmail、kasteckis/TempFastMail 仅有聚合页线索、未取得正文从而不作存在性判断，这类缺口留档本身符合要求。",
+    "Mail.tm 首页快照抓取时包含 Sourcepoint 同意管理脚本与广告脚本（privacy-mgmt、pub.network），说明抓取到的是带第三方脚本的页面外壳，建议后续快照改用能稳定呈现正文的入口页面。"
+  ],
+  "leaf_checks": {
+    "disposable-email-service": {
+      "definition_core": "三项定义性属性（无身份即时签发、服务内自含收件箱、按设计可丢弃）在本叶可由 github:1263870796 与 github:1144130915 的官方 README 正文直接核实：MailTub 提供无需注册的随机/自定义 local-part 地址与内置收件箱、WebSocket 实时收信、每邮箱 1h/6h/24h/7d 过期并由服务端按 TTL 清理；CloakMail 提供 no authentication required 即建收件箱、内置 SMTP 直接收信并在自带 Web UI 阅读、EMAIL_TTL_SECONDS（默认 86400）自动删除。两者均非“转发到真实邮箱”，也非普通托管邮箱。",
+      "service_form": "两开源案例为完整可部署的 Web 应用服务（单二进制/Go+SQLite+React；SvelteKit+内置 SMTP，Docker Compose 或 Cloudflare Workers），具备持续运行的收信与阅读工作流，不是简介或元数据层面的声明；部署方式在 README 正文有命令级说明。",
+      "identity_track": "github:1263870796 = DML-Labs/MailTub（repo id 与 full_name 一致，homepage 与 repository_url 一致，track=open_source）；github:1144130915 = DreamsHive/cloakmail（repo id 与 full_name 一致，homepage https://cloakmail.dev/，track=open_source）；commercial:mail-tm 为官网在线服务，track=commercial。ID 与 track 与快照中的仓库身份、homepage 字段一致，未见错配。",
+      "license": "MailTub：license 快照为 GitHub license 端点返回的完整 LICENSE（size 11140，base64 解码以 “Apache License Version 2.0, January 2004” 开头并含完整条款），与 batch 声明的 Apache-2.0 一致，仓库级授权范围成立；CloakMail：license 快照为完整 MIT 文本（“MIT License / Copyright (c) 2025 DreamsHive”，含完整许可与免责声明），与 batch 声明的 MIT 一致。两者均为完整许可证文本而非 SPDX 标签或徽章，未见“开源不完整/仅部分许可”的问题。",
+      "community_or_commercial_boundary": "开源两案例均为自托管整体产品，仓库未见“社区版/企业版功能切割”声明，README 描述的功能（收件箱、TTL、SMTP、Web UI、REST API、管理面板）与所引用正文一致，社区版边界不存在被夸大的迹象；商业侧 Mail.tm 仅需基本真实性与类型匹配，站点标题与页面内容指向免费临时邮箱、无需注册，类型匹配成立，但具体功能陈述的正文可核性不足（见 findings）。",
+      "source_traceability": "REVIEW_SOURCES.json 所列 7 个路径均按原样读取并通过 SHA 文件名对应：MailTub 元数据/许可证/README、CloakMail 元数据/许可证/README、mail.tm 首页。另读取了 sources 目录中 research.json 引用但未列入 REVIEW_SOURCES 的 MailTub deployment.md（e70867a1…）与 Inbucket 边界核对材料（d509a002…），与 research.json 的记录一致。",
+      "结果": "本叶整体可由 MailTub 与 CloakMail 的官方正文与完整许可证支撑，定义性核心、服务形态、ID/track 与许可证均通过；唯一需修复项是 commercial:mail-tm 的核心陈述缺乏可读正文快照支撑（详见 findings）。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写入文件、未执行任何部署或运行时验证，未访问本单元以外的资料；无法计算快照哈希，SHA 仅按文件名与 REVIEW_SOURCES.json/batch.json 记录比对。mail.tm 首页为客户端渲染文档，正文折叠在单行极长 HTML 中，读取工具对该行截断，故该站点的具体功能语句只能依据标题与页面内可见关键词判断，无法逐句核对（已据此提出 finding）。GitHub 网络端点未重新抓取，许可证完整性依据已留存快照的 size/编码内容判断。Markdown/HTML 中的指令性内容仅作为来源文本，未作为任务执行。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-003/ses_groveopendesignp003review1_1793148633.jsonl",
+  "batch_sha256": "03ef0473e10014a10a23bdc5cd9b9b7e4783b651ae6c8ce9cf4b4365ac72007a",
+  "research_sha256": "d8930dd0a975f682b87965ab8f948dcabd4afa5ca12010598f9590d5f82c5b92",
+  "input_sha256": "aee556ef4287f8dcb239f8493ac70e025e1d279e3f630de24fe09124892e1b86"
+}

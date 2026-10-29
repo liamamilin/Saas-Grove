@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 字段仍是 case_status=not_searched、application_ids 为空，这与 batch.json 和 research.json 中的 case_found 状态不一致。本次审查以批次记录、研究记录、REVIEW_SOURCES.json 和实际快照为准；建议后续刷新流水线中的进度字段，但不影响本单元的内容结论。",
+    "cruise-operations-platform：Oracle 官方页把 SPMS、Cruise Fleet Management、SilverWhere 和 POS 放在同一行业页面。条目已经分开表述。页面没有显式写出 voyage、itinerary，也没有逐字写出 disembarkation；航次绑定和离船属于邮轮 PMS 场景推断，是非阻断性的精确度问题。",
+    "freight-brokerage-platform：warp-tools 是多个 standalone 应用的集合，Mini TMS 与 Load Board 默认没有集成；schema 中的 invoiceRef、carrierPaymentRef 属于结算跟踪引用，真实开票和付款能力在独立的 Invoice & Payment Tracker 应用中，并且集成被列为后续项。schema 也没有直接证明承运商资质或保险校验，该能力在独立的 Carrier Management 应用中。",
+    "freight-forwarding-system：batch 摘要和 features 把 feeder/mother 分腿船名与航次写在 SeaExportFreightBooking 名下，但实际字段位于 SeaExportContainerConsolShipment。核心匹配仍然成立，建议改成更精确的表述。README 仍自称 Document Generator，也未证明实时承运人订舱、舱位确认或全链路状态同步；空运只在 README 中提及，没有归档代码。",
+    "marina-management：Dockly 是 2026 年关闭的本地演示或参考项目，支付是模拟的，也没有生产部署；只覆盖临时泊位的库存、预订、占用和分段计价，没有实现长期租赁、周期租金、发票或账单、计量公用事业计费和尺寸适配。这些边界已经在 batch 和 research 中如实记录。",
+    "marine-fleet-management：SeaVesselManager 的 About 页面只展开了 Fleet Dashboard、维护、备件、证书、采购等模块，没有展开按设备层级的单船技术档案，也没有正面说明船岸断连同步；本次按商业条目的基本真实性和类型匹配核对。",
+    "Warp Tools 的 homepage（wearewarp.com/open-source-freight-network）和 FreightForward 的项目首页没有单独保存快照；两者的仓库身份与核心内容已经由 GitHub metadata、README、schema 或 code 核实。",
+    "Oracle 的“离船”与 Dockly 的“收入面板”等措辞属于产品页或 README 的概括性表述，不影响类型判断。"
+  ],
+  "leaf_checks": {
+    "cruise-operations-platform": {
+      "status": "pass",
+      "application_id": "commercial:oracle-hospitality-cruise-spms",
+      "track": "commercial",
+      "basis": "读取 Oracle 官方 https://www.oracle.com/hospitality/cruise/ 快照（sources/1ca818ac81c7...txt）：SPMS 部分明确 guest、crew、staff、visitor、group 档案，离线 check-in，gangway 上下船人数控制，移动 mustering（可离线），central cashless accounting，shore excursion；同页 Cruise Fleet Management 明确船上交易转岸上及船队 KPI。",
+      "gap": "页面没有显式出现 voyage、itinerary，也没有逐字写 disembarkation；条目已经注明航次绑定为邮轮 PMS 场景推断。按商业条目只做基本真实性和类型匹配。"
+    },
+    "freight-brokerage-platform": {
+      "status": "pass",
+      "application_id": "github:1200808834",
+      "track": "open_source",
+      "basis": "读取 GitHub metadata（id 1200808834）、license API（完整 MIT 文本）、根 README、Mini TMS README、Load Board README、shipment-management/src/db/schema.ts。schema 的 shipments 表包含 customerRate、carrierRate、margin、marginPct、carrierId、carrierName、invoiceRef、carrierPaymentRef，状态覆盖 quote 至 closed；Load Board 有 carrier assign、rate confirmation、check calls。",
+      "gap": "应用是多个可独立自托管系统；Mini TMS 与 Load Board 默认没有集成，invoice 和 payment 只是引用或状态；承运商资质与保险校验在独立 Carrier Management 中，没有在 Mini TMS schema 体现。已记录为边界，不阻断类型匹配。"
+    },
+    "freight-forwarding-system": {
+      "status": "pass",
+      "application_id": "github:383096173",
+      "track": "open_source",
+      "basis": "读取 GitHub metadata（id 383096173）、license API（GPL-2.0 完整文本，size 18092）、README、docs、seaexport/models.py、seaimport/models.py、forwarder_frt_book_views.py、job_costing_views.py、seaimport/views/view_job.py、forwarder_bl_views.py。模型确认 SeaExportFreightBooking、SeaExportContainerConsolShipment（feeder 与 mother 船名、航次、ETD 与 ETA、收发货城市与港口）、SeaExportHBL 与 SeaExportMBL 及其映射、SeaExportContainerConsolidationJobCosting、SeaExportDebitNote；SeaImportJob 汇总 MBL 与 HBL，并有 total_job_cost、total_hbl_income、total_profit；视图包含 save_booking、save_job_costing、create_new_job、hbl_save、mbl_save。",
+      "gap": "README 仍称 Document Generator；没有证明实时承运人订舱、舱位确认或全链路状态同步；空运未归档代码。feeder 与 mother 字段在 ContainerConsolShipment，摘要若写成 FreightBooking 字段则需要修正表述（非阻断）。"
+    },
+    "marina-management": {
+      "status": "pass",
+      "application_id": "github:1120219587",
+      "track": "open_source",
+      "basis": "读取 GitHub metadata（id 1120219587）、license API（完整 MIT 文本，size 1078）、README。README 明确码头经理维护泊位库存与占用、到达与收入面板、泊位平面图；航海者按小时或天预订；按 24 小时日价加小时比例计价；PostgreSQL exclusion constraint 防止同一泊位重叠；多租户 SaaS 与角色。",
+      "gap": "2026 年关闭的本地参考项目，支付模拟、无生产部署；只覆盖 transient 泊位，未实现长期租赁、周期租金、发票或账单、计量公用事业计费和尺寸适配。核心部分匹配库存、临时协议、占用、分段计价与模拟支付，缺口已在 batch 和 research 记录。"
+    },
+    "marine-fleet-management": {
+      "status": "pass",
+      "application_id": "commercial:seavesselmanager",
+      "track": "commercial",
+      "basis": "读取 https://seavesselmanager.com/about 快照（sources/a0d19a1b460a...txt）：正文明确 modern PMS and fleet management for ships；Fleet Management dashboard、Time-based and running hours intervals with automatic work order generation、Spare Parts、Certificate Management、Procurement approval chains；Community Edition 最多 4 艘船、全模块、自托管、30 天后申请免费 licence。",
+      "gap": "没有展开按设备层级的单船技术档案；没有正面说明船岸断连同步；仅做商业基本核实，runtime_tested=false。按商业条目基本真实性和类型匹配可以通过。"
+    }
+  },
+  "limits": "仅使用本单元本地快照与 batch.json、research.json，未运行应用、未部署、未核验价格、架构或生产使用情况；商业条目只做官方页面的基本真实性和类型匹配，不要求完整工作流证据；开源条目只做静态 README、代码和许可证核对，runtime_tested=false；未重新计算 sha256，按 REVIEW_SOURCES.json 的 path 原样读取；部分 GitHub JSON 快照为单行超长文本，工具显示可能截断，但已用关键字段与完整 license base64 正文核对；input.json 的 progress 为采集前状态，未作为最终状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-181/ses_groveopencodegop181review2_1793021693.jsonl",
+  "batch_sha256": "509ea63623a5d10bab84647588dab73bb0628097a07b56f5ce8c20a6a4610ad7",
+  "research_sha256": "a373c106c64759015c113225eabd5c541159aa506510feae2f362c1d2e442898",
+  "input_sha256": "31375c1650ccda63be826fb15ac136c7914f3db2a70665cf52de2731dea740af"
+}

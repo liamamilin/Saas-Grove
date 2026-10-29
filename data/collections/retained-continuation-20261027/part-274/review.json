@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Fresha 与 Zenoti 的引用快照是官方营销/功能页，不是产品内工作流截图；按商业条目只做基本真实性与类型匹配的标准可以支持收录，但无法据此核验具体 UI 流程。",
+    "Fresha 页面同时覆盖沙龙与水疗，但本单元只挂到 salon-management-system，spa-management-system 由 Zenoti 承载；research.json 已写明这一边界，未发现重复归属或跨叶误用。",
+    "Zenoti 页面导航含 Medspa，但条目只使用其 spa 产品页，并明确未外推医疗水疗的临床文档与合规模块；该保留是恰当的。",
+    "Tattoo Workshop 的 README 未明确写出预约与具体服务项目的绑定、no-show 状态、同意书/年龄核验或“定金先付才确认”；条目没有把这些写成既有能力，可作为后续补证点，不阻断当前类型匹配。",
+    "Tattoo Workshop 为整仓库 MIT，未观察到社区版/商业版拆分；LICENSE 文本完整，仓库 ID 1076346771 与元数据快照一致，社区版边界可视为“完整仓库即社区版”。",
+    "research.json 中 Vagaro、Book4Time、Tattoo Studio Pro 等备选抓取未附快照于 REVIEW_SOURCES.json；它们未被 batch 引用，属于未采用候选，无法独立复核但不影响本单元结论。",
+    "batch 中 license_review.reviewer 预先写为 opencode-go/deepseek-v4.1-flash，属于采集侧元数据而非独立证据；本次已直接读取 LICENSE 文本复核 MIT。",
+    "快照文件名与 REVIEW_SOURCES.json、batch 中的 sha256 一致，但本次未运行哈希工具重算内容哈希。"
+  ],
+  "leaf_checks": {
+    "salon-management-system": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:fresha"
+      ],
+      "evidence": "读取 Fresha 官方商家页快照 data/collections/sources/e81070fc288b6900fe0ec88e4ddaa761e28100d7f794334d144f6636b16bf36f.txt，页面含 salon software、online booking、calendar、clients、team members、sales、POS、payments、checkout、upfront payment/deposit、inventory 等商家侧功能表述；条目将其限定为沙龙/美容院预约与门店管理，未外推发型师-服务-时段绑定或染发配方。",
+      "gaps": "营销页不展示实际 UI；未逐项证明染发处理时间、配方、佣金/摊位租赁等沙龙细化能力，条目已明确不据此扩写。"
+    },
+    "spa-management-system": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:zenoti"
+      ],
+      "evidence": "读取 Zenoti 官方 spa-management-software 快照 data/collections/sources/2e0f05f38be167052f19409cb072eb17f859987ef6cc3eadadbe5d024dc32a0f.txt，页面含 therapist-aware appointment book、client history、POS、memberships/packages、deposits/cancellation、day/resort/multi-location 等表述；条目限定在水疗预约、房间/治疗师排程、客户历史与结账范围。",
+      "gaps": "营销页不展示实际房间周转、多服务按序排程或酒店 folio 集成细节；条目未外推医疗水疗临床合规模块。"
+    },
+    "tattoo-studio-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:1076346771"
+      ],
+      "evidence": "读取仓库元数据、README、LICENSE、INSTALLATION 快照：仓库 ID 1076346771 与 batch 一致；README 明确 customer database、appointments with customers/artists/status、service categories/pricing/duration、invoices linked to customers/appointments with deposits/payment status、Admin/Artist/Receptionist 角色；INSTALLATION 给出 Node.js 18+ 与 SQLite 自托管；LICENSE 为完整 MIT 文本。",
+      "gaps": "README 未明确预约与具体服务项目绑定、no-show、同意书/年龄核验或定金先付确认；条目未把这些写成既有能力。整仓库 MIT，未观察到独立社区版/企业版边界。"
+    }
+  },
+  "limits": "只读初审；未运行应用、未部署、未执行 shell、未重算 SHA-256。Fresha/Zenoti 快照为压缩 HTML，读取工具对超长行有截断，核心功能词通过逐项检索确认，但未能逐段通读全部页面文案。未读取本单元之外的其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-274/ses_groveopencodegop274review1_1793042236.jsonl",
+  "batch_sha256": "2cabb4499b34d19be55e9b980af34a2c2871a1cfb28fc6c02f98f580e4e14f2a",
+  "research_sha256": "0ee63c5f52a178047f51ced22bfaaca909c6d6744ce41f1bd41491900a3d6c5b",
+  "input_sha256": "6c7eef0d95a172d267ff9d7b34326504217bea824569823874e3382b7124aee9"
+}

@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 leaf.progress 仍为 case_status=boundary_unresolved、application_ids=[]，而 batch.json 与 research.json 已把 github:91032869 记为 case_found；建议同步这两处状态，避免下游继续把本叶当作无案例处理。该不一致不影响本次基于快照的内容判断。",
+    "batch 的 technology_stack 写有 Kotlin，但四个快照中没有直接语句说明实现语言；README 只提到 Android 工程、JDK 21 与 Gradle Kotlin DSL，KotlinConf 是活动名称。建议补充源码语言证据，或改用更保守的表述。",
+    "交付形态是组织方 fork 仓库、增加 product flavor、设置 SCHEDULE_URL 与品牌后自行构建并发布，而不是托管多租户服务；这与定义中“按活动发布的应用容器”相符，research 也已明确不声称注册、票务或签到后台，建议摘要继续保持这一边界。",
+    "来源可证明活动前与活动中的日程使用，但没有直接说明活动结束后的归档、下线或延续策略；这只是定义中 after 阶段的生命周期细节，不构成本次阻断。",
+    "活动名录与 2011 年起源仅见于 README，首页快照未列活动与年份；现有归因正确，后续引用时不要把这两项细节转挂到首页快照。",
+    "未做构建/运行验证，也未逐一打开 README 中的 F-Droid/Google Play 商店链接；这不影响本类型基于公开资料的初审结论。"
+  ],
+  "leaf_checks": {
+    "event-mobile-app": {
+      "slug": "event-mobile-app",
+      "application_ids": [
+        "github:91032869"
+      ],
+      "result": "pass",
+      "definition_core": "三项定义性核心均有正文证据：①活动绑定容器——README 的“Create an app for your event”要求为活动新增 product flavor、设置 SCHEDULE_URL 与 applicationId/活动名，并构建发布到 F-Droid 或 Google Play，属于按活动配置并发布的应用实例；②组织者编写内容——README 说明日程来自 Frab/Pretalx/Wafer/OpenKi 发布的 XML/JSON，组织者另配品牌、图标与颜色，内容与结构由组织方掌控；③参会者伴生使用——README 与首页均列日程网格、讲者/房间详情、收藏、提醒、日历、分享、反馈、变更追踪、自动更新和离线使用。",
+      "service_form": "是可持续维护的完整 Android 应用项目，而非库、CLI 或单一基础设施组件：README 的 History 记载 2011 年以 CampFahrplan 起步，2017 年更名为 EventFahrplan，并列出 Chaos Communication Congress、Chaos Communication Camp、FOSDEM、FrOSCon、KotlinConf 等活动使用；仓库页含 39C3 手机/平板截图，README 还记载 2025 年 NGI0 Core 资助，可佐证项目持续运行。边界是按活动自行构建发布，不是托管多租户 SaaS，research 已如实收窄。",
+      "identity_track": "batch 的 id=github:91032869 与仓库页 meta 中的 repository_id=91032869、hovercard-subject-tag=repository:91032869 及仓库全名 EventFahrplan/EventFahrplan 一致；track=open_source 与 README 自述“open-source Android project”一致；homepage=https://eventfahrplan.eu 与首页快照标题、站点名一致。未发现 ID、仓库身份或类型关系错配。",
+      "license": "LICENSE.txt 快照为完整 Apache License 2.0 正文，含第 1 至 9 节、END OF TERMS AND CONDITIONS 与 APPENDIX，共 201 行；README 的 Licenses 段重复 Apache-2.0 授权声明，仓库页文件树也包含 LICENSE.txt。batch 声明 SPDX Apache-2.0 与快照相符，许可证证据不是摘要或元数据替代。",
+      "community_boundary": "四个快照中未出现付费版、企业版或 open-core 分割；整个仓库以 Apache-2.0 发布，batch 也未声称存在单独社区版。README 仅说明部分代码版权源自 K-9 Dog Walkers 与 AOSP，仍属同一许可证体系，不构成社区版边界冲突。",
+      "sources_read": [
+        "data/collections/sources/43fe04cfffe8fa45249e844bbb31460a1768a76af904b9b88acb9f3839a0632d.txt（GitHub 仓库页，含元数据、README 嵌入段与许可证段）",
+        "data/collections/sources/4c277d528f0092dc8d883abac49b7bb48c6044d724ab5f0c067be3996b7e2fa0.txt（README 正文）",
+        "data/collections/sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt（完整 Apache-2.0 许可证）",
+        "data/collections/sources/3d956bb3ef4ee25c3a3dfc8d58d79a5f822c7b8ca1059501af8ccd9dba0cd395.txt（官方站点首页，含功能与集成正文）"
+      ],
+      "gaps": "未验证托管服务形态、注册/票务/签到后台、活动后生命周期策略，也未运行构建或核对应用商店页面；这些不属于本叶定义性核心的必需证据，且 research 已如实记录边界与未采信项。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中列出的四个快照，未运行 shell、未写文件、未读取其他单元。仓库页快照较长，首次读取至第 512 行，后续以检索核对仓库身份、README 嵌入段与许可证段，未逐行读完整个 HTML；官方首页为 VuePress 服务端渲染页，正文可见但单行在查看器中被截断。未抓取 docs/CUSTOMIZING.md、docs/LIMITATIONS.md、F-Droid 或 Google Play 页面，未做构建或运行验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-232/ses_groveopencodegop232review2_1793263001.jsonl",
+  "batch_sha256": "71966b8c3a8c24c7a0767ecd8700ca5202bd36d803b20fe309a28433a758c505",
+  "research_sha256": "430f36cdcba971e9029c2d27cce5dfc442e2112870be69161067b716ab29a563",
+  "input_sha256": "3b4285a3a46c7a106121a8744df9d3d1749c2ddc390c7406e1eaf90b60e1c607"
+}

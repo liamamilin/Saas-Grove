@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "sports-club-management",
+      "application_id": "github:844421920",
+      "issue": "The only evidence for this leaf is Sportyweb's README and CHANGELOG. These sources show club/department/group structures, contacts and memberships (described as a rudimentary foundation in the 0.4.0 changelog), events, fees/subsidies and finance/accounting with RBAC. They do not demonstrate two of the four jointly load-bearing structures in this leaf's definition: teams/squads as the club's organizing units, and the recurring season/registration-renewal cycle. The README also states the project is in initial development and not ready for production, and that the listed areas are at different stages. The batch entry itself records that team rosters and the season renewal cycle are not modeled. Under the leaf definition, a product with members and money but without teams is a generic membership system, and one without a season cycle is a static registry; therefore this leaf case does not yet meet the defining core and the 'case_found' status overstates the evidence.",
+      "fix": "Either add primary evidence that actually exercises the missing core (for example repository modules/docs/schema for team or squad rosters with coach/manager assignment, and for season/renewal or registration periods, plus some indication of a usable running deployment), or remove Sportyweb from this leaf's case list and record the leaf as no verified case with the search/fetch gap preserved. If it is retained, downgrade the leaf-match wording to the verified member/department/fee scope and do not describe it as a club-management case satisfying the full four-part core."
+    }
+  ],
+  "non_blocking_notes": [
+    "race-management-platform: JRaceman is correctly identified as open source (github:567123100) and the GPL-2.0 license snapshot contains the full GNU GPL v2 text (17,992 bytes). The README establishes only the regatta-management identity, web-server form and setup; the event/roster/lane/results evidence comes from the git tree path names. The results-of-record workflow is not documented in prose, so future additions should not claim specific scoring/lifecycle behavior without further sources.",
+    "race-management-platform: the GPL snapshot confirms GPL v2 text, but the repository's COPYRIGHT file was not captured, so whether the grant is GPL-2.0-only or GPL-2.0-or-later cannot be independently determined from the snapshots; 'GPL-2.0' is acceptable as the GitHub-reported license label.",
+    "sports-eligibility-management: DragonFly Athletics is a real commercial product and the homepage body does list rosters and eligibility, eligibility and certifications, injury reporting, and playing-status/rehab restrictions for schools and state associations, which is enough for a basic commercial type match. The evidence is homepage marketing only; requirement-set configuration, evidence review and status computation are not shown, so the leaf-check wording should stay at the capability level.",
+    "sports-federation-management: Sport:80's homepage body targets NGBs and sports organizations and lists membership, club management, certification, governance and compliance. This supports the governing-body position and participant register at a basic level, but affiliation status/renewal/approval and multi-level fee handling are not shown on the captured page.",
+    "sports-membership-licensing-platform: the same Sport:80 homepage supports the continuing member relationship through profile management, membership renewal, qualification updates, competition entry, and membership/certification/payments modules. Credential issuance (card/confirmation number) and point-of-use verification are not evidenced; this is acceptable for the basic commercial threshold but should not be asserted as verified functionality.",
+    "sports-club-management: the AGPL-3.0 license is verified by the full license text (32,387 bytes) and the README's AGPL 3.0 statement; the license snapshot was taken from the development branch, which is consistent with the main and development READMEs but is not the default-branch license file. No community-edition boundary issue applies because no separate commercial edition is claimed.",
+    "input.json still shows all five leaves as case_status 'not_searched' with empty application_ids and research_records, while research.json and batch.json record case_found entries. This looks like stale progress metadata rather than a content defect, but it should be refreshed for consistency."
+  ],
+  "leaf_checks": {
+    "race-management-platform": {
+      "status": "pass_with_limits",
+      "basis": "Open-source case github:567123100 (JRaceman). Repository metadata identifies jimmc/jraceman (id 567123100) as an open-source canoe and kayak regatta management system; README establishes a Go/Lit web server with SQLite database creation/import, user and permission setup. The GPL-2.0 license snapshot contains the full GPL v2 text (17,992 bytes). The git tree snapshot confirms paths containing event/race/entry/person/team/lane and RaceResults/MedalCount, supporting the event, roster, start-order and results legs at code-structure level. No timing hardware or registration-only positioning is claimed.",
+      "gap": "No user documentation or UI workflow describes registration, start lists or results publication; the results leg is inferred from path names only. The tree snapshot is a single-line JSON document that is displayed truncated, so full path context could not be read line by line."
+    },
+    "sports-club-management": {
+      "status": "core_gap",
+      "basis": "Open-source case github:844421920 (Sportyweb). Repository metadata identifies a multitenancy web application for sports-club management; the development README lists club administration, departments and groups, contacts and memberships, events, fees and subsidies, finance and accounting, with role-based access control in the changelog; AGPL-3.0 is confirmed by the full license text and README. This evidences the club, a member population and parts of the money loop.",
+      "gap": "No evidence of teams/squads with rosters and coaches/managers, and no evidence of a recurring season/registration-renewal cycle. The README states the project is in initial development and not production-ready; the changelog describes memberships and finance as rudimentary. The four-part defining core is therefore not met."
+    },
+    "sports-eligibility-management": {
+      "status": "pass_with_limits",
+      "basis": "Commercial case commercial:dragonfly-athletics. The captured homepage body targets state athletic associations and schools and lists 'Eligibility & Certifications', 'Rosters & Eligibility', injury reporting, and testimonial text about communicating athletes' playing status, rehab compliance and restrictions. This is a real commercial product with a basic eligibility/clearance type match.",
+      "gap": "Only the homepage was captured; no source shows the configured requirement set, evidence collection/review, or computed eligibility status. Deep workflow and rule-engine claims would need product documentation."
+    },
+    "sports-federation-management": {
+      "status": "pass_with_limits",
+      "basis": "Commercial case commercial:sport80. The homepage body is aimed at national and international governing bodies and sports organizations, states that the membership platform is used by 80+ NGBs, and lists membership management, club management, certification, event registration, and governance and compliance. This supports the governing-body position and the organization/participant register at a basic commercial level.",
+      "gap": "Affiliation status, renewal cycle, affiliation approval, and multi-level fee disbursement are not shown; the federation match should remain a basic type match, not a verified governance-workflow claim."
+    },
+    "sports-membership-licensing-platform": {
+      "status": "pass_with_limits",
+      "basis": "Commercial case commercial:sport80. The homepage body states that members, athletes, coaches and officials can manage profiles, renew memberships, update qualifications, enter competitions and track results through the member portal; the platform lists Membership Management, Certification Management, Event Registration, and Payments & Finance. This is consistent with a renewable, term-bound membership/licensing relationship.",
+      "gap": "Credential issuance and verification at the point of use, license grades and prerequisites are not described on the captured page; these remain unverified."
+    }
+  },
+  "limits": "Read-only desk review of this unit only. No shell, deployment, runtime testing or external fetching was used; conclusions rely solely on input.json, batch.json, research.json and the 11 snapshots listed in REVIEW_SOURCES.json, all read at their stated paths under data/collections. Several snapshots are single-line JSON (repository metadata, license, git tree) that the viewer truncates at 2,000 characters per line, so license SPDX metadata, default_branch, and the full tree path list could not be read in context; token presence in the tree was confirmed by targeted searches but not by full path inspection. Commercial review is limited to homepage body text and the basic authenticity/type-match threshold; pricing, deployment, and detailed workflows were not required and were not verified. No assessment was made of other units or of collector process materials.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-255/ses_groveopencodegop255review2_1793038874.jsonl",
+  "batch_sha256": "4301a15c61602e8794ac5a2bb71b371812afd4d30c04fa89e11e108ef8df0c9a",
+  "research_sha256": "14fbc359ad6acdf85c65534cb970e05483abdc8e742d2c6367b296ab7c54f91b",
+  "input_sha256": "57ff36a509ac00ba344e46f83f94246ac62b9022ff3ba7b4000fcd38e32e5039"
+}

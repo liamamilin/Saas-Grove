@@ -1,0 +1,75 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "space-management-platform",
+      "application_id": "commercial:officespace-software",
+      "issue": "该叶唯一案例的引用快照 data/collections/sources/2a5a5eedd754c005d335f2eaf9639ab1c43cb3080c5d543ff76674b13367b6fc.txt 实际是 OfficeSpace 首页的导航/页脚外壳：可见内容主要是菜单项（Space Management、Block & Stack Planning、Move Management 等）、页脚链接和一条 Quantum Health 客户案例 teaser；快照中未检出 floor plans、空间库存/分配、占用状态、情景比较、moves/adds/changes 工作流或资产组合报表的正文。batch.json 的 leaf_match 与 summary 却称“官网正文明确”这些内容，属于以导航/关键词替代核心正文，无法支撑该叶的定义性核心。",
+      "fix": "补充并原样快照能展示空间库存、平面图/分配、占用、搬迁规划与审批/批处理、情景比较的官方 feature 页面（例如 /features/space-management、/features/move-management、/features/stack-plans），并确认页面包含可读正文；按实际正文改写 summary/leaf_match。若无法取得，移除该叶的 OfficeSpace 匹配并如实记录证据缺口，不能保留“正文明确”的表述。"
+    },
+    {
+      "slug": "workplace-management-platform",
+      "application_id": "commercial:officespace-software",
+      "issue": "同一快照只有 Desk Booking、Room Booking、Facility Requests、Workplace Intelligence 等导航/页脚链接和客户案例 teaser；没有员工侧预订与协调界面、签到/自动释放、请求分类路由与解决闭环、访客或交付管理的正文。batch.json 的 leaf_match 声称“官网正文展示员工侧工位/会议室预订与自动签到提醒，同时提供设施请求/工单、访客和交付管理”，与快照不符；导航标签不足以证明工作场所运营闭环。",
+      "fix": "补充能展示员工预订/协调界面与请求受理—路由—解决闭环的官方 feature 页面快照（例如 /features/desk-booking、/features/room-booking、/features/request-management），并逐项核对签到、访客、交付是否确属该产品；按实际正文改写 summary/leaf_match。若无法取得，移除该叶匹配并记录证据缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶标为 case_status=not_searched、application_ids=[]，phase 为 included_without_cases，而 batch/research 已记录 case_found；这是元数据同步问题，不影响本次对来源正文的核对，但建议下游更新。",
+    "Tazama 是金融欺诈/AML 交易告警案件管理，不是通用 HR/道德/骚扰调查；其案件生命周期、证据、结案处置、监督审批与角色可见性可支撑 corporate-investigation-management 的核心，但引用和外推时应保留这一较窄适用边界。",
+    "Case IQ 首页同时覆盖举报热线、合规监控、第三方管理等相邻能力；本次仅以其 case management 正文作为 corporate-investigation-management 的类型匹配依据，未把热线或第三方模块当作调查核心。",
+    "International SOS 页面是服务加平台的叙述，正文能证明行程情报、实时监控、位置跟踪、双向沟通和定向警报，但未细化“谁受影响”的匹配计算、安全确认回传与审计闭环；作为商业案例的基本类型匹配可接受，完整核心仍宜由产品文档补强。",
+    "Relativity 的 eDiscovery 页面明确 preserve/collect、processing、review、legal hold、privilege review、redaction 与 production，但未在快照中明示 Bates 编号、privilege log 或生产协议配置；按商业基本类型匹配可接受，完整生产形式仍属页面未覆盖的细节。",
+    "Tazama README 的用户手册链接仍指向旧文件名，实际手册已从 tazama-lf/docs 仓库目录取得；建议上游修正链接，避免后续维护时误判为缺失。",
+    "OfficeSpace 的 summary 还写入“访客管理、交付管理、情景比较”等未在快照正文出现的能力；即使补齐来源，也应改为逐条可对应正文的表述，避免把菜单链接当作功能证据。"
+  ],
+  "leaf_checks": {
+    "space-management-platform": {
+      "result": "insufficient_evidence",
+      "applications": [
+        "commercial:officespace-software"
+      ],
+      "basis": "读取 batch.json 的 commercial:officespace-software、research.json 的 space-management-platform 记录，以及 REVIEW_SOURCES.json 指定的 data/collections/sources/2a5a5eedd754c005d335f2eaf9639ab1c43cb3080c5d543ff76674b13367b6fc.txt。",
+      "gaps": "快照仅为首页导航/页脚外壳，未提供空间库存、平面图/分配、占用、搬迁或情景比较的正文；无法验证定义性核心与持续使用的 SaaS 形态。"
+    },
+    "travel-risk-duty-of-care-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:international-sos"
+      ],
+      "basis": "读取 research.json 与 data/collections/sources/168e5fda8a443d0adb2ef6403a5217c0fde23b83c7bcaf235cfad54c8daf2fa4.txt；正文含 verified intelligence into itineraries、24/7 support、Monitoring & Location Tracking、live journey information、two-way communication 与 targeted alerts，能对应在途人员记录—风险监控—保护通信闭环。",
+      "gaps": "服务页未细化旅行者记录匹配、安全确认回传和审计闭环；作为商业基本类型匹配可接受，完整核心证据仍偏服务层。"
+    },
+    "workplace-management-platform": {
+      "result": "insufficient_evidence",
+      "applications": [
+        "commercial:officespace-software"
+      ],
+      "basis": "读取 batch.json 的 commercial:officespace-software、research.json 的 workplace-management-platform 记录，以及 data/collections/sources/2a5a5eedd754c005d335f2eaf9639ab1c43cb3080c5d543ff76674b13367b6fc.txt。",
+      "gaps": "快照只有 Desk Booking/Room Booking/Facility Requests 等导航/页脚链接与案例 teaser，未提供员工预订/协调界面、请求路由/解决闭环、签到、访客或交付的正文；无法验证三个核心结构。"
+    },
+    "corporate-investigation-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:case-iq",
+        "github:1024847928"
+      ],
+      "basis": "Case IQ 首页正文含 intake、configurable workflows、full audit trails、role-based access、one-click investigation reports 与 case history；Tazama README/用户手册含 case ID、triage/assign、evidence/notes/tasks、Closed Refuted/Confirmed/Inconclusive、supervisor approval、report/audit，以及 Compliance Officer 仅见 Closed Confirmed 的 RBAC。Apache-2.0 许可证快照 size 11357、解码开头为 Apache License Version 2.0，仓库 ID 1024847928 与 README 明示的 Apache-2.0 一致，未发现社区版/商业版切分。",
+      "gaps": "Tazama 面向金融欺诈/AML 交易告警案件，不是通用 HR/道德调查；Case IQ 首页未细示结案判定与访谈记录，商业案例仅按基本类型匹配。"
+    },
+    "ediscovery-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:relativity"
+      ],
+      "basis": "读取 Relativity eDiscovery 页面 data/collections/sources/1dc91c26194d96ab5c2849639094c1314618b8d4769e70832cdb5fb56cbe66ff.txt；正文含 preserve/collect ESI、processing at scale、Review Center reviewer workflow、legal hold、collection、PII/PHI redaction、privilege review、production、intake to production 与 matter 叙述，覆盖事项语料—审阅—生产核心。FreeEed 已按 research 记录移出 batch，理由是缺少 matter 级 production 证据。",
+      "gaps": "快照未明示 Bates 编号、privilege log 或生产协议配置；商业案例按基本类型匹配可接受。"
+    }
+  },
+  "limits": "只读核对本单元 input.json、data/collections/batch.json、data/collections/research.json 和 REVIEW_SOURCES.json 列出的 9 个快照；未运行 shell、未写文件、未读取其他单元，也未部署或运行时测试。商业产品仅依据官网公开页面做基本真实性和类型匹配；OfficeSpace 首页快照为导航/页脚外壳，无法核对其正文工作流；Tazama 用户手册是 .docx 的文本抽取；未额外抓取 feature 页面、价格或架构资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-128/ses_groveopencodegop128review2_1793008307.jsonl",
+  "batch_sha256": "89de61aa369c328632b8bd27b103e64e163a57dbe54cac6b66f408f20d2928a2",
+  "research_sha256": "3c294f5f40423d3a91b0403bdc2e349958ea727d9fc4cab942487106e203c754",
+  "input_sha256": "2d17985d8294a1d1b98f9b2989ed7ed4cf3e3a13a1f4580f82486cfee6c395e4"
+}

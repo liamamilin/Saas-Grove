@@ -1,0 +1,97 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "banquet-management",
+      "application_id": "commercial:tripleseat",
+      "note": "Tripleseat 快照已覆盖 inquiry、online availability/booking、event calendar/event spaces、menus、由 event details 自动生成并实时更新的 BEO/contracts、deposits/installment schedules；未逐字出现 guest count 或 function diary，若后续需要逐项核心证据可补充带人数/空间的文档，但不影响宴会场地类型判断。"
+    },
+    {
+      "slug": "catering-management",
+      "application_id": "commercial:caterease",
+      "note": "Caterease 快照覆盖 event booking、menu building、recipes/packing lists、kitchen display、payment processing，客户证言也列出 proposals/BEOs/contracts/invoices；未明确说明部署形态是云端 SaaS 还是本地安装，若目录严格要求 SaaS 形态，建议补充部署/订阅说明，但不影响餐饮管理类型判断。"
+    },
+    {
+      "slug": "institutional-foodservice-management",
+      "application_id": "commercial:mealsuite",
+      "note": "MealSuite Products 页明确面向 Skilled Nursing、Assisted Living、Acute Care 等机构，并有 recipes/menus/procurement、nutrition analysis、production forecasts、scaled recipes、tray tickets、Serveries 实时报表及 EHR 同步 ADT、Allergies、Diet Orders；页面使用 weekly menus/menu-building，未逐字出现 cycle menu，也未明确 texture/fluid-thickness 要求，若需逐项核心证据可补充，但不影响机构餐饮类型判断。"
+    },
+    {
+      "slug": "kitchen-display-system-kds",
+      "application_id": "github:1422059109",
+      "note": "TableFlow README 明确 Kitchen display 接收订单、按 grill/cold 等站点路由、可一键推进/暂挂/标记 ready，demo script 也展示订单从 Preparing 推进到 Ready/Served；README 自述 demo-grade、placeholder product name，且未显式写 ticket bumping、完成票离队或 recall，batch 中“ticket bumping”宜理解为 advance/hold/mark ready 的近似概括，建议措辞收窄。"
+    },
+    {
+      "slug": "restaurant-delivery-management",
+      "application_id": "commercial:shipday",
+      "note": "Shipday 快照为单行压缩 HTML，读取工具按行截断；已用关键字检索确认 Proof of Delivery、AI auto dispatch、Driver Management、Route Planning、in-house 等原文存在于快照，并对照同 URL 公开正文。页面覆盖自有/第三方车队、自动派单、司机与路线管理、送达凭证和品牌跟踪；未逐字说明 canceled/undeliverable 终止状态及手工派单细节，不影响配送管理类型判断。"
+    },
+    {
+      "slug": "all-five",
+      "application_id": "",
+      "note": "input.json 的 progress 仍为 case_status=not_searched，且 application_ids/research_records 为空，而 research.json 为 case_found、batch.json 已有对应条目；若下游依赖 progress，应以 batch/research 为准或回写 progress，避免把已入库案例当成未检索。"
+    }
+  ],
+  "leaf_checks": {
+    "banquet-management": {
+      "application_id": "commercial:tripleseat",
+      "track": "commercial",
+      "status": "pass",
+      "sources": [
+        "data/collections/sources/1dbc49f84ae9b6e165009c322f1815540336ebeae3fada23fc18d9eb93503ee9.txt"
+      ],
+      "basis": "Tripleseat 的 Event & Banquet Venues 正文明确面向婚礼和活动场地，说明从 inquiry 到 booking 的流程、在线查看可用性并提交预订、event calendar/event spaces、3D floor plans、menus，以及由 event details 自动生成并实时更新的 BEOs/contracts；Payments 段明确 deposits、installment schedules 和 package add-ons。客户证言还给出 calendar of events、7 event spaces、BEOs/contracts/menus 在同一系统使用。对应功能空间预订、菜单承诺、BEO 运营转交和定金/分期结算。",
+      "gaps": "快照未逐字说明按宾客人数确定菜单/套餐数量，也未出现 function diary 一词；空间可用性由 online availability/booking 和 event calendar 间接支持。"
+    },
+    "catering-management": {
+      "application_id": "commercial:caterease",
+      "track": "commercial",
+      "status": "pass",
+      "sources": [
+        "data/collections/sources/bf2d6b051e38161fd6806f3919ede25b4d03254963838e4769eb389b4ec179c6.txt",
+        "data/collections/sources/e2eadb83f6e54b5245886d4f37cee7bc1c175ed7e46a4f7238383085104df8e3.txt"
+      ],
+      "basis": "Caterease 首页正文列出 Event Booking Wizards、Detailed Menu Management、Seamless Payment Processing，客户证言明确 proposals、BEOs、contracts、invoices 在同一系统。Features 页进一步列出 Dynamic Menu Building、Recipes & Packing Lists（随 event menus 自动汇总量化）、Kitchen Display（列出当日活动所需全部项目并突出最近变更）、Shifts & Staffing、Payment Processing 和 Client Management。对应客户/菜单目录、餐饮活动订单、厨房生产与包装、厨房显示和结算单据链。",
+      "gaps": "快照未明确部署形态是云端 SaaS 还是本地安装；也未逐字写 guest count 驱动生产，“quantified”出现在菜单构建语境。"
+    },
+    "institutional-foodservice-management": {
+      "application_id": "commercial:mealsuite",
+      "track": "commercial",
+      "status": "pass",
+      "sources": [
+        "data/collections/sources/ca8c11d6e38f21273e80c8bec0d88c6e6fd171972b2f4732c0e86bdc9219e0b6.txt"
+      ],
+      "basis": "MealSuite Products 页明确面向 Skilled Nursing、Assisted Living、Acute Care 等机构，正文有 recipes、menus、procurement、nutrition analysis、production forecasts、scaled recipes、Kitchen Display/KMS、Meal Tickets/tray tickets、Serveries 实时报表，以及 EHR 同步 ADT、Allergies、Diet Orders、resident photos。对应机构就餐人群、菜单/食谱数据、生产预测和按人发餐记录。",
+      "gaps": "未出现 cycle menu 字样，仅有 weekly menus 和 menu-building；未明确 texture/fluid-thickness 饮食要求。"
+    },
+    "kitchen-display-system-kds": {
+      "application_id": "github:1422059109",
+      "track": "open_source",
+      "status": "pass",
+      "sources": [
+        "data/collections/sources/353497c95a03c4680232f9d2bef98511c3e5f590050b962ac061b172dd5123d6.txt",
+        "data/collections/sources/231ed93fdff0617e3b131347b825f9568fa598c1e9dd20842056c3cd075fdc02.txt",
+        "data/collections/sources/21da5269ff6b00e3357d7bae10ff068f3a8f53854a1be0db60b853a9193c45c8.txt"
+      ],
+      "basis": "TableFlow 仓库元数据 id=1422059109、full_name=towa0/tableflow、homepage 与 batch 一致；license API 快照的 content 为 base64 编码的完整 MIT 文本，README 也标注 MIT。README 的 Kitchen display 段说明厨房屏接收订单、按键推进项目、按 grill/cold 等站点路由、可暂挂或一键标记 ready；demo script 说明订单出现在 Kitchen display 并从 Preparing 推进到 Ready/Served。KDS 是完整餐厅点餐应用中的模块，开源仓库未发现单独的付费/社区版切分，KDS 能力在 MIT 仓库内。",
+      "gaps": "README 自述 demo-grade、placeholder product name、SQLite/单进程实时；未显式写 ticket bumping、completed ticket 离队或 recall。"
+    },
+    "restaurant-delivery-management": {
+      "application_id": "commercial:shipday",
+      "track": "commercial",
+      "status": "pass",
+      "sources": [
+        "data/collections/sources/27626b2bdfafdc888d3c49ba390803f46cfbfe58d23b0c8f2710f9c5b9b937b7.txt"
+      ],
+      "basis": "Shipday 的 Restaurant Delivery Management 正文明确面向餐厅，覆盖自有司机/第三方车队或混合、AI auto dispatch、Driver Management（assign/monitor/optimize routes/performance）、driver app、route planning、Proof of Delivery（photos/signatures/timestamps）和 branded tracking；页面还说明订单来自餐厅自己的网站、应用或电话渠道，定价页显示按月订阅。对应配送订单分配给自有/外部履约资源并跟踪送达。",
+      "gaps": "快照为单行压缩 HTML，读取工具按行截断；已用关键字检索确认上述原文存在于快照，并对照同 URL 公开正文。未显式说明 canceled/undeliverable 终止状态及手工派单细节。"
+    }
+  },
+  "limits": "本次为只读初审，未运行应用、未部署、未做支付或配送测试。Shipday 快照为单行压缩 HTML，读取工具按行截断，因此对该快照采用关键字检索确认原文，并对照同一 URL 的公开正文；其余快照均按 REVIEW_SOURCES.json 的 path 原样读取。未读取其他单元、采集脚本或历史过程文件；结论仅基于本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及列出的快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-100/ses_groveopencodegop100review1_1793000293.jsonl",
+  "batch_sha256": "a312c44b7b87f6e9bd99ddb7393ae935aefca77731bf0619ae94b802b7c29958",
+  "research_sha256": "ae1fffe26c072ecb2c8d20a41a701da6f7cd83fcd315e504da725613bc000571",
+  "input_sha256": "fe0c654310bcfe620434448318fc85bf170e8e54a0251a5a3e3f6da92b40ee10"
+}

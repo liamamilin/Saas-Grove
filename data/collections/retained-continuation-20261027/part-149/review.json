@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "research.json 的 Sysdig 记录引用了 docs.sysdig.com Inventory/Resources 快照 18061d4a…，该文件存在于 data/collections/sources 且内容与产品页一致，但未列入 REVIEW_SOURCES.json 或 batch.sources；建议补登记以便来源清单完整可追溯。",
+    "batch.json 中 Sysdig 的 /products/secure/ 与 /platform/secure 两个 source 共用 sha 7144b1bd…；research 已说明二者为同一 canonical 页面，建议合并或注明，避免来源计数重复。",
+    "Wiz Cloud 页面将 CWP 标注为 Wiz Sensor add-on；条目只把 CWP 作为 CNAPP 域能力，未重复登记为 CWPP 案例，边界处理合理。",
+    "NeuVector 的 homepage 指向 SUSE Rancher 商业页，而本条为 Apache-2.0 开源核心；repo API/README/LICENSE 已足够，建议在 homepage 或说明中区分商业支持页与开源仓库。",
+    "Forescout、Nozomi、Wiz 的产品页均为营销/方案页；核心工作流证据来自正文段落而非仅标题或元数据，但仍未做部署验证。"
+  ],
+  "leaf_checks": {
+    "cloud-workload-protection-cwpp": {
+      "status": "pass",
+      "application_id": "commercial:sysdig-secure",
+      "track": "commercial",
+      "basis": "Sysdig Secure 产品页正文明确列出 Resource 360（unified view of workloads, configurations, and vulnerabilities）、Inventory search（users, workloads, hosts, container images）、Real-time detections（across workloads, identities, cloud services）以及 AI-assisted investigation、guided response workflows；主页 JSON-LD 亦列 cloud workload protection。受管工作负载清单、运行时检测、调查与响应核心均有正文依据，非仅导航或元数据。",
+      "evidence_snapshots": [
+        "data/collections/sources/7144b1bd410d0a50106e80bdcbd523312a559cd5b2d3c2134a4fe2d9a0f56cbe.txt",
+        "data/collections/sources/0922c1f88d8982232af524a2875d0f7dc36c96b22b401fc6a9b84d3fede436b1.txt"
+      ],
+      "gaps": "未核价格、授权及 SaaS/自托管部署边界；runtime_tested:false。"
+    },
+    "cnapp": {
+      "status": "pass",
+      "application_id": "commercial:wiz",
+      "track": "commercial",
+      "basis": "Wiz Cloud 正文说明通过 API connectors 扫描并 take inventory of the entire cloud and AI environment，以 Wiz Security Graph 关联资源与风险；同一 unified platform 下列出 CSPM、Vulnerability Management、CIEM、Container & Kubernetes Security、DSPM、AI-SPM、CWP、IaC Scanning 等多域能力，并提供 risk prioritization、remediation workflows 与 single pane of glass 视图，符合 CNAPP 的共享清单、多域评估和单一风险画面核心。CWP 页面标注为 add-on，条目仅作域能力记录。",
+      "evidence_snapshots": [
+        "data/collections/sources/18ea787b4b6ffb7dc48fb7ea808c4600dc2188d105d8749b66ad0837c1753639.txt",
+        "data/collections/sources/111fb5bdef8f8face7657b65e67397cb25ca65dfc40b6f8c1b4acd80c6c14db1.txt"
+      ],
+      "gaps": "未核按域/工作负载许可细节与部署架构；runtime_tested:false。"
+    },
+    "container-kubernetes-security": {
+      "status": "pass",
+      "application_id": "github:439449479",
+      "track": "open_source",
+      "basis": "GitHub 仓库元数据确认 id 439449479、full_name neuvector/neuvector、archived:false、default_branch main；许可证 API 返回 Apache-2.0 完整文本（size 11357）；README 描述 Full Lifecycle Container Security Platform、DevOps vulnerability protection、automated run-time security、Layer 7 container firewall，并给出 manager/controller/enforcer/scanner 镜像及 Rancher chart 部署方式，覆盖镜像、运行中容器/Pod 与 Kubernetes 集群对象。",
+      "evidence_snapshots": [
+        "data/collections/sources/0dc9f06099b22beab93dfd43a43562f847ded70170cc11a2586faaeda5e14b8f.txt",
+        "data/collections/sources/9414bb51c615b15344b5ba2045b7d549377bbf00605483417f64cc0bf21bee54.txt",
+        "data/collections/sources/22f3d8bc9633676beca182ebcb601a4a7a3f35e46cecdf7e90946354818388ca.txt"
+      ],
+      "gaps": "未安装或运行；SUSE 企业版/商业支持的具体边界仅按条目声明记录，未展开核验；homepage 未抓取。"
+    },
+    "iot-security-platform": {
+      "status": "pass",
+      "application_id": "commercial:forescout-vistaro",
+      "track": "commercial",
+      "basis": "Forescout IoT Security 正文明确：complete device visibility and classification、real-time continuous monitoring of IoT device communications and risky behaviors、assessing factory-default or weak credentials、dynamic network segmentation、asset inventory and lifecycle management，并说明 without ever requiring an agent；页面同时以 Forescout Vistaro™ platform 命名。设备群体、每设备评估、持续监控与告警三项核心均有正文依据。",
+      "evidence_snapshots": [
+        "data/collections/sources/d848e481254ea5afd415003bc5db072c4ebffe5918efed0ed80d80bcd40f7d7c.txt",
+        "data/collections/sources/bef00974e704533c9024d47660fb7c3baa2d628008a11619479871d39e2df33b.txt"
+      ],
+      "gaps": "未核价格、授权与具体部署选项；Armis 403 已如实留档；runtime_tested:false。"
+    },
+    "ot-security-platform": {
+      "status": "pass",
+      "application_id": "commercial:nozomi-networks-vantage",
+      "track": "commercial",
+      "basis": "Nozomi 平台页正文说明持续 discover and map every connected asset，提供 assets、communications、vulnerabilities 与 behavioral anomalies 的实时视图，结合 OT/IoT-specific threat intelligence、anomaly detection、risk scoring、detection & response playbooks，并采用 passive network sensors 与 active collection、non-intrusive monitoring；页面示例含 GuardLogix 控制器风险评分，JSON-LD 列 Vantage 云管理。OT 资产记录与控制感知检测核心成立。",
+      "evidence_snapshots": [
+        "data/collections/sources/61ee55bd5db5050d3519317120bcb9705df6cdcc182ac8337ec9d1b029300a47.txt",
+        "data/collections/sources/99bdd8b77389753aa18a60a0571c31e753192501c03b3af36ceb504f92ed8379.txt"
+      ],
+      "gaps": "未核价格、授权及传感器/控制台产品线细节；runtime_tested:false。"
+    }
+  },
+  "limits": "本次为只读独立初审，仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及实际快照；未运行 shell、未写文件、未读取其他单元。未做部署测试、价格/授权/架构核验；商业条目仅按基本真实性与核心类型匹配判断。部分快照为单行压缩 HTML，正文通过关键词定位并结合官方页面正文复核；research.json 引用的 18061d4a 文档快照仅作佐证，未作为唯一依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-149/ses_groveopencodegop149review2_1793013376.jsonl",
+  "batch_sha256": "26a507cf0f99e02d8f20f5feae2ebef9435535fa079d0cfec6572e014eeae284",
+  "research_sha256": "897d1e2c81a0a119817710dc9f0226034aa82024e7a3a0db3d680dfbffbc6ac6",
+  "input_sha256": "ed6ef8ebde0827d2f3d03cb7cd7b381c3d2c89234cfc4baa9dcec8ddbc36740d"
+}

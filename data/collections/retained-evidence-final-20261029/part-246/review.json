@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "theater-production-management",
+      "note": "input.json 中叶子的 progress 仍保留采集前状态（phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]、note 仍为旧缺口说明），而 research.json 已为 case_found、batch.json 已收录 3 条商业条目。本次按 batch/research 与快照核对内容无冲突，但下游索引若直接读 input.json 会丢失本单元案例，建议在汇总时以 batch/research 为准并同步该字段。"
+    },
+    {
+      "slug": "theater-production-management",
+      "note": "开源负面结论（ShannonH/standby 为 MIT、saxmaster79/TheatreScheduler 为 GPL-3.0、espiers13/stage-hand-app 无许可证、ctop24/StageFlow 空仓库、gabrielebaudo/callboard 为 QLab/vMix cue 伴侣）只记录在 research.json 的 search_attempts/fetch_outcomes，未在 REVIEW_SOURCES.json 保留对应快照，本次无法逐字复核许可证原文。因这些对象均未作为案例收录，不影响本叶结论；若后续要引用为开源案例，需补存 LICENSE 与 README 快照。"
+    },
+    {
+      "slug": "theater-production-management",
+      "note": "定义字段 overview_zh、rules_zh 仍为英文原文，dc_zh 仅译出第 1–3 段（缺第 4 段 callboard 与后续规则），属词条本地化未完成，不影响本次案例匹配判断。"
+    },
+    {
+      "slug": "theater-production-management",
+      "note": "三个商业案例均仅依据官方首页营销正文，未注册、未运行，runtime_tested=false 与 verification_status=official_sources_reviewed 表述一致，符合商业案例只做基本真实性与类型匹配的要求；价格、部署形态等细节未展开，属可接受范围。"
+    },
+    {
+      "slug": "theater-production-management",
+      "note": "研究记录把 ProductionPro（TLS 证书链失败）与 artsman/Theatre Manager（HTTP 421）留作缺口且明确不断言产品不存在，也未用于本叶匹配，处理得当。"
+    }
+  ],
+  "leaf_checks": {
+    "theater-production-management": {
+      "slug": "theater-production-management",
+      "definition_core_checked": "production 容器 / company 与制作角色 / 排练·演出·装台等呼叫日程 / 面向全团的 callboard 沟通 四项，以及规则中的制作孤立、日程为唯一真源、已关闭制作归档。",
+      "application_ids": [
+        "commercial:virtualcallboard",
+        "commercial:cuecall",
+        "commercial:callboard-nz"
+      ],
+      "results": [
+        {
+          "application_id": "commercial:virtualcallboard",
+          "track": "commercial",
+          "service_form": "SaaS：官方首页称移动端与 Web 应用、提供 trial/免费 Archive 计划与付费计划，SoftwareApplication operatingSystem 为 Web/iOS/Android，属持续使用的云端软件服务，非简介页或目录。",
+          "core_match": "快照正文（title/meta 与正文段落）明确 digital callboard and stage management software for theatrical productions；正文说明可从一个中心位置管理整个 production、实时发布 rehearsal schedules/notes/updates、向团队发 announcements、集中管理 production documents、掌握 cast and crew 的 availability 与 conflicts、提交报告并跟踪 report comments/actions，并以 email/TXT/mobile push 主动通知。四项定义核心均有正文出处，非仅导航或关键词。",
+          "id_track": "id=commercial:virtualcallboard，track=commercial，与官网产品一致，无开源声明。",
+          "source_check": "REVIEW_SOURCES 指定路径 data/collections/sources/f9a7b4ae…0af9.txt 已原样读取，URL 与 batch 中 homepage/snapshot_path 对应。",
+          "verdict": "pass"
+        },
+        {
+          "application_id": "commercial:cuecall",
+          "track": "commercial",
+          "service_form": "SaaS：官方首页为 Web 平台，按 show/年计费并含免费额度（前两场各免费一年、后续 14.99/49 美元/年、学区 299 美元），属持续使用的云端服务。",
+          "core_match": "页面标题与 H1 即 Theatre Production Management；Show Management 说明从 auditions 到 closing night 组织整个 production 并管理 scenes/blocking；Cast & Crew 记录 contact info、roles、availability、assignments；Scheduling & Signups 协调 rehearsals、performances、production meetings 并跟踪 conflicts/availability；Notes & Rehearsal Reports 将部门笔记汇成夜间排练报告并一键邮件发给制作团队；Theatre Companies 提供跨演出共享 people roster。四项核心均有正文依据。",
+          "id_track": "id=commercial:cuecall，track=commercial，类型匹配，无开源声明。",
+          "source_check": "data/collections/sources/e453353c…b3aa281.txt 已原样读取，内容为 cuecall.app 官方首页完整 HTML 正文。",
+          "verdict": "pass"
+        },
+        {
+          "application_id": "commercial:callboard-nz",
+          "track": "commercial",
+          "service_form": "SaaS：Web/iOS/iPad 应用，Free / Show Pass 99 美元 / Company 39 美元每月等订阅分层，属持续使用的云端服务。",
+          "core_match": "title 为 Theatre Production Management Software；正文明确每个 production 拥有独立 feed、schedule、library 与 company list 且互不共享，成员可跨制作切换（制作容器与信息隔离）；Company feed 支持按角色组 @Cast/@Band/@Crew/@Creative mention、置顶与 iOS/Android/Web push（callboard 沟通）；Callsheets 按场景与出场人员自动推导每人 call time，计划变更只通知受影响者；Rehearsal notes 自动汇编为可分发报告；另有 Members/roles/granular permissions；关闭一季保留为只读记录（符合归档规则）。四项核心与主要规则均有正文依据。",
+          "id_track": "id=commercial:callboard-nz，名称 Callboard，与 callboard.nz 站点一致，track=commercial，无开源声明。",
+          "source_check": "data/collections/sources/4e253648…8dc6.txt 已原样读取，正文含功能区块、FAQ 与价格表，非 Loading/摘要。",
+          "verdict": "pass"
+        }
+      ],
+      "open_source_check": "本叶未收录开源案例，batch 中无 repo/license 字段需核验；research.json 已记录对 Standby、stage-hand-app、TheatreScheduler、StageFlow、callboard 等候选的许可证与核心覆盖判定（MIT/GPL-3.0/无许可证/空仓库/cue 伴侣），并明确不以开源案例收录、不断言不存在，缺口留档真实合理。",
+      "gap_record": "ProductionPro TLS 证书链失败（error 60）、artsman/Theatre Manager HTTP 421 均如实记录且未用于匹配；Stage Write 被判定为相邻排演标注工具且给出正文依据，处理与定义边界一致。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 3 份官方首页快照，未运行 shell、未写文件、未访问其他单元，也未重新抓取任何 URL；因此无法重算快照 sha256、无法验证快照与服务端当前内容是否一致。商业案例仅有官方首页营销正文，未注册、未运行、未做多页或价格/架构核查，仅满足基本真实性与类型匹配。research.json 中提到的 GitHub 仓库、GitHub API 与 ProductionPro 等页面未保留快照，其许可证与核心判定只能采信记录、无法逐字复核；开源负面结论不影响本叶通过。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-246/ses_groveopencodegop246review1_1793264910.jsonl",
+  "batch_sha256": "94508cd44aaf29d4863099aa8c005bc394dbb0141fae0fc744da5191d0f894d1",
+  "research_sha256": "b3b7acccab432f147314119e7ae3eccdab54791a30b60de9f945050bf23cb2b6",
+  "input_sha256": "0674efc5b55a8f6fa1f07f65ab6e397ea27db7d36fb2ea0b8764dcb4c24a4bbc"
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "agent-evaluation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:638951438"
+      ],
+      "query": [
+        "Promptfoo agent evaluation official github",
+        "复核 Promptfoo README 与许可证快照",
+        "Opik open source LLM evaluation platform self-hosted agent evaluation official docs"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/comet-ml/opik",
+        "https://raw.githubusercontent.com/comet-ml/opik/main/LICENSE",
+        "https://raw.githubusercontent.com/comet-ml/opik/main/README.md",
+        "https://www.comet.com/docs/opik/evaluation/overview",
+        "https://www.comet.com/docs/opik/evaluation/advanced/evaluate_your_llm",
+        "https://www.comet.com/docs/opik/evaluation/evaluate_agents",
+        "https://www.comet.com/docs/opik/self-host/overview",
+        "https://www.comet.com/site/products/opik/"
+      ],
+      "note": "本轮针对初审缺口（旧候选 Promptfoo 只证明 CLI/本地库+本地查看器，未证明可持续使用的应用服务形态）做了两组有区别的动作：先复核已有 Promptfoo 快照（历史复用，非新检索），再做一组定向补采，检索该类型的完整开源 Web 应用服务。结果找到 Opik（comet-ml/opik）：官方 Evaluate your agent 正文给出 agent 评估钩子（track/集成）、含 expected 的数据集测试用例、逐案评分（启发式 + LLM-as-a-judge）、持久化 experiment（返回 experimentId，experimentConfig 记录 prompt/模型参数、可关联 prompt 版本）以及在 UI 中下钻与并排比较多次 experiment；Evaluate agents 文档另述对工具调用、记忆检索、计划、中间消息等 agent 步骤逐项评分，并给出工具选择质量的完整 experiment 示例，另有人工 feedback 与 annotation queue。README 与 self-host 文档证明后端 + Web 应用整体可自托管（Docker Compose/Helm，Apache-2.0，非仅企业版）。据此以 Opik 建立本叶成立关系；Promptfoo 仅作为历史未采纳候选留档，不再计入本叶关系。未运行任何项目，未实测部署。",
+      "service_boundary": "Opik 为可自托管的开源完整应用服务：README 自述仓库包含 server 后端、Web 应用及 datasets/experiments/evaluations 组件，self-host 文档给出 Docker Compose 本地与 Kubernetes/Helm 部署并在 localhost:5173 提供 Web 入口；托管云与自托管共用同一评估能力，自托管不含用户管理功能。判定依据是其评估工作流：被测 agent 通过 SDK/集成钩子接入、数据集保存测试用例、逐案多指标评分、experiment 持久化并与 prompt 版本/配置关联、UI 内比较与人工标注队列。可观测性/监控/优化器为相邻能力，不作为本叶依据。同类的 Promptfoo 仍为 CLI/库 + 本地查看器形态，本叶不采用其关系。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Promptfoo agent evaluation official github",
+          "status": "historical_reused",
+          "result_urls": [
+            "https://raw.githubusercontent.com/promptfoo/promptfoo/main/README.md"
+          ],
+          "result_note": "历史轮次检索，结果由 REUSED_SOURCES 中的真实快照复用，非本轮新检索。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "复核 Promptfoo README 与许可证快照",
+          "status": "historical_reused",
+          "result_urls": [
+            "https://raw.githubusercontent.com/promptfoo/promptfoo/main/README.md",
+            "https://www.promptfoo.dev/docs/tracing/",
+            "https://www.promptfoo.dev/docs/guides/evaluate-coding-agents/"
+          ],
+          "result_note": "历史轮次已读 README/LICENSE/Tracing/Evaluate Coding Agents；本轮直接重读这些已存快照核对形态，未新增抓取。核对结论支持初审缺口：README 自述为 CLI and library，Web 仅为本地结果查看器。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "Opik open source LLM evaluation platform self-hosted agent evaluation official docs",
+          "status": "searched",
+          "result_urls": [
+            "https://www.comet.com/docs/opik/evaluation/overview",
+            "https://www.comet.com/docs/opik/evaluation/evaluate_agents",
+            "https://github.com/comet-ml/opik"
+          ],
+          "result_note": "本轮就“该类型的完整开源应用服务”做一次定向检索，命中 Opik；随后仅打开官方 comet.com 文档与 comet-ml/opik 仓库抓取，未使用第三方评测文章作为证据。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/main/README.md",
+          "status": "reused_existing_snapshot",
+          "sha256": "9419faaa9d56675b923462d5052a176b3da58f60bf66c84af23159bf3d63c270",
+          "note": "历史快照原样复用（原抓取时间 2026-10-24T22:38:11.979920+08:00 保留）。正文明确 promptfoo is a CLI and library，支撑“客户端/CLI 形态”的初审结论。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/main/LICENSE",
+          "status": "reused_existing_snapshot",
+          "sha256": "bf813686553f451e1b833fbd827488aee49b60b189626915bf3108d10b754e44",
+          "note": "历史 MIT 许可证快照复用，仅用于形态复核；Promptfoo 本轮不再计入本叶关系。"
+        },
+        {
+          "url": "https://api.github.com/repos/comet-ml/opik",
+          "status": "fetched_and_read",
+          "sha256": "5e33a34fc51c2e101e969f8b6dd95f12608b1af8d04bd36c8a2f6543337f6322",
+          "note": "本轮新抓取。JSON 元数据证明仓库身份 id=638951438、full_name=comet-ml/opik、license.spdx_id=Apache-2.0、archived=false。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/comet-ml/opik/main/LICENSE",
+          "status": "fetched_and_read",
+          "sha256": "0236cf0195e033d15c120e610d44943e8e478ffed5d60fbba1b5a6b96e778a47",
+          "note": "本轮新抓取。完整 Apache License 2.0 全文（含 END OF TERMS AND CONDITIONS 与附录），非截断片段。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/comet-ml/opik/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "f4fffa79c792d196ae93d61ea7a3c503ff16821007543bb2ffda8b4ae3fcf716",
+          "note": "本轮新抓取。正文自述 Apache-2.0、可免费自托管“the full platform, backend included, not just a client SDK”，并列出 server 后端、Web 应用、datasets、experiments、evaluations 组件。"
+        },
+        {
+          "url": "https://www.comet.com/docs/opik/evaluation/overview",
+          "status": "fetched_and_read",
+          "sha256": "ac90a55296353659ee067f465e2678bd59ee1c9392cc356f75d1e5250006f412",
+          "note": "本轮新抓取。正文含评估循环（生产 trace → 转测试用例 → 更新 agent → 用测试套件验证）与两类评估（Test Suites、Datasets & Metrics）、experiment 并排比较、annotation queue。"
+        },
+        {
+          "url": "https://www.comet.com/docs/opik/evaluation/advanced/evaluate_your_llm",
+          "status": "fetched_and_read",
+          "sha256": "ec51ded90926931f95b5de8e2ad662965b135729fe617cc02e88c8be8628acf2",
+          "note": "本轮新抓取。五步评估流程正文：接入被测应用、定义 evaluation task、选数据集、选指标、运行 experiment；README 之外直接给出 experimentId、experiment_config、prompt 关联与“compare multiple experiments side by side”的 UI 表述。"
+        },
+        {
+          "url": "https://www.comet.com/docs/opik/evaluation/evaluate_agents",
+          "status": "fetched_and_read",
+          "sha256": "6bf79de6435bcb602a5c2c1e1d6ccb8a5ac7c1914a8b948bd3aaac7a36846da7",
+          "note": "本轮新抓取。agent 生命周期正文：trace 记录工具调用与中间步骤、人工 feedback 可沉淀为数据集、在线评估指标、以及 agent 步骤级评估（工具选择等），支撑 agent 而非纯 LLM 的评估核心。"
+        },
+        {
+          "url": "https://www.comet.com/docs/opik/self-host/overview",
+          "status": "fetched_and_read",
+          "sha256": "245561cb940858bfe60ec521827157299fe022d3b7419b0831c9038b7c4a8093",
+          "note": "本轮新抓取。正文证明自托管获得包含 tracing、evaluation 在内的全部功能（不含用户管理），本地与 Kubernetes 两种部署，Web 入口 localhost:5173，配合 SDK 指向自托管服务器。"
+        },
+        {
+          "url": "https://www.comet.com/site/products/opik/",
+          "status": "fetched_and_read",
+          "sha256": "1d00003a981ccfbab00e36233c05811f8826226c225d852fc0e55f705807165d",
+          "note": "本轮新抓取。官方产品页确认产品身份与定位（agent 全步骤日志 + 自动化 eval 工作流、开放源代码版本）。"
+        }
+      ],
+      "archived": false,
+      "history_reuse": {
+        "reused_snapshots": [
+          "9419faaa9d56675b923462d5052a176b3da58f60bf66c84af23159bf3d63c270",
+          "bf813686553f451e1b833fbd827488aee49b60b189626915bf3108d10b754e44",
+          "bc22c237ffca2f173b651f3674de9d5b03e64b183556cedc3f7c2ea3a54ea9a1",
+          "099b67a590b227988be911f81b8c120b12411f91cfe03f617449d9dab90592ee",
+          "c7ed5e16f1514869bdc0c4f4add3ca64616f94012000c0e0f2f18c97af8b839c"
+        ],
+        "note": "Promptfoo 的 README/LICENSE/仓库元数据/Tracing/Evaluate Coding Agents 五个快照按 REUSED_SOURCES 原路径、原 SHA、原抓取时间复用，用于复核形态；未补造时间或状态。历史 batch 中 Promptfoo 条目属未采纳草稿，本轮不作为通过关系，改以 Opik 承载本叶，历史轨迹保留在 HISTORY.json。"
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:633927609",
+          "reason": "Promptfoo 官方 README 自述为 CLI and library，评估结果查看器在本机运行，属客户端/本地工具形态；本轮复核未取得可自托管的完整应用服务正文，故不计入本叶关系。这是形态不符的留档，不推断其不存在 SaaS 或托管变体。"
+        }
+      ]
+    }
+  ]
+}

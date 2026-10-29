@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "machine-identity-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:31558937",
+        "github:521655652"
+      ],
+      "query": "复核 SPIRE 形态缺口；定向检索并核对完整开源机器身份管理应用：Teleport Machine & Workload Identity、Infisical Machine Identities 的官方仓库、README、许可证、文档与自托管形态",
+      "source_urls": [
+        "https://api.github.com/repos/gravitational/teleport",
+        "https://raw.githubusercontent.com/gravitational/teleport/master/README.md",
+        "https://api.github.com/repos/gravitational/teleport/license",
+        "https://goteleport.com/docs/machine-workload-identity/",
+        "https://goteleport.com/docs/machine-workload-identity/introduction/",
+        "https://goteleport.com/",
+        "https://infisical.com/docs/documentation/platform/identities/machine-identities",
+        "https://github.com/Infisical/infisical",
+        "https://raw.githubusercontent.com/Infisical/infisical/main/README.md",
+        "https://raw.githubusercontent.com/Infisical/infisical/main/LICENSE",
+        "https://api.github.com/repos/Infisical/infisical/contents/backend/src/services?ref=main",
+        "https://infisical.com/docs/self-hosting/deployment-options/docker-compose"
+      ],
+      "note": "本轮针对原初审缺口（SPIRE 只证明工作负载身份控制平面/Agent 基础设施，未证明完整应用服务）做两组有区别的定向补证。历史复用：SPIRE 的仓库、README、许可证与官网快照仍保留为未采纳候选，不据此断言不存在。本轮补采并核对正文：Teleport 官方 Machine & Workload Identity 文档明确把机器/工作负载作为非人类身份（NHI），bot 有角色，join token 指定 join method/proof，tbot 自动签发并续期短期 X.509/JWT 证书，Auth Service 记录审计日志；README 说明 Auth Service、Proxy Service、Web UI 与自托管部署，构成完整应用服务。Infisical 官方 Machine identities 文档明确 application/script/workload 可在无用户账户下作为一等机器身份，配置角色与 auth method，登录获得短期 access token，并支持令牌撤销、身份锁定、凭据过期告警及删除身份撤销全部令牌；仓库 MIT 核心的 backend/src/services 下含 identity/identity-ua 等服务目录，Docker Compose 文档证明自托管 Web 应用形态。两者仅按机器身份子模块收录，不扩展到通用基础设施访问、密钥管理或证书生命周期。SPIRE 仍不足以证明完整应用服务形态，保留为 withheld；未取得正文的检索失败也已记录，不把无结果当不存在。",
+      "service_boundary": "Teleport：自托管身份感知访问平台，仅主张 Machine & Workload Identity 子模块（bot/NHI、join token/proof、tbot、短期 X.509/JWT、RBAC 与审计日志）；不主张其通用 SSH/Kubernetes/数据库访问或 PAM 能力；本轮未逐一核对 MWI 各功能在社区版/企业版中的归属。Infisical：自托管密钥/证书/凭据平台，仅主张 Machine Identities 子模块（角色、auth methods、短期令牌、撤销/锁定/过期告警）；不主张其密钥管理或证书生命周期能力；本轮仅核对核心目录存在 identity 服务与官方文档能力，未逐一核对每个 auth method 的版本归属。SPIRE：工作负载身份控制平面与 Agent 基础设施，本轮未纳入成立关系。",
+      "search_attempts": [
+        {
+          "action": "websearch",
+          "target": "Teleport Machine ID documentation machine workload identity tbot short-lived certificates",
+          "outcome": "定位官方 Machine & Workload Identity 文档、平台页与 tbot 说明"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/gravitational/teleport",
+          "outcome": "成功，HTTP 200，保存仓库元数据快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/gravitational/teleport/license",
+          "outcome": "成功，HTTP 200，保存许可证快照，SPDX AGPL-3.0"
+        },
+        {
+          "action": "fetch",
+          "target": "https://raw.githubusercontent.com/gravitational/teleport/master/README.md",
+          "outcome": "成功，HTTP 200，保存 README 快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://goteleport.com/docs/machine-workload-identity/",
+          "outcome": "成功，HTTP 200，保存 Machine & Workload Identity 文档快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://goteleport.com/docs/machine-workload-identity/introduction/",
+          "outcome": "成功，HTTP 200，保存 NHI/bot/join proof/tbot 说明快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://goteleport.com/",
+          "outcome": "成功，HTTP 200，保存官网快照"
+        },
+        {
+          "action": "websearch",
+          "target": "Infisical docs machine identities documentation",
+          "outcome": "定位官方 Machine identities 文档与身份概览"
+        },
+        {
+          "action": "fetch",
+          "target": "https://infisical.com/docs/documentation/platform/identities/machine-identities",
+          "outcome": "成功，HTTP 200，保存机器身份文档快照"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/Infisical/infisical/git/trees/main?recursive=1",
+          "outcome": "失败：响应超过 max_bytes（4,000,000），未保存；改用 contents API 获取服务目录"
+        },
+        {
+          "action": "fetch",
+          "target": "https://api.github.com/repos/Infisical/infisical/contents/backend/src/services?ref=main",
+          "outcome": "成功，HTTP 200，保存目录清单快照，核对 identity 相关服务位于核心目录"
+        },
+        {
+          "action": "reuse",
+          "target": "common/sources 中 Infisical 的仓库页、README、LICENSE、Docker Compose 文档快照",
+          "outcome": "复制到本单元 sources，SHA 与原抓取时间原样保留；未重新抓取，不补造成功状态"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/gravitational/teleport",
+          "result": "HTTP 200，快照 21f7d227…b7977，id 31558937，full_name gravitational/teleport"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/gravitational/teleport/master/README.md",
+          "result": "HTTP 200，快照 9099095b…308fb"
+        },
+        {
+          "url": "https://api.github.com/repos/gravitational/teleport/license",
+          "result": "HTTP 200，快照 78647edc…9435e，SPDX AGPL-3.0，含完整 AGPL 正文"
+        },
+        {
+          "url": "https://goteleport.com/docs/machine-workload-identity/",
+          "result": "HTTP 200，快照 0fd3b0ba…19bd0"
+        },
+        {
+          "url": "https://goteleport.com/docs/machine-workload-identity/introduction/",
+          "result": "HTTP 200，快照 1318a0f1…d9316"
+        },
+        {
+          "url": "https://goteleport.com/",
+          "result": "HTTP 200，快照 8fa618dc…00d78"
+        },
+        {
+          "url": "https://infisical.com/docs/documentation/platform/identities/machine-identities",
+          "result": "HTTP 200，快照 fa290f65…eb8ff"
+        },
+        {
+          "url": "https://api.github.com/repos/Infisical/infisical/git/trees/main?recursive=1",
+          "result": "失败：响应超过 max_bytes，未保存快照；未取得完整树"
+        },
+        {
+          "url": "https://api.github.com/repos/Infisical/infisical/contents/backend/src/services?ref=main",
+          "result": "HTTP 200，快照 cb0d9956…68ba7b，目录含 identity、identity-ua 等服务"
+        },
+        {
+          "url": "https://github.com/Infisical/infisical",
+          "result": "复用共享快照 539fb807…4cc901（原抓取 2026-10-23T17:17:33+08:00），未重新抓取"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Infisical/infisical/main/README.md",
+          "result": "复用共享快照 977beaed…39f742（原抓取 2026-10-23T17:17:35+08:00），未重新抓取"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Infisical/infisical/main/LICENSE",
+          "result": "复用共享快照 ec701a99…4cf8a（原抓取 2026-10-23T17:17:36+08:00），未重新抓取"
+        },
+        {
+          "url": "https://infisical.com/docs/self-hosting/deployment-options/docker-compose",
+          "result": "复用共享快照 6a260f47…709649（原抓取 2026-10-23T17:19:26+08:00），未重新抓取"
+        }
+      ],
+      "archived": false,
+      "historical_reuse": [
+        {
+          "record": "var/collection/beam-continuation-20261025/part-143/project/data/collections/research.json",
+          "source_sha256": "ae2569da2f26d9fa4d371221315230f269b2e7cf41e9ac2ca57726869e38a7c3",
+          "assessment": "case_found",
+          "note": "原 SPIRE 采集说明：仓库页 meta 证明 id 100061496 与 nwo spiffe/spire；README 说明 SPIRE 通过工作负载证明签发 SPIFFE ID/SVID，提供 Server/Agent 发行包和容器镜像，并支持证书/信任包轮换；license API 为 Apache-2.0。该说明为未采纳草稿，不表示本轮确认其符合本叶。",
+          "source_urls": [
+            "https://github.com/spiffe/spire",
+            "https://raw.githubusercontent.com/spiffe/spire/main/README.md",
+            "https://api.github.com/repos/spiffe/spire/license",
+            "https://spiffe.io/",
+            "https://api.github.com/repos/spiffe/spire/languages"
+          ]
+        },
+        {
+          "record": "included-continuation-final-20261027-research.json#/leaf_cases/593",
+          "source_sha256": "503996f8090d3aa5aaddc17607c87a1afd3573dcd0a097c29f4cde2fff6cfbd5",
+          "assessment": "boundary_unresolved",
+          "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。原采集说明保留为未采纳草稿。",
+          "source_urls": [
+            "https://github.com/spiffe/spire",
+            "https://raw.githubusercontent.com/spiffe/spire/main/README.md",
+            "https://api.github.com/repos/spiffe/spire/license",
+            "https://spiffe.io/",
+            "https://api.github.com/repos/spiffe/spire/languages"
+          ]
+        }
+      ],
+      "review_resolution": "原初审问题为 SPIRE 只证明基础设施/控制平面，未证明完整应用服务。本轮不把 SPIRE 草稿当通过，改为核对并收录两个有官方正文与许可证证据的开源机器身份管理应用（Teleport MWI、Infisical Machine Identities）；SPIRE 保留为 withheld 并留档缺口。",
+      "withheld_candidates": [
+        {
+          "id": "github:100061496",
+          "reason": "现有官方仓库、README、许可证与官网只证明 SPIRE 是工作负载身份控制平面与 Agent 基础设施，缺少完整 Web 应用服务及治理/仪表盘层面的可核对正文；本轮不以不存在论，保留历史来源与候选。"
+        }
+      ]
+    }
+  ]
+}

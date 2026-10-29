@@ -1,0 +1,34 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "ux-prototyping-application",
+      "entry_id": "commercial:axure-rp",
+      "severity": "high",
+      "problem": "batch 把 https://www.axure.com/features 与首页保存成同一个 sha256（966831...），快照只有 Nuxt 壳和 meta 描述；正文没有事件触发器、条件逻辑、动态面板或运行模式。leaf_match 却把这些当作已证能力，属于用 HTTP 200 和摘要代替正文。",
+      "fix": "重新抓取 Axure 官方可读的功能/教程页并单独存快照；若拿不到，只保留官方标题/描述能证明的“一体化原型、规格与流程图工具”类型匹配，删除触发器/条件/动态面板表述，并在 note 与 fetch_outcomes 记录正文缺口；同时删掉重复 source。"
+    },
+    {
+      "leaf": "rendering-management-application",
+      "entry_id": "github:133735379",
+      "severity": "medium",
+      "problem": "OpenCue README 证明作业拆分、可配置队列、中央渲染机群、proc/标签/多设施，但没有明确状态跟踪、日志、失败重试或重新排队、完成关闭；leaf_match 的“跟踪作业状态并回传完成帧”超出正文，dispatch-and-track 闭环只证到派发侧。",
+      "fix": "补官方 docs 的 dispatch/track/failure 页面，或把 reason 收窄为已证的队列/拆分/容量/派发，并在 note 记录闭环缺口；若两者都做不到，assessment 改 insufficient_evidence 或 boundary_unresolved，archived 仍为 false。"
+    },
+    {
+      "leaf": "texture-material-authoring-application",
+      "entry_id": "github:141905920",
+      "severity": "low",
+      "problem": "features 写“200+ 节点”，但 README 与官网快照只说节点式编辑和社区库“hundreds of materials/nodes/brushes”，没有 200+ 这个数字。",
+      "fix": "删掉“200+”，或补明确写该数字的官方来源；节点/PBR 导出与资产交付的其余证据成立。"
+    },
+    {
+      "leaf": "ux-prototyping-application; digital-sculpting-application; digital-audio-workstation-daw",
+      "entry_id": "commercial:axure-rp; commercial:nomad-sculpt; github:15778896",
+      "severity": "medium",
+      "problem": "fetch_outcomes 把 Axure /features、Nomad manual/tools 与 manual/files、LMMS exporting 记为 200 成功，但这些快照是 JS 壳，正文不可用。把 HTTP 成功写成抓取成功，会让后续把壳页当证据。",
+      "fix": "在 fetch_outcomes 增加“200 但正文为 JS 壳/仅侧栏”的状态，重新抓静态可读页；采用来源前先检查正文可读性，不以 HTTP 状态码代替。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-005/project/review.json"
+}

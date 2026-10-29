@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:vitally（customer-health-monitoring）：摘要中的“自动触发邮件、任务和提醒”在快照可见正文只确认了“Trigger Action from Health Changes”这一功能标题；全文中未检索到 reminder/notification 字样。建议将该细节改为页面原话（健康变化触发动作），或补充能逐字支持“邮件/任务/提醒”的正文。",
+    "commercial:vitally（customer-health-monitoring）：摘要称“保留账户健康历史与触点记录”，但可见正文仅见“track your customer Health Score”，而“historical record of touch points and account health”出现在页面 JSON-LD 的客户证言中。作为商业案例不阻断，但建议在摘要中注明该历史能力依据的是证言而非功能说明。",
+    "github:235901813（product-usage-adoption-platform）：batch 的 license_review.spdx_id 写为 MIT，而 research 记录 GitHub license API 返回 NOASSERTION；理由字段已正确说明“ee/ 外为 MIT Expat”，建议将 spdx_id 改为 NOASSERTION 并另设 community_core_license=MIT，避免字段语义混淆。",
+    "github:235901813：technology_stack 列出的 TypeScript/React 未在仓库元数据快照开头可见部分或 README 中被引用快照确认（元数据语言字段为 Python）；属非核心元数据，可保留但建议只写有来源的技术栈。",
+    "commercial:skilljar（customer-training-academy-platform）：摘要中的“合作伙伴”和“学习路径”未在快照可见正文逐字出现；正文已确认 External LMS、customer training、Customizable Academy、Instructor-Led Training、courses、certificates、SSO、enrollment/completion，建议将“合作伙伴/学习路径”收敛为页面原话。",
+    "commercial:guidecx（customer-onboarding-platform）：证据为官网首页正文而非独立产品文档；首页已包含共享工作区、任务、时间线、里程碑、风险、客户自有空间、内部工作不可见、go-live/first value 等足够正文，故不阻断。",
+    "快照多为整页 HTML，存在超长单行；读取工具按行截断 2000 字符，导致 Vitally 第三/第四个 accordion 的后段正文、Skilljar 部分特性列表无法逐字通读。结论基于可见正文与可检索片段，未把导航、元数据或摘要当作核心证据。"
+  ],
+  "leaf_checks": {
+    "customer-health-monitoring": {
+      "application_ids": [
+        "commercial:vitally"
+      ],
+      "status": "pass",
+      "basis": "读取 commercial:vitally 的 health-scores 快照（ee3174…）：页面标题与正文为 Customer Health Score Software；可创建 dynamic、multi-factor Health Scores（traits、metrics、engagement），按 segment/stage/team 定制；Health Score builder 提供 threshold rules、weightings、previews；有 Trigger Action from Health Changes；定位为 Customer Success Platform。覆盖账户级、可定义、多信号、按阈值监控并驱动动作的核心。",
+      "gaps": "快照为营销功能页，未见重算频率、分档/区间定义或历史保留的独立文档；摘要中“邮件、任务、提醒”和“健康历史/触点记录”未在可见正文逐字确认，后者仅见 JSON-LD 客户证言。单行 HTML 后段被读取工具截断。"
+    },
+    "customer-onboarding-platform": {
+      "application_ids": [
+        "commercial:guidecx"
+      ],
+      "status": "pass",
+      "basis": "读取 commercial:guidecx 首页快照（1e57c0…）正文：定位 The #1 Customer Onboarding Software；供应商与客户共享 workspace，可查看 timelines、milestones、risks、responsibilities；客户有专属入职空间、自己的 tasks/deadlines/progress，且看不到内部工作；automated reminders、SMS、无需登录门户；跟踪 go live、time to value、first success milestone。符合每客户受管入职、结构化计划、双边任务分工与明确完成目标。",
+      "gaps": "证据为官网首页营销正文，未逐项核对模板、任务依赖、逐项可见性等实现细节；价格、部署与内部架构未核对，按要求不阻断。"
+    },
+    "customer-success-platform": {
+      "application_ids": [
+        "commercial:gainsight"
+      ],
+      "status": "pass",
+      "basis": "读取 commercial:gainsight 的 /customer-success/ 快照（4261e2…）正文：账户级 health scorecards、product usage、support history、renewal timelines、stakeholder maps、AI sentiment/engagement signals 汇入账户视图；持续评分风险并自动触发 workflows；Success Plans 与重复 playbooks；页面图像/替代文本显示 ARR、CSM、portfolio dashboard。覆盖客户账本、常设成功画像与关系工作循环。",
+      "gaps": "生命周期阶段划分、细分配置细节未见专门文档；单页营销内容，未核对价格、部署、架构。"
+    },
+    "customer-training-academy-platform": {
+      "application_ids": [
+        "commercial:skilljar"
+      ],
+      "status": "pass",
+      "basis": "读取 commercial:skilljar 的 /product/ 快照（5ebe56…）正文：明确 Skilljar External LMS、Customer Training & Onboarding Platform；Customizable Academy 可定制 login/header/footer 品牌；提供 courses、Instructor-Led Training（Zoom/Webex）、Certificates & Certifications、SSO、外部培训许可证管理、enrollments/completions 分析，并可将培训数据送入 Salesforce/Gainsight。符合外部学习者、品牌化学院、学习目录、访问治理与培训记录。",
+      "gaps": "“学习路径”和“合作伙伴”未在可见正文逐字确认；未核对课程目录页面、价格与部署。"
+    },
+    "product-usage-adoption-platform": {
+      "application_ids": [
+        "github:235901813"
+      ],
+      "status": "pass",
+      "basis": "读取 github:235901813 的仓库元数据、LICENSE 与 README 快照：full_name=PostHog/posthog、id=235901813；README 说明 product analytics 支持 autocapture 或手动埋点、visualizations/SQL、group analytics 分析 multi-seat accounts，并提供 Docker hobby 自托管（约 10 万事件/月）与 Cloud；LICENSE/README 明确 ee/ 目录外为 MIT Expat、ee/ 与第三方组件另有许可。符合被埋点产品→真实用户事件→使用/采用分析的核心；仓库身份、开源核心许可证与社区版边界已说明。",
+      "gaps": "产品分析文档页抓取失败（超过 1MB 上限、/trends/ 返回 308），已在 research 留档；未运行部署或功能测试；技术栈 TypeScript/React 与 license API 的 spdx_id=NOASSERTION 与 batch 字段存在轻微表述差异，已在非阻断说明中记录。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未复核 sha256、未访问网络，也未读取其他单元或采集者的 TASK/脚本。核对范围为 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 7 个快照（按 path 原样读取，sources 以 data/collections 为基准）。快照多为整页 HTML/JSON，存在超长单行，读取工具对单行截断 2000 字符，部分 accordion/特性列表后段无法逐字通读；因此以可见正文和精确片段检索为依据，未把 HTTP 成功、导航、摘要或元数据当作核心工作流证据。未做价格、部署、架构或运行时核验，符合任务范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-115/ses_groveopencodegop115review1_1793005521.jsonl",
+  "batch_sha256": "af9c26bb1326920fd178db98c8014a1496ec2e0350e1e74eac872ddfd83f5412",
+  "research_sha256": "ad51815507f4635ce005f734249d6bdd8960c82b42d8fd834ecc3ed88087fc9e",
+  "input_sha256": "973b4c89fe7ee76e9f4d7eeb0aed1690537a98d04e28b17252802f142ccf49c7"
+}

@@ -1,0 +1,26 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "public-transit-passenger-app / commercial:transit：摘要中的“实时到站”“逐步导航”属于首页功能标签；快照中可检索到 step-by-step 相关文案，但首页正文对逐步路径引导的描述有限。若需更强证据，可补充 features 页面；同时不要据此推断票价或票务能力。",
+    "rail-operations-platform / commercial:hitachi-rail-control-supervision：该记录同时覆盖 Mainline 与 Freight 两个产品页，属于产品组合而非单一命名产品；页面只展示到 OCC/Traffic Management/PTC/TSR 能力层，未展示计划时刻表与实绩对比、运行授权及控制中心日志。当前摘要和理由已收窄，建议保留该边界；必要时拆分记录或补充具体产品工作流页。",
+    "vehicle-rental-platform / commercial:rentsyst：首页正文支持车队、预订日历、财务、报表、维保提醒；“发票”能力主要出现在客户评价中，且首页未展示租赁协议交车/还车、押金授权、按实际用量结算。建议补充产品功能页，或继续保持现有收窄表述。",
+    "taxi-dispatch-platform / commercial:icabbi：证据链较完整；Networking/Sites 属于车队间 B2B 协作，不应据此推断为乘客发起、聚合多供应商的网约车市场。",
+    "boat-yacht-charter-platform / commercial:click-and-boat：证据链较完整；平台转付时点以租期开始为条件，摘要表述与此一致。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与本单元 continuation 已完成、batch/research 已记录案例的状态不同；如果该 progress 参与下游进度汇总，应同步，但不影响本次内容核对。",
+    "boat-yacht-charter-platform 的 parent_id 为 18.05，其余四叶为 18.04；如果没有 taxonomy 说明，建议确认这是否为有意的水上交通分支，避免层级误挂。"
+  ],
+  "leaf_checks": {
+    "public-transit-passenger-app": "依据 data/collections/sources/f5d22e498705bb1f1def3d5cff43eead80e9586a395408a2b44ef4d969206df3.txt（url https://transitapp.com/）正文：开屏即列出附近公交、地铁、共享单车，含 Real-time data、Plan a trip、GO 乘客众包实时位置与乘客反馈；这是乘客侧、以计划交通网络为参照、以行程规划为中心的应用，且明确不运营线路。商业类型匹配、官方正文可核。缺口：首页对逐步导航、票价票务的描述有限，摘要中的“逐步导航”仅有 step-by-step 文案命中，未见完整路径引导工作流；未据此认定票务能力。",
+    "rail-operations-platform": "依据 data/collections/sources/93da4f869bec511dca528d90fe6615e18e8a7261a6ed407888143d476f340d01.txt（mainline 产品页）与 data/collections/sources/db78e911942c832637ace75951a3a38ebf55ed97133244d1ab908123d01df9e0.txt（freight 产品页）正文：两页均列出 Operations/Operational Control Centres，含 Traffic Management 与 network optimisation；freight 页另列 PTC、Temporary Speed Restriction Management、Interlocking/Wayside Train Separation。属铁路运营方控制与监督层，商业类型匹配。缺口：页面为产品组合介绍，未给出计划时刻表与实绩对比、运行授权及控制中心日志的具体工作流；仅按已列能力核对，未认定完整三元组闭环。",
+    "taxi-dispatch-platform": "依据 data/collections/sources/2022d823b5aada7c7466fd1810a07092fb330d46089e1d432e66a372bad92fb8.txt（iCabbi Dispatch 产品页）与 data/collections/sources/7788bf3ebcd4efe9f13a0a41da7b3080d611f04f767e483c820b6d2b17997ad6.txt（首页）正文：Dispatch 页面向出租车企业，覆盖点对点、多点及周期性预订、Zone Profiling、Dispatch by Fleet、Dispatch by ETA、Overbooking Protection、Fixed Rates & Tariffs、Payments、Billing、Driver Records、Vehicle Records、Passenger Records & Traffic Light；首页定位为 taxi companies 的 dispatch technology。运营商自有车队、分配行为、工作生命周期与商业记录均有正文支撑，且非乘客发起型多供应商市场。证据充分。",
+    "vehicle-rental-platform": "依据 data/collections/sources/0c67f160365836ec1259fe03b7b90a7728f7884b5aee15c809d7fa3bc60e6b58.txt（RentSyst 首页）正文：明确为 car rental business 的云端 CRM 和管理软件，覆盖可租车队与车辆状态/GPS、预订与订单日历（timeline/daily plan）、财务交易、报表、维保提醒，并支持按车辆类别管理租赁。运营商侧租车平台类型匹配。缺口：首页未展示租赁协议交车/还车状态机、押金授权、按实际用量结算；摘要与理由已避免声称这些细节，未认定完整协议闭环。",
+    "boat-yacht-charter-platform": "依据 data/collections/sources/c33a0a730b7407b14169fd8b6c7c55ba2fef420b50ca8593845a45ce7918950c.txt（Click&Boat How does it work）与 data/collections/sources/656e1791fb929aa0cd7baa9a7dbdd523c8892070f4ab5024c8fc2588794c2356.txt（首页）正文：船东创建账户、发布 listing、管理可用性；承租人搜索、站内联系、在线授权付款下单；船东审核 sailing CV 后接受，平台扣款确认并在租期开始转付租金；交接签署 hire contract、pre-charter inventory，租后互评。可识别船只库存、限时租赁预订、平台中介交易三项成立。证据充分。"
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未部署或运行应用；未独立复算 8 个快照的 sha256，仅按 REVIEW_SOURCES.json 的 path 原样读取并确认文件名与声明哈希一致；快照为原始 HTML，部分正文位于超长单行，读取工具按行截断，采用正文关键词命中与同日在线页面正文交叉核对，未逐字通读全部 HTML/脚本；websearch 返回 401，未能独立扩展检索，研究记录已留档 Wabtec 404、HQ Rental JS 渲染、Navotar/TAGRA/RentWorks/Bluebird 异常等缺口；商业产品仅核对官方页面，不验证定价、客户部署、租户隔离或 SLA；本单元 5 个案例均为 commercial，无开源条目，故未触发完整许可证/社区版边界核对（Digitransit、Transportr、OneBusAway 仅为研究记录中的排除候选）；Hitachi 未提供计划/实绩对比与运行授权记录，RentSyst 未提供交车/还车与押金结算，Transit 未提供完整逐步导航/票务工作流，按商业基本真实性和类型匹配放行，未认定完整定义性闭环。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-180/ses_groveopencodegop180review1network0report1_1793020458.jsonl",
+  "batch_sha256": "8ca986aa3aa1aa4896f37cb910744325542d00b0f09e76975294ebe14b14daa8",
+  "research_sha256": "3672ff0707994889d518ce289ebd7eac53f5840858c09e24954d42060a433a61",
+  "input_sha256": "9ec84ae796c6a21c6b5ac912aa76f4a4167b721b194a81cab226ef32acd7a6b9"
+}

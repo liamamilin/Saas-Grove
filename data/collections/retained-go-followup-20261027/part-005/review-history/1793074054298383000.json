@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "banking-operations-management",
+      "application_id": "commercial:backbase-banking-operations",
+      "issue": "保留的 banking-operations 快照正文只有 hero 段和一个 One workspace 段落，banking-os 快照则是通用 Banking OS 平台页；两页都没有 batch.leaf_matches.reason 与 research.note 所称的按类型/严重度路由、override/升级/人工对账/清理积压、SLA 跟踪、预建连接器实时汇入，以及完成案件/员工投入/积压/完成时间/重复联系/返工度量。以这些未出现在快照中的细节支撑聚合可见性、管理动作和绩效测量，属于用简介或营销表述替代核心正文，并可能把执行/案例平台误判为运营管理层。",
+      "fix": "补充包含上述管理界面与指标的官方正文快照（产品页、数据表或文档），并据此重写 batch.leaf_matches.reason 与 research.note；若无法补充，应把 Backbase 从 banking-operations-management 移除或改列到更匹配的银行后台/案例管理类型，不能用 Banking OS 的通用平台能力代替本叶核心。"
+    },
+    {
+      "slug": "expense-management-platform",
+      "application_id": "commercial:zoho-expense",
+      "issue": "batch.leaf_matches.reason 与 research.note 称费用报告页存在 Reimbursement Process（同步工资/ERP、直接付至员工账户）和 Corporate Card Reconciliation（导入卡流水、匹配核对）正文；但在保留的 d880... 与 fcbb... 两个快照中均未检索到这些段落或对应表述。快照实际支持报告/报告类型、提交审批、政策审计、实时卡数据流/自动匹配、现金预支抵扣报销额等，不能支持所述的工资/ERP 同步、直接付款和卡账核对关闭细节。财务完成这一核心因此证据偏弱，且来源归属不实。",
+      "fix": "删除或改写为快照中实际存在的 reimbursement/card matching 文本；若要保留财务完成的完整主张，补充并保留包含报销付款、工资或 ERP 同步、公司卡对账正文的官方页面快照，再更新 reason/note。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Oracle Banking Payments 的交易录入页 404 已在 research 中如实记录；保留的队列文档足以支持异常处理、修复后重新处理与审计，但快照未直接展示 posting/rail transmission 的执行语义，建议后续补一条交易处理或执行正文，不影响本次基本类型判断。",
+    "Procurify 的 Budget Management 在首页正文主要作为页脚链接出现，正文以 budgets/policies、pre-approved limits 表述；建议把 leaf_match 的列举改成正文可核措辞，但不构成阻断。",
+    "Hyperswitch 的完整 Apache-2.0 许可证、仓库 ID 552877440、Rust、自托管与云部署均可核；快照没有明确区分社区版与 SaaS/企业版的功能边界，建议补一句边界说明，但当前许可与仓库身份不构成阻断。",
+    "Zoho 的历史帮助中心快照未保留且未作为证据，处理正确；research 中 urls_tried 与 failed_urls 的计数略有出入（zoho features 的 403 未列入 failed_urls），建议校正。",
+    "input.json 的 progress.case_status 仍为 not_searched，与 research.json 的 case_found 不一致；若下游读取该字段，应同步更新。",
+    "Backbase 的 Verint 快照缺失已在 research.json 中标注 retained:false 并移除引用，留档方式可接受；但该缺口不能替代本叶所需的管理层正文。"
+  ],
+  "leaf_checks": {
+    "expense-management-platform": {
+      "status": "partial",
+      "basis": "核对 d880...（Zoho Expense 首页）与 fcbb...（费用报告页）。首页正文支持 expense reports、自动归集与审批、policy and audit、real-time card feeds、automated expense matching、reimbursements；报告页支持报告编号/类型、费用归集后提交审批、cash advances 抵扣报销额、PDF 导出。费用报告、政策校验、非报销人审批三项有正文依据。",
+      "gap": "两份快照未出现 leaf_match/note 所称的 Reimbursement Process 与 Corporate Card Reconciliation 段落，无法核实工资/ERP 同步、直接付至员工账户、导入卡流水并核对关闭；财务完成仅有报销和卡匹配的弱证据。"
+    },
+    "payment-orchestration-platform": {
+      "status": "pass",
+      "basis": "README 5811... 明确 120+ processors、Stripe/Adyen 等、intelligent routing、retry、Control Center、self-host/cloud；about 4a73... 提到 transaction performance、routing behavior、operational metrics；repo metadata 6c4b... 确认 juspay/hyperswitch、Rust；license 9843... 为完整 Apache 2.0 文本（size 11358）。多提供商、统一入口与控制、逐笔路由和统一交易观测均有依据。",
+      "gap": "未逐字核到 provider-independent transaction record 的字段模型；社区版与 SaaS/企业版功能边界未在快照中明确。均不阻断类型与许可判断。"
+    },
+    "spend-management-platform": {
+      "status": "pass",
+      "basis": "Procurify 首页 06be... 正文含 Intake-to-Approve、Purchase-to-Receive、Invoice-to-Pay、approval routing、audit trails、ERP integrations、budgets/policies；Expense & Card 页 e63... 含 virtual/physical Spending Cards、pre-approved budget limits、mobile receipt capture、expense approval、corporate card transactions、审批前预算影响。多支出渠道、集中预算/政策、流程内控制均有正文依据。",
+      "gap": "Budget Management 在首页正文主要以 budgets/policies 表述，页脚另有链接；不影响类型匹配。"
+    },
+    "banking-back-office-platform": {
+      "status": "pass_with_gap",
+      "basis": "Oracle 3e1... 说明支付因 SWIFT/IBAN/BIC 等校验失败进入 Repair Queue；7b81... 说明修复后从 initial validations 重新处理；9972... 列出 authorization limit、processing cut off、settlement review 等内部队列；b654... 可查看该交易全部队列活动；eb01... 说明登录后全部活动与所调用功能的审计轨迹（含时间）。内部员工面、交易/指令记录、异常修复和持久审计有正文依据。",
+      "gap": "交易录入页 404；快照未直接展示 posting/rail transmission 的执行语义和完整 validate→authorize→execute 链路，只能作基本类型匹配。research 已如实记录该 404。"
+    },
+    "banking-operations-management": {
+      "status": "insufficient_evidence",
+      "basis": "Backbase 05d2... 正文仅见 hero（Customer operations, payments and disputes, lending, risk and fraud; case-driven, exception-heavy; AI agents prep, humans decide）与 One workspace/Every actor 段落；d994... 为 Banking OS 通用页，含 Memory/Orchestration/Authority/Intelligence/Connectivity 平台叙述。可支持银行运营是对象、统一工作区、协调/权限/连接等宽泛能力。",
+      "gap": "未出现 leaf_match/note 所称的按类型/严重度路由、override/升级/人工对账/清理积压、SLA 跟踪、预建连接器实时汇入、完成案件/员工投入/积压及完成时间/重复联系/返工度量；聚合可见性、管理动作、绩效测量三个定义性核心缺正文证据。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 的 path 读取了 16 个引用快照，未重新抓取或渲染网页，未做运行时测试，未复核 sha256 计算结果，仅以文件名与内容对应。对 Webflow/GitBook 等长 HTML，read 工具按行截断超长行，图片、内嵌 code-island/JS 组件和远程资源未执行，部分页面只能核对保存的 HTML 文本；Backbase 与 Zoho 的快照缺失可能还涉及页面渲染或未保存子页，但按任务要求只能以保留快照判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-048/ses_groveopencodegop048review2_1792989771.jsonl",
+  "batch_sha256": "ddc27324839996038b2358af164b2cc286b0629b6d09693c6353b9f8267ec379",
+  "research_sha256": "d23670da111a2fd9c4855301991c144f4d3c550a6230778d840f722bf9d168f8",
+  "input_sha256": "c679f83b04970c3f7ae0d447386a0c554974a9891c6740b7a0db2c3c3e739f2f"
+}

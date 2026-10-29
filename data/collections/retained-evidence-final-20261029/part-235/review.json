@@ -1,0 +1,49 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "tour-operator-management-system",
+      "application_id": "github:971048805",
+      "issue": "Quartermaster 的 LICENSE 快照不是完整的 AGPL-3.0 文本：文件在第 630 行、附录 How to Apply These Terms to Your New Programs 的示例声明中途结束（...the copyright line and a pointer to where the full notice is found.）。第 0-17 条和 END OF TERMS AND CONDITIONS 均在，SPDX 识别为 AGPL-3.0 没有问题，但作为开源条目所要求的完整许可证文本并未取得，与完整许可证要求不符。",
+      "evidence": "data/collections/sources/f095247d5a085c7fb80fd76de8280ffcb268cc330a16d4889dcb2c48cbb50f5c.txt，第 619-630 行；文件共 630 行。",
+      "fix": "补充一份完整的 AGPL-3.0 许可证文本快照（例如 FSF 的 agpl-3.0.txt）并与上游 LICENSE 对照，或从其他 ref 取得完整 LICENSE；同步更新 license_review 说明文本已完整。若无法取得完整许可证，应将 github:971048805 保留为候选而非已通过的开源条目。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Quartermaster 的 Booking 只保存 lead passenger 的姓名、邮箱、电话和账单地址，并以 BookingItem 的票种/商品数量表示同行人员；快照中没有独立 traveler 表。作为小型运营商的 party-level booking 可以成立，但条目描述宜明确这是领队/联系人级别的旅客记录，避免读者误以为有逐旅客名单。",
+    "Quartermaster 的 Mission 模型未在快照中；产品目录目前由 trip.py 的 mission_id/relationship 和 README 的 mission/trip management 佐证。建议补采 mission.py 或目录文档，以直接证明产品记录的 itinerary/inclusions 等字段。",
+    "book.star-fleet.tours 未独立抓取；生产部署和 homepage 字段主要依据 README 自述。研究记录已如实注明这一点，建议在条目中保留该限定，或补采生产站点快照。",
+    "Voyant 首页快照是 HTML 捕获，长行在读取时被截断；其后台工作流主要由 docs/index.md 和 docs/platform/overview.md 支撑。建议引用文档作为核心能力依据，首页只作产品身份和类型佐证。",
+    "README 提到 NOTICE 中有 MIT 派生部分的说明，但 NOTICE 未采集。AGPL 与 MIT 派生部分可以兼容，不影响当前类型判断；建议补采用以完整记录许可证边界。",
+    "input.json 的 progress 仍写 insufficient_evidence/未找到完整开源应用，而 batch.json 和 research.json 已记录 case_found 及两个条目；建议同步单元状态，避免下游把本单元误读为无案例。",
+    "Yatra 作为候选被排除的理由是 GitHub 仓库没有独立 LICENSE 文件；WordPress.org 页面和插件头标注 GPLv2+。保留为候选是合理的，若后续收录应补采完整 GPLv2 文本和仓库级许可边界。"
+  ],
+  "leaf_checks": {
+    "tour-operator-management-system": {
+      "status": "core_and_type_pass_license_blocked",
+      "cases_checked": [
+        "github:971048805",
+        "commercial:voyant"
+      ],
+      "definitional_core": "Quartermaster：trip.py 的 Trip 以 mission_id 关联 Mission，包含 sales_open_at、check_in_time、boarding_time、departure_time；TripBoat/TripBoatPricing 提供按船和票种的容量与价格；booking.py/enums.py 的 Booking 以 confirmation_code、lead passenger、金额、支付/退款状态和 draft→confirmed→checked_in→completed/cancelled 生命周期绑定 trip/boat/items。产品目录、日期班次、乘客预订三结构基本成立；Mission 模型本身未采集，产品字段的直接证据有限。Voyant：docs/index.md 与 docs/platform/overview.md 明确列出 catalog/products、inventory/availability/departures、bookings/participants、finance/payments/supplier costs，官网标题和描述确认 travel booking software；商业类型匹配成立。",
+      "saas_form": "Quartermaster 是 Docker Compose 自托管应用，README 记录了 book.star-fleet.tours 的生产部署；Voyant 是托管的多租户（每组织一个 Postgres/runtime）服务。两者都是持续运营的软件服务，不是一次性脚本或纯展示页。",
+      "identity_track": "github:971048805 与 GitHub HTML 元数据中的 repository_id 971048805、public、non-fork 一致，track 为 open_source。commercial:voyant 的 track 为 commercial；文档明确其为 managed service、runtime 不是客户安装面，没有把它冒充成开源项目。",
+      "open_source_license": "LICENSE 第 0-17 条及 END OF TERMS AND CONDITIONS 完整，README 徽章和 GitHub 页面均标 AGPL-3.0，SPDX 识别正确；但文件在附录第 630 行中途截断，不是完整许可证文本。这是本叶的阻断项。",
+      "community_boundary": "Quartermaster 是单一 AGPL 仓库，没有单独的社区版/企业版边界；README 提到 NOTICE 中的 MIT 派生部分，NOTICE 未采集。Voyant 是托管商业平台，文档说明不能 fork 或自托管，未声明开源社区版；商业边界清楚。",
+      "commercial": "Voyant 的首页标题/描述、docs/index.md 和 platform/overview.md 足以支持其作为面向 OTA、tour operator、DMC 的旅游商务后台的基本真实性和类型匹配；不要求进一步价格或架构核实。",
+      "gaps": [
+        "Quartermaster 的 Mission 模型和 NOTICE 未采集；产品目录与许可证边界的直接证据不完整。",
+        "book.star-fleet.tours 未独立抓取，生产部署为 README 自述。",
+        "Voyant 首页 HTML 长行在读取时被截断，工作流证据主要依赖文档页。",
+        "GitHub REST API 403 的抓取限制已由采集记录注明，仓库身份改用 HTML 元数据核对。",
+        "LICENSE 附录上游截断，未取得完整文本。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元保存的快照和记录；未运行 shell、未计算哈希、未部署、未额外抓取 live 站点。未检查 mission.py、NOTICE 和 book.star-fleet.tours；Voyant 首页 HTML 的长行在读取工具中只能看到截断预览，因此其工作流判断主要依据 docs/index.md 和 platform/overview.md。LICENSE 附录在上游第 630 行截断；核心结构和类型判断不受影响，但许可证完整性是本轮阻断项。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-235/ses_groveopencodegop235review2_1793264009.jsonl",
+  "batch_sha256": "6937fcbf0c6385a0d51ef5142c35bb29dc21a0f1eca01c53106d03dfd2924785",
+  "research_sha256": "3479ddce854603db936e54bc99d4f5191b72156039ac67d28eb2ba35acb84a09",
+  "input_sha256": "048ab36ac4b3f9ae5d7c1cc835dcfddfe0d97e2ca0191ad672a24c286d6d57fe"
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 57,
+  "offset": 1400,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "fitness-membership-management",
+        "name_zh": "健身会员管理",
+        "domain_id": "28",
+        "parent_id": "28.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/1066",
+            "result": "boundary_unresolved",
+            "note": "GymManagerPro 的 README 自述为健身俱乐部/健身房的会员管理应用；数据层源码显示 Member（会员档案与卡号）、Plan（名称/时长/价格/备注）、Membership（会员×计划、起止日期、价格），Member.cs 还按 Membership.EndDate 在入场时判定 Active/Inactive 并写入 Checkin。但仓库文件树中没有支付、账单、续费或订阅模块，README 与所读源码也未证明定期自动扣费、冻结/取消/失效状态机或欠费停权。会员登记与“会员×计划”的持有记录成立，完整会费—状态周期未闭合，因此按边界未闭合留档为候选，不把该仓库计入 batch 关系；未运行该桌面程序。",
+            "query": "GitHub API 仓库搜索：gym membership management / fitness membership / gym subscription management / club membership management；核对 GymManagerPro 的 README、许可证、元数据及 Member/Membership/Plan 数据层源码"
+          }
+        ],
+        "archived": false,
+        "note": "GymManagerPro 的 README 自述为健身俱乐部/健身房的会员管理应用；数据层源码显示 Member（会员档案与卡号）、Plan（名称/时长/价格/备注）、Membership（会员×计划、起止日期、价格），Member.cs 还按 Membership.EndDate 在入场时判定 Active/Inactive 并写入 Checkin。但仓库文件树中没有支付、账单、续费或订阅模块，README 与所读源码也未证明定期自动扣费、冻结/取消/失效状态机或欠费停权。会员登记与“会员×计划”的持有记录成立，完整会费—状态周期未闭合，因此按边界未闭合留档为候选，不把该仓库计入 batch 关系；未运行该桌面程序。"
+      },
+      "definition": {
+        "slug": "fitness-membership-management",
+        "name": "Fitness Membership Management",
+        "name_zh": "健身会员管理",
+        "aliases_zh": [
+          "健身房会员系统",
+          "健身会籍管理"
+        ],
+        "overview": "A **Fitness Membership Management** application is the fitness business's operator-side system of record for the membership relationship: it keeps the member register, defines and sells membership plans, holds each member's standing membership as a renewable entitlement to the facility and its services, and runs the recurring dues cycle and the membership lifecycle — join, renew, freeze, cancel, lapse — that decides, on any given day, whether a person is an entitled member of the business.\n\nIts purpose is not scheduling and not point of sale; it is the membership itself: who belongs, on what plan, paying what dues, with what usage rights, and in what standing. Class booking systems treat memberships only as the entitlement a booking consumes; gym and studio management suites contain this membership engine as one pillar among many. When membership, dues, and standing are the center of gravity — as they are for a large share of how fitness businesses actually make money — this is the application the operator lives in.\n\nThe defining core is small:\n\n```text\nMember of record\n└── Held membership (member × operator-defined plan)\n    └── Governed dues-and-standing cycle\n        (recurring dues + standing state: active / frozen / ended)\n```\n\nEverything commonly bundled around it — door-access hardware, branded member apps, dunning automation, sales funnels, MRR dashboards — is widespread in current products but is not what makes the product a membership management application. A ledger, a card file, and a bank-draft list satisfied the same definition a generation ago.",
+        "overview_zh": "一个**健身会员管理**应用程序是健身业务运营方记录会员关系的官方系统：它维护会员登记册，定义并销售会员计划，将每位会员的有效会员资格视为对设施及服务的可续订权益，并运行定期会费周期及会员生命周期——加入、续订、冻结、取消、失效——这决定了在任何给定日期，一个人是否是该业务的合格会员。\n\n其目的不是排程也不是销售点；而是会员资格本身：谁属于什么计划，支付什么会费，拥有什么使用权，以及处于什么状态。课程预订系统仅将会员资格视为预订所消耗的权益；健身房和工作室管理套件将此会员引擎作为众多支柱之一。当会员资格、会费和状态成为重心——如同健身业务实际盈利的很大一部分所体现的——这正是运营方所依赖的应用程序。\n\n其定义性的核心很小：\n\n```text\n在册会员\n└── 持有会员资格（会员 × 运营方定义的计划）\n    └── 受控的会费与状态周期\n        （定期会费 + 状态状态：活跃 / 冻结 / 终止）\n```\n\n所有通常围绕其捆绑的功能——门禁硬件、品牌会员应用、催缴自动化、销售漏斗、MRR仪表板——在现有产品中很常见，但并非使该产品成为会员管理应用程序的核心。一代人之前，一个账本、一个卡片文件和一份银行扣款清单就满足了相同的定义。",
+        "dc": "**The member of record.** A persistent, individually identified person enrolled with the business. The profile carries contact details, acquisition source, the agreements the person has signed (membership terms, waivers), their payment methods, their payment and usage history, and their current and past memberships. One person, one record; everything else in the system attaches to it.\n\n**The held membership.** The center of the model. It is the pairing of one member with one plan from the operator's catalog, instantiated as a standing, renewable entitlement. The two halves are distinct objects:\n\n- the **membership plan** is the operator's definition — what the membership costs, how often it bills (monthly, weekly, annually, or prepaid for a term), how long it runs, and what it lets the member use: facility access, particular class types or services, a count of visits or sessions per period, access at particular hours, or unlimited use\n- the **held membership** is the member's actual instance — with its own start date, billing schedule, payment method, usage tally, and standing\n\nThe held membership is the working record staff act on every day: it is what gets frozen, cancelled, renewed, charged, and checked in against. Plans can also be non-recurring shapes — prepaid terms, class packs / credit bundles, day and trial passes — sold through the same catalog and held on the same profile.\n\n**The governed dues-and-standing cycle.** Money and standing move together. On the billing date, the system charges the member's dues automatically against their stored payment method. Around that cycle, the membership's standing state is managed as a real, first-class condition:\n\n```text\nprospective → joined/active ⇄ frozen (hold)\n                  ↓\n        renewed / cancelled / lapsed (expired)\n```\n\nStanding is not a note — it is the state the rest of the system obeys. An active membership bills and grants access; a frozen one pauses both; a cancelled or expired one stops billing and stops working. Every lifecycle event (join, hold, cancel, expiry, renewal) and every money event (charge, failed payment, credit, refund) is recorded against the held membership.\n\nThese three are held together. A member register without plans and dues is a contact list. A billing engine without membership standing is subscription billing, not membership management. A state machine without dues is an attendance tracker.",
+        "dc_zh": "**会员记录。** 一个持久的、独立识别的个人，注册在企业中。该档案包含联系详情、获取来源、该人签署的协议（会员条款、免责声明）、他们的支付方式、支付和使用历史，以及当前和过去的会员资格。一个人，一个记录；系统中的其他一切都附加到它。\n\n**持有的会员资格。** 模型的中心。它是将一个会员与运营商目录中的一个计划配对，实例化为一个持续的、可续期的权益。这两个部分是不同的对象：\n\n- **会员计划** 是运营商的定义——会员资格的成本、计费频率（每月、每周、每年或预付期限）、持续时间，以及它允许会员使用的内容：设施访问、特定课程类型或服务、每期的访问次数或课时数、特定时间的访问权限或无限使用。\n\n- **持有的会员资格** 是会员的实际实例——有其自己的开始日期、计费计划、支付方式、使用统计和状态。\n\n持有的会员资格是工作人员每天处理的记录：它是被冻结、取消、续费、收费和签到的依据。计划也可以是常见的非循环形式——预付期限、课程包/学分包、日卡和试用卡——通过同一目录销售并持有在同一个记录上。",
+        "rules": "### Standing gates everything\n\nThe membership's standing state is binding: frozen memberships neither bill nor admit; cancelled and expired ones stop working; members with unresolved arrears can be blocked from access or from using the membership until the balance is settled, under thresholds the operator sets. This is why hold and cancellation are formal, dated operations rather than notes.\n\n### A hold pauses money and access together\n\nA hold is symmetric: dues in the hold window are skipped and the entitlement is suspended for the same window — existing bookings inside it are released — and on return the member pays only for active time. A hold is therefore a billing operation and an access operation in one act, which is exactly what makes it a distinct lifecycle state rather than \"a member who isn't coming.\"\n\n### Cancellation timing is a policy decision\n\nEnding a membership involves choosing the end date: immediately, at the end of the period already paid for (no further billing), or a specific agreed date. Plans may enforce a commitment period, so leaving early still runs billing to the commitment's end. Whether members may cancel themselves, and on what notice, is configured on the plan.\n\n### The dues cycle is automated but supervised\n\nRecurring dues are charged automatically, but every charge remains visible and actionable: upcoming payments can be adjusted or skipped, billing dates moved, credits applied, failed payments retried or waived. The system keeps the operator's intent above the automation.\n\n### Usage is counted against the entitlement\n\nWhere a plan carries a usage allowance — a number of sessions or visits — use is deducted as it happens, at check-in or against a booking; staff can record or correct usage manually. Unlimited plans record attendance without consuming anything. The usage tally and the money tally are kept per held membership, so a member's remaining value is always answerable.\n\n### History is retained, not erased\n\nEnded memberships stay on the member's record. The member of record persists across join → leave → rejoin cycles, which is what makes lifetime value, lifespan, and win-back possible.",
+        "rules_zh": "### 状态决定一切\n\n会员资格的状态具有约束力：冻结的会员资格既不计费也不允许进入；取消和失效的会员资格停止有效；存在未解决欠款的会员可能会被阻止访问或使用会员资格，直到余额在运营方设定的门槛内结算。这就是为什么暂停和取消是正式、有日期的操作，而不仅仅是备注。\n\n### 暂停同时暂停资金和访问权限\n\n暂停是对称的：暂停期间的会费被跳过，同时该权益在相同期间内被中止——该期间内的现有预订被释放——返回时，会员只为活跃时间付费。因此，暂停同时是计费操作和访问操作，这正是使其成为独特生命周期状态的原因，而不仅仅是“一个不来的会员”。\n\n### 取消时机是一个政策决定\n\n结束会员资格涉及选择结束日期：立即结束、在已支付的期限结束时结束（不再计费），或在某个特定的约定日期结束。方案可以强制执行承诺期，因此提前离开仍会计费至承诺期结束。会员是否可以自行取消以及需要提前多少天通知，都在方案中进行配置。\n\n### 会费周期是自动化的，但受监督\n\n定期会费自动扣款，但每笔扣款都保持可见且可操作：即将到来的付款可以调整或跳过，计费日期可以移动，可以应用抵扣，支付失败可以重试或豁免。系统将运营方的意图置于自动化之上。\n\n### 使用量根据权益额度计算\n\n如果方案包含使用配额——一定数量的课程或入场次数——使用量会在发生时（如签到或针对预订时）扣除；工作人员可以手动记录或更正使用量。不限次方案记录出勤",
+        "parent_id": "28.04",
+        "domain_id": "28"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 248,
+    "phase": "directory",
+    "parent": 248,
+    "slugs": [
+      "fitness-membership-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "3f804702c3a6ccb3fbc05a2737220ae39a86325251a19d7c1fa4955376a3a8bc"
+  }
+}

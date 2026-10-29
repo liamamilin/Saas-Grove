@@ -1,0 +1,101 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "water-sports-management",
+      "application_id": "github:26073146",
+      "note": "batch.json 摘要写“装备租赁/维修”，但 SCOOBAR README 的功能列表只有“Equipment and rentals”，没有维修/保养功能的正文证据；features 数组本身写的是“装备与租赁管理”。建议删除摘要中的“维修”，或补充相应来源。",
+      "blocking": false
+    },
+    {
+      "slug": "martial-arts-school-management",
+      "application_id": "github:1073249710",
+      "note": "README 正文覆盖学生、课程排期/容量/教练、QR 出勤、支付/逾期、腰带晋级、多分馆，但没有明确写家庭/家庭账户或 membership/enrollment 模板；定义中的家庭账户与会员结构属于该类型常见实现，当前证据不足以逐项确认，建议不要把这些细节写成已证实能力。",
+      "blocking": false
+    },
+    {
+      "slug": "personal-training-management",
+      "application_id": "github:1290998438",
+      "note": "README 正文覆盖客户 CRM、1:1/咨询日历、完成/缺席/取消、课程包/月度收款台账；没有明确写可预约服务目录（时长/价格）或客户自助预约/可用性规则，服务目录与自助预约不宜写成已证实。",
+      "blocking": false
+    },
+    {
+      "slug": "recreation-center-management",
+      "application_id": "commercial:recdesk",
+      "note": "首页正文直接证明“cloud-based”，但未直接展示订阅价格/条款；“订阅制”是按公开产品形态的概括。商业案例只需基本真实性和类型匹配，不影响通过。",
+      "blocking": false
+    },
+    {
+      "slug": "swim-school-management",
+      "application_id": "commercial:simplyswim",
+      "note": "首页正文覆盖 timetable、pricing、attendance limits、billing、waiting list、make-up、direct debit/autopay 和 customer portal；未直接看到评估/证书（evaluations/certificates）的正文。若描述强调“水平进阶与证书”，建议补来源或收窄措辞。",
+      "blocking": false
+    },
+    {
+      "slug": "swim-school-management",
+      "application_id": "commercial:simplyswim",
+      "note": "research.json 对 Leping08/TheSwimSchool 的否定结论（无项目级 LICENSE、README 的 MIT 仅指 Laravel）没有对应的快照，仅作为检索记录保留；不影响 SimplySwim 商业案例，但该否定结论无法在本次快照中独立复核。",
+      "blocking": false
+    },
+    {
+      "slug": "unit",
+      "application_id": null,
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，而 research.json 的五个叶子均为 case_found；如果下游以 input.progress 为准，需要同步更新，以免把已收录单元误判为无案例。",
+      "blocking": false
+    }
+  ],
+  "leaf_checks": {
+    "martial-arts-school-management": {
+      "application_id": "github:1073249710",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "读取 README 正文（非仅元数据）：学生管理与晋级、课程排期/容量/教练、QR 出勤与历史、支付/逾期、腰带测试、管理员/教练/学生角色、多分馆数据隔离、分析看板；仓库元数据 id=1073249710，与 batch 一致；license 快照 base64 解码为完整 MIT 文本。",
+      "core_check": "学生记录、课程/排期、会费/欠费循环、出勤与晋级事件均有正文证据；membership/enrollment 与家庭账户未在 README 明示，属于定义中的常见实现细节，当前证据不足以逐项确认。",
+      "license_check": "MIT 完整文本（含版权、许可授予、免责声明）；未发现付费版/社区版功能切分，README 称同一代码库用于 Hamarr 生产部署。",
+      "gap": "家庭/家庭账户与会员模板缺少直接正文证据；未运行部署。"
+    },
+    "personal-training-management": {
+      "application_id": "github:1290998438",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "读取 README 正文：客户 CRM/未结余额、800+ 动作库、训练计划构建与分享链接、1:1/咨询/评估日历、完成/缺席/取消状态、课程包与月度收款台账、今日日程仪表盘；元数据 id=1290998438，与 batch 一致；license 快照为完整 MIT。",
+      "core_check": "客户记录、预约/日历、课程结果确认、资金循环均有正文证据；可预约服务目录（时长/价格）与客户自助预约/可用性规则未明示，但预约型私教管理类型成立。",
+      "license_check": "MIT 完整文本；Clawnify 是部署/托管入口，未发现功能受限的社区版边界。",
+      "gap": "服务目录与自助预约证据不足；未运行。"
+    },
+    "recreation-center-management": {
+      "application_id": "commercial:recdesk",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 RecDesk 首页与三个官方功能页正文：首页“cloud-based recreation software”；会员页正文含 open-ended/fixed duration、individual & family/group memberships、automated/manual renewal、membership based facility check-ins、billing & payment、membership pause、restriction of registration/reservation based on active membership；设施页正文含 each facility master calendar、double-book prevention、recurring schedules、classrooms/gymnasiums/ballfields/picnic shelters；项目页正文含 full roster、enrollment min/max、program attendance、waitlist。",
+      "core_check": "设施（空间/容量/防冲突）、入口验证的会员权益、活动与租赁共用的排期三类结构均有正文证据；与定义高度匹配。",
+      "license_check": "商业产品，不适用开源许可证；官方站点与产品身份真实，类型匹配。",
+      "gap": "订阅价格/条款未在快照正文中直接展开；站点也面向 parks & recreation，但设施/会员/项目三结构仍落在休闲中心类型。"
+    },
+    "swim-school-management": {
+      "application_id": "commercial:simplyswim",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 SimplySwim 首页正文：complete management platform for your swim school；schedule、attendance、billing、payments、student tracking、communication；waiting list（按 day/time/level/teacher）；customer portal 可 book make-up classes/pay online；direct debit & autopay；timetable、pricing、attendance limits。",
+      "core_check": "学员/客户记录、排定课程、报名/容量与出勤限制、课时费/支付循环均有正文证据；以 level 组织课程在 waiting list 文案中可见。评估/证书未直接展开。",
+      "license_check": "商业产品，不适用开源许可证；官方站点与产品身份真实，类型匹配。",
+      "gap": "evaluations/certificates 与“水平进阶”细节缺少直接正文；仅首页快照，未读功能子页。"
+    },
+    "water-sports-management": {
+      "application_id": "github:26073146",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "读取 SCOOBAR README 正文：Simple and easy management application for your SCUBA dive center；features 为 customer management and billing、event planning and booking、equipment and rentals、statistics and reports；README 明确 WIP、功能 basic，planned features 含 authentication/customer checkin-checkout；元数据 id=26073146，与 batch 一致；license 快照为完整 MIT 条款（无标题但含完整许可授予与免责声明）。",
+      "core_check": "潜水中心运营方、活动排期/预订、装备租赁、客户与计费、报表均有正文证据，类型成立；教练/向导分配、参与者名单、船只/装备可用状态、容量/师生比未明示，属于基础版覆盖不足。",
+      "license_check": "MIT 完整条款；未发现商业版/社区版切分。",
+      "gap": "核心的实时日历、人员/船只分配、装备状态与容量控制证据不足；WIP 且未运行；摘要“维修”无 README 支持。"
+    }
+  },
+  "limits": "只读审查，未运行应用、未部署、未做账号/价格/架构测试；未使用 shell 或写文件，未读取其他单元。RecDesk/SimplySwim 为大型 HTML 快照，read 输出在 2000 字符/行处截断，核心正文通过 grep 与分段读取核对；三个 GitHub repository_metadata/license JSON 为单行且被截断，许可证以快照中的 base64 内容（完整 MIT 文本）判断，未读取 SPDX 字段。商业案例仅按官方页面做基本真实性与类型匹配，未核验订阅条款。Leping08/TheSwimSchool 的否定结论无对应快照，无法在本次快照中复核；SCOOBAR 未运行，成熟度仅据 README 自述。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-258/ses_groveopencodegop258review1_1793039350.jsonl",
+  "batch_sha256": "c5c61a0b1610215b31bbd5736d46ab6ad667163ace200979b03cdcdb1703d99d",
+  "research_sha256": "ee3a6be898107f7d572fed242a6339aa648add936434bf8df8299a660b1c2223",
+  "input_sha256": "a36ce4d994080f2332efad2dc20bb21f787752635f0fd291d9adb0c492840518"
+}

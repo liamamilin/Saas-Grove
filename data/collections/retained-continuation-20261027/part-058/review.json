@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Sourcetrail 已于 2021 年归档，batch 摘要与 deployment 已如实披露；但 homepage 字段（https://www.sourcetrail.com/）未取得快照，建议在应用记录中增加 lifecycle/archived 标记或展示层提示，避免读者误认为仍在维护的在线服务。",
+    "DBeaver 的 research.note 将“元数据管理”列为 DBeaver Community 官网功能卡内容；实际该字样出现在同页 dbvr Community 卡。DBeaver 的模式目录证据应引 README 的 schema editor 以及首页更新日志中的 Database Navigator/Metadata Editor，建议修正该出处归因（不影响核心匹配）。",
+    "Sourcegraph 的 research.note 将“Search across 1M+ public repositories”列为首页正文，但本单元首页快照未检出该原句；“Powerful search for complex codebases”可检出，1M+ 表述见 Code Search 产品页。建议把该句归到产品页，或改写为跨首页/产品页的综合表述。",
+    "Review Board 手册的默认批准条件是“至少一个 Ship It 且无 open issues”，组织可通过扩展实现 custom approval logic；“组织可配置批准策略”容易读成内置策略配置，建议改为“可通过扩展自定义批准逻辑”。",
+    "Review Board 的社区版边界除 RBCommons 托管外还涉及商业 Power Pack（报告、PDF/Office 文档审查、GitHub Enterprise/Azure DevOps 集成等）；batch 未把 Power Pack 能力混入核心功能，但可在 service_boundary 中显式列出，边界会更完整。",
+    "DBeaver 作为 Database IDE 的“持久工作环境（保存连接、脚本、历史）”未在快照中逐项展开；桌面安装形态与连接/编辑器功能可支撑该判断。如要更严格，可补官方 Database Navigator 或连接管理文档。",
+    "Sourcegraph 仅有营销首页与产品页，足以完成商业基本真实性与类型匹配；定位匹配的“文件+行+上下文”细节未由技术文档直接展示，价格、部署架构按要求未核。",
+    "Sourcetrail 的包管理器安装快照只明确 Chocolatey，摘要中的“包管理器安装”可保留，但不宜扩展为多包管理器支持。"
+  ],
+  "leaf_checks": {
+    "code-intelligence-platform": {
+      "status": "passed",
+      "application_id": "github:47690142",
+      "core_evidence": "README（ef119…）称其为 free and open-source cross-platform source explorer，面向不熟悉的源码；官方 DOCUMENTATION.md（8554…，v2021.4）正文明确索引所有命名符号及关系，Graph 视图展示 function call、type use、file include 等入向/出向依赖，Code 视图列出当前符号的全部源码位置并明确不可编辑；Search 可定位已索引符号。对应语义代码模型、定义/引用/关系解析面和只读的代码理解目的。",
+      "identity_track_license": "GitHub 元数据 id=47690142、full_name=CoatiSoftware/Sourcetrail、archived=true；batch id github:47690142、track open_source 一致。LICENSE.txt（2979…）为完整 GPL-3.0 文本，README 亦声明 GPLv3；社区边界为完整开源桌面应用，可离线使用，无托管/团队账户服务；SDK 为独立仓库，本叶未主张其许可证。",
+      "gap": "未运行/部署；homepage 未取得快照；仓库归档状态已披露。"
+    },
+    "code-review-platform": {
+      "status": "passed",
+      "application_id": "github:285304",
+      "core_evidence": "README（42c2…）称其为 open source、web-based code and document review tool，跟踪 pending code/graphics/documents 及所有决策讨论，diff viewer 支持 syntax highlighting、interdiffs、moved line detection、indentation change indicators；官方手册 Approving Changes（4b1f…）正文记录 Ship It!、Fix It then Ship It!、revoke Ship It!，默认“至少一个 Ship It 且无 open issues”即视为批准，并可通过扩展自定义批准逻辑。对应可审查 diff、行级讨论与可归因裁决的审查工作流。",
+      "identity_track_license": "GitHub 元数据 id=285304、full_name=reviewboard/reviewboard；batch id github:285304、track open_source 一致。COPYING（8eb7…）为完整 MIT 文本，README 亦标 MIT；社区边界为 MIT 核心、可自托管，RBCommons 为厂商托管服务，Power Pack 为商业扩展（核心功能未混入）。",
+      "gap": "未运行/部署；/users/reviewing/ 首次 404 已如实记录，改用同站 Approving Changes 页面。"
+    },
+    "code-search-platform": {
+      "status": "passed",
+      "application_id": "commercial:sourcegraph",
+      "core_evidence": "官方 Code Search 产品页（ab56…）正文呈现跨 codebase/多仓库检索、按 file paths/languages/custom patterns 过滤、Symbol search、Commit + Diff Search，并在浏览器内提供类似编辑器的代码导航；页面含 1M+ repositories、Search contexts、revision/branch 等表述。官方首页（43be…）标题为 The Context Layer for Your Entire Codebase，并将 Code Search 作为产品/能力呈现。对应受管代码语料、查询面与定位匹配。",
+      "identity_track_license": "commercial:sourcegraph、track commercial，官网与产品页均指向 Sourcegraph 官方；商业条目无开源许可证/社区版主张，未混用开源 track。",
+      "gap": "仅有营销首页与产品页，未取得技术文档；页面为 JS 渲染且长行截断，按可见正文与关键词确认，未逐字通读全部脚本；未核价格、部署架构或运行产品。"
+    },
+    "database-ide": {
+      "status": "passed",
+      "application_id": "github:44662669",
+      "core_evidence": "README（ea03…）称其为 free multi-platform database tool，列出 schema editor、SQL editor、data editor、AI chat、ER diagrams、data export/import/migration、SQL execution plans、database administration tools、custom database drivers editor，并称开箱支持 100+ drivers、支持 JDBC/ODBC；官网首页（0e32…）社区版卡列出 Data Editor、SQL Editor、数据库维护工具，PRO 卡单列 ODBC、NoSQL、云数据库等；首页更新日志出现 Database Navigator、Metadata Editor、DDL 生成等。对应连接外部数据库、模式目录、SQL 编写执行、对象/数据开发。",
+      "identity_track_license": "GitHub 元数据 id=44662669、full_name=dbeaver/dbeaver；batch id github:44662669、track open_source 一致。LICENSE.md（3097…）为完整 Apache-2.0 文本；社区版 Apache-2.0，ODBC/NoSQL/云连接等按官网 PRO 卡归商业版，社区版仅主张 JDBC。",
+      "gap": "未运行/部署；持久化（保存连接/脚本/历史）未逐项展开；官网“元数据管理”字样实际位于 dbvr 卡，DBeaver 目录证据主要来自 README 与更新日志。"
+    },
+    "integrated-development-environment-ide": {
+      "status": "passed",
+      "application_id": "github:102083576",
+      "core_evidence": "README（c166…）定位为 open source development environment/tooling platform/application framework；官网首页（3663…）说明语法/语义高亮与重构；官方 javase-intro 教程（a56c…）以 Java Class Library/Application 项目为容器，覆盖项目创建与 classpath、源码编辑、Clean and Build、Run、JUnit 测试、断点、Variables、Step Into 调试、构建与分发；quickstart（addf…）辅助确认项目创建与运行。对应 project 为核心的编辑—构建运行—调试集成。",
+      "identity_track_license": "GitHub 元数据 id=102083576、full_name=apache/netbeans；batch id github:102083576、track open_source 一致。LICENSE（1ae2…）为完整 Apache-2.0 文本；完整开源桌面 IDE，商业支持另计，未把商业支持混入社区版能力。",
+      "gap": "未运行/安装；/try/ 404 已如实记录；README 单独不足以证明核心，已用官方教程补足。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未运行或部署任何产品，也未读取其他单元；核对范围限于 REVIEW_SOURCES.json 列出的 19 个快照及 input.json、batch.json、research.json。Sourcegraph 页面为 JS 营销页且工具对超长行截断，主要依据可见正文与关键词命中，未逐字通读全部脚本；Sourcetrail DOCUMENTATION.md 与 NetBeans javase-intro 为长文，读取到核心章节；未核验价格、SLA、部署架构、第三方集成或运行时行为；Sourcetrail 官网现状与 DBeaver 持久化细节未取得直接快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-058/ses_groveopencodegop058review2_1792991097.jsonl",
+  "batch_sha256": "c2449b681613227a7ef95655763c29bf2e2dc053bb25d6f68623cc15496ee6e1",
+  "research_sha256": "bfd27170077f0bf083e974ecbe62b8fc470e9b36b83cd87649332969b8d88b10",
+  "input_sha256": "494fac3da0166a53707eeea4308d159e665032e03af62098addee1a7ea0ca162"
+}

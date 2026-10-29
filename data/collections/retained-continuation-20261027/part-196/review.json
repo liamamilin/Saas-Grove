@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Recall InfoLink 首页时间线已覆盖结构化召回录入、联系人/受影响方导入、邮件/短信/电话/传真通知、响应跟踪、自动提醒、再通知、行动核实和监管报告；但正文未显式出现 lot/batch 字段，批次级范围解析只有间接证据，建议后续补充 features 页或产品文档。",
+    "Recall InfoLink 是跨行业召回平台（食品、药品、宠物、医疗器械），食品只是垂直场景之一；作为食品召回案例可接受，但摘要可更明确食品使用场景。",
+    "FoodDocs 首页为营销页，但正文明确包含 HACCP 计划、监控任务与日志、温度记录/传感器、纠正措施、供应商与追溯文档、多地点实时总览和审计；主管逐条复核、计划版本化与生效日期仅有间接表述，建议后续补充产品文档。",
+    "TraceGains 来源是按需演示报名/资源页而非产品文档；规格模板与属性、版本/状态、受影响规格自动更新、供应商文件、通知、审计追踪与往来记录均有正文要点，足以支持类型匹配，但审批签署与生效日期细节未展开。",
+    "Trustwell 页面在追溯调查中可直接创建 withdrawal，属于与召回相邻的能力；核心仍是批次台账、CTE 采集/共享和双向追溯，research 已注明同厂另有 Recall 模块，边界说明可接受。",
+    "FreshByte 首页明确多仓库库存/批次/称重、客户专属定价、订单录入、配送排程、A/R A/P/总账、发票/对账和召回模拟；但未直接展示采购订单/供应商采购环节，也未明确餐饮/机构客户类型，部署形态（SaaS/托管/本地）未说明。research 已如实记录，采购与客户类型可由 ERP/A/P/wholesaler 语境推断，类型匹配仍成立。",
+    "beCPG Community Edition 的 LICENSE 快照是 701 字节的 LGPL-3.0-or-later 声明而非完整 LGPL 文本，GitHub license API 返回 NOASSERTION；未写入 batch、仅保留为候选并记录缺口，处理正确。",
+    "Open Food Network 的 AGPL-3.0 许可证全文可核，但 README 表明其为连接农户、食品枢纽与消费者的本地食品在线市场，不是批次级跨伙伴追踪台账；未强行采用，处理正确。",
+    "input.json 的 progress 仍标为 not_searched，而 research.json 已记录 case_found；属于输入初始状态与输出状态的差异，不影响内容判断，后续同步时可更新。",
+    "所有 batch 条目均为 official_sources_reviewed 且 runtime_tested=false；本次只读初审未要求部署或运行验证，该状态与审查范围一致。"
+  ],
+  "leaf_checks": {
+    "food-recall-management": {
+      "application_id": "commercial:recall-infolink",
+      "basis": "已按 REVIEW_SOURCES.json 原样读取 data/collections/sources/d22496e1b097e5f79b2ecf358848ba24875453a60fca95758f4b18a4ba43b06c.txt（Recall InfoLink 首页，文件名哈希与 batch/REVIEW_SOURCES 一致）。正文时间线明确：结构化录入召回细节、导入联系人/分销名单及受影响方、通过邮件/短信/电话/传真通知、实时跟踪响应并自动提醒未响应者、最终确定前再通知、核实受影响产品已移除/处置/纠正、自动生成监管报告；事件具有开始、推进和结束的生命周期，覆盖召回事件→通知→响应→验证→归档闭环。",
+      "gaps": "首页正文未显式写 lot/batch 级范围解析，仅以 affected products 和联系人名单表达；批次级证据是间接的，建议后续补充 features 页或产品文档。该缺口不影响商业召回管理类型的基本匹配。"
+    },
+    "food-safety-management": {
+      "application_id": "commercial:fooddocs",
+      "basis": "已按 REVIEW_SOURCES.json 原样读取 data/collections/sources/67fd79d3959b827b0844b287faa7027cdf88901dd4a33881b02565c501caed85.txt（FoodDocs 首页，文件名哈希一致）。正文明确 FSMS 定位，包含 HACCP 计划（危害分析、CCP、SOP、流程图）、可定制监控任务/检查表、自动监控日志、温度记录与传感器集成、任务未按要求填写时的纠正措施、供应商与追溯文档、多地点实时合规总览、AI 报告、内部审计和审计追踪；FAQ 还明确软件支持合规但不能保证合规，符合“系统承载机制、运营者拥有程序”的定义。",
+      "gaps": "主页营销文案未展开主管逐条验证、计划版本化与生效日期控制，相关能力由 verify tasks、internal audits、audit trails 间接支持；建议后续补充产品文档，但不影响食品安全管理类型匹配。"
+    },
+    "food-specification-management": {
+      "application_id": "commercial:tracegains",
+      "basis": "已按 REVIEW_SOURCES.json 原样读取 data/collections/sources/99fe70953be21c2fe4152905629f154ede9f3fdac614d2c40485e4e887f9220a.txt（TraceGains 规格管理资源页，文件名哈希一致）。正文明确规格作为受控数字数据（indexed、organized、controlled），存在不同版本与状态、版本管理和流程控制；可编辑规格模板的 sections/attributes 并自动更新受影响规格；供应商文件可通过 TraceGains Marketplace 获取；支持可配置告警/通知、完整审计追踪和往来记录；并覆盖标签图、包装指南、制备说明及 in/out-of-spec 容差图等属性。",
+      "gaps": "来源是按需演示报名/资源页而非产品文档，审批签署、生效日期发布等细节未展开；但规格记录、版本治理、供应商/贸易伙伴交换三个核心结构均有正文依据。开源候选 beCPG 的 LICENSE 快照仅为 LGPL-3.0-or-later 声明、GitHub API 为 NOASSERTION，未纳入 batch，缺口已留档。"
+    },
+    "food-traceability-platform": {
+      "application_id": "commercial:trustwell-foodlogiq-traceability",
+      "basis": "已按 REVIEW_SOURCES.json 原样读取 data/collections/sources/f099d6267edb5de5cfaf09579947016a58c4173e646d73a2df5ce619cd97b788.txt（Trustwell FoodLogiQ Traceability 产品页，文件名哈希一致）。正文明确采集并共享 Critical Tracking Event 数据，按 batch-lot 级别查看产品流向，支持 forward/backward 追溯、查看来源/去向及经手合作伙伴、识别数据缺口、通过 timeline/map 调查、从调查创建 withdrawal，并导出 FSMA 204 ESS 数据；供应商、地点和产品均在范围内。",
+      "gaps": "页面提到可从调查直接创建 withdrawal，属于与召回相邻的能力；核心仍是批次台账、跨伙伴链接和双向追溯，research 已注明同厂另有 Recall 模块。开源候选 Open Food Network 的 AGPL-3.0 全文可核，但 README 表明其是本地食品市场而非批次台账，未采用合理。"
+    },
+    "foodservice-distribution-management": {
+      "application_id": "commercial:freshbyte",
+      "basis": "已按 REVIEW_SOURCES.json 原样读取 data/collections/sources/8f19965d22cd97ff0bd266b98c6720bf36d16c64095bc30c7cf6b9ea0bdb863e.txt（FreshByte 首页，文件名哈希一致）。正文明确其为面向生鲜食品分销商的 ERP：多仓库实时库存与 lot/catch weight 跟踪、低库存预警/自动补货、one-up/one-down 批次追溯、PTI/FSMA 与召回模拟、客户专属定价与 substitutions、订单录入、live availability、delivery scheduling、EDI A/P/A/R、完整 G/L/A/R/A/P、自动发票/付款/对账，以及客户/合同级价格表。",
+      "gaps": "首页未直接展示采购订单/供应商采购环节，也未明确餐饮/机构客户类型，部署形态（SaaS/托管/本地）未说明；research 已如实记录。采购与客户类型可由 ERP、A/P 和 wholesaler 语境推断，分销管理类型匹配仍成立。"
+    }
+  },
+  "limits": "本次为只读独立初审；未运行应用、未做部署或运行验证，未使用 shell、未写文件、未读取其他单元。未重新计算快照 sha256，仅核对 REVIEW_SOURCES.json、batch.json、research.json 中的路径、文件名哈希与条目引用的一致性；5 个商业条目以指定快照正文为主要依据，快照为压缩 HTML 且只读视图截断长行时，辅以同日同 URL 在线页面辨认正文。未穷尽复核 GitHub 搜索结果数量；开源候选的仓库身份、许可证和社区版边界依据 research.json 记录的 GitHub API 快照。FreshByte 部署形态、Recall InfoLink 批次级范围、TraceGains 审批细节等未在快照中明示，已作为非阻断缺口记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-196/ses_groveopencodegop196review1_1793024716.jsonl",
+  "batch_sha256": "4029136b673ecc38d954974f5a3dd998c02aa2faa96f74c37eda9630beaf931a",
+  "research_sha256": "412a5726c83b83368ebb07d210d93aed45fe1f0548cefae0043e5f76ff0994b4",
+  "input_sha256": "d059043384c5809b9b1ed6aa0b344693e514721a1f86fd1d0a46be064fd8ab32"
+}

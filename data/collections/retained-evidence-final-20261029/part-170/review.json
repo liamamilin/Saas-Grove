@@ -1,0 +1,41 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 块仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，与本单元 batch.json/research.json 已收录两条商业案例的状态相反；内容证据本身成立，但建议在合入前同步 progress 元数据，避免下游按旧状态丢弃案例。",
+    "RealTime 的受试者津贴正文把大规模支付指向其 SitePay 附加产品，CTMS 本身保留津贴管理与审计记录；摘要未区分模块边界但未失真，可在描述中注明津贴发放依赖 SitePay。",
+    "CRIO 的津贴发放通过 Dash Solutions 卡产品实现，1099 年终报表在 Site CTMS 内生成；摘要中的 stipends 表述准确，但读者可能误以为支付通道为自建。",
+    "两条商业案例的证据均来自厂商官方产品/方案页的营销正文，能证明功能与目标客户，但不能证明实际工作流、数据模型或部署形态；runtime_tested=false 与这一证据强度一致，建议保留该标记。",
+    "CRIO 站点方案页把多研究/多申办方规模（3,000 站点、6,000+ 方案、3,000+ 赞助商）作为平台整体数据陈述，而非 Site CTMS 单模块统计；用于说明站点型定位可以，不宜当作该模块的独立采用量。"
+  ],
+  "leaf_checks": {
+    "clinical-trial-site-management": {
+      "slug": "clinical-trial-site-management",
+      "definition_core": "通过。RealTime-CTMS 官方 CTMS 页（快照 4efe7204…）正文以 clinical research sites 为受益/运营主体，提供跨全部活跃/招募中/待启动研究的仪表盘（可按申办方、方案、状态过滤）、受试者档案、按方案模板自动计算目标日期并强制访视窗口、超窗访视识别，以及跨研究的收入/应收/应付、按申办方付款跟踪与账龄、按访视计费进度、受试者津贴管理，覆盖站点组合、逐研究执行记录、站点侧双向资金四要素。CRIO 官方 Site CTMS 页（快照 d75843df…）覆盖患者数据库/可行性检索/招募漏斗/预筛、按访视或操作的应收与应付、发票与付款凭证、申办方回款记录与核对、1099 津贴报告；Sites 页（快照 4e60bf5c…）明确面向临床研究站点，说明从筛选到关闭的单一体系统、按方案生成访视排程、访视完成数据生成开票，并给出多研究/多申办方规模。两叶均未把 EDC/eSource 或单试验视角误当作站点型核心。",
+      "saas_form": "通过。RealTime 提供在线登录入口与订阅定价页，产品以托管 Web 应用交付；CRIO 提供分区域（US/CA/AU/EU）平台登录域名与在线演示预约，属持续运营的托管服务。未发现一次性安装包或本地部署作为唯一交付形态的迹象。",
+      "id_track": "通过。commercial:realtime-ctms 与 commercial:crio 均为 commercial track；条目 id、名称、homepage（realtime-eclinical.com、clinicalresearch.io）与来源 URL 的厂商/产品身份一致，无开源/商业错标或重复 id。",
+      "license_community": "不适用（本单元无开源条目）。开源侧留档可复核：Phoenix CTMS 的 LICENSE 快照为完整 GNU LGPL-2.1 文本，README 说明其 PRS/CTMS/CDMS 面向 CRO、医院与研究机构但以试验/数据库为中心；euro-clinical-trials 的 README 仅称含 site management（多站点协调），License 段无实际许可证正文，仓库页快照未见可核验许可；e-delegate 定位为授权日志子模块；RPB 为试验单位研究管理/eCRF 平台。上述候选均缺站点侧预算/开票/回款/津贴闭环，未收录为案例有据，且未以‘无开源产品’作绝对结论。",
+      "sources_read": [
+        "data/collections/sources/4efe7204ab9fb5fd07f025cfd32c75385eb6b63815f880f8e4337f9dc24a4f3a.txt",
+        "data/collections/sources/d75843dfa9919608dce1856c279e562011e7dc24d415563e69fe650fa254056e.txt",
+        "data/collections/sources/4e60bf5c84c67b40696837965c0ebb8964f0cc83bfc551562fee6d261b8102fa.txt",
+        "data/collections/sources/75a0ece4ab02f21305b3fd1ef0e728f8d42a1fe7c334d0260898a73984affedc.txt",
+        "data/collections/sources/cd5acfef0b1629d202f4c9a63f654648b659cf7eb60b6f9cc61541ac492f42df.txt",
+        "data/collections/sources/e2642c6f38765e2861c8bf761101f636efb28c25ac7d89b81fa105106717d2ed.txt",
+        "data/collections/sources/0f9ba46f12d2da307de0d4160feeec80b439dbb4b7fdf0266cd2759b3a71e6cb.txt"
+      ],
+      "applications": [
+        "commercial:realtime-ctms",
+        "commercial:crio"
+      ],
+      "result": "通过。两条商业条目核心类型匹配、身份与 track 正确，快照为产品/方案页实质正文而非简介或元数据；摘要与 leaf_matches 的关键事实可在快照中逐条定位。",
+      "gaps": "厂商营销页未提供界面级工作流、预算条款上限/筛选失败津贴比率、审计追踪等实现细节；未做部署或试用验证；research.json 中其余开源候选快照仅核对文件存在与部分正文，未逐份通读。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未计算文件哈希、未写文件、未访问本单元之外资料。快照按 REVIEW_SOURCES.json 的 path 原样读取，sources 前缀以 data/collections 为基准；商业结论仅基于这三份官方页面正文，未做价格、架构、部署或功能实测。research.json 引用的 12 个开源候选快照中，仅对 Phoenix README/LICENSE、euro-clinical-trials README/仓库页做了正文抽查，其余候选的许可与范围结论依赖研究记录的抓取结果，未独立全文复核。REUSED_SOURCES 未在任务输入中提供，无法核验‘未复用历史快照’的陈述。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-170/ses_groveopencodegop170review1_1793253317.jsonl",
+  "batch_sha256": "0afc4afa44852b4737872a4b2689802611aa7a68cbb160e15c1bbed4bae9e404",
+  "research_sha256": "4989b2c174558425cccb47ffe4ea46bfaf7a0ee48aac13e59a92036135c5b3f2",
+  "input_sha256": "73f281be90ba2dca8099c55dcb086e5d2d00bedbc1699026db8ba419edc8b69d"
+}

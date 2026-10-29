@@ -1,0 +1,287 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sports-court-booking",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:playtomic"
+      ],
+      "query": "GitHub API: court booking / padel booking / tennis court reservation；官方 Playtomic 玩家帮助中心核对",
+      "source_urls": [
+        "https://playerhelp.playtomic.com/hc/en-gb/articles/19831881490449-How-to-make-a-reservation-in-Playtomic-app",
+        "https://playerhelp.playtomic.com/hc/en-gb/articles/19831715222929-How-to-book-a-court-or-a-spot-in-a-match-in-your-favourite-Club"
+      ],
+      "note": "GitHub 开源结果多为 awesome-list、开发中项目或单俱乐部自用预约，未找到满足第三方场馆中介关系的完整开源应用；websearch 返回 401 后未反复调用。改用 Playtomic 官方帮助正文：可按运动/地点/日期时段选俱乐部球场与时长，支持分摊或全额支付，价格与取消政策由各俱乐部设定；另篇说明可从俱乐部资料页预订私场或加入公开比赛。已确认球员端场地预订与第三方俱乐部关系，未声称实时库存或改签能力。",
+      "service_boundary": "球员端需求侧预订平台，不是场馆运营方的记录系统；俱乐部保有定价、取消政策和场地规则。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "court booking in:name,description,readme",
+          "outcome": "结果以 awesome-list 为主，未找到完整球场预订应用"
+        },
+        {
+          "tool": "github_api",
+          "query": "padel booking in:name,description,readme",
+          "outcome": "仅见 Playtomic CLI 等工具，非完整应用"
+        },
+        {
+          "tool": "github_api",
+          "query": "tennis court reservation in:name,description",
+          "outcome": "最高 adroste/tennis-court-reservation-system-v2（AGPL-3.0，16★），README 明言仍在开发且为单俱乐部预约"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source sports court booking system github padel tennis reservation",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://playtomic.com/",
+          "status": "403",
+          "note": "官方主页抓取被拒，改用玩家帮助中心"
+        },
+        {
+          "url": "https://playerhelp.playtomic.com/hc/en-gb/articles/19831881490449-How-to-make-a-reservation-in-Playtomic-app",
+          "status": "200",
+          "note": "正文确认订场步骤、分摊支付与俱乐部定价/取消政策"
+        },
+        {
+          "url": "https://playerhelp.playtomic.com/hc/en-gb/articles/19831715222929-How-to-book-a-court-or-a-spot-in-a-match-in-your-favourite-Club",
+          "status": "200",
+          "note": "正文确认俱乐部资料页预订私场及 Open Match"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sports-facility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ezfacility"
+      ],
+      "query": "GitHub API: sports facility management / facility booking / court reservation；EZFacility 官方产品页核对",
+      "source_urls": [
+        "https://www.ezfacility.com/",
+        "https://www.ezfacility.com/features/scheduling-operations",
+        "https://www.ezfacility.com/features/billing-payments"
+      ],
+      "note": "开源检索多为课程作业或小型项目，通用资源排期产品未作为体育设施专用系统采用；websearch 返回 401。EZFacility 官方正文确认面向体育/健身场馆的场地与多场馆日历、冲突检测、租赁和特殊活动，以及会员、发票、支付和 QuickBooks 财务报告。可对应运营方可租赁空间库存、预订交易和资金记录；未深入价格、架构或部署。",
+      "service_boundary": "场馆运营方系统 of record；与球员端第三方订场平台不同，重点是本场馆空间、预订与营收。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "sports facility management in:name,description",
+          "outcome": "结果多为课程作业/小型项目，无成熟完整系统"
+        },
+        {
+          "tool": "github_api",
+          "query": "facility booking in:name,description",
+          "outcome": "多为通用或非体育场景的预订样例"
+        },
+        {
+          "tool": "github_api",
+          "query": "court reservation in:name,description",
+          "outcome": "多为单场馆预约或自动预约脚本"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source sports facility management software github",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ezfacility.com/",
+          "status": "200",
+          "note": "首页确认体育/健身场馆排期、租赁、会员、账单与报表定位"
+        },
+        {
+          "url": "https://www.ezfacility.com/features/facility-scheduling/",
+          "status": "404",
+          "note": "猜测路径无效，改用实际导航路径"
+        },
+        {
+          "url": "https://www.ezfacility.com/features/scheduling-operations",
+          "status": "200",
+          "note": "正文确认场地/多场馆日历、拖拽改期、冲突检测、租赁与活动"
+        },
+        {
+          "url": "https://www.ezfacility.com/features/billing-payments",
+          "status": "200",
+          "note": "正文确认会员、发票、支付跟踪、商户收单与 QuickBooks 报表"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "tee-time-booking-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:golfnow"
+      ],
+      "query": "GitHub API: tee time / golf booking；GolfNow 官方 App 与课程目录页核对",
+      "source_urls": [
+        "https://www.golfnow.com/mobile",
+        "https://www.golfnow.com/course-directory",
+        "https://www.golfnow.com/support/about-us"
+      ],
+      "note": "开源结果主要是自动抢位脚本或极小项目，不是球手端完整预订平台；websearch 返回 401。GolfNow 官方 App 页正文确认可在全球数千家球场搜索 Hot Deals 并即时预订 tee time、收藏球场；课程目录页确认覆盖 19,000+ 球场；官方支持页确认预订保存在 Upcoming Reservations，可按球场政策修改/取消并管理球员增减。可确认需求侧发现、预订记录、自助管理与第三方球场关系。未深入价格或球场侧系统。",
+      "service_boundary": "高尔夫球手端需求侧市场；球场保留自身开球时间表、签到与营收系统。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "tee time in:name,description",
+          "outcome": "结果多为配置/时间工具及抢位脚本"
+        },
+        {
+          "tool": "github_api",
+          "query": "golf booking in:name,description",
+          "outcome": "仅见自动订场脚本与小型俱乐部项目"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source tee time booking golf github",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.golfnow.com/",
+          "status": "200",
+          "note": "首页正文以导航和占位内容为主，未作为核心匹配依据"
+        },
+        {
+          "url": "https://www.golfnow.com/help",
+          "status": "200",
+          "note": "跳转到 tee-time 搜索页，未提供帮助正文"
+        },
+        {
+          "url": "https://www.teeoff.com/",
+          "status": "200",
+          "note": "首页可见订场定位，但帮助页为 SPA 且显示无法加载，未采用"
+        },
+        {
+          "url": "https://www.golfnow.com/mobile",
+          "status": "200",
+          "note": "正文确认搜索 Hot Deals、即时预订数千家球场 tee time"
+        },
+        {
+          "url": "https://www.golfnow.com/course-directory",
+          "status": "200",
+          "note": "正文确认课程目录覆盖 19,000+ 球场"
+        },
+        {
+          "url": "https://www.golfnow.com/support/about-us",
+          "status": "200",
+          "note": "正文确认 Upcoming Reservations、修改/取消规则、球场特定政策与球员增减"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ai-fitness-coach",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fitbod"
+      ],
+      "query": "GitHub API: AI fitness coach / workout plan generator；Fitbod 官方首页与 FAQ 页正文核对",
+      "source_urls": [
+        "https://fitbod.me/",
+        "https://fitbod.me/faqs/"
+      ],
+      "note": "初审指出首页快照中的产品工作流证据主要来自元数据与 FAQPage 结构化数据，且此前 note/reason 的“日程”“下一次训练肌群”等措辞超出可支持范围。初审后重抓 Fitbod 官方 FAQ 页并取得可见正文：可按健身水平、表现历史、恢复状态、可用设备和训练目标逐次调整训练；可在 Gym Profile 调整目标并自动更新计划；每个动作含专业视频示范与分步文字提示；跟踪 PR、估算力量与训练量。结合首页可见正文（随身体、恢复和进度更新的个性化计划、跟踪表现并更新推荐），可确认软件自身完成评估→计划生成→训练引导→依据记录/恢复调整的闭环。已将 note/reason 收窄为上述正文可直接支持的表述。开源检索仍无完整持续适配的教练应用；websearch 返回 401 后未反复调用。",
+      "service_boundary": "面向单个学员的消费者训练应用；由软件而非人类教练制定并调整计划。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "AI fitness coach in:name,description,readme",
+          "outcome": "结果以 awesome-list 为主，未见完整教练应用"
+        },
+        {
+          "tool": "github_api",
+          "query": "workout plan generator in:name,description",
+          "outcome": "多为小型生成器或课程项目，缺持续适配闭环"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source AI fitness coach adaptive workout plan github",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://fitbod.me/",
+          "status": "403",
+          "note": "采集脚本默认请求头被拒；以公开浏览器 UA 重新抓取成功并按 SHA-256 原样保存"
+        },
+        {
+          "url": "https://fitbod.me/",
+          "status": "200",
+          "note": "手动重抓，正文确认个性化计划、恢复与进度驱动的更新"
+        },
+        {
+          "url": "https://fitbod.me/faqs/",
+          "status": "403",
+          "note": "初次尝试被拒；初审后重试成功，见下条"
+        },
+        {
+          "url": "https://fitbod.me/faqs/",
+          "status": "200",
+          "note": "初审后以公开浏览器 UA 重抓成功；正文确认按目标/水平/表现历史/恢复/器械逐次调整、Gym Profile 改目标后自动更新、动作视频示范与文字提示、PR 与训练量跟踪"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "corporate-wellness-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:wellable"
+      ],
+      "query": "GitHub API: corporate wellness / wellness platform；Wellable 官方首页与平台页核对",
+      "source_urls": [
+        "https://www.wellable.co/",
+        "https://www.wellable.co/wellness-platform/"
+      ],
+      "note": "未发现相关的完整开源企业健康计划平台；websearch 返回 401。Wellable 官方正文确认雇主可运营健康挑战、个人健康评估、教育内容、奖励与项目分析；评估为员工提供个人反馈并为雇主聚合可操作数据。可对应组织赞助、员工参与、活动目录、个人反馈与雇主汇总报告；未深入价格、合同或部署。",
+      "service_boundary": "雇主侧项目运营平台；员工参与并接收个人反馈，组织仅看聚合结果，不是消费者健身应用。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "corporate wellness in:name,description",
+          "outcome": "结果与企业健康计划平台无关"
+        },
+        {
+          "tool": "github_api",
+          "query": "wellness platform in:name,description",
+          "outcome": "结果多为无关平台/工具，未见完整开源产品"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source corporate wellness platform github",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.wellable.co/",
+          "status": "200",
+          "note": "首页确认雇主侧综合健康、奖励与认可定位"
+        },
+        {
+          "url": "https://www.wellable.co/platform/",
+          "status": "404",
+          "note": "路径无效，改用实际导航路径"
+        },
+        {
+          "url": "https://www.wellable.co/wellness-platform/",
+          "status": "200",
+          "note": "正文确认挑战、评估、个人反馈、雇主聚合数据、奖励与项目分析"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

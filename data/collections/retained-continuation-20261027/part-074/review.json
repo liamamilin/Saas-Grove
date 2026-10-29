@@ -1,0 +1,82 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "payer-claims-processing / HealthEdge：官方 HealthRules Edge 页面明确其为面向健康计划的 core claims engine / core administrative processing system，正文包含 claims administration、90–97% first-pass auto-adjudication、real-time adjudication、benefit/provider-contract 规则配置及 99%+ payment accuracy；但未逐字出现 settlement output、EOB/赔付说明或 adjustment/appeal 循环。批次已保守地不主张结算环节，按商业叶“基本真实性 + 类型匹配”标准可通过。",
+    "practice-management-system / OpenEMR：OpenEMR 是 EHR + PM 捆绑产品，本叶按其中的 PM/计费模块认定，符合叶定义中“EHR + PM 属包装而非身份”的边界；官方 Features 页覆盖患者人口学/保险、排班与 Flow Board、医疗计费、AR、EOB/835，足以支撑门诊行政财务核心。就诊到诊的可计费转换及患者付款/对账单细节多为功能列表隐含，未逐条展开。",
+    "practice-management-system / OpenEMR：该项目是自托管开源 Web 应用（PHP/MySQL），并另有托管/Express Plus 部署选项，不等同于厂商多租户 SaaS；在 open_source track 下可接受，但若上游要求纯 SaaS 交付形态，应作为交付模型差异记录。",
+    "provider-claims-management / OpenEMR：Features 页与 ClaimRev 官方模块页共同证明索赔生成、ANSI X12 清算所提交、999/277 响应下载、索赔查询/状态、索赔编辑、ERA 与 AR；拒付后的申诉/核销重做未被逐字描述，研究记录已如实保留该缺口，现有证据足以支撑提供者侧索赔管理类型。ClaimRev 属清算所连接器/附加模块，核心计费与索赔能力同时由 OpenEMR 自身 Features 页支撑，匹配并非仅依赖第三方模块。",
+    "prior-authorization-platform / Availity：官方页面正文覆盖端到端事前授权工作流（EMR/多支付方门户提交、临床数据、CRD/DTR/PAS FHIR、按医疗政策给出建议、复杂病例转人工、经 FHIR/门户返回结果、UM 反馈闭环），并明确健康计划保留决定权、AuthAI 是建议引擎而非裁决引擎；个别段落使用 determinations 措辞，与 FAQ 的 recommendation engine 表述略有张力，但不影响类型匹配。",
+    "provider-network-management / HealthStream：V12 Enterprise 页面正文明确“为支付方构建的提供者网络管理”，覆盖 provider data、credentialing、contracting/fee schedules、network adequacy、directory accuracy、delegated credentialing oversight、claims activation 及单一集成记录系统，类型匹配清晰；生效日期与 network/product 范围的参与状态未逐字展开，但合同、资质、网络充分性与目录能力已支撑核心。",
+    "HealthStream 快照的 JSON-LD/canonical URL 指向 /solution/credentialing/v12-enterprise-by-healthstream，而批次引用/抓取 URL 为 /solution/credentialing/network；快照正文确为 V12 Enterprise 页面，疑为跳转或同一页面的不同入口，建议后续记录最终 URL。",
+    "research.json 的 provider-network-management 记录还列了 Availity Provider Lifecycle Solutions 与 symplr 两个候选页面及其 sha256，但 REVIEW_SOURCES.json 未收录对应快照；本次未重新读取这两个候选页，它们只用于比较/排除，未作为最终应用证据。",
+    "input.json 的 progress 仍显示五个叶 case_status=not_searched、application_ids 为空，而 batch.json/research.json 已记录案例；这更像上游模板元数据未同步，不影响本次基于 batch/research/快照的内容核对，但建议下游同步修正。"
+  ],
+  "leaf_checks": {
+    "payer-claims-processing": {
+      "application_ids": [
+        "commercial:healthedge"
+      ],
+      "track": "commercial",
+      "definitional_core": "官方 HealthRules Edge 正文明确为健康计划的 core claims engine / core administrative processing system，支持 claims administration、90–97% first-pass auto-adjudication、real-time adjudication、benefit 与 provider-contract 规则配置、99%+ payment accuracy；claim 作为记录单元与规则驱动裁定到记录结果有直接证据。",
+      "service_form": "Cloud-native healthcare SaaS；HealthEdge 首页亦以 healthcare SaaS 生态描述自身。",
+      "identity_and_track": "commercial:healthedge 与 batch、REVIEW_SOURCES 一致；产品身份为 HealthEdge 的 HealthRules Edge。",
+      "assessment": "pass：商业叶基本真实性与支付方理赔处理类型匹配成立；结算输出与调整/申诉循环未被正文逐字证实，批次已保守不主张，属非阻断缺口。",
+      "gaps": "未明确出现 settlement output、EOB/赔付说明、adjustment/void/reprocess/appeal 工作流。"
+    },
+    "practice-management-system": {
+      "application_ids": [
+        "github:679584"
+      ],
+      "track": "open_source",
+      "definitional_core": "OpenEMR 官方 Features 页记录患者人口学/保险覆盖、Patient Flow Board 与预约日历、CPT/HCPCS/ICD 编码、医疗计费、保险跟踪、AR、EOB/835 接口；覆盖注册患者、预约就诊、收费与理赔/余额循环，PM/计费模块属于本叶范围。",
+      "service_form": "自托管开源 Web 应用（PHP/MySQL，Windows/Linux/macOS）；首页另提供 Free/fully hosted 与 Express Plus 托管选项，属 open_source track 的可接受交付形态。",
+      "identity_and_track": "github:679584 与仓库元数据 id=679584、full_name=openemr/openemr 一致；track=open_source。",
+      "license": "GitHub license API 快照返回 GPL-3.0，内容为完整 GPLv3 文本（size=35147，开头为 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007），spdx_id 为 GPL-3.0。",
+      "community_edition_boundary": "openemr/openemr 仓库即 GPL-3.0 开源/社区代码库；首页的 hosted/Express Plus 属部署与托管服务，未发现与其冲突的独立商业功能版边界。",
+      "assessment": "pass：EHR+PM 捆绑不改变 PM 模块的类型匹配；患者付款/对账单细节未逐条展开，但 AR/EOB/计费足以支撑行政财务核心。",
+      "gaps": "就诊到达转为可计费就诊、患者付款过账与余额结清流程多为功能列表隐含。"
+    },
+    "prior-authorization-platform": {
+      "application_ids": [
+        "commercial:availity"
+      ],
+      "track": "commercial",
+      "definitional_core": "Availity 官方 Intelligent Utilization Management/AuthAI 正文覆盖事前授权请求从提供方到支付方的端到端流程：EMR/多支付方门户提交、临床数据与 CRD/DTR/PAS FHIR、按支付方医疗政策生成可追溯建议、复杂病例转 UM 临床人员、经 FHIR API/门户返回结果、UM 反馈闭环；并明确健康计划保留控制权、AuthAI 不自动批准/拒绝，属建议引擎。",
+      "service_form": "FHIR-native 云平台/多支付方门户与 API 网络服务。",
+      "identity_and_track": "commercial:availity 与 batch、REVIEW_SOURCES 一致；产品身份为 Availity Intelligent Utilization Management/AuthAI。",
+      "assessment": "pass：请求—审查—决定—回传的核心结构有正文证据，且与“授权不是支付、支付方决定”边界一致。",
+      "gaps": "耐久授权记录、请求方状态跟踪及后续理赔消费授权的细节未充分展开；个别段落以 determinations 表述，FAQ 则明确为 recommendation engine。"
+    },
+    "provider-claims-management": {
+      "application_ids": [
+        "github:679584"
+      ],
+      "track": "open_source",
+      "definitional_core": "OpenEMR Features 页记录 medical billing/claim management、CPT/HCPCS/ICD 编码、ANSI X12 清算所电子提交、insurance tracking、AR、EOB/835/ERA；ClaimRev 官方模块页记录从 billing manager 发送索赔、X12 Tracker、999/277 响应下载、索赔查询/状态、索赔编辑与 ERA 报告，覆盖索赔记录、支付方导向提交和结果跟踪。",
+      "service_form": "自托管开源 Web 应用；ClaimRev 为清算所连接器/附加模块。",
+      "identity_and_track": "github:679584 与仓库 id/full_name 一致；track=open_source。",
+      "license": "GPL-3.0，完整 GPLv3 文本存于许可证快照；仓库身份与许可证来源一致。",
+      "community_edition_boundary": "核心计费/索赔代码位于 GPL-3.0 的 openemr/openemr 仓库；ClaimRev 连接器涉及第三方清算所服务，边界应单独看待，但 OpenEMR 自身 Features 页已足以支撑核心计费/索赔能力。",
+      "assessment": "pass：提供者侧索赔工作系统类型成立；拒付后的申诉/核销重做未被逐字证实，研究记录已如实保留缺口，索赔编辑/重提与 AR/ERA 提供部分重做证据。",
+      "gaps": "前端 claim scrubbing/校验细节不足；denial appeal/write-off 工作流未明示。"
+    },
+    "provider-network-management": {
+      "application_ids": [
+        "commercial:healthstream-v12"
+      ],
+      "track": "commercial",
+      "definitional_core": "HealthStream V12 Enterprise 官方正文明确“provider network management built for payers”，覆盖 provider data management、credentialing、contracting/fee schedules、network adequacy analytics、directory accuracy、delegated credentialing oversight、claims activation，并以单一集成记录系统管理 full provider lifecycle，支持多实体、多 TIN 与委托安排。",
+      "service_form": "Cloud-native SaaS（Salesforce + AWS，HITRUST r2 认证）。",
+      "identity_and_track": "commercial:healthstream-v12 与 batch、REVIEW_SOURCES 一致；产品身份为 V12 Enterprise by HealthStream。",
+      "assessment": "pass：支付方侧提供者网络管理类型明确，且证据覆盖不止资质验证；生效日期与 network/product 范围的参与状态未逐字展开，但合同、网络充分性、目录与 claims activation 已支撑核心。",
+      "gaps": "“资质审批 + 已签合同”双关卡及 effective-dated、scoped participation 的精确表述未出现；快照 canonical URL 与抓取 URL 不完全一致。"
+    }
+  },
+  "limits": "本次为只读初审：仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列快照；未运行 shell、未写文件、未做运行时测试、未访问其他单元或额外网页。按要求按 data/collections 为基准原样读取 sources/ 快照。research.json 中 Availity Provider Lifecycle Solutions 与 symplr 两个候选页未列入 REVIEW_SOURCES，未重新读取，也未作为最终应用证据。input.json 的 progress 元数据与 batch/research 的案例记录存在不同步，已作为非阻断说明。商业叶仅核对基本真实性与核心类型匹配，未验证定价、部署、架构或性能。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-074/ses_groveopencodegop074review1_1792993566.jsonl",
+  "batch_sha256": "393dbf6eef8b0db80ab59b5610f783fb039834c3713b298b2b44ee1703e61971",
+  "research_sha256": "91fb5e88b882c3ed88e9445903c5429bb340f44245ca2bbb19cf64e988ef8808",
+  "input_sha256": "612863468379ee7b1a8597ba4056b7f41370dea825bc3094134aa917a8fde17d"
+}

@@ -1,0 +1,35 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "legal-conflict-checking-platform",
+      "application_id": "github:1331339595",
+      "issue": "DeedBox 条目把定义性核心的第四层（处置结果门控接受新工作）写成了既定事实：summary 称“记录唯一处置结论……并以已处置的检查作为新建事项的准入条件”，features 称“新建事项可由执业领域或事务所设置强制要求已处置的冲突检查”“发现冲突时必须填写处置说明”，leaf_matches 称“conflictRecords 记录唯一处置结论……createMatter 以已处置检查满足准入关卡”。但本单元实际引用的三份快照（README.md、app/(app)/conflicts/page.tsx、lib/ops/matters/runConflictCheck.ts）中没有任何 createMatter / 准入校验代码，也没有处置写入、唯一性约束或“发现冲突必须填写说明”的逻辑；runConflictCheck.ts 仅写入 conflict_check 快照（terms + result_snapshot）并登记 register 事件，不含处置字段。相反，page.tsx 的登记册明确允许 resolution 为空并显示 “unresolved”，且检查可先 attach 到 matter/intake，未体现阻断新建事项。因此“处置门控准入”这一核心层目前只有页面上的 resolution 列（说明存在处置记录位）作间接支持，不足以支撑条目中的强制门控表述。",
+      "fix": "二选一并同步改写条目：(1) 补充能直接证明门控与强制处置的快照（如 lib/ops/matters/createMatter.ts 或等价准入校验、冲突处置写入 action/表约束），并在 leaf_matches 中按实际代码重述；(2) 若无法补证，则删除或弱化 summary/features 中的“准入条件/强制要求已处置的检查/必须填写处置说明”及 leaf_matches 中 createMatter 相关表述，改为“页面提供处置结果字段与登记册留存，准入强制未在本次快照中证实”，并在 leaf_checks 中如实标注该核心层未完全核对。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Intapp Conflicts 的 entry.sources 中仍列有 https://www.intapp.com/products/conflicts/ 快照，但该快照正文实为 /products/ 总览页（title=Products、noindex、main 区无 Conflicts 正文），仅导航中出现产品名。该来源不支撑核心正文；research.json 已如实记录 redirected_and_empty 并说明其仅作历史缺口实证，故不阻断。建议在该 source 上直接标注“redirected / 非核心依据”，避免后续复用误判。",
+    "DeedBox 的主体定位是律所实务管理系统（matters/时间计费/信托/文档等），冲突审查是其内置业务子模块。本叶定义明确允许 suite-embedded 形态（以既有客户与事项记录就地检索），故类型可接受；但建议在条目中一句话点明“冲突审查为完整子模块、产品整体为实务管理套件”，避免与其他实务管理类叶子重复收录时产生归属歧义。",
+    "DeedBox 的开源边界：README 与仓库描述均为“Free, open-source and complete practice management system”，未见 open-core、企业版或功能阉割说明；可理解为整仓 AGPL-3.0、无单独社区版/商业版切分。建议在条目中显式写明“无独立社区版，整仓 AGPL-3.0”，以免“社区版边界”被读者误解为存在双版本。",
+    "Intapp Conflicts 快照正文未直接说明交付形态（SaaS 订阅/私有部署），商用条目仅需基本真实性与类型匹配，当前产品页足以证明其为面向律所/专业机构的冲突管理产品；如后续要求服务形态，可补一段官方交付说明。",
+    "Intapp 页面中的 AI/Celeste 分流、第三方数据接入、Walls 报告过滤等属于定义之外的可选能力，条目未将其当作核心，处理得当；摘要中“命中分流”措辞可再贴近正文“review details, add notes, and document resolutions”，但不影响判定。"
+  ],
+  "leaf_checks": {
+    "legal-conflict-checking-platform": {
+      "definition_core": "商业侧：/conflicts/ 正文（第 3143-3603 行）明确“Unify client, engagement, and relationship data in a searchable system”“Use unified, real-time data from multiple sources in every conflicts check”“Screen opportunities before they advance to formal review”“Create an auditable record of all analyses and decisions”“Access the history of every conflicts search and outcome”“Allow decision-makers to review details, add notes, and document resolutions”“Generate reports that automatically filter confidential information using Intapp Walls policies”，关系体系、结构化且留存的检查、命中复核与处置记录三层成立；准入门控仅由“before they advance to formal review”间接体现，商用条目按基本真实性可接受。开源侧：conflicts/page.tsx 显示检索覆盖现用/曾用/商号、matter 与 intake 当事人、既往检查快照内名称并模糊匹配、结果永久快照、登记册含 Searched/By/When/Resolution；runConflictCheck.ts 实现 party_match_key 折叠+phonetic+trigram(≥0.4) 名称索引、matter/intake/历史快照检索、registered_text 三元组语料、restricted-match 针孔与 append-only 快照写入，前三层证据充分；第四层（处置门控准入）无快照证据，见 findings。",
+      "saas_service_form": "DeedBox 为自托管 Next.js + PostgreSQL 的持续运行 Web 应用（README 生产运行、必需环境变量、数据库角色与首启步骤齐全），属可自托管的软件服务形态；未部署验证。Intapp 为厂商运营的产品化平台（含 Schedule a demo、资源/社区入口），商用形态成立。",
+      "product_identity_and_track": "Intapp Conflicts 有独立产品页与产品导航身份（/conflicts/，title=AI-powered conflicts management），track=commercial，ID=commercial:intapp-conflicts 与 homepage 一致。DeedBox：GitHub metadata 快照 id=1331339595、full_name=deedbox-maintainers/deedbox-app、fork=false，与 batch 的 github:1331339595、repository_url、homepage 一致，track=open_source 正确。",
+      "open_source_license": "license API 快照返回 LICENSE（sha be3f7b28…，size=34523），base64 内容头部解码为“GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”，字节数与 AGPL-3.0 全文一致；metadata/README 均标 AGPL-3.0，许可证为完整全文而非片段。边界：整仓开源，未见企业版/闭源模块说明。受单行 JSON 截断限制，未能逐字复核全文末尾“How to Apply”段与 license 对象的 spdx_id 字段（仅确认字段存在），见 limits。",
+      "commercial_authenticity": "Intapp 产品页正文完整、与产品名/厂商一致，属真实在售冲突管理产品；仅核对名称、官网、用途与核心类型，未涉价格、架构与部署。",
+      "gaps": "DeedBox 的 createMatter 准入校验、处置写入与“必须填写处置说明”约束无快照；未部署/未运行测试；未取得独立部署文档或在线演示；GitHub code search 曾因限额失败（research 已如实记录）。",
+      "result": "changes_required"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未部署或执行任何应用/测试，未访问本单元之外的资料，也未额外联网抓取。仓库 metadata 与 license API 快照为单行 JSON，读取与检索时均按 2000 字符截断，故 id/full_name/fork 等前缀字段与 base64 许可证头部（AGPL v3、34523 字节）可核，而 license 对象内的 spdx_id 取值、archived 等后段字段未能逐字复核。Intapp /products/conflicts/ 历史快照确认为总览页，仅作缺口留档。DeedBox 准入门控与处置强制逻辑仅有条目表述、无对应快照，构成本次主要未核项。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-080/ses_groveopendesignp080review1_1793194967.jsonl",
+  "batch_sha256": "31bb2811616597a6a6b24eed255c9d789e21ac785a8dfebffb23ec809a0de740",
+  "research_sha256": "713ba93d6ea70f1fd8c786b6f03aa1f6470def9aaa64b5d92f277114e000e138",
+  "input_sha256": "27c755752e7ef9975288eac33bbcf8a883d7f43c0cb4ce2322022b5975bc7f3d"
+}

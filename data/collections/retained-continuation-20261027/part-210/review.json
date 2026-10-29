@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids/research_records 为空，与 batch.json/research.json 中 5 个 case_found 应用不一致；这是元数据同步问题，不影响本次内容判断，但下游若直接使用 input.json 需先同步。",
+    "IBAT 首页正文支持地点级生物多样性风险筛选、优先级与报告输出，并以 WDPA、IUCN Red List、KBA 等数据集为底；但快照未直接证明其维护长期地点组合、站点记录累积或现场观测。batch/research 已如实记录该缺口；按商业基本类型匹配可通过，若要求完整定义性核心则应补充产品/服务页快照。",
+    "Re-TRAC 首页正文支持组织/市政侧的收集、设施、运输商、吨位、合规和转移率报告，但未展开逐笔移动台账、处置去向逐条记录和成本对账；按商业基本记录可通过。",
+    "EarthRanger 首页正文支持现场观察、巡逻/调查/事件、实时动物/团队跟踪、告警与趋势分析，并称免费使用；威胁与价值评估、巡逻计划等层次主要由相邻功能体现，未逐项展开。",
+    "Waste Logics 与 ReSpark 的快照为 Framer/Astro 单行压缩 HTML，read 工具对超长行有截断；已用同一快照内的定向短语匹配核对正文，未做部署或产品 UI 测试。",
+    "本单元 batch 无开源应用条目；research 记录的开源候选（BIMS、biohubbc、Miradi、SMART 等）许可证/仓库边界仅见文字说明，REVIEW_SOURCES 未提供对应仓库快照，未做独立 SPDX/源码核验。",
+    "所有商业条目均只有官网首页来源，未提供价格、部署或完整功能页；这与“商业只做基本真实性和类型匹配”的审查口径一致，不阻断。"
+  ],
+  "leaf_checks": {
+    "recycling-operations-management": {
+      "application_id": "commercial:respark",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "respark.com 首页正文（快照 de902...）含 scrap metal recycling software、scale ticketing（weigh-in、grading、receipts）、inventory、dispatch、trade & export、pricing、finance、reporting，以及 ReSpark Acquires ScrapRight 公告；覆盖进场称重/分级→商品库存→销售/出库单据→多堆场财务的双边账本。",
+      "gaps": "未做部署测试；未逐项核验 moisture/shrinkage 对账等产品界面，但商业基本类型匹配充分。"
+    },
+    "waste-hauling-management": {
+      "application_id": "commercial:waste-logics",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "wastelogics.com 首页正文（快照 e647...）含 quoting、jobs、routing、billing、reporting；司机现场记录异常（photo、GPS、job details）；服务 Skip Hire、Trade Waste、Transfer Stations & MRFs；containers/assets 跟踪，按实际执行计费。",
+      "gaps": "未逐项证明 truck capability、cash/edge-case billing 等规则；首页来源足以支持清运运营商系统的基本类型匹配。"
+    },
+    "waste-management-platform": {
+      "application_id": "commercial:re-trac-connect",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "re-trac.com 首页正文（快照 d418...）定位为面向组织/政府的 waste & recycling data management cloud platform；含 Hauler Reporting（track collections & deliveries、diversion）、Facility Reporting（landfills、MRFs、transfer stations、composting；material flows、tipping fees）、Tonnage Tracking、Compliance Reporting、Local Government Reporting。",
+      "gaps": "首页未展开逐笔 movement ledger、处置去向逐条记录和成本对账；按商业基本记录通过。"
+    },
+    "biodiversity-management": {
+      "application_id": "commercial:ibat",
+      "track": "commercial",
+      "status": "pass_with_notes",
+      "basis": "ibat-alliance.org 首页正文（快照 875d...）含 Corporate users 的 map biodiversity risks、prioritise action、report；以 WDPA、IUCN Red List、KBA 等权威数据集做地点级筛选/风险评估，并提供报告与数据服务。",
+      "gaps": "快照未直接证明持续维护的 location portfolio、站点记录累积或现场观测；batch/research 已如实记录。按商业基本类型匹配可通过，但完整定义性核心仍有证据缺口。"
+    },
+    "conservation-management": {
+      "application_id": "commercial:earthranger",
+      "track": "commercial",
+      "status": "pass_with_notes",
+      "basis": "earthranger.com 首页正文（快照 3eb7...）含 collect field observations、offline capture、past patrols/surveys/events、live wildlife/team tracking、alerts、protected area management、trends/strategies；称 $0 free to use，并有多源传感器/GPS 集成。",
+      "gaps": "首页未逐项展开 threat & value assessment、巡逻计划与有效性评估；按商业基本类型匹配通过。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元、未做部署/运行时测试。REVIEW_SOURCES 仅提供 5 个官网首页快照；Framer/Astro 快照为单行压缩 HTML，read 工具截断超长行，正文关键短语通过同一快照内的定向 grep 核对，未对开源候选仓库做独立 SPDX/源码核验。input.json 的 progress 与 batch/research 存在状态不同步，已在 non_blocking_notes 记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-210/ses_groveopencodegop210review1_1793027475.jsonl",
+  "batch_sha256": "0f59a986f12cd686f7f4c595408f10715d8cece1a5aeca96d02bf9940bb27a79",
+  "research_sha256": "be92fd47f41ae65642aa91bab4b3c3f77c2a4f31d13bc6416a3d1a226c2b3c5f",
+  "input_sha256": "3029011629b1e72f4e787038cd4e4d609f4fc802a1f1a40ea71ae6678d914631"
+}

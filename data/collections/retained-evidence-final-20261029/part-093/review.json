@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 中 github:55053239 的 summary/features 将增量解析写为既成能力，而 doc/usage.md 原文称其为 experimental feature（当前 C++ 与 metrics 解析器支持，其余解析器强制重解析）；建议在措辞上标注“实验性”，不影响定义核心与许可结论。",
+    "语言范围表述不一致但方向保守：GitHub 仓库 description 为 C/C++、C#、Python，README 与官网为 deep parsing for C, C++, Java（more is coming）；条目 summary 只写 C/C++，属于不多报，可在 features 中补充 Java 及解析深度差异。",
+    "research.json 的 withheld/对照来源（Sourcetrail 四个历史快照、OpenGrok 官网与仓库元数据、Sourcegraph code-navigation 文档）在本单元 sources 目录中没有对应快照文件；这些材料未用于支撑 batch 条目的任何字段，且失败项（OpenGrok license 403、sourcegraph/sourcegraph 404、Ericsson/code-compass 404）已如实留档，故不阻断。",
+    "codecompass.net 首页含 “Request new project” 与 codecompass.net/demo 的公共演示实例；条目未据此宣称官方托管服务、多租户或商业支持，社区版边界表述与 GPL-3.0 全量仓库一致，属正确处理。",
+    "部署信息仅来自 README 的 Docker 指南链接与 doc/usage.md 的 parser/webserver 用法，未构建或运行；deployment 中已注明“本轮未运行、构建或部署软件”，口径诚实。",
+    "定义页 rules 中“组织部署下按仓库权限过滤结果”等条目在 CodeCompass 证据中无对应（仅见可选 authentication.json 访问控制），属类型通用规则，未写入条目的能力声明，无需修改。"
+  ],
+  "leaf_checks": {
+    "code-intelligence-platform": {
+      "slug": "code-intelligence-platform",
+      "application_ids": [
+        "github:55053239"
+      ],
+      "definitional_core": "成立。语义模型：doc/usage.md 第80-176行说明 CodeCompass_parser 以 compilation database 为输入、插件将解析结果写入 SQLite/PostgreSQL 关系库（含 -w workspace、-n 项目名、-i 输入），并支持增量更新既有 workspace；README 第24行称 deep parsing for C/C++/Java，第25-26行列出 call path、inheritance、aggregation、CodeBites 等图。含义解析界面：“code 正文” doc/webgui.md 第30-46、59-67 行给出 Definition search（可选语言与定义类型过滤）、Info tree 列出函数/变量/宏在项目中的引用并可点击跳转、右键跳转到定义、查看文档/HTML、文件级 File references，以及 Diagrams 页的关系图与节点下钻。语料库规模读侧目的：README 第21-26行“User friendly web UI / Fast navigation among source code elements / Scalable: Quick response time even for large (100Mb) source code base”，首页列出多个已解析大型开源项目。",
+      "service_form": "成立。doc/usage.md 第190-290行：CodeCompass_webserver -w <workdir> -p <port> 以长驻 Web 服务方式面向同一 workspace 提供只读浏览，认证（authentication.json）与 HTTPS（certificate.pem）为可选配置；doc/webgui.md 第11行支持在同一 Web UI 中切换多个已解析项目。属持续运行、以浏览器为界面的自托管应用服务，而非仅库或 CLI；条目明确写为自托管，未冒充多租户 SaaS。",
+      "identity_and_track": "一致。batch id github:55053239、github_repository_id 55053239、repository_url https://github.com/Ericsson/CodeCompass 与仓库元数据快照（id=55053239, full_name=Ericsson/CodeCompass, fork=false）一致；track=open_source 与 GPL-3.0 仓库事实一致；homepage https://codecompass.net 与首页快照 URL 一致（仅末尾斜杠差异）。leaf_matches 仅指向 code-intelligence-platform，未串叶。",
+      "license_and_community_boundary": "成立。license 快照（api.github.com/repos/Ericsson/CodeCompass/license）为 LICENSE.txt，size=35108，content 为 base64 编码的完整 GNU GPL v3 正文（首行可解码为 “GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”），仓库元数据 license.spdx_id=GPL-3.0，二者互证；license_evidence_url 指向该快照。research.json 明确社区版为全量仓库、不宣称官方托管服务/多租户/商业支持，无 open-core 拆分声明，边界表述与证据相符。",
+      "source_basis": "按 REVIEW_SOURCES.json 原样读取 6 个快照：仓库元数据（333ff97…）、license（8fe52f4…）、README（405e837…）、doc/webgui.md（2afc361…）、doc/usage.md（6ad4f12…）、官网首页（9b365da…）；定义核心与 Web 服务形态均由 usage.md、webgui.md 正文（非简介/Loading/元数据）支撑，README 与首页作辅助。",
+      "gaps": [
+        "未做运行时验证（runtime_tested=false），未构建镜像或启动 parser/webserver，功能结论均来自官方文档与官网正文。",
+        "仓库元数据快照为单行 JSON，阅读器按 2000 字符截断显示，archived=false、default_branch=master、spdx_id=GPL-3.0 已通过定向检索确认，但 forks/stars/pushed_at 等其余字段未逐项核对（与本次结论无关）。",
+        "research.json 中 Sourcetrail/OpenGrok/Sourcegraph 等对照与 withheld 材料在本单元无留存快照，无法独立复核其正文；这些材料未进入 batch 条目的字段依据。"
+      ],
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 6 个快照，未运行 shell、未写文件、未访问其他单元或外部网络。快照按 path 原样读取，sources 前缀以 data/collections 为基准解析；同源快照只读一次并复用于本叶各项核对。未做部署/运行时测试、价格或架构补充研究；GitHub 元数据为单行 JSON，阅读显示存在截断，关键字段经定向文本检索确认。对本单元唯一叶 code-intelligence-platform 的定义核心、自托管 Web 服务形态、ID/track、GPL-3.0 完整许可与社区版边界均完成核对，未发现必须修复的问题。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-093/ses_groveopendesignp093review2_1793198413.jsonl",
+  "batch_sha256": "79436907252964bbffa56a37e397f08b665c58206f259edcece07847d200d13d",
+  "research_sha256": "e3a12c35417c3fb5da6b5b0a9e918944d948500a66be73cb1e22cfbaa4f5c19d",
+  "input_sha256": "cf49976c08b984799b4a713cb97d97f380eb364fbe163308e9ec1ed55d5b138a"
+}

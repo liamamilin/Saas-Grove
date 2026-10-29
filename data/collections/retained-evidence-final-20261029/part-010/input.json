@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 2,
+  "offset": 25,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "reading-library-application",
+        "name_zh": "图书管理应用",
+        "domain_id": "02",
+        "parent_id": "02.13",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-002/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "StoryGraph reading journal currently-reading read to-read shelves; BookWyrm reading-status shelves and reading dates"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/38",
+            "result": "insufficient_evidence",
+            "note": "StoryGraph官方帮助文档列出currently-reading/read/to-read/owned书架、起止日期、进度与读书挑战，但主站/app返回403，帮助内容位于独立Freshdesk域，不满足本批要求同一产品主机的正式entry来源。BookWyrm官方文档说明To Read/Currently Reading/Read/Stopped Reading状态与阅读日期，但其许可证为Anti-Capitalist Software License 1.4：按使用者/组织类别限定（个人、非营利组织、教育机构、成员共有且成员即所有者等，并排除执法/军事机构），并非一概禁止商业使用——正文明确允许复制、修改、分发和销售副本；该使用者类别限制使其不属于OSI认可的开源许可，故不作为开源案例入库。两候选均保留证据不足/许可边界记录。",
+            "query": "StoryGraph reading journal currently-reading read to-read shelves; BookWyrm reading-status shelves and reading dates"
+          }
+        ],
+        "archived": false,
+        "note": "StoryGraph官方帮助文档列出currently-reading/read/to-read/owned书架、起止日期、进度与读书挑战，但主站/app返回403，帮助内容位于独立Freshdesk域，不满足本批要求同一产品主机的正式entry来源。BookWyrm官方文档说明To Read/Currently Reading/Read/Stopped Reading状态与阅读日期，但其许可证为Anti-Capitalist Software License 1.4：按使用者/组织类别限定（个人、非营利组织、教育机构、成员共有且成员即所有者等，并排除执法/军事机构），并非一概禁止商业使用——正文明确允许复制、修改、分发和销售副本；该使用者类别限制使其不属于OSI认可的开源许可，故不作为开源案例入库。两候选均保留证据不足/许可边界记录。"
+      },
+      "definition": {
+        "slug": "reading-library-application",
+        "name": "Reading Library Application",
+        "name_zh": "图书管理应用",
+        "aliases_zh": [
+          "个人图书馆软件",
+          "读书管理工具",
+          "阅读记录应用"
+        ],
+        "overview": "A **Reading Library Application** maintains a person's own library of book records: persistent entries for books the person has read, is reading, wants to read, or owns, organized on shelves or collections the person controls, with each record carrying that reader's relationship to the book — reading state, dates and progress, ownership, ratings, reviews, notes.\n\nThe defining core is small:\n\n```text\nBook record (bibliographic identity)\n└── held in the person's own organized, retained library\n    └── carrying that reader's personal relationship to the book\n```\n\nWhat it does **not** hold is the books themselves. A reading library keeps records *about* books — the actual reading happens elsewhere: a physical copy, an e-reader, an audiobook app, a borrowed library book. If the product holds book content and presents it for reading, it has drifted into E-book Library territory; if its entries are links to web pages held for later consumption, it is a Read-it-later or Bookmark Manager.\n\nThe type appears in the market under two dominant shapes — the **reading tracker** (organized by reading status: want to read, currently reading, read, did not finish) and the **private library catalog** (organized by possession: what is on my shelves) — both built on the same core.",
+        "overview_zh": "一个**阅读图书馆应用**维护个人专属的图书记录库：包含已读、在读、想读或拥有的书籍的持久化条目，这些条目被组织在由用户自行管理的书架或收藏集中，每条记录都承载着读者与该书的关系——阅读状态、日期与进度、所有权、评分、书评、笔记。\n\n其定义性核心非常精简：\n\n```text\n图书记录（书目身份）\n└── 存放于个人自行组织并保留的图书馆中\n     └── 承载该读者与书籍的个人关系\n```\n\n它**不**存储书籍本身。阅读图书馆保存的是*关于*书籍的记录——实际阅读发生在别处：实体书、电子阅读器、有声书应用或借阅的图书馆书籍。如果产品存储书籍内容并供阅读，则已偏离至电子图书馆领域；如果其条目是供日后消费的网页链接，则属于稍后阅读或书签管理器。\n\n该类型在市场上呈现两种主导形态——**阅读追踪器**（按阅读状态组织：想读、在读、已读、未完成）和**私人图书馆目录**（按拥有情况组织：书架上有什么）——两者均建立在相同的核心之上。",
+        "dc": "**The book record.** The unit of everything is a persistent, individually identified record of a book — anchored on bibliographic identity: title and author at minimum, commonly cover image, edition, publication details, and description. Records are deliberately added by the person: by searching the product's book catalog, importing a file exported from another service, scanning an ISBN barcode, or creating an entry manually. The record is what is kept; it is neither a link to a web page nor a book file.\n\n**The personal library.** Records live in the person's own library — a whole that is searchable and browsable, organized into user-managed groupings. The canonical groupings are *shelves* or *collections*: named sets the person controls. The library is retained, not consumed — a book that has been read stays on the record, often for life. This is the structural opposite of a to-read queue, where handled items are cleared away.\n\n**The personal relationship layer.** What turns a book catalog into *my* library is the data that records that reader's relationship with each book. The layer is a personal layer, not a fixed checklist — products compose it differently, drawing on:\n\n- **reading status** — where the book stands in the reading life: want to read / currently reading / read, with a did-not-finish or stopped state common alongside;\n- **reading dates and progress** — when it was started and finished, how far along it is;\n- **ownership** — whether the book is in the person's physical (or digital) possession;\n- **reader contributions** — a rating, a review, quotes, notes, comments.\n\nA tracker-shaped product carries the reading-life half (status, dates, opinions); a catalog-shaped product carries the possession half (ownership, tags, notes). Both are the same personal layer weighted differently.\n\nRemove any leg and the type collapses into a neighbor: no book records → nothing; no personal relationship layer → a neutral public book database; no organized retained library → a flat reading log or a link queue.",
+        "dc_zh": "**书籍记录。** 单元是所有事物的持久、个体识别的书籍记录——锚定于书目身份：至少标题和作者，通常包括封面图像、版本、出版细节和描述。记录由个人主动添加：通过搜索产品图书目录、导入从另一服务导出的文件、扫描ISBN条码或手动创建条目。记录是被保留的；它既不是网页链接，也不是书籍文件。\n\n**个人图书馆。** 记录存在于个人自己的图书馆中——一个可搜索和浏览的整体，组织成用户管理的组。规范组是*书架*或*收藏集*：个人控制的命名集合。图书馆被保留，而非消耗——已读的书籍保留在记录中，通常终身。这是待读队列的结构对立面，后者会清除已处理项目。\n\n**个人关系层。** 将书籍目录变成*我的*图书馆的是记录读者与每本书关系的数据层。这一层是个人层，不是固定清单——产品以不同方式组合它，借鉴于：- **阅读状态** — 书籍在阅读生活中的位置：想读 / 正在阅读 / 已读，通常还有未完成或停止状态；- **阅读日期和进度** — 书籍被阅读的时间。",
+        "rules": "- **Records, not content.** The product never presents the text of the book. Every object in the system is about the book (identity, status, opinion); the reading itself is done elsewhere. This is the type's clearest structural signature.\n- **Retention is normal.** Finished books are not cleared; they accumulate. The library's health is measured by its completeness and growth, not by an empty queue.\n- **Status is usually exclusive.** In tracker-form products a book typically occupies exactly one reading status at a time — moving forward moves it out of the previous shelf — while custom shelves/collections hold books independently of status. (Documented explicitly in the sampled open-source tracker; treat the exact mechanics as product-dependent.)\n- **One shared identity per book.** Because records resolve against a shared catalog, two readers referencing the same book are referencing the same record — which is what makes community reviews and comparisons possible. Users can usually correct catalog data; some products route corrections to staff review.\n- **The library is portable.** Export/import is an expected property; the person's library is their data, movable between products (with the caveat that matching old records to a new catalog is approximate).\n- **Privacy is graduated.** A library can be entirely private, per-shelf visible, or public; products differ in the default.",
+        "rules_zh": "- **记录，而非内容。** 产品从不呈现书籍文本。系统中的每个对象都是关于书籍的（身份、状态、观点）；阅读本身在别处进行。这是该类型最清晰的结构特征。\n- **保留是常态。** 已完成的书籍不会被清除；它们会积累。图书馆的健康度由其完整性和增长衡量，而非空队列。\n- **状态通常互斥。** 在追踪器形态产品中，一本书通常一次只占据一个阅读状态——向前移动会将其移出前一个书架——而自定义书架/收藏集独立于状态持有书籍。（在采样的开源追踪器中明确记录；具体机制视产品而定。）\n- **每本书一个共享身份。** 因为记录针对共享目录解析，两个读者引用同一本书即引用同一条记录——这正是社区书评和比较成为可能的原因。用户通常可以更正目录数据；部分产品将更正路由至员工审核。\n- **图书馆是可移植的。** 导入/导出是预期属性；个人图书馆是其数据，可在产品间移动（但需注意将旧记录匹配到新目录是近似的）。\n- **隐私是分级化的。** 图书馆可以完全私密、按书架可见或公开；产品在默认设置上存在差异。",
+        "parent_id": "02.13",
+        "domain_id": "02"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 10,
+    "phase": "directory",
+    "parent": 10,
+    "slugs": [
+      "reading-library-application"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "b982adb909bf7837a77bf5de20e39526e22b599f86b3cf3536137874a90a15fd"
+  }
+}

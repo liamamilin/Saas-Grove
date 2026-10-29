@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "hotel-booking-engine",
+      "application_id": "github:45409645",
+      "issue": "该叶的定义性核心缺少可核对的正文证据。快照中能确认的只有仓库元数据和 README 的自述（“booking engine”“take and manage bookings”），以及两个用户指南页面；对这两个 docs 快照（introduction 与 hrs/Manage Hotel）做全文检索后，除 availability、reservation、booking 外，没有出现房价、日期、房型/房价计划、客人信息、确认、预订回传等流程内容，页面层级属于介绍/章节入口。因此，batch 的 leaf_match reason 和 research note 所称的“房量与可用性管理、客人在线预订、后台预订管理和散客预订”无法从所引快照核对，属于用简介/元数据替代核心正文。",
+      "fix": "补充并引用真正描述预订引擎流程的 QloApps 用户指南页面快照（自有渠道展示实时房态与房价→客人选日期/房型/房价→填写客人信息并确认→预订进入后台/PMS），据此改写 reason/note；若找不到可核对正文，则该叶应退回未检索并如实记录缺口，不能用 README 或仓库元数据替代。"
+    }
+  ],
+  "non_blocking_notes": [
+    "QloApps 的核心仓库许可为 OSL-3.0，已核对完整许可证文本；但 README 同时说明 Webkul 模块另有适用许可、其他模块为 AFL-3.0，官网还存在 addons。建议在条目中记录模块级许可与商业附加模块边界，避免把整个发行版简写为单一 OSL-3.0。",
+    "QloApps 是 PMS、酒店网站与预订引擎的组合套件；该关系应明确限定在预订引擎组件，不把 PMS/前台能力算作本叶证据（research 已有此意，建议 batch 条目也写明）。",
+    "Kamra 的 AGPL-3.0 全文与仓库身份一致；README 提到企业版路线图及 Frappe Cloud 托管，建议在条目中明示社区版/企业版边界（开源核心完整，收费实施与支持），避免只写“AGPL-3.0”。",
+    "SiteMinder 官方页支持 500+ 渠道、一次映射房型/房价、实时同步 rates/availability/restrictions 及 PMS/CRS 集成；预订与取消回传未在页面展开，research 已如实留档，作为基本商业关系可保留，但不宜表述为已验证双向回传。",
+    "Agilysys 正文与 FAQ 支持集中库存、价格、可用性、实时预订引擎、呼叫中心预订/修改/取消、超额预订控制及 PMS/渠道/预订引擎集成；押金、取消政策、渠道归属等生命周期细节未展开，商业基本匹配可接受。",
+    "dailypoint 主页偏 CDP 叙事，忠诚度页才覆盖 points、tiers、status 与会员门户；建议 leaf_match 以忠诚度页为主要证据，避免只引 CDP 页。",
+    "research.json 中 Aven（CRS）与 Cendyn（CRM）仅作为尝试/放弃来源，却列入 source_urls；建议标注为 attempted-only 或移出，保持来源轨迹清晰。两者分别记录了未展开生命周期与 HTTP 403 的缺口，不影响现有结论。"
+  ],
+  "leaf_checks": {
+    "hotel-booking-engine": {
+      "status": "insufficient_evidence",
+      "basis": "已核对 github:45409645 的仓库元数据、OSL-3.0 许可证全文、README，以及 docs.qloapps.com/introduction/ 与 docs.qloapps.com/hrs/ 两个用户指南快照。仓库身份、track、许可证与“PMS + Booking Engine + Hotel Website”的产品自述一致。",
+      "gap": "两个 docs 快照为 Introduction 与 Manage Hotel 章节页，全文未检出房价、日期、房型/房价计划、客人信息、确认或预订回传等流程内容；无法核对“客人自助完成预订并进入酒店系统”的定义性核心。"
+    },
+    "hotel-central-reservation-system-crs": {
+      "status": "passed",
+      "basis": "Agilysys Central Reservations 官方产品页正文与 FAQ 明确其为 centralized reservation system：集中管理跨物业、房型、渠道的 availability、rates、restrictions，提供 real-time reservation engine，支持呼叫中心/前台预订、修改、取消，含超额预订控制，并与 PMS、channel managers、booking engines 集成。",
+      "gap": "页面未展开押金、取消政策、确认号、渠道归属等记录生命周期细节；按商业案例基本真实性与类型匹配标准，可接受。"
+    },
+    "hotel-channel-manager": {
+      "status": "passed",
+      "basis": "SiteMinder 官方 Channel Manager 页正文说明：单一平台连接 500+ 渠道、一次映射房型与房价计划、在 SiteMinder 内更新 rates/availability/restrictions 并实时同步各渠道，且与 PMS/CRS 集成；FAQ 说明预订或库存变化会触发实时可用性更新。",
+      "gap": "页面未逐项说明预订/取消如何回传至 PMS/CRS；research 已记录该缺口，未夸大为已验证双向回传，符合商业基本关系要求。"
+    },
+    "hotel-crm-loyalty-platform": {
+      "status": "passed",
+      "basis": "dailypoint 两页正文可核对：从 200+ 系统收集并合并客人数据为 Central Profiles；运营 B2B/B2C/HR 忠诚度计划，管理 points、tiers、status，提供会员注册、积分查看、奖励兑换与品牌化门户，并与 PMS、POS、CRS、IBE 等实时同步。统一客人档案与忠诚度计划记录两侧均具备。",
+      "gap": "资料为厂商产品页，未提供具体客户合同或部署细节；不影响商业类型的核心匹配。"
+    },
+    "hotel-front-desk-application": {
+      "status": "passed",
+      "basis": "Kamra PMS 的仓库元数据、AGPL-3.0 完整许可证与 README 已核对。README 明确列出 Today board 的 arrivals/departures/in-house、分步 check-in（客人/证件、房间、押金、登记卡、钥匙）、check-out 账单、folio 拆分/转账/开票、夜审、房态与客人档案，并给出 Docker/Bench 自托管方式；属于完整 PMS 中的前台模块形态，符合该叶定义。",
+      "gap": "未运行项目或独立验证代码实现；research 已如实记录 runtime_tested=false。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未访问其他单元，也未做浏览器渲染、运行时测试或实时网页补抓。HTML 快照单行很长，read 展示会截断，因此对 docs 等长行页面采用全文关键词检索配合标题/页面结构核对，未逐字通读全部 HTML；QloApps 的结论基于全文检索未检出预订流程词及页面层级判断。商业资料均为厂商营销页，未验证价格、合同、部署或客户案例；未核对代码实现。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-098/ses_groveopencodegop098review1_1792999701.jsonl",
+  "batch_sha256": "9e034d3d2c35116edc3d4d2332038523831bba6d3d1ae0b23fcc2dc96144ab80",
+  "research_sha256": "e03f01d794326209e6a7a5d21664b2e225b31c9401dfacc46ea4c82bd468f3eb",
+  "input_sha256": "47f96a38fdddb5cb193222f90db08365e00180b4c07675283181700700991234"
+}

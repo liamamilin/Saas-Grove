@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Miro 只有一个官方产品页快照；该页可支持“协作数字白板/无限画布”的商业类型匹配，但没有逐字出现“板命名”“自动保存”“版本恢复”或“realtime reactions”。research.json 中“页面功能矩阵另有 Recover automatically saved board versions”的表述未在快照中找到，建议删除该引文或补充能直接证明自动保存/版本恢复的来源；这不影响本次商业类型匹配结论。",
+    "batch.json 对 Miro 的 reason 写有“可命名、可共享的持久工作单元”，其中“可命名/持久”在当前快照中没有直接正文依据，建议收窄为页面可证的“公开板协作访问、模板库、无限画布、便笺、画笔、形状/连接线、投票、计时器”，或补充 board 管理类官方文档。",
+    "draw.io 的 features/manual 快照能证明形状库、固定/浮动连接线、自动重路由、多页、图层和导出；但“形状移动时连接线保持附着并跟随移动”这一最核心行为在已读快照中不是逐字表述，而是由 fixed/floating 与 reroute 推出的合理结论。建议补抓 /docs/manual/connectors/connect-shapes/ 或 connector-fixed-vs-floating 页面，作为该核心行为的直接来源。",
+    "draw.io 的 license 字段写 Apache-2.0 对应源码许可；README 同时说明图标集、stencil 库和模板对 Atlassian 市场有额外书面许可限制。该边界已在 deployment 中说明，但建议在 license 字段或摘要中也加限定，避免把整个仓库资产误读为纯 Apache-2.0。",
+    "ONLYOFFICE DocSpace 的 deployment 写“Linux/Windows 安装方式，以及 Docker 社区版”，但本次实际读取到的安装页只有 Windows 和 Docker 两页；Linux 安装说法缺少对应快照，建议删除“Linux”或补充 Linux 安装页来源。",
+    "DocSpace 的 features 写有“修订管理”，已读的 README、Windows 安装页和文档管理页主要证明实时共同编辑、评论、版本管理和锁定协作者；“修订管理”属于解释性措辞，建议改为来源可直接支持的“评论/版本管理/共同编辑”。",
+    "DocSpace 的 homepage 使用 https://onlyoffice.com/en/ 这一公司级首页，而非 DocSpace 产品页；repository_url 与 license 证据已足够识别产品，建议将 homepage 换成 DocSpace 官方产品页以增强身份一致性。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids 为空，而 research.json 和 batch.json 已有案例；这是输入元数据与结果文件的进度不一致，建议同步，但不影响内容审查。",
+    "draw.io 的 homepage 快照主要是 Docusaurus 外壳和导航，不能作为核心功能证据；本次核心判断已改由 docs/features 与 docs/manual 支撑，符合“不以首页/导航替代正文”的要求。"
+  ],
+  "leaf_checks": {
+    "collaborative-presentation-editor": {
+      "application_id": "github:186647301",
+      "status": "pass",
+      "basis": "DocSpace README 第 50 行说明 collaboration rooms 可邀请用户实时共同撰写和编辑文档；Windows Community 安装页第 468-474 行说明社区版可创建/编辑演示文稿并支持 real-time co-editing、评论；docspace-managing-documents 第 464-465、528-550 行说明房间内可新建 presentation、管理版本和锁定协作者；ManageSlides 第 467-521 行证明幻灯片可新增、复制、移动排序、删除、按布局插入和隐藏；SetSlideParameters 第 469-485 行证明主题应用于全部幻灯片、可设标准/宽屏/自定义尺寸及横向/纵向；InsertText 第 467-487 行、InsertAutoshapes 第 467-483 行、InsertImages 第 467-485 行、InsertTables 第 467-495 行、ManipulateObjects 第 471-476 行证明文本、形状、图片、表格可在幻灯片任意位置放置并移动/缩放/旋转；SavePrintDownload 第 469 行说明在线编辑器每 2 秒自动保存，并明确 Fast 模式高频同步、Strict 模式定期保存的共同编辑；README 第 51-52 行还区分协作房间共同编辑与公共房间只读访问。由此四项核心均有正文依据：共享持久 deck、有序 slides、有界自由布局 canvas、并发共同编辑及分级访问。",
+      "gaps": "Presentation Editor 帮助页属于 ONLYOFFICE Docs 编辑器文档，不是 DocSpace 管理页；DocSpace Community Windows 安装页第 485 行明确安装包含 ONLYOFFICE DocSpace 与 ONLYOFFICE Docs，因此归属通过集成关系成立。未运行实例，未实测并发冲突合并和“单一当前版本”的运行时表现；“单一在线版本”主要是由自动保存、版本管理和共同编辑正文推出的结论。"
+    },
+    "presentation-application": {
+      "application_id": "github:186647301",
+      "status": "pass",
+      "basis": "docspace-managing-documents 第 464-465 行说明房间内可创建新 presentation、编辑、管理版本、移动/复制并作为文件保存；第 528-550 行明确 New presentation 及命名创建流程；SavePrintDownload 第 468-481 行证明自动保存、手动保存、另存、下载和打印；SupportedFormats 第 467-472 行证明可打开/编辑多种演示格式并下载为 PDF、PDF/A-2a、ODP、PPTX/PPTM 等；ManageSlides 第 467-521 行证明幻灯片是有序序列且可隐藏；SetSlideParameters 第 478-485 行证明每张幻灯片是固定尺寸/方向的页面；PreviewPresentation 第 471-511 行证明全屏放映、演讲者模式和演讲者备注。由此 authored deck、有序 slides、有界自由布局 canvas、面向受众交付四项核心成立。",
+      "gaps": "该案例的 deck 是 DocSpace 房间中的云端文件，不是桌面本地文件；definition 允许本地文件、设备文档或云端文档，故不构成排除。未运行放映和下载流程；未核验复杂 PPTX 的保真度。"
+    },
+    "collaborative-canvas": {
+      "application_id": "commercial:miro",
+      "status": "pass",
+      "basis": "Miro 官方页面标题和 meta 明确为 “A Collaborative Digital Whiteboard for Teams”；正文第 518 行出现 infinite intelligent canvas，第 531 行起为协作功能矩阵，第 554-575 行有 Sticky Notes/聚类，第 590-614 行有 voting，第 665-689 行有 timer，第 741-765 行有 pen/sketch 及 sketch 转 shapes/notes/connection lines，第 839 行说明 public boards 的 1-click collaborator access，第 1066 行说明 Template Library。就商业条目要求的“基本真实性和类型匹配”而言，可确认其是共享、空间自由、可放置便笺/形状/绘图/图片并由团队协作访问的视觉画布。",
+      "gaps": "该快照是营销产品页而非工作流文档；没有逐字证明 board 命名、自动保存、版本恢复、多人同时编辑的合并结果。research.json 称页面功能矩阵含 “Recover automatically saved board versions”，但当前快照未检索到该文本；“实时反应”也未在快照中找到。未登录、未运行 Miro，无法实测持久化、并发收敛和权限分级。按商业只要求基本真实性和类型匹配的标准，这些作为留档缺口记录，不阻断。"
+    },
+    "diagramming-application": {
+      "application_id": "github:67508428",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=67508428、full_name=jgraph/drawio；license API 快照 spdx_id=Apache-2.0，LICENSE 快照为 Apache License 2.0 全文；README 第 5、9、29、35 行说明这是 JavaScript 客户端图表/白板编辑器、源码 Apache-2.0、本仓库为测试/评估版本且不支持实时协作、生产部署另有付费版本。docs/features 第 50-56、64-66、86-92 行证明可从形状库拖放形状、在形状间绘制连接线、手动改路径或自动重路由、形状标签与元数据、多页/图层、导入导出及流程图/UML/网络/平面图等形状词汇；docs/manual 第 31-43 行证明新建/打开图表、选择保存位置、添加并移动/缩放/旋转形状、固定/浮动连接线、标签、多页、图层和导出。由此持久图表文档、语义形状、绑定形状的连接线、应用提供的形状词汇表四项核心成立。",
+      "gaps": "“形状移动时连接线保持附着并跟随移动”在 features/manual 索引页中没有逐字句子，是由 fixed/floating connectors 与 automatic reroute 推出的合理结论；建议补抓连接线详情页作为直接证据。README 明确本测试仓库不支持实时协作，batch 已将该能力排除，处理正确。图标集、stencil 库和模板另有 Atlassian 市场使用限制，license 字段宜加限定。未运行编辑器；未验证复杂导入导出的保真度。"
+    },
+    "digital-whiteboard": {
+      "application_id": "commercial:miro",
+      "status": "pass",
+      "basis": "同一 Miro 官方页面标题即 “A Collaborative Digital Whiteboard for Teams”；正文第 518 行有 infinite canvas，第 554-575 行有 Sticky Notes/聚类，第 741-765 行有 pen/sketch 及手绘转 shapes/notes/connection lines，第 628-651 行有 stickers/emojis/GIFs/rich image libraries，第 590-614 行有 voting，第 665-689 行有 timer，第 839 行有 public boards 的 1-click collaborator access。可对应数字白板的直接标记（pen/sketch）、放置内容（便笺、形状、文本、图片）和多用户共同标记三个核心；商业类型匹配成立。",
+      "gaps": "页面没有逐字写“real-time co-editing”“reactions”或“autosave”，只有 collaborate/team/public boards 等表述；“实时协作/实时反应”属于比来源更强的措辞。该页是产品营销页，不是板管理或并发编辑工作流文档。未运行 Miro，未验证自动保存、版本历史、匿名访客和权限分级。按商业只要求基本真实性和类型匹配，这些作为留档缺口记录，不阻断。"
+    }
+  },
+  "limits": "本次为只读静态审查：未运行任何应用、未部署 DocSpace/draw.io、未做浏览器交互，也未实测多人并发、自动保存、版本恢复、导出保真度或权限分级。仅依据 REVIEW_SOURCES.json 列出的 25 个快照及其在 data/collections/sources 下的实际文件；未重新计算 sha256，只核对了文件名与清单 sha256 的对应关系。未读取其他单元、采集者 TASK.md 或历史过程脚本。Miro 只有一个官方营销产品页快照，无法验证登录后的 board 命名、自动保存和版本历史；draw.io 的 features/manual 是概览/手册索引，连接线“移动时保持附着”的详情页未抓取；DocSpace 的 Linux 安装页未提供，仅核对了 Windows 与 Docker 社区版页面。因此本次结论覆盖内容、身份、许可和来源匹配，不覆盖运行时行为、价格、性能或实际部署。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-011/ses_groveopencodegop011review2_1792939559.jsonl",
+  "batch_sha256": "3bd5d3076885e12b1bcfcb80651d2f129906564339c8ac3d4ac172c72adf231d",
+  "research_sha256": "d6965f3593dbe19a7e83f473fa708939a34977c0d35cefd4d95848c5a725d530",
+  "input_sha256": "ca80fc94bfb99294c653f9c698963409886c8d3de9089f35b40e0c681f59dc18"
+}

@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids 为空；实际案例记录在 batch.json 与 research.json。建议同步进度元数据以保持一致性，但这不影响本次内容核对结论。",
+    "三个商业条目均只依据官方首页正文做基本真实性与类型匹配核对；未核价格、架构、部署或运行状态，research.json 已如实记录这一限制。",
+    "Artera 首页正文明确说明 AI 代理处理预约、登记、支付、转诊与护理缺口外联，并在需要时转交团队且保留完整会话记录；但队列界面和 EHR 回写细节未展开，当前仅按患者参与平台的基本类型关系记录，符合留档缺口可接受范围。",
+    "MediPi 的临床端自述为试点用 mock clinical system，摘要与 research 已如实收窄；建议呈现时定位为开源试点/参考实现，而非生产级 RPM SaaS。",
+    "Opal 仓库是患者端应用，需连接独立的 listener/backend；batch 摘要已明确该边界，未把仓库误称为完整后端或完整生产套件。"
+  ],
+  "leaf_checks": {
+    "medical-coding-platform": {
+      "application_id": "commercial:codametrix",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 CodaMetrix 官网快照正文：首页说明每次就诊（encounter）进入平台后由平台完成编码与计费，正文另有“identify the encounter, apply the right code and support the right billed outcome”，并围绕 autonomous coding、coding quality 与 Rosetta 编码质量框架展开。可支撑以就诊为工作对象、进行代码分配并输出可计费/可报告结果的商业医疗编码平台基本类型匹配。",
+      "gaps": "仅官网首页，未展示编码员复核界面、编辑校验规则、DRG/理赔清理或部署细节；research 已记录未核价格/架构/部署、未运行。"
+    },
+    "patient-engagement-platform": {
+      "application_id": "commercial:artera",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 Artera 官网快照正文：定位为 healthcare patient communication/engagement platform，AI 代理覆盖 voice、rich text、email，用于预约确认、取消/改约、登记、支付、转诊和 care-gap outreach；正文说明 AI 处理常规流量、必要时转交团队，工作人员拥有完整上下文、控制权和完整会话记录，并示例将症状分诊升级至临床团队。可支撑机构发起外联、患者响应并由团队管理异常的基本参与循环。",
+      "gaps": "首页未展示具体队列界面或 EHR 回写细节；research 已明确按商业基本记录收窄关系。"
+    },
+    "patient-portal": {
+      "application_id": "github:954668905",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "Opal 仓库元数据 id=954668905；README 明确称其为 patient portal application，向已登录患者提供预约、化验结果、临床报告和健康教育，并说明需连接独立 listener/backend。checkinService.js 通过 RequestToServer.sendRequestWithResponse('Checkin') 提交患者报到；questionnairesService.js 提供问卷/同意书作答保存、状态更新及 SUBMIT_ANSWERS/SUBMIT_CONSENT/SAVE_ANSWERS 入口，答案写入后端。许可证 API 快照为完整 Apache License 2.0，README 亦标注 SPDX Apache-2.0。",
+      "gaps": "仓库仅患者端应用，独立后端/listener 不在本仓库且未评估；本次快照未确认站内消息、续药、支付或预约取消；research 已如实记录。"
+    },
+    "referral-management": {
+      "application_id": "commercial:referralmd",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 ReferralMD 官网快照正文：页面定位为 Referral Management & Healthcare Referral Network；正文说明在既有 EHR 内管理 inbound/outbound patient referrals，自动提醒工作人员处理待办转诊，并向转诊提供方发送更新以“closing the feedback loop”；另覆盖 fax、scheduling、intake、routing、provider matching、consult management。可支撑患者锚定的双边转诊跟踪与闭环结局的基本类型匹配。",
+      "gaps": "仅官网首页，未展示具体状态机、分诊界面或双方角色操作细节；未核价格/架构/部署。"
+    },
+    "remote-patient-monitoring": {
+      "application_id": "github:53318448",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "MediPi 仓库元数据 id=53318448；README 标题为 NHS MediPi Remote Patient Monitoring/Telehealth System，说明家庭端体重秤、血氧仪、血压计、体温计及问卷数据加密传输至 MediPi Concentrator；Clinician README 说明临床端定期取数、按阈值检查并回传警报，展示患者队列状态和测量历史，并允许复核/更新阈值。许可证 API 快照为完整 Apache License 2.0，Clinician README 亦标注 Apache-2.0。可支撑已登记患者、设备生理数据流和临床监测告警循环的基本类型匹配。",
+      "gaps": "临床端为试点 mock clinical system，而非生产级套件；未明确展示干预/护理动作的独立记录；research 已如实记录试点边界。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及按 REVIEW_SOURCES.json 的 path 原样读取的 12 个快照；未运行 shell、未写文件、未抓取实时网页、未访问其他单元，也未重新计算 sha256。商业条目各只有一个官方首页快照，未验证价格、架构、部署、安全或运行时行为；首页 HTML 含大量导航/样式/模板噪声，结论以可见正文和仓库 README/源码为依据，不以 meta 描述、摘要或加载态替代核心正文。部分工作流细节（如 Artera 队列 UI/EHR 回写、MediPi 干预记录）未被快照完整覆盖，已在 leaf_checks 与 non_blocking_notes 中列明。input.json 的 progress 元数据与实际 batch/research 不一致，属于留档同步问题，不影响本次内容匹配结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-216/ses_groveopencodegop216review2_1793029323.jsonl",
+  "batch_sha256": "90317f0fd6ad4f1b6e75efa94ee71cd23340541eeee33b531732e2fc0a8dd387",
+  "research_sha256": "9933ac18b21e851363079f10b0bcd9c47900234878886063c5146a73b85feb5b",
+  "input_sha256": "9001674e9b60f54a3676104aef5c7a972e0b79f8af314cd7eb02b8ecfee81b9a"
+}

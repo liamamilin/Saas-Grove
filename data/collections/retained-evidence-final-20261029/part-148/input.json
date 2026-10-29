@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 34,
+  "offset": 825,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "courier-management-platform",
+        "name_zh": "快递管理平台",
+        "domain_id": "18",
+        "parent_id": "18.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/738",
+            "result": "insufficient_evidence",
+            "note": "开源候选比较后曾选 webbywonder/courierman：MPL-2.0，Laravel 完整应用，路由与模型可证寄件/收件、分支交接、状态、费用、发票与收款；README 标注 unmaintained。复核仓库文件树、courier_infos 迁移与 Staff/CourierInfoController 后确认：数据模型只有 sender_branch_staff_id / receiver_branch_staff_id，没有绑定具体 courier/driver 的字段；路由只有分支 departure/upcoming、receive、invoice/payment、deliver search/notification，没有司机派单或未分配队列；receiveCourier 由登录员工确认后直接把状态改为 Delivered，没有签名、照片、条码扫描或时间地点等现场 POD 捕获。故仅能证明分支网络型快递/包裹门户变体，不满足本叶“订单分派给运营商快递员并以送达证明关闭”的定义性核心；作为候选留档，不计入 batch 的成立关系。",
+            "query": "open source courier management platform github complete application; courier management system; courier dispatch"
+          }
+        ],
+        "archived": false,
+        "note": "开源候选比较后曾选 webbywonder/courierman：MPL-2.0，Laravel 完整应用，路由与模型可证寄件/收件、分支交接、状态、费用、发票与收款；README 标注 unmaintained。复核仓库文件树、courier_infos 迁移与 Staff/CourierInfoController 后确认：数据模型只有 sender_branch_staff_id / receiver_branch_staff_id，没有绑定具体 courier/driver 的字段；路由只有分支 departure/upcoming、receive、invoice/payment、deliver search/notification，没有司机派单或未分配队列；receiveCourier 由登录员工确认后直接把状态改为 Delivered，没有签名、照片、条码扫描或时间地点等现场 POD 捕获。故仅能证明分支网络型快递/包裹门户变体，不满足本叶“订单分派给运营商快递员并以送达证明关闭”的定义性核心；作为候选留档，不计入 batch 的成立关系。"
+      },
+      "definition": {
+        "slug": "courier-management-platform",
+        "name": "Courier Management Platform",
+        "name_zh": "快递管理平台",
+        "aliases_zh": [
+          "快递调度系统",
+          "快递订单管理平台"
+        ],
+        "overview": "A **Courier Management Platform** is the operations system of record for a courier or delivery company. It is run by the delivery operator itself to manage its business end to end: taking delivery orders from its customers, dispatching those orders to its own couriers, tracking every order through pickup to confirmed delivery, and billing customers for the delivery service.\n\nThe defining core is small — four structures that everything else serves:\n\n```text\nCourier order (pickup → delivery job for a customer account)\n└── Dispatch to the operator's courier workforce\n    └── Recorded execution, closed by proof of delivery\n        └── The courier-business frame: contracted rates → billed delivery revenue\n```\n\nEverything commonly associated with modern courier software — customer portals, route optimization, driver mobile apps, live GPS tracking, automated notifications, driver settlements — is standard equipment in mature products but is not what makes the system a courier management platform. Older desktop-era courier systems (order entry, rate card, dispatch board, digital waybill, proof of delivery, invoicing) satisfy the same core without any of those, and so do regional courier businesses in any market.\n\nWhen the business frame is removed — when the software serves a shipper or retailer orchestrating delivery of its own goods rather than a delivery company serving its own customers — the product drifts into a different Application Type (Last-mile Delivery Platform).",
+        "overview_zh": "**快递管理平台**是快递或配送公司的运营记录系统。它由配送运营商自身运行，以端到端管理其业务：从客户处接收配送订单，将这些订单分配给自己的快递员，跟踪每个订单从取件到确认送达的全过程，并向客户收取配送服务费用。\n\n其定义性的核心很小——四个核心结构，所有其他内容都围绕其展开：\n\n```text\n快递订单（为客户的账户执行的取件 → 配送任务）\n└── 调度给运营商的快递员团队\n    └── 记录执行情况，并通过交付证明关闭\n        └── 快递业务框架：合同费率 → 开票的配送收入\n```\n\n与现代快递软件常见的所有功能——客户门户、路线优化、司机移动应用、实时GPS跟踪、自动化通知、司机结算——在成熟产品中都是标准配置，但它们并非构成快递管理平台的核心要素。较旧的桌面时代的快递系统（订单录入、费率卡、调度面板、电子运单、交付证明、开票）即使没有任何这些功能，也能满足相同的核心需求，任何市场的区域性快递企业也同样如此。\n\n当业务框架被移除时——当软件服务于需要安排自身货物配送的托运人或零售商，而非服务于自身客户的配送公司时——该产品就演变为不同的**应用类型**（最后一公里配送平台）。",
+        "dc": "**1. The courier order.** The unit of record around which the entire system revolves. An order is a request to collect items at an origin and deliver them to a destination. It carries the customer account that requested it, the pickup and delivery locations, the service level and timing (as soon as possible, a scheduled window, part of a recurring route), and the items to be accounted for. Orders are numbered, searchable, and retained — the tracking table of every order in the system is the operator's living ledger of its business.\n\n**2. The courier workforce and dispatch.** Orders are fulfilled by the operator's own drivers — employees or contracted couriers — not by a neutral marketplace of carriers. Dispatch is the act of binding an order to a courier. Incoming orders that have no courier sit in an unassigned queue until a dispatcher assigns them (often by dragging the order onto a driver) or an automation rule assigns them, or — in some operations — drivers claim work themselves from the queue. Orders can also be batched into routes that a driver executes in sequence. Assignment is a notify-worthy event: the driver's app receives the work, and downstream observers learn who now owns the job.\n\n**3. Recorded execution ending in delivery confirmation.** Each order advances through attributed, time-stamped status events — received, assigned, picked up, en route, delivered or failed — and is closed by proof of delivery captured in the field: a recipient signature, a photo, a barcode scan, a timestamp and geolocation. This execution record is what the operator sells. It is shown to the customer, settles disputes, and — in regulated segments — forms a chain of custody for each item as it passes through every handoff.\n\n**4. The courier-business frame.** The platform runs a delivery service business. Each customer account holds contracted rates, and the system prices every order against those rates — by zone, distance, weight, vehicle type, service level, and accessorial charges — rather than leaving price-setting to guesswork. Completed delivery work becomes invoiced revenue; the operator manages its customers, its rates, and its couriers in the same system that runs the daily dispatch.",
+        "dc_zh": "1. **快递订单。** 订单是系统的核心记录单位。订单是请求在起点取件并送到终点的请求。它包含请求的客户账户、取件和送达地点、服务水平和时间（尽快、计划窗口、定期路线的一部分）以及需要追踪的物品。订单被编号、可搜索并保留——系统中每个订单的跟踪表是运营者业务的实时账本。\n\n2. **快递劳动力与调度。** 订单由运营者自己的司机（员工或合同快递员）完成，而不是由中立的承运商市场。调度是将订单绑定给快递员的行为。新订单如果没有快递员，会留在未分配队列中，直到调度员分配（通常通过将订单拖到司机上）、自动化规则分配，或者——在某些操作中——司机自己从队列中认领工作。订单也可以批量分配给司机按顺序执行的路线。分配是一个需要通知的事件：司机的应用收到工作，下游观察者得知谁现在拥有该任务。\n\n3. **录制执行直至送达确认。** 每个订单通过归因的、带时间戳的状态事件推进——已接收、已分配、已取件、运输中、已送达或失败。",
+        "rules": "- **Price comes from the contract, not the keyboard.** Each order is priced by the system from the customer's contracted rate structure; dispatchers do not guess prices. Changing service on an in-flight order recalculates the price automatically.\n- **Unassigned work is visible work.** Orders without a courier collect in an unassigned queue — the dispatch board's to-do list. Assignment triggers the notification chain; nothing silently waits.\n- **The order closes on proof, not on assertion.** Delivery confirmation is captured in the field by the courier and becomes part of the permanent order record; customer-visible tracking and billing both draw on this captured evidence.\n- **Status events are attributed and time-stamped.** Who did what, when, and where is recorded through the order's life — the basis for dispute resolution and, in regulated segments, chain of custody.\n- **Exceptions are surfaced, not buried.** Late orders, missed time windows, customer no-shows, and data problems (bad zones, missing prices) generate alerts to the people who can act.\n- **Changes propagate.** Reassigning a courier, changing a service level, or cancelling an order notifies the affected drivers and customers automatically.\n- **One rate structure drives both sides of the money.** Customer pricing and courier pay are computed from the same configured economics, in the same system.\n- **Exact status vocabularies vary by product.** The lifecycle above is the conceptual shape; the labels differ from product to product.",
+        "rules_zh": "- **价格源于合同，而非键盘输入。** 每个订单都由系统根据客户的合同费率结构定价；调度员无需猜测价格。在配送途中更改服务会自动重新计算价格。\n- **未分配的工作是可见的工作。** 没有快递员的订单会汇集在未分配队列中——即调度面板的待办事项列表。分配会触发通知链；没有任何事情会静默等待。\n- **订单基于证明关闭，而非基于断言。** 交付确认由快递员在现场捕获，并成为永久订单记录的一部分；客户可见的跟踪信息和计费都依赖于这份捕获的证据。\n- **状态事件具有归属和时间戳。** 谁在何时何地做了什么，在整个订单生命周期中都有记录——这是解决争议的基础，在受监管领域，也是监管链的基础。\n- **异常情况被暴露，而非被埋藏。** 延迟订单、错过时间窗口、客户未出现以及数据问题（错误区域、缺失价格）会向能够采取行动的人员发出警报。\n- **变更会传播。** 重新分配快递员、更改服务等级或取消订单会自动通知受影响的司机和客户。\n- **同一费率结构驱动资金流的两端。** 客户定价和快递员报酬都基于同一配置的经济模型在同一系统中计算。\n- **确切的状态词汇因产品而异。** 上述生命周期是概念性框架；不同产品的标签有所不同。",
+        "parent_id": "18.03",
+        "domain_id": "18"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 148,
+    "phase": "directory",
+    "parent": 148,
+    "slugs": [
+      "courier-management-platform"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "9333bb89a581f0d55ac2923a64a34e7a34f1bc56a5acf8f2388da355699eecb4"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中该叶的 progress（progress 字段）仍是采集前状态：case_status 为 insufficient_evidence、application_ids 为空，而 batch.json 与 research.json 已建立 commercial:pixsprint 关系。若后续流程把 input.json 当作状态来源，应同步更新该叶的 application_ids 和 case_status。",
+    "REVIEW_SOURCES.json 只列出了 3 个 Pixsprint 快照；research.json 还引用了 papercliphq.com（本单元 sources/57a74c8d… 实际存在）以及两个 GitHub 候选仓库，但后两者未保留 LICENSE 与 README 的快照。排除这些候选的结论已有文字记录，且相关候选并未建立案例关系，因此不阻断；建议后续把关键排除证据一并留档。",
+    "batch.json 把示例 kit 页面的 kind 标为 documentation；该 URL 实际是公开的成品 kit 页面或示例页，建议在 schema 允许时改用更贴切的 kind，不影响本次判断。",
+    "示例页抓取路径为 /gallery/freedom-redefined-the-open-road，而快照 canonical 指向 /kit/freedom-redefined-the-open-road；两者是同一公开 kit 的路由别名，建议在来源说明中注明，避免被误读为抓错了页面。",
+    "batch.json 的 leaf_matches.reason 提到示例页含「受众与互动指标」；快照 RSC 数据中 accountMetrics 为空数组，页面展示的指标更可能来自手动录入或 Instagram 同步数据，建议措辞写成「手动/Instagram 受众指标」，避免暗示平台审计数据。",
+    "Pixsprint 的首页快照与当前线上页面在个别营销标题上存在差异（快照中未检出当前 H1 文案），但产品定位、产品页工作流与示例 kit 的核心证据一致，属于非关键措辞或 A/B 文案差异，不阻断。"
+  ],
+  "leaf_checks": {
+    "creator-media-kit-builder": {
+      "slug": "creator-media-kit-builder",
+      "application_ids": [
+        "commercial:pixsprint"
+      ],
+      "definitional_core": "通过。Pixsprint 官方首页快照的标题与描述明确面向 creators/photographers 的 media kit maker，正文片段含 Build your kit、password protection 等；产品页快照为官方工作流页，包含 gather-creator-assets 等工作流资产；同日线上正文进一步显示五个环节：汇集作品资产、添加手填或 Instagram 受众数据、编排 kit、选择公开或密码保护分享、查看品牌兴趣。示例 kit 快照包含标题、canonical、mediaKitHeroImages、packages（3 个套餐）等数据，线上示例页显示 8.4% 平均互动、2.2k 粉丝、+12% 受众增长、作品画廊、三档 hosted collaboration、联系入口与分享控件。四项定义属性均有对应证据：外部商业读者（面向品牌的合作 CTA）、商业推介内容模型（作品/受众/套餐/联系方式）、工具主导的模板与托管渲染、可分享的托管成品页面。",
+      "saas_service_form": "通过。studio.pixsprint.app 提供注册/登录入口、免费与付费计划（付费计划从 US$15/月起）、托管 kit 页面、公开或密码保护分享、自定义域名及浏览/点击分析，属于持续运营的托管 SaaS，而非一次性下载生成器或纯桌面工具。",
+      "identity_track": "通过。batch.json 条目 id=commercial:pixsprint、track=commercial、homepage=https://pixsprint.app/，与 research.json 的 case_ids、REVIEW_SOURCES.json 的 applications 一致；无重复条目、无跨 track 冲突，所属叶 domain_id=27、parent_id=27.01 与定义一致。",
+      "open_source_license_and_community_edition": "不适用且已留档。本叶未建立开源关系；research.json 记录了 creatordeck（MIT）、creatortools（MIT）、milou（MIT）的排除理由：share 路由仅本机屏幕演示、成品字段硬编码占位、静态 press-kit CLI 生成器。未保留这些仓库的 LICENSE 全文快照，但因均未纳入案例，不构成阻断；若未来要纳入开源案例，需补齐完整许可证、仓库身份与社区版边界证据。",
+      "sources_checked": [
+        {
+          "path": "data/collections/sources/e61c1e54ef26de92169980678ccb18584c7341e908e60b2ec09ef265f3c122bb.txt",
+          "url": "https://pixsprint.app/",
+          "observation": "标题为 Media Kit Maker for Creators & Photographers | Pixsprint，描述含 work、audience stats、collaboration offers、one polished media kit link、track views and clicks；正文片段可检出 Build your kit、password protection 等。"
+        },
+        {
+          "path": "data/collections/sources/7384be527074a0059929d7249036de2800b2d33591652fa17e9509b1e0a509d7.txt",
+          "url": "https://pixsprint.app/product",
+          "observation": "官方产品/工作流页快照，含 gather-creator-assets 等工作流资产与公开/密码保护分享相关文案；同日线上正文列出五个工作环节，与 batch 描述一致。"
+        },
+        {
+          "path": "data/collections/sources/24eb44b9e7f525d80bdea3a815a64c31b418996695ab9b0e8c5bfb1830109bcf.txt",
+          "url": "https://studio.pixsprint.app/rafalbagrowski/gallery/freedom-redefined-the-open-road",
+          "observation": "真实托管的公开 kit 成品页；快照含 title Freedom, Redefined: The Open Road、canonical /kit/…、mediaKitHeroImages、packages 108/109/110 等数据，线上页面显示受众指标、作品画廊、服务档位、联系入口与分享控件。"
+        },
+        {
+          "path": "data/collections/sources/57a74c8de66fdaa552fc1b1d13e72f8e166187f7738bf869608aff0916be4bfc.txt",
+          "url": "https://papercliphq.com/",
+          "observation": "标题与 JSON-LD 表明其定位是 creator brand deal tracker/deal management；研究记录称首页仅把 Media Kit Builder 列为免费工具入口，正文未形成模板/内容模型/成品分发流程，支持不建立关系；该快照不在 REVIEW_SOURCES.json 列表中，但存在于本单元 sources。"
+        }
+      ],
+      "gaps": "无阻断性缺口。实际限制为：未注册/登录后台、未做运行时测试；首页与产品页快照是压缩单行 HTML，read 工具对单行每行截断 2,000 字符，正文只能通过快照中的标题、描述、可检索片段及同日线上页面交叉核对，未逐字审阅快照全文；未重新抓取开源候选仓库。"
+    }
+  },
+  "limits": "本次仅只读访问本单元；未运行 shell、未写文件、未读取其他单元，也未使用采集者 TASK.md 或历史过程脚本。未注册或登录 Pixsprint，未做部署/运行时测试，未计算文件 sha256。首页与产品页快照为压缩单行 HTML，read 工具对单行内容每行截断 2,000 字符，因此正文只能依据可检索片段与同日线上页面交叉核对；线上页面仅用于补足被截断的语义，不作为快照替代。示例 kit 快照为 React Router 流式页面，正文主要由嵌入数据与客户端渲染构成，已核对 title、canonical、packages 及线上渲染结果。开源候选 creatordeck、creatortools、milou 未保留 LICENSE/README 快照，未重新抓取核验，仅依据 research.json 的排除记录判断其未建立关系。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-241/ses_groveopencodegop241review1_1793264282.jsonl",
+  "batch_sha256": "f0c2f9163dc0438d43b0d8282e92bf64401f374e538899c4cc8511a4c5840139",
+  "research_sha256": "db2e0c8fc6d525e79607aade08debc9a9ebf94153f88aa0035baf08ca2054f71",
+  "input_sha256": "19b70cb075dc7f7c1a52b4c21f3d8031a745ad41b1e33ccf3d000fc37cbe05db"
+}

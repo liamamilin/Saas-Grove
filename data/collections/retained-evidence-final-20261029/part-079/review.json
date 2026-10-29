@@ -1,0 +1,30 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch 的 leaf_matches.reason 用首页的“测试/审计、问题与政策例外、董事会报告”支撑“评估-问题闭环”，但“问题/例外、FAIR 量化、导入导出”等表述来自厂商产品级首页，快照未逐项标注哪些属于免费 Core、哪些属于付费 Extras 或 On-Premise/SaaS 套餐；现有开源版页面已确认 Core 含治理、风险登记册与缓解、跨框架合规测试、自评估、看板与自定义报告，核心判定可成立，但更严格的层级归属需产品文档佐证。",
+    "开源版页面的对照表明确“Paid Extras 在 Open Source 不可用”，同时说明免费注册实例后可解锁“250+ 框架映射”（Secure Controls Framework）；batch 的 features 将“250+ 监管框架与 1,250+ 控制映射”列为 Core 能力，事实本身有据（免费但需注册），建议在描述中补一句“注册后免费开通”，以免被读作纯离线内置内容。",
+    "GitHub 仓库 README 明确其为只读发布镜像（read-only publish mirror），开发在私有仓库进行，本仓库不接受 PR；这不影响 MPL-2.0 开源属性与自托管可用性，但“社区版/开源协作”的表述不宜暗示公开协同开发。",
+    "research.json 如实记录了 documentation 与 docs.simplerisk.com 抓取失败（重定向拒绝、TLS 握手失败），未据此推断内容，符合留档要求；因此本次无法核对更细粒度的用户手册级工作流，仅以官方开源版页、首页、下载页、仓库 README/目录清单与许可证全文为据。",
+    "首页快照为 2026-10-24 历史复用，其余为本轮 2026-10-28 抓取；价格（Core 免费、付费档自 $5,000/年）与“无限用户”属商业宣传，未做独立核价，不影响类型匹配。"
+  ],
+  "leaf_checks": {
+    "governance-risk-compliance-platform": {
+      "application_id": "github:16085812",
+      "track": "open_source",
+      "identity": "产品身份一致：官网、下载页与 GitHub 仓库（simplerisk/code，repository id 16085812，organization simplerisk）均指向同一产品 SimpleRisk；社区版名称为 SimpleRisk Core，与付费 Extras/On-Premise/SaaS 同属一个平台。",
+      "defining_core": "定义性核心可判成立：官方开源版正文明确 Core 是“full GRC, free and open source”，且“不是试用版或削减版”，列出治理（定义框架与控制）、风险管理（提交风险、维护风险登记册、制定缓解计划）、合规（跨框架与控制定义无限测试）、自评估（预置 CIS Controls、HIPAA、NIST 800-171、PCI DSS）、看板与动态自定义报告、角色与权限；首页补充 250+ 框架预映射至 1,250+ 共同控制、“一套底层控制使一次评估服务多个框架”，以及按框架/控制/测试层级执行审计、统一时间线、证据与缺口统一跟踪、审计师受限访问与完整轨迹、政策例外带责任人/理由/到期。由此可对应共享记录核心（风险/控制/要求同库并交叉映射）、评估-问题闭环（测试/自评估结果与缺口、例外、修复跟踪）与综合监督报告（看板/董事会报告）三项。",
+      "service_form": "持续使用的软件服务形态成立：自托管 Web 应用（PHP + MySQL），官方提供脚本化安装（支持 Ubuntu/CentOS/RHEL/SLES/Debian）、虚拟机镜像、Docker 容器与手动安装，免费且不限用户；同一产品另提供付费 On-Premise 与 SaaS 部署，属商业侧不影响开源条目形态。",
+      "license": "许可证核对通过：data/collections/sources/bef1747e...txt 为完整 Mozilla Public License 2.0 正文，含第 1–10 节及 Exhibit A、Exhibit B，与 batch 声明的 MPL-2.0 及 license_evidence_url 一致；仓库目录清单显示 simplerisk/LICENSE（15977 字节）存在，README 亦自述 MPL 2.0；license_review.scope 限定为公开仓库、不覆盖付费 Extras，与开源版页面“Paid Extras 不可用”一致。",
+      "community_edition_boundary": "社区版边界清楚：开源版页面明确 Core 免费、无限用户、自托管，支持仅限邮件且无 SLA；对照表明确 Open Source 不含付费 Extras，On-Premise/SaaS 为付费并提供托管/支持；batch summary 与 research.service_boundary 对“付费 Extras 与托管服务另计”的表述与之一致。",
+      "evidence_basis": "实际读取：sources/dcced6ab...（首页，2026-10-24 历史快照）、sources/769f3f8b...（官方开源版正文）、sources/ec014ea2...（下载/安装方式正文）、sources/4e313bc4...（GitHub 仓库页 README）、sources/79beb27c...（仓库内 README）、sources/425e64d1...（simplerisk 目录清单，确认 governance/compliance/assessments/reports 等名称存在）、sources/bef1747e...（LICENSE 全文）、sources/0ee6bed1...（仓库 API 元数据，id 16085812、simplerisk/code、非 fork、描述为已发布源码）。",
+      "gaps": "未做部署或运行验证（runtime_tested:false）；官方 documentation 与 docs.simplerisk.com 抓取失败已在 research.json 如实记录，未取得用户手册级正文，故问题→修复闭环的细粒度流程仅由官方营销正文支撑；仓库目录清单为单行 JSON，读取时被行长度截断，仅能确认相关目录名存在于清单中，未能逐项通读全部条目。以上均不构成阻断。"
+    }
+  },
+  "limits": "本次为只读独立初审，仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 个快照（按 path 原样读取于 data/collections 下），未运行 shell、未写入文件、未访问其他单元，也未联网复核。无法校验快照 sha256 与实际字节（未执行哈希），无法部署或运行 SimpleRisk，无法取得用户手册级文档（两个 documentation URL 抓取失败已在研究记录中留档）。部分快照为 HTML/单行 JSON，读取存在行长度截断：simplerisk 目录清单仅能确认目标目录名存在，未能完整通读全部条目；首页快照为 2026-10-24 历史复用。商业价格与套餐内容未做独立核价。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-079/ses_groveopendesignp079review1_1793194630.jsonl",
+  "batch_sha256": "4634d84c8323f4008d5f25c7ec00d07fd93014163d8d4ddc8f127bbbfaca02f9",
+  "research_sha256": "f3a1da8de3714ad6c7e0f2aff87a5dda31def912dae8c59677ff7d56942fdf36",
+  "input_sha256": "e5dec0ca1afa7a52a348e81ed39ee32df9491fc993b2f13714d8242d994a0096"
+}

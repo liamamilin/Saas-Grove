@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "311/FixMyStreet：主页示例包含由 Stadt Zürich 运营的站点，批次摘要中“非政府直接运营”过于绝对；建议改为“可由 mySociety、公民组织或地方政府等自行托管”，并保留“不主张其为 311 电话呼叫中心”的边界。",
+    "311/FixMyStreet：完整政府服务目录管理界面与请求者状态展示页未逐项核对，批次已将匹配收窄为“报告定位、路由与状态更新平台”；这是可接受的留档缺口，但不要扩写为完整政府 311 套件。",
+    "fire/Tyler：官方页证明事件报告、NFIRS/NERIS 提交、人员与日常活动记录，但未逐字展示每起事件到装备/人员的响应归属；商业基本匹配可保留，避免声称已核对完整归属核心。",
+    "police/Axon：快照为单行压缩 HTML，正文只能按短语命中核对（cloud-native、CAD-agnostic、digital evidence、audit trail、people/vehicles/incidents），未能逐段读取；数字证据/Axon Evidence 宜作为相邻或集成能力，不作为 RMS 定义性核心。",
+    "probation/Tyler Enterprise Supervision：页面同时含 juvenile detention、specialty courts 等羁押/法院相邻功能；批次已限定社区监督侧，建议摘要明确“仅取监督侧”，避免把整个产品当作纯缓刑假释系统。",
+    "metadata：input.json 的 phase=included_without_cases、progress.application_ids 为空且 case_status=review_pending，与 research/batch 的 case_found 及五个应用不一致；发布前应同步，否则下游可能把本单元当作无案例。",
+    "license/SORMAS：README 指向 docs/3RD_PARTY_ACK.md，根 LICENSE 为 GPL-3.0；建议在许可证说明中保留第三方组件单独标注，避免“仓库整体”被理解为所有文件同一许可。"
+  ],
+  "leaf_checks": {
+    "fire-department-records-operations-system": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:tyler-fire-ems-reporting"
+      ],
+      "track": "commercial",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 Tyler 官方页快照 d085143424c9b9f3b8d1f38d3e822e0420a336753937ca88505db8b4a1f744e9.txt；正文含 records management、NFIRS/NERIS 提交、personnel management、daily logs、cloud-native 等表述。",
+      "core_check": "事件报告/记录管理与人员、日常活动记录构成 Fire RMS 的记录与行政侧；商业基本类型匹配成立。",
+      "gap_or_note": "页面未逐字展示每起事件到装备/人员的响应归属，未据此主张超出页面的归属细节。"
+    },
+    "police-records-management-system": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:axon-records"
+      ],
+      "track": "commercial",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 Axon 官方页快照 81f7858338fbc01706c357dfc9818f52140928102fe592c05af78f7f4fb8505e.txt；页面标题为 Axon Records，正文出现 cloud-native、CAD-agnostic、digital evidence、audit trail、people/vehicles/incidents 等表述。",
+      "core_check": "执法记录/RMS 定位与报告、主体关联、审计能力基本匹配；商业基本类型匹配成立。",
+      "gap_or_note": "快照为单行压缩 HTML，正文只能按短语命中核对，未逐段读取；数字证据作为相邻/集成能力，不作为 RMS 定义性核心。"
+    },
+    "probation-parole-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:tyler-enterprise-supervision"
+      ],
+      "track": "commercial",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 Tyler Enterprise Supervision 官方页快照 3e591f212ba4cd6617fc82cb49fd7612bf62f4e35d20e24df8801040d6c0492e.txt；正文含 web-based SaaS、pretrial、adult/juvenile probation、parole、case plans、compliance alerts、risk/needs、caseload、EM integration。",
+      "core_check": "社区监督案件、条件/合规、案件负荷与监督循环基本匹配；商业基本类型匹配成立。",
+      "gap_or_note": "页面也含 juvenile detention、specialty courts 等羁押/法院相邻功能；批次已限定社区监督侧，需保持该边界。"
+    },
+    "public-health-surveillance-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:58730569"
+      ],
+      "track": "open_source",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 SORMAS 仓库元数据 6e74662a7c6d72cb7b93eae4c3e053f7c9f2d99271ffdf7c86130bf8f0eec40e.txt、README f105ceaf7aa5d0abb7d42f346a054e81068f96044c80d26005b637df39b8f74d.txt、LICENSE 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903.txt、overview 1219cdb14eb09cd564d14ec2b696a83e83f9153cae32329d4d12f840fa4320ec.txt、features fedabdf86ba146bcaf83a0caef408559a12ed2e3bac0643ea02bf1244ffa4574.txt；README 说明开源 Web+Android 的传染病监测/暴发响应，overview/features 含病例与接触者管理、dashboard、epi curve、geo map、tasks、API、offline。",
+      "core_check": "辖区疾病/事件监测、病例/接触者记录、流行病学分析与行动循环基本匹配；LICENSE 为 GNU GPL v3 文本，仓库 id 58730569 与 github:58730569 一致。",
+      "gap_or_note": "自托管开源系统而非 SaaS；许可证按 repository scope 记录，未发现独立社区版/企业版分界声明；README 的第三方组件致谢未逐项核对。"
+    },
+    "311-citizen-service-request-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:487492"
+      ],
+      "track": "open_source",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 FixMyStreet 仓库元数据 4b294c6a26b4d588349212726371947ccb59c3193b59a4faa2738d4b28154529.txt、README 5414b2939b111fd4d19d4010cf3661af7dc41855bccd8b5d96b7c1a812bab951.txt、LICENSE 44516f62716b0487c239b5c382f279e8684b0d4dcb72ca7be4faba7a82ff2024.txt、homepage ccb3f08f92bb53e78a4667917abf2d2c3eee086331b3bf44d69a7da0eb744cba.txt、how-it-works 3852f85d490d8c94933df3764b269ef5afcb998be3d31b7eaeadd14981f87ca8.txt、Problem.pm c6d2176be825c444549d80460b15ef12f459e407d391f96b926b7ba3c6ae8797.txt；README/how-it-works 说明地址+地图+类别、按位置/类别路由、邮件/Open311、公开更新/订阅、防重复；Problem.pm 含 category/state、open/fixed/closed 状态集合、new_updates 报告者提醒。",
+      "core_check": "请求记录、位置、类别/服务目录、负责单位路由、生命周期与请求者更新基本匹配；LICENSE 为 AGPL-3.0-or-later，仓库 id 487492 与 github:487492 一致。",
+      "gap_or_note": "FixMyStreet 是可自托管平台，不是政府直接运营的 311 呼叫中心；完整服务目录管理界面和请求者状态页未逐项核对，批次已收窄表述。"
+    }
+  },
+  "limits": "只读审查本单元资料，未运行 shell、未写文件、未读取其他单元；未部署或运行任何应用，未做功能、价格或架构实测；商业页面为厂商自述，不能替代独立验证；Axon 快照为单行压缩 HTML，正文只能按短语命中核对，未能逐段读取；Mark43、ESO、ImageTrend 的 403 及 Emberstone 排除仅见 research 留档，相关快照不在本单元 REVIEW_SOURCES 中，未复核；未对 SORMAS/FixMyStreet 代码做构建或运行测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-026/ses_groveopencodegop026review1_1793077995.jsonl",
+  "batch_sha256": "d9bd15ed9ee94d71cad087f2996319dd1373c07dbd5a7ad3facb9599cbe1dec6",
+  "research_sha256": "4d6a6c830c6f26a6787f0e9fe5a96e8801372b6a949567d5f2dbbd5d3b4d14f9",
+  "input_sha256": "a43bb1ba339eaa3fc478f6b14b4aafed588d13a6e9b2b898ac71d8708b5f6199"
+}

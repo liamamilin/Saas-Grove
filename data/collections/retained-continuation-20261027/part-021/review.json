@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Art of Illusion 的 Score 横轴在官方手册中以秒标注；条目里的“按帧范围渲染”建议改为“按时间范围与帧率渲染”，以免与字面的帧时间轴混淆。",
+    "Pencil2D 快照缺少帧率设置与“编号图片序列”的直接正文；research 已如实记录该缺口，建议后续补官方 FPS/导出文档，不宜把视频或 GIF 导出当作帧率证据。",
+    "Inochi Creator 快照未直接展示时间轴/关键帧编辑界面；现有 FAQ、文档总览与导出页只能证明 animation 对象、帧率和循环，建议补 Creator 动画/时间轴页面。",
+    "Live2D 条目中的“参数与关键帧”未由产品页直接支持；商业案例的类型匹配已足够，建议改为“参数/动画”或补官方手册。",
+    "Audacity 条目的“静音、实时效果栈”未在引用的波形页与导出页直接出现；建议补选区编辑/效果页，避免能力清单超出引用。",
+    "Art of Illusion 官网称 GPL 2.0 or later，条目写 GPL-2.0；建议写 GPL-2.0-or-later，或在许可证字段注明“or later”。",
+    "Inochi Creator 代码为 BSD-2-Clause，但品牌资产保留、官方构建在 itch.io/Steam 分发；这不构成功能社区版边界，但“开源”不宜引申为品牌或官方构建免费。",
+    "iZotope 抓取 URL 为 /en/products/rx.html，快照 canonical 指向 /products/rx-advanced（RX 12 Advanced）；条目用“iZotope RX”概括，商业类型匹配，但模块描述应按 RX 12 Advanced 理解。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，而 research/batch 已有案例；建议同步单元元数据。",
+    "五个案例均为桌面/本地软件，research 已记录无租户或组织流程；若上游目录只收多租户 SaaS，需要另行确认范围。"
+  ],
+  "leaf_checks": {
+    "2d-animation-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:10978577"
+      ],
+      "basis": "逐叶读取 Pencil2D 的 5 个快照。用户手册 d18a... 正文明确时间轴跟踪关键帧、Add/Remove/Duplicate key-frame，并在第 1–3 帧逐帧绘制后按 Play 播放；FAQ 617c... 正文说明中央矩形是相机、是导出 video & image 的预览区域，并给出 Animated GIF 导出路径；README c0c5... 说明 bitmap/vector 手绘动画。基于帧的时间轴、用户逐帧内容、播放、动态图像交付四项均有正文证据。仓库元数据 37cd... 的 id=10978577、full_name=pencil2d/pencil 与条目一致。",
+      "license": "GPL-2.0；license API 快照 01bd... 为 LICENSE.TXT（size=17984）的 base64，内容开头解码为 GNU GPL Version 2, June 1991；未发现单独的商业版或功能裁剪说明。",
+      "service_form": "桌面单机软件，作品保存在本地；research 已记录无组织审批、租户或发布状态。",
+      "gap": "快照未直接给出帧率设置或“编号图片序列”的正文；research 已记录该证据缺口，视频/GIF 导出仍覆盖交付核心。"
+    },
+    "3d-animation-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:67470404"
+      ],
+      "basis": "读取 Art of Illusion 的 6 个快照。Manual/animation.html 5bc7... 第 6.1 节说明 Score/时间轴、对象轨道和关键帧，6.1.2 说明关键帧间自动插值，6.2.1/6.2.3 说明位置、旋转、姿态/骨骼轨道；拖动时间标记即更新视窗。Manual/rendering.html b67d... 第 5.1 节说明相机，5.3.1/5.4.1 说明 Single Image 或 Movie、Start/End Time、Frames/Sec，Movie 可输出连续编号图像或 QuickTime 影片。README dc8d... 确认 keyframe/pose based animation 与内置 raytracer。",
+      "license": "GPL-2.0；license API 快照 be7f... 为 License.md（size=15086）的 base64，开头为 GPL Version 2, June 1991；官网 2b93... 另称 GPL 2.0 or later。",
+      "service_form": "桌面 Java 套件，场景保存在本地文件、渲染在用户机器上完成；research 已记录。",
+      "gap": "手册 Score 横轴以秒标注；“按帧范围”是条目对 Start/End Time + Frames/Sec 的概括，严格说应为按时间范围与帧率渲染。"
+    },
+    "character-animation-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:314383297",
+        "commercial:live2d-cubism"
+      ],
+      "basis": "读取 Inochi Creator 与 Live2D 快照。Inochi README 1400... 说明它是 Inochi2D puppet 格式的开源编辑器，可为游戏/VTubing 绑定模型，动画通过 morphing/transforming/distorting 分层 2D 贴图实现；docs 首页 c064... 说明 Inochi2D 是实时 2D 角色动画系统，按 rigger 在 Creator 中设置的参数实时形变贴图；FAQ 1801... 说明 File->Import 可导入 PSD、0.8 起可创建动画并保存到模型；export 6e72... 要求场景中至少 1 个 animation 和 1 个 camera，提供 animation 下拉、loops、framerate、codec。Live2D 0fba... 说明对已有插画做 modeling 赋予活动范围、再做 animation 让模型表演，含 physics/lip-sync，文件可供 nizima LIVE/第三方应用使用。",
+      "license": "Inochi Creator 为 BSD-2-Clause；license 快照 a827... 为 LICENSE（size=1330）base64，开头为 BSD 2-Clause License；仓库 id=314383297 与条目一致。Live2D 为商业产品，未核许可证。",
+      "service_form": "Inochi 为桌面编辑器，角色资产本地保存，运行时由 SDK 消费；Live2D 为商业桌面工具；均无组织审批或租户状态。",
+      "gap": "Inochi 快照未直接展示时间轴/关键帧编辑界面；research 已如实记录，并以 animation 对象、framerate/lock 字段作为时间性动画的间接证据。Live2D 产品页也未逐项说明关键帧/时间轴。"
+    },
+    "audio-editor": {
+      "status": "pass",
+      "application_ids": [
+        "github:32921736"
+      ],
+      "basis": "读取 Audacity 的 5 个快照。manual/audacity_waveform 79db... 正文说明波形是默认视图、以振幅随时间显示、适合精确剪切/拼接并显示削波；manual/file_export_dialog 6cf2... 正文说明可从整个工程或当前选区导出、可选格式/编码/采样率，并支持多轨混音；README 9fb4... 定位为 multi-track audio editor and recorder。",
+      "license": "GPL-3.0；LICENSE.txt 1580... 第 1 行明确“released under GPLv3”，并附 GPLv2、GPLv3 与 CC-BY 3.0 全文；batch 的 license_review 已限定 repository scope。仓库元数据 fe5a... 的 id=32921736、description=Audio Editor 与条目一致。",
+      "service_form": "桌面本地音频工具，工程与导出文件保存在磁盘；research 已记录无审批、发布或租户状态。",
+      "gap": "引用的两页未直接出现“静音、实时效果栈”等能力；这些是条目 features 的扩展描述，不影响四项核心。仓库为混合许可（主体 GPLv3、部分文件 GPLv2、文档 CC-BY），如目录要求单一 SPDX 需注明。"
+    },
+    "audio-restoration-application": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:izotope-rx"
+      ],
+      "basis": "读取 iZotope RX 产品页 8f70... 正文：RX 12 Advanced 是 50+ 工具音频修复软件，面向 rescue dialogue/avoid ADR；可在 Spectrogram 中可视化定位并替换狗叫、弦响、警笛等不想要的声音，用 bespoke modules 处理 clicks、clips、hum、rustles、reverb、background noise；Repair Assistant 自动识别并建议修复，用户可调整；强调 protect every performance。覆盖退化录音、损伤识别/分类、专用处理器、保留节目素材的修复循环。",
+      "license": "商业案例，不适用开源许可证；产品页为官方 iZotope 页面，名称与类型匹配。",
+      "service_form": "商业桌面/插件式专业工具，处理不可重录的既有录音；research 已记录。",
+      "gap": "仅产品营销页，未逐一读取各模块手册；商业案例只要求基本真实性和类型匹配，当前证据足够，但不足以核模块级细节或价格。"
+    }
+  },
+  "limits": "只读独立初审；仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 25 个快照；未运行 shell、未写文件、未访问其他单元或外部网络。快照均按 REVIEW_SOURCES.json 的 path 原样从 data/collections/sources/ 读取，未使用项目根目录下的 sources/。快照抓取日期为 2026-10-24/25；许可证 API 快照为 base64 JSON，终端显示有截断，我依据文件 size、解码开头和 GitHub 元数据核对，未逐字解码全部许可文本。商业案例仅核官方产品页的基本真实性与类型匹配，未核价格、模块手册或实际运行。桌面软件形态按叶定义核对，未做多租户/SaaS 部署验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-021/ses_groveopencodegop021review1_1792941383.jsonl",
+  "batch_sha256": "8957203f7187826f1c912c2c8db79b99bf89e54a1751d4b96913549f21b9adf4",
+  "research_sha256": "9ad60e0d7ed7ef0be53c38ab21d5965d21162988882fb01e0b28f9914fa7a83a",
+  "input_sha256": "c9e8557f0b5c6ede5a8d70e34dd93813512a46a1174e37ac67f7a2b8eff740dc"
+}

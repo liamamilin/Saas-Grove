@@ -1,0 +1,32 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "cloud-workload-protection-cwpp",
+      "application_id": "commercial:sysdig-secure",
+      "issue": "batch.json 摘要声称 Sysdig Secure 提供“主机工作负载”和“资源清单”，research.json 进一步写明“Resource 360 清单”，但所引产品页快照（data/collections/sources/7144b1bd410d0a50106e80bdcbd523312a559cd5b2d3c2134a4fe2d9a0f56cbe.txt）实际是 hero_gated 变体，正文在 “How Sysdig works” 后即结束，未出现 Resource 360、Inventory search、hosts 或 resource inventory。该快照可以证明容器/Kubernetes/工作负载的 runtime insights、实时检测、AI 辅助调查与引导式响应，但不能证明 CWPP 定义核心中的“受管工作负载清单”这一项；因此 leaf_matches 中“资源清单”的依据未被快照支持。",
+      "fix": "重新抓取并保存非 gated 的完整 Sysdig Secure 产品页，确保包含 Resource 360 / Inventory search / hosts 段落，并同步更新 sha256、fetched_at 与 research.json 的 fetch_outcomes；或者从 batch.json 摘要和 research.json note 中删除“资源清单/Resource 360/主机”断言，仅保留快照可证的 runtime detection、investigation、response，并注明 inventory 证据缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Sysdig 产品页源 URL 为 https://www.sysdig.com/products/secure/，但快照 canonical/title 指向 /platform/secure；建议在 sources 或 research 中记录最终 URL 与重定向结果，避免后续把平台页误认为独立产品页。",
+    "commercial:nozomi-networks-vantage 的 application_id 使用 “vantage”，但 name 为 “Nozomi Networks Platform”，摘要覆盖 Guardian、Vantage、Threat Intelligence 等平台组件；不影响 OT 类型匹配，建议统一 ID 与名称，或收窄摘要为 Vantage 自身能力。",
+    "Wiz Cloud 的 Cloud Workload Protection (CWP) 在页面上标注为 Wiz Sensor 附加项；但 CSPM、漏洞管理、CIEM、容器安全、DSPM、AI-SPM 等多域共享 Security Graph 与单一风险视图，仍符合 CNAPP 的可增量启用结构，不阻断。",
+    "NeuVector README 未展开准入控制、CIS 合规、集群态势等更细能力，采集未将这些写入断言，范围恰当；SUSE 商业支持/企业发行版的边界未在 README 展开，摘要按“商业附加项不计入开源”处理，建议保留该边界说明。",
+    "Forescout 与 Nozomi 的价格、授权、具体部署架构和 SaaS/自托管边界未核，符合本次商业条目只做基本真实性与类型匹配的范围；Armis 403、Forescout 旧路径 404 等抓取缺口已在 research.json 留档。",
+    "Forescout IoT 页面与 Nozomi 产品页均以营销正文为主，未提供独立第三方测试或运行时验证；本次按官方公开资料核对，不要求部署测试。"
+  ],
+  "leaf_checks": {
+    "cloud-workload-protection-cwpp": "Sysdig Secure：主页快照支持 runtime insights、实时可见性、检测与响应；产品页快照正文明确“Detect, investigate and respond to threats in real time”，并列出 containers/Kubernetes、workloads、cloud services 与风险优先级，CWPP 类型匹配基本成立。但产品页快照为 hero_gated 变体，缺少 Resource 360/Inventory search/hosts 段落，导致“资源清单/主机工作负载”断言无快照依据，已在 findings 中要求补齐或删除。",
+    "cnapp": "Wiz：Wiz Cloud 快照与页面正文列出 API connectors、agentless inventory、Security Graph，以及 CSPM、漏洞管理、CIEM、容器与 Kubernetes、DSPM、AI-SPM、合规、CWP、IaC 等多域能力，并描述统一平台、跨域风险关联、优先级排序与修复工作流；单一风险视图与共享清单结构成立。CWP 为附加 Sensor 能力，但多域核心不依赖该附加项，CNAPP 类型匹配通过。",
+    "container-kubernetes-security": "NeuVector：GitHub 元数据确认 id 439449479、full_name neuvector/neuvector、archived=false；license API 返回 Apache-2.0 完整文本（size 11357，spdx_id=Apache-2.0，内容以 Apache License Version 2.0 开头）；README 说明全生命周期容器安全、镜像/DevOps 漏洞防护、自动化运行时安全、Layer 7 容器防火墙，以及 manager/controller/enforcer/scanner 与 Kubernetes/Rancher 部署。镜像、运行中容器与集群对象的安全评估/执行核心成立；商业支持与企业版已明确排除在开源条之外，通过。",
+    "iot-security-platform": "Forescout Vistaro：官方 IoT 安全页明确无需在设备上安装 agent，自动发现并分类 IoT/IoMT/OT 设备，提供实时持续监控设备通信与风险行为、工厂默认/弱口令评估、动态网络分段、资产清单与生命周期管理；设备群体、每设备评估、持续监控与告警三项核心均有正文依据。Armis 403 已留档，Forescout 旧路径 404 已留档，通过。",
+    "ot-security-platform": "Nozomi Networks：产品页列出 Guardian、Guardian Air、Arc、Remote Collector、Smart Polling 等资产发现/可见性组件，Asset Intelligence 的设备分类与漏洞跟踪、OT/IoT 专用 Threat Intelligence、行为异常与通信监控、风险评分、响应 playbook 与工作流，并强调非侵入式监控和不可打补丁环境；OT 资产记录与控制感知检测两项核心成立，Vantage 作为云管理组件记录。通过。"
+  },
+  "limits": "本次为只读初审，未运行 shell、未写文件、未读取其他单元，也未做部署、价格、授权或架构验证。快照为大型压缩 HTML，单行常超过读取工具的 2,000 字符显示上限，正文细节通过定向 grep 与对同一公开 URL 的只读抓取交叉核对，可能与采集时的 A/B 变体存在差异；Sysdig 产品页快照明确为 hero_gated 变体，是其 inventory 证据缺口。许可证快照为 GitHub API 的 base64 完整文本，本次核对了 SPDX、大小与文件头，未逐行解码全文。Forescout/Nozomi 的商业部署与授权边界未展开，符合本次范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-149/ses_groveopencodegop149review1_1793012821.jsonl",
+  "batch_sha256": "60501ef2330d640e58c4955b86757e43736a0a4c106d01bd42987f1e2fef6c4c",
+  "research_sha256": "c6e7ac61363301ebd0146afb0b180c693aa4350e36378af4bf3cd2ac1ad728e3",
+  "input_sha256": "ed6ef8ebde0827d2f3d03cb7cd7b381c3d2c89234cfc4baa9dcec8ddbc36740d"
+}

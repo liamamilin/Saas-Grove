@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 未列出 research.json 引用的 Sharetribe Go 许可证快照 data/collections/sources/de11a362ff30045e7c2f27d6fcd0f5f274d237606f183a2fbc5eea46e8af1029.txt；该文件实际存在且已读取，建议补入来源清单，便于后续复核。",
+    "Shopify 的 /online-store 与 /inventory 抓取快照 canonical 分别指向 /online 与 /inventory-management，说明发生了重定向；batch.json 保留原始 URL，快照正文仍与所述页面一致，建议在来源记录中注明最终 URL。",
+    "Shopware 6 与 AtroPIM 均存在核心开源之外的商业部分：Shopware README 提到 Shopware Cloud 与商业 plan，AtroPIM README 提到 premium 模块为商业许可。两个条目对 MIT/GPLv3 核心的描述准确，未把商业部分写成开源；建议在 summary 或边界说明中显式写出“核心开源、商业附加另售”，减少读者误读。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致；这应是修复前输入元数据，不影响本次内容核对，但建议在最终产物中同步。",
+    "Shopify /orders、/inventory 与 Sharetribe 首页、monetization 页均为营销/产品页正文，足以支持商业条目的基本真实性与类型匹配；未登录商家后台或运行实例，订单状态机、退款/履约流程、套餐覆盖范围未验证。",
+    "Shopify /online-store 页面同时介绍 headless 路径，Shopware 产品文档中 AI description assistant 等个别功能标注需 Rise plan；前者是可选路径，后者不是产品目录管理核心，均不影响本叶类型匹配。"
+  ],
+  "leaf_checks": {
+    "online-store-builder": {
+      "application_id": "commercial:shopify",
+      "status": "verified",
+      "basis": "batch.json 将 Shopify 列为 commercial 在线店铺构建服务；/online-store 快照正文可检索到 800+、themes、AI-generated store design、visual/drag editor、no coding、checkout、hosted 等短语；/orders 快照正文与 description 覆盖 order management、fulfillment、shipping labels、returns；/inventory 快照覆盖 stock/inventory。首页快照仅用于产品身份，未作为核心正文证据。",
+      "sources": [
+        "data/collections/sources/0c0c36ee7e932cd5928ff2231a9e39bf7b07923280da5cbf611862eac0f6df2f.txt",
+        "data/collections/sources/48c1bd5cd842916370dfdf9be67d8aee27c0384562237372c63dc58813bb9dec.txt",
+        "data/collections/sources/b6a2686be274328728e44d1d27638260e0766d9db348e4a9e23cc24b3a7d7ab1.txt",
+        "data/collections/sources/1648a7a06bb6cee45983b22de49da39d14eb84875a85ca9c8adc0a84e0800897.txt"
+      ],
+      "gaps": "未登录 Shopify 后台验证订单状态机、退款/履约步骤；未运行实例；/online-store 与 /inventory 快照为压缩 HTML，正文以短语级检索核对。"
+    },
+    "marketplace-platform": {
+      "application_id": "commercial:sharetribe",
+      "status": "verified",
+      "basis": "首页快照正文可检索到 aggregates inventory from multiple suppliers、seller profiles/listings、no-code、hosted cloud infrastructure、provider 等；monetization 页正文可检索到 commission、Stripe、provider、automatically、minimum/fixed 等；许可证快照 de11a 确认 Sharetribe Go 使用 Sharetribe Community Public License 1.0（源码可用，非 OSI 开源），该边界与 research.note 一致。",
+      "sources": [
+        "data/collections/sources/0bd4bbb76c00611e528e1d6318c3d037e0c98ccbd562bdaddd02ed949a1c589e.txt",
+        "data/collections/sources/e0f3bf365d8411fc5b73db552946190696783fd1fe3627c2a88819e0bfd4f14d.txt",
+        "data/collections/sources/de11a362ff30045e7c2f27d6fcd0f5f274d237606f183a2fbc5eea46e8af1029.txt"
+      ],
+      "gaps": "未登录运营方后台核验佣金配置、结算和卖家审核；未核验套餐是否覆盖全部佣金方式。"
+    },
+    "digital-product-catalog": {
+      "application_id": "commercial:catalog-machine",
+      "status": "verified",
+      "basis": "首页正文明确在线与 PDF 目录、产品数据库/CSV/网址/图片导入、50+ 模板与布局、分享/嵌入/密码保护、可选订单表与收款，以及“one product database and all the catalogs are automatically updated”；覆盖产品组合→策划目录→发布可浏览/可分享界面的核心，下单为可选叠加。",
+      "sources": [
+        "data/collections/sources/df191bacc871b6c0796c48419948387099816243530707c9d688f182c37f0e8b.txt"
+      ],
+      "gaps": "未试用模板编辑器，未实际验证 PDF 导出、密码保护、订单/收款行为。"
+    },
+    "product-catalog-management": {
+      "application_id": "github:131995661",
+      "status": "verified",
+      "basis": "Shopware 官方产品文档正文覆盖产品编号、描述、价格/税/库存、变体、Visibility & structure、类目与销售渠道；README 说明 Shopware 6 是 MIT、可直接使用的 shopping cart system；license 快照为完整 MIT 文本；metadata 的仓库 id 131995661 与条目一致。",
+      "sources": [
+        "data/collections/sources/4d02ff468187f8ce4cc4b7427b908f0b453d8b51a14bfc28933e737efdad9427.txt",
+        "data/collections/sources/614ee87582fa3ef73e2f3fd12da5da94b2c4a95c72279da947ac5f197c005de2.txt",
+        "data/collections/sources/dda4e398c7458258669699617e9f8b059c98e789f00ac64b485f7f370b1fcf25.txt",
+        "data/collections/sources/70840301b0083ba6722768d81892918387e82ed5ce40b45ce4829f1481d61dc0.txt"
+      ],
+      "gaps": "未部署后台逐页核验变体生成器、动态产品组和各渠道可见性；文档快照为 6.7.14 版本。"
+    },
+    "product-information-management-pim": {
+      "application_id": "github:298274485",
+      "status": "verified",
+      "basis": "README 明确本仓库是 AtroCore 平台的 PIM 模块、AtroPIM 为预装该模块的 AtroCore 实例；正文覆盖产品为一等实体、可配置属性/关系/布局、变体、分类、渠道与渠道特定取值，并分发到网店、市场、印刷目录、ERP 与合作伙伴门户；license 快照为完整 GPLv3 文本；metadata 的仓库 id 298274485 与条目一致。",
+      "sources": [
+        "data/collections/sources/2a602730a2987f17ab927435ec07a0155a19758b3bb4a613a39e944126b0f75c.txt",
+        "data/collections/sources/cace1428812b3cef20e59fc367bc7578b9aacb89a3efa3a7353bb1be3c39a588.txt",
+        "data/collections/sources/e4eec4c1b44122532074e35e4ece47b4a47d6112a570f56b76424f843addf9a9.txt"
+      ],
+      "gaps": "未实际安装 AtroCore + AtroPIM；未核验 Docker 评估镜像与生产安装差异；核心 GPLv3 免费，premium 模块另售。"
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未写文件、未读取其他单元，也未部署或登录任何产品；Shopify、Sharetribe、Catalog Machine 的部分快照为压缩单行 HTML，正文证据通过快照内短语级检索核对，未逐句渲染核验；未验证后台状态机、套餐覆盖、PDF/密码保护实际行为；未独立校验文件 sha256，仅按 REVIEW_SOURCES.json 的 path 原样读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-029/ses_groveopencodegop029review1_1792942602.jsonl",
+  "batch_sha256": "6faf0bb3148a4498903b0c692702328e0ed69544661cfd4028ae5617515e8ae5",
+  "research_sha256": "aa79a8e563c8abb9ca8d025d046f78fd8e5ed7771f072baade1834621e9dd98a",
+  "input_sha256": "e010781315eb058a81faab4cebeae12e29cf7a3ece34bb622b51a878a9eed4d2"
+}

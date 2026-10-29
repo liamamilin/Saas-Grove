@@ -1,0 +1,130 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "payment-orchestration-platform",
+      "application_id": "github:552877440",
+      "note": "仓库根 LICENSE 快照为完整 Apache-2.0 文本（11358 字节，标准全文），README 亦声明 “licensed under the Apache 2.0 License”；但 README 同时列出 card-vault、encryption-service、prism、decision-engine、control-center 等独立仓库，这些卫星仓库的许可证与“社区版 vs 云/企业版”的功能边界在本单元快照中未细分。建议在公开条目中保留“仅核心仓库许可证已核实、社区版边界未细分”的表述，后续补充 Control Center/卫星仓库许可证或版本对比页即可，不影响本次类型与许可证主体判断。"
+    },
+    {
+      "slug": "payment-orchestration-platform",
+      "application_id": "github:552877440",
+      "note": "核对理由覆盖了“多提供商连接、单一入口、路由控制”三项，第四项“提供商无关的统一交易记录与标准化生命周期”未直接引原文；README 的 retries、reconciliation、Control Center 交易/日志视图可间接支持，可在未来引用支付检索/重试记录文档补强，当前不阻断。"
+    },
+    {
+      "slug": "banking-back-office-platform",
+      "application_id": "commercial:oracle-banking-payments",
+      "note": "快照有力支撑员工端异常队列、校验失败、修复后从初始校验重新处理、队列动作历史与系统审计轨迹；执行语义（记账/报文外发）仅由 Accounting Queue、Accounting Resend Summary、Non STP Queue 的 Release/Authorize、Settlement Review Queue、Network Cutoff 等目录项间接支持，且原交易录入页 404 已如实留档。研究记录已明确“只作基本类型匹配、不补造执行细节”，符合商业案例要求；若后续提升证据强度，可补一份支付处理/记账相关正文页。"
+    },
+    {
+      "slug": "banking-operations-management",
+      "application_id": "commercial:backbase-banking-operations",
+      "note": "四属性中“管理领域、聚合可见性、管理动作”有正文支撑（五类运营域、失败支付/对账差额/合规保留入队、clears the backlog、按类型与严重度路由、overrides/escalations/manual reconciliation、SLA tracking built in、Completed cases/Employee effort/Backlog）；“绩效测量”仅到服务目标跟踪层面，人员排班/容量调整与按团队/个人归因的生产率、质量度量未证实。核对理由已主动收窄、不主张 workforce，属可接受缺口；同时该产品自身承载案件工作流与支付异常处置，与姊妹类型 Banking Back-office Platform 存在重叠，公开描述宜维持现状的谨慎措辞。"
+    },
+    {
+      "slug": "expense-management-platform",
+      "application_id": "commercial:zoho-expense",
+      "note": "“Reimbursement”“Corporate Card Reconciliation”“Expense Rules”等原文位于页面折叠特性面板（other-feature-tiles）内，快照为单行 HTML，逐句上下文在本地读取时被截断；本次以字面串存在性确认引文非虚构。建议后续引用时标注所属面板名称，避免把折叠面板文字误当作正文段落。"
+    },
+    {
+      "slug": "spend-management-platform",
+      "application_id": "commercial:procurify",
+      "note": "首页正文对 Intake-to-Approve、Purchase-to-Receive、Invoice-to-Pay 与 “Audit trails, approval routing, and ERP integrations” 有直接表述，但 budgets/policies 在首页主要出现在演示邀约文案；真正的预算前置控制证据来自 Expense & Card 页（pre-approved limits、real-time budget impact）与页脚 Budget Management 链接。核对理由中“正文并列出 budgets/policies”可更精确区分来源页。"
+    },
+    {
+      "slug": "banking-back-office-platform",
+      "application_id": "commercial:oracle-banking-payments",
+      "note": "条目 homepage 为通用 https://oracle.com，非产品页；产品身份由 docs.oracle.com 的 Exception Queues User Guide（14.7.0.0.0）与 Security Guide 支撑，建议将 homepage 指向产品文档入口或在描述中注明文档版本。"
+    },
+    {
+      "slug": "expense-management-platform",
+      "application_id": "commercial:zoho-expense",
+      "note": "homepage 字段为 https://www.zoho.com，而非产品页 /expense/；不影响类型判断，仅为元数据一致性建议。"
+    },
+    {
+      "slug": "banking-operations-management",
+      "application_id": "commercial:backbase-banking-operations",
+      "note": "两个 Backbase 产品/方案页在 batch 与 REVIEW_SOURCES 中均标记为 kind=documentation，实际更接近产品方案页；分类标签建议统一，避免与文档类证据混淆。"
+    }
+  ],
+  "leaf_checks": {
+    "expense-management-platform": {
+      "application_id": "commercial:zoho-expense",
+      "id_track": "commercial / commercial:zoho-expense，ID 唯一，track 与商业案例一致",
+      "sources_read": [
+        "data/collections/sources/d880de994d6b9542a98722a55464edb312f7884ba15efa7f7961d3d261802d12.txt (zoho.com/expense/)",
+        "data/collections/sources/fcbb8e238c2fc447c6427ed362e887424e85a30a76efc4c4facd2329632175a9.txt (zoho.com/expense/expense-reports/)"
+      ],
+      "core_check": "费用报告作为记录单位：报告页正文有自动生成报告编号/名称、Create expense report types 限制可添加的费用类型、归集后提交审批；政策评估：同页特性面板含 Policies/Expense Rules 及违规提示/阻止表述（字面串已确认存在）；非支出者审批：反复出现 “submit for approval”，并有 Approvals 面板；财务完成两种形态：Reimbursement 面板原文 “Sync settlements with payroll and ERP software…delivered directly to their accounts”，Corporate Card Reconciliation 面板原文 “fetch card feeds instantly…automatically match and reconcile…reconciliation overview”，首页另有 real-time corporate card feeds 与 automated expense matching；移交会计：首页列出 QuickBooks/Sage/Xero/Oracle/SAP 集成。四项定义结构均有正文对应，未以简介或元数据替代。",
+      "service_form": "多租户 SaaS 产品页（含定价/试用/登录入口），持续订阅式服务形态成立；未主张自托管或本地部署。",
+      "type_boundary": "以报销单生命周期为中心，卡片仅作为对账渠道，未主张采购申请/发票/预算控制平面，故落在 Expense Management 而非 Spend Management / Corporate Card / Travel 类型，边界与定义一致。",
+      "gap": "Expensify 官方页面多次 403 已如实留档并使用 Zoho 替代；zoho 帮助中心一次历史抓取未保留快照，采集记录已声明不作为证据，符合留档要求。",
+      "verdict": "通过"
+    },
+    "payment-orchestration-platform": {
+      "application_id": "github:552877440",
+      "id_track": "open_source / github:552877440；仓库元数据 id=552877440、full_name=juspay/hyperswitch、fork=false，与 github_repository_id 一致",
+      "sources_read": [
+        "data/collections/sources/6c4bb5a9b15cdcd53a19bcd66096fa20b33a37465af166d82d5e98645b0995f3.txt (api.github.com/repos/juspay/hyperswitch)",
+        "data/collections/sources/9843204b245d1e5f29f23d39f1938f79d16078767e21387b4e5309a21174daf3.txt (repo license)",
+        "data/collections/sources/58117e63d3e61fbaf9ded8ec7083ed9e6f0a53d28e9ba5d8c6a3223a9a8806f7.txt (raw README)",
+        "data/collections/sources/4a73085ee3f4e21047e7b09dcc6b1448939e5b1466b99d1e5f9acab2b3dbe766.txt (docs.hyperswitch.io/about-hyperswitch)"
+      ],
+      "core_check": "多提供商路径：README “connects to Stripe, Adyen, Braintree, Worldpay, Checkout.com, Cybersource, and 120+ processors”，每个连接器有独立凭证配置指南；单一标准化入口：统一接入、Control Center 配置连接器与路由；逐笔提供商选择：intelligent routing 按预测授权率路由、retry logic、workflow builder；提供商无关记录：README 的 retries、reconciliation 模块、Control Center 查看交易/日志可间接支持，未直接引述统一状态机原文。平台自身不授权结算，由连接的处理商完成，符合“编排层”而非网关。",
+      "open_source_license": "仓库根 LICENSE 快照为完整 Apache-2.0 正文（标准 11358 字节文本），README 明示 “licensed under the Apache 2.0 License”；非仅徽章或元数据。",
+      "community_boundary": "README 同时给出本地 Docker 自托管、Helm 云部署、托管沙箱与 SaaS 入口，说明开源核心与托管形态并存；但社区版与 SaaS/企业版的功能边界未在快照中细分，卫星仓库许可证未核实，采集记录已如实记录该缺口，未虚构边界。",
+      "service_form": "开源 + 自托管 + 托管沙箱/SaaS 双形态，属持续运行的支付基础设施软件服务；Rust 技术栈与 README 一致，未核实的组件未写入条目。",
+      "verdict": "通过（社区版边界与第四属性证据偏弱，已按缺口留档，列为非阻断建议）"
+    },
+    "spend-management-platform": {
+      "application_id": "commercial:procurify",
+      "id_track": "commercial / commercial:procurify，ID 唯一，track 一致",
+      "sources_read": [
+        "data/collections/sources/06beab4bc6d9d038bec2a408f3b13d8e90fa344c619c5bf398845c9ef5a35845.txt (procurify.com)",
+        "data/collections/sources/e63b6f3ff439fee7da19d46447fe833e90f28bc3f8f457f3c630b5d6e45a4892.txt (procurify.com/procure-to-pay/expense-and-card/)"
+      ],
+      "core_check": "多渠道：首页正文分别给出 INTAKE-TO-APPROVE（结构化申请与审批、承诺前可见性）、PURCHASE-TO-RECEIVE（PO 创建发送、收货闭环）、INVOICE-TO-PAY（发票提取、与 PO 匹配、编码、异常路由）；Expense & Card 页给出虚拟/实体 Spending Cards、收据采集、费用报告审批、可报销与不可报销（含公司卡、垫付、备用金）统一对账。集中预算与政策：Expense 页 “enforce budgets with pre-approved limits”“real-time budget impact before approving”，首页列出 approval routing、audit trails、ERP integrations。控制发生在支出流程中：事前审批、卡预授权额度、发票匹配仅路由异常。输出为统一归因支出记录并 “ends in your books”。三项定义结构均有正文支撑。",
+      "service_form": "SaaS 采购/支出平台（演示申请、登录/产品页），持续服务形态成立。",
+      "type_boundary": "覆盖申请、订单、发票、卡、报销多渠道，未退化为单一渠道工具，故不落入 Procure-to-pay / AP Automation / Corporate Card / Expense Management 单渠道类型；未主张总账职能。",
+      "gap": "首页对 budgets/policies 的直接功能描述较弱（多为演示邀约与页脚导航），预算证据主要来自 Expense & Card 页；不影响结论，建议引用来源更精确。",
+      "verdict": "通过"
+    },
+    "banking-back-office-platform": {
+      "application_id": "commercial:oracle-banking-payments",
+      "id_track": "commercial / commercial:oracle-banking-payments，ID 唯一，track 一致；产品身份由 Oracle Banking Payments 14.7.0.0.0 文档确认",
+      "sources_read": [
+        "data/collections/sources/3e1c2a05aec242864ada5af8143c16726004f662f36564e9ab073fd6f44aac01.txt (repair-queue)",
+        "data/collections/sources/99722e411e8bd3f95a2a365f1baa12959de271bbb345f48c930db81e9f8b4f5e.txt (exception-investigation-queues-internal)",
+        "data/collections/sources/7b81cab84ddf7ee08da38d8c5ccf71872bc3c423d458c45aad8261e762a9bc08.txt (repair-action)",
+        "data/collections/sources/2924fc2235b2da1469665f5d3bdf2b7662da5d2b1f21d259a1d5a59f5e70989a.txt (toc)",
+        "data/collections/sources/b654511117de060a82354344dd1bca37833650ad188e48fb69276ad7c527593f.txt (view-queue-action)",
+        "data/collections/sources/eb01da9e2a1457577833f5cc7a655b1e4b6c980656beaf47cc43b183fa02d368.txt (audit-trail-report, Security Guide)"
+      ],
+      "core_check": "内部员工界面：Exception & Investigation Queues - Internal 章节、按队列作业的操作步骤，审计程序限定给 Security Officer；被追踪交易记录：按 Queue Reference/Transaction Reference/Queue Status/Authorization Status/Network cutoff time 检索与排序；validate→authorize→execute 管线：校验失败（SWIFT 字段、IBAN、BIC、账户状态等）进入 Repair Queue，Non STP Queue 具 Release/Authorize，队列目录含 Authorization Limit 1/2、Processing Cut Off、Network Cutoff、Settlement Review；人工异常路径：Repair Action 仅允许修改致错字段并 “submit for re-processing…starting from initial validations”；持续审计：登录后全部活动与所调用功能含时间戳，可显示/打印。执行语义（记账/外发）仅由 Accounting Queue/Accounting Resend、Non STP Release、Settlement Review 间接体现，未直接引述过账或报文发送正文。",
+      "service_form": "银行侧企业级支付处理软件（产品文档，非消费级页面）；文档呈现为持续运营使用的后台系统，符合后台平台形态。",
+      "type_boundary": "员工面向、非客户前台；不主张核心账务引擎或总账职能，与 Banking Back-office 定义一致，未误用 Operations Management 或 Digital Banking 类型。",
+      "gap": "原交易录入页 obtrn/payment-transaction-input.html 返回 404，多个 oracle.com 产品页 404，均已如实记录；采集记录明确不主张交易录入与执行细节，属合规留档。",
+      "verdict": "通过（执行正文为间接证据，按商业案例基本类型匹配标准可接受）"
+    },
+    "banking-operations-management": {
+      "application_id": "commercial:backbase-banking-operations",
+      "id_track": "commercial / commercial:backbase-banking-operations，ID 唯一，track 一致",
+      "sources_read": [
+        "data/collections/sources/05d23c59c7fde2f5397478216f91641a3f5040fb1c76c424cb85f21e9298182b.txt (backbase.com/solutions/banking-operations)",
+        "data/collections/sources/d994ff456441355825410f316940741b97ca701589361bd299a6c3563ef32a83.txt (backbase.com/banking-os)"
+      ],
+      "core_check": "管理领域为银行运营：页面按客户运营、支付运营等五个运营域展开，覆盖失败支付、对账差额、合规保留、争议、借贷运营；聚合可见性：队列/积压、SLA tracking built in、预建核心/支付/卡/借贷/KYC/AML/欺诈/CRM/文档连接器且 “Events stream in real time”，Banking OS 页列出 Completed cases / Employee effort / Backlog；管理动作：clears the backlog、按类型与严重度分类并 “route them to the right team”、overrides/escalations/manual reconciliation、升级与清理异常；追踪绩效：SLA 跟踪与完成时间、重复联系、员工投入、返工等价值基线（采购问题口径）。人员排班/容量调整与按团队/个人归因的生产率、质量度量未证实，核对理由已明确不主张 workforce。",
+      "service_form": "面向银行的运营自动化/管理工作台（SaaS 平台产品页，含演示申请），持续服务形态成立。",
+      "type_boundary": "自身承载案件工作流与支付异常处置，与 Banking Back-office Platform 有重叠；但本类型定义明确允许“嵌入执行平台的管理界面”这一交付形态，且页面提供统一队列可见性、路由/升级/清理动作与服务目标跟踪，类型关系可接受，措辞已限定为管理界面视角。",
+      "gap": "早前引用的 Verint 分支人力管理快照在本单元 sources/ 缺失，采集记录已从 source_urls 移除并标注 retained:false、不作为证据，属如实留档缺口。",
+      "verdict": "通过（绩效归因维度证据偏薄，已在核对理由中收窄，不影响类型匹配）"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 16 个快照文件（按 path 原样读取，未猜测或缩写路径）；未运行 shell、未写文件、未访问其他单元或采集者过程脚本。未重新计算快照 sha256（文件以哈希命名且按原路径读取，内容哈希未独立校验），未联网抓取原始 URL、未做部署或运行测试，也未核实价格、架构与接口细节。多个快照为单行压缩 HTML/Webflow 页面，read 工具逐行 2000 字符截断，部分页面正文只能通过字面串命中确认存在性（如 “Expense Rules”“Sync settlements with payroll”“Corporate Card Reconciliation”“SLA tracking built in”“clears the backlog”“route them to the right team”“Events stream in real time”“overrides, escalations, manual reconciliation”“severity”“Backlog”“Employee effort”），未能逐句审阅全部上下文；因此对具体措辞的准确性判断存在上限。Leaf 定义性核心仅按输入定义核对适用性，未评价定义文本本身。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-005/ses_groveopencodegop005review1_1793074054.jsonl",
+  "batch_sha256": "2cf3e4ad2adecfd95e22a83bd3a1ea8fd978f29da86aed5bff2d7d71ac3380ea",
+  "research_sha256": "2cb43910071d1b8202724fbd29cc53fb9940fcdb071667a7af4decbfa62c52c9",
+  "input_sha256": "406aa8a02ebb67223f1eceb41869d2304882aa6487755b27851570351fb25c2c"
+}

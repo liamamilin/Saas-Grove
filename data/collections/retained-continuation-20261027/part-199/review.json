@@ -1,0 +1,74 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "timber-supply-chain-management：Remsoft 首页仅通过产品卡片和翻转说明展示物流能力，未展示 roadside/rolling/yard/mill 的节点级库存画面；research.json 已明确披露该缺口且未把链上库存写成已覆盖，故不阻断，若后续要强化第三核心，建议补抓 Logistics/Timber Delivery 产品页。",
+    "timber-supply-chain-management：batch.json 将 “Integrated Harvest, Roads and Wood Flow Planning” 写在 Woodstock 名下；快照中该短语属于 Tactical Optimization，Woodstock 仅标为 Forest Planning Optimization，属产品归属措辞问题，不影响类型匹配。",
+    "agricultural-gis：Ag Leader SMS 以桌面端为主并通过 AgFiniti 账户/云连接，不是纯 Web SaaS；research.json 已注明，按商业软件产品仍可接受，但若本单元要求严格 SaaS 交付形态，需在下一轮补充说明。",
+    "agribusiness-erp：无案例结论有检索与抓取留档支撑；websearch 返回 401，检索主要依赖 GitHub API，未覆盖商业农业 ERP 厂商页面。该缺口已如实记录，不影响无案例留档通过。",
+    "agricultural-iot-platform / crop-remote-sensing-platform：两者均为较新的开源项目，FarmInsight 为大学项目、OpenFarm 自述尚无测试；未做生产或运行验证，记录已披露，不构成类型或许可问题。"
+  ],
+  "leaf_checks": {
+    "timber-supply-chain-management": {
+      "status": "case_found",
+      "application_id": "commercial:remsoft",
+      "track": "commercial",
+      "basis": "读取 remsoft.com 首页快照正文：Woodstock 标为 Forest Planning Optimization；Tactical Optimization 标为 Integrated Harvest, Roads and Wood Flow Planning；Operations 说明提供 schedules、equipment、loads、workforce 的共享可见性；Transportation & Logistics 说明跨 forest-to-mill 采集数字装载数据，让 forest owners、contractors、mills 共享每车装载记录，并连接 route planning、scheduling、weight verification、delivery coordination。研究记录据此匹配分配计划与装载/交付执行，且未把节点级库存写成已覆盖。",
+      "gaps": [
+        "首页未展示 roadside/rolling/yard/mill 节点级库存。",
+        "未验证价格、部署与运行形态。",
+        "Woodstock 与 Tactical Optimization 的产品归属有轻微措辞偏差。"
+      ]
+    },
+    "agribusiness-erp": {
+      "status": "no_case",
+      "application_id": null,
+      "track": "none",
+      "basis": "research.json 记为 insufficient_evidence，batch.json 无条目。检索覆盖 agribusiness/agriculture/farm ERP、erpnext agriculture 等 GitHub 查询，并核对 frappe/agriculture 元数据、README、GPL-3.0 许可证，以及 KeyRys/agris-ERP 元数据与 README。frappe/agriculture 仅为依赖 ERPNext 宿主的农业领域模块，缺少会计、库存、采购、销售、种植者合同、接收质检、结算与生产过账的一体化后台证据；KeyRys/agris-ERP 无许可证、README 自述 Initialization phase、仅后端模型，均不采用。",
+      "gaps": [
+        "无成立案例。",
+        "websearch 返回 401，未检索商业农业 ERP 厂商页面。",
+        "无应用条目可做 ID/track 核对。"
+      ]
+    },
+    "agricultural-gis": {
+      "status": "case_found",
+      "application_id": "commercial:ag-leader-sms",
+      "track": "commercial",
+      "basis": "读取 agleader.com/sms-software 快照正文：SMS 管理田块边界（boundary logging）、土壤调查图、航拍/道路底图、多层查询、多年度均值比较、管理分区、公式化处方、3D 地形与 NDVI 分析；SMS Basic/Advanced 以许可与维护费销售，并通过 AgFiniti 连接。覆盖土地基础、农艺图层、地图分析与农艺输出。",
+      "gaps": [
+        "桌面端为主，非纯 Web SaaS。",
+        "部署与运行未验证。",
+        "页面为产品营销与功能视频说明，未见实际运行界面。"
+      ]
+    },
+    "agricultural-iot-platform": {
+      "status": "case_found",
+      "application_id": "github:1150674441",
+      "track": "open_source",
+      "basis": "仓库元数据快照显示 id 1150674441、full_name ETCE-LAB/FarmInsight；README 明确 HTTP/MQTT 传感器接入、10+ 型号、实时看板与历史趋势、按设施阈值警报、通知、基于 interval/time/sensor threshold 的自动控制、多租户 Admin/Member；license 文件为完整 GNU AGPL v3 文本（34,523 字节）。仓库为完整开源平台，未见单独付费版或社区版功能切割。",
+      "gaps": [
+        "大学项目，未做生产验证。",
+        "未运行部署。",
+        "首页未单独抓取，仅 README 徽章引用 live system。"
+      ]
+    },
+    "crop-remote-sensing-platform": {
+      "status": "case_found",
+      "application_id": "github:1158459932",
+      "track": "open_source",
+      "basis": "仓库元数据快照显示 id 1158459932、full_name superzero11/OpenFarm；README 明确以田块为锚点，绘制或上传 GeoJSON/KML 边界，Sentinel-2 NDVI/EVI/SAVI/NDWI 与 24 个月历史回填，按指数配置阈值与跌幅警报，地理标记巡查、采样分区、地图与分享报告，Docker/PostGIS/TiTiler 部署；license 文件为完整 BSD-3-Clause 文本（1,529 字节）。README 以 self-hostable 开源平台发布，未见 open-core 或社区版限制。",
+      "gaps": [
+        "项目较新，README 自述尚无测试。",
+        "未运行部署。",
+        "未见处方图输出；核心交付可由警报、巡查、分区与报告满足。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审，仅读取本单元文件，未运行 shell、未部署或执行任何应用，未读取其他单元。商业案例仅有官网首页快照，未验证价格、部署或运行形态；Remsoft 节点级链上库存未在快照中出现；agribusiness-erp 无案例，websearch 返回 401，检索以 GitHub API 为主。GitHub API 快照中的 README 与许可证以 base64 保存，已核对仓库元数据、许可证标识及完整许可证文本，但未做运行验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-199/ses_groveopencodegop199review2_1793025780.jsonl",
+  "batch_sha256": "5fb6c4db91f74b3dbc711a9b935d0d961305b17979607a82bdd879c6ebc992e3",
+  "research_sha256": "ae2eb963facdf29782a96a11a9dc7343c8ff59b56d6ef4778da1e5c278e047c6",
+  "input_sha256": "37db8d432ad541b45adf1c79bb46b2830f7bca0e4483c9e9b0f53554303757ab"
+}

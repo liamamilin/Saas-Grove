@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 9,
+  "offset": 200,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "abm-platform",
+        "name_zh": "ABM平台",
+        "domain_id": "06",
+        "parent_id": "06.06",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-009/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "websearch: account based marketing platform target accounts（检索接口无结果）；GitHub 仓库搜索: \"account based marketing\"（367 条，均为无关项目）；直接核验 Demandbase 官方首页"
+          },
+          {
+            "record": "retained-continuation-20261027/part-110/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "websearch: account based marketing platform target accounts（检索接口无结果）；GitHub 仓库搜索: \"account based marketing\"（367 条，均为无关项目）；直接核验 Demandbase 官方首页"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "abm-platform",
+        "name": "ABM Platform",
+        "name_zh": "ABM平台",
+        "aliases_zh": [
+          "基于账户营销平台",
+          "目标账户营销平台"
+        ],
+        "overview": "An **ABM Platform** (Account-Based Marketing platform) is a B2B marketing application organized around **target accounts — companies — rather than individual leads or contacts** as the primary audience unit. A marketing organization uses it to define and maintain lists of companies it has decided to pursue, run coordinated marketing toward the people at those companies across channels, and measure engagement and commercial progression at the company level.\n\nThe defining core is small:\n\n```text\nTarget account (a company as an identified record)\n└── Target account list / segment (the account-level audience object)\n    └── Coordinated activation toward the account across one or more channels\n        └── Account-level engagement and progression measurement\n            (feeding back into prioritization)\n```\n\nThree properties hold the Type together. Targeting is defined and measured at the company level; the platform actually executes or orchestrates marketing toward those companies; and engagement plus commercial progression are tracked per account so the selection can be re-prioritized. Remove the account-level unit and the product becomes lead-centric marketing automation. Remove activation and it becomes account analytics. Remove account-level measurement and it becomes ordinary campaign or ad execution that happens to include company attributes.\n\nEverything else the category is known for — website-visitor identification, third-party intent data, predictive scoring, journey stages, owned ad-tech, orchestration canvases, sales alerts — is widespread in mature products but is an elaboration of this loop, not the definition. Older and simpler implementations (a CRM-exported account list, display advertising against it, and a per-account engagement report) satisfy the same core without any of the modern machinery.",
+        "overview_zh": "一个**ABM平台**（基于账户的营销平台）是一种B2B营销应用，其组织方式以**目标账户——即公司——而非单独的潜在客户或联系人**作为主要受众单位。营销组织使用它来定义和维护其决定要追求的公司列表，针对这些公司中的人员跨渠道开展协调一致的营销活动，并在公司层面衡量参与度及商业进展。\n\n其定义性核心很小：\n\n```text\n目标账户（作为已识别记录的公司）\n└── 目标账户列表/细分（账户级别的受众对象）\n     └── 针对该账户跨一个或多个渠道的协调激活\n         └── 账户级别的参与度与进展衡量\n             （反馈至优先级排序）\n```\n\n三个特性维系着该类型的整体性。 targeting 在定义和衡量上均处于公司层面；平台实际执行或编排针对这些公司的营销活动；并且参与度加上商业进展是按账户追踪的，以便对选择进行重新优先级排序。移除账户级别单位，产品就变成了以潜在客户为中心的营销自动化。移除激活，它就变成了账户分析。移除账户级别衡量，它就变成了恰好包含公司属性的普通活动或广告执行。\n\n该类别所闻名的其他所有内容——网站访客识别、第三方意向数据、预测评分、旅程阶段、自有广告技术、编排画布、销售警报——在成熟产品中很普遍，但这是对这一循环的阐述，而非定义。较旧且更简单的实现（从CRM导出的账户列表、针对该列表的展示广告，以及按账户的参与度报告）在没有任何现代机制的情况下也能满足相同的核心需求。",
+        "dc": "A **target account** is a company record — identified in practice by attributes such as its web domain, name, country, and headquarters — that the organization has chosen to pursue. Accounts are the unit to which everything else attaches: signals, people, stages, campaigns, and revenue outcomes. Person-level records (contacts, buying-committee members) exist in the model, but they hang under accounts and roll up to them.",
+        "dc_zh": "一个**目标账户**是一个公司记录——在实践中通过属性如网页域名、名称、国家和总部来识别——该组织已选择追求。账户是其他一切附加的单位：信号、人员、阶段、营销活动和收入结果。人员级记录（联系人、采购委员会成员）存在于模型中，但它们挂在账户下并汇总到账户。",
+        "rules": "### The account is the unit; people roll up to it\n\nTargeting decisions, budgets, stages, and reports are defined at the company level. Person-level actions (an email send, a sales call) are attributed upward to the account. This roll-up discipline is what makes \"account-based\" measurement meaningful.\n\n### Account identification is probabilistic\n\nAttributing anonymous website activity to companies relies on matching infrastructure (IP, cookies, device signals, domain data) against company databases. Match rates are imperfect and are reduced by VPNs, corporate firewalls, and privacy controls. Some products expose match-rate visibility rather than implying deterministic identification. Claims built on identification should be read as coverage estimates, not certainties.\n\n### Dynamic and static lists behave differently\n\nFilter-based lists re-evaluate as data changes — accounts enter and exit automatically. Imported lists hold their membership until edited. Which kind a program targets determines whether the audience drifts with signal changes or stays fixed; products label this explicitly.\n\n### Stage models are configurable, and movement can regress\n\nJourney/buying stages are defined either by the vendor's models or by customer rules over available data sources. Accounts can move backward (regress) as engagement decays or definitions change. Stage-based automations should therefore be designed for re-entry, not one-time progression.\n\n### Activation channels differ in their addressable unit\n\nAdvertising can address accounts directly (company-level targeting). Email and sales sequences address people. The bridge is orchestration: account-level triggers select and route people into people-level channels. A consequence is that people-level channels depend on CRM/MAP/SEP integration quality in a way advertising does not.\n\n### The CRM is the commercial system of record\n\nOpportunity and deal state flows from CRM into stage models and revenue reporting; scores, stages, and segment memberships flow outward. Conflicts (duplicate accounts, a contact matching multiple accounts) are resolved by matching and tie-breaker rules that operations teams configure.\n\n### Access is role-differentiated\n\nMarketing users build lists and programs; sales users consume signals and alerts; administrators control integrations, mappings, and permissions. Read-only visibility is common for stakeholders who only need reports.",
+        "rules_zh": "### 账户是单位；人员向上汇总至账户\n\n目标决策、预算、阶段和报告在公司层面定义。人员级别的动作（如发送邮件、销售通话）向上归属于账户。这种向上汇总的纪律使“基于账户”的衡量具有意义。\n\n### 账户识别是概率性的\n\n将匿名网站活动归属于公司依赖于将匹配基础设施（IP、Cookie、设备信号、域名数据）与公司数据库进行比对。匹配率并不完美，且因VPN、企业防火墙和隐私控制而降低。一些产品暴露匹配率可见性，而非暗示确定性识别。基于识别的主张应被视为覆盖估计，而非确定性。\n\n### 动态和静态列表行为不同\n\n基于过滤器的列表随数据变化重新评估——账户自动进入和退出。导入的列表保持其成员资格直到被编辑。项目针对哪种列表决定了受众是随信号变化而漂移还是保持固定；产品会明确标注这一点。\n\n### 阶段模型可配置，且移动可能倒退\n\n旅程/购买阶段由供应商模型或客户在可用数据源上的规则定义。随着参与度衰减或定义变化，账户可能向后移动（倒退）。因此，基于阶段的自动化应为重新进入而设计，而非一次性进展。\n\n### 激活渠道在其可寻址单位上有所不同\n\n广告可以直接针对账户（公司级别 targeting）。邮件和销售序列针对人员。桥梁是编排：账户级别触发器选择并将人员路由至人员级别渠道。一个后果是，人员级别渠道依赖于CRM/MAP/SEP集成",
+        "parent_id": "06.06",
+        "domain_id": "06"
+      }
+    },
+    {
+      "progress": {
+        "slug": "affiliate-management-platform",
+        "name_zh": "联盟管理平台（AMP）",
+        "domain_id": "06",
+        "parent_id": "06.06",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-009/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "websearch: open source affiliate management platform（检索接口无结果）；GitHub 仓库搜索: \"affiliate marketing software\"（30 条，前列为目录/点击追踪脚本）；直接核验 Post Affiliate Pro 官方首页"
+          },
+          {
+            "record": "retained-continuation-20261027/part-110/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "websearch: open source affiliate management platform（检索接口无结果）；GitHub 仓库搜索: \"affiliate marketing software\"（30 条，前列为目录/点击追踪脚本）；直接核验 Post Affiliate Pro 官方首页"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "affiliate-management-platform",
+        "name": "Affiliate Management Platform",
+        "name_zh": "联盟管理平台（AMP）",
+        "aliases_zh": [
+          "联盟系统",
+          "分销管理平台"
+        ],
+        "overview": "An **Affiliate Management Platform** is the software a business uses to run its own affiliate program: it enrolls external promoters (affiliates) into a registry, issues each of them a trackable link or coupon code, records customer conversions that arrive through the business's own site or checkout, credits each conversion to the affiliate whose identifier produced it, computes the commission owed under the program's rules, and carries that commission through review and approval to payout.\n\nThe problem it solves is accountability for performance-based promotion. A business wants other people — creators, bloggers, publishers, agencies, customers of other businesses — to market its products and be paid only for results. That requires a shared, trusted ledger between the business and each promoter: who referred this sale, what is it worth, what has been earned, and what has been paid. The platform is that ledger plus the machinery around it.\n\nIts boundary: this is the **merchant-side** system for one business's own program. Software whose defining role is aggregating many merchants and a discoverable publisher marketplace is an Affiliate Network (a separate Application Type) — at least one established vendor in this market ships the two as distinct products.",
+        "overview_zh": "一个**联盟营销管理平台**是企业用于运营自身联盟营销计划的软件：它将外部推广者（联盟会员）注册到登记系统中，为每位推广者生成可追踪的链接或优惠券代码，记录通过企业自身网站或结账流程产生的客户转化，将每次转化归因于产生该转化的推广者标识，根据计划规则计算应付佣金，并将该佣金经过审核与批准流程直至完成支付。\n\n它解决的问题是基于绩效推广的责任归属。企业希望其他人——创作者、博主、出版商、代理机构、其他企业的客户——来推广其产品，并仅为实际结果付费。这要求在企业与每位推广者之间建立一份共享且可信的账本：谁推荐了这笔销售、其价值几何、已赚取多少、已支付多少。该平台即是这份账本及其周边机制的总和。\n\n其边界：这是针对单一企业自身计划的**商户端**系统。若软件的核心角色是聚合众多商户并提供可发现的出版商市场，则属于联盟网络（一种独立的应用类型）——该市场中至少有一家成熟供应商将两者作为独立产品发布。",
+        "dc": "### Standard Capabilities\n\nMature products carry most of the following. They make the platform practical; they do not define it.\n\n- **Commission models** — percentage or fixed amounts; tiered rates; performance bonuses; recurring and lifetime commissions for subscription businesses; multi-level structures where affiliates earn from sub-affiliates they recruit.\n- **Program partitioning** — one program, subdivided into campaigns or contract groups with their own commission settings and payout rules (different terms for different partner groups are handled this way).\n- **Affiliate portal** — self-service surface with the affiliate's links, codes, creatives, performance stats, earnings history, and payment-settings entry.\n- **Creative distribution** — banners, text links, smartlinks and other promotional assets supplied by the merchant through the platform, so promotion stays on-brand.\n- **Recruitment & enrollment** — branded signup pages or invite links; an approval gate; open (anyone applies) versus closed (invite-only) program postures.\n- **Fraud controls** — self-referral detection, invalid-click filtering, repeated-transaction blocking, promo-code misuse protection.\n- **Reporting** — clicks, conversions, commissions and revenue by affiliate, by asset, by time period; top-performer identification; export or API access.\n- **Commerce/billing integration layer** — connectors into the storefront, cart, or payment/billing provider that make conversions observable without heavy engineering.\n- **Bulk operations & automation** — mass approval, bulk commission changes, automated rules for routine management tasks; necessary once a program passes a few hundred affiliates.",
+        "dc_zh": "### 标准能力\n成熟产品通常具备以下大部分功能。这些功能使平台实用，但不构成其定义。\n\n- **佣金模式** — 百分比或固定金额；阶梯费率；绩效奖金；订阅业务的循环及终身佣金；推广员可从其招募的下线推广员处获得收益的多层级结构。\n- **计划分区** — 将单一计划细分为活动或合同组，各自拥有独立的佣金设置与结算规则（以此处理不同合作伙伴群体的不同条款）。\n- **联盟成员门户** — 自助服务界面，包含推广链接、代码、创意素材、绩效统计、收益历史及支付设置入口。\n- **创意分发** — 由商家通过平台提供的横幅、文字链接、智能链接及其他推广资产，确保推广内容符合品牌形象。\n- **招募与注册** — 品牌化注册页面或邀请链接；审核机制；开放（任何人申请）与封闭（仅限邀请）的计划模式。\n- **欺诈防控** — 自推检测、无效点击过滤、重复交易拦截、促销码滥用防护。\n- **报告功能** — 按推广员、资产、时间段统计点击、转化、佣金与收入；识别顶尖表现者；支持导出或API访问。\n- **电商/账单集成层** — 连接至",
+        "rules": "### Attribution binds conversion to exactly one affiliate\n\nA tracked conversion is credited to one promoter under the program's attribution policy. Which policy (last touch, first touch, window length, code-vs-link precedence) is configured per product and per program — but the one-referral-one-affiliate result is structural.\n\n### Commissions are provisional before they are payable\n\nA recorded referral does not create immediately payable money. Commissions sit in a reviewable state; approval, validation holds, fraud checks, and refund reversals all occur before settlement. Specific status vocabularies differ by product (one sampled product uses pending → due → processing → paid; another shows pending and approved payout states) — the concept of a gated lifecycle is the stable part.\n\n### Payout execution locus varies\n\nSome platforms deliberately do not move money automatically — the merchant executes payment, with the platform producing the payout list and records. Others can manage distribution end to end, including collecting tax documentation and identity verification from affiliates at scale. Both shapes exist in the current market.\n\n### Minimum payout thresholds hold small balances\n\nSome products let the merchant set a threshold below which an affiliate's balance is not yet payable — an administrative control on payment volume; where evidenced, it is configured per program subdivision (campaign).\n\n### Enrollment is governed\n\nOpen programs auto-approve; controlled programs keep an approval gate, and merchants can suspend or remove affiliates. The affiliate's standing gates their identifiers' usefulness — a suspended affiliate's portal and support are cut off even though historical records remain.\n\n### Refunds claw back commissions\n\nBecause commissions are computed from merchant revenue events, refunded or cancelled conversions must reverse or reduce the corresponding commission. The stronger the integration with the billing system, the more this happens automatically.\n\n### Fraud is an arms race built into the Type\n\nSelf-referrals, incentivized or fake traffic, brand-bidding, and coupon-site abuse are intrinsic failure modes of paying per conversion. Products differ in how much protection is built in (self-referral detection, invalid-click filtering, code-misuse rules, compliance monitoring), but the merchant always retains final judgment over what gets approved and paid.",
+        "rules_zh": "### 归因将转化绑定至唯一一位联盟会员\n\n在计划的归因策略下，被追踪的转化仅归因于一位推广者。采用何种策略（最后触点、首次触点、窗口长度、代码与链接的优先级）按产品和计划配置——但“一推荐归一会员”的结果是结构性的。\n\n### 佣金在变为可支付前是临时的\n\n记录的推荐不会立即产生可支付资金。佣金处于可审核状态；批准、验证保留、欺诈检查及退款冲正均在结算前发生。具体状态词汇因产品而异（某抽样产品使用 待处理 → 到期 → 处理中 → 已支付；另一产品显示 待处理 和 已批准支付 状态）——受控生命周期的概念是稳定部分。\n\n### 支付执行位置各异\n\n部分平台刻意不自动移动资金——由商户执行支付，平台仅生成支付列表和记录。其他平台可端到端管理分发，包括大规模从联盟会员处收集税务文件和身份验证。当前市场中两种形态并存。\n\n### 最低支付阈值保留小额余额\n\n部分产品允许商户设置阈值，低于该阈值时联盟会员余额尚不可支付——这是对支付量的行政控制；在有证据表明时，它按计划细分（活动）配置。\n\n### 注册受管控\n\n开放计划自动批准；受控计划保留批准关卡，商户可暂停或移除联盟会员。联盟会员的状态决定其标识符的效用——被暂停的联盟会员门户和支持将被切断，尽管历史记录保留。\n\n### 退款追回佣金\n\n因为佣金是根据",
+        "parent_id": "06.06",
+        "domain_id": "06"
+      }
+    },
+    {
+      "progress": {
+        "slug": "conversion-rate-optimization-platform",
+        "name_zh": "转化率优化平台（CRO）",
+        "domain_id": "06",
+        "parent_id": "06.06",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-009/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "websearch: conversion rate optimization platform heatmap session recording（检索接口无结果）；GitHub 仓库搜索: \"conversion rate optimization heatmap\"（4 条，均为演示/脚本）；直接核验 Lucky Orange 官方首页"
+          },
+          {
+            "record": "retained-continuation-20261027/part-110/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "websearch: conversion rate optimization platform heatmap session recording（检索接口无结果）；GitHub 仓库搜索: \"conversion rate optimization heatmap\"（4 条，均为演示/脚本）；直接核验 Lucky Orange 官方首页与 /pricing"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "conversion-rate-optimization-platform",
+        "name": "Conversion Rate Optimization Platform",
+        "name_zh": "转化率优化平台（CRO）",
+        "aliases_zh": [
+          "网站优化平台",
+          "用户行为分析与优化平台"
+        ],
+        "overview": "A **Conversion Rate Optimization Platform** is a marketing-side system that improves the conversion rate of an organization's own digital property — its website or app — by observing how visitors actually behave on it, measuring conversion against goals the organization defines, and turning that diagnosis into validated improvements to the experience.\n\nThe defining structure is small:\n\n```text\nInstrumented own property (snippet/SDK on the organization's site or app)\n└── Visitor behavior observation layer (always-on passive capture)\n│     ├── session recordings / replay\n│     ├── aggregate behavior visualizations (heatmaps)\n│     └── journey and funnel progression views\n└── Conversion measurement against organization-defined goals\n      └── conversion events/goals · funnel-to-goal progression · conversion rate as the target metric\n```\n\nEverything else the market associates with the category — A/B testing, personalization, surveys, hypothesis boards, AI answers, error monitoring — is a standard or optional capability layered onto this loop, not part of what makes the product this Type. In particular, native A/B testing is widespread but not universal: several established products in this category carry no testing machinery at all and still operate the full diagnosis loop.\n\nThe category's center of gravity is the **observe → diagnose → change → measure loop** run continuously on the organization's live property. When the center shifts to authoring and hosting the pages themselves, the product becomes a Landing Page Optimization Platform; when the center shifts to the experiment as the primary object, it becomes an A/B Testing Platform.",
+        "overview_zh": "一个**转化率优化平台**是一个营销侧系统，通过观察访客在其数字资产（即其网站或应用）上的实际行为，根据组织定义的目标衡量转化率，并将这种诊断转化为对体验的经过验证的改进，从而提升该组织自身数字资产的转化率。\n\n其定义性结构很小：\n\n```text\n已埋点的自有资产（组织网站或应用上的代码片段/SDK）\n└── 访客行为观察层（始终开启的被动捕获）\n│      ├── 会话录制/回放\n│      ├── 聚合行为可视化（热力图）\n│      └── 旅程和漏斗进展视图\n└── 针对组织定义目标的转化衡量\n       └── 转化事件/目标 · 漏斗至目标的进展 · 转化率作为目标指标\n```\n\n市场与该类别关联的其他所有内容——A/B测试、个性化、调查、假设板、AI回答、错误监控——都是叠加在此循环之上的标准或可选功能，而非使该产品成为此类型的组成部分。特别是，原生A/B测试虽然普遍存在，但并非普遍适用：该类别中的几个成熟产品完全不具备测试机制，但仍运行完整的诊断循环。\n\n该类别的重心是持续在组织的实时资产上运行的**观察 → 诊断 → 改变 → 衡量循环**。当重心转移到页面本身的编写和托管时，该产品成为落地页优化平台；当重心转移到以实验为主要对象时，它成为A/B测试平台。",
+        "dc": "**1. The instrumented own property.** The platform runs inside the organization's website or app through a code snippet or SDK (installed directly, via a tag manager, or through platform integrations). From then on it observes the organization's own visitor traffic. The visitors belong to the organization — the platform holds no audience of its own. This is what separates the Type from advertising platforms and marketplaces, which optimize *their* audience on the organization's behalf.\n\n**2. The visitor behavior observation layer.** The platform captures how visitors actually behave — passively and continuously, whether or not any experiment is running — and renders that behavior at three levels:\n\n- **Session level** — session recordings / replay: watch individual visits as they happened, typically filterable by struggle signals (rage clicks, dead clicks, drop-off moments), by segment, or by whether the visitor converted.\n- **Element and page level** — heatmaps and their variants (click maps, scroll maps, attention maps): where visitors click, how far they scroll, what they ignore.\n- **Path level** — journey and funnel views: the routes visitors take through the property and the steps where they leave.\n\n**3. Conversion measurement against defined goals.** The organization defines what a conversion is — a purchase, a form submission, a click on a specific element, reaching a confirmation page, a custom event. The platform measures progression toward those goals (funnels), computes conversion rates, and treats the conversion rate as the central metric the whole system exists to improve. Some products additionally quantify the projected conversion or revenue impact of a proposed fix.\n\nThe three structures are joined by one purpose: the observation layer explains *why* the conversion measurement looks the way it does, and the gap between the two is where improvement work comes from.",
+        "dc_zh": "**1. 独立部署的工具属性。** 该平台通过代码片段或SDK（直接安装、通过标签管理器或平台集成）在企业自身的网站或应用内部运行。它从此持续观察该企业自身的访客流量。访客属于该企业——平台本身并不拥有自己的受众。这正是该平台类型与广告平台和市场平台的根本区别，后者是代企业优化其自身的受众。\n\n**2. 访客行为观察层。** 平台被动、持续地捕捉访客的实际行为（无论是否正在进行任何实验），并在三个层面呈现该行为：\n- **会话层面** — 会话录制/回放：像真实发生那样观看单次访问，通常可按挫败信号（愤怒点击、无效点击、流失瞬间）、用户细分或访客是否完成转化进行筛选。\n- **元素与页面层面** — 热图及其变体（点击图、滚动图、注意力图）：访客点击了哪里，滚动了多远，忽略了什么。\n- **路径层面** — 旅程与漏斗视图：访客在网站/应用内采取的路径以及他们离开的步骤。\n\n**3. 基于定义目标的转化衡量。** 企业定义什么是转化——例如一次购买、一个表单提交、对特定元素的一次点击、到达某个特定页面等。平台将观察到的访客行为与此类预定义的、可操作的业务目标进行对比衡量。",
+        "rules": "**Observation is always-on and test-independent.** The behavior layer collects continuously; experiments are optional events inside it, not its trigger. A property with no active tests still produces recordings, heatmaps, and funnels.\n\n**Privacy is a structural rule, not an afterthought.** Recordings capture real user sessions, so mature products mask personally identifiable information by default, never capture sensitive entries such as passwords or payment fields, anonymize identifiers, and support compliance postures (GDPR/CCPA-class) with data-processing agreements. Capture scope is itself governed: some products capture every session, others sample; plan capacity is commonly measured in tracked sessions or pageviews, and collection can pause when the plan's capacity is reached.\n\n**Goals bind the measurement.** The organization defines what counts as a conversion; funnels and tests are measured against those definitions. Where testing exists, a primary goal typically decides the winner.\n\n**Diagnosis precedes change.** The platform's authority comes from evidence about real behavior; the workflow is built so that proposed changes trace back to observed friction, and completed changes are re-measured against the same goals.\n\n**The improvement step is product-dependent.** A testing-first product closes the loop internally; an observation-first product closes it across tools. Both operate the same loop; the difference is where the \"change\" happens, not whether it happens.",
+        "rules_zh": "**观察是始终开启且独立于测试的。** 行为层持续收集；实验是其中的可选事件，而非其触发器。没有活跃测试的资产仍会产生录制、热力图和漏斗。\n\n**隐私是结构性规则，而非事后考虑。** 录制捕获真实用户会话，因此成熟产品默认屏蔽个人身份信息，从不捕获密码或支付字段等敏感条目，匿名化标识符，并支持合规姿态（GDPR/CCPA类）及数据处理协议。捕获范围本身受治理：一些产品捕获每个会话，其他则抽样；计划容量通常以跟踪的会话或页面浏览量衡量，当达到计划容量时收集可暂停。\n\n**目标绑定衡量。** 组织定义什么算作转化；漏斗和测试根据这些定义进行衡量。存在测试时，主要目标通常决定胜者。\n\n**诊断先于改变。** 平台的权威性来自关于真实行为的证据；工作流构建使得提议的改变可追溯至观察到的摩擦，且已完成的改变根据相同目标重新衡量。\n\n**改进步骤取决于产品。** 测试优先的产品在内部闭合循环；观察优先的产品跨工具闭合循环。两者运行相同的循环；区别在于“改变”发生在哪里，而非是否发生。",
+        "parent_id": "06.06",
+        "domain_id": "06"
+      }
+    },
+    {
+      "progress": {
+        "slug": "customer-advocacy-platform",
+        "name_zh": "客户倡导平台",
+        "domain_id": "06",
+        "parent_id": "06.06",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-009/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "websearch: customer advocacy platform reference program（检索接口无结果）；GitHub 仓库搜索: \"customer advocacy program\"（2 条，均为 API 目录页）；直接核验 Influitive 官方首页"
+          },
+          {
+            "record": "retained-continuation-20261027/part-110/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "websearch: customer advocacy platform reference program（检索接口无结果）；GitHub 仓库搜索: \"customer advocacy program\"（2 条，均为 API 目录页）；直接核验 Influitive 官方首页、features、reference-management 与 customer-advocacy-platform 页"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "customer-advocacy-platform",
+        "name": "Customer Advocacy Platform",
+        "name_zh": "客户倡导平台",
+        "aliases_zh": [
+          "客户拥护平台",
+          "客户代言平台"
+        ],
+        "overview": "A **Customer Advocacy Platform** is a brand-side system of record for operating a customer advocacy program: it maintains a managed population of customer advocates, defines specific advocacy actions the brand wants from them, and runs each ask through a managed loop — targeting, participation, review, and recording — so the resulting advocacy (reference calls, reviews, testimonials, case studies, referrals, speaking, community contributions) can be delivered to the sales, marketing, and customer teams that need it, and measured against business outcomes.\n\nThe defining core is small:\n\n```text\nAdvocate population of record\n└── Advocacy ask (a specific requested action)\n    └── Managed ask → participation loop\n        (target → participate with proof → review/approve → record)\n```\n\nEverything else the market associates with the category — points, badges, leaderboards, reward catalogs, reference-request routing, advocate hubs, communities, revenue-influence dashboards, AI advocate sourcing — is widespread in current products but is not what makes the product an advocacy platform. A rewards-less reference program run from a spreadsheet satisfies the same core; the platform replaces the spreadsheet, not the program.\n\nWhen the only ask is \"refer someone\" and the machinery centers on offer design, conversion attribution, and reward fulfillment, the product is a Referral Marketing Platform. When the reward attaches to the customer's own repeat purchases, it is Loyalty Program Management. When the participants are employees, external creators, or policy targets, it is a different Application Type entirely.",
+        "overview_zh": "一个**客户倡导平台**是品牌方用于运营客户倡导计划的系统记录：它维护一个受管理的客户倡导者群体，定义品牌希望他们执行的具体倡导行动，并将每个请求通过一个受管理的循环——目标定位、参与、审核和记录——进行处理，从而使产生的倡导活动（如参考电话、评论、证言、案例研究、推荐、演讲、社区贡献）能够交付给需要它的销售、市场和客户团队，并根据业务成果进行衡量。\n\n其定义性的核心很小：\n\n```text\n倡导者群体记录\n└── 倡导请求（一个具体的请求行动）\n     └── 受管理的请求 → 参与循环\n         (目标定位 → 带证明参与 → 审核/批准 → 记录)\n```\n\n市场与该类别关联的其他所有内容——积分、徽章、排行榜、奖励目录、参考请求路由、倡导者中心、社区、收入影响仪表盘、AI倡导者来源——在当前产品中很普遍，但这并不是使产品成为倡导平台的原因。一个没有奖励的、从电子表格运行的参考计划满足相同的核心；平台取代的是电子表格，而不是计划本身。\n\n当唯一的请求是“推荐某人”，且机制集中在优惠设计、转化归因和奖励履行时，该产品是推荐营销平台。当奖励附着于客户自身的重复购买时，它是忠诚度计划管理。当参与者是员工、外部创作者或政策目标时，它完全是另一种应用类型。",
+        "dc": "**Advocate population of record.** The platform's foundation is a set of identified customers held as managed program members. Each advocate record carries who the person is (tied to their account/company), what they can credibly speak to (products used, industry, use cases, expertise), their program standing (active or inactive), their preferences (which activity types and topics they opt into, through which channels), any use limits, and their participation history. Advocates are recruited deliberately — nominated by internal users, identified from recently won deals, or enrolled through onboarding — because not every customer is suited or willing.\n\n**Advocacy ask.** The unit of work is a brand-defined request for a specific advocacy action. Asks take many forms: take a reference call with a prospect, write a review on a third-party site, provide a testimonial or quote, participate in a case study or customer story, refer a peer, speak at an event or webinar, share brand content socially, answer questions in the community, join a customer advisory board, test a beta, or give product feedback. An ask specifies what to do, how to submit proof of completion, and (commonly) what recognition it carries.\n\n**Managed ask → participation loop.** Asks do not float freely; they are targeted to suitable advocates based on segment, preferences, and fit, then offered through the advocate's preferred channel. The advocate responds — accepts, completes the action, and submits proof (a link to the review or post, a file, a confirmation). Completions pass a review or approval gate before being credited. Every participation is recorded against the advocate and the program, which is what makes overuse protection, recognition, and measurement possible.\n\nIf any of the three is removed, the product stops being an advocacy platform: without advocate records it is an anonymous campaign tool; without asks it is a contact database; without the managed loop it is one-off outreach with no program memory.",
+        "dc_zh": "倡导者记录库。平台的基础是一组被识别出的客户，作为管理计划成员。每个倡导者记录包含：人物身份（与账户/公司关联），他们可信地谈论的内容（使用的产品、行业、用例、专业知识），他们的计划状态（活跃或非活跃），他们的偏好（他们选择参与的活动类型和主题，通过哪些渠道），任何使用限制，以及他们的参与历史。倡导者是精心招募的——由内部用户提名，从最近赢得的交易中识别，或通过入职流程注册——因为不是每个客户都适合或愿意。\n\n倡导请求。工作单元是品牌定义的特定倡导行动请求。请求采取多种形式：与潜在客户进行参考电话，在第三方网站上写评论，提供推荐或引言，参与案例研究或客户故事，推荐同行，在活动或网络研讨会上演讲，在社交媒体上分享品牌内容，在社区中回答问题，加入客户顾问委员会，测试测试版，或提供产品反馈。请求指定要做什么，如何提交完成证明，以及（通常）携带什么认可。\n\n管理请求 → 参与循环。请求不是随意漂浮的；它们基于细分、偏好和适合度针对合适的倡导者，然后通过倡导者的...",
+        "rules": "### Advocate consent and preferences govern targeting\n\nAdvocates opt into activity types and topics and choose channels. Asks are offered \"on their terms\" — a customer who has not opted into public reviews should not receive review asks. Preferences are a structural control, not a courtesy.\n\n### Use limits and overuse protection\n\nAdvocate goodwill is a finite resource. Products track each advocate's past and pending participations, support per-advocate use limits and per-activity completion caps, and surface overuse before another ask is made. Reference requests additionally require the customer's account team to approve use before the customer is approached.\n\n### Completion passes a review gate\n\nProof of completion is reviewed before credit: approve, or reject with a reason and allow resubmission. For reference activity, the loop closes with outcome feedback (did the call happen, how did it go), because an unfulfilled or failed request is a program signal, not just a missing record.\n\n### Advocate data has a shelf life\n\nProfiles decay — people change roles, products, and willingness. Mature products automate profile refresh; some also track advocates' job changes, because reference search is only as good as the data behind it.\n\n### Rewards are gated by approval\n\nRecognition is credited after the review gate, not at submission. Points accumulate to a balance redeemable from a catalog; some programs also reward internal users for program work (nominating, arranging, updating profiles) to sustain adoption on the operator side.\n\n### The program serves commercial outcomes\n\nAdvocacy activity is recorded in a form that can be tied to business results — the opportunity a reference supported, the deal influenced by a customer story, the referral that became a lead. Program reporting speaks the language of pipeline and revenue, not just participation counts.",
+        "rules_zh": "### 倡导者同意和偏好主导目标定位\n\n倡导者选择参与的活动类型和主题，并选择渠道。请求是“按他们的条件”提供的——一个未选择公开评论的客户不应收到评论请求。偏好是结构性控制，而非礼貌。\n\n### 使用限制和过度使用保护\n\n倡导者的善意是有限的资源。产品跟踪每个倡导者的过去和待处理参与，支持每倡导者使用限制和每活动完成上限，并在进行另一个请求前显示过度使用。参考请求还要求客户的客户团队在接触客户前批准使用。\n\n### 完成通过审核关卡\n\n完成证明在授予认可前进行审核：批准，或拒绝并提供原因并允许重新提交。对于参考活动，循环以结果反馈结束（通话是否发生，进行得如何），因为未履行或失败的请求是计划信号，而不仅仅是缺失的记录。\n\n### 倡导者数据有保质期\n\n档案会衰减——人们改变角色、产品和意愿。成熟的产品自动化档案刷新；一些还跟踪倡导者的工作变动，因为参考搜索仅取决于其背后的数据质量。\n\n### 奖励由批准门控\n\n认可在审核关卡后授予，而非在提交时。积分累积为可从目录兑换的余额；一些计划还奖励内部用户进行计划工作（提名、安排、更新档案）以维持运营方的采用。\n\n### 计划服务于商业成果\n\n倡导活动以可关联到业务结果的形式记录——参考支持的机会，客户故事影响的交易，成为线索的推荐。计划报告",
+        "parent_id": "06.06",
+        "domain_id": "06"
+      }
+    },
+    {
+      "progress": {
+        "slug": "digital-experimentation-platform",
+        "name_zh": "数字实验平台",
+        "domain_id": "06",
+        "parent_id": "06.06",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-009/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "websearch: digital experimentation platform feature flags metrics（检索接口无结果）；GitHub 仓库搜索: \"feature flags experimentation\"（136 条，含 GrowthBook、Flagsmith、FeatBit）；直接核验 Statsig 官方首页"
+          },
+          {
+            "record": "retained-continuation-20261027/part-110/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "websearch: digital experimentation platform feature flags metrics（检索接口无结果）；GitHub 仓库搜索: \"feature flags experimentation\"（136 条，含 GrowthBook、Flagsmith、FeatBit）；直接核验 Statsig 官方首页"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "digital-experimentation-platform",
+        "name": "Digital Experimentation Platform",
+        "name_zh": "数字实验平台",
+        "aliases_zh": [
+          "A/B测试平台",
+          "实验管理平台"
+        ],
+        "overview": "A **Digital Experimentation Platform** is the product organization's system for running controlled experiments on its own software product: it defines two or more versions of a feature or experience, randomly assigns real users to each version through machinery integrated into the running application, measures how each version affects managed product metrics, and turns the result into a ship-or-discard decision whose winner is rolled out through the same machinery.\n\nThe defining core is small:\n\n```text\nExperiment (a persistent, hypothesis-bearing record on the org's own product)\n└── Variants (control + treatment(s)), expressed as parameters/flags the code consumes\n    └── Randomized assignment decided inside the running software (SDK/API)\n        └── Managed metrics compared across variants (lift + statistical confidence)\n            └── Decision: ship a variant / keep control / discard — winner rolled out\n```\n\nEverything else commonly associated with the category — feature-flag registries, warehouse-native analysis, layers, holdouts, bandits, program playbooks, AI-agent experiments — is widespread in current products but is not what makes the product an experimentation platform. Simpler and older realizations (an in-house server-side split test with assignment in code and analysis in a notebook, a single boolean test behind one flag) satisfy the same core without any of those additions.\n\nThe platform answers the question no analytics tool can answer by observation alone: *did this change cause the improvement, or would it have happened anyway?* Vendors in this space state the same idea in their own words: historical metrics show correlation, experiments establish causality.\n\nThis Type is the engineering/product-team pole of the experimentation market. Its closest sibling, the A/B Testing Platform, shares the identical core and serves the marketing/CRO pole; the two are described together in Related Application Types below.",
+        "overview_zh": "一个**数字实验平台**是产品组织用于在其自身软件产品上运行受控实验的系统：它定义功能或体验的两个或多个版本，通过集成到运行中应用程序的机制将真实用户随机分配到每个版本，衡量每个版本对受管产品指标的影响，并将结果转化为发布或丢弃的决策，其胜出者通过相同机制进行推广。\n\n其定义性核心很小：\n\n```text\n实验（组织自身产品上持久化、承载假设的记录）\n└── 变体（对照组 + 处理组），表达为代码消费的参数/标志\n     └── 在运行软件内部决定的随机分配（SDK/API）\n         └── 跨变体比较受管指标（提升幅度 + 统计置信度）\n             └── 决策：发布某变体 / 保留对照组 / 丢弃 — 胜出者被推广\n```\n\n通常与该类别相关联的其他所有内容——功能标志注册表、仓库原生分析、分层、保留组、多臂老虎机、项目手册、AI代理实验——在当前产品中很普遍，但这并不是使该产品成为实验平台的原因。更简单和更早期的实现（使用代码中分配和笔记本中分析的自制服务器端分流测试，或位于单个标志背后的单一布尔测试）在没有这些附加功能的情况下也能满足相同的核心。\n\n该平台回答了仅靠观察无法回答的问题：*这次变更是否导致了改进，还是它本来就会发生？* 该领域的供应商用自己的话表达了相同的意思：历史指标显示相关性，实验确立因果性。\n\n此类型是实验市场的工程/产品团队一极。其最接近的同类，A/B测试平台，共享相同的核心并服务于营销/CRO一极；两者在下面的相关应用类型中一起描述。",
+        "dc": "```text\nExperiment\n├── Hypothesis (what change, for whom, expected effect on which metric)\n├── Variants (control + treatment(s)) — parameter/flag values the application consumes\n├── Randomized assignment (SDK/API decides inside the running software; sticky per unit)\n├── Metrics (managed, reusable definitions; primary decides, others watch)\n├── Result (per-variant lift with statistical backing)\n└── Decision (ship / keep / discard) → winner rolled out through the same machinery\n```\n\n- **Experiment** — the central object: a named, persistent record carrying the hypothesis, its configuration, its run state, and its results. In most products the experiment is literally attached to feature-flag machinery — a rule on a flag, an allocation in a layer, or a parameter-consuming object — so the same flag that rolls a feature out can measure it.\n- **Variant** — one version of what is being tested. The control is the current behavior; treatments are the alternatives. Variants are typically expressed as parameter values, flag variations, or JSON configurations that application code reads and acts on — not as page mark-up the platform renders.\n- **Randomized assignment integrated into the running software** — the platform's SDK or API decides, at runtime and inside the application, which variant each eligible user receives, keyed on a **randomization unit** (commonly the user; also device, session, workspace, or custom units). Assignment is sticky: the same unit keeps its variant for the life of the experiment. This is the property that separates experimentation from rule-based targeting, and code-integrated delivery is what separates this pole from page-surface testing tools.\n- **Managed metrics** — the measured outcomes. Metrics are held as reusable, organization-level objects (computed from event streams or from the customer's data warehouse), not ad-hoc per-test goals. A **primary metric** decides the experiment; secondary metrics watch for side effects; guardrail metrics protect business-critical numbers.\n- **Result** — the per-variant comparison: observed lift with a statistical statement of trustworthiness (confidence intervals and significance in frequentist products; probability-to-be-better and related quantities in Bayesian products).\n- **Decision** — the terminal output: ship the winner (rolled out through the flag/parameter machinery that ran the experiment), keep control, or discard. The decision is the reason the platform exists.",
+        "dc_zh": "实验\n├── 假设 (什么变化，针对谁，对哪个指标预期效果)\n├── 变体 (对照组 + 治疗组) — 应用消耗的参数/标志值\n├── 随机分配 (SDK/API 在运行软件内部决定；每个单元保持粘性)\n├── 指标 (管理的、可复用的定义；主要指标决定，其他观察)\n├── 结果 (每个变体的提升度，带有统计支持)\n└── 决策 (发布 / 保留 / 丢弃) → 获胜者通过相同机制推出\n\n- **实验** — 核心对象：一个命名的、持久的记录，携带假设、配置、运行状态和结果。在大多数产品中，实验直接附加到功能标志机制——标志上的规则、层中的分配或参数消耗对象——因此同一标志推出功能并测量它。\n- **变体** — 被测试的一个版本。对照组是当前行为；治疗组是替代方案。变体通常表示为参数值、标志变体或JSON配置，应用程序代码读取并执行——而不是平台渲染的页面标记。\n- **随机分配集成到运行软件中** — 平台的SDK或API在运行时且在应用程序内部决定，每个合格用户接收哪个变体，基于**随机化单元**（通常是用户；也包括设备等。",
+        "rules": "### Randomization is sticky\n\nOnce a unit is assigned a variant, it keeps that variant for the life of the experiment — across sessions, devices, and releases. Deterministic assignment keyed on the randomization unit is what keeps the comparison valid; products add explicit persistence mechanisms when experiment settings change mid-run.\n\n### Assignment should coincide with exposure\n\nUsers who are assigned but never actually encounter the treatment add noise. Best practice, documented across the sample: expose as close to the treatment moment as possible, and filter un-exposed users out of the analysis where assignment and exposure cannot coincide.\n\n### Allocation changes are asymmetric\n\nIncreasing an experiment's share of traffic is generally safe; decreasing it mid-run can bias group composition and pollute results — products warn against it or require a reset that re-randomizes users.\n\n### Early results are diagnostic, not decision-grade\n\nStopping at the first significant reading inflates false positives. Products either warn explicitly, compute results on a fixed schedule, or offer sequential-testing methods that correct for interim looks.\n\n### The primary metric governs the outcome\n\nOne primary metric decides the experiment; everything else is secondary or guardrail. Products restrict the primary metric to a single choice and, in some cases, lock it once the experiment starts, preventing post-hoc goal switching.\n\n### Concurrent experiments can interfere — and usually do not\n\nExperiments touching the same users can contaminate each other. Products provide layers (mutually exclusive universes) for the cases where overlap would genuinely break the experience, and vendor guidance notes that meaningful interactions are rare enough that blanket serialization costs more velocity than it saves.\n\n### Broken randomization invalidates results\n\nWhen traffic splits deviate from their configured ratios — through bugs, bots, or redirect loss — the comparison is untrustworthy. Mature products detect sample-ratio mismatch automatically and surface it before decisions are made on the data.\n\n### Guardrails and safe rollouts bound the downside\n\nA \"winning\" variant can still be unacceptable if it regresses something critical. Guardrail metrics watch for side effects; some products pause tests or roll back rollouts automatically when guardrails trip.\n\n### The decision ships through the same machinery\n\nThe winning variant is rolled out with the flag/parameter machinery that ran the experiment — the distance from \"decision\" to \"shipped\" is deliberately short, and the experiment record is archived as organizational memory.\n\n### Holdouts measure the program, not the experiment\n\nWhere offered, a holdout excludes a share of users from all (or selected) experiments for a period; comparing held-out users to everyone else estimates the aggregate effect of the whole experimentation effort — a negative result is a signal to examine the program, not one test.",
+        "rules_zh": "### 随机化是粘性的\n\n一旦一个单元被分配到一个变体，它在实验的生命周期内保持该变体——跨会话、设备和发布。基于随机化单元的确定性分配是保持比较有效性的关键；当实验设置在运行中更改时，产品添加显式的持久化机制。\n\n### 分配应与曝光重合\n\n被分配但从未实际遇到处理的用户会增加噪声。最佳实践，在样本中记录：尽可能接近处理时刻进行曝光，并在分配和曝光无法重合时从分析中过滤掉未曝光用户。\n\n### 分配变更是非对称的\n\n增加实验的流量份额通常是安全的；在运行中减少它可能会偏倚群体构成并污染结果——产品对此发出警告或要求重置以重新随机化用户。\n\n### 早期结果是诊断性的，而非决策级的\n\n在第一次显著读数时停止会夸大假阳性。产品要么明确警告，要么按固定计划计算结果，要么提供校正中期查看的序贯测试方法。\n\n### 主要指标决定结果\n\n一个主要指标决定实验；其他一切都是次要或护栏。产品将主要指标限制为单一选择，并在某些情况下在实验开始时锁定它，防止事后目标切换。\n\n### 并发实验可能相互干扰——但通常不会\n\n触及相同用户的实验会相互污染。产品为重叠确实会破坏体验的情况提供分层（互斥宇宙），供应商指南指出有意义的交互足够罕见，全面序列化成本更高",
+        "parent_id": "06.06",
+        "domain_id": "06"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 2,
+    "phase": "repair",
+    "parent": 110,
+    "slugs": [
+      "abm-platform",
+      "affiliate-management-platform",
+      "conversion-rate-optimization-platform",
+      "customer-advocacy-platform",
+      "digital-experimentation-platform"
+    ],
+    "old_input_sha256": "375747b0a9f2d88c1af39593596130e95904ff5c036f5861eecde70d96fbb20c"
+  },
+  "previous_continuation": {
+    "unit": 110,
+    "phase": "complete",
+    "parent": 9,
+    "slugs": [
+      "abm-platform",
+      "affiliate-management-platform",
+      "conversion-rate-optimization-platform",
+      "customer-advocacy-platform",
+      "digital-experimentation-platform"
+    ]
+  }
+}

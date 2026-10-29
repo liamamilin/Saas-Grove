@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "raster-image-editor",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11766620",
+        "github:16602433",
+        "commercial:photopea"
+      ],
+      "query": "online image editor in:description | web image editor in:name,description license:mit | photopea",
+      "source_urls": [
+        "https://api.github.com/repos/viliusle/miniPaint",
+        "https://raw.githubusercontent.com/viliusle/miniPaint/master/README.md",
+        "https://api.github.com/repos/viliusle/miniPaint/license",
+        "https://raw.githubusercontent.com/viliusle/miniPaint/master/MIT-LICENSE.txt",
+        "https://viliusle.github.io/miniPaint/",
+        "https://api.github.com/repos/1j01/jspaint",
+        "https://raw.githubusercontent.com/1j01/jspaint/master/README.md",
+        "https://api.github.com/repos/1j01/jspaint/license",
+        "https://jspaint.app/about",
+        "https://www.photopea.com/",
+        "https://www.photopea.com/learn/opening-saving",
+        "https://www.photopea.com/learn/bt-basic",
+        "https://www.photopea.com/learn/navigation"
+      ],
+      "note": "本轮针对初审缺口补证并更换形态：旧候选 Pinta（github:2358713）为桌面安装程序，官方正文虽证明其像素编辑与保存能力，但不能证明“可持续使用的在线应用服务”形态，故不再作为本叶成立关系，保留其原快照与历史轨迹（见 historical_reuse 与 withheld_candidates），不作产品不存在判断。本轮实际检索浏览器端完整应用，新增 miniPaint 与 JS Paint 两个开源 Web 应用、Photopea 一个商业在线服务。miniPaint 官方 README 明确“Online image editor… operates directly in the browser”，列出像素工具、图层、打开本地/URL/剪贴板图像与保存 PNG/JPG/BMP/WEBP/动画GIF/TIFF/JSON；JS Paint 官方 README 说明其为 MS Paint 的浏览器复刻，重建全部工具与菜单，并给出 File > Save / Save As 与 PNG、BMP、TIFF 读写支持表；Photopea 官方 Learn 文档说明以 PNG/JPG 单层矩形光栅图为对象、画笔/铅笔/橡皮/克隆印章直接改像素、Zoom 缩放查看、File - Open 打开并导出 PSD/JPG/PNG/SVG/PDF。三者均覆盖像素网格文档、直接像素操作、可视画布、持久化为图像四项。未取得正文的候选 BitMappery 记录于 withheld_candidates，不因未取证而断言其不具备该能力。",
+      "service_boundary": "通用像素网格直接编辑；不限定照片来源。可持续使用的完整在线编辑器（浏览器内运行的 Web 应用或可自托管 Web 服务）计入；纯桌面客户端、CLI、SDK/引擎、批处理与格式转换工具不计入。",
+      "search_attempts": [
+        {
+          "query": "web image editor in:name,description license:mit",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=web%20image%20editor%20in:name,description%20license:mit&sort=stars&order=desc&per_page=10",
+          "outcome": "returned results including ximing/fabric-photo (canvas-based front-end image editor) and addyosmani/filter; mostly partial or library-shaped projects, none with official save/export evidence collected",
+          "top_candidates": [
+            "ximing/fabric-photo",
+            "addyosmani/filter"
+          ]
+        },
+        {
+          "query": "online image editor in:description",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=online%20image%20editor%20in:description&sort=stars&order=desc&per_page=10",
+          "outcome": "returned 265 results; top entries photopea/photopea, viliusle/miniPaint, igorski/bitmappery. miniPaint selected and verified from repository README; photopea has no source repository, verified from its own official site",
+          "top_candidates": [
+            "photopea/photopea",
+            "viliusle/miniPaint",
+            "igorski/bitmappery",
+            "geeeeeeeek/freePS"
+          ]
+        },
+        {
+          "query": "bitmappery identity and official site cross-check",
+          "engine": "GitHub repository search API + repository metadata",
+          "url": "https://api.github.com/repos/igorski/bitmappery",
+          "outcome": "confirmed igorski/bitmappery (id 320360913, MIT per GitHub license API, homepage https://www.igorski.nl/bitmappery) as a browser-based non-destructive image editor; README documents rendering, layers, undo and a Docker self-hosted build but does not state image save/export in official text, so not advanced to an entry",
+          "top_candidates": [
+            "igorski/bitmappery"
+          ]
+        },
+        {
+          "query": "1j01/jspaint official readme and about page",
+          "engine": "direct official fetch",
+          "url": "https://raw.githubusercontent.com/1j01/jspaint/master/README.md",
+          "outcome": "README documents MS Paint remake running in the browser, every tool and menu recreated, File > Save / Save As, and a PNG/BMP/TIFF read-write support table; jspaint.app/about corroborates in-browser open and save",
+          "top_candidates": [
+            "1j01/jspaint"
+          ]
+        },
+        {
+          "query": "photopea official learn chapters for open/save, basic tools, navigation",
+          "engine": "direct official fetch",
+          "url": "https://www.photopea.com/learn/opening-saving",
+          "outcome": "fetched Opening and Saving, Basic Tools and Navigation chapters; verified raster/PSD document model, File - Open, export to JPG/PNG/SVG/PDF, brush/pencil/eraser/clone pixel tools and Zoom tool",
+          "top_candidates": [
+            "commercial:photopea"
+          ]
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:11766620",
+          "url": "https://api.github.com/repos/viliusle/miniPaint",
+          "kind": "repository_metadata",
+          "sha256": "83038ec1cc17a06528c00adfd1d254d6c9857686f286c5b46a1e556bd866bfd6",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:11766620",
+          "url": "https://raw.githubusercontent.com/viliusle/miniPaint/master/README.md",
+          "kind": "readme",
+          "sha256": "4b00f8990081b49f2514ef4b1aafca045345af2dd12bbcd8de37431105180f67",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:11766620",
+          "url": "https://api.github.com/repos/viliusle/miniPaint/license",
+          "kind": "license",
+          "sha256": "fdf05d7a4556261eb1002ce99915ca6606fffefb27b935021d74ab29c38468d1",
+          "outcome": "saved_snapshot; GitHub classifies the file as NOASSERTION because it is named MIT-LICENSE.txt, full MIT text is present in the payload"
+        },
+        {
+          "case_id": "github:11766620",
+          "url": "https://raw.githubusercontent.com/viliusle/miniPaint/master/MIT-LICENSE.txt",
+          "kind": "license",
+          "sha256": "92a21f763974d0a691f7738ed8aae674b74ef077ff6341844ad7fadf36999be8",
+          "outcome": "saved_snapshot; complete MIT permission and warranty paragraphs read directly"
+        },
+        {
+          "case_id": "github:11766620",
+          "url": "https://viliusle.github.io/miniPaint/",
+          "kind": "homepage",
+          "sha256": "f7380a8b89fe603de8d1fbb282e210fc113c979428849fb2bd7a18a0d6e5b1a7",
+          "outcome": "saved_snapshot; page shell contains canvas editor, tool container, layers/colors/preview panels"
+        },
+        {
+          "case_id": "github:16602433",
+          "url": "https://api.github.com/repos/1j01/jspaint",
+          "kind": "repository_metadata",
+          "sha256": "e8c0c248f690610c561d0d46abe7362e47ae437b2984d6c5204e98e1faeeaa47",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:16602433",
+          "url": "https://raw.githubusercontent.com/1j01/jspaint/master/README.md",
+          "kind": "readme",
+          "sha256": "664aae98b7ae2bca0ba0660591d7d41bc5555e19f1bbc79f6c7b0481b625f67b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:16602433",
+          "url": "https://api.github.com/repos/1j01/jspaint/license",
+          "kind": "license",
+          "sha256": "f10898f0e31b96ef2dae866d9199e447319310aa3ddd27b2fe1632934e708274",
+          "outcome": "saved_snapshot; GitHub license API reports MIT with complete MIT text"
+        },
+        {
+          "case_id": "github:16602433",
+          "url": "https://jspaint.app/about",
+          "kind": "homepage",
+          "sha256": "6ddd39f63178356df2c8adda8ef3e88359da05476e7beab27b7e3c0cdf8df685",
+          "outcome": "saved_snapshot; about page states in-browser MS Paint remake, open source MIT, open and save files"
+        },
+        {
+          "case_id": "commercial:photopea",
+          "url": "https://www.photopea.com/",
+          "kind": "homepage",
+          "sha256": "06c400fb581f91aceef4888c8a6a458459fce9f46e728c5f964bf2b198626c29",
+          "outcome": "saved_snapshot; homepage describes free online photo editor working in the browser without downloads or uploads"
+        },
+        {
+          "case_id": "commercial:photopea",
+          "url": "https://www.photopea.com/learn/opening-saving",
+          "kind": "documentation",
+          "sha256": "67d6ead721c4a3f8f26b8d0e64d32988002aa8c781c6d5100f318ea8d437b6e4",
+          "outcome": "saved_snapshot; File - Open, PSD as document format, export to JPG/PNG/SVG/PDF"
+        },
+        {
+          "case_id": "commercial:photopea",
+          "url": "https://www.photopea.com/learn/bt-basic",
+          "kind": "documentation",
+          "sha256": "5a34efdaef62b883712d834329219746663ba8b06f6daf4072637cbef04cc342",
+          "outcome": "saved_snapshot; brush draws strokes on a layer, pencil produces hard edges, eraser erases pixels, clone stamp copies pixel content"
+        },
+        {
+          "case_id": "commercial:photopea",
+          "url": "https://www.photopea.com/learn/navigation",
+          "kind": "documentation",
+          "sha256": "bf01d0a2b98d8a3a31930b38c1bbd360c071f95ff2e45d2a3357596ca11dbbe2",
+          "outcome": "saved_snapshot; Zoom tool zooms in and out on the image"
+        },
+        {
+          "case_id": "commercial:photopea",
+          "url": "https://www.photopea.com/learn/open-and-save",
+          "kind": "documentation",
+          "sha256": null,
+          "outcome": "failed_fetch; server returned a page stating 'Such page does not exist', replaced with the canonical /learn/opening-saving chapter, no snapshot saved"
+        },
+        {
+          "case_id": "github:320360913",
+          "url": "https://www.igorski.nl/bitmappery",
+          "kind": "homepage",
+          "sha256": null,
+          "outcome": "fetched 200 but the page is a JavaScript application shell with only generic meta description; /bitmappery/docs and /manual redirect to the same app shell, no official text on saving/exporting images, so no entry advanced"
+        }
+      ],
+      "historical_reuse": {
+        "candidate_id": "github:2358713",
+        "name": "Pinta",
+        "reused_snapshots": [
+          "data/collections/sources/bc98e9ccdad03c1b1cdf9ba6709c8aa16ae2c6fab1db9b2bb2cc58f419399bd8.txt",
+          "data/collections/sources/c6c427062cb8bd12c579b5a9d54461325f6af26bdb4d82d3863339717a08354a.txt",
+          "data/collections/sources/724356df26dcb6120f074d8d53b62b1f8b8eda3347f1a3e50ef81b9aad5c059e.txt",
+          "data/collections/sources/ec97ee66c98fe2715fbc9cfb04dba6b8b822ed61e7afee02106e6e6785428c52.txt",
+          "data/collections/sources/7ab51063c989469057d02979141fe7b6571222ecec57910e515a2c1d4dfc6a03.txt",
+          "data/collections/sources/cf7f0a6acf3fc52d789b9033acca82946de528f3c6a82639803e4af12f7fd97b.txt",
+          "data/collections/sources/0b03a431929449da64ea6ea722cb66dbbcc28e1c5d8d62c21aec828f9b5228ab.txt"
+        ],
+        "outcome": "旧快照原样保留（SHA、URL、抓取时间未改），本轮仅按原内容重新核对；其官方正文可证明像素编辑与保存/导出，但产品形态为需安装的桌面程序（Flatpak/Snap/安装包），不满足本叶在线应用服务边界，故从成立关系中移除，转入 withheld_candidates。",
+        "not_rechecked": "本轮未重新抓取 Pinta 站点；上述结论仅基于 REUSED_SOURCES 中的历史快照。"
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:2358713",
+          "name": "Pinta",
+          "reason": "桌面安装型客户端（Linux/macOS/Windows/BSD 的 Flatpak、Snap 与安装包），官方正文未提供浏览器内运行或可自托管的在线应用形态；作为位图编辑器本身成立，但不符合本叶“可持续使用的在线应用服务”边界，本轮不建立关系。属形态不符而非功能不足，不作不存在判断。",
+          "evidence_urls": [
+            "https://www.pinta-project.com/",
+            "https://www.pinta-project.com/user-guide/overview/"
+          ]
+        },
+        {
+          "id": "github:320360913",
+          "name": "BitMappery",
+          "reason": "README（本轮实际抓取）证明其为浏览器内、非破坏性、带图层/蒙版/时间线的图像编辑器，并提供 Docker 自托管方式；但 README 未说明图像保存/导出，官网仅为 JS 应用外壳、无正文，/bitmappery/docs 与 /manual 均重定向到同一外壳。缺少“持久化为图像”的官方正文证据，故暂不建立关系，缺口如实保留。",
+          "evidence_urls": [
+            "https://github.com/igorski/bitmappery",
+            "https://www.igorski.nl/bitmappery"
+          ]
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

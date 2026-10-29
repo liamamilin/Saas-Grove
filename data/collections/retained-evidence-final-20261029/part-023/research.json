@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "vector-graphics-editor",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:21611548",
+        "github:4767074"
+      ],
+      "query": "svg vector graphics editor | svgedit svg editor browser | open source web svg editor self-hosted",
+      "source_urls": [
+        "https://api.github.com/repos/SVG-Edit/svgedit",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/README.md",
+        "https://api.github.com/repos/SVG-Edit/svgedit/license",
+        "https://svg-edit.github.io/svgedit/",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/Editor.md",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/FrequentlyAskedQuestions.md",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/ConfigOptions.md",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/extensions/ext-opensave/ext-opensave.js",
+        "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/ConfigObj.js",
+        "https://api.github.com/repos/methodofaction/Method-Draw",
+        "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/readme.md",
+        "https://api.github.com/repos/methodofaction/Method-Draw/license",
+        "https://editor.method.ac/",
+        "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/src/index.html",
+        "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/src/js/svgcanvas.js"
+      ],
+      "note": "本轮针对原初审缺口（只证明客户端/引擎形态，未证明可持续使用的应用服务与持久化输出）做定向复核与补证，结论改为 case_found，收录两个完整开源 Web 应用。其一 SVG-Edit（github:21611548，MIT）：README 明示浏览器内 SVG 绘图编辑器，并给出 Netlify 在线构建入口与部署到自有 Web 服务器的构建步骤，属完整 Web 应用；Editor.md 说明路径工具绘制路径、选中后可独立调整节点并旋转缩放。持久化不再依赖可能过时的 2.5.1 FAQ：本轮补采官方源码，ConfigObj.js 的 defaultExtensions 含 ext-opensave，该扩展正文显示 open 经 fileOpen 后 loadSvgString 载入 SVG 文档，save 将 svgCanvasToString 序列化为 image/svg+xml 并以 .svg 扩展名写出，持久文档与标准矢量输出由现行默认代码路径证明。其二 Method Draw（github:4767074，MIT，ID 4767074）：README 自述 Web 矢量绘图应用，在线实例 editor.method.ac；src/index.html 文件菜单含 Open SVG...、Save Image... 与 Export as PNG；src/js/svgcanvas.js 的 save() 输出 image/svg+xml 的 .svg 下载，setSvgString() 载入 SVG，另有 PNG 光栅导出。历史复用：REUSED_SOURCES 中 7 个 SVG-Edit 快照按原 URL/SHA/抓取时间保留；HISTORY 旧结论仅作事实复用，不表示本轮批准。本轮新增抓取 2 个 SVG-Edit 源码快照（ext-opensave.js、ConfigObj.js）与 Method Draw 的 repository_metadata/readme/license/homepage/src index/html canvas 共 6 个快照。两个案例均为可自托管完整 Web 应用，不要求多租户或部署实测；未运行第三方项目，runtime_tested:false。结构修正：原 research 的 case_ids 为空而 batch 已有成立关系，导致 “case_ids differ from batch leaf matches”，现两侧同步为两个成立 ID。历史留档说明：旧记录的 withheld_candidates 曾以“只证明客户端、未证明可持续应用服务”为由扣留该候选，本轮已用现行默认扩展与默认扩展列表正文推翻该判断，故不再保留该扣留项；历史研究轨迹仍完整保留在 HISTORY.json，不作删除或改写。",
+      "service_boundary": "通用矢量对象编辑（路径、形状、文本）与标准 SVG 持久化输出；非仅图标库、仅查看器、绘图引擎 SDK 或位图编辑器。两个案例均为完整可自托管 Web 应用。",
+      "search_attempts": [
+        {
+          "query": "svg vector graphics editor",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=svg%20vector%20graphics%20editor&sort=stars&order=desc&per_page=5",
+          "outcome": "历史检索，returned 70 results；top_candidates 多为桌面/组件库，未发现当时可采纳的完整 Web 应用服务"
+        },
+        {
+          "query": "svgedit svg editor browser",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=svgedit%20svg%20editor%20browser&sort=stars&order=desc&per_page=5",
+          "outcome": "历史检索，returned 6 results；top_candidates 含 SVG-Edit/svgedit"
+        },
+        {
+          "query": "SVG-Edit official documentation open save SVG",
+          "engine": "GitHub contents API",
+          "url": "https://api.github.com/repos/SVG-Edit/svgedit/contents/docs/tutorials",
+          "outcome": "历史检索，列出 docs/tutorials 含 FrequentlyAskedQuestions.md 与 ConfigOptions.md"
+        },
+        {
+          "query": "SVG-Edit FAQ save files and preload SVG",
+          "engine": "direct official documentation fetch",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/FrequentlyAskedQuestions.md",
+          "outcome": "历史核对，确认默认 open/save 行为与服务器保存扩展；该页自标可能过时，本轮改以现行默认扩展源码为主要依据"
+        },
+        {
+          "query": "SVG-Edit V7 default opensave extension source",
+          "engine": "direct official repository source fetch",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/extensions/ext-opensave/ext-opensave.js",
+          "outcome": "本轮补证：确认 fileOpen/loadSvgString 打开 SVG、svgCanvasToString 序列化后 fileSave 输出 image/svg+xml .svg 文件"
+        },
+        {
+          "query": "SVG-Edit default extensions list",
+          "engine": "direct official repository source fetch",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/ConfigObj.js",
+          "outcome": "本轮补证：defaultExtensions 包含 ext-opensave，证明该打开/保存路径为默认编辑器组成"
+        },
+        {
+          "query": "open source web svg editor self-hosted",
+          "engine": "known candidate official repository verification",
+          "url": "https://api.github.com/repos/methodofaction/Method-Draw",
+          "outcome": "本轮第二组查询定位 Method Draw；官方仓库元数据确认 id 4767074、MIT、homepage editor.method.ac，readme 自述 Web 矢量绘图应用并提供在线实例与构建步骤"
+        },
+        {
+          "query": "Method Draw save/open SVG implementation",
+          "engine": "direct official repository source fetch",
+          "url": "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/src/js/svgcanvas.js",
+          "outcome": "本轮核对：save() 序列化输出 image/svg+xml 的 .svg 下载，setSvgString() 载入 SVG；src/index.html 文件菜单含 Open SVG.../Save Image.../Export as PNG"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:21611548",
+          "url": "https://api.github.com/repos/SVG-Edit/svgedit",
+          "kind": "repository_metadata",
+          "sha256": "e9dfd025708067bd4d86718a3c9f28d61ecf57c276e49650b5e4d2f3323ec6f6",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/README.md",
+          "kind": "readme",
+          "sha256": "c05ae3d3b61731d5ff2b4944f987aa848c28aba24d450f4f2d5aad9959b05f94",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://api.github.com/repos/SVG-Edit/svgedit/license",
+          "kind": "license",
+          "sha256": "2fc0ef81072339d512ed0f506bac1140754dac242f5f669437e042f58adaca87",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://svg-edit.github.io/svgedit/",
+          "kind": "documentation",
+          "sha256": "a58bee0ea7fb715ca03e410c6f25028379d75884d34fa84f9860c5811674184f",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/Editor.md",
+          "kind": "documentation",
+          "sha256": "a8e390d541e7d554b1a6ee9c9639c98d958dd55defa60cdf9c90d5c867ad26a8",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/FrequentlyAskedQuestions.md",
+          "kind": "documentation",
+          "sha256": "fa3fd015325559111921514c7d0d934e88d723d32a1be59f4dc2fac3a5be2cb2",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/docs/tutorials/ConfigOptions.md",
+          "kind": "documentation",
+          "sha256": "338fc05c9f6fe1442f967163c5a42e5610333808d5bcb5c015c8e8ae869545f3",
+          "outcome": "reused_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/extensions/ext-opensave/ext-opensave.js",
+          "kind": "documentation",
+          "sha256": "ea89ea1aa09c23997a902900f851d9d899a175b7472873c4fd326f2fe90cba07",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:21611548",
+          "url": "https://raw.githubusercontent.com/SVG-Edit/svgedit/master/src/editor/ConfigObj.js",
+          "kind": "documentation",
+          "sha256": "7910fa00b99e7e0b25f9909daac559455a36dc4e53ad83f2ae092513560bdc9b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://api.github.com/repos/methodofaction/Method-Draw",
+          "kind": "repository_metadata",
+          "sha256": "697356013014707690ece7a247fe0b6d78a0f39c77d054764ac2bb9f52fd31d5",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/readme.md",
+          "kind": "readme",
+          "sha256": "05fae991b04c700cb37a4350297351e149d26621e38242b72f03d3b97c78507b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://api.github.com/repos/methodofaction/Method-Draw/license",
+          "kind": "license",
+          "sha256": "b4cb9894e7e2c5a6f0b853fd8c95c48c9ce2a47e7989e420ceeafd32bd507e6b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://editor.method.ac/",
+          "kind": "homepage",
+          "sha256": "dee35ecfd9833c6fda696baa0e966bfa03790a58efa41a82324acd506f67e46b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/src/index.html",
+          "kind": "documentation",
+          "sha256": "10a96d52a06af6710af8f1dab50af84abfa3426229d49839bab6cb0860825fa3",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:4767074",
+          "url": "https://raw.githubusercontent.com/methodofaction/Method-Draw/master/src/js/svgcanvas.js",
+          "kind": "documentation",
+          "sha256": "9e4fad244644d855fb4de565a60201df907329da62600be4bd44cba4b6d832c3",
+          "outcome": "saved_snapshot"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": []
+    }
+  ]
+}

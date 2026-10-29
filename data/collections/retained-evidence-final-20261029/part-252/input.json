@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 59,
+  "offset": 1450,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "elevator-service-management",
+        "name_zh": "电梯服务管理",
+        "domain_id": "29",
+        "parent_id": "29.05",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-268/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "GitHub Search API: elevator maintenance management；elevator in:name,description maintenance"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/204",
+            "result": "insufficient_evidence",
+            "note": "复核 prior review 后确认：Elevator Service Manager 仅有客户级电梯档案、按电梯记录的服务访问、客户故障 Alert 消息路由给当日值班技术员、周值班表与 Stripe 单次服务收款；README 的数据模型为 User/week/elevators/service/Message，没有 building、maintenance agreement/AMC、周期预防维护、法规测试周期、运行证书或违规整改，也没有按单元保存的回呼历史与按资质派工。因此它不满足本叶“建筑→输送单元 + 维护协议驱动周期维护 + 回呼/合规循环”的定义性核心，先前 github:1239364445 的叶子关系无充分证据，已移除，不再作为本叶案例。补充检索 elevator maintenance management 仍以无许可证课程项目为主；elevator service contract maintenance 返回 0；复核候选 Ascensoft（lucasmoyano/Ascensoft，MIT）无 README（/readme HTTP 404），无法核实 AMC 与合规能力，未采用。既有仓库身份、许可证快照与历史检索记录保留，不把无结果当作不存在。未运行项目。",
+            "query": "GitHub Search API: elevator maintenance management；elevator in:name,description maintenance；[2026-10-27 复核补充] elevator maintenance management；elevator service contract maintenance"
+          }
+        ],
+        "archived": false,
+        "note": "复核 prior review 后确认：Elevator Service Manager 仅有客户级电梯档案、按电梯记录的服务访问、客户故障 Alert 消息路由给当日值班技术员、周值班表与 Stripe 单次服务收款；README 的数据模型为 User/week/elevators/service/Message，没有 building、maintenance agreement/AMC、周期预防维护、法规测试周期、运行证书或违规整改，也没有按单元保存的回呼历史与按资质派工。因此它不满足本叶“建筑→输送单元 + 维护协议驱动周期维护 + 回呼/合规循环”的定义性核心，先前 github:1239364445 的叶子关系无充分证据，已移除，不再作为本叶案例。补充检索 elevator maintenance management 仍以无许可证课程项目为主；elevator service contract maintenance 返回 0；复核候选 Ascensoft（lucasmoyano/Ascensoft，MIT）无 README（/readme HTTP 404），无法核实 AMC 与合规能力，未采用。既有仓库身份、许可证快照与历史检索记录保留，不把无结果当作不存在。未运行项目。"
+      },
+      "definition": {
+        "slug": "elevator-service-management",
+        "name": "Elevator Service Management",
+        "name_zh": "电梯服务管理",
+        "aliases_zh": [
+          "电梯维保管理",
+          "电梯维护管理",
+          "电梯服务维护"
+        ],
+        "overview": "An **Elevator Service Management** application is the business-management system of an elevator and escalator service contractor: it keeps records of customers and the buildings where their conveyances operate, tracks every elevator car as an individually maintained regulated asset, runs a contract-driven program of recurring maintenance over each unit, handles the breakdown and emergency calls that interrupt that program, keeps the code-mandated test and certificate records that authorities expect, and bills the whole operation — contract maintenance, callbacks, repairs, and modernization.\n\nThe defining core is small:\n\n```text\nCustomer building\n└── Conveyance unit (elevator car / escalator)\n    │   (an individually tracked regulated asset — controller,\n    │    drive, install date — with its own service history)\n    ├── Maintenance agreement (MSA / AMC)\n    │   (defined scope — full maintenance, time-and-materials,\n    │    parts, lubrication-only — driving recurring PM visits\n    │    and the recurring invoice)\n    ├── Callback loop\n    │   (breakdown and entrapment calls logged against the\n    │    unit, dispatched to qualified mechanics, kept as\n    │    per-unit callback history)\n    ├── Compliance loop\n    │   (periodic tests on jurisdiction-driven cycles,\n    │    certificates of operation tracked to expiry,\n    │    violations/deficiencies tracked to resolution\n    │    and converted into corrective work)\n    └── Billing\n        (recurring contract billing + callback/repair/\n         modernization billing → accounting)\n```\n\nEverything else commonly associated with these products — typed data models, offline mobile apps, QR unit tags, SLA timers, customer portals, route optimization, certification tracking, AI dispatch — is standard capability that mature products add, not what makes the product an elevator service management system.\n\nTwo boundary notes follow from the definition. First, the unit is the atomic record: \"the elevator is down\" is useless when a building has six cars, so mature products track each car separately — its controller, its maintenance cadence, its test dates, its certificate, its callback history. A tool that tracks only buildings and work orders is generic field service software. Second, the recurring maintenance agreement is the backbone of the business model: contract maintenance revenue anchors the customer relationship, callbacks and repairs flow from it, and modernization grows out of it.",
+        "overview_zh": "一个**电梯服务管理**应用程序是电梯与自动扶梯服务承包商的业务管理系统：它记录客户及其设备运行的建筑物，将每部电梯轿厢作为单独维护的受监管资产进行追踪，对每个单位实施基于合同的定期维护计划，处理中断该计划的故障和紧急呼叫，保存主管机构要求的、法规规定的测试和证书记录，并为整个运营开具账单——包括合同维护、回呼、维修和现代化改造。\n\n其核心定义较为简洁：\n\n```text\n客户建筑\n└── 输送单元（电梯轿厢/自动扶梯）\n    │   （一个单独追踪的受监管资产——控制器、\n    │    驱动器、安装日期——拥有自己的服务历史记录）\n    ├── 维护协议（MSA / AMC）\n    │   （定义的范围——全面维护、工时与材料、\n    │    仅零件、仅润滑——驱动定期的预防性维护访问\n    │    和周期性发票）\n    ├── 回呼循环\n    │   （针对该单元记录的故障和困人呼叫、\n    │    派遣给有资质的机械师、作为\n    │    单元回呼历史进行保存）\n    ├── 合规性循环\n    │   （根据主管机构规定的周期进行定期测试、\n    │    跟踪运营证书直至到期、\n    │    跟踪违规/缺陷直至解决\n    │    并转化为纠正性工作）\n    └── 计费\n        （周期性合同计费 + 回呼/维修/\n         现代化改造计费 → 会计核算）\n```\n\n通常与这些产品相关的其他所有东西——类型化数据模型、离线移动应用、二维码单元标签、SLA计时器、客户门户、路线优化、认证跟踪、AI派单——都是成熟产品添加的标准功能，并非构成该产品作为电梯服务管理系统的决定性因素。\n\n定义引出两点边界说明。首先，单元是原子记录：“电梯停运”在建筑物有六部轿厢时毫无用处，因此成熟产品会分别追踪每部轿厢——它的控制器、维护节奏、测试日期、证书和回呼历史。只追踪建筑物和工单的工具是通用的现场服务软件。其次，周期性维护协议是业务模式的支柱：合同维护收入锚定客户关系，回呼和维修由此产生，而现代化改造则由此发展而来。",
+        "dc": "**Customer building with conveyance units.** A record of the customer — a building owner, property manager, or portfolio — together with the buildings where the equipment lives. Beneath each building, each conveyance unit (elevator car, escalator, moving walk, lift) is an individually tracked record: identity and equipment attributes (controller brand, drive type, manufacturer, install date, capacity), its own maintenance schedule, its own test dates, its own certificate, and its own service and callback history. The unit record persists across ownership changes, contract transitions, and modernization work.\n\n**The maintenance agreement.** The contract that binds a unit to the contractor. Service agreements carry defined scope — commonly tiered from full maintenance through time-and-materials, OEM-parts, and lubrication-only arrangements — and the scope determines what is covered and what is billable. The agreement is a live record, not a PDF in a drawer: it generates the recurring maintenance visits on its cadence, queues the periodic tests, produces the recurring invoice, and carries the renewal date that drives the renewal conversation.\n\n**The callback loop.** Breakdown and emergency calls — a trapped passenger, an out-of-service car, a door fault, a leveling complaint — enter the system, are linked to the specific unit, and are dispatched to a qualified mechanic. Dispatch matches on location, availability, and qualification: certifications and even the diagnostic tool required by the unit's controller brand gate who gets the call. Every callback is recorded against the unit with notes, photos, parts, and time, so the next mechanic arrives knowing the pattern, not just the symptom. Callback history per unit is both the diagnostic asset and the commercial one — callback rates forecast contract cancellations, and repeat callbacks on the same component become modernization opportunities.\n\n**The compliance loop.** Elevators are among the most code-regulated mechanical services. Each unit carries periodic test obligations on cycles set by the jurisdiction's adopted code — annual, multi-year, and full-load test categories in the North American regime; periodic thorough examinations in the UK; analogous regimes elsewhere. The application schedules these tests per unit, records results against the unit with code references and photos, coordinates witness tests with qualified inspectors, tracks the certificate of operation for every unit with its expiration, and tracks violations from issue through cure to clearance. Deficiencies found during maintenance or testing become tracked records that convert into repair quotes and corrective work.\n\n**Billing.** The whole operation bills: contract maintenance on its recurring cycle, callbacks and repairs on completion (with the agreement's scope deciding billable versus covered), modernization as multi-day projects with deposits and progress billing. Accounting systems stay in sync through integration.",
+        "dc_zh": "客户建筑与运输单元。记录客户——建筑业主、物业经理或投资组合——以及设备所在的建筑。在每个建筑下，每个运输单元（电梯轿厢、自动扶梯、自动人行道、升降机）都是一个独立跟踪的记录：身份和设备属性（控制器品牌、驱动类型、制造商、安装日期、容量），其自己的维护计划、测试日期、证书，以及服务和回调历史。单元记录在所有权变更、合同过渡和现代化工作中持续存在。\n\n维护协议。将单元与承包商绑定的合同。服务协议有定义的范围——通常从全面维护到时间与材料、OEM零件、仅润滑安排分级——范围决定了覆盖内容和可计费项目。协议是一个活记录，不是抽屉里的PDF：它按照节奏生成定期维护访问，排队定期测试，生成定期发票，并携带续期日期，驱动续期对话。\n\n回调循环。故障和紧急呼叫——被困乘客、服务中断的轿厢、门故障、调平投诉——进入系统，链接到特定单元，并派遣给合格的技工。",
+        "rules": "### The unit carries the clock\n\nMaintenance cadence, test cycles, and certificate expiries all hang on the unit record, and each unit runs on its own schedule — monthly maintenance in one building, quarterly in another, a five-year test coming due across town. Completing a visit or test advances that unit's clock; nothing else does.\n\n### Agreement scope decides billable\n\nThe maintenance agreement's scope tier determines what a callback costs the customer versus the contractor. Callback billing, repair quoting, and contract profitability all derive from the scope on the unit's agreement — which is why the agreement is a live record attached to every piece of work, not a stored document.\n\n### Callbacks are recorded against the unit, with history attached\n\nA callback is never an isolated ticket: it joins the unit's history, and the next visit or callback arrives with the pattern visible. Repeat callbacks on the same component are treated as signals — of a maintenance problem, or of a modernization opportunity.\n\n### Compliance records must survive an audit\n\nTest results carry code references, photos, and technician attribution; certificates carry numbers, fees, and expirations; violations carry cure deadlines. The records are kept on the unit where an inspector expects to find them, and every entry is attributable and timestamped. Certification of the work itself remains a qualified-inspector step — the software keeps the records; it does not certify.\n\n### Certification gates who can do the work\n\nElevator work is licensed and certified in most regimes, and different tests and controllers require different qualifications and tools. Dispatch matches mechanics to jobs by certification and equipment — an apprentice does not sign off an annual test, and a mechanic without the right diagnostic tool does not get the call.\n\n### Roles gate configuration\n\nDay-to-day work is open to office staff and mechanics; business-wide configuration — agreement templates, checklists and test forms, price books, employee certifications — is restricted to admin-level roles.",
+        "rules_zh": "### 单元承载时钟\n\n维护节奏、测试周期和证书到期时间都挂在单元记录上，每个单元都按自己的时间表运行——一个建筑每月维护，另一个每季度维护，城对岸一个单元的五年测试即将到期。完成一次访问或测试会推进该单元的时钟；其他任何操作都不会。\n\n### 协议范围决定可计费项\n\n维护协议的范围层级决定了回呼对客户和承包商的成本。回呼计费、维修报价和合同盈利能力都源自单元协议的范围——这就是为什么协议是附在每一项工作上的动态记录，而不是一份存档文件。\n\n### 回呼记录在单元下，并附有历史记录\n\n回呼绝不是一张孤立的工单：它会加入单元的历史记录，而下一次访问或回呼到来时，该模式是可见的。同一部件重复发生的回呼被视为信号——指示维护问题或现代化改造机会。\n\n### 合规性记录必须经得起审计\n\n测试结果包含法规引用、照片和技术人员归属；证书包含编号、费用和到期日期；违规记录包含纠正截止日期。记录保存在单元中，这是检查员期望找到的地方，每个条目都可归属且带时间戳。工作本身的认证仍然是有资质检查员的步骤——软件保存记录；它不进行认证。\n\n### 认证决定谁可以做这项工作\n\n在大多数制度下，电梯工作是持证和认证的，不同的测试和控制器需要不同的资质和工具。派遣根据认证和设备将机械师与工作匹配——学徒不会签署年度测试，没有相应资质的机械师",
+        "parent_id": "29.05",
+        "domain_id": "29"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 252,
+    "phase": "directory",
+    "parent": 252,
+    "slugs": [
+      "elevator-service-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "3f60fa2f0faba8e7534a4f11ce053b7e4b8ab0c964f0f494dcd96dc5d3a3977b"
+  }
+}

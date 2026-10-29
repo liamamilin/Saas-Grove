@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "digital-forensics-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:2516243"
+      ],
+      "query": "open source digital forensics platform case evidence timeline",
+      "source_urls": [
+        "https://sleuthkit.org/autopsy/",
+        "https://sleuthkit.org/autopsy/docs/user-docs/latest",
+        "https://sleuthkit.org/autopsy/docs/user-docs/latest/cases_page.html",
+        "https://sleuthkit.org/autopsy/docs/user-docs/latest/data_source_integrity_page.html",
+        "https://sleuthkit.org/autopsy/docs/user-docs/latest/reporting_page.html",
+        "https://github.com/sleuthkit/autopsy",
+        "https://api.github.com/repos/sleuthkit/autopsy",
+        "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/README.txt",
+        "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/LICENSE-2.0.txt"
+      ],
+      "note": "本工作区无 review.json；本轮按 issues.json 与 HISTORY.json 的最终复核意见处理。复核先读取历史 Autopsy 五份快照，再补采官方用户指南 Cases、Data Source Integrity、Reporting 三个正文页。Cases 正文证明分析前须创建案件、案件可绑定多个磁盘镜像/磁盘设备/逻辑文件数据源、案件目录含数据库与报告；Data Source Integrity 正文证明 Autopsy 校验已有哈希或计算并存储数据源哈希，失败会写入案件 artifact；Reporting 正文证明可从案件提取关键信息生成 HTML/Excel/CASE-UCO 等报告并只输出选定标记结果；首页正文称其为数字取证平台/端到端平台，列出时间线、关键词搜索、哈希过滤、数据雕刻和后台并行处理；README 说明其检查磁盘镜像、以 The Sleuth Kit 为分析核心并支持单案件多用户协作。因此先前“只证明客户端、CLI、引擎/基础设施或设备控制”的结论已由正文证据修正：Autopsy 自身提供案件容器、摄取模块、完整性校验、标记与报告，TSK 是被集成的分析引擎之一。形态为完整本地桌面应用，不是在线 SaaS；本叶定义明确允许单检验员/本地工具，且任务不要求多租户或部署实测，故按成立关系收录。未运行程序，runtime_tested=false。",
+      "service_boundary": "Autopsy 是完整开源本地桌面取证应用（Windows 安装为主，源码可跨平台有限构建），不是 Web/SaaS，也不是仅客户端、CLI 或分析引擎。平台自身承担案件容器、证据源摄取、数据源哈希完整性校验、关键词搜索、文件雕刻/恢复、时间线、标记和报告；The Sleuth Kit 作为其分析引擎之一。本叶接受完整本地/自托管应用，不宣称多租户、云采集或商业支持。",
+      "search_attempts": [
+        "历史复用（非本轮新检索）：读取 2026-10-26 采集的 Autopsy 官方首页、用户指南索引、README、LICENSE 与 GitHub 仓库元数据快照，核对平台定位、许可证和仓库身份。",
+        "本轮补证（第 1 组，官方正文）：定向抓取官方用户指南 Cases、Data Source Integrity、Reporting 三个正文页，补足案件容器、证据源、哈希完整性、标记与报告工作流正文。",
+        "替代品查询（第 2 组）：web search “open source web based digital forensics platform case evidence acquisition examination self-hosted”。结果以商业产品（DFIRe、Exterro FTK、Monolith、OpenText Forensic）为主；开源项中 DFORC2 是 Autopsy/TSK 的分布式处理基础设施，Open Forensics Project 是仍在开发的移动取证项目；本轮检索范围内未发现比 Autopsy 更完整、可直接核验的开源 Web 取证平台。"
+      ],
+      "fetch_outcomes": [
+        "历史复用：GET https://api.github.com/repos/sleuthkit/autopsy -> 200，id=2516243，full_name=sleuthkit/autopsy，archived=false，license=null，已存快照。",
+        "历史复用：GET https://raw.githubusercontent.com/sleuthkit/autopsy/develop/LICENSE-2.0.txt -> 200，完整 Apache License 2.0 原文，已存快照。",
+        "历史复用：GET https://raw.githubusercontent.com/sleuthkit/autopsy/develop/README.txt -> 200，说明检查磁盘镜像、Apache 2.0 发布、单案件多用户协作，已存快照。",
+        "历史复用：GET https://sleuthkit.org/autopsy/ -> 200，首页正文称数字取证平台/端到端平台，列出时间线、关键词搜索、哈希过滤、数据雕刻、后台并行处理，已存快照。",
+        "历史复用：GET https://sleuthkit.org/autopsy/docs/user-docs/latest -> 200，用户指南索引正文含平台简介与 Cases、Data Sources、Ingest Modules、Reporting、Tagging 等章节清单，已存快照。",
+        "本轮补采：GET https://sleuthkit.org/autopsy/docs/user-docs/latest/cases_page.html -> 200，正文说明分析前须建案件、案件可含多个磁盘镜像/磁盘设备/逻辑文件、案件目录含数据库与报告，已存快照。",
+        "本轮补采：GET https://sleuthkit.org/autopsy/docs/user-docs/latest/data_source_integrity_page.html -> 200，正文说明校验已有哈希或计算并存储数据源哈希，验证失败写入案件 artifact，已存快照。",
+        "本轮补采：GET https://sleuthkit.org/autopsy/docs/user-docs/latest/reporting_page.html -> 200，正文说明从案件提取关键信息生成 HTML/Excel/CASE-UCO 等报告并可按标记筛选，已存快照。",
+        "本轮补采（辅助核对，未作为核心依据）：GET https://sleuthkit.org/autopsy/docs/user-docs/latest/logs_and_output_page.html -> 200，正文仅说明打开案件输出/日志文件夹的快捷方式，未给出审计记录内容；因此不据此声称审计跟踪能力，该页也未加入批次来源。"
+      ],
+      "historical_reuse": {
+        "note": "以下为 2026-10-26 历史采集快照，本轮仅读取核对；URL、SHA 和抓取时间原样保留，未补造。",
+        "sources": [
+          {
+            "url": "https://api.github.com/repos/sleuthkit/autopsy",
+            "sha256": "7ebbc4d83aef61246a4ea395ad6c3aeb7c6bd5442ce4e183083955d6c33bfd3a",
+            "snapshot_path": "sources/7ebbc4d83aef61246a4ea395ad6c3aeb7c6bd5442ce4e183083955d6c33bfd3a.txt",
+            "fetched_at": "2026-10-26T19:10:16.483998+08:00",
+            "kind": "repository_metadata"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/LICENSE-2.0.txt",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "snapshot_path": "sources/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+            "fetched_at": "2026-10-26T19:10:17.860946+08:00",
+            "kind": "license"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/README.txt",
+            "sha256": "4f555289cff3ce57bea8e39c0af795dba0626b01bf1adddc3ea54eb02f14f276",
+            "snapshot_path": "sources/4f555289cff3ce57bea8e39c0af795dba0626b01bf1adddc3ea54eb02f14f276.txt",
+            "fetched_at": "2026-10-26T19:10:19.089981+08:00",
+            "kind": "readme"
+          },
+          {
+            "url": "https://sleuthkit.org/autopsy/",
+            "sha256": "43545727f842fb127d66298f4dc5892ad628bfd0a6031d876036834c7408a351",
+            "snapshot_path": "sources/43545727f842fb127d66298f4dc5892ad628bfd0a6031d876036834c7408a351.txt",
+            "fetched_at": "2026-10-26T19:14:13.749851+08:00",
+            "kind": "homepage"
+          },
+          {
+            "url": "https://sleuthkit.org/autopsy/docs/user-docs/latest",
+            "sha256": "422b544a6deb41ad31af98f80bf3c4a34861760a487a2dfdd5c6b854cca9f3fc",
+            "snapshot_path": "sources/422b544a6deb41ad31af98f80bf3c4a34861760a487a2dfdd5c6b854cca9f3fc.txt",
+            "fetched_at": "2026-10-26T19:14:20.357314+08:00",
+            "kind": "documentation"
+          }
+        ]
+      },
+      "new_sources": [
+        {
+          "url": "https://sleuthkit.org/autopsy/docs/user-docs/latest/cases_page.html",
+          "sha256": "e7a22cfc7bca2b71ad73d7a34b5825ad258e6c5ee8230b74dbdf46d889329f65",
+          "snapshot_path": "sources/e7a22cfc7bca2b71ad73d7a34b5825ad258e6c5ee8230b74dbdf46d889329f65.txt",
+          "fetched_at": "2026-10-29T12:13:09.729098+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://sleuthkit.org/autopsy/docs/user-docs/latest/data_source_integrity_page.html",
+          "sha256": "b6c12b703e69d71d210699626a68f280036f9dec3259091fc66200845a7edcd3",
+          "snapshot_path": "sources/b6c12b703e69d71d210699626a68f280036f9dec3259091fc66200845a7edcd3.txt",
+          "fetched_at": "2026-10-29T12:13:09.733514+08:00",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://sleuthkit.org/autopsy/docs/user-docs/latest/reporting_page.html",
+          "sha256": "494800db7285ebeb80f8019fdc5bb2479d63f8c066c201f64bab0b943c7818d6",
+          "snapshot_path": "sources/494800db7285ebeb80f8019fdc5bb2479d63f8c066c201f64bab0b943c7818d6.txt",
+          "fetched_at": "2026-10-29T12:13:09.729095+08:00",
+          "kind": "documentation"
+        }
+      ],
+      "previous_records": [
+        {
+          "record": "var/collection/beam-continuation-20261025/part-150/project/data/collections/research.json",
+          "record_sha256": "cc6e63746cf7bff502b3f07704996f2054637226dcf842d5558a06be4988bc36",
+          "assessment": "case_found",
+          "note": "早期采集草稿（未通过最终复核）：采用 Autopsy，认为其符合数字取证平台核心。",
+          "disposition": "保留为历史草稿；不作为本轮通过依据，本轮以官方正文重新核对。"
+        },
+        {
+          "record": "included-continuation-final-20261027-research.json#/leaf_cases/622",
+          "record_sha256": "503996f8090d3aa5aaddc17607c87a1afd3573dcd0a097c29f4cde2fff6cfbd5",
+          "assessment": "boundary_unresolved",
+          "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+          "disposition": "本轮定向补采官方正文后修正为 case_found；旧记录与旧结论保留，不删除历史轨迹。"
+        }
+      ],
+      "resolved_candidates": [
+        {
+          "id": "github:2516243",
+          "previous_status": "withheld / boundary_unresolved",
+          "resolution": "补采官方 Cases、Data Source Integrity、Reporting 正文后，确认其具备案件、证据源、完整性校验、检查与报告完整工作流，收录。"
+        }
+      ],
+      "alternative_candidates": [
+        {
+          "name": "DFIRe",
+          "url": "https://dfire.fi/",
+          "evidence_status": "search_result_only",
+          "reason_not_added": "商业、自托管 DFIR 案件管理平台，不是开源，且重点在案件管理与响应流程而非取证检查/证据分析；未纳入。"
+        },
+        {
+          "name": "Exterro FTK / Monolith / OpenText Forensic",
+          "url": "https://www.exterro.com/digital-forensics-software",
+          "evidence_status": "search_result_only",
+          "reason_not_added": "商业数字取证产品；按任务只作基本记录，不深入价格/架构/部署，本轮不作为开源案例。"
+        },
+        {
+          "name": "DFORC2",
+          "url": "https://www.ojp.gov/pdffiles1/nij/250700.pdf",
+          "evidence_status": "search_result_only",
+          "reason_not_added": "Autopsy/TSK 的分布式处理后端研究项目，用户仍通过 Autopsy 交互，不是完整独立取证平台应用；未纳入。"
+        },
+        {
+          "name": "Open Forensics Project",
+          "url": "https://www.openforensicsproject.org/",
+          "evidence_status": "search_result_only",
+          "reason_not_added": "在研开源移动取证项目，检索结果未提供完整可用平台、仓库身份与完整许可证证据；未纳入。"
+        }
+      ],
+      "archived": false,
+      "historical_drafts": [
+        {
+          "source": "included-continuation-final-20261027-research.json#/leaf_cases/622",
+          "collector_note_unapproved": "采用 Autopsy（GitHub ID 2516243，Apache-2.0）：官方项目页称其为端到端数字取证平台，官方用户指南正文列出案件、数据源、摄取模块、关键词搜索、时间线、标记与报告；README 说明其检验磁盘镜像、以 The Sleuth Kit 为分析核心并支持单案件多用户协作。仓库 license API 返回空 SPDX，故以完整 LICENSE-2.0.txt 原文和 README 的 Apache 2.0 声明做许可证核验；第三方库许可差异已在 README 中提示。",
+          "withheld_candidates": [
+            {
+              "id": "github:2516243",
+              "reason": "当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。"
+            }
+          ],
+          "note": "原采集说明与保留候选原样留档；不表示本轮预先通过，本轮以补采的官方正文重新核对后改判。"
+        }
+      ]
+    }
+  ]
+}

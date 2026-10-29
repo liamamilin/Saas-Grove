@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "round": "round-05",
+  "executed_at": "2026-10-23",
+  "executor": "Codex agent /root/round05_industry",
+  "checks": [
+    {
+      "name": "backend unittest regression",
+      "command": "python3 -B -m unittest discover -s server/tests -q",
+      "working_directory": ".",
+      "exit_code": 0,
+      "passed": true,
+      "result": "57 tests ran; OK.",
+      "log": "var/collection/round-05/backend-tests.log",
+      "attempts": [
+        {
+          "exit_code": 1,
+          "result": "First sandbox attempt failed one test because localhost ephemeral port bind was denied."
+        },
+        {
+          "exit_code": 0,
+          "result": "Re-run with approved localhost access passed all 57 tests."
+        }
+      ],
+      "isolation": "Test suite fixture/temp data only; no formal catalog database was touched.",
+      "limitations": [
+        "Initial attempt required localhost permission; approved re-run passed."
+      ]
+    },
+    {
+      "name": "browser Playwright E2E regression",
+      "command": "cd web && npm run test:e2e",
+      "working_directory": "web",
+      "exit_code": 0,
+      "passed": true,
+      "result": "8 tests passed (4.9s).",
+      "log": "var/collection/round-05/browser-tests.log",
+      "isolation": "Playwright config started its isolated test API on 127.0.0.1:5399 and Vite on 127.0.0.1:5388; reuseExistingServer=false.",
+      "limitations": [
+        "NO_COLOR/FORCE_COLOR environment warning only; no test failures."
+      ]
+    }
+  ]
+}

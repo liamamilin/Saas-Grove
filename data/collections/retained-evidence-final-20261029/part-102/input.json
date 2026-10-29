@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 22,
+  "offset": 525,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "api-gateway-management-console",
+        "name_zh": "API网关管理控制台",
+        "domain_id": "12",
+        "parent_id": "12.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/113",
+            "result": "boundary_unresolved",
+            "note": "统一复核留档：Kong：来源证明网关与管理API，未证明本叶要求的开源管理控制台。",
+            "query": "web search and official sources for api-gateway-management-console"
+          }
+        ],
+        "archived": false,
+        "note": "统一复核留档：Kong：来源证明网关与管理API，未证明本叶要求的开源管理控制台。"
+      },
+      "definition": {
+        "slug": "api-gateway-management-console",
+        "name": "API Gateway Management Console",
+        "name_zh": "API网关管理控制台",
+        "aliases_zh": [
+          "API网关管理平台",
+          "API网关管控台"
+        ],
+        "overview": "An **API Gateway Management Console** is the operator-facing administrative application for an API gateway: the control surface through which a team defines the APIs a gateway exposes and the backend services behind them, configures the rules the gateway enforces on that traffic, manages who may call through the gateway and with what credentials, and deploys configuration changes into the running gateway — where those changes become its live traffic behavior.\n\nThe defining core is small and structural:\n\n```text\nGateway runtime (data plane — the thing that carries consumer traffic)\n└── Control surface over it (console + management API)\n    └── Exposed API surface: routes / operations mapped to backend services\n        └── Enforcement configured on that surface (access control, limits, transformation)\n            └── Deployment step that makes configuration live on the gateway\n```\n\nThe console never processes API traffic itself; the gateway does. The console is where the gateway's behavior is decided. It also does not serve API consumers — consumers face either the raw gateway endpoints or a developer portal, both of which are separate surfaces.",
+        "overview_zh": "一个 **API Gateway Management Console** 是面向操作员的 API 网关管理应用：它是控制面，团队通过它定义网关暴露的 API 及其背后的后端服务，配置网关在该流量上执行的规则，管理谁可以通过网关调用及其使用的凭证，并将配置变更部署到运行中的网关——这些变更在其上生效后成为其实时流量行为。\n\n其定义核心是精简且结构化的：\n\n```text\n网关运行时（数据面——承载消费者流量的组件）\n└── 其上的控制面（控制台 + 管理 API）\n    └── 暴露的 API 表面：路由/操作映射到后端服务\n        └── 针对该表面配置的执行策略（访问控制、限制、转换）\n            └── 使配置在网关上生效的部署步骤\n```\n\n控制台本身从不处理 API 流量；流量由网关处理。控制台是决定网关行为的地方。它也不直接服务于 API 消费者——消费者面对的是原始网关端点或开发者门户，这两者都是独立的界面。",
+        "dc": "Three things make this application what it is; remove any one and it stops being recognizable as a gateway console:\n\n- **A control surface acting on a gateway runtime.** The managed object is a gateway — a data plane that fronts backend services and receives all consumer traffic. The console is distinct from that runtime and acts on its configuration. Without a gateway behind it, the application would be a spec editor or a generic admin panel.\n- **The exposed API surface as the central managed object.** Operators define what the gateway exposes — APIs, their routes or operations — and bind each to the backend service that implements it (a function, an upstream service, any HTTP backend). This API-object focus, rather than servers or network devices, is what distinguishes gateway operations from other traffic-infrastructure management.\n- **Configuration becomes behavior through deployment.** Decisions made in the console take effect on the gateway only when pushed to the runtime — a publish or deploy step, or a write through the management API. Until then, running traffic follows the previous configuration.\n\nEnforcement configured on the API surface covers at least access control (who may call, with what credentials), rate limits and quotas, and commonly request/response transformation.",
+        "dc_zh": "该应用由三个核心要素定义，缺一不可，否则将无法被视为网关控制台：\n- **面向网关运行时的控制面。** 被管理对象是网关——一个作为后端服务前端并承载所有消费者流量的数据面。控制台与该运行时分离，对其配置进行操作。若缺少背后的网关，该应用将退化为规格编辑器或通用管理面板。\n- **以暴露的API表面作为核心管理对象。** 运营人员在此定义网关暴露的内容——API及其路由或操作——并将每个API绑定到实现它的后端服务（一个函数、上游服务或任意HTTP后端）。这种以API对象（而非服务器或网络设备）为中心的管理方式，是网关运维区别于其他流量基础设施管理的关键。\n- **配置通过部署转化为行为。** 在控制台中做出的决策，仅在推送到运行时（通过发布/部署步骤或管理API写入）后才会在网关上生效。在此之前，运行中的流量仍遵循先前的配置。\n\n在API表面上配置的策略执行至少包括访问控制（谁可以调用、使用何种凭证）、速率限制和配额，通常还包括请求/响应转换。",
+        "rules": "- **The console is never on the traffic path.** It determines what the gateway enforces; enforcement itself happens in the gateway runtime at request time. A console outage does not stop API traffic (though it stops reconfiguration).\n- **Nothing is live until deployed.** Edited configuration and running configuration are separate; the deploy/publish step is the gate between them.\n- **Credentials gate access.** Where the gateway requires consumer credentials, a caller without a valid key or subscription is rejected at the gateway — the consumer registry is simultaneously a UX surface and an access-control surface.\n- **The console polices itself.** Administrative permissions restrict who can change what; restricting a user's role also restricts what they can see in the interface. Management operations are auditable.\n- **Policy scope is hierarchical.** The same kind of rule can be attached at different levels — globally, to a product or workspace, to one API, or to one operation — and the gateway applies the full stack to matching requests.\n- **UI and management API are equivalent.** Anything changed in the visual console could equally have been changed by an API call or pipeline; teams must treat both as authoritative sources of the same configuration.",
+        "rules_zh": "- **控制台永远不在流量路径上。** 它决定网关执行什么策略；执行本身发生在请求时的网关运行时中。控制台宕机不会停止 API 流量（但会阻止重新配置）。\n- **未部署前，任何内容都不是实时生效的。** 编辑的配置和正在运行的配置是分离的；部署/发布步骤是它们之间的关卡。\n- **凭证控制访问权限。** 在网关需要消费者凭证的情况下，没有有效密钥或订阅的调用者会在网关处被拒绝——消费者注册表同时是一个用户体验界面和一个访问控制界面。\n- **控制台进行自我监管。** 管理员权限限制了谁可以更改什么；限制用户的角色也限制了他们能在界面中看到什么。管理操作是可审计的。\n- **策略范围是分层的。** 同一种类型的规则可以附加在不同的层级——全局、产品或工作区、单个 API 或单个操作——网关会将完整的策略栈应用于匹配的请求。\n- **UI 和管理 API 是等效的。** 在可视化控制台中更改的任何内容，同样可以通过 API 调用或流水线进行更改；团队必须将两者都视为同一配置的权威来源。",
+        "parent_id": "12.04",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 102,
+    "phase": "directory",
+    "parent": 102,
+    "slugs": [
+      "api-gateway-management-console"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "1d61ab485257ed7b6777e12c3b44e9f0fdf924cf6ae5dbd5eafc56f9281562a0"
+  }
+}

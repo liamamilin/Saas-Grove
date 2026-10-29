@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "JumpServer（github:21484781）的 features 数组包含 RDP、数据库、Web 与“会话视频录制”等平台级表述；README 的 Enterprise Components 将 Razor（RDP 代理）、Magnus（数据库代理）、Nec（VNC 代理）、Video Worker（录制转码）标为 Enterprise/private。summary 与 research note 已声明这些组件及工单审批、多云同步不计入，leaf match 也未依赖它们；建议在 features 中逐项标注社区版/企业版，避免读者误读社区版边界。",
+    "JumpServer 与 OpenZiti 的 license 快照实际是 GitHub contents API 的 LICENSE 响应（内部 url 为 /contents/LICENSE），而 batch/REVIEW_SOURCES 将其记为 /license 端点；快照内为完整 GPLv3/Apache-2.0 文本（size 35150/11340，README 亦声明），许可证结论不受影响，建议校正 evidence URL/kind 或重新抓取 /license。",
+    "Keycloak（github:11125589）本质是 IAM 服务器；条目已明确只取 SSO 代理角色，但 features 中的用户联邦、强认证、细粒度授权属于 IAM 能力，不应被读作 SSO 本体。",
+    "Microsoft Purview DLP 是 Purview 套件中的 DLP 能力而非独立 SKU；homepage 指向 Purview 根页，条目已透明说明“Purview 中的 DLP 策略”，商业基本类型匹配成立。",
+    "Cyera（commercial:cyera-dspm）的 source kind 标为 homepage，实际 URL 是 /platform/dspm 产品页；页面含实质正文（扫描、分类、风险排序、修复），不是 Loading/纯元数据，建议 kind 改为 product_page。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，而 research.json/batch.json 已记录 case_found 与具体 ID；两处元数据未同步，建议以 batch/research 为准并更新 input progress。",
+    "research.json 的 JumpServer fetch_outcomes 含 sources/6a220d0dc287ba874a12df457ca8dd3d0b6ecbc02e27d898f37f7bd8bf0d89f7.txt（jumpserver.com/docs），该快照未出现在 REVIEW_SOURCES.json 或 batch.sources，亦未被 leaf_match 引用；建议登记或移除该条 fetch_outcome，避免 provenance 悬空。",
+    "OpenZiti（github:223431735）的 README 同时提供 Network Access、Host Access、Application Access 三种模型；条目已将 Network Access 排除、仅取 Host/Application Access，方向正确，但应避免把 Network Access 的网络边界接入当作 ZTNA 核心证据。",
+    "全部条目 runtime_tested=false；本次仅做来源与定义核对，未部署运行。按任务要求，部署测试不是通过条件。"
+  ],
+  "leaf_checks": {
+    "privileged-access-management-pam": {
+      "status": "passed_with_notes",
+      "application_id": "github:21484781",
+      "basis": "读取 README（开源 PAM/堡垒机，SSH/RDP/Kubernetes/数据库/Web 资产访问；KoKo/Chen/Luna 等核心组件）、官方 features 页（账户发现、计划改密、加密凭据备份、RBAC/JIT、ACL、会话录制/命令审计/SIEM）、GitHub 元数据（id=21484781）与 LICENSE 快照（GPLv3 全文，size 35150）。PAM 核心由“特权账户发现/保管/轮换 + RBAC/JIT 策略门控 + 代理接入 + 会话审计”构成，匹配成立。",
+      "gaps": "未部署运行；features 数组含 RDP/数据库/Web/视频录制等平台级表述，README 将 Razor/Magnus/Nec/Video Worker 标为 Enterprise/private；summary 与 research note 已排除这些组件及工单审批、多云同步，leaf match 未依赖它们。"
+    },
+    "single-sign-on-sso": {
+      "status": "passed",
+      "application_id": "github:11125589",
+      "basis": "读取 GitHub 元数据（id=11125589）、README（开源 IAM，应用无需自行存储/认证用户；bin/kc.sh start-dev 与 quay.io 镜像）、官方 securing-apps 文档（OAuth2/OIDC/SAML 服务器；client 注册后与 Keycloak 交互认证并取得令牌；client 为多个应用提供 single sign-on 体验；术语定义明确 client 交互认证取得 token）与 LICENSE.txt 全文（Apache-2.0）。中央认证代理、应用委托连接、跨应用中转会话核心成立；条目已限定只取 SSO 代理角色。",
+      "gaps": "未部署运行；Keycloak 同时是 IAM 服务器，features 中的用户联邦/强认证/细粒度授权属于更广的 IAM 能力，不应作为 SSO 本体证据。"
+    },
+    "zero-trust-network-access-ztna": {
+      "status": "passed",
+      "application_id": "github:223431735",
+      "basis": "读取 GitHub 元数据（id=223431735）、README（开源零信任网络平台；每个用户/服务/设备/工作负载持密码学身份；逐服务策略授权、实时撤销关闭连接；dark services 无监听端口；连接经 controller/edge router overlay；明确以替代 VPN 为用例；Host/Application Access 模型以单服务为访问单位）与 LICENSE 快照（Apache-2.0 全文，size 11340）。资源级访问、身份默认拒绝、产品自有连接路径三要素成立。",
+      "gaps": "未部署运行；OpenZiti 还提供 Network Access（网络边界接入）模型，条目已明确排除并仅取 Host/Application Access，需避免混用。"
+    },
+    "data-loss-prevention-dlp": {
+      "status": "passed",
+      "application_id": "commercial:microsoft-purview-dlp",
+      "basis": "读取 Microsoft Learn 官方 DLP 文档（DLP 策略识别/监控/保护 Enterprise applications & devices 与 Inline web traffic；深度内容分析含关键词、正则、内部函数、邻近二次匹配、ML；覆盖 M365、终端、本地文件共享、非 Microsoft 云应用等；响应含警告、阻止、允许覆盖并记录理由、隔离；监控活动默认写入 M365 审计日志并进入 Activity explorer/告警）。内容检查 + 上下文 + 策略响应 + 事件记录核心成立；商业条目只做基本真实性与类型匹配。",
+      "gaps": "未部署/未验证具体租户配置；Purview DLP 是套件内能力，homepage 为 Purview 根页，条目已透明说明；未研究价格/架构（任务不要求）。"
+    },
+    "data-security-posture-management-dspm": {
+      "status": "passed",
+      "application_id": "commercial:cyera-dspm",
+      "basis": "读取 Cyera 官方 /platform/dspm 产品页（one control plane for cloud/SaaS/DBaaS/on-prem；agentless 持续扫描数百 PB；AI 分类敏感数据；将数据敏感度与业务用途、身份、访问活动、暴露关联为风险评分；提供撤销访问、脱敏、工作流等修复；FAQ 说明数据可留在客户环境、也提供 SaaS 部署）。连接数据资产、敏感数据清单、风险发现与修复闭环核心成立；商业条目只做基本真实性与类型匹配。",
+      "gaps": "未部署/未验证实际扫描结果；source kind 标为 homepage 但实际是产品页；未研究价格/架构/托管差异（任务不要求）。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何产品，未读取其他单元。依据为 REVIEW_SOURCES.json 列出的 12 个快照及 batch.json/research.json；未实时抓取 URL。JumpServer/OpenZiti 的 LICENSE 快照是 GitHub contents API 的 base64 全文，按快照头部、size 与 README 交叉核对，未用外部工具逐字解码；Keycloak LICENSE.txt 已读全文。research.json 中 JumpServer 的额外 docs 快照（6a220d...）未列入 REVIEW_SOURCES，未读取/核对。商业产品仅核对官方文档/产品页的基本真实性与类型匹配，未验证价格、架构、租户配置或运行状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-144/ses_groveopencodegop144review1_1793011948.jsonl",
+  "batch_sha256": "9a71d5b99992c3c90961ed57982bc028960ab9d2836726e559e3002b2d579209",
+  "research_sha256": "067535cd5e85b6e3762c129f53d74d33914093d9e2db3694f4c3563b0fa404c7",
+  "input_sha256": "d27ba1622f6877986e0c67125a77e4dd9f4d2db20ad9608c6186a478b76701fd"
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "public-transit-passenger-app",
+      "assessment": "case_found",
+      "case_ids": ["commercial:transit"],
+      "query": "直接核对已部署乘客端产品的官方站点，并核查开源候选的仓库身份、许可证与客户端形态（websearch 401，未获得关键词检索结果）",
+      "source_urls": ["https://transitapp.com/"],
+      "note": "Transit 官方首页正文明确面向乘客：打开即列出附近公交、地铁、共享单车，提供实时车辆位置、行程组合规划、逐步乘车导航，并说明乘客可用 GO 众包补充实时位置。该页足以支持乘客侧、以计划交通网络为参照、以行程规划为中心的判断；未据此推断票价或票务能力。开源候选经核查后未采用：Digitransit-ui 的 GitHub 许可证 API 为 NOASSERTION（仓库仅声明 EUPL v1.2/AGPLv3 双许可），Transportr 与 onebusaway-android 均为纯客户端应用；按“纯客户端不能仅因开源或联网标成 SaaS 应用”的规则，改用有实际部署与完整乘客工作流的商业产品记录。",
+      "service_boundary": "乘客端出行服务：消费公交机构/网络提供的线路、站点、时刻表与实时数据，向乘客提供行程规划与导航；不运营线路，不承担运营商调度或票务规则制定。",
+      "search_attempts": [
+        "直接抓取 https://transitapp.com/ 官方首页并读取正文",
+        "GitHub API 核对 HSLdevcom/digitransit-ui 的仓库元数据、许可证与 README",
+        "GitHub API 核对 grote/Transportr 的仓库元数据与 README",
+        "GitHub API 核对 OneBusAway/onebusaway-android 的仓库元数据、许可证与 README"
+      ],
+      "fetch_outcomes": [
+        "成功：https://transitapp.com/ → 首页正文含 nearby transit、real-time data、plan a trip、step-by-step navigation",
+        "成功：https://api.github.com/repos/HSLdevcom/digitransit-ui → id 32916096，license spdx NOASSERTION",
+        "成功：https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/README.md → 说明为 Digitransit 平台的移动友好界面，双许可 EUPL v1.2/AGPLv3",
+        "成功：https://api.github.com/repos/grote/Transportr → id 12641222，license GPL-3.0",
+        "成功：https://raw.githubusercontent.com/grote/Transportr/master/README.md → 说明为公共交通伴侣应用（Android 客户端）",
+        "成功：https://api.github.com/repos/OneBusAway/onebusaway-android → id 1873841，license spdx NOASSERTION",
+        "成功：https://api.github.com/repos/OneBusAway/onebusaway-android/license 与 README → Apache-2.0 文本、Android 乘客客户端"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "rail-operations-platform",
+      "assessment": "case_found",
+      "case_ids": ["commercial:hitachi-rail-control-supervision"],
+      "query": "直接核对铁路信号/运营控制厂商的官方产品页（websearch 401，未获得关键词检索结果）",
+      "source_urls": [
+        "https://www.hitachirail.com/products-and-solutions/freight-rail-control-supervision/",
+        "https://www.hitachirail.com/products-and-solutions/mainline-rail-control-supervision/"
+      ],
+      "note": "Hitachi Rail 官方货运铁路控制与监督页正文列出面向运营方的 Operational Control Centres（含 Traffic Management 与网络优化）、Positive Train Control、Temporary Speed Restriction Management，以及联锁/信号集成；主干线页面同样列出 Operations Control Centres including Traffic Management and network optimisation。这些是运营商侧控制列车运行的能力证据，故按商业基本记录收录。页面为产品组合介绍，未给出时刻表与实绩对比、运行授权记录等具体工作流，摘要与关系理由均已相应收窄，未声称自动冲突解决或完整调度闭环。",
+      "service_boundary": "铁路运营方的控制与监督层：提供运营控制中心、交通管理/网络优化、PTC 与临时限速管理等手段，并依赖下层信号/联锁执行安全间隔；不是售票、资产维护或乘客应用。",
+      "search_attempts": [
+        "直接抓取 Hitachi Rail 官方主页并定位 Rail Control & Supervision 相关链接",
+        "直接抓取官方 Mainline Rail Control & Supervision 产品页",
+        "直接抓取官方 Freight Rail Control & Supervision 产品页"
+      ],
+      "fetch_outcomes": [
+        "成功：https://www.hitachirail.com/ → 导航含 Mainline/Freight Rail Control & Supervision",
+        "成功：https://www.hitachirail.com/products-and-solutions/mainline-rail-control-supervision/ → 正文列出 Operations Control Centres including Traffic Management and network optimisation",
+        "成功：https://www.hitachirail.com/products-and-solutions/freight-rail-control-supervision/ → 正文列出 Operational Control Centres、Traffic Management、PTC、Temporary Speed Restriction Management",
+        "失败：https://www.wabtec.com/ 与 https://www.wabtec.com/products-services/precision-dispatch-system → 404，未取得 Wabtec 官方证据"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "taxi-dispatch-platform",
+      "assessment": "case_found",
+      "case_ids": ["commercial:icabbi"],
+      "query": "直接核对出租车调度厂商官方主页与 Dispatch 产品页（websearch 401，未获得关键词检索结果）",
+      "source_urls": [
+        "https://icabbi.com/platform/dispatch/",
+        "https://icabbi.com/"
+      ],
+      "note": "iCabbi 官方 Dispatch 页正文说明其面向出租车企业：处理点对点、周期性及多上/下客点预订；按供应/需求匹配，支持按区域（Zone Profiling）、车队（Dispatch by Fleet）、实时 ETA 的可配置派单规则与调度员手动切换配置；管理距离/时间/法定假日/固定价/区域附加费等费率，支持车内、短信、信用卡及企业账户支付，并维护司机证照/保险与车辆牌证记录、开票对账和乘客红绿灯标记。该页同时覆盖预订、车队可用性、分配与商业结算四个结构，故收录。",
+      "service_boundary": "出租车/车队运营商侧调度系统：从运营商渠道接收计费客运预订，分配自有司机与车辆，跟踪行程并进入支付、司机结算与企业账户开票；不是聚合多供应商供给的乘客发起型网约车市场。",
+      "search_attempts": [
+        "直接抓取 https://icabbi.com/ 官方主页",
+        "直接抓取 https://icabbi.com/platform/dispatch/ 官方产品页",
+        "尝试 https://www.icabbi.com/ 与 https://icabbi.com/dispatch/（前者跨主机重定向被拒，后者返回非文本）"
+      ],
+      "fetch_outcomes": [
+        "成功：https://icabbi.com/ → 首页正文定位到 Dispatch 产品入口",
+        "成功：https://icabbi.com/platform/dispatch/ → 正文含预订类型、Dispatch Rules、Zone Profiling、ETA 派单、费率、支付、司机/车辆记录与开票",
+        "失败：https://www.icabbi.com/ → 重定向到不同主机，未采用",
+        "失败：https://icabbi.com/dispatch/ → 响应不是文本内容类型"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "vehicle-rental-platform",
+      "assessment": "case_found",
+      "case_ids": ["commercial:rentsyst"],
+      "query": "直接核对租车管理软件厂商官方站点（websearch 401，未获得关键词检索结果）",
+      "source_urls": ["https://rentsyst.com/"],
+      "note": "RentSyst 官方首页正文说明其为面向租车企业的云端管理软件：管理可租车队与车辆状态/位置，处理预订和订单日历，跟踪财务交易与发票，提供报表及维保提醒，并可按车辆类别（轿车、卡车、房车、船舶等）管理租赁业务。该证据支持“运营商侧车队+预订+商业记录”的租车平台判断；页面未明确描述交车/还车协议状态机、押金授权与按实际用量结算，故未在摘要或关系理由中声称这些细节。",
+      "service_boundary": "租车企业运营管理系统：持有可租车队与预订，处理订单、财务和报表；不是分发租赁的 OTA/市场，也不只是车辆资产台账。",
+      "search_attempts": [
+        "直接抓取 https://rentsyst.com/ 官方首页并读取正文",
+        "尝试 HQ Rental Software、Navotar、TAGRA、RentWorks、Bluebird 等官方站点以寻找可读的租车运营工作流正文"
+      ],
+      "fetch_outcomes": [
+        "成功：https://rentsyst.com/ → 首页正文含 cloud car rental software、reservation/order timeline、fleet/GPS、financial transactions、invoices、maintenance reminders",
+        "失败：https://www.rentsyst.com/ → 重定向到不同主机；改用 https://rentsyst.com/",
+        "失败：https://hqrentalsoftware.com/ → 正文由 JavaScript 渲染，静态快照仅含站点外壳，未采用",
+        "失败：https://www.navotar.com/、https://navotar.com/、https://www.tagra.com/、https://www.rentworks.com/、https://www.bluebirdsoftware.com/ → 重定向/SSL/HTTP 异常，未取得可读正文"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "boat-yacht-charter-platform",
+      "assessment": "case_found",
+      "case_ids": ["commercial:click-and-boat"],
+      "query": "直接核对游艇租赁平台官方“如何运作”页与首页（websearch 401，未获得关键词检索结果）",
+      "source_urls": [
+        "https://www.clickandboat.com/en/how-it-works",
+        "https://www.clickandboat.com/"
+      ],
+      "note": "Click&Boat 官方 How does it work 页正文完整描述双边流程：船东创建账户、发布船只列表并管理可用性；承租人搜索船只、通过站内消息联系船东、在线授权付款下单；船东审核承租人航海简历后接受，平台扣款确认预订，并在租期开始时把租金转付船东；交接时签署租船合同并做设备清单，租后双方互评。该页同时证明可识别船只库存、限时租赁预订和平台中介收款/转付三项结构，故收录。",
+      "service_boundary": "船舶/游艇租赁中介平台：承载船东发布的船只库存与限时预订，审核承租请求，代收并在租期开始向船东转付租金；不是单纯的船只分类目录，也不是不介入交易的船东自营网页。",
+      "search_attempts": [
+        "直接抓取 https://www.clickandboat.com/ 官方首页",
+        "直接抓取 https://www.clickandboat.com/en/how-it-works 官方说明页并读取正文"
+      ],
+      "fetch_outcomes": [
+        "成功：https://www.clickandboat.com/ → 首页可定位到 How does it work 等入口",
+        "成功：https://www.clickandboat.com/en/how-it-works → 正文含发布船只、在线付款、船东接受、平台转付租金、交接清单与互评"
+      ],
+      "archived": false
+    }
+  ]
+}

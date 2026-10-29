@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "chromatography-data-system",
+        "name_zh": "色谱数据系统(CDS)",
+        "domain_id": "22",
+        "parent_id": "22.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source chromatography data system CDS github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source chromatography data system CDS github"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/108",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "open source chromatography data system CDS github"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "chromatography-data-system",
+        "name": "Chromatography Data System",
+        "name_zh": "色谱数据系统(CDS)",
+        "aliases_zh": [
+          "色谱工作站",
+          "色谱数据处理系统"
+        ],
+        "overview": "A **Chromatography Data System (CDS)** is laboratory software that acquires detector signals from chromatography instruments (HPLC, GC, IC, CE, and hyphenated MS systems), turns those raw signals into identified and quantified peak results through integration and calibration against standards, and manages the results as persistent, reviewable records bound to named samples.\n\nThe defining structure is small:\n\n```text\nSample measurement (injection)\n└── Raw chromatographic signal — detector response over time, stored as reprocessable data\n    └── Peak integration — peaks detected against a baseline (retention time, area, height)\n        └── Calibration & quantitation — peak response converted to amount via standards\n            └── Result record — stored per sample, reviewable and reportable\n```\n\nA stored **method** — the parametric recipe governing acquisition and processing — sits over this chain and can be re-applied to stored data at any time.\n\nEverything else commonly associated with the category — direct instrument control, sequence automation, audit trails and electronic signatures, enterprise client/server deployment, system suitability testing, LIMS integration — is standard capability in mature products but is not what makes the software a CDS. Simpler and older forms of the Type (stand-alone computing integrators, non-regulated single-workstation packages) satisfy the core without any of them.\n\nThe CDS is not the laboratory's sample logistics system (that is a LIMS), not the experimenter's narrative documentation (an ELN), and not the instrument's own on-device control panel, although it commonly connects to all three.",
+        "overview_zh": "**色谱数据系统 (Chromatography Data System, CDS)** 是一款实验室软件，它从色谱仪器（HPLC、GC、IC、CE 以及联用的 MS 系统）获取检测器信号，通过积分和与标准品的校准，将这些原始信号转化为经识别和定量的峰结果，并将这些结果作为与指定样品关联的、持久化且可审查的记录进行管理。\n\n其定义性结构十分清晰：\n\n```text\n样品测量（进样）\n└── 原始色谱信号——检测器随时间响应的数据，以可再处理的形式存储\n    └── 峰积分——在基线上检测出的峰（保留时间、面积、高度）\n        └── 校准与定量——通过标准品将峰响应转换为含量\n            └── 结果记录——按样品存储，可供审查和报告\n```\n\n一个存储的**方法**——即控制数据采集与处理的参数化方案——贯穿此流程，并可随时重新应用于存储的数据。\n\n通常与此类别相关的所有其他功能——如直接仪器控制、序列自动化、审计追踪与电子签名、企业级客户端/服务器部署、系统适用性测试、LIMS 集成——都是成熟产品中的标准能力，但它们并非构成该软件为 CDS 的核心。更简单和更早期的此类系统形式（如独立计算积分仪、不受监管的单工作站软件包）无需包含这些功能也能满足核心定义。\n\nCDS 并非实验室的样品物流系统（那是 LIMS），不是实验人员的叙述性文档（那是 ELN），也不是仪器自身的本地控制面板，尽管它通常与这三者连接。",
+        "dc": "- **Raw chromatographic signal.** The detector's response over time — the chromatogram, possibly several parallel channels from multiple detectors — is captured (or imported from another system) and stored as a reprocessable data record. The stored signal is the foundation: everything downstream is computation applied to it, and it remains available unchanged for reprocessing.\n\n- **Peak integration.** The software detects peaks in the signal: it finds where peaks start and end, constructs a baseline, and produces a peak table — retention time, area, height for each peak. Integration parameters are configurable and, in mature products, can be adjusted interactively on the graph.\n\n- **Calibration and quantitation.** Peak responses are converted into amounts or concentrations. Standards of known content are measured under the same method; their responses form a calibration (response factors or curves) that is then applied to unknown samples. The two classical schemes — external standards measured separately, and an internal standard added to every vial — are both standard. Peak identification is tied to retention behavior against the calibration.\n\n- **Method.** A named, stored, versioned set of parameters covering how the data is acquired (where control exists) and how it is processed: integration rules, compound identification, calibration levels, calculations. The method is what makes results reproducible — reapplying the method to stored raw data regenerates the results.\n\n- **Sample-bound result records.** Every result belongs to an identifiable measurement of a named sample, and results are stored, reviewable, and renderable as a report. In regulated laboratories the record carries attribution (who did what, when) and signature state.\n\nIf the software does not store reprocessable raw data, or does not integrate peaks, or does not calibrate responses into quantities, it is not a CDS — it is a chart recorder, a signal viewer, or a generic data-acquisition tool.",
+        "dc_zh": "- **原始色谱信号。** 检测器随时间变化的响应——色谱图，可能来自多个检测器的几个并行通道——被采集（或从其他系统导入）并存储为可重新处理的数据记录。存储的信号是基础：所有后续计算都是对其应用的，并且它保持不变，可用于重新处理。\n\n- **峰积分。** 软件检测信号中的峰：它找到峰的起始和结束位置，构建基线，并生成峰表——每个峰的保留时间、面积和高度。积分参数是可配置的，在成熟产品中，可以在图形上交互式调整。\n\n- **校准和定量。** 峰响应被转换为量或浓度。已知含量的标准品在相同方法下测量；它们的响应形成校准（响应因子或曲线），然后应用于未知样品。两种经典方案——外标单独测量和内标添加到每个小瓶——都是标准的。峰识别与相对于校准的保留行为相关联。\n\n- **方法。** 一个命名的、存储的、版本化的参数集，涵盖数据如何采集（在存在控制的情况下）和如何处理：积分规则、化合物识别、校准水平、计算。方法就是...",
+        "rules": "- **Raw data is preserved.** Processing is a computation applied to stored raw data; reprocessing changes results, not the underlying signal. Mature products make the original data permanently retrievable and let every chromatogram be re-displayed exactly as it was originally processed. This is the property that separates a data system from a printout.\n- **The method governs the result.** Two analysts processing the same raw data under the same method should obtain the same results; differences come from method differences or explicit manual re-integration — which is why manual changes are recorded and (in regulated use) reviewed.\n- **Manual re-integration is a governed act.** Where results feed quality decisions, changing the integration by hand is permitted but visible: the before/after comparison and the audit entry are part of the record, and the reviewer, not the analyst alone, decides what stands.\n- **The sequence is the automation contract.** Once started, the run proceeds row by row without the analyst; each row carries its own status, and a failed or aborted injection does not silently consume the rest of the sequence without a trace.\n- **Suitability gates the batch.** In QC practice, results are only as good as the system suitability demonstrated by the standards and QCs inside the same sequence; mature products compute and flag this rather than leaving it to arithmetic outside the system.\n- **Attribution is structural.** In regulated deployments, actions are attributable to named users with distinct roles: the person who runs the instrument, the person who processes, and the person who approves are expected to be able to be different people, and the audit trail assumes it.\n- **The CDS holds instrument data, not sample logistics.** The sample list typically arrives from a LIMS (or is typed by the analyst), and results go back; the CDS is authoritative for the signal, the processing, and the computed result — not for the fate of the sample in the lab.",
+        "rules_zh": "- **原始数据被保留。** 处理是对存储的原始数据施加的计算；重新处理会改变结果，但不会改变底层信号。成熟的产品使原始数据永久可检索，并允许每张色谱图都能按照其最初被处理的方式重新显示。正是这一属性将数据系统与一份打印输出区分开来。\n- **方法决定结果。** 两位分析人员使用相同的方法处理相同的原始数据，应得到相同的结果；任何差异都源于方法差异或明确的手动重新积分——这就是为什么手动更改会被记录并在受监管的使用中被审核。\n- **手动重新积分是一种受控行为。** 在结果用于质量判定的情况下，允许手动更改积分，但此操作必须可见：更改前/后的对比和审计记录是记录的一部分，由审核人员（而非分析人员单独）决定最终结果是否成立。\n- **序列是自动化契约。** 一旦启动，运行便逐行进行，无需分析人员干预；每一行都有其自己的状态，一次失败或中止的进样不会在没有记录的情况下静默地消耗序列的其余部分。\n- **适用性是批次的门槛。** 在 QC 实践中，结果的质量仅取决于同一序列内标准品和质控品所证明的系统适用性；成熟产品会计算并标记这一点，而不是将其留给系统之外的计算。\n- **归属是结构性的。** 在受监管的部署中，操作应归属于具有明确角色的指定用户：运行仪器的人员、处理数据的人员以及批准结果的人员预计可能是不同的人，审计追踪也以此为基础设计。\n- **CDS 持有仪器数据，而非样品物流。** 样品列表通常排",
+        "parent_id": "22.04",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 167,
+    "phase": "directory",
+    "parent": 167,
+    "slugs": [
+      "chromatography-data-system"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "6d0813b55d707f5fbd83e2ffa75fff827b7a0505d88456c216a3410a8981389b"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "GlobaLeaks 许可证字段写为 AGPL-3.0 是正确 SPDX 简称，但实际 LICENSE 全文在 AGPLv3 正文之后带有第 7 条附加条款（保留 “Powered by GlobaLeaks” 署名、修改版须显示 Modified Material Notice 并链接源码、6 个月未跟进官方版须加安全提示）。建议在许可证说明中记录该附加条款，以免下游复用者只看到 AGPL-3.0 而忽略署名与修改版标注义务；不影响开源完整性与类型判定。",
+    "Hush Line 的 deployment 仅列 self-hosted，但官方站明确同时提供厂商托管服务（免费 Free/Core 与付费 Super User 档，FAQ 自述为 managed service），仓库 README 的 Quickstart 是本地 docker compose 栈。建议在部署形态中补记 hosted/managed（厂商托管）或明确本条目只覆盖开源仓库；这属于完整性补充，不影响其作为开源完整应用的判定。",
+    "Hush Line 的受众偏新闻编辑室、律师与雇主线索线（tip line），与组织内部举报渠道相邻；其持久报告、身份保护与受保护回访仍满足本叶核心，但读者不应将其理解为纯内部合规举报系统。",
+    "GlobaLeaks 的 feature 中“多渠道”易被理解为电话/移动应用渠道；用户功能页实际举证的是按主题/部门的多举报渠道与多站点，并非电话热线。建议措辞收敛为“多举报渠道/多站点”，避免过度引申。",
+    "部分技术栈字段未被所引快照直接举证：GlobaLeaks 的 Python/TypeScript、OpenWhistle 的 FastAPI/PostgreSQL/Redis 未在首页、功能页、README 或安装页正文中出现（安装页只显示 Docker 镜像与安装脚本）。若技术栈参与后续筛选，建议补引仓库清单文件或依赖声明。",
+    "input.json 的 progress/phase 仍为 included_without_cases、case_status=insufficient_evidence、application_ids 为空，而 batch.json 与 research.json 已给出 3 个 case_found 应用及补证记录。这是入库前状态与本次补证结果的流水线状态差异，不属于应用资料事实问题，合并时宜同步刷新。",
+    "Hush Line 托管侧的 Custom Message Fields、Embeddable Profile Form 等归入付费 Super User 档；未发现仓库代码按社区版/商业版切分（许可证覆盖完整仓库，README 也说明有 Stripe-enabled 开发栈）。建议表述时区分“托管付费档功能”与“开源仓库能力”，避免让读者以为所有托管档能力均免费。"
+  ],
+  "leaf_checks": {
+    "whistleblowing-speak-up-platform": {
+      "verdict": "pass",
+      "definitional_core": "三款应用均可由正文证据还原四段核心：常设受保护接收渠道、持久报告记录、举报人身份保护、受保护后续循环。GlobaLeaks：首页“secure and anonymous whistleblowing initiative / protects the whistleblower’s privacy and submissions by default”，用户功能页给出举报人/接收人/管理员角色、16 位回执登录、举报人可自行决定何时保密披露身份、与举报人聊天讨论报告、案件状态与分类；OpenWhistle：README 与官网给出无账号、无 IP、案号+UUID4 PIN 回访、匿名或保密（姓名加密、经审计后才向办案人展示）、双向消息与附件、状态工作流、7 天确认/3 个月反馈期限、审计日志与四眼删除；Hush Line：README 与官网给出无需提交者账号的匿名提交、PGP/端到端加密、消息状态与 unique reply status URL、接收人接受/拒绝/归档并回复、登录用户间端到端加密双向会话、Tor onion。",
+      "service_form": "三者均为持续运营的完整 Web 应用而非 SDK/组件或一次性工具。GlobaLeaks 安装文档给出 install.sh 与 globaleaks/globaleaks Docker 镜像，用户功能页显示完整 Web 管理界面与接收人界面，可自托管；OpenWhistle 仅自托管（Docker Compose/Helm/Ansible，官网 FAQ 明确“no hosted service”）；Hush Line 为开源可自托管应用，同时厂商提供托管服务，仓库 README 的 docker compose 本地栈与 AGPL 许可支持自托管。",
+      "identity_track": "github:5618793 = globaleaks/globaleaks-whistleblowing-software（metadata id 5618793、fork=false、非 archived），track open_source；github:620069905 = scidsg/hushline（metadata id 620069905、fork=false、非 archived），track open_source；github:831684951 = openwhistle/OpenWhistle（metadata id 831684951、fork=false、非 archived），track open_source。ID 与仓库 URL、homepage 均一致，无错配或子产品冒名。",
+      "license": "三份 license 接口快照均给出完整许可证正文而非仅元数据：GlobaLeaks 为完整 AGPLv3（LICENSE 41172 字节）并附 AGPLv3 第 7(b)/7(c) 条附加条款；Hush Line 为完整 AGPLv3（34523 字节）；OpenWhistle 为完整 GPLv3（35149 字节）。metadata 的 spdx_id 分别为 AGPL-3.0、AGPL-3.0、GPL-3.0，与 batch.json 声明一致，未出现“简介称开源但许可证缺失/不完整”的情况。",
+      "community_boundary": "三个仓库均为完整应用仓库，未在所读快照中发现社区版/商业版代码切分或“开源壳+闭源核心”的描述。GlobaLeaks 的附加条款只涉及署名与修改版标注，不构成功能切分；OpenWhistle 官网 FAQ 明确“no paid tier, no paid feature, no subscription”；Hush Line 的付费档属于厂商托管订阅（Free/Core 与 Super User），仓库整体仍为 AGPL-3.0，未见闭源核心迹象。",
+      "applications": {
+        "github:5618793": "GlobaLeaks：定义性核心由首页 + 用户功能页正文 + 安装文档覆盖；完整 AGPLv3 与第 7 条附加条款已核；仓库身份与 ID 一致；可作为本叶开源案例。仅“多渠道”措辞偏宽，建议收敛（非阻断）。",
+        "github:620069905": "Hush Line：核心由 README 与官网正文覆盖（匿名无账号提交、E2EE、状态/回复链接、双向加密会话、Tor、自托管路径）；完整 AGPLv3 已核；仓库身份一致。部署形态只列 self-hosted 而官网主打托管服务，建议补记 hosted 形态或明确边界（非阻断）。",
+        "github:831684951": "OpenWhistle：核心由 README 与官网正文密集覆盖（案号+PIN、匿名/保密、双向消息、状态工作流、HinSchG 期限、审计、四眼删除）；完整 GPLv3 已核；仅自托管且无付费档，边界最清晰；仓库身份一致。技术栈中的 FastAPI/PostgreSQL/Redis 未被所引快照正文直接举证（非阻断）。"
+      },
+      "source_gaps": "未发现阻断性缺口：三款应用均有官方正文（功能页/README/安装文档/官网）支撑核心，而非仅靠简介、元数据或导航。遗留说明：GitHub API 快照中的 README/LICENSE 正文以 base64 内嵌于单行 JSON，读取工具按行截断，故正文通过同 URL 的 raw 内容交叉还原（首段与快照解码前缀一致）；未部署或运行任何第三方项目，runtime_tested 仍为 false。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元；仅覆盖唯一叶子 whistleblowing-speak-up-platform 及其 batch.json/research.json 中 3 个应用与 REVIEW_SOURCES.json 列出的 14 份快照。全部快照按 REVIEW_SOURCES.json 的 path 原样读取（sources 前缀按 data/collections 解析）。GitHub API 的 README/LICENSE 快照把正文 base64 内嵌在单行 JSON 中，读取工具按行截断至约 2000 字符，只能看到编码前缀；为核对正文，对同 URL 的 raw 下载地址做了只读交叉获取，并确认其开头与快照解码前缀一致，但这不等同于完整解码本地快照，故未对正文末尾逐字比对。商业条款与托管定价只做存在性判断，未评估价格、SLA 或合规承诺的准确性；未进行部署测试、运行时验证、额外检索或补充价格/架构研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-083/ses_groveopendesignp083review1_1793195574.jsonl",
+  "batch_sha256": "5cc271820ff198812ea7caf8754828b42c8137c680e5e06d8048a5d747172c91",
+  "research_sha256": "2a75eb48ddf6c9464a0ad38c4e688ef22317ee05f32f43d1ee8c5b55a1c68a0a",
+  "input_sha256": "8ffd6ee8479e2bc1a453b8dd035b25aa63fcffc5fe127109ff58b110d8e5f238"
+}

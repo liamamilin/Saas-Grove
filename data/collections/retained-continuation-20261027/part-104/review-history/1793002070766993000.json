@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "book-publishing-management",
+      "application_id": "github:316598",
+      "issue": "OMP 目前只有 GitHub 仓库元数据、README 开头和许可证快照；可读正文只称其为 'open source software to manage scholarly presses'，没有本叶定义性核心所需的题名/版本记录、贡献者署名与合同条款、出版前生命周期/出版日期等工作流证据。batch 的 leaf_match 也自认 'detailed title, contract and royalty workflows were not verified'，research 记录产品页与 docs 抓取失败。用仓库简介或 README 一句定位代替核心正文，无法确认它是 Book Publishing Management 而非偏编辑/生产流程的 Publishing Editorial Workflow。",
+      "fix": "补充并引用 OMP 官方文档/指南中直接展示题名记录、贡献者或合同条款、出版生命周期（至少两项核心）的正文快照；若仍取不到，改为 insufficient_evidence 并保留抓取失败记录，不要把仓库元数据当作 case_found 的核心证据。同时核对 OMP 的重心是否主要落在编辑/生产工作流，避免类型错配。"
+    },
+    {
+      "slug": "author-management-platform",
+      "application_id": "candidate:familiar.pub",
+      "issue": "research note 称 Familiar 首页正文以一体化出版管理（排版、生产、ARC、元数据）为主、版税与合同只是其中一个模块；实际快照 sources/11a97075f0aaa08eec52a30c2eb291e02e25063afd98d94cf2655815ed586cfa.txt 只有 head、脚本与 SVG 壳，标题为 'Familiar — Royalty Management Software for Publishers'，description 为 'Royalty management software for publishers and authors...'，可读内容没有排版、生产、ARC、元数据等正文。该描述与快照的产品定位相反，也没有快照依据。",
+      "fix": "按快照改写为：Familiar 是面向出版商/作者的版税管理软件（Royalty Management Platform），不属于以作者注册表、作品归属、合同记录、结算循环为主轴的作者管理；并注明快照只捕获到 head/壳、正文未取到。若需按正文判断，补抓渲染后页面并归档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Ko-fi：快照支持 creator-set memberships、'Memberships tiers'、'exclusive content' 和粉丝直接支持创作者，足以做商业条目的基本类型匹配；但快照未明写按月/周期扣费、取消或失效后的权益终止。'recurring dues' 目前是产品类型推断而非快照原句，建议后续补 memberships 页快照，但不阻断。",
+    "Circle：核心句 one-time purchases、recurring subscriptions、access groups 确实存在于首页正文，但被包在 Next.js/Builder 超长单行 HTML 中，人工复核可读性差；建议在条目附一句正文摘录或可读快照。",
+    "PubAssist：research note 称 README 自述仍是待开发的替代模型，但 fetch_outcomes 只列了 repository_metadata 和 license 404，没有 README 快照；建议补档或删去该断言。license 404 本身已足以把该仓库排除在开源案例之外，不影响 insufficient_evidence 结论。",
+    "book-distribution-management：research note 提到搜索结果中的 Bibliome 也是书店 POS，但没有 URL 或快照；该候选未用于成立案例，不影响结论，建议补链接或删去。",
+    "paid-community-platform：Circle 快照能证明社区场地、入场购买和访问分组，但宿主侧退款、赠送、payout/tax 等变现管理细节未逐项取证；按商业条目基本类型匹配处理，不阻断。"
+  ],
+  "leaf_checks": {
+    "fan-membership-platform": {
+      "application_id": "commercial:ko-fi",
+      "result": "pass",
+      "basis": "读取 ko-fi.com 首页与 /features 快照：features 页列出 'Launch memberships with exclusive content' 和 'Memberships tiers'，首页说明创作者自定条款、粉丝直接支持特定创作者；符合创作者会员计划、会员等级/权益、粉丝付费的基本类型。托管式 SaaS，track=commercial，homepage 指向的 ko-fi.com/features 与抓取 URL 一致。周期扣费与失效后权益终止未在快照明写，按商业条目基本真实性处理。"
+    },
+    "paid-community-platform": {
+      "application_id": "commercial:circle",
+      "result": "pass",
+      "basis": "读取 circle.so 首页快照：页面自述为 all-in-one community platform，正文含 one-time purchases、recurring subscriptions、access groups，并有 courses/events 等社区空间与免费试用入口；符合托管社区场地 + 入场购买 + 支付状态访问的基本类型。track=commercial，homepage circle.so 与抓取 URL 一致。首页为客户端渲染长行 HTML，宿主侧结算/退款/税务细节未逐项取证，商业基本匹配可接受。"
+    },
+    "author-management-platform": {
+      "application_id": null,
+      "result": "no_case_insufficient_evidence_record_correction_required",
+      "basis": "research 记录了实际 web 检索及两个候选：Familiar 与 rlawrence41/pubassist。Familiar 快照标题/描述为面向出版商和作者的版税管理软件，属于 Royalty Management Platform，不是作者注册表、作品归属、合同记录、结算循环为主轴的作者管理；PubAssist 无许可证快照（license 404），不能作为开源条目。insufficient_evidence 结论成立，但 Familiar 的 note 描述与快照不符，需按 finding 更正。"
+    },
+    "book-distribution-management": {
+      "application_id": null,
+      "result": "pass_no_case_gap_recorded",
+      "basis": "research 记录了实际检索与 Abelujo 快照；Abelujo 页面明确是 'free software for bookshops'，功能为 POS、条码/库存、补货、客户预订、押金、统计，属书店零售/库存系统，不是出版商或分销商向图书贸易销售的系统记录。未把相邻零售系统当作案例，留档 insufficient_evidence 合理。Bibliome 仅搜索结果提及、无快照，不影响结论。"
+    },
+    "book-publishing-management": {
+      "application_id": "github:316598",
+      "result": "changes_required_core_unverified",
+      "basis": "仓库身份通过：GitHub repo id=316598、full_name=pkp/omp，与 github:316598 一致；license 快照为完整 GPL-3.0 文本（size 35149），开源许可证通过；未发现社区版/商业版边界问题，自托管形态在 open_source track 下可接受。但仅有仓库描述 'open source software to manage scholarly presses' 与 README 开头，未提供题名/版本、贡献者/合同、出版生命周期等核心正文；产品文档抓取失败，batch 的 leaf_match 也承认核心未核实，故不能按 case_found 通过。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元。依据本单元 input.json、batch.json、research.json 与 sources 快照；REVIEW_SOURCES.json 的 6 个批次来源已按 path 原样读取，research 另引的 3 个候选快照（familiar.pub、rlawrence41/pubassist、abelujo）也按实际文件读取。部分快照是超长单行 HTML/JSON 或 base64（OMP README/license），read 工具按 2000 字符截断，无法完整解码或渲染；未做实时抓取、部署测试或 sha256 复算。input.json 的 progress 字段仍为 not_searched/空 application_ids，与 batch/research 不一致，本次以 batch、research 与快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-104/ses_groveopencodegop104review1_1793001109.jsonl",
+  "batch_sha256": "e6080ac00f9897e88fcdc3b816fc479fffec43e7d2f6f4980449ee4e5df2f288",
+  "research_sha256": "75fa68ea0c1c08ca3cc2d17c7f3f6668342631005eede697e9247847c200a9fe",
+  "input_sha256": "0d192745e5d955b6fd4036225dad53579c55e1e3aa32fd6553484f0e6f4e9aca"
+}

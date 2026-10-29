@@ -1,0 +1,43 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "license_evidence_url 仍指向 GitHub license API，而该快照可见正文是 LICENSE 的 GPL-3.0 基础文本；读者需结合 summary 与 COPYING.LESSER 才能看出 LGPL-3.0。建议后续把官方 https://libreclinica.org/license 作为主许可证据，或与 API 并列，减少歧义。",
+    "research.json 与 leaf_matches 称 GitHub license API 返回 LGPL-3.0，但该单行 JSON 快照的 license 对象尾部字段在本次读取中被截断，无法直接确认 spdx_id；建议在留档中直接记录该字段值，或改以官方声明为主证据。",
+    "官方 /license 快照实际呈现为下载页（导航 Download 激活），License 声明位于折叠区；声明文字明确为 LGPL-3.0，证据有效，但引用时宜注明具体区段，避免读者误以为抓错页面。",
+    "研究级 database lock 的触发门槛、解锁/重锁及锁定后分析数据提取未被快照直接证实；条目只主张 CRF 级 Completed/Locked，未越界。若后续取得管理员手册或锁库文档，可补强定义性核心的第四结构。",
+    "外部数据源对账与编码术语（如 MedDRA/WHO Drug）并入未获证实，条目未主张，边界处理正确。",
+    "SPDX 标识可精确为 LGPL-3.0-only（若项目为 only）；当前写作 LGPL-3.0 不影响结论。",
+    "research.json 记录 administrator-manual.md 已抓取但未纳入批次证据链，说明中已注明；如保留该抓取，建议一并入链或从 fetch_outcomes 删除，以免读者误解。",
+    "input.json 仍显示 application_ids 为空、phase 为 included_without_cases，而 batch/research 已有 case_found；应为输入快照滞后，不影响本单元证据核对。"
+  ],
+  "leaf_checks": {
+    "clinical-data-management": {
+      "slug": "clinical-data-management",
+      "application_id": "github:169558966",
+      "case_status": "case_found",
+      "identity_track": "GitHub 元数据快照显示 id=169558966、full_name=reliatec-gmbh/LibreClinica、fork=false，描述为 OpenClinica 的社区后继 EDC/CDM 软件；track=open_source 与仓库性质一致，ID 与条目、research 记录一致。",
+      "definition_core": {
+        "governed_study_record": "研究者手册快照显示受试者按研究中心归属，事件/访视下分 CRF，CRF 含必填项与范围校验；监查员手册快照显示 Study Audit Log 按受试者、事件、CRF、条目记录全部变更，差异记录不可删除。符合受管、可溯源、非静默删除的研究数据记录。",
+        "validation_discrepancies": "研究者手册明确 Failed Validation Check 在超范围或校验失败时由系统自动产生，并列出 Query、Annotation、Reason for Change 等类型；监查员手册给出四类差异的生成角色与状态。符合设计性验证与自动差异生成。",
+        "resolution_loop": "Query 由监查员发起并可指派、邮件通知；状态为 New/Updated/Resolution Proposed/Closed；仅监查员可关闭；研究者/CRC 可回复或提议解决，关闭是唯一出口。符合差异-回复-核实-关闭闭环。",
+        "lock_finalize": "研究者手册有 Mark CRF Complete 及 CRF 状态 Completed；监查员手册的 SDV 列表出现 CRF 状态 Locked。研究级 database lock 的门槛、解锁/重锁、锁定后提取未被快照直接证实，条目已明确不主张，仅部分覆盖第四结构。"
+      },
+      "service_form": "自托管 Java Web 应用（Tomcat 9 + PostgreSQL），持续提供数据录入、差异处理、SDV、电子签名、审计与导出，属于持续使用的软件服务形态，而非一次性工具、纯文档或纯报告层。",
+      "license": "官方站点 /license 快照（License 区）明确写 LibreClinica is published under the GNU Lesser General Public License version 3.0；COPYING.LESSER 快照为 LGPL-3.0 附加许可全文；LICENSE 快照为 GPL-3.0 基础文本，符合 LGPLv3 纳入 GPLv3 并附加许可的结构。三者组合支持 LGPL-3.0，未见许可证正文缺失。",
+      "community_edition_boundary": "官方下载页与 README 快照显示全部源码在 GitHub、可免费下载并自托管；未发现社区版/商业版功能切分、闭源模块或仅限付费版的核心能力，社区版边界不构成问题。",
+      "gaps": [
+        "研究级 database lock 的触发门槛、解锁/重锁与锁定后分析数据提取无直接快照证据，仅有 CRF 级 Completed/Locked。",
+        "外部数据源对账、编码术语并入未证实，条目未主张。",
+        "未做部署或运行时验证，仅依据官方手册、README 与仓库资料。"
+      ],
+      "verdict": "通过：仓库身份、开源许可、服务形态与定义性核心的主要结构均有实际快照支撑；未证实部分已如实限定，未以简介、元数据或关键词替代核心正文。"
+    }
+  },
+  "limits": "本次审查为只读桌面核对：仅使用本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 7 个快照；未运行应用、未做部署测试，也不构成法律意见。repo metadata 与 GitHub license API 快照为单行 JSON，读取按行截断于 2000 字符，license 对象的 spdx_id、repo 的 default_branch 等尾部字段未能直接从快照读到；许可结论主要依据官方 /license 页快照与 COPYING.LESSER 全文。GitHub API 直连复核返回 403，GitHub 仓库页仅作辅助交叉核对；未读取 REVIEW_SOURCES 之外的快照，也未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-168/ses_groveopencodegop168review1_1793253098.jsonl",
+  "batch_sha256": "f4c60b32abc37e2e43c8a3d8cc874e60615d860097b9be195797948ecf083f74",
+  "research_sha256": "853b853f51607fc3565b0629999130a6a795a1af47a1a6a09426bc7534f13812",
+  "input_sha256": "1452eee10bfef128508bfde4bf4a16fb2c258ae5f4032f056c1e1840b8f4b245"
+}

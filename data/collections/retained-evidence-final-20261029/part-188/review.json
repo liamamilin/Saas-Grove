@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "research.json 称 explore-moodle-lms 快照展示“课程创建入口”，但该快照正文只有 H1 文案（教育者创建学习体验、学习者完成课程作业）、报告构建器、课程级 LTI 1.3 工具说明和演示站“manager, teacher or learner”角色说明；“Simplify course creation / Focus on learning”等只出现在锚点导航，对应区块正文未保存到快照。该页不宜单独作为“课程创建入口”的证据，建议改述为“发布说明页与课程级 LTI 说明”，或补抓渲染后的区块；本叶核心已由 products/lms 与评估页正文支撑，因此不阻断。",
+    "选课证据来自 2018-03-09 的官方社区博客（Moodle 3.x 时期），文中还提到自助注册与访客访问；界面与默认注册策略可能与当前版本不同。建议标注时效，并说明注册方式由管理员/教师启用（manual enrolments / self-enrolment / guest access），以免被误读为开放注册。",
+    "许可证快照的实际内容形态是 GitHub contents API 对 COPYING.txt 的响应（含 name/path/sha/size/content，缺少 license.spdx_id 对象），而批次把来源记为 /license 端点；GPL-3.0 仍可由完整 35,147 字节的 GPL-3.0 正文（blob sha 94a9ed0…）以及 README 的“version 3 of the GNU General Public License”证实。建议把 license_evidence_url 与实际端点对齐，或补抓 /license 响应，避免来源标注歧义。",
+    "社区版边界目前只写在 research.json 的 service_boundary（仅指 github.com/moodle/moodle 社区核心，不含 Moodle Workplace/MoodleCloud 商业托管与扩展）。建议在批次条目的 summary 或 deployment 中也显式写明，避免把商业产品计入开源关系。",
+    "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids 为空，属采集前状态；批次与研究记录已更新为 case_found（github:439861）。建议下游合并时以批次为准并同步状态字段。",
+    "定义中的“成绩记录移交机构官方档案”在本单元快照中未取证（仅有课程成绩簿/Grader Report）；批次也未作此声明，属可选层级，不影响本叶核心匹配。",
+    "technology_stack 标注 PHP 属非关键元数据；仓库 metadata 为单行 JSON，本次显示截断，未逐字核对 language 字段，不影响核心判定。",
+    "未做部署或运行验证（runtime_tested:false），与本任务要求一致；docs.moodle.org 两次 403 与 moodle.com 方案页超时已在 research.json 如实留档，可接受。"
+  ],
+  "leaf_checks": {
+    "learning-management-system-lms": {
+      "status": "core_matched",
+      "application_ids": [
+        "github:439861"
+      ],
+      "definitional_core": {
+        "course_container_with_rostered_participants": "支持。官方社区博客正文（b35e…848.txt 第 441-456 行）描述创建 Moodle 课程、管理员代学习者注册、教师手动注册并从下拉菜单分配“student”角色、cohort 注册，以及 participants 页面按角色/注册方式/小组/状态筛选并编辑或删除注册；构成课程容器与机构/教师控制的在册参与者。",
+        "in_course_teaching_delivery": "支持。products/lms 正文（217d…a00.txt 第 450 行）称 Moodle LMS 为学习管理系统，可创建课程并“design and deliver learning your way”；explore 页 H1 文案（6bc7…581.txt 第 368 行）称教育者创建协作式学习体验、学习者完成课程作业；评估页（97b9…c2a9.txt 第 421、468-469 行）列出课程内 quizzes、assignments、Workshop、讨论论坛、H5P、题库与反馈，以及课程级 LTI 1.3 工具（第 455 行）。",
+        "assessed_performance_record": "支持。评估页正文（97b9…c2a9.txt 第 502 行）明确“Grades are conveniently accessible in the course gradebook or ‘Grader Report’”，新增受评项时自动生成成绩列；第 396、421、490、514、526 行给出 rubrics、评分等级、评分工作流、作业提交类型、同行评审与反馈，构成课程内评估→成绩→成绩簿链路。"
+      },
+      "service_form": "符合。README（1a8d…830.txt 第 7-9、29-31 行）说明其为面向大学、学校等机构的学习平台，可下载并运行在自有 Web 服务器；批次 track 为 open_source、部署说明为自托管，持续运行的课程容器与教学活动属软件服务形态。",
+      "identity_and_track": "一致。metadata 快照（0a04…cbde.txt）显示 id=439861、full_name=moodle/moodle、html_url=https://github.com/moodle/moodle、fork=false；批次 id github:439861、repository_url、github_repository_id、homepage 与之一致，track=open_source 与 README 开源自托管定位相符。",
+      "license": "通过。许可证快照（6d20…944.txt）为 COPYING.txt 的 base64 内容，size=35147、blob sha=94a9ed024d3859793618152ea559a168bbcbb5e2，对应完整 GPL-3.0 正文；README 第 35 行亦声明 GPL v3。批次 spdx_id=GPL-3.0、scope=repository 与之一致（端点标注差异见 non_blocking_notes）。",
+      "community_edition_boundary": "已记录于 research.json service_boundary：本关系仅指社区版核心仓库，MoodleCloud 与 Moodle Workplace 为独立商业托管/扩展产品；README 第 31 行与产品导航（217d…a00.txt 第 262-263 行）也把 MoodleCloud、Workplace 列为单独产品。批次条目未复述该边界，建议补充。",
+      "gaps_recorded": [
+        "docs.moodle.org 的 Courses 与 Teacher_quick_guide 两次 403（Cloudflare），未取得正文，已在 research.json 留档",
+        "moodle.com/solutions/learning-management-system/ 超时，已留档",
+        "explore-moodle-lms 的“Focus on learning / Simplify course creation / Create learning experiences”区块正文未保存到快照，仅有锚点标签",
+        "选课证据为 2018 年社区博客，时效较早",
+        "未部署运行，runtime_tested:false"
+      ],
+      "conclusion": "三项定义性核心均有官方正文对应，仓库身份与完整 GPL-3.0 许可可核，社区版边界有记录；缺口已如实留档，本叶可通过。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用 read/grep 读取 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 7 个快照，未运行 shell、未写文件、未访问其他单元。未进行实时网络抓取、部署或运行测试，因此无法独立复核 docs.moodle.org 的 403、moodle.com 超时等抓取结果，也无法验证当前版本界面。moodle.com 快照为完整 HTML，读取工具对超长单行/整页有截断显示，已按正文区块（products/lms 第 408-560 行、assessment 第 352-535 行、explore 第 358-517 行、博客第 428-460 行）逐段核对；license 与 repository metadata 为单行 JSON，仅能依据可见片段与 size/blob sha 判断完整性，未逐字解码全文。未核验 Moodle Workplace/MoodleCloud 商业产品细节，仅按 research.json 边界与站点导航确认其与社区核心分离。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-188/ses_groveopencodegop188review1_1793256244.jsonl",
+  "batch_sha256": "1052bf979b43603d93c9472636947fd361b23abd36822815fad11ea92a081c9b",
+  "research_sha256": "2362bdc4fd87289fcef26628f2b823beaab7a710b98a5a297bd75fe02e871f38",
+  "input_sha256": "4be284daf049a05d197a0b05dafcc752034e3b867bc72af93ca1598782bfd881"
+}

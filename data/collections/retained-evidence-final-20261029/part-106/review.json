@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "条目级 license 字段写作 \"MIT\"，虽在 license_review.scope=community_core 与 rationale 中已限定范围，仍建议在展示层标注为 \"MIT（社区核心）\"，并同时注明 docs/ 为 CC BY-SA 4.0、premium/ 与 enterprise/ 另行许可，避免被误读为全仓库单一 MIT。",
+    "premium/LICENSE 的实际文本在 research.fetch_outcomes 中记为“已通过网络读取、未留存快照”，当前仅依赖根 LICENSE 对 premium/、enterprise/ 目录的转致声明来确定边界；如需独立复核付费侧限制，建议补存该文件快照。",
+    "batch 的 leaf_matches.reason 与 license_review.rationale 都断言前端 web-frontend/modules/builder 位于 MIT 核心，但本单元未留存该目录的清单快照；根 LICENSE 已对所有客户端 JavaScript 作 MIT Expat 授予，结论不受影响，补一份目录快照可让路径事实完全可追溯。",
+    "证据混用了 master（README、LICENSE）与 develop（application_types.py、builder 目录、paidFeatures.js）两个 ref；两份 LICENSE 的 sha256 相同，故不影响结论，但后续引用建议统一 ref 并注明。",
+    "research.service_boundary 使用“完整应用服务”表述，而定价页与 paidFeatures.js 显示文件上传元素、SSO 用户认证、去除 logo、分组聚合数据源等属付费层；建议改为“核心应用构建能力”，以免与“不收录 premium 附加功能”的声明产生张力。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，与 batch/research 已给出案例和补充证据的状态不一致；这属于上游输入元数据，不影响本次内容结论，但下游合并时应同步更新进度与案例绑定。",
+    "README 中的版本号（2.4.1）、云托管与自托管部署方式只用于说明服务形态，未做部署验证；本单元也明确 runtime_tested=false，使用资料时应保留这一限定。"
+  ],
+  "leaf_checks": {
+    "no-code-application-builder": {
+      "verdict": "pass",
+      "definition_core": "官方 user-docs 快照（acbf8ef7…）正文明确：Application Builder 是无代码界面，把数据库记录转为可用应用，由 Pages（多页面、各自 URL 路径）、Elements（可视化构建块）、Data Sources（连接 Baserow 表的取数/过滤）、Events（如提交按钮创建行、跳转页面）、Domains（发布到默认子域名或自定义域名）五个组件构成，并给出 Preview（不影响线上、可测试）与 Publish（推送到生产环境）的分离流程，FAQ 明确“无需会写代码”。这与定义性核心（数据＋界面＋逻辑经平台构建块组装、发布后在平台运行时运行）逐项对应，属核心正文而非简介或元数据。",
+      "service_form": "application_types.py 快照（7cffe9b4…）显示 BuilderApplicationType（type=\"builder\"）具备 pages、datasources、integrations、user_sources、theme、favicon、login_page、breakpoints 等字段，supports_user_sources=True、supports_integrations=True；get_application_urls 依据 DomainHandler 解析已发布域名并同时给出 /builder/preview/<id>/ 预览地址，get_application_id_for_url 可把预览路径或已发布域名反解到应用 ID。这表明应用在平台运行时持续托管、可对外发布，并由平台侧用户源与登录页控制终端用户访问，符合“持续使用的软件服务形态”，而非一次性构建工具。",
+      "identity_and_track": "仓库元数据（ab0b704a…）中 id=281073868、full_name=baserow/baserow、html_url=https://github.com/baserow/baserow、owner=baserow 组织、fork=false、archived=false、default_branch=develop，与条目的 github:281073868、repository_url、github_repository_id、homepage=https://baserow.io 一致；README 亦声明官方仓库为 github.com/baserow/baserow。track=open_source 与“开源核心（MIT）＋付费 premium/enterprise 层”的开源核心形态相符，未错误标为纯商业或纯开源全功能。",
+      "license_and_community_boundary": "根 LICENSE（1c1fa26d…）逐条列明：docs/ 为 CC BY-SA 4.0；premium/ 与 enterprise/ 分别适用各自目录下的 LICENSE；所有客户端 JavaScript 为 MIT Expat；上述范围之外的内容（Baserow Open Source Edition）为 MIT Expat，并附完整 MIT 条文（含版权声明保留义务与免责声明），属完整许可证文本而非 SPDX 标识。据此 backend/src/baserow/contrib/builder（含 application_types.py 的 BuilderApplicationType）不在 docs/、premium/、enterprise/ 之内，属 MIT 核心；前端 JS 另有整体 MIT 授予，边界成立。paidFeatures.js（edd5f47b…）把 Kanban/日历/时间线视图、行评论、AI、去除公开页 logo、表单调研模式、图表、分组聚合数据源等登记为 Premium/Advanced 付费项；定价页（5ca7f540…）亦把文件上传元素、SSO 用户认证、白标品牌、数据同步、RBAC 等归入 Advanced/Enterprise。条目已把 license_review.scope 收窄为 community_core 并声明不覆盖 premium 附加功能，未把付费项计入开源核心，社区版边界与证据一致；premium/LICENSE 正文未留存快照一事已在 research.fetch_outcomes 中如实记录。",
+      "commercial_check": "本叶为开源核心条目，无商业条目需要核对。涉及的商业信息（Free/Premium/Advanced/Enterprise 分层、云版行数与存储限制、自托管不限量）仅作为付费边界佐证，取自 Baserow 官方定价文档快照，与 paidFeatures.js 的付费项登记方向一致，未发现与核心类型冲突的表述。",
+      "sources_read": [
+        "data/collections/sources/ab0b704a8a3594467ebe2ddb048e82f063eb706561ff37da415ee54b5b872a60.txt",
+        "data/collections/sources/c92e38aee6fe1bddd55dfa44a199d5478344d2329823faefb58434f34b64ea6c.txt",
+        "data/collections/sources/1c1fa26d7bb6fddee61c4120803a7190ee3199ac29062bcc1ff0f00a0de08e2b.txt",
+        "data/collections/sources/e819ad07122693834116f4592fca5a09f6ee6df24978fcb47498b9f769276b39.txt",
+        "data/collections/sources/7cffe9b4214fe180414d382446cc70590abfcec3732e5ecd1ef1bc0fe8d8b8df.txt",
+        "data/collections/sources/edd5f47ba19300af23ac5bbaf39b37fb0c980fd8cfaf6c89601160f8077a91c0.txt",
+        "data/collections/sources/acbf8ef73d61315a278e3d7257bb1340abee538aa8bef7a383cc1c3a0c59d627.txt",
+        "data/collections/sources/5ca7f54027f1b503f893d4043205a8511ded32913f769bc4a63b5a39bc995d46.txt"
+      ],
+      "gaps": [
+        "未做运行时部署或端到端发布测试，构建器可用性结论来自官方文档与核心代码路径。",
+        "前端 web-frontend/modules/builder 无独立目录清单快照，仅由根 LICENSE 的客户端 JS MIT 条款支撑。",
+        "premium/LICENSE 正文未落盘为快照，付费侧限制以根 LICENSE 的目录转致声明为依据。",
+        "docs 与定价页快照为整页 HTML，正文完整可读，但未保留渲染后页面或抓取时的 HTTP 头。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 中列出的 8 个快照（其中两份 LICENSE 快照 sha256 相同，内容一致），未运行 shell、未写文件、未访问其他单元，也未做部署或运行时验证。仓库元数据与 builder 目录清单为单行 JSON，阅读器对单行内容有长度截断，我通过定向检索确认了 id/full_name/default_branch/archived/license 相关字段与 builder 路径，但未能逐键通览全部字段；未重新计算快照 sha256，仅确认文件名与 REVIEW_SOURCES.json 声明的摘要一致、内容与声明 URL 相符。未独立联网复核 baserow.io 文档与 GitHub 页面在审查时点的最新状态，也未获取 premium/LICENSE 的留存副本，故付费侧边界依据根 LICENSE 的转致声明与 paidFeatures.js、定价页交叉判断。商业信息仅作付费边界佐证，未做价格或架构核实。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-106/ses_groveopendesignp106review1_1793200640.jsonl",
+  "batch_sha256": "48cf82c54f33ca4a0a29dd6ca755bae47564ce7107feae6b38eb9c5284897b0b",
+  "research_sha256": "285713c789c9ea5367ad0a51accc6054e3c72690127bd83372f38f0183516cf3",
+  "input_sha256": "a1d25f787438653627c4a908a08310e836b3c166e1de9c7c151c522861acf4f9"
+}

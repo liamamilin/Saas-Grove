@@ -1,0 +1,81 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "enterprise-content-management",
+      "application_id": "github:117357780",
+      "issue": "定义性核心证据不足。README/官网能证明集中仓库、文档组织、角色与访问控制、活动日志、高级检索和版本控制，但没有证明组织定义的元数据/文档类型描述，也没有证明受管生命周期中的保留与最终退役/处置。README 只说明“多级组织”，未说明是否为文件夹层级；按本叶定义，缺少元数据/文档类型会使产品退化为共享盘。采集笔记也承认 README 未说明元数据模型。",
+      "fix": "补充 LogicalDOC Community 官方文档或功能页，证明文档类型/元数据、受控摄入以及保留/退役等生命周期治理；若无法补充，应移除该 ECM 关系，或将本叶改为 insufficient_evidence / boundary_unresolved，不应继续保留 case_found。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1172934784",
+      "issue": "定义性核心不足。README 能证明实体登记字段、D3 所有权组织图和治理文件字段，但不能证明“公司记录文件库”（治理文件按实体存储并受访问控制），也不能证明“已记录变更”（任命、免职、名称/地址变更等作为有生效日期的可追溯事件）。README 只写 Full CRUD 和 governance documents 字段；采集笔记也承认变更审计与文件版本未确认。",
+      "fix": "补充 README 或文档，证明治理文件确实按实体存储并可受控访问，以及变更历史、生效日期和审计轨迹；若无法补充，应将该关系收窄为实体登记/结构视图，或改为 insufficient_evidence，不应按完整法律实体管理核心登记。"
+    },
+    {
+      "slug": "legal-entity-management",
+      "application_id": "github:1172934784",
+      "issue": "产品身份不一致。条目使用 noamrazbuilds/entity-compliance-tracker（API id 1172934784），但该仓库 README 的 clone 命令指向 lquantprojects/entity-compliance-tracker。研究笔记记录了此矛盾但未解决；按 README 操作会克隆另一个仓库，canonical 上游不明。",
+      "fix": "核实 canonical 仓库：若 lquantprojects 是上游，更新 repository_url、github_repository_id 和 sources 到上游；若 noamrazbuilds 是镜像或 fork，明确标注并改用上游 README。解决前不要保留互相冲突的安装说明。"
+    }
+  ],
+  "non_blocking_notes": [
+    "enterprise-content-management / github:117357780：Community features 中的“文档工作流”主要来自 logicaldoc.com 商业首页；Community README 只有 automations setup/文档流控制。建议核对 Community 版功能对比页后再保留该措辞；当前 leaf_match reason 未依赖工作流，故列为非阻断。",
+    "enterprise-search-platform / github:12801725：README 只明确 role/permission-based filtering，未说明逐源 ACL 继承与同步窗口；条目已避免更强断言。若严格按叶定义要求源系统权限镜像，需补官方文档；当前关系可维持在“统一检索 + 权限过滤”。",
+    "enterprise-resource-scheduling-platform / github:387898302：README 取自 master，而仓库默认分支及 LICENSE/INSTALL 取自 main；内容一致，但建议统一分支引用以便复现。",
+    "commercial:microsoft-purview-records-management：单一官方文档正文足以满足商业条目的基本真实性和类型匹配；未写价格/架构/部署，无需额外来源。",
+    "legal-entity-management / github:1172934784：0 stars、2026-03 创建、README 自述 SQLite prototype；作为开源条目可保留，但成熟度有限，避免生产级/企业级措辞。",
+    "input.json 的 progress 仍为 not_searched、application_ids/research_records 为空，顶层 phase 为 included_without_cases，与 batch/research 的 case_found 不一致；属元数据同步问题，建议更新。",
+    "enterprise-resource-scheduling-platform 的 overview_zh/rules_zh 为英文；属翻译/风格问题，不影响内容判断。",
+    "enterprise-records-management：开源候选检索未取得完整核心，已记录两次有区别查询和候选；商业 Purview 补位符合“商业基本类型匹配”要求，无案例缺口留档可接受。"
+  ],
+  "leaf_checks": {
+    "enterprise-content-management": {
+      "applications": [
+        "github:117357780"
+      ],
+      "result": "changes_required",
+      "basis": "读取仓库元数据（id 117357780、logicaldoc/community、archived=false）、LGPL-3.0 完整许可证、Community README 和 logicaldoc.com 官网。README 支持集中仓库、文档组织、角色/访问控制、活动日志、高级检索以及源码/Docker 部署；官网支持 DMS 定位、工作流和版本控制。",
+      "issues": "元数据/文档类型描述与受管生命周期中的保留/退役未被来源证明；README 的组织描述未明确超出文件夹层级。采集笔记也承认该元数据缺口。"
+    },
+    "enterprise-records-management": {
+      "applications": [
+        "commercial:microsoft-purview-records-management"
+      ],
+      "result": "pass",
+      "basis": "Microsoft Learn 官方正文明确其为 records management system，并说明 record/regulatory record 标签、file plan、事件驱动保留、处置审查、删除证明以及对记录编辑/删除的限制。商业基本真实性和类型匹配成立；未写价格、架构或部署。",
+      "gaps": "无开源案例；已记录两次有区别的公开检索及候选，未取得开源文件计划/授权处置/处置证明的完整核心，按无案例留档规则可接受。"
+    },
+    "enterprise-resource-scheduling-platform": {
+      "applications": [
+        "github:387898302"
+      ],
+      "result": "pass",
+      "basis": "仓库 id 387898302，COPYING 为完整 GPL-2.0 正文，LICENSE 声明 GPL v2；README/INSTALL 说明管理员登记 Area/Room 并发起预约；官方首页确认冲突预防、重复预约、日/周/月共享日程、只读/用户/管理员访问级别、预约报表与邮件通知。",
+      "gaps": "README 取自 master，而默认分支及 LICENSE/INSTALL 取自 main；建议统一分支引用（非阻断）。条目未声称签到、爽约释放或审批流，边界正确。"
+    },
+    "enterprise-search-platform": {
+      "applications": [
+        "github:12801725"
+      ],
+      "result": "pass_with_notes",
+      "basis": "仓库 id 12801725，Apache-2.0 完整许可证正文；README 说明其为自托管 enterprise search server，内置爬虫覆盖网站、文件系统和数据库，数据源连接器覆盖多云/SaaS，提供统一搜索 UI、REST API、角色/权限过滤、LDAP/OIDC/SAML/SPNEGO/Entra ID 单点登录，Java 21+/OpenSearch 部署。",
+      "gaps": "逐源 ACL 继承与同步滞后未在 README 中说明；条目已避免该更强断言，关系可维持在统一检索与权限过滤。"
+    },
+    "legal-entity-management": {
+      "applications": [
+        "github:1172934784"
+      ],
+      "result": "changes_required",
+      "basis": "仓库 id 1172934784，MIT 完整许可证正文；README 展示实体登记字段（名称、司法辖区、类型、成立日期、注册代理、董事/高管、申报、治理文件）、含所有权比例的 D3 组织图、合规日历以及本地脚本/Docker 部署。",
+      "issues": "叶定义要求的“公司记录文件库”和“已记录变更”（可追溯事件、生效日期）未被来源证明；README 仅说明 Full CRUD 和 governance documents 字段。README 的 clone URL 指向 lquantprojects/entity-compliance-tracker，与本条使用的 noamrazbuilds 仓库身份不一致，canonical 上游未解决。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重算 sha256、未做运行时测试。已按 REVIEW_SOURCES.json 的 path 读取全部 17 个快照（sources 前缀按 data/collections 解析）。GitHub API 单行 JSON 在工具展示中被截断，改用定向检索核对 id/full_name/archived/license，并以 LICENSE/README 正文为准。未抓取 REVIEW_SOURCES 之外的 URL，因此 Entity 的 canonical 上游（README clone URL 指向 lquantprojects）与 Fess 的逐源 ACL 行为未能进一步核实；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-126/ses_groveopencodegop126review1_1793007207.jsonl",
+  "batch_sha256": "e9854f386ee4f8a9c2846e1bcf64f864e58aa64050d9ff998f3c42940bf7b398",
+  "research_sha256": "e41c1d70300968fb54224e2093f91abece6c85d583b4dcd7032b4c4807e49c7c",
+  "input_sha256": "c234145050254af8f7d7e8d5856a0991330bccf7e2d5c39855554de2303ccfa4"
+}

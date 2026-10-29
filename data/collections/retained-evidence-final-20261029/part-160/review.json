@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "bed-capacity-management / github:1030765464：床位看板的“实时”表现为页面加载、筛选条件变化及操作完成后重新查询（bed_management.vue 中 get_room_details.fetch/reload），未见 Socket.IO 或定时刷新；跨部门共用主要由全院范围查询（按 company 过滤、不按科室过滤）和单一板面体现。建议后续补充多用户/跨科室同时使用的证据，但本轮可接受。",
+    "bed_management.py 的 get_room_details 在既无在院占用、也无 Admission Scheduled 记录时把 room_status 回退为 Vacant；出院后若未先人工置 Cleaning，床位可能直接显示为空床。同时，Admission Scheduled 的预约床位在板面上显示为 Occupied（另以 ip_status 标识）。这与定义中“腾空不等于可用”“预留不等于占用”的细化规则存在语义差距，建议在条目说明或后续核验中注明清洁确认依赖人工操作、预约状态依赖 ip_status 区分。",
+    "entry 将 Marley Frontend 定位为 Frappe/ERPNext/Healthcare 之上的医疗前端，床位管理是其住院床位业务子模块；service_boundary 已如实说明该关系，未虚构为独立床位产品。若目录严格要求独立床位与容量产品，应按“子模块/功能页”关系标注，但本轮不据此阻断。",
+    "license 字段使用 GPL-3.0（与 README 的 GNU GPL V3 声明一致），license.txt 正文为完整 GPLv3 条款；SPDX 标识可进一步规范为 GPL-3.0-only 或按仓库实际声明确认 -or-later。license_review 中“约 35 KB”为近似描述，未影响许可证完整性结论。",
+    "research.json 中 OpenMRS/TonkWorks/care 等被排除候选的抓取结果与缺口已如实记录，但这些候选的本地快照不在本工作区，本轮未独立复核；其结论不参与本叶导入判断。另 input.json 仍为 included_without_cases/boundary_unresolved，而 batch.json 已有单条导入，属于批次推进后的状态差异，本轮以 batch.json 和 research.json 的实际内容为准。",
+    "床位板面以 Healthcare Service Unit 为床位/房间单元，README 同时使用 ward/room layout 与 room status 措辞；代码按 service_unit_type 分组且 UI 以 Bed 标注，核心匹配成立，但“床”与“房间”粒度在公开资料中并非完全统一，建议后续补充粒度说明。"
+  ],
+  "leaf_checks": {
+    "bed-capacity-management": {
+      "application_ids": [
+        "github:1030765464"
+      ],
+      "result": "core_met_with_notes",
+      "definitional_core": "依据 README 的 Bed Management 小节、frontend/src/pages/bed_management.vue 与 marley_frontend/bed_management.py 正文核对：get_room_details 查询 inpatient_occupancy=1、is_group=0 的 Healthcare Service Unit，按 service_unit_type 分组返回床位板面，符合“受管理床位清单”；room_status 维护 Vacant/Occupied/Cleaning/Under Maintenance，change_status 支持 Cleaning Completed 并按 ip_status 回写 Occupied/Vacant，符合“每床实时状态”；order_admission 调用 create_inpatient_record 并写入 admission_service_unit，admit_patient 调用 Inpatient Record.admit，order_bed_transfer 调用 Inpatient Record.transfer，符合“患者-床位安置”；页面为全院范围的可视化板面，符合“共享操作视图”的基本形态。四项核心均有正文依据；跨部门共用、推送式实时刷新及清洁自动流转未单独取证，已列入非阻断说明。",
+      "service_form": "自托管 Frappe app：README 说明通过 bench get-app 安装，前端为 Vue 3 + Frappe UI/Vite，后端为 Python/Frappe，依赖 Frappe v16、ERPNext v16、Healthcare v16、MariaDB/Redis；属于持续运行的 Web 应用，track=open_source，符合开源服务形态。",
+      "identity_and_track": "batch.json 的 id github:1030765464 与仓库页 repository_id 1030765464 一致；repository_metadata 显示仓库公开、非 fork；track=open_source；名称 Marley Frontend 与仓库标题一致。",
+      "license": "已按 REVIEW_SOURCES.json 路径读取 license.txt 快照：正文从“GNU GENERAL PUBLIC LICENSE Version 3”开始，包含序言、0-17 条全部条款、END OF TERMS AND CONDITIONS 及 How to Apply 段落，共 674 行，属于完整 GPLv3 文本；README 的 License 小节亦声明 GNU GPL V3。因此 license=GPL-3.0 的结论成立。",
+      "community_edition_boundary": "仓库以 GPL-3.0 覆盖全部代码，未发现 open-core、社区版/企业版功能分层或额外商业许可声明；entry 也未声称独立社区版。其对 Frappe/ERPNext/Healthcare 的依赖属于上游依赖，许可边界应分别以上游仓库为准，entry 已在 deployment 中说明依赖关系。",
+      "source_checks": [
+        "data/collections/sources/dda8d6d8743fb85379c126e9a0dc5ec2b382426728dedf4fd0449afc33f608c4.txt",
+        "data/collections/sources/04a9bf2be3b3bde1a1152ae6cba5400376625da2b4e39bbe1da94400060cc003.txt",
+        "data/collections/sources/8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b.txt",
+        "data/collections/sources/df441417120e045c89495235132fb7ac8dd469af64e459daa5f1192c3810bd73.txt",
+        "data/collections/sources/c3053bb3cea508ad101e629bda6c0fe5c60989edb34bec5ec5cadb20ca2e1712.txt"
+      ],
+      "gaps": "床位看板为查询式刷新而非推送；跨科室共用未单独取证；出院后状态回退 Vacant、清洁完成依赖人工操作；README 的 room/ward 粒度与 Bed 标注存在措辞差异。以上为细化规则或证据边界，不否定四项定义性核心的正文依据。"
+    }
+  },
+  "limits": "本轮仅只读核对本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 5 个快照；未运行 shell、未写文件、未部署、未访问外部 URL，未读取其他单元。OpenMRS/TonkWorks/care 等被排除候选无本地快照，未独立复核，仅依据 research.json 的留档判断其不影响本叶导入。未用文件系统 stat 复核 license.txt 字节数，“约 35 KB”为条目陈述；未验证运行时行为，核心判断基于静态源码与 README。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-160/ses_groveopencodegop160review1_1793251681.jsonl",
+  "batch_sha256": "fee65e6a60a94b286a115fd1095d46e331d200a8e3e12cc48256972185d03ff3",
+  "research_sha256": "63ca4bf5867df6e4d380d1af980c4cc99ef8c22ba341750b638056713c0bffd5",
+  "input_sha256": "e01ccf6435e9ff56e0364f12bcbbfba0db849dbdf8c73280e3ae6025ffb5d91a"
+}

@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，而 research.json/batch.json 已记录 case_found；本次以 batch/research 为准。若下游以 input.json 为准，应同步这些字段，避免本单元已有案例被误判为无案例。",
+    "Celonis 的 leaf_match.reason 写到“频率与时间分析”，但所引页面正文主要支持从 ERP/CRM 提取数据、观察实际流程、瓶颈/合规/基准/模拟等，未明确出现 event log、case/variant 级的频率与时间分析；建议将理由收敛到已证实内容，或补充 Celonis 产品页。",
+    "Celonis 快照的 canonical/og:url 为 https://www.celonis.com/insights/topics/process-mining，content-type 为 Insight/Topic，与批次 homepage 的 /process-mining/ 不完全一致；作为官方主题页可用，但不是产品功能页。",
+    "ProcessMaker 的 README 以安装、CI/CD、开发说明为主；BPM 核心证据主要来自首段概述、BPMN Timer 事件、case/task 相关段落，未见流程模型版本、实例状态/历史的直接描述。社区版与 enterprise packages 的边界也只是隐含（repo 描述为 BPM Core，README 提到 enterprise packages）。建议补充官方产品/文档页并明确社区版范围。",
+    "Fusion 快照是压缩 HTML，read 工具按行截断；本次结合快照内关键词命中和同一 URL 的公开页面文本核对正文。",
+    "IBM、Kissflow、Fusion 页面均为产品/解决方案概览而非完整文档；对商业条目按“基本真实性+类型匹配”标准足够，未要求部署或额外架构研究。",
+    "BCM 的 GitHub 候选（bcm-starter-kit、bacman、revathibalaji/BCM、simplified-bia）只有检索/抓取留档、未作为案例引用；符合“已如实记录查询/抓取缺口”的通过条件。"
+  ],
+  "leaf_checks": {
+    "business-continuity-management-platform": {
+      "application_id": "commercial:fusion-risk-management",
+      "track": "commercial",
+      "sources_read": [
+        "sources/ec5d6d1979e05cf04c17e2c7f80d588790faefe700f50b40544149a8e13fbb65.txt"
+      ],
+      "core_check": "Fusion 官方 BCM 产品页正文覆盖业务影响分析（BIA）、关键流程识别、上下游依赖（人员/流程/场所/系统/第三方）、恢复要求与恢复策略、连续性计划的维护与评审、演练/走查/情景测试及整改跟踪；产品身份、homepage、track 与批次一致。",
+      "verdict": "pass",
+      "gap": "正文未逐字给出 RTO/RPO 术语，但 recovery requirements/priorities 已覆盖核心；不影响商业类型匹配。"
+    },
+    "business-rules-management-system": {
+      "application_id": "commercial:ibm-odm",
+      "track": "commercial",
+      "sources_read": [
+        "sources/4264bb764bfcd0c5886f5b846d8f32f12f14e9f0928758be80c7570ee0b6de86.txt"
+      ],
+      "core_check": "IBM ODM 官方产品页正文覆盖规则的 author/develop/test、测试与仿真、部署（含 SaaS/on-prem）、角色权限、治理与变更管理、决策审计/可解释证明，以及 decision engines；与 BRMS 的规则资产、受管生命周期、引擎执行核心一致。",
+      "verdict": "pass",
+      "gap": "未逐字描述规则仓库的版本号/晋升路径；governance/change management 与 deploy 可支撑，属深度不足而非类型错误。"
+    },
+    "approval-workflow-platform": {
+      "application_id": "commercial:kissflow-workflow",
+      "track": "commercial",
+      "sources_read": [
+        "sources/63cee741183a9713bd5a07ca906772b654c565ca530fb5a7b1496768eb497328.txt",
+        "sources/79ef1ac7c8f43f98d5284c4aef0b510fdf4a01c1a6ac6fe3277d7eaed95fd181.txt"
+      ],
+      "core_check": "Kissflow 官方审批工作流产品页正文覆盖结构化请求表单、校验/预审批规则、按金额/部门/类型/风险路由到审批人、approve/reject/send back、时间戳日志、SOX/SOC2 审计证据、超时升级；与审批工作流平台核心一致。",
+      "verdict": "pass",
+      "gap": "无实质缺口；官网首页快照为辅助来源。"
+    },
+    "business-process-management-platform": {
+      "application_id": "github:127204751",
+      "track": "open_source",
+      "sources_read": [
+        "sources/f990f53b1764ef20c1d12960e35aca0aff68a5c720f4b5c2fffefbbe05e257d8.txt",
+        "sources/6dfcea39d8bc0c1331e723475b467813ad33208768f435ccad2c15614be69113.txt",
+        "sources/f0b61962ec9ef3d21a70d3eaf528711b5b2736be97c8afb3e1524d7795537ca7.txt"
+      ],
+      "license_check": "LICENSE.txt 为 AGPL v3 全文（size 34520，base64 解码开头为 GNU AFFERO GENERAL PUBLIC LICENSE Version 3）；仓库元数据 spdx_id=AGPL-3.0，archived=false，default_branch=develop，repo id 127204751 与批次一致。",
+      "core_check": "ProcessMaker/processmaker 的 README 说明其为开源 workflow management suite，支持 workflow automation、forms、documents、roles/users、routing rules、process mapping，并提到 BPMN Timer Start/Intermediate Events、case retention、tasks、Docker/PHP/MySQL/Redis 自托管；可支撑 BPM 平台的基本身份与运行形态。",
+      "verdict": "pass",
+      "gap": "README 以安装/CI 为主，未直接描述流程模型版本治理、运行实例状态/历史、系统步骤/连接器；社区版与 enterprise packages 的边界仅隐含。属需补强的留档缺口，不改变当前基本类型匹配。"
+    },
+    "process-mining-platform": {
+      "application_id": "commercial:celonis-process-mining",
+      "track": "commercial",
+      "sources_read": [
+        "sources/076ec4650066d29688a2d62c643422f28898d5d199ad21818f4ef114a78b9d71.txt"
+      ],
+      "core_check": "Celonis 官方页面正文覆盖 process mining software 从 ERP/CRM 等现有系统提取数据、还原实际流程运行、实时可见性、瓶颈识别、process conformance、benchmarking、simulation、prescriptive automation，并明确 Celonis process mining® 产品身份；可支撑流程挖掘平台的基本类型匹配。",
+      "verdict": "pass",
+      "gap": "该页 canonical 为 /insights/topics/process-mining，content-type 为 Insight/Topic，不是产品功能页；正文未明确 event log、case/variant 级频率与时间分析。leaf_match 理由中的“频率与时间分析”超出该页直接证据。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未重新计算 sha256、未做运行时/部署测试。Fusion 快照为单行压缩 HTML，read 输出按行截断，正文核对结合了快照内关键词命中和同一 URL 的公开页面文本；Celonis 快照实际落在 insights/topics 主题页（canonical 与 REVIEW_SOURCES 的 URL 不完全一致），未另取产品页；ProcessMaker 仅审阅 develop 分支 README、仓库元数据和许可证端点，未读取 docs.processmaker.com 的产品文档；input.json 的 progress 字段与 research/batch 的 case_found 不一致，本次以 batch/research 为准；未读取其他单元或采集者过程文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-124/ses_groveopencodegop124review1_1793007057.jsonl",
+  "batch_sha256": "8c6ff4218d7ec5c1cdab0c3d64bc0bd61bf564564d2767206b057a276699fbf1",
+  "research_sha256": "e8999d1663f03fb3477f4958fa030b9916bfb560a2fa5b0dba2dadaa9457a584",
+  "input_sha256": "52790687b04067bbc6c0940b1c42e22c6a5b6306ab7ac85e7aa8e7fe9dbcf5e2"
+}

@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Primero 的许可证正文为 GNU AGPL v3（前言写明可按 v3 或任何更晚版本使用，完整正文 35475 字节），条目写为 AGPL-3.0；更精确的 SPDX 可写 AGPL-3.0-or-later。另 batch.json 的 license_review 称 GitHub license API 将其分类为 AGPL-3.0，而 research.json 的 fetch_outcomes 记录为 Other/NOASSERTION，两处表述不一致，建议统一核对；这不影响本次判断，因为独立 license 快照已含完整 AGPL 正文，且 CPIMS+/GBVIMS+ 配置包的社区版边界已在正文和条目中说明。",
+    "OpenRevenue 的核心工作流证据来自 README 所述 first vertical slice（纳税人创建与注册审批、申报草拟/校验、负债计算、提交与评估、评估借记、收款分配、支付贷记、账本读取、审计事件），未采集源码或架构文档快照；按税种分账、欠款持续、退款、法定通知/执法未获证据，条目 summary 与研究 note 已如实收窄，后续可补实现层快照。",
+    "Primero 的正式筛查决定、收养等永久性流程未获公开证据，仅证到保护关注、风险等级、评估/个案计划/结案审批、照护安排与重新团聚；条目已按此收窄匹配范围，属可接受的取证边界。",
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids 为空，与 batch.json/research.json 已形成的两个入选应用不一致；建议在流水线中同步进度元数据，避免下游按 input.json 建索引时漏链。",
+    "无案例三叶所引用的候选快照（HousingAid、DHA-Sync、IMCS、openIMIS）未列入 REVIEW_SOURCES.json；这与其没有 batch 条目相符，但若后续复核边界判断，建议把候选快照也纳入统一来源清单。",
+    "public-benefits-management 的检索主要核对了 openIMIS 的 docker 发行仓库，未核对 openIMIS 核心应用仓库；本次按已记录的不足证据处理可以接受，后续可补核心仓库检索以确认是否确实无合格案例。"
+  ],
+  "leaf_checks": {
+    "tax-administration-system": {
+      "status": "case_found",
+      "application_ids": [
+        "github:1308925398"
+      ],
+      "basis": "按 REVIEW_SOURCES 原样读取 OpenRevenue 的仓库元数据、license 快照与 README。元数据 id=1308925398 与条目一致，description 为面向政府/市政/公共部门的开源可配置税务与收入管理平台；README 明确列出已实现的首个纵向切片：创建纳税人、审批示例税务登记、草拟并校验申报表、计算负债、提交与评估、过账评估借记、接收并分配付款、过账付款贷记、读取账本、记录审计事件并调用通知端口，构成纳税人注册→申报/评估→过账→结算的最小闭环。license 快照为 Apache License 2.0 完整正文（11301 字节），条目 license=Apache-2.0、track=open_source 与仓库身份相符，无社区版/商业版拆分。",
+      "gaps": "核心流程证据仅来自 README，未采集源码或架构文档快照；按税种分账、欠款持续累积、退款、法定通知与执法未在本版本得到证明，条目 summary 与研究 note 已明确收窄。未做运行时验证。"
+    },
+    "child-welfare-management": {
+      "status": "case_found",
+      "application_ids": [
+        "github:72849464"
+      ],
+      "basis": "按 REVIEW_SOURCES 原样读取 Primero 的仓库元数据、README、license、API 文档与 5 个模型快照。元数据 id=72849464 与条目一致，description 与 LICENSE 前言均说明面向儿童保护/社会工作者管理弱势儿童及暴力幸存者数据；LICENSE 为完整 GNU AGPL v3 正文（35475 字节，含 v3-or-later 条款），并明确 CPIMS+/GBVIMS+ JSON 配置包需另行联系，社区版边界已在条目 license_review 与本叶匹配理由中披露。API 文档可证 case、incident、tracing request、potential match、flag、attachment、assign/referral/transfer 等个案工作与记录分配流程；Child 模型（cases 表）含 protection_concerns、risk_level、assessment_due_date、date_case_plan、date_closure、care_arrangements_section、reunification_details_section、family_id 等字段；Family 模型含 family_members 并以 family_id 关联多个 Child；Approval 值对象覆盖 assessment、case_plan、closure、action_plan 的监督审批状态；ReportableProtectionConcern 挂接儿童个案的保护关注子表；CareArrangements 派生当前安置类型、照顾者与安置开始日期。受保护儿童记录、家庭语境、保护关注/风险、评估与审批、照护安排/重新团聚等核心要素均有实际正文证据，非仅简介或元数据。",
+      "gaps": "未证正式筛查决定工作流与收养等永久性流程；未证外部专业人员的记录级权限实现（仅见角色/分配类模型）；README 快照很薄，产品用途主要依据仓库 description 与 LICENSE 前言；GitHub 对许可证的自动分类与条目 SPDX 写法存在表述差异（见 non_blocking_notes）。未做运行时验证。"
+    },
+    "housing-assistance-management": {
+      "status": "no_case_boundary_unresolved",
+      "application_ids": [],
+      "basis": "research.json 记录了 housing assistance / housing voucher 两组检索及抓取结果。核对 research 给出完整路径的 HousingAid README 快照：其自述为 Affordable Shelter Management System，覆盖申请、资格核验、项目/单元库存与自动单元分配、合规审计与报告，重心在运营项目限定住房存量与单元分配，未见租金补贴发放、补贴资金路径、受助家庭援助生命周期与向资助方的合规报告；且仓库元数据 license=null，不能按开源应用成立。按本叶定义（援助附着于家庭住房成本、以补贴资金路径为核心；运营住房存量属可负担住房管理）排除是合理的。",
+      "gaps": "未找到许可证清晰、以补贴支付与援助生命周期为核心的住房援助管理应用；HousingAid 元数据快照未留档（仅记录 license=null 与后续 403 限流），本次无法独立复核其 license 字段，但边界排除理由主要依据 README 正文与许可证缺失，留档已如实说明。"
+    },
+    "immigration-case-management": {
+      "status": "no_case_boundary_unresolved",
+      "application_ids": [],
+      "basis": "research.json 记录了政府侧移民案件管理检索与抓取结果。核对 DHA-Sync 元数据（id=1305922511，MIT）与 README：其为政府内部移民/庇护案件登记、状态流转、文件、面试、遣返看板、审计与统计的全栈应用，但无申请人外部提交入口、无回执/补件通知/决定送达与身份/许可签发核验，外部发起与对外问责闭环缺失；IMCS 仅有元数据、无许可证且描述过薄。按本叶定义（外部发起、裁决、送达、身份状态签发为核心）排除是合理的。",
+      "gaps": "未取得同时具备外部申请闭环与身份签发证据的政府侧移民裁决应用；DHA-Sync 的 MIT 许可证正文快照未逐一复核（research 记录为已抓取），IMCS 仅有元数据记录。"
+    },
+    "public-benefits-management": {
+      "status": "no_case_insufficient_evidence",
+      "application_ids": [],
+      "basis": "research.json 记录了 openIMIS 与 social protection 两组检索。核对 openIMIS 发行仓库元数据与 README：该仓库自述为通过 Docker 部署 openIMIS 全部组件的配置/发行仓库，用于快速搭建、测试与评估，不是承载资格认定与发放业务逻辑的应用本身；LICENSE 声明 GNU AGPL v3，但 GitHub 分类为 Other/NOASSERTION；现有来源未证明以家庭为单位的资格与权益认定、福利发放、重新认证、重算与追偿生命周期。其余命中多为无许可证的小项目。按本叶定义排除为 insufficient_evidence 是合理的。",
+      "gaps": "仅核对 openIMIS 的 docker 发行仓库，未核对 openIMIS 核心应用仓库；未找到许可证清晰且具备家庭资格认定与福利发放生命周期的完整公共福利管理应用。未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：未执行 shell、未写文件、未访问其他单元、未做部署或运行时测试，也未通过实时网络复核仓库当前状态。对两个入选应用，按 REVIEW_SOURCES.json 的 path 原样读取了全部 12 个快照（OpenRevenue 3 个、Primero 9 个）。对无案例叶，主要依据 research.json 的检索/抓取与缺口留档，并额外读取了 research 中以完整文件名引用的 HousingAid README、DHA-Sync 元数据与 README、openIMIS 元数据与 README 作抽查；其余以缩写引用的快照（如 IMCS 元数据、openIMIS LICENSE 正文、DHA-Sync MIT 正文）未逐一重读。仓库元数据为单行 JSON，读取工具在 2000 字符处截断，末尾的 license/archived 等字段未能直接核验，许可证结论依据独立的 license 快照完整正文（OpenRevenue Apache-2.0、Primero AGPL v3）以及 research.json 的元数据记录。未对边界案例做新的检索或补证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-232/ses_groveopencodegop232review2_1793034307.jsonl",
+  "batch_sha256": "83e0df672f6c1244a8c43fae55eaa8dae77bf8f99b8c0ef5f2189226408dd648",
+  "research_sha256": "030d0e8f22cd7f640cfee2fd4ddacadddbcc0ac159072bde1ddcdfb8910af7ca",
+  "input_sha256": "2bcdaa7899282f99313809fdf19b9786d6ca2d1686ef3921836b7d516659f336"
+}

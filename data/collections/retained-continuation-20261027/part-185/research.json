@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "wind-asset-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:power-factors-unity-apm"
+      ],
+      "query": "open source wind farm asset management software GitHub; Power Factors Greenbyte wind asset management product page",
+      "source_urls": [
+        "https://www.powerfactors.com/unity/asset-performance-management"
+      ],
+      "note": "找到商业案例。官方页正文覆盖 wind/solar/storage 组合、fleet 到单台 turbine 的下钻、按资源调整基线的 actual vs expected、停机/限电/欠发分类、可用性、system of record、工单/现场服务；同页还列出资产监督、发票与现场服务模块。开源候选 OpenOA/OpenFAST 是分析/仿真库而非完整应用，未建立关系。未运行产品，runtime_tested:false。",
+      "service_boundary": "运营期风电场/机组组合与产量、可用性、服务协同；不覆盖风机控制器/SCADA 执行层、资源评估与布局设计，也不把独立分析库当作完整应用。",
+      "search_attempts": [
+        "websearch: open source wind farm asset management software GitHub（核对 OpenOA、OpenFAST、Awesome-Wind-Farm-Analytics 等候选；前两者为分析库/仿真代码，未建关系）",
+        "websearch: Power Factors Greenbyte wind asset management product page（定位官方 Unity APM 产品页）",
+        "读取官方产品页正文，提取组合记录、实际与预期发电、损失分类、可用性、工单与报告证据"
+      ],
+      "fetch_outcomes": [
+        "https://www.powerfactors.com/products/greenbyte → HTTP 404，未保存快照",
+        "https://www.powerfactors.com/unity/asset-performance-management → HTTP 200，保存快照 sha256:39ed7971fc18b5c7662f05a2eb043b28fcd2ea87ec056ed26da3753a51bd1717，正文可读"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "gas-pipeline-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:dnv-synergi-pipeline"
+      ],
+      "query": "gas pipeline management software official product pipeline integrity",
+      "source_urls": [
+        "https://www.dnv.com/services/synergi-pipeline"
+      ],
+      "note": "找到商业案例。DNV Synergi Pipeline 官方页覆盖气体/液体管道、管道/阀门/调压站/储存、风险评价、检查/维修、异常全生命周期、HCA/MCA、合规报告与变更审计，并说明 Esri ArcGIS 可作主数据源。官方页未展开压力/水力计算，故不写该能力。未运行产品，runtime_tested:false。",
+      "service_boundary": "管道网络模型与完整性/风险/检查维护生命周期；不含燃气公用事业客户计费/CIS、MDM 或现场检测硬件。",
+      "search_attempts": [
+        "websearch: gas pipeline management software official product pipeline integrity（结果含 Antea PIMS、DNV Synergi Pipeline、ROSEN NIMA、Irth AIP、PHMSA 资料等）",
+        "读取 DNV 官方产品页正文，提取资产范围、完整性活动、异常生命周期、合规与 GIS 主数据证据"
+      ],
+      "fetch_outcomes": [
+        "https://www.dnv.com/services/synergi-pipeline → HTTP 200，保存快照 sha256:6db0dcac6b8e3b7f60ec54135dcc9d678d2cc10df48863200fd174c1ffb38a4b，正文可读"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "gas-utility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:starnik-utility-billing"
+      ],
+      "query": "gas utility billing customer information system software official; \"natural gas\" utility billing customer information system software \"gas\" meter-to-cash vendor",
+      "source_urls": [
+        "https://www.starnik.com/solutions/utilities"
+      ],
+      "note": "找到商业案例。Starnik 官方页明确 Water/Electric/Gas & Sewer 与 Gas Utilities，提供云 CIS、AMI/AMR、费率计费、实时支付、服务工单、现场作业、押金/费用和客户门户。此前 United Systems 非 UTF-8、CUSI 未明确燃气、Tyler 仅导航、Muni-Link 仅水/污水、Oracle 404、Itineris 超限，均未采用。未运行产品，runtime_tested:false。",
+      "service_boundary": "燃气公用事业的客户账户、表计、计费、收款与现场服务；不是管道网络模型系统，也不是 MDM/计量数据基础设施本身。",
+      "search_attempts": [
+        "websearch: gas utility billing customer information system software official（结果含 Gartner 综述、Muni-Link、CUSI、United Systems、Oracle CC&B 等）",
+        "websearch: \"natural gas\" utility billing customer information system software \"gas\" meter-to-cash vendor（结果含 StarNik、Itineris UMAX、Asseco、Harris 等）",
+        "逐一读取候选官方页，按燃气垂直、CIS/计费/服务工单正文筛选"
+      ],
+      "fetch_outcomes": [
+        "https://united-systems.com/utility-billing-cis → 抓取失败：响应非 UTF-8，未保存快照",
+        "https://cusi.com → HTTP 200，保存快照 sha256:70123324ffa9ee0ef724e09ca70f7ea3ed2ac8a8abbec1bf0fcb36226eb6a208；有 CIS/计费/表计读取/服务工单，但正文未明确燃气垂直，未作为关系证据",
+        "https://www.tylertech.com/solutions/utility-billing → HTTP 200，保存快照 sha256:560a5470467c81e99d605b8190ad9d42b523d599b876cf2172270e32c3a6fcbc；主要为产品导航/营销文案，未提供燃气计费核心工作流正文",
+        "https://muni-link.com/ → HTTP 200，保存快照 sha256:ffa6829d8fdea5c85f022ce5224cd6ff7e042b4b1d96d08bb4d608fb1c8082fe；明确只做 water/wastewater，排除",
+        "https://www.oracle.com/utilities/customer-care-and-billing/ → HTTP 404，未保存快照",
+        "https://itineris.net/solutions/umax/ → 抓取失败：响应超过 max_bytes，未保存快照",
+        "https://www.starnik.com/solutions/utilities → HTTP 200，保存快照 sha256:cd0717043b6e263bbde5031d90fada5033cf877b00dc9628f5521186f13322d8，正文可读"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "subscriber-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:3612045"
+      ],
+      "query": "open source ISP subscriber management software GitHub; Ubilling license GitHub subscriber management",
+      "source_urls": [
+        "https://api.github.com/repos/nightflyza/Ubilling",
+        "https://api.github.com/repos/nightflyza/Ubilling/license",
+        "https://raw.githubusercontent.com/nightflyza/Ubilling/master/README.md",
+        "https://ubilling.net.ua/",
+        "https://wiki.ubilling.net.ua/"
+      ],
+      "note": "找到开源案例。GitHub API 身份 id=3612045、full_name=nightflyza/Ubilling，许可证 API 返回 GPL-2.0；README/主页说明其为基于 Stargazer 的 ISP 开源计费与用户管理系统；Wiki 列用户标签、复杂服务、费率周期、冻结天数限制、用户门户与网络设备监控。产品核心偏计费，但订阅者记录与服务状态确有覆盖。未运行产品，runtime_tested:false。",
+      "service_boundary": "ISP 运营商侧订阅者记录、服务/费率状态、付费与网络监控；不覆盖网络元素配置执行、完整 CRM 销售管道或纯计费引擎。",
+      "search_attempts": [
+        "websearch: open source ISP subscriber management software GitHub（结果含 Ubilling、ISP-Mikrotik-Billing、CoreNet ISP Management 等；选择身份与许可证可核验的 Ubilling）",
+        "websearch: Ubilling license GitHub subscriber management（结果偏离主题，未采用；改用 GitHub 官方 API 直接核验）",
+        "读取 GitHub repository metadata、license API、README、项目主页与官方 Wiki"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/nightflyza/Ubilling → HTTP 200，保存快照 sha256:b0729c4e1a4473b541c058a476c07406e0a96cd2d68294b4861b5317f1a0b23e，确认 id/full_name/语言/归档状态",
+        "https://api.github.com/repos/nightflyza/Ubilling/license → HTTP 200，保存快照 sha256:561ef96148d6c660c02f2cbb4e5226bcd49082d4d1590b7f9556ba4eba3f57f9，spdx_id=GPL-2.0，许可证正文完整",
+        "https://raw.githubusercontent.com/nightflyza/Ubilling/master/README.md → HTTP 200，保存快照 sha256:97957cd37d358363af35cb8ef27443ab290dd7a18af9a403e176010e5380109e，正文可读",
+        "https://ubilling.net.ua/ → HTTP 200，保存快照 sha256:514e56fd85d8a8c7cdfdc7b5bf3d92089f362f6686439fe0e680be2e26d00929，正文可读（乌克兰语）",
+        "https://wiki.ubilling.net.ua/ → HTTP 200，保存快照 sha256:06c42720a440809a62e6511801be185ca221935d57fecd8e19877ef058949383，功能目录可读"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "utility-asset-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:assetworks-eam-utilities"
+      ],
+      "query": "utility asset management software official poles transformers inspections; AssetWorks utility enterprise asset management product page",
+      "source_urls": [
+        "https://www.assetworks.com/eam/utilities"
+      ],
+      "note": "找到商业案例。AssetWorks 官方 utilities 页说明其管理基础设施、管道、表计和设施，覆盖资产全生命周期、预防性维护/检查、工单、成本、资本规划、GIS 集成与合规记录。页面是产品概览，未逐项证明网络层级/服务点建模，条目已收窄。未运行产品，runtime_tested:false。",
+      "service_boundary": "公用事业网络资产登记、检查/工单与全生命周期成本/资本规划；成本向外过账到财务/ERP，本身不是会计总账，也不替代 GIS 网络模型。",
+      "search_attempts": [
+        "websearch: utility asset management software official poles transformers inspections（结果含 Mitti、EagleView、Fulcrum、IFS、OxMaint、AssetWorks 等）",
+        "websearch: AssetWorks utility enterprise asset management product page（命中官方 /eam/utilities 页）",
+        "读取官方 utilities 产品页正文，提取资产范围、检查/工单、成本、资本规划与 GIS 证据"
+      ],
+      "fetch_outcomes": [
+        "https://www.assetworks.com/eam/utilities → HTTP 200，保存快照 sha256:46c8e4109becf3897bad1f417046c9bb27092d98e7296cec516d226014d576aa，正文可读"
+      ],
+      "archived": false
+    }
+  ]
+}

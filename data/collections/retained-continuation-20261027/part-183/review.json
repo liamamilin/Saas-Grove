@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Flexigrid 仅有单一官方产品页，缺少独立客户案例或产品文档；页面把结算表述为审计/结算依据与削减核算，未展示补偿金额计算或结算单生成。作为商业基本记录可以接受，若需提高证据等级，建议补充产品文档或客户案例。",
+    "Milsoft WindMil 页面提供独立下载/安装说明与硬件软件要求，倾向本地部署；若本单元严格要求云端 SaaS 交付形态，应补充部署与租户证据。其定位为 DMS 分析层，摘要没有把它误写成 SCADA/ADMS，类型边界基本正确。",
+    "GE GridOS DERMS 与 ION Allegro 均为企业级套件，页面以模块或能力清单为主，未展开字段级模型、价格与部署细节；当前证据足以支持商业基本类型匹配。",
+    "Yes Energy PowerCore 同时包含 trade capture、position management 与 risk，与 energy-trading-platform 存在边界重叠；其 bid-to-bill 主线（投标、调度、结算核验）仍足以归入 energy-scheduling-settlement，建议在摘要中更明确写出该边界。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，而 batch.json 与 research.json 已记录 5 个案例；若 input.json 会作为下游状态源，建议同步更新或注明其为采集前快照。",
+    "REVIEW_SOURCES.json 与 batch.json 将来源 kind 统一标为 documentation，实际为厂商产品页；不影响正文核对，但元数据可更精确标为 product_page。",
+    "本单元无开源条目；research.json 已记录 openDSRIP（license null）、OpenEMS（类型不符）等候选的排除原因，未发现应按开源收录却缺许可证或社区版边界的条目。"
+  ],
+  "leaf_checks": {
+    "demand-response-platform": {
+      "result": "pass",
+      "application_id": "commercial:flexigrid",
+      "source": "data/collections/sources/fa3107b49f466811ee49fb4205a5f58c434ecc2ed43290468c41d522dc5a0f82.txt (https://www.flexigrid.net/demand-response)",
+      "evidence": "快照正文包含 OpenADR 2.0b 聚合需求响应、DR program types 及 compensation structures、Enrollment & Registration 与 capacity declaration、Event Lifecycle Management、Real-Time Telemetry、Baseline & M&V 以及 reported performance for settlement；四项核心（计划、注册、事件、测量与补偿依据）均有对应正文。",
+      "gaps": "单一官方产品页；结算仅表述为审计/结算依据与削减核算，未展示补偿金额计算或结算单；未运行产品。"
+    },
+    "derms": {
+      "result": "pass",
+      "application_id": "commercial:ge-gridos-derms",
+      "source": "data/collections/sources/e9a101345a65c8a385462aba842e159258221449e5bbb8b69116fb77ea4109c7.txt (https://www.gevernova.com/software/products/gridos/distributed-energy-resources-management-system)",
+      "evidence": "快照第780行描述实时与前瞻编排；第845行列出 Model Manager（维护网络与 DER 资产数据）、Program Manager（项目/合同/注册单一事实源）、Gateway（IEEE 2030.5 监控与控制）、Operations（态势感知）、Optimization（按电网约束、经济性和动态运行包络调度 DER）；第823行说明支持 OpenADR 与 IEEE 2030.5。电网锚定注册表、运行可见性、协调调度三项核心成立。",
+      "gaps": "模块级产品页，未展开馈线/相别等字段级注册模型；未验证实际部署、价格与运行效果。"
+    },
+    "distribution-management-system-dms": {
+      "result": "pass",
+      "application_id": "commercial:milsoft-windmil",
+      "source": "data/collections/sources/f04dca44e92db264e8eb9837e6471fdc23092c726f37105f396d5bd3f7136ee2.txt (https://www.milsoft.com/engineering-operations/engineering-analysis/)",
+      "evidence": "快照第44-47行说明 WindMil 建立覆盖整个公用事业网络、从交付点到电表的详细连通模型，可接入 CIS、SCADA、AMI；计算 Fault Current 与 Load Flow；支持保护配合、故障定位、切换场景的电压/容量校验与规划研究。符合 DMS 的网络模型、电气分析、运行/规划决策支持三层定义，且属于分析层而非 SCADA/ADMS。",
+      "gaps": "页面提供独立下载/安装说明与硬件软件要求，倾向本地部署；未证明云端 SaaS 租户模式；未运行产品。"
+    },
+    "energy-scheduling-settlement": {
+      "result": "pass",
+      "application_id": "commercial:yes-energy-powercore",
+      "source": "data/collections/sources/6f412e544721e4475e1815fd114cf22f5dfe4c8ecbadf764b63cb6ce82dea291.txt (https://www.yesenergy.com/products/powercore)",
+      "evidence": "快照第1295行将 PowerCore 定义为面向 ISO/RTO 与双边市场的 bid-to-bill 平台；第1572行说明自动 ISO 结算、计量提交、shadow calculations、对照 ISO statements 发现差异并解决争议、区间级 billing determinants；第1654行覆盖 bidding、scheduling 与 E-Tagging。调度提交与结算核验两条主线均有正文依据。",
+      "gaps": "产品还含 trade capture、position management 与 risk，与能源交易平台类型存在重叠；未运行产品，价格与部署未展开。"
+    },
+    "energy-trading-platform": {
+      "result": "pass",
+      "application_id": "commercial:ion-allegro",
+      "source": "data/collections/sources/257d82becfe03ae70bada102e3762cacd28ac22ce7f8329bf14c844e3c3d26bc.txt (https://iongroup.com/products/commodities/allegro/)",
+      "evidence": "快照第191-192行标题与描述将 Allegro 定义为面向公用事业和能源公司的 ETRM；第1463-1466行说明统一商品业务、集中实物与金融交易；第1387行列出 real-time position visibility；第1541行说明 front-to-back、从 deal 到 cash，包含 flexible deal capture、估值、风险与前后台流程。符合自有账簿、成交记录、头寸估值三层定义，且为参与者侧而非市场撮合场所。",
+      "gaps": "页面为产品概览，未给出交割期、数量、价格、对手方等字段级证据；部署与价格未展开；未运行产品。"
+    }
+  },
+  "limits": "只读审查；未运行任何产品，未验证价格、部署租户或客户引用；未重跑 GitHub API 或独立复核被排除的开源候选许可证；每个申请仅 1 个官方来源，未做第三方交叉验证；Flexigrid 快照为单行压缩 HTML，read 工具按 2000 字符截断单行，故对其采用快照关键词命中核对并结合同日官方页面正文复核，未逐字渲染全文；未读取其他单元、未执行 shell、未写文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-183/ses_groveopencodegop183review1_1793021121.jsonl",
+  "batch_sha256": "306c1bf2e130fa1eee85ded0db5f5362eaac6b4952b99dbe9a1a628d8feaa86f",
+  "research_sha256": "5a02f908ed46c07356209f2928d760fc68205dd6418a93601d883e0dbaeb6e22",
+  "input_sha256": "55172c87c8852d818981ec2367bcb54fba466f8bd015e7efead36bc5867b5111"
+}

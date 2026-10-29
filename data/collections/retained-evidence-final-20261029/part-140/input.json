@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 30,
+  "offset": 725,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "product-configuration-management",
+        "name_zh": "产品配置管理",
+        "domain_id": "16",
+        "parent_id": "16.02",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/645",
+            "result": "boundary_unresolved",
+            "note": "结构复核：原草稿把 github:349414935 计入 case_ids，而 assessment 为 boundary_unresolved，二者不一致。重读已保存的 16.0 快照：README 自述该模块提供“all the mechanics to support product configuration”，是配置界面的基础依赖；product_config.py 提供 product.config.domain / domain.line / product.config.line 的 in/not in 条件与可继承限制规则；product_configurator_mrp README 仅说明在制造订单上提供配置向导。配置模型和规则、以及把选择解析到制造订单有证据，但定义核心第三项“受维护的模型生命周期”（测试、发布、版本化、生效期）在 README 与已读代码中均无证据，未发现模型版本/审批/生效期字段。因此不把该候选作为本叶成立案例，case_ids 置空，保留候选、来源与具体缺口。",
+            "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。"
+          }
+        ],
+        "archived": false,
+        "note": "结构复核：原草稿把 github:349414935 计入 case_ids，而 assessment 为 boundary_unresolved，二者不一致。重读已保存的 16.0 快照：README 自述该模块提供“all the mechanics to support product configuration”，是配置界面的基础依赖；product_config.py 提供 product.config.domain / domain.line / product.config.line 的 in/not in 条件与可继承限制规则；product_configurator_mrp README 仅说明在制造订单上提供配置向导。配置模型和规则、以及把选择解析到制造订单有证据，但定义核心第三项“受维护的模型生命周期”（测试、发布、版本化、生效期）在 README 与已读代码中均无证据，未发现模型版本/审批/生效期字段。因此不把该候选作为本叶成立案例，case_ids 置空，保留候选、来源与具体缺口。"
+      },
+      "definition": {
+        "slug": "product-configuration-management",
+        "name": "Product Configuration Management",
+        "name_zh": "产品配置管理",
+        "aliases_zh": [
+          "产品配置",
+          "配置管理"
+        ],
+        "overview": "A **Product Configuration Management** application is the manufacturer's system of record for a product's variant space: the options a product can be built with, the rules that define which combinations are valid, and the machinery that turns a set of selections into a concrete, buildable product definition.\n\nIts defining core is small — three structures that only exist together:\n\n```text\nConfiguration model (options + validity rules + linkage to the product's structure)\n└── Variant resolution (selections validated against the rules → a buildable variant definition)\n    └── Maintained model lifecycle (the model itself is tested, released, and changed over time)\n```\n\nThe resolved output is a *product definition* — a variant bill of materials, a manufacturing route, order-specific design or manufacturing data — consumed by engineering and production. That build-side orientation is what separates this Type from sell-side configuration tools, whose center of gravity is the priced offer and the quote.\n\nEverything else commonly associated with the category — declarative constraint languages, effectivity dates, cross-system APIs, 3D visual configuration, AI-assisted modeling — is accumulated market structure or era-typical capability. The definition survives without any of it: a paper option catalog with written combination rules, a manually assembled order-specific build sheet, and a revised catalog satisfies the same three structures.",
+        "overview_zh": "一个**产品配置管理**应用程序是制造商对产品变体空间的系统记录：产品可构建的选项、定义哪些组合有效的规则，以及将一组选择转化为具体的、可构建的产品定义的机制。\n\n其定义核心很小——三个结构只共同存在：\n\n```text\n配置模型（选项 + 有效性规则 + 与产品结构的关联）\n└── 变体解析（根据规则验证选择 → 可构建的变体定义）\n    └── 维护的模型生命周期（模型本身经过测试、发布，并随时间变化）\n```\n\n解析的输出是一个*产品定义*——变体物料清单、制造路线、订单特定的设计或制造数据——供工程和生产使用。这种构建侧的导向，正是将此类型与销售侧配置工具区分开来的关键，后者的重心在于定价的报价和报价单。\n\n与此类别通常相关的所有其他内容——声明式约束语言、生效日期、跨系统API、3D可视化配置、AI辅助建模——都是累积的市场结构或时代典型能力。即使没有这些，该定义依然存在：一本纸质选项目录、手写的组合规则、一份手动组装的订单特定构建表以及修订后的目录，同样满足这三个结构。",
+        "dc": "**The configuration model.** One persistent model defines one product's variant space. It contains:\n\n- *selectable characteristics* — the options or attributes a configuration can choose from (feature sets, materials, sizes, performance levels)\n- *validity rules* — the constraints that define which combinations are allowed, ranging from simple inclusion/exclusion rules to declarative constraint expressions and computed values\n- *structure linkage* — the mapping from options to the product's structure: which bill-of-material lines and route operations each option brings in, and which properties it sets\n\nThe model is the shared source of truth for what the product can be. Mature products emphasize exactly this: options and rules \"directly linked to the bill of material,\" consolidated from the spreadsheets and disconnected systems where they otherwise live.\n\n**Variant resolution.** A configuration session takes a set of selections over the model, validates them against the rules, and resolves them into a concrete variant definition — a variant bill of materials and route, or order-specific design and manufacturing data. The resolved variant is an identified record in its own right, trackable through inventory and production. The underlying pattern is a master structure carrying all options — in industry usage often called a \"150% BOM\" — from which each configuration's specific structure is generated.\n\n**The maintained model lifecycle.** The model itself is a controlled artifact. It is tested before release, versioned, and changed under control as the product evolves — so the variant space stays current, and every consumer works from the same released logic.",
+        "dc_zh": "**配置模型。** 一个持久化模型定义一个产品的变体空间。它包含：\n- *可选择的特性* — 配置可以选择的选项或属性（特性集、材料、尺寸、性能级别）\n- *有效性规则* — 定义哪些组合是允许的约束，从简单的包含/排除规则到声明性约束表达式和计算值\n- *结构链接* — 从选项到产品结构的映射：每个选项引入哪些物料清单行和路线操作，以及它设置哪些属性\n\n模型是产品可能状态的共享真实来源。成熟产品强调这一点：选项和规则“直接链接到物料清单”，从电子表格和不连接的系统中整合。\n\n**变体解析。** 配置会话对模型进行一组选择，根据规则验证它们，并将它们解析为具体的变体定义——变体物料清单和路线，或订单特定的设计和制造数据。解析后的变体本身是一个可识别的记录，可以通过库存和生产跟踪。底层模式是承载所有选项的主结构——在行业中通常称为“150% BOM”——每个配置的特定结构从中导出。",
+        "rules": "### Only valid combinations resolve\n\nThe rules are enforced at configuration time: selections that violate constraints are rejected while the user is still choosing, not discovered later in production. This is the behavior the Type exists to guarantee.\n\n### Completeness gates generation\n\nA configuration must be a complete, consistent selection set before the system generates the variant definition; if the BOM or route cannot be produced from the selections, the session commonly fails with an error rather than producing a partial product.\n\n### Released versions are the only configurable truth\n\nModel versions are commonly gated by approval and activation before they can be used in configuration sessions. What sales and production configure against is a released version, not a work-in-progress edit.\n\n### Each resolved variant is an identified record\n\nThe output of a session is not just data — it is a tracked record with its own identity, carried through inventory, production, and the supply chain.\n\n### Effectivity bounds the variant space over time\n\nRules and options commonly carry validity conditions (dates, product lines, plants), so the same model serves successive product generations without forking.\n\n### Model changes propagate under control\n\nChanges to options and rules are synchronized to the systems that consume them — plant-specific production information, quoting systems, service documentation — so the variant space does not drift out of alignment across the enterprise.",
+        "rules_zh": "### 仅有效组合才能解析\n\n规则在配置时强制执行：违反约束的选择在用户仍在选择时即被拒绝，而不是在生产过程中才发现。这正是此类型存在的保证行为。\n\n### 完整性控制生成\n\n配置必须是一个完整、一致的选择集，系统才会生成变体定义；如果BOM或工艺路线无法从选择中生成，会话通常会以错误告终，而不是生成部分产品。\n\n### 已发布版本是唯一可配置的真实来源\n\n模型版本通常需要经过批准和激活才能在配置会话中使用。销售和生产部门进行配置的依据是已发布的版本，而非进行中的编辑版本。\n\n### 每个已解析的变体都是一条已标识的记录\n\n会话的输出不仅仅是数据——它是一条被跟踪的记录，拥有自己的标识，并贯穿于库存、生产和供应链中。\n\n### 生效时间限定变体空间的范围\n\n规则和选项通常带有有效期条件（日期、产品线、工厂），因此同一个模型可以服务于连续的产品世代，而无需分支。\n\n### 模型变更在控制下传播\n\n选项和规则的变更会同步到使用它们的系统——工厂特定的生产信息、报价系统、服务文档——从而使变体空间不会在企业内变得不一致。",
+        "parent_id": "16.02",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 140,
+    "phase": "directory",
+    "parent": 140,
+    "slugs": [
+      "product-configuration-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "0f18d2d36dddb09ead5f474d333c535b7216125f63b16f2a61c2064d1d1f0a98"
+  }
+}

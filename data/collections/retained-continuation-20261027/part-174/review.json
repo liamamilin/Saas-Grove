@@ -1,0 +1,77 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids=[]，顶层 phase=included_without_cases，与 batch.json/research.json 中 5 个 case_found 及其 leaf_matches 不一致；建议同步进度元数据，避免下游误判。该问题不影响本次内容核对结论。",
+    "DGOffice 条目的 homepage 为 https://dgm-sdg.com/，引用快照 URL 为 https://dgm-sdg.com/services/，但快照 canonical 指向 https://dgm-sdg.com/solutions/；建议将 source_url 与 canonical 对齐或注明重定向，产品站可考虑使用 dgoffice.net。",
+    "Applied Autonomy 的新闻页在来源类型中标记为 documentation，实际更接近 press release；仅为来源元数据标签问题，不影响正文证据。",
+    "五个条目均为商业官方营销/产品页，未做运行时、字段级或价格/架构验证；按任务要求商业仅需基本真实性与核心类型匹配，故未阻断。"
+  ],
+  "leaf_checks": {
+    "real-estate-transaction-management": {
+      "application_id": "commercial:skyslope",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/615732d4c99750002eabc3bdf7caf7798aecf96705d631fe2f963c5ad58a014b.txt"
+      ],
+      "basis": "SkySlope 官方首页正文可见 Real Estate Transaction Management Software、每年管理超过 300 万笔交易、deals moving from contract to close、customized smart checklists/automated auditing 的合规描述，以及 DigiSign 文档设置与签署、Forms/Offers/SkyTC 等交易相关产品。",
+      "core_match": "交易管理主流程、合同到交割推进、文档签署/执行状态和合规检查均可核实，符合交易文件 + 文档集 + 合同到交割时间线的定义性核心。",
+      "status": "pass",
+      "caveat": "首页未逐项展示按房产/参与方锚定的字段级交易档案；商业基本类型匹配已足够。"
+    },
+    "autonomous-fleet-management": {
+      "application_id": "commercial:applied-autonomy",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/a020cdef777a18438abc41b3a0cf5f33e621329ab7469c42a61d4f656508106c.txt",
+        "data/collections/sources/8c2d20dd723c9fa066323203fa606f6c596d43359e6980567883688c2709bda3.txt",
+        "data/collections/sources/7873a40bed03d75910857558124f7dc7cee120fa20c21d7e16c16c36e8010fb0.txt"
+      ],
+      "basis": "首页快照正文精确包含 commercially launched fleet management SaaS、mixed fleet、telemetry、live video、remote operator、pause、report/interface 等表述；/our-solution 快照含 different vehicles 及运营监控描述；新闻页含 digital control tower 与无安全员运营标题及正文。",
+      "core_match": "混合车队接入与实时监控、自动驾驶运营、远程操作员监督与干预闭环可核实，符合自主车队管理核心；未把车辆登记字段或调度界面作为已证实能力。",
+      "status": "pass",
+      "caveat": "Google Sites 快照为超长单行 HTML，正文通过精确短语匹配确认存在；未逐段读取完整上下文，且未展示车辆登记状态字段或任务派发界面。"
+    },
+    "dangerous-goods-transportation-management": {
+      "application_id": "commercial:dgoffice",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/d074ac58be26b031c8b9f949a09af6dd44a9b7dd1347fedf5bda45c6c88390d9.txt"
+      ],
+      "basis": "DGM-SDG 官方服务页正文说明 DGOffice 可创建危险货物文件与标签、共享数据；法规覆盖 ICAO/IATA、IMDG、ADR、49CFR、TDG、ADG、RID、ADN、AFMAN；危险货物等级覆盖 CLASS 1-9、LQ、EQ；另有 article classification and maintenance、Online software for dangerous goods transport and chemical management 及 Web Services 接口。",
+      "core_match": "危险货物分类/主数据、按法规生成运输文件与标签、数据交接均可核实，符合危险货物运输管理的定义性核心。",
+      "status": "pass",
+      "caveat": "页面同时覆盖化学品/GHS/CLP 等非本叶范围；本叶匹配应限定在危险货物运输合规模块。"
+    },
+    "driver-management": {
+      "application_id": "commercial:tenstreet",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/40ad42afa50fb2e5dc08207e177e0d1ef0a555bc208cba861666b84d83917bd8.txt",
+        "data/collections/sources/e5f8668e9e74750cf7321b0c34f62c2d4a8ad50a37ae04e8c5dfcb5428b92061.txt"
+      ],
+      "basis": "Tenstreet 首页标题为 Driver Management Platform，正文含 driver lifecycle management；DQF 页正文含 digital DQF system、annual MVR/COV reporting、Document Expiration Alerts、Bulk MVR Ordering、Document Uploader 支持驾驶员上传文件与驾照、DOT driver qualification files 及审计描述。",
+      "core_match": "按驾驶员的资格文件与证据记录、年度 MVR/记录核查、到期提醒和审计留档均可核实，符合驾驶员管理的定义性核心。",
+      "status": "pass",
+      "caveat": "Tenstreet 还覆盖招聘、薪酬等更广生命周期；本叶匹配以 DQF/驾驶员合规模块为准。"
+    },
+    "electronic-logging-device-hos-platform": {
+      "application_id": "commercial:motive",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/9efb5e63e1feae0a05396fd14dc659f2f130e35ce44a89b539c8f643d35f3a45.txt",
+        "data/collections/sources/de1d385832488b66b98af5a87bf14a3563d7b3a46cfd394f60935fff02e7c026.txt"
+      ],
+      "basis": "Motive ELD 页正文含 ELD Compliance Solutions & Software、FMCSA-registered、HOS countdown clocks、view driver logs/on-the-go duty status、未识别行程匹配、violation breakdowns/cycle trends、U.S./Canada certified、roadside inspection 数据转移、Personal Conveyance/Yard Move、driving time automatically recorded、co-drivers 等。",
+      "core_match": "车辆采集驾驶时间、值班状态日志、HOS 时钟与违规、认证及路边检查支持均可核实，符合 ELD/HOS 平台的记录、计算与合规治理核心。",
+      "status": "pass",
+      "caveat": "页面未逐项描述每日日志认证和编辑审批 UI；商业基本类型匹配已足够。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未做运行时/部署测试；未独立重算 sha256，仅核对 REVIEW_SOURCES.json 中的 path 与文件名/hash 一致性；Applied Autonomy 的 Google Sites 快照为超长单行 HTML，阅读器单行预览截断，正文以精确短语匹配确认存在，未逐段读取完整上下文；仅使用本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 9 个快照，未访问其他单元或采集过程脚本；五个条目均为商业轨道，未涉及开源许可证、仓库身份或社区版边界检查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-174/ses_groveopencodegop174review2_1793019761.jsonl",
+  "batch_sha256": "72740710584b6fa8ccc5b65479b4c244bd32591c60a54116851f0f3661778fa9",
+  "research_sha256": "4f1a19c32347efdfcf773ab40d9f74bd2a3e732fa3625e80006e034091b9d5e9",
+  "input_sha256": "45d8251c739d5cab334fd20c2c31ca6b68c760d32080e0b9e5d09f25e7b4059c"
+}

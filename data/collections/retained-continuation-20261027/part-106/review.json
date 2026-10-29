@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "public-relations-management-platform / commercial:prowly：research.json 中称“Prowly 首页 h1 逐字为 ‘Prowly is now the Semrush AI PR Toolkit’”，但快照 57bfcd05… 全文仅在 logo URL 中出现 Semrush，未检出该 h1 文案。核心匹配不依赖这句话，建议改为快照可证的 h1/正文引文，或注明该句来自跳转后的 Semrush 页面而非本快照。",
+    "public-relations-management-platform / commercial:prowly：快照可证记者档案、媒体名单、媒体推介、参与度跟踪、报道回链、媒体监测去重与 share of voice 基准，但未检出“campaign”作为组织对象的正文；不影响商业类型基本匹配，若补源可优先补充 campaign 或 coverage 关联页面。",
+    "push-notification-marketing-platform / commercial:onesignal：首页为 push/email/SMS/in-app 多渠道产品页，推送专用的 compose→target→deliver→measure 正文主要靠导航项与 requestPermission 代码示例支撑；商业类型匹配成立，但补充 mobile-push 或 web-push 产品页会更稳。",
+    "input.json 的 progress 仍为 case_status=not_searched、phase=included_without_cases，与 research.json 的 case_found 及 batch.json 的 5 条记录不一致；若该文件会被复用，建议同步进度元数据。",
+    "social-media-management-platform / commercial:sprout-social：发布、统一 Smart Inbox、评论/私信/提及回复与分析均有正文；团队权限与客户隔离仅由 connected profiles 及套餐 profile 规模间接支撑，未单独核验，属补强项。",
+    "social-publishing-platform / github:664013991：README 自称 social media management platform 且含团队协作，但已核验核心仍是排期、发布与分析，且未把入站回复计入；归入 social-publishing-platform 的边界说明应保留，避免与社媒管理叶子重复。"
+  ],
+  "leaf_checks": {
+    "public-relations-management-platform": {
+      "application_id": "commercial:prowly",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取官方首页快照 57bfcd05…；页面 title 为 PR & Media Relations Software，Organization 描述明确为 SaaS PR 平台。正文文本节点命中 “journalist profiles”“targeted media lists”“Send media pitches that get engagement”“Automatically track which pitches earned media mentions”“Media Monitoring”“Automatically filter out irrelevant and duplicate mentions”“Benchmark your share of voice”，覆盖媒体关系记录、外联跟踪、报道捕获回链与报告闭环，符合公关管理平台核心。",
+      "gaps": "未检出 campaign 组织对象的正文；h1 引文与快照不一致（见 non_blocking_notes）。"
+    },
+    "push-notification-marketing-platform": {
+      "application_id": "commercial:onesignal",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取官方首页快照 92382503…；title 为 Customer Engagement Platform for Email, Push…，导航明确列出 Mobile push notifications、Web push notifications、Segmentation、Journeys、Analytics。页面代码示例包含 OneSignal.Notifications.requestPermission，说明触达以系统/浏览器通知权限为前提；正文以 Journeys 投放与消息量说明交付与参与，商业推送平台身份与类型匹配成立。",
+      "gaps": "首页为多渠道产品页，推送专用的消息编排与投递正文相对薄弱，主要依赖导航与代码示例；不影响商业基本类型匹配。"
+    },
+    "sms-marketing-platform": {
+      "application_id": "commercial:slicktext",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取官方首页 a04ffbb6… 与功能页 bb681000…；首页 h1 为 “The #1 Rated SMS Marketing Service”，正文说明 mass texting、订阅者获取与分群。功能页命中 “Campaigns”“Send personalized messages at scale with Campaigns”“Send mass text messages…”“Consent Management…automatically captures and maintains records of subscriber consent”“Opt-Out Intelligence…Automatically process standard opt-out keywords like STOP and UNSUBSCRIBE”“toll-free, 10DLC, short code…registration”“Analytics…click-through rates, subscriber growth, campaign engagement”，覆盖同意名单、短信群发、运营商登记、退订执行与衡量。",
+      "gaps": "未单独核验短信长度/编码拆分等次要机制，不影响核心匹配。"
+    },
+    "social-media-management-platform": {
+      "application_id": "commercial:sprout-social",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取官方首页 52b0cb54… 与 Smart Inbox 页 71a0ea21…；首页正文命中 “Plan & schedule content”“Engage with customers”“Publishing”“Analytics”，Smart Inbox 页命中 “The Smart Inbox consolidates all your connected social profiles into one organized stream” 与 “All incoming messages—comments, DMs and mentions across your connected social profiles—arrive in a single, unified stream”，并有 Collision Detection 防重复回复，覆盖多账户发布、同控制台入站回复与分析。",
+      "gaps": "团队权限与客户隔离未单独核验；不影响核心类型匹配。"
+    },
+    "social-publishing-platform": {
+      "application_id": "github:664013991",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "读取 GitHub 仓库元数据 8640fbc7…、许可证 API 4f23a185… 与 README 03ca3786…；仓库 id=664013991、full_name=gitroomhq/postiz-app、fork=false。许可证 API 返回 size=34478 的完整文本，解码首行为 GNU AFFERO GENERAL PUBLIC LICENSE Version 3，README 亦标注 AGPL 3.0。README 命中 “social media management platform for scheduling, automating, and analyzing your content”“Schedule all your social media posts”“Measure your work with analytics”“Invite your team members to collaborate, comment, and schedule posts”，并列出多网络发布、Docker/Coolify/Railway/VPS 自托管。README 明确 “Both provide the same core Postiz product and features. We do not ‘gate’ features or limit the license.”，社区版边界与仓库身份可核。",
+      "gaps": "README 未明确描述发布失败状态；入站互动回复未核验，故未计入社媒管理叶子。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未读取其他单元，未访问实时网络。无法复算 SHA-256，仅按 REVIEW_SOURCES.json 的记录与文件名对应读取 9 个快照。原始 HTML 多被压缩为极少数超长行，read 工具每行截断 2000 字符，正文核验依赖精确短语 grep 与标签边界检查，未做浏览器渲染或完整 DOM 检查；未验证价格、部署运行或产品实际行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-106/ses_groveopencodegop106review1_1793002808.jsonl",
+  "batch_sha256": "327bf6979db0939e25e24c06365687a1fe261b72dcdbb2bd28c09b58cc1ba1a1",
+  "research_sha256": "400ef5f336d5ecd7f508f81af6f185cdde3b038ee5b94e335ab5aa7b2fa9ec94",
+  "input_sha256": "311598989601c23b710e911d103a5e07fb3df00cc8ac8b0c9ffd1cfafa02183e"
+}

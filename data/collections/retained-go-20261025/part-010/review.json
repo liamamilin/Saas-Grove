@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "sales-call-coaching-platform",
+      "case_id": "commercial:avoma",
+      "kind": "事实与来源不符",
+      "detail": "batch.leaf_matches.reason 与 research.note 均写“按 playbook 自动为每通电话评分”。所引 https://www.avoma.com/use-case/sales-coaching 正文明确为 “Avoma scores your calls against your scorecards”“find coaching gaps by rep and skill”，全文只在导航资源区出现 “Playbooks”，并非评分机制。",
+      "required_fix": "把两处“playbook”改为“scorecard/评分表（scorecards）”，其余表述可保留；不要据此新增“playbook 评分”能力。"
+    },
+    {
+      "slug": "quota-management",
+      "case_id": "commercial:xactly",
+      "kind": "核心要素证据不足",
+      "detail": "reason 称“并明确把配额达成纳入同一条数据链”，但保留快照 https://www.xactlycorp.com/platform 的正文只支持覆盖模型、区域潜力、配额分配，以及 territories/people/opportunities/credits/quotas 的单一事实源；未检索到 attainment/配额达成 的正文表述。该叶定义核心为“配额对象 + 分配机制 + 达成衡量”，第三项目前无直接正文。",
+      "required_fix": "补抓能证明配额达成/绩效跟踪的官方页面并引用，或将 reason 收窄为已证实的对象与分配机制，并在 research.note/assessment 中如实记录达成衡量的证据缺口；不得以“单一事实源”替代达成衡量。"
+    }
+  ],
+  "non_blocking_notes": [
+    "多数叶子的 search_attempts.result 仍是“候选官方页面已抓取，见 fetch_outcomes”模板句，未体现真实检索/导航/失败过程；不影响本轮已核事实，但建议后续补记，避免被当成真实查询。",
+    "CaptivateIQ、Gong、PhoneBurner 的部分快照为压缩单行 HTML，关键词命中只能证明字符串存在，不能证明段落可读；建议对这几页补存服务端渲染正文或可读摘录，便于后续复核。",
+    "Apollo Prospect 的 2.4 亿联系人/3000 万公司、实时邮箱电话验证、REST API 与 Chrome 扩展在在线官方页与快照 JSON-LD 中均能对上；中文数字为四舍五入表述，可保留。",
+    "ReferralCandy 同时卖推荐与联盟计划，本批只取推荐侧（专属链接/优惠码、归因、双向奖励、反欺诈）是合适的边界处理，无需因“多用途”降级。",
+    "CreatorIQ 两条关联理由较长但各层都有正文对应；InfluenceX 的简报模板与评审三态缺口已在 reason/note 留档，处理方式可接受。",
+    "Salesloft 用开发者 Cadence 导入文档补证回复/退信/OOO/每日上限是合理的替代来源；退订移出仍为已留档缺口，不必强补。",
+    "OpenFunnels、InfluenceX、EspoCRM、ERPNext 的许可证证据均为完整许可证正文且 SPDX 与仓库一致，社区版未发现付费独占核心功能被挂到开源产品上的情况。"
+  ],
+  "leaf_checks": {
+    "influencer-campaign-management": "CreatorIQ 活动页正文含模块化搭建、批量邀请与简报、集中审核、活动窗口内容采集与绩效报告；InfluenceX README 含活动—合同—内容—付款与 ROI，缺口已留档。",
+    "influencer-marketing-platform": "CreatorIQ 创作者管理页有统一记录、合作历史与创作者登录；creator-search 页有百万级档案、受众/互动/内容/品牌契合筛选、关键词与品牌检索、相似推荐与真实性核查，三核心齐备。",
+    "landing-page-optimization-platform": "Unbounce 功能页有自定义域名发布与免费托管，A/B 页有变体与权重分流，Smart Traffic 页有按设备/地域/浏览器路由与持续优化，构建+测量+优化三段成立。",
+    "lead-capture-platform": "OpenFunnels README 有可配置/条件表单、逐次提交与 UTM/来源归因、邮件/Webhook/CSV 交接；重复合并与垃圾过滤缺口已如实记录。",
+    "marketing-attribution-platform": "Ruler 归因页有跨会话触点、来源/渠道/活动/关键词、电话表单聊天电商转化匹配、多模型切换与渠道活动聚合，信用分配机制有正文。",
+    "referral-marketing-platform": "ReferralCandy 在线正文有专属推荐链接与优惠码、好友首单优惠与推荐人奖励/店铺积分、反欺诈与发放；资格审核窗口与退款回收为已留档缺口。",
+    "contact-discovery-platform": "Apollo 官方页有 240M+ 联系人/30M+ 公司、65+ 过滤、实时邮箱电话验证、REST API/Chrome 扩展/CRM 同步；仅取寻源与交付、缺口已留档。",
+    "lead-management-platform": "EspoCRM 销售管理文档把 Lead 定义为未成交潜客，含手工/API/工作流入口、Round-Robin/Least-Busy 分配、Converted 保留；Web-to-Lead 补表单/目标列表/团队。",
+    "outreach-sequencing-platform": "Reply 执行页有逐联系人推进、步骤延迟、每日新增与发件上限、手动/自动任务；停止页有六态、回复/退信 8%/账号封禁与退订触发。",
+    "sales-dialer": "PhoneBurner 产品页有逐通顺拨、真人接听、按结果按钮回写状态/备注/标签/邮件/语音留言；平台页有自定义处置、录音、监控与线索分配。",
+    "sales-document-automation": "HubSpot 两页区分模板与报价文档，含模块锁定、分层/阶梯/斜坡定价、到期日、审批门、电子签名或点击接受与查看/收款跟踪。",
+    "sales-engagement-platform": "Salesloft 平台页与销售互动页证明 Cadence 为多渠道步骤集合；开发者 settings 页含 remove_replied/remove_bounced/target_daily_people/reschedule，automated-settings 含时区与周末开关；退订移出为已留档缺口。",
+    "channel-sales-management": "渠道销售总览正文有交易注册、线索分发、推荐管理三模块与 HubSpot/Salesforce/Dynamics 同步；交易注册与推荐页的资格评估、重复检查、保护期、审批历史与佣金计算按修复记录引用，建议最终复核时再目验段落。",
+    "opportunity-management": "EspoCRM 文档定义 Opportunity 为潜在或已成交交易，含可配置阶段（含 Closed Won/Lost）、阶段概率、多管道、销售仪表盘与加权预测。",
+    "quota-management": "Xactly 平台页正文支持覆盖模型、区域潜力与配额分配、territories/people/opportunities/credits/quotas 单一事实源；配额达成衡量未见正文，需补证或收窄。",
+    "revenue-intelligence-platform": "Gong 两条服务端渲染页按修复记录含多渠道自动采集、映射到人/客户/交易、CRM 双向同步，以及交易看板、AI 交易评审、预测提交、目标与风险标记；本轮仅做关键词级抽查。",
+    "sales-call-coaching-platform": "Avoma 页面有按 scorecard 逐通评分、按代表与技能找辅导差距、以通话证据准备 1:1，并具备录制/转录/CRM 写入；“playbook 评分”表述需改。",
+    "sales-compensation-management": "CaptivateIQ 平台页含 SmartGrid ELT/计算引擎、计划建模、直接/间接归属、生效日期、阶梯与加速器、追回与 draws、审批/争议/发放自动化、对账单与计算追溯；逐项可在快照命中。",
+    "sales-forecasting-platform": "Xactly Forecast 页有 CRM 管道与历史数据、可定制预测视图、单一事实源与管道健康；预测类别阶梯、提交历史与重述审计为已留档缺口。",
+    "sales-performance-management": "Varicent 首页有区域与配额优化、Seller Insights 导航及激励/规划产品入口；建议最终复核时确认“容量”与“整体调整”原句，当前为关键词级支持。",
+    "sales-pipeline-management": "Pipedrive 管道页有可定制阶段、可视化交易/卡点、活动与优先级、交易记录与预测；阶段门禁与输赢原因缺口已留档。",
+    "configure-price-quote-cpq": "DealHub /platform/cpq/ 正文含引导式配置、自适应价格簿、多维（用量/分层）定价、捆绑与折扣、版本化订单表单、自动审批与三大 CRM 同步；已替换原术语表来源。",
+    "contract-to-order-platform": "ERPNext Blanket Order 文档描述长期客户承诺、生效/失效日期、逐行承诺量与谈定费率、多次释放销售订单并累计已订/剩余；协议本身不发货开票。",
+    "deal-desk-commercial-approval-platform": "Configure to WIN Deal Desk 页以报价数据与可配置度量作上下文、按规则判定默认通过/阻止/自动拒绝/转人工，并挂审批周期、责任组、决策人与状态，且声明不含通用协作与 CLM。",
+    "proposal-management": "GetAccept 提案软件页按描述含模板与 CRM 数据组装、产品库定价表、规则路由审批、按利益相关方打开/停留跟踪与同处电子签署；本轮仅核到页面元描述，建议最终复核目验正文段落。"
+  },
+  "limits": [
+    "本会话为完全只读，未运行 shell，因此未执行 collect_cases.py validate；结构与来源主机校验依据 server/case_collection.py 静态规则判断。",
+    "多个快照是压缩单行 HTML 或客户端渲染壳，关键词命中不能完全替代段落阅读；Gong、GetAccept、Channeltivity 交易注册页、ERPNext Blanket Order 正文未逐段通读，相关叶子为关键词级或修复记录级依据。",
+    "初审与采集使用同一模型（open-design/deepseek-v4.1-flash）的不同会话，独立性弱于跨模型审查；最终复核仍需人工或更强模型抽查。",
+    "全部条目 runtime_tested=false，本批未部署或执行任何第三方项目；商业条目只核名称、官网、简介、类型关联与官方来源，不要求额外技术细节。",
+    "本报告每批只做一遍，不因工具受限重复检查；上述两条 findings 为必须修复项，其余为非阻塞建议。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-010/ses_groveopendesignp010review2network1_1792840481.jsonl",
+  "batch_sha256": "f094be1d33108845555be27998a77eb722576135c4586c048fc7c3cabefebe17",
+  "research_sha256": "91c067d154429924849f465835cb0d2fe1b5b4109d8952d753d34d5883f7c52e",
+  "input_sha256": "bf82d2373a49a74dc8d85f2bf9a35ee9d96ca61f011c004577a48adf131635dd"
+}

@@ -1,0 +1,63 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "conversion-rate-optimization-platform",
+      "application_id": "commercial:lucky-orange",
+      "issue": "该叶两条来源快照均无法提供定义性核心正文。实际读取首页与 /pricing 快照后，首页正文只有导航、页脚及 Framer iframe 壳，未出现 heatmaps、session recordings、funnels、conversion goals 等产品正文；这些词仅存在于 title、meta description、og/twitter 元数据。定价页快照同样没有价格表或功能表正文，只有导航、页脚和 Framer 壳。按审查规则，不能用简介/元数据/Loading 替代核心正文，因此无法核对“已埋点自有资产—持续访客行为观察—按组织目标衡量转化率”这一核心。",
+      "fix": "补充可读的产品功能页、帮助文档或产品页快照，正文需实际描述 heatmap、session replay、funnel/goal 与转化衡量；重新核对后再保留 commercial:lucky-orange。若无法取得正文，应将该公司从 conversion-rate-optimization-platform 移除或明确标为证据不足，不得继续以首页 meta 作为核心证据。"
+    },
+    {
+      "slug": "conversion-rate-optimization-platform",
+      "application_id": "commercial:lucky-orange",
+      "issue": "research.json 的 note 与 batch.json 的 leaf_matches.reason 声称 /pricing“正文逐字列出 ‘Conversion Funnels’ 与 ‘Page & Form Analytics’（HTML 实体）”，并称此前初审漏检、回查后保留该有证断言。实际快照中不存在这两个字符串，全文仅在 title/og/meta 中出现 “funnels”，定价正文并未渲染。该逐字引文属于无来源支撑的断言，会误导后续审核。",
+      "fix": "删除该逐字引文及“初审漏检/回查后保留”的叙述，按快照实际内容改写研究记录；若要保留该证据，必须重新抓取包含这些字符串的可读页面，并在 research.fetch_outcomes 与 batch.sources 中登记对应新快照。"
+    }
+  ],
+  "non_blocking_notes": [
+    "abm-platform 仅有 Demandbase 首页一条来源；首页正文已能证明账户级识别、购买组优先级、广告/项目激活与管道衡量，但若需进一步证明“目标账户列表/细分”对象和人员向上汇总，补充产品页会更稳妥。",
+    "affiliate-management-platform 的正文已证明联盟计划管理、点击/转化追踪、支付管理与营销素材；batch 理由中的“多级佣金、报告”主要出现在页面元数据/schema 中，正文未逐项展开。作为商业案例的基本真实性与类型匹配不受影响，但引用具体能力时宜补功能页。",
+    "customer-advocacy-platform 已读页面支持倡导者群体、参考池、Activities、奖励、参考请求与 ROI 记录；完成证明提交及审核/批准门控未在页面中出现。research.json 与 batch.json 已如实将该环节留档为缺口且未写成已证能力，故不阻断，但后续最好补充帮助中心或产品文档证据。",
+    "digital-experimentation-platform 的 Statsig 首页正文支持实验、功能开关、产品指标、统计引擎、仓库原生计算、Layers/Holdouts 与 SDK；变体定义和运行中随机分配未被逐字展开，若需强化核心描述可补充实验产品页或文档。",
+    "本单元五个应用 ID 均为 commercial 前缀，未出现开源应用，因此没有完整许可证、仓库身份或社区版边界需要核对；research.json 中关于 GrowthBook NOASSERTION 等开源线索仅作为检索留档，未被误标为开源案例。",
+    "input.json 的 progress 仍显示 not_searched 且 applications 为空，与 batch.json/research.json 的 case_found 不一致，属于采集前状态未同步；本次以 batch.json、research.json 和实际快照为准。"
+  ],
+  "leaf_checks": {
+    "abm-platform": {
+      "application_id": "commercial:demandbase",
+      "status": "verified",
+      "basis": "Demandbase 首页快照正文含“Turn your go-to-market into a pipeline engine”“Identify accounts, activate programs, and measure what drives pipeline”“prioritize buying groups, and activate coordinated programs that drive engagement and revenue”“Advertise to Target Accounts”“Measure Engagement”以及跨项目/渠道追踪管道。可对应目标账户为单位、账户级激活、账户级参与与商业进展衡量三项核心；产品形态为官方 Web SaaS。",
+      "gap": "仅有首页一条来源；目标账户列表/细分对象与人员向上汇总未逐字展开，但不影响本叶核心判断。"
+    },
+    "affiliate-management-platform": {
+      "application_id": "commercial:post-affiliate-pro",
+      "status": "verified",
+      "basis": "Post Affiliate Pro 首页正文含“The leader in affiliate software”“Manage multiple affiliate programs”，FAQ 正文明确“launch, track, and scale their own affiliate, referral, and influencer programs”“track clicks and conversions accurately, manage payouts, provide marketing assets to your partners”。可对应商户侧自营计划的联盟会员管理、可追踪转化、佣金/支付账本核心；页面同时以 SoftwareApplication 描述其 affiliate management software，服务形态为 SaaS。",
+      "gap": "“多级佣金、报告”等表述主要在 meta/schema 中，首页正文未逐项展开；不构成核心阻断。"
+    },
+    "conversion-rate-optimization-platform": {
+      "application_id": "commercial:lucky-orange",
+      "status": "insufficient",
+      "basis": "首页与 /pricing 快照均为 Framer 页面壳：正文只有导航、页脚和 iframe 容器，没有 heatmaps、session recordings、funnels、conversion goals 等产品描述；这些能力只出现在 meta description/og/twitter 中。定价页也没有价格或功能表正文。无法据此核对“已埋点自有资产—持续行为观察—按目标衡量转化率”的定义性核心。",
+      "gap": "缺少可读的核心产品正文；且 research.json 对 /pricing 正文的逐字引文在实际快照中不存在，须更正或补充新快照。"
+    },
+    "customer-advocacy-platform": {
+      "application_id": "commercial:influitive",
+      "status": "verified_with_documented_gap",
+      "basis": "首页正文含“Turn your customers into loyal advocates”“Referrals, references and reviews — at scale”“Discover, nurture, and mobilize advocates”；features 页含“Write a Review”activity、gamified activities 与 rewards；reference-management 页含 Reference Group、用 Activities 招募参考客户、Salesforce 参考请求自动生成 reference challenge、参考匹配与 ROI 跟踪。可对应倡导者群体记录、具体倡导请求、目标定位与参与记录闭环。",
+      "gap": "完成证明提交、审核/批准门控未在已读页面中出现；research.json 与 batch.json 已如实留档，未将其写成已证能力，故不阻断。"
+    },
+    "digital-experimentation-platform": {
+      "application_id": "commercial:statsig",
+      "status": "verified",
+      "basis": "Statsig 首页正文含“Scale your experimentation culture... Run sophisticated tests, compute results with advanced statistical treatments, and run it all in your warehouse”“iterate with flags and experiments”“build a trusted set of product metrics”“Feature Flags are linked directly to your product data”，并列有 Layers、Holdouts、Autotune、SDKs 等。可对应实验/功能开关、产品指标、统计比较与发布控制；服务形态为 Web SaaS。",
+      "gap": "变体定义与运行中随机分配未被逐字展开；商业案例的基本真实性与类型匹配仍成立。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未访问其他单元或外网，未做部署/运行时测试。仅按 REVIEW_SOURCES.json 的 path 原样读取快照，未重新计算 sha256；快照文件名与声明哈希一致。五个叶子均为 commercial，无开源许可证或社区版边界可核。快照为静态 HTML，Lucky Orange 两条为 Framer 客户端渲染壳，服务端 HTML 不含产品正文，无法验证浏览器最终渲染内容。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-110/ses_groveopencodegop110review2_1793003848.jsonl",
+  "batch_sha256": "b2d560fa4d88e59d2200bd841803d4f4673b149b8f25fc4f86f6082ea39665bb",
+  "research_sha256": "6a0e679f01cac2006a1585a7977aa9f048e4a26e126fa872f71a113fc70d17ef",
+  "input_sha256": "375747b0a9f2d88c1af39593596130e95904ff5c036f5861eecde70d96fbb20c"
+}

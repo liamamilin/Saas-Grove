@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "privacy-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:onetrust",
+        "github:913434583",
+        "github:694266896"
+      ],
+      "query": "privacy management platform GDPR registry",
+      "source_urls": [
+        "https://www.onetrust.com/",
+        "https://www.onetrust.com/solutions/privacy-automation/",
+        "https://github.com/getprobo/probo",
+        "https://api.github.com/repos/getprobo/probo",
+        "https://api.github.com/repos/getprobo/probo/license",
+        "https://raw.githubusercontent.com/getprobo/probo/main/README.md",
+        "https://www.probo.com/docs",
+        "https://www.probo.com/docs/product/privacy-management",
+        "https://github.com/intuitem/ciso-assistant-community",
+        "https://api.github.com/repos/intuitem/ciso-assistant-community",
+        "https://api.github.com/repos/intuitem/ciso-assistant-community/license",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/LICENSE.md",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/LICENSE-AGPL.txt",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/README.md",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/product-docs/concepts/privacy-register.md",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/product-docs/concepts/dpia.md",
+        "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/backend/privacy/models.py"
+      ],
+      "note": "本轮针对原缺口（仅厂商首页、正文未核）做了定向补证，结论由 insufficient_evidence 变为 case_found，三案均基于本轮实际读取的官方正文/官方代码文档。OneTrust：新增官方 Privacy Automation 解决方案页正文（canonical https://www.onetrust.com/solutions/privacy-automation/），其正文明确「centrally map the data, business, and regulatory context of your personal data processing」、提供 assets/processes/vendors 数据清单以支撑 ROPA、自动化 PIA 等下游评估工作流、DSR 从受理到履行含身份验证的自动化——分别对应处理登记册、义务/监管背景关联、带证据的履行闭环，不再是仅首页印象；原 2026-10-24 首页快照保留未改动。CISO Assistant：官方产品文档 privacy-register.md/dpia.md 与 backend/privacy/models.py 证明 Processing 登记册（Purpose 含 GDPR 第6条合法性基础、PersonalData 含敏感类别/保留/删除策略、DataSubject、DataRecipient、DataContractor、DataTransfer，并按 controller/processor 区分第30(1)/30(2) 登记册）、DPIA 筛查与 DPIA 作为处理记录上的一等对象（结论写回处理，append-only 需求历史含来源/操作者/时间，措施落为 applied controls）、RightRequest/DataBreach 事件对象及 Evidence 关联。Probo：官方隐私管理文档显示 data record + processing activity（目的/范围/法律背景/接收方/保留）、DPIA/TIA 为与处理/供应商/风险/控制关联的一等记录、rights requests 以任务跟踪，且 MIT 许可、Docker Compose/K8s 自托管。本轮另查询到并核查后未纳入的候选：Fides（ethyca/fides，README 定位为 privacy-as-code 的请求履行与代码内策略执行，缺义务框架与评估闭环正文）、Monoid（README 说明数据映射/PII 扫描与请求自动化，RoPA 生成仅云端付费版）、CNIL PIA（LINCnil/pia，仅 DPIA 单方法且以 Electron 桌面客户端为主，形态为客户端工具），均保留为真实候选与失败/未采纳记录，不据此断言不存在。历史复用仅 OneTrust 首页快照与旧研究轨迹；旧 opencode-go/part-020 的 case_found 结论未被当作本轮通过依据。",
+      "service_boundary": "本单元仅整理公开资料，不部署、不运行任何第三方项目，不改动正式数据；商业条目仅记录名称/官网/用途/基本类型关系，开源条目核对仓库身份、完整许可证文本与自托管完整应用形态。OneTrust 为商业 SaaS，仅据官方解决方案页正文记录基本用途，未核价、架构与部署。CISO Assistant 仅按社区核心（AGPLv3，enterprise 目录为商业许可）匹配，其隐私子模块位于 enterprise 目录之外。Probo 为 MIT 许可的完整自托管 Web 平台，其数据隐私为平台内完整业务子模块。",
+      "search_attempts": [
+        {
+          "query": "privacy management platform GDPR registry",
+          "outcome": "historical candidate retained: OneTrust (homepage snapshot reused, not treated as this round's approval)"
+        },
+        {
+          "query": "open source privacy management platform processing register DPIA self-hosted",
+          "outcome": "found candidates: getprobo/probo, responsum, eramba, caralegal, secureprivacy, dpocentral (open-source: probo; eramba community edition noted but not pursued)"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.onetrust.com/",
+          "status": "success (historical snapshot 2026-10-24T22:24:17 reused, unmodified)"
+        },
+        {
+          "url": "https://www.onetrust.com/solutions/privacy-automation/",
+          "status": "success; canonical matches requested URL; body text read"
+        },
+        {
+          "url": "https://api.github.com/repos/getprobo/probo",
+          "status": "success; id 913434583, full_name getprobo/probo, license MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/getprobo/probo/main/README.md",
+          "status": "success; data privacy DPIA/TIA/processing records/rights requests listed"
+        },
+        {
+          "url": "https://api.github.com/repos/getprobo/probo/license",
+          "status": "success; full MIT text verified (1085 bytes)"
+        },
+        {
+          "url": "https://www.probo.com/docs",
+          "status": "success; links to product/privacy-management"
+        },
+        {
+          "url": "https://www.probo.com/docs/product/privacy-management",
+          "status": "success; privacy module body text read"
+        },
+        {
+          "url": "https://www.probo.com/docs/data-privacy",
+          "status": "failed: HTTP Error 404 (guessed path, not an official documented route)"
+        },
+        {
+          "url": "https://api.github.com/repos/intuitem/ciso-assistant-community",
+          "status": "success; id 694266896, full_name intuitem/ciso-assistant-community"
+        },
+        {
+          "url": "https://api.github.com/repos/intuitem/ciso-assistant-community/license",
+          "status": "success; GitHub API reports NOASSERTION because LICENSE.md is a multi-license notice, so license proof relies on complete AGPL text"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/LICENSE.md",
+          "status": "success; enterprise/ = intuitem commercial, other files AGPLv3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/LICENSE-AGPL.txt",
+          "status": "success; complete GNU AGPL v3 text (34502 chars)"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/README.md",
+          "status": "success; features list includes Privacy/GDPR processings"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/product-docs/concepts/privacy-register.md",
+          "status": "success; processing registry body read"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/product-docs/concepts/dpia.md",
+          "status": "success; DPIA/screening workflow body read"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/intuitem/ciso-assistant-community/main/backend/privacy/models.py",
+          "status": "success; Processing/Purpose/PersonalData/RightRequest/DataBreach models read"
+        },
+        {
+          "url": "https://github.com/intuitem/ciso-assistant-community",
+          "status": "success (repository page snapshot, identity meta id 694266896)"
+        },
+        {
+          "url": "https://github.com/ethyca/fides",
+          "status": "fetched, then not admitted: privacy-as-code DSR/runtime enforcement, no obligation framework/assessment loop body"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ethyca/fides/main/README.md",
+          "status": "success; positioning is privacy engineering / request fulfillment"
+        },
+        {
+          "url": "https://github.com/monoid-privacy/monoid",
+          "status": "fetched, then not admitted: data mapping/scanning + DSR automation, RoPA generation cloud-only"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/monoid-privacy/monoid/master/README.md",
+          "status": "success; RoPA/audit trails/teams gated behind Monoid Cloud"
+        },
+        {
+          "url": "https://api.github.com/repos/monoid-privacy/monoid/license",
+          "status": "success; MIT (not used for an admitted entry)"
+        },
+        {
+          "url": "https://github.com/LINCnil/pia",
+          "status": "fetched, then not admitted: CNIL DPIA-only tool, primarily Electron desktop client"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/LINCnil/pia/master/README.md",
+          "status": "success; DPIA/CNIL PIA method, desktop packaging (electron) instructions"
+        },
+        {
+          "url": "https://api.github.com/rate_limit",
+          "status": "success; used only to confirm search quota, no content evidence"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

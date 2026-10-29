@@ -1,0 +1,63 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "content-planning-platform",
+      "application_id": "commercial:coschedule",
+      "issue": "两个指定快照都没有提供可用于核对定义性核心的正文。https://coschedule.com/marketing-calendar 的快照是 Next.js 客户端渲染外壳，正文只有导航、脚本、样式和 class 名；https://coschedule.com/ 的快照也只有 title/meta 与脚本。快照中找不到共享内容计划、计划项的日期/负责人/状态、审批/发布协调等核心正文；research.json 与 batch.json 所称的“One Marketing Calendar for Social, Content, Email and Events”标题、社交/内容/邮件/活动板块、向多个网络排期发布及社交报告，在快照中均无对应内容。HTTP 成功、标题/meta 或 class 名不能替代核心工作流证据。",
+      "fix": "重新抓取能返回正文的官方页面（服务端渲染版本、产品页或帮助文档），正文至少覆盖共享日历、计划项状态/负责人、非社交内容协调与审批/发布流程；若仍只能取得 JS 外壳，则在 research.json 的 fetch_outcomes/note 如实记录抓取缺口，将 assessment 改为无案例或待复核，把 batch.json 的 verification_status 从 official_sources_reviewed 改为 source_gap，并删除没有快照支持的匹配理由。"
+    },
+    {
+      "slug": "content-planning-platform",
+      "application_id": "commercial:coschedule",
+      "issue": "现有可读定位与本叶类型边界冲突：CoSchedule 首页 title 为“CoSchedule: Social Media Management on the World's Best Calendar”，meta 描述为面向 11 个社交网络的发布、回复与衡量。这更像以社交账户为中心的社交媒体管理平台，而本叶要求共享内容计划是核心、社交排期只是附带能力。当前证据无法证明 CoSchedule 不应归入相邻类型。",
+      "fix": "补充官方正文证明内容、邮件、活动等非社交内容以共享计划为中心，社交发布只是附加能力；若正文仍以社交账户管理和社交发布为主，则将该应用移出 content-planning-platform，改挂社交媒体管理平台，并将本叶按无案例/缺口留档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Aprimo Plan 页面能证明活动/项目计划、营销日历、简报、目标、任务/负责人/截止日期/依赖与审批工作流，但未展示发布或激活；research.json 已记录激活由相邻执行工具承担。按商业基本类型匹配可以通过，若按完整核心闭环从严，建议后续补充 handoff/activation 来源。",
+    "Bannerflow 仅有首页一个来源；首页正文足以支持多变体生产、动态创意、本地化、发布排期与多渠道集成判断，但价格、架构和实际投放行为未核验，相关数字属厂商声明。",
+    "Sixpack 的 README 仍保留 seatgeek/sixpack 旧链接，但 GitHub API 快照的 full_name 为 sixpack/sixpack、id 6697085，与 batch 一致，未见仓库身份冲突；该仓库为旧栈（Python ≥2.7、Redis ≥2.6），未部署测试，不影响许可证与最小核心判断。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，phase 为 included_without_cases，与 batch.json/research.json 的 5 个 case_found 不一致；建议同步进度元数据，此项不阻断内容核对。",
+    "Contently 页面是产品营销页而非正式文档；32+ integrations、10K+ creators 等为厂商声明，正文足以支持内容营销平台类型判断，但未独立验证这些数字。",
+    "REVIEW_SOURCES.json 指定的 10 个快照路径与 batch.json 的 snapshot_path 对应；本次按原路径读取，未发现缺失文件。"
+  ],
+  "leaf_checks": {
+    "content-marketing-platform": {
+      "status": "pass",
+      "application_id": "commercial:contently",
+      "basis": "读取 contently.com/platform/ 快照正文：同一内容单元经过 Strategy→Plan→Create→Optimize→Integrations 五阶段；Plan 有跨渠道容量日历、campaign centers 与 brief intake 路由；Create 有多媒体审阅、电子签批及向 CMS、社交、CRM、邮件一键分发；Optimize 有按内容单元的价值仪表盘；Integrations 有 CMS/CRM/营销自动化/社交连接。发布通过集成完成，符合本叶“平台保留协调记录、外部 CMS 持有页面”的边界，不是纯 CMS 或社交管理工具。",
+      "gaps": "未运行产品；页面为厂商产品页，部分集成数量和绩效指标为厂商声明。"
+    },
+    "content-planning-platform": {
+      "status": "changes_required",
+      "application_id": "commercial:coschedule",
+      "basis": "只能读取两个 Next.js 客户端外壳快照：marketing-calendar 快照正文为导航、脚本、样式和 class 名；homepage 快照仅有 title/meta 与脚本，未出现共享内容计划、计划项日期/负责人/状态、审批/发布协调等正文。",
+      "gaps": "research.json 所称的“One Marketing Calendar for Social, Content, Email and Events”标题、社交/内容/邮件/活动板块及排期/报告描述在快照中无对应内容；homepage 的 title/meta 反而定位为 social media management。详见 findings。"
+    },
+    "creative-management-platform-cmp": {
+      "status": "pass",
+      "application_id": "commercial:bannerflow",
+      "basis": "Bannerflow 首页正文有“Scale one master creative into every format and version automatically”、Dynamic Ads with Feeds、Translation & localization、Publishing & Scheduling、100+ 广告平台集成、实时更新投放中创意；DCO 段明确由广告服务器/DSP 做受众决策，符合 CMP 位于投放生态上游的边界。",
+      "gaps": "仅有首页来源，未读专门文档；未运行测试。"
+    },
+    "marketing-campaign-management-platform": {
+      "status": "pass_with_notes",
+      "application_id": "commercial:aprimo-plan",
+      "basis": "Aprimo Plan 页正文以 campaign/content plan 为中心：统一 goals、campaigns、content；Marketing Calendar、Regional & Channel Briefs、Program and Objective Management、Campaign Frameworks、Activity & Campaign Insights；FAQ 明确 tasks、owners、due dates、dependencies、objective-based planning 与 approval workflows。",
+      "gaps": "页面未展示发布/激活；research.json 已记录激活由相邻执行工具承担；campaign 级 owner 字段未明示。按商业基本类型匹配可以通过，但严格按核心闭环应补 handoff/activation 证据。"
+    },
+    "a-b-testing-platform": {
+      "status": "pass",
+      "application_id": "github:6697085",
+      "basis": "README 说明 participate 以 client_id 粘性分配 alternative，convert 按 experiment/KPI 记录转化，traffic_fraction 控制流量；sixpack-web 比较各 alternative 并选择 winner；server 与可选 dashboard 分离。GitHub API 快照 id=6697085、full_name=sixpack/sixpack；license API 含完整 BSD-2-Clause 文本（Copyright (c) 2015, SeatGeek, Inc.），无 open-core 或社区版功能阉割边界。",
+      "gaps": "未部署；README 要求 Python ≥2.7、Redis ≥2.6，属旧栈；README 未展示 hypothesis/audience/guardrail 字段，但最小随机分配—测量—决策核心具备。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或交互测试任何应用；仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 以及 REVIEW_SOURCES.json 指定的 10 个快照，未访问其他单元；未重新抓取网页、未重新计算 sha256；CoSchedule 两个快照为客户端渲染外壳，无法从快照取得正文；商业价格、架构、运行时行为和厂商指标未独立验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-109/ses_groveopencodegop109review1_1793002959.jsonl",
+  "batch_sha256": "c18e7b36efa42057c1b7e75378bbb34f4e81fbc6e0a5c17920af6e65980ec819",
+  "research_sha256": "2c130597cad83d611d022d0434512177bfe43424c65ec3996bb77aa0f4e0ee03",
+  "input_sha256": "ef510cbe795d720c4b05688d56a5e1d60b279dd60957ad59cfed21a5c5a68fb2"
+}

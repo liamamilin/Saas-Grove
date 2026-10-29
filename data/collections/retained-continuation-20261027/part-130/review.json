@@ -1,0 +1,94 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "litigation-management-platform",
+      "application_id": "github:1261406772",
+      "note": "批次与研究的诉讼理由写成「MatterStage 下挂 Hearing/Deadline/Document」，但 DATA-MODEL 实际是 Hearing/Deadline/Document 挂在 MatterProcedure（Document 还可挂 Matter/Intake），MatterStage 直接挂 Task。建议改为「MatterProcedure 下挂 Hearing/Deadline/Document，MatterStage 下挂 Task」；该层级表述不影响诉讼核心要素均存在的结论。"
+    },
+    {
+      "slug": "legal-matter-management",
+      "application_id": "github:1261406772",
+      "note": "理由中「Matter 挂合同」表述偏宽：Matter 直接关联客户、案由、标的、状态、财务、沟通和案卷；合同主要体现为 Document.CONTRACT 及 Billing 的委托代理合同。属描述精度问题，不影响「事务为记录单位」的核心判断。"
+    },
+    {
+      "slug": "litigation-management-platform",
+      "application_id": "github:1261406772",
+      "note": "DATA-MODEL 头部明确写有「此为批准的目标范围，不代表全部已实现」「本文保留历史设计章节」；本次以 README 的 v2.0.1 功能表为主、DATA-MODEL 为辅。建议记录中保留这一证据强度说明，避免把设计字段直接当成已上线 UI。"
+    },
+    {
+      "slug": "legal-spend-management",
+      "application_id": "commercial:legal-tracker",
+      "note": "官方页明确支持发票审查、LEDES、合规检查、支出报表/仪表板和基准，但未逐项展示应计采集节奏及「审批后交 AP」流程；按商业案例仅作基本真实性与类型匹配，不据此扩展核心结论。"
+    },
+    {
+      "slug": "outside-counsel-management",
+      "application_id": "commercial:legal-tracker",
+      "note": "官方页支持律所/费率基准、外部律师账单审查与沟通及 120,000+ 律所/供应商用户，但未逐项展示律所登记表、聘约条款和计时员审批模块；批次已如实注明，不影响商业基本类型匹配。"
+    },
+    {
+      "slug": "legal-operations-platform",
+      "application_id": "commercial:legal-tracker",
+      "note": "官方页把产品称为 legal operations platform，并在同一页呈现事项管理、AI 发票审查、律所/费率基准和支出报表；足以支持商业基本类型匹配。未验证 UI、集成、价格或部署，也未把页面营销表述扩展为已验证工作流。"
+    },
+    {
+      "slug": "github:1261406772",
+      "application_id": "github:1261406772",
+      "note": "仓库元数据快照是单行 JSON，读取工具截断约 2000 字符，未能直接看到 license.spdx_id、archived、default_branch、pushed_at 等后段字段；MIT 许可已由完整 LICENSE 全文独立确认（21 行完整 MIT 文本），因此不阻断。"
+    },
+    {
+      "slug": "legal-operations-platform",
+      "application_id": "commercial:legal-tracker",
+      "note": "Brightflag 首页首次可读、后续产品页被 Cloudflare 拦截的缺口已如实留档且未作为来源；该缺口不改变本单元结论。"
+    }
+  ],
+  "leaf_checks": {
+    "legal-matter-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:1261406772"
+      ],
+      "evidence": "已按 REVIEW_SOURCES.json 读取 sources/92423632...（仓库元数据：id 1261406772、LawLink、fork=false、private=false）、sources/d18878ae...（README：自部署案件/项目管理系统；收案登记→冲突检索→转正式案件→持续跟进→财务记录→结案归档→数据导出；案件档案、办案进程、委托与财务、审批、岗位/团队、归档；权限与审批边界）、sources/3712fe81...（完整 MIT LICENSE）、sources/91227143...（DATA-MODEL：Matter 为持久容器，含 internalCode、status、客户、案由、标的、成员；MatterProcedure/MatterStage/Task/Hearing/Deadline/Document 构成案卷；MatterMember 角色；ArchiveRecord）。事务为记录单位、累积案卷、人员与受管状态、稳定标识等定义性核心成立；自托管单体部署可作为持续使用的软件形态。",
+      "gaps": "未运行应用或登录 UI；restricted matter 与字段级权限的具体界面未逐项验证；README 自述未覆盖多用户并发、OCR 可信度、全部短信平台兼容性及借阅到期真实时间验证；DATA-MODEL 为设计文档且注明「不代表全部已实现」，本次以其为辅助证据。"
+    },
+    "legal-operations-platform": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:legal-tracker"
+      ],
+      "evidence": "已读取 sources/c242cc6b... 官方产品页正文：页面副标题明确称其为 legal operations platform；正文列出 AI invoice review（检测账单异常、合规检查、LEDES 等多格式）、matter management、firm/rate benchmarking、法律支出报表与仪表板，以及 1,800+ 企业法务用户和 120,000+ 律所/供应商用户。工作、外部资金、律所关系与部门级报告在同一产品叙述中联动，商业基本真实性和类型匹配成立。",
+      "gaps": "仅依据单一官方产品页，未验证 UI、集成、价格、部署或实际部门级工作流；页面未逐项展示供应商登记表、聘约条款、计时员审批等模块，故不把这些细节写成已确认。"
+    },
+    "legal-spend-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:legal-tracker"
+      ],
+      "evidence": "已读取 sources/c242cc6b...：官方页明确提供 AI invoice review，检测账单异常、检查合规、支持 LEDES 等多格式，并用于与外部律师沟通账单；同时提供法律支出报表、仪表板、支出预测和行业基准。采购方账单结构化捕获、审查关卡和全职能支出视图的商业类型匹配成立。",
+      "gaps": "页面未逐项确认应计采集节奏、调整/拒绝审计轨迹及审批后交 AP 的具体流程；未做产品试用或 UI 验证。批次已如实记录这些缺口，未把未确认项写成已实现。"
+    },
+    "litigation-management-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:1261406772"
+      ],
+      "evidence": "已读取 README 与 DATA-MODEL：README 列出法院来件、期限与提醒、办案进程、案件档案；DATA-MODEL 将诉讼细分为民商事/刑事/行政，MatterProcedure 记录一审/二审/再审/仲裁/执行等程序及独立案号、法院/仲裁机构、立案日、结案日与结果；ProcedureParty 记录同一当事人不同程序中的诉讼地位；Party 以 CLIENT_PARTY/OPPOSING_PARTY/THIRD_PARTY/CO_LITIGANT/AGENT/WITNESS 等角色记录当事人与代理人；MatterStage 下挂 Task，MatterProcedure 下挂 Hearing/Deadline/Document；Deadline 含 LIMITATION/EVIDENCE/APPEAL 等类别；Document 设 EVIDENCE 证据材料类别。诉讼案件持久记录、当事人/代理、法院/程序态势、阶段、期限与证据案卷层的核心成立。",
+      "gaps": "证据开示请求、制作清单、专家记录等 discovery 细节未被资料明确写成已实现，本次未据此扩展；DATA-MODEL 是设计文档且注明目标范围不等于全部已实现；未运行应用或验证具体界面。另建议修正「MatterStage 下挂 Hearing/Deadline/Document」这一层级表述。"
+    },
+    "outside-counsel-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:legal-tracker"
+      ],
+      "evidence": "已读取 sources/c242cc6b...：官方页面向企业法务部门，提供法律事项管理、律所与费率基准、AI 发票审查及与外部律师的账单沟通，并给出 120,000+ 律所/供应商用户规模。买方侧律所关系与成本管理的商业基本类型匹配成立。",
+      "gaps": "页面未逐项展示律所登记表、聘约条款、计时员审批和支出归属到律所/事项的具体模块；未做产品试用。批次已如实注明，不把这些细节写成已确认。"
+    }
+  },
+  "limits": "本次为只读初审：未运行应用、未登录或试用 UI、未做部署/价格/集成验证，也未重算快照 sha256；快照按 REVIEW_SOURCES.json 的 path 原样读取，文件名与 sha256 一致。商业案例仅依据 Thomson Reuters Legal Tracker 单一官方产品页；Brightflag 产品页被 Cloudflare 拦截的缺口按留档处理，未作为来源。LawLink 仓库元数据快照为单行 JSON，读取工具截断约 2000 字符，未能直接核对 archived/default_branch/license.spdx_id 等后段字段，但完整 MIT LICENSE 全文已读，许可结论不依赖该截断部分。DATA-MODEL 为设计文档且自带「不代表全部已实现」声明，故其字段级细节只作辅助证据。未读取其他单元，未执行 shell 或写文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-130/ses_groveopencodegop130review1_1793008531.jsonl",
+  "batch_sha256": "baad1f88510aea2830a113d6fe1f918a46965c04260aacfec9a2de6c3813b911",
+  "research_sha256": "396a1f3a640505dc04f3abfcad21cd407b51c46c7bb5788839190dbffd7c6eca",
+  "input_sha256": "e4d493c10b67f4b7c95f5199f2cad8dfb78d4a7bb35f23eb1654c3a26ae0c4e5"
+}

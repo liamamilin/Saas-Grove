@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "issue": "该叶的核心证据只有 README 的 73 项功能清单（Third-party risk management、External security ratings、Contracts management、Action plan tracking 等），没有说明供应商台账的字段和关系上下文、逐供应商评估如何形成可比较评级、以及带记录关闭的处置闭环；research.json 也自述未核对供应商问卷与评分实现。这属于关键词或功能名级别的证据，不能证明该叶的定义性核心。",
+      "fix": "补充官方 TPRM 模块文档或社区版源码路径，至少展示：供应商记录及业务关键性/共享数据等关系字段、逐供应商评估/外部评级、整改或接受等带记录的关闭流程；若无法补充，撤销该 leaf_match，按无案例留档并保留缺口。"
+    },
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "issue": "条目摘要断言“社区版包含 TPRM 模块”，但 README 的功能清单没有区分 Community/Pro/Enterprise，只说明 enterprise 目录为商业许可、目录外为 AGPLv3；现有快照无法证明 TPRM 位于 enterprise 目录之外，因此社区版边界未核实。",
+      "fix": "核对 TPRM 相关代码或文档是否位于 enterprise 目录之外，或引用官方版本对比页明确 TPRM 的版本归属；在条目中把该结论限定到已证实范围。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致；建议下游以 batch/research 为准或同步 progress，避免状态回退。",
+    "OpenFOAM 的 COPYING 明确为 GPLv3 或更高版本，条目写 GPL-3.0 是常见简写；若要严格 SPDX，建议写 GPL-3.0-or-later。批次 features 中的“网格生成与处理”“结果后处理”未在本次快照正文出现，核心 CFD 求解能力已由 README 与主页支持。",
+    "FreeCAD、KiCad、QElectroTech 条目缺少 license_review 对象；三者的许可证全文/API 证据已足够，建议补齐审查字段以保持一致。",
+    "FreeCAD 的 CNC 能力是 CAD 平台内的 CAM 工作台，研究记录已收窄；对外表述应继续保留“工作台/子模块”限定，避免写成独立 CNC 编程产品。",
+    "CISO 的 license_review.rationale 提到 LICENSE.md，但快照集只有 LICENSE-AGPL.txt 和 README；README 的 License 节已足以支持 enterprise 目录的商业边界，建议把依据改指 README 或补抓 LICENSE.md。",
+    "KiCad 仓库是 GitLab 开发分支的 GitHub 镜像，QElectroTech 也使用 source-mirror 命名；产品身份应按 KiCad/QElectroTech 记录，镜像仓库仅作来源。"
+  ],
+  "leaf_checks": {
+    "third-party-cyber-risk-platform": {
+      "basis": "已读 github:694266896 的仓库元数据、README 与 AGPLv3 全文；README 确认其为 GRC 平台，功能清单含 Third-party risk management、External security ratings、Contracts management、Action plan tracking，License 节说明 enterprise 目录为商业许可、其余为 AGPLv3。",
+      "gap": "没有来源展示供应商台账/关系上下文、逐供应商评估与可比较评级、处置闭环的实际流程；功能清单未区分社区版与企业版，无法确认 TPRM 属于 AGPL 社区版；研究记录自述未核对问卷/评分实现。",
+      "result": "core_not_verified"
+    },
+    "cae-engineering-simulation": {
+      "basis": "已读 github:27826728 的元数据、README.org、COPYING 与 openfoam.org 主页；README 称其为自由开源 CFD 软件包，可求解流体、湍流、传热、固体动力学与电磁问题；主页称其计算流体运动/力、传热、热力学与化学，作为实验的替代；COPYING 为完整 GPLv3 文本并允许更高版本。",
+      "gap": "快照正文未明确写出网格离散、边界条件或场结果后处理；批次 features 的“网格生成与处理”“结果后处理”未在本次快照中出现；openfoam.org/features 因 301 跨主机跳转被拒（已留档）。核心 CFD 求解能力仍可判定。",
+      "result": "core_verified_minor_gap"
+    },
+    "cnc-programming-application": {
+      "basis": "已读 github:5736080 的元数据、README、许可证 API 全文与 FreeCAD CAM Workbench 文档；文档说明从 FreeCAD 3D 模型生成 CNC 机床指令，CAM Job 含毛坯/刀具，Contour/Pocket 等工序生成刀具路径，经后处理器转换为目标控制器方言，并有 G 代码检查与仿真；许可证 API 返回完整 LGPL-2.1 文本。",
+      "gap": "CNC 能力位于 CAD 平台内的 CAM 工作台，不是独立 CNC 产品；车削依赖 Turning 附加组件；未运行生成实际机床程序。",
+      "result": "core_verified_module_scoped"
+    },
+    "ecad-eda": {
+      "basis": "已读 github:14849992 的元数据、README、许可证 API 全文与 KiCad 9.0 eeschema 文档；文档含符号库/库编辑器、多页与层次原理图、参考位号、同名全局标签连接、ERC、网表与 BOM 生成；README 列出 eeschema/pcbnew/cvpcb；许可证 API 返回完整 GPLv3 文本。",
+      "gap": "制造/装配输出主要由 README 的 pcbnew 条目间接支持，快照未展开 Gerber/钻孔等具体输出；仓库是 GitLab 开发分支的 GitHub 镜像；未运行。",
+      "result": "core_verified"
+    },
+    "electrical-design-application": {
+      "basis": "已读 github:195001833 的元数据、README 与许可证 API 全文；README 说明其为电气文档用原理图/CAD 编辑器，含 8200+ 电气/逻辑/气动/液压/流体符号库、元素拖放与导线连接、交叉引用、导线自动编号、导线编号与元素信息 CSV/部件清单导出、nomenclature；许可证 API 返回完整 GPLv2 文本。",
+      "gap": "未证实端子排文档、控制柜布局、线束制造等扩展交付物；README 明确不做仿真/计算；未运行。",
+      "result": "core_verified"
+    }
+  },
+  "limits": "本次仅只读审查本单元提供的文件与快照，未运行 shell、未写文件、未读取其他单元；未部署或运行任何产品，未做额外联网抓取；对长 HTML/JSON 快照采用定向读取（正文/关键段落），未逐行通读；OpenFOAM features 页因 301 跨主机跳转被采集器拒绝（已留档），CISO 的 TPRM 专项文档不在快照集；许可证结论基于所给全文/API 文本，不构成法律意见。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-154/ses_groveopencodegop154review1_1793014042.jsonl",
+  "batch_sha256": "2a36e2b5611a47fd2759c34823992da98bfc803a180fe3cc744d4e795d040940",
+  "research_sha256": "cdf3552871949b45e1826233dac867c6e03ef93d329c8a887682005d6da478a8",
+  "input_sha256": "19431ea6894e237ab992b2f27616738a5212032468f6d532ee80d3a990bf2185"
+}

@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "cruise-operations-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:oracle-hospitality-cruise-spms"
+      ],
+      "query": "cruise ship operations software voyage guest folio gangway mustering embarkation system official",
+      "source_urls": [
+        "https://www.oracle.com/hospitality/cruise/"
+      ],
+      "note": "检索到 Oracle Hospitality Cruise SPMS、HF PMS、eCruise PMS 等商业产品；GitHub 搜索未得到许可清晰且覆盖航次人员、舷梯、集合与账务核心的开源项目。收录 Oracle 官方产品页，正文明确 guest/crew/visitor 档案、离线 check-in、gangway 上下船与人数、移动集合、无现金账务、岸上观光及岸上船队视图。 初审补充：Oracle 页面是 SPMS、Cruise Fleet Management、SilverWhere 与 POS 的组合行业页；条目已把配套 Fleet Management 与 SPMS 分开表述，并把未显式出现的 voyage/itinerary 改写为场景推断。",
+      "service_boundary": "商业邮轮船上 PMS/运营系统；只做官方页面基本核实，未验证部署、价格或客户使用深度，runtime_tested=false。 页面未显式出现 voyage/itinerary；航次绑定为邮轮船上 PMS 场景推断，非页面直述。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "cruise ship operations software voyage guest folio gangway mustering embarkation system official",
+          "result": "返回 Oracle、HF PMS、eCruise 等官方产品页"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "cruise operations",
+          "result": "多为 CI/Kafka 同名项目、学生作业或小型订票系统；无许可清晰的核心匹配开源项目"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.oracle.com/hospitality/cruise/",
+          "kind": "homepage",
+          "outcome": "200，正文可读，保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "freight-brokerage-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1200808834"
+      ],
+      "query": "open source freight brokerage TMS GitHub load board carrier pay",
+      "source_urls": [
+        "https://api.github.com/repos/wearewarp/warp-tools",
+        "https://api.github.com/repos/wearewarp/warp-tools/license",
+        "https://raw.githubusercontent.com/wearewarp/warp-tools/main/README.md",
+        "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/shipment-management/README.md",
+        "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/load-dispatch/README.md",
+        "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/shipment-management/src/db/schema.ts"
+      ],
+      "note": "warp-tools 为 MIT，GitHub id 1200808834。Mini TMS 与 Load Board 覆盖负载生命周期、客户费率/承运商费率、毛利、承运商指派、费率确认、检查电话与开票；schema 明确含 customer_rate、carrier_rate、margin、carrier_payment_ref。loadpartner/tms 虽自称面向货运经纪，但许可为 NOASSERTION 且根 LICENSE 404，未收录。 初审补充：warp-tools 是多个可独立自托管应用的集合，Mini TMS 与 Load Board 默认未集成；schema 的 invoiceRef/carrierPaymentRef 与 invoiced/paid 状态属结算跟踪，真实开票/付款由单独的 Invoice & Payment Tracker 承担且集成列为后续项。条目已把“开票/付款”限定为引用/状态跟踪并保留 standalone 边界。",
+      "service_boundary": "仓库是多个可独立自托管系统的集合；本叶以 Mini TMS + Load Board 的组合关系收录，仅静态核对 README/schema/metadata，未运行，未验证真实载具跟踪或会计集成。 开票/付款仅为引用/状态跟踪，不是独立开票或付款系统；Mini TMS 与 Load Board 默认未集成。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source freight brokerage TMS GitHub load board carrier pay",
+          "result": "返回 loadpartner/tms、wearewarp/warp-tools、VectrLoadAI、Open TMS 等"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "freight broker",
+          "result": "候选多为无许可、NOASSERTION 或工具片段；warp-tools 许可与核心最完整"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "loadpartner/tms license",
+          "result": "license API 返回 NOASSERTION；raw LICENSE 404，排除"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "LMW-Labs/vectrloadai-tms license",
+          "result": "license API 404，排除"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/wearewarp/warp-tools",
+          "kind": "repository_metadata",
+          "outcome": "200，id/full_name 与条目一致"
+        },
+        {
+          "url": "https://api.github.com/repos/wearewarp/warp-tools/license",
+          "kind": "license",
+          "outcome": "200，SPDX MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wearewarp/warp-tools/main/README.md",
+          "kind": "readme",
+          "outcome": "200，10 个自托管系统清单"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/shipment-management/README.md",
+          "kind": "documentation",
+          "outcome": "200，负载生命周期/毛利/单证"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/load-dispatch/README.md",
+          "kind": "documentation",
+          "outcome": "200，负载状态/承运商指派/费率确认"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wearewarp/warp-tools/main/apps/shipment-management/src/db/schema.ts",
+          "kind": "documentation",
+          "outcome": "200，含 customer_rate/carrier_rate/margin"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/loadpartner/tms/main/LICENSE",
+          "kind": "license",
+          "outcome": "404，且 GitHub license API 为 NOASSERTION，排除"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "freight-forwarding-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:383096173"
+      ],
+      "query": "open source freight forwarding software GitHub shipment consignment house bill of lading",
+      "source_urls": [
+        "https://api.github.com/repos/anwar-gazi/freightforward",
+        "https://api.github.com/repos/anwar-gazi/freightforward/license",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/README.md",
+        "https://freightforward.github.io/docs/",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/models.py",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaimport/models.py",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/forwarder_frt_book_views.py",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/job_costing_views.py",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaimport/views/view_job.py",
+        "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/forwarder_bl_views.py"
+      ],
+      "note": "FreightForward 为 GPL-2.0，GitHub id 383096173。初审指出旧快照只有 README/docs 的功能清单，无法核对 consignment/booking/job costing，故本轮补充并归档官方仓库代码快照：packages/seaexport/models.py 定义 SeaExportFreightBooking（forwarder/supplier、shipper/consignee、loading/destination port、pickup、delivery terms、transport agreement）与 SeaExportContainerConsolShipment（feeder/mother 两段船名、航次、ETD/ETA，以及 city_of_receipt/port_of_loading/port_of_discharge/city_of_final_destination）；SeaExportHBL/MBL 与 HBL-MBL 映射生成提单；SeaExportContainerConsolidationJobCosting 记成本、SeaExportDebitNote 及 DebitNoteToJobCostingMap 记客户费用；packages/seaimport/models.py 的 SeaImportJob 关联 MBL/HBL，并提供 total_job_cost/total_hbl_income/total_profit。forwarder_frt_book_views、job_costing_views、view_job 与 forwarder_bl_views 分别证明订舱保存、job costing 保存、进口 job 创建与 B/L 视图。README 仍自称 Document Generator，代码只证明持有作业记录、登记分腿承运信息和生成单证/费用，未证明与承运人系统的实时订舱或全链路状态同步。AgileShift/cargo_management 与 Aakvatech-Limited/clearing 的排除理由同前。",
+      "service_boundary": "开源货代业务应用：以海运出口订舱/集运单条记录与海运进口 job 记录为中心，登记分腿船名航次、两端收发货信息，生成 HBL/MBL/Shipment advice 等单证，并记录作业成本、客户 debit note 与进口 job 的 HBL 收入/利润。README 仍以 Document Generator 自称；未验证实时承运人订舱、运价报价、舱位确认、全链路状态同步或生产部署。代码快照覆盖海运出口/进口，README 另列 Air Freight（未归档空运代码）。未运行，runtime_tested=false。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source freight forwarding software GitHub shipment consignment house bill of lading",
+          "result": "返回 FreightForward、AgileShift cargo_management、Aakvatech clearing 等"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "freight forwarding",
+          "result": "按 stars 复核候选许可与业务范围"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "Aakvatech-Limited/clearing license",
+          "result": "license API 为 NOASSERTION；仓库 license.txt 仅一行 License: MIT，缺少完整文本，暂不标开源"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "AgileShift/cargo_management",
+          "result": "AGPL-3.0，但 README 标注 WIP 且核心偏包裹/仓储，未收录"
+        },
+        {
+          "tool": "official_repository_code_check",
+          "query": "核对 packages/seaexport/models.py、packages/seaimport/models.py 及订舱/job costing/BL 视图中的 booking、consignment、分腿与双向费用结构",
+          "result": "官方 raw 代码 200 可读；确认 SeaExportFreightBooking、SeaExportContainerConsolShipment（feeder/mother 两段）、SeaExportHBL/MBL、SeaExportContainerConsolidationJobCosting、SeaExportDebitNote、SeaImportJob.total_profit 等结构"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/anwar-gazi/freightforward",
+          "kind": "repository_metadata",
+          "outcome": "200，id=383096173，full_name 一致"
+        },
+        {
+          "url": "https://api.github.com/repos/anwar-gazi/freightforward/license",
+          "kind": "license",
+          "outcome": "200，SPDX GPL-2.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/README.md",
+          "kind": "readme",
+          "outcome": "200，功能清单可读"
+        },
+        {
+          "url": "https://freightforward.github.io/docs/",
+          "kind": "documentation",
+          "outcome": "200，部署与环境说明"
+        },
+        {
+          "url": "https://api.github.com/repos/Aakvatech-Limited/clearing/license",
+          "kind": "license",
+          "outcome": "NOASSERTION，排除"
+        },
+        {
+          "url": "https://api.github.com/repos/AgileShift/cargo_management",
+          "kind": "repository_metadata",
+          "outcome": "200，AGPL-3.0；README 自述 WIP，未作为本叶案例"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/models.py",
+          "kind": "documentation",
+          "outcome": "200，28078 bytes；含 SeaExportFreightBooking、SeaExportContainerConsolShipment、SeaExportHBL/MBL、SeaExportContainerConsolidationJobCosting、SeaExportDebitNote"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaimport/models.py",
+          "kind": "documentation",
+          "outcome": "200，24670 bytes；含 SeaImportJob（total_job_cost/total_hbl_income/total_profit）、SeaImportJobCost"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/forwarder_frt_book_views.py",
+          "kind": "documentation",
+          "outcome": "200，21236 bytes；订舱保存、supplier/forwarder 两种入口、地址/货物/参考号处理"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/job_costing_views.py",
+          "kind": "documentation",
+          "outcome": "200，5296 bytes；job costing 列表/初始化/保存与 charge type 管理"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaimport/views/view_job.py",
+          "kind": "documentation",
+          "outcome": "200，4411 bytes；从 MBL/HBL 创建进口 job 并关联单证"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anwar-gazi/freightforward/initial_public_release_unstable/packages/seaexport/forwarder_bl_views.py",
+          "kind": "documentation",
+          "outcome": "200，38980 bytes；HBL/MBL 创建与视图"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "marina-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1120219587"
+      ],
+      "query": "open source marina management software GitHub berth slips billing",
+      "source_urls": [
+        "https://api.github.com/repos/docklyapp/dockly-app",
+        "https://api.github.com/repos/docklyapp/dockly-app/license",
+        "https://raw.githubusercontent.com/docklyapp/dockly-app/main/README.md"
+      ],
+      "note": "Dockly 为 MIT，GitHub id 1120219587。README 显示码头经理可维护泊位库存与人工占用、查看到达/收入面板、编辑泊位平面图；航海者按小时/天预订，数据库排他约束防止同一泊位重叠，价格按 24 小时块与小时比例计算。Helsinki berth-reservations 为归档的 bare-bones 登记 API；brygge 无 LICENSE；Dock-mng 为 GPL-3 小型后端；均未作为主案例。 初审补充：Dockly 为 2026 年关闭的参考项目，支付模拟、无生产部署，仅临时泊位预订与分段计价；未实现长期租赁/周期租金、发票/账单、计量公用事业计费与尺寸适配。leaf_match 已明确标注 transient-only/演示实现。",
+      "service_boundary": "覆盖泊位库存、临时泊位协议、占用与收费；未见长期租赁合同、周期租金、计量公用事业计费与真实支付。README 明确本地演示、支付模拟、无生产部署。未运行，runtime_tested=false。 深度仅覆盖临时泊位库存、协议、占用与部分收费循环，属 transient-only 演示实现。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source marina management software GitHub berth slips billing",
+          "result": "返回 brygge、Dock-mng、Helsinki berth-reservations、MokoSuiteMarina 等"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "marina berth",
+          "result": "返回 MarinaWatch、dockly-app 及多个无许可订位项目"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "marina slip",
+          "result": "候选多为无许可/单人项目或泊位地图"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "ryanjdillon/brygge license",
+          "result": "API license 缺失，raw LICENSE 404，不能标开源"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "City-of-Helsinki/berth-reservations",
+          "result": "MIT，但 archived，README 自述 bare-bones registration API"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/docklyapp/dockly-app",
+          "kind": "repository_metadata",
+          "outcome": "200，id=1120219587，full_name 一致"
+        },
+        {
+          "url": "https://api.github.com/repos/docklyapp/dockly-app/license",
+          "kind": "license",
+          "outcome": "200，SPDX MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/docklyapp/dockly-app/main/README.md",
+          "kind": "readme",
+          "outcome": "200，泊位库存/占用/预订/计价证据"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ryanjdillon/brygge/main/LICENSE",
+          "kind": "license",
+          "outcome": "404，许可未知，排除"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/City-of-Helsinki/berth-reservations/master/README.md",
+          "kind": "readme",
+          "outcome": "200，但自述 bare-bones 且已归档"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "marine-fleet-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:seavesselmanager"
+      ],
+      "query": "open source marine fleet management ship maintenance software GitHub vessel PMS",
+      "source_urls": [
+        "https://seavesselmanager.com/about"
+      ],
+      "note": "SeaVesselManager 官方 About 页明确为船舶计划维护/船队管理平台，含 Fleet Dashboard、Asset Management、按时间或运行小时生成工单、Spare Parts、Certificates、Purchasing、Running Hours，并提供自托管 Community Edition。开源候选：zongjixiaoai66 船维系统为 MIT，但只有扁平维保计划/故障上报，缺按设备层级的单船技术档案；vessel-mis、fleetguard-pms 等无 LICENSE；picnickang/Arus GitHub API 404，当前不可核对。 初审补充：正文只列 Asset Management 导航，未展开按设备层级的单船技术档案；船岸断连同步未在该页正面说明。Community Edition 边界为最多 4 艘船、全模块、自托管、30 天后申请免费 licence，已补入条目。",
+      "service_boundary": "商业产品基本记录，不展开价格/许可条款/部署架构；“船岸断连同步”未在该页正面说明，未写入条目断言。未运行，runtime_tested=false。 Community Edition 最多 4 艘船、全模块自托管，30 天后申请免费 licence；正文未展开设备层级，也未正面说明船岸断连同步。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source marine fleet management ship maintenance software GitHub vessel PMS",
+          "result": "返回 Arus、ENTNT ship mgmt、SeaVesselManager、中国船舶维保项目等"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "vessel management system",
+          "result": "候选含 openvdm、ShipChandlerHub、vessel-mis 等"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "maritime fleet management",
+          "result": "多为无许可或演示项目"
+        },
+        {
+          "tool": "github_repository_search",
+          "query": "ship PMS maintenance",
+          "result": "无许可清晰的完整开源 PMS"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "picnickang/Arus",
+          "result": "404，仓库不可核对，排除"
+        },
+        {
+          "tool": "github_api_check",
+          "query": "MgkJosue/vessel-mis、midatlanticjasonp/fleetguard-pms、Marc-Eriksen/Fleet-Vessel-management",
+          "result": "均无 license 字段，不能标开源"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://seavesselmanager.com/about",
+          "kind": "homepage",
+          "outcome": "200，正文列出船队/资产/维护/备件/证书/采购/运行小时模块"
+        },
+        {
+          "url": "https://api.github.com/repos/picnickang/Arus",
+          "kind": "repository_metadata",
+          "outcome": "404，仓库当前不可用"
+        },
+        {
+          "url": "https://api.github.com/repos/zongjixiaoai66/ShipMaintenanceManagementSystem",
+          "kind": "repository_metadata",
+          "outcome": "200，MIT；功能为船舶维保计划/故障/成本，无设备层级与证书/备件证据，未收录"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

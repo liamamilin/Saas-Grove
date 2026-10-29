@@ -1,0 +1,70 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "event-lead-retrieval",
+      "application_id": "commercial:eventgen-lead-retrieval",
+      "issue": "唯一来源快照是 Nuxt 客户端壳：53 行中只有 title、meta/og description、Organization/FAQ JSON-LD 和站点配置，没有渲染后的产品正文、功能段或截图；`__NUXT_DATA__` 也仅含站点配置。采集理由却称“官方产品页说明”捕获—记录—交付链路，实际核心工作流证据来自 meta 与 FAQ 结构化数据，属于以元数据替代核心正文。",
+      "fix": "重新抓取渲染后的 https://eventgen.ai/lead-retrieval-app 正文，或改用官方帮助文档/产品截图/演示页，确认可见内容明确展示徽章扫描→线索记录（评级、标签、备注、归属）→Excel/CRM 交付；若仍无法取得正文，应在 research/batch 中如实记录该抓取缺口，并相应降级“官方产品页说明”的表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "event-lead-retrieval（commercial:eventgen-lead-retrieval）：摘要中的“团队共享线索”“离线同步”是对来源中 booth teams、team attribution、offline capture 的概括，未见逐字说明共享池与离线同步机制；建议改为“团队归属/离线捕获”或补充依据。",
+    "event-lead-retrieval：FAQ 明确该功能面向 EventGen 活动发放的徽章/注册记录，并提示不要假定可读取其他注册商的徽章；边界描述宜写明这一限制。",
+    "exhibitor-management（github:111919967）：Eventyay Exhibition 是 eventyay 插件而非独立应用，部署依赖宿主 eventyay；来源未确认任务、截止日期、文件交付模块，条目不应写入这些能力。README 另明确有 sponsorship/exhibition package sales with booth quotas，research 的“不含…销售”宜限定为“不含展厅平面/展位库存销售”，以免与 README 冲突。",
+    "exhibitor-management / event-mobile-app：两叶均未发现 open-core 或社区版/企业版功能切分声明，许可证 scope 均为 repository；这是当前资料下的边界，不是对上游商业版本的断言。",
+    "event-mobile-app（github:91032869）：EventFahrplan 是按活动 fork/build 的白标模板，不是托管式单活动应用；案例实际对应其发布的 app 实例，建议在身份描述中说明这一构建/发布形态。地图、社交、直播未在来源确认，条目未写入是正确的。",
+    "event-management-platform（github:2113067）：Indico README 覆盖事件记录、层级内容、注册表单、支付集成、议程、徽章/票据和会议室预订，型别匹配成立；但 README 未逐项展开报名者名册生命周期和签到，若下游需要更强核心证据可补官方文档。",
+    "source provenance：Eventyay 的 license 快照与 EventFahrplan 共用 c71d，REVIEW_SOURCES 只列了 EventFahrplan 的 URL，而 batch 写的是 eventyay dev/LICENSE；Apache-2.0 全文与 README 声明一致，结论不受影响，但建议在 manifest 中补独立来源或注明按 sha 去重。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 research/batch 已记录 case_found；若下游使用 progress 字段，应同步，避免把本单元误判为无案例。",
+    "source kind：eventgen.ai/lead-retrieval-app 被标为 homepage，实际是产品/功能页；建议改为 product_page 以便溯源。"
+  ],
+  "leaf_checks": {
+    "event-lead-retrieval": {
+      "application_ids": [
+        "commercial:eventgen-lead-retrieval"
+      ],
+      "status": "changes_required",
+      "basis": "快照 title、canonical 与 meta/og description 表明是 EventGen 的 lead retrieval 产品页；FAQPage 回答提到扫描参会者徽章、评分/标签/备注、scanner/team attribution、手机相机/硬件扫描器、Excel 导出，可初步对应徽章捕获—线索记录—交付。",
+      "gaps": "快照是 Nuxt 客户端壳，没有渲染后的正文、功能段或截图；核心工作流证据仅来自 meta 与 FAQ JSON-LD，未达到“核心正文”要求。需补抓渲染页或官方文档后才能完成本叶核心核对。"
+    },
+    "event-management-platform": {
+      "application_ids": [
+        "github:2113067"
+      ],
+      "status": "passed",
+      "basis": "Indico 官方 README 与 repository metadata：自称 general-purpose event management tool、fully web-based；列出事件层级内容管理、会议组织流程、注册表单创建/配置、支付系统集成、拖拽式 timetable、badge editor 打印 badge/ticket、会议室预订；LICENSE 全文为 MIT（CERN copyright）；metadata repository_id=2113067、非 fork。",
+      "gaps": "README 是功能级描述，未逐项展开报名者名册生命周期、容量/候补、签到等；对 event-management-platform 的核心脊梁（事件记录—注册面—参与者记录—组织方管理）足够，但细节需其他官方文档。"
+    },
+    "event-mobile-app": {
+      "application_ids": [
+        "github:91032869"
+      ],
+      "status": "passed",
+      "basis": "EventFahrplan 官方 README：open-source Android project，组织方用活动 schedule XML/JSON（Frab/Pretalx/Wafer 等）与自有 branding 配置，按 product flavor 生成并发布 app；参会者使用 schedule grid、session details（speaker/room）、search、favorites、alarms、calendar、sharing、feedback、change tracking、offline。LICENSE 全文为 Apache-2.0；metadata repository_id=91032869、非 fork。",
+      "gaps": "仓库是白标模板/构建框架，不是托管式单活动 app；案例对应其发布的 app 实例。地图、社交、直播等未在来源确认，条目未写入是正确的。"
+    },
+    "event-registration-platform": {
+      "application_ids": [
+        "github:1164235143"
+      ],
+      "status": "passed",
+      "basis": "LibreRegistration 官方 README：self-hosted event registration platform；组织方 create/edit/duplicate/delete events，参会者通过 public forms 报名且无需账号（name/nickname，email 可选），admin attendees 名单、self-service cancellation link、CSV export、可选 SMTP 邮件、SQLite/PostgreSQL。LICENSE 全文为 Apache-2.0；metadata repository_id=1164235143、非 fork。",
+      "gaps": "当前实现为免费报名，未确认支付/票务库存；按 event-registration-platform 定义 money 可选，故不阻断。"
+    },
+    "exhibitor-management": {
+      "application_ids": [
+        "github:111919967"
+      ],
+      "status": "passed",
+      "basis": "Eventyay Exhibition 官方 README 与 urls.py：插件为 event 增加 exhibitor/sponsor/booth/proposal/lead-scanning；组织方管理 exhibitors/sponsors/partners/booths/sponsor groups、公开 exhibitor list/detail、call for exhibitors、custom questions、proposal review states、access keys；urls 显示 MyExhibitions/MyExhibitionEditView/Invitation/Vouchers、ExhibitorDeviceManageView 等绑定单个 exhibitor 的自助入口；LICENSE 全文为 Apache-2.0；metadata repository_id=111919967、非 fork。",
+      "gaps": "未确认任务、截止日期、文件交付模块；插件依赖 eventyay 宿主；展厅平面/展位库存不在插件。README 明确有 sponsorship/exhibition package sales with booth quotas，边界描述应与此区分。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行产品；仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 以及 REVIEW_SOURCES 列出的 13 个快照（相同 sha 只读一次）；未读取其他单元、TASK.md、脚本或未列出的 sources；未执行 JavaScript，EventGen 页面为客户端壳，无法验证渲染后的可见正文；未做价格、架构、运行时或法务意见；许可证仅按快照全文与 README 交叉核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-238/ses_groveopencodegop238review1_1793034808.jsonl",
+  "batch_sha256": "6b22b2ccb37cfb8bc4a32e91d157ef4f1f8e72d46e234637028d4fac42c33eb5",
+  "research_sha256": "a614b5b2eb1b8602c75bed11a53332940e27f00a23990dd07846e459b9dc111b",
+  "input_sha256": "46b1fcc8fb805056a9803630adaa9e17c8a48e334e12015976d2d28e0ace3dc6"
+}

@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空、batch.json 的 entries 也为空，但 data/collections/sources/ 下实际存在 7 个快照文件。本单元公开来源的易读入口只有研究记录中的 fetch_outcomes（按 sha256 命名的 3 个 easyeia 快照）；建议在 REVIEW_SOURCES 中登记这些 path，便于后续审查不必依赖哈希文件名反查。",
+    "sources/ 下另有 4 个未被 research.json 或输入引用的快照：EPIC（BC EAO 项目信息与协作系统）README、bcgov/esm-server 的 GitHub 仓库页、EPIC 前端壳页（正文仅为 Loading…）以及一份 Apache License 2.0 全文。它们与该叶“未建立类型关系”的结论并不冲突（README 只描述项目/文件/地图/公众浏览，壳页无核心正文，确实不足以支撑定义性核心），但来源归属未记录。建议在检索记录中明确说明：曾看到该公共部门 EA 系统仓库、因其未展示评估/决定工作流而未采信；或从本单元快照目录移除，避免出现无法追溯的候选证据。",
+    "研究记录 note 中的“评估文档留存”表述略强于正文：System 页只支持“Progress can be saved at anytime… pause your report and come back”，即报告可保存/续做，未给出保留期限或归档/留存管理功能。不改也不影响边界判断，建议改用“报告可保存并续做”以贴合正文。",
+    "“原草稿曾拟建立关系，复核后移除”属于过程信息而非应用事实，可保留在留档中，但不建议出现在面向读者的叶说明里；非阻断。",
+    "商业真实性方面仅做了基本核对：easyeia 为 NSW EIA 订阅制云软件，About 页称自 2016 年向地方政府、州机构和公用事业提供服务，System 页给出订阅、无限用户/报告与年度计费说明；未见价格或客户案例的夸大断言需要质疑。",
+    "该叶为 included_without_cases，application_ids 与 case_ids 均为空，与 batch 无条目、phase=included_without_cases 一致；未建立开源案例，因此不涉及完整许可证或社区版边界判断。"
+  ],
+  "leaf_checks": {
+    "environmental-impact-assessment-platform": {
+      "slug": "environmental-impact-assessment-platform",
+      "status": "boundary_unresolved",
+      "evidence_read": [
+        "data/collections/sources/238ead8152028682b6e2be12e68874e49bcb5e519ee3c55b85487195c265ad1b.txt（https://easyeia.co/，homepage，标题与 canonical 与该 URL 一致）",
+        "data/collections/sources/ebe4bc45e7d7fc37d7906db96ac8d27f75409164c285b45c4b21da326f3ed092.txt（https://easyeia.co/system/，System 页正文，含产品工作流段落与订阅 FAQ）",
+        "data/collections/sources/3e28d4d1f3c4f7bb6757fe30ff3f02bcaa5ce879aa1f6303aa6373adf57a5451.txt（https://easyeia.co/about/，About 页正文）",
+        "data/collections/batch.json（entries 为空）与 data/collections/research.json（唯一 leaf_case：boundary_unresolved，无 case_ids）",
+        "REVIEW_SOURCES.json（sources 为空，按指示原样读取；实际快照经 research.json 中 fetch_outcomes 的 sha256 文件名定位后读取）"
+      ],
+      "definition_core_check": "正文证明 easyeia 持有明确活动区域（点/线/多边形）、检索环境约束、生成含地图的约束/评估报告、可完成 Part 5（Division 5.1）报告，并支持按组织授权链的报告审批与报告保存续做，覆盖“拟议项目 + 环境评估记录”的前两段结构；但三页正文均未出现主管部门的法定审查、筛选/决定文书、公示期或公开登记对接，第三段 authority gate 无证据。按定义的三项移除测试，缺少 authority gate 时更接近环境研究工作空间/法定报告工具，因此不建立本类型关系、保留 boundary_unresolved 是成立的。",
+      "saas_form_check": "通过。homepage 与 System/About 页明确为 online subscription based、cloud based、subscription service、unlimited users and unlimited reports、按年计费，属持续使用的 SaaS 服务形态，而非单次下载或一次性交付。",
+      "identity_track_check": "通过。产品身份一致为 easyeia（easyeia.co，NSW Environmental Impact Assessment Software），slug 与 input.json/definition 的 parent_id=21.01、domain_id=21 一致；无 application_id/case_id，与 included_without_cases 及 batch 空条目相符。",
+      "license_and_community_check": "不适用：本叶未建立开源案例，研究记录也未声称任何开源许可或社区版。目录中另有一份未引用的 Apache License 2.0 与 bcgov/esm-server 仓库页快照，未与该叶结论关联；该仓库 README 与“Loading…”壳页不足以证明定义性核心，故不能作为开源案例采信，仅需在留档中说明来源归属。",
+      "commercial_truthfulness_check": "基本真实且类型匹配：公司/产品、NSW EIA 场景、云订阅模式与报告/约束检索功能均有自家正文支撑，未见明显虚假或类型错配；商业叶只要求基本真实性，满足。",
+      "conclusion": "证据与结论一致，边界未决与缺口说明如实；建议按 non_blocking_notes 补登来源映射并弱化“留存”措辞，不阻断通过。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未访问其他单元；REVIEW_SOURCES.json 的 sources 为空，快照是依据 research.json fetch_outcomes 中的 sha256 文件名在 data/collections/sources/ 下原样读取的，未重新计算哈希或验证 HTTP 状态码；easyeia 证据仅为三个公开营销/说明页的 HTML（含大量主题与脚本噪声），未登录产品、未做部署或功能测试，也未补充价格、架构或客户案例研究；EPIC/esm-server 的 Apache 许可证与仓库页未被研究记录引用，因此只作留档提示，未据此建立或否定任何案例；未对 Sitemate、Pivvot、RPS 等被 Cloudflare 拦截的候选做额外抓取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-153/ses_groveopencodegop153review1_1793251213.jsonl",
+  "batch_sha256": "8d70fef73736e2df56d649b00fbbe4945962ff3102cf1d6555ad1f11cb6da765",
+  "research_sha256": "caee9b0ca73029c2096d611cc3c8baaa4f5dafac78d5db4d087cb1bea63ecb84",
+  "input_sha256": "516a15ce69b032111c362d73d94a2c2b505b1e873ccb6a70dcafb658b126d3ba"
+}

@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "fitness-membership-management",
+      "application_id": "github:598537999",
+      "issue": "license_review.rationale 称 LICENSE.md 与 README 的 MIT 表述一致，但本次实际读取的 README 快照（5f719177…，共 30 行）仅描述模块与目标，全文没有出现 MIT 或许可证字样。",
+      "suggestion": "许可结论本身成立（LICENSE.md 为完整 MIT 正文，Copyright (c) LUBUS），建议把 rationale 改为仅依据 LICENSE.md 与仓库根目录文件树，删除“与 README 表述一致”这一无法由快照支持的表述。非阻断。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "application_id": "github:598537999",
+      "issue": "technology_stack 与 service_boundary 中的“Laravel 5.1”和 deployment 的“MySQL”并无直接快照佐证：composer.json 未被采集，MySQL 仅来自 README 自述，版本号未在已读快照中出现。",
+      "suggestion": "可降级为“PHP/Laravel（版本未直接核对）”或补采 composer.json；不影响核心判断。非阻断。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "application_id": "github:598537999",
+      "issue": "会费侧为“开单—收款—待收余额—续费另开票”的预付期限模式，没有自动定期扣费、催缴自动化、冻结(hold)与欠费停权；订阅状态虽已与会员 Active/InActive 联动，但未门禁化（无签到/准入模块）。",
+      "suggestion": "摘要已如实标注“预付期限、不依赖自动定期扣款”，建议在 service_boundary 或 features 中同样明示“无冻结/欠费停权”，避免读者把定义中的 hold 规则误读为已实现。非阻断。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "issue": "input.json 该叶仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已把 github:598537999 作为成立案例绑定。二者为采集前后状态，但下游若同时消费 input 与 batch 会产生冲突。",
+      "suggestion": "说明或统一 input 的种子状态与 batch 的关系，明确以 batch/research 为准。非阻断（不影响本轮内容结论）。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "application_id": "github:598537999",
+      "issue": "README 文本偏营销/关键词堆砌（“gym management software”类句式重复），对数据模型的直接说明有限；核心判断实际依赖 Member/Plan/Subscription/Invoice 源码与控制器。",
+      "suggestion": "叶核对依据中已注明“核心来自模型与控制器源码而非 README”，本条仅提示后续引用不要以 README 作为核心证据。非阻断。"
+    }
+  ],
+  "leaf_checks": {
+    "fitness-membership-management": {
+      "slug": "fitness-membership-management",
+      "application_id": "github:598537999",
+      "name": "Gym Management System (Laravel)",
+      "track": "open_source",
+      "verdict": "pass",
+      "definition_core": {
+        "member_of_record": "成立。app/Member.php：mst_members 表，member_code、name、DOB、email、contact、address、status、source 等字段，subscriptions()/invoices() 关联，status 分 Active=1/InActive=0/Archive=2（app/Lubus/constants.php）。",
+        "held_membership": "成立。app/Subscription.php：trn_subscriptions 表，member_id × plan_id、invoice_id、start_date、end_date、is_renewal、status；member()/plan()/invoice() 关联；dashboardExpiring/expiring 按 end_date 近 7 天筛 ongoing。app/Plan.php：plan_code、plan_name、service_id、plan_details、days、amount、status，subscriptions() 与 service() 关系，构成运营方计划目录及权益范围（所属服务）。",
+        "dues_and_standing_cycle": "成立但形态为预付期限。SubscriptionsController@store 在一次事务内生成 Invoice（total/pending_amount/discount/tax/additional_fees）与 PaymentDetail/ChequeDetail，并按实收判定 constPaymentStatus Unpaid/Paid/Partial/Overpaid；@renew 另开票并把旧订阅置 renewed；@cancelSubscription 置 cancelled 且把会员置 InActive；@modify 改计划、日期并补收款；SetExpired 命令将 end_date<today 且 ongoing 的订阅批量置 Expired，Console/Kernel 安排每日 00:05 执行。资金与状态在同一持有记录上联动，符合“会员×计划＋会费记录＋状态周期”的闭合要求。",
+        "scope_not_scheduling_or_pos_centric": "成立。README 模块清单为 Login/Dashboard/Plan/Enquiries/Members/Validity/Payments/Subscriptions/SMS/Invoices/Users，无排课、无前台收银主导。"
+      },
+      "service_form": "可自托管 PHP/Laravel Web 后台，运营方单一租户部署，带 auth 中间件（SubscriptionsController 构造函数）；不是桌面胖客户端，也不是厂商托管多租户 SaaS，与 track=open_source 相符；research.json 已如实写明单租户、非托管 SaaS、未证明多租户。",
+      "identity_and_track": "一致。条目 id github:598537999 与仓库页面元数据 octolytics-dimension-repository_id=598537999、repository_nwo=zorenleolumosbog/gym-management-system-in-laravel、public=true、非 fork、默认分支 main 相符；homepage/repository_url/license_evidence_url 指向同一仓库的 main 分支。",
+      "license": "合格。sources/8f0642b3…（LICENSE.md）为完整 MIT 正文：授权条款、版权行“Copyright (c) LUBUS info@lubus.in”、再分发声明与免责声明俱全，无附加限制；仓库根目录文件树含 LICENSE.md；与源码中 Lubus\\Constants\\Status 命名空间相互印证。整仓库单一许可证，未见社区版/企业版功能切分或开放核心边界，故不存在社区版边界缺口。",
+      "evidence_read": [
+        "sources/6d2e9c34…（仓库页面元数据，含文件树与 README 片段）",
+        "sources/5f719177…（README，30 行）",
+        "sources/8f0642b3…（LICENSE.md，MIT 全文）",
+        "sources/e3caeeb7…（Member.php）",
+        "sources/28896368…（Plan.php）",
+        "sources/e14f1b4b…（Subscription.php）",
+        "sources/bd824519…（Invoice.php）",
+        "sources/d9072fb5…（SubscriptionsController.php）",
+        "sources/5c8d3c5d…（Console/Commands/SetExpired.php）",
+        "sources/53c51bff…（Console/Kernel.php，set:expired 每日 00:05）",
+        "sources/f1b5935f…（Lubus/constants.php，订阅与支付状态常量）"
+      ],
+      "gaps_recorded": "无自动化定期扣费/失败重试、无冻结(hold)与欠费停权、无门禁或签到准入联动、无使用额度扣减；Laravel 版本与 MySQL 仅为自述/结构性推断（composer.json 未采集）。以上均为范围外或形态差异，已被 research.json 的 service_boundary 与 note 如实限定，未用于夸大核心；不构成核心缺失。",
+      "runtime": "未运行应用（runtime_tested=false），本次亦未执行部署或功能测试；判断仅基于源码与许可正文。",
+      "historical_boundary_candidate": "GymManagerPro（eppsteve，GPL-3.0，Windows Forms）仍为边界未闭合并未纳入 batch；相应快照（176dde68…、3d80a2e5…、d28f3dd6…、8cdcaffa…、12f0429c…、7b7f7cc4…、78190d35…、c5b5f0e9…）在本单元 sources 目录中确实存在，留档完整，但不在 REVIEW_SOURCES 清单内，本次未作为内容审读对象。"
+    }
+  },
+  "limits": "1) 仅做只读初审：未运行 Laravel 应用、未连数据库、未验证 UI 工作流，也未执行 set:expired 或续费/取消流程；判断依据为模型、控制器、命令、常量、README 与 LICENSE 正文。2) 未采集 composer.json，Laravel 具体版本（5.1）与 MySQL 依赖仅来自 README 自述和目录结构推断，无法逐字核验。3) REVIEW_SOURCES 只覆盖 batch 条目 github:598537999 的 11 个快照，均已按原样读取；research.json 引用的 GymManagerPro 历史快照存在于目录中但不在本清单范围，未作内容核对，故对“历史候选仍不成立”的结论只复核了留档完整性与一致性表述，未重读其正文。4) 仓库页面快照为 GitHub HTML，含大量前端模板与截断段，仅采用其中可辨识的 repository_id、可见性、分支、文件树与 README 片段，未把 HTTP 成功或页面结构当作功能证据。5) 未评估代码质量、安全性、支付网关实现、许可证兼容性（依赖树未采集），也未核验该仓库是否为上游 Lubus Gymie 的衍生/裁剪版本及其许可边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-248/ses_groveopencodegop248review1_1793265322.jsonl",
+  "batch_sha256": "bfb1898ff33d9f9171c0a5ecf5cc322421da7b9804b959f625088de1cd64f597",
+  "research_sha256": "6ececba2c489884c9847b789a6cce65d5956a5c74b172b62fb79aa2241573d74",
+  "input_sha256": "6f62cd97c0229291a526cffa28a011131a259ea49e31d85091a4521686d473fa"
+}

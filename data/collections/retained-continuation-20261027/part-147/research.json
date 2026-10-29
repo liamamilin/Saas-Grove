@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "ai-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hiddenlayer"
+      ],
+      "query": "官方产品页直接核对：HiddenLayer AI Security Platform（platform 页面）",
+      "source_urls": [
+        "https://www.hiddenlayer.com/platform"
+      ],
+      "note": "官方平台页正文可核对 AI Discovery（含 shadow AI 发现）、AI Supply Chain Security、AI Attack Simulation、AI Runtime Security 与 AI 安全态势治理，保护对象为组织自身模型、AI 流程和 agentic 系统，构成 AI 资产—评估—发现—响应闭环。收录 HiddenLayer 一个商业案例，符合基本类型匹配；未验证价格、部署细节或实际运行。",
+      "service_boundary": "商业企业级 AI 安全平台（SaaS/可部署形态按官方销售流程）；agentless、无需训练数据。仅记录官方基本能力，不深入价格/架构/部署。",
+      "search_attempts": [
+        "尝试 https://protectai.com/platform：HTTP 404",
+        "尝试 https://hiddenlayer.com/platform/：重定向到不同主机，按抓取规则拒绝",
+        "改用 https://www.hiddenlayer.com/platform：HTTP 200，正文可读"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.hiddenlayer.com/platform",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "90385f199fcb62a05fbe8bac97ca4a0a54ec608fd571afa37839bf899dfa2f2c"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "api-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:salt-security"
+      ],
+      "query": "官方产品页直接核对：Salt Security Agentic Security Platform（platform 页面）",
+      "source_urls": [
+        "https://salt.security/platform"
+      ],
+      "note": "官方平台页正文展示统一 API/agent 资产图谱与清单、外部暴露映射、实时流量分析、风险评分与态势缺口、敏感数据追踪、行为型 API 攻击检测与阻断，覆盖 API 清单—态势/威胁发现—响应工作流。收录 Salt Security 一个商业案例；AI/Agentic 能力与 API 安全同页呈现，但清单与 API 威胁发现仍是核心。",
+      "service_boundary": "商业 API/Agentic 安全平台，agentless 发现并可接入既有网关、WAF 与 SOC；仅记录官方基本能力，不深入价格/架构/部署。",
+      "search_attempts": [
+        "尝试 https://salt.security/platform：HTTP 200，正文可读",
+        "尝试 https://42crunch.com/api-security-platform/：HTTP 404",
+        "尝试 https://www.wallarm.com/product/api-security 与 https://wallarm.com/products/api-security：均 HTTP 403"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://salt.security/platform",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "ed1e60164466976b12672e239b3522907079b7d4e2cfadd7ba47f88f2493effb"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "application-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:31028375"
+      ],
+      "query": "GitHub 仓库与官方文档核对：DefectDojo/django-DefectDojo（README + sitemap 定位资产/Engagement/Finding 文档）",
+      "source_urls": [
+        "https://api.github.com/repos/DefectDojo/django-DefectDojo",
+        "https://api.github.com/repos/DefectDojo/django-DefectDojo/license",
+        "https://raw.githubusercontent.com/DefectDojo/django-DefectDojo/master/README.md",
+        "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__assets/",
+        "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__findings/",
+        "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__engagements/"
+      ],
+      "note": "README 自述为 DevSecOps、ASPM 与漏洞管理工具，负责端到端安全测试编排、漏洞跟踪、去重、修复和报告；文档说明 Asset→Engagement→Test→Finding 结构、Finding 归属测试/资产、状态与风险接受、指标与 MTTR。仓库 ID 31028375 与 full_name 由 GitHub API 核对，许可证 BSD-3-Clause 由 license API 返回完整文本。社区版可 Docker Compose 自托管；Pro 版功能不计入开源核心。 初审后按快照可核范围将 technology_stack 收窄为 Python、Django、Docker，移除未在已读快照出现的 PostgreSQL。",
+      "service_boundary": "开源社区版（BSD-3-Clause）可自托管；Pro 版为商业功能边界。条目仅主张社区版的应用安全记录—发现—修复生命周期。",
+      "search_attempts": [
+        "https://docs.defectdojo.com/en/working_with_findings/：HTTP 404",
+        "抓取 https://docs.defectdojo.com/sitemap.xml 定位文档路径",
+        "抓取 os__assets、os__findings、os__engagements 三个官方文档页：均 HTTP 200"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/DefectDojo/django-DefectDojo",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "eac5475cb45eeddf925e245da155e6f0c9186a28b73b1bfc680f4070bbd0d9d1"
+        },
+        {
+          "url": "https://api.github.com/repos/DefectDojo/django-DefectDojo/license",
+          "kind": "license",
+          "result": "success",
+          "sha256": "3fc34ecc63851b1d2741d7986f49474350eec03f5917608c9be3e02d497c3d6b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/DefectDojo/django-DefectDojo/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "68f978d2cc547c3700b1cf07746344fc47a02a1f81dd1cc527f13b3542be8d56"
+        },
+        {
+          "url": "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__assets/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "39e3a7bb1b21c81569666ec85eb15c92f781072eb5051249831b88497f68be39"
+        },
+        {
+          "url": "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__findings/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "06c3a1a9ee0bdca8228bc194711f91b3adad950fb6ea8a39005e04d2c924a30e"
+        },
+        {
+          "url": "https://docs.defectdojo.com/asset_modelling/engagements_tests/os__engagements/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "d301d523b2cf93a4e1b70c9590409e26c6c8b77bb6baa4915ae7e408eeb01f7b"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "breach-attack-simulation",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:cymulate"
+      ],
+      "query": "官方产品页复核：Cymulate Exposure Validation（canonical 产品页，替代误标的 security-validation 来源）",
+      "source_urls": [
+        "https://cymulate.com/exposure-validation/"
+      ],
+      "note": "初审指出旧来源 https://cymulate.com/security-validation/ 的快照 canonical 为 https://cymulate.com/ 首页，与“独立安全验证页”标注不符。复核后改抓官方产品页 https://cymulate.com/exposure-validation/：HTTP 200，canonical 为本页，title 为 “Exposure Validation: Identify & Prioritize Threats”。该页正文可核对到最完整攻击库、持续测试 MITRE ATT&CK 技术与 APT 活动、安全执行攻击模拟、完整 MITRE ATT&CK 覆盖，并明确验证 EDR、SIEM、web/email、WAF、DLP 等控制的预防与检测；结果用于识别差距、生成并部署缓解/检测更新。据此保留 Cymulate 一个商业 BAS 案例；旧首页快照保留在 sources 中但不再作为引用来源。CTEM/Agentic 外层能力未替代 BAS 核心；未验证价格、部署架构或实际运行。",
+      "service_boundary": "商业安全暴露验证/BAS 平台；仅记录官方基本能力，不深入价格/架构/部署。",
+      "search_attempts": [
+        "尝试 https://www.attackiq.com/platform/：HTTP 403",
+        "尝试 https://www.safebreach.com/platform/：HTTP 404",
+        "初轮改用 https://cymulate.com/security-validation/：HTTP 200，但快照 canonical 与 og:url 均为 https://cymulate.com/，正文为官网首页",
+        "复核改抓 https://cymulate.com/exposure-validation/：HTTP 200，canonical 与 title 均指向 Exposure Validation 产品页，正文可读"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://cymulate.com/security-validation/",
+          "kind": "documentation",
+          "result": "success_but_canonical_mismatch",
+          "sha256": "ab7361e781ca0c01eba2d1956e48fa20cacfe98d6fa96c095c17be40a74c8be4",
+          "note": "快照实际为 https://cymulate.com/ 首页，已弃用为引用来源"
+        },
+        {
+          "url": "https://cymulate.com/exposure-validation/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "e76e98bbfe401c2b8c239e64f0fe2809df2d12a47fb35b7efc360f116ae38bb7"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "dast-iast",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:36817565"
+      ],
+      "query": "GitHub 仓库与官网文档核对：zaproxy/zaproxy（README + Getting Started + Docs）",
+      "source_urls": [
+        "https://api.github.com/repos/zaproxy/zaproxy",
+        "https://api.github.com/repos/zaproxy/zaproxy/license",
+        "https://raw.githubusercontent.com/zaproxy/zaproxy/main/README.md",
+        "https://www.zaproxy.org/docs/",
+        "https://www.zaproxy.org/getting-started/"
+      ],
+      "note": "README 说明 ZAP 是免费开源的 Web 应用扫描器，用于开发和测试阶段自动发现漏洞，也支持手工渗透测试；Getting Started 说明其作为拦截代理对运行中的 Web 应用执行探索、攻击、报告流程，可独立应用或守护进程运行，并提供 Docker 版本；文档索引有 Desktop 用户指南、Automate 与 Alert Details。仓库 ID 36817565 与 full_name 由 GitHub API 核对，许可证 Apache-2.0 由 license API 返回完整文本。仅主张 DAST，不虚构 IAST。",
+      "service_boundary": "开源自托管应用（桌面/守护进程/Docker），Apache-2.0；属于完整 DAST 测试应用，不是生产流量防火墙或纯源码分析器。",
+      "search_attempts": [
+        "GitHub API 核对仓库身份与许可证：HTTP 200",
+        "抓取 README、官网 docs 索引与 Getting Started：均 HTTP 200"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/zaproxy/zaproxy",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "198e17037bbfc00dd5a0559179622be136c98282f08ce1d5f8a105f059a3f721"
+        },
+        {
+          "url": "https://api.github.com/repos/zaproxy/zaproxy/license",
+          "kind": "license",
+          "result": "success",
+          "sha256": "b2b05d822c860884b528ed0981283e7d4ec4011c8683f72a7e3b2c9972182006"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zaproxy/zaproxy/main/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "f87d291f30f22568f85b69f6bb4e4d28de77cf8053d7cd7813f2d27318e00891"
+        },
+        {
+          "url": "https://www.zaproxy.org/docs/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "c7c8216672e20ddcbd359a65ceb7786f5a728574195cd1b89adefda3f7f185fa"
+        },
+        {
+          "url": "https://www.zaproxy.org/getting-started/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "d9961595a108162d6d89de3743b2419bbc4fc97fc14e28f9abe3e4dffa254f28"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

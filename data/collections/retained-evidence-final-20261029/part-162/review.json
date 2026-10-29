@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "note": "“就诊→费用→账单/支付”的支付/结算环节在现有快照中只由 Sales Invoice 取数与 ERPNext Accounts 集成间接支撑，未见收款、退款或结算步骤正文。建议将表述收敛为“就诊项目进入 Sales Invoice 计费，收款与账务由 ERPNext Accounts 承载”，避免直接写成已由文档证明的完整支付闭环。"
+    },
+    {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "note": "ADT、病房/服务单元分配主要依据 Inpatient Record 正文中“分配空房”和指向 Inpatient ADT 的一句话，以及文档侧栏中的 Healthcare Service Unit / Medical Department 标题；Inpatient ADT 与 Healthcare Service Unit 的正文未抓取。核心住院流程已可判定，但后续如需强化“机构结构”证据，可补抓这两页正文。"
+    },
+    {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "note": "license_review.rationale 称“GitHub 仓库页亦标注 GPL-3.0”，但本单元仓库页快照的可检索文本未见该标注；许可结论仍可由完整 license.txt（含 END OF TERMS AND CONDITIONS 与 How to Apply 附录）及 README 的“GNU GPL V3”独立支撑，不构成阻断。建议删除该无从复核的从句或补充含许可标识的快照。"
+    },
+    {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "note": "“患者登记”在快照中主要体现为 README 的 Patient management 与 Patient Encounter 中的 Patient master，未抓取专门的 Patient 建档/前台登记正文。建议措辞改为“患者主记录与患者管理”，或在后续补抓 Patient 文档。"
+    },
+    {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "note": "首页“Enterprise”是营销用语，指 ERPNext 的会计、资产、采购、库存等企业功能，并非独立的闭源企业版；batch 已把许可范围限定在 earthians/marley 仓库并声明依赖另行授权，边界处理正确，摘要中可再明确一次以免误读为 open-core 分版。"
+    }
+  ],
+  "leaf_checks": {
+    "hospital-management-system": {
+      "slug": "hospital-management-system",
+      "application_id": "github:399456228",
+      "name": "Marley Health",
+      "definitional_core": "通过。README 正文自述为开源医院信息系统（HIS），并说明可将医疗机构映射为 Service Units、专科映射为 Medical Departments；文档索引正文列出 Patient Appointments、Out Patient Management、Inpatient Management、Clinical Procedures、Laboratory 等。Patient Encounter 正文证明患者/预约可创建就诊，就诊内可开药、开检验、开临床操作并安排住院；Inpatient Record 正文证明 Practitioner 从就诊下住院单、生成 Inpatient Record、入院分配空房并管理 ADT。服务到金钱链路由 Patient Encounter 2.6 的 Sales Invoice “Get items from > Prescription / Healthcare Services” 支撑，账户与支付由 ERPNext 承载。机构、患者/就诊、服务计费三段核心均有实际正文依据，未以简介或 Loading 代替。",
+      "service_form": "通过。README 与安装段说明其构建于 Frappe 全栈 Web 框架、以 bench 安装 healthcare 应用并通过浏览器使用；首页说明可云端或本地自托管，符合持续使用的 Web 软件服务形态，而非库或纯桌面工具。",
+      "identity_track": "通过。仓库快照确认 repository_id=399456228、full_name=earthians/marley、默认分支 develop、公开非 fork，标题为 Open Source, Enterprise and Modern Health Information System；README 与文档正文均以 Marley Health/Marley Healthcare 自称。track=open_source 与 GPL-3.0 一致。",
+      "license": "通过。license.txt 快照为完整 GNU GPL v3 文本（含第 17 条、END OF TERMS AND CONDITIONS 及 How to Apply 附录），README 亦明确 GNU GPL V3；许可结论仅覆盖本仓库，ERPNext/Frappe 依赖未在本单元核对，batch 已如实限定范围。",
+      "community_boundary": "通过。仓库整体以 GPL-3.0 发布，未发现 open-core 分版声明；Frappe Cloud 仅为托管入口，首页 Enterprise 指 ERPNext 企业功能而非闭源版本。batch 对依赖许可与产品边界的限定与快照一致。",
+      "evidence_quality": "通过。7 个快照均按 REVIEW_SOURCES.json 的 path 原样读取，文件名与 sha256 一致；核心工作流由 Patient Encounter 与 Inpatient Record 文档正文支撑。研究记录同时保留了 search_attempts、fetch_outcomes 及 Open Hospital 被移出的 withheld_candidates 说明，缺口语义清楚。",
+      "gaps": "支付/结算步骤、Inpatient ADT 页正文、Healthcare Service Unit 页正文、专门的患者登记页正文未抓取；许可 rationale 中“GitHub 页标注 GPL-3.0”一句在快照中不可复核。上述均不影响本轮核心判定，已列入 non_blocking_notes。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 7 个快照；未运行 shell、未写文件、未读取其他单元、未做实时抓取或部署/运行时测试。未审查 earthians/marley 源码树、ERPNext/Frappe 依赖的实际许可与支付结算实现；支付、ADT 明细、服务单元配置等结论受已抓取文档正文范围限制。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-162/ses_groveopencodegop162review1_1793252388.jsonl",
+  "batch_sha256": "c137d2f261280d6030b478188683005597cc97c685ed772bb3702960dcb86a7c",
+  "research_sha256": "83d8656d25fa15ecb20e6cc5fffd6278ce265fb8e083a34a5d913ca7991483b3",
+  "input_sha256": "5618d1a234893c30557a4306cac45fad78758898c9701d7aaef060f22a29e8d9"
+}

@@ -1,0 +1,69 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "条目 homepage 使用 https://readthedocs.com（Business 商业站），而 ID、license、README 都指向 readthedocs.org 社区版代码库；两者是同一产品的不同发行面。建议在 name/summary 中显式区分 Community(readthedocs.org) 与 Business(readthedocs.com)，避免下游把付费站功能当成 MIT 仓库直接提供的功能。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "batch.deployment 写“仓库为可自托管的产品实现”，但所引 README/仓库元数据只说明该仓库是 readthedocs.org 的源码，未直接给出自托管部署说明。建议补一条自托管/部署文档来源，或改写为“MIT 许可的源码可自行构建部署”。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "documentation-structure 快照本身是“如何组织文档”的作者指南（推荐 Diátaxis），并非平台自动生成导航的行为说明；导航层次实际由接入的 Sphinx/MkDocs 工程及其 toctree 决定。research.json 已如实写明这一点，但若要加强“结构化导航”证据，可改引展示 RTD 渲染导航/flyout 菜单或 subprojects 分组的效果页。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "features/search 两页来自 docs.readthedocs.com（Business 平台文档），核心构建/托管/版本/检索能力在社区版同样存在，但本轮未单独抓取 readthedocs.org 社区版对应页面；不影响核心匹配，可作为后续补强项。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "条目未设独立字段记录社区版与付费版边界。快照中已可读出卖方边界（公开仓库+公开文档免费含广告；私有仓库、认证/分享令牌、团队管理、审计日志为付费；Business 起价 $50/月），建议在 features 或说明中显式落一条“社区版 vs 付费版”边界，便于下游引用。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "input.json 的 leaf.progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，与本单元 batch/research 已绑定 github:841835 不一致。按其语义应属“绑定前的上游状态”，未按阻断处理；建议回写同步，避免索引阶段误判为无案例。"
+    },
+    {
+      "slug": "developer-documentation-portal",
+      "application_id": "github:841835",
+      "note": "旧 Docusaurus 关系的移除理由（静态生成器工具链、非被发布的门户应用本体）与复用快照内容一致，research.json 保留旧快照与轨迹的做法合规，无需改动。"
+    }
+  ],
+  "leaf_checks": {
+    "developer-documentation-portal": {
+      "slug": "developer-documentation-portal",
+      "verdict": "pass",
+      "definition_core": "三项核心均有正文支撑：(1) 持久可寻址、由团队维护的语料——README 说明从 Git 拉取文档并托管，quickstart 明确 push 即自动重建更新；(2) 自助读者面与检索——features 页说明构建/托管/CDN/认证/搜索一体、自带域名、跨项目跨版本集成搜索，server-side-search 页说明全文检索（Elasticsearch）、索引到标题级、跨子项目与跨版本查询、搜索即输；(3) 生产与 currency 机制——push 触发重建、可由 commit/branch/tag 构建多版本、PR 预览、合并即部署、自动化规则在新版本发布时重建。定义 DC 明确把“library manuals 的免费托管服务”“build-and-host service for doc toolchains”列为同型实现，故托管型门户属于本叶而非仅是生成器。",
+      "service_form": "持续运营的托管 SaaS（readthedocs.org 社区站与 readthedocs.com 商业站），连接 Git 仓库、自动构建、版本化发布并托管；README 与 docs-as-code 页均以在线注册/导入项目/推送即发布的连续服务流程描述，非一次性安装或纯静态产物交付。",
+      "identity_and_track": "github:841835 与仓库元数据 id=841835、full_name=readthedocs/readthedocs.org、fork=false、archived=false 一致；track=open_source 与 MIT 许可、README 自述开源社区文档托管定位相符。注意 homepage 指向商业站 readthedocs.com，与 ID/许可所对应的社区代码库存在发行面差异（已在非阻断说明中提示）。",
+      "license": "license 接口快照含 spdx_id=MIT，正文 base64 解码为完整 MIT 文本（Copyright (c) 2010-2021 Read the Docs, Inc. & contributors，含授予、条件与免责条款），README 亦标注 MIT；与 batch.license=MIT、license_evidence_url 一致。",
+      "community_edition_boundary": "快照可读出边界：Community 免费面向开源项目，克隆公开仓库、公开文档、广告支持托管；Business 面向商业/非自由项目，含私有仓库与私有文档、团队管理，起价 $50/月；features 页将私有仓库支持、认证、审计日志、团队管理标为付费功能。未主张多租户自研编辑器，research.service_boundary 亦排除静态生成器工具链、内部开发者门户与 API 文档平台。",
+      "evidence_used": [
+        "data/collections/sources/a3305dde5d91e02c676ccdd1326bb907508fd36b1963735ce4ca17ed6639e0d3.txt",
+        "data/collections/sources/e67135cee94609e98212139d1007e61e526602134d60cbb7636382ffed58aec5.txt",
+        "data/collections/sources/3273ad4ce2bdb56656bac4cb62f45f17ee6baace2b3ab3e02eef2d7d5dc370a7.txt",
+        "data/collections/sources/d158d0f80ec92fd1cf0fd78c1e993cf80c8a37140f83452f9e9cab787404b6bc.txt",
+        "data/collections/sources/ace18ed2bad7fa00ba4480b1c2a0361df0f0f2be81ae2d867d4e39e71c8e6a37.txt",
+        "data/collections/sources/16ea86002978531b06646bcc501f436ba7aee5163dfaf97fb49d713d2dbd305f.txt",
+        "data/collections/sources/5c15b81b0d6eb182b43252420598f11f8fd92305bcf023c8c2c2a2339fa30ec1.txt"
+      ],
+      "excluded_candidate_record": "Docusaurus 复用快照（61d0b2b4…）正文自述为“building, deploying, and maintaining open source project websites”并以 npm init docusaurus 安装，确属静态站点生成器工具链，移除其成立关系合理，旧快照与旧轨迹保留符合要求。",
+      "gaps": "未做部署实测；未抓取社区版 readthedocs.org 对应的功能页；自托管能力缺专门来源；导航层次由接入的 Sphinx/MkDocs 工程定义，本轮以 features 的子项目分组与搜索证据间接支撑；research.fetch_outcomes 中 Docusaurus 历史快照标注为复用未重抓，已如实留档。"
+    }
+  },
+  "limits": "仅使用只读工具审查本单元（REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 7 个快照），未运行 shell、未写文件、未联网抓取、未读取其他单元；GitHub 仓库元数据与 license 为单行 JSON，read 工具按 2000 字符截断，license 字段与 id/archived/fork 等仅通过 grep 命中确认，未逐字节解析完整 JSON；未做部署、价格或架构验证，未复核 research.json 中三个 Docusaurus 历史复用快照的全文（仅读其 README 主体用于形态判断，且该候选已被排除）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-103/ses_groveopendesignp103review1_1793200405.jsonl",
+  "batch_sha256": "721333bb7f8d79e4d00047505570717580cd56f25932aaa5dcc2366d080e6769",
+  "research_sha256": "f79cc0be3c4370fb6a38bf028ff4bebd52e9f75da0de9efc84c32bbccde7d248",
+  "input_sha256": "047b9fd084fae937e58bc34421d33c8784bdcb02480cfb1568fdf27f9dd37343"
+}

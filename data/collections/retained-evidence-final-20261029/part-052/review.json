@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Quant-UX 条目级 license 字段只写 GPL-3.0，但该许可证仅覆盖 KlausSchaefers/quant-ux 前端仓库；完整运行还需独立仓库 qux-java 后端与 MongoDB。technology_stack 与 research.service_boundary 已如实说明后端许可证不在本条目声明范围，建议后续在 license 字段本身加范围限定（如“GPL-3.0（前端仓库）”），避免读者把 GPL-3.0 误解为整个组合应用的许可。",
+    "research.json 的 source_urls 与 fetch_outcomes 仍列有 qux-java 元数据/许可证 URL 及 docs.axure.com 首页、sitemap 等未在 REVIEW_SOURCES.json 声明的抓取，note 已说明因清单只读无法补入。这些内容未用作 batch 能力或许可证据，建议后续清单可写时补入或清理，保持来源清单与研究轨迹一致。",
+    "batch 的 deployment 写“官方 Docker Compose（qux-fe、qux-be、MongoDB）”，README 示例还包含独立的 qux-ws WebSocket 服务（QUX_WS_URL 指向它）。属细节不完整，不影响核心判断。",
+    "Axure 首页快照（966831…）只有 title 与 head/meta（og:description 提及 prototypes/specifications/diagrams），仅用于身份确认；核心能力均由 docs.axure.com 的具体文章页正文支撑，未以元数据代替正文。",
+    "input.json 中该叶仍为 case_status=boundary_unresolved、application_ids 为空，而 research.json 已记录 case_found 并给出两个 application_id；建议在合入正式库时同步叶子状态与案例绑定，避免元数据不一致。",
+    "两份条目 runtime_tested 均为 false；本次仅做公开资料只读核对，未验证实际部署或交互运行。"
+  ],
+  "leaf_checks": {
+    "ux-prototyping-application": {
+      "status": "pass",
+      "applications_checked": [
+        "github:182806722",
+        "commercial:axure-rp"
+      ],
+      "definitional_core": "两例均覆盖“屏幕→用户定义交互→可点击流程→运行→测试/反馈”的定义性核心。Quant-UX：features/prototype 正文写明 create screens、add functional components、create interactions through links；docs/animations 写明先建 source(widget or screen)→target screen 的 link，再在 Action 中配置淡入/滑入、duration、easing；docs/logic_flows 写明逻辑算子置于按钮与多页面之间并按输入值规则选择下一屏；docs/testing 正文含分享链接启动原型、欢迎语、用户任务与步骤、think-aloud 记录；features/user_testing 含 User Tasks、屏幕录像、问卷、A/B。Axure RP：events-cases-actions 正文明确 events 即触发器、cases 为按序动作并可自动按条件逻辑选择、Open Link 在点击后跳页；dynamic-panels 正文明确状态容器与 Set panel state；publishing-axure-rp-projects 明确发布后获得可在任意浏览器打开的分享链接；axure-cloud-overview/discussions/inspect/jira 覆盖原型托管、就地评论与 resolved、redline/CSS/资源交接、Jira/Confluence 嵌入。",
+      "service_form": "Quant-UX 为可持续自托管的 Web 应用：README 给出 qux-fe、qux-be、MongoDB、qux-ws 的 Docker Compose 与手工安装（Node.js 前端 + Java 后端 + MongoDB + SMTP），并有官方演示站与免费账号入口，符合开源软件服务形态。Axure RP 为商业桌面客户端 + Axure Cloud 托管服务（另有 On-Premises），发布、浏览器分享、评论反馈与交接均在服务侧完成；原型本身仍是虚构数据上的模拟，不连接生产后端，未越出原型设计类型。",
+      "identity_track": "github:182806722 与仓库元数据 id=182806722、full_name=KlausSchaefers/quant-ux、archived=false 一致，track=open_source 正确；commercial:axure-rp 为商业桌面/云产品，track=commercial 正确。两例 leaf_matches 均只绑定 ux-prototyping-application。",
+      "license": "已读取 data/collections/sources/58e50129c46f27de3273c297441280dc3cf382cd6d9028e0794f92c2d8af439d.txt：license API 返回 LICENSE、size=35094，base64 内容以“Copyright (c) 2020 Klaus Schaefers”开头并包含 GPLv3 全文（Version 3, 29 June 2007），spdx GPL-3.0 与仓库元数据一致；完整许可证文本、仓库身份已核对。社区版边界：该仓库为 GPL-3.0 前端，后端为独立仓库 qux-java，batch 未声明其后端许可并明确排除，未把未声明来源当作许可证据。",
+      "evidence": [
+        "data/collections/sources/c12b1dca694744a966d81e7009f55f83927854ac86c2d285d75b9fc6bf0b2b1f.txt（repo 元数据，id 182806722，GPL-3.0，非归档）",
+        "data/collections/sources/58e50129c46f27de3273c297441280dc3cf382cd6d9028e0794f92c2d8af439d.txt（license API，GPLv3 全文，35094 字节）",
+        "data/collections/sources/33a59bb765feff6ce5ddba8139bd83c729ed88135dafa2f1281af6639fb20f59.txt（README：仅前端、qux-java 后端、Docker Compose、手工安装）",
+        "data/collections/sources/6ca434048ae073423a5a9e473388d80fa361dd664970c1cb6d2fa0073a3f4c08.txt（features/prototype 正文：screens、functional components、interactions through links）",
+        "data/collections/sources/342a8922660fbf40019dda2960f24a7fb71cdb1a9758452420e54731ceb1ef29.txt（docs/animations 正文：link 后配置动画、duration、easing）",
+        "data/collections/sources/e38a755c635050d023e4a6ed1438cf35ab47c8833a3b49f9d725a99570f201ce.txt（docs/logic_flows 正文：逻辑算子与按输入规则选下一屏）",
+        "data/collections/sources/a4b39b9490eb654acd64204625fc3a0d13cf4be1a384dba86fe12207b7e1439a.txt（docs/testing 正文含分享/任务/欢迎语/think-aloud 相关文本）",
+        "data/collections/sources/c32325b3b934dece375de04ee3f20cd5d1c1940a19f007cb96c6207306794004.txt（features/user_testing：User Tasks、屏幕录像、问卷、A/B、Test Link）",
+        "data/collections/sources/8c0fb7df724d893aa19359ebcd376261d954d63024980c6aa7b6e8ccaafe6beb.txt（docs/analytic_intro 正文含 Dashboard、点击热图、测试覆盖率、时长等 KPI 文本）",
+        "data/collections/sources/966831ddb27f44af571085503aa573467174a82f6c56bcda95563873899ae307.txt（Axure 首页，仅 title/og:description，用于身份确认）",
+        "data/collections/sources/e293953dec8d5c84751ee1a1c2ca1be7dcc233b788f2f867954cfdce7676b7e0.txt（events-cases-actions 正文）",
+        "data/collections/sources/dde0d34d895598547535d3e5cb76e32d1294f516060d4f4bda70bbb61f3fea1a.txt（dynamic-panels 正文：状态与 Set panel state）",
+        "data/collections/sources/7324a5c50d02e26c4b8679928cbcf8367bb3f8cf3bbaea8b9637d765f1d13a8b.txt（publishing：发布后获得可在任意浏览器使用的分享链接）",
+        "data/collections/sources/d2b610f5b9d1f070a59ad28e10e7fa55ed220dc8ccca8d9af704d66398253696.txt（Axure Cloud overview：托管、就地评论、Inspect redline/CSS/资源导出）",
+        "data/collections/sources/6e5b27f42f8fd7d4df44bace53a0ed41858b519aacce3e9622f6bcd938dd48fc.txt（discussions：落点评论、访客评论、resolved）",
+        "data/collections/sources/7501e200aa8539f2bbaa022ae86edd06843198437fa4f333044ad290ca99a934.txt（inspect：分享链接中的 redline、尺寸位置等）",
+        "data/collections/sources/f27721a1da05e4cdd378dabe1ed957c6a14da746fa3b9ddf747105c3610c85bc.txt（jira：原型嵌入 Jira/Confluence）",
+        "data/collections/sources/e95ee2b15a4e8198e78fd759dc7b4cd68dbf1046acb2539124cd45c3b1ed68ff.txt（install-on-premises：企业自托管）"
+      ],
+      "gaps": "未声明来源且未读取的 qux-java 元数据/许可证快照（research 记录为研究轨迹，未作为证据）；两例均未做运行时验证；Axure 首页快照为元数据壳页，仅用于身份，不作为能力证据。上述缺口不影响本叶核心、服务形态、ID/track 与开源许可的判定。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 声明的 18 份快照，未运行 shell、未写文件、未读取其他单元或采集历史脚本。因无 shell，未重新计算文件 sha256，仅按清单路径原样读取并核对内容与仓库/许可证字段。未进行任何部署或交互运行验证。REVIEW_SOURCES.json 未声明的 qux-java 与 docs.axure.com 首页/sitemap 快照未读取、未核验。部分站点为 Nuxt/Docusaurus SSR HTML，正文与导航同处一行，本次以正文段落文本（而非 HTTP 成功、页面标题或导航）判断核心，但未做浏览器级渲染比对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-052/ses_groveopendesignp052review2_1793171686.jsonl",
+  "batch_sha256": "749570f99bc5229d4ddf5f1be8eba089f6e93c1e02c4ebbc77f452e9e7a717a2",
+  "research_sha256": "6b832e09114168bde0e1a01f7ac680a6fbfc149ce10e1a03c7fee0ddc79f0cd2",
+  "input_sha256": "53d497f3f283203417ccdadbb287c3ffe3107e283e4e335e8e9b379dbfea99e7"
+}

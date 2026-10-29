@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "analytical-query-editor",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:6358188"
+      ],
+      "query": "核对分析型平台自带查询界面：复读 Apache Druid Web Console 文档，并补采官方 Query 教程与 Druid SQL 文档，验证编辑—运行—结果网格—就地重跑闭环",
+      "source_urls": [
+        "https://api.github.com/repos/apache/druid",
+        "https://api.github.com/repos/apache/druid/license",
+        "https://raw.githubusercontent.com/apache/druid/master/README.md",
+        "https://druid.apache.org/docs/latest/operations/web-console/",
+        "https://druid.apache.org/docs/latest/tutorials/tutorial-query",
+        "https://druid.apache.org/docs/latest/querying/sql"
+      ],
+      "note": "本轮针对原初审缺口复核：历史 Web Console 文档正文已含 Query 视图（多标签 SQL 编辑、Run/Preview、结果查看、EXPLAIN、查询历史、取消与进度），本轮补采的官方 Query 教程进一步给出完整工作流：从 header 打开 Query 视图，直接在 edit pane 写查询，查询立即运行，点 Run 后看到两列结果数据，随后在编辑器内改 WHERE/GROUP BY 再 Run；结果默认被 Smart query limit 限制在约 100 行。Druid SQL 文档说明 SQL 为该平台自有方言、在 Broker 规划并翻译为 native query，且有独立 SQL 权限。原 withheld 理由（只证明客户端/CLI/引擎/基础设施）与正文不符，已解除，但不删除旧轨迹。 历史复用：4 份 Druid 快照（c9051f4ffb3e、7737457dc4c6、7b785de257b9、8f1622df5391…）原 URL/SHA/抓取时间未改动；旧记录 beam-continuation-20261025 part-132 research（sha256 120ffd9a…）与 included-continuation-final-20261027 #562（sha256 503996f8…）的 case_found 草稿与 boundary_unresolved 判定均保留，不视为本轮通过。本轮新增证据仅 2 份官方文档。",
+      "service_boundary": "Druid 是自托管开源分析数据平台，Web Console 由 Router 提供，Query 视图是平台内置的完整查询编写子界面，绑定 Druid 自身 datasource，不是可连接任意数据库的通用 SQL 客户端，也不是业务人员即席问答或数据库管理控制台；控制台的 datasource/ingestion/运维视图不改变 Query 视图的类型归属。",
+      "search_attempts": [
+        "复读历史 4 个 Druid 快照，逐条核对 Query 视图正文是否覆盖五个定义性核心",
+        "本轮定向补证一：抓取官方 Query 教程，核对编辑器、即时执行、结果网格与就地重跑",
+        "本轮定向补证二：抓取官方 Druid SQL 文档，核对 SQL 方言绑定与权限模型",
+        "历史查询保留：曾以 Trino Web UI 为候选，其文档仅描述查询列表/监控/查询管理，未证明查询编写界面，排除",
+        "历史查询保留：检索分析型平台自带查询控制台，选定 Apache Druid 并读取官方文档与 README"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/apache/druid → 历史快照 200，id=6358188，archived=false（本轮未重抓，沿用原 fetched_at）",
+        "https://api.github.com/repos/apache/druid/license → 历史快照 200，license.spdx_id=Apache-2.0，完整 Apache-2.0 文本（本轮未重抓）",
+        "https://raw.githubusercontent.com/apache/druid/master/README.md → 历史快照 200，README 正文；含 Docker/源码构建、内置 web console 与 query workbench 说明（本轮未重抓）",
+        "https://druid.apache.org/docs/latest/operations/web-console/ → 历史快照 200，官方 Web Console 正文；含 Query 视图、Run/Preview/EXPLAIN/查询历史/取消（本轮未重抓）",
+        "https://druid.apache.org/docs/latest/tutorials/tutorial-query → 本轮 200，官方教程正文；证明 Query 视图即时运行、结果表格、edit pane 原地改写后重跑、结果约 100 行上限",
+        "https://druid.apache.org/docs/latest/querying/sql → 本轮 200，官方 SQL 文档正文；证明 Druid SQL 平台绑定、Broker 规划与 SQL 权限",
+        "https://trino.io/docs/current/admin/web-ui.html → 历史 404；改查 https://trino.io/docs/current/admin/web-interface.html → 200，正文仅监控/查询管理，未采用"
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "security-validation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1150018630"
+      ],
+      "query": "open source security validation platform exposure remediation alternative to Pentera self-hosted",
+      "source_urls": [
+        "https://openctem.io/",
+        "https://api.github.com/repos/openctemio/openctem",
+        "https://api.github.com/repos/openctemio/openctem/license",
+        "https://raw.githubusercontent.com/openctemio/openctem/develop/README.md",
+        "https://openctem.io/product/",
+        "https://pentera.io/",
+        "https://cymulate.com/"
+      ],
+      "note": "websearch 找到 OpenCTEM 后核对其官网、GitHub 元数据、许可证与 README：仓库 id=1150018630，GPL-3.0，自托管/云交付。首页快照给出 scoping→discovery→prioritization→validation→mobilization 五阶段 CTEM 闭环及 verified close 定位；复核实测首页 HTML 的 validation tab 也含复验/复测文案，但为避免把具体验证机制只归给首页，另补抓官方产品页 https://openctem.io/product/ 的独立 validation 段作为直接来源：传感器以 safe checks 复验发现项，retest 按发现项自身工具对其自身端点重跑，可附加 HTTP assertion/Nuclei template；修复只有在该次复测自身证据成立时由有验证权限的人关闭，发现项回归则重开；mobilization 段写明修复任务、负责人、SLA 与 Jira/GitHub 同步。验证以安全复验/复测为主，不等同于完整杀伤链或 BAS 式利用模拟，未运行。另抓 Pentera、Cymulate 官网作商业对照，因已有来源充分的开源完整应用未入批。",
+      "service_boundary": "开源软件可自托管，官方另有云服务；本次仅记录软件本体与服务定位，未验证部署、扫描安全性或云端条款。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source security validation platform exposure remediation alternative to Pentera self-hosted",
+          "outcome": "返回 OpenCTEM、OpenAEV 及若干 ASM/漏洞管理项目；选择 OpenCTEM 继续核对官方来源"
+        },
+        {
+          "tool": "direct_url",
+          "query": "https://openctem.io/product/",
+          "outcome": "初审修复轮直接补抓官方产品页以补齐验证机制来源"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://openctem.io/",
+          "kind": "homepage",
+          "outcome": "抓取成功，正文含五段 CTEM 闭环、verified close 定位；validation tab 亦含安全复验/复测/回归文案"
+        },
+        {
+          "url": "https://openctem.io/product/",
+          "kind": "documentation",
+          "outcome": "补抓成功，独立 validation 段明确 safe checks、按发现项自身工具复测、仅凭复测证据关闭、回归重开及 Pentest campaigns/retests"
+        },
+        {
+          "url": "https://api.github.com/repos/openctemio/openctem",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=1150018630，full_name 一致，license=GPL-3.0"
+        },
+        {
+          "url": "https://api.github.com/repos/openctemio/openctem/license",
+          "kind": "license",
+          "outcome": "抓取成功，返回完整 GPL-3.0 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openctemio/openctem/develop/README.md",
+          "kind": "readme",
+          "outcome": "抓取成功，含 Go API、Next.js、Postgres/Redis 与 Compose/Helm 部署说明"
+        },
+        {
+          "url": "https://pentera.io/",
+          "kind": "homepage",
+          "outcome": "抓取成功，商业对照；自述 exposure validation 与 remediation orchestration"
+        },
+        {
+          "url": "https://cymulate.com/",
+          "kind": "homepage",
+          "outcome": "抓取成功，商业对照；自述 exposure validation、CTEM 与 mitigation"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "siem",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:40556106"
+      ],
+      "query": "official repository lookup: wazuh/wazuh SIEM",
+      "source_urls": [
+        "https://api.github.com/repos/wazuh/wazuh",
+        "https://api.github.com/repos/wazuh/wazuh/license",
+        "https://raw.githubusercontent.com/wazuh/wazuh/main/README.md"
+      ],
+      "note": "直接核对 Wazuh 官方仓库：id=40556106，描述为开源 SIEM/XDR。GitHub license 接口为 NOASSERTION，但 LICENSE 正文按组件分许可：src/engine/ 为 AGPL-3.0-or-later；src/shared_modules/ 下 utils、manager_config、keystore、indexer_connector、common、http-request 等共享库为 GPL-2.0-only OR AGPL-3.0-or-later；其余主体为 GPL-2.0。故按社区核心主体以 GPL-2.0 记录并附 license_review；engine 的完整 AGPL 文本在 src/engine/LICENSE-engine，未随本次快照归档。README 明确 agent 采集日志、manager 规则分析并告警、Indexer/仪表盘浏览告警，覆盖数据平面、检测和调查控制台。未部署。",
+      "service_boundary": "开源软件可自托管；Wazuh Cloud 等托管服务不在本条范围，未部署验证。",
+      "search_attempts": [
+        {
+          "tool": "direct_url",
+          "query": "https://api.github.com/repos/wazuh/wazuh",
+          "outcome": "直接访问官方仓库与许可证/README，未使用 websearch"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/wazuh/wazuh",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=40556106，full_name 一致，license=NOASSERTION"
+        },
+        {
+          "url": "https://api.github.com/repos/wazuh/wazuh/license",
+          "kind": "license",
+          "outcome": "抓取成功，完整 GPL-2.0/AGPL-3.0 混合许可正文"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wazuh/wazuh/main/README.md",
+          "kind": "readme",
+          "outcome": "抓取成功，含 agent/manager、规则告警、Indexer/WUI 与部署方式"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "soar",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:262044260"
+      ],
+      "query": "official repository lookup: Shuffle open source SOAR",
+      "source_urls": [
+        "https://api.github.com/repos/Shuffle/Shuffle",
+        "https://api.github.com/repos/Shuffle/Shuffle/license",
+        "https://raw.githubusercontent.com/Shuffle/Shuffle/main/README.md"
+      ],
+      "note": "直接核对 Shuffle 官方仓库：id=262044260，license=AGPL-3.0（许可证接口返回完整文本）。README 明确其为面向安全人员的开源自动化平台，含工作流编辑器、预制安全工具应用、OpenAPI 应用创建、组织/子组织控制、自托管与 shuffler.io 云；后端 Go、前端 ReactJS、应用 Python/OpenAPI。README 未明确写逐次运行审计，故未作该断言。未运行工作流。",
+      "service_boundary": "开源核心可自托管，另有 shuffler.io 云服务；仅记录软件本体，未运行工作流或验证连接器。",
+      "search_attempts": [
+        {
+          "tool": "direct_url",
+          "query": "https://api.github.com/repos/Shuffle/Shuffle",
+          "outcome": "直接访问官方仓库与许可证/README，未使用 websearch"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Shuffle/Shuffle",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=262044260，full_name 一致，license=AGPL-3.0"
+        },
+        {
+          "url": "https://api.github.com/repos/Shuffle/Shuffle/license",
+          "kind": "license",
+          "outcome": "抓取成功，返回完整 AGPL-3.0 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Shuffle/Shuffle/main/README.md",
+          "kind": "readme",
+          "outcome": "抓取成功，含工作流编辑器、安全应用、自托管/云与技术栈说明"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "soc-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:cortex-xsiam"
+      ],
+      "query": "official product lookup: Cortex XSIAM SOC platform",
+      "source_urls": [
+        "https://www.paloaltonetworks.com/cortex/cortex-xsiam",
+        "https://api.github.com/repos/Security-Onion-Solutions/securityonion",
+        "https://api.github.com/repos/Security-Onion-Solutions/securityonion/license"
+      ],
+      "note": "抓取 Cortex XSIAM 官方产品页，正文自称 SOC platform，列出统一数据层与 SIEM、SOAR、TIP、EDR/NDR 能力，并说明将大量告警归并为优先案件、自动化分诊与统一调查，按商业基本记录入批。另核对 Security Onion 官方仓库：描述含案件管理与检测，但许可证接口为 Elastic License 2.0（ELv2），不是 OSI 开源许可，故未按开源收录，也未把其案件/自动化闭环写成已核实事实。未核价、未部署。",
+      "service_boundary": "商业平台，官方页面定位为统一 SOC 平台；未核价、未部署、未验证案件与自动化工作流。",
+      "search_attempts": [
+        {
+          "tool": "direct_url",
+          "query": "https://www.paloaltonetworks.com/cortex/cortex-xsiam",
+          "outcome": "直接访问官方产品页，未使用 websearch"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.paloaltonetworks.com/cortex/cortex-xsiam",
+          "kind": "homepage",
+          "outcome": "抓取成功，正文含 SOC platform、SIEM/SOAR/TIP、案件归并与自动化分诊"
+        },
+        {
+          "url": "https://api.github.com/repos/Security-Onion-Solutions/securityonion",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=120338179，描述含案件管理与检测"
+        },
+        {
+          "url": "https://api.github.com/repos/Security-Onion-Solutions/securityonion/license",
+          "kind": "license",
+          "outcome": "抓取成功，许可证为 Elastic License 2.0，非 OSI 开源，未收录"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "threat-intelligence-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:8077402",
+        "github:162200234"
+      ],
+      "query": "official repository lookup: MISP and OpenCTI threat intelligence platform",
+      "source_urls": [
+        "https://api.github.com/repos/MISP/MISP",
+        "https://api.github.com/repos/MISP/MISP/license",
+        "https://raw.githubusercontent.com/MISP/MISP/2.5/README.md",
+        "https://www.misp-project.org/",
+        "https://api.github.com/repos/OpenCTI-Platform/opencti",
+        "https://api.github.com/repos/OpenCTI-Platform/opencti/license",
+        "https://raw.githubusercontent.com/OpenCTI-Platform/opencti/master/README.md"
+      ],
+      "note": "核对两条开源实现。MISP：id=8077402，AGPL-3.0；官网与 README 说明其存储 IOC/事件、自动关联、按共享组分发、导出到 SIEM/IDS，支持 STIX 与 MISP 标准格式、sightings、REST/OpenAPI。OpenCTI：id=162200234，GitHub license 为 NOASSERTION，但 LICENSE 正文明确社区版 Apache-2.0、企业版单独许可，按社区核心记 Apache-2.0 并附 license_review；README 说明以 STIX2 组织 CTI 知识和可观测对象，保留来源、置信度、首末次观测，支持导入导出与连接器。未部署。",
+      "service_boundary": "开源软件可自托管；MISP/OpenCTI 的托管或企业版服务不在本条范围，未部署验证。",
+      "search_attempts": [
+        {
+          "tool": "direct_url",
+          "query": "https://api.github.com/repos/MISP/MISP ; https://api.github.com/repos/OpenCTI-Platform/opencti",
+          "outcome": "直接访问两个官方仓库及许可证/README/官网，未使用 websearch"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/MISP/MISP",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=8077402，full_name 一致，license=AGPL-3.0"
+        },
+        {
+          "url": "https://api.github.com/repos/MISP/MISP/license",
+          "kind": "license",
+          "outcome": "抓取成功，返回完整 AGPL-3.0 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MISP/MISP/2.5/README.md",
+          "kind": "readme",
+          "outcome": "抓取成功，含 IOC/事件库、关联、共享组、STIX/IDS 导出与 API"
+        },
+        {
+          "url": "https://www.misp-project.org/",
+          "kind": "homepage",
+          "outcome": "抓取成功，官网自述开源威胁情报平台与共享标准"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenCTI-Platform/opencti",
+          "kind": "repository_metadata",
+          "outcome": "抓取成功，id=162200234，full_name 一致，license=NOASSERTION"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenCTI-Platform/opencti/license",
+          "kind": "license",
+          "outcome": "抓取成功，正文含社区版 Apache-2.0 与企业版单独许可"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OpenCTI-Platform/opencti/master/README.md",
+          "kind": "readme",
+          "outcome": "抓取成功，含 STIX2 知识库、关系、来源/置信度/首末次观测与连接器"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

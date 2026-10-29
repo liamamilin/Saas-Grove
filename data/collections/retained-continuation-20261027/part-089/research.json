@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "nonprofit-crm",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:8495499"
+      ],
+      "query": "official site civicrm.org features; site:civicrm.com email marketing CiviCRM features",
+      "source_urls": [
+        "https://civicrm.com/features/contact-management/",
+        "https://civicrm.com/features-en/mailings/"
+      ],
+      "note": "复用原候选 CiviCRM 并补充官方 Bulk Messaging 功能页。联系人页支撑联系人记录、捐献/活动/会员历史与细分沟通；批量邮件页支撑邮件营销。原稿中的“倡导活动”无对应官方正文，已从 summary/features 删除，未再断言。按初审提示收窄 deployment/technology_stack：Drupal/WordPress/Joomla/Backdrop 集成与 MySQL 未在已读快照中出现，仅保留仓库元数据支持的 PHP 与自托管；mailings 正文提到 Spark 的 pro subscribers，故 summary 区分 AGPL-3.0 社区核心与 Spark 付费订阅。",
+      "service_boundary": "非营利 CRM 以支持者/成员关系记录、累积历史与关系工作为核心。",
+      "search_attempts": [
+        {
+          "query": "official site civicrm.org features",
+          "candidates": [
+            "civicrm/civicrm-core"
+          ],
+          "outcome": "找到 CiviCRM，官方联系人页支撑联系人/捐献/活动/会员/互动历史。"
+        },
+        {
+          "query": "site:civicrm.com email marketing CiviCRM features",
+          "candidates": [
+            "https://civicrm.com/features-en/mailings/"
+          ],
+          "outcome": "补充官方批量邮件功能页；advocacy 功能页 404、docs.civicrm.org 403，未取得正文，故删除倡导活动断言。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/civicrm/civicrm-core",
+          "status": "success",
+          "note": "已抓取官方仓库元数据快照。"
+        },
+        {
+          "url": "https://api.github.com/repos/civicrm/civicrm-core/license",
+          "status": "success",
+          "note": "已抓取完整 AGPL-3.0 许可证快照。"
+        },
+        {
+          "url": "https://civicrm.com/features/contact-management/",
+          "status": "success",
+          "note": "已抓取官方来源快照。"
+        },
+        {
+          "url": "https://civicrm.com/features-en/mailings/",
+          "status": "success",
+          "note": "已抓取官方批量邮件功能页快照。"
+        },
+        {
+          "url": "https://civicrm.com/features/email-marketing/",
+          "status": "error",
+          "note": "HTTP 404，旧路径不存在；改用 features-en/mailings/。"
+        },
+        {
+          "url": "https://civicrm.com/features/advocacy/",
+          "status": "error",
+          "note": "HTTP 404，无对应官方功能正文。"
+        },
+        {
+          "url": "https://docs.civicrm.org/user/en/latest/campaign/",
+          "status": "error",
+          "note": "HTTP 403，未取得可引用的倡导/活动正文。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nonprofit-crowdfunding-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1241862435"
+      ],
+      "query": "github search repositories q=nonprofit crowdfunding; github search repositories q=nonprofit fundraising platform",
+      "source_urls": [
+        "https://api.github.com/repos/gabihorn/givstack",
+        "https://raw.githubusercontent.com/gabihorn/givstack/main/README.md",
+        "https://api.github.com/repos/gabihorn/givstack/license"
+      ],
+      "note": "初审确认 Catarse 的仓库描述与 README 只定位为面向 creative projects 的通用/回报型众筹，未证明非营利组织发起、gift 语义或资金结算给组织；其官网首页快照为客户端渲染加载壳（含 Carregando，未检出 R$、Arrecadado、进度、截止时间或公益分类正文），不能支撑公开进展，故从本叶移除，不再作为案例。Catarse 仓库 archived=true、README 首行声明 deprecated 并指向 common-group/services-core，移除后不再维护该关系。补检索 GitHub 非营利众筹候选后选用 GivStack：官方描述与 README 明确面向社区、会堂与非营利组织的开源自托管众筹平台，活动页含进度条、捐赠者墙与倒计时，支持捐赠录入、Nedarim Plus 机构账户支付回调和管理后台。未以 CiviCRM 贡献/同伴募款组件替补，因其为 CRM 组件而非独立众筹平台。项目创建于 2026-05、当前为单活动部署，成熟度仅按 README 记录，不作更强断言；README 的 clone URL 仍写 givstack/givstack，与当前仓库 owner 不一致，未据此作更强断言。",
+      "service_boundary": "众筹平台以公开活动容器、公众贡献与公开进展为核心，区别于单一捐赠表单。",
+      "search_attempts": [
+        {
+          "query": "github search repositories q=catarse crowdfunding",
+          "candidates": [
+            "catarse/catarse"
+          ],
+          "outcome": "找到 Catarse，仓库描述为面向 creative projects 的众筹平台；初审后因非营利/公益核心证据不足而从本叶移除。"
+        },
+        {
+          "query": "catarse official readme current site",
+          "candidates": [
+            "https://raw.githubusercontent.com/catarse/catarse/develop/README.md",
+            "https://www.catarse.com.br/"
+          ],
+          "outcome": "README 只证明通用/创意众筹与 pagarme 支付网关；官网为客户端渲染加载壳，未取得活动正文。未再保留该案例。"
+        },
+        {
+          "query": "github search repositories q=nonprofit+crowdfunding",
+          "candidates": [
+            "houdiniproject/houdini",
+            "gabihorn/givstack",
+            "calblueprint/revolv"
+          ],
+          "outcome": "Houdini 功能匹配，但许可证为 AGPL-3.0-or-later WITH WTO-AP，仓库 LICENSE 为说明性头部而非完整 AGPL 正文，当前来源校验难以按完整文本证明 SPDX；revolv 是特定机构的项目应用。GivStack 为 MIT、自托管完整活动页应用，采用 GivStack。"
+        },
+        {
+          "query": "github search repositories q=nonprofit fundraising platform",
+          "candidates": [
+            "houdiniproject/houdini",
+            "benweissmann/fundit",
+            "LeandroBerlin/Naima"
+          ],
+          "outcome": "结果多为通用活动型、区块链早期项目或功能不完整；GivStack 直接面向 nonprofits，README 覆盖进度、捐赠者墙、捐赠录入与支付回调，故选其作为本叶唯一案例。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/catarse/catarse",
+          "status": "success",
+          "note": "已抓取官方仓库元数据快照。"
+        },
+        {
+          "url": "https://api.github.com/repos/catarse/catarse/license",
+          "status": "success",
+          "note": "已抓取 MIT 许可证快照。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/catarse/catarse/develop/README.md",
+          "status": "success",
+          "note": "已抓取官方 README 快照，确认开源众筹平台与支付网关。"
+        },
+        {
+          "url": "https://www.catarse.com.br/",
+          "status": "success",
+          "note": "已抓取官网首页快照；复核为客户端渲染加载壳（含 Carregando），未检出金额、进度、截止时间或公益分类正文，未用作核心证据。"
+        },
+        {
+          "url": "https://www.catarse.me/",
+          "status": "error",
+          "note": "HTTP 308，跳转至 https://www.catarse.com.br/，旧域不直接返回正文。"
+        },
+        {
+          "url": "http://catarse.me/",
+          "status": "error",
+          "note": "HTTP 308，旧域跳转至当前 .com.br 官网。"
+        },
+        {
+          "url": "https://crowdfunding.catarse.me/comece",
+          "status": "error",
+          "note": "HTTP 308，跳转至 catarse.com.br 域，未取得正文。"
+        },
+        {
+          "url": "https://api.github.com/repos/gabihorn/givstack",
+          "status": "success",
+          "note": "已抓取 GivStack 仓库元数据：id 1241862435、MIT、archived=false、创建于 2026-05、单活动定位。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/gabihorn/givstack/main/README.md",
+          "status": "success",
+          "note": "已抓取 GivStack README：进度条/捐赠者墙/倒计时、捐赠录入、Nedarim Plus 机构账户回调、自托管部署。"
+        },
+        {
+          "url": "https://api.github.com/repos/gabihorn/givstack/license",
+          "status": "success",
+          "note": "已抓取完整 MIT 许可证快照。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nonprofit-event-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:8495499"
+      ],
+      "query": "official site civicrm.org features",
+      "source_urls": [
+        "https://civicrm.com/features/events/",
+        "https://civicrm.com/features/contribution-pages/"
+      ],
+      "note": "复用原候选 CiviCRM。官方活动功能页提供活动页、在线报名、票务/定价、活动捐款与出席跟踪，并与捐赠者数据库集成；按初审非阻断提示补引 contribution-pages 快照，补充 event fees、收据/致谢自动化与贡献报告，据此改写关系理由。",
+      "service_boundary": "非营利活动管理以筹款活动记录、报名/入场、活动关联捐赠与结算致谢为核心。",
+      "search_attempts": [
+        {
+          "query": "official site civicrm.org features",
+          "candidates": [
+            "civicrm/civicrm-core"
+          ],
+          "outcome": "找到 CiviCRM，官方活动功能页支撑活动页、报名、票务、捐款与出席跟踪。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://civicrm.com/features/events/",
+          "status": "success",
+          "note": "已抓取官方来源快照。"
+        },
+        {
+          "url": "https://civicrm.com/features/contribution-pages/",
+          "status": "success",
+          "note": "已抓取官方贡献页快照；正文含 event fees、收据/致谢自动化与贡献报告，补入活动叶证据。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nonprofit-fund-accounting",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "github search repositories q=nonprofit fund accounting; open source nonprofit fund accounting software github",
+      "source_urls": [],
+      "note": "复用原检索并补充 GitHub/公开网页检索。候选 tmhastings-org/steward（AGPL-3.0）README 状态为 Early development：账本模式/校验插件/模板可用，Web 层、导入器与报表套件仍在建设；NLSM-JeremiahOBrien/nonprofit-ledger（AGPL-3.0）README 明确 Phase 1/7、Not yet usable for real books；MeghaRajviBB/fundflow 为 POC。均不是完整可用应用；GnuCash 等通用会计不满足基金/限制性净资产/功能费用报表核心。本轮已补存 Steward 与 Nonprofit Ledger 的 README 快照，保留缺口。",
+      "service_boundary": "基金会计聚焦基金分区、限制性净资产与功能费用/审计报告，区别于通用会计。",
+      "search_attempts": [
+        {
+          "query": "github search repositories q=nonprofit fund accounting",
+          "candidates": [],
+          "outcome": "原检索未找到符合定义核心的完整应用。"
+        },
+        {
+          "query": "open source nonprofit fund accounting software github",
+          "candidates": [
+            "tmhastings-org/steward",
+            "NLSM-JeremiahOBrien/nonprofit-ledger",
+            "MeghaRajviBB/fundflow"
+          ],
+          "outcome": "发现早期/不完整候选；Steward 自述早期开发，Nonprofit Ledger 仅完成 1/7 阶段且明确不可用于真实账簿，fundflow 为 POC；均不满足完整应用门槛。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "",
+          "status": "no_fetch",
+          "note": "原检索未找到可证明定义性核心的官方来源。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/tmhastings-org/steward/main/README.md",
+          "status": "success",
+          "note": "已保存 README 快照（sources/e90d73ac9b4eb41d5a0dd99ee7e8ab8a0ee3ec381cfc6817136760e500aee098.txt）；自述 Early development，Web 层/导入/报表仍在建设，未纳入批次。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NLSM-JeremiahOBrien/nonprofit-ledger/main/README.md",
+          "status": "success",
+          "note": "已保存 README 快照（sources/056bfe128c34fe72f5eab266a48a1d950de6a9c68f6d5614638318356f715db2.txt）；Phase 1/7，明确 Not yet usable for real books，未纳入批次。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nonprofit-grant-management",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "github search repositories q=nonprofit grant management; open source grant management system github nonprofit recipient",
+      "source_urls": [],
+      "note": "复用原检索并补充检索。候选 sekacorn/CivicOps（Apache-2.0，2026-09 新建，README 称 0.1.0 release candidate，grants 模块含生命周期、支出与报告截止，但整体为多模块平台，生产可用性与成熟度未证明）与 mike-marcacci/gandhi（AGPL-3.0，README 自述 alpha；未展示接收方赠款生命周期、义务或按赠款预算的证据）均未达到本类型“接收方完整赠款管理应用”的收录门槛；未找到可收录案例，保留缺口。本轮已补存 CivicOps 元数据/README 与 gandhi README 快照。",
+      "service_boundary": "受助方赠款管理聚焦资助关系记录、义务/报告与按赠款预算的资金纪律；资助方平台属另一类型。",
+      "search_attempts": [
+        {
+          "query": "github search repositories q=nonprofit grant management",
+          "candidates": [],
+          "outcome": "原检索未找到符合定义核心的完整应用。"
+        },
+        {
+          "query": "open source grant management system github nonprofit recipient",
+          "candidates": [
+            "sekacorn/CivicOps",
+            "mike-marcacci/gandhi",
+            "microsoft/Nonprofits/GrantManagement"
+          ],
+          "outcome": "CivicOps 为 0.1.0 release candidate 的多模块平台，成熟度与生产可用性未证明；gandhi 为 alpha，README 未展示接收方赠款生命周期/义务/预算证据；Microsoft 模板依赖 Power Platform；均未作为完整接收方赠款管理应用收录。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "",
+          "status": "no_fetch",
+          "note": "原检索未找到可证明定义性核心的官方来源。"
+        },
+        {
+          "url": "https://api.github.com/repos/sekacorn/CivicOps",
+          "status": "success",
+          "note": "已保存仓库元数据快照（sources/bb65a2c58454ebbb807eb24e3a88cd2319197b74a0a6312c95aef575f27ed6f6.txt）；Apache-2.0、0.1.0 release candidate、2026-09 创建，未纳入批次。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sekacorn/CivicOps/master/README.md",
+          "status": "success",
+          "note": "已保存 README 快照（sources/1fc2ffffae0aecdc44d694ec252ba0c42398895baae9906a20358a392a0bbc80.txt）；grants 模块覆盖生命周期、支出与报告截止，但整体为 0.1.0 多模块平台，未纳入批次。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mike-marcacci/gandhi/main/readme.md",
+          "status": "success",
+          "note": "已保存 README 快照（sources/978449d7e5c880a9a8e20a36d5eec7c59c85f0834983b015718e9aacfac3fe18.txt）；自述 alpha，未展示接收方赠款生命周期/义务/预算证据，未纳入批次。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

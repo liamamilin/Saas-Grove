@@ -1,0 +1,32 @@
+{
+  "run_date": "2026-10-23",
+  "executor": "Independent regression-test execution by /root/round04_workforce",
+  "purpose": "Independent verification of the round-04 published catalog and application behavior",
+  "suites": [
+    {
+      "name": "backend",
+      "command": "python3 -B -m unittest discover -s server/tests -q",
+      "log": "var/collection/round-04/backend-tests.log",
+      "exit_code": 0,
+      "passed": 57,
+      "failed": 0,
+      "errors": 0,
+      "result": "passed"
+    },
+    {
+      "name": "browser_e2e",
+      "command": "cd web && npm run test:e2e",
+      "log": "var/collection/round-04/browser-tests.log",
+      "exit_code": 0,
+      "passed": 8,
+      "failed": 0,
+      "result": "passed",
+      "test_data": "Playwright-configured local fixture API on 127.0.0.1:5399 and Vite server on 127.0.0.1:5388"
+    }
+  ],
+  "limitations": [
+    "The initial backend run in the restricted sandbox could not bind localhost for its HTTP-server test; the identical command was rerun with approved localhost binding and passed.",
+    "The E2E suite used the repository's isolated fixture API and Vite servers on ports 5399 and 5388; no production database was used or modified.",
+    "Shell emitted harmless pyenv shim rehash permission warnings; Playwright emitted color-environment warnings."
+  ]
+}

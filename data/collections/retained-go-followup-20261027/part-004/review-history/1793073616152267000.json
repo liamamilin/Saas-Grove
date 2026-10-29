@@ -1,0 +1,63 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "workforce-management-for-contact-centers",
+      "application_id": "commercial:assembled",
+      "issue": "batch.json 的 summary/leaf_matches 与 research.json 的 note 把 Assembled 写成具备“排班发布/审批、遵守度跟踪、自愿休假/加班”，但实际读取的两份官方快照正文只覆盖可配置需求预测、人员配置、自动排班和日内调整。adherence 仅出现在排班页的客户案例指标（如 30% increase in team adherence）和博客标题；publish/approval/time off/overtime/vacation/voluntary 在功能正文中无匹配（仅页面生成时间 Last Published）。这属于用案例指标或关键词替代功能正文证据。",
+      "fix": "将 batch.json 的 summary、leaf_matches reason 和 research.json 的 note 收窄为快照实际证明的“预测→人员配置→排班→日内调整”；若保留发布/审批、遵守度、自愿休假/加班，需补充对应的官方功能页快照，并在 leaf_checks 中引用该证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态（phase=included_without_cases，case_status=not_searched，application_ids/research_records 为空），与 research.json 的 case_found 和 batch.json 条目不一致；若下游读取该字段需同步，本报告以 batch/research 和实际快照为准。",
+    "Fider 的 /docs.fider.io/ 与 /guides/ 快照基本只有导航壳；投票、评论能力仅在 /api/posts/ 的 myvotes、most-wanted、most-discussed、duplicate votes merge 等视图或参数中间接体现，未读到独立 votes/comments 端点正文。核心反馈记录、用户归属、重复合并和状态流水线仍由 /api/posts/ 正文支撑。",
+    "Assembled 的 WFM 类型匹配仍成立：预测、人员配置、自动排班和日内调整均有官方正文；finding 只要求修正超出快照的功能表述或补证，不要求移除该商业案例。",
+    "RT README 有“what needs to get done / tasks”的泛化措辞，但 working_with_rt 的 requestor、queue、comment/reply 与 lifecycles 正文足以确认工单核心，不构成向任务管理漂移。",
+    "Medallia 页面同时含 employee feedback、market research 等入口；batch 只取客户 CEM/VoC 部分，边界记录合理，未把员工体验或市场研究纳入本关系。",
+    "Fider Cloud Pro 的 moderation 有限制，自托管开源版包含 moderation；batch 的 open-source/cloud 边界基本正确，摘要可进一步注明 Cloud 计划差异。",
+    "本次未运行任何产品，也未核实价格、架构、部署或 SLA；按任务仅做公开资料只读初审。"
+  ],
+  "leaf_checks": {
+    "ticketing-system": {
+      "application_id": "github:245541",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README（raw stable）自述为开源 issue/ticket tracking system；working_with_rt 正文显示按队列建单、ticket 创建与更新、comment 不发送给请求者而 reply 发送给请求者；lifecycles 正文显示 new/open/stalled/resolved/rejected/deleted 状态、自定义状态、transitions、initial/active/inactive 分类、rights 与 queue mappings；license API 快照含完整 GNU GPL v2 文本；repository metadata 的 id=245541、full_name=bestpractical/rt 与 homepage 一致。",
+      "boundary": "通用工单/问题跟踪应用，可配置为帮助台但不限于向请求者交付帮助；未将任务管理或票务入场券纳入本关系。"
+    },
+    "workforce-management-for-contact-centers": {
+      "application_id": "commercial:assembled",
+      "track": "commercial",
+      "result": "changes_required",
+      "basis": "forecasting 正文显示 configurable forecasting、right-size staffing、forecast management/compare models、email backlog 与 SLA 情景模拟；scheduling 正文显示 AI-powered scheduling、跨班次调整、intraday flexibility、coverage 保持和 agent schedule autonomy。预测→人员配置→排班→日内调整的主循环有正文支撑。",
+      "gap": "未在功能正文中找到 schedule publish/approval、adherence tracking、voluntary time off/overtime；adherence 仅以客户案例指标和博客标题出现，publish/approval/time off/overtime/vacation/voluntary 无匹配。batch/research 把这些写成已覆盖，需收窄或补充官方功能页证据。"
+    },
+    "complaint-escalation-management": {
+      "application_id": "commercial:ruleguard",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "Ruleguard 官方 complaint-management-software 正文覆盖：DISP 监管背景，complaint 从 intake、categorisation、investigation 到 resolution 的 configurable workflow stages，automated notifications，deadline tracking，escalation rules，eight-week response window 与 FOS referral timelines，six-year records，regulatory reporting，root cause/trend analysis，auditable process，以及 human-in-the-loop review 与 exception-based escalation。",
+      "boundary": "组织侧正式投诉与合规处理平台；普通客服请求、客户之声洞察和相邻 GRC 模块未纳入本关系。"
+    },
+    "customer-feedback-management": {
+      "application_id": "github:79280946",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "repository metadata 的 id=79280946、full_name=getfider/fider、description=Open platform to collect and prioritize feedback；README 自述 feedback portal for feature requests and suggestions，并区分 Fider Cloud 与 self-hosted；docs 首页称 open source platform for customer feedback；/api/posts/ 正文明确 Post 是用户在 Feedback Site 创建的主题（可为 suggestion、feature request、bug report 或 complaint），支持 list/find similar/get/create/edit/delete/respond、open/started/planned/completed/declined/duplicate 状态、moderation、subscription、tags、user attribution，以及 duplicate 的 originalNumber 和 votes merge；license API 快照含完整 GNU AGPL v3 文本。",
+      "gap": "投票、评论主要从 posts API 的 myvotes、most-wanted、most-discussed 和 duplicate votes merge 间接体现，未读到独立 votes/comments 端点正文；docs/guides 索引快照仅为导航壳。核心反馈记录、归属、跨客户合并和受管理状态流水线仍由 /api/posts/ 正文支撑。"
+    },
+    "customer-experience-management-platform": {
+      "application_id": "commercial:medallia",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "Medallia /platform/ 正文覆盖 Experience Cloud、survey creation、feedback/behavioral/operational data 采集、Total Experience Profiles 的客户级连续时间线（individuals 与 B2B accounts）、AI-powered themes、root cause analysis、CSAT/sentiment、alerts and case management、smart closed-loop 与 experience programs；/platform/signals/ 正文覆盖 email/website/mobile/voice 问卷投放、smart sampling、chat logs、social reviews、operational data 与 digital behavior 等信号；/platform/text-analytics/ 正文覆盖 NLU intent/themes/sentiment、real-time alerts 与 routing、prioritize support tickets、workflows 和可配置 KPI。",
+      "boundary": "只取客户体验/CEM-VoC 部分；员工体验、市场研究和独立社交聆听不纳入本关系。CX 101 教育文章未作为产品能力证据。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元；未执行产品，未做部署、价格、架构或安全测试；未重新计算 sha256（无 shell），按 REVIEW_SOURCES.json 的 path 原样读取快照；部分 HTML 快照为单行大文件，read 工具对超长行有 2000 字符截断，结论基于可见正文与全行 grep 匹配；未抓取 REVIEW_SOURCES 之外的新页面；input.json 的 progress 为采集前状态，本报告以 batch.json、research.json 和实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-114/ses_groveopencodegop114review2_1793005354.jsonl",
+  "batch_sha256": "b00084b635b8b2260d4cdaf09e544fd89490ae2e7546b7d0e9043555fc94dc94",
+  "research_sha256": "f62c436f2864155d061d5efae8ea7b7979256b23c839b08cf312976b05895769",
+  "input_sha256": "50f1835df2581b69b735e25974a2cf24fe1bbdcc1bd6d42efb74d768d8146846"
+}

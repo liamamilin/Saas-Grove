@@ -1,0 +1,104 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "audition-management / commercial:cast-it-systems：核心工作流证据来自 CITFunctions 页（页脚为 2010 年），首页快照仅为登录页；研究记录已明确这一时效缺口，但尚未证明当前版本仍完全一致。建议后续补充当前官方产品页或帮助文档，确认角色、试镜、selects/approvals 工作流仍现行；本次按商业条目的基本真实性与类型匹配通过。",
+    "performing-arts-organization-management / commercial:patronmanager：首页为 Ticketure 合并过渡说明，足以证明 ticketing、fundraising、marketing 在同一平台且数据存于单一系统，但未直接展示 box office/online 共享库存、联系偏好执行、换退票、重复记录合并等细节；研究记录已将其限定为基本商业匹配。reason 中“会员”在快照里仅见 subscriptions/donor relationships，建议改为“订阅/捐赠者关系”。",
+    "artist-booking-platform / commercial:gigwell：leaf_match 中“完成确认与结算”建议收窄为“合同/电子签名确认、在线押金/付款收取与财务报告”；官方页未证明完整巡演结算或对账单。",
+    "performing-rights-management / commercial:wipo-connect：WIPO Connect 是 WIPO 提供的非开源解决方案（Local 可本地或云部署，Shared 为云模块），track=commercial 仅表示非开源/商业软件，建议在元数据中注明提供方性质与部署模式，避免被误读为典型商业 SaaS 厂商。页面已证明权利人/作品登记、使用匹配与版税分配报告；“许可收费”环节的直接页面证据偏弱，建议后续补充许可/收费模块说明。",
+    "talent-agency-management / commercial:inentertainment：Accounting 页的模块导航链接指向 dev.inentertainment.com，疑似遗留开发链接；正文仍在官方 www 域，建议确认该页为正式发布内容或改用生产模块页。",
+    "research.json 保留了 Music Reports、Rightmos Collect、BMAT BackOffice 的抓取记录与 sha256，但未列入 REVIEW_SOURCES.json，也未进入 batch.json；本次未将其作为证据。若继续留档为排除候选，建议在来源清单中显式登记。",
+    "input.json 的 progress 仍显示 case_status=review_pending、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已有 5 个 case_found 条目；属于输入/产出记录不同步，建议下游以 batch/research 为准并回写进度。",
+    "定义文本存在中文截断或编辑痕迹：performing-rights-management 的 dc_zh 仅一句概括、rules_zh 在“这是一个治理”处截断；talent-agency-management 的 dc_zh 在“如果没有这个管道，”处截断；artist-booking-platform 的 dc_zh 含“原文截断处，根据行业标准补充完整”的编辑注。建议清理定义文本；本次应用匹配以英文定义核心为准，未将其作为阻断项。"
+  ],
+  "leaf_checks": {
+    "artist-booking-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:gigwell"
+      ],
+      "evidence": [
+        "读取 sources/f90790b63c881db990da51e0c647e440863e2835e789afd79ee9936da6ab80a8.txt（https://www.gigwell.com/）：标题为 End to End Booking Management Software，面向 booking agents、artists、venues、talent buyers，正文称“fully integrated suite of tools for artist bookings”“From inquiry to performance”。",
+        "读取 sources/6fe3e66e3ec5b10ff730d2ed1f1ae8e13a6ea368afc03733410872a1572585e3.txt（https://www.gigwell.com/productivity）：为每位艺人建立 booking page 与 EPK；talent buyer 可审阅艺人资料并提交 booking request；提供 contract builder、e-sign、FlexPay 在线押金/付款及实时报表。"
+      ],
+      "core_match": "可预订艺人档案（EPK/booking page）、有日期 gig/offer（tour dates、gig details、offers、confirmed cities）、request→contract→payment 的确认与收款链路均可见，符合 Artist Booking Platform 的定义性核心；contacts、reporting 等属于外围能力，不改变类型。",
+      "gaps": [
+        "未运行产品；官方页未展示完整 hold→offer→contract→performed→settled 状态机，也未展示巡演结算对账单。“结算”仅能按在线押金/付款收取与财务报告理解。",
+        "GitHub Search API“artist booking”检索 1542 项，按 star 前 10 多为教学项目或无许可证仓库，未采用开源项目；研究记录已留档。"
+      ],
+      "open_source": "未建立开源关系；无开源许可证或社区版边界需核对。"
+    },
+    "audition-management": {
+      "status": "pass_with_recorded_gap",
+      "application_ids": [
+        "commercial:cast-it-systems"
+      ],
+      "evidence": [
+        "读取 sources/2134a55caa774358c1ca69983144a89bbf4906e87b701c66e53ef897755fedcc.txt（https://app.castittalent.com/）：首页为 Cast It Talent 登录页，提供 Talent Registration 与 Agent Registration。",
+        "读取 sources/e0d8aaa100b4823d6bac3249a4ca2a1dbd8193b70ba9f75435273619ce741468.txt（https://app.castittalent.com/CITFunctions.aspx）：Cast It Pro 在项目内创建 role lists、把 actors 加入 roles、上传和查看 auditions/reels，维护 lists、scheduling、breakdowns、submissions、notes、availabilities；支持 multiple access levels、comments/feedback、selects/approvals、cast lists 与 project archive。"
+      ],
+      "core_match": "项目/角色/按角色候选/试镜材料/评估反馈/选角结果与归档均具备，符合 Audition Management 的核心结构；公开选角或开放报名只是附属能力，未取代制作方选角工作流。",
+      "gaps": [
+        "首页仅登录页；CITFunctions 页页脚为 2010 年，未验证与当前版本一致。",
+        "页面未给出 in consideration→callback→cast 的明确状态标签，分阶段选角决定由 lists、selects/approvals、cast lists 与 project archive 推定；研究记录已如实保留该缺口。",
+        "GitHub“audition management”检索多为小型或无许可证项目，未采用开源项目。"
+      ],
+      "open_source": "未建立开源关系；无开源许可证或社区版边界需核对。"
+    },
+    "performing-arts-organization-management": {
+      "status": "pass_with_recorded_gap",
+      "application_ids": [
+        "commercial:patronmanager"
+      ],
+      "evidence": [
+        "读取 sources/720c7e3a8443dd186bbe70f70a9bafb7f965077fa53b3831ffc9bd29049e105d.txt（https://patronmanager.com/）：定位为 arts 的 ticketing and CRM solution，明确 ticketing、fundraising、marketing 在同一 connected platform，全部数据在单一系统；Symphony Orchestras 卡片提到 subscriptions、donor relationships、concert activity、patron data at the center；页面称服务 500+ arts organizations；FAQ 说明 PatronManager 与 Ticketure 两产品继续提供和开发。"
+      ],
+      "core_match": "统一 patron 记录、机构自有演出票务、筹款/订阅/营销关系循环三者在同一系统内出现，符合 Performing Arts Organization Management 的定义核心；现属 Ticketure 家族不改变产品身份。",
+      "gaps": [
+        "首页是 Ticketure 合并过渡页，未直接展示 box office 与在线渠道共享库存、联系偏好执行、换退票、重复记录合并等工作流细节；研究记录已限定为基本商业匹配。",
+        "reason 中“会员”未在快照中直接出现，快照只写 subscriptions 与 donor relationships；属措辞层面的轻微超出。",
+        "GitHub“performing arts ticketing”检索未找到同时具备票务与捐赠者 CRM 的成熟应用，未采用开源项目。"
+      ],
+      "open_source": "未建立开源关系；无开源许可证或社区版边界需核对。"
+    },
+    "performing-rights-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:wipo-connect"
+      ],
+      "evidence": [
+        "读取 sources/575394c6a0962cb0193132dd675b35b879aedb9c18252d02457fed22fdfe10f3.txt（https://www.wipo.int/en/web/wipo-connect）：说明 WIPO Connect 是 WIPO 开发、供 CMO 使用的 collective management 解决方案，含 Local 与 Shared 模块；CMO 代表权利人管理版权及相关权。",
+        "同一快照功能列表：registration of right holders；works、performances、sound recordings 的 documentation（identifiers、names、titles、shares、sub-publishing、licensing agreements）；used works 的 identification/matching、usage reports 或 data capture；按 usage、documentation、local parameters 生成 royalty distribution reports；Shared 模块同步本地实现、对接行业数据库并向他国 CMO 传播本地曲库。"
+      ],
+      "core_match": "代表曲库/权利人及份额、使用→权利人归属链、许可协议与收费分配循环三者在同一 CMO 系统中成立，符合 Performing Rights Management 的定义核心；不是单纯 cue sheet 或版税报告工具。",
+      "gaps": [
+        "未运行产品；页面未逐项展示 blanket licence 费率、未匹配使用池、分配规则发布等治理细节。",
+        "“许可收费”环节的直接页面证据偏弱：页面明确的是 licensing agreements 管理与 collect/distribute royalties，未单独展示向音乐用户发放许可及收取许可费的模块；按 CMO 系统类型可作基本匹配。",
+        "WIPO Connect 为非开源 IGO 解决方案，Local 可本地/云部署、Shared 为云模块；GitHub 多次检索未采用可自托管 PRO/CMO 开源项目。"
+      ],
+      "open_source": "未建立开源关系；无开源许可证或社区版边界需核对。"
+    },
+    "talent-agency-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:inentertainment"
+      ],
+      "evidence": [
+        "读取 sources/19dd04ed75c6915cbc43b4d517d4254736e819ce6f114855c9b65dff7aaaf016.txt（https://www.inentertainment.com/）：面向 Agents、Managers、Producers 等；模块卡片含 ADDRESSES（client and contact information）、BOOKINGS（talent 远程查看日程）、CALENDARS（按客户与用户分设日历）、PROJECTS（Film/TV/Commercial）、PROPERTIES（incoming/outgoing submissions），并有 bookings、commission and income reports。",
+        "读取 sources/0022dcc14a7e7a5c2aefc266b2eabcab1c6aca8ba588b81896b63da0b387b73b.txt（https://www.inentertainment.com/accounting/）：管理 client trust accounts 与 revenue centers；处理 payments、经支票或电子转账向客户/第三方分配收入、跟踪 advances、发送 invoices；覆盖 account receivables、commercial renegotiations、commission income、tax information。"
+      ],
+      "core_match": "所代表客户记录、外部机会/项目与提交管道、客户收入→佣金/信托结算循环三者齐备，符合 Talent Agency Management 的核心；不是公开选角市场或艺人预订平台。",
+      "gaps": [
+        "官网未出现“roster”原词，按 client/talent 记录表述；产品为 Mac/PC/iOS/Android 加 cloud hosting 的混合形态，未验证部署细节。",
+        "talentpro.com 与 getrepro.com 抓取失败（TLS/证书问题）已记录；GitHub“talent agency”检索未采用开源项目。"
+      ],
+      "open_source": "未建立开源关系；无开源许可证或社区版边界需核对。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元；按 REVIEW_SOURCES.json 的 path 原样读取 8 份快照并核对 URL 主题与正文，未重新计算 sha256；未做运行时、部署、价格、架构、区域可用性或 SLA 测试；商业条目仅按官方页面做基本真实性与类型匹配，未要求完整工作流实证；research.json 中 Music Reports、Rightmos Collect、BMAT BackOffice 的归档抓取记录未列入 REVIEW_SOURCES，未作为本次证据；input.json 的 progress 与 batch/research 存在记录不同步；定义文本个别中文段落有截断，应用匹配以英文定义核心为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-034/ses_groveopencodegop034review1_1793079206.jsonl",
+  "batch_sha256": "74da3e87b6362b06a807251101026f81a98297f830d6cbc5d9accebad4e3ff89",
+  "research_sha256": "e9545fd79420f731fff5f63971064513ece4a2127e5c6d2fabc79d3890e6ccba",
+  "input_sha256": "1b328ded1b449605a9ff7fd9c5cc8db2c363c48f0f7d104aad4338158671e38c"
+}

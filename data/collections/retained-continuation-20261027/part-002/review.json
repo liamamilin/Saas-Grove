@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "email-client / github:4224042：许可证正文是 GPL-3.0，但官方 README 与 About 页写明为 GPL v3 或更高版本，并对 skins/plugins 附加例外；batch 的 license 字段只写 GPL-3.0。建议精确为 GPL-3.0-or-later，并在 license_review 中记录该例外；核心 GPL-3.0 全文已保存在快照中，因此不影响本次通过。",
+    "email-client / github:4224042：batch 以“面向用户配置服务器”为由，未把 Roundcube 计入 Webmail；但终端用户实际是登录已配置好的 IMAP 服务。若由邮件服务商部署，它也符合 webmail 定义中 operator-deployed generic webmail 的表述。建议把边界表述改为“作为独立客户端软件，不计入服务托管 Webmail”，以免产生事实性歧义。",
+    "shared-mailbox-application / commercial:exchange-online-shared-mailbox：homepage 是通用 https://microsoft.com，建议换成 Exchange 共享邮箱的产品页；Microsoft Learn 正文已足以支持商业基本真实性与类型匹配。",
+    "webmail-application / commercial:fastmail：引用的是官方首页与功能页，没有提供登录后 webmail 界面的操作文档；research.json 已如实记录“未逐项核验完整 Web 工作流”以及抓取失败、未引用的来源。按商业基本真实性标准可以通过，但证据强度弱于其他叶。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 的 case_found 和实际 application_id 不一致；发布前应同步进度元数据。",
+    "disposable-email-service / github:1263870796：仓库和 README 都较新，暂未见独立的使用规模或社区证据；当前任务只要求官方来源、仓库身份和完整许可证，因此不阻断，但可标注成熟度。"
+  ],
+  "leaf_checks": {
+    "disposable-email-service": {
+      "status": "passed",
+      "application_id": "github:1263870796",
+      "track": "open_source",
+      "basis": "MailTub README 正文明确为 self-hosted disposable email：无需注册即可生成随机或自定义本地部分地址，内置 3-pane 收件箱、邮件详情、REST API 与 CLI 读取，邮箱按 1h/6h/24h/7d 过期并声明 no long-term storage；GitHub 元数据 full_name=DML-Labs/MailTub、id=1263870796、fork=false 与 batch 一致；LICENSE 快照为完整 Apache-2.0 正文。",
+      "gaps": "未部署或实际收信测试；仓库成熟度未独立核实。"
+    },
+    "email-client": {
+      "status": "passed",
+      "application_id": "github:4224042",
+      "track": "open_source",
+      "basis": "Roundcube README 与官网正文确认其为 browser-based multilingual IMAP client：支持 MIME/HTML、地址簿、IMAP 文件夹管理、搜索、SMTP 外发，连接实际邮件账户并呈现持久邮箱；GitHub 元数据 id=4224042、full_name=roundcube/roundcubemail 与 batch 一致；LICENSE.md 快照为完整 GPL-3.0 正文，README/About 另述 v3-or-later 与 skins/plugins 例外。",
+      "gaps": "未运行；batch 未附 license_review，且 license 字段未体现 or-later 与例外。"
+    },
+    "email-collaboration-application": {
+      "status": "passed",
+      "application_id": "github:1391032312",
+      "track": "open_source",
+      "basis": "Dispatch README 正文确认其连接 Gmail/Google Workspace、Outlook/Microsoft 365（OAuth）或任意 IMAP/SMTP 邮箱，提供 team/private inbox、per-user/team access、会话内 @mentions 内部评论、assignments、shared drafts、presence；GitHub 元数据 id=1391032312、full_name=codextde/dispatch 与 batch 一致；LICENSE 快照为完整 AGPL-3.0 正文，README 明确 self-host 免费与 Dispatch Cloud 付费的边界。",
+      "gaps": "未运行；batch 未附 license_review 块。"
+    },
+    "shared-mailbox-application": {
+      "status": "passed",
+      "application_id": "commercial:exchange-online-shared-mailbox",
+      "track": "commercial",
+      "basis": "Microsoft Learn 正文把 shared mailbox 定义为组织共同地址（如 info@/support@），由管理员在 admin center/EAC 创建，成员获 Full Access 与 Send As（或 Send on Behalf），可打开、处理并代表该地址发信；创建时生成系统账户并建议 block sign-in；权限可授予/移除；移动邮件时在共享邮箱的 Recoverable Items 留副本。",
+      "gaps": "homepage 为通用 microsoft.com；文档未逐字写“只投递一次、不复制到个人邮箱”，但共享存储与就地操作有正文支持。"
+    },
+    "webmail-application": {
+      "status": "passed",
+      "application_id": "commercial:fastmail",
+      "track": "commercial",
+      "basis": "Fastmail 官方 Domains 页快照（title=Domains，meta=Hosting email for your domain）正文含 own inbox/login；Lightning quick 页正文含 Cyrus、full-text search、webmail；首页/功能页确认其为托管邮箱服务。服务托管、登录即用、浏览器 webmail 三项基本成立。",
+      "gaps": "快照为压缩单行 HTML，读取工具按行截断，未能逐屏核对 webmail 读写/整理/搜索的完整界面；research.json 已记录未逐项核验完整 Web 工作流，以及 proton.me 抓取失败、fastmail.help 未引用。"
+    }
+  },
+  "limits": "只读审查：未运行应用、未部署、未登录任何服务；未使用 shell、未写文件、未读取其他单元。快照均按 REVIEW_SOURCES.json 的 path 读取，batch 的 snapshot_path 按 data/collections 前缀解析。GitHub 元数据与 Fastmail 页面为单行压缩文本，read 工具对超长行仅显示前约 2,000 字符，部分正文只能通过页面标题/meta 与关键词存在性核对，不能视为完整正文通读；Fastmail 的完整 Web 工作流未逐屏验证。research.json 中 prior_session_recorded 的查询未重新执行，proton.me 抓取失败和 fastmail.help 未引用按留档采信。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-002/ses_groveopencodegop002review1_1792933645.jsonl",
+  "batch_sha256": "41b703d3abd509dc1f845715a3034477f40a817d636815e412274daa807e6e31",
+  "research_sha256": "31a8a4c7be9010039c98443b2b12362e4215bda0b7b3c4e22111575cb0aeb77e",
+  "input_sha256": "970d0c54fa71ad2851dfb0278d8f95acfa966dbc5ccadc314f23a99795e11593"
+}

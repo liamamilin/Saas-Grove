@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Salt Security 的 platform 页是 agentic-first 的交互式控制台演示；正文可直接核到 Applications and APIs、Homegrown apps and APIs 节点，Exposure、Source code、Configuration、Runtime behavior 风险项，Risk Score、Posture Gaps 以及 AG-SPM、AG-DR，但 endpoint 级参数、认证、敏感数据字段和显式 API attack 检测主要落在模块名或演示 UI，建议在 summary 中保留“官方页面展示”的限定。",
+    "HiddenLayer 的“guardrail 建议”只在导航/解决方案层出现，正文强证据是“Get actionable fixes for each finding”；建议将 summary 的“修复/guardrail 建议”收敛为“修复建议”，或注明 guardrail 为相邻解决方案。",
+    "ZAP 仅覆盖 DAST，未主张 IAST；作为 DAST/IAST 家族中的单模式案例可接受，但本叶 IAST 侧没有本单元证据。",
+    "DefectDojo 的 Asset 也覆盖 VM、云环境，不是纯应用对象；README 与文档自述 ASPM，且应用/API 资产—Engagement/Test—Finding—修复生命周期完整，按 application-security-platform 收录可接受。",
+    "Cymulate 页面未逐字写出“非破坏性/安全执行”和每个模拟的 prevented/detected/logged 标签；BAS 核心由持续 MITRE ATT&CK/APT 测试、控制验证、scorecards/benchmarks 与 mitigation 更新支撑。",
+    "input.json 的 progress.application_ids 仍为空，research_records 标记为 collector_draft_unapproved；本次按 batch、research 与快照独立复核候选，后续流程需回填 application_ids。"
+  ],
+  "leaf_checks": {
+    "ai-security-platform": {
+      "application_ids": [
+        "commercial:hiddenlayer"
+      ],
+      "result": "pass",
+      "basis": "读取 REVIEW_SOURCES 中 90385f...（platform）、beb861...（AI Discovery）、7cca1f...（AI Attack Simulation）、52017e...（AI Runtime Security）、2e851f...（insight）快照；官方页面 title 与 hiddenlayer.com 正文可核。Discovery 正文含 'Scan AWS, Azure, GCP, VMs, containers, and APIs for AI assets.'、'Surface unofficial models, agents, and API integrations.'、'Automatically associate AI assets with owners, business units, sensitivity, and risk levels.'、'A living, always-current map...'；Attack Simulation 含 jailbreak/injection/role confusion、PHI/PII/proprietary data extraction、agent tool/API unauthorized actions、'Get actionable fixes for each finding.'；Runtime 含 prompt injection/unsafe agent behavior/sensitive data/malicious tool use 检测及 inline block/redact、SIEM/SOAR 交接；insight 含 detection→evidence→action、understood/validated/prioritized/remediated。平台页 hero 为 'The Most Comprehensive AI Security Platform'，并有 Model Scanning。符合 AI 资产—专项评估—发现—响应核心。",
+      "gaps": "HiddenLayer 文档站 docs/help SSL 握手失败，/docs 与 /documentation 404；未核对价格、部署架构或运行时行为。"
+    },
+    "api-security-platform": {
+      "application_ids": [
+        "commercial:salt-security"
+      ],
+      "result": "pass",
+      "basis": "读取 ed1e60...（salt.security/platform）快照。页面 title 为 'Agentic Security Platform - Complete AI & API Protection Platform'，meta 说明 'Secure every AI agent, MCP server, and API ... exposure, code, configuration, and runtime behavior in one unified graph'。正文/控制台含 'Applications and APIs'、'Homegrown apps and APIs'、Agents/MCP/gateways 的统一图谱，Exposure、Source code、Configuration、Runtime behavior 风险项，Risk Score 与 Posture Gaps，AG-SPM 和 AG-DR（含 'Blocks machine-speed abuse in real time'）；导航/模块还展示 Salt Collect（live traffic）、Salt Protect（block logic-based threats）和 Salt Surface（external exposure）。按商业案例的基本真实性与 API 安全类型匹配通过。",
+      "gaps": "页面是交互式 'Salt console' 演示且 agentic-first；endpoint 级 API 清单字段（参数、认证、敏感数据）、显式 'API attack' 文案未在正文逐项展开；未核对价格、架构或实际产品运行。"
+    },
+    "application-security-platform": {
+      "application_ids": [
+        "github:31028375"
+      ],
+      "result": "pass",
+      "basis": "GitHub API 快照 id=31028375、full_name=DefectDojo/django-DefectDojo；README 自述 'Open-source vulnerability management, DevSecOps and ASPM'，负责 end-to-end security testing、vulnerability tracking、deduplication、remediation、reporting，并说明 Community Edition 与 Pro 边界及 Docker Compose 自托管；license API 快照返回完整 BSD-3-Clause 文本（保留版权、三条款、免责声明）。官方文档 Assets 页定义 Asset 为 'application, an API or a cloud environment' 等需要持续跟踪安全态势的对象，承载 Engagement/Test/Finding、SLA、去重与修复；Findings 页定义 Finding 为最低层漏洞记录，含 Active/Verified/False Positive/Duplicate/Out of Scope/Under Defect Review 状态、Risk Acceptance、去重、Reimport、关闭/自动关闭、request/response 证据、endpoint、mitigation。符合应用/API 资产记录—发现—修复生命周期。",
+      "gaps": "文档为 Open Source 版，Pro 功能未计入；未做部署测试；技术栈按快照只保留 Python/Django/Docker，未主张 PostgreSQL。"
+    },
+    "breach-attack-simulation": {
+      "application_ids": [
+        "commercial:cymulate"
+      ],
+      "result": "pass",
+      "basis": "读取 e76e98...（cymulate.com/exposure-validation/）快照；title 'Exposure Validation: Identify & Prioritize Threats'，canonical 与 og:url 均为本页。正文含 'Continuous testing of the latest threats and MITRE ATT&CK techniques.'、'Real-world testing of MITRE ATT&CK techniques and APT campaigns updated with a daily threat feed.'、'Prove prevention and detection for EDR, SIEM, web/email, WAF, DLP and more.'、'Validate prevention and detection'（scorecards/benchmarks、MITRE ATT&CK coverage/gaps）、'Test with the most complete attack library'、'Build and deploy threat mitigation and detection logic for identified gaps.'、'Mitigate with virtual patch & control-ready updates'，并自称 'Enterprise Leader in Breach and Attack Simulation'。符合运行攻击模拟—验证已部署控制—记录差距并驱动缓解的 BAS 核心。",
+      "gaps": "页面未逐字说明“非破坏性/安全执行”或每个模拟的 prevented/detected/logged 标签；旧 security-validation 快照 canonical 指向首页，已在 research 留档并弃用，不作为引用。未核对价格、架构或运行时。"
+    },
+    "dast-iast": {
+      "application_ids": [
+        "github:36817565"
+      ],
+      "result": "pass",
+      "basis": "GitHub API 快照 id=36817565、full_name=zaproxy/zaproxy；README 说明 ZAP 是 free/open-source web app scanner，可在开发/测试阶段自动发现漏洞并支持手工渗透测试；Getting Started 说明 ZAP 是面向 Web 应用的 MITM 拦截代理，可独立应用或 daemon 运行，使用 spider/client spider 探索、passive scan、active scan，记录 alerts（URL、漏洞、响应证据），并明确主动扫描需授权、可切 Safe Mode、支持认证限制与 Docker/自动化。license API 快照返回完整 Apache-2.0 文本。符合 DAST 的运行目标—主动/被动测试—运行时证据边界；batch 未主张 IAST。",
+      "gaps": "ZAP 是 DAST 工具，未提供 IAST instrumentation agent 证据；本叶按 DAST/IAST 家族中的 DAST 单模式案例通过。未做运行时扫描或部署测试。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未读取其他单元，也未做部署/运行时测试、价格/架构/SLA 核对。大型 Webflow/WordPress 单行 HTML 通过全文检索定位引句，未逐字节解码整页；HiddenLayer 文档站 SSL 失败、/docs 404；Salt 页面为演示式控制台；ZAP 仅 DAST；Cymulate 页面未逐项列出每个模拟的响应标签。所有结论基于实际读取的快照及同页官方正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-012/ses_groveopencodegop012review2_1793075781.jsonl",
+  "batch_sha256": "3b3579b3553ffda4b0ba2369452ad23b805e63edb306598ca3028ec645a54931",
+  "research_sha256": "9453ad08a90238c156636c04fcdcf5d0f65654b7f6e255cc539098155cf978f4",
+  "input_sha256": "85d88ba64df0a308219b9e8766ab13b400687028aece8536409e4c2eb5d080b1"
+}

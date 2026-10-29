@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "ai-image-editing-application / github:428292281：IOPaint 的 GitHub 元数据为 archived=true、最后推送 2025-04-29，batch 与 research 已如实披露“已归档、只读、不再维护”；功能证据成立，但若目录要求活跃维护项目，建议标注归档状态或准备替代案例。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]、research_records=[]，与 research.json / batch.json 已收录 5 个案例不一致；建议下游同步 progress，避免把本单元误判为无案例。",
+    "research.json 中 IOPaint 叶级 archived=false 容易被误读为应用仓库未归档；该字段应为叶级标记，应用仓库的 archived=true 已在 batch 摘要与 research.note 中说明，建议补充字段语义说明。",
+    "ai-image-generator / github:525592995：InvokeAI 的 LICENSE 快照包含 Apache-2.0 第 1–9 节全部条款，但未包含标准尾部 “END OF TERMS AND CONDITIONS” 与附录；SPDX 仍识别为 Apache-2.0，建议在许可证说明中注明文本非逐字全本。",
+    "定义资料层面，ai-avatar-video-generator 与 ai-video-generator 的 dc 字段只写了交付物，未展开完整定义性核心；overview / dc_zh 已覆盖，建议后续统一格式。"
+  ],
+  "leaf_checks": {
+    "ai-image-editing-application": {
+      "application_id": "github:428292281",
+      "result": "pass",
+      "basis": "读取 sources/b18e9a4e19c3c948f54940fbe166bae2e40d71c35dbe2d7988ded11248ac5fe7.txt（metadata：id 428292281、archived=true、pushed_at 2025-04-29）、sources/29ece00345cec52621b812781b67b85782bbb6d113638bd27bffcee9a6862f2b.txt（license：Apache-2.0 全文）、sources/dfeef9bdd08e58f2331daa3ed9675cfa27879b51e34bf7f6e98bb0466d494fdd.txt（README：'inpainting & outpainting tool'；Erase / Replace Object / Out-painting；'webui ... to edit your images'；FileManager 'save them directly to the output directory'）。源图像→模型执行擦除/替换/扩图→Web UI 检查→保存输出，四要素成立。",
+      "identity_track": "ID 428292281 与仓库元数据一致；track=open_source；homepage 与 repository_url 指向 IOPaint 官方入口。",
+      "service_form": "自托管 Python Web 应用，提供本地 Web UI 与 CLI 批量处理；不是纯模型/API。",
+      "license_boundary": "LICENSE 为完整 Apache-2.0 文本，metadata spdx_id=Apache-2.0；无独立商业版或受限社区版证据，仓库即完整开源应用。",
+      "gaps": "未安装运行；仓库已归档只读、不再维护，该状态已在 batch 与 research 中披露。"
+    },
+    "ai-image-generator": {
+      "application_id": "github:525592995",
+      "result": "pass",
+      "basis": "读取 sources/d66386e1ea1d8045811a02211959fbe232c7e382494c9f93cf7765936cd4058a.txt（metadata：id 525592995、license spdx Apache-2.0、主语言 TypeScript）、sources/f32a153ebbb16849a1d2391866388f794f7d3d1ef308e0a72206578f22b7d763.txt（Apache-2.0 第 1–9 节）、sources/87f933b43279c7a7955cf8d2af850f5558ff8f2b6a1c4f84019d5db55bbed273.txt（README：'Generate, refine, iterate on images'；本地 web server & React UI；Unified Canvas；Workflows & Nodes；Board & Gallery；SD/SDXL/Flux 等模型清单）。提示词→模型合成→迭代/画布细化→图库保存，核心成立。",
+      "identity_track": "ID 525592995 与仓库元数据一致；track=open_source；homepage 指向 InvokeAI 文档站，README 与仓库身份一致。",
+      "service_form": "自托管本地 Web 服务器 + React UI 的生成工作台；不是仅模型或 API。",
+      "license_boundary": "仓库许可证为 Apache-2.0；README 提到该开源项目可作为多个商业产品的基础，但未发现仓库内存在受限社区版或额外限制条款，开源边界清晰。",
+      "gaps": "未安装运行；LICENSE 文本缺少标准尾部 END OF TERMS AND CONDITIONS 与附录，但第 1–9 节条款完整，SPDX 仍为 Apache-2.0。"
+    },
+    "ai-avatar-video-generator": {
+      "application_id": "commercial:synthesia",
+      "result": "pass",
+      "basis": "读取 sources/7d8582129b3fe93bc8e390218125d7ca44ec97126d53be23e48b877e385e054b.txt：首页 'AI Video and Avatar platform for business'、'Create studio-quality videos with AI avatars and voiceovers in 140+ languages'、'100s of avatars'、'lip sync and voice cloning'；API 示例 /v2/videos 使用 scriptText + avatar，dubbing 示例 lipsyncEnabled: true；FAQ 说明可得到 'script, scenes, and an avatar presenter'。脚本/配音 + 数字人→口型同步表演→视频交付，核心成立。",
+      "identity_track": "commercial:synthesia，官方首页为 www.synthesia.io；类型为企业级 AI 数字人视频平台。",
+      "service_form": "商业 SaaS 平台，首页/FAQ 可见订阅与积分（Basic 500 credits）等计量形态；产品身份真实。",
+      "license_boundary": "商业条目，不适用开源许可证；仅做基本真实性与类型匹配核对。",
+      "gaps": "首页/FAQ 为营销材料，未实际渲染或核验输出规格、定价与 API 细节；同页 Interactive Avatars 实时会话已排除在本叶之外。"
+    },
+    "ai-video-editing-application": {
+      "application_id": "commercial:descript",
+      "result": "pass",
+      "basis": "读取 sources/24d1d56977c9bbaec88af220e06e51bc4c6e4106ae2bb39dfe7d2c10aebca197.txt：首页可见 transcript/transcription、filler words、retakes、Studio Sound、Import/Record、Export，并以文本编辑驱动视频剪辑。用户已有素材→AI 转录/清理/剪辑→审查修改→导出，核心成立。",
+      "identity_track": "commercial:descript，官方首页为 www.descript.com；类型为以文本为中心的 AI 视频/音频编辑器。",
+      "service_form": "商业 SaaS 编辑器，支持导入/录制素材并在编辑器内审查与导出；产品身份真实。",
+      "license_boundary": "商业条目，不适用开源许可证；仅做基本真实性与类型匹配核对。",
+      "gaps": "仅核对首页；未核验生成式画面修改的覆盖深度，未运行；纯提示生成视频属相邻类型，未纳入本叶。"
+    },
+    "ai-video-generator": {
+      "application_id": "commercial:pika",
+      "result": "pass",
+      "basis": "读取 sources/b5a7e666d1a31cf7d9937f3342bca424f7e6c7c5fea42ead1e1d1d00a69c5585.txt（首页：text-to-video / Pika、prompt）与 sources/ebe46a4f2f9e038ff2987a6b2bc2744e2df585daa0607a1978dd282704b868ca.txt（FAQ：prompt、model、credits、Free/Starter/Creator/Fancy 计划）。提示/素材→模型合成短视频→模型与设置→积分计量，核心成立。",
+      "identity_track": "commercial:pika，官方首页为 pika.art，FAQ 为 pika.art/faq；类型为提示词驱动的 AI 视频生成器。",
+      "service_form": "商业 Web 应用，FAQ 可见模型选择、设置与积分/计划计量；产品身份真实。",
+      "license_boundary": "商业条目，不适用开源许可证；仅做基本真实性与类型匹配核对。",
+      "gaps": "首页/FAQ 为压缩 HTML，未逐模型核验分辨率、时长、音频支持；未把 start frame 等应用目录字段当作核心工作流证据；runway/luma 等 308 重定向已如实记录；未运行。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未安装或运行任何应用，也未读取其他单元。核心核对基于 REVIEW_SOURCES.json 所列快照原路径读取；Synthesia、Descript、Pika 的 HTML 快照为压缩单行页面，部分证据通过短句/关键词定位而非完整渲染正文；IOPaint 与 InvokeAI 的 license API 快照为 base64，正文以快照头部、API spdx_id 及同一仓库 raw LICENSE 交叉确认，未发现与 Apache-2.0 冲突；未重算 sha256，仅核对文件名、路径与 REVIEW_SOURCES.json / batch.json 一致。商业条目仅做基本真实性与类型匹配，未核验定价、API、架构、渲染流程或输出规格；未做运行时与部署测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-027/ses_groveopencodegop027review1_1792942387.jsonl",
+  "batch_sha256": "a2b2824a4ad79d88cc35ea96af7907a30562d6f504269d13107783729aa0abf9",
+  "research_sha256": "f441de1638631b466d3bf3806e0be41ee17c9ebb63c9d729a96aaba863335de4",
+  "input_sha256": "dadfb35602b0684ac8cf18a7fcfaccf7a0d146302faa35b078e9bc3c1e38128e"
+}

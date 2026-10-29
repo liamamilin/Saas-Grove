@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 摘要中的「非厂商托管云」属于否定性的形态判断；六份快照只能证明 GPL 社区版是自托管 Web 应用（INSTALL 要求 Tomcat 9、MySQL/MariaDB 或 Docker composition），而 README 同时给出 demo.cerberus-testing.com 和 prod.cerberus-testing.com 实例，官网导航还含 Plans/pricing 链接，但这些商业页面都未抓取。建议改为「开源社区版为自托管 Web 应用」，避免对厂商是否存在托管或商业方案下未经核对的否定结论。",
+    "technology_stack 中的 Appium 未在本次六份快照正文中直接出现：README 只说明支持 iOS/Android，INSTALL 只明确需要 Selenium server；research 所述仓库 topics（selenium/appium/sikuli）位于单行 JSON 元数据被截断的尾段，无法复核。建议补充含 Appium 的官方来源，或将该技术栈标注为推断。",
+    "README 的 License 段落写的是 GPL「version 3 ... or any later version」，而 batch 的 license 字段写作 GPL-3.0；如需与项目自身声明完全一致，可写 GPL-3.0-or-later。GitHub 端点按 GPL-3.0 识别并不构成矛盾。",
+    "README 的徽章与 INSTALL 的示例链接指向 cerberustesting/cerberus-source，而仓库元数据与抓取 URL 为 cerberustesting/cerberus-core；id 12470842 与 full_name 一致，仓库身份可以确认，但建议在备注中说明二者是重命名或镜像关系，便于复现。",
+    "leaf_matches 中「失败运行的截图、回放、日志」略强于原文：features 页把 screenshots/replay/logging 写在执行参数段落，把 failed tests 重跑写在 campaign reporting 段落；可改写为「执行级截图/回放/日志与失败用例重跑」，避免把两者绑定为仅在失败时采集。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，而本批 batch/research 已给出 case_found 与 github:12470842；合并时应同步叶子的 application_ids/case_status，避免下游把本叶当作无案例。"
+  ],
+  "leaf_checks": {
+    "end-to-end-testing-platform": {
+      "result": "verified",
+      "application_id": "github:12470842",
+      "application_name": "Cerberus Testing",
+      "track": "open_source",
+      "definition_core": "满足。README 正文自述为 low-code test automation platform，支持 Web/iOS/Android/API（REST/SOAP/Kafka），通过 Web 界面创建自动化测试用例并编入 campaign；features 页给出 low code actions and controls（覆盖跨浏览器、移动应用、API、桌面与文件测试）、可复用测试步骤、按环境/浏览器/设备/国家/地点执行、Reporting/Traceability/Replay（steps/actions/controls/robots/网络流量，一键回放）、campaign 的 CI/CD 或内置调度触发、详细报告与失败重跑。被测应用整体经用户界面驱动、持久可复跑测试资产、自动执行与逐测试判定及故障证据这三项结构均有正文支撑；INSTALL 中「Before starting a test case, you need a selenium server running」进一步证明执行层是真实的 UI 驱动，而不是只做测试管理登记。",
+      "service_form": "满足开源应用服务形态。INSTALL 要求 Tomcat 9、Java JDK 11、MySQL 5.6/MariaDB 10.1，或使用 docker/compositions/cerberus-tomcat-mysql（含 Keycloak 变体），WAR 部署后通过 Web 界面使用；README 提供 Docker 镜像与 demo 实例。可确认其为可持续使用的完整自托管 Web 应用，而非库或 CLI 运行器。",
+      "identity_id_track": "一致。repository_metadata 快照正文前缀显示 id=12470842、full_name=cerberustesting/cerberus-core、description=The Open Source Test Automation Platform.、fork=false、private=false；batch 的 id、repository_url、github_repository_id 与之一致，track=open_source 与 GPL 许可证及项目性质匹配。",
+      "license": "通过。license 端点快照为仓库 LICENSE 文件（size=35117），解码正文以 GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 开头，属完整 GPLv3 文本；README 的 License 段落亦声明 GPLv3-or-later。GitHub 端点尾部的 spdx_id 因单行 JSON 截断未能直接读取，但正文与 README 双重印证 GPL-3.0 判定。",
+      "community_edition_boundary": "基本通过。research.service_boundary 与 batch 均把关系限定为 GPL 社区版完整自托管应用，明确不含厂商托管云或设备云的可用性承诺，runtime_tested=false；未把 demo/prod 实例当作商业托管服务证据。",
+      "withheld_candidate": "Playwright 的处理合理：其官方 README/安装方式是 npm 库与 CLI 运行器，功能上具备持久脚本、执行与失败证据，但不是本叶要求的完整应用服务形态；research 将其列为 withheld 候选而不建立关系，避免了用简介或元数据替代核心正文。",
+      "gaps": "1）单行 repository_metadata 快照读取时被截断，archived、stargazers_count、topics、homepage 等尾字段未能直接复核，只能依据可见前缀与 research 记录；2）未抓取或核对官网 Plans/pricing 页面，厂商是否存在商业托管方案不明；3）Appium 技术栈与「失败时截图/回放」措辞仅有间接或概括性依据；4）未部署、未运行，runtime_tested=false 为如实记录。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未部署、未做运行时验证，也未联网补充抓取。六份 REVIEW_SOURCES 快照均按 path 原样读取；其中 repository_metadata 与 license 为单行 JSON，读取工具对单行内容约 2000 字符截断，故 archived、stars、topics、spdx_id 等尾部字段只能通过可见前缀、LICENSE 正文与 README 交叉印证。未读取未列入 REVIEW_SOURCES 的 Playwright 历史快照及官网 plans/pricing 页面；未读取采集者 TASK.md、历史脚本或其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-096/ses_groveopendesignp096review1_1793199120.jsonl",
+  "batch_sha256": "1660b7f0f093c13cf53346439103974fe9bd0229b28ea0d6b607ea5b55ba4eae",
+  "research_sha256": "5e930a8dde2b08010966d7017ea48dbbcf87a25c74b8e41522b61d5f039d533b",
+  "input_sha256": "45f2eaa44c3876c222d2d36e2dd66b8ecc671259196dc28a39b379c7141c3435"
+}

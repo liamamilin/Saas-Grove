@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Cassini（github:1177166217）的 README 在 Open 段落中把 MSA/DOE 列入社区版，但 Editions 表把 MSA/DOE 标为 Pro/Enterprise；条目按更具体的版本表处理，research.json 已记录该冲突，建议在条目边界说明中显式保留这一取舍。",
+    "Cassini README 没有用一句话直接说明控制限由过程样本计算；核心证据来自控制图类型、八条判异规则、违规关联规则/样本/特性以及 Show Your Work。若需更硬的引用，可补充控制限计算文档或对应章节。",
+    "OpenQMS（github:1264706707）条目缺少 Cassini 那样的结构化 license_review 块；MIT 许可已由 GitHub license API 快照和 README 证明，建议补齐以保持条目格式一致。",
+    "input.json 的 progress 仍为 application_ids 为空、case_status=incomplete、phase=included_without_cases，与 research.json 的 case_found 及两个 application_id 不一致；下游应以 batch.json/research.json 为准，或同步更新 progress。",
+    "Cassini 与 OpenQMS 的 homepage 未在快照中抓取，未验证可达性；不影响仓库身份和核心功能判断。",
+    "OpenQMS 是覆盖 FMEA、8D/CAPA、APQP、PPAP 等的完整 QMS，本叶关系仅限其已完善的 SPC 子模块；展示时宜保留该范围限定，避免表述为专用 SPC 产品。"
+  ],
+  "leaf_checks": {
+    "statistical-process-control-spc": {
+      "basis": "逐份读取 REVIEW_SOURCES.json 列出的 7 份快照：Cassini 仓库元数据、AGPL-3.0 LICENSE、README；OpenQMS 仓库元数据、MIT license API 响应、README、docs/modules/spc-msa.md。",
+      "definition_core": "Cassini README 正文显示按工厂/特性组织样本、样本流入即更新控制图、八条 Nelson/WECO/AIAG 规则对点判异、违规关联规则/样本/特性，并提供 Cp/Cpk/Pp/Ppk 与 Show Your Work；OpenQMS SPC 手册显示按检验特性录入时间序列子组，支持 X-bar/R、I-MR、P/NP/C/U 图，控制限由已有子组动态计算并可锁定为版本化快照，八条 Western Electric 规则生成分级 SPCAlarm，另含 Cp/Cpk/Pp/Ppk。两例均覆盖定义中的过程特性、时间序列观测、过程自算控制限和统计规则四要素；OpenQMS 的规格限仅用于能力计算，未与控制限混同。",
+      "service_form": "Cassini 为 FastAPI/React 全栈、WebSocket 实时推送、REST/CLI/MCP 的自托管 Web 应用，虽提供 Windows 安装包，但运行形态是服务端持续服务而非单机桌面工具；OpenQMS 为 Docker Compose 部署的 FastAPI/React/PostgreSQL/Redis 全栈 Web 应用。两者均为持续使用的软件服务形态，本轮未部署。",
+      "identity_track": "github:1177166217 对应 saturnis-io/cassini，github:1264706707 对应 Open-Industry-System/OpenQMS；仓库元数据中的 id/full_name 与条目一致，track 均为 open_source。",
+      "license_boundary": "Cassini LICENSE 为带版权抬头的完整 AGPL-3.0 正文，含 END OF TERMS AND CONDITIONS 及 How to Apply；条目只主张 Open 核心的 SPC/审计/RBAC 能力，MSA/DOE、多工厂、时间回溯、电子签名、FAI 等按 Editions 表归 Pro/Enterprise。OpenQMS 为完整 MIT 许可（GitHub license API 快照与 README 一致），无商业分层，整仓 MIT。",
+      "gaps": "未做运行时部署或端到端验证；Cassini 的控制限计算只有图表/公式/样本关联的间接正文证据，未读到专门的限值计算说明；README 的 Open 段落与 Editions 表对 MSA/DOE 归属存在冲突，已由 research.json 记录并按版本表保守处理；homepage 未抓取验证；GitHub API 单行 JSON 的尾部字段（如 archived）未完整查看。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或执行产品，也未读取本单元之外的资料；仅依据本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 指定的 7 份本地快照，未抓取 homepage、定价页或实时网页；GitHub API 的单行 JSON 在读取显示中被截断，仓库 archived 等尾部字段未完整查看；未重新计算 SHA-256，按快照文件名与清单 sha256 的对应关系核对；许可证按标题、完整结构和结尾条款核对，未逐字比对全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-009/ses_groveopencodegop009review1_1793091409.jsonl",
+  "batch_sha256": "39503112947087d7f4dc0ce80ebb567000e685dc9e9046c9d19c998ef3f5f985",
+  "research_sha256": "f354d25ccbdebae9f501b75b1c27ddb17e4626e0c8cc844702fc857bb0365f12",
+  "input_sha256": "3c0565073fda3eb789d0a60bd1e0a24f6093d8823709f5e2eef6ca71aaf93f38"
+}

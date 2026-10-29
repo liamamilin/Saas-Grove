@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍把五个叶子标为 not_searched，application_ids 与 research_records 为空，和 batch.json/research.json 的 case_found 不一致；合并前应刷新状态元数据。",
+    "Notion、Slack features 与 WorkAdventure 首页快照是原始 HTML/JS，部分正文长行被读取工具截断；本轮用官方页面身份、可读片段和关键短语交叉核对，建议后续保存可读的 text/markdown 快照。",
+    "Formbricks 仓库顶层许可证是复合/NOASSERTION；batch 的 license=AGPL-3.0 仅指 community core，ee 子树与部分 packages 例外，展示时应保留 scope 限定。",
+    "Formbricks README 的产品介绍提到 email surveys，但核心许可证段落只列 link/website/in-app；若要严格描述社区版，应确认 email 是否属于 ee，避免把产品级功能都当作 AGPL 核心。",
+    "WorkAdventure 以商业托管服务入表，但其上游 GitHub 项目是开源的；当前未归档仓库/许可证，不应把它当作已确认 OSS 案例。若要 OSS 案例，需补仓库身份和完整许可证审查。",
+    "Life Goals App 为单用户浏览器应用，数据只存本机，不是多租户云 SaaS；按该叶定义可接受，但若导出要求纯云 SaaS 需另作标注。",
+    "Slack 仍以频道对话为主界面；其 team-workspace-platform 归类依赖频道之外的 Canvas/Huddles/文件/应用组装，建议在类型边界说明中保留这一限定。",
+    "commercial:workadventure 的“托管”措辞来自厂商站点和浏览器访问形态，未引用独立的托管/定价页面；若部署形态是关键字段，建议补证。",
+    "collaborative-workspace 本轮未新增开源检索；Notion 官方商业页足以支持该叶，但 OSS 覆盖仍是留档缺口。"
+  ],
+  "leaf_checks": {
+    "questionnaire-application": {
+      "applications": [
+        "github:500289888",
+        "commercial:typeform"
+      ],
+      "evidence": "Formbricks：README 正文明确无代码编辑器、多题型、模板、in-app/website/link/email 调查、按用户群投放、组织成员协作、prebuilt data analysis 与 Docker 自托管；LICENSE 与 README 共同说明 AGPLv3 核心、apps/web/modules/ee 单独企业许可、部分 packages 为 MIT。Typeform：官方 surveys 页正文包含 survey maker、20+ question types、conditional logic/branching、分享、收集、自动分析结果与 track responses。问卷编制、发放、响应与结果四个结构均有正文依据。",
+      "gaps": "Formbricks 的 email 调查是否属于社区核心未由核心许可证段落确认；Typeform 为商业营销页，未做运行时验证。",
+      "status": "pass"
+    },
+    "collaborative-workspace": {
+      "applications": [
+        "commercial:notion"
+      ],
+      "evidence": "Notion 官方 Wiki 产品页标题与描述为 connected workspace for wiki, docs & projects；快照正文 payload 可检索到共享 workspace、sidebar 组织、页面更新与 @ 链接、拖放整理、跨团队搜索、Fine-grained admin roles 与 Advanced permissions。持久容器、成员与分级权限、原生页面创作、容器内组织与检索四项均有正文依据，而非仅凭简介或加载页。",
+      "gaps": "快照为 Next.js 客户端渲染页，正文行未能逐句展开；权限与成员细节依赖页面 payload 关键词与官方产品页，未另抓帮助中心文档。无 OSS 案例。",
+      "status": "pass"
+    },
+    "team-workspace-platform": {
+      "applications": [
+        "commercial:slack"
+      ],
+      "evidence": "Slack features 页正文含 Channels、Huddles、Canvas、Lists、File Sharing、Workflow Builder、集成与团队协作工具定位；Canvas 页正文说明每个 channel/DM 自带 canvas、可建独立 canvas、嵌入文件/图片/视频、评论协作、workflow 与 app 集成。容器内对话、文件、会议、内容/任务、托管工具多面组装成立，符合该叶以组装而非单一界面定义产品的结构。",
+      "gaps": "features 页正文行过长，部分能力只能按关键词确认；Slack 以频道对话为主界面，TWP 归类依赖组装证据而非消息功能；未做运行时验证。",
+      "status": "pass"
+    },
+    "virtual-office-workspace": {
+      "applications": [
+        "commercial:workadventure"
+      ],
+      "evidence": "WorkAdventure 首页正文有 virtual office、spontaneous conversations、approaching someone、scheduled meetings；virtual meetings 页 FAQ 正文明确 2D virtual office、avatars、meeting rooms/desks/multifunctional spaces、proximity chat 走近触发 private conversation bubble（text/audio/video），会议与协作发生在同一 place。持久空间、具身在场、共位发起对话三要素均有正文依据。",
+      "gaps": "首页正文部分截断；托管/定价形态未由独立页面确认；未归档开源仓库许可证，故只按商业托管服务记录。未做运行时验证。",
+      "status": "pass"
+    },
+    "life-planning-application": {
+      "applications": [
+        "commercial:life-goals-app"
+      ],
+      "evidence": "Life Goals App 官方帮助页正文有价值观、10 个生活领域评分与重点、3/5/10 年 Summit Goal、年度目标 3–5 个可衡量带日期指标、每季度约三个里程碑、On track/At risk/Off track 复盘、习惯网格、日/周/月/季/年回顾、Insights 与 Wall of Wins；首页说明浏览器端、一次性付费 $49.99。个人目标→较小跟踪单元→进度记录→周期回顾成立。",
+      "gaps": "单用户、本地浏览器存储，无云同步或多租户；按该叶定义（含纸面/离线同样满足）可接受，但非典型云 SaaS。未做运行时验证。",
+      "status": "pass"
+    }
+  },
+  "limits": "本次为只读初审：未运行应用、未部署、未重新抓取网页、未用 shell 重算 SHA-256；结论基于本单元存档快照与官方页面。Notion、Slack features、WorkAdventure 首页为原始 HTML/JS，正文长行被读取工具截断，部分细节只能靠可读片段与关键词交叉核对；未单独归档 Notion/Slack 的管理员与权限帮助文档。商业价格、套餐与架构未审计；WorkAdventure 的开源许可证未审查（按商业托管服务记录）。Life Goals App 为本地浏览器应用。input.json 的 progress 元数据仍为 not_searched，和 batch/research 不一致。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-015/ses_groveopencodegop015review2_1792940117.jsonl",
+  "batch_sha256": "a2d6d215a5a38169897c064f973870aab6b0aee4961026d5451b2b2fad609eb9",
+  "research_sha256": "05b4962ac73665eaa0fdc34cd0e34c48ad80960f33b0360eea9bb87e5c537723",
+  "input_sha256": "fabb8fc99902cd408e4924b9184bc38213415eafdcb6266b496520ebe00418f5"
+}

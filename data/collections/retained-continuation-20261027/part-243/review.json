@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态：5 个叶均为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 的 case_found 及 case_ids 不一致。本次以 batch/research 和实际快照为准；建议下游同步 progress，避免应用归属丢失。",
+    "Madrona 的 Apache-2.0 代码附有商标政策（不得将衍生品命名为 Madrona），但不限制代码使用、修改或再分发；官网明确完整平台可自托管且无 paid-only edition，社区版边界清楚，不构成许可阻断。",
+    "CollectiveAccess 的 movement-based location tracking 需要 app.conf/profile 配置，官方文档称 workflow-based tracking 为默认/多数场景；其 movement 叶匹配属于能力匹配，不是开箱即用的逐次移动记录。",
+    "research.json 条件叶备注称 CollectiveAccess“把状况信息绑定到对象记录”，快照原文仅称支持 use、condition、conservation 的 administrative data，措辞略宽；因未把 CollectiveAccess 列入该叶 case_ids，不影响本叶结论。",
+    "Collections 页快照是单行压缩 HTML；Object entry、Location & movement control、Condition checking、Conservation、Loans in & out、Facility reports 等正文关键词已在快照中命中，在线页面仅用于交叉定位同一正文，未逐字通读全部脚本与样式。",
+    "collections 叶主要依赖 README 与产品页的能力说明，缺少像 condition/conservation/loan/movement 那样的专门 playbook；核心结构仍由 Transactions、Locations、Inventory 及页面正文支持，但字段级证据不如其他叶厚。",
+    "CollectionSpace 作为候选已在 research.json 注明“许可证据未通过，保留候选”，未纳入 batch；该留档可接受，后续若扩充借展/状况案例需补官方许可与正文证据。"
+  ],
+  "leaf_checks": {
+    "museum-collections-management": {
+      "status": "pass",
+      "applications": [
+        "github:1402200883",
+        "github:4337337"
+      ],
+      "basis": "Madrona README 的 Collections 段列出 Cataloging、Transactions（object entries、acquisitions、loans in/out、exhibitions、object exits、deaccessions）、Care & conservation、Locations、Inventory；Collections 快照含 Object entry、Acquisition & accessioning、Location & movement control、Cataloguing 等正文。CollectiveAccess README 与官方 Introduction 说明 Providence 是博物馆/档案馆藏品的编目与数据管理后端，支持对象记录、可配置元数据、层级关系、媒体及 use/condition/conservation 数据；location tracking 文档另证当前位置与位置历史。",
+      "gaps": "CollectiveAccess 快照未直接展示入藏、退出等 custody 事件，其匹配主要落在对象记录、文档与位置层；Madrona 侧核心覆盖较完整。"
+    },
+    "museum-condition-reporting": {
+      "status": "pass",
+      "applications": [
+        "github:1402200883"
+      ],
+      "basis": "Madrona README 将 Condition reports 列入 Care & conservation；Collections 快照含 Condition checking（structured assessments、photography、conservation recommendations）；record_condition_check.md 正文给出 object link、inspection date、inspector、purpose、overall rating、condition description、component notes、photographs，并要求 pre-loan/post-loan 报告互相引用、异常升级到保护或事件流程。",
+      "gaps": "权限化共享、下次检查排程等非核心能力未在快照中展开，未核对界面实现；CollectiveAccess 仅有 condition administrative data 的通用表述，未作为本叶案例。"
+    },
+    "museum-conservation-management": {
+      "status": "pass",
+      "applications": [
+        "github:1402200883"
+      ],
+      "basis": "Madrona README 将 conservation treatments 列入 Care & conservation；Collections 快照含 Conservation（treatments、materials、conservation history、before/after documentation）；start_conservation_treatment.md 正文分 Agreement、Execution、Outcome 三阶段，含 proposal、authorization、conservator、materials、dates、before/after condition reports、recommendations、restrictions、recall date，且记录链接到 object。",
+      "gaps": "借入对象的所有者书面同意未在 conservation playbook 中单独展开；结果写回 object record 的具体字段未明示，但 treatment record 本身 object-bound。"
+    },
+    "museum-loan-management": {
+      "status": "pass",
+      "applications": [
+        "github:1402200883"
+      ],
+      "basis": "Madrona README 列 Transactions 的 loans in/out；Collections 快照含 Loans in & out（facility reports、condition documentation、insurance tracking）；process_loan_in.md 与 process_loan_out.md 正文给出 proposal、agreement、active、returned 状态，lender authorizer、loan agreement reference、insurance、facilities report、purpose、dates、pre/post condition reports、return/close。",
+      "gaps": "快照未出现“禁止永久借展”的明文，但固定起止日期及归还/关闭流程已具备；CollectiveAccess 官方正文未展开协议、状态与交接，因此未作为本叶案例。"
+    },
+    "museum-object-movement-management": {
+      "status": "pass",
+      "applications": [
+        "github:1402200883",
+        "github:4337337"
+      ],
+      "basis": "Madrona README 列 hierarchical location tree、movement tracking、inventory；Collections 快照含 Location & movement control、Current location tracking、Movement history、Movement authorization；record_movement.md 正文给出 object、from/to location authority、move date、reason、handler、authorized by，完成后自动更新 current location 并保留 history；loan transit 明确由 loan record 处理。CollectiveAccess 的 history_tracking_current_value 文档给出 storage location hierarchy、current location、location history，以及 workflow-based/movement-based tracking 与 movement records。",
+      "gaps": "CollectiveAccess 的 movement-based tracking 需配置且非默认，快照未展示 handler/authorizer 字段，其匹配为能力匹配；Madrona 侧逐次移动记录与授权字段证据较完整。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行任一产品，未做运行时、UI 或权限测试。已按 REVIEW_SOURCES.json 的 path 原样读取全部 17 个快照；部分 HTML/JSON 为单行压缩，正文通过关键词、结构和官方页面文本交叉定位，未逐字通读每个页面的全部脚本与样式。未审查其他单元、采集者 TASK.md、历史脚本或 issues.json。未验证许可证法律效力；许可证完整性依据 GitHub license 响应的文件大小、SPDX/README 与正文开头判断。input.json 的 progress 与 batch/research 状态不一致，本报告以 batch/research 及实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-243/ses_groveopencodegop243review1_1793035964.jsonl",
+  "batch_sha256": "3069f6b1b1ec271b59cd28efb56788affdd4475575ee7f95245d5175a7d927d0",
+  "research_sha256": "4ea5ea450b254e556853124a7e3b1d0c8da101aa8b8be2eb08f417a504bb9414",
+  "input_sha256": "324e40e38b8eebaaa966b5640548d2cf7180f011bf0760b3f60b843b37810a56"
+}

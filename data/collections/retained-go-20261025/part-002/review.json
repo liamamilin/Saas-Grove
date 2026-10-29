@@ -1,0 +1,73 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "leaf": "pdf-document-reader",
+      "severity": "blocking",
+      "issue": "batch 中 DocSpace 的 reason 及 research 的 service_boundary 声称覆盖“固定版式PDF查看（缩放、翻页、下载/打印）”，但引用的 README、Windows 社区版安装页、房间文档管理页只说明可创建/编辑/预览 PDF、Preview 会打开“corresponding ONLYOFFICE Viewer”。正文没有描述 PDF 的固定版式渲染、翻页/跳页、缩放/适应页面。按“来源正文须证明核心工作流”的标准，现有证据只证明格式支持与预览入口，未证明 PDF/Document Reader 的第三项核心（在分页文档中移动）。",
+      "fix": "二选一：(a) 补抓 ONLYOFFICE 官方 PDF Viewer/Editor 用户指南中明确写到打开 PDF、按页翻页/跳页、缩放/适应页面的正文，加入 entry sources 与 leaf_match.source_urls，并据此改写 reason 与 service_boundary；(b) 将 pdf-document-reader 改为 insufficient_evidence，从 batch 移除该 leaf_match，并删除“缩放、翻页”表述。不得保留无正文支撑的边界描述。"
+    },
+    {
+      "leaf": "content-curation-platform",
+      "severity": "major",
+      "issue": "Raindrop 的 homepage 快照 13e5... 只有 Next.js 空壳（标题与元数据，无正文），但 batch reason 写“官方产品页展示网页收集与集合组织”。实际可核验正文只有官方博客：公开页、嵌套集合、标签过滤、公开 profile、嵌入；保存/捕获动作仅由“bookmarks”和相关文章卡片间接体现，reason 对 homepage 的表述超出快照正文。",
+      "fix": "把 reason 收窄为只引用博客可证内容（公开策展页、集合与嵌套集合、标签、公开 profile、嵌入），并明确 homepage 快照无正文、capture 仅有间接证据；若要在 reason 中主张“保存网页”，可补一条 raindrop.io 同主机官方帮助页（如 help.raindrop.io 的保存/扩展说明），但不作为阻塞，不追加商业深调。"
+    },
+    {
+      "leaf": "content-management-system-cms",
+      "severity": "minor",
+      "issue": "WordPress 的 leaf_match.reason 大部分篇幅解释仓库 license API 为 NOASSERTION、完整 GPL 文本人工核对，对定义性核心只说“描述站点内容创建、编辑、发布及管理”；没有点出 features 页可证的结构化内容类型（Custom Content Types）、耦合呈现层（Theme System）和发布生命周期（Drafts/Schedule/Revisions）。",
+      "fix": "改写 reason，引用 wordpress.org/about/features/ 的 Publish with Ease、Publishing Tools、Theme System、Custom Content Types 与安装文档，逐项对应结构化内容/编辑后台/耦合呈现/发布生命周期；license 说明留在 license_review 与 research.note，不占用 reason。"
+    },
+    {
+      "leaf": "collaborative-document-editor",
+      "severity": "minor",
+      "issue": "Etherpad 的 features 写“支持导入导出文档”，但引用的 README 只明确“Full data export is built in”，未提导入；该功能主张缺少正文。",
+      "fix": "将 feature 改为“内置完整数据导出”并引用 README；若保留“导入”，补官方插件或文档来源，否则删除“导入”表述。"
+    }
+  ],
+  "leaf_checks": {
+    "blogging-platform": "Ghost 的 docs.ghost.org Introduction 与 routing 正文给出默认倒序 posts 主页、{slug} 独立 URL、tag/author 存档及 Contributor/Author/Editor 发布角色，四项核心均有正文；无阻塞缺口。",
+    "content-management-system-cms": "WordPress features 页的 Posts/Pages、Draft/Schedule/Revisions、Theme System、Custom Content Types 与安装文档支撑四项核心，但 reason 目前只泛称“创建/编辑/发布”并夹带 license 说明，需改写。",
+    "headless-cms": "Strapi README 明示 content-type builder、自动 REST/GraphQL、Draft & Publish、Media Library，覆盖内容模型/条目/API 交付/解耦前端；条目间引用字段未在正文出现，留档缺口轻微。",
+    "product-documentation-portal": "RTD 的 Features、docs-as-code、Server side search、Flyout menu 与文档结构页覆盖 docs-as-code 生产、版本化托管、跨版本检索和读者侧导航；导航树由接入的 Sphinx/MkDocs 工程生成，reason 已限定该边界。",
+    "content-curation-platform": "Raindrop 官方博客正文可证公开策展页、嵌套集合、标签过滤、公开 profile 与嵌入；homepage 快照是无正文 JS 壳，capture 仅间接可见，reason 需收窄到博客证据。",
+    "feed-reader": "Miniflux README 的 RSS/Atom/JSON Feed、OPML、后台调度、分类/书签，配合 API 的 read/unread/removed、status=unread、feed/category/user 三级 mark-all-as-read 与 counters，以及首页未读页截图，覆盖三项核心。",
+    "academic-paper-reader": "Zotero PDF Reader 文档覆盖打开论文、全文阅读、高亮/批注、笔记与按页定位，web_vs_desktop 说明持久文库；书目身份（DOI 等）未在引用正文直述，商业条目按基本类型匹配接受。",
+    "e-book-library-application": "Kavita README 的 epub/pdf 馆藏、Collections/Reading Lists/Want to Read、元数据筛选与响应式阅读器覆盖书目录/组织/阅读访问；Kavita+ 付费项已在 summary/reason 排除。",
+    "e-book-reader": "Kavita EPUB 阅读器文档的页内进度保存、跨设备续读、目录/翻页/排版控件与 README 的阅读服务器定位，覆盖打开书籍/阅读呈现/持久位置/书内移动。",
+    "pdf-document-reader": "DocSpace 安装页与房间管理页只证明可创建/编辑/预览 PDF 并调用 ONLYOFFICE Viewer，未证明固定版式渲染与翻页/跳转/缩放；reason 与 service_boundary 的“缩放、翻页”无正文支撑，是阻塞项。",
+    "read-it-later-application": "wallabag 用户文档的 Unread→Archive、Favorite，主页/README 的保存网页、抽取正文、自有存档与浏览器阅读，覆盖保存—持有内容—未读/归档队列—应用内阅读。",
+    "public-data-portal": "CKAN 文档快照仅作候选，GitHub license API NOASSERTION 与短 LICENSE 不足，Socrata 两个路径 404 已留档；保持 insufficient_evidence、无 case_ids，未改范围。",
+    "bookmark-manager": "Linkwarden README 的链接捕获、collection/sub-collection/tags、全文检索、自托管与浏览器扩展，安装文档证明可部署，覆盖引用记录/有意捕获/持久库/组织检索。",
+    "reading-library-application": "StoryGraph 仅 Freshdesk 帮助快照且主站 403，BookWyrm shelves 文档有四状态书架与日期但 ACSL 1.4 非 OSI；两候选均不足，保持 insufficient_evidence。",
+    "collaborative-document-editor": "Etherpad README 的实时协作、逐键作者归属、修订时间轴与自托管，覆盖共享文档/共享访问/并发合并；共享入口（pad 链接/邀请）未逐字说明，属轻微缺口；另有“导入”feature 缺正文。",
+    "distraction-free-writing-application": "Novlr 帮助页证明 Focus Mode 需从写作屏右上角主动开启，首页把 focus mode 与 plot grid、目标/streaks、社区、笔记侧栏并列，未证明默认或中心；boundary_unresolved 并移出 batch 合理。",
+    "document-editor": "DocSpace 安装页确认房间内创建/编辑文本文档，ONLYOFFICE 帮助的字体/字号/颜色、页面方向/尺寸/边距、下载/打印（含 Save to PDF）覆盖持久文档/原位编辑/显式格式/页面化输出。",
+    "markdown-editor": "SilverBullet README 的 Markdown 页面、live preview、纯文本 Space 与链接/查询，覆盖 Markdown 源/标记编辑面/派生预览三项。",
+    "note-taking-application": "SilverBullet README 的 Space/Markdown 页面、Page Picker、链接与查询覆盖笔记单元/个人库/捕获与返回；独立搜索入口未逐字出现，属轻微缺口。",
+    "outliner": "Workflowy bullets 帮助的 Tab/Shift+Tab 缩进、无限层级、拖动携带子项、展开/折叠，覆盖条目/缩进层级/子树操作；持久化未在快照正文直述，商业条目按基本类型匹配接受。",
+    "personal-knowledge-management-application": "SilverBullet README 的 wiki 式双向链接、页面网络导航与 SLIQ 查询覆盖知识笔记/用户链接网络/可导航检视；反向链接面板未逐字说明，双向链接足以支撑。",
+    "visual-note-taking-application": "Heptabase 首页正文的 whiteboards and cards、visual knowledge base、connected knowledge base，以及 MCP 参考的 list_whiteboards/read_whiteboard/place_whiteboard_objects/create_object，覆盖画板/自创卡片/空间组织/个人知识库。",
+    "collaborative-spreadsheet": "DocSpace 安装页的邀请/实时共编/评论与 ONLYOFFICE Fast 协作模式，配合 A1/R1C1 地址、公式引用与自动重算，覆盖共享工作簿/表格语法/共享访问/合并当前版本。",
+    "spreadsheet-application": "ONLYOFFICE InsertFunction/AdvancedSettings 的 A1/R1C1 地址、公式栏、单元格/区域引用、默认自动重算与 F9，配合 DocSpace 的表格创建，覆盖持久工作簿/寻址网格/公式/依赖重算。",
+    "structured-table-lightweight-database-application": "Grist README 的命名且单一类型的列、Python 公式与自动更新、引用/引用列表、记录导入更新、表单、widget 视图与筛选，覆盖用户表/类型字段/记录/视图；视图命名与 sort/filter 细节部分依赖产品文档。"
+  },
+  "limits": [
+    "本会话为完全只读初审：未运行 validate、未部署或执行第三方项目、未复算 SHA-256；只读取 batch.json、research.json、notes 与 sources 快照正文。",
+    "采集与初审使用同一模型 open-design/deepseek-v4.1-flash 的独立会话，独立性弱于跨模型审查；最终以主会话复核为准。",
+    "15 个叶子沿用 round-06 的查询（WordPress、Strapi、Raindrop、Zotero、Kavita×2、Linkwarden、Etherpad、SilverBullet×3、Workflowy、Heptabase、Grist、pdf-document-reader），query 字段是标签而非本轮可复现查询；notes/part-002-corrections.md 写“其余叶子 13 个”与实际 15 个不符，应更正。",
+    "商业条目 Raindrop.io、Zotero、Workflowy、Heptabase 只做基本真实性与类型匹配，未核价、合同、隐私、数据驻留或企业条款。",
+    "全部条目 runtime_tested:false；Kavita README 自述 1.0 前为 beta，Strapi ee/、Grist full edition、Kavita+ 的实际功能门控均未运行验证，社区版边界仅依据官方文字。",
+    "public-data-portal 与 reading-library-application 保持 insufficient_evidence，distraction-free-writing-application 保持 boundary_unresolved 且不在 batch；未改 included 范围，也未据此推断类型不存在合格产品。",
+    "research.json 顶层多出 batch_id 字段，TASK 示例只列 schema_version 与 leaf_cases；若导入器严格校验 research schema 需确认，不影响本轮内容判断。",
+    "Raindrop homepage 快照为无正文 JS 壳、DocSpace PDF 阅读证据不足，是本批两个主要留档缺口；其余叶子也存在个别属性仅由产品族文档间接覆盖的情况（如 Strapi 条目引用、Kavita 封面/标题字段）。",
+    "Zotero 以 commercial 记录（付费存储），未走 OSS 仓库与许可核验；若最终库要求 OSS 优先，可另建 OSS 条目，但本条按商业基本真实性通过。",
+    "来源快照为 2026-10-23/24 的时点副本，页面后续变更未跟踪；本报告不声称已完成价格、部署可行性或运行时行为核验。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-002/ses_groveopendesignp002review2_1792817695.jsonl",
+  "batch_sha256": "721f6451564348c427d511053cda84f63926d18b154dc53e617efdbb373b3761",
+  "research_sha256": "59732bcbb5a5425c1ff4a2b222d8d0e080e176e5d3d4d5777667bb1da4b0876f",
+  "input_sha256": "6495747a7592e02085467bd02b2944221c6300108e62473efe5a473777184f32"
+}

@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 batch.json/research.json 已收录 4 个应用、5 个叶子均 case_found 不一致；建议同步单元元数据，避免下游误判为无案例。",
+    "openSenseMap 条目身份绑定 sensebox/openSenseMap-API（仓库 id 16999809，MIT 全文已核），但摘要中“展示层由同为 MIT 的独立前端提供”仅见 sensebox/openSenseMap README 的 MIT 一行，未附该前端仓库元数据与许可证全文快照；若将平台整体视为应用，建议补充前端仓库身份与许可证快照，或把表述严格限定为 API 后端。",
+    "openSenseMap 的 docs.opensensemap.org 为 Loading 壳页，研究记录已如实拒绝并改引 API 路由；首页为 JS 应用壳，仅用于身份/元描述，核心证据来自 API 路由与 README，建议在条目中保持这一证据分层。",
+    "HydroServer 的 hydroserver.org 快照可读部分以 VitePress 导航/页面索引为主，核心工作流证据应主要引用 README 正文；研究记录中“官方文档站说明……”的表述宜收敛或补充正文快照。离散实验室采样工作流未获证据，但该叶允许连续传感器序列，故不阻断。",
+    "HydroServer 的“最新数据/当前状态展示”在 README 中主要体现为时间序列共享与 Web 数据管理，具体 UI 的当前值视图未单独核到；建议补充一页可读的当前数据/历史查询正文，以更直接覆盖叶核心。",
+    "ChemicalSafety EMS 的化学品库存页覆盖容器、SDS、GHS、审批、相容性、储存限值与 Tier II 等报告，危废页覆盖废物概况、累积区、储存时间、桶/实验室包、联单、两年报告与销毁证书；但“应急响应支持/离线知情权访问”未在快照正文中明确出现，批次也未主张，暂不作为缺口。",
+    "Teledyne RegPerfect 产品页正文明确 DAHS、实时采集、QA 与 40 CFR 60/63/75/98 等报告；页面另提“ambient systems”集成，批次已正确将叶边界限定为 CEMS/排放源，不构成类型漂移。",
+    "商业条目仅按官方产品页做真实性与类型核对，未验证价格、架构、部署或运行时；这符合本次商业初审范围。"
+  ],
+  "leaf_checks": {
+    "emissions-monitoring-cems": {
+      "application_ids": [
+        "commercial:teledyne-monitor-labs-regperfect"
+      ],
+      "status": "matched",
+      "basis": "Teledyne Monitor Labs 官方产品页正文（47befea2…）明确 RegPerfect 为 CEMS 的 Data Acquisition and Handling System/DAHS，实时运行，按联邦/地方监管要求完成数据采集、质量保证与报告，列出 40 CFR 60/63/75/98、编辑/重算、校准气管理、QA 测试监控、合规组件等；与叶的“受监管排放源—连续采集—规定转换—限值/合规记录”核心一致。官网根页仅为身份记录。",
+      "gaps": "未核仪器协议、现场部署、具体报告模板；商业条目按基本真实性与类型匹配审查，未查价格/架构。"
+    },
+    "environmental-monitoring-platform": {
+      "application_ids": [
+        "github:16999809"
+      ],
+      "status": "matched",
+      "basis": "GitHub 仓库元数据证明 sensebox/openSenseMap-API、id 16999809；license 快照为 MIT 全文；README 说明 API 由 opensensemap.org 使用及 MongoDB/Docker 部署；api.opensensemap.org 路由正文列出 boxes、传感器最新测量、按传感器历史 data、多站点 descriptive/IDW 统计；首页元描述为“publishing and visualizing environmental sensor data”。据此可核监测点、持久时间序列、当前/历史数据访问的循环。",
+      "gaps": "首页为 JS 应用壳，docs.opensensemap.org 为 Loading 壳（研究已如实拒绝并留档）；展示层为独立前端仓库，当前仅有其 README 的 MIT 一行，未附前端仓库元数据/许可证全文。核心证据主要来自 API 路由与 README。"
+    },
+    "environmental-water-monitoring": {
+      "application_ids": [
+        "github:663663407"
+      ],
+      "status": "matched",
+      "basis": "GitHub 元数据证明 hydroserver2/hydroserver、id 663663407；license 快照为 BSD-3-Clause 全文；README 正文说明其面向水文与环境监测站点的观测时间序列采集、管理、共享，data-management Web 应用管理 monitoring sites/datastreams/metadata，Django 后端含 SensorThings，deploy/prod 自托管；与叶的“已识别站点—持久水测量记录—当前/历史展示”核心相符（水文站点属环境水体观测）。",
+      "gaps": "离散实验室采样工作流未在证据中确认（研究已记录）；hydroserver.org 快照可读部分以 VitePress 导航/索引为主，当前值 UI 未单独核到；核心证据主要依赖 README。"
+    },
+    "hazardous-materials-management": {
+      "application_ids": [
+        "commercial:chemicalsafety-ems"
+      ],
+      "status": "matched",
+      "basis": "ChemicalSafety 官方化学品库存页正文：按位置/容器跟踪、条码/RFID、SDS 与容器关联、GHS 标签、化学品审批、相容性规则、储存/库存限值、Tier II/DHS/SARA/HMBP 等报告；SDS 页正文：云端 SDS 库、修订日期、检索/打印、GHS、审批、离线备份、SDS 分发。与叶的“危险材料身份记录—现场库存—监管筛选/标签/知情权/报告”核心一致。",
+      "gaps": "“应急响应支持/离线知情权访问”未在快照正文中明确出现，批次未据此主张；商业条目未验证部署、价格、架构。"
+    },
+    "hazardous-waste-management": {
+      "application_ids": [
+        "commercial:chemicalsafety-ems"
+      ],
+      "status": "matched",
+      "basis": "ChemicalSafety 官方危废页正文：废物概况、拾取申请、储存时间跟踪、SAA/WAA/90-Day/Part B 累积区、实验室包/桶跟踪、废物标签、联单/BOL、两年报告、e-Manifest，并说明从产生到销毁证书的追踪；还说明扫描拾取会同时调整化学品库存与累积区数量，覆盖“特性化记录—受监控累积—有文件转移/处置”核心。",
+      "gaps": "GitHub 开源检索遇 403 限流，研究已如实留档；未核具体州/国家联单格式、处置回执对接与部署。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 16 个快照；未运行 shell、未写文件、未读取其他单元或访问外部网络。快照为静态 HTML/JSON，部分页面含 JS 壳或超长单行，正文可读性受限；未做运行时/部署验证，未核商业价格与架构，未核仪器协议、州/国家联单格式及处置回执对接。GitHub 开源检索在危废叶遇 403 限流，CEMS 未命中可核对的开源 DAHS，研究记录已留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-209/ses_groveopencodegop209review1_1793027355.jsonl",
+  "batch_sha256": "992e3d344fcd8035a62ee0e3446be33d9c5a215709c9b415c7f256821fc0ab83",
+  "research_sha256": "6dbbf72749f5943de21fad09a936f03fb0ab305a7bdc187ea9315fa61793b501",
+  "input_sha256": "9fb4f90f58d78177cfa6e825a46a723696413c2dfc71cc61eebb93371bc4137c"
+}

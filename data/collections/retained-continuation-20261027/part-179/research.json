@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "route-optimization-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:optimoroute"
+      ],
+      "query": "websearch: Fleetbase open source route optimization logistics platform GitHub (无结果); GitHub API: fleetbase; route optimization platform; vehicle routing optimization open source；复审补充：Fleetbase Fleet-Ops 文档与 Routing/Orchestrator 设置页复核；official_site_review optimoroute.com 首页、automated-planning、drag-and-drop",
+      "source_urls": [
+        "https://optimoroute.com/",
+        "https://optimoroute.com/automated-planning/",
+        "https://optimoroute.com/drag-and-drop/"
+      ],
+      "note": "复审更正：Fleetbase 的 Fleet-Ops 文档与 Routing/Orchestrator 设置页显示，其首要实体仍是 Order（可配置状态生命周期与 POD），路线优化只是 Orchestrator 多阶段规划中的一个阶段，路由设置页也把优化器定位为“对停靠点重新排序”的设置项；未能证明“停靠点/订单→求解→保存的路线计划→手工编辑或重新优化→派发”是产品主导工作流，按叶子定义更接近最后一公里配送/车队调度，故从本叶移除，github:540371158 不再作为本叶案例。另据 README，Fleetbase 实为 AGPL-3.0 与 Fleetbase Commercial License 双许可，扩展市场同时有免费和付费扩展；因已移除，批次不再保留其单一许可证表述。既有开源检索只找到 VROOM、PyVRP、Timefold 等求解引擎与示例，未发现成熟、完整、可自托管的专用开源路线优化应用。改用专用商业产品 OptimoRoute：首页与 Automated Planning 页确认导入订单后自动规划/重新规划路线、按时间窗/技能/容量分配司机车辆；Drag & Drop 页确认可手工移动停靠点、即时重算路线计划并同步司机 App，路线计划是主导对象，符合本叶核心。",
+      "service_boundary": "纳入依据是停靠点/任务→约束求解与车辆司机分配→保存的路线计划→手工拖拽或自动重规划→派发司机 App。POD、客户通知、实时追踪属于执行下游能力，未据此定义类型；不把车队资产管理或订单履约状态机当作核心。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "Fleetbase open source route optimization logistics platform GitHub",
+          "outcome": "无结果，未反复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "fleetbase",
+          "outcome": "命中 fleetbase/fleetbase，id 540371158，AGPL-3.0"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "route optimization platform",
+          "outcome": "结果多为通用优化/无关项目，未发现更合适的完整开源平台"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "vehicle routing optimization open source",
+          "outcome": "命中 VROOM、PyVRP、Timefold 等求解引擎及样例，非完整应用"
+        },
+        {
+          "tool": "document_review",
+          "query": "https://fleetbase.io/docs/fleet-ops + /settings/routing + /settings/orchestrator",
+          "outcome": "确认 Order 为主导实体（可配置状态生命周期、POD），路线优化只是 Orchestrator 的一个阶段及路由设置项；不足以按本叶定义保留，已移除该关系"
+        },
+        {
+          "tool": "official_site_review",
+          "query": "https://optimoroute.com/ 与 /automated-planning/、/drag-and-drop/",
+          "outcome": "确认其为专用路线规划/优化产品：自动求解并生成路线、变化后自动重排、拖拽编辑即时重算并派发司机 App"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/fleetbase/fleetbase",
+          "status": 200,
+          "kind": "repository_metadata",
+          "snapshot": "sources/94f48dc951dcde703e0d4e9809056ece864a01b18bd6ed449566a5ecff42abeb.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/fleetbase/fleetbase/license",
+          "status": 200,
+          "kind": "license",
+          "snapshot": "sources/f25f3e8369f8fa5e1d671b795e7dcc23bfd83058124c1c0b4e3b7f75c72b8fc7.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/fleetbase/fleetbase/main/README.md",
+          "status": 200,
+          "kind": "readme",
+          "snapshot": "sources/f90c307471ecb43b2cf4f58f82bd0f8ef4f6c6a119ba92d471f3cad0f86bcf99.txt"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/967caeb039ffdacefc5f2ee8a816dfd3cbe08c125ce6b0d626863f604eb3de0b.txt"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/settings/routing",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/fbf8beee2952478494af0c624b40b28ec7cc48013342f2d592af39490c154759.txt"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/settings/orchestrator",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/00a85e556c183e1e8c4e3e0469c4f12c1f3d1fa1a36d44e725331c5b2553cfcc.txt"
+        },
+        {
+          "url": "https://optimoroute.com/",
+          "status": 200,
+          "kind": "homepage",
+          "snapshot": "sources/d5b7db5469bd085db8fff323a6a66e3093dfbabd29d2d13157c52b6a352243a3.txt"
+        },
+        {
+          "url": "https://optimoroute.com/automated-planning/",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/7163b660b3f672143db4b7d5e0716bc27cd504f29bf8cbe5e937e2f648ea95ff.txt"
+        },
+        {
+          "url": "https://optimoroute.com/drag-and-drop/",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/acc2454374466731e2a824b07ce6cbd27e46245c22d7357b60652b9cefb4bd27.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "shipment-visibility-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:shippeo"
+      ],
+      "query": "websearch: open source shipment visibility platform track shipments carriers GitHub (无结果); GitHub API: shipment tracking platform; supply chain visibility open source; freight visibility",
+      "source_urls": [
+        "https://www.shippeo.com/"
+      ],
+      "note": "开源检索结果多为个人包裹跟踪器、landing page、开发者 API 或后端 demo。Packt（MPL-2.0）虽支持多承运商查询与事件历史，但采用本地存储、无需账号，是个人包裹 PWA，缺少运输方数据标准化、异常工作项和团队运营，未入库。Shippeo 官网正文确认其覆盖公路/铁路/海运/空运的逐票实时可见、预测 ETA、即时告警和异常处置，并连接发货方、承运商与系统。",
+      "service_boundary": "平台监控、标准化并分发运输信息，不评级、订舱、承运或结算运费；执行侧属于 TMS/承运系统。关系仅按运输可见性核心建立。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source shipment visibility platform track shipments carriers GitHub",
+          "outcome": "无结果，未反复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "shipment tracking platform",
+          "outcome": "结果多为个人跟踪器/课程项目，最高约 12 星，无成熟运营平台"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "supply chain visibility open source",
+          "outcome": "结果多为订单管理、数据交换或 demo，未发现完整可见性平台"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "freight visibility",
+          "outcome": "结果多为 0-1 星 demo/后端，未入库"
+        },
+        {
+          "tool": "github_readme_review",
+          "query": "Paylicier/Packt",
+          "outcome": "个人包裹跟踪 PWA，本地存储、多承运商查询；非发货方运营平台，未入库"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.shippeo.com/",
+          "status": 200,
+          "kind": "homepage",
+          "snapshot": "sources/d9ea53e347cdbc5d56e339954f9fe811c9140d12d62a438528b1faab8ce99296.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "employee-transportation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:moveinsync"
+      ],
+      "query": "websearch: open source employee shuttle transportation management software GitHub (无结果); GitHub API: employee transportation shuttle; employee commute shuttle management",
+      "source_urls": [
+        "https://moveinsync.com/us",
+        "https://moveinsync.com/global/fixed-route-shuttle"
+      ],
+      "note": "开源检索仅见 0 星课程/报表/前端项目（如 ShuttleManagement、EmployeeShuttleReport、MoveFlow）及第三方 API 资料页，无成熟可部署的完整平台。MoveInSync 官网与固定路线页确认其面向企业员工通勤：雇主定义固定/按需/动态班车网络，员工 App 可搜索路线、周期预订、选座，QR/RFID/OTP 到场签到，运营后台查看实时位置、ETA、延误、客流量和路线表现。",
+      "service_boundary": "纳入依据是封闭员工群体、雇主定义网络、乘客-行程分配与登车核验、受管出行运营四部分齐全。未把其停车/办公空间管理模块当作员工交通核心。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source employee shuttle transportation management software GitHub",
+          "outcome": "无结果，未反复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "employee transportation shuttle",
+          "outcome": "仅见 0 星课程/报表项目，无成熟平台"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "employee commute shuttle management",
+          "outcome": "仅见第三方 API 资料页与 0 星项目，未入库"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://moveinsync.com/us",
+          "status": 200,
+          "kind": "homepage",
+          "snapshot": "sources/029344fe31ac491561bbdf3e3c4b0b8a636a0b5ea78cd13328fba6b4d93ad0ff.txt"
+        },
+        {
+          "url": "https://moveinsync.com/global/fixed-route-shuttle",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/e0a62be19afa15002ddc4a8fd52ccfbe8207d974b9fb3c42de2df058156ef214.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "non-emergency-medical-transportation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:routegenie"
+      ],
+      "query": "websearch: open source NEMT non-emergency medical transportation dispatch software GitHub (无结果); GitHub API: NEMT medical transportation",
+      "source_urls": [
+        "https://routegenie.com/"
+      ],
+      "note": "开源检索仅见 landing page、hackathon 项目、需求文档、仅后端或 0-1 星仓库（如 Raphael.Backend、HACKATHON-NEMT-APP、NemtIQ），没有可确认的成熟开源完整 NEMT 平台。RouteGenie 官网确认其覆盖 NEMT 排程、调度、路线、司机端、乘客端、broker/private pay 请求、Medicaid/保险/自费账单，以及 no-show、取消、故障和 add-on trip 处理。",
+      "service_boundary": "平台限定于非紧急医疗运输，不承担急救响应或临床记录；核心是乘客需求→行程→受管履约网络→执行验证与结算。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source NEMT non-emergency medical transportation dispatch software GitHub",
+          "outcome": "无结果，未反复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "NEMT medical transportation",
+          "outcome": "结果多为 landing page、hackathon、需求文档、后端或 0-1 星项目，无成熟平台"
+        },
+        {
+          "tool": "github_readme_review",
+          "query": "Raphael.Backend / HACKATHON-NEMT-APP / NemtIQ",
+          "outcome": "分别为后端、hackathon 应用/营销站，未见完整运营闭环，未入库"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://routegenie.com/",
+          "status": 200,
+          "kind": "homepage",
+          "snapshot": "sources/1a84c31d4700f3b18abc6e81d9c5b9fcc3f423da1209f24e19dc0f8db201f3e3.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "public-transit-operations-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ivu-suite"
+      ],
+      "query": "websearch: TheTransitClock open source real-time transit operations GitHub (无结果); GitHub API: transit operations dispatch GTFS; repo lookup: TheTransitClock/transitime",
+      "source_urls": [
+        "https://www.ivu.com/",
+        "https://www.ivu.com/en/solutions/resource-planning",
+        "https://www.ivu.com/en/solutions/dispatching"
+      ],
+      "note": "开源候选 TheTransitClock/transitime（GPL-3.0，id 31782022）以 GTFS 时刻表和 GTFS-Realtime 车辆位置为输入输出到站预测，能对照计划做实时预测，但未见调度干预、乘务排班/考勤和未覆盖工作处置，未达运营平台闭环，仅留档未入库。IVU.suite 官网正文确认其同时具备规划与实时调度：IVU.run/IVU.duty 做车辆工作与乘务值勤规划（含劳动法/公司协议/资质规则和冲突检查），IVU.vehicle/IVU.crew 按时刻表实时监控行程、告警中断、处理缺勤与覆盖班次。",
+      "service_boundary": "以计划记录、实时运营循环和干预记录同时具备为纳入依据；不把单纯排班软件或车辆追踪器当作运营平台。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "TheTransitClock open source real-time transit operations GitHub",
+          "outcome": "无结果，未反复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "transit operations dispatch GTFS",
+          "outcome": "未返回可用条目（检索受限/空结果）"
+        },
+        {
+          "tool": "github_api_repo_lookup",
+          "query": "TheTransitClock/transitime",
+          "outcome": "命中 id 31782022，GPL-3.0，描述为 real-time transit information system"
+        },
+        {
+          "tool": "official_site_review",
+          "query": "https://thetransitclock.github.io/",
+          "outcome": "确认核心为 GTFS-Realtime 到站预测，未提供调度干预/乘务运营闭环"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ivu.com/",
+          "status": 200,
+          "kind": "homepage",
+          "snapshot": "sources/36fad54edfdffca0cc8b617fa45cf7a71dca1e600316f19e173a2fec0319c4b7.txt"
+        },
+        {
+          "url": "https://www.ivu.com/en/solutions/resource-planning",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/204a357c18acf11ca2a35351d517dfb4391bfb892b00716166c6c858431cf152.txt"
+        },
+        {
+          "url": "https://www.ivu.com/en/solutions/dispatching",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/a82ad48223e322034968b6c3ce51d156b9fe1d567cfc3d80338f47962e534eb6.txt"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍标注 case_status=insufficient_evidence 且 note 沿用上一轮“仅仓库简介/厂商首页”的结论，而 batch.json/research.json 已补入 2026-10-28 的官方开源版页与 /grc/compliance 正文快照；本条按实际快照核对成立，上游元数据属陈旧记录，建议后续同步，不影响本单元判定。",
+    "research.json 的 source_urls 与 fetch_outcomes 中列有 https://api.github.com/repos/simplerisk/code/contents/ 和 .../contents/simplerisk 两条抓取，但 REVIEW_SOURCES.json 未收录这两个快照（未被任何条目 sources 引用）；它们仅用于“仓库含 compliance/governance/assessments 目录”的旁证，仓库身份与产品能力已由 README、仓库元数据和官网页面独立支撑，故不阻断，建议后续补留存或从证据清单移除。",
+    "research.json 已如实记录 https://raw.githubusercontent.com/simplerisk/code/master/LICENSE 返回 HTTP 404（许可位于 simplerisk/LICENSE），属已披露的路径差异而非缺证。",
+    "SimpleRisk 首页与仓库元数据快照为 2026-10-24 历史复用，许可文件与新增官网正文页为 2026-10-28 抓取；时间差异本身不影响结论，但首页营销性数字（下载量、框架数）不适合作为能力证据，条目未依赖这些数字。",
+    "batch.json 对 SimpleRisk 的 scope 标注为 community_core、对 Probo 标注为 repository，两者与各自仓库/发行形态一致；Probo 官网主体是“Compliance Done For You”合规官服务，条目把托管云、合规官服务、设备代理排除在开源案例之外，边界表述恰当。",
+    "措辞层面：SimpleRisk 条目使用“官方开源版页面”“合规功能页”等概括属编辑性表述；Probo 的“合规门户与报告”对应 README 中的 Compliance Page 与 audit program report generation，语义匹配但可更贴近原文用词。"
+  ],
+  "leaf_checks": {
+    "compliance-management-platform": {
+      "definition_core": "成立。SimpleRisk Core：官网 /deployment/open-source 正文说明 Core 含 Governance（定义框架与控制）、Compliance（针对框架与控制定义不限数量测试）、Reporting（仪表盘与自定义报告）、角色与权限、自评（CIS/HIPAA/NIST 800-171/PCI DSS），/grc/compliance 正文给出“控制→可复用测试→框架/控制/单测级审计→审计时间线与到期日→证据与完整审计轨迹→对外部审计员的范围化访问→跨框架现状汇总”，构成“要求登记→受跟踪合规工作→留存证据与报告状态”三段核心。Probo：README 正文给出 Control library with maturity levels、custom framework import/export、SoA（要求登记）；Audit Programs 含 audit scoping/control mapping/finding tracking（受跟踪工作）；Evidence & Measures 含文件与 URL 证据收集、implementation state tracking、task assignment，加 immutable audit logs、electronic document sign-off、evidence chains（留存证据）；Compliance Page/报告与 SoA 反映报告状态。两例均非仅简介、导航或关键词。",
+      "service_form": "成立且持续使用形态清楚。SimpleRisk Core 为 PHP/MySQL 自托管 Web 应用，支持脚本安装、虚拟机、Docker 或手动安装（Unix/Linux/Windows），定位为可投入生产的完整 GRC 程序而非试用或裁剪版；Probo 为 Web console（本地开发 http://localhost:8080），自托管指南支持 Docker Compose 或 Kubernetes，并有 CLI/MCP/GraphQL 接口。两者都是长期运行、由组织运营的软件服务，而非库或一次性工具。",
+      "identity_and_track": "成立。github:16085812 对应 api.github.com/repos/simplerisk/code（full_name=simplerisk/code，owner=simplerisk，id 一致，description 为已发布源代码），README 声明为只读发布镜像、按发布版本打 tag；track=open_source 与官方“Open Source（SimpleRisk Core）免费、无限制用户、自托管”表述一致，付费 Extras/On-Premise/SaaS 已划出案例范围。github:913434583 对应 api.github.com/repos/getprobo/probo（id=913434583，full_name=getprobo/probo，非 fork），README 自述 self-hostable、MIT、Docker 自托管，track=open_source 一致；官网确认存在开源平台入口（Deploy Open Source → docker-compose 自托管文档）。",
+      "license_and_community_boundary": "成立。SimpleRisk：实际读取 simplerisk/LICENSE 快照为完整 Mozilla Public License 2.0 全文（自“Mozilla Public License, version 2.0”起，含 1–10 条定义/义务/专利/免责/版本条款与 Exhibit A、Exhibit B 结尾），与条目 SPDX MPL-2.0 一致；/deployment/open-source 对照表明确 Open Source 列“Paid Extras: Not available”“Free, unlimited users”“You manage install/backups/upgrades”，/grc/compliance 页面明示“Everything above is free in Core”，社区版与付费 Extras 边界有正文依据。Probo：实际读取 LICENSE 快照为完整 MIT 文本（版权行 Copyright (c) 2025 Probo Inc，含授权、保留声明、免责），README License 段与徽章一致标 MIT；自托管范围、商业合规官服务/托管云/设备代理不属于仓库开源内容，边界已记录。",
+      "commercial_truthfulness": "本单元两例均为 open_source 轨道，无商业条目需核；但相关商业化表述基本真实：SimpleRisk 官网 Core 免费＋付费 Extras/On-Premise/SaaS 分层与价格起点在首页与开源版对照表中一致；Probo 官网为合规官托管服务，与 README 的开源自托管产品并存，条目已区分二者，类型匹配（开源 GRC 平台 + 周边商业服务），无类型错配。",
+      "gaps_and_limits": "无阻断性缺口。既有的 SimpleRisk“仅简介/首页”缺口已由本轮官方开源版页与 /grc/compliance 正文补齐；仅存 research.json 引用但未留存的 contents API 两条旁证，以及 input.json 的陈旧 insufficient_evidence 记录，均已在 non_blocking_notes 说明。未运行任何产品，未做部署或界面实测（runtime_tested=false），结论限于所提供快照的正文陈述。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 10 个快照（SimpleRisk 6 个、Probo 4 个），路径按 sources 前缀相对 data/collections 原样读取，未猜测或缩写摘要；未运行 shell、未写文件、未访问其他单元。未做任何网络补抓或实时校验，未部署或运行第三方项目，未验证界面级工作流；GitHub 仓库元数据快照为单行长 JSON，受读取时逐行 2000 字符上限影响，无法直接目视其 license/spdx 字段，许可结论以实际读取的完整 LICENSE 文本为准。research.json 中两条 contents API 抓取无对应留存快照，未纳入核对依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-073/ses_groveopendesignp073review1_1793192717.jsonl",
+  "batch_sha256": "58b935809e4203f1adfd41c5191da0f0457c03cdd7041065cbbc45114c8c275d",
+  "research_sha256": "04a94379ceff5e530a2f317247cc8386a672ee4b725c8402fa171ec8e4ef53fc",
+  "input_sha256": "f61d3e833555577da5ee6b2a571ee0932e5b90291a8e5d1aa1c947d0ac2a9743"
+}

@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CINC Systems：官网正文足以确认其 HOA/COA 社区协会管理、协会会计、董事会与居民支付自助、董事会文件包、ACC 建筑审查和预算能力；但首页未逐字展开评估费/dues、逐业主余额与拖欠升级，且 Invoice Skill 的演示卡指向 payables，属应付发票处理，不宜当作业主评估费计费证据。当前按商业基本记录保留是合适的。",
+    "Re-Leased：租约事件、发票生成、欠款催收、CAM/服务费在正文有明确表述；信托会计与业主报告主要由导航/产品页链接支持，建议摘要不要把这两项写成已由正文逐项核实的核心工作流。",
+    "PayRent：快照为 Next.js RSC 压缩单行，正文无法逐行阅读；已用快照中的页面文本与同日官网文本交叉确认单元/租户余额、到期费用、自动提醒、预约付款、拒绝部分付款及房东信息保护等表述，资金汇转、失败/撤销仍未核实（research 已留档）。",
+    "zInspector：官网写的是 Digital Signatures（租户自助巡检手机签名），“远程签名”宜改为“数字签名/租户自助签名”；模板治理和巡检后编辑只见于用户评论，未见官方功能页正文。",
+    "OpenProperty：README 自述为基于 Clawnify 模板格式的自托管项目，并明确不含招租分发、真实筛选、在线支付和住户门户；应保持“轻量住宅租赁 PMS”定位，不要扩展为完整住宅物业管理或收款平台。",
+    "Buildium 也宣传 Community Associations、Commercial 与 Mixed-Use 组合，本单元仅按住宅物业管理叶收录，未据其社区协会导航扩展 HOA 关系；如要求跨叶一致，可在后续单元单独核对协会管理功能页。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 research/batch 已落地的案例不一致；这属于上游/装配记账字段，不影响本次内容判断，但下游合并时宜以 research/batch 为准。"
+  ],
+  "leaf_checks": {
+    "commercial-property-management": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:re-leased"
+      ],
+      "basis": "Re-Leased 官网正文（快照 72324cb6…）标题与正文明确为商业物业管理软件，服务业主/投资者与物业管理公司，覆盖办公、工业、零售；正文含租约管理、租金审查/续约/租约事件、发票生成与处理、欠款催收、CAM/服务费/Outgoings、在线租户付款；产品导航另有信托会计。ID/track 为 commercial:re-leased / commercial。",
+      "gaps": "信托会计与业主报告主要是导航/产品页链接；未核对价格、架构、资金清算，未运行产品。商业基本真实性与类型匹配成立。"
+    },
+    "hoa-community-association-management": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:cinc-systems"
+      ],
+      "basis": "CINC Systems 官网正文（快照 94a8811d…）为 Community Association Management Software，面向 HOA/COA 管理公司、董事会与居民；正文含协会会计、运营、合规、社区管理、CINC Connect 支付与自助、董事会文件包、ACC 建筑审查、预算与银行集成。ID/track 为 commercial:cinc-systems / commercial。",
+      "gaps": "首页未逐字展开评估费/dues 计费、逐业主余额与拖欠升级；以协会会计、居民支付与董事会治理作类型匹配，属商业基本记录。"
+    },
+    "property-inspection-application": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:zinspector"
+      ],
+      "basis": "zInspector 首页与 features 页（快照 faf92c92…、207b09fd…）明确面向 property managers，覆盖 portfolio；正文含 move-in/move-out/periodic/common area/custom 巡检、照片视频、PDF 报告、数字签名、zTenant 自助巡检、PM Desk 任务/排程、zData 物业资料库，并与 AppFolio/Buildium 等 PM 软件同步。ID/track 为 commercial:zinspector / commercial。",
+      "gaps": "官方页面未展开模板治理与完成后编辑；签名宜表述为数字签名/租户自助签名。运营方自用边界成立，商业类型匹配成立。"
+    },
+    "rent-collection-platform": {
+      "status": "verified",
+      "application_ids": [
+        "commercial:payrent"
+      ],
+      "basis": "PayRent 首页（快照 e9afd2c0…）标题为在线收租/付租；页面文本含按单元与租户展示余额、到期/即将到期费用、已收/未收，租户经银行账户或信用卡支付、可提前预约、自动提醒，房东可自动拒绝部分付款，租户看不到房东银行信息；ID/track 为 commercial:payrent / commercial。",
+      "gaps": "快照为 Next.js RSC 压缩单行，无法逐行读取上下文；资金汇转、失败/撤销未核实（research 已留档）。收费-支付-状态跟踪核心成立。"
+    },
+    "residential-property-management": {
+      "status": "verified",
+      "application_ids": [
+        "github:1224518473",
+        "commercial:buildium"
+      ],
+      "basis": "OpenProperty：GitHub 元数据 id=1224518473、full_name=clawnify/OpenProperty；license API 返回 MIT 全文；README 覆盖物业/单元、租户、租约、按月租金账本与付款记录、维修工单、供应商，并明确不含在线支付、招租分发、真实筛选、住户门户。Buildium 首页/功能页覆盖住宅与多户、混合组合、在线招租/房源发布/租客筛选、ACH/信用卡收租、物业会计、维修与 Resident Center。",
+      "gaps": "OpenProperty 为 Clawnify 模板式轻量自托管应用，缺招租分发、真实筛选、在线收款、住户门户及完整退租/押金流程；关系已按 README 收窄。Buildium 价格/架构未核对；两者均未运行。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未读取其他单元；已按 REVIEW_SOURCES.json 的 path 读取全部 10 个引用快照，未读取未引用的额外快照。未部署或运行任何产品，未核对价格、架构、资金清算、支付失败/撤销或动态渲染内容。read 工具对超长单行 HTML/JSON 有约 2000 字符截断，PayRent/Buildium/OpenProperty 元数据的长行只能结合关键词与同日官网文本交叉确认；未计算快照哈希，但文件名与 REVIEW_SOURCES/batch 的 sha256 一致。issues.json 的 findings 为空，previous_review_path 指向的 part-031 review 不在本单元，未读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-163/ses_groveopencodegop163review1_1793016482.jsonl",
+  "batch_sha256": "1299d1b80bd4e7aeefd04da2dfcdeb863d20ce8f6882ef58fc26406814a1b45e",
+  "research_sha256": "aa49766fc18e531800a4fdd1fb427c90eca6e26e8232af7252960b2169a5e829",
+  "input_sha256": "12fc7eef7254020f2da4434ac47bc057be47166fbf08ef95a738c9f32a4b44ea"
+}

@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "fitness-membership-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:598537999"
+      ],
+      "query": "历史（2026-10-27）GitHub API 仓库搜索 gym membership management / fitness membership / gym subscription management / club membership management，并核对 GymManagerPro 的 README、许可证、元数据及 Member/Membership/Plan 数据层源码。本轮（2026-10-29）复用该轨迹后，针对原始缺口检索可自托管的开源健身会籍 Web 应用，并核对 zorenleolumosbog/gym-management-system-in-laravel 的 README、MIT 许可证、Member/Plan/Subscription/Invoice 模型、SubscriptionsController 与 SetExpired 命令。",
+      "source_urls": [
+        "https://api.github.com/repos/eppsteve/GymManagerPro",
+        "https://api.github.com/repos/eppsteve/GymManagerPro/license",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/README.md",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Member.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Membership.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Plan.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Measurement.cs",
+        "https://api.github.com/repos/eppsteve/GymManagerPro/git/trees/master?recursive=1",
+        "https://github.com/zorenleolumosbog/gym-management-system-in-laravel",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/README.md",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/LICENSE.md",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Member.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Plan.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Subscription.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Invoice.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Http/Controllers/SubscriptionsController.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Console/Commands/SetExpired.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Console/Kernel.php",
+        "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Lubus/constants.php"
+      ],
+      "note": "历史复用（2026-10-27）：GymManagerPro 仍为 GPL-3.0 的 Windows Forms 胖客户端；README 自述健身俱乐部/健身房会员管理，数据层有 Member、Plan、Membership 与按 EndDate 判定的入场状态，但仓库文件树没有支付、账单、续费或订阅模块，也没有冻结/取消/失效状态机或欠费停权。故旧候选仍不成立，不纳入 batch，也不改写成已通过。\n\n本轮补采（2026-10-29）：zorenleolumosbog/gym-management-system-in-laravel 是可自托管的 Laravel Web 应用（PHP + MySQL），仓库 LICENSE.md 为完整 MIT 正文。Member 模型保存会员编码与档案；Plan 模型保存计划名称、天数、金额和所属服务；Subscription 以 member×plan 保存 invoice、起止日期、is_renewal 与 ongoing/expired/renewed/cancelled 状态；Invoice 保存总额、待收金额和未付/部分付/已付/超额支付状态；SubscriptionsController 实现开单、收款、续费与取消（取消同时把会员置为 InActive）；SetExpired 命令将到期且 ongoing 的订阅置为 expired，Console/Kernel 将该命令安排在每日 00:05 执行。会员、持有会籍、会费记录与状态周期闭合，符合本叶核心。该产品采用预付期限计划而非自动定期扣款，未证明冻结(hold)与多租户；这些不作为本次成立关系的额外断言。未运行应用，runtime_tested:false。\n\n未纳入且不据此断言不存在：johndavedecano/laragym 的 README 称 MIT，但仓库根目录无 LICENSE 文件；openshiporg/openfront-gym 的文档称 Apache-2.0，但仓库根目录无 LICENSE 文件（README 可读）；mayerbalintdev/GYM-One 使用 CUSTOM 许可；nika-sc/Nika-Fitness-CRM 仓库已清空，仅剩 README/LICENSE，无应用源码；AbhishekMali21/GYM-MANAGEMENT-SYSTEM 仅有场馆/会员/支付/教练的 CRUD，未证明会员×计划与状态周期。以上均未取得足以成立的正文或完整许可证据。",
+      "service_boundary": "本轮入选为 MIT 许可、可自托管的 Laravel 5.1 Web 应用（PHP + MySQL），运营方后台单租户部署，不是厂商托管 SaaS；覆盖会员档案、计划、会员×计划订阅、发票/收款、续费/取消和到期失效，未证明自动定期扣款、冻结(hold)与多租户。历史 GymManagerPro 为 GPL-3.0 Windows Forms 胖客户端，仅留档，不作为本叶成立案例。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “gym membership management”",
+        "2026-10-27 GitHub API 搜索 “fitness membership”",
+        "2026-10-27 GitHub API 搜索 “gym subscription management”",
+        "2026-10-27 GitHub API 搜索 “club membership management”",
+        "2026-10-27 核对 eppsteve/GymManagerPro 元数据、GPL-3.0 许可证、README，并读取 DataLayer/Member.cs、Membership.cs、Plan.cs",
+        "2026-10-27 拉取 eppsteve/GymManagerPro 仓库文件树，核对是否存在支付/账单/续费/订阅模块",
+        "2026-10-29 复用 GymManagerPro 历史快照与仓库文件树，复核确认其为桌面胖客户端且无支付/账单/续费模块",
+        "2026-10-29 GitHub 仓库搜索 gym membership management / fitness membership / gym management system，筛选可自托管的开源 Web 应用",
+        "2026-10-29 核对候选 GYM One、laragym、Openfront Gym、Nika Fitness CRM、AbhishekMali21/GYM-MANAGEMENT-SYSTEM 的许可证、仓库内容与功能说明",
+        "2026-10-29 核对 zorenleolumosbog/gym-management-system-in-laravel 的 README、MIT LICENSE.md、Member/Plan/Subscription/Invoice 模型、SubscriptionsController、SetExpired 命令及 Console/Kernel 调度"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/176dde68ebeeb8de082ce324b1a2d941ed393f19e7428ffab0ecfd3caa9099b8.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro/license",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/3d80a2e5102dd771bfcd3688093d39607b6d2ac22ceda8aae5848a8cfd742b2e.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/d28f3dd6af540009ff22e4460fd7b594a4fdd0f2bb1f42f80f30f374eecdd2e2.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Member.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/8cdcaffa30d4036b001678dc2fdeddc828beed9da6f22e610035173c30cf0c81.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Membership.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/12f0429cfad8ccd78190015b5e99517bf4c24189cb5058b356a1137d3fba48cb.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Plan.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/7b7f7cc4663c4992cf84e3001ae6c3558b7efd4ea2f217dfcca4d00f321dfa6f.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Measurement.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/78190d3536625781be0271636e3ede0f6e28c1622024a7a924ffcc9382d5ea01.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro/git/trees/master?recursive=1",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/c5b5f0e97063b43e111d48f3a473cbf8d08b88e8ac7de70643f7a60057830376.txt"
+        },
+        {
+          "url": "https://github.com/zorenleolumosbog/gym-management-system-in-laravel",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/6d2e9c3406005b7e68ddf266935beb8bbb7d92ca7e128f75713f8a79918fa920.txt；fetched_at 2026-10-29T17:12:51.193085+08:00",
+          "fetched_at": "2026-10-29T17:12:51.193085+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/5f719177609c3614ad4269d9a8ef0a91adeed0d139a69ebd26f356b8dc5dd78f.txt；fetched_at 2026-10-29T17:12:52.568332+08:00",
+          "fetched_at": "2026-10-29T17:12:52.568332+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/LICENSE.md",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/8f0642b3def4c71ed845084da47fc7e4e2dcc8a651ca3dcd685c9a6aa285c92f.txt；fetched_at 2026-10-29T17:12:53.899181+08:00",
+          "fetched_at": "2026-10-29T17:12:53.899181+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Member.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/e3caeeb7f93916ead88712b9dce228c48326932155d611b73fa4845eb312eaa0.txt；fetched_at 2026-10-29T17:12:57.737598+08:00",
+          "fetched_at": "2026-10-29T17:12:57.737598+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Plan.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/28896368f9548b57a63033b39b22a075f5881522cdd88310cf11a6453ac5f7a6.txt；fetched_at 2026-10-29T17:12:56.487932+08:00",
+          "fetched_at": "2026-10-29T17:12:56.487932+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Subscription.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/e14f1b4bc0a67d64f61e25b8f33c5299f46a73c0729894ccaf63afc345f33370.txt；fetched_at 2026-10-29T17:12:55.179857+08:00",
+          "fetched_at": "2026-10-29T17:12:55.179857+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Invoice.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/bd824519eaf41cd535debb845a8f8fc045e1ec304d8f6a0a951daad13c260e76.txt；fetched_at 2026-10-29T17:12:59.043711+08:00",
+          "fetched_at": "2026-10-29T17:12:59.043711+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Http/Controllers/SubscriptionsController.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/d9072fb526cc167a28818190e3d0d3c97cf6fbdb06e23be1d598af94f1238577.txt；fetched_at 2026-10-29T17:13:00.454002+08:00",
+          "fetched_at": "2026-10-29T17:13:00.454002+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Console/Commands/SetExpired.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/5c8d3c5d6992b89332c69356d0771369b430c757719ffeae79202eb7ab07e71c.txt；fetched_at 2026-10-29T17:13:01.729472+08:00",
+          "fetched_at": "2026-10-29T17:13:01.729472+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Console/Kernel.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/53c51bff5c8b69fd2992d36b7953a3796aadec8c8a86e07ce718fd7069d65e45.txt；fetched_at 2026-10-29T17:14:49.531934+08:00",
+          "fetched_at": "2026-10-29T17:14:49.531934+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zorenleolumosbog/gym-management-system-in-laravel/main/app/Lubus/constants.php",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/f1b5935f238973c9727da7ab5a99560e920063eecc361d8f363e422e4ab55c6e.txt；fetched_at 2026-10-29T17:13:03.109375+08:00",
+          "fetched_at": "2026-10-29T17:13:03.109375+08:00"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 58,
+  "offset": 1425,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "car-wash-detailing-management",
+        "name_zh": "洗车/汽车美容管理",
+        "domain_id": "29",
+        "parent_id": "29.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "car-wash-detailing-management",
+        "name": "Car Wash / Detailing Management",
+        "name_zh": "洗车/汽车美容管理",
+        "aliases_zh": [
+          "洗车管理系统",
+          "汽车美容管理软件"
+        ],
+        "overview": "A **Car Wash / Detailing Management** application is the operator-side business system for a car wash or vehicle detailing business: it sells and fulfills **vehicle appearance services** — washes, detail packages, and add-on services — by binding each service to the vehicle receiving it, collecting payment or redeeming a plan, and giving the operator a live picture of the operation (car counts, revenue, labor, memberships).\n\nThe defining core is small:\n\n```text\nOperator-configured service package catalog\n└── Service transaction binding service(s) to a vehicle (the ticket)\n    └── Payment / settlement (retail, prepaid, or plan redemption)\n        └── Operator-side management of the service operation\n```\n\nEverything else the market strongly associates with the category — vehicle identification by RFID tag or license plate, unlimited wash memberships, consumer mobile apps, marketing automation, detail stage boards, multi-site chains — is a widely expected capability of mature products, not part of what makes the software this Type. Older and simpler operations (a package menu, a per-wash ticket, a car counter) still fit the defining core; so does a detailing shop that only sells scheduled packages and tracks jobs.\n\nThe Type has two fulfillment poles that share one core model: the **wash transaction** (seconds-scale, often anonymous, frequently redeemed through a membership at the gate) and the **detailing job** (hours-scale, scheduled, worked through checklists and stages). Most products lean toward one pole; several serve both.",
+        "overview_zh": "一款**洗车/汽车美容管理**应用是洗车或汽车美容业务的运营方业务系统：它销售并履行**车辆外观服务**——清洗、美容套餐及附加服务——通过将每项服务与接收该服务的车辆绑定、收取付款或兑换套餐，并向运营方提供实时运营概览（车辆计数、收入、人工、会员）。\n\n其定义性核心很小：\n\n```text\n运营方配置的服务套餐目录\n└── 服务交易，将服务绑定至车辆（工单）\n    └── 支付/结算（零售、预付或套餐兑换）\n        └── 对服务运营的运营方侧管理\n```\n\n市场上其他与该类型强相关的内容——通过RFID标签或车牌识别车辆、无限次洗车会员、消费者移动应用、营销自动化、美容阶段看板、多站点连锁——是成熟产品的广泛预期功能，并非构成该软件此**类型**的本质部分。较旧和较简单的运营（一个套餐菜单、一张洗车票、一个车辆计数器）仍然符合定义性核心；仅销售计划套餐并跟踪工作的美容店也同样符合。\n\n该类型有两个共享同一核心模型的履行极点：**洗车交易**（秒级，通常匿名，常通过会员在门口兑换）和**美容作业**（小时级，预先安排，通过清单和阶段进行）。大多数产品倾向于其中一个极点；也有一些同时服务于两者。",
+        "dc": "**Service package catalog.** The operator configures what the business sells: wash tiers (basic through top wash), detail packages (interior, exterior, full detail, protective coatings), and à la carte add-ons, each with a price. The catalog is the source of truth for what a ticket can contain and is configured centrally by the owner or manager.\n\n**Vehicle.** The service subject. Every ticket is for a vehicle. The vehicle may be anonymous (a retail wash with no record kept) or identified and persisted as a record — license plate, RFID tag, VIN, make/model/color — linked to a customer and a service history. Identification is what turns a one-time transaction into a relationship.\n\n**Service ticket.** The central transaction record: it binds one vehicle to one or more catalog services, records the price and any discounts, and follows the service from sale to fulfillment to settlement. At the wash pole the ticket is created and closed in seconds; at the detailing pole it becomes a job that lives for hours or days.\n\n**Payment / settlement.** A ticket closes through retail payment (card, cash, mobile), redemption of a prepaid instrument (wash book, gift card, code), or redemption of a membership plan. Settlement is recorded against the ticket and feeds reporting.\n\n**Operator-side management.** The system continuously records what happened — transactions, car counts, labor, plan events — and exposes it to the business as the operational picture.",
+        "dc_zh": "服务包目录。运营商配置业务销售内容：洗车等级（从基础到顶级洗车）、美容套餐（内部、外部、全面美容、保护涂层）和按需附加项目，每个都有价格。目录是工单可包含内容的真实来源，由所有者或经理集中配置。车辆。服务对象。每个工单都针对一辆车。车辆可以是匿名的（零售洗车，不记录），也可以被识别并持久化为记录——车牌、RFID标签、VIN、品牌/型号/颜色——与客户和服务历史关联。识别将一次性交易转变为关系。服务工单。中心交易记录：它将一辆车绑定到一个或多个目录服务，记录价格和任何折扣，并跟踪服务从销售到履行到结算的过程。在洗车点，工单在几秒钟内创建并关闭；在美容点，它成为一个持续数小时或数天的工作。支付/结算。工单通过零售支付（卡、现金、移动支付）、预付工具的赎回（洗车本、礼品卡、代码）或会员计划的赎回来关闭。结算记录在工单上，并提供报告。运营商端管理。系统持续记录发生的事情——交易、汽车数量、人工、计划事件。",
+        "rules": "### Plan redemption is identity-bound\n\nA membership plan is redeemed by identifying the vehicle — a tag or plate tied to the plan. This is a deliberate control: tying each plan to a specific vehicle prevents members from sharing one plan across multiple cars. The identification match is therefore both a convenience mechanism and an access-control rule.\n\n### Eligibility is checked before fulfillment\n\nAt the gate, the system verifies that the vehicle's plan is active and determines which service the plan covers before granting entry. A lapsed plan or an expired card surfaces here, not at the tunnel exit.\n\n### Recurring billing is automated and defended\n\nPlans renew by automatic card charge. Because a failed charge silently removes revenue, mature products add card-updater services and decline-recovery messaging; cancellation flows commonly present retention or downgrade offers. \"Involuntary churn\" from payment failure is treated as a preventable loss, not a normal event.\n\n### The ticket is the operational record\n\nEvery car that goes through counts. Car count is the industry's vital operational metric — it drives revenue, labor planning, and plan-value economics — and it is captured per transaction, per hour, per site.\n\n### Detail jobs carry their own structure\n\nWhere detailing work is managed, the job typically moves through defined stages with an itemized checklist, so work is performed consistently regardless of technician. Time can be attributed per service and per technician; condition photos taken at check-in protect the business in disputes; and where a client portal is offered, job state is visible to the customer. The depth of this machinery varies by product.\n\n### Labor is attributed, not just clocked\n\nTime tracking connects hours to what they produced — by position, by service type, or by detailing assignment — so labor cost can be read against revenue and productivity.\n\n### Multi-site plans are one book\n\nWhere an operator runs several sites, plans and prepaids are typically redeemable chain-wide, with site data replicated centrally; the membership belongs to the brand, not the location.",
+        "rules_zh": "### 套餐兑换与身份绑定\n\n会员套餐通过识别车辆来兑换——与套餐绑定的标签或车牌。这是有意的控制：将每个套餐与特定车辆绑定，可防止会员在多辆车之间共享一个套餐。因此，身份匹配既是便捷机制，也是访问控制规则。\n\n### 资格在履行前检查\n\n在门口，系统在允许进入前验证车辆套餐是否有效，并确定套餐涵盖哪项服务。已失效套餐或过期卡会在此时显示，而非在隧道出口。\n\n### 经常性计费自动化且受保护\n\n套餐通过自动扣卡续费。由于扣款失败会无声地减少收入，成熟产品会增加卡片更新服务和拒付恢复消息；取消流程通常提供保留或降级优惠。因支付失败导致的“非自愿流失”被视为可预防的损失，而非正常事件。\n\n### 工单是运营记录\n\n每一辆通过的车辆都计入。车辆计数是行业关键的运营指标——它驱动收入、人工规划和套餐价值经济——并且按交易、按小时、按站点捕获。\n\n### 美容作业有其自身结构\n\n在管理美容工作的场合，作业通常按照定义的阶段进行，附有详细清单，以便无论技师如何，工作都保持一致。时间可按服务和技师归因；登记时拍摄的状况照片可在纠纷中保护业务；如果提供客户门户，作业状态对客户可见。此机制的深度因产品而异。\n\n### 人工被归因，而非仅打卡\n\n时间跟踪将工时与产出联系起来——通过岗位",
+        "parent_id": "29.01",
+        "domain_id": "29"
+      }
+    },
+    {
+      "progress": {
+        "slug": "collision-repair-management",
+        "name_zh": "碰撞修复管理",
+        "domain_id": "29",
+        "parent_id": "29.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "collision-repair-management",
+        "name": "Collision Repair Management",
+        "name_zh": "碰撞修复管理",
+        "aliases_zh": [
+          "车辆碰撞修复管理",
+          "汽车维修管理"
+        ],
+        "overview": "A **Collision Repair Management** system is the operator-side business system for a collision repair (auto body) shop. It manages accident-damaged vehicles as jobs: a line-item damage estimate defines the work, the estimate is authorized by the party who will pay for it, and an authorized repair order carries the vehicle through the shop's departments and stages while the system tracks parts procurement, technician labor, paint and materials, sublet work, customer communication, and final settlement across the repair's paying parties — the customer and, for most volume, an insurance company.\n\nIts defining core is small:\n\n```text\nDamaged vehicle (identified object of work)\n  └── Damage estimate (line-item: labor / parts / materials)\n      └── Authorized repair order (job file carried through shop stages)\n          └── Settlement across paying parties (customer / insurer)\n```\n\nEverything else commonly associated with this software — insurance-claim records, supplement handling, parts-ordering networks, production boards, technician flagging, customer status portals, accounting integration, cycle-time analytics — is standard capability that mature products add, not what makes the product a collision repair management system.\n\nThe type is distinct from general auto repair shop management: the work is defined by an accident-damage estimate rather than by customer-requested service, the paying-party structure is persistently split between customer and insurer, and the shop model is department-and-stage based (body, paint, frame) rather than bay-based.",
+        "overview_zh": "一个**碰撞维修管理系统**是碰撞维修（车身）车间的运营端业务系统。它将事故损坏车辆作为工单进行管理：一项逐行明细的损坏估价单定义了维修工作，该估价单由付费方授权，一份经授权的维修工单携带车辆通过车间的各个部门和阶段，而系统则跟踪零件采购、技术人员工时、油漆和材料、外包工作、客户沟通以及与维修付费方（客户以及大部分情况下的保险公司）之间的最终结算。\n\n其核心定义性特征很简单：\n\n```text\n损坏车辆（确定的工作对象）\n  └── 损坏估价单（逐行明细：工时 / 零件 / 材料）\n      └── 经授权的维修工单（在车间各阶段流转的工单文件）\n          └── 与付费方的结算（客户 / 保险公司）\n```\n\n通常与此软件相关的其他所有功能——保险索赔记录、补充估价处理、零件订购网络、生产看板、技术人员工时标记、客户状态门户、会计集成、维修周期时间分析——都是成熟产品会添加的标准能力，而非使产品成为碰撞维修管理系统的核心要素。\n\n该类型有别于通用的汽车维修车间管理：其工作由事故损坏估价单而非客户请求的服务来定义，付费方结构始终在客户和保险公司之间分割，并且车间模型是基于部门和阶段（车身、喷漆、车架）的，而非基于工位的。",
+        "dc": "The center of the system is the **repair order** — the job file for one damaged vehicle's repair. It holds the vehicle identification, the customer, the estimate and its revisions, the parts ordered, the labor performed, photographs and documents, internal notes and communications, and the money. One repair order can carry more than one insurance claim for the same vehicle (for example, damage from two separate incidents), and products differ on whether the claim or the vehicle is the container — conceptually, the repair order is the job, and claims attach to it.",
+        "dc_zh": "系统的核心是维修订单——一份针对受损车辆修复的工作文件。它包含车辆识别信息、客户、估价及其修订、订购的零件、执行的劳动、照片和文件、内部笔记和通信，以及资金。一个维修订单可以承载同一车辆的多个保险索赔（例如，来自两个独立事故的损坏），产品在索赔或车辆是否作为容器方面有所不同——概念上，维修订单是工作，索赔附加到它。",
+        "rules": "- **Authorization precedes work.** Repair work — especially work beyond the initial estimate — is performed only after recorded approval from the responsible paying party. The estimate's authorized amounts define what the shop may bill.\n- **The estimate is revisable, and revisions are tracked.** Supplements add lines and amounts after teardown; the original estimate, the supplement, and who approved each remain distinguishable on the job.\n- **Stage and department changes are events.** They update the production view, can trigger automatic status messages to customers and carriers, and anchor the job's timeline.\n- **Paying-party attribution is per line and per amount.** Customer-pay, insurer-pay, and deductible amounts are tracked separately on the same job, and receivables distinguish customer balances from insurer balances.\n- **Parts state gates production.** A job waiting on parts is visible as such; scheduling accounts for parts lead times, and missing parts are surfaced against affected jobs rather than discovered on the floor.\n- **Booked labor is compared against estimated labor.** Technician flagging and efficiency measurement exist because the estimate's hours anchor what the shop bills for each operation; the difference between booked and estimated hours is the shop's productivity picture.\n- **Records are auditable.** Quality checks, authorizations, and communications are recorded with timestamps and user identity, supporting both insurer requirements and dispute resolution.\n- **Customer-pay work fits the same model.** A self-pay repair runs the same estimate → authorize → repair → settle loop with the insurer simply absent; the claim machinery is common, not mandatory.",
+        "rules_zh": "- **授权先于工作。** 维修工作——特别是超出初始估价单的工作——仅在获得责任付款方的书面批准后才执行。估价单的授权金额定义了车间可以开票的内容。\n- **估价单可修订，且修订被跟踪。** 补充估价在拆卸后增加明细行和金额；原始估价单、补充估价单以及每项批准者在工单上仍可区分。\n- **阶段和部门变更即事件。** 它们更新生产视图，可以触发向客户和承运商的自动状态消息，并锚定工单的时间线。\n- **付款方归属按明细行和金额分配。** 客户付款、保险公司付款和免赔额金额在同一工单上分开跟踪，应收账款区分客户余额和保险公司余额。\n- **零件状态门控生产。** 等待零件的工单按此可见；排程考虑零件交货期，缺失零件在受影响工单上被标记，而非在车间现场才发现。\n- **记录的工时与估价工时对比。** 技术人员工时标记和效率衡量之所以存在，是因为估价单的小时数锚定了车间为每项操作计费的内容；记录工时与估价工时之间的差异反映了车间的生产力状况。\n- **记录可审计。** 质量检查、授权和沟通均记录有时间戳和用户身份，支持保险公司要求和争议解决。\n- **客户自付工作适用同一模型。** 自付维修运行相同的估价 → 授权 → 维修 → 结算循环，只是保险公司缺席；索赔机制是通用的，并非强制性的。",
+        "parent_id": "29.01",
+        "domain_id": "29"
+      }
+    },
+    {
+      "progress": {
+        "slug": "painting-contractor-management",
+        "name_zh": "涂料承包商管理系统",
+        "domain_id": "29",
+        "parent_id": "29.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "painting-contractor-management",
+        "name": "Painting Contractor Management",
+        "name_zh": "涂料承包商管理系统",
+        "aliases_zh": [
+          "油漆工程管理软件",
+          "涂料施工管理",
+          "承包商油漆管理系统"
+        ],
+        "overview": "A **Painting Contractor Management** application is the painting contractor's business system of record: it manages the whole life of a painting job — from the first customer inquiry, through a written estimate that the customer accepts, to a scheduled crew executing the work at the property, and finally to invoicing and collected payment.\n\nThe defining core is a job economy with four structures held together:\n\n```text\nCustomer / Property records\n  └── Estimate (the unit of sale — written, itemized, accepted by the customer)\n      └── Scheduled job (crew assigned, executed at the property)\n          └── Invoice → Payment (deposits, progress payments, final balance)\n```\n\nWhat distinguishes this Type from generic small-business field service software is the trade binding: the work being sold, scheduled, and billed is painting work at residential or commercial properties. What distinguishes it from construction-scale tools is the business scale: one-trade, project-based jobs sold through a single estimate — not commercial construction contracts.",
+        "overview_zh": "一款**油漆承包商管理**应用是油漆承包商的核心业务记录系统：它管理油漆工作的全生命周期——从第一次客户咨询开始，到客户接受书面报价单，再到安排施工团队在现场执行作业，最后到开具账单并收回款项。\n\n其核心是一个由四个紧密关联结构构成的工作经济体系：\n\n```text\n客户/房产记录\n  └── 报价单（销售单元——书面、明细、客户接受）\n      └── 已排期工作（团队分配、现场执行）\n          └── 账单 → 付款（定金、进度款、尾款）\n```\n\n本类型与通用小型企业现场服务软件的区别在于行业绑定：所销售、排期和计价的工作是在住宅或商业房产上进行的油漆作业。而与建筑规模工具的区别则在于业务规模：单一行业、项目制工作，通过单一报价销售——而非商业建筑合同。",
+        "dc": "**Customer and property records.** Each customer is a persistent record (contact details, communication history, tags, notes); commercial work commonly adds company records. The property — the home or building being painted — is where the work happens and anchors the estimate and job. Records accumulate across jobs, making repeat customers and referrals operational rather than remembered.\n\n**The estimate as the unit of sale.** Painting work is sold per project through a written, itemized estimate. The estimate is the central document of the system: it carries the scope of work, the price, the terms, and the customer's acceptance (signature or approval). An accepted estimate is what becomes the job — the estimate is not just a document but the handoff point from selling to producing. Estimates carry statuses (draft, sent, viewed, accepted, declined) and are versioned as they are revised.\n\n**Scheduled crew execution.** An accepted estimate becomes a job: a scheduled block of work on the production calendar, assigned to a crew (a named team with a lead) and often a project manager. The crew receives the scope — commonly as a work order derived from the estimate, carrying the surfaces to paint, hours, and internal notes the customer never sees. Completion is documented with photos, notes, and recorded time.\n\n**The money loop.** The accepted work resolves into money: invoices generated from the estimate (often automatically on acceptance), with the characteristic rhythm of deposits before work, progress payments during it, and the final balance after completion. Payments are recorded or taken online (card/ACH); unpaid balances are tracked and followed up.",
+        "dc_zh": "**客户和房产记录。** 每个客户是一个持久记录（联系详情、沟通历史、标签、备注）；商业工作通常添加公司记录。房产——被粉刷的住宅或建筑——是工作发生的地方，并锚定估价和项目。记录在项目间积累，使重复客户和推荐成为可操作的而非记忆的。\n\n**估价作为销售单位。** 油漆工作通过书面、详细的估价按项目销售。估价是系统的核心文档：它包含工作范围、价格、条款和客户接受（签名或批准）。接受的估价成为项目——估价不仅仅是一个文档，而是从销售到生产的交接点。估价携带状态（草稿、已发送、已查看、已接受、已拒绝），并在修订时进行版本控制。\n\n**计划团队执行。** 一个接受的估价成为项目：在生产日历上安排的工作块，分配给一个团队（一个有领导的命名团队），通常还有一个项目经理。团队接收范围——通常是从估价衍生出的工作订单，包含要涂漆的表面、小时数和客户看不到的内部备注。完成通过照片、备注和记录的时间来记录。\n\n**资金循环。** 接受的工作转化为资金：发票生成",
+        "rules": "- **The accepted estimate is the contract of record for the job.** Job value, scope, and billing all derive from it; changes to scope go through change orders with customer approval, not silent edits.\n- **Estimates have a decision lifecycle.** Sent → viewed → accepted/declined, with automated follow-ups triggered by status; declined estimates are retained as data (decline reasons feed reporting).\n- **Selling and production share one pipeline.** Deal stages commonly run from lead request through job completion, so the same record carries the sale and the work.\n- **Crew-facing content is filtered.** Work orders carry internal notes and hour breakdowns that are hidden from the customer's proposal; the two documents are views of the same estimate with different audiences.\n- **Money is staged.** Deposits, progress payments, and final balances are normal operations on one invoice, not separate transactions; unpaid balances remain visible and actionable.\n- **Exterior work is weather-dependent.** Some products surface forecasts in the production calendar because exterior painting schedules move with weather.\n- **Permissions follow the role.** Field crews see their schedule and job details; financial and pipeline visibility is restricted to owner/office/sales roles.",
+        "rules_zh": "- **已接受的报价单是工作对应的正式合同。** 工作价值、范围和计费均源自报价单；范围变更需通过获得客户批准的变更单进行，而非静默修改。\n- **报价单有其决策生命周期。** 已发送 → 已查看 → 已接受/已拒绝，并根据状态触发自动跟进；被拒绝的报价单作为数据保留（拒绝原因可用于报告分析）。\n- **销售和生产共享同一管道。** 业务阶段通常从客户请求一直延续到工作完成，因此同一记录承载销售和作业内容。\n- **面向团队的内容经过筛选。** 工单包含内部备注和工时细分，这些内容在客户的方案中是隐藏的；两份文件是同一报价单针对不同受众的视图。\n- **款项是分阶段支付的。** 定金、进度款和尾款是在同一张账单上的常规操作，而非独立交易；未付余额保持可见并可操作。\n- **外部作业受天气影响。** 部分产品会在生产日历中显示天气预报，因为外部油漆工作的安排需随天气调整。\n- **权限遵循角色分配。** 现场团队查看他们的排期和工作详情；财务和销售管道的可见性仅限于业主/办公室/销售角色。",
+        "parent_id": "29.01",
+        "domain_id": "29"
+      }
+    },
+    {
+      "progress": {
+        "slug": "family-care-coordination",
+        "name_zh": "家庭护理协调",
+        "domain_id": "29",
+        "parent_id": "29.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "family-care-coordination",
+        "name": "Family Care Coordination",
+        "name_zh": "家庭护理协调",
+        "aliases_zh": [
+          "家庭照护协调",
+          "家庭健康协调"
+        ],
+        "overview": "A **Family Care Coordination** application is a private, shared space that helps the circle of people around one person who needs care — an aging parent, a relative with a serious illness or disability, someone recovering from surgery, a child with special needs — organize that care together. It gives a family one place to describe the care situation, invite the people who help, list what help is needed and when, let helpers claim those needs, and keep everyone informed about how the person is doing.\n\nThe defining core is deliberately small. A product in this Type has all four of these:\n\n```text\nCare recipient / care situation\n└── Care circle (invited, private membership of known helpers)\n    └── Care needs & occasions, expressed and claimed\n        └── Circle-wide updates & communication\n```\n\nEverything else commonly associated with these products — medication lists, document storage, care journals, photo galleries, AI assistants, human care-navigation services — is widespread in current products but is not what makes the product a care-coordination tool. A volunteer meal-train website from the early 2000s and a modern AI-assisted caregiving app satisfy the same defining core.\n\nThe closest boundary: when the shared space is centered on the *household* rather than on *one person who needs care* (chores, shopping, a family calendar for everyone), the product is a Family Organizer. When the space matches strangers to care jobs for payment, it is a care marketplace. When an organization operates clinical coordination over patient populations, it is healthcare care coordination, not this Type.",
+        "overview_zh": "一个 **Family Care Coordination** 应用是一个私密的共享空间，帮助围绕一个需要照顾的人——例如年迈的父母、患有严重疾病或残疾的亲属、从手术中恢复的人、有特殊需求的儿童——组成的圈子共同组织照顾。它为家庭提供一个地方来描述照顾情况、邀请帮助者、列出所需帮助及时间、让帮助者认领这些需求，并让每个人了解被照顾者的情况。\n\n定义核心是刻意精简的。该类型的产品具备以下全部四个要素：\n\n```text\n照顾接受者 / 照顾情况\n└── 照顾圈子（受邀的、私密的已知帮助者成员资格）\n    └── 照顾需求与场合，表达并认领\n        └── 全圈更新与沟通\n```\n\n其他常与此类产品关联的功能——药物列表、文档存储、照顾日志、照片库、AI助手、人工照顾导航服务——在当前产品中普遍存在，但并非使产品成为照顾协调工具的关键。2000年代早期的志愿者餐车网站和现代AI辅助照顾应用都满足相同的定义核心。\n\n最接近的边界：当共享空间以*家庭*而非*需要照顾的一个人*为中心（家务、购物、全家日历），该产品是家庭组织者。当空间为陌生人匹配付费照顾工作时，它是照顾市场。当组织对患者群体运营临床协调时，它是医疗保健协调，而非此类型。",
+        "dc": "- **Care calendar** — the primary \"when\" surface: appointments, visits, meal deliveries, rides, and personal occasions (birthdays, anniversaries) laid out over time; events can be assigned to specific members.\n- **Coordinator and member roles** — the creator can add other organizers, group members (by branch of the family, by congregation, by shift), and manage who is in the circle.\n- **Reminders and notifications** — email or push reminders for claimed needs and upcoming occasions, aimed at eliminating \"phone-tag\" and email overload.\n- **Encouragement surfaces** — short notes of support to the family, photo sharing, milestone memories.\n- **Care records** (at the richest pole) — medication lists with photos, dosage reasons and reminders; important document storage; written care plans; a wellness journal tracking daily condition and mood over time.",
+        "dc_zh": "- **护理日历** — 主要的“何时”界面：预约、探访、餐食配送、出行和个人场合（生日、纪念日）随时间排列；事件可以分配给特定成员。\n- **协调者和成员角色** — 创建者可以添加其他组织者、小组成员（按家庭分支、按集会、按班次），并管理圈子中的人。\n- **提醒和通知** — 针对已认领的需求和即将到来的场合，通过邮件或推送提醒，旨在消除“电话循环”和邮件过载。\n- **鼓励界面** — 向家庭发送支持短留言、照片分享、里程碑回忆。\n- **护理记录**（在最丰富的一端）— 药物列表（含照片）、剂量原因和提醒；重要文档存储；书面护理计划；健康日记，跟踪每日状况和情绪随时间的变化。",
+        "rules": "### Membership is the privacy boundary\n\nThe space is private by construction: what is posted is visible to the invited circle, not to the public or to other circles on the platform. Invitation or a shared access code is how people get in. This matters because the content — health condition, family logistics, photos — is intimate. Mature products let the coordinator control who is admitted and, in some products, what role-based permissions each invitee has.\n\n### Claims are visible commitments\n\nWhen a helper signs up, the commitment becomes visible to the whole circle — as do unfilled needs. The product's value comes from this shared visibility: no duplicate casseroles, no forgotten rides, and no single relative quietly absorbing everything. Some products additionally show what *others* are planning (e.g., what meal someone else is bringing) so helpers can coordinate with each other.\n\n### The coordinator acts on behalf of others\n\nCoordinators routinely post needs the recipient did not ask for and manage the space while the recipient is unwell. Products therefore allow one member to create, edit, or delete entries for others, and to add fellow organizers as the circle grows.\n\n### Participation must be low-effort\n\nHelpers are occasional users, often older, sometimes joining rarely. Products lower the barrier accordingly: joining by invitation link or a simple page code, acting directly from email reminders, and (in some products) using the space without creating a full account. If participating requires real effort, the circle quietly dies — this constraint shapes much of the interaction design.\n\n### The space outlives the crisis\n\nUpdates, messages, and history persist. Families return to read the record after recovery — or after a death — and the same space can wind down or pivot to a new phase of care. There is no formal \"closed\" state in most products; the circle simply goes quiet.",
+        "rules_zh": "### 成员资格是隐私边界\n\n该空间在构造上是私密的：发布的内容对受邀圈子可见，而非对公众或平台上的其他圈子可见。邀请或共享访问代码是人们进入的方式。这很重要，因为内容——健康状况、家庭后勤、照片——是私密的。成熟产品让协调者控制谁被允许加入，在某些产品中，还控制每个受邀者基于角色的权限。\n\n### 认领是可见的承诺\n\n当帮助者注册时，承诺对整个圈子可见——未满足的需求也是如此。产品的价值来自这种共享可见性：没有重复的砂锅菜，没有被遗忘的接送，也没有单个亲属默默承担一切。有些产品还显示*其他人*计划的内容（例如，其他人将带来什么餐食），以便帮助者相互协调。\n\n### 协调者代表他人行事\n\n协调者通常发布接受者未要求的需求，并在接受者不适时管理空间。因此，产品允许一名成员为他人创建、编辑或删除条目，并在圈子扩大时添加其他协调者。\n\n### 参与必须低努力\n\n帮助者是偶尔用户，通常年龄较大，有时很少加入。产品相应降低门槛：通过邀请链接或简单页面代码加入，直接从电子邮件提醒中操作，以及（在某些产品中）无需创建完整账户即可使用空间。如果参与需要真正努力，圈子会悄然消亡——这一约束影响了许多交互设计。\n\n### 空间在危机后持续存在\n\n更新、消息和历史记录持续存在。家庭在恢复后——或死亡后——回来阅读记录，同一个空间可以逐步关闭o",
+        "parent_id": "29.02",
+        "domain_id": "29"
+      }
+    },
+    {
+      "progress": {
+        "slug": "family-organizer",
+        "name_zh": "家庭协调器",
+        "domain_id": "29",
+        "parent_id": "29.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "family-organizer",
+        "name": "Family Organizer",
+        "name_zh": "家庭协调器",
+        "aliases_zh": [
+          "家庭事务管理器",
+          "家庭共享协作平台"
+        ],
+        "overview": "A **Family Organizer** is the household's shared coordination application: a private space for the known members of one family or household that presents **one shared picture of family life**, built on two co-equal layers —\n\n- the **shared family calendar** — who needs to be where, when; and\n- the **shared household items** — shopping lists, to-dos, chores, and meal plans that carry the household's outstanding work and wants.\n\nBoth layers live in one place, are visible across the household, and are kept in sync by member assignment, recurrence, and notifications. The defining core is deliberately small: the household circle of named members, the shared calendar, and the shared items layer, joined into a single family-wide picture. Everything else commonly associated with the category — family chat, photo sharing, location tracking, budgets, rewards for children — is an enrichment that mature products add, not what makes the product an organizer.\n\nThe category predates software: a kitchen wall calendar, a shopping list on the fridge, and a chore chart on the wall are the same three structures in paper form. A product that keeps only one of the layers — a shared calendar alone, or a chore chart alone — is a different, narrower kind of application.",
+        "overview_zh": "一个**家庭组织器**是家庭共享的协调应用程序：这是一个为家庭或住户已知成员提供的私密空间，呈现**一幅共享的家庭生活图景**，建立在两个平等共存的层次之上——\n\n- **共享的家庭日历**——谁需要在何时出现在哪里；以及\n- **共享的家庭物品**——购物清单、待办事项、家务和膳食计划，承载着家庭当前的任务和需求。\n\n这两个层次融为一体，在整个家庭内可见，并通过成员分配、重复设置和通知保持同步。其定义性的核心刻意保持精简：由命名成员组成的家庭圈、共享日历以及共享物品层，共同构成一幅完整的家庭全景图。其他通常与此类别相关的功能——家庭聊天、照片分享、位置追踪、预算、儿童奖励——是成熟产品添加的丰富功能，而非使该产品成为组织器的根本。\n\n这一类别早于软件：厨房墙上的日历、冰箱上的购物清单、墙上的家务图表，正是这三种结构的纸质形式。只保留其中一个层次的产品——仅有共享日历，或仅有家务图表——则属于一种不同的、更狭窄的应用类型。",
+        "dc": "The application's world has one container and two co-equal shared layers, tied together by member assignment.",
+        "dc_zh": "应用的世界有一个容器和两个平等共享层，通过成员分配相互关联。",
+        "rules": "- **The default is family-wide visibility.** What one member adds to the calendar or a shared list, the whole circle sees; the shared picture is the point of the Type. Private lists exist in some products but are the exception, not the rule.\n- **Reminders follow membership.** Notifications for an event go to the members involved in it; a member not attached to an event generally does not get its reminders, and each member configures their own delivery channels.\n- **Chores recur on their own rhythm.** A chore is defined once with a repeat schedule; it reappears for its assignee without re-entry. Routines (same-time-every-day task sets) are the daily-habit form of the same idea.\n- **Access models vary materially.** Some products give every included member full access to all shared data; others distinguish founders/administrators (who manage members and can edit others' content) from ordinary members, and children may be limited to their own content. Parental locks on shared household hardware are common in the display variant.\n- **External calendars are guests, not the record.** Imported or subscribed calendars typically sync read-only into the family picture; the household's own events remain the product's data.\n- **The picture is persistent.** The calendar, lists, and chore history survive sessions and device changes; the household returns to the same record over years, not sessions.\n- **Absence is structural, not incidental.** Mature products in this Type may ship with no chat, no photos, and no location at all — the organizer works as a coordination hub without any of them.",
+        "rules_zh": "- **默认是全家可见。** 某位成员添加到日历或共享清单的内容，整个圈子都能看到；共享图景正是此类型的意义所在。私人清单在某些产品中存在，但属于例外，而非常规。\n- **提醒跟随成员身份。** 事件的通知发送给该事件的相关成员；未关联到事件的成员通常不会收到其提醒，且每位成员配置自己的通知渠道。\n- **家务按自身节奏重复。** 家务只需定义一次并设置重复计划；它会为被分配者自动重现，无需重新输入。日常例程（相同时间完成的任务集）是同一理念的每日习惯形式。\n- **访问模型差异显著。** 有些产品赋予每位被包含成员对所有共享数据的完全访问权限；另一些则区分创建者/管理员（管理成员并能编辑他人内容）和普通成员，儿童可能仅限于自己的内容。在显示型变体中，对共享家庭硬件的家长控制很常见。\n- **外部日历是访客，而非记录。** 导入或订阅的日历通常以只读方式同步到家庭图景中；家庭自身的事件才是产品的数据。\n- **图景具有持久性。** 日历、清单和家务记录会跨会话和设备更换得以保留；家庭在数年间回归的是同一份记录，而非不同的会话。\n- **缺席是结构性的，并非偶然。** 此类型的成熟产品可能完全没有聊天、照片和位置功能——组织器无需这些功能也能作为协调中心运作。",
+        "parent_id": "29.02",
+        "domain_id": "29"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 262,
+    "phase": "complete",
+    "parent": 58,
+    "slugs": [
+      "car-wash-detailing-management",
+      "collision-repair-management",
+      "painting-contractor-management",
+      "family-care-coordination",
+      "family-organizer"
+    ]
+  }
+}

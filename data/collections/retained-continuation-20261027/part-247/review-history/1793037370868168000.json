@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "creator-revenue-management",
+      "application_id": "commercial:hurdlr",
+      "issue": "Hurdlr 的三个快照（首页、/accounting、/invoicing）实际上只保存了 <head>、JSON-LD、导航和脚本，没有可核对的功能正文；首页的“income streams”只出现在 meta description，/accounting 与 /invoicing 的正文中没有 P&L、资产负债表、银行对账、催收或“Core Financial Reports”。research.json 却称这些“均有官方正文支持”，batch summary 也写成“会计报表”和“跟踪已开票到已收款”，均超出快照可证范围；且 /accounting 与 /invoicing 被标为 documentation，实为营销功能页。该案例的收入来源归因、已开票到已收款推进和汇总收入视图因此没有正文证据，只剩标题、简介和导航。",
+      "fix": "重新抓取并原样保存含正文的 Hurdlr 页面（优先帮助中心或会计/发票功能文档），核对收入来源、发票状态、收款/对账和汇总报表后再写 research/batch；若正文仍不可得，应在 research.json 如实记录抓取缺口，删除未经证实的 P&L、bank reconciliation、collections、“已开票到已收款”等表述，并将该案例降级为无案例留档或移出本叶。"
+    }
+  ],
+  "non_blocking_notes": [
+    "CourseLit 的 docs/README 与 memberships 文档可证课程创作、Stripe 结账、销售页、免费/一次性/订阅/EMI 方案及支付后授予课程访问；但快照没有展开 sections/lessons/quizzes 的课程大纲，也没有核对 MediaLit 自建实例自身的许可证/部署边界，建议补充后再强化“完整课程电商”表述。",
+    "Ghost 的 Members 文档可证成员记录字段、邮件同意、标签、免费/付费/赠送状态、Stripe 订阅和按 tier 访问；去重/合并语义、完整购买/互动历史、自动化和仪表盘未展开，研究已如实保留缺口，建议不要把“一人一记录/完整历史”写成已证实；该 match 依赖 Ghost 内嵌 Members 模块，而非其发布平台主身份。",
+    "Hurdlr 本质是面向自由职业者/小企业的通用费用、里程、税务与开票财务应用，不是创作者多平台 payout 聚合器；即使补齐正文，也只能按通用收入/开票管理作基本类型匹配，不应声称创作者平台分成归集。",
+    "Bagisto 的 MIT 核心可证单店店铺、商品目录、订单/支付集成和 storefront；多商户/B2B/POS 在 README 中是单独的产品/扩展方向，平台代收后向卖家结算的 payout 账本未展示，当前 match 依赖单店自托管/卖家直连支付，建议在条目中明确该社区版/模块边界；品牌自定义域名的直接证据也较弱。",
+    "EDD readme 明确区分免费 lite 与 Pro（订阅、软件许可、内容限制、弃购恢复等为 Pro），社区版边界清楚；GPL-2.0 与 readme 的“GPLv2 or later”可保留为版本/附加许可说明，不阻断。",
+    "各开源条目的仓库 ID、track 与许可证快照一致：CourseLit 199892949/AGPL-3.0、Ghost 9852918/MIT、Bagisto 148129143/MIT、EDD 3961425/GPL-2.0；许可证 API 快照含完整正文。"
+  ],
+  "leaf_checks": {
+    "creator-course-commerce-platform": {
+      "status": "pass_with_gap",
+      "basis": "CourseLit github:199892949；docs/README 正文写明课程创作、学生管理、Stripe 支付、网站/销售页；docs/memberships.md 正文写免费/一次性/订阅/EMI 方案、checkout session、webhook 后将 invoice 置 PAID 并激活 membership、授予 course 访问。AGPL-3.0 完整许可证正文在 license 快照中。",
+      "gaps": "快照未逐项展示 sections/lessons/quizzes 的课程大纲；MediaLit 为付费外部媒体后端但可自建，研究已披露。"
+    },
+    "creator-crm": {
+      "status": "pass_with_gap",
+      "basis": "Ghost github:9852918；docs.ghost.org/members 正文列出 email/name/note/subscribed_to_emails/stripe_customer_id/status(free/paid/complimentary)/labels/created_at，CSV/Zapier/API 导入、按 tier 的访问级别、Stripe Connect 订阅。MIT 完整许可证正文在 license 快照中。",
+      "gaps": "快照未展示去重/合并规则、完整购买/互动事件历史、自动化规则和仪表盘；研究已说明不把未证实能力写成已实现，故按边界保留。"
+    },
+    "creator-revenue-management": {
+      "status": "fail",
+      "basis": "commercial:hurdlr；首页快照只有标题/meta（“income streams”仅在 meta description）、导航和脚本；/accounting 与 /invoicing 快照同样只有 head/JSON-LD/导航，正文中没有 P&L、资产负债表、银行对账、collections 或 Core Financial Reports。",
+      "gaps": "收入来源归因、已开票到已收款推进、汇总收入视图均无正文证据；research 的相应结论超出快照。"
+    },
+    "creator-storefront": {
+      "status": "pass_with_gap",
+      "basis": "Bagisto github:148129143；README 正文写明 MIT 开源自托管 Laravel 电商，可建单店/多商户；features 页正文写在线店铺、商品目录、订单管理、支付集成（PayPal/COD/Money Transfer）、主题/CMS/PWA。MIT 完整许可证正文在 license 快照中。",
+      "gaps": "快照未明确展示卖家品牌/自定义域名和平台代收后向卖家结算的 payout 账本；match 依赖单店自托管、卖家直连支付。多商户/B2B/POS 为独立模块方向，需注意社区版边界。"
+    },
+    "digital-product-commerce-platform": {
+      "status": "pass",
+      "basis": "EDD github:3961425；readme 正文写明数字商品目录、购物车/结账、Stripe/PayPal/Square 等支付、唯一安全下载链接与过期/次数限制、邮件收据、客户购买历史、退款、销售/收入报表；免费 lite 与 Pro 能力分开。GPL-2.0 完整许可证正文在 license 快照中。",
+      "gaps": "卖家收益通过其自连 Stripe/PayPal 直接到账，readme 未展示平台代收代付账本；该叶允许这种直连模式。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未做运行时/部署测试，也未访问本单元之外的资料；仅依据 REVIEW_SOURCES.json 指定的 18 个快照、batch.json、research.json 与 input.json。GitHub 元数据为单行 JSON，读取在 2000 字符处截断，仓库 ID/full_name 与许可证正文可核对，archived/default_branch 等尾部字段未逐项目视确认；未重新计算快照哈希（按给定文件名/路径读取）。商业条目按基本真实性和类型匹配审查，未做产品试用。Hurdlr 三个快照均无正文，故其商业核心只能按缺口处理。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-247/ses_groveopencodegop247review1_1793036801.jsonl",
+  "batch_sha256": "c654a903094260809ad629f2e9f4d92e41f415533a3d3e889217b7fc0b35d0bb",
+  "research_sha256": "92339112834dcedd44dda3ae5220d77722c9f9e5bf33babd1247c92d66130bb9",
+  "input_sha256": "73cea8975eee98b9159a3bc4ed7a87c3e7e1084b646e35f43788eed6715967c7"
+}

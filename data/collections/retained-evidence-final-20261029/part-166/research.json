@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "research-animal-facility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1279052725"
+      ],
+      "query": "open source research animal facility management vivarium github",
+      "source_urls": [
+        "https://api.github.com/repos/myvivarium/MyVivarium",
+        "https://api.github.com/repos/myvivarium/MyVivarium/license",
+        "https://raw.githubusercontent.com/myvivarium/MyVivarium/main/README.md",
+        "https://raw.githubusercontent.com/myvivarium/MyVivarium/main/database/schema.sql",
+        "https://api.github.com/repos/xxjzone01-cyber/labanimal",
+        "https://api.github.com/repos/xxjzone01-cyber/labanimal/license",
+        "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/README.md",
+        "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/db/prisma/schema.prisma",
+        "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/api/src/routes/protocols.ts",
+        "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/api/src/routes/animals.ts"
+      ],
+      "note": "本轮先复核旧草稿 MyVivarium（github:741235791，LGPL-3.0），重新抓取官方 database/schema.sql。schema 有 mice（mouse_id、genotype）、cages（cage_id、pi_name、quantity）、holding/breeding（dob、sex、male_id/female_id）、litters（pups_alive、pups_dead、litter_dob）及 cage_iacuc 关联，能支持个体标识、笼级归属、出生与存活幼仔计数、IACUC 文件与笼的关联；但没有房间/笼架层级及容量/占用模型，没有到达/断奶/移动/死亡/转出等生命事件记录，iacuc 表仅存编号/标题/文件，无 approved/used/remaining 使用量核算。四结构不完整，故撤销该叶 AFMS 案例关系，保留 MyVivarium 为未成立候选与证据缺口。定向替代检索命中 LabAnimal（xxjzone01-cyber/labanimal，github:1279052725，Apache-2.0）：官方 README 说明其为 React/Hono/Prisma/PostgreSQL 的完整自托管 Web 应用，社区版限 500 只/实验室、1 个实验室/用户、10 用户/实验室；官方 Prisma schema 含 Animal（internalId、species、strain、genotype、sex、dateOfBirth、arrivalDate、status、cageId、protocolId、identifiers）、Room→Rack→Cage（capacity、position、status）、Breeding（pairDate、litterDate、litterSize、weanedCount、weaningDate）、HealthRecord、Medication、DeathReport，以及 Protocol（iacucNumber、status、animalLimit、version、approvedAt/By）；protocols API 以 _count.animals 返回动物数并可与 animalLimit 对照，animals API 支持更新 cageId 与 status。据此按完整开源应用服务收录，同时留档三点限制：笼位移动以动物当前 cageId 赋值实现，未单列移动历史事件表；方案修订未单列 amendment 模型，仅见 version 字段；动物状态采用 active/allocated/used/deceased/transferred/retired 的运营状态，未单列 newborn/weaned 生命阶段，断奶通过 Breeding.weaningDate/weanedCount 记录。补充候选方面，此前记录显示 JCMS（README 声明 GPLv3，但 GitHub 许可证元数据无 SPDX 标识并声明停止开发）、BioManager（MIT，官网展示笼架/笼位与普查，但已读页面未展示 IACUC 方案用量）均未达到四结构；Vivocare 官网抓取 SSL 失败。未运行项目。",
+      "service_boundary": "定义要求个体或群体动物、带占用的住房位置、普查处置循环与研究使用关联。LabAnimal 官方 schema/API 覆盖四者：个体动物与标识、Room/Rack/Cage 容量与占用、繁殖/健康/死亡等事件、Protocol 分配与 animalLimit 对照；按完整开源 Web 应用收录。笼位移动为当前 cageId 赋值而非独立移动事件流，方案修订未单列，动物状态为运营状态而非 newborn/weaned 生命阶段，均属已记录限制。MyVivarium 仅有笼级群体、IACUC 文件关联与幼仔计数，缺住房占用、生命事件与方案用量核算，不成立。",
+      "search_attempts": [
+        "open source research animal facility management vivarium github",
+        "open source vivarium management software IACUC protocol cage census github",
+        "official GitHub repository/tree lookup: xxjzone01-cyber/labanimal"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/myvivarium/MyVivarium",
+          "kind": "repository_metadata",
+          "status": "fetched",
+          "note": "复用旧快照，确认仓库 id 741235791 与 LGPL-3.0 元数据"
+        },
+        {
+          "url": "https://api.github.com/repos/myvivarium/MyVivarium/license",
+          "kind": "license",
+          "status": "fetched",
+          "note": "复用旧快照，GitHub license API 返回 LGPL-3.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/myvivarium/MyVivarium/main/README.md",
+          "kind": "readme",
+          "status": "fetched",
+          "note": "复用旧快照，用于核对功能与部署"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/myvivarium/MyVivarium/main/database/schema.sql",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "本轮重新抓取官方数据库 schema；确认缺房间/笼架占用、生命事件与方案用量核算，未运行项目"
+        },
+        {
+          "url": "https://api.github.com/repos/xxjzone01-cyber/labanimal",
+          "kind": "repository_metadata",
+          "status": "fetched",
+          "note": "读取同日已保存的官方仓库快照，确认仓库 id 1279052725、full_name 与 Apache-2.0 元数据；本轮 API 再抓取遇 403 rate limit，未补造新时间"
+        },
+        {
+          "url": "https://api.github.com/repos/xxjzone01-cyber/labanimal/license",
+          "kind": "license",
+          "status": "fetched",
+          "note": "读取同日已保存的官方 license API 快照，SPDX 为 Apache-2.0，含完整许可证正文；本轮 API 再抓取遇 403 rate limit，未补造新时间"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/README.md",
+          "kind": "readme",
+          "status": "fetched",
+          "note": "本轮重新抓取，确认完整 Web 应用、技术栈、Docker 自托管与社区版限额"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/db/prisma/schema.prisma",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "本轮重新抓取官方 Prisma schema，核对动物、住房、繁殖/死亡事件与方案模型"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/api/src/routes/protocols.ts",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "本轮重新抓取官方 protocols API，核对方案状态、animalLimit 与动物数统计"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/xxjzone01-cyber/labanimal/main/packages/api/src/routes/animals.ts",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "本轮新增抓取官方 animals API，核对 cageId/status 更新与在栏动物计数"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "news-publishing-platform / github:36218357：input.json 仍显示 application_ids 为空、case_status 为 review_pending，而 batch 已挂载 github:36218357；这是采集前状态与采集结果的正常差异，正式入库时同步 progress 即可。",
+    "news-publishing-platform / github:36218357：README 的 License 段落链接写的是 LICENSE.md，而仓库实际许可证文件为 LICENSE；不影响 AGPL-3.0 判定，可顺手修正链接描述。",
+    "news-publishing-platform / github:36218357：产品页页脚的“CC BY 3.0”是网站内容许可，不是软件许可；批次以仓库 AGPL-3.0 为准是正确的，建议在来源说明中避免混淆。",
+    "news-publishing-platform / github:36218357：technology_stack 中的 Symfony、PostgreSQL 未在所引快照正文中直接出现（产品页明确 PHP 7、Twig、标准 Web 服务器或 Docker；README 仅指向 composer.json 和 REQUIREMENTS.md）；可在后续补充对应快照，或将该两项标注为未在本次来源中展开。",
+    "news-publishing-platform / github:36218357：research.json 保留了 ghost.org/help/posts 与 ghost.org/tutorials/change-post-order 两个旧候选 URL，但本单元 REVIEW_SOURCES 未提供其快照；这两个 URL 仅用于说明旧 Ghost 候选被排除，未进入 batch 证据，建议在留档中明确这一边界。",
+    "news-publishing-platform / github:36218357：output_control 原文是 incoming 文章分配到 tenant 和 route 后上线，batch 概括为“explicit publishing”；语义可接受，但若要更贴近原文，可改为“explicit assignment/routing to a tenant and route”。",
+    "news-publishing-platform / github:36218357：Publisher 的编辑创作与工作流主要在 Superdesk 上游完成，批次已正确不主张内置创作；建议在服务边界中继续保持这一区分，避免把 Superdesk 的新闻室能力算到 Publisher 身上。"
+  ],
+  "leaf_checks": {
+    "news-publishing-platform": {
+      "slug": "news-publishing-platform",
+      "application_id": "github:36218357",
+      "result": "pass",
+      "definition_core": "通过。故事记录由 templates_system/articles.rst 的 article 元加载器（route、metadata、keywords、url）、article_author.rst（作者姓名、角色、简介、职位、社交资料）、article_media.rst（文章媒体、featureMedia、renditions）证明；发布关卡由 admin_interface/output_control.rst 证明：incoming 文章“not yet visible online”，必须分配到 tenant 和 route 才上线，published 列表可改 route、追加 tenant、unpublish；可修订性由上述 published 操作及 website_management.rst 中 publish/unpublish/update webhook 证明；策展展示面由 editorial_tools/content_lists.rst（首页 teaser 由编辑用 Content lists 策展）与 admin_interface/content_lists.rst（拖拽已发布故事，列表顺序即头版顺序，可随新闻增删更新）证明；articles.rst 的 original_url 与 website_management.rst 的 site redirects 支持链接连续性。三层核心均有正文级文档支撑，未以 README、元数据或加载页替代。",
+      "service_form": "通过。README 与产品页显示其为持续运行的 Symfony/PHP 多租户发布平台，运行于标准 Web 服务器或 Docker，可管理多个站点和输出渠道；产品页的 automatic and manual curation、多租户、主题与导航功能表明它是可日常运营的完整应用，而非一次性工具或纯组件。编辑创作可由 Superdesk 上游提供，本叶核心不要求内置创作。",
+      "identity_track": "通过。batch 的 id github:36218357 与 repository_metadata 的 id、name、full_name 一致；track=open_source，仓库 public、fork=false、archived=false；homepage、repository_url 与快照 URL 一致；本单元仅挂载该叶一个应用，无重复或错挂。",
+      "license": "通过。license 快照来自 api.github.com/repos/superdesk/web-publisher/license，返回 LICENSE 文件（size 34520，GitHub 检出 AGPL-3.0），base64 内容开头为 GNU AFFERO GPL v3, 19 November 2007；repository_metadata 的 license.spdx_id 为 AGPL-3.0，与 batch 的 license 字段一致。",
+      "community_boundary": "通过。research 明确说明 README 与产品页未声明社区版/商业版代码拆分，故仅以该 AGPL 仓库整体作为开源产品身份，不扩展商业版或托管服务能力；batch 未声称企业版功能。产品页的 demo 和服务推广不等同于代码拆分。",
+      "evidence_read": [
+        "sources/5c30be3cf525935ba9f34054545d5c1cf2de97592a744e199b7616aac1336699.txt（repository_metadata）",
+        "sources/3ab22e6a6b310a0bcceed7ae43705c7510905074b68150fdf736572670a782d3.txt（license）",
+        "sources/d3825c2b1b34b74e6c86e0103cdf4175b644cd9943b071b11569c515e520f346.txt（README）",
+        "sources/12fe2e4e849a6b8d0d4159ca81d1d0f465106bf1d25cb6ae0a25b29bbe965680.txt（homepage）",
+        "sources/ae6d5b165bdfa2156e1c33bd4aebe15780c0e524d76027434a213db21a9e09d1.txt（editorial_tools/content_lists）",
+        "sources/05bd74985a6c9ff707a50ff2ac9e67b47d9169649bcced86703ff84556521ccf.txt（admin_interface/content_lists）",
+        "sources/b79a8337fc793a9179575d79d9d42b0154b8ca838867ed3fd1dafe3cf3ad347e.txt（admin_interface/output_control）",
+        "sources/de4df09a2f3407ddef00ee4514ac54fabbe23325e2f73372d9eb792edcc15fa4.txt（admin_interface/website_management）",
+        "sources/80d3c94abbe29ffc34f018d35d468cca45cce1ce87a637fde16c4eeca75b0102.txt（templates_system/articles）",
+        "sources/3a14e2fa1487dc91a1cfe5b9bed6d0020a06c58f64e8d47817833abfccb00405.txt（templates_system/article_author）",
+        "sources/d4468585dfda05d5c1a29b8e37189cea1c2faf52482c680de0db8f9bfa37da44.txt（templates_system/article_media）"
+      ],
+      "gaps": "未做运行时或部署验证；batch 与 research 均未主张排期/禁运、独立更名更正流程、新闻室计划派工或 rundown。Publisher 的编辑创作/工作流主要来自上游 Superdesk，叶核心按“持久故事记录—发布关卡—编辑策展展示面”成立；该边界已在 research 中如实记录。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未执行部署或功能测试，也未读取其他单元或本单元 TASK.md、notes、issues、scripts 等采集过程文件。仓库元数据快照为单行 JSON，read 工具的单行预览在 2000 字符处截断；已用字面匹配确认 \"archived\":false 与 \"spdx_id\":\"AGPL-3.0\"，但未能逐字段通读完整元数据。许可证快照为 GitHub license API 的 base64 内容，未解码全文逐行核对；依据 name=LICENSE、size=34520、base64 开头 AGPL-3.0 文本及 spdx_id 判定其为完整 AGPL-3.0。未做外部网络复核；research.json 中两个 Ghost URL 在本单元无快照，仅作为旧候选排除说明，未纳入批次证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-014/ses_groveopencodegop014review1_1793091990.jsonl",
+  "batch_sha256": "7790961e5854722d68ba1e5c6c71f972e4057bee6b321355c99af029b82250ed",
+  "research_sha256": "49543e6341f943bb8f3e3a4ef059275bcef6e372e18b42d6d2b20f46e2a24dd2",
+  "input_sha256": "1bfd5a5b6be85e36b1cac4ee6a1cb222d5b0d21bd7337de484d80a38f597c488"
+}

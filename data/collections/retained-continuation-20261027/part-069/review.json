@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch 中 Zabbix 的 leaf_matches 理由写“告警/通知接入 JIRA 等工单通道、远程命令执行完成响应闭环”，但 README 仅把 JIRA 列为通知渠道之一，远程命令执行的语境是监控防火墙后的远程位置，未明确证明工单创建、状态回写或修复自动化；建议改为“通知渠道/远程命令能力”，避免过度推断。",
+    "batch 中 Zabbix 的 feature“问题关联与根因分析”里的“问题”指监控事件关联，不是 ITIL 问题记录；建议加“监控”限定，避免与 it-problem-management 混淆。",
+    "GLPI README 对事件、变更、问题管理是模块级能力描述，未展开严重性分级、升级/确认机制、CAB/冻结窗口、known error 与临时方案等细节；现有 research 记录已限定边界、未据此扩写，保持这种写法即可。",
+    "batch 中 GLPI 的 feature“CMDB 与关系”在 README 中的对应表述是 SACM/configuration database，CMDB 属合理归纳但非原文；可改为“配置项与关系”以更贴合来源。",
+    "GLPI 与 Snipe-IT 的 license_review rationale 称“GitHub 仓库页同时标识许可证”，快照中可直接复核的是 README/LICENSE 正文，页面许可证徽标为动态内容；许可证结论不受影响。",
+    "Zabbix README 使用 AGPL-3.0-only，batch 记为 AGPL-3.0；两者实质相同，若追求 SPDX 精确可写 AGPL-3.0-only。",
+    "OpManager 快照（4865538d…）存在于 sources 目录但不在 REVIEW_SOURCES.json；research 仅将其作为被否决的反例，未支撑任何正向匹配，故不影响结论。",
+    "三个产品均为自托管开源 Web 应用/平台，不是厂商托管的 SaaS；对外描述建议使用“自托管开源软件服务”，避免与托管型 SaaS 混淆。"
+  ],
+  "leaf_checks": {
+    "incident-management": {
+      "application_ids": [
+        "github:39182755"
+      ],
+      "verdict": "pass",
+      "basis": "GLPI 官方 README 正文（sources/6ccdd2c8…txt 第10、16、18行）明确 ITIL Service Desk、Request Fulfillment 中事件/问题/服务请求的服务台流转，以及 Incident and Problem Management；仓库元数据确认 glpi-project/glpi、repository_id 39182755（sources/6cddd0ee…txt 第240行）；LICENSE 为完整 GPL-3.0 正文（第1-2、621-623行）。GLPI 是自托管 Web ITSM 应用，符合“事件记录 + 恢复响应 + 既定服务台动员结构”的类型核心。",
+      "gaps": "README 未逐项描述严重性分级、升级路由、确认即认领等机制，本次未把这些细节当作已证明事实；不影响事件管理类型匹配。"
+    },
+    "it-asset-management": {
+      "application_ids": [
+        "github:14346979"
+      ],
+      "verdict": "pass",
+      "basis": "Snipe-IT 官方 README（sources/74207dd0…txt 第6-8、15行）开篇说明这是用于 IT 运营资产管理的 FOSS 项目，记录谁持有哪台设备、采购时间以正确折旧、软件许可证，并说明为需运行在 Web 服务器上的 Web 软件；GitHub 仓库页描述为 free open source IT asset/license management system（sources/547b04bc…txt 第603行）并确认 repository_id 14346979（第240行）；LICENSE 为完整 AGPL-3.0 正文（第1-2、619-621行）。符合 ITAM“资产记录 + 商业事实 + 自托管台账”的核心。",
+      "gaps": "README 未展开完整生命周期（退役/处置）、盘点对账与报表；research 已明确不以这些未证细节作为成立依据，仅按持有人、采购/折旧、许可证等已证商业事实匹配。"
+    },
+    "it-change-management": {
+      "application_ids": [
+        "github:39182755"
+      ],
+      "verdict": "pass",
+      "basis": "GLPI 官方 README 第20行 Change Management 说明可对 IT 环境变更进行 plan、review、implement，并以 controlled and standardized 方式实施；第34行 Impact Analysis 说明可评估变更或事件对 IT 服务的影响。由此可核对“变更记录 + 实施前评审/授权 + 受控实施”的定义性核心。仓库身份与完整 GPL-3.0 许可证同上。",
+      "gaps": "README 未展开 CAB、变更日历、冻结窗口、冲突检查、回退计划；research 已将这些排除在成立依据之外，不影响类型匹配。"
+    },
+    "it-operations-management-itom": {
+      "application_ids": [
+        "github:17253775"
+      ],
+      "verdict": "pass",
+      "basis": "Zabbix 官方 README（sources/bd281a08…txt 第3-12行）说明其为企业级开源分布式监控方案，覆盖网络设备、服务器、服务及其他 IT 资源，指标采集跨虚拟化、容器、云、数据库、网页、应用服务器与业务应用；提供问题关联与根因分析、Single pane of glass 统一视图与拓扑图、Slack/JIRA/Teams 等告警通知、多租户与分布式监控、远程命令执行。仓库页确认 zabbix/zabbix、repository_id 17253775（sources/db04f847…txt 第240行）；COPYING 为完整 AGPL-3.0 正文，README 标注 AGPL-3.0-only（第25行）。符合 ITOM 的“全资产范围 + 统一运营视图 + 响应循环”核心。",
+      "gaps": "README 的 JIRA 仅证明通知渠道，未证明工单创建/状态回写；“远程命令执行”原文语境是监控防火墙后的远程位置，修复自动化属推断。OpManager 反例快照不在 REVIEW_SOURCES.json，未作为正向依据。"
+    },
+    "it-problem-management": {
+      "application_ids": [
+        "github:39182755"
+      ],
+      "verdict": "pass",
+      "basis": "GLPI 官方 README 第18行 Incident and Problem Management 明确支持 ITIL Problem Management，说明问题被及时处理、根因被识别并采取预防措施；第16行 Request Fulfillment 将事件与问题作为不同对象在同一服务台流转。可对应“问题记录 + 根因调查 + 原因导向处置”的核心；仓库身份与完整 GPL-3.0 许可证同上。",
+      "gaps": "README 未展开问题记录字段、known error/临时方案、与变更管理的联动和关闭验证；research 已如实限定这些边界，未据此扩写。"
+    }
+  },
+  "limits": "仅做只读文件核对：读取 REVIEW_SOURCES.json 列出的 9 份快照（GLPI、Snipe-IT、Zabbix 的仓库页、README 与 LICENSE/COPYING），未联网复核、未部署或运行产品、未做运行时验证。未读取 notes/previous、采集脚本或其他单元，research 中“复用 notes/previous”的候选来源无法独立追溯。OpManager 反例快照不在 REVIEW_SOURCES.json 中，未纳入正向核对。许可证只核对仓库 LICENSE/COPYING 正文及 README 声明，未核对商业托管、插件市场或支持服务的单独条款；社区版边界依据“所匹配能力均来自该仓库 README 与仓库源码”判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-069/ses_groveopencodegop069review1_1792992759.jsonl",
+  "batch_sha256": "3d50ef483d8c5d30f02ff4b08e6ca8e0d71f3ce50dd20341e73ae4f0a7fb0822",
+  "research_sha256": "a2eac6bb2b6b6db8f08a3ddfcd8c45c8c124a112398d3a04aaa1327191adf1a8",
+  "input_sha256": "31815d96b08b1b27825d1688eaaf2b74657a430b50925ab8bf276ebe5557eda7"
+}

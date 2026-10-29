@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "nonprofit-program-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:212690136"
+      ],
+      "query": "GitHub API: nonprofit program management; NGO project management; SFDO Program Management Module verification",
+      "source_urls": [
+        "https://www.salesforce.com/nonprofit/managed-packages",
+        "https://trailhead.salesforce.com/content/learn/modules/program-management-with-nonprofit-cloud/meet-program-management-module",
+        "https://github.com/SalesforceFoundation/PMM",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/README.md",
+        "https://api.github.com/repos/SalesforceFoundation/PMM",
+        "https://api.github.com/repos/SalesforceFoundation/PMM/license",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/Status__c.field-meta.xml",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/StartDate__c.field-meta.xml",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/EndDate__c.field-meta.xml",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/ServiceSchedule__c/fields/Frequency__c.field-meta.xml",
+        "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/reports/ProgramManagementReports/Services_Delivered_Year_to_Date_MY.report-meta.xml",
+        "https://api.github.com/repos/mercycorps/toladata",
+        "https://raw.githubusercontent.com/mercycorps/toladata/master/README.md",
+        "https://api.github.com/repos/mercycorps/toladata/license",
+        "https://api.github.com/repos/toladata/TolaActivity"
+      ],
+      "note": "本轮先复核旧候选 mercycorps/toladata（Apache-2.0，id 248082213）及 toladata/TolaActivity：README 明确自 2022-11-01 后不再公开维护，核心是 program indicator 的周期目标、IPTT 报告与 Results Framework，属于 M&E；分叉仓库 metadata 的 license 为 null。故旧候选仍不建立关系，但本轮已重新抓取 metadata/README/license/分叉 metadata 落盘，补上此前 sources/ 缺失，保留原检索轨迹。随后做两组有区别的 GitHub 仓库检索（nonprofit program management；NGO project management），多数候选无许可证或仅一句描述；Impact Data Hub（GPL-3.0）虽有 program tracking，但只有 donor/funding/outcome，未证明计划交付、场次出勤与按计划归因的交付记录。检索中出现的 SalesforceFoundation/PMM 经官方产品页、Trailhead PMM 模块、仓库 README/许可证及对象/报表元数据核对：Program（开始/结束/状态）、Service、Service Schedule（一次性/周期计划）→Service Session、Service Participant/Program Engagement、Service Delivery（场次出勤与数量）以及按 Program 汇总的 Services Delivered YTD 报告，四要件齐全，故以 github:212690136 建立关系。边界：PMM 是 Salesforce 平台上的完整业务模块，安装时自动带入闭源 SFDO Base，需 Salesforce org，不能独立自托管；BSD-3-Clause 仅覆盖 PMM 包本身，部署未实测。help.salesforce.com 三篇文章抓取均返回同一通用外壳（SHA 790dbc…），未取得正文，未作为证据；本轮未覆盖商业 SaaS 价格/架构。",
+      "service_boundary": "PMM 覆盖 Program→Service/Service Schedule→Service Session→Service Delivery→按 Program 汇总报告；它是 Salesforce 上的完整业务模块而非独立自托管应用，运行时依赖 Salesforce 平台与闭源 SFDO Base，开源许可仅覆盖 PMM 包。TolaData 属指标/结果框架 M&E，不是本类型。",
+      "search_attempts": [
+        {
+          "query": "GitHub API search repositories q=nonprofit program management in:name,description（sort=stars，2026-10-29）",
+          "candidates": [
+            "sector-skills/nonprofit-skills",
+            "richardsbrian86-oss/Impact-Data-Hub",
+            "mdaakifulla/hdwtrust-open-source",
+            "Janicebenita/NGO-Management-Platform-with-Dashboard-and-Resource-Allocation"
+          ],
+          "outcome": "返回 20+ 条，多为技能库、单句描述或无许可证项目。Impact Data Hub 为 GPL-3.0 全栈平台，但 README 仅列 donor/funding/program outcome 与 dashboard，缺少计划交付、场次出勤和按计划归因的交付记录；其余候选许可证不明或不是完整应用。"
+        },
+        {
+          "query": "GitHub API search repositories q=NGO project management in:name,description（sort=stars，2026-10-29）",
+          "candidates": [
+            "Janicebenita/NGO-Management-Platform-with-Dashboard-and-Resource-Allocation",
+            "SerhiiVolianiuk/Tender-Management-System",
+            "SFDO-Community-Sprints/Impact-Management-NGO"
+          ],
+          "outcome": "未见许可证明确且同时具备 Program→计划服务→交付记录→绩效汇总的完整应用；结果多为捐赠、招标、影响测量或培训示例。"
+        },
+        {
+          "query": "GitHub API search repositories q=\"program management\" nonprofit in:name,description（sort=updated）+ q=Program-Management-Module org:SalesforceFoundation",
+          "candidates": [
+            "SalesforceFoundation/PMM",
+            "fadymagdy159/om-el-maouna-platform",
+            "seanstoffel-stack/trailhead-crm-prg-mgmt-demo"
+          ],
+          "outcome": "PMM 是唯一许可证明确、对象模型完整的候选；om-el-maouna 为 pre-launch 且无许可证，trailhead-crm 为无许可证演示项目。"
+        },
+        {
+          "query": "旧候选复核：mercycorps/toladata 与 toladata/TolaActivity（仅补抓，不新增检索）",
+          "candidates": [
+            "mercycorps/toladata",
+            "toladata/TolaActivity"
+          ],
+          "outcome": "README 明确 2022-11-01 后不再公开维护；功能为指标周期目标、IPTT 与 Results Framework；分叉仓库无 license。维持 M&E 边界，不建立关系。"
+        },
+        {
+          "query": "官方正文核对：Salesforce PMM 产品页、Trailhead PMM 模块、Program/ServiceSchedule 字段与内置报表",
+          "candidates": [
+            "SalesforceFoundation/PMM"
+          ],
+          "outcome": "产品页确认 PMM 为 open source、free add-on；Trailhead 正文确认 Program、Service、Service Schedule、Service Session、Service Delivery 与内置报告；字段/报表元数据确认 Program 状态、Service Schedule 频率与按 Program 汇总的 Services Delivered YTD。四要件成立。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://help.salesforce.com/s/articleView?id=sfdo.pmm_overview.htm&language=en_US&type=5",
+          "status": "shell_no_article",
+          "note": "抓取成功但只有通用页面壳；另两篇 sfdo.PMM_Create_Svcs_and_Svc_Dels 与 sfdo.pmm_reporting_and_analytics 返回同一 SHA 790dbc1cc9a8b77c81ee73be63ddfe06d4f7656ed9cae4916b0a1c0d5a967b4e，未取得文章正文，未作为证据。"
+        },
+        {
+          "url": "https://trailhead.salesforce.com/content/learn/modules/program-management-with-nonprofit-cloud/meet-program-management-module",
+          "status": "success",
+          "note": "取得 PMM 对象模型正文：Programs、Program Engagements、Services、Service Deliveries、Service Schedules、Service Session、Service Participants，及 out-of-the-box reports 说明。"
+        },
+        {
+          "url": "https://www.salesforce.com/nonprofit/managed-packages",
+          "status": "success",
+          "note": "官方产品页 PMM 条目：open source，track programs/services/engagements/service delivery，Free add-on。"
+        },
+        {
+          "url": "https://api.github.com/repos/SalesforceFoundation/PMM",
+          "status": "success",
+          "note": "仓库 id 212690136，full_name SalesforceFoundation/PMM，BSD-3-Clause，未归档，pushed_at 2026-04-15。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/README.md",
+          "status": "success",
+          "note": "README：free, open-source，独立包/扩展 NPSP；安装时自动引入闭源 SFDO Base。"
+        },
+        {
+          "url": "https://api.github.com/repos/SalesforceFoundation/PMM/license",
+          "status": "success",
+          "note": "license API 返回 spdx_id BSD-3-Clause 与完整 BSD-3 文本。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/Status__c.field-meta.xml",
+          "status": "success",
+          "note": "Program 状态必填 picklist：Planned/Active/Completed/Canceled。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/StartDate__c.field-meta.xml",
+          "status": "success",
+          "note": "Program Start Date：The date the Program is scheduled to start。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/Program__c/fields/EndDate__c.field-meta.xml",
+          "status": "success",
+          "note": "Program End Date：The date the Program is scheduled to end。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/objects/ServiceSchedule__c/fields/Frequency__c.field-meta.xml",
+          "status": "success",
+          "note": "Service Schedule 频率 picklist：Daily/Weekly/Monthly/One Time。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceFoundation/PMM/main/force-app/main/default/reports/ProgramManagementReports/Services_Delivered_Year_to_Date_MY.report-meta.xml",
+          "status": "success",
+          "note": "内置报表 Services Delivered (Year to Date)：按 Program 分组汇总 Service Delivery 数量。"
+        },
+        {
+          "url": "https://api.github.com/repos/mercycorps/toladata",
+          "status": "success",
+          "note": "旧候选复核：id 248082213，Apache-2.0，archived false，pushed_at 2023-10-03。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mercycorps/toladata/master/README.md",
+          "status": "success",
+          "note": "README 明确 2022-11-01 后不再公开维护；正文为指标周期目标、IPTT 报告与 Results Framework。"
+        },
+        {
+          "url": "https://api.github.com/repos/mercycorps/toladata/license",
+          "status": "success",
+          "note": "Apache-2.0 完整许可证快照。"
+        },
+        {
+          "url": "https://api.github.com/repos/toladata/TolaActivity",
+          "status": "success",
+          "note": "分叉元数据：license 为 null，pushed_at 2022-12-16；仍不满足开源许可要求。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

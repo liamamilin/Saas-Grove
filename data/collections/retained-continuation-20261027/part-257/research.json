@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "fitness-class-booking",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1314049369"
+      ],
+      "query": "GitHub API 仓库搜索：class booking fitness / class booking studio / yoga studio booking；随后核对 Studio OS 的 README 与仓库元数据",
+      "source_urls": [
+        "https://api.github.com/repos/Booyaka101/studio-os",
+        "https://api.github.com/repos/Booyaka101/studio-os/license",
+        "https://raw.githubusercontent.com/Booyaka101/studio-os/main/README.md"
+      ],
+      "note": "Studio OS 的 README 明确以公开课程表、有限名额预约、原子容量、FIFO 候补自动递补和取消窗口为核心，取消后名额回到可预约池；符合课程预约的“课程表—名额预约—可逆名额经济”定义。产品同时提供课程包/会员权益，但预约与名额循环仍是前台主流程，因此归入课程预约而非仅工作室管理。未运行项目，也未验证支付与邮件流程。",
+      "service_boundary": "开源自托管应用；每个工作室自行部署，Docker/Node 运行，SQLite 单文件；Stripe 支付可选，不是厂商托管的多租户 SaaS。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “class booking fitness”（按星标排序）",
+        "2026-10-27 GitHub API 搜索 “class booking studio”",
+        "2026-10-27 GitHub API 搜索 “yoga studio booking”",
+        "2026-10-27 直接核对候选仓库 Booyaka101/studio-os 的元数据、许可证与 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Booyaka101/studio-os",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/3ca765375279edb70165c8f7356a3df2f423f248c1e7830609bc0f3703b9cadd.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/Booyaka101/studio-os/license",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/9391f6f7c5209a386d2adc0bf5f98e8789e20bad4474f064f055a3a6af9401f9.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Booyaka101/studio-os/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/66dcd662620a058e75e94649b9c4f1498c465a5927dd01d61e008c4573162e65.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "fitness-membership-management",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "GitHub API 仓库搜索：gym membership management / fitness membership / gym subscription management / club membership management；核对 GymManagerPro 的 README、许可证、元数据及 Member/Membership/Plan 数据层源码",
+      "source_urls": [
+        "https://api.github.com/repos/eppsteve/GymManagerPro",
+        "https://api.github.com/repos/eppsteve/GymManagerPro/license",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/README.md",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Member.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Membership.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Plan.cs",
+        "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Measurement.cs",
+        "https://api.github.com/repos/eppsteve/GymManagerPro/git/trees/master?recursive=1"
+      ],
+      "note": "GymManagerPro 的 README 自述为健身俱乐部/健身房的会员管理应用；数据层源码显示 Member（会员档案与卡号）、Plan（名称/时长/价格/备注）、Membership（会员×计划、起止日期、价格），Member.cs 还按 Membership.EndDate 在入场时判定 Active/Inactive 并写入 Checkin。但仓库文件树中没有支付、账单、续费或订阅模块，README 与所读源码也未证明定期自动扣费、冻结/取消/失效状态机或欠费停权。会员登记与“会员×计划”的持有记录成立，完整会费—状态周期未闭合，因此按边界未闭合留档为候选，不把该仓库计入 batch 关系；未运行该桌面程序。",
+      "service_boundary": "候选为 GPL-3.0 开源的 Windows Forms 胖客户端，本地 .NET/SQL Server 部署；不是厂商托管 SaaS，也未证明多租户。该候选仅留档，不作为本叶成立案例。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “gym membership management”",
+        "2026-10-27 GitHub API 搜索 “fitness membership”",
+        "2026-10-27 GitHub API 搜索 “gym subscription management”",
+        "2026-10-27 GitHub API 搜索 “club membership management”",
+        "2026-10-27 核对 eppsteve/GymManagerPro 元数据、GPL-3.0 许可证、README，并读取 DataLayer/Member.cs、Membership.cs、Plan.cs",
+        "2026-10-27 拉取 eppsteve/GymManagerPro 仓库文件树，核对是否存在支付/账单/续费/订阅模块"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/176dde68ebeeb8de082ce324b1a2d941ed393f19e7428ffab0ecfd3caa9099b8.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro/license",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/3d80a2e5102dd771bfcd3688093d39607b6d2ac22ceda8aae5848a8cfd742b2e.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/d28f3dd6af540009ff22e4460fd7b594a4fdd0f2bb1f42f80f30f374eecdd2e2.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Member.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/8cdcaffa30d4036b001678dc2fdeddc828beed9da6f22e610035173c30cf0c81.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Membership.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/12f0429cfad8ccd78190015b5e99517bf4c24189cb5058b356a1137d3fba48cb.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Plan.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/7b7f7cc4663c4992cf84e3001ae6c3558b7efd4ea2f217dfcca4d00f321dfa6f.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/eppsteve/GymManagerPro/master/GymManagerPro/DataLayer/Measurement.cs",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/78190d3536625781be0271636e3ede0f6e28c1622024a7a924ffcc9382d5ea01.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/eppsteve/GymManagerPro/git/trees/master?recursive=1",
+          "kind": "documentation",
+          "result": "HTTP 200；快照 sources/c5b5f0e97063b43e111d48f3a473cbf8d08b88e8ac7de70643f7a60057830376.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "fitness-studio-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1109547882"
+      ],
+      "query": "GitHub API 仓库搜索：fitness studio management / class booking studio / yoga studio booking；核对 Tandava 的 README、元数据与 AGPL-3.0 许可证",
+      "source_urls": [
+        "https://api.github.com/repos/TaylorONeal/tandava",
+        "https://api.github.com/repos/TaylorONeal/tandava/license",
+        "https://raw.githubusercontent.com/TaylorONeal/tandava/main/README.md"
+      ],
+      "note": "Tandava 的 README 将其定位为瑜伽/普拉提/运动工作室的工作室管理软件，明确覆盖重复课程排程、会员与课程包购买/消耗、预约与候补、签到、教师、收款和分析，形成客户—权益—课程表—消耗权益的预约—出勤—计费闭环。README 同时自述自托管后端（RLS、支付、邮件）仍需按实际项目验证，故仅按已披露功能记录，未做运行验证。",
+      "service_boundary": "AGPL-3.0 开源；同一代码可自托管于 Supabase + 静态托管，也提供托管版；自托管者通常单工作室部署，托管版为多租户。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “fitness studio management”",
+        "2026-10-27 GitHub API 搜索 “yoga studio booking”",
+        "2026-10-27 核对 TaylorONeal/tandava 元数据、AGPL-3.0 许可证与 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/TaylorONeal/tandava",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/3e26aa090de5a1feccafbdc80161742960970c5a34a51bb20d81a8aa2fbc0386.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/TaylorONeal/tandava/license",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/2bcd0720706c3e65990b9561eafc47e228d934a1e180c92dbfb399212932d7dd.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/TaylorONeal/tandava/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/88a71c55b7e94b98ecb7e9945cf9ea07e0796f66e1ca293b95fe0ffb5b4df1cc.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "gym-management-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1341279254"
+      ],
+      "query": "GitHub API 仓库搜索：gym management system / gym management check-in / gym attendance membership / gym ERP；核对 GymOS 的 README、元数据与 GPL-3.0 许可证",
+      "source_urls": [
+        "https://api.github.com/repos/maxlevels-ae/gymos",
+        "https://api.github.com/repos/maxlevels-ae/gymos/license",
+        "https://raw.githubusercontent.com/maxlevels-ae/gymos/main/README.md"
+      ],
+      "note": "GymOS 的 README 明确列出会员与会员计划、订阅/续费/自动续费与状态引擎、冻结管理、二维码签到与前台模式、门禁与欠费入场策略、课程排程/预约/候补、考勤、会计/POS/HR/多门店；四项核心（会员记录、持有会员、入场核验、会费循环）均有正文证据。仅依据 README 功能表记录，未运行项目，也未验证门禁硬件集成。",
+      "service_boundary": "GPL-3.0 开源自托管应用；Node.js/Express + SQLite，可按单健身房部署，也声称支持多门店；不是厂商托管的 SaaS。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “gym management system”",
+        "2026-10-27 GitHub API 搜索 “gym management check-in”",
+        "2026-10-27 GitHub API 搜索 “gym attendance membership”",
+        "2026-10-27 GitHub API 搜索 “gym ERP”",
+        "2026-10-27 核对 maxlevels-ae/gymos 元数据、GPL-3.0 许可证与 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/maxlevels-ae/gymos",
+          "kind": "repository_metadata",
+          "result": "HTTP 200；快照 sources/7c038609805f8c6ff23461a03b81fa23443504345ecc03540ba285649a953001.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/maxlevels-ae/gymos/license",
+          "kind": "license",
+          "result": "HTTP 200；快照 sources/48192bb42156388279a7485624ccefa14e22b27ef4bdbd9d4af4490f5ce958d6.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/maxlevels-ae/gymos/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200；快照 sources/b8b8ecbfdc3099ca0384f1124f56cbbd022db3e8fb5dbc33bf6db39aa52b4a64.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "gymnastics-club-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:iclasspro"
+      ],
+      "query": "GitHub API 仓库搜索：gymnastics management / gymnastics club / gymnastics club management；另检索体操俱乐部商业软件并抓取 iClassPro 官方体操功能页与支付服务页",
+      "source_urls": [
+        "https://www.iclasspro.com/gymnastics-software-features",
+        "https://www.iclasspro.com/payment-services"
+      ],
+      "note": "开源侧仅见无许可证的课程作品、网站或竞赛工具，未找到许可证与核心功能均可靠的完整体操俱乐部管理项目，因此不把无许可证仓库标为开源。商业侧选择 iClassPro：官方体操功能页明确面向体操俱乐部，覆盖分类课程/私教/队训排程、报名、学生进度、客户账户、账单与支付；支付服务页补充说明面向家庭/客户账户的在线与线下支付。仅做官网正文核对，未试用产品、未研究价格。",
+      "service_boundary": "商业 SaaS；厂商托管，面向体操/啦啦队/舞蹈/游泳学校等班级制青少年活动机构。",
+      "search_attempts": [
+        "2026-10-27 GitHub API 搜索 “gymnastics management”",
+        "2026-10-27 GitHub API 搜索 “gymnastics club”",
+        "2026-10-27 GitHub API 搜索 “gymnastics club management”",
+        "2026-10-27 官网抓取 iClassPro 体操功能页与支付服务页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.iclasspro.com/gymnastics-software-features",
+          "kind": "homepage",
+          "result": "HTTP 200；快照 sources/56a54027a1495211435d322dc4c73039667b4aa1c4acc41e00ccd56b1cd77f22.txt"
+        },
+        {
+          "url": "https://www.iclasspro.com/payment-services",
+          "kind": "homepage",
+          "result": "HTTP 200；快照 sources/c1dd04e4afd2129eb88bd03ee6da3ad0c0ff372554851af5fd827e7646563f94.txt"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

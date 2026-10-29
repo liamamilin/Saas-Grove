@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "product-configuration-management",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。",
+      "source_urls": [
+        "https://github.com/OCA/product-configurator",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/LICENSE",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/README.rst",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/models/product_config.py",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator_mrp/README.rst"
+      ],
+      "note": "结构复核：原草稿把 github:349414935 计入 case_ids，而 assessment 为 boundary_unresolved，二者不一致。重读已保存的 16.0 快照：README 自述该模块提供“all the mechanics to support product configuration”，是配置界面的基础依赖；product_config.py 提供 product.config.domain / domain.line / product.config.line 的 in/not in 条件与可继承限制规则；product_configurator_mrp README 仅说明在制造订单上提供配置向导。配置模型和规则、以及把选择解析到制造订单有证据，但定义核心第三项“受维护的模型生命周期”（测试、发布、版本化、生效期）在 README 与已读代码中均无证据，未发现模型版本/审批/生效期字段。因此不把该候选作为本叶成立案例，case_ids 置空，保留候选、来源与具体缺口。",
+      "service_boundary": "候选 OCA/product-configurator 16.0 仅核实配置模型（属性/选项 + in/not in 限制规则）与制造订单配置向导；模型发布/版本/生效期生命周期、完整构建侧产品定义与跨系统传播均未核实。故不建立产品关系，只保留候选与缺口。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/OCA/product-configurator",
+          "result": "fetched",
+          "sha256": "910115dde50f5ee5393ac02686ca7d19799cbf22895d7e71810e65976d7171d7"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/LICENSE",
+          "result": "fetched",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/README.rst",
+          "result": "fetched",
+          "sha256": "bbc285904325d2f510d82f25b505e011a716e6e500651867f03fa0e20e875467"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/models/product_config.py",
+          "result": "fetched",
+          "sha256": "5b327ff5fb02ff7d71c48716913ed13a8aac50bc1cd31a79314f64732be52e71"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator_mrp/README.rst",
+          "result": "fetched",
+          "sha256": "01458a2579ca6acf63ce9b03112827e6ce1e26c8b1a03b89fbc7926c8f4aaffe"
+        },
+        {
+          "url": "https://api.github.com/repos/OCA/product-configurator",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "product-lifecycle-management-plm",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4630534"
+      ],
+      "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。",
+      "source_urls": [
+        "https://github.com/docdoku/docdoku-plm",
+        "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/LICENSE.txt",
+        "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/README.md"
+      ],
+      "note": "websearch 均 401 后，使用 GitHub 仓库搜索 open source PLM 定位 docdoku/docdoku-plm；读取 README、LICENSE.txt 与仓库页面，核对产品结构/BOM、文档版本、变更管理与工作流。",
+      "service_boundary": "DocDokuPLM 覆盖产品记录、版本化定义与受控变更；CAD 深度、ERP 交接和部署成熟度未核实，不写入断言。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/docdoku/docdoku-plm",
+          "result": "fetched",
+          "sha256": "3ffae047906f07d026a20dff30f859d7ad71891687cb9830bb39cfd83f585147"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/LICENSE.txt",
+          "result": "fetched",
+          "sha256": "91b65277959ec273763d28ef002e83a6b3fba57c7a35436c9e5b66536333d720"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/README.md",
+          "result": "fetched",
+          "sha256": "ed474e367f00ac9cbd11e807cd3cc0fc1ef6948364a1cf9cc3c773a54b716b4b"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "advanced-planning-scheduling-aps",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:12776324"
+      ],
+      "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。",
+      "source_urls": [
+        "https://github.com/frePPLe/frepple",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/COPYING",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/README.md",
+        "https://raw.githubusercontent.com/frePPLe/frepple/master/doc/features.rst"
+      ],
+      "note": "websearch 均 401 后，用 GitHub 搜索与已知候选核查 frePPLe；读取 README、doc/features.rst 与 COPYING，核对有限产能、资源约束、排程与甘特图调整。",
+      "service_boundary": "frePPLe 明确覆盖操作级有限产能排程、前后向计划、约束违反展示与计划调整；需求和供应链计划范围更广，条目只窄化到 APS 相关能力。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/frePPLe/frepple",
+          "result": "fetched",
+          "sha256": "ef57d0af5139346d95ed05193a96b13aef7f53c2aba98ce24a46f10781111801"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/COPYING",
+          "result": "fetched",
+          "sha256": "8b542286ede5fd3bca93b5a9afc4fcec9f4bcbf91b7b9b8f68900f933277bc7a"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/README.md",
+          "result": "fetched",
+          "sha256": "7625dca181702c7d7d53c4f2da42cec012bc701a4d06000329856d8edd286405"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/frePPLe/frepple/master/doc/features.rst",
+          "result": "fetched",
+          "sha256": "ba43ee79a60419451220635bdbb2446982016999bca7d7d211d3f18141cbc0e3"
+        },
+        {
+          "url": "https://api.github.com/repos/frePPLe/frepple",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "aftermarket-service-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:136248488"
+      ],
+      "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。",
+      "source_urls": [
+        "https://github.com/OCA/field-service",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/LICENSE",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice/README.rst",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_equipment_stock/README.rst",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_equipment_warranty/README.rst",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_agreement/README.rst",
+        "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_repair/README.rst"
+      ],
+      "note": "websearch 均 401；GitHub 仓库搜索 field service management 定位 OCA/field-service，读取 fieldservice、equipment_stock、equipment_warranty、agreement、repair 的 README，核对安装基数、权益与服务订单。",
+      "service_boundary": "模块组合覆盖序列化设备登记、保修/协议关联和服务订单生命周期；通用现场服务与售后服务的边界通过“设备+权益”收窄，自动覆盖判定与结算链未核实。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/OCA/field-service",
+          "result": "fetched",
+          "sha256": "b91bbb26d0c595c71b8f15dd684a2c682d744160b1224d40d6ec4ca9c96c330c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/LICENSE",
+          "result": "fetched",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice/README.rst",
+          "result": "fetched",
+          "sha256": "f605a137472271d11a8fcb7449953a8d32566a7c953874e4d20a8ab1ded3f387"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_equipment_stock/README.rst",
+          "result": "fetched",
+          "sha256": "0e68243638e9785be90e17872344e19622271f69e41c0c42d1835f015d77122b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_equipment_warranty/README.rst",
+          "result": "fetched",
+          "sha256": "290ce9c24ac5362641f25086f840e4c4a8d57ebb9b4c7fbd8c6cf31b2b930e35"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_agreement/README.rst",
+          "result": "fetched",
+          "sha256": "00ed848072856c5641de26ff54e0c601b5e8fecd21f65f31460ff57b1a02d978"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/field-service/19.0/fieldservice_repair/README.rst",
+          "result": "fetched",
+          "sha256": "552685b1d126733ca6b1ad15387106bcc7c7fd344a22f7109f7f4fe9619a3071"
+        },
+        {
+          "url": "https://api.github.com/repos/OCA/field-service",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "factory-operations-management",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "websearch 401 后改用 GitHub 仓库搜索与候选官方仓库/README/许可证直读；实际查询见 search_attempts。",
+      "source_urls": [
+        "https://github.com/jukbot/smart-industry",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/LICENSE.md",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/README.md",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-overview.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-performance.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-production.html",
+        "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-notification.html"
+      ],
+      "note": "结构复核：原草稿把 github:71769220 计入 case_ids，而 assessment 为 boundary_unresolved，二者不一致。重读已保存快照：README 自述项目“still in heavy development”，并因预算削减暂停部署；仪表盘概览汇总机器数据与平均 OEE，生产跟踪维护 job_status、工位与设备，绩效页计算 OEE，通知页列出事件。实时运营图景与运营绩效记录有部分代码证据，但定义核心的事件—响应闭环（事件分派到职能、标准化响应、跟踪到解决）没有正文或代码证据，停机原因编码、计划下行与实际上行也未核实。因此移除本叶关系，保留候选和来源。",
+      "service_boundary": "候选 IMES (Smart Industry) 仅核实机器/工单状态仪表盘、OEE 与通知列表等运营状态和绩效片段；事件—响应闭环、停机原因编码、与 ERP/机器层的计划/实际交互未核实，且项目自述仍在大幅开发、部署暂停。故不建立产品关系，只保留候选与缺口。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "返回候选仓库列表，未逐项验证"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/jukbot/smart-industry",
+          "result": "fetched",
+          "sha256": "01a440b192558ac6b8e1a73ae7439f14785a321554477d484e4270233f0b257c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/LICENSE.md",
+          "result": "fetched",
+          "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/README.md",
+          "result": "fetched",
+          "sha256": "d764c8c6ffb737a4ef3f22a646411055581429a097f13184f163cd834622d868"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-overview.html",
+          "result": "fetched",
+          "sha256": "83732c2a28205307185c5e189b2a4d543ccfe6aa53799741c54771df1f2b0363"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-performance.html",
+          "result": "fetched",
+          "sha256": "d7db0a597a95515d67b1f8f3e234a4bfdd7cd8ea83e93651153004a26840391b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/track/view-track-production.html",
+          "result": "fetched",
+          "sha256": "8b62774d636e4d5e8c99ffe038215bc3d6079c1da4b061453a3043e453796a24"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jukbot/smart-industry/master/src/dashboard/view-dashboard-notification.html",
+          "result": "fetched",
+          "sha256": "e728297064ae4f73ad77ade1351330be15d1fc81cedf1bcd5a49d1e168c8e383"
+        },
+        {
+          "url": "https://api.github.com/repos/jukbot/smart-industry",
+          "result": "HTTP 403 rate limit; 改用 github.com HTML repository_metadata"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

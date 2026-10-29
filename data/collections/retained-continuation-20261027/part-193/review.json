@@ -1,0 +1,75 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched 且 application_ids 为空，而 research.json 与 batch.json 已记录 5 个案例；若下游直接读取该 progress 字段，应同步更新，但这不影响本次内容核对。",
+    "Cepaos Vinedo 的快照是单行 Next.js HTML，read 工具按行截断后无法直接通读全文；本次通过同 URL 官方页面交叉核对，并用关键词确认快照中确有 blocks、rootstock、spray、harvest、yield 内容，建议后续保存可读文本快照。",
+    "fishfarm 的 README 仍是 Yii 2 Basic 模板，缺少项目专属说明；其核心判断依据是仓库模型代码、docker-compose 与 db 配置，而不是 README。",
+    "fishfarm 的 LICENSE.md 是完整 BSD-3-Clause 文本，但版权行沿用 Yii Software LLC，并非仓库作者；建议确认应用代码的授权归属，或在许可证中补充项目版权。",
+    "BoviBook 的 README 仅含安装说明，功能判断主要来自 bovibook-schema.sql 与数据库函数；日常牛群清单/报表和 UI 未在快照中直接验证。",
+    "Cepaos 页面明确 blocks、spray diary、tasks/phenology、harvest/yield 与 plot-to-tank，但未明确展示成熟度采样、产量预估和 block×vintage 绩效历史；按商业案例“基本真实性和类型匹配”标准不阻断。",
+    "Trackwell 的配额执法在官方页面仅为 “law/quota enforcement” 层面的表述，未提供配额余额或超额处理的详细页面；ERS/配额细节页未纳入快照，按商业类型匹配标准不阻断。",
+    "商业案例均未研究价格、架构和部署细节；Cepaos 页面显示 19 美元/月订阅，DTM 与 Trackwell 为 SaaS，符合本次商业核对范围。"
+  ],
+  "leaf_checks": {
+    "vineyard-management": {
+      "application_id": "commercial:cepaos-vinedo",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "官方 add-on 快照（sha256 275149949635b44c159fb840b427e3bf91a1d1e5678843601bd5588fb2125c29）及同 URL 页面显示：Blocks & plots 记录品种、面积、根砧、种植年份和行；Spray diary 记录产品、剂量、日期、操作者和采收前间隔；Tasks & phenology 按地块记录修剪、冠层、灌溉和土壤；Harvest & yield 按地块记录采收并关联批次/酒罐；页面标明按月订阅、即时启用，属于依附 Cepaos 酒庄平台的 SaaS 附加模块。",
+      "gaps": [
+        "快照为单行 Next.js HTML，未能逐行通读；通过官方页面和关键词核对。",
+        "未明确展示成熟度采样、产量预估和 block×vintage 绩效历史。"
+      ]
+    },
+    "aquaculture-management": {
+      "application_id": "github:1111749091",
+      "track": "open_source",
+      "verdict": "pass",
+      "basis": "GitHub 仓库元数据 id=1111749091、full_name=JavisOTie/fishfarm，描述为 fish farm management information system；PondsOrCages 定义养殖单元/池塘网箱（name、type、size_m2、depth_m、status），PondCycles 定义生产周期（start_date、end_date、initial_stock、current_stock、status、species），StockingRecords 记录放养（date、species、quantity、source、cost），FeedingLogs 与 MortalityLogs 记录投喂和死亡，HarvestRecords 记录收获（date、quantity_kg、market_price）并归属 cycle，WaterQualityLogs 关系存在；docker-compose 为 PHP 7.4 + Apache 8000 端口，db.php 为 MySQL aquatic。许可证为 BSD-3-Clause，LICENSE.md 全文 size 1524，GitHub license API 的 key 与仓库 id 匹配；未发现单独商业版/社区版边界。",
+      "gaps": [
+        "README 为 Yii 2 Basic 模板，缺少项目专属说明。",
+        "快照未包含 controllers/views，未验证 UI 与运行。",
+        "所给模型未明确展示生长采样/生物量估算。",
+        "LICENSE.md 版权行沿用 Yii Software LLC，应用代码授权归属需确认。"
+      ]
+    },
+    "dairy-farm-management": {
+      "application_id": "github:160875998",
+      "track": "open_source",
+      "verdict": "pass",
+      "basis": "GitHub 仓库元数据 id=160875998，描述为 whole farm management software package for dairy producers；README 称 dairy herd management web app；schema 含 bovine/eartag、lactation/lactationcurr、calving_event、breeding_event、estrus_event、preg_check_event、medical_case/medicine/medicine_administered、dryoff_event、cull_event、location_event、alpro.cow（bovine_id、date、milking_number、milkyield）、nutrition.recipe/nrc_recipe_*，并有 due_date、breeding voluntary waiting period、vet_to_check 等函数，支持个体牛只、泌乳期产奶、繁殖/孕检/健康/分群/淘汰和日常待办派生。许可证为 AGPL-3.0，LICENSE.txt 全文 size 34523，GitHub license API 的 key 与仓库 id 匹配；未发现单独商业版/社区版边界。",
+      "gaps": [
+        "README 仅安装说明，未验证 UI 与运行。",
+        "日常牛群工作清单/报表由 schema 函数推断，快照未直接展示报表界面。",
+        "产奶数据来自 alpro schema（DeLaval Alpro 导入），需确认实际部署依赖。"
+      ]
+    },
+    "feed-management": {
+      "application_id": "commercial:dinamica-generale-dtm",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "官方产品页与 FAQ 快照显示 DTM 为 cloud-based precision feeding platform：recipes、ingredients、feeding groups、feeding schedules、feed inventories；连接称重设备记录 loading/unloading，比较 planned ration 与实际执行；记录拒食、干物质采食、饲料成本，支持 NIR 数据与挤奶/牛群系统集成；产品分为 Advanced、IC、Contractor 等版本，属于饲料管理而非动物个体管理。",
+      "gaps": [
+        "未研究价格与架构，未运行。",
+        "快照未提供完整 UI 或配额级明细，仅按商业基本真实性和类型匹配核对。"
+      ]
+    },
+    "fisheries-management": {
+      "application_id": "commercial:trackwell-fims",
+      "track": "commercial",
+      "verdict": "pass",
+      "basis": "官方首页、Fisheries Management Systems 与 VMS 快照显示 Trackwell FiMS 面向渔业主管机构、海岸警卫队和 RFMO，提供 VMS、ERS、eLOG、FLUX，整合 vessel registry、fishing licences、catch reports、sales reports，支持 monitoring alerts、full audit trails、law/quota enforcement 和 regulatory reporting；VMS 页面明确 offered as SaaS。属于渔业管理，不是单纯船队物流。",
+      "gaps": [
+        "配额余额/超额处理的详细机制未在快照页面展开。",
+        "ERS 页面未提供快照，仅由总览页和 VMS 页交叉支持。"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 的 21 个 path 原样读取快照。Cepaos 快照为单行 Next.js HTML，read 按行截断，正文以同 URL 官方页面交叉核对并以关键词确认；fishfarm 与 BoviBook 的 GitHub API JSON 为单行，license 以 base64 内容、size 和 license key 核对；BoviBook schema 读取前 1656 行并用 grep 核对表清单。开源案例未读取 controllers/views，未部署或运行；商业案例未研究价格/架构，未运行；Trackwell 的 ERS/配额细节页未提供快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-193/ses_groveopencodegop193review1_1793023802.jsonl",
+  "batch_sha256": "c4bc28f6d1eb63a1f0e51def3ca51e9b8650afecb0e20d463c6b77ffcaca690c",
+  "research_sha256": "c3a41c275258b258b16b8ba54846ccdc25315d34e39dcb05b29bd6fdb02a431a",
+  "input_sha256": "78c2f114152d9d8d8976bcf7e70687270fa4de0b45692c531af99e178af1d622"
+}

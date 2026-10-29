@@ -1,0 +1,64 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "banking-operations-management",
+      "application_id": "commercial:backbase-banking-operations",
+      "issue": "batch 的 leaf_match reason 与 research note 声称该页覆盖队列/SLA、override、升级、人工对账、AI 分类路由和性能度量，但实际快照正文只有 Banking Operations 的营销 hero 与“One workspace / Every actor”段落，未出现 SLA、queue、override、escalat、reconcil、workforce、capacity、performance 等表述；因此“管理动作”和“持续绩效测量”两项定义性核心没有正文证据，产品当前更像执行/自动化平台而非管理图层。research 另列的 Verint source_urls 对应 sha 757f... 快照也未出现在 data/collections/sources 或 REVIEW_SOURCES 中。",
+      "fix": "补充能证明队列/工作量分配、优先级或重分配、升级与例外清理、SLA/周转/生产率/质量度量的官方文档或产品页快照，并按证据重写 leaf_match reason/summary；若补不到，应将本叶改为缺口留档，或把该应用改挂到更匹配的执行型叶子，不能以当前营销页和缺失的 Verint 引用通过。"
+    },
+    {
+      "slug": "expense-management-platform",
+      "application_id": "commercial:zoho-expense",
+      "issue": "batch 的 leaf_match reason 写“帮助中心说明报销与公司卡支出分别结算”，但 REVIEW_SOURCES/batch 中没有帮助中心快照，research 也明确说该帮助页抓取未保留、未作为证据；现有 Zoho 首页/费用报告页只提到 card feeds、reimbursements、cash advances offset reimbursement，未直接记录报销支付执行或卡账关闭的结算步骤。",
+      "fix": "删除对未保留帮助中心的引用，或补入该帮助页快照并核对“分别结算”；若无法补证，应把 leaf_match reason 限定为已能证明的费用报告、政策校验、审批和报销金额计算，并在 research 中把“财务完成”标为证据缺口。"
+    },
+    {
+      "slug": "spend-management-platform",
+      "application_id": "commercial:procurify",
+      "issue": "batch 摘要/reason 与 research note 称 Procurify 平台页把 Spending Cards 和 Expenses 与采购申请、订单、发票付款纳入同一平台，但快照正文只覆盖 intake-to-approve、purchase-to-receive、invoice-to-pay 及 bill payments；Spending Cards/Expenses 仅出现在站点头部导航和页脚，属于导航链接而非核心正文，不能据此证明卡与报销渠道。",
+      "fix": "补充 Procurify 关于 spending cards/expense report 的正文页快照，或把摘要/reason 收窄为已证明的采购申请、订单、发票与付款多渠道；同时复核该应用是否更接近 Procure-to-pay Platform，而非多渠道 Spend Management Platform。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空且 phase=included_without_cases，与 batch/research 的 case_found 和具体 application_ids 不一致；建议同步清单元数据，但不影响本次对快照内容的核对。",
+    "Zoho 与 Procurify 的持久化快照是营销/功能页而非管理员或帮助文档，核心流程只能按功能描述核对；按商业“基本真实性+类型匹配”标准，未把文档形态本身作为阻断项。",
+    "Oracle Banking Payments 与 Backbase 的快照未明确 SaaS 交付形态；Oracle 文档呈现应用服务器/数据库部署特征，Backbase 也未说明托管方式。若 SaaS 形态是硬性门槛，应补充交付方式证据，当前仅作提示。",
+    "Oracle 的交易录入页 404 已在 research 中如实记录；现有证据集中于异常队列、修复、授权队列目录和审计，交易执行（记账/发送）只有间接含义，建议后续补充但不单独阻断银行后台类型匹配。",
+    "Hyperswitch 的 README 使用“commercial open-source payments stack”措辞，但 LICENSE 快照为 Apache-2.0 完整文本，README 也明确 Apache 2.0；未发现社区版/企业版功能切分声明，开放核心边界按现有证据通过。",
+    "Zoho 首页同时覆盖 travel 和 corporate cards，但费用报告仍是中心，未按 Corporate Travel Management 或 Spend Management Platform 改类；该边界判断成立。"
+  ],
+  "leaf_checks": {
+    "expense-management-platform": {
+      "result": "core_supported_with_source_gap",
+      "basis": "Zoho 首页/费用报告页显示费用报告为记录单位（报告编号/命名、报告类型、费用归集后提交审批），Zia 按公司政策检查费用，审批自动路由，首页列出 card feeds、reimbursements，费用报告页说明 cash advances 可抵减报销金额；SaaS 形态由免费试用/注册/在线产品页体现。",
+      "gap": "未保留帮助中心快照；现有页面没有直接记录报销支付执行或公司卡对账关闭，“两种结算形态分别完成”的证据不足，batch reason 对帮助中心的引用不成立。"
+    },
+    "payment-orchestration-platform": {
+      "result": "pass",
+      "basis": "README 明确连接 Stripe、Adyen、Braintree、Worldpay、Checkout.com 等 120+ 处理商，提供 intelligent routing、retry、Control Center 连接器/路由配置和交易日志；仓库元数据确认 SaaS/self-host、Rust、GitHub ID 552877440；LICENSE 快照为 Apache-2.0 完整文本，README 也声明 Apache 2.0；多提供商路径、单一接入层和每笔路由决策均有正文支持。",
+      "gap": "README 对“统一交易记录/标准化生命周期”的直接描述较少，主要由路由、重试、对账和交易可见性间接支持；未发现社区版/企业版功能切分声明。"
+    },
+    "spend-management-platform": {
+      "result": "core_supported_but_claim_overstated",
+      "basis": "Procurify 首页正文覆盖 intake-to-approve 的申请与审批、purchase-to-receive 的订单/收货、invoice-to-pay 的发票匹配与付款，并提到 approval routing、audit trails、budgets/policies、ERP 同步；可支持“多渠道支出+集中控制”的 Spend Management 类型。",
+      "gap": "Spending Cards 和 Expenses 只在导航/页脚出现，正文没有卡消费或报销渠道的功能描述；摘要/reason 把这些当作平台正文证据，属于导航替代核心正文，需要补证或收窄。"
+    },
+    "banking-back-office-platform": {
+      "result": "pass_with_scope_gap",
+      "basis": "Oracle Exception Queues 文档显示内部员工在 Repair Queue 处理校验失败支付，Repair Action 可修改错误数据并从初始校验重新处理，View Queue Action 显示交易的全部队列活动；队列目录含 Authorization Limit、Processing Cut Off、Settlement Review 等；Security Guide 的 Audit Trail Report 记录用户登录后的全部功能和操作时间；TOC 另列 maker-checker、角色权限。可覆盖员工端、交易/指令记录、验证-授权-执行管线、异常路径和审计。",
+      "gap": "原交易录入页 404，未保留；执行语义（记账/发送）没有单独正文，只能由重新处理和队列类型间接支持；现有证据偏重异常队列子系统。"
+    },
+    "banking-operations-management": {
+      "result": "insufficient_evidence",
+      "basis": "Backbase 快照正文只说明面向银行的 Banking Operations/统一工作区，覆盖 customer operations、payments/disputes、lending、risk/fraud，AI agents 做 prep、人类做判断，every action fully audited；可支持“银行运营为管理域”和一定程度的聚合视图。",
+      "gap": "没有队列/工作量分配、优先级/重分配、容量调整、升级/例外清理、SLA/周转/生产率/质量等绩效度量的正文或术语；因此“管理动作”和“持续绩效测量”两项定义性核心没有证据，当前更像执行/自动化平台。research 中列出的 Verint 快照也不存在。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 指定快照及 research 引用的同目录补充快照，未运行 shell、未写文件、未读取其他单元或采集脚本，也未做产品运行时、部署、价格或补充架构研究。部分快照是营销页或渲染后 HTML，正文有限；Oracle 交易录入页 404、Zoho 帮助页未保留、Verint 引用快照缺失，均按可见资料记录。未用实时网页替代快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-048/ses_groveopencodegop048review1_1792989193.jsonl",
+  "batch_sha256": "0dfd2b873cecb3dbf3222ab86a134f38055c51fab8d0dfd407cd6f35562a1e0d",
+  "research_sha256": "b60917d580a51047ae9ed94332d3df409a9d8ddf703746adb9db9b0d67d3bd3d",
+  "input_sha256": "c679f83b04970c3f7ae0d447386a0c554974a9891c6740b7a0db2c3c3e739f2f"
+}

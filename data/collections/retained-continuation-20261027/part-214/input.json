@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 41,
+  "offset": 1000,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "long-term-care-ehr",
+        "name_zh": "长期护理EHR",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "long-term-care-ehr",
+        "name": "Long-term Care EHR",
+        "name_zh": "长期护理EHR",
+        "aliases_zh": [
+          "长期护理电子健康记录",
+          "养老院EHR",
+          "长期护理电子病历"
+        ],
+        "overview": "A **Long-term Care EHR** is the system of record for facilities where people **live** while receiving ongoing care — nursing homes, skilled nursing facilities, assisted living and care homes, rehabilitation and continuing-care settings. It holds each **resident's** complete health-and-care record for the whole of their stay, organizes the facility's work through an assessment → care plan → daily care loop, and captures care as it is delivered, shift by shift, including the administration of medications.\n\nThe defining structure is small:\n\n```text\nResident (person living in the facility)\n└── Standing record spanning the entire stay (medical + functional + social content)\n    └── Assessment → Care Plan → everyday care, continuously re-assessed\n        └── Shift-based care documentation, including a Medication Administration Record\n```\n\nWhat makes this a distinct Application Type rather than \"an EHR\" is the care model it records. A hospital record is organized around episodes of treatment; a long-term care record is organized around a person's standing residency — often lasting months or years — during which the facility's staff deliver planned, recurring, multidisciplinary care as part of everyday life. When the organizing subject becomes a per-visit patient in their own home, the product is drifting toward Home Health; when it becomes program-shaped end-of-life care, toward Hospice Management; when the clinical record disappears and only services and operations remain, toward Senior Living operations software.",
+        "overview_zh": "**长期护理电子健康记录** 是供人们**居住**并接受持续护理的机构的记录系统——包括养老院、专业护理机构、辅助生活与护理之家、康复与持续护理机构。它保存每位**住户**在整个居住期间的完整健康与护理记录，通过评估→护理计划→日常护理的循环来组织机构的工作，并在护理执行时逐班次进行记录，包括药物管理。\n\n其定义性的结构是：\n\n```text\n住户（居住在机构中的人员）\n└── 覆盖整个居住期的持续记录（医疗+功能+社会内容）\n    └── 评估 → 护理计划 → 日常护理，持续重新评估\n        └── 基于班次的护理记录，包括药物管理记录\n```\n\n使其区别于普通\"电子健康记录\"的，是其记录的护理模式。医院记录围绕治疗周期组织；长期护理记录则围绕一个人的持续居住期组织——通常持续数月或数年——在此期间，机构工作人员在日常生活中提供计划的、反复的、多学科的护理。当组织对象变为在自己家中按次就诊的患者时，产品会倾向于家庭健康方向；当变为计划性的临终关怀时，会倾向于临终关怀管理方向；当临床记录消失，只剩下服务和运营时，则会倾向于老年生活运营软件。",
+        "dc": "### Medication orders and the administration record\n\nMedication has its own loop inside the record:\n\n```text\nPrescriber order (or pharmacy-reconciled order)\n→ scheduled on the Medication Administration Record (MAR/eMAR)\n→ medication pass: staff administer doses in scheduled rounds,\n   verifying right drug / dose / route / time / person\n→ each administration (or omission: refused, held, unavailable) is documented\n→ stock and reorder signals flow to the supplying pharmacy\n```\n\nMature products realize this as an integrated or tightly coupled eMAR with barcode verification, resident photographs, interaction warnings, and pass-completion dashboards. The paper-era MAR/TAR binder it replaces was already part of the nursing home record — the medication administration record is part of the Type, while the specific technology (barcode, photos) is a modern implementation.",
+        "dc_zh": "### 药物订单和管理记录\n\n药物在记录中有自己的循环：\n\n```text\n处方者订单（或药房协调订单）\n→ 在药物管理记录（MAR/eMAR）上安排\n→ 药物通过：工作人员在预定轮次中给药，验证正确的药物/剂量/途径/时间/人员\n→ 每次给药（或遗漏：拒绝、暂停、不可用）都有记录\n→ 库存和重新订购信号流向供应药房\n```\n\n成熟产品将其实现为集成或紧密耦合的eMAR，具有条形码验证、住户照片、相互作用警告和通过完成仪表板。它取代的纸质时代MAR/TAR活页夹已经是养老院记录的一部分——药物管理记录是类型的一部分，而具体技术（条形码、照片）是现代实现。",
+        "rules": "### The record is a legal record\n\nEverything documented — care given, medications administered or withheld, assessments, order changes — is part of the facility's legal record and is retained after discharge. Entries carry authorship and time; corrections and late entries are recorded as such rather than erased. Products are expected to support audits and regulator inspections directly from the record.\n\n### Medication administration is rule-bound\n\nThe administration loop enforces the discipline of the medication record: a dose is documented as given, refused, held or unavailable — never silently skipped. Verification against the order (drug, dose, route, time, person) is built into the pass workflow, and supporting documentation (for example, vitals or notes required with certain medications) is prompted rather than left to memory.\n\n### The care plan drives, and only current assessments keep it honest\n\nCare is supposed to trace back to an assessed need. A change in a resident's condition is both a documentation event and a reassessment trigger — products structure the record so that the plan, the assessments and the daily documentation form one continuous story rather than three silos.\n\n### Census changes ripple\n\nAdmission, transfer, discharge and leave-of-absence events affect occupancy, payer status, assessment schedules and (in the US) billing. The clinical record and the facility's business are coupled through the stay, which is why census accuracy is treated as a shared clinical/administrative responsibility.\n\n### Roles follow discipline and seniority\n\nPermissions mirror the facility: care assistants document personal care but do not administer medications; nurses administer and assess; coordinators manage plans and assessments; administrators see business surfaces. Because a large share of daily users are non-clinical carers, the point-of-care surfaces are deliberately simple and prompt-driven.\n\n### Outside data must be reconciled, not just received\n\nInformation arriving from hospitals, pharmacies and GP systems (demographics, medications, allergies, diagnoses, documents) is reconciled into the resident record rather than filed alongside it — in documented implementations this includes surfacing active medication orders for continuation or change and avoiding duplicate records — because the record remains the facility's authoritative document for the resident's care.",
+        "rules_zh": "### 记录是法律文件\n\n所有记录的内容——提供的护理、给予或暂缓的药物、评估、医嘱变更——都是机构法律文件的一部分，并在出院后保存。记录条目包含作者和时间；更正和补录会相应记录，而非删除。产品应支持直接从记录中进行审计和监管检查。\n\n### 药物管理受规则约束\n\n给药循环强制执行药物记录的规范性：剂量记录为已给予、已拒绝、已暂停或无法获得——从不静默跳过。与医嘱（药物、剂量、途径、时间、人员）的核对内置于分发工作流中，并且支持性文件（例如，某些药物所需的体征或备注）会被提示，而非依赖记忆。\n\n### 护理计划驱动，只有当前评估能保持其真实性\n\n护理应追溯到评估出的需求。住户病情的变化既是文件记录事件，也是重新评估的触发点——产品构建记录，使得计划、评估和日常记录形成一个连续的故事，而非三个孤岛。\n\n### 住户名册变更会产生连锁反应\n\n入院、转院、出院和请假事件会影响入住率、支付方状态、评估计划以及（在美国）计费。临床记录和机构的运营通过居住期耦合在一起，这就是为什么住户名册的准确性被视为临床/行政的共同责任。\n\n### 角色遵循学科和资历\n\n权限映射到机构：护理助理记录个人护理但不给药；护士负责给药和评估；协调员管理计划和评估；管理人员查看业务界面",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "nursing-information-system",
+        "name_zh": "护理信息系统",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "nursing-information-system",
+        "name": "Nursing Information System",
+        "name_zh": "护理信息系统",
+        "aliases_zh": [
+          "护理管理系统",
+          "护理记录系统"
+        ],
+        "overview": "A **Nursing Information System** is the hospital's system of record for the nursing care of its inpatients. It carries the patient's nursing record — the admission history taken by a nurse, the running documentation of observations and care given at the bedside, and the discharge record — together with the plan of nursing care that defines what should be done for the patient, and it serves as the operating surface on which shift-based nursing teams carry out, document, and hand off that care.\n\nThe category is long-established in health informatics: application systems supporting this function set have been described as nursing management and documentation systems, \"or sometimes 'nursing information system'\". In the current market the Type is almost always delivered as a named nursing layer of a hospital's electronic health record (EHR) suite rather than as a standalone product, but the substance is distinct: it is organized around nursing's own professional workflow (admission assessment → care planning → execution at the bedside → handoff → discharge), not around the physician's order or the intermedical record as such.\n\nRemove the nursing work structure — the care plans, the shift-cycle operation, the bedside nursing documentation — and what remains is a generic medical record with no nursing layer. That work structure is what makes this a distinct Application Type.",
+        "overview_zh": "**护理信息系统**是医院用于记录其住院患者护理过程的系统。它承载着患者的护理记录——包括护士进行的入院病史采集、在床边进行的持续观察与护理操作记录，以及出院记录——同时包含定义应为患者提供的护理服务的护理计划。该系统是各班次护理团队执行、记录和交接护理工作的操作界面。\n\n该类别在健康信息学领域由来已久：支持此功能集的应用系统曾被称为护理管理和记录系统，“有时也称作‘护理信息系统’”。在当前市场中，该类型几乎总是作为医院电子健康记录（EHR）套件中一个命名的护理模块来提供，而非独立产品。但其核心实质是独特的：它围绕护理专业自身的工作流程组织（入院评估 → 护理计划 → 床边执行 → 交接 → 出院），而非围绕医嘱或跨医疗记录本身。\n\n移除护理工作结构——护理计划、班次循环操作、床边护理记录——后，剩下的只是一个没有护理层的通用医疗记录。正是这种工作结构，使其成为一个独立的应用类型。",
+        "dc": "The center of the system is a persistent per-stay nursing record for each patient, sitting inside (or beside) the hospital's shared patient record but maintained in nursing's professional frame:",
+        "dc_zh": "系统的中心是为每个患者维护的一个持久的每次住院护理记录，位于医院共享的患者记录内部（或旁边），但由护理专业框架维护：",
+        "rules": "- **The record is the legal account of care.** Nursing documentation carries legal weight: it justifies the care delivered. Entries are attributable, timed, and retained.\n- **Corrections preserve the original.** The established pattern for a wrong entry is an addendum or amendment explaining the error — the original entry is not deleted or altered, keeping the audit trail intact.\n- **Care plans are living documents.** New findings are meant to flow into plan changes promptly, and changes are communicated to everyone involved in the patient's care; stale plans are an active hazard, not a neutral state.\n- **Documentation follows the act of care.** The system's design pressure is toward documenting where and when care happens (bedside, during the shift); documentation deferred to shift end is the classic failure mode the tooling tries to prevent.\n- **Shift coverage is continuous.** At any moment some team owns each patient; the handoff is the mechanism by which responsibility transfers, and the record must support a team that was not present for earlier events.\n- **Scope of practice shapes the workflow.** Different nursing roles document different classes of care (assessment and professional judgments vs delegated routine tasks); the system must accommodate role-differentiated entry within one record.\n- **Safety verification gates medication administration.** Where bedside administration is supported, verification steps (patient identification, medication match, dose/time) precede documentation of the dose.",
+        "rules_zh": "- **护理记录是护理操作的法定凭证。** 护理记录具有法律效力：它为所提供的护理提供依据。记录条目可追溯、有时间戳并被保留。\n- **更正需保留原始记录。** 对于错误条目的既定做法是添加附录或修正说明来解释错误——原始条目不被删除或修改，以保持审计线索完整。\n- **护理计划是动态文件。** 新的发现应及时反映在计划变更中，并传达给所有参与患者护理的人员；过时的护理计划是主动的风险因素，而非中性状态。\n- **记录紧随护理操作。** 系统的设计导向是鼓励在护理发生时（床边、班次期间）进行记录；将记录推迟到班次结束是该工具试图防止的经典失败模式。\n- **班次覆盖是连续的。** 在任何时刻，都有某个团队负责每位患者；交接是责任转移的机制，记录必须支持未参与早期事件的团队了解情况。\n- **执业范围塑造工作流程。** 不同的护理角色记录不同类别的护理内容（评估与专业判断 vs. 委派的常规任务）；系统必须在单一记录内容纳基于角色的差异化输入。\n- **安全验证是用药管理的门户。** 在支持床边给药的情况下，验证步骤（患者身份识别、药品匹配、剂量/时间）需先于给药剂量的记录。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "operating-room-management",
+        "name_zh": "手术室管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "operating-room-management",
+        "name": "Operating Room Management",
+        "name_zh": "手术室管理",
+        "aliases_zh": [
+          "手术室调度系统",
+          "手术室资源管理"
+        ],
+        "overview": "An **Operating Room Management** application (also called operating theatre management) is the surgical department's operational system of record for its most scarce and expensive capacity: the operating rooms themselves.\n\nIt holds each operating room as an identified, schedulable resource; holds each planned surgical case as a record binding the patient, the procedure(s), the surgeon, the room, the time, and the resources the case requires; places cases into rooms and staffed sessions under the department's allocation arrangements; keeps that schedule current as reality diverges from the plan; and makes the day's case progress visible across the department so that schedulers, coordinators, and leadership can steer it.\n\nThe defining core is small:\n\n```text\nOperating room as schedulable capacity\n└── Surgical case (patient × procedure × surgeon × room × time)\n    └── Schedule of record (booking → conflict checking → adjustment)\n        └── Day-of execution loop (live case progress across the department)\n```\n\nEverything else commonly associated with these products — block-time management, duration prediction, preference cards, turnover metrics, charge capture, utilization dashboards — is standard capability built around that core, not what makes the product an OR management system. Remove the room/case/schedule machinery and only a generic appointment book or whiteboard remains; remove the live day-of loop and only a static booking list remains.",
+        "overview_zh": "一个**手术室管理**应用（也称为手术室运营管理）是外科部门针对其最稀缺且昂贵的容量资源——手术室本身——的运营记录系统。\n\n它将每个手术室视为一个已识别的、可调度的资源；将每个计划中的手术病例记录为一条绑定患者、手术程序、外科医生、手术室、时间以及该病例所需资源的记录；根据部门的分配安排将病例安排到手术室和人员配置的时段中；当实际情况与计划产生偏差时保持该调度表的时效性；并使当天的病例进展在整个部门内可见，以便调度员、协调员和管理层能够对其进行指导。\n\n其定义性核心很简单：\n\n```text\n手术室作为可调度容量\n└── 手术病例（患者 × 手术程序 × 外科医生 × 手术室 × 时间）\n    └── 记录调度表（预定 → 冲突检查 → 调整）\n        └── 当日执行循环（整个部门的实时病例进展）\n```\n\n通常与这些产品相关的所有其他内容——分时段管理、时长预测、偏好卡、周转指标、收费捕获、利用率仪表板——都是围绕该核心构建的标准功能，并非使该产品成为手术室管理系统的本质所在。移除手术室/病例/调度机制，剩下的只是一个通用的预约簿或白板；移除实时的当日循环，剩下的只是一个静态的预定列表。",
+        "dc": "**The operating room as schedulable capacity.** Each room exists in the system as an individually identified resource with staffed session times (regular hours, and commonly extended or on-call hours). Rooms may be grouped into suites, dedicated to particular services (including dedicated emergency rooms in some programs), and treated as the capacity whose use the system is optimizing. This is what separates the Type from patient scheduling: the managed thing is the room and its time.\n\n**The surgical case as the unit of record.** Each planned procedure is held as a record binding:\n\n- the patient (drawn from the hospital's patient identity)\n- the procedure(s) to be performed\n- the surgeon (and commonly the anesthesia provider and OR team)\n- the room and the date/time slot\n- a duration estimate\n- the case's resource requirements — equipment, supplies, instruments, implants, and staff\n\nThe case is the hub: schedule state, team assignments, supply consumption, charges, timing, and (where present) intraoperative documentation all attach to it.\n\n**The schedule of record.** The system maintains the mapping of cases into rooms and sessions — a week-level template of recurring capacity allocations refined into day-level schedules. Booking a case means placing it against this structure under constraints; adjusting it means reassignment between rooms, sessions, or owners; the schedule is the authoritative picture the whole department works from.\n\n**The day-of execution loop.** On the day of surgery the system holds live operational state: which case is in which phase, which patient is where, which room is running late, which team is ready. As emergencies arrive, cases cancel, and durations overrun, the schedule is re-cut — cases are moved between rooms, postponed, or deferred to another day. This loop is the digital successor of the OR whiteboard and is what turns a booking list into management.",
+        "dc_zh": "**手术室作为可调度能力。** 每个手术室在系统中作为独立标识的资源存在，有固定人员安排的时段（包括常规时间，通常还包括延长或待命时间）。手术室可以分组为套间，专门用于特定服务（在某些程序中包括专用急诊室），并被视为系统优化的能力对象。这使得该类型区别于患者调度：管理的对象是手术室及其时间段。\n\n**手术案例作为记录单元。** 每个计划中的手术作为一个记录绑定：病人（源自医院的患者身份信息）、要进行的手术、外科医生（通常还包括麻醉师和手术室团队）、手术室和日期/时间时段、持续时间估计、以及手术的资源需求——设备、耗材、器械、植入物和人员。手术案例是核心：调度状态、团队分配、耗材消耗、收费、时间安排以及（如果存在）术中文档都附加到该案例上。\n\n**记录调度。** 系统维护手术案例到手术室和时段的映射——从周级模板的重复能力分配细化为日级调度。预订手术案例意味着在约束条件下将其分配到这个结构中；调整案例意味着在手术室、时段或负责人之间重新分配；调度是记录系统的核心。",
+        "rules": "### Room time is finite and staffed\n\nThe schedule must respect staffed sessions; staffing cannot be re-cut daily. This makes duration estimates, overtime, and undertime structurally important, not cosmetic.\n\n### Time ownership is accountable\n\nWhere capacity is allocated to owners (blocks or templates), unused time is expected to be released early so others can fill it; products commonly support release workflows and recapture rules, and hold owners accountable for utilization of their allocations. Release windows are commonly set shortly before the block date, which is precisely why early-release mechanics exist.\n\n### Urgent cases displace the plan\n\nEmergency and add-on cases are inserted into rooms, postponing the room's remaining cases; patients whose surgery moves outside operating hours are deferred to another day. The system must make these displacements and their downstream effects visible — this is the coordinator's core task.\n\n### Delays cascade\n\nA case overrun consumes the room's capacity and pushes later cases; the day-of board exists to surface this while interventions are still possible.\n\n### Turnover consumes capacity\n\nThe room-ready cycle between cases is part of the room's occupancy; managing and measuring it is part of managing throughput.\n\n### Everything attaches to the case\n\nSupplies, implants, staff, timing, charges, and (where present) documentation accumulate on the case record; case costing, recall lookups, and revenue capture are all consequences of this attachment rule.\n\n### Measurement feeds allocation\n\nUtilization, block usage, delays, and deferrals computed from actual case times feed the next allocation cycle; the Type's management character depends on this loop being closed.",
+        "rules_zh": "### 手术室时间是有限且需要人员配置的\n\n调度表必须尊重人员配置的时段；人员配置无法每天重新调整。这使得时长估算、加班和工时不足在结构上具有重要性，而非表面文章。\n\n### 时间所有权需要问责\n\n在容量被分配给所有者（分时段或模板）的情况下，预计未使用的时间会提前释放以便其他人填补；产品通常支持释放工作流程和回收规则，并让所有者对其分配时间的使用率负责。释放窗口通常设定在分时段日期前不久，这正是早期释放机制存在的原因。\n\n### 紧急病例打乱计划\n\n急诊和追加病例被插入手术室，推迟该手术室的剩余病例；手术超出正常工作时间的患者会被推迟到其他日期。系统必须使这些打乱及其连锁效应可见——这是协调员的核心任务。\n\n### 延误会连锁反应\n\n一个病例超时会消耗手术室的容量并推迟后续病例；当日看板的存在正是为了在仍然可能干预时显现这种情况。\n\n### 周转消耗容量\n\n病例之间手术室准备就绪的循环是手术室占用时间的一部分；管理和衡量它是管理吞吐量的一部分。\n\n### 一切都附加到病例记录上\n\n物料、植入物、人员、时间、收费以及（在存在时）文档都积累在病例记录上；病例成本核算、召回查找和收入捕获都是此附加规则的结果。\n\n### 测量为分配提供依据\n\n从实际病例时长计算出的利用率、分时段使用率、延误和推迟情况，为下一个分配周期提供输入；该类型（软件）的管理特性取决于此闭环是否完整。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "patient-flow-management",
+        "name_zh": "患者流程管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "patient-flow-management",
+        "name": "Patient Flow Management",
+        "name_zh": "患者流程管理",
+        "aliases_zh": [
+          "患者流管理",
+          "患者流转管理"
+        ],
+        "overview": "A **Patient Flow Management** application is hospital operations software that manages the journey of each patient through the facility's acute episode — from arrival or admission, through unit stays and transfers, to discharge — as a live, coordinated process. Its defining core is small: every patient's progression is tracked in real time (where they are in the journey and where they are heading, with timing), progression that has stalled or is at risk is surfaced with its causes, and the teams responsible act from one shared house-wide picture.\n\nThe problem it exists to solve is compounding delay: patients boarding in the emergency department waiting for a bed, discharges happening late in the day, transfers waiting on phone calls, and handoffs between departments falling through the cracks. Each of these is a failure of coordination between teams that use different systems; a patient flow application makes the whole house's movement visible to everyone responsible for it and drives the actions that keep patients moving forward.\n\nThe type is deliberately person-centric. It is distinct from bed management software, which manages the physical bed as a resource (state, cleaning, placement, capacity) — although the market frequently bundles both layers into one suite and frequently names products across the seam. A patient flow application can exist with no bed machinery at all; what it cannot exist without is the tracked journey, the surfaced delays, and the shared picture.",
+        "overview_zh": "一个 **患者流程管理** 应用是医院运营软件，管理每个患者在医院急性病程中的旅程——从到达或入院，到病房住院和转科，再到出院——作为一个实时、协调的过程。其定义性核心很小：每个患者的进展被实时跟踪（他们在旅程中的位置和去向，以及时间安排），停滞或有风险的进展连同其原因一起被揭示，负责的团队根据一个共享的全院视图采取行动。\n\n它所要解决的问题是累积延迟：患者在急诊科等待床位、出院发生在一天中的晚些时候、转科等待电话通知、以及部门之间的交接被遗漏。这些中的每一个都是使用不同系统的团队之间协调失败的结果；患者流程应用使整个医院的移动对所有负责人都可见，并推动保持患者向前移动的行动。\n\n该类型刻意以人为中心。它与床位管理软件不同，后者将物理床位作为资源进行管理（状态、清洁、安置、容量）——尽管市场经常将两者捆绑成一个套件，并经常跨接缝命名产品。患者流程应用可以完全没有任何床位机制；它不能缺少的是被跟踪的旅程、被揭示的延迟和共享视图。",
+        "dc": "- **Shared house-wide operational picture** — one live view of all journeys that intake, units, flow coordination, and leadership jointly act from, whether delivered as a standalone board or embedded in the EHR's screens. The coordination failure this type exists to fix is precisely each department holding its own separate version of the truth; without the shared picture, that failure returns.",
+        "dc_zh": "院内共享的运营视图 — 所有患者旅程的实时视图，接诊部门、病区、流程协调和领导层共同基于此行动，无论是作为独立看板还是嵌入电子健康记录(EHR)界面提供。此类软件旨在解决的协调失败正是每个部门各自持有独立版本的事实；若无共享视图，该失败将再次发生。",
+        "rules": "### Progression is event-driven, not appointment-driven\n\nNothing in the flow picture is pre-booked into fixed future slots. A patient's position advances as care events actually happen; the expected discharge date is a live plan, not a reservation. This is the structural difference from scheduling software, and it is why the flow picture must be continuously reconciled with reality rather than consulted occasionally.\n\n### The expected discharge date is a revisable plan under pressure\n\nMature products treat the expected discharge date as the journey's load-bearing attribute — set early, revised as evidence accumulates, and checked against actual progression. A plan that silently goes stale is treated as a failure state: the system's job is to notice the gap between planned and actual before the patient's last day.\n\n### A stalled patient is visible as a patient, not just a slow average\n\nDelay is surfaced at the level of the individual journey — this patient, this barrier, this owner — before it is aggregated into metrics. The metrics exist to direct attention back to patients; products that only aggregate lose the coordination function.\n\n### Boarding is a shared problem by design\n\nEmergency-department boarding sits at the seam between departments, and the type treats it as a house-level concern: the waiting patient is displayed on the shared picture where the units, intake, and flow coordination can act on it, rather than remaining an ED-local wait.\n\n### The system coordinates; people decide\n\nEscalation pathways, prioritization suggestions, and automated triggers route work to the accountable humans; placement decisions, discharge decisions, and clinical judgments remain with staff. The most automation-heavy products automate administrative actions below the clinical decision line, and keep interventions on at-risk plans in human hands.\n\n### The EHR remains the record; flow is the action layer\n\nAdmission, discharge, and transfer events originate in the hospital's EHR or patient administration system, and clinical documentation stays there. The flow application consumes those events, adds the progression and coordination layer, and writes plan data back. It supplements the record system; it does not replace it.",
+        "rules_zh": "### 进展是事件驱动的，而不是预约驱动的\n\n流程视图中没有任何内容被预订到固定的未来时段。患者的位置随着护理事件实际发生而前进；预期出院日期是一个实时计划，而不是预订。这是与调度软件的结构性差异，也是为什么流程视图必须与现实持续协调，而不是偶尔查阅。\n\n### 预期出院日期是压力下可修订的计划\n\n成熟产品将预期出院日期视为旅程的承重属性——早期设置，随着证据积累而修订，并根据实际进展进行检查。一个默默过时的计划被视为失败状态：系统的工作是在患者最后一天之前注意到计划与实际之间的差距。\n\n### 停滞的患者作为患者可见，而不仅仅是缓慢的平均值\n\n延迟在个人旅程层面被揭示——这个患者、这个延迟、这个负责人——然后才聚合到指标中。指标存在是为了将注意力引回患者；只聚合的产品失去了协调功能。\n\n### 等待入住在设计上是共享问题\n\n急诊科等待入住位于部门之间的接缝处，该类型将其视为全院层面的问题：等待的患者在共享视图上显示，病房、接收和流程协调可以对其采取行动，而不是留在急诊科本地等待。\n\n### 系统协调；人们决策\n\n升级路径、优先级建议和自动触发将工作路由到负责的人；安置决策、出院决策和临床判断仍由员工决定。最自动化的产品自动化行政行动，低于临床决策。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    },
+    {
+      "progress": {
+        "slug": "patient-scheduling",
+        "name_zh": "诊疗预约",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "patient-scheduling",
+        "name": "Patient Scheduling",
+        "name_zh": "诊疗预约",
+        "aliases_zh": [
+          "预约管理",
+          "挂号系统"
+        ],
+        "overview": "A **Patient Scheduling** application is the care provider's system for managing clinical appointment capacity: it defines what care can be booked (services, visit types, providers), computes when patients can actually be seen, books identified patients into those slots — by staff and, in most modern products, by patients themselves — and manages each appointment through arrival to completion as an operational record inside the provider's care-delivery system.\n\nThe defining core is deliberately small:\n\n```text\nIdentified Patient\n  └── booked with a Provider\n      └── for a defined clinical Service / Visit Type\n          └── at a Time, inside the provider's schedule of record\n              └── moving through booking → arrival → outcome\n```\n\nWhat distinguishes this Type from generic appointment booking is the clinical anchoring: the person being booked is a patient record (never an anonymous contact), the thing being booked is a clinical service with medical duration and typing, and the appointment's outcome feeds the provider's clinical operations. Patient self-service booking — the feature most associated with the category — is a dominant modern access layer but not the defining one: hospitals have always run their appointment books staff-side, and a fully in-type product exists without any patient-facing booking at all.",
+        "overview_zh": "一个**患者调度**应用程序是医疗服务提供者管理临床预约容量的系统：它定义了可以预订的护理内容（服务、访问类型、提供者），计算患者何时可以实际就诊，将已识别的患者预订到这些时段中——通过工作人员，在大多数现代产品中，也通过患者自己——并管理每个预约从到达至完成的整个过程，作为提供者护理交付系统内的操作记录。\n\n定义性核心刻意很小：\n\n```text\nIdentified Patient\n  └── booked with a Provider\n      └── for a defined clinical Service / Visit Type\n          └── at a Time, inside the provider's schedule of record\n              └── moving through booking → arrival → outcome\n```\n\n使此类型区别于通用预约预订的是临床锚定：被预订的人是患者记录（从不匿名联系人），被预订的事物是具有医疗持续时间和服务的临床服务，预约结果反馈到提供者的临床操作中。患者自助预订——与该类别最相关的功能——是现代主导的访问层，但不是定义性的：医院始终在工作人员端运行预约簿，一个完全符合类型的产品甚至可以没有任何面向患者的预订功能。",
+        "dc": "The central object is the **appointment**: a persistent booking that binds together",
+        "dc_zh": "核心对象是**预约**：一个持久化的预订记录，将患者、医护人员、时间和地点等信息绑定在一起",
+        "rules": "### The patient must be identified\n\nUnlike generic booking tools that accept a name and phone number, a patient-scheduling booking is anchored to a patient record: the system either requires an existing record or matches/creates one (with guardian booking for dependents). Identity resolution at booking is load-bearing, because the appointment must reconcile with the clinical chart.\n\n### One schedule of record\n\nThe appointment exists exactly once, in (or written back to) the practice's authoritative scheduling system. Sync-based products treat the practice's record system as the destination — and often as the source of availability truth — to prevent double-booking and keep clinical/billing classification correct.\n\n### Capacity can be enforced or advisory\n\nBoth postures exist: hard slot computation (a consumed slot disappears from availability) and advisory capacity (open/total/booked counts that inform but do not stop overbooking, with staff permitted to override warnings when clinical judgment warrants). Products differ deliberately on this spectrum.\n\n### Status transitions are rule-bound\n\nTerminal states stay terminal; checked-in appointments that get rescheduled revert to \"scheduled\" until re-arrival; past appointments become read-only apart from annotations. These rules protect the integrity of the operational record feeding clinical workflow.\n\n### Provider scope gates booking\n\nProviders can only be booked for the services they deliver, within the windows they are available, and typically only when explicitly flagged available. Enterprise products add pre-booking questions to route the patient to the right kind of provider before a slot is consumed.\n\n### The lifecycle serves care, not just the calendar\n\nCompletion, cancellation and missed statuses are first-class operational facts: they drive patient-load views, no-show follow-up, recall scheduling and (in integrated products) the clinical visit that the appointment was preparing.",
+        "rules_zh": "### 患者必须被识别\n\n与接受姓名和电话号码的通用预订工具不同，患者调度预订锚定到患者记录：系统要么要求现有记录，要么匹配/创建一个（为被监护人进行监护人预订）。预订时的身份解析是负载性的，因为预约必须与临床图表协调。\n\n### 一个记录时间表\n\n预约只存在一次，在（或写回到）实践的权威调度系统中。基于同步的产品将实践的记录系统视为目标——并且通常是可用性真相的来源——以防止双重预订并保持临床/账单分类正确。\n\n### 容量可以强制或咨询\n\n两种立场都存在：硬时段计算（已消耗的时段从可用性中消失）和咨询容量（开放/总计/已预订计数，通知但不阻止超量预订，当临床判断需要时允许工作人员覆盖警告）。产品在这个谱系上有意不同。\n\n### 状态转换受规则约束\n\n终止状态保持终止；已签到的预约如果重新安排则恢复为“已计划”，直到重新到达；过去的预约除了注释外变为只读。这些规则保护喂养临床工作流的操作记录的完整性。\n\n### 提供者范围网关预订\n\n提供者只能为他们提供的服务在可用的窗口内预订，通常只有在明确标记为可用时才可预订。企业产品添加预订前问题，在消耗时段之前将患者路由到正确类型的提供者。\n\n### 生命周期服务护理，而不仅仅是日历\n\n完成、取消和未出席状态是一流的op",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 214,
+    "phase": "complete",
+    "parent": 41,
+    "slugs": [
+      "long-term-care-ehr",
+      "nursing-information-system",
+      "operating-room-management",
+      "patient-flow-management",
+      "patient-scheduling"
+    ]
+  }
+}

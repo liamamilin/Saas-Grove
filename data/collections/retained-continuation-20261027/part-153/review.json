@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "digital-risk-protection / commercial:doppel：官方 DRP 与平台页覆盖外部足迹、持续检测和下架执行，并给出下架时长与移除规模指标；但未展示逐案从发现到“经验证移除”的工单状态，属于证据深度限制，不影响商业类型匹配。",
+    "kyc-kyb-platform / commercial:sumsub：KYC 页偏重身份核验，KYB 页补齐注册/UBO/董事核验、风险分级复查和 AML 筛查，案件管理页补齐 KYC Case、审计轨迹与复核；“批准/拒绝/EDD”的关系决策记录仍主要是间接证据。",
+    "security-compliance-platform / github:913434583：Probo README 的框架导入/导出、SoA、控制映射、审计范围与合规页面足以支撑框架—控制—证据—审计证明闭环；“框架实例及逐条要求范围”未逐字出现，属表述层面。",
+    "security-program-management / github:694266896：CISO Assistant 是宽口径 GRC 平台，与 security-compliance-platform 有明显重叠；选为计划管理叶子的依据是风险/修复/指标/报告/项目与责任矩阵等计划层能力。建议在批次 leaf_match 或 service_boundary 中把这一边界写得更明确（research.note 已记录重叠）。",
+    "github:694266896 许可证：根 LICENSE.md 还将 automation/n8n/n8n-nodes-ca 标为 MIT，批次 license_review 的“其余代码为 AGPLv3”略宽；AGPL-3.0 社区核心加 enterprise/ 商业许可的主边界和完整 AGPL 文本均已核对。",
+    "kyc-kyb-platform 的 Ballerine 排除依据（LICENSE.md/ELv2、license API NOASSERTION）未附快照；insider-risk-management 的开源候选排除也只留在检索记录中。两处都不影响已选商业案例，但排除链条的证据留存偏弱。",
+    "digital-risk-protection 与 security-program-management 的 websearch 返回 HTTP 401 已如实记录，且未据此判定无案例；符合留档缺口可通过的要求。"
+  ],
+  "leaf_checks": {
+    "digital-risk-protection": {
+      "application_id": "commercial:doppel",
+      "status": "passed",
+      "basis": "读取 9e6a5447…（/solutions/digital-risk-protection）与 6af8d707…（/platform）快照：保护对象是组织在边界外的品牌、域名、社交账号、高管、应用与市场足迹；持续检测冒充、钓鱼、假域名、假账号、欺诈广告；通过自动化/人工下架移除内容，并给出下架时长与移除规模指标。定义性三要素（外部足迹、滥用发现、执行到移除）均成立。",
+      "gaps": "页面没有展示逐案从检测到“经验证移除”的状态机/工单台账；属于证据深度限制，不影响商业类型匹配。"
+    },
+    "insider-risk-management": {
+      "application_id": "commercial:microsoft-purview-insider-risk-management",
+      "status": "passed",
+      "basis": "读取 438eff69…（overview）与 4b0c7c66…（cases）快照：以员工/账户为风险主体，基于 Microsoft 365/Graph 信号和策略生成警报；警报可打开新案件、加入既有案件或驳回；案件按单一用户调查，记录 benign/确认处置，并可通知、共享、升级 eDiscovery。主体、行为评估、人工分诊处置三要素完整。",
+      "gaps": "未核验独立部署、许可分层和价格；不影响核心匹配。"
+    },
+    "kyc-kyb-platform": {
+      "application_id": "commercial:sumsub",
+      "status": "passed",
+      "basis": "读取 1899e322…（KYC）、a4627dfc…（KYB）、f145bd4c…（case management）快照：KYC 页覆盖身份核验、活体/人脸、数据库核验、AML 筛查与自动决策；KYB 页覆盖企业注册、UBO/董事核验、问卷、风险分级和按风险等级周期性复查；案件页覆盖 KYC Case、调查上下文、审计轨迹、四眼审批与处置。尽调制度、证据、持续维护和案件化决策链条基本成立。",
+      "gaps": "页面未明确展示“批准/拒绝/升级 EDD”这一关系级决策记录；KYC 页本身偏身份核验，需依赖 KYB 与案件页补足。属于商业类型匹配下的证据深度限制。"
+    },
+    "security-compliance-platform": {
+      "application_id": "github:913434583",
+      "status": "passed",
+      "basis": "读取 95d094e7…（仓库元数据）、a27a9d2d…（README）、b3eacb4d…（license）快照：仓库 id=913434583、full_name=getprobo/probo；README 展示框架/控制库、自定义框架导入导出、SoA、证据收集与实施状态、审计范围/控制映射/发现跟踪/报告、公开合规页面；MIT 完整文本在 license 快照中。框架—控制—证据—审计/客户证明闭环成立，且可 Docker Compose/Kubernetes 自托管。",
+      "gaps": "“框架实例 + 逐条要求范围”未逐字出现，由框架导入/导出、SoA、审计范围和控制映射间接支撑；不影响核心匹配。"
+    },
+    "security-program-management": {
+      "application_id": "github:694266896",
+      "status": "passed",
+      "basis": "读取 bbc0a895…（仓库元数据）、d78ea160…（README）、8486a10c…（LICENSE-AGPL）、3ffc8c3c…（LICENSE.md）快照：仓库 id=694266896；README 展示控制/框架结构、风险登记与评估、修复/控制计划、任务与发现跟踪、指标仪表盘、报告、项目与责任矩阵，以及 Docker/Helm 自托管；LICENSE.md 划定 enterprise/ 商业许可、其余社区代码 AGPLv3，LICENSE-AGPL.txt 为完整 GNU AGPL v3 文本。计划层的度量、向上报告、跟踪改进闭环成立。",
+      "gaps": "与 security-compliance-platform 的边界重叠明显；“环境证据自动聚合”只由技术态势/漏洞管理等条目间接体现。选叶依据是计划层能力，建议在批次中更明确写出边界。"
+    }
+  },
+  "limits": "只读审查：未运行任何产品、未部署、未做价格/架构/数据留存/运行时测试，也未读取其他单元。Doppel 与 Sumsub 的快照是 Next.js 单行大 HTML，read 工具按行截断；已按 REVIEW_SOURCES.json 路径读取快照，并用同 URL 的只读页面文本辅助定位产品正文，未用摘要/元数据/Loading 替代核心内容。商业应用只做基本真实性与类型匹配；开源应用核对仓库身份、完整许可证文本和社区版边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-153/ses_groveopencodegop153review1_1793013895.jsonl",
+  "batch_sha256": "842bcee9743d7bee5fe8503d953af94201db3072bf9144151057e05952ab22b6",
+  "research_sha256": "4b5d2695797f822b7ee517294700bb45a711d3092944e25a74f8de126ce945e9",
+  "input_sha256": "42b1cc582dbbea0c2e66d2a6c903dbc980a1d1210afed6b689ad1c311ef2848e"
+}

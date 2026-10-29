@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "cloud-workload-protection-cwpp",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sysdig-secure"
+      ],
+      "query": "直接读取 Sysdig 官方主页与 Secure 产品页，核对云工作负载运行时保护、检测与响应；复核时用 websearch 定位官方 Inventory/Resources 文档并重新抓取 canonical /platform/secure 页面。",
+      "source_urls": [
+        "https://www.sysdig.com/",
+        "https://www.sysdig.com/products/secure/",
+        "https://www.sysdig.com/platform/secure",
+        "https://docs.sysdig.com/en/sysdig-secure/inventory-resources/"
+      ],
+      "note": "Sysdig Secure 官方页面提供运行中工作负载的可见性、实时检测、AI 辅助调查与引导式响应；快照 7144b1bd… 正文含“Inventory search — … users, workloads, hosts, and container images”“Resource 360 — … unified view of workloads, configurations, and vulnerabilities”“Real-time detections … across workloads, identities, cloud services …”，因此受管工作负载清单与 CWPP 核心均有快照依据。复核发现初审所称 hero_gated 仅是页面脚本中风险自评组件的 VARIANT 常量，并非正文门控；上述清单段落实际存在。另按 canonical 重新抓取 /platform/secure，返回字节与 sha256 同 7144b1bd…，确认与 /products/secure/ 为同一页面；官方文档 Inventory/Resources 页（快照 18061d4a…）进一步说明该清单统一浏览云、Kubernetes 与容器环境中的资源类型（含 EC2、S3、Kubernetes pods），与产品页互相印证。仅登记商业基本事实，不展开价格与部署架构。",
+      "service_boundary": "商业云安全产品，具体套餐、授权和自托管/SaaS 部署边界未核；runtime_tested:false。",
+      "search_attempts": [
+        "直接抓取 https://www.sysdig.com/ 官方主页",
+        "直接抓取 https://www.sysdig.com/products/secure/ 官方产品页",
+        "复核时重新抓取 canonical https://www.sysdig.com/platform/secure 并核对 /products/secure/ 快照正文",
+        "复核补充：检索并读取 Sysdig 官方文档 Inventory/Resources 页面，核对统一资源清单与 Resource 360"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sysdig.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "0922c1f88d8982232af524a2875d0f7dc36c96b22b401fc6a9b84d3fede436b1"
+        },
+        {
+          "url": "https://sysdig.com/products/secure/",
+          "kind": "documentation",
+          "outcome": "failed: redirected to a different host"
+        },
+        {
+          "url": "https://www.sysdig.com/products/secure/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "7144b1bd410d0a50106e80bdcbd523312a559cd5b2d3c2134a4fe2d9a0f56cbe"
+        },
+        {
+          "url": "https://www.sysdig.com/platform/secure",
+          "kind": "documentation",
+          "outcome": "success; body and sha256 identical to https://www.sysdig.com/products/secure/ snapshot; page canonical points to /platform/secure",
+          "sha256": "7144b1bd410d0a50106e80bdcbd523312a559cd5b2d3c2134a4fe2d9a0f56cbe"
+        },
+        {
+          "url": "https://docs.sysdig.com/en/sysdig-secure/inventory-resources/",
+          "kind": "documentation",
+          "outcome": "success; page describes unified Resources inventory across cloud, Kubernetes and container environments, with EC2/S3/Kubernetes pods examples",
+          "sha256": "18061d4a548fe0cc6729c81d3490b8327418633e376d1bd00e38f5a82df7db70"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cnapp",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:wiz"
+      ],
+      "query": "直接读取 Wiz 官方主页与 Wiz Cloud 产品页，核对共享清单、多域评估与单一风险视图（未调用 websearch）。",
+      "source_urls": [
+        "https://www.wiz.io/",
+        "https://www.wiz.io/platform/wiz-cloud"
+      ],
+      "note": "Wiz Cloud 页面在同一 Security Graph 下列出 CSPM、漏洞、CIEM、容器、DSPM、CWP 等域，并描述跨域风险关联与统一修复，匹配 CNAPP 定义。CWP 仅作为域能力记录。",
+      "service_boundary": "商业云安全平台，具体许可按域/工作负载的细节与部署架构未核；runtime_tested:false。",
+      "search_attempts": [
+        "直接抓取 https://www.wiz.io/ 官方主页",
+        "直接抓取 https://www.wiz.io/platform/wiz-cloud 官方产品页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.wiz.io/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "111fb5bdef8f8face7657b65e67397cb25ca65dfc40b6f8c1b4acd80c6c14db1"
+        },
+        {
+          "url": "https://www.wiz.io/solutions/cloud-native-application-protection-platform",
+          "kind": "documentation",
+          "outcome": "failed: HTTP 404"
+        },
+        {
+          "url": "https://www.wiz.io/platform/wiz-cloud",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "18ea787b4b6ffb7dc48fb7ea808c4600dc2188d105d8749b66ad0837c1753639"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "container-kubernetes-security",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:439449479"
+      ],
+      "query": "直接读取 NeuVector GitHub 仓库元数据、许可证 API 与 README，核对仓库身份、完整许可证和容器/Kubernetes 安全工作流（未调用 websearch）。",
+      "source_urls": [
+        "https://api.github.com/repos/neuvector/neuvector",
+        "https://api.github.com/repos/neuvector/neuvector/license",
+        "https://raw.githubusercontent.com/neuvector/neuvector/main/README.md"
+      ],
+      "note": "GitHub 元数据确认仓库 id 439449479、full_name neuvector/neuvector、未归档；许可证 API 返回 Apache-2.0 完整文本。README 描述全生命周期容器安全、自动化运行时检测与 Layer 7 容器防火墙，匹配完整平台而非单一扫描器。准入/合规等更细能力未在该 README 展开，故不写入断言。",
+      "service_boundary": "开源核心为 Apache-2.0 仓库；SUSE 商业支持/企业版边界未展开，不把商业附加项计为开源。未安装或运行，runtime_tested:false。",
+      "search_attempts": [
+        "直接抓取 GitHub 仓库 API 元数据",
+        "直接抓取 GitHub 许可证 API",
+        "直接抓取 main 分支 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/neuvector/neuvector",
+          "kind": "repository_metadata",
+          "outcome": "success",
+          "sha256": "0dc9f06099b22beab93dfd43a43562f847ded70170cc11a2586faaeda5e14b8f"
+        },
+        {
+          "url": "https://api.github.com/repos/neuvector/neuvector/license",
+          "kind": "license",
+          "outcome": "success",
+          "sha256": "9414bb51c615b15344b5ba2045b7d549377bbf00605483417f64cc0bf21bee54"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/neuvector/neuvector/main/README.md",
+          "kind": "readme",
+          "outcome": "success",
+          "sha256": "22f3d8bc9633676beca182ebcb601a4a7a3f35e46cecdf7e90946354818388ca"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "iot-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:forescout-vistaro"
+      ],
+      "query": "直接读取 Forescout 官方主页与 IoT Security 方案页，核对无代理设备发现、分类、持续监控与策略动作（未调用 websearch）。",
+      "source_urls": [
+        "https://www.forescout.com/",
+        "https://www.forescout.com/solutions/iot-security/"
+      ],
+      "note": "Forescout IoT 页面明确无代理发现并分类 IoT/IoMT/OT 设备、实时持续监控通信与风险行为、评估弱口令并自动化分段，匹配 IoT 安全平台核心。Armis 官方页返回 403，未绕过。",
+      "service_boundary": "商业平台，硬件/虚拟/云部署选项仅按官方概述记录，价格与授权未核；runtime_tested:false。",
+      "search_attempts": [
+        "尝试 Armis 官方平台页与主页（均 403）",
+        "直接抓取 Forescout 官方主页",
+        "直接抓取 Forescout IoT Security 方案页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.armis.com/platform/",
+          "kind": "documentation",
+          "outcome": "failed: HTTP 403"
+        },
+        {
+          "url": "https://www.armis.com/",
+          "kind": "homepage",
+          "outcome": "failed: HTTP 403"
+        },
+        {
+          "url": "https://www.forescout.com/platform/iot-security/",
+          "kind": "documentation",
+          "outcome": "failed: HTTP 404"
+        },
+        {
+          "url": "https://www.forescout.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "bef00974e704533c9024d47660fb7c3baa2d628008a11619479871d39e2df33b"
+        },
+        {
+          "url": "https://www.forescout.com/solutions/iot-security/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "d848e481254ea5afd415003bc5db072c4ebffe5918efed0ed80d80bcd40f7d7c"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ot-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:nozomi-networks-vantage"
+      ],
+      "query": "直接读取 Nozomi Networks 官方主页与平台产品页，核对 OT 资产发现、持续监控、OT 威胁情报与响应（未调用 websearch）。",
+      "source_urls": [
+        "https://www.nozominetworks.com/",
+        "https://www.nozominetworks.com/products/"
+      ],
+      "note": "Nozomi 平台页面向工业/关键基础设施，提供持续资产发现与映射、通信/漏洞/行为异常、OT/IoT 专用威胁情报、风险评分及响应工作流，匹配 OT 安全平台核心。",
+      "service_boundary": "商业 OT/IoT 安全平台，传感器与控制台产品线仅基本记录，价格、授权与具体部署未核；runtime_tested:false。",
+      "search_attempts": [
+        "直接抓取 https://www.nozominetworks.com/ 官方主页",
+        "直接抓取 https://www.nozominetworks.com/products/ 官方平台页"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.nozominetworks.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "99bdd8b77389753aa18a60a0571c31e753192501c03b3af36ceb504f92ed8379"
+        },
+        {
+          "url": "https://www.nozominetworks.com/products/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "61ee55bd5db5050d3519317120bcb9705df6cdcc182ac8337ec9d1b029300a47"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

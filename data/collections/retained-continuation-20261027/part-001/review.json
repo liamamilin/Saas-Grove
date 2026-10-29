@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Chatwoot 的 shared-inbox 快照为单行 SSR 外壳，正文可见内容有限；batch 中 business-messaging-application 的 reason 对共享收件箱页“展示”内容的表述略强。research.json 已记录该页仅作辅助、核心证据来自 README 与网站实时聊天设置文档，因此不阻断。",
+    "Chatwoot 条目的 license 字段写作 MIT，但仓库为混合许可：enterprise/ 使用独立许可，第三方组件沿用原许可。summary 与 license_review 已明确仅计 MIT 社区核心，建议将 license 字段展示为“MIT（community core；enterprise/ separate）”以减少歧义。",
+    "business-messaging-application 与 customer-to-business-messaging-application 的“企业端持久记录/历史”主要由共享收件箱、会话路由以及 ticket/CSAT 语义推出；当前证据足以支持核心判断，若后续能找到直接说明历史保留的官方正文，可进一步补强。",
+    "input.json 的 progress 仍为采集前状态（case_status=not_searched，application_ids/research_records 为空），与 batch.json/research.json 已存在的案例不一致；不影响本次内容核对，但建议下游同步元数据。",
+    "Telegram 的公开用户名、公开群组与频道属于相邻的发现/广播形态；本叶仅取个人 1:1 与小群会话，条目说明中可再明示该边界。",
+    "GroupMe 的 homepage 使用 Microsoft 支持中心页面而非产品落地页；对商业案例的基本真实性核对足够，不影响类型匹配。"
+  ],
+  "leaf_checks": {
+    "business-messaging-application": {
+      "application_id": "github:202291859",
+      "name": "Chatwoot",
+      "track": "open_source",
+      "result": "supported",
+      "basis": "README 正文说明 Chatwoot 将网站实时聊天、邮件、社交渠道的客户会话集中到统一收件箱，支持私密备注、分配、联系人历史与团队工作区；网站实时聊天设置文档正文说明企业创建 website inbox、嵌入 widget，客户发起会话后由坐席处理；GitHub metadata 确认仓库身份 202291859。组织作为会话一方、外部个人线程、双向聊天与企业端会话记录均有正文支撑。",
+      "license_and_boundary": "LICENSE 快照确认 enterprise/ 为独立许可、第三方组件沿用原许可，其余社区核心为 MIT Expat；条目 summary/license_review 明确仅计 MIT 社区核心，未把 enterprise/ 内容计入。",
+      "gap": "shared-inbox 页面快照为 SSR 外壳，正文证据主要来自 README 与网站实时聊天设置文档；持久历史属于共享收件箱/会话记录的合理推断，并非单独一句显式说明。"
+    },
+    "community-chat-platform": {
+      "application_id": "commercial:discord",
+      "name": "Discord",
+      "track": "commercial",
+      "result": "supported",
+      "basis": "Discord 官方 Advanced Community Server Setup 正文以 server（社区）为顶层容器，成员加入 server，文本/语音频道置于分类之下，角色按 server 级分配；Roles and Permissions 正文说明 server 成员继承角色、频道权限与频道消息历史。社区—房间—共享消息流结构成立。",
+      "gap": "仅取社区服务器子工作流；Group DM/视频通话文档属于相邻的 IM/通话功能，未计入本叶核心。商业案例未做价格、架构或运行验证。"
+    },
+    "customer-to-business-messaging-application": {
+      "application_id": "github:202291859",
+      "name": "Chatwoot",
+      "track": "open_source",
+      "result": "supported",
+      "basis": "Chatwoot 官方 Website live chat settings explained 正文说明企业在网站创建 website inbox、嵌入 live chat widget，客户发起会话后会话路由给该 inbox 的 agents；README 说明所有客户会话集中到统一收件箱。客户通过企业发布点主动入口、企业身份、双向 1:1 聊天与企业端处理记录成立。",
+      "license_and_boundary": "仅计 Chatwoot MIT 社区核心；enterprise/ 独立许可内容未计入。",
+      "gap": "文档没有单独一句“1:1”或“历史永久保留”的表述，二者由网站 widget/共享收件箱模型推出；shared-inbox 快照仅作辅助。"
+    },
+    "group-messaging-application": {
+      "application_id": "commercial:groupme",
+      "name": "GroupMe",
+      "track": "commercial",
+      "result": "supported",
+      "basis": "Microsoft 官方 GroupMe 文档称其为 free group messaging app；正文说明成员创建并命名 group、按姓名/邮箱/电话添加成员，既有 group 可增删成员且被移除者需成员再次邀请；group chat 为共享消息流，消息可搜索，clear chat history 与 end group（删除且不可撤销）为显式操作。成员定义的参与者集合、共享流与持久历史成立。",
+      "gap": "仅取 group 创建/成员管理/共享群聊/历史留存；1:1 DM、announcement group、Campus 未计入。homepage 为 Microsoft 支持中心而非产品落地页。"
+    },
+    "instant-messaging-application": {
+      "application_id": "commercial:telegram",
+      "name": "Telegram",
+      "track": "commercial",
+      "result": "supported",
+      "basis": "Telegram 官方 FAQ 正文说明用户以手机号或用户名被寻址，可向通讯录联系人或用户名发消息；Telegram 为 cloud-based messenger，消息跨设备同步并可访问历史；1:1 与小群会话线程、持久历史成立。",
+      "gap": "公开用户名、公开群组/频道属于相邻的发现/广播形态，本叶仅取个人 1:1/小群 IM；商业案例未做运行验证。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未部署或执行产品，未重新计算快照 SHA-256。已按 REVIEW_SOURCES.json 的 path 原样读取快照；Chatwoot shared-inbox 快照为 SSR 外壳，正文级判断依赖 README 与网站实时聊天设置文档，research.json 已记录该缺口。商业案例仅核对官方来源的基本真实性与类型匹配，未核价格、架构或运行状态。input.json 的 progress 似为采集前种子数据，未作为最终案例状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-001/ses_groveopencodegop001review1_1792938406.jsonl",
+  "batch_sha256": "4515a8cabf7a30625bc9ec4e07b435f928a932c5a071daeb0aa4347836c356ee",
+  "research_sha256": "3982f7b8e58cb577ce5cf88b7846fb9d8b77708494ae410fef81136b8ce1e378",
+  "input_sha256": "136ddd5ac978d5ecd7630ba29dc703b5bc08b1275ad603084a5528d112df24dc"
+}

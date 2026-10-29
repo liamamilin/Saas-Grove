@@ -1,0 +1,70 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "coworking-flexible-workspace-management",
+      "application_id": "commercial:officernd",
+      "issue": "OfficeRnD 的两个引用快照（data/collections/sources/ed248ab3d940c56871bb2b4fe9f0d715f4cc5e5213ed0439866b799a6d76567a.txt 与 data/collections/sources/3cd431f86270b2d3ca0fb74345da4009c9ed707e2025b023add3ccfad5fa9c2a.txt）只包含 NitroPack 头部/尾部、导航、脚本和 JSON-LD，未包含页面主内容正文；快照中检索不到 batch 所称的“Flex Operations Hub 明确覆盖 members、bookings、billing”等正文表述。JSON-LD 的 description/featureList 属于元数据，不能替代核心工作流正文，因此该应用的会员、预订、计费核心无法按快照正文完成核对。",
+      "fix": "重新抓取包含主内容的 OfficeRnD 页面正文（例如 nonitro、服务端渲染或纯文本快照），或将引用替换为包含 Flex Operations、会员生命周期、预订、计费/开票核心描述且正文可读的官方文档页；在 batch 的 leaf_matches 中引用可核对原句后重新送审。"
+    }
+  ],
+  "non_blocking_notes": [
+    "commercial:planon 的 FMS 关系依赖 IWMS 套件上下文：Asset & Maintenance 页面标题/描述自称 CMMS，正文展示反应式工单、预防性维护、资产全生命周期、资源排程和移动执行，但未逐项展示工单强制绑定场所或请求者自助跟踪；按“套件中的设施工作层”理解可以成立，建议记录时明确这是 IWMS 模块而非独立 FMS。",
+    "commercial:planon 的 IWMS 记录称租赁会计等模块在同一平台提供，但 IWMS 页面“contains”只列 Real Estate、Space & Workplace Services、Asset & Maintenance、Energy & Sustainability；Lease Accounting 在导航中是单独解决方案。建议把措辞收窄为“关联/同厂商解决方案”，或补充租约管理正文后再强化该关系。",
+    "commercial:archibus 的页面明确写“FedRAMP Authorized and on-premise IWMS”，快照未展示 SaaS 托管/订阅形态；若本目录严格要求云端 SaaS，应补充托管部署证据，否则建议在服务形态字段中注明 on-premise/IWMS 套件属性。",
+    "Property Meld 的受管物业/单元台账主要依赖“thousands of units”、单户/多户/HOA/学生公寓等市场描述，页面未展示独立的物业/单元主数据界面；基本类型匹配成立，但证据强度一般。",
+    "Archibus 的 Space Optimization 页面没有直接使用“space inventory”一词，核心依据是实时占用/利用率、Interactive floor plans/BIM、Scenario planning、Move management 和 Automated space assignments；如需更强的“空间库存记录”证据，可补充其空间台账或 inventory 官方表述。",
+    "input.json 的 progress 仍将所有叶标为 case_status=not_searched、application_ids 为空，而 research.json/batch.json 已给出 case_found 和 commercial:* 条目；本次应用证据判断不受影响，但下游若以 input.json 为准会漏掉本单元案例，建议同步元数据。",
+    "research.json 引用的 openMAINT 与 IBM 补充页未列入 REVIEW_SOURCES.json；本轮仅将其视为开源/补充检索的留档，未作为 batch 应用证据。"
+  ],
+  "leaf_checks": {
+    "coworking-flexible-workspace-management": {
+      "status": "changes_required",
+      "applications": [
+        "commercial:cobot",
+        "commercial:officernd"
+      ],
+      "basis": "Cobot 首页与 features 快照正文可核对：定位为 coworking/flexible workspace management software，列出 membership plan、Bookings and Calendar、meeting room app、Invoicing/Billing/Payments（含 custom plans）、Office Rental Management（跟踪 occupancy、allocate resources）、Multi-location、Access Control（members 按 plan 获得空间权限），覆盖空间资源—会员—预订/分配—计费。OfficeRnD 快照的 JSON-LD/featureList 也提到 membership/contract、automated billing、meeting room booking、floorplan/occupancy，但主内容正文缺失，不能作为核心工作流证据。",
+      "gaps": "OfficeRnD 快照缺少主内容正文；batch 的 Flex Operations Hub 表述无法从快照核实。Cobot 单独可支持该叶，但 OfficeRnD 条目需修复来源后才能整体通过。"
+    },
+    "facility-management-system": {
+      "status": "passed_with_note",
+      "applications": [
+        "commercial:planon"
+      ],
+      "basis": "Planon IWMS 页面正文将 Real Estate Management、Space & Workplace Services Management、Asset & Maintenance Management、Energy & Sustainability Management 列为同一 IWMS 平台的组成；Asset & Maintenance 页面正文列出 Reactive Work Orders、Preventive Maintenance、Graphical Resource Planner、Asset Lifecycle Management、Vendor & Warranty Management、Budget Management、Mobile Field Services，并以建筑/设施维护为场景，可作为套件中承担设施工作层的 FMS 证据。",
+      "gaps": "模块页自称 CMMS，未直接展示设施地产台账、工单位置绑定和请求者服务闭环的完整细节；该关系按套件模块理解成立，但不是独立 FMS 的完整工作流验证。"
+    },
+    "integrated-workplace-management-system-iwms": {
+      "status": "passed_with_note",
+      "applications": [
+        "commercial:planon",
+        "commercial:archibus"
+      ],
+      "basis": "Planon IWMS 页面正文以“Planon Integrated Workplace Management Solution”为标题，称 IoT-enabled IWMS，并在同一平台列出房地产、空间与工作场所、资产与维护、能源与可持续性等域。Archibus 产品页以“Make every part of your facility easier to manage, all in one place”呈现统一平台，列出 BIM asset management、capital project tracking、space planning、workplace booking、lease and contract management；lease 页补充关键日期、义务、合规、租金和审计轨迹，asset 页补充工单、服务请求、检查清单和预防性维护，支持多领域与共享记录基础。",
+      "gaps": "Planon 的租赁会计是单独解决方案页面，IWMS 页面未逐项证明租约/空间/资产对象被各模块复用；Archibus 页面自称 on-premise IWMS，未验证 SaaS 托管形态；未做运行时验证。"
+    },
+    "property-maintenance-management": {
+      "status": "passed_with_note",
+      "applications": [
+        "commercial:propertymeld"
+      ],
+      "basis": "Property Meld 首页与 Our Software 快照正文将产品定位为 property maintenance software，正文出现 work order scheduling、maintenance request 处理、沟通跟踪、vendor 协调、resident/owner 相关场景，以及 single-family、multi-family、HOA、student housing 和“thousands of units”等受管物业组合描述，覆盖维护工作项与执行方协调。",
+      "gaps": "页面侧重维护协调与工单流程，未展示独立的物业/单元主数据管理界面；类型匹配成立，但台账证据一般。"
+    },
+    "space-occupancy-management": {
+      "status": "passed_with_note",
+      "applications": [
+        "commercial:archibus"
+      ],
+      "basis": "Archibus Space Optimization 快照正文列出 real-time occupancy/utilization、scenario planning、interactive floor plans/BIM、move management、automated space assignments，并说明按角色/需求/可用性分配空间；lease 页还说明 lease data 与 property/space records 关联，可支持占用与空间记录的核心结构。",
+      "gaps": "页面使用“space optimization”而非“space inventory”，未直接展示空间库存台账的独立记录模型；核心依据是平面图/BIM、占用分析、分配和搬迁记录。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何产品、未登录/试用、未部署测试，也未使用 shell 或写入文件；全部 REVIEW_SOURCES.json 列出的快照均按给定 path 原样读取。OfficeRnD 两个快照为 NitroPack 压缩 HTML，主内容正文缺失，无法从快照正文核对核心工作流；Archibus 的部署形态仅有 on-premise 页面表述，SaaS 托管未验证；research.json 引用的 openMAINT/IBM 补充快照未在 REVIEW_SOURCES.json 中建立 manifest，无法逐项核对；本单元没有开源条目，因此未进行开源许可证和社区版边界判定。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-171/ses_groveopencodegop171review1_1793018436.jsonl",
+  "batch_sha256": "b8e7550aeedee94375d98e7251914b4040228e7d53365aa882a5db0ae5a2dcfe",
+  "research_sha256": "0d6764b744df85c50350937773a08d6badf7fbaf0eb13f74b5ecd811cf58664b",
+  "input_sha256": "ed7a020099eb6454714a184c46c8b3eaf6e452504f4755d4180447f6a66c5c1f"
+}

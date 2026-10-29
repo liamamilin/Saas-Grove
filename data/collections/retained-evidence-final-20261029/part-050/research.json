@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "rendering-management-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:133735379"
+      ],
+      "query": "开源 渲染农场管理 render farm queue 调度 帧 任务",
+      "source_urls": [
+        "https://api.github.com/repos/AcademySoftwareFoundation/OpenCue",
+        "https://raw.githubusercontent.com/AcademySoftwareFoundation/OpenCue/master/README.md",
+        "https://api.github.com/repos/AcademySoftwareFoundation/OpenCue/license",
+        "https://docs.opencue.io/docs/reference/monitoring-reference",
+        "https://docs.opencue.io/docs/concepts/opencue-overview/",
+        "https://docs.opencue.io/docs/getting-started/deploying-cuebot/",
+        "https://docs.opencue.io/docs/concepts/cueweb-rest-gateway/",
+        "https://docs.opencue.io/docs/getting-started/deploying-cueweb/",
+        "https://raw.githubusercontent.com/AcademySoftwareFoundation/OpenCue/master/cueweb/README.md",
+        "https://flamenco.blender.org/"
+      ],
+      "note": "初审缺口是“只证到客户端、CLI、引擎/基础设施或设备控制，未证明可持续使用的应用服务”。本轮针对该缺口补抓官方服务端文档，缺口闭合：OpenCue overview 明确 Cuebot 是 central management server，负责管理作业提交、向 render nodes 分发工作并响应客户端 API，RQD 在各渲染主机注册并回报结果；deploying-cuebot 说明单一 Cuebot 实例由全体用户共享，需 PostgreSQL 与共享文件系统（常为 NFS），是典型多用户自托管服务端；CueWeb 文档（concept/deploy/cueweb README）证明存在浏览器端完整管理应用 OpenCueWeb（Next.js/React），提供作业/层/帧表、重试死帧、终止作业等操作，并有 JWT 与 OAuth/LDAP 鉴权、多 facility 路由。结合已复用的 README（作业拆分为独立任务进入可配置派发队列、主机切分为 proc 槽位、标签限定机型、集中在渲染机群执行而非艺术家工作站）与 monitoring reference（FRAME_STARTED/FRAME_COMPLETED/FRAME_FAILED/FRAME_RETRIED、JOB_FINISHED=全部帧完成），帧级分解—调度—跟踪—失败重试—关闭作业的核心闭环成立，且管理器本身不计算图像，与 3D 渲染应用边界清楚。许可证与仓库身份沿用历史快照核对：GitHub license API spdx_id=Apache-2.0 全文完整，repository metadata id/full_name 与条目一致，整仓社区版无商业切分。历史草稿的“case_found”此前未被采纳，本轮结论由新增服务端证据独立支撑，不把旧草稿当通过。替代候选 Flamenco 官网确认其为 GPL-3.0 自托管渲染管理应用（Go/SQLite），但源码在 projects.blender.org 而非 GitHub，不满足本批开源条目所需的 GitHub 身份字段，故仅留档查询与事实，未建条目；此为采集格式限制，不推断该产品或本类不存在其他实现。",
+      "service_boundary": "面向视效/动画工作室的自托管渲染管理服务：Cuebot 中央服务端 + PostgreSQL + 共享存储，渲染节点运行 RQD 注册并执行，制作人员通过 CueGUI 桌面端、CueWeb 浏览器端或 REST API 提交与监控作业；社区版即完整产品。",
+      "search_attempts": [
+        "复用历史来源：GitHub repository metadata、README、license API、官方 monitoring reference 快照",
+        "定向补证一：检索 OpenCue 官方概念文档，抓取 opencue-overview 与 deploying-cuebot，核对服务端组件与共享部署形态",
+        "定向补证二：抓取 cueweb-rest-gateway 概念页、deploying-cueweb 部署页与仓库 cueweb/README.md，核对浏览器端完整应用与鉴权/部署",
+        "替代品查询：检索开源渲染管理替代实现，检查 Flamenco 官网与其代码托管位置"
+      ],
+      "fetch_outcomes": [
+        "repository_metadata 200（复用，id=133735379，full_name=AcademySoftwareFoundation/OpenCue）",
+        "README 200（复用）",
+        "license API 200（复用，spdx_id=Apache-2.0，许可证正文完整）",
+        "docs.opencue.io/docs/reference/monitoring-reference 200（复用，正文含作业/帧生命周期事件）",
+        "docs.opencue.io/docs/concepts/opencue-overview/ 200（本轮，正文含 Cuebot/RQD/OpenCueWeb/REST Gateway 组件职责）",
+        "docs.opencue.io/docs/getting-started/deploying-cuebot/ 200（本轮，正文含共享 Cuebot 实例、PostgreSQL、共享文件系统要求）",
+        "docs.opencue.io/docs/concepts/cueweb-rest-gateway/ 200（本轮，正文含 OpenCueWeb 浏览器应用与 REST 网关、JWT/审计）",
+        "docs.opencue.io/docs/getting-started/deploying-cueweb/ 200（本轮，正文含 Docker/Docker Compose/Kubernetes 与 OAuth/LDAP 鉴权）",
+        "raw.githubusercontent.com/.../master/cueweb/README.md 200（本轮，正文含作业/层/帧表与重试、终止操作）",
+        "www.opencue.io/docs/concepts/opencue-overview/ 重定向至其他主机被拒（未采用，改用 docs.opencue.io 同文）",
+        "docs.opencue.io/docs/concepts/opencueweb-and-rest-gateway/ 404（路径不存在，改用 /docs/concepts/cueweb-rest-gateway/）",
+        "api.github.com/repos/blender/flamenco 404（该仓库不在 GitHub 该路径下）",
+        "api.github.com/repos/blender/flamenco/license 404（同上）",
+        "flamenco.blender.org 200（本轮，正文含 GPL 3.0、自托管、Go/SQLite、源码在 projects.blender.org；因非 GitHub 身份未建条目）"
+      ],
+      "archived": false
+    }
+  ]
+}

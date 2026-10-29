@@ -1,0 +1,286 @@
+[
+  {
+    "part": 3,
+    "source": "var/collection/pending-leaves-20261027/part-003/project/issues.json",
+    "source_sha256": "9fb4f1a78074cec0bf48d807f180625758901922205438f10cc8485b99c24d23",
+    "latest": false,
+    "finding": {
+      "slug": "web-development-ide",
+      "application_id": "github:172953845",
+      "issue": "已读快照不能证明该叶定义性核心的第二项和第三项。docs/README.md 只说明“Run VS Code on any machine anywhere and access it in the browser”；FAQ 只覆盖配置、工作区/文件夹打开、扩展安装（如 FAQ#how-does-code-server-decide-what-workspace-or-folder-to-open、#how-do-i-install-an-extension）；guide 的 Accessing web services 章节说明的是把用户自行用 create-react-app/vue-cli/ng serve/svelte 启动的 dev server 通过 /absproxy/<port> 或子域暴露出来。全文没有说明 HTML/CSS/JS 语义的集成编辑辅助，也没有说明环境内部完成“build/serve → 浏览器渲染预览 → 保存即刷新”的闭环；恰恰要求用户自己在终端启动框架 CLI，再手工访问代理路径。采集理由把“VS Code 编辑环境”直接当作 Web 技术栈集成编辑，属于快照之外的推断；同时 code-server 是覆盖任意语言的通用 IDE（“Code on any device”“Use cloud servers”），与“面向 Web 交付物的专用开发环境”之间还存在类型范围偏宽的问题（同类先例中 CloudBeaver 因范围更宽被排除）。",
+      "fix": "补充能直接证明以下两点的官方正文后再保留该关系：(1) Web 技术栈集成编辑，例如 VS Code 官方 HTML/CSS/JavaScript/TypeScript 语言功能文档，并能对应到 code-server 环境；(2) 编辑器侧闭环预览，例如端口面板/预览在保存后自动刷新的官方说明。若无法取得，应改用面向 Web 开发的托管或自托管 IDE 作为案例，或在 research 与 batch 中如实降级为“通用远程 IDE，Web 栈编辑与预览闭环未验证”的缺口记录。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop003review1_1793090780",
+    "main_note": "StackBlitz官方IDE文档直接描述HTML/JS项目环境、iframe浏览器预览及保存/热重载；替换未充分绑定Web闭环的通用code-server。商业记录不扩展语言补全或部署实测。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 4,
+    "source": "var/collection/pending-leaves-20261027/part-004/review-history/1793090720670304000.json",
+    "source_sha256": "ea559b661fd7139e9e1d3b4bd88a53b94773feeae75e7f27be42f7f3cba84f6e",
+    "latest": false,
+    "finding": {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "batch.json 的 leaf_matches[0].reason 与 research.json 的 note 把 /automated-website-testing 快照描述为包含“3000+ 桌面浏览器与真实移动设备的云 Selenium Grid、并行测试运行、CI/框架集成、防火墙后测试环境”；但实际快照 8b254f... 只有文档头、标题/描述、导航配置和页头，正文没有 h1/main 内容，全文检索不到 Selenium、parallel、3000/3,000、tunnel、firewall、localhost、CI/CD。该快照最多支持“BrowserStack 云基础设施上运行自动化网站测试”的标题/描述层面，不能支撑上述核心工作流与规模数字。",
+      "fix": "补抓或替换为包含正文的产品/文档快照，确保能逐字看到环境目录、并行、CI/框架集成、隧道等描述，并据此改写 leaf_matches 与 research note；若无法取得正文，则删除这些无据的具体能力和数量，只保留快照可支持的表述，并在 research 中如实记录正文缺失。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop004review2_1793090720",
+    "main_note": "替换后的可读正文有云Selenium Grid、真实设备/浏览器、并行运行、CI、开发环境与调试输出；旧脚本壳证据保留为缺口。统一为BrowserStack平台，旧正式产品核心字段保持。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 4,
+    "source": "var/collection/pending-leaves-20261027/part-004/review-history/1793090720670304000.json",
+    "source_sha256": "ea559b661fd7139e9e1d3b4bd88a53b94773feeae75e7f27be42f7f3cba84f6e",
+    "latest": false,
+    "finding": {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "research.json 的 fetch_outcomes 将 8b254f... 标为 fetched_and_read，并写“用于类型匹配与许可证核验”；但该快照实际只有页头、元数据和脚本，没有正文。留档未记录“正文缺失/页面为脚本壳”的抓取缺口，等于把抓取成功当作正文已读，后续复核会误判证据充分。",
+      "fix": "将该状态改为 fetched_but_body_missing（或 partial），在 note 中说明仅取得 head/header；补抓正文后再标 fetched_and_read。商业条目也无需写“许可证核验”，可改为“类型匹配”。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop004review2_1793090720",
+    "main_note": "替换后的可读正文有云Selenium Grid、真实设备/浏览器、并行运行、CI、开发环境与调试输出；旧脚本壳证据保留为缺口。统一为BrowserStack平台，旧正式产品核心字段保持。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 4,
+    "source": "var/collection/pending-leaves-20261027/part-004/review-history/1793090720670304000.json",
+    "source_sha256": "ea559b661fd7139e9e1d3b4bd88a53b94773feeae75e7f27be42f7f3cba84f6e",
+    "latest": false,
+    "finding": {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "条目 id 为 commercial:browserstack、首页也是 BrowserStack 平台，但 name 写成 BrowserStack Automate；summary 同时纳入 Live 手动跨浏览器测试，leaf_matches 又分别引用 /automated-website-testing 和首页 /live 导航。一个条目同时指向平台、Automate 和 Live，产品身份与边界不一致。",
+      "fix": "统一产品身份：要么把 name 改为平台级 BrowserStack，并在 summary/leaf_matches 中明确 Automate 与 Live 是同平台的两个入口；要么把条目限定为 Automate，并移除 Live 的条目标识与核心描述。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop004review2_1793090720",
+    "main_note": "替换后的可读正文有云Selenium Grid、真实设备/浏览器、并行运行、CI、开发环境与调试输出；旧脚本壳证据保留为缺口。统一为BrowserStack平台，旧正式产品核心字段保持。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 5,
+    "source": "var/collection/pending-leaves-20261027/part-005/review-history/1793091150799196000.json",
+    "source_sha256": "21682c2647922c5d8fa59074963cbfd147cf0cab9701b89a55ce700e88ef49d1",
+    "latest": false,
+    "finding": {
+      "slug": "code-quality-platform",
+      "application_id": "github:1222504",
+      "issue": "条目用 SonarQube Community Build 匹配 code-quality-platform，但所引 README 在 Commercial editions 中明确把 branch analysis 与 pull request decoration 列为商业版能力；叶定义把项目的分支和拉取请求列为一等分析对象，并要求对每次进入合并/发布流程的变更给出判定。按 README，社区版只能做静态分析和 CI 中的 Quality Gate，不能对每个分支/PR 形成平台侧判定，定义性核心不完整，不能按完整案例入库。",
+      "fix": "不要将该社区版作为该叶的完整匹配：可改用包含分支/PR 分析的商业版或托管版并按商业条目登记；若保留社区版，则在 batch/research 中明确标为部分匹配并记录 edition gap，同时收窄 summary 与 leaf_matches 的表述；或将该叶留为无案例并保留该边界说明。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop005review2_1793091150",
+    "main_note": "官方商业版矩阵明确Developer及以上提供分支/PR，Activity记录扫描与趋势，Quality Gate有配置条件及变更通过/失败；不将商业能力赋给开源Community Build。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 5,
+    "source": "var/collection/pending-leaves-20261027/part-005/review-history/1793091150799196000.json",
+    "source_sha256": "21682c2647922c5d8fa59074963cbfd147cf0cab9701b89a55ce700e88ef49d1",
+    "latest": false,
+    "finding": {
+      "slug": "code-quality-platform",
+      "application_id": "github:1222504",
+      "issue": "核心正文证据不足：唯一的产品正文是 README 的营销/概览段落，未提供项目接入并绑定仓库、分析运行记录、issue/metric 持久历史与趋势、质量门禁条件配置的官方文档证据；research.note 也自认 README 未逐字证明持久 issue/metric 历史与仓库绑定接入，却仍标 case_found/official_sources_reviewed。仅凭 README 关键词、徽章和仓库元数据不能证明这些定义性工作流。",
+      "fix": "补充并快照官方文档中对应页面（项目接入/仓库绑定、分析历史、issue 生命周期、Quality Gate 条件），逐项对应定义性核心；若无法补充，应把 assessment 改为证据不足或留档缺口，不宣称完整类型匹配。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop005review2_1793091150",
+    "main_note": "官方商业版矩阵明确Developer及以上提供分支/PR，Activity记录扫描与趋势，Quality Gate有配置条件及变更通过/失败；不将商业能力赋给开源Community Build。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 6,
+    "source": "var/collection/pending-leaves-20261027/part-006/project/issues.json",
+    "source_sha256": "754d4b24cc9986dcda8bcc0947c1d2c0084b6955c3f188c9dbf071624af57564",
+    "latest": false,
+    "finding": {
+      "slug": "inspection-metrology-software",
+      "issue": "旧单元未保存本叶research.json；必须根据真实复用/补采动作生成该文件，不把缺产物写成找不到案例。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop006review1_1793090922",
+    "main_note": "Open2DMeasure确有图像标定、名义/公差、OK/KO和CSV，但明确Windows桌面；Inspector页面同样未闭合应用服务形态。两候选留档，整个叶为boundary_unresolved，未归档。",
+    "main_withheld_ids": [
+      "commercial:polyworks-inspector",
+      "github:1160427004"
+    ]
+  },
+  {
+    "part": 7,
+    "source": "var/collection/pending-leaves-20261027/part-007/project/issues.json",
+    "source_sha256": "5b15e779e0f4739fdb1d246bf95cfd37eb0ad1de47462625055aba522fbe9a08",
+    "latest": false,
+    "finding": {
+      "slug": "manufacturing-qms",
+      "issue": "旧单元未保存本叶research.json；必须根据真实复用/补采动作生成该文件，不把缺产物写成找不到案例。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop007review1_1793091112",
+    "main_note": "OpenQMS README明确制造/IATF16949，IQC批次与供应商锚定，CAPA手册有8D验证、D7/D8审批与保留审计，闭合最小核心。Carbon生产问题/8D/MRB成立，合规锚点的开源范围引用不充分，暂缓它的新增关系。",
+    "main_withheld_ids": [
+      "github:809730532"
+    ]
+  },
+  {
+    "part": 8,
+    "source": "var/collection/pending-leaves-20261027/part-008/project/issues.json",
+    "source_sha256": "f1400faba3e441124154a0d392da1327bf0df0f7c2991cf570081a1d8eac34a0",
+    "latest": false,
+    "finding": {
+      "slug": "product-test-management",
+      "issue": "旧单元未保存本叶research.json；必须根据真实复用/补采动作生成该文件，不把缺产物写成找不到案例。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop008review1_1793091155",
+    "main_note": "HardPy自托管HTTP操作面板、pytest持久测试定义、PASS/FAIL/STOP、测量/运行存储、计划选择及按次历史满足轻量测试执行管理核心；不宣称签名、缺陷闭环、需求覆盖。历史存储需按文档配置。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 9,
+    "source": "var/collection/pending-leaves-20261027/part-009/project/issues.json",
+    "source_sha256": "b2beb694fb7073cd005bcc7a3346b79ba4e14abd2d562d66efe485f22aa223b1",
+    "latest": false,
+    "finding": {
+      "slug": "statistical-process-control-spc",
+      "issue": "旧单元未保存本叶research.json；必须根据真实复用/补采动作生成该文件，不把缺产物写成找不到案例。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop009review1_1793091409",
+    "main_note": "Cassini README明确Web平台、过程特性/样本时间序列/控制图/判异规则；按具体版本表不把MSA/DOE/多工厂等扩展计入社区核心。OpenQMS SPC手册明确过程样本计算控制限、时间序列与判异规则，规格限仅用于能力计算。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 10,
+    "source": "var/collection/pending-leaves-20261027/part-010/project/issues.json",
+    "source_sha256": "23e4854c2181bdab3dc7f14a6ea22b85210a1a36d8f8480b793e42d94a6d611d",
+    "latest": false,
+    "finding": {
+      "slug": "supplier-quality-management",
+      "issue": "旧单元未保存本叶research.json；必须根据真实复用/补采动作生成该文件，不把缺产物写成找不到案例。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop010review1_1793091440",
+    "main_note": "OpenQMS供应商手册明确买方批准/暂停、证书/到期、来料批次、供应商回复与SCAR验证关闭、PPM及评价证据；仅确认供应商级状态，不声称零件级PPAP或采购硬阻断已验证。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 14,
+    "source": "var/collection/pending-leaves-20261027/part-014/project/issues.json",
+    "source_sha256": "d364508fdfed3a13da31941ee977b8a645b8a676220573605dc3c464d7159b1e",
+    "latest": false,
+    "finding": {
+      "slug": "news-publishing-platform",
+      "application_id": "github:9852918",
+      "issue": "Ghost 证据支持持久故事记录、预览/显式发布/定时、发布后改日期、永久删除不可恢复、版本历史与恢复，以及 featured/tag/author/routes.yaml 过滤集合；但 posts 帮助页明确默认按时间倒序，content-collections 的集合是按 tag/filter 生成，条目也自述不主张人工编辑排序的头版/栏目组合。叶定义核心要求的 editorially ordered front/section assemblies 与 curated presentation surfaces 未被完整覆盖，当前匹配只覆盖核心的前两层。",
+      "fix": "补充能证明人工编辑排序或编排头版/栏目面的官方来源；若 Ghost 确实不支持，应将该匹配标为部分满足并下调结论，不能把过滤集合和 featured 状态当作编辑排序的替代。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop014review1_1793091990",
+    "main_note": "Superdesk Publisher手册的incoming未上线→分配tenant/route→可更新/下线，及人工拖拽内容列表、列表顺序等于头版顺序，闭合新闻发布三层核心；不沿用Ghost只有过滤/时间序的不足证据。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 15,
+    "source": "var/collection/pending-leaves-20261027/part-015/project/issues.json",
+    "source_sha256": "545d9b0c738fc82ac523bd66378fab81a4b3fa68d8496164e7870b2ccacc072e",
+    "latest": false,
+    "finding": {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "本叶匹配依赖可选 Planning 模块，但现有证据只覆盖 Events/Planning Items、coverage 分派到 desk/user、Planning Date、coverage due date、Desk/My Assignments 与 reassign/priority。Planning 文档明确写 Planning Date 是文章预期创建日期，不是发布位置；没有 publication date/slot per platform/edition，也没有可核实的 rundown 细节（Broadcasting 仅概览，详情页 404）。叶核心的 planned output schedule（dated publication slots 或 ordered/timed rundown）与 intended run placement 未被证据覆盖。",
+      "fix": "补充官方来源证明 Superdesk 的发布位置/平台排期或完整 rundown，并明确对应模块；否则不要把 Planning Date/coverage due date 当作输出排期，应缩小匹配或更换条目。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop015review2_1793092335",
+    "main_note": "正文将Planning Date定义为文章预期创建日，不能代替发布slot/rundown；Broadcasting专页404、索引缺详细排期，独立Planning许可全文缺口保留。维持无案例insufficient_evidence，不断言不存在、不归档。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 15,
+    "source": "var/collection/pending-leaves-20261027/part-015/project/issues.json",
+    "source_sha256": "545d9b0c738fc82ac523bd66378fab81a4b3fa68d8496164e7870b2ccacc072e",
+    "latest": false,
+    "finding": {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "开源许可证证据只覆盖 superdesk/superdesk 主仓库的 AGPL-3.0；本叶匹配又依赖独立的可选 superdesk/superdesk-planning 模块，但该模块的仓库身份、许可证和社区版边界没有在 sources 中核对。若该模块不是 AGPL 或存在不同许可，当前条目的开源完整许可证结论不完整。",
+      "fix": "补充 superdesk/superdesk-planning 的仓库元数据和许可证快照，或把许可证结论限定为核心仓库并移除/降级依赖 Planning 模块的匹配。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop015review2_1793092335",
+    "main_note": "正文将Planning Date定义为文章预期创建日，不能代替发布slot/rundown；Broadcasting专页404、索引缺详细排期，独立Planning许可全文缺口保留。维持无案例insufficient_evidence，不断言不存在、不归档。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 15,
+    "source": "var/collection/pending-leaves-20261027/part-015/review-history/1793092335507582000.json",
+    "source_sha256": "f4936eebb8f1cbea35d65e5b1e0f8cebdcad36ac8483cfe8939b4ed585dbf0f8",
+    "latest": false,
+    "finding": {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "定义性核心的第三根支柱“计划输出安排”未被证实。现有正文只支持“单条内容可设定发布时间 + 已配置的订阅者/目的地集合”，批次摘要也明确不主张按平台/版本编排的日期化版面表，也不主张广播节目的定时 rundown。编辑工具与状态文档能证明 Scheduled 状态表示“到点发布”，发布定义文档能证明一个实例可向网站、移动应用等多个目的地投递，但这些都不等于把全部条目放入跨平台/版本的 slot 计划，或放入某节目的有序定时蓝图；也未见任何 slot 网格、edition plan、rundown 排序及改单传播的正文。",
+      "fix": "补充可直接读取的官方正文，证明日期化 slot 表/edition plan 或具体节目的 timed rundown（含排序、重排和变更传播），并把它与逐条发布时间区分开；若无法取得，应撤下该 case，按无案例留档并保留已记录的 Broadcasting 404 与 sitemap 缺口，不能用逐条 publish time 加目的地列表替代该支柱。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop015review2_1793092335",
+    "main_note": "正文将Planning Date定义为文章预期创建日，不能代替发布slot/rundown；Broadcasting专页404、索引缺详细排期，独立Planning许可全文缺口保留。维持无案例insufficient_evidence，不断言不存在、不归档。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 15,
+    "source": "var/collection/pending-leaves-20261027/part-015/review-history/1793092335507582000.json",
+    "source_sha256": "f4936eebb8f1cbea35d65e5b1e0f8cebdcad36ac8483cfe8939b4ed585dbf0f8",
+    "latest": false,
+    "finding": {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "任务/派工与排期的绑定关系不符合定义中的核心规则。叶定义要求任务截止时间从条目的计划运行时间反推，排期是紧迫性的来源；但 Planning 文档显示 coverage due date 是在派工时另行选择/填写的字段，Planning Date 又被明确说明为文章预期创建日期，均未显示由发布排期推导。现有证据只证明“有派工和截止字段”，没有证明“截止由排期派生”。",
+      "fix": "取得能显示 coverage/assignment 截止时间与条目计划发布时间存在派生或联动关系的正文；若产品实际是手工设定截止，应在条目中承认这一规则不成立，并重新判断该产品是否满足本叶的定义性核心，而不是仅以“有 due date 字段”作为匹配依据。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop015review2_1793092335",
+    "main_note": "正文将Planning Date定义为文章预期创建日，不能代替发布slot/rundown；Broadcasting专页404、索引缺详细排期，独立Planning许可全文缺口保留。维持无案例insufficient_evidence，不断言不存在、不归档。",
+    "main_withheld_ids": []
+  },
+  {
+    "part": 15,
+    "source": "var/collection/pending-leaves-20261027/part-015/review-history/1793092335507582000.json",
+    "source_sha256": "f4936eebb8f1cbea35d65e5b1e0f8cebdcad36ac8483cfe8939b4ed585dbf0f8",
+    "latest": false,
+    "finding": {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "产品身份与叶边界存在未解决的冲突。主仓库自述为端到端的新闻创建、生产、策展、分发和发布平台，正文还包含 Published、Corrected、Killed、Recalled、Unpublish 以及 Legal Archive 等公共记录生命周期；叶定义明确把发布、更正、移除和公共记录划给 News Publishing Platform，并要求本系统止于公共记录。批次一方面用 Scheduled/发布目的地文档支撑“输出安排”，另一方面声明不主张发布生命周期，证据来源与边界声明不一致，类型关系没有说清。",
+      "fix": "若保留该 case，需明确论证其 newsroom-management 核心独立于发布生命周期，并改用不依赖 publish 机制的排期证据；同时在条目中把“仅借用 Scheduled 的时间语义、不主张发布/更正/策展”写成可核对的范围说明。否则应按 news-publishing-platform 处理或撤下该 case，不能把订阅者/目的地投递当作版面排期。"
+    },
+    "latest_decision": "content_review_passed",
+    "disposition": "bound_latest_review_and_main_core_check",
+    "final_review_session": "ses_groveopencodegop015review2_1793092335",
+    "main_note": "正文将Planning Date定义为文章预期创建日，不能代替发布slot/rundown；Broadcasting专页404、索引缺详细排期，独立Planning许可全文缺口保留。维持无案例insufficient_evidence，不断言不存在、不归档。",
+    "main_withheld_ids": []
+  }
+]

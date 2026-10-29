@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 research.json、batch.json 已记录 5 个案例不一致。若下游流程读取 progress，建议重新生成或明确以 batch/research 为准；本次以 batch/research 及实际快照为核对依据。",
+    "Medallia 归档页是 Experience Cloud/平台总览，覆盖调研、社媒、员工反馈、联络中心等更广信号；本条以主动征询调研、指标/主题分析、告警与 closed-loop 作为 VoC 类型匹配依据。页面本身也承认超出纯调研范围，属于可接受的宽口径匹配。",
+    "Impartner 的 PRM 页能证明伙伴生命周期、层级、交易注册、供应商审批、MDF 与 CRM 同步；伙伴门户的登录与伙伴用户角色主要以概括性语句出现，未展开认证细节。作为商业条目的基本类型匹配足够，若后续需更严格证明，可补伙伴门户登录或伙伴用户管理来源。",
+    "EspoCRM 的账户级活动历史和账户负责人字段主要由联系人交互历史、账户与 Opportunities/Cases/Documents 的关系、以及角色/团队/all-team-own-no 权限间接支持；现有官方文档足以支撑账户管理 CRM 核心，但不如专门的账户用户指南直接。",
+    "Gainsight 官方文档注明 Renewal Center 在导航中已改名为 Renewals；条目沿用 Renewal Center 名称不影响产品身份，可补别名说明。",
+    "部分 research.json 的额外 URL（如 gainsight.com/renewals、Medallia experience-management、Qualtrics、EspoCRM portal HTML）未出现在 REVIEW_SOURCES.json 或 batch 引用中；本次只核对 batch 实际引用且已归档的快照，未将这些额外 URL 作为结论依据。",
+    "voice-of-customer-platform 的检索词偏向 open source/self-hosted，最终采用商业 Medallia；检索意图与入选案例不完全一致，但案例本身有官方来源，已作为可解释的检索记录保留。"
+  ],
+  "leaf_checks": {
+    "renewal-management-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:gainsight-renewal-center"
+      ],
+      "basis": [
+        "929006b4e3fdf72a9106bf8ebe98f649c775cc9daa183b6dc56810037a177088.txt（Renewal Center Overview）：说明以续约机会为管理单位、集中续约库、预测与保留指标、与 Salesforce Opportunity 同步，并明确其为 Customer Success 平台附加模块。",
+        "4afcfb935f680175cb15af89be38c89142f49c4ff802f8ffebc302f5e0ac6ebd.txt（Renewal Center User Guide）：包含 Target Amount/Final Amount、Actuals、Lost/Churn、Late Renewals、Due Date/Close Date、Opportunity Owner、Forecast 等，覆盖续约记录、决策前管理、结果与前瞻预测。",
+        "61b8b82a895fc6a19b1edf167891d29da282f92af215b4c6eccf4484f8dea5f0.txt（Gainsight for Revenue Teams）：补充供应商侧续约与扩展定位。"
+      ],
+      "gaps": "未登录租户验证续约记录写入、CRM 回写和预测锁定行为；不影响当前类型判断。"
+    },
+    "voice-of-customer-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:medallia-experience-management"
+      ],
+      "basis": [
+        "eb49212f19899219a635ef70186a393aa5168fa749424a268c4cd5d206f4f5a8.txt（Medallia Platform）：包含反馈/调研采集、灵活问卷创建、AI 主题分析、CSAT/情感分析、Alerts and case management、Smart closed-loop、Total Experience Profiles、角色化报表，足以支撑主动征询、体验测量与跟进闭环的 VoC 核心。"
+      ],
+      "gaps": "仅归档平台总览页，未归档专门的 VoC 产品文档；页面同时覆盖 social、employee feedback、contact center 等更广体验信号，类型较宽。"
+    },
+    "account-management-crm": {
+      "status": "pass",
+      "application_ids": [
+        "github:24459441"
+      ],
+      "basis": [
+        "58598516c96a1ca2b32f194913f292d2ee8c66f6e6b3658b748620cdfd1794ba.txt（Accounts）：账户是公司、组织或部门，B2B 模式下是中心记录，每个账户可关联一个或多个联系人。",
+        "2cb2f91f87da7ff3ae1e33b0d69b49b276243bb2a9d38522afe553a4eeadbc9a.txt（Contacts）：联系人记录保存与该客户相关的交互历史，并可通过关系关联多个账户。",
+        "318d14efa9bc6e42fba5d633590b20a9f1dfaa216623366b8786c27c16c32229.txt（Sales Management）：Accounts 在 EspoCRM 中居中心角色，关联 Contacts、Opportunities、Cases、Documents，用户可订阅账户更新。",
+        "c660fb418d8f613e85c7b8fda81e5c33be23afdae6fc24d4bb40a6b95606f663.txt（Users management）与 a925d84aee53f101ee198c89cc759db65ba0c1630cf3ac49f039010414344cc4.txt（Role Management）：用户可属于多个团队并继承团队角色，记录访问按 scope 以 all/team/own/no 授予，支持 Assignment Permission 与字段级安全，覆盖负责与权限管理。",
+        "b260b6bd46b6bb661bf4a6b39a0b7cc836317b83ef5031a03667d417d5470e77.txt（仓库 metadata）：id 24459441、full_name espocrm/espocrm、fork=false；da1460df5d1ffeea7af3779a5d4f22797cae1b3c4d7660cb99dafacbdca2ceaa.txt（license API）：包含完整 AGPL-3.0 文本（LICENSE.txt，size 34522）；7e3594c47d68d8410dd68441df06cd897877b0da21ac479a237ea1a61f9ac6ed.txt（README）：声明 AGPLv3、自托管与 Docker 安装。"
+      ],
+      "gaps": "账户级活动时间线和账户负责人字段为间接证据，主要依赖联系人历史、账户关系及通用角色/团队权限文档；未验证官方云托管和付费扩展，社区版/自托管边界已在 research 记录中限定。"
+    },
+    "customer-portal": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:clinked"
+      ],
+      "basis": [
+        "84baffc74ac55ce0236e795db87b6f61b3184a8b8528ee007bf6e04461ba9dbf.txt（Clinked Client Portal）：说明 one portal per client、客户以 secure login credentials 进入专属空间，支持文件管理、电子签名/一键审批、项目管理、沟通、审计轨迹和访问权限控制。",
+        "f4d9e9754b8d972dcfdfe08c4df6836e9cca836bdbb66d27d4d080e5055764b1.txt（Clinked 首页）：白标品牌空间，面向 clients、teams、partners，含访问控制与加密说明。"
+      ],
+      "gaps": "未展示订单、账单、订阅、权益等记录类型；以服务型企业的文件、审批、项目空间满足客户门户的“客户自有记录 + 自助操作”核心；未登录测试。"
+    },
+    "partner-relationship-management-prm": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:impartner"
+      ],
+      "basis": [
+        "bc2ff698f473154bbc9e8707122db15b732738c1f34fffe2f918d566d6d1357a.txt（Impartner PRM 页）：覆盖伙伴生命周期/层级、交易注册与伙伴线索同步 CRM、供应商审批注册、联合销售、MDF、伙伴门户及伙伴/供应商/超大规模云市场工作流。",
+        "774382fdbe12af3f8bca8fd097785f167ab7dfa7f551fb72142a96fa3fbe4c65.txt（Impartner 首页）：定位为 partner ecosystem/PRM 平台，补充伙伴招募、赋能与渠道收入叙事。"
+      ],
+      "gaps": "伙伴门户的认证机制和伙伴用户角色未在快照中明确展开；以官方 PRM 页做基本类型匹配，未登录测试。"
+    }
+  },
+  "limits": "本次仅做只读快照核对：未运行 shell、未写文件、未读取其他单元，未登录任何产品租户或执行部署/运行时测试。商业条目以官方产品页/帮助文档核对基本真实性与核心类型，未验证价格、架构或全部工作流。EspoCRM 以 GitHub 仓库 metadata、license API 快照和 README 核对 AGPL-3.0 完整许可证及自托管/社区版边界，未验证官方云托管或付费扩展。部分 docs.espocrm.com URL 返回 404，research.json 已留档并用官方文档仓库 raw Markdown 替代；部分 research 额外 URL 无归档快照，未作为 batch 引用依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-046/ses_groveopencodegop046review2_1792988647.jsonl",
+  "batch_sha256": "e58a5c94bbf3dc8290ea7af7c9ed293919d3c1c67faef6dca78bb934708ff814",
+  "research_sha256": "30f7b39424d9b33974f3e8cc993e1c343a9eaf35e40754af0de11b37385e578b",
+  "input_sha256": "1c65f23cea06054bac2e2b0f7944b5f9947082d5bf1bdfb37a59ed11a7816c89"
+}

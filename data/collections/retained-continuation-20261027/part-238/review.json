@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "event-lead-retrieval：首页快照 d4af9582… 仍是 Nuxt 客户端壳，正文为空（仅有 meta/FAQ JSON-LD）；核心链路证据来自同一官方站点的 Markdown 正文快照 e77264f5…，两者 FAQ 互相印证，研究记录也如实写明了壳页与 _payload 为空的情况。建议保留这两份快照并在条目中注明“核心证据以 .md 正文为准”，以免后续误用首页壳。",
+    "event-lead-retrieval：EventGen 的 Excel 导出是展商跟进交付方式，属于定义性核心中的“交付”，而非 CRM 双向同步；条目没有把它说成自动进入主办方销售管道，边界表述准确。",
+    "event-management-platform：Indico 的 README 覆盖事件记录、注册表单、议程/摘要评审、徽章/票据与会议室预订；报名名单编辑、出席记录等管理细节未在 README 逐项展开，条目摘要也没有过度声称，属于可接受的范围收窄。",
+    "event-mobile-app：EventFahrplan 是白标构建模板（fork + product flavor + 日程 XML/JSON），并非托管式多租户应用；条目摘要已明确写成“模板/按活动构建发布”，案例对应发布后的活动实例，未把构建工具冒充成单一 SaaS 实例。",
+    "event-registration-platform：LibreRegistration 的 README 证实活动记录、公开免账号报名、后台名单、取消链接、CSV 导出与邮件通知；主办方直接编辑报名或现场签到未在来源中出现，条目未写入这些能力，仅保留“管理报名名单”的表述。",
+    "exhibitor-management：Eventyay Exhibition 的 README 与 urls.py 证实组织方参展商/赞助商控制台、公开目录、申请审核、访问密钥，以及绑定单个参展商记录的自助编辑、凭证与设备入口；任务、截止日期、文件交付等义务流程未获证实，研究记录已明确排除，条目也未声称具备，因此核心“双面界面”成立但义务闭环较薄。",
+    "exhibitor-management：该条目是依赖 eventyay 宿主的插件，而非独立部署应用；条目摘要与研究记录均标注了插件属性，并通过 urls.py 的路由清单补强功能证据，未夸大为独立平台。",
+    "许可证来源记录：Eventyay Exhibition 的 dev/LICENSE 与 EventFahrplan 的 LICENSE.txt 共用内容哈希 c71d239d… 的快照（均为 Apache-2.0 全文，内容去重）；README 另行声明“Released under the terms of the Apache License 2.0”。实质许可核对成立，但建议后续按仓库分别留存快照来源，便于审计文件身份。",
+    "EventFahrplan 的 homepage https://eventfahrplan.eu 未出现在本次所读快照中；仓库身份（91032869）与 README/README 徽章一致，主页仅作为项目站点，不影响类型与许可判断。",
+    "各叶均只收录一个案例，未做多案例覆盖或部署/运行时验证；本次初审按只读快照标准接受，不要求补测。"
+  ],
+  "leaf_checks": {
+    "event-lead-retrieval": {
+      "application_ids": [
+        "commercial:eventgen-lead-retrieval"
+      ],
+      "basis": "读取官方正文快照 e77264f5…（https://eventgen.ai/lead-retrieval-app.md）：设备激活（8 位码/链接）→ 手机相机/硬件扫描器/手工输入读取 EventGen 活动徽章 → 1–5 星评分、标签、备注即时记录 → 团队共享列表（All Team/Mine）、扫描者归属与排行榜 → 离线排队并在联网后同步 → 通过手机分享表导出 Excel。另有组织方控制参会者字段披露、按活动购买设备激活包，证明其为持续运营的展商侧捕获服务。首页快照 d4af9582… 为客户端壳，但 HTML 内 FAQ 与 .md 正文一致（仅适用于 EventGen 活动徽章）。",
+      "gaps": "未运行时验证；首页壳无渲染正文，核心依赖官方 .md 文档快照；未验证与其他注册商徽章的兼容性（来源明确不建议假设）。"
+    },
+    "event-management-platform": {
+      "application_ids": [
+        "github:2113067"
+      ],
+      "basis": "读取仓库元数据 0db045ac…（repository_id 2113067，非 fork，公开）、README 9e95fe69… 与 MIT 许可证全文 c8fb5198…。README 明确 Indico 为通用事件管理工具：事件层级内容管理、会议组织工作流（Call for Abstracts/摘要评审、可配置注册表单、支付集成、论文评审、拖拽式日程、参与者徽章/票据打印）、会议管理与会议室预订，符合事件记录—报名界面—参与者记录—组织方管理的定义核心；自托管 Web 应用为持续软件形态，整仓 MIT，无社区版/商业版切分。",
+      "gaps": "README 未逐项展示报名名单编辑、容量/候补、签到与收尾等管理细节；未运行时验证；未核对独立商业托管版（不要求）。"
+    },
+    "event-mobile-app": {
+      "application_ids": [
+        "github:91032869"
+      ],
+      "basis": "读取仓库元数据 43fe04cf…（repository_id 91032869，非 fork）、README 4c277d52… 与 Apache-2.0 全文 c71d239d…。README 说明其为开源 Android 白标日程应用：组织方 fork、按活动新增 product flavor、配置 SCHEDULE_URL/applicationId/品牌后构建并发布到 F-Droid/Google Play；参会者离线查看日程网格、讲者/房间/场次详情、搜索、收藏、提醒、日历、分享、变更追踪与反馈，符合“活动绑定容器 + 组织方编写内容 + 参会者伴侣使用”。",
+      "gaps": "案例是构建模板而非托管式单活动应用，条目已如实标注；地图/社交/直播等未在来源确认，未写入；未验证实际发布实例（仅 README 列举 CCC/FOSDEM 等）。"
+    },
+    "event-registration-platform": {
+      "application_ids": [
+        "github:1164235143"
+      ],
+      "basis": "读取仓库元数据 26a3b007…（repository_id 1164235143，非 fork）、README c0f71ccf… 与 Apache-2.0 全文 709de33f…（Copyright 2025 Toulibre）。README 明确其为轻量自托管活动注册平台：创建/编辑/复制活动，参会者经公开表单报名且无需账号，后台报名名单页、每报名唯一取消链接、CSV 导出、可选 SMTP 确认/取消邮件，SQLite/PostgreSQL 与 Docker 部署。符合活动作为报名邀约、平台中介报名生成报名者记录、受管理名单三项核心；免费报名、无票务库存与条目/service_boundary 一致。",
+      "gaps": "主办方直接编辑报名、容量/候补、签到等未在 README 出现；未验证名单页的编辑能力；运行时未测试。"
+    },
+    "exhibitor-management": {
+      "application_ids": [
+        "github:111919967"
+      ],
+      "basis": "读取仓库元数据 c12cd3d3…（repository_id 111919967，非 fork，默认 dev）、README 9177e81f…、路由清单 9918f8ac… 与 Apache-2.0 全文（共享快照 c71d239d…，README 声明 Apache-2.0）。README 与 urls.py 证实：组织方参展商/赞助商/合作伙伴/展位/赞助组管理，公开参展商列表与详情页，公开参展申请、自定义问题与 submitted/accepted/rejected/withdrawn/draft 审核状态，访问密钥、邀请、参展商自助编辑（my_exhibitions.edit）、凭证与设备管理，以及线索创建/检索/更新与标签 API（API 面向外部扫描应用，未当作独立线索获取案例）。组织方控制台 + 绑定单个参展商记录的自助入口构成该叶的双面核心；插件属性与“不含展厅平面图/展位级库存”的边界已如实记录。",
+      "gaps": "任务、截止日期、文件交付等义务闭环未在来源确认，条目未声称；插件依赖 eventyay 宿主，非独立部署；未运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、research.json 及 REVIEW_SOURCES.json 所列 14 个快照文件，未运行 shell、未写文件、未访问其他单元或采集者历史脚本。所有快照按 REVIEW_SOURCES.json 的 path 原样读取，未做网络复核，因此无法验证快照之外的实时页面、EventFahrplan 项目主页、Eventyay dev/LICENSE 的逐仓库文件身份，也无法进行部署或运行时测试。GitHub 仓库页快照较大且部分行被读取工具截断，但 repository_id、公开/非 fork、默认分支与 README 正文等关键字段均已核对；EventGen 首页为客户端壳，核心判断依据其官方 Markdown 正文快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-238/ses_groveopencodegop238review2_1793035315.jsonl",
+  "batch_sha256": "a68de61d35351714e6969e0fa83e6889fdccb8c37cc8db58178803347b8c575e",
+  "research_sha256": "28b2c686a6cf616053d19deaa53688cbcbba6c2b1ef3bcd68a3a2872f7d7a7ba",
+  "input_sha256": "46b1fcc8fb805056a9803630adaa9e17c8a48e334e12015976d2d28e0ace3dc6"
+}

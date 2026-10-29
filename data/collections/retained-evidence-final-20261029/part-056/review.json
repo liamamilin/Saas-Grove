@@ -1,0 +1,34 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "font-editor / github:430681576：batch.features 写“经插件读写 .glyphs”，但 README 路线图中 .glyphs/.glyphspackage 的写入标注为 “✅ (partial, via fontra-glyphs)”，读取才是完整支持。建议在 features 中补一句“写入为部分支持”，避免读者把 .glyphs 往返能力理解为与 .designspace/.ufo 同等完整。",
+    "font-editor / github:430681576：README 首句明确 Fontra 是 “in-development browser-based font editor”，摘要已标注“（开发中）”，此点处理得当；但“新建字体项目”“导出 .ttf/.otf”均标注为经 Fontra Pak 实现，“多用户 + 数据库存储”经 fontra-rcjk / django-robo-cjk 实现。这些能力分布在独立仓库，本次仅核对了 fontra/fontra 主仓的 GPL-3.0，未核对 fontra-pak、fontra-glyphs、fontra-rcjk、django-robo-cjk 的许可证；建议后续不要把附加仓库的许可一并默认为 GPL-3.0，或在条目中显式说明能力来源为独立组件。",
+    "font-editor / github:430681576：entry 未声称任何未实现项，与 README 路线图中未勾选项（列表式字体总览、字体级参考线、完整文字整形、RTL、竖排、批注协作、直接写 .ttf/.otf）一致，核对无冲突；后续编辑请保持这一克制，不要把路线图条目升级为现有功能。",
+    "font-editor：withheld_candidates 中 FontForge（github:5390156）按“未证明可持续使用的服务形态”保留为候选并写明理由，属如实留档；若目录口径后续允许本地桌面应用，可重新评估，但本单元不据此改判。",
+    "font-editor：research.json 如实记录了 raw LICENSE 直链 404 并改用 GitHub license API 的缺口，属可接受的留档；此类抓取缺口不阻断。"
+  ],
+  "leaf_checks": {
+    "font-editor": {
+      "slug": "font-editor",
+      "application_ids": [
+        "github:430681576"
+      ],
+      "status": "passed",
+      "definition_core": "满足。定义性核心为“字体项目 → 字形集 → 在字体几何面上编辑字形图形 → 编译为可安装字体文件”。README 显示以 .designspace/.ufo（及 .ttf/.otf 只读）为持久项目对象，Read/Write .designspace、.ufo 均标 ✅；字形编辑含移动点、钢笔工具、二次曲线、组件参数与分解、前进宽度/侧边距数值编辑、锚点、字形级参考线；字体级含字体信息、字距、OpenType 特性、变体轴与 avar/avar-2；字体总览为 cell-based；输出经 Fontra Pak “export as” 写 .ttf/.otf 与变量字体（✅），另有 fontra-compile 实验性导出。与 definition.dc 中的项目、字形集、字形（artwork + 前移宽度/边距）、字体几何面、生成字体文件五项一一对应，未用简介或元数据替代正文。",
+      "service_form": "满足。仓库元数据描述为 “A browser-based font editor”；README 明确由浏览器端 JavaScript 客户端 + Python 服务器两部分组成，服务器可本地运行或部署于远程机器，客户端与服务器经 WebSocket 传 JSON；`fontra --launch filesystem /path/to/a/folder` 后浏览器访问 localhost:8000 即进入编辑；Deployment 节记录经 fontra-rcjk、django-robo-cjk 在 NGINX 后做带数据库存储的多用户服务器部署（✅），形态为可自托管的完整 Web 应用，而非仅本地桌面客户端或纯静态前端。",
+      "identity_and_track": "满足。id github:430681576 与快照一致（full_name fontra/fontra、fork=false、private=false、archived=false）；homepage https://fontra.xyz 与元数据一致；track=open_source 与仓库性质、GPL-3.0 许可相符；name “Fontra”与仓库名一致，无错配或同名歧义。",
+      "license_and_community_boundary": "满足。license 快照为 GitHub /repos/fontra/fontra/license 返回的 LICENSE.txt：name=LICENSE.txt、path=LICENSE.txt、type=file、size=35149，content 为 base64 的 GPLv3 正文，解码首段即 “GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 / Copyright (C) 2007 Free Software Foundation, Inc.”；35149 字节与 GPLv3 标准全文长度一致。仓库元数据 license 字段 spdx_id=GPL-3.0、key=gpl-3.0，与 batch.license、license_evidence_url 相符。未发现 AGPL/LGPL/双许可或 open-core 商业版切分的迹象，社区可获取范围即该 GPL-3.0 主仓；尚未核对的是若干独立附加仓库（fontra-pak、fontra-glyphs、fontra-rcjk、django-robo-cjk）的许可证，已记入 non_blocking_notes。",
+      "summary_feature_accuracy": "基本准确，未发现阻断性失实。摘要“JavaScript 客户端 + Python 服务器、可本地或远程、读写 .designspace/.ufo、字形与字体级编辑、经 Fontra Pak 导出 .ttf/.otf”均可由 README 与元数据逐条对应；technology_stack 中 Python >= 3.11 与 README 要求一致。唯一轻微宽泛处为“读写 .glyphs”未标注写入仅部分支持，属非阻断措辞问题。",
+      "source_integrity": "三个快照均按 REVIEW_SOURCES.json 的 path 原样读取（data/collections/sources/ 下三份文件），文件名与声明的 sha256 完全一致；batch 中三条 sources 的 url/sha256/snapshot_path 与 REVIEW_SOURCES 一一对应，无缺项、无额外引用、无指向项目根 sources/ 的错误路径。research.json 记录的三条 URL 即这三份快照，另如实记录 raw LICENSE 直链 404 的抓取缺口。",
+      "gap_record": "研究记录对 FontForge（github:5390156）的形态不足理由、旧快照原样保留、未运行第三方程序等均有留档，未见以 HTTP 成功或元数据冒充核心工作流证据的写法；本叶无未解释的缺口。",
+      "blocking_issues": 0
+    }
+  },
+  "limits": "本次为只读桌面初审，仅使用读取/检索工具，未运行 shell、未写文件、未访问其他单元。快照按 REVIEW_SOURCES.json 声明的 path 原样读取，因无法执行命令，未重新计算 sha256，仅核对了文件名与声明哈希一致及内容与 URL 语义相符。GitHub 元数据与许可证快照为单行 JSON，工具预览有截断，许可正文仅完成 base64 头部（GPLv3 标题与版权行）、size=35149 与 API spdx_id 三重一致性核对，未逐字解码全文比对；许可结论仍属高置信但非逐字全文校验。未部署或运行 Fontra，未验证远程多用户部署与导出流程的实际可用性，未访问 fontra-pak、fontra-glyphs、fontra-rcjk、django-robo-cjk 等附加仓库，也未补采商业字体编辑器作类型对照（本单元亦无商业条目需求）。本单元仅一个叶子 font-editor，已全覆盖。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-056/ses_groveopendesignp056review1_1793171885.jsonl",
+  "batch_sha256": "72c6131944963a31d9f74949116e7b8cf8e5e1188b1dd8036fb48b8c46a297fe",
+  "research_sha256": "46b958c746c07502f99d224bb21d541d14b4d56fd87e7c52d981c17887caeccc",
+  "input_sha256": "2930e56cc94e285765d03c9973035e683e119336a253f4e8b657db89f2581f80"
+}

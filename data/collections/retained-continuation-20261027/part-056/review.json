@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "github:22257580（CourtListener）的 GitHub 许可证接口返回 NOASSERTION，但本地 LICENSE 快照中的完整文本明确为 AGPL v3 或任何更晚版本；条目已按 AGPL-3.0-or-later 记录并说明依据，无需改动。",
+    "commercial:westlaw 的官方页面是品牌落地页，未逐项列出判例、法规和二次资料的可检索范围；但页面正文已明确 legal research tools、KeyCite Overruling Risk、法规版本对比及 Practical Law 指南/模板/清单，足以支持商业条目的基本类型匹配。",
+    "commercial:luminance 的页面为 Framer 长行 HTML，快照可读性较弱；结合同 URL 的只读产品页正文可确认 contract portfolio、source-backed answers、风险/义务/续约/商业机会等表述。条目已避免扩写条款抽取管线或完整 CLM，边界说明合适。",
+    "commercial:dealroom 整体定位为 M&A Operating System，尽调是 Diligence 模块而非独立产品；当前条目已明确按模块级匹配，并以请求项、答复、尽调工作区和进度报告为证据，未把 VDR 或交易管道当作尽调核心。若后续加强证据，可优先补 /product/diligence 页面，但不影响本次通过。",
+    "research.json 中 0c180b… 的 Free Law Project 引文文档快照未登记为 batch 条目来源，采集记录已说明其主机不在允许来源范围、仅作旁证；该留档方式透明，未造成来源冒充。",
+    "input.json 的 progress 仍显示 case_status 为 not_searched、case_ids 为空，与 batch.json/research.json 的 case_found 状态不一致；若下游仍读取 progress 字段，建议同步元数据，但不影响本次内容审查结论。",
+    "本轮未运行或部署任何应用，也未重新计算快照 sha256；开源条目的结论基于官方仓库源码、官方文档正文和完整许可证文本，商业条目的结论基于官方产品页正文。"
+  ],
+  "leaf_checks": {
+    "case-law-research-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:22257580"
+      ],
+      "basis": "CourtListener 官方仓库元数据确认仓库身份；cl/search/models.py 定义 Docket、OpinionCluster、Opinion，并提供 SearchQuery（Elasticsearch/Solr、keyword/semantic），支撑判决语料与检索；OpinionsCited 定义 citing_opinion/cited_opinion、depth 及双向 related_name，支撑引文关系图。官方 API 索引含 opinions、opinions-cited 端点；cl/citations/models.py 另记录未匹配引文的解析状态。",
+      "gaps": "未运行或部署 CourtListener；未主张 treatment/citator 判断。0c180b 官方引文文档快照为辅助旁证，未登记为条目来源，已在 research.json 说明。许可证为完整 AGPL-3.0-or-later 文本，社区核心边界清楚。"
+    },
+    "legal-document-automation": {
+      "status": "pass",
+      "application_ids": [
+        "github:34148903"
+      ],
+      "basis": "Docassemble 官方文档说明 interview 是 YAML 文件，用户答案存入变量，并可根据先前答案决定后续问题与顺序；可嵌入 Python 逻辑。documents 页说明 DOCX 模板加 Jinja2 变量、Markdown 以及 PDF 表单填充均可生成文档，输出 PDF/RTF/DOCX。对应“逻辑模板 + 采集数据 → 自动组装 → 完成文档”的定义性核心。",
+      "gaps": "未运行部署；README 本身信息很少，但官方 interviews/documents 文档正文已补足核心。许可证快照为完整 MIT 文本，社区版边界为完整可自托管开源应用。"
+    },
+    "legal-research-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:westlaw"
+      ],
+      "basis": "Westlaw 官方产品页正文列出 legal research tools、KeyCite Overruling Risk、任意两个版本的 statute/regulation 对比，以及 Practical Law 的 how-to guides、templates、checklists；可支撑多内容家族加专业检索的商业法律研究平台类型。",
+      "gaps": "商业条目仅按基本真实性和类型匹配核对，未验证订阅价格、架构或实际检索界面；官方页面为营销落地页，未逐一展开各内容家族覆盖范围，但不构成阻断。"
+    },
+    "contract-analytics-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:luminance"
+      ],
+      "basis": "Luminance 官方产品页正文写明将 contract portfolio 转为可行动情报，可对合同组合提问并获得 source-backed answers，呈现风险、义务、续约与商业机会，并分析跨行业、司法辖区的整个合同组合；llms.txt 亦概述其为 Contract Intelligence 平台。符合商业合同分析/合同智能平台的基本类型匹配。",
+      "gaps": "商业条目未要求验证完整抽取管线；条目已明确不扩写合同导入、条款抽取管线或完整 CLM。页面为 Framer 长行快照，正文可读性较弱，但关键表述可在快照及同 URL 只读正文中核对。"
+    },
+    "due-diligence-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:dealroom"
+      ],
+      "basis": "DealRoom 官方首页 JSON-LD 与正文展示 Due Diligence Management、Collaborative Q&A、Diligence 模块、尽调请求列表、请求项答复、尽调工作区与交易进度报告，并有 140+ diligence requests 的客户案例；足以支持商业尽调模块的基本类型匹配。",
+      "gaps": "产品整体是更宽的 M&A Operating System，尽调为 Diligence 模块；条目已明确按模块级匹配，未把 VDR 或交易管道当作尽调核心。未运行部署，未核价。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行或部署任何应用，未执行 shell，未写入文件；以上结论以 REVIEW_SOURCES.json 指定的本地快照、batch.json、research.json 及同 URL 只读官方页面正文为依据，未重新计算快照 sha256。Framer/Webflow 长行 HTML 只能按关键词和片段核对，已结合同 URL 只读正文定位语义；未额外开展价格、架构或未登记来源研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-056/ses_groveopencodegop056review2_1792991062.jsonl",
+  "batch_sha256": "4c60a1265f5fe9284c7bba9aaa858a9cd4b5ec0b6fed6fb8f0da874070150a72",
+  "research_sha256": "7155d6db22ea8176d95348b5e2f2dea0d7848c78c055f33d9973be1128f4b60c",
+  "input_sha256": "e553bdc2cb3e4324bf915bcf7aa058a03c18b195e7ccdbf5ed99c07b9c58c84e"
+}

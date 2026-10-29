@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 31,
+  "offset": 750,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "reliability-management",
+        "name_zh": "可靠性管理 (Reliability Management)",
+        "domain_id": "16",
+        "parent_id": "16.05",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/657",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "websearch: open source reliability management software FMEA RCM GitHub application; GitHub repo search: open-fmea; Isograph RCMCost official page"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "reliability-management",
+        "name": "Reliability Management",
+        "name_zh": "可靠性管理 (Reliability Management)",
+        "aliases_zh": [
+          "可靠性工程",
+          "设备可靠性管理",
+          "资产可靠性管理"
+        ],
+        "overview": "A **Reliability Management** application is the reliability engineer's system for an operating equipment population: it holds what is known about **how the organization's equipment fails**, makes that failure knowledge analyzable and comparable, and turns it into **justified maintenance strategies** that are deployed to the maintenance program and revised as new failure experience arrives.\n\nIt exists because asset-intensive operations (refineries, plants, mines, utilities, fleets) cannot decide maintenance by intuition: what to maintain, by which task, how often, and at what cost versus risk are engineering decisions that must be traceable to failure modes and defensible against cost, safety, and operational consequences.\n\nThe defining structure is small:\n\n```text\nEquipment / Function / Failure-mode record\n└── Failure evaluation (criticality · consequence · failure behavior · cost/risk)\n    └── Maintenance strategy decisions (task · interval · justification)\n        └── Deployment into the maintenance program\n            └── Revision as new failure data and operating context arrive\n```\n\nThe boundary matters as much as the core: this application does not execute maintenance work (that is the maintenance/asset-management system's job), does not measure production output (that is an equipment-effectiveness system's job), and does not plan product durability tests (that is a product-test system's job). It is the failure-and-strategy discipline that sits between the equipment's failure history and the maintenance program that responds to it.",
+        "overview_zh": "**可靠性管理**应用程序是可靠性工程师用于在役设备群体的系统：它存储关于**组织设备如何失效**的已知信息，使这些失效知识变得可分析、可比较，并将其转化为**有据可查的维护策略**，这些策略被部署到维护计划中，并在新的失效经验到来时进行修订。\n\n它之所以存在，是因为资产密集型运营（炼油厂、工厂、矿山、公用事业、车队）不能凭直觉决定维护：维护什么、执行何种任务、以何种频率、以及在成本与风险之间如何权衡，都是必须可追溯至失效模式并能经受住成本、安全和运营后果考验的工程决策。\n\n其核心结构很简单：\n\n```text\n设备 / 功能 / 失效模式记录\n└── 失效评估（严重性 · 后果 · 失效行为 · 成本/风险）\n    └── 维护策略决策（任务 · 周期 · 依据）\n        └── 部署到维护计划中\n            └── 随着新失效数据和运行环境变化进行修订\n```\n\n边界与核心同样重要：此应用程序不执行维护工作（那是维护/资产管理系统的工作），不衡量生产输出（那是设备效率系统的工作），也不规划产品耐久性测试（那是产品测试系统的工作）。它是介于设备的失效历史与响应它的维护计划之间的失效与策略学科。",
+        "dc": "**Equipment failure knowledge of record.** The system holds persistent, structured records of how identified equipment fails. Equipment is organized in a hierarchy (unit → system → equipment class → component-class level), each carrying its **functions** and the **failure modes** by which those functions are lost. Two kinds of content feed this record, and mature products usually hold both:\n\n- *failure-mode analyses* — authored engineering entries (FMEA/FMECA/RCM-style): for each function, the ways it can fail, the local and system effects, the causes, and the consequence class\n- *failure experience* — recorded failure events, breakdowns, inspection findings, and repair history, typically imported from the maintenance/asset-management system rather than captured from scratch\n\nThe failure-mode entry — not the work order, not the asset record — is the anchor object. A failure event is valuable here because it can be attributed to a failure mode; an asset record is valuable because failure modes attach to it.\n\n**Failure evaluation.** The failure knowledge is analyzed so failure modes can be compared and prioritized. The analytical depth varies widely by product and by customer maturity, and that depth is not what defines the Type:\n\n- at the judgment end: criticality and consequence ranking by engineering assessment\n- in the middle: failure-rate and life-data analysis (distributions fitted to failure times, mean-time metrics), cost-of-failure aggregation, worst-actor identification\n- at the deep end: availability simulation of the plant model, quantitative probability-of-failure and consequence-of-failure risk models\n\n**The maintenance strategy loop.** Evaluation resolves into **strategy decisions held as managed, revisable artifacts**: for each significant failure mode, which maintenance task (on-condition inspection, restoration, replacement, redesign, or a documented decision to run-to-failure), at what interval or condition trigger, justified against cost, safety, environmental, and operational consequences. Strategies are commonly built per equipment type and reused across sites through libraries or equipment knowledge bases. The loop closes in two directions: strategies are **deployed** outward into the maintenance program (typically as master data and task plans consumable by the EAM/CMMS), and **revised** inward as new failure data, inspection results, and operating-context changes accumulate — a living strategy, governed by review and approval where the organization requires it.",
+        "dc_zh": "**设备故障知识记录。** 系统维护着关于已识别设备如何发生故障的、持久且结构化的记录。设备按照层次结构（单元 → 系统 → 设备类 → 部件类）进行组织，每一层都承载其**功能**以及导致这些功能丧失的**故障模式**。两类内容充实此记录，成熟产品通常两者兼备：\n\n- *故障模式分析* — 由工程师编写的条目（如FMEA/FMECA/RCM风格）：针对每项功能，列出其可能失效的方式、局部和系统性影响、原因以及后果等级。\n- *故障经验* — 记录的故障事件、停机、检查发现和维修历史，通常从维护/资产管理系统中导入，而非从零开始捕获。\n\n故障模式条目——而非工单，也非资产记录——是锚定对象。故障事件在此处具有价值，因为它可归因于某个故障模式；资产记录则具有价值，因为故障模式依附其上。\n\n**故障评估。** 对故障知识进行分析，以便对故障模式进行比较和优先级排序。分析深度因产品和客户成熟度而异，该深度并非定义此类型的核心：\n\n- 在判断端：基于工程评估的关键性和后果排序。\n- 在中间层：故障率及寿命数据分析（分布...）。",
+        "rules": "- **Strategy decisions must trace to failure modes.** A task exists because a specific failure mode on a specific function justifies it. Strategies detached from failure knowledge are not this discipline's output.\n- **Consequence, not just likelihood, drives task selection.** The same failure mode can warrant different tasks depending on safety, environmental, operational, and cost consequences — and some failure modes are deliberately left to run to failure, as a recorded decision rather than an omission.\n- **The strategy is living.** Strategies are revised when new failure data, inspection findings, or operating-context changes arrive. Products differ in how much of this revision is workflow-governed, but the revision expectation itself is structural.\n- **Failure experience is usually borrowed, not captured.** In mature deployments the maintenance/asset-management system remains the system of record for work and often for failure events; the reliability system holds the failure-mode interpretation of that experience.\n- **Standards shape the record, not the record structure.** Industry frameworks (RCM process standards in general industry, aviation maintenance-program methodology, fixed-equipment inspection frameworks) shape worksheets, decision diagrams, and reports; products adapt to several of them simultaneously through configurable templates.",
+        "rules_zh": "- **策略决策必须追溯至失效模式。** 任务的存在是因为特定功能上的特定失效模式需要它。脱离失效知识的策略不属于本学科的输出。\n- **选择任务的依据是后果，而不仅仅是可能性。** 同一个失效模式，根据其对安全、环境、运营和成本的影响，可能需要不同的任务；而有些失效模式则被刻意决定任其失效发生，这是一种有记录的选择，而非疏忽。\n- **策略是动态的。** 当新的失效数据、检查发现或运行环境变化到来时，策略会被修订。不同产品在多少修订量需经工作流管理方面存在差异，但修订的预期本身是结构性的。\n- **失效经验通常是借鉴而来，而非直接捕获。** 在成熟部署中，维护/资产管理系统仍是工作和失效事件的记录系统；可靠性系统则持有对该经验的失效模式解释。\n- **标准塑造记录内容，而非记录结构。** 行业框架（如通用行业的 RCM 过程标准、航空维修方案方法、固定设备检查框架）塑造了工作表、决策图和报告；产品通过可配置模板同时适配多个此类标准。",
+        "parent_id": "16.05",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 144,
+    "phase": "directory",
+    "parent": 144,
+    "slugs": [
+      "reliability-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "ebab871bc67afc13a8a5b840ad04aec9294a58d5f3e4eb3cfaf86a65d820af4a"
+  }
+}

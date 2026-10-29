@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空、phase=included_without_cases，与 batch.json/research.json 已记录的 5 个 case_found 不一致；属于元数据同步问题，不影响本次内容核对，建议回写。",
+    "CiviCRM 同时用于 donor-management-system、fundraising-management-platform、nonprofit-case-management 三个叶子，属于同一应用的窄范围模块匹配；其产品整体仍是广义非营利 CRM，现有 service_boundary 已如实收窄。",
+    "CiviCRM 案例管理页展示案例、分配、可定制多阶段工作流和互动记录，但未直接展示结案/退出的明确状态；research.json 已记录生命周期末端证据偏薄，建议后续补充结案状态来源。",
+    "MONIC 的进展报告循环主要由 PDFReports.cs 报告基类及仓库报告模块支撑，首页正文未展开面向资助方/管理层的进度报告细节；research.json 已记录该缺口。",
+    "Navari 的申请/决策状态使用 ERPNext 核心 Grant Application doctype，而非 Navari 自有同名 doctype；这是已披露的依赖关系，不影响资助管理类型匹配。",
+    "Navari README 安装命令仍写旧仓库名 navari_grant_management_system；research.json 已记录旧地址与 navari_gms 同 id 的核对结果，属于文档清洁问题。",
+    "CiviCRM 页面导航出现 Spark/Cloud 商业托管入口，MONIC 提供商业托管/支持；核心仓库均为 AGPL-3.0，未发现功能阉割的社区版边界证据。"
+  ],
+  "leaf_checks": {
+    "donor-management-system": {
+      "application_id": "github:8495499",
+      "application_name": "CiviCRM",
+      "track": "open_source",
+      "license_check": "LICENSE 快照为完整 GNU AGPL v3 文本；仓库 id 8495499 与 github:8495499 一致；README 声明 AGPL 3。",
+      "core_evidence": "contact-management 正文说明非营利组织维护捐赠者、志愿者、会员等联系人记录，跟踪 giving history、互动和细分；contribution-pages 正文说明记录捐赠/实物贡献、致谢和结果报告。",
+      "service_form": "自托管开源 Web 应用，可运行于 Backdrop/Drupal/Joomla/WordPress 或独立 PHP 环境。",
+      "boundary": "CiviCRM 是较广的非营利 CRM；本条只取组织方联系人/捐赠者记录与关系维护，在线捐赠界面仅作补充。",
+      "result": "通过：成员记录、归属捐赠、累计历史和关系维护核心均有正文支撑。"
+    },
+    "fundraising-management-platform": {
+      "application_id": "github:8495499",
+      "application_name": "CiviCRM",
+      "track": "open_source",
+      "license_check": "LICENSE 快照为完整 GNU AGPL v3 文本；仓库 id 8495499 与 github:8495499 一致。",
+      "core_evidence": "contribution-pages 正文说明可创建并运行募款 campaign、设置目标和信息、配置捐赠选项，并用报表/仪表板跟踪募款结果；events 正文说明活动页、在线注册和票务/定价；peer-to-peer 正文说明支持者自建个性化募款页面并跟踪目标进度。",
+      "service_form": "自托管开源 Web 应用，提供组织方运营的 campaign、event 和 peer-to-peer 募款界面。",
+      "boundary": "CiviCRM 不是专用筹款平台；本条只取组织运行的 campaign/event/peer-to-peer 组件，长期捐赠者关系库归相邻的捐赠管理叶。",
+      "result": "通过：倡议容器、捐赠者捕获界面、交易记录和计划级跟踪均有正文支撑。"
+    },
+    "grantmaking-platform": {
+      "application_id": "github:557508553",
+      "application_name": "Navari Grants Management",
+      "track": "open_source",
+      "license_check": "LICENSE.md 快照为完整 GNU GPL v3 文本；仓库 id 557508553 与 github:557508553 一致；README 声明 GPL v3。",
+      "core_evidence": "Grant Programme 记录计划名称/说明；Grant Call 记录类型、所属计划、优先领域、学科、开放/截止日期、申请/报告参数、报告频率和发布状态；Grant Call 页面在开放期提供 Apply Now 链接到 Grant Application；Grant Review Assignment 与 Grant Application Review 记录评审分配、评分项和分数上限；ERPNext Grant Application 提供 Approved/Rejected 等状态；Grant Project 关联申请/征集并记录受助机构、预算、起止日期和 Open/Completed 等状态；Grant Disbursement Entry 与 Grant Project Disbursement 记录拨款日期/金额；Grant Project Report 记录活动、报告项和预算更新。",
+      "service_form": "基于 ERPNext/Frappe 的自托管 Web 应用，依赖 ERPNext Grant Application 等核心 doctype。",
+      "boundary": "资助方侧管理计划、外部申请、评审决策和授予后执行；申请方项目管理系统和临时捐赠台账不属于此类型。",
+      "result": "通过：计划→申请→决策→资助→执行/报告链路有代码字段和页面证据。"
+    },
+    "monitoring-evaluation-platform": {
+      "application_id": "github:641978792",
+      "application_name": "MONIC",
+      "track": "open_source",
+      "license_check": "LICENSE.txt 快照为完整 GNU AGPL v3 文本；仓库 id 641978792 与 github:641978792 一致；README 声明 AGPL v3。",
+      "core_evidence": "官方项目页正文说明 monitoring 组件支持分布式数据采集、按时间和实体层级自动聚合、复合指标计算；Theory of Change 和 Logical Framework 正文说明活动/产出/成果/目标与指标关联；数据录入页面说明按权限采集指标数据；PDFReports.cs 提供 PDF 报告文档与图表输出基类，仓库文件树含报告相关模块。",
+      "service_form": "自托管 .NET/SQL Server 应用，README 说明需 Visual Studio、Node.js、SQL Server；官网说明通常用 Azure 托管实例。",
+      "boundary": "以受资助项目的成果框架、指标实际值和周期进展汇总为中心；单纯移动数据采集或通用项目管理不属于此类型。",
+      "result": "通过：成果框架、指标实际值和报告/聚合核心有正文与代码支撑；面向资助方的进度报告细节偏薄，见非阻断说明。"
+    },
+    "nonprofit-case-management": {
+      "application_id": "github:8495499",
+      "application_name": "CiviCRM",
+      "track": "open_source",
+      "license_check": "LICENSE 快照为完整 GNU AGPL v3 文本；仓库 id 8495499 与 github:8495499 一致。",
+      "core_evidence": "case-management 正文说明非营利组织为个人/家庭建立案例，将案例分配给员工或志愿者，定制并跟踪多步骤工作流（阶段、任务、活动），记录电话/邮件/会议等互动并保留完整历史，设置提醒和后续任务。",
+      "service_form": "自托管开源 Web 应用，CiviCase 作为 CiviCRM 组件提供个案管理。",
+      "boundary": "面向非营利/社区服务机构的个案与服务记录；受益人群登记、政府法定个案或临床医疗系统属于相邻类型。",
+      "result": "通过：客户/案例/个案工作者、文档化个案记录和分阶段生命周期核心有正文支撑；结案/退出状态未直接展示，见非阻断说明。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未部署或运行任何应用；仅读取本单元 REVIEW_SOURCES.json 所列快照及 input.json、batch.json、research.json。CiviCRM 快照含大量导航/营销 HTML，结论基于正文段落；MONIC 报告模块和 CiviCRM 结案状态未在正文中充分展开。未核验实时站点、价格、商业版功能分层或运行时行为；未读取未引用快照或其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-088/ses_groveopencodegop088review2_1792997968.jsonl",
+  "batch_sha256": "3aae3dad0211d079eeff3803751dd868f7dc9c5d4c1617cf7a0a2cc77853e824",
+  "research_sha256": "c5171e14daa45a0a387be8a8348aba351196dfec25a28803c9d492032f48e978",
+  "input_sha256": "80d0c1ab90ab0e87ce12fb71a45e84d411bee7f25364b49b2bb8484f469300d1"
+}

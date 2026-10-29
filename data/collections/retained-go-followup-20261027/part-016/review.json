@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 元数据未同步：五个叶子仍为 application_ids: []、case_status: review_pending，并保留 collector_draft_unapproved 说明；而 data/collections/research.json 与 batch.json 已记录 case_found 和具体 application_id。发布前应统一 progress 元数据，本次内容核对未受此影响。",
+    "input.json 中部分中文定义字段在句子中途截断，例如 harvest-management、nutrient-management、orchard-management、seed-production-management 的 dc_zh/rules_zh；英文定义完整且已用于本次核对，建议发布前补齐中文文本。",
+    "commercial:croptracker 同时匹配 harvest-management 与 orchard-management，batch.json 以单条目、两个 leaf_matches 表达；下游使用方需支持一个应用对应多个叶子。",
+    "orchard-management 的 Croptracker 官方页面支持 block/location 采收、喷雾、修剪/疏果及田地测绘，但未明确展示树级完成状态或跨年逐年图表；research.json 已避免这些断言。若叶子完整核心要求跨年绩效历史，建议补充更直接的来源。",
+    "nursery-management 的 Mprise 页面支持批次、ATS、生产与空间计划、当前及未来可用量，但未明确展示繁殖、换盆、分级、损耗事件；批次摘要未超出页面正文断言，属可接受的商业类型匹配。",
+    "seed-production-management 的 Primetics 页面支持种子批次、stock/parent seed 批号、田间检查、子批次质量、接收、加工和追溯，但未明确展示代数等级、隔离距离/前茬约束或认证放行规则；research.json 已避免这些断言。",
+    "营养管理公开实例 https://nmp.apps.nrs.gov.bc.ca/ 在 research.json/deployment 中被引用，但 REVIEW_SOURCES.json 未保留其快照；核心结论依赖 BC 官方文档与仓库快照，部署断言仅有抓取记录，建议补一份快照或明确其为留档缺口。",
+    "batch.json 的 batch_id 为 beam-cont-20261025-u192，而 input.json 的 continuation.unit 为 16、parent 为 192；批次来源元数据与当前修复单元编号存在差异，合并前建议核对批次归属。",
+    "Mprise 与 Primetics 为 Business Central/ERP 型商业产品，价格、云/本地部署架构和客户规模未核实；这与任务允许的范围一致，不影响基本类型匹配。",
+    "bcgov/agri-nmp 为单一 Apache-2.0 代码库，未见社区版/企业版拆分；公开 Web 实例是同一应用的托管部署，不构成独立社区版边界。"
+  ],
+  "leaf_checks": {
+    "harvest-management": {
+      "application_ids": [
+        "commercial:croptracker"
+      ],
+      "status": "pass",
+      "basis": "读取 Croptracker Harvest Management 官方快照正文：以 harvest events 记录采摘，tags 现场扫描或打印，按 block/variety/row 实时汇总产量，bin tag 转为关联 block 与 picker 的数字库存，并覆盖 field packing、bin QC、piece-rate labor、lot code 追溯、receiving/storage/dock handoff 及离线移动使用。符合收获事件、已计入收获库存与季节级汇总核对的收获管理核心；commercial:croptracker 的 ID 与 commercial track 一致，属于持续使用的模块化商业软件服务。",
+      "gaps": "页面未单独展示 season campaign 关账/结算模块；research.json 已记录该缺口，batch.json 也未声称存在独立关账模块。"
+    },
+    "nursery-management": {
+      "application_ids": [
+        "commercial:mprise-agriware-nursery"
+      ],
+      "status": "pass",
+      "basis": "读取 Mprise Agriware Plant Nursery Management 官方快照正文：crop and batch management、available-to-sell (ATS) inventory、production and space planning、mobile operations、integrated sales and shipping；批次携带 locations、sizes、varieties、qualities、availability，并按当前与未来库存支持销售、预留、移动和生产协同。符合苗圃活体批次与可用性核心，属于商业苗圃管理软件服务；application_id 与 commercial track 一致。",
+      "gaps": "页面未明确展示繁殖、换盆、分级、损耗等批次生长事件细节；research.json 已说明不写入未核对行为，batch.json 摘要也未超出页面正文。"
+    },
+    "nutrient-management": {
+      "application_ids": [
+        "github:97992523"
+      ],
+      "status": "pass",
+      "basis": "读取 GitHub 仓库元数据（bcgov/agri-nmp，repository id 97992523）、Readme（.NET Core 7 + PostgreSQL，可本地自托管）、完整 Apache-2.0 LICENSE 快照，以及 BC 官方 Nutrient application plans、Calculator、Support 三份文档。NAP 页明确按田块输入 location/crop/soil test 确定作物养分需求，使用 nutrient balances 与 nutrient application tools 确定速率/来源/时机/方法，并在 Field Summary 生成 NAP 摘要报告；Support 页确认 .nmp 保存/加载及自定义作物/投入。符合田块养分计划、供应—需求匹配与计划施用的养分管理核心。仓库身份、Apache-2.0 完整许可证和开源边界均已核对；另有官方公开 Web 实例，属于可自托管的开源 Web 应用。",
+      "gaps": "公开实例 https://nmp.apps.nrs.gov.bc.ca/ 未保留独立快照；实际施用记录、多年轮作、法规报告模板、顾问多客户权限未核实；计算器当前不支持 tree fruit、wine grapes、nuts、berries。上述缺口已在 research.json 如实记录，且 batch.json 未作超出来源的断言。",
+      "license": "Apache-2.0",
+      "repository_id": 97992523
+    },
+    "orchard-management": {
+      "application_ids": [
+        "commercial:croptracker"
+      ],
+      "status": "pass",
+      "basis": "读取 Croptracker Orchard Management 官方快照正文：面向 tree fruit/nut growers，提供 field mapping and planting（field/row boundaries、replant 与 rotation records）、spray/fertilizer records 及 re-entry/pre-harvest intervals、pruning/mowing/thinning 等生产实践（可到 row），并将 location/picker 与采收库存关联、按季节和 block/commodity 查看表现。符合持久果园种植资产、周期养护作业与收获归集的果园管理核心；commercial:croptracker 的 ID 与 commercial track 一致。",
+      "gaps": "页面未明确展示树级完成状态和跨年逐年绩效图表；research.json 已记录该缺口并避免相关断言。该页为官方功能页，而不是独立的深度工作流文档，但正文足以支持基本类型匹配。"
+    },
+    "seed-production-management": {
+      "application_ids": [
+        "commercial:primetics-generation"
+      ],
+      "status": "pass",
+      "basis": "读取 Primetics Generation 与 Seed Production Management 官方快照正文：Generation 页覆盖 contract seed production（stock seed、field history、field inspection、sub lot/bin tracking、seed quality）、receipting 更新实际产量与库存、seed processing/conditioning（cleaning、treating、packing、blending、grading）、lot traceability/provenance，以及 grower vouchers/dockage/deductions；Seed Production 专页进一步覆盖生产合同、farm/field 历史、stock/parent seed 批号、field reports、sub lot/bin 质量样品、receipt/scale tickets/intake/splits 和 payment vouchers。符合种子批次身份、质量结果与追溯的种子生产管理核心；commercial:primetics-generation 的 ID 与 commercial track 一致。",
+      "gaps": "页面未明确展示代数等级、隔离距离/前茬规划约束和认证放行规则；research.json 已如实记录并避免这些断言。价格、部署架构和认证机构集成未核实。"
+    }
+  },
+  "limits": "本次为 2026-10-27 的只读案头初审，仅使用 input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列路径的快照；未运行产品或 shell，未写文件，未读取其他单元，也未做价格、部署架构、客户规模或法律意见核验。Mprise 与 Primetics 快照为压缩/单行 HTML，读取工具对超长行会截断，核心断言结合可读正文片段与对应官方页面正文核对；Croptracker 与 BC 文档快照可按行读取。未能实测树级完成状态、跨年报表、代数/隔离/认证规则、批次拆分合并与损耗事件，也未实测营养管理公开实例；这些缺口已在 research.json 或上述 leaf_checks 中列明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-016/ses_groveopencodegop016review2_1793076264.jsonl",
+  "batch_sha256": "f9c0d515baa4cd4b2f60bd0b2b170743a72f3e75610156262c24682cc66f4f00",
+  "research_sha256": "2eebe637aaee84f3b68b87d7e903b488765fe2d9541c24f5aa763b76b8910700",
+  "input_sha256": "ea2a3e565f5c5e445a73924ff2fa928693db80970eea366ccda06f0ad80d7d2a"
+}

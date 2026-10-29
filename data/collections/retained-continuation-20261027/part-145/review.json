@@ -1,0 +1,27 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Vaultwarden 的 README 主要证明其 Bitwarden 兼容服务端、Personal Vault、组织/集合共享、附件/Send、MFA、紧急访问及官方客户端接入；未逐字说明零知识加密、主密码解锁和自动填充实现。类型判断依赖 Bitwarden 客户端与内置 Web Vault 的产品结构，建议后续补充安全模型/加密说明链接，但不影响本次通过。",
+    "RITA 是导入 Zeek 日志的流量分析框架，README 展示信标、长连接、DNS 隧道、威胁情报检测及搜索/TUI/CSV 调查视图；其自身不采集在线流量、不做阻断，响应需外部执行点。作为日志型、分析型 NDR 可以成立，但建议在条目中明确“log-based / analysis-only”边界。",
+    "dmarc-service 更偏 DMARC/TLS-RPT 报告收集、解析与查看，并通过生成和实时校验 DNS 记录辅助策略发布；快照未明确展示 monitor→quarantine→reject 的策略编辑器或 DKIM 记录管理。核心报告循环与发送源证据充分，策略推进部分属于能力边界说明。",
+    "GitGuardian 官方修复文档把安全存储、改代码、测试部署放在 rotate/revoke 之前，同时强调吊销是最重要步骤；这与叶定义“先吊销/轮换、后清代码”的措辞不完全一致，但商业条目只要求基本真实性和类型匹配，不构成阻断。",
+    "OPNsense 条目引用 opnsense/core 的 BSD-2-Clause 许可证，平台整体还包括 Business Edition 与第三方插件；建议在条目中注明“社区核心”边界，避免把商业版或插件能力计入开源核心。",
+    "Vaultwarden README 明确声明与 Bitwarden 公司无关联；条目使用“Bitwarden 兼容”“官方客户端 API”时应避免被读成 Bitwarden 官方背书。",
+    "input.json 的 progress 仍显示 case_status 为 not_searched、application_ids 为空，而 batch.json/research.json 显示五个叶子均有 case_found；本次以 batch/research 为准，建议同步元数据状态。",
+    "research.json 中 RITA 的检索记录引用了 Security Onion license 快照（sources/767944ab...），该路径未列入 REVIEW_SOURCES.json，本次未逐字核对该被拒候选的许可证结论；不影响已收录的五个条目。"
+  ],
+  "leaf_checks": {
+    "password-manager": "读取 Vaultwarden README、GitHub 仓库元数据与 license API 快照。README 证明其为 Rust 编写的 Bitwarden 兼容自托管服务端，列出 Personal Vault、Organizations/Collections/Password Sharing、Attachments/Send、MFA、Emergency Access、内置修改版 Web Vault 与官方 Bitwarden 客户端接入；仓库 id 121898717、full_name dani-garcia/vaultwarden 与条目一致；license API 正文为 AGPL-3.0 全文。服务形态为自托管密码保险库服务，不是厂商托管 SaaS。核心缺口是 README 未逐字描述零知识加密与自动填充，依赖 Bitwarden 客户端模型。",
+    "secrets-security": "读取 GitGuardian 官方首页与两篇官方文档快照。首页明确其为 credential layer security platform，提供 SaaS 或自托管；first-incident 文档证明秘密检测引擎持续扫描受监控仓库、将同一秘密的多次出现聚合为事件，事件包含 source/commit/file/line，回归会重开并告警；修复流程强调影响评估、吊销/轮换、验证未授权使用；public-monitoring 文档证明公开 GitHub 实时监控与历史扫描。商业条目，官方来源真实性及 secrets-security 类型匹配成立，未要求价格或架构细节。",
+    "email-authentication-dmarc-management": "读取 dmarc-service README、FEATURES 文档、GitHub 元数据与 license API 快照。README/FEATURES 证明其通过 SMTP 25、HTTPS /tlsrpt 与 IMAP 接收 DMARC/TLS-RPT 报告，解析、去重、隔离，按域名和发送源展示 SPF 授权、DMARC 判定、认证域与处置；按域名生成并针对权威 DNS 实时校验所需记录，支持多租户、SSO、API token、Prometheus 指标；仓库 id 1317133034 与 pescheckit/dmarc-service 一致，license 正文为 MIT。策略推进主要体现为报告证据和 DNS 记录生成/校验，未明确提供策略编辑器，属于能力边界。",
+    "network-detection-response-ndr": "读取 RITA README、GitHub 仓库元数据与 license API 快照。README 证明其导入 Zeek TSV/JSON 日志，提供 beaconing、长连接、DNS 隧道、威胁情报源比对检测，并以搜索、TUI、CSV 输出支持调查；仓库 id 821147194、full_name activecm/rita 与条目一致，license 正文为 GPL-3.0。RITA 本身不采集在线流量、不做阻断，观测数据由 Zeek 或现有日志提供，响应需外部执行点；属于日志型、分析型 NDR 边界，检测与调查核心成立。",
+    "network-security-platform": "读取 OPNsense README、GitHub 元数据、license API 与官方 firewall rules 文档。README 说明其开源防火墙定位与源码构建方式；firewall 文档证明状态化包过滤、按 Floating/组/接口分区顺序处理、quick 首次匹配、Pass/Block/Reject 动作、默认拒绝、NAT 先于过滤、每规则日志以及 GUI/API 管理；仓库 id 27965134、full_name opnsense/core 与条目一致，license 正文为 BSD-2-Clause。仓库对应社区核心，商业 Business Edition 与插件不在本条目范围。"
+  },
+  "limits": "本次仅做只读静态核对：未运行实例，未验证部署、吞吐、高可用、实际加密实现、自动填充行为或策略执行效果；未计算快照 SHA-256，仅按 REVIEW_SOURCES.json 的 path 原样读取快照；research.json 引用的 Security Onion 等被拒候选快照不在 REVIEW_SOURCES.json 中，未逐字核对；input.json 的 progress 与 batch/research 状态不一致，本次以 batch.json/research.json 为审查依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-145/ses_groveopencodegop145review1_1793012439.jsonl",
+  "batch_sha256": "652df7d3b80da5bbd453225ac07f07a8d36880a1e4a0bf279681cd5a43f64f55",
+  "research_sha256": "d89bee76e18bc88bf3ff73e63459150667cccd054b49e6e4553b442b34276c3e",
+  "input_sha256": "314362e275219c8548befc3cd08282c730de144ad67b1a27b87eb4db319033f3"
+}

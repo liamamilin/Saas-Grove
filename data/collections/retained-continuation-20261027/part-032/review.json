@@ -1,0 +1,86 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "omnichannel-pos",
+      "note": "Shopify 快照中可确认 Pickup in store、Buy in store and ship、Buy online/exchange/return in store、Ship from store、Local delivery 与 gift card 等表述，但“Pro”包装层级未能从压缩 HTML 中逐项定位；这属于包装细节，不影响全渠道核心判断。跨渠道退货的原始交易定位与退款路径未展开，research.json 已留档。"
+    },
+    {
+      "slug": "retail-point-of-sale",
+      "note": "Square 页面未展开换货差额结算与班次现金对账；research.json 已记录。按该叶定义，换货结算细节被视为产品差异，不阻断基础类型匹配。"
+    },
+    {
+      "slug": "retail-store-management-system",
+      "note": "Lightspeed 快照支持多店后台切换、跨店调拨、按店订货、用户访问权限与销售/库存报表，但价格与促销治理细节未直接展开；summary 已收窄为“管理商品与库存”。建议后续补充价格管理页，但当前不影响门店管理系统的类型匹配。"
+    },
+    {
+      "slug": "store-operations-platform",
+      "note": "YOOBIC 首页可确认任务、定向沟通、照片验证、角色化呈现及门店/指标汇总表述，但按层级展开的具体执行报表未呈现；research.json 已记录该缺口，核心平台身份仍有官方标题与正文支持。"
+    },
+    {
+      "slug": "store-task-management",
+      "note": "Taqtics 的门店、角色、用户、排期、截止时间、照片证据、按地点完成率与逾期升级均有正文支持；来源为产品落地页而非完整文档，配置深度有限，但不影响任务管理类型判断。"
+    },
+    {
+      "scope": "unit",
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，而 batch.json/research.json 已为 case_found；若下游消费 progress 字段，合并时应同步，避免把本单元误判为无案例。"
+    },
+    {
+      "scope": "unit",
+      "note": "research.json 引用了 notes/repair-u032.md，但该文件不在 REVIEW_SOURCES 中，本次未作为证据；Open Source Point of Sale 的排除理由（修改版 MIT/NOASSERTION）也缺少仓库与 LICENSE 快照。因未收录开源条目，暂不影响本次结论。"
+    },
+    {
+      "scope": "unit",
+      "note": "ID/track 一致性已核对：5 个条目均为 commercial:*，batch、research 与 REVIEW_SOURCES 的 applications 对应一致，未发现 ID 或 track 错配。"
+    }
+  ],
+  "leaf_checks": {
+    "omnichannel-pos": {
+      "application_ids": [
+        "commercial:shopify-pos"
+      ],
+      "verdict": "pass",
+      "core_evidence": "Shopify POS 功能页快照（48aec59e...）含快速结账、集成支付、移动 POS 硬件、In-store 与 online 同步库存、客户资料与订单历史；并含 Pickup in store、Buy in store and ship、Buy online/exchange and return in store、Ship from store、Local delivery 及 gift card。首页快照（924b97ed...）FAQ 含 buy online, pickup in store 与 buy in store, ship to customer。可对应统一商务状态、门店销售主线和柜台跨渠道履约/冲正。",
+      "gaps": "“Pro”标记归属未逐项确认；跨渠道退货的原始交易定位、退款路径与礼品卡跨渠道兑换细节未展开。research.json 已记录，属于规则层缺口，不构成身份失败。"
+    },
+    "retail-point-of-sale": {
+      "application_ids": [
+        "commercial:square-point-of-sale"
+      ],
+      "verdict": "pass",
+      "core_evidence": "Square POS 快照（645a76f6...）正文显示 Square Point of Sale；零售模式列出 Integrated in-person and online sales、Inventory management、Sales reports；页面亦含 item library、custom amount、offline payments、digital receipts 等表述。可覆盖商品目录/自定义金额组单、收款、小票与完成交易记录，并由门店现场操作。",
+      "gaps": "换货差额结算、班次现金对账与退款权限细节未展开。research.json 已记录；不影响零售 POS 的基础类型匹配。"
+    },
+    "retail-store-management-system": {
+      "application_ids": [
+        "commercial:lightspeed-retail"
+      ],
+      "verdict": "pass",
+      "core_evidence": "Lightspeed 零售首页快照（582ba385...）FAQ 含 transfer inventory between locations、order stock for any location、switch between ... back offices；中型商户页（47c06605...）含 Transfer stock、place orders for any location、specific access 与角色培训、实时销售/库存/客户报表，并有内置 POS 与工作流。可对应门店范围记录、管理治理面和业绩回看闭环。",
+      "gaps": "价格、计划调价与促销规则的后台治理未直接展开；summary 已作收窄。research.json 已记录，属于补充证据缺口，不阻断门店管理系统核心。"
+    },
+    "store-operations-platform": {
+      "application_ids": [
+        "commercial:yoobic"
+      ],
+      "verdict": "pass",
+      "core_evidence": "YOOBIC 首页快照（dd6989ca...）官方标题为 retail store operations platform，正文含 Missions assigned, guided and Photo-verified、Targeted, measurable comms that reach every shift、right role、Every initiative、every metric，以及 dashboard、analytics、audit 等表述。可对应门店员工队伍、定向工作任务、定向运营沟通和管理层执行汇总。",
+      "gaps": "按层级展开的执行状态报表未细化；research.json 已记录。官方定位和任务/沟通/照片验证证据足以支持商业类型匹配。"
+    },
+    "store-task-management": {
+      "application_ids": [
+        "commercial:taqtics"
+      ],
+      "verdict": "pass",
+      "core_evidence": "Taqtics 零售任务页快照（3d7fffb...）正文含 Assign recurring or one-time work by store, role, user, schedule, and due time；Require live responses, photo proof, comments, and timestamps；completion and on-time execution by location；Surface overdue work, repeat misses, pending proof, and escalations；并有跨门店任务/检查清单工作流和按地点绩效展示。可对应按地点组织的员工、定向工作项、完成记录及向上追踪。",
+      "gaps": "来源为产品落地页而非完整文档，深度配置细节有限；未发现影响核心类型匹配的实质缺口。"
+    }
+  },
+  "limits": "本次仅做只读初审，未运行 shell、未重新计算 SHA-256、未做部署或运行时测试，也未抓取实时页面；结论以 REVIEW_SOURCES.json 指定路径的本地快照、batch.json、research.json 和 input.json 为依据。快照为原始 HTML，部分页面被压缩为超长行，read 工具按 2000 字符截断显示，因此对关键断言采用精确短语检索与可读正文段落交叉核对，未能逐段查看全部渲染上下文。REVIEW_SOURCES 未包含开源仓库或 LICENSE 快照，故无法独立复核 Open Source Point of Sale 的排除理由；本次也未读取 notes/repair-u032.md 或其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-032/ses_groveopencodegop032review1_1792943166.jsonl",
+  "batch_sha256": "382690566f406fa98a21f3a4d0b04e25f2fd170e753a03148acaa1abfef1842f",
+  "research_sha256": "cabbf89cf07cd33acfd014988ad72904ec988f7a8bd637c5efbf71282315cde0",
+  "input_sha256": "433805dda8519754c3ca3b95d92bf154403f973a1efefbfe71914b1c363040a4"
+}

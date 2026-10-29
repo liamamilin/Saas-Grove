@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 phase=included_without_cases，progress 仍为 case_status=boundary_unresolved、application_ids=[]，而 batch/research 已改判 case_found；研究用 previous_records/historical_drafts 透明记录了补采与改判过程，建议采纳后同步叶子状态。",
+    "Autopsy 是完整本地桌面应用（Windows 安装为主，用户指南索引另有可选多用户集群配置），不是 Web/SaaS/多租户；叶子定义明确写明单检验员/本地工具也满足核心，故不阻断；若目录强制要求托管 SaaS，应另行界定服务形态。",
+    "审计跟踪未被正文证据直接证实：研究记录 logs_and_output_page.html 只说明打开案件输出/日志文件夹，未据此声称审计能力；当前可辩护性主要依据哈希完整性校验和报告，建议后续补审计日志正文或保持不宣称。",
+    "时间线、关键词搜索、数据雕刻/已删除文件恢复主要由官方首页正文和用户指南目录支撑，未抓取这些模块的独立正文页；核心匹配主要依赖 Cases、Data Source Integrity、Reporting 三页正文，初审证据足够，但更严格的正文核对可补采。",
+    "README 为 2016 年文本；deployment 中“源码可在 Linux/macOS 有限构建”是对 README 的推断，原文只说设计为跨平台、当前仅在 Windows 完整测试，建议按原文措辞修改。",
+    "仓库 API 的 license 字段为 null；许可证以完整 LICENSE-2.0.txt 与 README 的 Apache 2.0 声明为准。README 还列出随附第三方组件（含 GPL/LGPL）采用不同许可，Apache-2.0 应理解为 Autopsy 自身代码，不是所有捆绑依赖。",
+    "research.json 的 source_urls 含 https://github.com/sleuthkit/autopsy，但批次未为其单独存快照；仓库身份已由 api.github.com 元数据和 README/LICENSE 快照核对，不阻断。",
+    "未找到写保护/只读分析的单独正文证据；哈希校验支持数据源完整性，但不单独证明原始设备不被修改，建议不宣称写保护。"
+  ],
+  "leaf_checks": {
+    "digital-forensics-platform": {
+      "slug": "digital-forensics-platform",
+      "application_id": "github:2516243",
+      "name": "Autopsy",
+      "track": "open_source",
+      "definitional_core": "通过。cases_page.html 正文：分析前必须创建案件，案件可含多个磁盘镜像/磁盘设备/逻辑文件数据源，案件目录含数据库与报告；data_source_integrity_page.html 正文：校验已有哈希或计算并存储数据源哈希，失败写入案件 artifact；reporting_page.html 正文：从案件提取关键信息生成 HTML/Excel/CASE-UCO 等报告，可按标记筛选；首页正文：端到端平台、时间线、关键词搜索、哈希过滤、数据雕刻、后台并行处理；README：以 The Sleuth Kit 分析磁盘镜像、支持单案件多用户协作。案件容器、证据源、检查/重建、完整性校验与报告均有正文支撑；审计跟踪见 gaps。",
+      "service_form": "Autopsy 是完整本地桌面应用（Windows 安装为主，用户指南索引另有可选多用户集群配置），不是 Web/SaaS/多租户。叶子定义明确写明单检验员/本地工具也满足核心，故按定义不阻断；若目录强制要求托管 SaaS，应另行界定。",
+      "id_track": "github:2516243 与 api.github.com 的 id=2516243、full_name=sleuthkit/autopsy 一致；repository_url 与 html_url 一致；archived=false；track=open_source 与 Apache-2.0 仓库相符。",
+      "license": "LICENSE-2.0.txt 为完整 Apache License 2.0 原文（含 END OF TERMS AND CONDITIONS 与 APPENDIX）；README 明确 Autopsy 4 以 Apache 2.0 发布。仓库 API license 字段为 null，但已有完整许可证文本与 README 声明，足以核对。",
+      "community_edition_boundary": "未见功能受限的社区版/商业版分界；商业支持与培训由 Sleuth Kit Labs 提供，不等于功能分版。README 列出随附第三方组件（含 GPL/LGPL 等）采用不同许可，Apache-2.0 应理解为 Autopsy 自身代码，不是所有捆绑依赖。",
+      "source_evidence": "已按 REVIEW_SOURCES.json 原样读取 8 个快照：仓库元数据、LICENSE-2.0.txt、README.txt、官方首页、用户指南索引、Cases、Data Source Integrity、Reporting；路径与前缀均按 data/collections 核对，无摘要替代。",
+      "gaps": "审计跟踪未获正文直接证实：研究记录 logs_and_output_page.html 只说明打开案件输出/日志文件夹，未据此声称审计能力；写保护/只读分析未单独取证；时间线/关键词/雕刻主要依赖首页与指南目录，未抓取各模块独立正文页；多用户集群页未抓取；未做运行时测试；input.json 仍为 boundary_unresolved/application_ids=[]，与 batch/research 的 case_found 状态未同步。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元；仅核对本单元 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 及 8 个实际快照；未重算 SHA-256，未运行 Autopsy，未访问实时 URL，未补采审计日志、时间线/关键词/雕刻模块页或多用户集群页；因此运行时行为、完整审计能力和部署细节未验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-129/ses_groveopencodegop129review1_1793247415.jsonl",
+  "batch_sha256": "eed182bbd89bcf529251015e4fdce447c620022f8d9ce8d8f8d0709b8841d6c5",
+  "research_sha256": "2e86fdbaeba0bb41e821313382c811ec9729a531dcc6713ced7220d3294dcef9",
+  "input_sha256": "4df92624e86e3dd1acd19d47ee4c2e244e615417ca8c22287bcdb90431afb648"
+}

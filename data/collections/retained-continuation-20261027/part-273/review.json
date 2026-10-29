@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "barbershop-management（commercial:squire）：服务菜单的时长和价格只有间接证据，即 scheduling 页的 service-length intervals 与 POS 页的服务票据；research.json 已如实记录该缺口，这不影响理发店预约、客户与结账核心的类型匹配。",
+    "beauty-professional-business-app（commercial:glossgenius）：solo 页能确认“专业人士即业务”的定位，以及预约、收款、营销等能力，但“即时提现”“no-show 保护”在快照正文中不够明确，batch reason 的表述偏强；这属于非关键功能措辞。",
+    "nail-salon-management（commercial:glossgenius）：batch reason 中“甲形、配色、生日”等客户偏好字段及“提成/时薪”未在快照文本中找到直接对应；页面能确认美甲沙龙预约、POS、walk-in、员工管理，建议将 reason 缩小到这些已见内容，或补一条功能页快照。",
+    "med-spa-management（commercial:aesthetic-record）：首页能确认它是医美/医疗水疗 EMR 与实践管理系统，但五结构工作流（治疗目录、预约生命周期、结账）主要来自 mega-nav 标签、轮播图和客户证言，正文中的细化不足；按本次“商业仅要求基本真实性和类型匹配”的标准不阻断，但不宜把导航当作完整核心工作流证据。",
+    "massage-practice-management（commercial:massagebook）：正文证据最完整，包括在线预约、服务菜单、intake、SOAP 模板、checkout/tips、memberships、多提供者/多房间、角色权限和 HIPAA 声明；保险理赔未核实，research note 已记录。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，phase=included_without_cases，而 research.json/batch.json 已记录 case_found 与 4 个 commercial 条目；建议回填 application_ids/research_records，或明确下游以 research case_ids 为准。",
+    "定义文本存在编辑问题：barbershop-management 的 rules_zh 结尾为“- **-Pe”，massage-practice-management 的 dc_zh 只有结构图而缺五结构展开；英文定义完整，属非阻断的译文/格式问题。",
+    "research.json 记录了 nailsoft.com/smart-pos 抓取成功，但因缺服务时长、价格与小费的证据未收录；该快照不在 REVIEW_SOURCES.json 中，按留档缺口处理，不要求本次读取。",
+    "本单元无开源条目，故无许可证或社区版边界可核；开源候选的排除理由在 research.json 中已记录，未把其许可证状态作为本批条目的依据。"
+  ],
+  "leaf_checks": {
+    "barbershop-management": {
+      "application_id": "commercial:squire",
+      "track": "commercial",
+      "status": "verified_with_documented_gap",
+      "evidence": "按 REVIEW_SOURCES.json 读取了 SQUIRE 首页、POS、scheduling、client-management 四个快照：首页和结构化正文明确 barbershop management；POS 页含服务票据、卡/现金/非接触支付、tips、commission/booth-rent、客户历史；scheduling 页含预约/改约/取消、service-length intervals、no-show protection、waitlist、barber 自管预约簿；client 页含客户历史、偏好、备注和按角色访问。SaaS 形态、commercial ID/track 一致。",
+      "gap": "服务菜单的 duration/price 仅有间接证据（scheduling 的服务时长区间与 POS 服务票据），research.json 已如实记录；不影响本叶类型匹配。"
+    },
+    "beauty-professional-business-app": {
+      "application_id": "commercial:glossgenius",
+      "track": "commercial",
+      "status": "verified_basic_type_match_with_wording_gap",
+      "evidence": "读取 glossgenius.com/for-solo-professionals 快照：title“For Solo Professionals”，H1“GlossGenius for Solopreneurs”，hero 明确“get you more clients, fill your calendar”，正文含 booking/payments/marketing 与 solo 业务定位。足以确认“专业人士即业务”的独立美业 SaaS 类型。",
+      "gap": "快照正文未清晰展开服务菜单、客户记录字段、即时提现和 no-show 保护；batch reason 对这些具体功能有强化表述。按商业基本真实性和类型匹配标准，不阻断。"
+    },
+    "massage-practice-management": {
+      "application_id": "commercial:massagebook",
+      "track": "commercial",
+      "status": "verified",
+      "evidence": "读取 pro.massagebook.com 快照：正文含 online booking、payments、intake forms、client follow-ups、services 菜单、checkout/payments/tips、SOAP note templates、memberships/gift certificates、multi-provider/multi-room calendar、role-based staff permissions 和 HIPAA attestation。覆盖按摩实践的服务目录、客户档案、预约、治疗记录与结账核心。",
+      "gap": "未核实具体地区保险理赔实现；HIPAA 为 vendor attestation；research.json 已记录地区/理赔缺口。"
+    },
+    "med-spa-management": {
+      "application_id": "commercial:aesthetic-record",
+      "track": "commercial",
+      "status": "verified_basic_type_match_with_core_detail_gap",
+      "evidence": "读取 aestheticrecord.com 首页快照：title/meta/正文明确“EMR & Practice Management for Med Spas”；正文含 EMR、scheduling、inventory、CRM、bookings/payments/charts；功能导航列 chart-to-cart、clinical documentation、chart sign-off/auditing、before/after photo/video、memberships、HIPAA；客户证言提及 charting、photo documentation、scheduling、inventory、POS。足以确认医美/医疗水疗管理 SaaS 类型。",
+      "gap": "五结构的细化正文不足：治疗目录、预约生命周期、结账流程主要靠 mega-nav 标签、轮播图和证言，不是核心工作流正文。按本次商业基本类型匹配标准不阻断；若下游要求五结构证据，应补 features/EMR 页快照并收敛 reason。"
+    },
+    "nail-salon-management": {
+      "application_id": "commercial:glossgenius",
+      "track": "commercial",
+      "status": "verified_basic_type_match_with_detail_gap",
+      "evidence": "读取 glossgenius.com/customers/nail-salon-software 快照：title“Nail Salon Software & Point-of-Sale System”，H1“Nail Salon Software”，hero“Turn walk-ins into regulars”，正文“Auto-book clients, accept payments, manage staff”，并有 nail booking、POS、client/staff、no-show/payment 的 value-prop/FAQ 段落。足以确认美甲沙龙管理 SaaS 类型。",
+      "gap": "batch reason 的“甲形、配色、生日”客户偏好字段及“提成/时薪”未在快照文本中找到直接对应；页面支持美甲预约、POS、walk-in、员工管理，但不支持那些精确字段。按非关键措辞处理。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未读取其他单元；按 REVIEW_SOURCES.json 的 path 原样读取了 8 个快照（sources 前缀相对 data/collections），并核对了 batch.json 的 snapshot_path/哈希文件名与 research.json 的 fetch_outcomes。未重算 SHA-256，未做运行时/部署测试，未独立验证厂商营销声明、价格或架构。快照为压缩/超长行 HTML，读取器对单行有 2000 字符截断，部分正文只能通过关键词/行号与可见片段核对；因此对 GlossGenius 与 Aesthetic Record 的“核心工作流”只作基本类型匹配判断，未把导航或 JSON-LD 当作完整核心证据。NailSoft 快照不在 REVIEW_SOURCES.json 中，按 research.json 的 ok_but_not_entered 留档处理。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-273/ses_groveopencodegop273review1_1793042165.jsonl",
+  "batch_sha256": "a5cc9cc2540a7b3b8d1332e272cd86395d25bf854d5ea2170ad8247df718fd1d",
+  "research_sha256": "af638408d6a99aafd0c3696704786c3b9baa1e9cc8e2852ba52ffce92da40d87",
+  "input_sha256": "1658e51c7389b022ad1954208980724971032ea7a55e48941a2b58499a71c9c5"
+}

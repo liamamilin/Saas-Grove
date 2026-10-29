@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 29,
+  "offset": 700,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "pcb-design",
+        "name_zh": "PCB设计",
+        "domain_id": "16",
+        "parent_id": "16.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-155/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "复用上一轮候选并核验官方来源：KiCad PCB 封装 网表 DRC Gerber"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/78",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "复用上一轮候选并核验官方来源：KiCad PCB 封装 网表 DRC Gerber"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "pcb-design",
+        "name": "PCB Design",
+        "name_zh": "PCB设计",
+        "aliases_zh": [
+          "印制电路板设计",
+          "线路板设计"
+        ],
+        "overview": "A **PCB Design application** is an engineering design application for printed circuit boards: the designer places components onto a layered board substrate and draws copper — tracks, vias, and zones — that realizes the circuit's electrical connections, verifies the result against manufacturing constraints, and produces the fabrication data a board manufacturer needs to build the board.\n\nThe defining core is small:\n\n```text\nBoard (outline + layer stackup) — the design of record\n└── Footprints (components as physical pads) placed on the board\n    └── Nets (the electrical connectivity model binding pads together)\n        └── Copper geometry (tracks / vias / zones realizing the nets)\n            └── Fabrication outputs (artwork, drill, assembly data)\n```\n\nEverything else commonly associated with these tools — schematic capture, design-rule checking, 3D visualization, simulation, signal-integrity analysis, cloud collaboration, supply-chain data — is standard capability or variant, not the definition. Notably, the schematic is not part of the defining core: several products support laying out a board directly, without a schematic, and the connectivity model can be defined in the board editor itself. What the Type cannot exist without is the board, the footprints on it, the nets that govern its copper, and the manufacturing data that ends the work.",
+        "overview_zh": "一个**PCB设计应用程序**是用于印刷电路板的工程设计应用程序：设计者将元件放置在分层的板基板上，并绘制铜——走线、过孔和覆铜区域——以实现电路的电气连接，根据制造约束验证结果，并生成板制造商制造电路板所需的制造数据。\n\n其定义性核心很简单：\n\n```text\n电路板（轮廓 + 层叠结构）— 设计记录本\n└── 封装（作为物理焊盘的元件）放置在电路板上\n    └── 网表（将焊盘绑定在一起的电气连接模型）\n        └── 铜几何图形（实现网表的走线/过孔/覆铜区域）\n            └── 制造输出（光绘文件、钻孔数据、装配数据）\n```\n\n通常与这些工具相关的其他一切——原理图绘制、设计规则检查、3D可视化、仿真、信号完整性分析、云协作、供应链数据——都是标准功能或变体，并非定义核心。值得注意的是，原理图并非定义核心的一部分：一些产品支持直接进行电路板布局，无需原理图，连接模型可以在电路板编辑器本身中定义。此类型无法缺少的是电路板、其上的封装、控制其铜层的网表，以及结束工作的制造数据。",
+        "dc": "**Footprints.** Components enter the board as footprints: the physical counterpart of a schematic symbol, carrying the pads (copper lands, with or without drilled holes) at which the component connects to the board. Footprints are placed, oriented, and flipped between the board's sides. Designs are composed from catalogued footprints held in libraries; mature products ship large libraries and provide dedicated footprint editors, and a placed footprint is typically embedded as a copy in the board so the design stays independent of library changes.\n\n**Nets.** The application maintains an electrical connectivity model: nets that bind specific pads together as \"must be connected\". This model is what makes the copper electrical rather than decorative. Nets enter the board from an upstream schematic in integrated suites, from an imported netlist, or — in board-only workflows — are defined directly in the board editor. Wherever it comes from, the connectivity model drives the most characteristic display of the Type: the ratsnest (also called connection lines or ratlines), which draws every not-yet-routed connection as a direct line between the pads it must join, and disappears connection by connection as the board is routed.\n\n**Copper geometry.** The designer realizes the nets by drawing copper: tracks (routes) that carry a signal between pads, vias that jump between copper layers, and zones (copper pours) that fill areas of a layer with a net — commonly ground or power. Routing is governed by the design rules (see below); zones fill automatically around obstacles while keeping clearance and connecting to same-net pads, often through thermal-relief spokes. The copper geometry is the physical realization of the connectivity model, and the gap between them — connections not yet routed — is exactly what the ratsnest shows.\n\n**Fabrication outputs.** The design terminates in manufacturing data: layer-by-layer artwork (today overwhelmingly Gerber format), drill data for holes, pick-and-place files listing each component's position and orientation for assembly machines, and a bill of materials. These outputs are generated from the design, never drawn by hand, and they are the deliverable the board manufacturer consumes. Many products also generate fabrication/assembly drawings and can exchange richer manufacturing-data formats.",
+        "dc_zh": "**元件封装。** 元件通过封装进入板中：封装是原理图符号的物理对应物，承载着元件与板相连的焊盘（铜区域，可带有或不带有钻孔）。封装被放置、定向，并在板的两侧之间翻转。设计由目录化封装构成，这些封装保存在库中；成熟产品会附带大型封装库，并提供专用封装编辑器，而一个已放置的封装通常作为副本嵌入板中，以使设计独立于库的更改。\n\n**网络连接。** 应用维护一个电气连接模型：网络将特定的焊盘绑定在一起，表示“必须连接”。这个模型使得铜层具有电气功能，而非仅仅是装饰。网络在集成套件中从上游原理图进入板中，或从导入的网表获取；在仅限板的工作流程中，则直接在板编辑器中定义。无论来源如何，这个连接模型驱动着该类型最具特征的显示：飞线（也称为连接线或鼠线），它将每个尚未布线的连接绘制为它必须连接的两个焊盘之间的直线，并随着板子的布线而逐步消失。\n\n**铜层几何结构。** 设计师通过绘制铜层来实现网络：用于在焊盘之间承载信号的导线（布线），用于在不同铜层之间跳转的过孔，以及",
+        "rules": "- **Connectivity is semantic, not visual.** Copper only \"counts\" where the nets say so: two pads are connected when a continuous copper path of the same net joins them, and the ratsnest keeps showing any connection that is not yet realized. The checker's unconnected-items report is the authoritative statement of what remains to be routed.\n- **Schematic and board must not drift apart.** Whether synchronization is a designer-triggered update or a shared data model, a mismatch between the logical circuit and the physical board is a defect — mature products check for it explicitly.\n- **Design rules gate the release.** Fabrication outputs are meant to be generated from a checked design; unresolved violations are meant to block or at least flag the handoff. Rule severity is configurable, and justified exclusions are a normal part of the workflow — but they are recorded decisions, not silence.\n- **Deliverables are derived, never hand-drawn.** Editing a Gerber file or a BOM by hand does not change the design; the design of record is the board (and its schematic), and the manufacturing data is regenerated from it.\n- **Zone fills are computed state.** A zone's copper is recalculated from the outline, the rules, and the objects it interacts with; products treat stale fills as an error condition before checking or output, because the fill is what actually gets manufactured.\n- **The library is the quality backbone.** Pad geometry, courtyard outlines, and 3D models come from footprints; a wrong footprint produces a board that cannot be assembled. Mature deployments treat library maintenance as a governed discipline, and boards embed library copies so they do not change unexpectedly.\n- **The board outline is load-bearing.** Zones fill only inside it, 3D and several checks depend on it being a valid closed shape, and mechanical fit is judged against it — a malformed outline is itself a checkable violation.",
+        "rules_zh": "- **连接性是语义性的，而非视觉性的。** 铜层仅在网表指示的地方才“算数”：两个焊盘在相同的网表通过连续铜路径连接时才算连接，而飞线会持续显示任何尚未实现的连接。检查器的未连接项目报告是剩余待布线内容的权威声明。\n- **原理图与电路板不得出现偏差。** 无论是由设计者触发的更新还是共享数据模型，逻辑电路与物理电路板之间的不匹配都是缺陷——成熟产品会明确检查这一点。\n- **设计规则控制发布。** 制造输出应从经过检查的设计中生成；未解决的违规旨在阻止或至少标记移交。规则严重性可配置，合理的排除是工作流程的正常部分——但它们是已记录的决策，而非默许。\n- **交付物是派生的，绝非手工绘制。** 手动编辑Gerber文件或BOM不会改变设计；设计记录本是电路板（及其原理图），制造数据从中重新生成。\n- **区域填充是计算状态。** 区域的铜层根据轮廓、规则及其交互对象重新计算；产品在检查或输出之前将过时的填充视为错误条件，因为填充是实际被制造的内容。\n- **库是质量的支柱。** 焊盘几何图形、Courtyard轮廓和3D模型来自封装；错误的封装会产生无法组装的电路板。成熟的部署将库维护视为受控的学科，电路板嵌入库副本以防意外更改。\n- **电路板轮廓是承重的。** 区域仅在其内部填充，3D和一些检查依赖于它",
+        "parent_id": "16.01",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 137,
+    "phase": "directory",
+    "parent": 137,
+    "slugs": [
+      "pcb-design"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "296eb6fbc5ca9ddfd4cdbdc4544bb8e845246d1f74cc1861da54532d8e31007f"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "integrated-library-system-ils",
+      "application_id": "github:5885483",
+      "issue": "Koha 叶仅有 GitHub 仓库元数据、README 和 LICENSE 快照。README 只以一句话称 Koha 是 free software integrated library system (ILS) 并声明许可证，没有书目/复本记录、读者记录、流通规则、借出/续借/归还等定义性核心正文。research.json 也未记录官方文档抓取失败或缺口，batch 的 leaf_match 理由实际上只是重复产品自称，不能支撑核心工作流。",
+      "fix": "抓取并保存 Koha 官方手册、官网或文档中关于 cataloguing、items/copies、patrons、circulation rules、checkout/renew/return 的正文，再据此重写 leaf_match；若无法取得，应将该叶标为证据不足并移除案例，不能保留 official_sources_reviewed。"
+    },
+    {
+      "slug": "integrated-library-system-ils",
+      "application_id": "github:5885483",
+      "issue": "许可证标识与已读证据不一致：batch.license 和 license_review.spdx_id 均为 GPL-3.0，但仓库 README 明确写的是 GNU GPL version 3 or later；LICENSE 快照只是 GPLv3 全文，不能证明是 only。",
+      "fix": "将 license 和 spdx_id 改为 GPL-3.0-or-later，并在 rationale/evidence 中同时引用 README 的 or later 声明和 LICENSE 完整文本；若坚持 GPL-3.0，需提供明确只按第 3 版授权的证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 phase 仍为 included_without_cases，五个 leaf 的 progress.case_status 均为 not_searched 且 application_ids 为空；batch.json/research.json 已记录 4 个应用和 case_found。若下游读取 input.json，应先同步进度，否则会丢失案例。",
+    "DSpace 的数字图书馆叶主要依据官方 README/About/Features/Homepage 的能力描述，缺少条目提交、馆藏层级和员工策展的操作级正文；research.json 已如实记录 wiki 403 并改用 dspace.org 官方页，因此按留档缺口规则不阻断，但该叶的类型证据强于工作流证据。",
+    "DSpace 官网 About 明确说明其不自动执行 preservation，首页/Features 的 preserve 应理解为格式管理与长期存取支持，不宜表述为完整的自动化长期保存。",
+    "Mahara 仅覆盖 GitHub 上截至 2023-04 的旧仓库，GitHub 已于 2023-11 归档，当前订阅版代码不在快照内；batch 的 summary/service_boundary 已披露该边界，但下游引用时应继续限定为旧社区仓库版本。",
+    "Mahara 的 create/share 快照是手册目录页，能证明 artefacts、pages、collections、sharing、assessment 入口存在，但不是逐步骤正文；评估提交是可选能力，不影响 ePortfolio 核心判断。",
+    "AtoM 官网将许可证写作 A-GPL 3.0，属于排版/拼写问题；LICENSE 与 README 均为 AGPLv3，batch 的 AGPL-3.0 以许可证文件为准，可不改。",
+    "Koha 的 GitHub 仓库是官方仓库的 synced mirror，batch 未在 repository_url 或说明中标注镜像身份；建议补充官方代码托管地址和 mirror 说明。",
+    "Koha 的 technology_stack=Perl 未在已读 README/元数据中得到直接文字确认，仅能从仓库目录结构推断；不影响本次核心结论，但可在补充文档后回填。"
+  ],
+  "leaf_checks": {
+    "archives-management-system": {
+      "status": "pass",
+      "application_id": "github:5705943",
+      "basis": "AtoM 官方 README、官网和 2.10 手册快照：多级档案描述（fonds/series/file/item）、创建者权威记录（ISAAR/creator）、查找辅助工具生成/上传/下载、草稿与发布、公共检索与访问；LICENSE 为完整 AGPLv3，仓库 ID 5705943 与 github:5705943 一致，track=open_source 与 Web/自托管形态一致。",
+      "gaps": "未部署测试，未独立核验 2.10.2 当前发布状态；不影响核心判断。"
+    },
+    "digital-library-platform": {
+      "status": "pass_with_notes",
+      "application_id": "github:3743376",
+      "basis": "DSpace 官方 README、About、Features、Homepage：turnkey repository application、数字内容管理与格式保存、Solr 元数据/全文检索、组级访问控制，并明确可承载学科、数据集和媒体型馆藏；LICENSE 为完整 BSD-3-Clause，仓库 ID 3743376 与 github:3743376 一致。",
+      "gaps": "官方 wiki 403 已记录，替代页面未展示条目提交、馆藏层级和员工策展的逐步操作；按已记录抓取缺口规则接受，但该叶的工作流证据弱于 AtoM/Mahara。"
+    },
+    "eportfolio-platform": {
+      "status": "pass_with_notes",
+      "application_id": "github:18741799",
+      "basis": "Mahara README 明确 open source ePortfolio；官网说明上传证据、撰写反思、按个人/组/世界分享及评估；Create/Share 手册目录列出 artefacts、pages、collections、sharing、assessment；LICENSE 为完整 GPLv3，README 声明 GPLv3+，仓库 ID 18741799 与 github:18741799 一致。",
+      "gaps": "GitHub 仓库已于 2023-11 归档、内容截至 2023-04，当前订阅版代码不在快照内；batch 已披露该社区版边界。手册快照为目录页而非逐步骤正文，评估提交为可选能力。"
+    },
+    "institutional-repository": {
+      "status": "pass_with_notes",
+      "application_id": "github:3743376",
+      "basis": "DSpace README 称 turnkey repository application，About 称 institutional repository software，研究人员可发布文档与数据，长期存储、开放访问和保存数字内容；Features 补充多格式管理、元数据/全文检索和访问控制；LICENSE 为完整 BSD-3-Clause，仓库 ID 3743376 与 github:3743376 一致。",
+      "gaps": "未捕获存储、摄入和审查工作流的操作级正文；wiki 403 已记录，官方 dspace.org 页面作为替代来源，按留档缺口规则不阻断。"
+    },
+    "integrated-library-system-ils": {
+      "status": "fail",
+      "application_id": "github:5885483",
+      "basis": "仅读取到 GitHub 仓库元数据、README 和 LICENSE。README 只称 Koha 是 free software integrated library system (ILS) 并声明 GPLv3+；没有书目/复本、读者、流通规则、借出/续借/归还等核心正文。",
+      "gaps": "核心工作流未验证；未记录官方文档抓取失败或 404/403 缺口；许可证字段 GPL-3.0 与 README 的 GPL version 3 or later 不一致。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 data/collections/sources 下已保存快照；未运行 shell、未写文件、未做在线抓取、未部署测试、未重算哈希。HTML 快照存在截断，部分页面只核对到正文片段；未独立核验 Koha 官方文档、Koha 当前发布状态及各应用最新版本。Koha 叶的核心证据缺口和许可证标识不一致是 changes_required 的直接原因。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-084/ses_groveopencodegop084review1_1792996075.jsonl",
+  "batch_sha256": "bcf3662406abcc1c6af4c1e29f6ddf05c6c55c85b951fce4b1211f7df05cdef9",
+  "research_sha256": "8f66262c1f52b388ec2d7a8086636a54ff4d62849ffe79a4e1828215d547329f",
+  "input_sha256": "729e0b86c8218e59cfddb13245131466cd7fe2b52cf6cefe104e4309993f6780"
+}

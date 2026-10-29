@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "data-center-infrastructure-management-dcim",
+      "application_id": "github:4359038",
+      "issue": "Ralph 的入选依据主要是 README 自述“Asset Management, DCIM and CMDB”以及“dc visualization built-in”，仓库元数据描述本身则是“CMDB / Asset Management system for data center and back office hardware”。现有快照没有给出 DCIM 定义性核心的正文证据：没有机架/机柜 U 位等物理层级放置、供电链（PDU/UPS/配电盘）、端口与线缆级连接、空间/电力/冷却容量等结构化模型。仅凭“DCIM”自述和机房可视化关键词，不能证明其满足物理基础设施清单、物理层级放置、结构化资源容量和权威运营记录四项核心。",
+      "fix": "补充 Ralph 官方文档或截图快照，证明其具备机架 U 位放置、供电链、端口/线缆连接及容量记录；若无法补充，则将该条从 DCIM 叶移除，或明确改归 CMDB/资产管理类型，并保留 NetBox 作为该叶的 DCIM 案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "cdn-management / commercial:cloudflare-cdn、commercial:fastly-cdn：两页快照的正文证据偏薄。Cloudflare 快照在页面中部截断，未见 summary/reason 所称的 Cache Rules、即时清除、主机名与源站配置；Fastly 快照正文主要由脚本、CSS 与 JSON-LD 构成，未见 POP/Instant Purge 的正文说明。商业条目的 CDN 类型匹配仍可由标题、meta 描述及页面“Global content delivery at scale”等支持，故不阻断；建议后续补抓完整产品页或官方文档快照，或把摘要限定在快照可支持的范围。",
+    "dns-dhcp-management / github:108726321：Technitium 的管理控制台与其 DNS/DHCP 服务实例由同一产品交付，并不是独立叠加在第三方守护进程上的管理层；README 的集群控制台可从一个控制台管理多个实例，勉强覆盖“配置到服务实例”的传播，但该边界应在条目摘要或边界说明中写得更明确，避免被理解为通用 DDI 管理平台。",
+    "server-management-platform / github:143291989：technology_stack 中的“Java”未在本单元快照正文中出现（官网与 README 只明确 Salt），“Salt”也不是编程语言；属元数据措辞问题，可在后续数据清理时校正。",
+    "remote-monitoring-management-rmm：开源侧只核查了 Tactical RMM，并因其 LICENSE.md 明确声明非开源许可而排除，未展开更广泛的开源检索；research.json 已如实留档为“未完成检索而非不存在”，符合缺口留档要求。",
+    "research.json 引用了 Tactical RMM 的 license 快照（sha256 5a1043...），该文件存在于 data/collections/sources/ 但未列入 REVIEW_SOURCES.json；若该快照作为排除依据被正式引用，建议补入来源清单，使来源清单与引用一致。",
+    "input.json 中各叶 progress.case_status 仍为 not_searched，而 research.json 已为 case_found；这是批次前后状态字段不一致，不影响本次内容核对，但建议流水线回填状态。",
+    "cdn-management 未展开开源侧检索，research.json 以“自建边缘网络会漂向自托管反向代理配置”为由留档；该边界判断可接受，但属于检索范围限制，不宜表述为开源 CDN 管理项目不存在。"
+  ],
+  "leaf_checks": {
+    "remote-monitoring-management-rmm": {
+      "status": "pass",
+      "basis": "NinjaOne 官方 RMM 页面正文（7d8792...）包含“Monitor, protect, and manage all your endpoints on one platform”，并列有 monitoring and alerting、automated patching、secure remote access、endpoint task automation、基于条件的脚本部署，以及远程命令行、PowerShell、任务管理器、服务管理器等管理动作，覆盖受管端点、持续监控告警、远程管理动作三项核心；商业条目基本真实且类型匹配。",
+      "gap": "开源侧仅核查 Tactical RMM，其 LICENSE.md 明确为非开源许可，已排除；未做更广泛的开源 RMM 检索，research.json 已留档为未完成检索。"
+    },
+    "server-management-platform": {
+      "status": "pass",
+      "basis": "Uyuni 官网正文（8d22c3...）说明集中管理并更新数十至数千台机器、按可分配的软件通道与仓库部署补丁和软件包、注册并管理网络内 Linux 服务器、OS 模板置备、Salt 管理、合规审计与标签分组；README（1b149f...）与仓库元数据（091a84...，id=143291989）一致；LICENSE 为 GPL-2.0 全文（c42c24...），并说明 Uyuni 是 SUSE Multi-Linux Manager 的上游社区项目。",
+      "gap": "未部署、未运行 Salt，runtime_tested=false；无商业条目；开源许可证、仓库身份和社区版边界已核对。"
+    },
+    "cdn-management": {
+      "status": "pass",
+      "basis": "Cloudflare CDN（641ba4...）与 Fastly CDN（03e503...）官方产品页的标题、meta 描述和页头均表明其提供全球 CDN、边缘内容分发与缓存，商业条目的类型匹配和基本真实性成立。",
+      "gap": "两页快照正文证据有限：Cloudflare 快照截断，Fastly 正文以脚本、CSS 与 JSON-LD 为主；summary/reason 中的 Cache Rules、即时清除、POP/Instant Purge 等细节未在快照正文出现。未展开开源侧检索，research.json 有留档。"
+    },
+    "data-center-infrastructure-management-dcim": {
+      "status": "changes_required",
+      "basis": "NetBox README（367463...）明确其为传统 IPAM/DCIM 应用的后继，数据模型包含 racks、devices、cables、IP 地址、VLAN、circuits、power，并提供 Rack View 与 Cable Trace；仓库 id=52796596、LICENSE 为 Apache-2.0 全文（f0eb03...），社区版与 NetBox Cloud/Enterprise 的边界已注明，符合文档型 DCIM 核心，且无遥测不影响其成立。",
+      "gap": "Ralph（e9da7c... 与 11748f...）只提供 README 自述的资产管理/DCIM/CMDB 定位和机房可视化，未证明机架 U 位放置、供电链、端口与线缆级连接、容量记录等核心；详见 findings。"
+    },
+    "dns-dhcp-management": {
+      "status": "pass",
+      "basis": "Technitium README（bc042c...）说明其提供权威与递归 DNS、内置 DHCP 服务器、Web 管理控制台、集群从单一控制台管理多个 DNS 服务器实例，以及 HTTP API；仓库 id=108726321、LICENSE 为 GPL-3.0 全文（d362d1...）。Infoblox DDI 官方页正文（2efc2f...）以 DNS、DHCP、IPAM 统一管理为核心，并列出 Universal DDI 与 NIOS DDI 产品线，商业条目基本真实且类型匹配。",
+      "gap": "Technitium 的管理控制台与服务实例由同一产品交付，并非独立的第三方管理层；research.json 已如实注明该边界。未部署、未修改任何 DNS/DHCP 配置。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 声明的 17 个 path 原样读取快照，并额外读取 data/collections/sources/ 下 Tactical RMM license 快照作为排除依据。未计算或校验 sha256（只读工具限制），未部署、未试用、未访问外部文档或补充研究。部分 HTML 快照为 JS 渲染或截断（尤其 Cloudflare、Fastly），CDN 正文证据有限；商业条目仅做基本真实性与类型匹配，未验证价格、架构或具体配置流程。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-139/ses_groveopencodegop139review1_1793010159.jsonl",
+  "batch_sha256": "740a575778a2f71a5946ff9d56ba0d385898f05d0eea86214c1f9b033a27e07b",
+  "research_sha256": "8e1de7dceff47d3e3103c40c92c3b8b0722634d0484d64c8a94a14da5bba5a44",
+  "input_sha256": "a824d20c16398c5c28bb01d738623b72d5fc184b2ee3aba30c100ed5e7b2e7c7"
+}

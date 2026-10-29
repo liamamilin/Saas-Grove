@@ -1,0 +1,599 @@
+[
+  {
+    "part": 6,
+    "id": "github:1138270023",
+    "name": "PIN (Personal Identity Node)",
+    "track": "open_source",
+    "definition_core": "A **Social Profile Network** is an application whose primary object is the **personal profile of record**: a persistent, self-maintained profile bound to one person, addressable in a shared namespace, and designed to be consumed outside the application itself — embedded in other sites, linked from other platforms, shared person-to-person, or synced into other systems.\n\nIt solves a problem every other social application treats as incidental: a person's identity scattered across many surfaces, each holding a stale copy. Here the profile is the whole product. The user maintains one authoritative ",
+    "summary": "自托管的个人与组织身份服务器：用户维护一份权威档案，以稳定句柄和不可变 subject 标识在共享命名空间中寻址，并通过 JSON/XML/vCard、well-known、机器可读 claims API 与增量同步供外部系统读取和投影。README 明确其非目标为“作为社交网络或社区平台”，档案页本身不是主要产品。",
+    "reason": "官方 README 与端点文档显示这是完整自托管身份服务器：所有者维护权威个人档案，档案以稳定句柄路径（/{handle}.json 等）和不可变 subject_id（meta.subject）在共享命名空间中寻址；同一档案以 canonical JSON/XML/文本/vCard 公开放出，并有 well-known 发现、按客户端策略的 claims API、增量同步与 LDAP/AD/SAML/Kerberos 投影供外部系统消费。README 明示“The profile page is not the primary product, identity is”，并在 Non-goals 中明确“Act as a social network or community platform”，与本叶“档案即记录、对外消费、无信息流义务”的窄核心一致；本叶不要求信息流/关注/消息，故其“非社交网络”自述与入叶依据不矛盾。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/mlumeau/pin/main/README.md",
+        "sha256": "576216b427b37f7d0bde290114bb0292829e8eb744bd4b8da9344195de4b15bb",
+        "body_length": 6508,
+        "window": "# PIN PIN stands for Personal Identity Node. It is a lightweight, self-hosted identity server written in Go and designed to be the authoritative source of one or multiple people and organizations on the web. It exposes clean profile pages, multi-profile management in settings, machine-readable identity exports for humans, bots, and agents, and an authenticated claims API for backend consumers. PIN implements the [PINC (Personal Identity Node Contract)](RFC-PINC.md) interoperability specification\nclear. ## Non-goals PIN explicitly does not aim to: - Replace personal websites or blogs - Act as a social network or community platform - Host long-form content or media libraries - Provide analytics, tracking, or growth features - Act as a general authentication provider - Optimize for virality o"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/mlumeau/pin/main/docs/user/endpoints.md",
+        "sha256": "b1da24522c5459e1a5c97deb6fc63a5e8e438c361aa9bd5c1febd9c8a1a565f3",
+        "body_length": 3716,
+        "window": "# Endpoints This is a high-level overview of the main routes. See feature `routes.go` files for the full list. For the normative PINC contract, see [RFC-PINC.md](../../RFC-PINC.md). ## PINC endpoints (RFC-PINC) All paths are relative to the Base URL. ### Owner identity - `/json` - owner identity (public) Canonical JSON - `/xml`, `/txt`, `/vcf` - owner identity alternate formats - `/` - landing or profile page ### Public identities - `/{handle}.json` - identity (public) Canonical JSON - `/{handle\nete/upload/alt - `/settings/profile/verified-domains/*` - create/verify/delete - `/settings/profile/social/bluesky` - connect Bluesky - `/settings/admin/server` - `/settings/admin/users` and `/settings/admin/users/{id}` - `/settings/admin/invites/*` - `/settings/admin/audit-log/download` ## Passkey"
+      }
+    ]
+  },
+  {
+    "part": 17,
+    "id": "github:57224308",
+    "name": "ActivityWatch",
+    "track": "open_source",
+    "definition_core": "A **Productivity Activity Tracker** is an application that automatically observes which applications, websites, and documents a person uses — and for how long — accumulates those observations into a durable usage record, and interprets the record through a productivity lens so the person can see how their time was actually spent and act on that reading.\n\nThe defining structure is small:\n\n```text\nAmbient automatic capture of active usage\n└── Persistent usage record (timeline + aggregated allocation)\n    └── Productivity interpretation (categories / productivity ratings)\n```\n\nThree properties, h",
+    "summary": "ActivityWatch 是本地优先的开源自动时间追踪应用：托盘程序启动本地 server 与 watcher，持续记录前台应用、窗口标题与浏览器标签，在本地 Web 界面形成时间线与分类汇总，用可编辑的类别规则把时间解读为工作/娱乐等用途。",
+    "reason": "自动捕获：README 写明 watcher 记录当前活动应用及窗口标题、当前浏览器标签及 URL，并以键鼠活动判断 AFK；官网亦说明开箱追踪活动应用与窗口标题。持久记录：README 说明 aw-server 提供 buckets/events/heartbeat REST 数据存储、Web UI 的 Dashboard/Timeline 与原始事件浏览，并支持 JSON 导出。生产力解读：分类文档说明类别以 Work、Gaming、Social Media 等标题聚合事件，具备父子层级与匹配窗口标题/应用名的正则规则，并在 Activity 视图形成分类可视化，且用户可在 Settings 增改类别。应用形态补证：getting-started 文档说明安装后由 aw-qt 托盘程序自动启动 server 与默认 watcher，Web 界面运行在 http://localhost:5600，可在 Activity 视图查看数据，证明其是可日常使用的完整本地应用，而非仅客户端、CLI 或引擎。边界：remote-server 文档明确不支持且不建议将远程 server 用于员工监控，符合个人本地使用而非组织监控的定位。未把生产力评分或已标为 planned 的数据过滤写成现有能力；定义允许仅分类不评分的实现。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/ActivityWatch/activitywatch/master/README.md",
+        "sha256": "4afdc26bd31ea4e2b516ed4eae6c4f645759dac2d3cca43fd5f99e35b1d94702",
+        "body_length": 14270,
+        "window": "<img title=\"ActivityWatch\" src=\"https://activitywatch.net/img/banner.png\" align=\"center\"> <p align=\"center\"> <b>Records what you do</b> so that you can <i>know how you've spent your time</i>. <br> All in a secure way where <i>you control the data</i>. </p> <p align=\"center\"> <a href=\"https://twitter.com/ActivityWatchIt\"> <img title=\"Twitter follow\" src=\"https://img.shields.io/twitter/follow/ActivityWatchIt.svg?style=social&label=Follow\"/> </a> <a href=\"https://github.com/ActivityWatch/activitywa\n<img title=\"ActivityWatch\" src=\"https://activitywatch.net/img/banner.png\" align=\"center\"> <p align=\"center\"> <b>Records what you do</b> so that you can <i>know how you've spent your time</i>. <br> All in a secure way where <i>you control the data</i>\n<img title=\"ActivityWatch\" src=\"https://activity"
+      },
+      {
+        "url": "https://docs.activitywatch.net/en/latest/features/categorization.html",
+        "sha256": "5b4fe69d1e9319b17cfc100a6a62ec855224461c6c6b5ce0c09f6273dd21445a",
+        "body_length": 3368,
+        "window": "Features Categorization Edit on GitHub Categorization ¶ When you look at the “Activity” view in the ActivityWatch UI you will see that there are some visualizations based on “categories”. Categories are used to group together multiple events, which create more easily understandable labels for the data such as “Work”, “Gaming” or “Social Media”. Categorized summaries are also the safest starting point for AI-assisted analysis. See ActivityWatch with agents and AI for a workflow that shares catego\nFeatures Categorization Edit on GitHub Categorization ¶ When you look at the “Activity” view in the ActivityWatch UI you will see that there are some visualizations based on “categories”. Categories are used to group together multiple events, which create more easily understandable labels for the d"
+      }
+    ]
+  },
+  {
+    "part": 27,
+    "id": "github:1001684671",
+    "name": "RapidRAW",
+    "track": "open_source",
+    "definition_core": "A **RAW Photo Editor** is an application for **developing camera RAW files**: it takes the unprocessed sensor data recorded by a camera, interprets it through the application's own processing engine, lets the photographer adjust that interpretation with a set of revisable parameters, and renders the result into standard delivered image formats.\n\nThe defining structure is small:\n\n```text\nRAW file (camera sensor data, per camera model)\n└── the application's own development engine\n    └── parametric develop loop (revisable recipe over the interpretation)\n        └── rendered output (JPEG/TIFF-cla",
+    "summary": "RapidRAW 是一款完整开源的 RAW 照片编辑器应用：以 rawler 解码相机 RAW，用自带 32 位 WGSL GPU 管线解读传感器数据，调整参数保存在 .rrdata 边车中原图不被覆盖，最终渲染导出 JPEG/PNG/TIFF 等成品；提供 Windows、macOS、Linux 与 Android 版图形界面，并附带可选 CLI 批量导出。",
+    "reason": "官方文档 File Formats 页写明 RAW 由 rawler（dnglab 的解码库）解码，逐厂商列出 .cr2/.cr3/.nef/.arw/.raf/.dng 等扩展名，并说明应用会使用相机色彩矩阵、重建已剪裁高光——即由应用自身引擎解读传感器数据；Adjustments/Basic 页进一步说明曝光作用于“tone mapper 之前的 raw 光数据”，是唯一能真正拉回 RAW 高光细节的滑块；File Formats 页说明编辑保存在 .rrdata 边车 JSON（调整、蒙版、裁剪、评分、标签），原图不被覆盖，且明确 JPEG 等高光无法像 RAW 那样恢复；Export 页说明该面板把编辑渲染为成品文件，可选 JPEG/PNG/TIFF/WebP/JPEG XL/AVIF/CUBE LUT 与尺寸、DPI、元数据。RAW 输入、应用自有引擎、可修改参数配方与渲染输出四项定义性属性均有官方正文。形态为完整图形界面应用（README 提供 Windows/macOS/Linux/Android 安装包，文档标注 Verified in v1.6.7，首页称 700,000+ 下载，仓库元数据 10634 stars、2026-10-23 仍在推送），并非仅 CLI/引擎/设备控制；本叶 catalog scope_rule 亦明示“定义同时提及的离线做法不构成排除理由”，故桌面分发形态本身不构成排除。仓库身份与 AGPL-3.0 由元数据与许可证接口证明。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/CyberTimon/RapidRAW/main/README.md",
+        "sha256": "c1e3180e71671b517df4ec8ea21a281ae91bf7d0ed6468d55d5eb21e21a5729a",
+        "body_length": 69034,
+        "window": "<p align=\"center\"> <img src=\"https://raw.githubusercontent.com/CyberTimon/RapidRAW/assets/.github/assets/editor.jpg\" alt=\"RapidRAW Editor\"> </p> <div align=\"center\"> [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/) [![wgpu](https://img.shields.io/badge/wgpu-%23282C34.svg?style=for-the-badge&logo=webgpu&logoColor=white)](https://wgpu.rs/) [![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-bad\n4405F.svg?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/timonkaech.photography/) [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/cvFugZ2Hw8) </div> # RapidRAW > A beautiful, non-des"
+      },
+      {
+        "url": "https://www.getrapidraw.com/",
+        "sha256": "f044d2fae7c4f3067d27ac2cfa9a21fe148e4ee7c8da84b04eb49597e1e32def",
+        "body_length": 5692,
+        "window": "The RAW Editor You've Been Waiting For. I built it to fit my own workflow. 700,000+ downloads later, it fits a lot more than mine. Download Latest Version GitHub Free & open source · Other platforms & release notes → Recognized & Featured By Gizmodo The Phoblographer CHIP YouTube Hacker News reddit A Faster, Smarter Workflow GPU-Accelerated Engine Every adjustment runs in a 32-bit GPU pipeline, so sliders, masks and previews update instantly. AI Masks for Anything Select subjects, skies, faces o\n server, with edits synced across computers. Batch Editing Paste edits and presets onto hundreds of photos at once. Exports and AI jobs run in a background queue. HDR, Panoramas & More Merge brackets, stitch panoramas, stack focus, convert film negatives, and shoot tethered with Live View. Your AI,"
+      }
+    ]
+  },
+  {
+    "part": 27,
+    "id": "github:1420087667",
+    "name": "albedo",
+    "track": "open_source",
+    "definition_core": "A **RAW Photo Editor** is an application for **developing camera RAW files**: it takes the unprocessed sensor data recorded by a camera, interprets it through the application's own processing engine, lets the photographer adjust that interpretation with a set of revisable parameters, and renders the result into standard delivered image formats.\n\nThe defining structure is small:\n\n```text\nRAW file (camera sensor data, per camera model)\n└── the application's own development engine\n    └── parametric develop loop (revisable recipe over the interpretation)\n        └── rendered output (JPEG/TIFF-cla",
+    "summary": "albedo 是完整开源、运行在浏览器中的 RAW 开发与合成应用（AGPL-3.0）：用 LibRaw 解码相机 RAW，在 GPU 上做去马赛克、高光重建与参数化调整，配方以 Lightroom XMP 边车保存，并渲染导出全分辨率 JPEG、DNG 与 16 位 TIFF；同时提供图层合成与照片库，可作为离线 PWA 安装或自托管静态站点，无账号、不上传照片。",
+    "reason": "官方 README 与项目首页写明其为“运行在浏览器中的 RAW 开发与合成应用”：用 LibRaw 打开 CR2、CR3、NEF、ARW、RAF（Bayer 与 X-Trans）、ORF、RW2、PEF、DNG 等相机 RAW；开发在 GPU 上完成，包含 RCD/X-Trans 去马赛克、高光重建、Lensfun 校正与 AgX/DCP 配置，即应用自身引擎解读传感器数据；调整以 Lightroom XMP 边车与预设读写保存，原文件不被覆盖；导出为全分辨率 JPEG、DNG 与 16 位 TIFF，构成渲染交付物。首页进一步说明“照片以智能对象进入、可随时修改其开发”，对应可修订配方循环。形态为可直接访问的浏览器 Web 应用（https://zahakj.github.io/albedo/app/ 返回 200）并可 npm run build 自托管静态站点，PWA 离线运行、无账号、不上传照片，满足完整应用服务形态而无需额外后端。仓库身份 id 1420087667 与 AGPL-3.0 由元数据与许可证接口证明；README 自述 AGPL-3.0-only，接口 SPDX 为 AGPL-3.0，许可证全文完整。社区体量尚小（0 stars、2026-10 新建），故作为第二案例并列记录，不据此放大成熟度。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/ZahakJ/albedo/main/README.md",
+        "sha256": "1a08e683fe38b1b9877befb9ffe5f2aa2b3ff41eff8c700ad0ca55dc292fd9d8",
+        "body_length": 2764,
+        "window": "<p align=\"center\"><img src=\"docs/site/icon.svg\" width=\"96\" alt=\"\"></p> # albedo A RAW developer and compositor that runs entirely in your browser. ![Develop: a hibiscus, the Tone panel open on the right, the filmstrip below](docs/media/develop.webp) ![Compose: a bowl of fruit, the lemon selected by AI and turned lime by a masked Hue/Saturation layer](docs/media/compose.webp) <https://zahakj.github.io/albedo/app/> ```sh git clone https://github.com/ZahakJ/albedo && cd albedo && npm install && npm\n. Denoise does 45 MP in 3.8 s. - Compose: layers with the RAW inside as a smart object, Develop and Photoshop-style adjustment layers, 27 blend modes, masks, groups, styles, 8, 16 or 32 bits. - A 50-layer, 24 MP document redraws in 6.7 ms. - Type shaped by HarfBuzz: Arabic and mixed-direction lines"
+      },
+      {
+        "url": "https://zahakj.github.io/albedo/",
+        "sha256": "41e7456892b749f724c823022624bb2c99d89d0f4026ac7eaaee2ac105edac1c",
+        "body_length": 1895,
+        "window": "Skip to content A RAW developer and compositor that runs entirely in your browser. Develop on the GPU, then work in layers with the RAW still inside. The AI runs on your machine. Nothing is uploaded, and there is no account. Open albedo Manual Source Tour Develop Every slider in the next frame The whole edit runs on the GPU: 2.4 ms a frame on 24 MP, 2.3 ms on 45 MP with eight masks. Masks for subject, sky, background or any object you click. The subject takes 93 ms. Remove, heal and AI Denoise o\nt rebuilding, lensfun corrections, AgX or DCP profiles. Compose Layers, with the RAW still inside A photo arrives from Develop as a smart object: change its development at any time. Develop and Photoshop-style adjustment layers, masks, Blend If, 27 blend modes, groups, styles, 8, 16 or 32 bits. AI "
+      }
+    ]
+  },
+  {
+    "part": 33,
+    "id": "github:116941150",
+    "name": "Natron",
+    "track": "open_source",
+    "definition_core": "A **Visual Effects Compositing Application** is an offline, shot-based image-compositing application used to integrate visual-effects elements into photographed footage. Its defining core is small:\n\n```text\nExisting imagery (plates + produced elements)\n└── The composite: multiple image sources combined into one image\n    │   with per-source control (mattes/alpha, merge operations,\n    │   transforms, color matching)\n    └── Offline, shot-based operation\n        └── a re-editable comp bound to a bounded frame range,\n            iterated through preview, rendered out to files\n```\n\nThe job it ser",
+    "summary": "Natron 是节点式离线视觉特效合成桌面应用（GPL-2.0，完整开源无社区版裁剪）：把实拍底片与制作元素作为图像源接入节点图，用 Merge 节点按前景 alpha 与合并操作逐源合成，项目绑定帧范围，可预览、以代理模式提速，并通过 Write 节点把结果渲染成磁盘上的图像文件；另支持无头批渲染。",
+    "reason": "官方文档正文逐项对应本叶定义核心。合成与逐源控制：Merge 节点接收 A/B 两路图像，最常用 over 操作“按输入 A 的 alpha 把 A 叠加到 B 上”，并可选择合并操作、A/B 通道（color 与 alpha）、Mix 与包围盒策略，即多个图像源组合成一张图像且逐源可控。可重编辑配方与帧范围：项目帧范围供 Writer 默认渲染，每个片段另有帧范围，Merge/Switch 取输入并集，节点参数可改，说明 comp 绑定有限帧范围而非烘焙图像。输出为文件：创建 Write 节点接节点树末端并渲染，把结果写成磁盘图像文件，非实时输出。降分辨率工作：Viewer 可开 Proxy Mode 按缩放因子降采样或指定代理文件。定义正文明确“2D-only、单镜头、单工作站合成器同样满足定义”，故桌面单机形态不构成排除。仓库身份由 GitHub 页面 meta 的 repository_id=116941150 与 nwo=NatronGitHub/Natron 证明；许可证由 license API 的 spdx_id=GPL-2.0 及完整 GPLv2 正文证明，全仓库开源、无社区版功能裁剪。另支持无头批渲染，不宣称托管多租户服务。合成章节的目录/导航页未作为核心工作流证据，仅用于定位上述正文页。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/NatronGitHub/Natron/RB-2.6/README.md",
+        "sha256": "570d2b4d9344c60e2e907d5020795b85d7a5d9975c0466c25e94d1a7c54feb87",
+        "body_length": 10976,
+        "window": "# Natron [![GPL2 License](http://img.shields.io/:license-gpl2-blue.svg?)](https://github.com/NatronGitHub/Natron/blob/master/LICENSE.txt) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) [![Build Status](https://api.travis-ci.org/NatronGitHub/Natron.svg?branch=RB-2.4)](https://travis-ci.org/NatronGitHub/Natron) [![Coverage Status](https://coveralls.io/repos/NatronGitHub/Natron/badge.svg?branch=master)](https://coveralls.\nme is rendered it can be reproduced instantly afterward, even for large image sizes. - Animate your visual effects: Natron offers a simple and efficient way to deal with keyframes with a very accurate and intuitive Curve Editor as well as a Dope Sheet to quickly edit your motion graphics. - Command"
+      },
+      {
+        "url": "https://natrongithub.github.io/",
+        "sha256": "3c927914b539df4be32573ff61110fb97a17a109d4cbdbe3f1d8aa0fd01d0ecb",
+        "body_length": 2131,
+        "window": "Visual Effects Without Limits. Node-based compositing, backed by the freedom of open-source. Download Natron Art by: Sam Morse-Brown Tools you can count on The standard 2D compositing toolkit you already know and love. OpenFX Plugin Support Industry-standard OFX plug-in support 2D Tracking Fast, pixel-perfect tracking toolset Roto Multi-layered rotoscoping toolset with per-vertex feathering Keying Industry-proven chroma keying and matte refinement tools Curve & dope-sheet editors Curve editor an\nVisual Effects Without Limits. Node-based compositing, backed by the freedom of open-source. Download Natron Art by: Sam Morse-Brown Tools you can count on The standard 2D compositing toolkit you already know and love. OpenFX Plugin Sup\nVisual Effects Without Limits. Node-based compositing, backed "
+      }
+    ]
+  },
+  {
+    "part": 36,
+    "id": "github:314383297",
+    "name": "Inochi Creator",
+    "track": "open_source",
+    "definition_core": "A **Character Animation Application** is software for bringing characters to life: the user takes a character figure — layered artwork or a mesh — binds its appearance to an animatable control structure (a rig), and produces the character's motion by posing that rig over time, performing it live, or applying prepared motion. The finished performance is delivered as a rendered moving image and/or as animation data that game engines, applications, and live performance systems can use.\n\nThe defining core is small:\n\n```text\nCharacter (appearance bound to a control structure)\n└── rig-driven posing ",
+    "summary": "面向 Inochi2D 木偶格式的开源桌面创作应用：把导入的分层二维原画绑定到用户自建的节点层级/参数控制结构，实时形变角色并制作动画，交付视频或供游戏与实时应用使用的木偶数据。",
+    "reason": "官方 About 页称 Inochi Creator 是 Inochi2D 木偶格式的开源编辑器，用于为游戏与 VTubing 等实时应用绑定模型，并通过实时形变、变换分层二维贴图产生动画；官方教程说明用户在节点树中自建骨架（Inspector 位移/旋转、视口 gizmo），旋转父节点时子节点随之旋转，即角色外观绑定到用户构建的控制结构；FAQ 说明可导入分层 PSD 原画、0.8 起可创建动画并存回模型；导出文档要求场景中至少有一个动画和相机，交付视频（含透明、循环、帧率、编码）。重心是角色绑定与表演，而非多元素场景合成，符合角色动画应用的判别。对原留档理由（只证明客户端/CLI/引擎或设备控制）的核对结论：界面为 File→Import、节点树、Inspector、视口 gizmo 与导出对话框组成的完整创作应用，非 CLI；Inochi2D 规范与 SDK 才是引擎侧产品，与本编辑器为不同产品；正文无设备控制内容。桌面发行形态按叶子 scope_rule（定义同时提及的离线做法不构成排除理由）不阻断。未取得时间轴关键帧界面正文，故不作该表述，也不据此推断不存在。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/Inochi2D/inochi-creator/v0_8/README.md",
+        "sha256": "140002cd27067641f4e0f68a1343c3cdd02779949bac3c0618409c20a03c861b",
+        "body_length": 4775,
+        "window": "# Inochi Creator ![Image of Inochi Creator](https://user-images.githubusercontent.com/7032834/194462402-74c4a3e0-50ca-4b50-8e8d-164d97371f5a.png) _Ada model by [ku-ini](https://twitter.com/duckmastah)_ ---------------- [![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dclipsey%26type%3Dpatrons&style=for-the-badge)](https://patreon.com/clipsey) [![Join the Discord](https://img.shields.io/discord/855173611409506334?label=\n games or for other real-time applications such as [VTubing](https://en.wikipedia.org/wiki/VTuber). Animation is achieved by morphing, transforming and in other ways distorting layered 2D textures in real-time. These distortions can trick the end user in to perciving 3D depth in the 2D art. If you "
+      },
+      {
+        "url": "https://docs.inochi2d.com/",
+        "sha256": "c0644dc6c4ad0cafba859dc2c9a71664a248070cf744debcfb99d1e528f99434",
+        "body_length": 1624,
+        "window": "Welcome to the Inochi2D Documentation Edit on GitHub Welcome to the Inochi2D Documentation ¶ On this page, you will find documentation for the officially supported projects under the Inochi2D banner. Use the sidebar on the left to select a project to get documentation from, and a topic you want to read about. What is Inochi2D? ¶ Inochi2D is an open source specification for a 2D character animation system that allows characters to be animated in real-time for games and VTubing. Inochi2D achieves \ntopic you want to read about. What is Inochi2D? ¶ Inochi2D is an open source specification for a 2D character animation system that allows characters to be animated in real-time for games and VTubing. Inochi2D achieves this by deforming textures in real time based on parameters the rigger sets in I"
+      }
+    ]
+  },
+  {
+    "part": 36,
+    "id": "github:728438436",
+    "name": "Mesh2Motion",
+    "track": "open_source",
+    "definition_core": "A **Character Animation Application** is software for bringing characters to life: the user takes a character figure — layered artwork or a mesh — binds its appearance to an animatable control structure (a rig), and produces the character's motion by posing that rig over time, performing it live, or applying prepared motion. The finished performance is delivered as a rendered moving image and/or as animation data that game engines, applications, and live performance systems can use.\n\nThe defining core is small:\n\n```text\nCharacter (appearance bound to a control structure)\n└── rig-driven posing ",
+    "summary": "开源浏览器端角色动画应用：导入 GLB/GLTF 模型，套用可调整的人形或生物骨架完成自动绑定，从动作库挑选或导入动画，再打包导出为游戏引擎可用的 GLB/FBX；可本地构建并用 Docker 自托管运行。",
+    "reason": "官网正文以角色/生物为单位描述完整流程：Import, Rig, Animate, then Export；上传模型后自动放置骨骼并按人形、龙、鸟、马等骨架模板绑定，随后套用或导入动作并在浏览器中预览，最后把多个动画打包导出为 GLB/FBX 运行时动画数据。README 给出同一流程与 Docker 自托管方式，属可持续使用的完整 Web 应用服务。已绘/建模的角色外观为导入对象、运动由绑定骨架驱动、交付为运行时动画数据，符合角色动画应用的核心与重心。运动主要来自预备动作库而非逐帧关键帧，属于定义允许的「应用预备好的动作」，不外推未取证的关键帧界面。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/Mesh2Motion/mesh2motion-app/main/README.md",
+        "sha256": "ce4a2c0cbb3227fadd43de2c4d63226507da0a6241646fb2ef966309300867b5",
+        "body_length": 4028,
+        "window": "<img src=\"./mesh2motion.svg\" alt=\"Mesh2Motion Logo\" width=\"400\"/> <table> <tr> <td><h4>Discord<h4></td> <td><a href=\"https://discord.gg/UChE936q7y\">Join the Discord channel</a></td> <td> <img src=\"https://img.shields.io/discord/1408921718231273613?label=People&color=purple\" alt=\"Discord\"> </td> </tr> </table> Import a 3D Model and automatically assign and export animations with Mesh2Motion. This is kind of similar to a web application like Mixamo, but I would like it to be more flexible so it ca\nr=purple\" alt=\"Discord\"> </td> </tr> </table> Import a 3D Model and automatically assign and export animations with Mesh2Motion. This is kind of similar to a web application like Mixamo, but I would like it to be more flexible so it can support other model and skeleton types. Hopefully the open sou"
+      },
+      {
+        "url": "https://mesh2motion.org/",
+        "sha256": "6344424386b0559430c0a043d9796628a316b6b54a6017ffc3e880639f432120",
+        "body_length": 3498,
+        "window": "Your browser does not support HTML5 WebM video. Animate Animals, Monsters and Humans 3D animation library and auto-rigging tool for web and game engines. No subscription Runs in your browser Free & Open Source Launch Application Need to use offline? Check out the offline version . Three Ways to use Explore All Animations Over 170 animations currently to browse and use for your projects. The explore page allows you to see the animations on a sample model for easier previewing. Upload Your Model Y\nYour browser does not support HTML5 WebM video. Animate Animals, Monsters and Humans 3D animation library and auto-rigging tool for web and game engines. No subscription Runs in your browser Free & Open Source Launch Application Need to use offline? Check out the offline version . Three Ways to use"
+      }
+    ]
+  },
+  {
+    "part": 36,
+    "id": "commercial:live2d-cubism",
+    "name": "Live2D Cubism",
+    "track": "commercial",
+    "definition_core": "A **Character Animation Application** is software for bringing characters to life: the user takes a character figure — layered artwork or a mesh — binds its appearance to an animatable control structure (a rig), and produces the character's motion by posing that rig over time, performing it live, or applying prepared motion. The finished performance is delivered as a rendered moving image and/or as animation data that game engines, applications, and live performance systems can use.\n\nThe defining core is small:\n\n```text\nCharacter (appearance bound to a control structure)\n└── rig-driven posing ",
+    "summary": "商业二维角色动画工具：对绘制好的插画做绑定建模，再用参数与动画让模型在设定活动范围内表演，产出供游戏、VTuber 与实时应用使用的角色动画。",
+    "reason": "官方产品页说明 Live2D 直接对已绘制的插画做动画：先用 Cubism Editor 进行 modeling 赋予活动范围，再进行 animation 让模型在该范围内表演，并含物理与口型同步；外观为导入的绘制素材、由绑定结构驱动、成品用于游戏与 VTuber 等实时场景，符合角色动画应用的核心与重心。",
+    "sources": [
+      {
+        "url": "https://www.live2d.com/en/cubism/",
+        "sha256": "0fbada2ba81ae205933e9fad9cc490b8fa933a991a96320499a1c8b06b33a453",
+        "body_length": 6541,
+        "window": "Click \"Continue\" to proceed to Live2D Store/EN. Please note that Live2D Store and the Cubism Editor UI do not have Thai language support. Click here for a guide to purchasing Cubism PRO using the English UI. Continue Proceed to the Cubism Editor download page. Please note that Live2D Store and the Cubism Editor UI do not have Thai language support. Click here for a guide to purchasing Cubism PRO using the English UI. Continue The Live2D Student Discount Program How-to Guide The Live2D Student Di\nism Editor Latest Updates VTuber Seeing your own artwork come to life is incredibly satisfying. The character conveys its personality just through eye rig and physics. 20's / Illustrator United Kingdom VTuber I wanted to make a VTuber model, and there are no other usable tools built for the purpose"
+      }
+    ]
+  },
+  {
+    "part": 46,
+    "id": "github:121034292",
+    "name": "Digital Music Stand",
+    "track": "open_source",
+    "definition_core": "A **Sheet Music Reader** is a performer-facing application for reading notated music: it holds scores as a persistent, organized library, presents them on screen for music-reading with direct control of the reading state — page position, page turning, display arrangement — and operates on those existing scores through marking up, playing along, and organizing them for practice and performance.\n\nThe defining structure is small:\n\n```text\nThe score (a displayable document of one piece of notated music)\n└── The score-reading surface (the music presented for reading,\n    organized around its own pa",
+    "summary": "可自托管的浏览器乐谱阅读服务：把 PDF 乐谱按命名规则收成曲库，支持模糊检索曲目、按歌本页序翻阅，并用脚踏板或方向键翻页。",
+    "reason": "官方 README 说明这是浏览器内运行的 PDF 乐谱查看器：指定目录的 PDF 按命名形成可检索曲库，YAML 歌本给出曲目与页序，方向键或 1/2 键翻页并明确面向脚踏板；仓库元数据与 GPL-3.0 全文核实了自托管 Web 服务形态和完整许可证，覆盖乐谱、阅读界面与曲库三项核心。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/PatWie/digitalmusicstand/master/README.md",
+        "sha256": "4a6d0f11c3e965c0417dc4a34817b984836c4d0ee45f8cf68669b942ce7144a5",
+        "body_length": 3939,
+        "window": "# Digital Music Stand [![Build Status](https://ci.patwie.com/api/badges/PatWie/digitalmusicstand/status.svg)](https://ci.patwie.com/PatWie/digitalmusicstand) A simple cross-platform browser-based pdfjs-based viewer to display and search music sheets. <img src=\"./.github/digitalmusicstand_001.gif\" /> * A single binary including all assets. * Usage is similar to SublimeText. Press `P` and perform a fuzzy search. * Not database required * Shortcuts `1,2` to scroll to previous/next page using a prog\ntalmusicstand) A simple cross-platform browser-based pdfjs-based viewer to display and search music sheets. <img src=\"./.github/digitalmusicstand_001.gif\" /> * A single binary including all assets. * Usage is similar to SublimeText. Press `P` and perform a fuzzy search. * Not database required * Sh"
+      }
+    ]
+  },
+  {
+    "part": 46,
+    "id": "commercial:forscore",
+    "name": "forScore",
+    "track": "commercial",
+    "definition_core": "A **Sheet Music Reader** is a performer-facing application for reading notated music: it holds scores as a persistent, organized library, presents them on screen for music-reading with direct control of the reading state — page position, page turning, display arrangement — and operates on those existing scores through marking up, playing along, and organizing them for practice and performance.\n\nThe defining structure is small:\n\n```text\nThe score (a displayable document of one piece of notated music)\n└── The score-reading surface (the music presented for reading,\n    organized around its own pa",
+    "summary": "面向演奏者的乐谱阅读应用：把乐谱收进曲库，在屏幕上阅读并做批注、建演出曲目单、重排页面与翻页。",
+    "reason": "官方页面正文说明可做批注、创建演出曲目单、重排页面、加书签并配合音轨练习，以动态曲库组织替代文件目录，并用自适应缓存实现近乎瞬时的翻页，支持翻页踏板、MIDI 与无线遥控同步，覆盖乐谱曲库、阅读界面与演奏态控制的阅读器核心。",
+    "sources": [
+      {
+        "url": "https://forscore.co/",
+        "sha256": "12821876f54a6d893207bcf2fa906be54f2527098f67db0b53ab53520899b199",
+        "body_length": 6008,
+        "window": "forScore about news support shop forScore turbocharge your sheet music Go paperless. Get organized. Download and play something new in seconds. With forScore, your sheet music has never been better—it’s everything you can do with paper and so much more. Go paperless. Get organized. Download and play something new in seconds. With forScore, your sheet music has never been better—it’s everything you can do with paper and so much more. Created for iPad Simply Gorgeous Designed exclusively for iOS, \nforScore about news support shop forScore turbocharge your sheet music Go paperless. Get organized. Download and play something new in seconds. With forScore, your sheet music has never been better—it’s everything you can do with paper and so much more. Go paperless. Get organized. Download an\n mus"
+      }
+    ]
+  },
+  {
+    "part": 52,
+    "id": "github:182806722",
+    "name": "Quant-UX",
+    "track": "open_source",
+    "definition_core": "A **UX Prototyping Application** turns product ideas into experienceable interface simulations before any code is written: screens of the intended product are composed and linked with user-defined interactions into clickable flows, the simulation is run and shared, feedback and tests are collected, and the design is revised until it is approved for development.\n\nThe defining core is small:\n\n```text\nScreens of the intended interface\n└── User-defined interactions (trigger → response)\n    └── Clickable flows\n        └── Run mode (the simulation, experienced without authoring tools)\n            └─",
+    "summary": "开源 UX 原型与可用性测试 Web 应用：在画布上创建屏幕与可交互组件，通过链接把源元素/屏幕指向目标屏幕并配置转场动画与条件导航，运行分享链接让测试者完成用户任务，并在分析页查看热图与任务 KPI；官方提供 Docker Compose 自托管。",
+    "reason": "官方 Prototype 功能页正文说明在画布上创建屏幕、添加功能性组件并通过链接建立交互；Animations 文档说明需先建立源组件/屏幕到目标屏幕的链接，再在 Action 中配置动画、时长与缓动；Logic Flows 文档说明按钮经逻辑算子按输入规则选择下一屏；User Testing 文档说明点击 Share 生成分享链接、测试者打开链接即启动原型，并可配置欢迎语与用户任务及其步骤；Analytic 文档说明点击热图、测试覆盖率与时长等 KPI；README 给出前端 + Java 后端 + MongoDB 的 Docker Compose 自托管方式。覆盖屏幕→用户定义交互→可点击流程→运行（分享链接）→测试反馈的验证闭环，产物为虚构数据上的模拟而非生产系统。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/KlausSchaefers/quant-ux/master/README.md",
+        "sha256": "33a59bb765feff6ce5ddba8139bd83c729ed88135dafa2f1281af6639fb20f59",
+        "body_length": 7391,
+        "window": "[![Docker Image Build and Push to Dockerhub - CI/CD](https://github.com/KlausSchaefers/quant-ux/actions/workflows/docker.yml/badge.svg)](https://github.com/KlausSchaefers/quant-ux/actions/workflows/docker.yml) # Quant-UX - Prototype, Test and Learn Quant UX is a research, usability and prototyping tool to quickly test your designs and get data driven insights. This repo contains the front end. You can find a working demo at https://quant-ux.com/#/ ![Alt text](docs/release.png?raw=true \"Quant-UX \n/workflows/docker.yml) # Quant-UX - Prototype, Test and Learn Quant UX is a research, usability and prototyping tool to quickly test your designs and get data driven insights. This repo contains the front end. You can find a working demo at https://quant-ux.com/#/ ![Alt text](docs/release.png?raw=t"
+      },
+      {
+        "url": "https://www.quant-ux.com/features/prototype",
+        "sha256": "6ca434048ae073423a5a9e473388d80fa361dd664970c1cb6d2fa0073a3f4c08",
+        "body_length": 1688,
+        "window": "Prototypes that feel real. All prototypes are fully interactive. Use input widgets, animations and data to make your prototype feel like a real app. Visual Designer Use the powerful canvas to build amazing prototypes . Simply create screens, add functional components and create interactions through links. AI - Assistant The AI design assistant can boost your productivty and create prototype fragments that you can fine tune. For instance you can ask the assistant to create a login form and style "
+      }
+    ]
+  },
+  {
+    "part": 52,
+    "id": "commercial:axure-rp",
+    "name": "Axure RP",
+    "track": "commercial",
+    "definition_core": "A **UX Prototyping Application** turns product ideas into experienceable interface simulations before any code is written: screens of the intended product are composed and linked with user-defined interactions into clickable flows, the simulation is run and shared, feedback and tests are collected, and the design is revised until it is approved for development.\n\nThe defining core is small:\n\n```text\nScreens of the intended interface\n└── User-defined interactions (trigger → response)\n    └── Clickable flows\n        └── Run mode (the simulation, experienced without authoring tools)\n            └─",
+    "summary": "商业 UX 原型工具：桌面客户端以事件触发器、用例/条件逻辑与动态面板状态构建可交互原型，发布到 Axure Cloud 后获得可在浏览器打开的分享链接，支持就地评论与标记已解决、Inspect 的 redline/CSS 交接，以及嵌入 Jira/Confluence 和企业自托管。",
+    "reason": "官方参考文档正文说明事件即触发器、用例是可排序的动作列表并可自动按条件逻辑选择、Open Link 动作在点击后跳转到另一页面，动态面板以状态保存内容并用 Set panel state 切换；Publishing 文档说明可从 RP 发布到 Axure Cloud 并获得可用任意浏览器打开的分享链接；Cloud Overview 明确原型托管、在原型上就地评论与 redline/CSS 交接；Discussions 文档说明可对设计落点评论并标记 resolved；Inspect 文档说明分享链接中的 redline 与样式/资源信息；Jira 文档说明可把原型嵌入 Jira/Confluence 审阅；On-Premises 文档说明企业可自托管。覆盖屏幕元素触发器→响应、浏览器运行与分享反馈交接闭环。作者端为商业桌面客户端，云侧为 Axure Cloud 托管服务。",
+    "sources": [
+      {
+        "url": "https://docs.axure.com/axure-rp/reference/events-cases-actions",
+        "sha256": "e293953dec8d5c84751ee1a1c2ca1be7dcc233b788f2f867954cfdce7676b7e0",
+        "body_length": 3849,
+        "window": "Skip to main content On this page tip To quickly learn the basics of using interactions in Axure RP, check out the Interactions module of our Core training series . Interactions determine the dynamic behaviors of widgets and pages. Clicking a button to navigate to another page in the prototype is an interaction, as is mousing over a widget to reveal another widget on the page. You'll create and manage your prototype's interactions in the Interactions pane. You can choose from the most common int"
+      },
+      {
+        "url": "https://docs.axure.com/axure-rp/reference/dynamic-panels",
+        "sha256": "dde0d34d895598547535d3e5cb76e32d1294f516060d4f4bda70bbb61f3fea1a",
+        "body_length": 12072,
+        "window": "Skip to main content On this page tip To quickly learn the basics of using dynamic panels, check out the Dynamic panels module of our Core training series . A dynamic panel is a container that holds other widgets in sets called \"states.\" A dynamic panel can have one state or many, and only one of its states is visible at a time. The visible state can be set dynamically with the Set panel state action, which makes dynamic panels perfect for creating carousels and slideshows . Dynamic panels are u"
+      }
+    ]
+  },
+  {
+    "part": 61,
+    "id": "commercial:sierra-chart",
+    "name": "Sierra Chart",
+    "track": "commercial",
+    "definition_core": "A **Professional Trading Terminal** is a trader-facing workstation application in which a professional trader monitors live market state across many instruments and executes and manages orders directly against execution venues or broker backends, with positions and profit/loss updating in real time.\n\nThe defining structure is small:\n\n```text\nLive market state for multiple instruments (user-arranged workspace)\n└── Direct order construction & routing (place / amend / cancel)\n    └── Real-time position & P&L for the trader's own trading\n        └── Human decision at trade time\n```\n\nEverything els",
+    "summary": "面向期货、股票、外汇等市场的专业桌面交易与图表平台，连接交易所实时行情与经纪后端，支持 ChartDOM 下单、订单路由以及持仓和逐笔/未实现盈亏跟踪。",
+    "reason": "官网说明其提供交易所实时行情、图表、ChartDOM（市场深度）下单、订单路由与手动/自动交易；Trade Activity Log 文档列出成交、持仓数量、逐笔及累计盈亏字段，并说明未实现盈亏按最新价或 Bid/Ask 持续更新；Chartbooks 文档说明可将多个图表与 Trade DOM 放入同一工作区并保存、重新打开和自动打开，覆盖实时多品种工作区—直接下单—持仓盈亏闭环，人工决策由交易者完成。",
+    "sources": [
+      {
+        "url": "https://www.sierrachart.com/",
+        "sha256": "17e6bce90c1ef51c217bc765828ace2f72dcaa819a1edf74589d21e164905e95",
+        "body_length": 7848,
+        "window": "Toggle Dark Mode Sierra Chart Financial Markets Charting and Trading Platform Main Home Software Download What Is New Features Data/Trade Services User Image Gallery Additional Files About Us Other Websites Documentation Table of Contents Frequently Asked Questions Sierra Chart Setup Instructions Data/Trade Services Video Library What Is New Developing for Sierra Chart Services for Brokers Getting Started Sierra Chart Setup Instructions Software Download Data/Trade Services What Is Included in F\nCreate Account Home Sierra Chart - High Performance Trading Platform Introduction Sierra Chart is a professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services. Sierra Chart supports Live and Simula"
+      },
+      {
+        "url": "https://www.sierrachart.com/index.php?page=doc/TradeActivityLog.php",
+        "sha256": "c81a81bf96defd54a205b727b5157fe4572618fe178b2300bd64a797be3fb081",
+        "body_length": 153962,
+        "window": "Toggle Dark Mode Sierra Chart Financial Markets Charting and Trading Platform Main Home Software Download What Is New Features Data/Trade Services User Image Gallery Additional Files About Us Other Websites Documentation Table of Contents Frequently Asked Questions Sierra Chart Setup Instructions Data/Trade Services Video Library What Is New Developing for Sierra Chart Services for Brokers Getting Started Sierra Chart Setup Instructions Software Download Data/Trade Services What Is Included in F\nToggle Dark Mode Sierra Chart Financial Markets Charting and Trading Platform Main Home Software Download What Is New Features Data/Trade Services User Image Gallery Additional Files About Us Other Websites Documentation Table of Contents Frequently Asked Questions Sierra Chart Setup Instructions \n"
+      }
+    ]
+  },
+  {
+    "part": 61,
+    "id": "github:1218061070",
+    "name": "humanplane terminal",
+    "track": "open_source",
+    "definition_core": "A **Professional Trading Terminal** is a trader-facing workstation application in which a professional trader monitors live market state across many instruments and executes and manages orders directly against execution venues or broker backends, with positions and profit/loss updating in real time.\n\nThe defining structure is small:\n\n```text\nLive market state for multiple instruments (user-arranged workspace)\n└── Direct order construction & routing (place / amend / cancel)\n    └── Real-time position & P&L for the trader's own trading\n        └── Human decision at trade time\n```\n\nEverything els",
+    "summary": "自托管开源 Polymarket 交易终端 Web 应用：实时订单簿与成交明细、市价/限价订单构建并直接提交到 CLOB、未成交订单查询与撤单、交易者持仓与实时 PnL 视图，支持键盘导航和收藏持久化。",
+    "reason": "README 说明这是自托管交易终端：侧栏市场/事件列表与收藏（localStorage 持久化）承载多品种实时状态，单市场详情页经 SSE 展示实时订单簿与逐笔成交；订单表单支持市价（按订单簿计算均价与可成交量）与限价并直接提交到 Polymarket CLOB，另有未成交订单列表与撤单；交易者视图显示持仓、成交与实时 PnL。交易仍由用户钱包逐单签名，属人工决策。未声称多窗口网格工作区。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/humanplane/terminal/main/README.md",
+        "sha256": "e4a6bfd23964be3fe235ea2fbafef075adb457b3cd746066410ff0d1b6a01555",
+        "body_length": 15730,
+        "window": "# humanplane A **self-hosted Polymarket trading terminal** — Bloomberg-style dark UI, sub-second order book via SSE, full trader leaderboard drill-down, and self-custodial order execution with no third-party relayer. ![terminal](docs/terminal.png) > Browse 10,000+ markets, watch the order book tick in real time, sign > orders with MetaMask. Everything you can do on polymarket.com, plus > keyboard navigation and a proper trader view. No custody, no backend > secrets, no \"Builder\" credentials. ---\n# humanplane A **self-hosted Polymarket trading terminal** — Bloomberg-style dark UI, sub-second order book via SSE, full trader leaderboard drill-down, and self-custodial order execution with no third-party relayer. ![terminal](docs/terminal.png) > Browse 10,000+ markets, wat\ns](#why-this-exists) "
+      }
+    ]
+  },
+  {
+    "part": 129,
+    "id": "github:2516243",
+    "name": "Autopsy",
+    "track": "open_source",
+    "definition_core": "A **Digital Forensics Platform** is an investigator-facing examination platform for digital evidence: it acquires or ingests preserved copies of what was on a device, account, or storage medium, examines those copies to reconstruct what happened, and produces findings in a form that can survive legal or organizational scrutiny.\n\nThe defining core is small and jointly held:\n\n```text\nForensic evidence source of record\n  (preserved, verified acquisition of a device / media / account)\n└── Case\n    (binding container for evidence, examiner work, and findings)\n    └── Examination & reconstruction\n  ",
+    "summary": "Autopsy 是开源数字取证平台（完整本地桌面应用），以案件组织证据源与检验工作，提供数据源哈希完整性校验、关键词搜索、已删除文件恢复、时间线、标记与报告。",
+    "reason": "官方首页正文称其为数字取证平台/端到端平台，列出时间线、关键词搜索、哈希过滤、数据雕刻与后台并行处理；用户指南 Cases 正文说明分析前须建案件，案件可含多个磁盘镜像、磁盘设备或逻辑文件数据源，案件目录含数据库与报告；Data Source Integrity 正文说明校验已有哈希或计算并存储数据源哈希；Reporting 正文说明从案件提取关键信息生成 HTML/Excel/CASE-UCO 等报告并可按标记筛选；README 说明其检查磁盘镜像并支持单案件多用户协作。Autopsy 自身提供案件容器、摄取模块、完整性校验、标记与报告，The Sleuth Kit 是其分析引擎，不是仅客户端、CLI 或引擎。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/README.txt",
+        "sha256": "4f555289cff3ce57bea8e39c0af795dba0626b01bf1adddc3ea54eb02f14f276",
+        "body_length": 5563,
+        "window": "Autopsy 4 http://www.sleuthkit.org/ March 15, 2016 OVERVIEW Autopsy is a graphical interface to The Sleuth Kit and other open source digital forensics tools. Autopsy 3 was a complete rewrite from Autopsy 2 to make it Java-based. Autopsy 4 improves on Autopsy 3 by supporting collaboration on a single case by multiple users. Although Autopsy is designed to be cross-platform (Windows, Linux, MacOSX), the current version is fully functional and fully tested only on Windows. We have run it on XP, Vis\ng/ March 15, 2016 OVERVIEW Autopsy is a graphical interface to The Sleuth Kit and other open source digital forensics tools. Autopsy 3 was a complete rewrite from Autopsy 2 to make it Java-based. Autopsy 4 improves on Autopsy 3 by supporting collaboration on a single case by multiple users. Althoug"
+      },
+      {
+        "url": "https://sleuthkit.org/autopsy/",
+        "sha256": "43545727f842fb127d66298f4dc5892ad628bfd0a6031d876036834c7408a351",
+        "body_length": 2011,
+        "window": "Autopsy® is a digital forensics platform and graphical interface to The Sleuth Kit® and other digital forensics tools. It is used by law enforcement, military, and corporate examiners to investigate what happened on a computer. You can even use it to recover photos from your camera's memory card. Training and Commercial Support are available from Sleuth Kit Labs. Easy to Use Autopsy was designed to be intuitive out of the box. Installation is easy and wizards guide you through every step. All re\nAutopsy® is a digital forensics platform and graphical interface to The Sleuth Kit® and other digital forensics tools. It is used by law enforcement, military, and corporate examiners to investigate what happened on a computer. You can even use it to \nAutopsy® is a digital forensics platform and gr"
+      }
+    ]
+  },
+  {
+    "part": 152,
+    "id": "commercial:ag-leader-sms",
+    "name": "Ag Leader SMS",
+    "track": "commercial",
+    "definition_core": "An **Agricultural GIS** is a geographic information system specialized for farming: it manages a **georeferenced agricultural land base** — identified fields whose extents are recorded as spatial boundaries — carries **agronomic data layers registered to that land base** (satellite imagery, soil, yield, applied-input records, terrain), and works through a **map canvas** on which users measure, overlay, compare, and analyze spatial data to produce agronomic outputs such as management zones, variable-rate prescription maps, and reports.\n\nThe defining core is deliberately small:\n\n```text\nAgricult",
+    "summary": "面向农业的田间数据与农艺 GIS 软件：SMS 提供田块边界绘制与编辑、土壤调查/航拍/道路底图、产量/NDVI/地形等多层数据、查询与测量、多年度比较、管理区与处方输出；AgFiniti 作为配套云端/移动端服务同步并展示地图、分层查询和处方。以桌面端为主并配合云服务，未部署运行。",
+    "reason": "SMS 官方页把田块边界记录/编辑、边界查询与测量、土壤调查及航拍/道路底图、产量与 NDVI 等多层数据、多年度比较、管理区编辑和处方输出组织在同一套田间数据工作流中；AgFiniti 官方页进一步证明其云端/移动端服务可汇聚多来源地图、按田块分层查询并生成处方和报告。两者合起来覆盖农业 GIS 的农业土地基础、农艺数据层、地图工作面和农艺输出核心。",
+    "sources": [
+      {
+        "url": "https://www.agleader.com/sms-software/",
+        "sha256": "b1378c0250e331ae42e7b154de4ece3c536acd301e820d81a64b9c4929837e97",
+        "body_length": 3760,
+        "window": "Download a Free Trial Planting Choose seed based on historic yield performance, create planter performance reports and charts, and satisfy government reporting needs. Application Track variable-rate application operations, record application operations for recordkeeping, and create variable-rate prescriptions. Harvest Analyze harvest data, discover yield trends using multiple years’ data, create harvest reports and charts, or use query tools. Field stewardship Manage soil sampling, create field "
+      },
+      {
+        "url": "https://www.agleader.com/agfiniti/",
+        "sha256": "d7ed62aaed4dc653bcddafd42d49f8bb304899c0fa7ddb15cf9255564d08f883",
+        "body_length": 6053,
+        "window": "Start 30-Day FREE Trial Login Query fields to learn more Analyze yield factors by querying and layering areas of the field to generate simple yield comparison reports. Generate prescriptions Generate prescriptions in AgFiniti in real-time without having to know how to write an equation or understand soil chemistry. AgFiniti does the work! View and control remote displays Use AgFiniti to access the InCommand® display for calibrating, equipment setup, troubleshooting, and more! See Integrated Conn"
+      }
+    ]
+  },
+  {
+    "part": 157,
+    "id": "github:12462033",
+    "name": "openLCA",
+    "track": "open_source",
+    "definition_core": "A **Life Cycle Assessment Application** is a modeling and assessment environment for product life cycles: it lets a practitioner build a quantified model of the processes behind a product, compile the environmental flows of that model into a life cycle inventory, and translate that inventory into environmental impact results using selectable impact assessment methods.\n\nThe defining core is small and held jointly:\n\n```text\nProduct system (linked network of quantified unit processes)\n└── anchored to a functional unit (the demand everything is normalized to)\n    └── life cycle inventory (compiled",
+    "summary": "openLCA 是 GreenDelta 开发的开源桌面生命周期评估应用（在 Eclipse RCP 上运行的 Java 应用，含 HTML 用户界面），不是仅有 API/CLI 的客户端或计算引擎：用户可在图形界面中选择数据库、创建 flow/process、由参考流自动连接供应链生成产品系统，计算生命周期清单，并选择 LCIA 方法查看影响结果。桌面发行版可本地长期使用，协作服务器与在线产品为可选配套；类型定义明确允许桌面世代满足核心。",
+    "reason": "README 明确 openLCA 是在 Eclipse RCP 上运行并包含 HTML 用户界面的 Java 应用，属于完整桌面应用而非仅客户端/引擎；概念指南给出在应用内选择数据库、创建 processes、由参考流生成 product system、计算 LCI 并运行 LCIA 的完整工作流；产品系统手册明确参考过程产品量按 functional unit 计算影响。桌面世代属于本类型定义明确允许的形态。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/GreenDelta/olca-app/master/README.md",
+        "sha256": "f0730a84d4f368719a233a39461df688138b53bb640082465932bdc38b089a9e",
+        "body_length": 4959,
+        "window": "# openLCA This repository contains the source code of [openLCA](http://openlca.org). openLCA is a Java application that runs on the Eclipse Rich Client Platform (Eclipse RCP). The source code is structured in the following sub-projects: * [olca-app](./olca-app): contains the source code of the openLCA RCP application. * [olca-app-build](./olca-app-build): contains the build scripts creating the distribution packages for Windows, Linux, and macOS. * [olca-app-html](./olca-app-html): contains the "
+      },
+      {
+        "url": "https://www.openlca.org/features/",
+        "sha256": "1e9c679a0a0bff752eb5133e137ae37d9d2b74f3359c576f3a5cabe33f3f6b96",
+        "body_length": 4787,
+        "window": "SOFTWARE openLCA Features Powerful features for LCA Modelling, data analysis, import & export and more. Data Analysis Regionalised Impact Assessment Model the specific conditions and characteristics of the location where your processes occur. Contribution Tree Easily look for impact hot-spots by comparing process contributions to flows and impact categories. Parameter Analysis (Experimental) Change multiple parameters simultaneously to simulate more dynamic LCA results. Monte Carlo Analysis Cond\nnterpreter Evaluate expressions or define variables from your models using the Formula Interpreter. Life Cycle Costing Model and assess the costs and revenues of a product over its entire life cycle. Bulk Replacement of Flows/Processes Use the bulk replacement tool to manually correct flows and pro"
+      }
+    ]
+  },
+  {
+    "part": 157,
+    "id": "github:805297890",
+    "name": "TianGong LCA",
+    "track": "open_source",
+    "definition_core": "A **Life Cycle Assessment Application** is a modeling and assessment environment for product life cycles: it lets a practitioner build a quantified model of the processes behind a product, compile the environmental flows of that model into a life cycle inventory, and translate that inventory into environmental impact results using selectable impact assessment methods.\n\nThe defining core is small and held jointly:\n\n```text\nProduct system (linked network of quantified unit processes)\n└── anchored to a functional unit (the demand everything is normalized to)\n    └── life cycle inventory (compiled",
+    "summary": "TianGong LCA（天工 LCA）是 MIT 许可、完全开源的 Web 生命周期评估平台，提供在线服务与 Docker 私有部署：用户在浏览器工作区创建 flow/process、连接输入输出并设定 reference flow，把多个 processes 组装成 model，保存后生成聚合清单，并运行 process/model 级 LCIA、影响类别对比与贡献路径分析。",
+    "reason": "官方建模文档说明在 Web 工作区创建 flows/processes，以 reference flow 连接节点组装 model，并设置 reference process 与 reference flow quantity；保存后生成聚合清单。LCIA 文档说明把 life cycle inventory 转成气候变化、酸化等影响类别结果，并要求 reference flow 或 functional unit 正确；平台同时提供 process/model 级 LCIA 与贡献路径分析。README 确认完全开源、提供在线服务和 Docker 私有部署，构成完整 Web 应用服务。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/tiangong-lca/platform/main/README.md",
+        "sha256": "53badc4fa4c71be7beeb0f125824d4967ea916874a6e0b6ebd47e5a5bd9e968d",
+        "body_length": 1337,
+        "window": "# TianGong LCA Data Platform [English](https://github.com/tiangong-lca/platform/blob/main/README.md) | [中文](https://github.com/tiangong-lca/platform/blob/main/README_CN.md) **TianGong LCA Data Platform** is a **fully open-source** Life Cycle Assessment (LCA) data management platform, offering **free** cloud services as well as private deployment options. With TianGong, you can: 🌐 **Start Using Our Online Platform Right Away** Begin your LCA journey now: <a href=\"https://lca.tiangong.earth\" targe\ngong-lca/platform/blob/main/README_CN.md) **TianGong LCA Data Platform** is a **fully open-source** Life Cycle Assessment (LCA) data management platform, offering **free** cloud services as well as private deployment options. With TianGong, you can: 🌐 **Start Using Our Online Platform Right Away** "
+      },
+      {
+        "url": "https://docs.tiangong.earth/en/docs/user-guide/create-my-data/",
+        "sha256": "844bd508a03bcfe0c7bdb11276ac6389e97c80b248c5e5ab768e36f4cdf4137b",
+        "body_length": 7909,
+        "window": "TianGong LCA / Documentation Search ⌘ K Documentation PCR documentation TianGong LCA Documentation Platform Overview Quick Start User Guide User Guide User Guide Map Key Functions Overview Notification Center TIDAS ZIP Import, Export, and Task Center Data Platform Overview Create My Data Data Usage Guide Data Search Data Review Process Analysis Workspace LCIA Calculation & Results Permissions & Data Spaces Account Management & Connected Applications Team Functions System Management Workspace Dat\nesses, models, flows, and supporting references in “My Data”. Within “My Data” you control the full lifecycle of TianGong LCA datasets. This guide breaks the work into three stages— Preparation → Build datasets → Data validation & publish —to minimise rework and keep references consistent. Before y"
+      }
+    ]
+  },
+  {
+    "part": 195,
+    "id": "github:2656556",
+    "name": "Zotero",
+    "track": "open_source",
+    "definition_core": "A **Reference Manager** is a researcher's citation system of record: it maintains a persistent, organized library of bibliographic reference records, and it feeds those records into the user's manuscript as correctly formatted citations and an automatically generated bibliography.\n\nThe defining core is small — three structures that only work together:\n\n```text\nBibliographic reference record (a typed, structured description of one published source)\n└── Persistent reference library (accumulating, organized, searchable)\n    └── Cite-and-format loop (records → formatted citations + bibliography\n  ",
+    "summary": "开源参考文献管理器，维护可积累的书目记录库，生成格式化引文与参考文献；并提供托管的在线文献库、跨设备同步和共享文库。",
+    "reason": "GitHub 仓库说明 Zotero 用于收集、整理、引用和共享研究资料；官网说明其生成引文与参考文献、支持 9,000+ 引文样式和共享文库；官方同步文档进一步说明书目数据可同步至 Zotero 服务器，在 zotero.org 在线查看文献库，并从任意联网电脑访问。",
+    "sources": [
+      {
+        "url": "https://www.zotero.org/",
+        "sha256": "d95eb57aeae3a24d8117f738329c0d35f46c6ac1581965213f7e7900949f8002",
+        "body_length": 1838,
+        "window": "ZoteroBib Just need to create a quick bibliography? Your personal research assistant Zotero is a free, easy-to-use tool to help you collect, organize, annotate, cite, and share research. Download Available for Mac, Windows, Linux, iOS , and Android Just need to create a quick bibliography? Try ZoteroBib . Meet Zotero. Collect with a click. Zotero automatically senses research as you browse the web. Need an article from JSTOR or a preprint from arXiv.org? A news story from the New York Times or a\nhat automatically fill with relevant materials as you work. Cite in style. Zotero instantly creates references and bibliographies for any text editor, and directly inside Word, LibreOffice, and Google Docs. With support for over 9,000 citation styles, you can format your work to match any style gui"
+      },
+      {
+        "url": "https://www.zotero.org/support/sync",
+        "sha256": "a6aa5f29bb7b7a3ff6adcb3a4b8d5a7366430eadcce4bec00433ed7d35dd985e",
+        "body_length": 5296,
+        "window": "Syncing # While Zotero stores all data locally on your computer by default, Zotero’s sync functionality allows you to access your Zotero library on any computer with internet access. Zotero syncing has two parts: data syncing and file syncing. Data Syncing # Data syncing merges library items, notes, links, tags, etc. — everything except attachment files — between your local computer and the Zotero servers, allowing you to work with your data from any computer with Zotero installed and to view yo\n Zotero account (which is also used for the Zotero Forums). Then, open the Sync pane of the Zotero preferences and enter your login information in the Data Syncing section. By default, Zotero will sync your local data with the Zotero servers whenever changes are made. To disable automatic syncing, "
+      }
+    ]
+  },
+  {
+    "part": 229,
+    "id": "github:1142020579",
+    "name": "ChurchPresenter",
+    "track": "open_source",
+    "definition_core": "A **Worship Presentation Software** is the live in-service display system of a worshiping congregation: the application an operator runs *during* a worship service to put song lyrics, scripture, videos, images, and sermon support onto the screens the congregation watches, in real time, following the flow of the service.\n\nIts defining core is small:\n\n```text\nWorship content library\n└── Service presentation (ordered cue list for a dated service occasion)\n    └── Live cueing loop\n        └── Operator surface separated from the audience output\n```\n\nEverything else commonly associated with the cate",
+    "summary": "开源礼拜演示桌面应用（Windows/macOS/Linux），提供歌曲歌词库、按引用检索的多译本经文、幻灯片/视频/PDF 与图片媒体、按场次排布的 Schedule，以及操作员预览与观众多屏输出分离。",
+    "reason": "官方 README 与 FEATURES.md 表明这是完整桌面礼拜演示应用：歌曲/经文/幻灯片媒体库、按场次排布的 Schedule、操作员现场提示、观众多屏输出与舞台监视器；不是仅客户端、CLI 或引擎。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/ChurchPresenter/ChurchPresenter/main/README.md",
+        "sha256": "047ac9bf8f6610e66e35a8d2ae35d8cae673fc5e6bd0467b6df74f5ad4c75e11",
+        "body_length": 8267,
+        "window": "# ChurchPresenter Everything a church needs to put words on the screen — songs, scripture, slides, video, captions and broadcast graphics — in one free, open-source desktop app for Windows, macOS and Linux. On Linux it installs from a `.deb` on Ubuntu 22.04, Debian 12, Linux Mint 21 or newer. It is a Compose Multiplatform app on the JVM. [FEATURES.md](FEATURES.md) lists every feature and where its source lives. --- ## Getting started ### Requirements A JDK 17 or newer to run Gradle. The build it\n the Schedule, opened from the Help menu. Pairs phones through an end-to-end encrypted relay. | | [`presentation-engine/`](./presentation-engine) | PPTX/PPT/Keynote/PDF parsing, timing and animation, entirely in-JVM. | | [`lottieGenerator/`](./lottieGenerator) | A standalone Compose Desktop app tha"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/ChurchPresenter/ChurchPresenter/main/FEATURES.md",
+        "sha256": "06bd138bb766a92d725e41d2d3cecb7fb100bdf58065330387720ea2979a02b7",
+        "body_length": 49153,
+        "window": "# Church Presenter — Features **Everything your church needs to put words on the screen — songs, scripture, slides, video, captions and broadcast graphics — in one free, open-source app.** > Source paths below are relative to `composeApp/src/jvmMain/kotlin/org/churchpresenter/app/churchpresenter/` > > Except `data/settings/…` and `data/SettingsManager.kt`, which are shorthand for the `:settings` > module: every one of those files sits flat in `settings/src/main/kotlin/org/churchpresenter/setting\nn by section, and flags sections out of step and languages missing a title or lyrics. - **Bilingual worship** — show two languages at once, side-by-side or stacked, or switch between primary and secondary on the fly. - **Look-ahead for the band** — see the current and next section in advance so tra"
+      }
+    ]
+  },
+  {
+    "part": 232,
+    "id": "github:91032869",
+    "name": "EventFahrplan",
+    "track": "open_source",
+    "definition_core": "An **Event Mobile App** is an application that an event's organizer publishes for that event, and that the event's attendees use on their personal mobile devices as their pocket companion to the event — before, during, and after it. The organizer fills the app with the event's program, people, places, and announcements; attendees open it to find what is on and where, plan their own schedule, stay informed of changes, and participate through networking and engagement features.\n\nThe defining core is small:\n\n```text\nEvent-bound app container\n└── Organizer-authored event content\n    └── Attendee c",
+    "summary": "开源 Android 白标活动应用模板：组织方按活动配置日程来源与品牌，构建并发布自有应用；README 记载项目始于 2011 年，并列出 Chaos Communication Congress、Chaos Communication Camp、FOSDEM、FrOSCon、KotlinConf 等使用该应用的活动，参会者可离线查看日程、讲者与房间信息、收藏场次并设置提醒。",
+    "reason": "README 说明组织方按活动通过 product flavor 配置日程与品牌并构建发布 Android 应用，其 History 段落与正文记载项目始于 2011 年并列出 Chaos Communication Congress、Chaos Communication Camp、FOSDEM、FrOSCon、KotlinConf 等使用活动；官方首页快照确认参会者可查看日程网格、离线使用与集成功能。二者共同证明活动绑定容器、组织者编写内容与参会者移动伴侣使用；首页未载活动名录与年份，活动起源与清单仅据 README。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/EventFahrplan/EventFahrplan/master/README.md",
+        "sha256": "4c277d528f0092dc8d883abac49b7bb48c6044d724ab5f0c067be3996b7e2fa0",
+        "body_length": 11092,
+        "window": "[![Travis CI Build Status](https://app.travis-ci.com/EventFahrplan/EventFahrplan.svg?branch=master)](https://app.travis-ci.com/EventFahrplan/EventFahrplan) [![GitHub Actions Build Status](https://github.com/EventFahrplan/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://github.com/EventFahrplan/EventFahrplan/actions/workflows/build.yaml) [![Crowdin](https://badges.crowdin.net/eventfahrplan/localized.svg)](https://crowdin.com/project/eventfahrplan) [![Apache License](http://img.shiel\n[![Travis CI Build Status](https://app.travis-ci.com/EventFahrplan/EventFahrplan.svg?branch=master)](https://app.travis-ci.com/EventFahrplan/EventFahrplan) [![GitHub Actions Build Status](https://github.com/EventFahrplan/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://gith\n[![Travis "
+      },
+      {
+        "url": "https://eventfahrplan.eu",
+        "sha256": "3d956bb3ef4ee25c3a3dfc8d58d79a5f822c7b8ca1059501af8ccd9dba0cd395",
+        "body_length": 3338,
+        "window": "Unique layout The grid layout allows to intuitively see which sessions take place in parallel or overlap. Offline first Your personal event schedule always works on your device, regardless of your connection status. Open source The source code of this project is available and will always be accessible for you in the future. Feature highlights As an end user of the app you have full functionality at your fingertips. Here is a brief overview of what you can expect. Read more on the features page. \nws to intuitively see which sessions take place in parallel or overlap. Offline first Your personal event schedule always works on your device, regardless of your connection status. Open source The source code of this project is available and will always be accessible for you in the future. Feature"
+      }
+    ]
+  },
+  {
+    "part": 250,
+    "id": "commercial:hudl-sportscode",
+    "name": "Hudl Sportscode",
+    "track": "commercial",
+    "definition_core": "A **Sports Video Analysis** application is a coaching-side system whose center is a persistent library of sports footage that staff break down into structured, reviewable analysis and deliver back to athletes and teams as feedback material.\n\nThe defining structure is small:\n\n```text\nFootage library of record\n└── Sport-purposed analysis structure\n    (tagged/clipped events, annotated frames, comparisons)\n    └── Coaching review loop\n        (playlists / presentations / shared clips → athletes & staff)\n```\n\nEverything commonly associated with modern products — cloud delivery, AI auto-tagging, ve",
+    "summary": "Hudl 面向球队教练与分析师的体育视频性能分析软件，以 macOS 离线编码工具为核心：将比赛/训练视频采集或导入 package，在时间线上按自定义按钮打标签、记录标签与笔记、剪辑实例，并通过 Organizer/Sorter、输出报告、播放列表和片段导出交付给教练与球员。",
+    "reason": "官方产品页与官方 tiers 对比页显示：可将本地视频直接采集进 Sportscode、把新采集追加到既有 package、合并多条 timeline 为新的独立 package、导入旧版 Sportscode package；可在时间线/数据库上 Code、给实例加标签与笔记、使用 telestration；并通过 Organizer/Sorter 制作演示、查看 output report、导出选中 clips/多角度 playlist、以 Live Share output report 共享。由此覆盖可累积影像 package 库、带体育语义的结构化分析单元、以及面向教练/球员的回看交付三段核心。产品本身是 macOS 离线编码工具并配合在线/局域网共享，并非纯云端 SaaS；但本类型定义明确写明“带本地视频数据库的桌面授权”同样属于该类型，故不以此排除。",
+    "sources": [
+      {
+        "url": "https://www.hudl.com/products/sportscode",
+        "sha256": "b3c744f64bdec0c47a38c4e13e3fe3f44784568e09409fa371d036a7de8c1845",
+        "body_length": 2855,
+        "window": "Hudl Sportscode Request a Demo What's New High Performance Workflows Sportscode Tiers Support Request a Demo : Fully Customizable Performance Analysis The new Hudl Sportscode is more powerful and more intuitive with better scripting, faster interactions and easier integrations with your custom workflow. Request a Demo Show me more. With easy, intuitive workflows and a stronger, more powerful engine, Hudl Sportscode is a completely new take on our industry-leading solution and the most advanced e\nHudl Sportscode Request a Demo What's New High Performance Workflows Sportscode Tiers Support Request a Demo : Fully Customizable Performance Analysis The new Hudl Sportscode is more powerful and more intuitive with better scripting, faster \nHudl Sportscode Request a Demo What's New High Performanc"
+      },
+      {
+        "url": "https://www.hudl.com/products/sportscode/tiers",
+        "sha256": "eb4476ba6db91dd0c79f0da00aed83ecd6c85d6b40b18174d174a47878d09ab6",
+        "body_length": 12146,
+        "window": "Hudl Sportscode Request a Demo What's New High Performance Workflows Sportscode Tiers Support Request a Demo Hudl Sportscode Comparison Capture Video Game­breaker Pro Review Pro Elite Review Elite Local Capture (AVFoundation) Capture local video live directly into Hudl Sportscode. IP Capture Capture video from an IP video stream directly in Hudl Sportscode. Multi-Angle IP Capture Capture multiple angles of IP video streams in Hudl Sportscode. *Add-on required Custom Capture Presets Create custom\nHudl Sportscode Request a Demo What's New High Performance Workflows Sportscode Tiers Support Request a Demo Hudl Sportscode Comparison Capture Video Game­breaker Pro Review Pro Elite Review Elite Local Capture (AVFoundation) Capture local v\nHudl Sportscode Request a Demo What's New High Performanc"
+      }
+    ]
+  },
+  {
+    "part": 137,
+    "id": "github:862650765",
+    "name": "tscircuit",
+    "track": "open_source",
+    "definition_core": "A **PCB Design application** is an engineering design application for printed circuit boards: the designer places components onto a layered board substrate and draws copper — tracks, vias, and zones — that realizes the circuit's electrical connections, verifies the result against manufacturing constraints, and produces the fabrication data a board manufacturer needs to build the board.\n\nThe defining core is small:\n\n```text\nBoard (outline + layer stackup) — the design of record\n└── Footprints (components as physical pads) placed on the board\n    └── Nets (the electrical connectivity model bindi",
+    "summary": "开源（MIT）在线 PCB 设计 Web 应用：在浏览器中用 TypeScript/React 描述电路板，放置封装、定义网络与走线，实时查看 PCB/原理图/3D 视图，并下载 Gerber、钻孔、BOM 等制造文件；仓库包含在线编辑器及本地开发/生产构建脚本。",
+    "reason": "tscircuit.com 仓库 README 明确其为创建/共享/管理电路设计的 Web 应用与在线编辑器，可设计电路板、封装和 3D 模型，实时预览 PCB，并给出本地开发与生产构建说明；官方 Web Quickstart 说明无需安装即可在在线编辑器创建 board，查看 PCB/Schematic/3D 并下载制造文件；官方文档正文给出 net（网络分组）、trace（铜走线/铜宽/pcbPath）、footprint（platedhole/smtpad 封装）与 Gerber/钻孔/BOM 制造输出。据此覆盖板、封装、网表、铜几何、制造输出核心，且形态为完整 Web 应用服务而非桌面/CLI/SDK。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/tscircuit/tscircuit.com/main/README.md",
+        "sha256": "0cf63448d1de225a3cb6043c3ecf385d3bd5108d2fee05d721ac4252fd891dea",
+        "body_length": 3941,
+        "window": "# tscircuit.com Build electronics with React. The website for tscircuit packages and the online tscircuit editor [Docs](https://docs.tscircuit.com) &middot; [Website](https://tscircuit.com) &middot; [Twitter](https://x.com/tscircuit) &middot; [discord](https://tscircuit.com/community/join-redirect) &middot; [Quickstart](https://docs.tscircuit.com/quickstart) &middot; [Online Playground](https://tscircuit.com/playground) tscircuit.com is a web application for creating, sharing, and managing circu\ncuit.com/playground) tscircuit.com is a web application for creating, sharing, and managing circuit designs using TypeScript and React. It provides an intuitive interface for designing circuit boards, packages, footprints, and 3D models. ## Features - Create and edit circuit designs using TypeScrip"
+      },
+      {
+        "url": "https://tscircuit.com/",
+        "sha256": "9f716dcedbb9058218fe398e79170e07fcdc1425b9ab72bbee98e2f9141f8436",
+        "body_length": 6571,
+        "window": "The framework for AI-generated electronics Build real circuit boards with any AI. Just tell your agent to \"use tscircuit\" Get Started → Star on GitHub tscircuit is a TSX framework to enable AI to build electronics. Using tscircuit, AI achieves state-of-the-art physically-validated electronics generation capabilities . AI-native electronics design Reimagine electronic design, built for AI Usable with any AI agent. tscircuit doesn't require any special installation- just tell your agent to \"use ts\ns state-of-the-art physically-validated electronics generation capabilities . AI-native electronics design Reimagine electronic design, built for AI Usable with any AI agent. tscircuit doesn't require any special installation- just tell your agent to \"use tscircuit\" and it gains the ability to crea"
+      }
+    ]
+  },
+  {
+    "part": 121,
+    "id": "github:129717717",
+    "name": "Grafana Loki",
+    "track": "open_source",
+    "definition_core": "A **Log Management** application is the operational event-record system of record for an organization's software estate. It continuously collects timestamped log records — the running narrative of events produced by applications, servers, containers, network devices, and cloud services — from many sources into one centralized store, keeps that corpus over time, and makes it searchable and examinable through time-anchored search.\n\nIts purpose is to answer, after the fact and during the fact: *what happened, when, where, and in what order?* When something breaks or behaves unusually, the log cor",
+    "summary": "开源核心日志聚合系统，作为自托管主服务接收推送/OTLP 日志、集中持久存储，并提供按时间范围执行的 LogQL 查询 API；可经 Grafana 或 LogCLI 检视。",
+    "reason": "README 说明 Loki 是日志栈中的主服务，负责存储日志和处理查询，Alloy 负责采集，Grafana/LogCLI 仅为查询客户端；官方 HTTP API 文档进一步证明 Loki 暴露推送/查询/tail 接口，含 POST /loki/api/v1/push、POST /otlp/v1/logs 摄取端点及 GET /loki/api/v1/query、/query_range 等按时间范围执行的 LogQL 查询端点。多源采集、集中持久存储、时间锚定检索三项核心均成立，且 Loki 本身是可持续自托管的服务端应用，不是纯客户端、CLI 或仅基础设施。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/grafana/loki/main/README.md",
+        "sha256": "af9e356ba4d99300f4e145be9c0b5885587b2ba8dbba89e2a5f149cd3572c04a",
+        "body_length": 8734,
+        "window": "<p align=\"center\"><img src=\"docs/sources/logo_and_name.png\" alt=\"Loki Logo\"></p> <a href=\"https://github.com/grafana/loki/actions/workflows/check.yml\"><img src=\"https://github.com/grafana/loki/actions/workflows/check.yml/badge.svg\" alt=\"Check\" /></a> <a href=\"https://goreportcard.com/report/github.com/grafana/loki\"><img src=\"https://goreportcard.com/badge/github.com/grafana/loki\" alt=\"Go Report Card\" /></a> <a href=\"https://slack.grafana.com/\"><img src=\"https://img.shields.io/badge/join%20slack-"
+      },
+      {
+        "url": "https://grafana.com/docs/loki/latest/api/",
+        "sha256": "1622e195dcefda8a248896baaae82cee2de521013dcc25e457f9ee2c8c766047",
+        "body_length": 53760,
+        "window": "Searching... Site search Ask Grot AI Try using Grot AI for this query -> All Docs View all results No results. There was an error with your request. Documentation for automated readers A curated documentation index is available at: https://grafana.com/llms.txt A complete documentation index is available at: https://grafana.com/llms-full.txt These indexes can help with page discovery before fetching individual documents. This page is also available in Markdown, which may be easier for automated r"
+      }
+    ]
+  },
+  {
+    "part": 126,
+    "id": "github:223431735",
+    "name": "OpenZiti",
+    "track": "open_source",
+    "definition_core": "A **Zero Trust Network Access (ZTNA)** product is a security access service that gives users identity-verified, policy-controlled connections to specific private applications — without ever letting them join the network those applications live on.\n\nThe defining core is small:\n\n```text\nPrivate application / resource (the unit of access)\n  → access decided per user (and device) identity, deny-by-default\n    → connection path owned and enforced by the product, per session\n      → the application itself stays unexposed\n```\n\nThree properties hold the type together. Remove any one and it stops being",
+    "summary": "开源零信任网络平台，为服务、用户与设备签发密码学身份，按身份策略逐服务授权，使私有服务不暴露监听端口，连接经自托管 controller/edge router 建立的 overlay 到达；官方 all-in-one 部署同时提供 ZAC 浏览器管理控制台，可作为完整自托管 ZTNA 应用服务运行。本关系只依据其服务级 Host/Application Access 模型，不采其 Network Access 网关模式。",
+    "reason": "README 明确以单个服务为授权单位、按密码学身份逐服务允许访问、服务无监听端口且授权可实时撤销，并把该模型定位为 VPN 替代；官方 all-in-one quickstart 文档进一步显示 docker compose 后可在浏览器打开 /zac/ 管理控制台并查看身份与 router，说明它是可持续运行的自托管应用服务，而非仅 SDK/CLI。其 Host/Application Access 模式分别以服务主机或应用为边界，符合 ZTNA 的资源级访问、身份默认拒绝与产品自有连接路径核心；Network Access 网关模式更接近网络边界接入，未作为本条依据。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/openziti/ziti/main/README.md",
+        "sha256": "eb59b0e0cd212b7be42d1f098ea027f84f4130ee1d845eed58ef98679f10f3f4",
+        "body_length": 18614,
+        "window": "<!-- markdownlint-disable MD033 --> [![Build Status](https://github.com/openziti/ziti/actions/workflows/main.yml/badge.svg?query=branch%3Arelease-next)](https://github.com/openziti/ziti/actions/workflows/main.yml?query=branch%3Arelease-next) [![Go Report Card](https://goreportcard.com/badge/github.com/openziti/ziti)](https://goreportcard.com/report/github.com/openziti/ziti) [![GoDoc](https://godoc.org/github.com/openziti/ziti?status.svg)](https://pkg.go.dev/github.com/openziti/ziti) [![Discourse\npenziti/ziti?style=social)](https://github.com/openziti/ziti) # OpenZiti OpenZiti is an open-source zero-trust networking platform that makes network services invisible to unauthorized users. Every connection, whether from a user, a service, a device, or a workload, is authenticated with cryptograp"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openziti/ziti/main/quickstart/docker/all-in-one/README.md",
+        "sha256": "4b2d10ca23628f27efbadf59c87d2bca8a10e653aac5d78b8b9f744088c09f5b",
+        "body_length": 2381,
+        "window": "# All-in-one Docker quickstart This Docker Compose project runs `ziti edge quickstart` in a container while persisting configs, PKI, database, etc. in a Docker named volume. ## Run Ziti This is the primary use case for this project: running the `ziti edge quickstart` command in the `openziti/ziti-controller` container image. 1. You need only the `compose.yml` file in this directory to run your own Ziti network. ```bash wget https://get.openziti.io/dock/all-in-one/compose.yml ``` 1. In this \"all-\ner` container image. 1. You need only the `compose.yml` file in this directory to run your own Ziti network. ```bash wget https://get.openziti.io/dock/all-in-one/compose.yml ``` 1. In this \"all-in-one\" sub-directory, pull the container images. This makes the latest official release image available "
+      }
+    ]
+  },
+  {
+    "part": 127,
+    "id": "github:27965134",
+    "name": "OPNsense",
+    "track": "open_source",
+    "definition_core": "A **Network Security Platform** is the inline enforcement system of network security: enforcement points positioned where traffic between network zones passes through them, governed by a managed security policy that decides — per traffic session — whether traffic may pass, must be blocked, or must be transformed. Mature products additionally inspect admitted traffic for threats, but the enforcement decision under policy is the core.\n\nThe defining core is small:\n\n```text\nInline enforcement points on network traffic paths\n└── Managed security policy (ordered rules, evaluated per session)\n    ├──",
+    "summary": "开源、可自托管的完整防火墙与路由平台：以状态化包过滤对经过本机的流量按有序规则逐会话放行、阻断或拒绝，默认拒绝未匹配流量，并支持 NAT、接口/浮动规则与 Web GUI/API 策略管理。威胁防护引擎为可选附加能力，不是本条目的匹配依据。",
+    "reason": "官方 firewall 文档正文证明其为内联状态化包过滤器：规则按接口/浮动分区有序处理，quick 首次匹配生效，动作含 Pass/Block/Reject，未匹配流量由默认拒绝规则丢弃，NAT 先于过滤；首页与 GUI 文档进一步证明这是可自托管、经 Web GUI/API 管理的完整防火墙与路由平台，而非仅客户端、CLI 或设备控制器。定义明确允许具有有序规则集的状态化防火墙设备，威胁防护引擎不属于匹配前提。",
+    "sources": [
+      {
+        "url": "https://docs.opnsense.org/manual/firewall.html",
+        "sha256": "7b57a3badcac5714e726f55bf9bd90c1e83d1a4b2e97aa5ee147dc59714e4fe5",
+        "body_length": 32439,
+        "window": "Firewall Rules Rules  Index Rules Overview The basics States Action Processing order Rule sequence Direction Implementations Rules [new] User Interface Interface filter Categories filter Tree button Inspect button Settings Divert-to Rules User Interface Settings Troubleshooting Overview  OPNsense contains a stateful packet filter, which can be used to restrict or allow traffic from and/or to specific networks as well as influence how traffic should be forwarded (see also policy based routing i\nns a stateful packet filter, which can be used to restrict or allow traffic from and/or to specific networks as well as influence how traffic should be forwarded (see also policy based routing in “ Multi WAN ”). The rules section shows all policies that apply on your network, grouped by interface. "
+      },
+      {
+        "url": "https://opnsense.org/",
+        "sha256": "f1117b8aaf51e2911a2c22105296f162beb17d48458fad46996ee9dc0af2e0a7",
+        "body_length": 6057,
+        "window": "How can we help? Didn’t find what you were looking for? Send an email to project@opnsense.org , we are happy to help you. Home About OPNsense® Roadmap Features Partners Legal Guidelines Contact Get started Get started Documentation Be involved You’re invited OPNsense® forum Documentation Donate Blog Official shop Download OPNsense® Version 26.7 Xenial Xenops Building the foundation for the next generation of open network security More information Tweet, tweet It’s OPNsense® 26.7 - Xenial Xenops \nwnload OPNsense® Version 26.7 Xenial Xenops Building the foundation for the next generation of open network security More information Tweet, tweet It’s OPNsense® 26.7 - Xenial Xenops Future-ready Interface Management Consistent Firewall Architecture Enhanced Networking Services Powered by FreeBSD 1"
+      }
+    ]
+  },
+  {
+    "part": 177,
+    "id": "github:1432012861",
+    "name": "Campus Tap",
+    "track": "open_source",
+    "definition_core": "A **Campus Card Management** application is the institution-side system that administers a campus's credential program: it binds institution-issued credentials — plastic ID cards, mobile wallet passes, wearables — to identified cardholders, grants and revokes the service privileges those credentials carry, evaluates and records every use at campus service points, and manages the credential lifecycle from issuance through replacement and revocation.\n\nThe campus credential is both an identity document and a service instrument. The same tap or swipe that verifies who a person is can open a reside",
+    "summary": "Campus Tap 是面向高校的开源 NFC 校园卡系统：每名学生一张在用 NTAG 424 DNA 卡，服务端将卡按学号绑定，统一处理课堂考勤、食堂餐次和校园商户消费，逐次按余额、限额、卡状态与重复刷卡规则判定并记录追加式台账；管理员页面可停用/恢复和充值调账。代码采用 MIT 许可，以 FastAPI + SQLite 自托管，实体读卡器为可选的硬件端。",
+    "reason": "仓库是完整的自托管校园 NFC 卡 Web 应用：卡按学号绑定持卡人，服务端按卡状态与余额逐次评估并记录考勤、餐次与商户消费，每生仅一张在用卡且可停用/恢复，覆盖机构端凭证生命周期与服务点使用记录。",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/kartikeyy12/campus-tap/main/README.md",
+        "sha256": "4b2b8d1809b7c552ab228a935ceeb40498d7617e6cf776b96d6535a3ee406dc0",
+        "body_length": 5931,
+        "window": "# Campus NFC card (NIT Goa techexpo prototype) One NFC card per student. The same card marks attendance, counts mess meals and pays vendors from a server-side campus credit balance. The card holds no money and no data worth stealing: each tap produces a one-time signed URL (NTAG 424 DNA SUN/SDM) and the server decides everything. Prototype hardware: one ESP32 + PN532 + OLED reader that switches between classroom, mess and vendor mode, plus a laptop server and three web pages (admin, student, ven\n# Campus NFC card (NIT Goa techexpo prototype) One NFC card per student. The same card marks attendance, counts mess meals and pays vendors from a server-side campus credit balance. The card holds no money and no data worth stealing: each\n per student. The same card marks attendance, counts mess me"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/kartikeyy12/campus-tap/main/docs/architecture.md",
+        "sha256": "5c0d4be293f931742ad3ee54df9eb6de3df73d51096d7d8678313a176ff99021",
+        "body_length": 2500,
+        "window": "# Architecture notes ## Idea The card is only a key. It stores no balance and no attendance. Every tap makes the chip build a fresh URL containing: - `p`: encrypted (UID, tap counter), AES-128 CBC under the meta-read key - `m`: 8 byte CMAC over the same, keyed from the card's file-read key and the UID and counter The reader forwards that URL to the server, signed with its own device secret. The server decrypts, checks the MAC, checks the counter only ever goes up, and then acts. Cloning the visi\ns the amount while the student is tapping the answer is CHARGE_CHANGED and nothing is paid. This is campus credit in a demo ledger, not real money. ## Not done - Rejecting two cards in the field at once (the reader reads whichever one the PN532 selects). - Creating students and vendors from the UI "
+      }
+    ]
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 块与本单元实际采集结果不同步：五个 leaf 均标 case_status=not_searched、application_ids=[]、research_records=[]，phase 为 included_without_cases；而 data/collections/batch.json 有 5 条 application，research.json 五叶均为 case_found。内容核对按 batch/research 与快照完成，但建议回填 progress，避免下游按空 application_ids 丢弃已核对案例。",
+    "commercial:ibm-maximo-application-suite 的第二条来源 https://www.ibm.com/products/maximo/features 与第一条 https://www.ibm.com/products/maximo 的 sha256 完全相同（5c1276f6...），即 features 页并未产生独立正文，只是同一 overview 页的重复快照。EAM 类型结论由该 overview 正文独立支撑，故不阻断；建议要么删除重复引用，要么换抓真正的 features 页并在 kind/说明中注明。",
+    "cmms 条目 deployment 写“Cloud-hosted service optionally available at atlas-cmms.com”，但被引 README 把 https://atlas-cmms.com 明确标为“Demo website”，仅有 self-host（docker-compose）与 self-hosted license 购买链接（pricing?type=selfhosted）。该行托管形态缺少直接依据，建议改为“官网提供演示与商业 self-hosted license”，或补一条云服务页面证据。",
+    "Atlas CMMS 许可证边界在批次里落在“inventory/purchasing 可能受版本/license 限制”，而 README 明示需 LICENSE_KEY 的项目是 white labeling/branding（LOGO_PATHS、BRAND_CONFIG 需 license）、advanced features，README 也把 inventory/stock alerts/purchase orders 与 approvals 列为常规功能。建议把边界描述改回官方口径（AGPLv3 社区版 + 商业许可用于白标/品牌与 advanced features），避免对采购/库存功能作无依据的门控暗示。",
+    "Atlas CMMS 的“persistent maintenance history”在快照里是间接证据：README 只有“Log time, set priorities, and track history”“Track equipment, downtime, and maintenance costs”，首页正文无法逐段读取（压缩单行 HTML），未出现“maintenance history”字样。核心匹配仍成立（资产/设备 + 工单生命周期 + 历史与成本累积），建议补一条明确的资产维护历史页面证据。",
+    "commercial:isograph-rcmcost 的快照是产品能力页正文（capabilities at a glance / why choose），覆盖 RCM 建模、维护策略与备件优化、predictive maintenance 模拟、SAE JA1011 / MSG-3 / MIL-STD-2173 标准，以及 SAP/MAXIMO 接口；但未出现“failure mode / FMEA”字样，策略回写到维护计划也只以 portal 接口暗示。类型匹配成立，建议补“using RCMCost / reliability-centered-maintenance”子页作为失效模式锚点与部署环节的证据。",
+    "RCMCost 属 Availability Workbench 的可下载桌面模块（Request a free trial / Download Free Trial），不是浏览器 SaaS；商业条目只要求基本真实性和类型匹配，故不阻断，但若目录要求服务形态统一，应在 service_boundary 中显式写为 on-premises/desktop 商业软件。",
+    "commercial:toolhound 的 leaf_match 理由提到“kiosk/RFID transactions”，我只能在 system-overview 与首页的一行超长导航区匹配到 RFID/kiosk 字样，正文（Product Overview 段）只写了 library-like check out and return、scheduled service and calibration、purchasing and replenishment、self check out and return、rentals。建议以正文措辞改写理由，或补 RFID/kiosk 的正文页。",
+    "ToolHound 快照未出现成本中心/计费归集（usage charged back to cost centers）证据，batch 也未主张，故不影响判定；若后续补写“usage has a cost object”一类核心腿，需要新证据。",
+    "github:981534981 的 research note 称“README 标注为官方镜像，GitLab 为主仓库”，但 README 仅并列给出 GitLab 与 GitHub 链接并引用 GitLab pipeline/releases，未明说 GitHub 是镜像。建议改为“GitHub 与 GitLab 为同一官方项目的双托管”，避免无法核验的表述。",
+    "LGDXRobot Cloud 的 Custom Navigation Rules 在 README 标为“(V2)”且作者提示最新代码在 nav2-route-branch / routedemo 分支；batch features 将“navigation rules”写成现成能力，建议标注 V2/分支状态，避免把未来功能当作稳定特性。",
+    "LGDX 的“fleet-side oversight loop”由实时状态/任务进程页面、异常邮件通知、任务优先级与指派、多车队、证书/2FA 等正文支撑；快照未展示明确的异常队列或卡住/故障机器人的处置流程，属于深度不足而非类型不符。",
+    "被排除的开源候选（openMAINT、BaseEAM、CalemEAM、Open FMEA、ToolEase）的检索/抓取结论在 research.json 有如实留档（404、NOASSERTION、BPL/CPL 附加条款、边界不足），但这些快照未列入 REVIEW_SOURCES.json（如 CalemEAM 的 sha 25514a8e...、openMAINT 的 04da2637...），本单元只按 REVIEW_SOURCES 的 path 读取，未核对排除证据原文；不影响五叶判定。",
+    "风格层面：cmms 条目 summary 用“#1 Self hosted”之类营销语可保留，仅为描述性用语。"
+  ],
+  "leaf_checks": {
+    "cmms-maintenance-management": {
+      "application_id": "github:934441434",
+      "name": "Atlas CMMS",
+      "track": "open_source",
+      "identity_check": "GitHub API 快照 id=934441434、full_name=Grashjs/cmms、fork=false、archived=false，与 batch 的 github_repository_id 934441434 及 id 前缀一致；项目自述为“Self hosted CMMS web & mobile application”。",
+      "license_check": "license API 快照为 LICENSE 文件正文 base64（size 34522，解码首行“GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”），仓库元数据 spdx_id=AGPL-3.0，属完整许可证文本而非片段；README 明示双许可：AGPLv3（免费开源）+ Commercial License（white labeling/custom branding/advanced features，需 LICENSE_KEY），社区版边界有官方留档。",
+      "core_check": "README 正文（85ae43...）给出定义性核心：资产/设备与位置（Track equipment, downtime and maintenance costs；Manage locations）、工单创建/指派/优先级/工时/关闭与历史（Create, assign, and track work orders；Log time, set priorities, and track history）、历史与成本累积、预防性触发（Automate work orders with triggers）、服务请求、角色权限、库存与采购、React Native 移动端；属“资产登记 + 绑定工单 + 维护历史”的 CMMS 核心，而非仅资产台账或通用工单。",
+      "service_form": "自托管 Web（docker-compose，localhost:3000）+ Android/iOS 客户端，持续运营的软件产品；README 另指向 atlas-cmms.com。",
+      "leaf_fit": "只匹配 cmms-maintenance-management，未误挂 EAM：无“acquisition→disposal 全生命周期成本治理/生命周期状态”作为一等结构的证据。",
+      "gaps": "1) 资产级持久维护历史为间接证据（README 的 track history/track equipment），首页为压缩单行 HTML，只能做关键词存在性核对；2) batch 的“cloud-hosted service at atlas-cmms.com”缺少直接依据（README 称其为 Demo website）；3) inventory/采购的 license 门控属于推测式措辞，官方明确门控项是白标/品牌与 advanced features。",
+      "result": "pass"
+    },
+    "enterprise-asset-management-eam": {
+      "application_id": "commercial:ibm-maximo-application-suite",
+      "name": "IBM Maximo Application Suite",
+      "track": "commercial",
+      "identity_check": "官方产品页快照（5c1276f6...）meta productName=IBM Maximo Application Suite、pageType=Product - Overview、canonical 产品面为 ibm.com/products/maximo，与 batch 名称/主页一致；商业条目无 repository/license 字段，符合 track=commercial 的字段约定。",
+      "license_check": "商业闭源，无许可证字段需求；未主张开源身份，故无许可证核对项。",
+      "core_check": "正文明确三结构齐全：企业资产登记与工作登记（“comprehensive asset and work registry that combines real-time and historical data with integrated work order management”）、维护执行（“maintenance, inspections and reliability together in one place for critical equipment and infrastructure”；“Schedule, dispatch and complete work more efficiently with mobile access to asset data and work orders”）、全生命周期治理（“Maximo asset investment planning helps connect asset condition, risk and financial impact… capital planning… extend asset life”），并有资产绩效管理（condition-based maintenance、failure 预防）与可靠性工作流/失效模式分析与推荐维护策略。符合 EAM 而非单纯 CMMS。",
+      "service_form": "页内导航描述为“AI-powered monitoring, predictive maintenance, and reliability planning, available as SaaS or on Red Hat OpenShift”，SaaS 形态有官方依据。",
+      "leaf_fit": "只匹配 enterprise-asset-management-eam；虽也含可靠性能力（APM），但 EAM 为其主体定位，单叶归属合理。",
+      "gaps": "1) batch 第二条 sources（/products/maximo/features，kind=documentation）与 overview 页同 sha256，无独立 features 正文；2) 未单独核对 Maximo Manage/EAM 模块页，套件与 EAM 模块的对应关系由 overview 的 EAM tab 文本支撑。商业条目只要求基本真实性与类型匹配，缺口不阻断。",
+      "result": "pass"
+    },
+    "reliability-management": {
+      "application_id": "commercial:isograph-rcmcost",
+      "name": "Isograph RCMCost",
+      "track": "commercial",
+      "identity_check": "快照标题/og:title 为“RCMCost in Isograph Availability Workbench software”，canonical 为 /software/availability-workbench/rcm-software/，产品名与 batch 的 Isograph RCMCost 一致（抓取 URL /software/rcm-software/ 落到该产品页）。",
+      "license_check": "商业闭源桌面软件（free trial/contact sales），无开源许可主张，故无许可证核对项；research 对开源候选 Open FMEA（GPL-3.0）以“不覆盖维护策略闭环”为由排除，留档合理。",
+      "core_check": "正文写“build their RCM models and analyze their systems”“By simulating asset performance RCMCost recommends the optimum strategy to minimize lifetime maintenance costs. Compare the effectiveness of predictive maintenance, planned replacement policies, inspections and alternative spares holdings”“Optimize spares holdings”“Simulate predictive maintenance”“Supports standards such as SAE JA1011, MSG-3 and MIL-STD-2173(AS)”，并有“Interface with SAP & MAXIMO … download your current maintenance plans and performance data for analysis and optimization”。即：失效知识→评估（策略/备件/风险比较）→策略决策，与可靠性管理核心一致；不执行工单，符合“不执行维护工作”的边界。",
+      "service_form": "Availability Workbench 的 RCMCost 模块，下载试用/商业授权，自 1986 年持续开发；非浏览器 SaaS，属持续经营的商业产品，按“商业只要求基本真实性和类型匹配”通过，已在 notes 标注形态。",
+      "leaf_fit": "只匹配 reliability-management；不是 CMMS/EAM（无工单执行与资产台账作为主体），也不是产品耐久性测试工具。",
+      "gaps": "1) 正文未出现 failure mode / FMEA 字样，失效模式条目为 RCM 建模与 SAE JA1011 的隐含结构；2) “部署回维护计划”仅由 SAP/MAXIMO portal 接口暗示，未展示策略回写工作流；3) 部署形态为桌面软件。",
+      "result": "pass"
+    },
+    "tool-management": {
+      "application_id": "commercial:toolhound",
+      "name": "ToolHound",
+      "track": "commercial",
+      "identity_check": "首页与 System Overview 快照标题为“ToolHound | Tool Inventory Software & Equipment Tracking”“Tool Inventory Software & Equipment Tracking | ToolHound System Overview”，JSON-LD 组织为 ToolHound Inc.，与 batch 名称/主页一致。",
+      "license_check": "商业闭源，无开源许可主张；未错误标注 open source。",
+      "core_check": "System Overview 正文同时覆盖三条承重腿：工具库与库存（“tool inventory management system… web-based inventory control software”）、发放/归还流转（“operates similar to a library to facilitate the quick and accurate check out and return of tools, equipment, and consumables from your tool room”）、供应与消耗/服务循环（“Depending on the modules chosen, ToolHound manages scheduled service and calibration, purchasing and replenishment, self check out and return, and tool and equipment rentals”）；首页正文补充“automated inventory monitoring and reporting”“checking in, returning, and counting inventory”。不是只有借还的图书馆式跟踪器。",
+      "service_form": "“available in a client-hosted or ToolHound-hosted environment”，Web 端持续服务形态成立。",
+      "leaf_fit": "只匹配 tool-management；定位为通用工具间/设备库存（含 rental、service/calibration），batch 的 service_boundary 已如实说明非专用 CNC 刀具数据管理，属细分变体而非类型不符。",
+      "gaps": "1) 快照无成本中心/内部计费归集证据（batch 未主张，不阻断）；2) 无刀具组件/CNC 装配粒度证据；3) RFID/kiosk 仅在一行超长导航区匹配到，正文未展开；4) service-module 页正文与导航合并为单行，未能逐段读取，仅以关键词存在性核对，判定主要依据已读的 Overview/首页正文。",
+      "result": "pass"
+    },
+    "robot-fleet-management": {
+      "application_id": "github:981534981",
+      "name": "LGDXRobot Cloud",
+      "track": "open_source",
+      "identity_check": "GitHub API 快照 id=981534981、full_name=yukaitung/lgdxrobot-cloud、fork=false、archived=false，description“Fleet management system designed with a focus on flexibility and security”，与 batch 的 github_repository_id 981534981 一致；README 自述为 AMR 车队管理系统并给出 GitLab/GitHub 双链接。",
+      "license_check": "license API 快照为完整 MIT 正文（size 1068，解码为“MIT License / Copyright (c) 2025 Kai Tung Yu”+完整许可条款），仓库元数据 spdx_id=MIT，README “This project is licensed under the MIT Licence”；单一 MIT 仓库、无 edition 门控，社区版边界清晰。",
+      "core_check": "README 正文：机器人登记与配置（“One-Stop Fleet Setup: Set up robots, generate maps using SLAM and manage operations”“Details for a robot”）、以机器人为执行方的任务（“Create tasks with priorities and assign them to specific robots”“Manage robot statuses and task processes through a real-time web interface”）、车队侧监督循环（实时状态/地图与计划路径、incidents and alerts 邮件通知、多车队、角色/细粒度权限、导航规则下发、工作流触发）；首页补充 Web 门户、多租户（多房间/楼层单实例）、通知与双向集成。三结构齐全，且执行方是物理 AMR 而非人。",
+      "service_form": "自托管 Web 应用（Docker Compose，默认 admin/123456，localhost:5103），官网称 cloud-based 但实际提供下载自部署；持续维护的开源项目。",
+      "leaf_fit": "只匹配 robot-fleet-management；未被误当作车辆 FMS/agent 编排（无驾驶员记录、无软件代理编排）。",
+      "gaps": "1) Custom Navigation Rules 在 README 标为 (V2) 且最新代码在 nav2-route-branch，batch 未标注版本状态；2) 未展示异常队列/卡住机器人处置流程的正文；3) research 的“GitHub 为官方镜像”表述在 README 中无明文。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未访问其他单元；未做部署/运行测试，未补充价格、架构或路线图研究。核对范围为 REVIEW_SOURCES.json 所列 13 个快照（以 path 原样读取，sources 前缀相对 data/collections），全部 5 条 batch 应用的快照均存在，未读取未列入清单的排除候选快照（如 CalemEAM/openMAINT/BaseEAM/Open FMEA/ToolEase 的抓取结果），故这些排除理由只依据 research.json 的自述。工具对超长单行文件按 2000 字符截断：atlas-cmms.com 首页为压缩单行 HTML，LGDX/ToolHound/IBM/Isograph 页的部分行（尤其 ToolHound 的导航+正文合并行）无法逐段阅读，此类快照仅能通过关键词存在性与已读片段判断，正文证据以 README、System Overview、Maximo overview、RCMCost capabilities 等可读段落为准；GitHub 仓库元数据与 LICENSE 快照亦为单行 JSON，仓库 id/archived/spdx_id 通过精确子串匹配确认存在性，未逐字段通读全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-161/ses_groveopencodegop161review1_1793016348.jsonl",
+  "batch_sha256": "c3294f15c000925870178ad4cb8cbe9200e7d5afb920863ff2c33e3a0af5d999",
+  "research_sha256": "b4c929b9d88e1848efb8e9f11e14c884da08b75154f99fb573e27f4fd5e9173e",
+  "input_sha256": "e28806e199e0b9ad3f5e0226452cfc902f49c0eda5761119fbec10df512ed73b"
+}

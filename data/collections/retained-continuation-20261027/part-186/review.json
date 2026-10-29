@@ -1,0 +1,68 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 phase 仍为 included_without_cases，且五个 progress 均为 case_status=not_searched、application_ids=[]、research_records=[]；batch.json 与 research.json 已记录五个案例。建议同步进度元数据，避免下游误判本单元无案例。",
+    "github:867131396 是 Frappe/ERPNext 的自托管计费与物业管理子模块，不是独立多租户 SaaS；research.json 已如实标注该服务边界。按 open_source 轨道可作为自托管软件服务案例，但不宜表述为 SaaS 平台。",
+    "该开源条目的正文可证抄表→用量→费率→销售订单→发票→收款、服务申请勘察/BOM、批量开票与物业租户计费；欠费停复电、押金、最终账单、估算核实、预算计划、换表分摊及现场完工回写未见证据，采集理由已收窄，建议保持该范围。",
+    "NorthStar CIS 页面是产品营销正文，能证 move-in 到 move-out、多公用事业合并账单、放松管制/替代能源计费及自托管或 NorthStar Cloud；联系日志、案例、信函等关怀层和场所锚定账户未见展开，research.json 已记录该缺口。",
+    "ArcGIS Utility Network 是 ArcGIS Enterprise/Pro 之上的网络数据模型与能力扩展，不是独立 GIS 应用；条目摘要已按数据模型/扩展表述，类型匹配成立，但不宜称为完整独立 GIS 产品。",
+    "AiDASH 页面可证 T&D 走廊植被监测、按电路/子电路和预算规划修剪周期、修剪前后检查及审计报告；承包商派工、现场完工证据和工单闭环未见证据，采集理由已避免该断言。",
+    "NorthStar CIS 摘要中的“服务账户”是从 customer information、move-in/out 与账单语境作的概括，属于非关键措辞，不构成事实错误。",
+    "开源仓库未展示单独的 community/enterprise 版本切分；AGPL-3.0 覆盖仓库整体，社区版边界可视为该仓库本身，未发现隐藏的专有模块证据。"
+  ],
+  "leaf_checks": {
+    "utility-billing-platform": {
+      "application_ids": [
+        "github:867131396"
+      ],
+      "track": "open_source",
+      "result": "pass",
+      "basis": "读取 GitHub API 元数据（id 867131396，navariltd/utility-billing）、README、Utility-Billing.md 与 license 端点。正文可证服务申请→勘察→BOM→销售订单、抄表读数与用量计算、价格清单/费率、批量开票与按客户合并、销售订单→发票→收款，以及物业/租户公用事业计费。",
+      "license": "license 端点返回 AGPL-3.0 全文（license.txt，size 34523，base64 内容以 GNU AFFERO GPL v3 开头）；仓库身份与 id 匹配，未发现单独社区版/企业版切分。",
+      "gaps": "未证欠费停复电、押金、最终账单、估算核实、预算计划、换表分摊、账单序号/更正文档及现场完工回写；且为 ERPNext 自托管子模块而非独立多租户 SaaS。采集记录已明确收窄，不据此扩展。"
+    },
+    "utility-customer-information-system-cis": {
+      "application_ids": [
+        "commercial:northstar-utilities-cis"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 NorthStar 官方 Customer Information & Billing 页面正文：面向中小型公用事业/市政的 CIS，CSR 从 move-in 到 move-out 服务，多公用事业合并账单，放松管制/替代能源计费，支持客户自托管或 NorthStar Cloud。",
+      "gaps": "页面未展示联系日志、案例、信函、服务请求/预约、场所锚定账户、欠费停复电等 CIS 关怀层细节；research.json 已记录该缺口，未作超出来源的断言。"
+    },
+    "utility-field-service-management": {
+      "application_ids": [
+        "commercial:northstar-servicelink"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 NorthStar ServiceLink 官方页面正文：面向 water/gas/electric/sanitation；DISPATCH 实时排程、优化、路由、库存、分析、AVL、GIS、派工与通信；技能匹配、工作池、自助派工；移动端工单详情、导航、客户联系方式、作业完成表单、预约与通知、离线访问与数据同步、iOS/Android/Windows。",
+      "gaps": "页面以 utility mobile workforce management 定位，未逐项列明表计/服务点、网络设施、停电响应、植被清理等公用事业工单主题，也未展示关闭后回写 CIS/资产/停电系统的具体接口；类型匹配依据官方 utility 定位与派工/移动作业正文。"
+    },
+    "utility-gis": {
+      "application_ids": [
+        "commercial:esri-arcgis-utility-network"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 Esri ArcGIS Utility Network 官方页面正文：以单一统一模型管理 connected network，扩展 ArcGIS Enterprise/Pro；2D/3D 可视化与分析；rules and logic/数据治理；tracing 分析；基于角色的数据与编辑权限；数字孪生与业务系统集成。",
+      "gaps": "该产品是网络数据模型与能力扩展，不是独立 GIS 应用；页面未逐项展示图层管理、地图画布、空间叠加和 as-built custody，类型匹配依据其官方 GIS/connected network 定位及条目已披露的扩展形态。"
+    },
+    "utility-vegetation-management": {
+      "application_ids": [
+        "commercial:aidash-ivms"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 AiDASH IVMS 官方页面正文：面向电力公用事业的 T&D 走廊植被管理；全网植被状况分析；卫星/地面/历史数据与 AI；按电路/子电路计算修剪周期并在预算/工作量约束下规划；修剪前后检查；审计与监管报告；危险树、侵占、树健康与 wildfire 风险分类。",
+      "gaps": "页面未展示承包商/班组派工、现场完工证据、工单关闭与返工验证的完整闭环；research.json 与批次理由已明确未断言完整承包商派工闭环。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。未重新计算快照 SHA-256，未运行产品、未验证价格/部署/多租户架构。input.json 中部分长字段（如 dc/overview）在读取视图中被截断；license 快照为单行 base64 API 响应，完整 AGPL 文本仅依据开头、文件大小 34523 和端点元数据核对，未逐行解码。未独立重放 GitHub 搜索或重新抓取网页。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-186/ses_groveopencodegop186review1_1793021776.jsonl",
+  "batch_sha256": "a23f0d98a49eca2cf21ba18e95b1f067ae4c3470b97dc7162fabeffc78c5a1d3",
+  "research_sha256": "dcf6ed9b4b798e857128d0384fcd984743cec8293e33ef49133d2bc3586b6621",
+  "input_sha256": "d21f500840166da34d5f62bda93739e94228aa9e8f23cdc085a40b73d40e72e4"
+}

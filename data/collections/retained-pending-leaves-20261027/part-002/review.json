@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "README 的自我定位是“PostgreSQL database explorer”，SQL 查询是其中一项能力；条目将其归为 SQL Client 仍可成立，因为查询编辑器、查询历史和结果导出均有官方文档支持，且没有证据显示它具备 Database IDE 的持久脚本工作区或数据库管理控制台的运维面。后续如能补充一张官方查询界面/结果界面截图或工作流说明，类型证据会更直观。",
+    "batch.json 的 deployment 字段提到支持 Docker 部署，但已抓取的 README/Usage 中只有 Docker 徽章，没有 Docker 运行说明；“Docker 等部署方式”的表述可收窄为快照可直接支持的内容，属于非阻断措辞问题。",
+    "homepage 指向 https://sosedoff.github.io/pgweb/，本次未抓取该页面；仓库元数据快照为单行 JSON，读取时尾部被截断，未能核对 homepage 字段。该项不影响仓库身份、核心能力或许可结论。",
+    "research.json 保留了 pgcli 的检索与 fetch 记录及其历史快照，但这些快照未列入 REVIEW_SOURCES.json；由于 pgcli 已从 batch 移除且未被本叶收录，不影响本条目的来源闭环，仅提示审计追溯时可注明其已属于被剔除候选。",
+    "本条目未运行软件也未访问演示站，核心能力依据为官方 README 的功能正文与 wiki Usage；这符合“不要求部署测试”的审查口径，但结果呈现方式仍属文档级证据而非实测证据。"
+  ],
+  "leaf_checks": {
+    "sql-client": {
+      "status": "pass",
+      "application_ids": [
+        "github:24968828"
+      ],
+      "application": "pgweb（sosedoff/pgweb）",
+      "track": "open_source",
+      "id_and_track_check": "batch.json 使用 id=github:24968828、repository_url=https://github.com/sosedoff/pgweb；仓库元数据快照返回 id=24968828、full_name=sosedoff/pgweb、name=pgweb、private=false、fork=false，ID、仓库身份与开源轨一致。",
+      "definitional_core_check": "满足三项定义性核心：其一，连接外部运行中的 PostgreSQL，README 与 Usage 均给出 --host/--user/--db 及 postgres:// 连接串；其二，SQL 为主要工作接口，README 明确“Execute and analyze custom SQL queries”，并有查询历史；其三，结果可检查，README 说明查询分析及表/查询结果导出 CSV/JSON/XML，Usage 的 --query-timeout 等参数也表明查询执行与结果反馈是内建能力。",
+      "service_form_check": "pgweb 以单个 Go 二进制启动 HTTP 服务，默认监听 8081，并通过浏览器访问；README 与 Usage 提供 --listen、--bind、--auth-user/--auth-pass、--skip-open 等服务器/浏览器侧参数，符合自托管 Web 服务形态，不是仅本地终端 REPL。",
+      "license_and_boundary_check": "license 快照为 GitHub License API 返回的完整 MIT 文本（含许可授予、版权声明与免责声明），README 的 License 段亦写明 The MIT License (MIT)；batch.json 的 license=MIT 与证据一致。项目整体以 MIT 发布，未发现需另行界定的社区版/商业版分层。",
+      "type_boundary_check": "官方定位为轻量数据库浏览器并支持自定义 SQL 查询，未呈现以 Schema 目录为主导航且带持久脚本工作区的 Database IDE 形态，也未以部署配置、备份、生命周期管理为主，故不落入相邻类型，SQL Client 归类成立。",
+      "evidence": [
+        "https://api.github.com/repos/sosedoff/pgweb（仓库元数据快照）",
+        "https://api.github.com/repos/sosedoff/pgweb/license（MIT 许可证快照）",
+        "https://raw.githubusercontent.com/sosedoff/pgweb/master/README.md（功能与使用说明）",
+        "https://raw.githubusercontent.com/wiki/sosedoff/pgweb/Usage.md（HTTP 服务与连接参数说明）"
+      ],
+      "gaps": "未运行 pgweb，未部署或访问演示站，也未抓取 SCREENS.md/截图；结果界面的具体形态来自 README 功能描述与 Usage 的服务器参数，而非实测或界面正文。另有 pgcli 因终端 REPL 形态被剔除，其历史快照不在 REVIEW_SOURCES 列出的四份来源中，但该候选未被收录，不影响本叶结论。"
+    }
+  },
+  "limits": "本次仅做只读审查：未运行 shell、未写文件、未部署或运行 pgweb、未新增网络检索，仅逐字读取 REVIEW_SOURCES.json 列出的四份快照及本单元的 input.json、batch.json、research.json。GitHub 仓库元数据快照为单行 JSON，读取展示在 2000 字符处截断，已核对开头可见的 id/name/full_name/description/private/fork 等字段，但未逐字核对 archived、default_branch、homepage 等尾部字段；homepage 与演示站未另做在线验证。pgcli 与 CloudBeaver 仅作为已剔除/未采用的候选记录存在，未纳入本叶的成立性核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-002/ses_groveopencodegop002review1_1793090350.jsonl",
+  "batch_sha256": "14fa1171e591e00af17ec1faac4e89cecdfc7d6b267a8fa53f92ebee2fc04745",
+  "research_sha256": "9dee4a26f862088960043f8e238cfe12a28303493b3faa4db55a93083ed1f316",
+  "input_sha256": "d14f595d350843d0570ea87c2b6a9526564c8f8f9cc8ddc9279b32bb6404fe8e"
+}

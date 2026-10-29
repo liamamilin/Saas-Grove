@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "本单元收录的 3 个应用均为 open_source，没有商业条目，因此本次不涉及商业应用基本真实性与类型匹配的放宽规则；许可证与仓库身份均已核对。",
+    "academic-integrity-plagiarism-platform 的 Free-Turnitin 是语料范围很窄的案例：README 明确旧 Turnitin 端点失效，论文库与 IEEE 数据库不可访问，只剩公开网页比对；它仍在“提交→文本比对→相似度报告”的定义性核心内，但不应在下游被描述为完整的机构级学术诚信平台。",
+    "Free-Turnitin 的 GitHub 描述以 [Archived] 开头，但 batch/research 未记录该描述与仓库实际 archived 状态的关系，metadata 快照也未给出可核对的 archived 布尔值；建议下游先确认维护状态，再把它作为当前项目引用。",
+    "Free-Turnitin 的核心工作流主要由 README 的 How It Works 与仓库文件树（client/server/Dockerfile/docker-compose）支持，没有保存 server 端比对或报告源码快照；若后续需要更强证据，可补一份服务端源码/文档快照，或换用文档更完整的维护中平台。",
+    "Badge Engine 的官方产品页同时描述托管 SaaS 与可下载源码，仓库含 Next.js/Prisma/Terraform；本次未核验自托管的功能完整性、部署路径或是否存在企业版/社区版功能切分。现有证据未显示专有核心功能，按 Apache-2.0 开源仓库加可选托管服务理解。",
+    "TCExam 的 examination-platform 证据覆盖考试场合、名册准入、服务器强制场次、自动/人工评分和结果发布开关；未发现独立的委员会式复核、双重确认或实时监考仪表盘文档，batch/research 已避免把它写成完整机构评审工作流。",
+    "TCExam 同时作为 assessment-platform 与 examination-platform 的案例；两条 leaf_match 的证据分别成立（前者是题目→测评→评分→统计，后者是考试场合→名册→强制场次→受控发布），下游按应用计数时需去重，但不应因此删除任一叶关系。",
+    "academic-accreditation-management 没有收录案例：QualifAi 的 README 虽列出认证类型、按章节上传、逐年详情、评估评分、截止日期、报告和角色，但仓库文件树只有 React/Vite 前端与配置，没有服务端、数据库或部署资料，不能证明完整可自托管的认证管理服务；research.json 已记录该缺口，符合无案例留档要求。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 中四个案例不一致；本次审查以 batch/research 为案例记录，未把 progress 当作已核验数据。",
+    "TCExam 的 AGPL-3.0-or-later 是含网络使用 copyleft 的完整许可证；Badge Engine 与 Free-Turnitin 为完整 Apache-2.0。三份 LICENSE 快照均含 END OF TERMS AND CONDITIONS，未发现许可证截断。"
+  ],
+  "leaf_checks": {
+    "academic-accreditation-management": {
+      "status": "passed_with_documented_gap",
+      "application_ids": [],
+      "evidence": "读取 input 定义与 research.json，并读取本单元 sources 中的 QualifAi README（7c542786...）、metadata（7728cdcd...）和 MIT LICENSE（ff258496...）。README 描述认证类型、按章节上传文档、逐年详情、评估评分、截止日期、报告和角色权限；metadata 文件树仅含 public/、src/、package.json、vite.config.js、index.html 等前端与配置文件，没有 server、数据库迁移或部署配置，无法证明完整可自托管的认证管理服务。补充检索只得到小型/学生项目，未取得足够官方来源。",
+      "gap": "没有收录案例；外部标准、逐条合规响应、证据链接、自评报告和常备周期的定义性核心没有可核验的服务承载。research.json 已记录 assessment=insufficient_evidence、查询、抓取结果和具体缺口，符合无案例留档可通过的条件。"
+    },
+    "academic-integrity-plagiarism-platform": {
+      "status": "passed_with_documented_scope_limits",
+      "application_ids": [
+        "github:867017055"
+      ],
+      "evidence": "核对 batch/research 的 github:867017055（Free-Turnitin Plagiarism Checker），读取 README（0be840d8...）、repository metadata（7caee3ce...）和 Apache-2.0 LICENSE（c71d239d...）。README 的 How It Works 明确列出上传 txt/doc/docx/pdf、与公开网页文本比对、按相似度高亮匹配、引用排除和 PDF 报告；仓库文件树含 client/、server/、Dockerfile、docker-compose.yml，属于前后端 Web 应用。LICENSE 为完整 Apache-2.0（END OF TERMS 与 APPENDIX 均在），repo id 867017055 与 open_source track 一致。该产品提供相似度证据而非裁决，符合本叶的提交→比对→报告核心。",
+      "gap": "语料仅限公开网页：README 明确旧 Turnitin 端点失效、论文库与 IEEE 数据库不可访问，未证明期刊/论文库或历史提交库。核心实现主要由 README 与文件树支持，未保存服务端比对/报告源码快照。GitHub 描述以 [Archived] 开头，但 batch/research 未记录其与实际 archived 状态的关系；以上是已记录的范围/来源限制，不构成类型不匹配。"
+    },
+    "assessment-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:9455072"
+      ],
+      "evidence": "核对 batch/research 的 github:9455072（TCExam），读取 README（e20767f0...）、metadata（463dd957...）、AGPL-3.0-or-later LICENSE（02e12222...）、官方评分（94fda9c1...）、数据库（47f14875...）、安全（54727b9f...）、首次考试（29f5dd4c...）、源码文档（895c9cc3...）和 tce_edit_rating.php（3b3005e9...）。README/metadata 证明可创作、排期、分发并报告考试/测验/调查，支持随机组卷与 OMR；评分文档给出各题型自动评分规则，tce_edit_rating.php 证明独立 K_AUTH_ADMIN_RATING 权限下的人工自由文本评分、分数上限校验和评语；数据库文档证明 tce_tests_users/tce_tests_logs 持久保存尝试、逐题得分、IP 与反应时间。题目→测评→交付→尝试→结果→统计的定义性循环成立。",
+      "gap": "未部署、未做运行时测试；不包含完整 LMS 课程管理或学习内容交付，research.json 已记录该服务边界。许可证为完整 AGPL v3 文本，README 明确 AGPL-3.0-or-later；repo id 9455072 与 open_source track 一致。"
+    },
+    "digital-credential-platform": {
+      "status": "passed_with_documented_hosting_gap",
+      "application_ids": [
+        "github:874436052"
+      ],
+      "evidence": "核对 batch/research 的 github:874436052（Badge Engine），读取 README（aef76d54...）、metadata（fed81555...）、Apache-2.0 LICENSE（183b38e3...）和 Digital Promise 官方产品页（d470a5e3...）。README 说明组织可创建和管理数字徽章项目，兼容 Open Badges 3.0，软件为 Apache-2.0；产品页明确组织可创建、颁发、托管凭证，徽章嵌入防篡改元数据以验证签发者、获得者、时间线和标准，获得者可在仪表盘访问、分享、下载，并提供 SaaS 托管与可下载源码。可验证性和获得者展示性均有官方来源，repo id 874436052 与 open_source track 一致，Apache-2.0 文本完整。",
+      "gap": "自托管/社区版边界未核验：产品页同时描述托管 SaaS 与可下载源码，仓库含 Next.js/Prisma/Terraform，但未验证自托管功能完整性、部署路径或是否存在企业版/社区版功能切分。现有证据未显示专有核心功能；batch deployment 和 research service_boundary 已记录该缺口。"
+    },
+    "examination-platform": {
+      "status": "passed_with_documented_governance_gap",
+      "application_ids": [
+        "github:9455072"
+      ],
+      "evidence": "核对 batch/research 的 github:9455072（TCExam）及官方安全、数据库、评分、首次考试、源码文档和 tce_edit_rating.php。安全文档证明只有所属用户组启用、IP 范围匹配且账号有效的考生可进入，默认仅一次尝试，服务器保存并强制执行时长、到时自动关闭，完整活动含 IP 与反应时间记录；数据库文档证明 tce_tests_users 绑定考生与考试、tce_testgroups 映射允许组、tce_tests 保存开始/结束/时长/IP 范围/结果与报告发布开关、tce_tests_logs 保存逐题得分/IP/反应时间；源码文档给出 F_isValidTestUser、F_getTestGroups、F_getTestDuration、F_checkTestStatus、F_updateQuestionLog；评分文档与 tce_edit_rating.php 证明客观题自动评分、主观题在独立 K_AUTH_ADMIN_RATING 权限下人工评分并写评语；首次考试文档证明结果管理、锁定/解锁/延长/终止、PDF/XML/TSV 导出和邮件发布。考试场合、名册准入、强制场次、受控评分和官方结果发布五个环节均有来源。",
+      "gap": "未发现独立的委员会式复核、双重确认或完整申诉工作流文档；实时监考仪表盘也没有单独来源，但服务器状态/日志和锁定、解锁、延长、终止控制可支持场次干预。research.json 已明确不把 TCExam 写成完整机构评审工作流；未部署、未做运行时测试。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或做运行时测试；仅使用本单元保存的快照，未抓取新的线上页面。GitHub 页面和部分官方文档快照是单行大文件，读取器会截断超长行，因此部分数据库列和页面细节只能通过可见片段与 grep 交叉核对；核心结论均尽量由多个快照相互印证。QualifAi 快照存在于本单元 sources/ 但未列入 REVIEW_SOURCES.json，仅为核实无案例缺口而读取，未据此新增案例。未读取其他单元。Badge Engine 的自托管功能完整性、TCExam 的委员会复核/实时监控行为、Free-Turnitin 的服务端比对实现均无法在本次只读快照审查中独立验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-079/ses_groveopencodegop079review2_1792995178.jsonl",
+  "batch_sha256": "3fb5a9ada1b795dd2446883204008d8b46e87106b1d0ff6357b1d43e46354940",
+  "research_sha256": "e79d974eab010d61cab2d3ecf4c199b18e4a070c1dfdbd6d48971b009ead5fa5",
+  "input_sha256": "58ec654f00fba8e85ce57dd6edb2b6ed46c0a089569bdd0564a81b14e8121e90"
+}

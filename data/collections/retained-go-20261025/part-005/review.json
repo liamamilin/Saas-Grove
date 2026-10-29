@@ -1,0 +1,119 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "leaf": "ux-prototyping-application",
+      "entry_id": "commercial:axure-rp",
+      "severity": "high",
+      "problem": "batch 把 https://www.axure.com/features 与首页保存成同一个 sha256（966831...），快照只有 Nuxt 壳和 meta 描述；正文没有事件触发器、条件逻辑、动态面板或运行模式。leaf_match 却把这些当作已证能力，属于用 HTTP 200 和摘要代替正文。",
+      "fix": "重新抓取 Axure 官方可读的功能/教程页并单独存快照；若拿不到，只保留官方标题/描述能证明的“一体化原型、规格与流程图工具”类型匹配，删除触发器/条件/动态面板表述，并在 note 与 fetch_outcomes 记录正文缺口；同时删掉重复 source。"
+    },
+    {
+      "leaf": "digital-sculpting-application",
+      "entry_id": "commercial:nomad-sculpt",
+      "severity": "high",
+      "problem": "manual/tools 与 manual/files 快照都是 VitePress 壳，只有 title、modulepreload 和 hash map，没有 Clay/Smooth/Inflate/Crease 笔刷、半径/强度/压感，也没有工程保存或模型导入导出正文；官网只有“A sculpting and painting application”副标题。leaf_match 的笔刷与导出细节无来源支撑。",
+      "fix": "补一个服务端可读的官方手册或文档页面证明笔刷变形与模型导出；若拿不到，把 reason 收窄为官网副标题可证明的类型匹配，并在 note 明确核心工作流证据不足，不得列具体笔刷名、参数或导出格式。"
+    },
+    {
+      "leaf": "digital-audio-workstation-daw",
+      "entry_id": "github:15778896",
+      "severity": "high",
+      "problem": "docs.lmms.io/user-manual/production/exporting 快照是 GitBook 客户端壳，正文只有侧栏“Exporting a Song / File Format / Sample Rate”；README 只证明 Song Editor、Mixer 与 MIDI 导入导出，未证明音频渲染。research 的 DAW note 还说 README 列“导出”，且 source_urls 未列 LMMS README 或 export 页，note 与来源不一致。",
+      "fix": "改用可读的 LMMS 官方导出页，或让 Ardour 单独承担 DAW 的音频交付证据；在拿到正文前删除 LMMS“音频导出”表述，并把 research.source_urls 与 note 对齐。music-production-application 叶同样不要把 LMMS 当导出证据。"
+    },
+    {
+      "leaf": "sheet-music-reader",
+      "entry_id": "github:373495382",
+      "severity": "medium",
+      "problem": "research note 称“官方 FAQ 说明移动端支持尚未完成”，但 FAQ 快照只有 How can I help 与 What if I don't have a home server，没有该陈述；README 说已有 Web 与 iPad/Android 平板客户端（独立仓库），docs 说浏览器/移动可用，roadmap 才把跨设备同步列为未来。另 SheetAble 正文只证明曲库、上传、标签与账号，未证明翻页/缩放/阅读状态控制；该叶的阅读核心目前由 forScore 承担。",
+      "fix": "改写 note，区分“Web 曲库已交付、平板客户端为独立仓库、跨设备同步在 roadmap”；补阅读界面正文，或明确标注 SheetAble 只证明曲库/上传/标签，不把多端阅读当已证核心。"
+    },
+    {
+      "leaf": "rendering-management-application",
+      "entry_id": "github:133735379",
+      "severity": "medium",
+      "problem": "OpenCue README 证明作业拆分、可配置队列、中央渲染机群、proc/标签/多设施，但没有明确状态跟踪、日志、失败重试或重新排队、完成关闭；leaf_match 的“跟踪作业状态并回传完成帧”超出正文，dispatch-and-track 闭环只证到派发侧。",
+      "fix": "补官方 docs 的 dispatch/track/failure 页面，或把 reason 收窄为已证的队列/拆分/容量/派发，并在 note 记录闭环缺口；若两者都做不到，assessment 改 insufficient_evidence 或 boundary_unresolved，archived 仍为 false。"
+    },
+    {
+      "leaf": "podcast-editing-application",
+      "entry_id": "commercial:hindenburg-pro",
+      "severity": "medium",
+      "problem": "官方页证明口播/播客定位和 record-transcribe-edit-montage-mix-publish 标语，但没有明确“单集”是持久工作单元，也没有发布上下文（标题/简介/show notes/章节）。leaf_match 的“以单集节目为产出”是推断，不是正文。",
+      "fix": "补官方单集/项目管理或发布文档；否则把 reason 收窄为“面向记者/播客的口播音频编辑与发布流程”，service_boundary 不要写单集资产状态。商业基本类型匹配可保留。"
+    },
+    {
+      "leaf": "character-animation-application",
+      "entry_id": "github:314383297",
+      "severity": "medium",
+      "problem": "README 与文档证明绑定、参数驱动形变、视频导出与运行时 puppet；但“导入分层 PSD 原画”只在 FAQ 目录出现标题，“网格变形”原文是 deforming textures，时间轴关键帧也没有直接正文。features 与 reason 把这些写成了已证事实。",
+      "fix": "补 PSD FAQ 答案或动画/时间轴文档；否则把 reason 改为“导入分层二维素材、参数绑定驱动、视频/运行时交付”，删去未证的 PSD、网格与时间轴细节。"
+    },
+    {
+      "leaf": "texture-material-authoring-application",
+      "entry_id": "github:141905920",
+      "severity": "low",
+      "problem": "features 写“200+ 节点”，但 README 与官网快照只说节点式编辑和社区库“hundreds of materials/nodes/brushes”，没有 200+ 这个数字。",
+      "fix": "删掉“200+”，或补明确写该数字的官方来源；节点/PBR 导出与资产交付的其余证据成立。"
+    },
+    {
+      "leaf": "ux-prototyping-application; digital-sculpting-application; digital-audio-workstation-daw",
+      "entry_id": "commercial:axure-rp; commercial:nomad-sculpt; github:15778896",
+      "severity": "medium",
+      "problem": "fetch_outcomes 把 Axure /features、Nomad manual/tools 与 manual/files、LMMS exporting 记为 200 成功，但这些快照是 JS 壳，正文不可用。把 HTTP 成功写成抓取成功，会让后续把壳页当证据。",
+      "fix": "在 fetch_outcomes 增加“200 但正文为 JS 壳/仅侧栏”的状态，重新抓静态可读页；采用来源前先检查正文可读性，不以 HTTP 状态码代替。"
+    },
+    {
+      "leaf": "podcast-editing-application",
+      "entry_id": "commercial:hindenburg-pro",
+      "severity": "low",
+      "problem": "research.source_urls 把未入选的 audapolis README 与 Hindenburg 并列，但 batch 没有 audapolis 条目，note 又说仅候选；来源列表与 case_ids 不一致。",
+      "fix": "把 audapolis 移到 search_attempts 或 note 并标注 candidate，source_urls 只保留支撑已选 case 的来源。"
+    }
+  ],
+  "leaf_checks": {
+    "2d-animation-application": "Pencil2D 官方手册第 1–3 帧加关键帧绘制并播放、FAQ 说明相机区域用于导出视频/图片，四项核心均有正文；GPL-2.0 快照完整。",
+    "3d-animation-application": "Art of Illusion 手册 Animation 章证明 Score 轨道、关键帧、插值与拖动时间标记回放，Rendering 章证明按 Frames/Sec 输出连续编号图像或 QuickTime；其 Score 以秒标注，帧粒度来自渲染设置，属口径差异而非类型失败。",
+    "character-animation-application": "Inochi Creator 的 README/文档证明绑定、参数驱动形变与视频/运行时交付，Live2D 官方页证明建模加动画；但 Inochi 的 PSD 导入、网格变形与时间轴关键帧只有间接或标题级证据，已在 findings 留缺口。",
+    "audio-editor": "Audacity 手册波形页证明振幅视图与剪切/拼接，导出页证明整工程或选区按格式与编码导出；GPL-3.0 全文已读。",
+    "audio-restoration-application": "iZotope RX 官方页正文列出频谱定位替换、De-click/De-hum/De-noise/De-reverb 等专用模块与 Repair Assistant，符合损伤分类、专用处理器、保留素材的修复循环。",
+    "digital-audio-workstation-daw": "Ardour Features 页分节证明录音、编排、混音与导出（含分轨、WAV/FLAC），四项核心完整；LMMS 的音频导出页只是 GitBook 壳，不能作为第二例的交付证据。",
+    "podcast-editing-application": "Hindenburg PRO 官方页证明口播/播客定位与 record-transcribe-edit-montage-mix-publish 流程；单集作为持久工作单元与发布上下文未在正文明确，商业类型匹配可过但 reason 需收窄。",
+    "beat-making-application": "Hydrogen 手册证明鼓组、Pattern Editor、Song Editor、Export Song 单轨或分轨，四项核心完整；MAGIX 只补充 Beatbox 音源与节奏构建。",
+    "loop-based-music-production-application": "MAGIX 教程证明循环拖入编排器、统一 BPM 使循环随速度变化，CD 教程证明 File→Export 导出 WAV；调性自动适配无正文，已在 note 留缺口。",
+    "music-production-application": "Ardour 与 GarageBand 官方页证明工程、录音/编曲、混音与音频导出；LMMS 的导出证据同样受 GitBook 壳限制，但本叶有前两者支撑。",
+    "virtual-recording-studio": "GarageBand 官方页以“Mac 内的完整录音室”叙述录音、255 轨、混音（EQ/压缩/声像）与分享/导出，四项核心有正文。",
+    "music-notation-editor": "MuseScore README 证明五线谱所见即所得输入、音乐语义编辑、MusicXML/MIDI/MEI 与打印/PDF；GPL-3.0 全文含字体例外，属额外许可而非限制。",
+    "sheet-music-reader": "forScore 官方页证明曲库、注释、曲目单、重排页面、书签与踏板/MIDI 翻页；SheetAble 只证明自托管曲库/上传/标签，阅读界面与翻页控制未证，且 research 的“移动端未完成”说法无 FAQ 正文依据。",
+    "3d-modeling-application": "FreeCAD PartDesign 手册证明草图加 Pad/Pocket 等特征累积建模，README 证明参数化模型历史；属实体/参数化建模的等效控制结构，非网格点编辑但符合类型。",
+    "digital-sculpting-application": "官网只有“A sculpting and painting application”副标题可读，manual/tools 与 manual/files 都是 VitePress 壳，笔刷清单、笔画参数与模型导出均无正文，核心工作流证据不足。",
+    "procedural-3d-creation-application": "OpenSCAD README 明确脚本→求值→几何、可改任一步骤、输出 STL/OFF，程序为记录、求值、再生、三维输出四项齐全；GPL-2.0 全文已读。",
+    "rendering-management-application": "OpenCue README 证明作业拆分、可配置队列、中央渲染机群、proc/标签与多设施；状态跟踪、日志、失败重试与关闭作业未在正文明确，dispatch-and-track 闭环只证到派发侧。",
+    "texture-material-authoring-application": "Material Maker 官网/README 证明节点生成与变换贴图、PBR 导出到 Godot/Unity/Unreal、材质为资产；features 的“200+ 节点”无正文依据。",
+    "interactive-prototype-builder": "Penpot 官方帮助页证明画板连接、触发器/动作、多流程与 View 模式运行分享；复用共享索引 github:48769241，MPL-2.0 已读。",
+    "ux-prototyping-application": "Axure 只有 Nuxt 壳的标题/描述“prototype/specification/diagram”可读，/features 与首页同 sha，触发器、条件逻辑、动态面板、运行模式均无正文；类型可判但工作流理由不成立。",
+    "interactive-web-design-application": "Webflow Interactions 页证明元素触发器（scroll/hover/click）、时间轴动效与发布前预览，首页证明可视化建站与托管发布，画布加行为加线上产物齐全。",
+    "landing-page-builder": "Unbounce 产品页证明拖拽加模板搭建、发布/启动与 A/B 测试，首页证明 campaign 单页库；独立域名与单页生命周期未逐条明示，商业类型匹配可过。",
+    "visual-website-builder": "Silex README/官网证明可视化拖拽、整站/页面、导出 HTML/CSS 或托管发布；Webflow 首页补充商业对照，AGPL-3.0 全文与“无付费层级”表述一致。",
+    "desktop-publishing-application": "Scribus wiki 证明 frames 环境、文本框链接成故事、Story Editor 与取消链接，官网证明 PDF/X-1a/3/4；Quark 官方页以 DTP 加 Page Layout 标题补商业对照。",
+    "page-layout-application": "同一 Scribus 正文/官网与 Quark 官方页支撑页面画布、自由框、跨框文字流与分页 PDF；与 DTP 叶为同一指称的别名，复用产品合理。"
+  },
+  "limits": [
+    "只读初审：未运行 shell、未重算 sha256、未执行正式 schema 验证器、未部署或运行任何产品；结构按字段存在性、case_ids 对齐和 batch/research 交叉关系人工核对。",
+    "正文可读性按当前保存的 UTF-8 文本判断；VitePress/GitBook 等客户端渲染壳即使 HTTP 200 也不视为正文证据（Axure、Nomad、LMMS 即此类）。",
+    "商业条目按任务约定只做基本真实性与类型匹配，未深入核验版本、定价、地区可用性或完整功能层级；开源条目按仓库元数据、许可证全文和正文核验。",
+    "初审与采集使用同一模型 open-design/deepseek-v4.1-flash，独立性弱于跨模型审查；本批只做一遍，不因工具限制重复检查。",
+    "未核验 Ardour/Inochi 等官方二进制是否收费、Steam/itch 渠道差异；仅确认源代码许可证，且条目未把付费独占功能挂到社区版。",
+    "Art of Illusion 的 Score 以秒标注、FreeCAD 以参数化特征为主，属类型口径边界；本次未据此拒绝，但在叶级说明保留。",
+    "GitHub API 的 readme/license 快照为 base64 JSON，正文需解码；本次未另存解码文本，许可证判断以可识别全文/首段和采集者引用为准。",
+    "research.json 的 search_attempts 为采集者自述，未独立复跑查询；只核对 fetchlog、快照与其结论是否一致。",
+    "未逐条读取共享 applications/<id>.json 详细条目，只对照 application-index.json 的 id/name/track；Penpot 复用身份与索引一致。",
+    "许可证方面未发现明显冲突：16 个开源条目的 SPDX 标注与已读全文或首段一致，未发现受限/未知许可证被标开源，也未发现付费独占功能被写成社区版能力。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-005/ses_groveopendesignp005review2_1792825389.jsonl",
+  "batch_sha256": "7a1355cab960741192736f21cdaf0793d514a14b5a1bead756aa324816408831",
+  "research_sha256": "16383d59bdbaf47b92e559de14bd37d7837cfa38451cae6249a024637d631467",
+  "input_sha256": "569a8ab1a044b5580e2b52618712b551f9a05bc14d8eecca32ed6d677cca16e3"
+}

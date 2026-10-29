@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:dealhub：batch.json 的 leaf_matches.reason 提到 guided selling、可配置捆绑以及 Salesforce/Dynamics 365/HubSpot 具名同步，但 c3b092... 快照可直接核到的是通用 CRM integration、adaptive pricebook、pricing rules/approval thresholds；建议把具名同步与 guided selling 改为已证实表述或补充来源。该点不影响 CPQ 核心类型判定。",
+    "commercial:pipedrive：两个官方页面未直接写出 closed lost 原因记录与阶段进入门禁的细节；research.json 已如实记录该缺口。若后续要把“结果记录/阶段门禁”作为强结论，应补充 Pipedrive 支持文档。",
+    "github:1864233：Blanket Order 文档明确承诺量、已订购量与剩余量，但未明确说明系统会硬阻止超承诺下单；“承诺约束”目前更接近监控加人工检查，建议措辞留有余地。",
+    "input.json 的 progress 字段仍为 case_status=not_searched、application_ids=[]、research_records=[]，且 phase=included_without_cases；这与 batch.json、research.json 中 5 个已建档案例不一致，下游应以 batch.json、research.json 为准或刷新 progress。",
+    "商业来源均为厂商官方页面，runtime_tested=false；本次仅完成基本真实性、服务形态与类型匹配核对，不构成独立性能、价格、合规或部署验证。",
+    "GetAccept 页面同时覆盖 digital sales room、CPQ、CLM 等更宽范围；其 proposal 能力（模板/编辑、发送、跟踪、审批、电子签）在正文中明确，类型匹配不受影响。"
+  ],
+  "leaf_checks": {
+    "sales-pipeline-management": {
+      "application_id": "commercial:pipedrive",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "读取 sources/832d322dbe2eaaf8c57f9a15ff92d124d2aa00103091f45536c05e4bed9f2257.txt（Sales Pipeline Management）与 sources/00ef98a14afbf22490ea433ef502ffe171ce78f23cf08c73892ab302b5c43c43.txt（Deal management）：页面正文说明可自定义阶段和多条管道、可视化每笔交易的阶段/金额/优先级、为阶段指派下一步动作、活动跟踪、拖拽推进、自动化、转化率/赢率/预测与开放交易群体视图；产品为 SaaS CRM。",
+      "gap": "两页未明确展开 closed lost 原因记录、阶段进入门禁/审批和历史阶段轨迹；research.json 已记录该缺口。"
+    },
+    "configure-price-quote-cpq": {
+      "application_id": "commercial:dealhub",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "读取 sources/c3b092a106711ff244b3efa7e85468c9cfb3483dad431ed28d7773176529f914.txt（DealHub CPQ 产品页）：FAQ 明确定义 Configure/Price/Quote，页面含产品配置、定价规则、折扣与审批阈值、多维自适应价格簿（用量/分层/固定计价）、并行审批、DealRoom、合同模板/条款库及 CRM 集成；属于 B2B SaaS CPQ。",
+      "gap": "快照未展开产品目录兼容规则的具体配置方式以及报价接受后的订单/合同转换；research.json 已记录，并将原术语表页从证据源移除。"
+    },
+    "contract-to-order-platform": {
+      "application_id": "github:1864233",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "读取 sources/0d385d4c4ee526ac91aad7d54935193f9b19222fcad82a019c36ba7a5dc00af3.txt（ERPNext Blanket Order 文档）：长期承诺记录含客户/供应商、From/To 有效期、逐行承诺数量、谈定费率与条款；可多次生成 Sales Order/Quotation，累计 Ordered Quantity 并与承诺量比较剩余量，仪表盘可下钻；文档明确协议本身不发货、不开票、不付款。仓库元数据 id=1864233、full_name=frappe/erpnext、fork=false；license 端点返回完整 GPL-3.0 文本；README 称 100% open-source，Frappe Cloud 仅为托管部署。",
+      "gap": "文档未明确说明超承诺下单会被系统硬阻止；主要体现为已订购量/剩余量监控与人工检查。自动到期关闭与价格重估需人工或二次开发，research.json 已记录。"
+    },
+    "deal-desk-commercial-approval-platform": {
+      "application_id": "commercial:configure-to-win",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "读取 sources/57e312d182f998593f096cf2ee5a05f81e1f10b32d2ce9eaa5e71053e551bc84.txt（Configure to WIN Deal Desk 页）：以报价数据与可配置度量作为商业上下文，审批规则判定默认通过、阻止、自动拒绝或转人工组评审，审批周期、责任组、决策人、状态和时间戳与报价关联；页面明确不是通用交易协作、CRM 或 CLM 平台。",
+      "gap": "页面未展开 SLA、代理审批与升级路径；research.json 已记录。"
+    },
+    "proposal-management": {
+      "application_id": "commercial:getaccept",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "读取 sources/72717a171203387bf4636c69774fe57c67e87a2c69f7c091684932c5e4e31aef.txt（GetAccept Proposal Software 页）：模板/编辑器与 CRM 数据生成品牌化提案，产品库驱动的定价表，按审批人路由审批，按利益相关方跟踪打开、独立查看、页面停留，并在同一处完成电子签署；可与 CRM 同步。",
+      "gap": "页面未展开提案版本比较与过期失效策略；research.json 已记录。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未访问其他单元或实时网页；仅使用本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 9 个快照。未重算 sha256（文件名与清单哈希一致），未做登录、运行时、价格或部署测试。快照为抓取时的 HTML/JSON，长行在读取时按 2000 字符截断，已用 grep 与分段读取补核关键正文；因此对快照中未出现的可选项、抓取后页面变更及厂商未公开信息不作判断。商业结论基于厂商官方页面，非独立测评。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-045/ses_groveopencodegop045review1_1792987954.jsonl",
+  "batch_sha256": "543b376ff4f0c180dfaefb03a6a3aa613e9dff7456ebb74d3bee79fd7f1c620c",
+  "research_sha256": "15126e4f9305bc0e2628ed5ba2d2595c2e1f0e265c03a391964fc358ed0e611d",
+  "input_sha256": "013f4a48fc3ba1b03543c0287e993b5d8b002e8a12d803c780e31ce37e55ab8f"
+}

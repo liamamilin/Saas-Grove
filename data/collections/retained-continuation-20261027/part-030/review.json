@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:fluent-commerce 的 batch leaf_match 与 research.note 提到「门店发货/点击提货、退货换货」，但已抓取的官方 OMS 页正文可见 Store experience、returns、warehouses/stores/3PLs 与 order workflows，未直接出现 ship-from-store、click-and-collect 或 exchanges；建议把该处收窄为快照可核表述。该点不影响 OMS 基本类型匹配。",
+    "commercial:fluent-commerce 的 OMS 页 FAQ 明确称 ERP 仍为 system of record，同时页面强调 sourcing logic 与 fulfillment decisions，和 distributed-order-management、order-orchestration-platform 存在边界重叠；按产品自述 OMS 及商业基本匹配可通过，后续可补充订单记录与履约关联证据以稳固归叶。",
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids=[]，且 phase=included_without_cases，与 batch.json、research.json 的 case_found 不一致；建议同步元数据，避免下游误判为无案例。",
+    "commercial:snipcart 仅有首页快照，能核到独立购物车、结账与商户后台订单，但 shopper 绑定、跨会话持久化及服务端价格重校验未在正文出现；research 已记录价格重校验缺口，商业基本匹配可通过。",
+    "commercial:linnworks 的寻源证据来自官方营销页的 Rules Engine 与 FBA/3PL/drop-ship routing 描述，规则配置界面与网络节点模型未核验；research 已记录该缺口。",
+    "commercial:pipe17 首页仅 hero 与导航，实质能力依赖 /order-management/ 子页；子页含 priority rules and filters、inventory-gated、split、Exception Resolution、Automation Engine 等表述，引用时宜区分首页与子页，避免把导航当正文。",
+    "commercial:parcellab 的承运商状态标准化与品牌化跟踪页细节主要停留在营销层，research 已记录未核验状态模型；商业基本匹配可通过。"
+  ],
+  "leaf_checks": {
+    "shopping-cart-platform": {
+      "application_id": "commercial:snipcart",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "官方首页标题为 Add a Shopping Cart to Any Website in Minutes，正文说明可配合任意 site builder、CMS、framework 使用，并提供商户后台、结账、折扣、弃购挽回与销售分析；符合独立购物车附加到商家现有站点、平台承载购物车与结账的形态。",
+      "gaps": "商业条目，不涉及开源许可证或社区版边界。未直接核到 shopper 绑定的持久化购物车、编辑行项与服务端价格重校验细节；research 已如实记录价格重校验缺口。基本真实性与类型匹配成立。"
+    },
+    "distributed-order-management": {
+      "application_id": "commercial:linnworks",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "官方首页与 /order-management/ 页正文显示：把 Amazon、eBay、Shopify、Walmart、Temu 等渠道订单集中到单一视图，Rules Engine 按预设规则自动路由，支持 Amazon FBA、3PL、dropship vendors 与自有仓，并把 tracking 回传原渠道；符合渠道中立订单记录、履约网络与规则化寻源决策的核心。",
+      "gaps": "商业条目，不涉及开源许可证或社区版边界。寻源规则配置细节、节点库存资格与拆分逻辑来自官方营销页，未核验规则引擎细节；research 已记录该缺口。"
+    },
+    "order-management-system-oms": {
+      "application_id": "commercial:fluent-commerce",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "官方首页自述 AI-Native Order Management System；官方 OMS 子页写明 Command the full order lifecycle，正文列出 real-time inventory availability、order fulfillment、customer service、returns、order workflows，并把 warehouses、stores、3PLs 描述为 connected fulfillment network；可支持 OMS 的售后生命周期与履约关联基本形态。",
+      "gaps": "商业条目，不涉及开源许可证或社区版边界。订单编辑、取消、退款的状态门控及发货 tracking 字段未核验；docs.fluentcommerce.com 快照仅为客户端壳，相关引用已移除；FAQ 称 ERP 仍为 system of record，订单记录权威性证据偏弱。"
+    },
+    "order-orchestration-platform": {
+      "application_id": "commercial:pipe17",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "官方 /order-management/ 页正文写明从各渠道捕获订单、路由到最优履约地点，含 priority rules and filters、inventory-gated location selection、按成本/距离/交付承诺排名、warehouses/3PLs/stores 候选池、split、StoreOps/WMS 执行、connectors 状态回传、Exception Resolution 与 Automation Engine；符合可配置决策层、跨系统驱动执行、状态回传与订单级异常的核心。",
+      "gaps": "商业条目，不涉及开源许可证或社区版边界。策略配置界面的操作细节、连接器清单与状态回传具体实现未核验；首页正文稀薄，能力主要来自官方子页，research 已区分。"
+    },
+    "delivery-experience-platform": {
+      "application_id": "commercial:parcellab",
+      "track": "commercial",
+      "status": "pass",
+      "evidence": "官方首页正文与版块显示 order tracking、branded messages、delivery notifications and tracking page、returns、exchanges、refunds、WISMO/R Agent 与 carriers 连接；符合配送旅程记录、品牌化消费者界面与主动配送沟通的基本形态。",
+      "gaps": "商业条目，不涉及开源许可证或社区版边界。承运商事件标准化模型、品牌化跟踪页细节与通知同意管理仅在营销层可见，未核验；research 已记录状态模型缺口。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 指向的 8 个快照（均已按 path 原样读取，未在项目根目录另找 sources）；未运行 shell、未写文件、未读取其他单元、未做部署或运行时测试、未 live 抓取、未计算哈希。部分来源为营销页或富文本单行 HTML，正文可读性有限；快照无法核验的细节以 research.json 的抓取/缺口记录为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-030/ses_groveopencodegop030review2_1792943283.jsonl",
+  "batch_sha256": "7b50fbf231f3b784cbf31fa0049df4e554c53f1d5eb4c10e81ab23cd45f0c94b",
+  "research_sha256": "0e33e8aee1da80b01a02f469a54b0ca2937fb03247c6c8688d8a6755e735af07",
+  "input_sha256": "90edca240eddc9fd624d6bb374c05baed612748c4bb960906bc3cf6ef28502e2"
+}

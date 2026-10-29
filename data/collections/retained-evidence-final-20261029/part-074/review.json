@@ -1,0 +1,30 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "compliance-policy-management / input.json：progress 仍写 case_status=insufficient_evidence、application_ids=[]，而 batch.json 与 research.json 已为 case_found 并列出 3 个应用；这是前一阶段的留档状态，不影响本轮内容结论，但入档前应同步进度元数据，避免下游误判为无案例。",
+    "compliance-policy-management / github:847006986：1d648ccd… 产品页快照主要保留 “Versioning / Diff Viewer / Approval Workflow / Sign-Off” 标签及首个面板正文，标签页其余正文未完整落入快照；自动版本化、审批后发布、签署绑定修订等核心结论已由 3b278641… 与 9634651d… 官方文档支撑，建议后续引用时优先标注 docs 快照，避免以标签文字充当正文证据。",
+    "compliance-policy-management / github:913434583：batch 摘要写文档“关联控制与证据”，而 1cb762a9… 原文表述为文档可导出 PDF 并关联 controls 与 internal controls，evidence 在该页被区分为另一角色；建议把措辞收窄为“关联控制”，或补一条证据链说明。",
+    "compliance-policy-management / github:913434583：Probo 文档生命周期允许 draft 直接 publish，审批法定人数是可配置环节而非绝对强制；这不影响其具备受控生命周期与版本绑定签署，但“生效版本必须审批门控”宜表述为“支持审批门控”而非产品不变量。",
+    "compliance-policy-management / github:847006986：README 明确 helm charts 等受支持部署方式仍在推进，当前仅有开发/运行栈与 GHCR 镜像；batch 的“Docker 自托管开发/运行栈、GHCR 容器镜像自托管”基本属实，但不宜进一步表述为开箱即用的完整自托管发行版。",
+    "compliance-policy-management：Openlane 与 Probo 的公开正文均未明确展示“政策所有者/问责人”字段，定义性核心的语料库、版本化、审批、发布与签署证据已齐备；所有者字段属定义细化项，建议后续补证而非阻断。",
+    "compliance-policy-management：research.json 的 fetch_outcomes 提及 openlane-ui 元数据快照 ee936688…，但该路径未列入 REVIEW_SOURCES.json，batch 也未引用；仓库身份已由 1a81a3ff… 许可证快照和 URL 路径佐证，属引用台账小缺口。"
+  ],
+  "leaf_checks": {
+    "compliance-policy-management": {
+      "definition_core": "通过。PowerDMS 官方 Policy 页正文（a43baf36…）证明集中政策/程序/SOP 库、自动版本控制、评审审批工作流、按人员/组/组织单元分发与确认、历史版本归档及审计轨迹；Probo 文档管理页（1cb762a9…）给出 draft→approval quorum→published→signature requested→superseded 的版本生命周期，决策与签署均绑定具体版本，员工门户（2cf337bb…）提供政策签署与文档审批；Openlane 文档（3b278641…、9634651d…、6da3dea9…）给出政策与程序为独立文档类型、起草→审批→发布→员工阅读确认→定期复审，以及签署绑定所读修订版本、新版本需另发请求。三者的组织级政策语料库、受控生命周期、向受管群体发布与确认三环均有正文证据，未以简介、导航或关键词替代。",
+      "service_form": "通过。PowerDMS 为云端持续使用的政策管理服务（SoftwareApplication/Product 描述与正文一致）；Probo 为可自托管 Web 应用，README 说明 web console/CLI/MCP/GraphQL 及 Docker Compose 或 Kubernetes 自托管；Openlane 为 Web 控制台加核心服务的持续使用平台，并提供云服务。均非一次性工具或纯文档库。",
+      "id_track": "通过。commercial:powerdms 对应 commercial；github:913434583 与 api.github.com/repos/getprobo/probo 元数据 id/full_name 一致，track=open_source；github:847006986 与 theopenlane/core 元数据 id/full_name 一致，track=open_source。三条 leaf_matches 均指向 compliance-policy-management，无跨叶错挂。",
+      "license_and_boundary": "通过。Probo LICENSE 快照（b3eacb4d…）为完整 MIT 正文（含版权、许可授予、条件与免责声明），仓库元数据 license 字段为 MIT；Openlane core LICENSE（174c480c…，11346 字节）与 openlane-ui LICENSE（1a81a3ff…，11347 字节）均为完整 Apache-2.0 正文，含 Definitions、Grant of Patent License、Redistribution 等条款；README Licensing 段明确 SaaS/云服务按商业条款、logo 与商标不在 Apache-2.0 范围内，batch 的社区版边界表述与之一致。",
+      "commercial_check": "通过。PowerDMS 为真实商业产品，官方产品页与首页可确认厂商身份、产品名 PowerDMS Policy、面向公共安全机构的政策管理用途；类型与本叶匹配，未把母品牌整套公共安全套件当作本产品。按商业条目要求仅核基本真实性与类型，不要求价格或架构细节。",
+      "source_integrity": "通过。REVIEW_SOURCES.json 列出的 16 个快照均存在，batch 引用的快照路径、sha256 与清单一致；sha 文件名与内容对应。research.json 对 404（Probo /docs/product/documents、Openlane 两个旧路径）及营销页正文不足均有如实留档，未把抓取失败当作产品不存在。",
+      "outcome": "pass"
+    }
+  },
+  "limits": "仅以本单元只读资料为审查对象：读取了 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中清单快照，未运行或部署 PowerDMS、Probo、Openlane，未做运行时验证。GitHub API 快照以 base64 承载，许可证正文通过快照内容与公开 raw 文件交叉核对；1d648ccd… 产品页快照仅完整保留首个标签面板，其余标签正文缺失，相关核心结论改由官方 docs 快照支撑。未核价、未做额外架构或部署研究；未读取其他单元或执行写操作。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-074/ses_groveopendesignp074review2_1793193802.jsonl",
+  "batch_sha256": "1b3ce6cad44502e25e5717b38ac8b3a6bfd1102dd314e91bca4ace3e6a42cf43",
+  "research_sha256": "e0c88625cfdc2157d2d602b6df7ca8b83436540c5bf4b659952779975c788f30",
+  "input_sha256": "057827743e51e94e3f737d76d62307542fe2d59afbb8c3d31b18f2c0f85916de"
+}

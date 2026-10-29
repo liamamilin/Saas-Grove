@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": "commercial:navex",
+      "note": "条目名/id/homepage 仍是厂商级（NAVEX、https://www.navex.com/），而本叶类型证据来自子产品页 COI Disclosure Management Software。摘要已写明“NAVEX One 平台下的披露管理模块”，类型关系可读，但建议条目名与 homepage 采用子产品口径，或增加结构化字段记录子产品与平台关系，避免把 NAVEX 整体（含举报热线、培训、政策库）误读为本叶应用。"
+    },
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": "commercial:navex",
+      "note": "批次摘要写“包括礼品、差旅与款待”，但已保存产品页正文列举的是 conflicts of interest、gifts、entertainment、family connections 等；差旅（travel）未在该页出现，建议按页面措辞收敛。另 leaf_matches 中“升级未完成或延迟的审查”只能从页面“chasing late responses”等概述性表述间接推得，未见明确的自动升级机制描述，建议改为“提醒/跟踪逾期审查”一类可支撑措辞。这两处不影响四项核心与商业类型匹配。"
+    },
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": "github:45261230",
+      "note": "leaf_matches 将“管理受资助项目的合规披露”归于 README，但 README 实际是安装/环境变量说明；项目、发起人与 PI 声明语境来自 doc/public-api/disclosures.md（projectId、sponsors、roleCd=PI）。结论成立，建议修正依据归属。"
+    },
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": "github:45261230",
+      "note": "两个条目均只覆盖利益冲突/礼品类披露，未出现“行为准则确认（code of conduct attestation）按人、版本感知”的能力证据。按本叶 dc 明确列出的四项属性（自我披露、项目定义审查路由、记录判定、持久登记册）判定为合格的 COI 业务子模块；若下游要求覆盖准则确认维度，应标注为子模块而非全量伦理与行为管理套件。"
+    },
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": null,
+      "note": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]，而 research.json 与 batch.json 已记录 case_found 及两个 application；旧 hold 轨迹保留是合理的，但建议同步 progress 状态，避免下游读到互相矛盾的本叶结论。"
+    },
+    {
+      "slug": "ethics-conduct-management",
+      "application_id": "commercial:navex",
+      "note": "NAVEX 首页快照为 2026-10-24 历史复用，仅作厂商身份旁证；本叶类型判断应仅以产品页快照为依据，首页不应被视为核心流程证据。"
+    }
+  ],
+  "leaf_checks": {
+    "ethics-conduct-management": {
+      "status": "verified_with_two_applications",
+      "applications_checked": [
+        "github:45261230",
+        "commercial:navex"
+      ],
+      "definitional_core": "开源侧 github:45261230（kuali/research-coi）四项属性均有实际正文支撑：①自我披露——disclosures.md 展示问卷答案、财务实体、关系类型/金额、差旅对象、支持文件与 declarations（projectId/sponsors/roleCd=PI）；②项目定义审查路由——README 的 COI_ADMIN_ROLE/COI_REVIEWER_ROLE，CHANGELOG 记录审查人指派、按部门自动分配附加审查人、披露要求按项目/角色/状态配置；③记录判定——dispositionTypeCd、项目级/披露级 disposition（含批量设置）、Management Plan、审查备注与 lastReviewDate；④持久登记册——Annual/Archived Disclosures 接口、Approved and Archived Disclosures、既往版本与撤回修订轨迹。商业侧 commercial:navex 产品页正文支撑：可配置问卷（按披露类型/政策需要/员工群体）、披露事实采集、路由至负责人员或团队、附支持文件、请求补充信息、年内更新与审查备注随披露保留、面向审计的报告；页面未展示可配置判定结果类型，条目已克制未作该断言。两案例均为 COI 披露型子模块，与 dc 四项属性一致。",
+      "saas_service_form": "开源侧为 Node/Express + MySQL/Oracle 的自托管 Web 应用，npm/Node 启动、knex 迁移、可选演示数据，属持续使用的软件服务形态而非代码样例或 SDK；README 明确生产接入需另配认证服务，默认使用内置 mock 认证。商业侧为 NAVEX One GRC 平台上的 Disclosure Management 产品页，属厂商交付的在线披露管理服务，类型匹配。",
+      "id_track": "github:45261230 与仓库页 octolytics-dimension-repository_id=45261230、repository_nwo=kuali/research-coi、refInfo.name=master 一致，track=open_source 正确；package.json repository.url 同源。commercial:navex 的 track=commercial 与该厂商产品页一致；id 采用厂商级命名，见 non_blocking_notes。",
+      "license": "已按 REVIEW_SOURCES.json 原样读取 LICENSE 快照：含 “GNU AFFERO GENERAL PUBLIC LICENSE / Version 3, 19 November 2007”、完整 TERMS AND CONDITIONS 至 “END OF TERMS AND CONDITIONS” 及 How to Apply 段（共 662 行），与 package.json license=AGPL-3.0、批次 license=AGPL-3.0、scope=repository 一致，为完整许可证而非片段。",
+      "community_boundary": "仓库根 LICENSE 覆盖整体代码；README 说明开箱即用的 Kuali Core Auth Service 参考实现默认关闭并提供 mock 认证，接入官方认证服务需设置 AUTH_ENABLED/AUTH_URL 并联系 Kuali Core 团队。批次摘要与 deployment 字段已如实披露“默认 mock 认证、官方认证服务需另行配置”，社区版边界表述与实际快照一致。",
+      "source_integrity": "REVIEW_SOURCES.json 列出的 8 个路径均按原样存在并已读取：仓库页、LICENSE、README、CHANGELOG、disclosures.md、package.json、NAVEX 首页、NAVEX COI 产品页；条目 snapshot_path 均以 data/collections 为基准且与 sources 列表对应，未发现路径改写或引用缺失。未重新计算 SHA 或重新抓取。",
+      "gaps": "未做运行时/部署验证；商业侧仅核产品页营销正文，未核价、未核部署架构与判定类型配置能力；开源侧未核仓库归档标记的独立断言（仓库页快照中未能清晰复核 isArchived 字段，批次亦未以此作结论）；两案例均无准则确认/培训确认维度证据。以上缺口均已在资料中如实留档，不影响本叶按四项核心的收录判断。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 份快照，未运行 shell、未写文件、未重新抓取网页、未复算 SHA256、未运行或部署任何项目、未读取其他单元。快照为供应商/仓库页面文本，其中 NAVEX 页面与 GitHub 仓库页为压缩 HTML，长行在工具输出中被截断，关键段落（产品功能列表、FAQ、LICENSE 全文、README 安装与环境变量、disclosures.md 接口、CHANGELOG 条目、package.json）已可直接读取并据以判断；个别只出现在超长行内的字段无法逐字复核，已在 leaf_checks 与 non_blocking_notes 中标注。商业条目仅按“基本真实性 + 类型匹配”标准核对，未做价格、架构、合同或安全合规评估。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-078/ses_groveopendesignp078review2_1793194961.jsonl",
+  "batch_sha256": "9c10e938ff627208a8ee3ccf644fe8c6ada1b2a1e013895aa9b9e00e508269b5",
+  "research_sha256": "d2bc91d2c55cdde2dbaeae3253adb4ed62882aeeb61929b394ee0a35d29371be",
+  "input_sha256": "8a48d440ad5bad50feee233084d99b8be8669241c8e01981a02e0013f88e7ccc"
+}

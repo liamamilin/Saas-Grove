@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "revenue-intelligence-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:gong"
+      ],
+      "query": [
+        "（原 /platform 为客户端渲染壳）改抓 gong.io/platform/revenue-graph",
+        "gong forecast 产品页（/gong-forecast/ 重定向 404，改用 /platform/revenue-forecasting-software）"
+      ],
+      "source_urls": [
+        "https://www.gong.io/platform/revenue-graph",
+        "https://www.gong.io/platform/revenue-forecasting-software"
+      ],
+      "note": "gong.io/platform 快照为客户端渲染壳（含 BAILOUT_TO_CLIENT_SIDE_RENDERING），不作为正文证据；改抓 Revenue Graph 与 Forecast 两个服务端渲染页：前者说明自动采集多渠道客户互动并映射到人/客户/交易、与 CRM 双向同步，后者说明以互动信号生成预测、交易看板与 AI 交易评审、预测提交、目标管理与风险标记。缺口：预测提交的审批层级、权限模型与 CRM 字段回写范围未在快照中展开。",
+      "service_boundary": "CRM 之上的洞察层，不是交易主数据记录系统；可回写选定字段但不拥有客户关系记录。",
+      "search_attempts": [
+        {
+          "stage": "failed",
+          "query": "复核 https://www.gong.io/platform 快照",
+          "result": "正文为客户端渲染壳（BAILOUT_TO_CLIENT_SIDE_RENDERING），仅能从站点文案层取到零散句子，不作为证据"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 https://www.gong.io/platform/revenue-graph",
+          "result": "成功，正文含多渠道自动采集、映射到人/客户/交易、与 CRM 双向同步"
+        },
+        {
+          "stage": "fetch",
+          "query": "https://www.gong.io/gong-forecast/",
+          "result": "HTTP 308 后重定向 404，未采用"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 https://www.gong.io/platform/revenue-forecasting-software",
+          "result": "成功，正文含交易看板、AI 交易评审、预测提交、目标管理与风险标记"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.gong.io/platform/revenue-graph",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "2fef1e6e778c5b6ea51fe931659a01e526be20f7dc1eaabbc028a9882a8c8343"
+        },
+        {
+          "url": "https://www.gong.io/platform/revenue-forecasting-software",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "00a748fc95e21b3dd18fc7a9574a49bc307177495ff8d6d4b3ab8071946cac73"
+        },
+        {
+          "url": "https://www.gong.io/gong-forecast/",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "HTTP 308 后重定向至 404"
+        },
+        {
+          "url": "https://www.gong.io/platform",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "客户端渲染壳（BAILOUT_TO_CLIENT_SIDE_RENDERING），正文不可检索，未作为证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-call-coaching-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:avoma"
+      ],
+      "query": [
+        "官方站点定位：avoma.com 用例 Sales Coaching",
+        "读取销售辅导用例页，核对评分、辅导与表现跟踪"
+      ],
+      "source_urls": [
+        "https://www.avoma.com/use-case/sales-coaching"
+      ],
+      "note": "Avoma 用例页说明按 playbook 自动为每通电话评分、为团队规模化提供个性化辅导并跟踪销售表现，通话录制转录与 CRM 写入构成可复用的通话素材。缺口：评分表评分指南、反馈锚定到具体时刻与教练活动度量未在该页细化。",
+      "service_boundary": "销售人员发展层；不替代 CRM 或质检合规系统，辅导对象是内部销售与相关角色。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：avoma.com 用例 Sales Coaching",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取销售辅导用例页，核对评分、辅导与表现跟踪",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.avoma.com/use-case/sales-coaching",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "ec2f0fdbcb24e877d4830f6511b34f5426bcb04fed5dd057856951e3fab8374c"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-compensation-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:captivateiq"
+      ],
+      "query": [
+        "官方站点定位：captivateiq.com 平台页能力清单",
+        "读取平台页，核对计划、归属、计算、争议与支付后修正"
+      ],
+      "source_urls": [
+        "https://www.captivateiq.com/platform"
+      ],
+      "note": "CaptivateIQ 平台页列出 SmartGrid 计算引擎、直接与间接归属、生效日期、阶梯与加速器与追回、draws、审批与争议处理、发放自动化、对账单与计算追溯，覆盖计划配置、归属与逐期收益管理。缺口：期间锁定与审计轨迹的字段级说明未在该页展开。",
+      "service_boundary": "浮动薪酬的记录与计算层；工资发放与总账由其对接的薪资或财务系统完成。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：captivateiq.com 平台页能力清单",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取平台页，核对计划、归属、计算、争议与支付后修正",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.captivateiq.com/platform",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "b8c78bb68b8bdafa185ad501326ec6d58c66d1064217dbfc1d138cba0298eccf"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-forecasting-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:xactly"
+      ],
+      "query": [
+        "官方站点定位：xactlycorp.com 产品 Xactly Forecast",
+        "读取预测产品页，核对管道来源、跨区域汇总与风险标记；另尝试 Salesforce 预测帮助页但正文为空"
+      ],
+      "source_urls": [
+        "https://www.xactlycorp.com/products/xactly-forecast"
+      ],
+      "note": "Xactly Forecast 页说明从 CRM 聚合管道与历史数据、以一致指标跨区域汇总为单一事实源、用健康分提前标记风险交易并跟踪与目标差距。缺口：预测类别阶梯、提交历史保留与重述审计未在该页细化；help.salesforce.com 预测定义页仅返回 Loading，未作为证据。",
+      "service_boundary": "预测与投影层；销售目标由配额管理提供，交易主数据仍在 CRM。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：xactlycorp.com 产品 Xactly Forecast",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取预测产品页，核对管道来源、跨区域汇总与风险标记；另尝试 Salesforce 预测帮助页但正文为空",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.xactlycorp.com/products/xactly-forecast",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "427e86aceb114c92bccb93c5caa01af35083b2639b3e3cbc163cc9f0a922cf30"
+        },
+        {
+          "url": "https://help.salesforce.com/s/articleView?id=sales.forecasts3_definitions.htm&language=en_US",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "正文仅返回 Loading 与 CSS 错误提示，未作为证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-performance-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:varicent"
+      ],
+      "query": [
+        "官方站点定位：varicent.com 首页平台与产品导航",
+        "读取首页，核对配额、区域、容量与激励的一体化表述"
+      ],
+      "source_urls": [
+        "https://www.varicent.com/"
+      ],
+      "note": "Varicent 首页说明把配额、区域、容量与激励决策连接在单一 AI 平台上共同设计，并随策略变化整体调整，Seller Insights 展示卖家通往配额的路径。缺口：共享组织模型的生效日期与版本历史未在首页展开。",
+      "service_boundary": "跨覆盖、目标、归属与报酬的规划与衡量层；具体佣金发放仍由其激励模块或财务系统执行。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：varicent.com 首页平台与产品导航",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取首页，核对配额、区域、容量与激励的一体化表述",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.varicent.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "7af8afb6b8827670f0fe806ad1c6e3a30320537a56361beadac0e94f7f1d4174"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

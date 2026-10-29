@@ -1,0 +1,67 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "breach-attack-simulation",
+      "application_id": "commercial:cymulate",
+      "issue": "REVIEW_SOURCES.json、batch.json 与 research.json 将来源标为 https://cymulate.com/security-validation/，并称其为“官方安全验证页”；实际快照的 canonical 指向 https://cymulate.com/，title 为“Cymulate | AI-Powered Exposure Validation”，正文是官网首页（Beyond Validation / Agentic Cyber Defense Engineering）。该页正文确实包含 BAS 所需的攻击库、持续攻击模拟、控制响应、MITRE ATT&CK、Detection/Threat Studio 证据，因此案例核心可以成立；但“security-validation 独立页”这一来源标注与实际页面不一致，影响来源可复核性。",
+      "fix": "将 source_url 改为实际 canonical https://cymulate.com/，并在 batch/research 的 reason/note 中说明证据来自官网首页；或改抓并引用 https://cymulate.com/exposure-validation/（或 /platform/）产品页，同时更新快照、sha256 与 fetched_at。"
+    }
+  ],
+  "non_blocking_notes": [
+    "breach-attack-simulation / commercial:cymulate：summary 中“端点、邮件、网络、Web 与 SIEM”的控制清单比快照正文更具体；快照可核到 SIEM/EDR、40+ 安全工具、security stack。建议改为“SIEM/EDR 等已部署控制”，或补充能逐项证明这些控制面的官方页面。",
+    "api-security-platform / commercial:salt-security：平台页当前以 agent/MCP 叙事为主，API 端点级语义清单主要靠标题、导航和 graph 的 Applications and APIs 层支持；若要求严格端点记录，建议补抓 /use-cases/create-a-unified-inventory 或 /use-cases/discover-all-apis。",
+    "application-security-platform / github:31028375：DefectDojo 的核心是外部扫描结果摄取与资产—测试—发现生命周期管理，不是自研 SAST/DAST 多引擎；条目已按 external result ingestion 表述，建议避免让读者误以为内置分析引擎。",
+    "dast-iast / github:36817565：ZAP 只覆盖 DAST，IAST 半边没有案例；条目已明确“未主张 IAST 能力”，属已披露的部分覆盖。若叶要求 DAST+IAST 双模式均有代表，需另补 IAST 案例。",
+    "application-security-platform / github:31028375：technology_stack 中的 PostgreSQL 未在已读快照中直接出现；仓库名/README 可支持 Python/Django，Docker Compose 有据，建议核实或移除 PostgreSQL。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 的 5 个案例不一致；属流程元数据未回写，不影响本次内容判断。"
+  ],
+  "leaf_checks": {
+    "ai-security-platform": {
+      "application_id": "commercial:hiddenlayer",
+      "track": "commercial",
+      "core_match": true,
+      "status": "pass",
+      "basis": "官方 platform 页正文：AI Discovery（AI 资产可见性、shadow AI）、AI Supply Chain Security（部署前完整性/供应链）、AI Attack Simulation（持续模拟真实 AI 攻击）、AI Runtime Security（生产环境检测/响应）、Governance and AI Security Posture；并明确 living inventory of AI including shadow AI。保护对象是组织自身模型、AI 工作流和 agentic 系统，符合 AI 资产—AI 专用评估—发现—响应闭环。商业条目基本真实性和类型匹配成立。",
+      "gap": "未验证价格、部署架构或实际运行；页面为营销页，未提供产品界面/工单闭环细节。"
+    },
+    "api-security-platform": {
+      "application_id": "commercial:salt-security",
+      "track": "commercial",
+      "core_match": true,
+      "status": "pass",
+      "basis": "官方 platform 页正文：将 agent、MCP server、gateway、application/API 映射为统一 graph；对每个资产展示 exposure、source code、configuration、runtime behavior 并形成 finding；含 risk score、posture gaps、sensitive data、real-time block；标题为 Complete AI & API Protection Platform。API 作为资产图谱的一层被明确覆盖，符合清单—发现—响应工作流的基本类型匹配。",
+      "gap": "页面主轴是 agentic/MCP；端点级 API 语义清单（host/path/method、参数、认证）未在本页逐项展开，主要靠标题、导航和 graph 的 Applications and APIs 层支持；未验证部署/运行。"
+    },
+    "application-security-platform": {
+      "application_id": "github:31028375",
+      "track": "open_source",
+      "core_match": true,
+      "status": "pass",
+      "basis": "README 自述 DevSecOps、ASPM、漏洞管理；官方 Assets 文档明确 Organizations→Assets→Engagements→Tests→Findings，Asset 可是 application/API/cloud 等，Findings 继承 Asset 的 SLA/权限/去重范围，含 MTTR、SLA、Jira、CI/CD；Findings 文档含 request/response 证据、状态、关闭/重导入自动关闭。BSD-3-Clause 完整文本（三条款）与 GitHub license 端点一致；README 明确社区版/Pro 边界，SSO/LDAP/MFA 为 Pro。",
+      "gap": "条目是外部结果摄取型 ASPM，不是自研多引擎；technology_stack 的 PostgreSQL 未在已读快照中直接出现。"
+    },
+    "breach-attack-simulation": {
+      "application_id": "commercial:cymulate",
+      "track": "commercial",
+      "core_match": true,
+      "status": "pass_with_source_fix",
+      "basis": "快照正文：完整攻击库、continuous threat and attack simulation、对安全栈控制响应的分析、MITRE ATT&CK、Vero AI 将 SIEM 规则映射到攻击场景、Detection Studio/Threat Studio、将 findings 转为优先级行动和控制更新；符合运行模拟—观察已部署控制响应—记录/修复的 BAS 核心。",
+      "gap": "来源 URL 标为 /security-validation/，快照 canonical 为首页；核心证据仍在首页正文。summary 的端点/邮件/网络/Web 控制清单比快照更具体。"
+    },
+    "dast-iast": {
+      "application_id": "github:36817565",
+      "track": "open_source",
+      "core_match": true,
+      "status": "pass",
+      "basis": "README 明确 ZAP 是免费开源 Web 应用扫描器，开发/测试阶段自动发现漏洞并支持手工渗透测试；Getting Started 说明其作为 MITM proxy 对运行中的 Web 应用执行探索（spider/Client spider）、被动扫描与主动攻击，记录请求/响应并生成 alerts，含 URL/证据、认证、Safe Mode、Docker/Daemon/Automation；Docs 索引含 Desktop、Automate、Alert Details、Authentication。Apache-2.0 完整文本与 license 端点一致；仓库 ID 36817565 与 full_name 已核对。",
+      "gap": "仅覆盖 DAST，未覆盖 IAST；条目已明确“未主张 IAST 能力”，属已披露的部分覆盖。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未读取其他单元。未重新计算快照 SHA256，仅核对文件名/声明哈希与内容一致性；未部署或登录任何产品，未验证价格、架构、运行效果。快照 HTML 多为长单行，read 工具对单行截断，部分正文用同一官方 URL 的只读页面交叉确认，未以简介/元数据/Loading 替代核心正文；商业页为营销材料，结论限于公开可见能力。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-147/ses_groveopencodegop147review1_1793012558.jsonl",
+  "batch_sha256": "cc9cc941caf2738cf16500dd6fc94dec49b945b46e97d4493adce7a1cfed0d88",
+  "research_sha256": "bf905de86d0dfb8617405dbd4e01cf9a75b45ea32d5b4ffbb75974f9bdafc287",
+  "input_sha256": "e106ebd1f161d60fecd01e6adb0d75122641a677135aed8e9b28a3a41f3ddb73"
+}

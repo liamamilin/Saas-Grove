@@ -1,0 +1,64 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ux-prototyping-application",
+      "application_id": "commercial:axure-rp",
+      "issue": "Axure Cloud 快照 sources/d98ce4f9e40c9880574b9dedbbadcc8df823e2fa9766e9ab342a679ff4f60947.txt 仅 5 行且只有 <head>/meta（og:description 为 'Host, share, inspect, and collaborate on Axure RP prototypes'），没有可读正文；对 browser、comment、Share、resolved、Jira、Confluence、redline、self-host、custom domain 等词的检索均未命中正文。batch.json 与 research.json 却据此断言“将 RP 原型托管、按链接分享、在浏览器查看、在资产上直接评论并标记已解决、redline 规格与 Jira/Confluence 交接、可自托管/自定义域”，并把抓取结果记为“正文可读”，属元数据/简介替代核心正文。Axure RP 作者端为桌面客户端，云侧运行模式、分享反馈与交接闭环因此未被证据覆盖，SaaS 服务形态未闭合。",
+      "fix": "重新抓取带正文的 Axure Cloud 官方页面（如 docs.axure.com/axure-cloud 下的 SSR 文档页，或可服务端渲染的 axure.com/axure-cloud 正文），保存为新快照并更新 source_urls 与 fetch_outcomes；若无法取得正文，则删除上述未证实断言，把 Axure 的匹配限定在 events-cases-actions 与 dynamic-panels 已证实的屏幕元素触发器→用例→动作/条件逻辑/面板状态范围，并明确云侧能力未证。"
+    },
+    {
+      "slug": "ux-prototyping-application",
+      "application_id": "github:182806722",
+      "issue": "Quant-UX 的核心工作流缺少正文证据。docs 快照 sources/cf2255dee743710d8bcb68f1c78da320cd873fc0111636fc8970bfffaa6bcab7.txt 实为 Nuxt 文档壳（DocsShell/topics 脚本与导航），检索 'Prototype view'、'screen transitions'、'design view' 均无命中，未读到“屏幕/组件链接为目标屏幕、点击或手势触发转场、动画与时序转场”的说明；首页快照 sources/636127039bc891ccf2a8f829bc5b6064c320d7257a7b7f1858f4227b5f54de6c.txt 仅见 meta description、导航与用户评价（评价提到 heat maps、screen recordings、任务耗时），未见“创建原型→分享链接发放任务→汇总热图/流失/成功率”的产品正文。batch.json 的 features 与 leaf_matches 中“Prototype 视图、点击/手势触发、动画与时序、热图/流失/成功率、设计令牌/主屏幕/表单校验/数据绑定”等均不足以由所引快照核实。",
+      "fix": "抓取 docs 的具体文章页（prototype/interaction/screen transition 等）的服务端渲染正文并另存快照、更新 source_urls，或删去未证实特性，把 leaf_matches 限定为 README 可证的“可自托管 Web 原型与可用性测试应用”及首页/评价可证范围，再据此重新判断是否达到本叶定义性核心。"
+    },
+    {
+      "slug": "ux-prototyping-application",
+      "application_id": "github:182806722",
+      "issue": "开源许可与社区版边界的关键证据未被来源清单声明。主仓库 license 快照含完整 GPL-3.0 文本（'Copyright (c) 2020 Klaus Schaefers'、'GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007'），仓库元数据 spdx_id=GPL-3.0、full_name 与 id 182806722 一致；但 README 明示 'This repo contains the front end'，后端在独立仓库 qux-java。batch 的 leaf_matches 以“后端为独立 MIT 仓库 qux-java”界定边界，research.json 也列出 qux-java 元数据/许可证 URL，而目录中 sources/129317bfdf41c60ba7d6c870d477a2a5052bcc61646c2524d103d8bbce64daa8.txt（qux-java LICENSE，MIT 文本）并未出现在 REVIEW_SOURCES.json 的 sources 列表中，无法按清单追溯该 MIT 边界的抓取来源与哈希。",
+      "fix": "将 qux-java 的仓库元数据与许可证快照补入 REVIEW_SOURCES.json（含 path、sha256、url、applications），或在 batch/leaf_matches 中删除 MIT 后端表述，仅声明主仓库 GPL-3.0 并注明后端未复核。"
+    },
+    {
+      "slug": "ux-prototyping-application",
+      "application_id": "github:182806722, commercial:axure-rp",
+      "issue": "research.json 的 fetch_outcomes 与快照实际内容不符：'https://www.quant-ux.com/docs/ 200（正文可读：Design/Prototype 视图、screen transitions、trigger 事件）' 与 'https://www.axure.com/axure-cloud 200（正文可读：原型托管、链接分享、屏幕评论、redline 交接、自托管/自定义域）' 两处均无对应正文；首页条目的“创建原型、分享链接测试、用户任务、屏幕录制、热图与流失分析”也超出快照可核实范围。把抓取成功与元数据/评价当作核心正文，会误导后续审查。",
+      "fix": "按实际快照内容改写 fetch_outcomes：明确 docs 与 axure-cloud 为壳页/仅元数据、HTTP 200 不等于正文可读；仅在补抓正文后恢复相应能力描述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 中该叶仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids 为空，continuation.input_status 亦为 boundary_unresolved，与 batch.json/research.json 的 case_found 及两个 application_id 不一致；建议同步单元状态与延续记录，保留“先前边界未决”的历史说明。",
+    "research.json 称 license API 取回“完整文本 47572 字节”，而许可证快照元数据 size 为 35094（且内容为 base64）；数字应更正，但不影响 GPL-3.0 文本完整性判断。",
+    "Quant-UX 首页 meta 自述 'Low Code capabilities allow convert designs into production systems'，与本叶“原型绝不是产品”的边界存在张力；若保留该表述，建议注明这是产品定位描述、案例匹配仍以原型与测试闭环为准。",
+    "Axure 首页快照 966831… 仅为 Nuxt 壳页，只宜用于身份确认；研究记录已如此使用，未再作为能力证据，处理得当。",
+    "sources 目录存在未被 REVIEW_SOURCES.json 声明的快照（如 f5d33156d35a0cd6a40360001811e2a1e5bc401993c290593596e5817f6623fe.txt），建议清理未用快照或补入清单，避免来源账目不清。",
+    "同一快照可复用于同叶两个案例的核对；本单元仅一叶，复用不影响结论。"
+  ],
+  "leaf_checks": {
+    "ux-prototyping-application": {
+      "definition_core": "未完全通过。Axure 侧 events-cases-actions 正文可证事件即触发器、用例为有序动作列表、可配置条件逻辑、Open Link 导航到另一页面；dynamic-panels 正文可证状态容器、Set panel state 与面板专有事件/动作，覆盖“屏幕元素上的触发器→响应/屏幕切换”的交互层。但运行模式与分享→反馈→迭代→批准的验证闭环仅见于 Axure Cloud 页的 meta，正文缺失。Quant-UX 侧 README 可证其为前端+后端+WebSocket+MongoDB 的 Web 应用，但未证屏幕→用户定义交互→可点击流程→运行/测试的正文；docs 为壳页，首页仅 meta 与用户评价。",
+      "service_form": "Quant-UX：README 的 docker-compose（qux-fe、qux-be、qux-ws、mongo）与 Elestio/RepoCloud/K8s 说明支持持续使用的自托管 Web 服务形态，符合软件服务形态。Axure：作者端为商业桌面客户端，服务端 Axure Cloud 的托管/浏览器查看/评论反馈尚无正文证据，服务形态未闭合，需补证。",
+      "id_track": "github:182806722 与仓库元数据 id 182806722、full_name KlausSchaefers/quant-ux 一致，track=open_source；commercial:axure-rp 为商业桌面+云，track=commercial。ID 与 track 基本正确。",
+      "open_source_license": "主仓库许可证完整：license 快照 content 为 GPL-3.0 全文（含 2020 Klaus Schaefers 版权行与 GPLv3 标题），元数据 spdx_id=GPL-3.0、archived=false、pushed_at=2026-10-11；README 说明本仓库仅为前端，后端 qux-java 独立。许可证本身满足“完整许可证”，但后端 MIT 边界的快照未在 REVIEW_SOURCES.json 声明，社区版/组件边界证据链不完整。",
+      "commercial": "Axure 基本真实性与类型匹配成立：首页仅可确认身份，核心由两篇官方文档正文支撑（触发器/用例/动作/条件逻辑、动态面板状态与 Set panel state），产物为虚构数据上的可交互原型，不是生产系统。云侧托管与评审交接待补正文。",
+      "snapshots_consulted": [
+        "data/collections/sources/c12b1dca694744a966d81e7009f55f83927854ac86c2d285d75b9fc6bf0b2b1f.txt（仓库元数据）",
+        "data/collections/sources/58e50129c46f27de3273c297441280dc3cf382cd6d9028e0794f92c2d8af439d.txt（许可证）",
+        "data/collections/sources/33a59bb765feff6ce5ddba8139bd83c729ed88135dafa2f1281af6639fb20f59.txt（README）",
+        "data/collections/sources/cf2255dee743710d8bcb68f1c78da320cd873fc0111636fc8970bfffaa6bcab7.txt（docs 壳页）",
+        "data/collections/sources/636127039bc891ccf2a8f829bc5b6064c320d7257a7b7f1858f4227b5f54de6c.txt（首页）",
+        "data/collections/sources/966831ddb27f44af571085503aa573467174a82f6c56bcda95563873899ae307.txt（Axure 首页壳页）",
+        "data/collections/sources/e293953dec8d5c84751ee1a1c2ca1be7dcc233b788f2f867954cfdce7676b7e0.txt（Axure 事件/用例/动作）",
+        "data/collections/sources/dde0d34d895598547535d3e5cb76e32d1294f516060d4f4bda70bbb61f3fea1a.txt（Axure 动态面板）",
+        "data/collections/sources/d98ce4f9e40c9880574b9dedbbadcc8df823e2fa9766e9ab342a679ff4f60947.txt（Axure Cloud，仅 head/meta）"
+      ],
+      "gap": "两处正文缺口：Quant-UX docs 与 Axure Cloud 均无核心正文，导致运行模式、分享反馈、验证闭环无法按本叶定义核对；此外 qux-java MIT 边界快照未在来源清单声明。补齐正文与声明后可重审；当前不能判为通过。"
+    }
+  },
+  "limits": "本次审查在达到本代理最大步数时结束，仅完成单叶 ux-prototyping-application 的只读核对。全程未运行 shell、未写文件、未读取其他单元，未做部署或运行时测试，也未复核快照 sha256。所有被引快照均为单行压缩 HTML/JSON，界面预览按 2000 字符截断，因此主要借助精确短语检索判断正文有无；对 Quant-UX docs 与 Axure Cloud 仅能确认未见相应正文，无法断言页面绝对不含相关内容。未读取未声明的快照 f5d33156…；qux-java 许可证快照 129317… 通过目录发现后读取，未在 REVIEW_SOURCES.json 中核对其哈希。商业案例只做了基本真实性与类型匹配核对，未评估定价、架构或竞品。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-052/ses_groveopendesignp052review1_1793170512.jsonl",
+  "batch_sha256": "ec2d86977163e08500dd1134ccd0e047905c5a128996655aeaa9981420910476",
+  "research_sha256": "87a226d0381bd81e7a9162f95d7cde82760c78df83dd1c815f901115195f94e2",
+  "input_sha256": "53d497f3f283203417ccdadbb287c3ffe3107e283e4e335e8e9b379dbfea99e7"
+}

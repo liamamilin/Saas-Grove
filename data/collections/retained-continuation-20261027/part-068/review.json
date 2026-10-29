@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "synthetic-monitoring / github:382496361：README 未明确写出“状态历史”，只能由状态页、图表和证书信息间接支持；也未证明多地域或测量点选择。按定义中“最简单的可用性检查”这一深度接受，不阻断。",
+    "aiops-platform / commercial:bigpanda：仅读取官网首页正文，未引用产品文档；告警去重、过滤、关联策略和异常检测的具体机制未展开。商业条目按基本真实性和核心类型匹配通过。",
+    "application-deployment-management / github:105977976：WAPT 1.8.2 社区版仓库已归档，自 2022-04-30 起停止维护；按机器查看 Host Tasks/Host Packages 的证据来自 2.7 文档（版本高于 1.8.2，且侧栏部分功能标注 Enterprise）。research 已留档版本差异，建议在条目中显式写明适用版本；homepage 为当前商业站点，身份仍以 archived 社区版仓库为准。",
+    "cmdb / github:39182755：CI 关系模型主要由“associated components”和 Impact Analysis 间接支持，README 未逐项描述关系类型；GLPI 是 ITSM 套件，CMDB/SACM 为其中子模块，service_boundary 已披露。",
+    "configuration-management / github:910744：README 只写“基于集中式规格的自动化管理引擎”，未明确出现幂等、收敛或漂移修正措辞；leaf_match 的“自动收敛”属于合理推断，建议补充 Puppet 官方文档引用或在原因中弱化表述。",
+    "四个开源条目（Uptime Kuma、WAPT、GLPI、Puppet）均为自托管软件而非厂商托管 SaaS；本单元按 track=open_source 的既有分类接受其“持续运行的软件服务”形态，若上游只收云端 SaaS，需另行区分。",
+    "input.json 的 progress 显示 not_searched 且 application_ids 为空，而 research.json 记录 case_found；按 repair 前基线理解，未作为条目缺陷。"
+  ],
+  "leaf_checks": {
+    "synthetic-monitoring": {
+      "status": "pass",
+      "application_ids": [
+        "github:382496361"
+      ],
+      "basis": "核对 batch 条目、research 记录、仓库页快照、README 和 LICENSE：README 明确 HTTP(s)/TCP/Keyword/JSON/Websocket/Ping/DNS/Push 检查、20 秒间隔、90+ 通知渠道、状态页和证书信息；仓库页 repository_id=382496361 与 github:382496361 一致；LICENSE 为完整 MIT 文本。对应持久化检查项、调度、断言、外部执行和失败告警的简单可用性深度。",
+      "gaps": "未证明多地域/多测量点选择；“状态历史”未在 README 明写；不覆盖浏览器用户旅程，research 已如实说明。"
+    },
+    "aiops-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:bigpanda"
+      ],
+      "basis": "核对 batch 条目和官网首页快照：首页正文称其将告警噪音转为带上下文的事件，并自动执行 IT detection、triage、resolution；页面导航/正文出现 Incident Correlation、Root Cause Analysis、knowledge graph 等能力。track=commercial，ID 与 homepage 一致；商业条目按基本真实性和 AIOps 类型匹配通过。",
+      "gaps": "仅有首页营销正文，没有产品文档；去重、过滤、关联策略和异常检测的具体机制未展开。"
+    },
+    "application-deployment-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:105977976"
+      ],
+      "basis": "核对 batch 条目、GitHub API 元数据、README、COPYING 和 2.7 quickstart 文档：API 返回 id=105977976、full_name=tranquilit/WAPT、archived=true；README 称其为软件部署工具，可在受管终端静默安装/更新/移除软件和配置并维护已安装基础；文档显示导入包、给机器添加包依赖、Save and Apply，以及按机器查看 Host Tasks 和 Host Packages 的 OK/Update/Error 状态；COPYING 开头声明 WAPT Community 以 GPLv3 授权并附完整 GPLv3。对应受管终端、可部署包、部署分配和每设备执行结果。",
+      "gaps": "条目是 1.8.2 社区版存档（2022-04-30 起停止维护），每设备状态证据来自 2.7 文档；版本差异已在 research 留档，未延伸商业版功能。"
+    },
+    "cmdb": {
+      "status": "pass",
+      "application_ids": [
+        "github:39182755"
+      ],
+      "basis": "核对 batch 条目、仓库页快照、README 和 LICENSE：README 的 SACM 段说明管理 IT 资产与配置，跟踪计算机、外设、网络打印机及其关联组件，并可维护最新配置数据库；另列 Impact Analysis；仓库页 repository_id=39182755 与 github:39182755 一致；LICENSE 为完整 GPL-3.0 文本。对应配置项、关系/影响模型和权威配置记录三项核心。",
+      "gaps": "关系模型由 associated components 和 Impact Analysis 间接支持，README 未逐项列出 CI 关系类型；GLPI 是 ITSM 套件，CMDB/SACM 为子模块，不是独立 CMDB 产品，service_boundary 已披露。"
+    },
+    "configuration-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:910744"
+      ],
+      "basis": "核对 batch 条目、仓库页快照、README 和 LICENSE：README 称 Puppet 是面向 Linux/Unix/Windows 的自动化管理引擎，依据集中式规格执行添加用户、安装软件包和更新服务器配置等管理任务；仓库页 repository_id=910744 与 github:910744 一致；LICENSE 为完整 Apache-2.0 文本。对应期望状态声明、受管节点和自动应用三段核心；batch 的 deployment 已把 Puppet Enterprise 标为商业产品。",
+      "gaps": "README 未明确写出幂等、只改不符合项、漂移修正等收敛语义；“自动收敛”是推断，建议补充官方文档引用或弱化措辞。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未访问其他单元；按 REVIEW_SOURCES.json 的原样路径读取了 14 份快照（长 HTML/许可证按相关段落读取，未逐行通读）；未做实时抓取、sha256 重算或运行时验证。input.json 中 cmdb 的 dc/dc_zh 字段仅一句且不完整，cmdb 核心判断改用 overview/dc_zh/rules；input 的 progress 为 repair 前状态。WAPT 条目为 1.8.2 存档而核心工作流证据含 2.7 文档；商业 BigPanda 仅有首页正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-068/ses_groveopencodegop068review1_1792992834.jsonl",
+  "batch_sha256": "92df2f2fb6c944d817d6fd3170361701ccf39599223cb3334a90ec488e9d754e",
+  "research_sha256": "3dc54f9e10c254a9e4326ec7f662f8339fc619ef2df71a50b4728f9b6d94c0bc",
+  "input_sha256": "3af712ca0286c6ab0376fb1031d58900574cca1e04d69c2d940faa672b48d88e"
+}

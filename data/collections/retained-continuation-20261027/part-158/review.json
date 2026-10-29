@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "manufacturing-traceability",
+      "application_id": "github:809730532",
+      "issue": "Carbon 的可追溯性是其 ERP/MES/QMS 套件中的一个模块：研究记录称其为“可追溯性模块”，README 也将 Carbon 定位为合并 ERP、MRP、MES、QMS 的制造平台；Traceability 页面位于 ERP 的 Inventory 之下，不是独立产品。该叶定义明确把“以生产订单和工艺执行为重心、顺带产生追溯”的 MES 排除在制造可追溯性类型之外。当前材料能证明 tracked entity、activity 和 genealogy，但不能证明 Carbon Traceability 具备独立的应用身份与产品重心，因此按独立可追溯性案例计入不成立。",
+      "fix": "改用可追溯性为首要产品身份、具备独立产品/服务形态的案例；或补充能证明 Carbon Traceability 是独立应用/产品线、且其重心不在生产执行的材料。若无法补充，应把该叶按“套件内模块/功能”记录为不构成独立案例，并如实保留“无独立可追溯性案例”的检索缺口，而不是以 case_found 计入。"
+    },
+    {
+      "slug": "oee-management-platform",
+      "application_id": "github:1165920036",
+      "issue": "OEEForge 的 README 与 OEE-Calculations Wiki 能证明设备/产线的时间与产出核算、Availability×Performance×Quality 分数、六类损失与 reason_code 归因，但没有证明该叶定义中的“有效性管理”层（目标、趋势/周期审查、经验证的改进）。README 自述为 OEE monitoring platform，条目 summary 也写“OEE 监测平台”，leaf_match 理由只覆盖到“衡量的生产单元+时间产出核算+损失归因+效率分数”，研究记录更明确说未确认目标管理或完整历史审查节奏。因此当前材料支持的是 OEE 监测/计算，尚不足以支撑完整的 OEE 管理平台。",
+      "fix": "补充能展示目标设定、趋势与周期审查、改进跟踪或改进验证的产品文档/页面；若没有，应把条目按 OEE 监测/计算平台定位，明确记录“有效性管理”层缺口，不要以完整 OEE 管理平台匹配该叶。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Carbon 的 LICENSE 明确写的是 AGPLv3“version 3 only”，条目 license 字段写“AGPL-3.0”建议精确为“AGPL-3.0-only”；另外 README 说明 API keys/MCP 在自托管场景需商业许可、Console mode 需 Business plan，社区版边界除 packages/ee 与 .ee. 文件外，最好也提示这些功能门槛。",
+    "ERPNext 的 features 写“会计总账、应收应付与财务报表”，README 只概括到 Accounting/财务报告；Work Order 页展示计划/实际工序成本，但没有直接展示成本过账至总账或在制品差异。若保留这些细分断言，建议补会计/成本核算文档；否则可收敛措辞。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json/research.json 的 case_found 不一致；建议同步上游进度元数据，避免下游把本单元当作无案例。",
+    "SupplyOn 三个来源的 kind 都标为 homepage，其中两个实际是 solution/product 页面；建议改为 product_page 或 documentation，以准确反映来源类型。",
+    "Carbon MES 文档明确“所有写操作需联网、无离线模式”，条目未提；这不是阻断项，但服务边界描述可补充，避免读者误以为车间可离线执行。",
+    "ERPNext 条目没有 license_review 对象，而 Carbon、OEEForge 有；现有 license 与 license_evidence_url 足以核对，但建议统一三个开源条目的许可审查字段。"
+  ],
+  "leaf_checks": {
+    "manufacturing-erp": {
+      "status": "passed",
+      "evidence": "ERPNext 的 README 正文把 Accounting、Order Management（含库存、销售订单、供应商、发货）与 Manufacturing 放在同一 ERP 中；Work Order 正文明确工单以 BOM、Operation、Workstation 为前提，拉取原材料到 WIP、成品入库，使用 Job Card 记录工序，并展示计划/实际工序成本与产能排程。集成后台、BOM/工艺路线、生产订单三项核心均有正文依据。",
+      "gap": "Work Order 页面未直接展示成本过账至总账或在制品差异；README 的 Accounting 只到财务报告层面。该细节已记录，未阻断本叶核心判定。"
+    },
+    "manufacturing-execution-system-mes": {
+      "status": "passed",
+      "evidence": "Carbon MES 参考页正文显示：Schedule 按 work center 列出已发布工单/工序，Open Jobs 显示 job、quantity、tracking，工序以 routing DAG 呈现；操作员可 Start/Pause 记录 Setup/Labor/Machine 生产事件，报良品/报废/返工，按工序领料/退料，并执行检验步骤。README 说明 ERP、MRP、MES、QMS 共用一套数据；Traceability 页补充物料事件输入输出与 genealogy，支撑 as-built 记录。",
+      "gap": "MES 页本身主要证明执行与报工；单元/批次级永久记录需结合 Traceability 页，单页未展开保留期限。"
+    },
+    "manufacturing-supplier-collaboration": {
+      "status": "passed",
+      "evidence": "SupplyOn 官方 Purchase Order & Confirmation 页正文说明数字化 PO 交换、结构化供应商确认、PO Deviation Cockpit 处理数量/日期偏差，并连接 shipment visibility 与 goods receipt signals；Supply Chain Collaboration 页正文说明共享 demand、capacities、delivery quantities、delivery dates，并跟踪 purchase orders、confirmations、shipments、goods receipts。共享需求记录、响应闭环、信号到收货闭环均有产品页正文依据，商业身份与类型匹配。",
+      "gap": "未注册、登录或试用验证；商业页面为产品介绍而非操作手册，基本真实性与类型匹配已足够。"
+    },
+    "manufacturing-traceability": {
+      "status": "changes_required",
+      "evidence": "Carbon Traceability 页正文能证明 tracked entity 以 serial/batch 为单位，状态含 Available、Consumed、On Hold、Rejected、Scrapped；consume、produce、split、merge、ship 记为 activity，带 inputs/outputs，形成可双向行走的 genealogy，并有 shelf life 与 FEFO。该叶的单元标识、单元绑定记录、追溯查询结构有证据。",
+      "gap": "产品身份是 ERP/MES/QMS 套件中的可追溯性模块，不是独立可追溯性应用；未展示召回范围确定与文档化输出。按该叶定义中“MES 顺带产生追溯即属不同应用类型”的边界，当前匹配不成立。"
+    },
+    "oee-management-platform": {
+      "status": "changes_required",
+      "evidence": "OEEForge README 说明通过 OPC-UA/SCADA 数据管线按 Availability×Performance×Quality 实时计算 OEE，提供 operator/admin portal、Docker 自托管栈，示例数据含 3 条线 10 台设备；OEE-Calculations Wiki 给出计划生产时间、计划/非计划停机、实际运行时间、理想节拍、良品/总产出公式、六类 OEE 损失和 reason_code 归因。测量单元、时间与产出核算、效率分数、损失归因均有正文依据。",
+      "gap": "未证明目标设定、趋势/周期审查、经验证改进等 effectiveness management 层；README 自述为 OEE monitoring platform，条目 summary 也定位为“OEE 监测平台”，不足以支撑完整的 OEE 管理平台。"
+    }
+  },
+  "limits": "本次为只读独立初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的全部 16 个快照（按 path 原样读取，sources 前缀相对于 data/collections）。未运行 shell、未写文件、未读取其他单元；未部署、登录或运行任何产品，未重新抓取网页，未重算 SHA-256。HTML 快照中导航、页脚和营销文案较多，结论仅依据已保存正文；商业产品未做注册/试用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-158/ses_groveopencodegop158review2_1793015765.jsonl",
+  "batch_sha256": "f8d3bf6643982a8211fbb86836fb8a5b48aed1a201739ba7fb67b5602ca49939",
+  "research_sha256": "7beb9fc16564b9671d9d389141cbf3a71f3fac784ba27db52534005dd94b11f7",
+  "input_sha256": "a29ecc18407b474f5b1d130805193d6786662b562c685550c84eb4de1e0a71ee"
+}

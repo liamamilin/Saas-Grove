@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "FitTrackee 是通用户外活动跟踪器；running-application 的关系只到最小核心（跑步 workout 记录、配速、records/segments），不应在下游扩写为跑步专项训练计划、语音指导或跑鞋里程产品。",
+    "FitTrackee 的 GitHub 仓库是 README 明示的 Codeberg 主仓库镜像；github:87005375 与 GitHub 来源可核对，但建议下游同时标注 canonical Codeberg 地址，避免把镜像当作唯一上游。",
+    "MySwimPro 快照为高度压缩 HTML，读取器按行截断；研究记录中的具体 Apple Watch/Garmin/Wear OS/Strava/TrainingPeaks 集成未能在可见正文逐项复核，核心类型判断只依赖可见的个性化游泳训练、AI 训练计划与跟踪/分析文案。",
+    "商业条目均只按官网营销正文核对基本用途和类型关系，未验证价格、部署、账号、实际工作流或支持政策；这不影响本次类型匹配结论。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids/research_records 为空，而 batch.json/research.json 已记录 case_found；建议下游以 batch/research 为准或同步单元元数据。",
+    "FitTrackee README 自述处于 heavy development，部分功能可能不稳定；不影响开源身份和核心匹配，但下游使用时应保留成熟度提示。"
+  ],
+  "leaf_checks": {
+    "running-application": {
+      "result": "pass",
+      "application_ids": [
+        "github:87005375"
+      ],
+      "basis": "FitTrackee：README 说明自托管 workout/activity tracker，支持文件导入及无文件手动添加；Sports API 将 Running 列为启用运动并返回 pace_speed_display=pace；Workouts API 持久化 distance、duration、moving、ave_pace/best_pace、records、segments、map，并支持 equipment 关联。license 快照的 content 以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头、size 34523，符合完整 AGPL-3.0 文本；公开资料未显示单独的社区版/企业版分界。",
+      "gaps": "产品是多项户外活动跟踪器，不是跑步专项产品；未主张跑步训练计划、语音指导或跑鞋里程。未运行实例或验证设备直连。"
+    },
+    "swimming-training-application": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:myswimpro"
+      ],
+      "basis": "MySwimPro：官方首页正文可见 Personalized Swim Workout App、AI Swim Workouts & Training Plans、Swim Tracking & Analytics、Technique Videos，足以支持个人游泳训练应用的基本类型匹配。",
+      "gaps": "具体可穿戴集成、结构化 sets/intervals、课程库规模、俱乐部/竞赛层和价格未在可见快照中逐项核实；商业条目仅做基本真实性核对。"
+    },
+    "workout-programming-application": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:trainheroic"
+      ],
+      "basis": "TrainHeroic：官方教练页正文说明可创建和整理 workouts、circuits、full programs，按 1:1 或团队交付，跟踪 compliance/progress/programming status，并可在 Marketplace 出售训练计划；符合处方先于执行、计划制品可交付的核心。",
+      "gaps": "未实测具体处方字段、运动员端同步、分发后修订传播或自动适应能力；仅依据官网营销正文。"
+    },
+    "workout-tracking-application": {
+      "result": "pass",
+      "application_ids": [
+        "github:87005375"
+      ],
+      "basis": "FitTrackee：Features 说明上传户外活动轨迹、统计、地图筛选、装备关联和多用户可见性；Workouts API 持久化 workout 记录（运动类型、距离、时长、移动时间、配速、records、segments），README 说明可无文件手动添加；符合以已执行单次训练为记录单元并派生历史统计的核心。",
+      "gaps": "未主张力量训练的组数/次数或力量 PR；未运行实例或验证手表/健康平台集成。多运动定位的边界说明同 running-application。"
+    },
+    "league-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:leagueapps"
+      ],
+      "basis": "LeagueApps：/leagues/ 正文说明可自动生成/导入赛程、展示赛程与对阵表、共享积分榜和比赛比分；/scheduling/ 正文说明自动安排完整赛季、自动化 schedules/scores/standings、创建锦标赛对阵并让胜者自动晋级；首页说明可运营 clubs、camps、tournaments、leagues。",
+      "gaps": "未实测结果录入委托、弃权/取消/改期语义、并列排名规则或积分榜计算逻辑；仅依据官网营销正文，属于商业基本核对。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元、未部署或运行任何产品，也未做设备/API/账号实测。已按 REVIEW_SOURCES.json 的 12 个 path 原样读取对应快照（sources 前缀解析为 data/collections/sources）；未重新计算 sha256 或抓取线上页面，快照完整性依赖 REVIEW_SOURCES.json 的文件名与路径。部分压缩 HTML 单行超过读取器 2000 字符上限，只能核对可见正文，长尾营销细节（如具体设备集成、价格、架构）未逐项复核。商业条目只按官网正文核对基本真实性和类型关系，不验证实际工作流或支持政策。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-254/ses_groveopencodegop254review1_1793038426.jsonl",
+  "batch_sha256": "163467e45ed271393c988e97d74bd476379c55f6bec26ced151a12e47a73f4c0",
+  "research_sha256": "c3a16ba024536f798b59d37206fdc2209096930566b0f73d954fe4533cc4a159",
+  "input_sha256": "b33956eaf545826a98e30e386fae2be15b2a5c8ebce15a498495095fe724cdfd"
+}

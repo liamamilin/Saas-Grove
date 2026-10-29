@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:718047143",
+      "issue": "批次条目与 leaf_matches 把 Obeo Cloud for SysON 说成既有的“独立商业产品”，但官网原文为“Obeo is also preparing a secure cloud-based offering to provide SysON as a fully hosted SaaS solution”，Obeo Enterprise 亦为“is working on advanced commercial features”，均属已宣布/筹备中而非已交付。",
+      "fix": "建议将 deployment 中的表述改为“Obeo Enterprise/Obeo Cloud 为官方宣布的独立商业/托管产品线（筹备中），未计入本条目”，不影响开源核心范围界定。"
+    },
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:718047143",
+      "issue": "摘要称与 Capella “互操作”，而官网对 Capella 架构模型交换使用“aims at facilitating…will be natively supported”等将来时表述；README 则称已实现 seamless integration/co-design。",
+      "fix": "可改为“与 Capella、Papyrus 集成/协同（Capella 架构模型交换按官方路线图推进）”，避免把路线图项写成现状。"
+    },
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:718047143",
+      "issue": "input.json 中该叶 progress 仍为 case_status=boundary_unresolved、application_ids=[]，与本单元 batch.json（条目 github:718047143）和 research.json（assessment=case_found）不一致。",
+      "fix": "下游合并时把该叶状态更新为 case_found 并写入 application_ids=[\"github:718047143\"]，保留历史 boundary_unresolved 记录为沿革。"
+    },
+    {
+      "slug": "mbse-platform",
+      "issue": "research.json 中 Capella/Gaphor/Open-MBEE 的“历史复用”来源（含 7 个旧快照）未出现在本单元 REVIEW_SOURCES.json 与 sources/ 目录中，其剔除理由仅由研究记录承载。",
+      "fix": "若下游需要复核 withheld_candidates，建议一并携带相应旧快照；就本叶成立关系而言不影响结论，因为这些来源未用于支撑成立。"
+    },
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:718047143",
+      "issue": "官方 Key features 表显示 General/Interconnection/Action Flow/State Transition 视图均为 ✅(Partial)，Sequence/Geometry/Grid/Browser 视图为 ❌；摘要虽已标注“部分”，但未点明视图覆盖不完整。",
+      "fix": "可在 features 中补一句“SysML v2 视图覆盖为部分实现，序列/几何/网格/浏览器视图尚未提供”，使成熟度表述更贴合原文。"
+    }
+  ],
+  "leaf_checks": {
+    "mbse-platform": {
+      "slug": "mbse-platform",
+      "application_ids": [
+        "github:718047143"
+      ],
+      "case_name": "Eclipse SysON",
+      "track": "open_source",
+      "definition_core": "满足。what-is 正文（3ff92d…）：web-based open source graphical modeling environment for authoring SysML v2 models，提供 creating/editing/visualizing 系统模型，覆盖 capture system requirements / design architectures / analyze system behavior，并声明 conforming to the OMG Standard；官网（d61b94…）General View 将“any members of a SysMLv2 model”呈现为节点与边，Interconnection View 展示 parts 经 ports 的交互，Model Libraries 为 SysML v2 标准组成部分且原生支持；文本记法被明确定义为“an additional view on the model”。据此可对应四要素：系统模型为记录单元、图表为模型视图、SysML v2 语言约束编辑（含 conformity 与 Validation 入口）、主题为工程系统（需求/架构/行为）。",
+      "service_form": "满足“持续使用的软件服务形态”。production_deploy 正文（20d22b…）：面向 live environment 的 production-ready 安装，with full multi-user access；分发为单个 executable JAR，配置 PostgreSQL 数据源与 SSL，`--server.port=443`，最后“Navigate to https://<serverIP>:443”；install 页列出本地测试、多用户本地测试、生产级部署、生态部署四种模式；key-features 列出 Projects Browser/Project Editor、Share Links、Concurrent authoring。属于可由组织自行部署、多用户、浏览器持续访问的 Web 应用服务，非桌面客户端或纯 CLI。",
+      "identity_and_track": "匹配。仓库元数据（b30cc0…）id=718047143、full_name=eclipse-syson/syson、private=false、description 为“web-based graphical modelers for SysMLv2”；条目 id github:718047143、repository_url、homepage 与之一致；track=open_source 与 README“open-source and interoperable tool”、官网 Open-Source、what-is“License: Eclipse Public License v2”一致。",
+      "license_and_community_boundary": "满足。license API 快照（eb9a73…）为 LICENSE 文件内容，size=14197、content 为 EPL-2.0 全文（base64 起始即“Eclipse Public License - v 2.0”），非仅元数据；NOTICE（74577f…）给出“SPDX-License-Identifier: EPL-2.0”，并明确 kerml.libraries / sysml.libraries 下的 SysMLv2 标准库为“SPDX-License-Identifier: LGPL-3.0-only”并指向根目录 LICENSE-LGPL；LICENSE-LGPL 快照（27d5c8…）确为 GNU LGPL v3 全文。条目摘要“程序本体 EPL-2.0、仓库内 SysML v2 标准库 LGPL-3.0-only”与之一致，社区版边界（开源核心 vs Obeo Enterprise/Cloud 商业线）已在 deployment 中区分，未把商业产品计入开源条目。",
+      "source_integrity": "REVIEW_SOURCES.json 列出的 10 个 path 与 batch.json 的 10 条 sources 一一对应（snapshot_path 以 data/collections/ 为基准，文件名即声明的 sha256），URL 与实际内容主题相符：仓库 API、README、license API、LICENSE-LGPL、NOTICE、官网、Overview、Key features、install、production_deploy；未发现摘要/导航/Loading 页被当作核心工作流证据的情况。",
+      "gaps": "未运行产品，未逐项验证视图成熟度；仓库元数据与 license API 快照在阅读视图中被截断于 2000 字符，末尾的 license.spdx_id 字段未直接目视确认，但已由 NOTICE 的 SPDX 行、README 的“Eclipse Public License 2.0”与 what-is 的“EPL v2”三方互证；Capella/Gaphor/Open-MBEE 旧快照不在本单元目录，其剔除理由仅来自 research.json 记录。以上均为已如实记录的缺口，不构成核心匹配或许可问题。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读独立初审，仅使用 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 10 个快照；未运行 shell、未写文件、未计算 sha256（仅比对文件名与声明哈希一致）、未访问网络、未读取其他单元，也未部署或运行 SysON。仓库元数据与 license API 快照为单行 JSON，阅读器截断于 2000 字符，故其尾部字段（如 license.spdx_id、archived、default_branch）未直接目视，许可结论依赖 LICENSE 全文前缀、NOTICE SPDX 行、README 与 what-is 的相互印证。Capella、Gaphor、Open-MBEE 的历史快照未包含在本单元 sources/ 中，其 withheld 判定仅依据 research.json 的记录，本次未独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-135/ses_groveopencodegop135review1_1793248299.jsonl",
+  "batch_sha256": "1664e7014d5bc245f4e0111efa9df9f893da58828315ab413b3054971c8ce474",
+  "research_sha256": "7a89c483cf0d9f3f8ce219fd99b2d3026fdd95975dd98834a43e39d639ef7f35",
+  "input_sha256": "8c8f314ade4e84bf63c23cf953ad2b04d1bd26598573d5fe8142ff1759b7c9a7"
+}

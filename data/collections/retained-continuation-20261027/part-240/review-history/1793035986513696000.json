@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "reserved-seating-platform",
+      "application_id": "github:23791087",
+      "issue": "pretix 官方功能页在「User-friendly seating plans」标题上明确标注该功能仅在 pretix Hosted Edition 与 Enterprise Edition 提供、Community Edition 不含；但 batch 的 summary/features 与 reserved-seating 的 leaf_matches 把「座位图、选座与座位封锁」当作 github:23791087 这个开源条目的能力，未作版本限定。Seats API 只是开发者文档，不能证明社区版可用。这把 Hosted/Enterprise 专属能力当成了开源社区版核心证据，社区版边界未核清。",
+      "fix": "在条目 summary/features 与 leaf_matches 中明确标注该能力为 Hosted/Enterprise 专属；本叶若要继续使用该案例，应改为商业 Hosted/Enterprise 证据并补充对应来源，或另找社区版确实包含座位图的开源案例；同时修正 event-ticketing-platform 共享 features 中的同一未限定表述。"
+    },
+    {
+      "slug": "museum-visitor-experience-platform",
+      "application_id": "commercial:pladia",
+      "issue": "三份 Pladia 快照的 HTML 主体在 Webflow 导航/脚本处被截断，页面主体没有可读正文；目前可核对的只有 meta description 与 schema.org JSON-LD 中的 featureList/mainEntity（Tours、Image Recognition、Digital Labels、Interactive Kiosks、Audio Access+ 等）。据此无法核对机构侧编写导览、把站点绑定到展品/空间、发布到访客手机/屏幕/kiosk 的实际工作流，属于以简介和元数据替代核心正文，不能支撑「三层结构已核实」的结论。",
+      "fix": "补充正文可读的产品页或文档快照，明确展示导览创建、站点与展品/空间绑定、阐释内容、发布与访客端逐站访问；若无法取得，应将该案例标为证据不足而非 official_sources_reviewed，并保留缺口说明。"
+    }
+  ],
+  "non_blocking_notes": [
+    "pretix 的 license 字段写作 AGPL-3.0，实际为 AGPL-3.0 主体加 §7 附加条款，且 static/locale/doc/deployment 等部分为 Apache-2.0；summary 与 license_review 已披露附加条款，建议在 license 字段保留主许可的同时加注例外，避免读者误认为纯 AGPL-3.0。",
+    "CenterEdge 正文支持一体化 POS、景点票、player cards、派对/场地预订、F&B、waiver 与报表；零售、奖品兑换、储值卡主要由导航和产品名暗示，研究记录中的「递延收入报表」在快照中没有对应正文，建议把表述收窄到页面可见内容。",
+    "accesso 的入园验证与客流记录在正文中只由「every scan and sale feeds real-time dashboards」和「biometric entry」间接体现，「manage gate entry」出现在 meta description；商业基本真实性可过，但若要强调 admission validation/attendance，建议补 gate 或 access control 页面。",
+    "pretix 功能页快照只覆盖 Ticket shop 标签，Tickets/Payment/Administration 标签未抓取；订单项、票券下载、退款和检票由 Orders API 文档补足，不影响 event-ticketing 的核心结论。",
+    "Curatescape 的 plugin.ini 声明 GPLv3、LICENSE 与 license API 404 已如实留档，未标为开源案例的处理合理；其快照未列入 REVIEW_SOURCES，本次无法复核，仅能依据 research 留档。",
+    "reserved-seating 叶定义本身说明市场上多为售票系统内置模式或座位图组件；修复时应保留这一边界，不要把 seats.io 类纯组件误升为端到端 SaaS 案例。"
+  ],
+  "leaf_checks": {
+    "event-ticketing-platform": {
+      "status": "passed",
+      "core": "pretix README 与功能页证明有日期活动、产品/类别/变体与名额控制、在线售票、参与者问答、等待名单；Orders API 文档证明订单项、票券 PDF 下载、退款资源、支付状态与 check-ins。组织者端创建票种、售票、订单/退款/检票/报表链路成立。",
+      "identity_track": "仓库快照显示 repository_id=23791087、pretix/pretix、非 fork、master 分支；与 batch 的 github:23791087 及 track=open_source 一致。部署为自托管 Web 应用，另有 Hosted/Enterprise，属于持续使用的软件服务形态。",
+      "license": "完整 LICENSE 快照包含 AGPL-3.0 全文及 §7 附加条款，并注明部分目录为 Apache-2.0；summary 已写明「含附加条款」。",
+      "issues": "共享条目的 features/leaf_matches 把 Hosted/Enterprise 专属的座位能力写成开源应用功能，见 findings[0]；座位不是本叶定义核心，故本叶核心匹配仍成立。"
+    },
+    "family-entertainment-center-management": {
+      "status": "passed",
+      "core": "CenterEdge FEC 页正文说明 All-in-One 软件覆盖 POS、waivers、reservations、memberships、party bookings、food sales；Advantage Sales 销售 attraction tickets、player cards、concessions、combos、season passes；Advantage Events 管理多景点/房间/F&B 预订并强调 no double booking；另有 Redemption、Inventory、Reporting 产品入口。商业基本真实性与 FEC 类型匹配成立。",
+      "identity_track": "commercial:centeredge，homepage 与所引 FEC 行业页一致；商业 SaaS 形态明确，未发现身份或类型错配。",
+      "commercial_check": "页面级核对通过；未核价、部署、架构与实施周期。",
+      "issues": "逐项游玩权益的现场验证、奖品库存核对、储值卡会计处理只有部分或间接证据；研究记录中的「递延收入报表」未见于快照，属非阻断收窄项。"
+    },
+    "museum-visitor-experience-platform": {
+      "status": "failed",
+      "core": "Pladia 的博物馆/画廊定位、导览站点、语音/无障碍、数字标签、kiosk 与访客分析等能力只见于 meta 与 schema.org JSON-LD 的功能清单；快照正文在导航后被截断，未读到机构编写导览、逐站阐释与发布/消费界面的实际说明。",
+      "identity_track": "commercial:pladia，homepage 与所引 cultural-institutions、products/empower 页面一致；商业身份本身无异常。",
+      "commercial_check": "类型方向相符，但核心工作流证据不足，不能以元数据替代正文。",
+      "issues": "见 findings[1]：需补正文级产品/文档快照，否则本叶不能判为已核实。"
+    },
+    "reserved-seating-platform": {
+      "status": "failed",
+      "core": "pretix 功能页确实描述图形化座位图编辑器、买家在交互式座位图选座、按价格类别映射与封锁座位；Seats API 文档含 seat_number/row/zone/seat_guid/blocked 及 orderposition 字段，能把座位绑定到订单项。座位级分配与座位绑定权益在文档层成立。",
+      "identity_track": "案例仍为 github:23791087 开源条目；但该座位功能在功能页标注为 Hosted/Enterprise 专属，Community Edition 不含，开源仓库身份与所主张能力不匹配。",
+      "license": "许可证本身已完整核对，问题不在许可证，而在社区版功能边界。",
+      "issues": "见 findings[0]：不能把 Hosted/Enterprise 的座位模式作为该开源条目的本叶证据；需限定版本、改作商业证据或更换案例。"
+    },
+    "theme-park-management": {
+      "status": "passed",
+      "core": "accesso 主题公园/水上乐园页说明票务、POS 与 guest management，线上/现场/移动销售、动态地图、加购、F&B/零售；Ticketing 页说明 on-site/mobile/online 统一售票、与 F&B、virtual queuing、distribution 集成，scan/sale 进实时看板；POS 页说明固定收银、mPOS、kiosk、手机统一 POS 与 F&B/零售库存；Horizon 页说明 web/kiosk/mobile/call center 统一销售并按访客档案管理 pass、add-on、privilege。入园业务核心与主题公园类型匹配成立。",
+      "identity_track": "commercial:accesso，homepage 与所引 markets/solutions/capabilities 页面一致；商业 SaaS 形态明确。",
+      "commercial_check": "页面级基本真实性与类型匹配通过；未核价、部署与架构。",
+      "issues": "入园闸机验证与 attendance record 在正文中仅由 scan、biometric entry 间接支持，「manage gate entry」来自 meta；游乐设施级访问与排队控制主要靠产品入口及 virtual queuing 提及。非阻断，但若要强调控制点验证，建议补相应页面。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件；仅读取 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 以及 REVIEW_SOURCES 列出的 13 个快照。快照中的超长单行 HTML 在读取时被截断，结论以 grep 全文匹配和可读段落为准；Pladia 页面主体在快照中不可读，Accesso/CenterEdge 部分正文依赖分段阅读。Curatescape 候选来源未列入 REVIEW_SOURCES，无法独立复核，只能依据 research 中的 404 与无 LICENSE 留档。未做部署或运行时测试，未核价、架构与实施周期；商业案例仅做页面级基本真实性与类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-240/ses_groveopencodegop240review1_1793035373.jsonl",
+  "batch_sha256": "22961c6fe50d829495135397d707f96a306f63b9e45a3fbb49c4b2a11524a7c9",
+  "research_sha256": "919c8b553d5992634c99f0402fa014e19cdf461f4c6ad6fbd63ea74dbd4b6e95",
+  "input_sha256": "2e5ba71186a1b4fbd1719722651118698257755bdcf93dd1b8ae0ca4235ee093"
+}

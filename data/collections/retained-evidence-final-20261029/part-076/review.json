@@ -1,0 +1,31 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "github:1203202128 的 features 首条中“治理档案与规则持久化为统一记录”“按角色……校验”外延略宽：所引 README 正文可逐字核对的是 per-board membership、按文档的 access control（membership OR explicit grant MINUS explicit deny，回避优先）、recusal 记录，以及 quorum/approval 规则；未见到独立的“治理档案（governance profile）”或通用角色权限模型表述。建议将首条收窄为“董事会/成员/文档访问模型与投票治理规则”，不影响定义性核心成立。",
+    "commercial:diligent 的产品页快照为超长单行 HTML，读取工具按行截断，无法从返回文本中定位引句所在的 DOM 位置；逐字检索确认“Build agendas, compile board books, and generate minutes”“Role-based permissions, encryption, and audit trails”“Turn notes and minutes into clear, trackable action items”等字符串存在于该快照。由于商业条目只要求基本真实性与类型匹配，官方域名下的 /products/boards 产品页与董事会会议场景证言足以支持类型成立，故不阻断。",
+    "Diligent 两个快照的静态资源与部署标识指向 netlify 预览域（dil-8765309-test.netlify.app），页面内容来自 diligent.com 官方 URL，但存在预览/预发布构建的可能，作为来源环境提示记录。",
+    "research.json 已如实留档 GovernanceOS（prajitnanu/governance-os）因 metadata 无 license 字段、license API 404 而排除；该候选未作为案例，缺口记录完整，符合“留档可通过”的要求。",
+    "定义正文自述该叶与“Board / Corporate Governance Platform（单独记录）”指向同一 Type，而本叶 parent_id 为 11.02；本单元无法读取父/兄弟叶，无法判断是否存在同类型重复收录。若父节点已覆盖同一会议核心，建议在目录层说明二者的命名区分依据，避免同型双叶。",
+    "两个案例所证均以会议周期为核心；定义中列举的治理计划外围（D&O/合规问卷、董事会评估、利益冲突披露登记、实体治理登记册）在 LQGovernance README 与 Diligent 产品页证据中均未逐项出现（LQGovernance 仅有任务/证据/回避/截止期限，Diligent 仅有 D&O 问卷、预读、投票的概括表述）。按定义“定义性核心很小”的口径这不构成阻断，但不应在条目标题层暗示两案例已覆盖完整治理计划套件。",
+    "LQGovernance README 自述为 Beta，并明确承认历史文档曾多次超出代码实现；本次核对依据 README 正文与仓库树，未做代码级或运行级验证，收录描述宜保留“自述/未运行验证”限定。"
+  ],
+  "leaf_checks": {
+    "corporate-governance-platform": {
+      "status": "passed",
+      "definitional_core": "已用 data/collections/sources/d25bb0fa...txt（GitHub 仓库页内 README 正文，非仅 About 简介）逐段核对：'A self-hosted platform for running a board's governance: circulation and meeting votes with real quorum rules, minutes with cryptographic signatures, tasks with evidence, documents with per-member access control'；'Meetings with agendas and attendance (which the vote tally actually consults)'；'Upload, classify, download board materials with per-document access control under one model: membership OR explicit grant, MINUS explicit deny — deny (recusal) always wins'；'Draft, comment, sign. Each signer holds a personal Ed25519 key'；投票含 quorum、通过门槛、回避、代理、加权与签名证书；'HMAC-keyed audit chain with fail-closed writes'、'Soft delete with retention snapshots'、'Full-record export'。治理机构成员名册以 'per-board membership is the isolation boundary'、'scoped to the affected board's members' 佐证。会议—议程—材料分发—纪要/决议/行动项的定义性核心成立。",
+      "saas_service_form": "成立。README 与仓库树显示其为持续运行的 Web 应用服务：React SPA（artifacts/easyboard）+ Express API（artifacts/api-server）+ PostgreSQL + Socket.IO 实时推送，Docker Compose 自托管，Dockerfile/Caddyfile/DEPLOY.md 均在仓库根；非脚本、SDK 或单机工具。'single organization per deployment' 表明为组织级部署，多租户能力未证且不作为收录条件。",
+      "identity_track": "成立。id=github:1203202128 与 api.github.com metadata 的 \"id\":1203202128、full_name=LegalQuants/LQGovernance-OpenBoard、html_url 一致；track=open_source 与仓库公开属性（private:false、fork:false）相符。",
+      "license": "成立。license 快照为 GitHub license API 正文，name=LICENSE、path=LICENSE、size=1088、content 为完整 MIT 文本（含 'MIT License'、授予条款、AS IS 免责段），README 末尾亦标注 'License — MIT'。仓库内存在 LICENSE 文件，无额外商业条款或双许可迹象。",
+      "community_edition_boundary": "未发现开源版/商业版切分：README 将 AI 层标为 optional，并写明 'the platform is fully usable with the AI off'，外部 AI 仅需自备 ANTHROPIC_API_KEY 或本地 OpenAI 兼容端点；无付费版、企业版或功能门控描述。按现有证据可视为完整 MIT 社区版。",
+      "commercial_case": "commercial:diligent 基本真实性与类型匹配成立：官网 diligent.com 首页快照为导航/营销层，未单独作为核心证据；/products/boards 官方产品页快照含董事会会议相关正文/证言（'I used to spend a day or two preparing for board meetings...'）及议程、board book、纪要、行动项、角色权限/加密/审计、D&O 问卷/预读/投票/电子签署等字符串，且在采集记录中将仅见于导航/页脚的“实体治理”移除。官网身份、董事会管理软件类型与 track=commercial 匹配；价格、部署与架构未核，符合商业条目最低要求。",
+      "gaps": "1) 快照为超长单行，工具按行截断，无法定位引句的 DOM 位置（正文 vs 导航/浮层）；仅能确认字符串存在且 URL 为官方产品页。2) 未执行代码级或运行时验证，runtime_tested=false 已如实记录。3) 治理计划外围（问卷活动、评估周期、利益冲突披露、实体治理）未逐项取证，案例仅证会议核心与部分外围（任务/回避/截止期限/D&O 概括）。4) 无法核验哈希值与快照内容的一一对应（无 shell），依赖 REVIEW_SOURCES.json 给出的 sha256 与文件名一致性。"
+    }
+  },
+  "limits": "只读初审，仅覆盖本单元 corporate-governance-platform 一叶；未运行 shell、未写文件、未读取其他单元或采集者过程资料，因此无法重新计算快照 sha256、无法跨单元核对父节点 11.02 及兄弟叶是否重复收录同一 Type。商业 Diligent 产品页与首页快照为超长单行 HTML，读取接口会截断单行，结论基于存在的逐字字符串、URL 身份、页面证言与官方产品页路径，未做 DOM 层级定位。LQGovernance 仅依据仓库页 README 正文与仓库树、GitHub metadata 与 license API 快照，未审阅源码、未部署、未验证运行时行为；README 自述 Beta 且承认文档曾超出实现。未扩展检索新来源，未核价格、架构与多租户商业能力。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-076/ses_groveopendesignp076review2_1793194423.jsonl",
+  "batch_sha256": "abf20a00b23fc20fb264d8dfa194c6835cc8f7982619bcc97f813e76f600a87c",
+  "research_sha256": "b9f7ad9ec2d02e93522a17f1e407e81cd3b9db4f87807715cb7ea3313aa328e1",
+  "input_sha256": "8d57a4adb7d1920ee5d730895ffc2be1d72cb28a73f510cb0c605cd622235942"
+}

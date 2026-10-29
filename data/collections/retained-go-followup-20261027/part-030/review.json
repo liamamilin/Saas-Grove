@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "QloApps 顶层 license 字段写作 OSL-3.0，准确指向 Core；README 同时说明 Webkul 模块有各自许可、其他模块为 AFL-3.0。摘要已交代该边界，但字段本身可写成 OSL-3.0 (core)，以免被误读为整个发行版只有单一许可证。",
+    "CRS 研究记录中的 Aven SynXis 应为 Sabre SynXis；该来源仅作为 attempted-only 记录、未列入 source_urls，不影响 Agilysys 商业案例，但建议更正品牌名。",
+    "QloApps 的 third defining property（预订自动进入物业系统）主要由同套件 Orders/HRS 后台承接推出，未见独立的集成声明；当前服务边界已限制在预订引擎组件，建议保留这一措辞边界。",
+    "SiteMinder 页面清楚支持多渠道 ARI 发布、映射与实时可用性同步，但未明确展开 reservations/cancellations 回传 PMS 的实现；batch 与 research 已把主张限制为基本商业类型匹配，建议不要升级为完整双向回传已验证。",
+    "dailypoint 两个来源均为厂商营销/方案页；points、tiers、status、会员门户等正文足以支持商业类型匹配，但缺少详细操作手册或合同材料。",
+    "CRS 的 rules_zh 以“价格被保存，不”截断，CRM 的 rules_zh 也缺少英文 rules 末尾若干条；英文定义完整，不影响核心判定，但建议补齐中文翻译以保持定义资料完整。",
+    "QloApps 的 home_page、guest_information、booking_confirmation 等快照正文位于单行 HTML，阅读器按 2000 字符截断预览；本次以 grep 命中正文并读取同 URL 官方页面作一致性旁证，未把导航或侧栏当核心证据。后续可保存可读文本或分段快照。",
+    "Kamra 的 summary 使用 community core 表述；README 说明开源 Kamra 保持完整、企业版仅为路线图，建议改为 AGPL-3.0 codebase 加独立收费服务，避免暗示存在未公开的专有核心。"
+  ],
+  "leaf_checks": {
+    "hotel-booking-engine": {
+      "result": "passed",
+      "application_id": "github:45409645",
+      "track": "open_source",
+      "basis": "仓库元数据 id 45409645、full_name Qloapps/QloApps；LICENSE.md 快照为 OSL 3.0 全文；README 明确 Core 为 OSL-3.0、Webkul 模块另有许可、其他模块 AFL-3.0；官方用户指南正文（room_listing、room_detail、checkout、payment_information、hrs/book_now、orders）显示自有网站按酒店/日期/入住人数展示可售房型、可用状态与每晚房价，提供 Select Occupancy 与 Book Now，Booking Summary、结账、Guest Checkout、全额/部分付款及 I confirm my order，后台可管理订单、付款状态、房态与预订日历；home_page、guest_information、booking_confirmation 为辅证。",
+      "gaps": "未做部署或运行时测试；文档快照为单行 HTML，阅读器预览会截断，正文关键词经 grep 命中并以同 URL 官方页面旁证；自动进入物业系统由同套件 Orders/HRS 后台承接推出，无独立集成声明。"
+    },
+    "hotel-central-reservation-system-crs": {
+      "result": "passed",
+      "application_id": "commercial:agilysys-central-reservations",
+      "track": "commercial",
+      "basis": "Agilysys Central Reservations 官方产品页正文及结构化描述明确其为 cloud-based central reservation system：统一跨物业、房型、渠道的 inventory、rates、availability 与 restrictions，提供 real-time reservation engine，call center/front desk 可 book、modify、cancel，并与 PMS、channel managers、booking engines 集成。商业基本真实性与 CRS 类型匹配成立。",
+      "gaps": "商业营销页；未核价格、合同、部署与实际运行状态。开源 CRS 检索仅见教学/演示仓库，未选为案例，research 已如实记录该缺口。"
+    },
+    "hotel-channel-manager": {
+      "result": "passed",
+      "application_id": "commercial:siteminder-channel-manager",
+      "track": "commercial",
+      "basis": "SiteMinder Channel Manager 官方产品页显示 single platform 连接 500+ booking channels、room/rate plan 一次映射、rates/availability/restrictions 实时同步、PMS/CRS/RMS 集成，并称预订或库存变化会触发实时可用性更新；商业渠道管理器类型匹配成立。",
+      "gaps": "页面未明确展开 reservations/cancellations 回传 PMS 的实现；batch 与 research 已把主张限制在基本商业关系，未声称完整双向回传已验证。"
+    },
+    "hotel-crm-loyalty-platform": {
+      "result": "passed",
+      "application_id": "commercial:dailypoint",
+      "track": "commercial",
+      "basis": "dailypoint CDP 页说明从 200+ 系统（含 PMS、POS、IBE、WiFi）收集并合并客人数据为 Central Profiles；Loyalty 页说明 B2C/B2B/HR 忠诚度计划、points、tiers、status、会员注册、查看积分、兑换奖励、品牌化会员门户，并与 PMS/POS/CRS/IBE 同步。统一客人档案与忠诚度计划记录两侧均具备，商业类型匹配成立。",
+      "gaps": "两页均为厂商营销/方案页，未见详细操作手册、客户合同或独立运行验证；商业初审仅要求基本真实性与类型匹配。"
+    },
+    "hotel-front-desk-application": {
+      "result": "passed",
+      "application_id": "github:1289281455",
+      "track": "open_source",
+      "basis": "Kamra PMS 仓库元数据 id 1289281455、full_name Kamra-PMS/kamra-pms；license.txt 快照为 AGPL-3.0 全文；README 列出 arrivals/departures/in-house 工作队列、分步 check-in（房号、押金、登记卡、钥匙）、check-out 账单、folio 拆分/转账/开票、End of Day/夜审，并提供 Docker 与 Frappe Bench 自托管；付费实施/支持与 Frappe Cloud 托管被排除在社区核心证据外。",
+      "gaps": "README 是官方项目文档而非逐步用户手册；未运行代码或部署测试；企业版仅为路线图，社区边界依据 README 说明。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。未重新计算 SHA-256，只按 REVIEW_SOURCES.json 的 path 原样读取存在的快照文件。未做部署或运行时测试。QloApps 文档快照为单行 HTML，阅读器会截断长行，本次以 grep 命中正文并读取同 URL 官方页面作一致性旁证；商业叶仅依据厂商产品/方案页，未核价格、合同或实际服务状态。研究记录中的历史 HTTP 状态与 2026-10-27 重抓声明未独立重放。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-030/ses_groveopencodegop030review1_1793078739.jsonl",
+  "batch_sha256": "9d04930e8975d2a1902672adcf4e24e9d8121fb91f018ccf4ee92fb55fa3a27c",
+  "research_sha256": "561eabfe37ca8f5ed971a776d9b44df7341645e8e4e033fc83d46cf5160cfd1a",
+  "input_sha256": "45aa06ca76c10f73ed170bc4059c53734e48a74ea83a806c0e7658585cde1326"
+}

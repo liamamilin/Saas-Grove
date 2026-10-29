@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "semiconductor-design-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:chipverify"
+      ],
+      "query": "复用 OpenROAD 候选并核验服务形态；定向寻找完整开源/商业 Web 半导体设计平台（RTL→GDSII、仿真/DRC/LVS、制造数据）",
+      "source_urls": [
+        "https://github.com/The-OpenROAD-Project/OpenROAD",
+        "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD/master/README.md",
+        "https://api.github.com/repos/The-OpenROAD-Project/OpenROAD/license",
+        "https://openroad.org/",
+        "https://lab.chipverify.com/"
+      ],
+      "note": "历史复用：沿用上一轮保存的 OpenROAD 仓库页、README、license API 与官网快照（2026-10-26 抓取），本轮仅本地核对 SHA，未伪装为本轮新检索；README 明确称其为开源数字芯片设计应用，含 RTL→GDSII、GUI、Tcl/Python API 与 600+ tapeouts，但初审已认定其形态为桌面/CLI 流程工具，未证明完整的持续应用服务。本轮补采：定向搜索完整 Web 半导体设计平台，核对 Tiny Tapeout（app 源码入口 404，平台本身开源未获证）、Chip Design Explorer（nanoHUB 托管的 RTL→GDSII 教育工具，但许可证为 “All free to use” 非 OSI SPDX，且未发现可核对的 GitHub 仓库，无法按 open_source 条目格式记录）；最终抓取并采纳 ChipVerify 官方首页，其正文明确为浏览器内 RTL→GDSII 全流程（仿真、综合、OpenSTA、OpenROAD P&R、KLayout、DRC/LVS、GDSII 导出），符合完整持续 Web 应用服务形态。未取得：ChipVerify 的开源仓库/许可证信息（其为商业服务，仅作基本记录），也未运行任何项目。旧候选 OpenROAD 保留在 withheld_candidates，不据此断言该形态不存在。",
+      "service_boundary": "ChipVerify Lab 为浏览器内持续可用的商业 EDA 平台；OpenROAD 为可自托管的完整 RTL→GDSII 流程应用，但初审认定其未证明持续应用服务，本轮不作为成立关系。",
+      "search_attempts": [
+        "websearch：open source web-based semiconductor chip design platform EDA RTL to GDSII self-hosted",
+        "websearch：Tiny Tapeout open source platform GitHub ASIC design web app",
+        "webfetch：GitHub TinyTapeout 组织/仓库页与 tinytapeout-app（404，未能证明平台源码公开）",
+        "webfetch：nanoHUB Chip Design Explorer 的 about/license/supportingdocs 页面",
+        "webfetch：https://lab.chipverify.com/ 首页，并用 collect_cases.py 保存快照"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD/master/README.md",
+          "result": "reused_historical_snapshot",
+          "note": "读取历史快照 d8c8afd9...，本地 SHA 一致；含应用定位、RTL-GDSII 流程、GUI 与 tapeout 说明"
+        },
+        {
+          "url": "https://api.github.com/repos/The-OpenROAD-Project/OpenROAD/license",
+          "result": "reused_historical_snapshot",
+          "note": "读取历史快照 7c7cac26...，本地 SHA 一致；BSD-3-Clause 完整正文"
+        },
+        {
+          "url": "https://github.com/The-OpenROAD-Project/OpenROAD",
+          "result": "reused_historical_snapshot",
+          "note": "读取历史仓库页 3c3af898...，本地 SHA 一致；octolytics 证明 repository_id=218110222"
+        },
+        {
+          "url": "https://openroad.org/",
+          "result": "reused_historical_snapshot",
+          "note": "读取历史首页 c4f18b51...，本地 SHA 一致；正文说明开源 RTL→GDSII toolchain"
+        },
+        {
+          "url": "https://lab.chipverify.com/",
+          "result": "fetched",
+          "note": "本轮新抓取，约 55KB；正文含浏览器内 RTL→GDSII、DRC/LVS、GDSII 导出与持续 Web IDE 说明"
+        },
+        {
+          "url": "https://github.com/tinytapeout/tinytapeout-app",
+          "result": "failed",
+          "note": "404，未能取得 Tiny Tapeout 平台源码与许可证，故不按 open_source 记录"
+        },
+        {
+          "url": "https://nanohub.org/resources/license?tool=cdes_r27&tmpl=component",
+          "result": "fetched",
+          "note": "许可证正文为 “All free to use / Copyright (C) 2026 cdes team”，非 OSI SPDX，未按 open_source 记录"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": [
+        {
+          "id": "github:218110222",
+          "reason": "初审认定所引正文与部署说明只证明桌面/CLI 流程工具，未证明完整的持续应用服务；本轮保留其真实来源与历史研究轨迹，但不作为该叶成立关系，也不推断该形态不存在。"
+        }
+      ]
+    }
+  ]
+}

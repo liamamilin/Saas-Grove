@@ -1,0 +1,86 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "social-profile-network / commercial:orcid：ORCID 由非营利机构运营且免费；track=commercial 只能理解为“非开源服务”分类，不代表商业公司性质。若 track 的语义是商业公司，应改分类或在公开字段中注明。",
+    "webinar-platform / commercial:zoom：引用页同时覆盖 Zoom Webinars 与 Zoom Events/虚拟活动；entry summary 已限定只取 Webinars，建议条目名和首页也明确为 Zoom Webinars，避免把 Events 能力计入。",
+    "private-community-platform / github:7569578：匹配依据是 Discourse 的 login required、invite only 和 private spaces 配置，不是默认私有产品或已观察到的封闭社区部署；公开说明中应保留“配置能力”限定。",
+    "discussion-board / github:7569578：核心证据来自官方 README、功能页与 locale 文案，未运行实例验证发帖和回复流程；不影响类型判断。",
+    "virtual-meeting-platform / github:15225670：Jitsi 的 meet.jit.si 托管服务与 8x8 JaaS 是商业服务，条目已限定开源仓库；公开字段应继续维持该边界。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，而 batch/research 已记录 case_found；若 input.json 会作为公开索引，应同步状态。",
+    "webinar-platform 的两个 Zoom 支持页抓取仅得到 Loading... 壳页，已在 research 中记录为 fetch_failed，未当作核心证据；这是可接受的留档缺口。"
+  ],
+  "leaf_checks": {
+    "virtual-meeting-platform": {
+      "application_ids": [
+        "github:15225670"
+      ],
+      "application": "Jitsi Meet",
+      "track": "open_source",
+      "id_check": "REVIEW_SOURCES.json 的 repository_metadata 快照显示 id=15225670、full_name=jitsi/jitsi-meet、html_url=https://github.com/jitsi/jitsi-meet，与 entry 的 github_repository_id 和 repository_url 一致。",
+      "core_check": "README 与官方产品页说明浏览器内使用 meet.jit.si 或自定义会议 URL 开会、通过邀请链接加入，提供 HD 音视频、内容/桌面共享、聊天和移动端参与；满足可寻址会议、实时音视频会话、多人共享舞台三项定义核心。",
+      "service_form": "浏览器 SaaS 加可自托管开源软件；README 的 Running your own instance 与 Debian/Docker 说明支持自托管。",
+      "license_and_boundary": "license 快照为 GitHub license API 返回的完整 Apache-2.0 license 对象（name=LICENSE，size=12596，content 以 Apache License Version 2.0 开头）；entry 明确只覆盖开源仓库，8x8 JaaS 托管服务排除在外。",
+      "gaps": "检索记录为 prior_session_recorded，本轮只复核快照正文；未部署或运行实例。",
+      "result": "pass"
+    },
+    "webinar-platform": {
+      "application_ids": [
+        "commercial:zoom"
+      ],
+      "application": "Zoom Webinars",
+      "track": "commercial",
+      "id_check": "commercial:zoom 与 entry 名称、首页及官方 Webinars 产品页一致；无 repository ID，符合商业条目。",
+      "core_check": "官方页 FAQ 明确 webinar software 是 one-to-many broadcast，hosts/panelists 制作内容，attendees 主要聆听并通过 polls、Q&A、chat 参与；另有 branded registration pages、attendee/engagement data、recordings/reports 和容量分层，满足活动、受管理受众、非对称广播三项核心。",
+      "service_form": "Zoom 的 SaaS 产品模块；entry 明确只取 Webinars，不含普通 Meetings 或 Zoom Events/虚拟活动。",
+      "license_and_boundary": "商业条目，不要求开源许可证；仅核对基本真实性和类型匹配。",
+      "gaps": "两个 support.zoom.com 页面抓取失败（仅 Loading... 壳页或韩文标题），research 已如实记录且未用作核心证据。",
+      "result": "pass"
+    },
+    "social-profile-network": {
+      "application_ids": [
+        "commercial:orcid"
+      ],
+      "application": "ORCID Registry",
+      "track": "commercial",
+      "id_check": "commercial:orcid 与 entry 名称 ORCID Registry、homepage orcid.org 对应；官方支持文档来自 support.orcid.org。",
+      "core_check": "官方文档说明用户注册并维护/更新个人 record，ORCID iD 是持久（enduring）标识，可区分个人、连接贡献与机构，且可与 institutions/funders/publishers 互操作；可展示在机构主页、邮件签名和其他站点，并可控制谁可查看/访问数据。满足个人档案记录、共享命名空间可寻址、对外消费三项核心。",
+      "service_form": "非开源在线注册和身份服务；entry 的 track=commercial 是采集分类，research 已注明 ORCID 为非营利机构，不代表商业公司性质。",
+      "license_and_boundary": "商业条目，不要求开源许可证；类型匹配为窄正例，未推断为通用社交网络。",
+      "gaps": "来源是官方帮助中心说明而非 Registry UI；一个 What-is-ORCID 页面重定向失败，research 已记录。",
+      "result": "pass"
+    },
+    "discussion-board": {
+      "application_ids": [
+        "github:7569578"
+      ],
+      "application": "Discourse",
+      "track": "open_source",
+      "id_check": "repository_metadata 快照显示 id=7569578、full_name=discourse/discourse、html_url=https://github.com/discourse/discourse，与 entry 一致。",
+      "core_check": "README 列出 Create discussion topics；features 页说明 flat forum、replies flow down the page、可展开上下文和 post revision history；client.en.yml 有 Create Topic 与 Posted by <a ...>%{user}</a>。满足常驻讨论空间、参与者开题、异步回复、持久可读线程和帖作者归属五项。",
+      "service_form": "开源社区/论坛软件，支持自托管和官方托管；README 说明 100% open source、Docker 和官方安装指南。",
+      "license_and_boundary": "license 快照为 GitHub license API 返回的完整 GPLv2 文本（LICENSE.txt，size=18092，以 GNU GPL Version 2 开头）；README 第 119 行明确 GNU General Public License Version 2.0 (or later)，故 SPDX 记为 GPL-2.0-or-later；license_review.scope=repository，官方托管服务不改变仓库许可证。",
+      "gaps": "检索为 prior_session_recorded 并补充 README；未运行实例验证发帖与回复流程。",
+      "result": "pass"
+    },
+    "private-community-platform": {
+      "application_ids": [
+        "github:7569578"
+      ],
+      "application": "Discourse",
+      "track": "open_source",
+      "id_check": "同 discussion-board，repository_metadata 的 id、full_name、html_url 与 entry 一致。",
+      "core_check": "features 页列 Make your site invite-only 和 Easily add private spaces；server.en.yml 的 login_required 文案为 Require authentication to read content on this site, disallow anonymous access，invite_only 文案为 All new users must be explicitly invited by trusted users or staff. Public registration is disabled. 结合成员在主题空间发帖，可成立运营容器、受管成员、成员参与空间和封闭场所四项核心。",
+      "service_form": "开源社区平台的可配置私有部署/托管形态；不是默认私有产品，匹配依据是官方设置能力。",
+      "license_and_boundary": "与 discussion-board 共用 GPL-2.0-or-later；同一仓库和许可证边界，未把官方托管服务本身当作开源代码。",
+      "gaps": "未提供已部署的封闭社区实例；research 已明确不要求默认私有，也不表示已有实际部署，属于已记录缺口。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查本单元提供的 input.json、batch.json、research.json、REVIEW_SOURCES.json 及按 path 读取的 12 个实际快照；未访问实时网页、未部署或登录任何产品、未运行 shell、未写入文件、未读取其他单元。部分来源是营销页或帮助中心，不是运行时抓包；Discourse 私有社区和 ORCID 档案流程为官方文案/配置说明，缺少实例级验证；Zoom 两个支持页抓取失败已在 research 中留档；许可证以快照内嵌全文、README 声明和 SPDX 字段核对，未逐字解码 base64 全文，也未独立重算 SHA-256。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-004/ses_groveopencodegop004review1_1792938096.jsonl",
+  "batch_sha256": "736c0fd2998b2b01c5e500ea7c69e3817ec7141925fd1b48236dabafc7c1f21d",
+  "research_sha256": "34287918a5cd1b0846bfdddf2197455ea737a0cd1e375190c7a4348a282deb92",
+  "input_sha256": "4aa65ce14fe32f5a16a52d86a759ae18dcaffb03fd46db947e1dc9e225f6ca0a"
+}

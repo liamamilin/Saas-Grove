@@ -1,0 +1,34 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 仍将本叶记为 boundary_unresolved、application_ids 为空，并称未补采替代品；batch.json 与 research.json 已新增 SunCAE 和 SimScale。建议后续同步输入状态与案例 ID，避免记录间不一致；这不影响本次依据现有快照作出的内容判断。",
+    "SunCAE 的 doc/design.md 中 New case 与 Case view 两节仍标注 'To be completed'；本次对其端到端工作流的判断主要依据 README 的前后端说明、design.md 的步骤概览及产品页，未做运行验证。",
+    "SunCAE 的 AGPL-3.0-or-later 适用于 SunCAE 仓库代码；README 和产品页所列 FeenoX (GPLv3+)、CalculiX (GPLv2+)、Gmsh (GPLv2+) 是另行获取的依赖，应分别核对许可，不应视为被批次的 repository scope 覆盖。",
+    "OpenFOAM 被列为 withheld，理由侧重缺少完整 Web 应用服务形态；这与定义中 'GUI-less open-source toolchains' 也满足类型核心的表述存在口径差异，建议在记录中明确这是服务形态筛选而非类型不符。",
+    "SimScale 的证据为官方主页与 /product/ 产品概览页正文，足以支持商业基本真实性和类型匹配；未获取独立技术文档或进行账号与运行验证。",
+    "caeplex.com/suncae 辅助快照及 OpenFOAM 历史快照存在，但不在 REVIEW_SOURCES.json 的 7 个路径内；本报告未将其作为批次条目成立依据。"
+  ],
+  "leaf_checks": {
+    "cae-engineering-simulation": {
+      "result": "pass",
+      "applications_checked": [
+        "github:885889934",
+        "commercial:simscale"
+      ],
+      "definitional_core": "SunCAE 的 README 明确前端为浏览器 HTML/JS、后端为 PHP，后端生成求解输入文件、执行求解器二进制并回传三维数据；doc/design.md 给出 CAD 导入、物理/问题设置、网格与求解器选择、Mesh/Problem/Results 的工作流；产品页列出 FeenoX/CalculiX 求解器与 Gmsh 网格器。上述材料覆盖计算模型、物理规范、离散化数值求解和物理结果四项核心，不是仅有 3D 查看器。",
+      "service_form": "SunCAE 是可自行托管的完整 Web 应用，README 给出 GNU/Linux + PHP 自托管步骤，并存在 caeplex.com 在线演示；前端、后端和求解执行共同构成持续可用的应用形态，而非仅客户端、库或独立求解器。SimScale 为浏览器内运行的商业云 CAE 服务，服务形态明确。",
+      "identity_track": "GitHub API 快照返回 id=885889934、full_name=seamplex/suncae，与批次 github:885889934 及 repository_url 一致，track=open_source；SimScale 使用 commercial:simscale，track=commercial，与来源 applications 一致。",
+      "license_and_community_boundary": "SunCAE 的 COPYING 为完整 GNU AGPL v3 文本，包含第 0 至 17 节及 How to Apply 部分；README 明确 'version 3 ... or at your option, any later version'，故 AGPL-3.0-or-later 成立，license_review.scope=repository 合理。README 说明前端与后端均为 AGPL 自由软件，未发现独立的专有社区版；在线演示属于同一开源应用的托管部署，FeenoX、CalculiX、Gmsh 等依赖的许可需单独看待。",
+      "commercial_check": "SimScale 官方主页正文说明其为云原生工程仿真平台，覆盖 CFD、FEA、热与电磁仿真，可在浏览器运行；/product/ 页进一步说明 CFD、FEA、热与电磁求解器、自动网格、云规模计算及从 CAD 导入到结果解释的编排。类型与商业服务真实性匹配，满足商业条目的基本要求。",
+      "withheld_candidate": "OpenFOAM 历史候选被列入 withheld_candidates，未作为本叶成立关系；其历史快照仅证明开源 CFD 求解器/工具链。该处理可理解为服务形态筛选，但建议与定义中 GUI-less 工具链的表述在记录中区分清楚。",
+      "evidence_gaps": "未运行 SunCAE 或 SimScale，未验证具体算例；SunCAE 的 design.md 仍有 'To be completed' 段落；SimScale 仅有官方营销与产品概览页；未复核 caeplex 辅助快照及 OpenFOAM 历史快照正文；未重新计算快照 SHA-256。现有依据已足以支持本叶的两个条目通过内容初审。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未发起网络请求或部署测试；只读取了 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 7 个快照；未重新计算 SHA-256，未核对 caeplex.com/suncae 辅助快照与 OpenFOAM 历史快照正文；SunCAE 未做运行时验证，SimScale 仅依据官方主页与产品概览页。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-130/ses_groveopencodegop130review1_1793247641.jsonl",
+  "batch_sha256": "c98f5fbd21cd5074ffa0542976cdd562c90162b3764efb810d2cc21df1eae9ab",
+  "research_sha256": "954f2bb31086d842d6f392bbc54a924fef1841d2712c9704e4c916a6b2bad4bf",
+  "input_sha256": "390cf724b9dbf3bc7aea088dd15faf1c4e38d4f9959ec66f7279a735e8708ade"
+}

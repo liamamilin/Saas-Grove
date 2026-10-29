@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "github:1273553713",
+      "note": "批次把产品形态写作“开源对象级溯源研究 Web 应用”，research.json 的 service_boundary 已如实说明它是 local-first、单用户、可静态自托管的软件，而非多租户托管 SaaS。作为开源 track 的自托管软件本体，持续可用且非 SDK/库/数据集；建议保留该边界表述，避免读者误读为在线 SaaS 服务。"
+    },
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "github:1273553713",
+      "note": "首页快照是应用外壳 HTML（各视图 section 为空，由 js/*.js 渲染），能证实界面结构与新建对象、项目保存、证据校验、导出等入口，但不能单独证实渲染后的对象档案/事件链数据。定义性核心的证据实际来自 README 的“What it does”正文，建议 leaf_matches 的表述不要再以首页作为核心工作流依据。"
+    },
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "github:1273553713",
+      "note": "仓库级 MIT 覆盖本仓库代码，但 README 明确列出 vendored 的 OpenSeadragon、Fontsource 字体、GeoNames 地名与 Natural Earth 海岸线等第三方资产，这些通常随附各自许可证；批次 license 字段写“MIT”按整仓 SPDX 口径无误，如后续补充许可证说明可标注第三方组件的独立许可。"
+    },
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "github:1273553713",
+      "note": "README 首段声明“in active development, not yet announced”，部分功能可能不完整；批次摘要已写“活跃开发中”，与来源一致。建议在展示层保留该开发状态提示，避免被当作稳定发布版。"
+    },
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "github:1273553713",
+      "note": "input.json 仍记录 case_status=boundary_unresolved、application_ids 为空，而 batch/research 已转为 case_found；research.json 已保留 previous_assessment 与旧采集说明作为轨迹，属设计内的升级流程。若下游工具直接读取 input.json 进度字段，可能出现状态不一致，建议由流程侧统一以 batch/research 为准。"
+    },
+    {
+      "slug": "provenance-research-platform",
+      "application_id": "commercial:authentify-art",
+      "note": "被移出批次的商业候选 Authentify Art 仅在 research.json 的 withheld_candidates 与 source_urls 中留档，其官网快照不在本单元 REVIEW_SOURCES.json 内（历史复用来源）。由于该商业关系已不保留，不影响本叶结论；仅提示该候选证据不在本单元快照集中。"
+    }
+  ],
+  "leaf_checks": {
+    "provenance-research-platform": {
+      "applications_checked": [
+        "github:1273553713"
+      ],
+      "defining_core": "通过。README“What it does”正文逐条对应定义结构：object file（单件艺术品为锚定记录，含标题/作者或文化/类型/材料/原属地/尺寸/可重复标识）；chain of custody（按日期记录谁持有及如何转手，每节标注 attested/probable/uncertain，缺口保留不虚构）；sightings 标注日期与来源并注明支持或质疑所述来源；证据文件保存 sha-256 指纹并按 public/restricted/embargoed 分级；gap analysis 以覆盖条呈现并对 1933–1945 敏感期、分散事件、过短链条、未标日期环节告警。对象锚定、事件化链条、证据-缺口三项均具备，非静态叙述。",
+      "service_form": "通过（边界已如实记录）。README“Running it”与首页快照显示为 no-build、local-first 静态 Web 应用：打开 index.html 或任意静态主机托管，service worker 离线缓存，工作数据自动保存到浏览器并可另存/持续写盘 .json；research.json service_boundary 明确其为单用户自托管工具而非多租户 SaaS，且未被当作 SDK、鉴定机构或交易市场。",
+      "identity_and_track": "通过。批次 id=github:1273553713 与快照元数据 id=1273553713 一致；full_name=mirl-ucsb/mirl-provenance、html_url 与 batch.repository_url 一致；homepage 与快照 URL 一致；track=open_source，fork=false、private=false、default_branch=main，与 README/API 描述相符。",
+      "license_and_community_edition": "通过。license 快照为 GitHub License API 返回的 LICENSE 文件（path=LICENSE、size=1127），base64 正文解码为完整 MIT 文本，含“Copyright (c) 2026 Material / Image Research Lab, University of California, Santa Barbara”及授权、条件、免责三段；仓库元数据 spdx_id=MIT 与批次 license 字段一致。research.json 说明社区版即完整 MIT 仓库，未发现企业版/开放核心拆分或功能阉割声明；README 仅提及 vendored 第三方组件各自许可。",
+      "commercial_check": "不适用。本单元批次仅含开源条目，原商业候选 Authentify Art 已按记录移出批次并留档为未采纳（其 art-research 页为人工研究报告服务，首页未展示对象→事件链→来源与缺口工作流），处理与留存方式与本叶证据相符。",
+      "retained_evidence": [
+        "sources/2e237ca47890ce8d11349091bd8a7c0c42bfc44734feda0b202e2317628c661c.txt（仓库元数据，已核对 id/full_name/description/fork/private/archived=false/default_branch=main/pushed_at=2026-09-09T19:17:35Z/license spdx_id=MIT）",
+        "sources/e9c48639a74ec78a308257dfaf34847ddb13328fbf6ad2d8af97c2c54047ff83.txt（完整 MIT 许可证正文及 UCSB 版权行）",
+        "sources/67f560890f7b495e6e6cf457e5228a93f091e7ce37426bdacca658450add9dd7.txt（README 正文，核心功能、运行方式、导出与隐私边界）",
+        "sources/292a05c34e4bc483efb9446355226830e06263942bea3c242bddd1ccf8c4a280.txt（运行首页 HTML 外壳，导航与项目/导出菜单入口）"
+      ],
+      "gaps": "未做部署或运行测试（runtime_tested=false，与批次一致）；首页静态快照不含渲染后的对象/事件链数据，核心工作流依据为 README 正文与界面入口而非操作实拍；未重算快照 sha256（环境无 shell），仅核对路径、文件名摘要与文件内容一致性。",
+      "result": "pass"
+    }
+  },
+  "limits": "仅使用只读工具；未运行 shell，未执行部署或运行测试，未重算快照 sha256，仅按 REVIEW_SOURCES.json 的 path 原样读取了 4 个快照并核对内容。仓库元数据为单行 JSON，读工具按行截断，license/archived/default_branch 等字段通过定向文本匹配确认存在与取值，未逐字读取整行末尾。首页快照为 JS 渲染外壳，未执行脚本查看渲染结果。未读取其他单元及采集过程脚本，也未对 Authentify Art 历史复用快照（不在本单元 REVIEW_SOURCES.json）作独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-245/ses_groveopencodegop245review1_1793264807.jsonl",
+  "batch_sha256": "9bf956e155030fbe40a51b1e89b241c8dc4c12785fc99bab04b3ca7e58cf4efd",
+  "research_sha256": "a96adada8f390d5525dc8cb2203fe7de8f8eeaf235bfd3f0075fd835e203f7c1",
+  "input_sha256": "4754775432a237e997c8528fe28ad80ea1acd02c963eee989785511bb6a2db0a"
+}

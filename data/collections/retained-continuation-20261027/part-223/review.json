@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "学生考勤叶：建议在 research.json 中补记对同单元 RosarioSIS 考勤模块的评估。RosarioSIS 的 School administrator handbook 明确记载 Attendance Codes（含缺席原因）、按课程时段 Take Attendance、Administration 修改/注释、Add Absences（含原因）、Average Daily Attendance/Attendance Chart/Absence Summary、缺勤累计 Email Alerts；Parent handbook 记载家长可查看每日出勤与缺席代码。但可读正文未证明家长提交缺勤、审核生命周期与家庭通知，故当前 boundary_unresolved 仍可成立；补记可避免读者误以为只评估过 SAS。",
+    "入学管理：Blackbaud Enrollment Management 页面同时以 admissions funnel、applicant tracking 定位，属于招生加入学套件；本叶匹配依赖正文中的合同、押金、re-enrollment、checklist 与 dashboard/report，未证明 hold/withdrawal 等 managed standing。商业只要求基本真实性与类型匹配，故不阻断；若按完整定义性核心复核，需补 managed standing 证据。",
+    "助学金管理：页面把部分申请审核与财务核实描述为由 Blackbaud 专家服务完成；软件侧正文仍覆盖申请、按 award source 建预算、need/merit/voucher/第三方奖学金、批量授予、未接受奖励回收与拨付跟踪，商业类型匹配成立。",
+    "社区版边界：RosarioSIS 的 school administrator handbook 还出现 Student Import Premium、Student Billing Premium 与 Add-ons；batch 的 license_review.scope 已限定为 repository，GPL-2.0 证据不自动覆盖这些附加模块。parent-portal 与 attendance 属核心模块，当前匹配不受影响；建议摘要避免把 Premium/Add-ons 一并称为 GPL-2.0。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch/research 的 case_found 记录不一致；属流程元数据陈旧，不影响本单元内容初审，建议同步。",
+    "parent-portal 摘要“只能查看……”是可见范围表述；Parent handbook 同时显示家长可更新联系人信息、提交作业，不宜理解为纯只读。",
+    "Blackbaud Enrollment 页面 JSON-LD 中的 url 为 /products/enrollment-management-system，canonical 为 /products/enrollment-management；属站点元数据小差异，不影响产品身份。"
+  ],
+  "leaf_checks": {
+    "enrollment-management": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:blackbaud-enrollment-management"
+      ],
+      "basis": "读取 batch.json 该条与快照 data/collections/sources/9195b1e717a3d00ad1df78611392103f654b107c6d5cc247af3211c2cfe449e3.txt。官方产品页正文（非仅 JSON-LD/metadata）可见：家庭单一登录申请、跟踪状态、提交合同、次年 re-enroll；in-system contracts 支持 payment plan、deposits、tuition；checklist/reminder 引导家庭与员工；dashboard/report 显示 returned contracts 与 year-over-year trends。",
+      "assessment": "商业基本真实性与类型匹配成立：覆盖承诺捕获（合同/押金）、re-enrollment/准备跟踪与周期人口视图。页面未证明 hold/withdrawal 等 managed standing，但商业只要求基本真实性与类型匹配，不阻断。"
+    },
+    "financial-aid-management": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:blackbaud-financial-aid-management"
+      ],
+      "basis": "读取 batch.json 该条与快照 data/collections/sources/209a8e188a89f20bd641bbdbd5c3b0cae883956dee93ab2a18d677dbb003c28f.txt。官方产品页正文可见 customizable applications、need/non-need/merit/voucher/3rd-party scholarships、按 award source 建预算并 track disbursement、automatic reallocation of unaccepted awards、batch awarding、experts review/verify financial information，以及与 enrollment/tuition/billing 的集成。",
+      "assessment": "商业基本真实性与类型匹配成立：覆盖 aid funds/programs、申请家庭、资格/奖励决定、award 与拨付跟踪。具体规则引擎、审计字段与 SIS 回写未证明，不阻断。"
+    },
+    "higher-education-administration-system": {
+      "status": "no_case_gap_recorded",
+      "application_ids": [],
+      "basis": "research.json 该叶 assessment=insufficient_evidence，case_ids=[]；batch.json 无该叶条目。research.json 的 fetch_outcomes 记录 openSIS 文档能证明 K-12 学期/教学班/入学退学/成绩学分，但以 grade level 组织，未证明高等教育 program/credential 与逐学期选课注册，故移除原 leaf_match。",
+      "gap": "openSIS 等 research source_urls 未出现在 REVIEW_SOURCES.json，无法用本单元快照独立复核其抓取正文；但研究记录如实保留了证据不足、移除 leaf_match 的理由与未写入 batch 的边界，符合无案例留档可通过的条件。"
+    },
+    "parent-portal": {
+      "status": "case_found",
+      "application_ids": [
+        "github:11130811"
+      ],
+      "basis": "读取 batch.json 该条与快照：980dfb...txt 显示 repository id 11130811、full_name francoisjacquet/rosariosis、fork=false；d97f2a...txt 的 license API content 开头为 GPLv2、size=15214；24d7c2...txt 的 README 声明 GPLv2 并包含 parent portal 功能；70d8e5...txt 的 Parent handbook 显示家长选择孩子并查看信息、课表、作业、成绩、资格与出勤；d74bd8...txt 的 School administrator handbook 显示 Create Parent Users、Associate Parents with Students，以及 Parent profile 只能看自己孩子。",
+      "assessment": "开源仓库身份、GPL-2.0 许可证（repository 范围）与核心模块边界已核对；监护人关联账户与学校控制的记录可见性两结构均成立。家长门户作为 RosarioSIS 的核心子模块记录，不主张独立部署。"
+    },
+    "student-attendance-system": {
+      "status": "no_case_gap_recorded",
+      "application_ids": [],
+      "basis": "research.json 该叶 assessment=boundary_unresolved，case_ids=[]；batch.json 无该叶条目。research.json 的 fetch_outcomes 记录 SAS（MIT，id 881988839）只证明按名册逐日 present/absent、历史与 Excel 导出；OpenEduCat 的 license 元数据为 NOASSERTION；OpenCampus 仓库 API 404，故未写入 batch。另核对同单元 RosarioSIS 快照：School administrator handbook 有出勤代码/原因、按课时点名、管理员改码/注释、Add Absences、ADA/Attendance Chart/Absence Summary 与缺勤累计 Email Alerts；Parent handbook 有家长查看出勤。",
+      "gap": "SAS 等 research source_urls 未出现在 REVIEW_SOURCES.json，无法用本单元快照独立复核其正文；但研究记录如实保留了边界未决与未写入 batch 的理由。RosarioSIS 覆盖持久出勤记录、名册/课表捕获、授权定码、报表与缺勤告警，但可读正文未证明家长提交缺勤、审核生命周期与家庭通知，故仍不足以完整证明本叶“缺勤问责循环”；当前 boundary_unresolved 可保留。"
+    }
+  },
+  "limits": "本次仅只读本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 7 个快照；未运行 shell、未写文件、未读取其他单元、未做部署或运行时测试。REVIEW_SOURCES.json 未包含 research.json 中 higher-education（openSIS 等）与 student-attendance（SAS 等）的抓取快照，故这两叶的缺口记录只能按 research.json 的 fetch_outcomes 核对，未能独立复核其抓取正文。RosarioSIS 的 repository_metadata 与 license API 快照为单行 JSON/base64，read 工具按行截断预览；已核对仓库 id 11130811、full_name、fork=false、license content 开头 GPLv2、size=15214 及 README 的 GPLv2 声明，但未在本审查中重新解码完整许可证全文；batch.json 的 license_review 记录为完整 GPLv2、scope=repository。商业页面为官方产品/营销页正文，未核验后台合同条款或实际租户功能。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-223/ses_groveopencodegop223review2_1793031795.jsonl",
+  "batch_sha256": "3254c270a18e1fc4d4bd940e42b9d29d46061750d7f4d4278f820f86fb0a8f2a",
+  "research_sha256": "ec7411aafb3fb83fe98a487bab4613c342b91e9485a36698c7e36eda62b46b69",
+  "input_sha256": "eabae077b98968272cbfe45c17215500f74362506c270e71a6e9f06c1f1bb087"
+}

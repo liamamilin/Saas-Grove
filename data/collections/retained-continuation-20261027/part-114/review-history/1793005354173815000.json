@@ -1,0 +1,72 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ticketing-system",
+      "application_id": "github:245541",
+      "issue": "research.json 的 ticketing note 先写“GPL-2.0 许可证”，后又写“MIT/OSI 许可、仓库 ID 与正文均已核对”。实际读取的 license API 快照（COPYING）为 GNU GPL v2，README 也明确写 GPL v2，batch.license 同样是 GPL-2.0。note 中的 MIT 与实际许可不符，形成自相矛盾的许可证记录。",
+      "fix": "将 research.json 中的“MIT/OSI 许可”更正为“GPL-2.0（OSI 认可）”，与 batch.license 和 license_evidence_url 对齐；保留仓库 ID 245541 及正文核对结论，无需重新抓取。"
+    },
+    {
+      "slug": "customer-experience-management-platform",
+      "application_id": "commercial:medallia",
+      "issue": "batch 将 https://www.medallia.com/solutions/customer-experience/ 记为“官方客户体验方案页”，但该快照的 title 为“Customer Experience 101: Everything You Need to Know About CX”，canonical 为 /experience-101/customer-experience/，正文是 CX/CEM 概念、NPS 解释和通用选型建议，并非 Medallia 产品页；另一来源仅是 text-analytics 模块页。两者合计能证明文本分析、主题/情感、警报与路由，但未证明产品级的问卷投放、归因响应记录和体验计划闭环，summary 中“问卷与 NPS”“多渠道反馈收集”缺少产品正文支撑。",
+      "fix": "改引 Medallia 的反馈采集、问卷或 CEM 平台产品页（如 platform/signals、platform 或相应 survey 产品页），核对“体验计划→归因响应→测量→跟进”的核心；若无法取得，应将 CX 101 文章仅作概念背景，并在 summary/leaf reason 中删除或降级未证实的产品能力。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Assembled 的 forecasting 与 scheduling 页足以确认其为面向支持团队的 WFM 产品，但页面正文未展示“发布/审批”“遵守度追踪”“自愿休假/加班”；research.json 与 batch reason 中的这些具体能力建议补实时管理/遵守度来源或删减，不影响本次 WFM 类型匹配。",
+    "Fider 的 docs.fider.io/、/api/、/guides/ 三个快照主要只有导航/head，不能单独作为核心正文；核心由 README 的反馈门户说明和 /api/posts/ 的帖子、状态、相似帖、重复合并、审核、官方回复正文支撑。guides/posts-and-votes 等 404 已如实记录。",
+    "RT 6.0.2 文档首页只是导航索引；working_with_rt 与 lifecycles 提供了建单、队列、comment/reply 分离、状态与转换等核心正文，后续引用应优先具体页而非索引页。",
+    "Ruleguard 只有一个官方方案页，足以完成商业基本真实性和类型匹配核对；未核价格、架构、部署和运行时，不属于本次阻断项。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；本次以 collections 结果为准，若该字段用于下游展示应同步。"
+  ],
+  "leaf_checks": {
+    "ticketing-system": {
+      "status": "pass_with_note",
+      "application_ids": [
+        "github:245541"
+      ],
+      "basis": "读取 github:245541 的仓库元数据（id=245541）、README、6.0.2 working_with_rt 与 lifecycles、GPL-2.0 许可证 API。README 自述为开源 issue/ticket tracking；working_with_rt 记录按队列新建工单、comment 不发送给请求者而 reply 发送给请求者；lifecycles 记录 initial/active/inactive 状态、状态转换、队列间映射及权限。单记录、队列处理、受管生命周期和处理留痕的核心成立，部署为自托管，许可证为 GPL-2.0。",
+      "gaps": "6.0.2 文档首页只是导航；research.json 中“MIT/OSI”许可字样与 GPL-2.0 矛盾，需更正。"
+    },
+    "workforce-management-for-contact-centers": {
+      "status": "pass_with_note",
+      "application_ids": [
+        "commercial:assembled"
+      ],
+      "basis": "读取 commercial:assembled 的 forecasting 与 scheduling 两页。forecasting 正文有 configurable forecasting、right-size staffing、历史/ML 预测、email backlog 与 SLA 场景；scheduling 正文有 smart automated scheduling、SLA-proof schedules、intraday flexibility、坐席排班自主权和 80+ scheduling rules 案例。预测→人员配置/排班→日内调整的 WFM 核心成立，产品定位为支持团队。",
+      "gaps": "两页未展示发布/审批、遵守度追踪、自愿休假/加班；research note 与 batch reason 中的这些具体能力缺少快照正文，建议补源或删减。"
+    },
+    "complaint-escalation-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:ruleguard"
+      ],
+      "basis": "读取 commercial:ruleguard 的 complaint-management-software 方案页。正文覆盖 intake→categorisation→investigation→resolution 的可配置 workflow stages、自动通知、deadline tracking、escalation rules，并提到八周响应窗口、FOS referral timeline、六年 audit trail、root cause 与 trend analytics；符合投诉记录、受治理响应生命周期和升级路径的核心，且为商业 SaaS。",
+      "gaps": "只有一个官方方案页；未核价格、架构、部署和运行时（商业基本核对不要求）。"
+    },
+    "customer-feedback-management": {
+      "status": "pass_with_note",
+      "application_ids": [
+        "github:79280946"
+      ],
+      "basis": "读取 github:79280946 的仓库元数据（id=79280946）、AGPL-3.0 许可证 API、README 与 /api/posts/。README 自述为 feedback portal for feature requests；API 正文说明 Post 由用户创建，状态为 open/started/planned/completed/declined/duplicate，支持 similar posts、duplicate 合并票数、审核、官方回复、用户归属与订阅；文档同时说明自托管和 Fider Cloud。",
+      "gaps": "docs.fider.io/、/api/、/guides/ 快照主要是导航/head，不能单独作为核心正文；核心由 README 和 /api/posts/ 支撑。"
+    },
+    "customer-experience-management-platform": {
+      "status": "needs_fix",
+      "application_ids": [
+        "commercial:medallia"
+      ],
+      "basis": "读取 commercial:medallia 的两个快照。text-analytics 页正文有 Medallia AI 文本分析、NLU 主题/情感/意图、按分类或情感触发 alerts、route to right people、prioritize support tickets、workflows 与 KPI，可支撑测量与跟进层。",
+      "gaps": "batch 引用的 /solutions/customer-experience/ 快照实际是 CX 101 教育文章（canonical /experience-101/customer-experience/），不是产品方案页；产品级的问卷/体验计划、归因响应记录和计划级测量闭环没有正文证据，需补源或降级表述。"
+    }
+  },
+  "limits": "只读核对：未运行 shell、未写文件、未联网重新抓取；仅按 REVIEW_SOURCES.json 原样读取 18 个快照，未重算 sha256（batch 中的文件名/hash 一致）。页面多为营销 HTML 或 JS 壳，部分只有导航；无法验证运行时行为、价格、架构、登录后功能或完整重定向链，来源身份主要依据快照 title/canonical。input.json 仍保留采集前 progress 状态，本次以 data/collections/batch.json 与 research.json 为准；未读取其他单元，也未使用 sources 目录中未列入 REVIEW_SOURCES.json 的快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-114/ses_groveopencodegop114review1_1793004482.jsonl",
+  "batch_sha256": "59435c2bf450f8281a18e44ef410f9cec47ed077c7025df456aa0ae42a61343e",
+  "research_sha256": "fdca8ac44ea09735bae04803120e7a4f96dc6c9cb6a13193944b4ff33824c498",
+  "input_sha256": "50f1835df2581b69b735e25974a2cf24fe1bbdcc1bd6d42efb74d768d8146846"
+}

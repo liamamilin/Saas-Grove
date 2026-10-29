@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 research.json/batch.json 的 case_found 不一致；若下游以 input.json 作为进度源，建议同步，否则本次内容结论以 batch/research 与实际快照为准。",
+    "telecom-service-assurance / github:9377198：README 正文支持开源网络监控、故障/性能/流量监控、告警生成、分层拓扑及 service problem management workflow，但未展示服务影响计算、告警关联/根因和工单闭环；batch 已把关系收窄为监控与故障管理，引用时不宜外推为完整 Telecom Service Assurance。",
+    "telecom-product-catalog / commercial:cerillion-enterprise-product-catalogue：商业报价、定价、生命周期和发布由 Enterprise Product Catalogue 页证明，产品到服务/资源的实现绑定主要由同套件 Service Catalogue 页证明；当前按套件关系理解，若要求单一产品闭环，应把 Service Catalogue 纳入范围或降低“实现绑定”的表述强度。",
+    "carrier-management / commercial:vcom-solutions：来源是 vCom 企业首页，条目名称是描述性服务线，页面同时强调托管服务，站内平台名为 vManager；基本类型匹配可成立，但不宜表述为纯自助 SaaS 产品。",
+    "telecom-service-assurance / github:9377198 的 license_review  rationale 称 COPYING“并列出少量特别许可文件”，但实际 661 行 COPYING 快照仅见 AGPL-3.0 标准全文，未见该清单；建议删去该句或补充证据，不影响 AGPL-3.0 结论与 community_core 边界。",
+    "telecom-oss / commercial:netcracker-e2e-service-orchestration：页面能证明 Service/Slice Catalog、Service Inventory、Service Orchestration、Service Quality Management、Service Assurance 组件，但未单列资源库存/发现；batch 已限定为服务层库存与编排保障，不宜扩展为完整资源库存 OSS。",
+    "AMPECO 两页是产品功能页，能证明计费、结算、漫游及 CDR/OCPI 模块，但为厂商营销材料，未做运行时、价格或多币种/税务验证；不影响基本类型匹配。"
+  ],
+  "leaf_checks": {
+    "telecom-oss": {
+      "applications": [
+        "commercial:netcracker-e2e-service-orchestration"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 Netcracker 官方产品页快照（e89559de...，正文第1679-1709行）：E2E Service Orchestration 明确列出 Service/Slice Catalog、Service Inventory、Service Orchestration、Service Quality Management、Service Assurance 五类组件，并描述设计、部署、生命周期管理、优化与保障闭环；页面还说明其位于北向 BSS 与南向域编排之间，服务模型覆盖拓扑/容量依赖、SLA/QoS。该证据支持套件级 OSS 的编排与保障关系。",
+      "gaps": "快照未单列资源库存/发现模块，也未验证部署形态、价格或运行时；记录应限定在服务层库存、编排与保障，不应外推为完整资源库存 OSS。"
+    },
+    "telecom-product-catalog": {
+      "applications": [
+        "commercial:cerillion-enterprise-product-catalogue"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 Cerillion Enterprise Product Catalogue 快照（6e0bb6c5...，正文第1053-1388行）及 Service Catalogue 快照（624b7f52...，正文第1053-1306行）：EPC 页说明产品、套餐、资费、价格、网络服务、发布工作流、项目生命周期、版本与审计，并明确可发布到测试/生产/其他 Cerillion 模块或第三方系统；Service Catalogue 页说明 resource-facing service configurations、resource definitions、endpoint mappings 与 provisioning workflows，并说明商业产品可链接到网络动作和服务模板。两者共同覆盖报价、实现绑定和受控发布。",
+      "gaps": "技术实现绑定主要由同套件 Service Catalogue 产品页证明，而非 EPC 单页；本次按套件关系接受，未验证具体部署或运行时。"
+    },
+    "telecom-service-assurance": {
+      "applications": [
+        "github:9377198"
+      ],
+      "track": "open_source",
+      "result": "pass",
+      "basis": "读取 OpenNMS README（6e27782f...）与仓库 HTML 元数据（57ba2aea...）：README 说明 OpenNMS 是开源网络监控平台，提供 fault、performance、traffic monitoring、alarm generation、inventory/provisioning、分层拓扑，并将拓扑图接入 service problem management workflow；仓库 HTML 的 octolytics 字段确认 repository_id=9377198、nwo=OpenNMS/opennms；COPYING（57c8ff33...）为完整 GNU AGPL v3 文本（661行，含标准条款及 How to Apply）。",
+      "gaps": "README 未展示电信专用服务影响计算、告警关联/根因诊断和工单闭环；batch/research 已明确将关系收窄为监控与故障管理，属于已留档缺口。未做部署或运行时验证；社区核心边界已注明不含商业 Meridian 版本和托管服务。"
+    },
+    "carrier-management": {
+      "applications": [
+        "commercial:vcom-solutions"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 vCom 官方首页快照（104a55f3...）：页面说明 vCom 提供 IT software 与 managed services，统一平台可跟踪 network/mobile assets、orders、projects、tickets；Contract Negotiation and Management；Order Management 覆盖 initiation 到 completion、escalations、disputes、MACD、testing、turn-up；Asset Management 使用统一数据库；Invoice Management/Audit、dispute management 和按 asset/carrier/service/location 的成本归集均有正文。运营商作为供应商、合同、订单/变更和费用归因的核心关系可识别。",
+      "gaps": "来源为企业首页而非专用产品页；条目名称是描述性服务线，实际平台名为 vManager，且托管服务与软件混合。本次仅按商业条目的基本真实性和类型匹配接受。"
+    },
+    "ev-charging-billing-roaming": {
+      "applications": [
+        "commercial:ampeco"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "读取 AMPECO Payments and Billing 快照（b6e6c249...）与 EV Roaming 快照（38739be6...）：计费页覆盖 session/usage billing、driver receipts、partner/site-host revenue sharing、monthly/quarterly settlement reports、corporate reimbursement、多种支付方式；漫游页覆盖 OCPI/OICP、roaming contracts、按客户段设置 tariffs、settlement reports，FAQ 明确 CDRs 模块用于 concluded transactions for invoices。CDR→tariff-driven pricing→multi-party settlement/roaming 的关系可识别。",
+      "gaps": "两页为厂商功能页，未验证实际 CDR 生成、税务/多币种或运行时；平台同时包含充电网络管理功能，本次仅记录计费、结算与漫游范围。"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、未写文件、未读取其他单元；未做部署、运行时、价格或架构验证；商业来源均为厂商页面，未独立验证。AMPECO 两快照为单行压缩 HTML，read 工具按行截断正文，关键短语通过 grep 在快照中命中，并与同 URL 页面正文交叉核对，未逐字全文比对；未重算 sha256，依赖 REVIEW_SOURCES.json/batch.json 中 sha256 与文件名一致；OpenNMS GitHub API 403 的既有留档未重试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-189/ses_groveopencodegop189review1_1793022603.jsonl",
+  "batch_sha256": "352cbddb4b9850905850af0501beea65d1ef89156d08d1cb37d0828f67c2d6e1",
+  "research_sha256": "3e45c318a4f99fdd5089080a20a58840f8810831141f39e88fb65b1bfb2da95e",
+  "input_sha256": "21845978c7a9dd961117ef631c807317d3aa2e88136a0834ef4eaeb00285b44d"
+}

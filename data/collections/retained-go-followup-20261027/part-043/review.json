@@ -1,0 +1,94 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五叶标为 incomplete 且 application_ids 为空，与 batch.json/research.json 中 government-procurement-platform、parks-recreation-administration 已有案例不一致；本次以 batch/research 为当前材料，建议下游同步索引元数据。",
+    "BC Digital Marketplace 的部署说明写“Docker Compose 启动 PostgreSQL 与依赖服务”，但 README Quick Start 实际只启动 PostgreSQL（Keycloak 为可选本地依赖）；属措辞不精确，不影响核心匹配。",
+    "BC Digital Marketplace 的 LICENSE.txt 是完整 Apache-2.0 正文，但 README 同时要求遵守 NOTICE.txt 与 Apache-2.0 第 4(d) 条；当前快照未包含 NOTICE.txt，再分发时应保留该文件，许可证类型判断不受影响。",
+    "Traction Rec 官方页能证明项目目录、注册、家庭信息、设施/公园空间预订与实时可用性，但页面未明确写出市政/政府客户身份、居民/非居民定价或完整季节周期；作为商业案例的基本类型匹配成立，公共机构属性证据偏间接。",
+    "government-revenue-management 的 municipal utility billing 候选较接近本类型，但 README 未明确收入来源/基金编码、押金与总账对账闭环；按现有严格边界保留为未成立案例是合理的，若放宽基金归属要求可再评估。",
+    "government-vendor-management 的 Tender Management Systems 有供应商注册、验证与黑名单状态，但其中心是招标发布→投标→评标→授予，且支持政府、私营、军队、学校等多类买方，未证明资格状态仅由政府授予并跨交易门禁付款；排除理由成立。",
+    "government-records-management 的 Microsoft Purview 仓库是企业实施资料而非可自托管应用，且未证明外部法定档案机构授权；LiteRec 为 Elastic License 2.0（禁止作为托管/管理服务提供给第三方），不作为 open_source 收录是正确的。",
+    "research.json 中若干 GitHub API 查询存在 rate limit 与 404 记录，且三个无案例叶均声明检索未穷尽；这些缺口已如实留档，未将搜索命中或简介当作核心工作流证据。"
+  ],
+  "leaf_checks": {
+    "government-procurement-platform": {
+      "status": "case_found",
+      "application_ids": [
+        "github:220540094"
+      ],
+      "definition_core": "公开征求（正式采购机会）+ 已识别供应商群体 + 绑定于该机会的受控提案 + 记录在案的授予决定，并处于公共采购规则之下。",
+      "id_track": "github:220540094 / open_source；快照确认 repository id 220540094、full_name bcgov/digital_marketplace、默认分支 development。",
+      "evidence": [
+        "README（d2be544a…）第 5 行：The Digital Marketplace 是管理 BC 省 Code With Us 与 Sprint With Us 采购程序的应用，公共部门雇员可创建并发布采购机会，供应商可提交提案。",
+        "code-with-us.ts（53464e7b…）第 296-327 行：提案状态限定 Draft/Submitted，create 端点对未发布或已过截止的机会拒绝 Submitted 提案；第 696-747 行含 score→Evaluated 与 award→Awarded 动作；第 852-860 行调用 award 并通知。",
+        "repository_metadata（4d5e1ce0…）确认仓库身份与默认分支；README 同时给出本地 Docker Compose、OpenShift 4 与 Helm 部署说明。",
+        "LICENSE.txt（5ab0fcba…）第 1-202 行为完整 Apache License 2.0，含授权、条件、免责声明与附录，未截断。"
+      ],
+      "license": "Apache-2.0；完整许可证正文已核对；仓库未见独立社区版限制，属于完整开源仓库。",
+      "conclusion": "符合政府采购平台的定义性核心；开源 track、仓库 ID 与许可证均一致，可通过。"
+    },
+    "government-records-management": {
+      "status": "no_case_documented",
+      "application_ids": [],
+      "definition_core": "作为公共事务证据的机构记录 + 锚定公共记录法并由外部法定档案/记录机构批准或授权的保留处置计划 + 有记录证明的销毁或移交。",
+      "id_track": "无收录应用；本叶未建立 application_id。",
+      "evidence": [
+        "research.json 记录 GitHub API 查询：records management government 128 条、records retention disposition 2 条、records management retention 39 条；结果以电子健康记录、政策文本、图书馆编目、个人/课程项目为主。",
+        "lokeshm-it/Microsoft-Purview-Records-Management（d998eede…）页面与正文说明其为 Microsoft Purview 的企业实施资料（record labels、File Plan、disposition review、regulatory records、event-based retention），依赖 Microsoft 365 商业服务，不是可自托管的政府记录管理应用，也未证明外部法定档案机构授权。",
+        "检索明确声明未穷尽；未将仓库简介、搜索页或 HTTP 成功当作核心工作流证据。"
+      ],
+      "license": "不适用（无收录应用）；候选 Purview 的 MIT 分类与本叶是否成立无关。",
+      "conclusion": "无成立案例；检索、候选复核与缺口已留档，符合“无案例但如实记录缺口”的通过条件。"
+    },
+    "government-revenue-management": {
+      "status": "no_case_documented",
+      "application_ids": [],
+      "definition_core": "按收入来源持续存在的缴费人应收账户 + 应收至收缴/逾期结算循环 + 收入来源与基金归属、存款、对账和报告。",
+      "id_track": "无收录应用；本叶未建立 application_id。",
+      "evidence": [
+        "research.json 记录 property tax billing 81 条、municipal utility billing 17 条、government revenue management 20 条；结果多为 R 包、税单抓取脚本、租房数据或预算分析。",
+        "codeforpakistan/KPRA-GIMS（1a7c6013…）：repository id 162075347、GPL-3.0，页面 readme 为 null，仅有“为 KP Revenue Authority 开发的 Generic Invoice Management System”描述，无法确认缴费人应收账户、账单/收缴/逾期循环与基金归属。",
+        "navariltd/utility-billing（fdfba6ac…）：ERPNext 的市政公用事业计费应用，含客户、费率、抄表、发票、付款与会计集成，但同时也是物业租赁套件，未明确逾期罚金与收入来源/基金归属。",
+        "HA5ANT/Municipal-Utility-Billing-System（ec85b9dc…）：Flask/MySQL，含客户账户、账单、部分付款、罚金与报告，但未证明基金/总账归属，且为单仓库小型项目。"
+      ],
+      "license": "不适用（无收录应用）；KPRA-GIMS 为 GPL-3.0，其他候选为 AGPL-3.0/MIT，但均未建立收录关系。",
+      "conclusion": "无成立案例；候选边界与检索缺口已如实记录，保留为 boundary_unresolved 可通过。"
+    },
+    "government-vendor-management": {
+      "status": "no_case_documented",
+      "application_ids": [],
+      "definition_core": "持久、逐一的供应商记录 + 仅由政府机构授予或变更的资格状态，并以此门禁参与、授予与付款。",
+      "id_track": "无收录应用；本叶未建立 application_id。",
+      "evidence": [
+        "research.json 记录 supplier registry government 0 条、vendor management government 21 条；结果以市场报告、SAM.gov 第三方 API 资料和学生采购项目为主。",
+        "supplier registration procurement 查询遇 GitHub API rate limit，已记录为未取得结果，未据此作不存在判断；GovBuy 仓库 URL 抓取为 HTTP 404，未视为可收录产品。",
+        "steve-ongera/Tender_Management_Systems（182f3b7b…，README 55e05276…）：Django 招标平台，支持政府、私营、军队、学校、医疗、NGO、市政等多类买方；README 第 9-18 行显示中心是招标发布→投标→评标→授予，第 219-224 行 Vendor 模型含注册资料、能力/服务区域、验证与黑名单状态，但未证明资格状态仅由政府授予，也未证明跨交易门禁参与/授予/付款。"
+      ],
+      "license": "不适用（无收录应用）；候选 Tender Management Systems 的 MIT 分类未改变其类型排除结论。",
+      "conclusion": "无成立案例；供应商名册候选被正确识别为采购平台支撑模块，检索与抓取缺口已留档。"
+    },
+    "parks-recreation-administration": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:traction-rec"
+      ],
+      "definition_core": "定时休闲项目目录（季节周期）+ 参与者/家庭账户注册与名册 + 设施或便利设施可预订库存（日历、冲突控制）。",
+      "id_track": "commercial:traction-rec / commercial；官方产品页为 https://tractionrec.com/parks-recreation。",
+      "evidence": [
+        "Traction Rec 官方公园与休闲页（5295be58…）标题为 Parks & Recreation Management Software；第 1489 行原文说明社区用户可 set up and manage their household information、register for programs and events、view enrollment history、keep payment preferences up to date。",
+        "同页第 1507 行说明 program catalogs、courses and options、limits、waitlisting、prerequisites、contracts and discounts，以及社区用户 search/register/pay。",
+        "同页第 1498 行说明社区用户可 reserve facilities or park spaces online、选择时间、签署 waiver/contract、确认付款，并支持 real-time availability；第 1512 行说明 Built on Salesforce。",
+        "batch.json 的摘要与 leaf_matches 仅使用官方页正文，未把标题、导航或元数据当作核心工作流证据。"
+      ],
+      "license": "商业产品，不适用开源许可证审查；未发现将其误标为 open_source 的情况。",
+      "conclusion": "商业基本真实性与公园/休闲管理类型匹配成立；项目目录、注册与设施预订三项核心均有正文依据，可通过。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未读取其他单元；未执行应用、部署或运行时测试，未做实时 HTTP 抓取，未重新计算 sha256。按 REVIEW_SOURCES.json 的 path 原样读取了 5 份批次快照；另按 data/collections/sources 中的哈希文件名读取了 research.json 引用的候选快照，用于核对无案例叶的筛选理由。三个无案例叶仅依据 research.json 的检索/抓取记录与候选快照判断缺口，检索本身明确未穷尽；未将搜索页、仓库简介、HTTP 成功或关键词命中视为核心工作流证据。input.json 的 progress 为旧状态，未作为当前案例索引使用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-043/ses_groveopencodegop043review2_1793085070.jsonl",
+  "batch_sha256": "078b272446fb18482d6a57837aa128db417e3bd466a9cbb8067f4cd466c131a1",
+  "research_sha256": "b60e22d2d5346102f747201b73d6ccd11c019d2f9533d939b56b57822284eddc",
+  "input_sha256": "69a74531fe65a757a23534d8ca0d4debee7e2ad0d49b9890358dbabff203891f"
+}

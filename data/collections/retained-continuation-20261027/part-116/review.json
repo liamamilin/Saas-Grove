@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶子标为 not_searched 且 application_ids 为空，与 batch.json、research.json 已记录案例的状态不一致；建议发布前同步进度元数据，但不影响本轮基于来源的核对结论。",
+    "commercial:xactware 的证据为 Xactware/Verisk 套件首页，未提供单一理算师索赔档案的字段级页面；Xactimate 子页因跨主机重定向失败已在 research.json 留档，按商业案例基本真实性标准可通过。",
+    "commercial:guidewire-claimcenter 的产品页为概览，准备金与付款授权细节未在正文中明确；research.json 已记录该缺口，商业类型匹配不受影响。",
+    "commercial:hawksoft 是桌面端加云数据的混合交付，不是纯浏览器多租户 SaaS；其订阅与托管服务形态仍可认定为商业软件服务。",
+    "github:1255299527 为 starter framework，生产成熟度未验证；README 明确 fully open-source、no feature gating，商业支持仅限实施、托管和部署。"
+  ],
+  "leaf_checks": {
+    "broker-management-platform": {
+      "application_id": "commercial:gullysystem",
+      "status": "passed",
+      "basis": "GullySystem 官方产品页按客户档案组织多家承保人的报价、出单、保单、批单、续保、理赔、保费收据、承保人对账单与佣金核对，并说明由 GullySystem 托管；覆盖中介机构的业务账簿与续保驱动生命周期，页面同时区分单保险公司代理与保险公司 PAS 场景。",
+      "gaps": "来源快照为单行 Next.js HTML，读取工具只显示前缀，核心正文另以同一 canonical URL 只读复核；未做运行时测试。"
+    },
+    "claims-adjuster-platform": {
+      "application_id": "commercial:xactware",
+      "status": "passed",
+      "basis": "Xactware/Verisk 官方页面包含从 FNOL 到修复的完整财产索赔链条：Xactimate/XactContents 损失估算与区域定价、XactAnalysis 任务分派与质检、ClaimXperience 协作与结算，并明确服务独立理算师；对应索赔档案、损失评估、估价和审查结算循环。",
+      "gaps": "证据为套件首页层级，未验证单一理算师索赔档案的界面与字段结构；Xactimate 子页重定向失败已按 research.json 留档。"
+    },
+    "insurance-agency-management": {
+      "application_id": "commercial:hawksoft",
+      "status": "passed",
+      "basis": "HawkSoft 官方 AMS 页面明确提供个人与商业险保单管理、客户及保单数据、续保提醒与 Uprate Alerts、承运商下载与 ACORD 预填、佣金处理、信托会计、E&O 交互记录和任务管理，面向独立保险代理机构，符合代理机构已出单账簿与续保工作流。",
+      "gaps": "未研究价格与部署架构，也未验证桌面端与浏览器端功能差异；research.json 已记录该缺口。"
+    },
+    "insurance-claims-management": {
+      "application_id": "commercial:guidewire-claimcenter",
+      "status": "passed",
+      "basis": "Guidewire ClaimCenter 官方产品页说明其面向 P&C 保险公司，管理从 First Notice of Loss 到 settlement 的理赔生命周期，包含理赔受理、保单检索、角色化工作流与任务、自动分派与 triage，并与承保、保单和计费系统集成，符合支付方理赔系统类型。",
+      "gaps": "产品页为概览，准备金与付款授权细节未明确；research.json 已记录未逐项验证，按商业基本真实性与类型匹配标准可通过。"
+    },
+    "insurance-policy-administration-system": {
+      "application_id": "github:1255299527",
+      "status": "passed",
+      "basis": "LatticePolicy README 明确其为开源 P&C 保单核保与多租户保单管理框架，覆盖报价受理、核保复核、评级、绑定、签发、批改、取消、恢复与续保，并提供保单 API、运营 UI、客户门户投影、保费/期限/限额数据及 Docker Compose 部署；GitHub metadata 的 repository id 1255299527 与批次一致；许可证快照为 11358 字节的 Apache License 2.0 正文，README 亦声明 Apache-2.0、fully open-source、no feature gating，商业支持仅限实施、托管和部署。",
+      "gaps": "项目定位为 starter framework，未验证生产成熟度、理赔或计费联动；许可证正文因单行 JSON 显示截断，已用文件大小、正文前缀、README 与 API 元数据交叉核对。"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、未写文件、未读取其他单元。REVIEW_SOURCES.json 中 7 个快照均按 path 原样读取；GullySystem HTML、LatticePolicy GitHub metadata 与 license 为单行超长文件，read 工具仅显示每行前 2,000 字符，因此 GullySystem 核心正文另以同一 canonical URL 只读复核，LatticePolicy 以 README、许可证文件大小与前缀及 batch 字段交叉核对。未做部署测试、价格或架构研究、子页补充抓取；Xactimate 子页跨主机重定向、Guidewire 准备金与付款细节等缺口沿用 research.json 的留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-116/ses_groveopencodegop116review1_1793005557.jsonl",
+  "batch_sha256": "4b63960c8da8c283fda59b282dd91a87b048b7088862a6858b2b589a9e41a9ac",
+  "research_sha256": "f4e0ddeb5b23e24d8b97cdd0bf2bf5f354b0d0b95776fd10c8f32d582b513b11",
+  "input_sha256": "a5ce919069d63b884101323f901af38d8f295e4445b30eb1000f46dfea16bb55"
+}

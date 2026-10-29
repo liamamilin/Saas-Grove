@@ -1,0 +1,56 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "natural-capital-management",
+      "application_id": "github:237094119",
+      "issue": "该条仅以仓库元数据、较短的 README 简介和许可证快照来支撑核心匹配；README 开头只有“量化自然资本价值、评估替代方案权衡”的概括及安装说明，没有官方用户指南或模型文档来展示自然资产存量与状况、生态系统服务量化、基线或情景对比，以及决策输出。按本次规则，简介不能替代核心正文，因此该叶的定义性核心未能独立核对。另外，产品实际是桌面应用和 Python 包，并非持续托管服务；条目定位和摘要未说明这一边界，只有 deployment 字段与 research 的边界注记提及。",
+      "fix": "补充 InVEST 官方用户指南或模型文档快照，内容需包含模型输入与输出、生态系统服务结果、情景对比或报告示例，以证明完整工作流；若无法补充，将本叶关系降级为候选或移除。同时在条目定位和摘要中明确其为桌面或 Python 开源工具、非托管 SaaS，避免服务形态混淆。"
+    }
+  ],
+  "non_blocking_notes": [
+    "care-coordination-platform：OpenCare 的 care plan 是按 care circle 保存的八段叙事性照护说明，分别为晨间、饮食、行动、个人护理、沟通、触发因素、安抚、紧急；带有 updated_by/updated_at，但未显示目标、结果与进展评估。协调闭环主要由任务、日志、日历承担；计划结构属于弱证据，建议在叶级注记中保留该缺口，但不作为阻断。",
+    "bed-capacity-management：抓取到的 OpenMRS BedPatientAssignmentResource 仅支持读取；create、save、delete 均抛出 unsupported。research 中“分配 API”应理解为读取或关联能力，不影响该候选不导入的结论。",
+    "REVIEW_SOURCES.json 只声明了两个 batch 条目的 9 个快照；anesthesia-information-management-system、bed-capacity-management、care-plan-management 三个无案例叶的候选来源未列入该清单。sources/ 目录中确有对应快照，建议补充到 REVIEW_SOURCES，以便逐条复核。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 research.json 和 batch.json 中的两个 case_found 不一致；本次以 batch 和 research 为准，建议上游同步 progress。",
+    "两个已导入条目的许可证与仓库身份已核对：InVEST 为 Apache-2.0 全文，LICENSE.txt 为 11358 字节，仓库 id 为 237094119；OpenCare 为 AGPL-3.0 全文，licence.md 为 34523 字节，仓库 id 为 1367380420。无商业条目，未涉及价格或套餐。"
+  ],
+  "leaf_checks": {
+    "natural-capital-management": {
+      "status": "changes_required",
+      "basis": "读取 batch github:237094119 与 REVIEW_SOURCES 中 3 个 InVEST 快照：仓库 metadata 显示 id 237094119、full_name natcap/invest、description 为 map/value goods and services from nature；LICENSE.txt 为 11358 字节 Apache-2.0 全文；README 说明 InVEST 量化自然资本价值、评估替代选择权衡，并提供桌面应用与 Python 包。",
+      "gaps": "README 只有领域概述与安装说明，没有用户指南或模型文档；未展示自然资产存量与状况、生态系统服务量化、基线或情景对比、账户或报告输出；产品为桌面或 Python 工具，并非持续服务形态。",
+      "conclusion": "类型方向相关，但定义性核心未由核心正文证实；需补文档或降级。"
+    },
+    "anesthesia-information-management-system": {
+      "status": "passed_no_case_recorded",
+      "basis": "读取 research 的 insufficient_evidence 记录及 sources/ 中 VSChart README、metadata 与 GCAS README、metadata、license：VSChart 是 React 麻醉图表，导入 VSCapture 导出的 CSV 或 JSON 生命体征并维护用药时间线，未见病例身份、提供者归属或设备直连；GCAS 为 HUAP/UFF 学术专用前端，README 的使用限制与 MIT 许可证冲突；未发现完整 AIMS。",
+      "gaps": "候选快照未列入 REVIEW_SOURCES；无病例记录，未导入条目。检索、抓取和排除理由已留档。",
+      "conclusion": "无案例结论有据，缺口记录完整。"
+    },
+    "bed-capacity-management": {
+      "status": "passed_no_case_recorded",
+      "basis": "读取 research 的 boundary_unresolved 记录及 sources/ 中 openmrs-module-bedmanagement 的 metadata、README、OWA、Bed.java、BedPatientAssignmentResource、LICENSE.txt：有床位清单、status 字段与住院地点、床位布局管理，但 BedPatientAssignment 资源只读，未展示跨科室共享实时看板或清洁就绪流转；LICENSE.txt 为 863 字节 AGPL 简短声明，非完整条款。",
+      "gaps": "候选是 OpenMRS 子模块，不是独立床位看板产品；共享实时视图与清洁循环未证实；完整许可证未取得；无病例记录。",
+      "conclusion": "boundary_unresolved 合理，未导入。"
+    },
+    "care-coordination-platform": {
+      "status": "passed_with_notes",
+      "basis": "读取 batch github:1367380420 与 6 个 OpenCare 快照：metadata 显示 id 1367380420、AGPL-3.0；README 显示 care circle 多角色、实时 care journal、任务、日历、用药与自托管；licence.md 为 34523 字节 AGPL-3.0 全文；SPEC 显示 care_circles、care_recipients、circle_members、tasks、journal_entries 等；CarePlan.tsx 与 carePlan.ts 显示按 circle 保存八段计划、updated_by/updated_at 与 WebSocket 刷新。",
+      "gaps": "计划是叙事段落，未显示目标、结果与进展；正式项目入组与同意未证实，但定义把入组与同意列为非核心。",
+      "conclusion": "个人、多角色团队、共享计划与可归属任务或日志的协调闭环成立；计划结构为弱项，非阻断。"
+    },
+    "care-plan-management": {
+      "status": "passed_no_case_recorded",
+      "basis": "读取 research 的 boundary_unresolved 记录及 sources/ 中 REAN careplan-service 的 metadata、README、LICENSE、Heart-careplan.json：MIT 许可，支持计划资产编写、排程与入组；示例为固定权益心脏计划，由资产与按天或时段活动组成；未见需求或问题、目标或结果、干预骨架，也未见终端用户界面。",
+      "gaps": "候选是后端服务或固定权益计划，不是个体化护理计划管理应用；无病例记录。",
+      "conclusion": "boundary_unresolved 合理，未导入。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元；未做部署或功能测试，也未做外部网络补充检索。已按 REVIEW_SOURCES.json 的 9 个 path 读取两个 batch 条目的全部快照；三个无案例叶的候选来源未列入 REVIEW_SOURCES，我按同目录 sources/ 中已有快照做了内容交叉核对，未按声明清单逐条复核。GitHub 仓库元数据为单行 JSON，读取工具在 2000 字符处截断，license、archived 等字段未能直接展开；许可证改为依据独立 license 快照的全文或大小与 README 交叉确认。input.json 的 progress 与实际 research/batch 不一致，本次以 batch/research 为准。未涉及商业条目，未核对价格或套餐。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-211/ses_groveopencodegop211review2_1793027887.jsonl",
+  "batch_sha256": "26dbd8e45695169587185dab6be938e7cde734701e45ab9d341403e094c8e69d",
+  "research_sha256": "a2ad5f7dea7a45cd195817df025432027b3046e5b9e81b35133c26ed8ddaaad2",
+  "input_sha256": "613267457394d45a95e20d1dde1d6cab3c3e2ebae24ab823c954a03e7e201286"
+}

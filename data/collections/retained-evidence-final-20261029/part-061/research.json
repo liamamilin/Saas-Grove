@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "professional-trading-terminal",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sierra-chart",
+        "github:1218061070"
+      ],
+      "query": "professional trading terminal real-time market data order entry position P&L official",
+      "source_urls": [
+        "https://www.sierrachart.com/",
+        "https://www.sierrachart.com/index.php?page=doc/TradeActivityLog.php",
+        "https://www.sierrachart.com/index.php?page=doc/Chartbooks.php",
+        "https://api.github.com/repos/humanplane/terminal",
+        "https://raw.githubusercontent.com/humanplane/terminal/main/README.md",
+        "https://api.github.com/repos/humanplane/terminal/license",
+        "https://api.github.com/repos/bmarshall511/forexflow",
+        "https://raw.githubusercontent.com/bmarshall511/forexflow/main/README.md",
+        "https://api.github.com/repos/bmarshall511/forexflow/license",
+        "https://bmarshall511.github.io/forexflow/",
+        "https://bmarshall511.github.io/forexflow/docs/",
+        "https://bmarshall511.github.io/forexflow/docs/api/",
+        "https://bmarshall511.github.io/forexflow/changelog/",
+        "https://api.github.com/repos/marketcalls/openalgo"
+      ],
+      "note": "原初审缺口是“未证明可持续使用的应用服务形态”。本轮分两路补证。\n\n（一）历史复用并补齐：Sierra Chart 的两份 2026-10-24 快照原样保留（首页、Trade Activity Log），本轮在其中定位到 Profit/Loss、Cumulative Profit/Loss、Open Position Quantity 及未实现盈亏按最新价/Bid/Ask 持续更新的说明；另外本轮新抓 Chartbooks（Workspaces）官方文档，证明多图表与 Trade DOM 可置于同一 Chartbook 并保存、重开、自动打开，因此“用户自定义并持久化的多品种实时工作区”不再是缺口。该产品是交易员工作站桌面应用，与本类型定义的工作站形态一致，故此前被 withhold 的商业记录恢复为成立关系。\n\n（二）本轮补采开源完整 Web 应用：humanplane/terminal（GitHub id 1218061070，MIT，仓库未归档）。为自托管交易终端 Web 服务，实时订单簿走 SSE、市价/限价订单直接提交 CLOB、未成交订单可查可撤、交易者视图含持仓与实时 PnL，订单须由用户钱包逐单签名，人工决策成立。边界：多品种实时状态由侧栏市场列表加收藏持久化承担，详情页为单市场订单簿，未声称多窗口网格工作区，也未声称支持多经纪商。\n\n（三）已审视但未建立关系（留档，不推断不存在）：bmarshall511/forexflow（AGPL-3.0，自托管 OANDA 平台）具备实时仪表盘、持仓盈亏、平仓/改止损/撤单，但新订单主要由 TradingView 警报、Trade Finder 与 AI Trader 自动触发，官方 README 与文档未证明交易员在终端内构建并路由新订单这一核心属性，形态更接近算法交易平台，故不纳入；marketcalls/openalgo 仅取仓库元数据即止，证据不足以核对订单工作流，不纳入。\n\n（四）失败与限制：https://bmarshall511.github.io/forexflow/docs/features/dashboard/ 返回 404，已改用官方文档汇总页 /docs/ 的 Dashboard 段完成核对；该 404 属抓取失败，不代表页面或功能不存在。历史草稿不视为本轮通过；MCP/算法托管、经纪账户关系等非核心能力未展开。",
+      "service_boundary": "只收面向交易员、由其自行构建并路由订单并跟踪自身持仓盈亏的交易终端应用（桌面工作站或自托管 Web 应用）。不收纯行情终端、纯算法/策略托管平台、SDK/引擎/基础设施、经纪商后台或仅提供账户关系的产品；不要求多租户或商业化，也不要求部署实测。",
+      "search_attempts": [
+        {
+          "query": "professional trading terminal real-time market data order entry position P&L official",
+          "result": "历史查询，命中 Sierra Chart 官方首页与 Trade Activity Log 文档；本轮复用该结果，并在同一批快照中重新定位盈亏与持仓字段。"
+        },
+        {
+          "query": "site:sierrachart.com trade activity log position profit loss",
+          "result": "历史查询，命中 Trade Activity Log 文档；本轮额外抓取同站 Chartbooks (Workspaces) 文档补工作区持久化证据。"
+        },
+        {
+          "query": "open source self-hosted web trading terminal order entry positions P&L broker connectivity github",
+          "result": "本轮新检索，命中 humanplane/terminal、dylanpersonguy/OpenCharts、marketcalls/openalgo、michaelshimeles/terminal-rs 等；OpenCharts 为浏览器内模拟成交引擎，terminal-rs 为桌面 Rust 客户端且经纪连接只读，均未采用。"
+        },
+        {
+          "query": "github open source self-hosted trading terminal web app order book order entry positions unrealized P&L broker API MIT license",
+          "result": "本轮第二次检索，命中 bmarshall511/forexflow、Hitheshkaranth/OpenTerminalUI、marketcalls/openalgo；forexflow 深入核对后因新订单主要由自动化系统触发而不建立关系。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sierrachart.com/",
+          "status": "ok",
+          "note": "历史快照（2026-10-24）复用：实时交易所行情、ChartDOM 下单、订单路由、手动/自动交易。"
+        },
+        {
+          "url": "https://www.sierrachart.com/index.php?page=doc/TradeActivityLog.php",
+          "status": "ok",
+          "note": "历史快照（2026-10-24）复用：成交、持仓数量、逐笔与累计盈亏字段，以及未实现盈亏更新说明。"
+        },
+        {
+          "url": "https://www.sierrachart.com/index.php?page=doc/Chartbooks.php",
+          "status": "ok",
+          "note": "本轮新抓：Chartbook 工作区可加入多个图表与 Trade DOM，并保存、重开、自动打开。"
+        },
+        {
+          "url": "https://api.github.com/repos/humanplane/terminal",
+          "status": "ok",
+          "note": "本轮新抓：id 1218061070，full_name humanplane/terminal，MIT，archived=false。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/humanplane/terminal/main/README.md",
+          "status": "ok",
+          "note": "本轮新抓：实时订单簿、市价/限价下单、未成交订单撤单、交易者持仓与实时 PnL、自托管部署。"
+        },
+        {
+          "url": "https://api.github.com/repos/humanplane/terminal/license",
+          "status": "ok",
+          "note": "本轮新抓：GitHub license API 返回 spdx_id MIT 与完整许可证正文。"
+        },
+        {
+          "url": "https://api.github.com/repos/bmarshall511/forexflow",
+          "status": "ok",
+          "note": "本轮新抓：id 1181094212，AGPL-3.0，自托管 OANDA 平台。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bmarshall511/forexflow/main/README.md",
+          "status": "ok",
+          "note": "本轮新抓：实时仪表盘与持仓 PnL、平仓/改止损/撤单；新订单由 TradingView 警报、Trade Finder、AI Trader 触发，未见交易员手动下单流程。"
+        },
+        {
+          "url": "https://api.github.com/repos/bmarshall511/forexflow/license",
+          "status": "ok",
+          "note": "本轮新抓：AGPL-3.0 许可证正文，仅用于核对许可，不用于建立关系。"
+        },
+        {
+          "url": "https://bmarshall511.github.io/forexflow/",
+          "status": "ok",
+          "note": "本轮新抓：项目官网，强调自动化交易系统与自托管。"
+        },
+        {
+          "url": "https://bmarshall511.github.io/forexflow/docs/",
+          "status": "ok",
+          "note": "本轮新抓：官方文档汇总页，Dashboard 段说明实时余额、权益、保证金、P&L 与持仓；替代 404 的 features 子页。"
+        },
+        {
+          "url": "https://bmarshall511.github.io/forexflow/docs/api/",
+          "status": "ok",
+          "note": "本轮新抓：仅 TypeDoc 索引，未出现手动下单工作流正文。"
+        },
+        {
+          "url": "https://bmarshall511.github.io/forexflow/changelog/",
+          "status": "ok",
+          "note": "本轮新抓：变更日志中未见面向交易员的手动下单/订单票据条目。"
+        },
+        {
+          "url": "https://bmarshall511.github.io/forexflow/docs/features/dashboard/",
+          "status": "error",
+          "note": "本轮抓取失败：HTTP 404。已改用官方 /docs/ 汇总页核对 Dashboard，不据此判断功能不存在。"
+        },
+        {
+          "url": "https://api.github.com/repos/marketcalls/openalgo",
+          "status": "ok",
+          "note": "本轮新抓：仅仓库元数据（存续与许可证信息），未补证订单工作流，故不建立关系。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

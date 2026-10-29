@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "school-management-system",
+      "application_id": "github:12769307",
+      "issue": "被引用的两份 Gibbon 官方文档快照（student-enrolment、markbook）实际是 VitePress 单页应用外壳：正文区未落盘，快照中除标题、导航和 __VP_HASH_MAP__ 外，检索不到 Admissions、Form Groups、Markbook、年级汇总或按学生录入成绩等正文。因此 batch 的 leaf_match 所称“招生/申请表单/Form Groups/年级汇总”和“Markbook 按学生录入与提交成绩”无法由所引快照复核。现有可复核内容只有 README 的“school management platform”简介、仓库目录树和 GPL-3.0 全文，属于简介/元数据，不能替代学校行政核心正文。",
+      "fix": "重新抓取可读正文（docs.gibbonedu.org 的 Markdown 源、打印版或 docs 仓库原始文件），至少保留招生与学生注册、Form Groups/年级结构、Markbook 按学生录入成绩的正文快照；如能补考勤、费用或学年 rollover 更佳。随后把 leaf_match 的 reason 改为仅陈述这些正文可核实的流程，并重新确认 verification_status。"
+    }
+  ],
+  "non_blocking_notes": [
+    "school-counseling-management 的 research.json 中，fetch_outcomes 写有“GitHub 搜索快照保存”，但 note 又称 GitHub Search、Scoir、Naviance 当时未保存独立快照，REVIEW_SOURCES.json 也没有该叶来源；表述冲突，建议统一为“未保存快照，仅留检索记录”。该叶为 no-case，缺口已披露，不阻断。",
+    "input.json 的 progress 对五个叶仍显示 case_status=not_searched、application_ids 为空，而 batch.json/research.json 已有四个案例，属陈旧进度元数据，建议同步修正。",
+    "mooc-platform：公共课程目录、证书与讨论区未在新增快照逐项核验；已证课程发布（Studio/CMS）、学习者自助注册（含 audit track）与 Progress 页完成百分比/当前成绩，足以支撑本叶核心，公共目录证据可在后续补强。",
+    "school-transportation-management：Edulog 仅有首页快照，路线/站点分配、乘车资格、AM/PM 例外与每日运行校正未逐项证明；按商业条目“基本真实性与类型匹配”门槛不阻断。",
+    "Gibbon 的 SPDX 标识写为 GPL-3.0（已弃用形式）；许可证全文为 GPLv3，若 README 未声明“or later”，建议改用 GPL-3.0-only。",
+    "Open edX 的 LICENSE 全文在标准 AGPL-3.0 条款后附有 EdX Inc. 关于独立网络服务不构成衍生作品的澄清段；不影响 AGPL-3.0 许可成立，但可在 license_review 中说明该附注。"
+  ],
+  "leaf_checks": {
+    "mooc-platform": {
+      "status": "pass",
+      "basis": "github:10391073：仓库快照确认 repository_id 10391073、openedx/openedx-platform；LICENSE 为 AGPL-3.0 完整全文，README 明确 CMS（Studio）与 LMS；docs 快照正文确认学习者在开课期内可自助注册、默认进入 audit track、退课不删除 learner 数据，Progress 页显示完成百分比与当前成绩。",
+      "note": "公共目录、证书、讨论区未逐项核验，不影响已证的“已发布课程+开放自助注册+个人进度”核心。"
+    },
+    "school-counseling-management": {
+      "status": "pass_no_case",
+      "basis": "无案例。research.json 记录 GitHub Search API 查询、候选仓库缺少 README/LICENSE、Scoir 正文不足以证明咨询师 caseload/升学计划/申请材料闭环、Naviance 被拦截；REVIEW_SOURCES.json 无该叶快照，缺口已如实披露。",
+      "note": "fetch_outcomes 与 note 对 GitHub 搜索快照是否保存表述冲突，建议统一；不影响 no-case 结论。"
+    },
+    "school-management-system": {
+      "status": "changes_required",
+      "basis": "仓库身份 12769307 与 GPL-3.0 全文可核；README 仅称 school management platform，属简介。两份 docs 快照为 VitePress 外壳，正文未落盘，无法核实 Admissions、Form Groups、Markbook 等行政核心。",
+      "note": "需补可读官方正文后方可确认本叶定义性核心。"
+    },
+    "school-transportation-management": {
+      "status": "pass",
+      "basis": "commercial:edulog 首页正文说明 student transportation platform、school bus routing、routing & planning、student ridership、driver management、parent communication apps 与 reporting；商业基本真实性与类型匹配成立。",
+      "note": "站点/路线/班次分配、资格规则与每日运行闭环未由快照证明；按商业基本门槛不阻断。"
+    },
+    "special-education-management": {
+      "status": "pass",
+      "basis": "commercial:samegoal：首页、Special Education、Features、Illinois Special Education Deadlines、Service Log Export 快照均含正文，确认 IEP、evaluation、504/compliance、referral、consent、notice、eligibility、annual review/reevaluation、法定 days、service date/duration/service type/goal/setting/provider 等结构；商业基本类型匹配成立。",
+      "note": "快照为单行压缩 HTML，未能逐段通读上下文；未核价格、架构、部署。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未部署或登录任何产品，未核价格/架构/运行行为；仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 15 个快照，未计算或复核 sha256。Gibbon 的两份文档快照正文未落盘，只能确认其为导航/资源外壳；SameGoal 快照为单行压缩 HTML，只能按关键字确认正文存在，未能逐段核对完整上下文；school-counseling-management 无可引用快照，只能依据 research.json 的检索与缺口记录判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-077/ses_groveopencodegop077review2_1792995123.jsonl",
+  "batch_sha256": "238fc7dc498f501e378521c9820745d7a06fc84fe863557c610056420e169a51",
+  "research_sha256": "f2c486fc9e1c01ead109ea204248efa827d1b8d0421eb62f21c0661dd9535974",
+  "input_sha256": "d11698fe72603cb7cc82e4443afd597f44406ca8aaa0c0eb6da44adf998e15f5"
+}

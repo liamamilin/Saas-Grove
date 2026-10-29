@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "password-manager",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:121898717"
+      ],
+      "query": "GitHub API 仓库查询 dani-garcia/vaultwarden；读取官方 README 与 license API",
+      "source_urls": [
+        "https://api.github.com/repos/dani-garcia/vaultwarden",
+        "https://api.github.com/repos/dani-garcia/vaultwarden/license",
+        "https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/README.md"
+      ],
+      "note": "Vaultwarden 官方 README 明确其为 Bitwarden 兼容的自托管服务端，列出个人保险库、组织/集合共享、附件、多因素认证与紧急访问；AGPL-3.0 由 GitHub license API 证明，仓库身份由 API 的 id/full_name 证明。未运行实例，部署细节仅取 README。",
+      "service_boundary": "自托管服务端，用户自备域名、HTTPS/反向代理和持久化存储；客户端使用官方 Bitwarden 客户端及项目内置 Web Vault，不是托管 SaaS 运营。",
+      "search_attempts": [
+        "GitHub API 查询候选仓库身份、许可证与默认分支",
+        "抓取仓库 README 与 license API 正文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/dani-garcia/vaultwarden",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "snapshot_path": "sources/d8fefe1e3b0a5b9018e52775e36b7b701c1d7bb252caa2e5961746308b8faf55.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/dani-garcia/vaultwarden/license",
+          "kind": "license",
+          "status": "ok",
+          "snapshot_path": "sources/b86025fabb12c73661640fc1c407f2b57e87c52a7086d1de5bb20f20c401c054.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "snapshot_path": "sources/5c7e29e287f600fe1979d196d53f94cd8f87f9c0de1acf6481fde510fbfdd4fc.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "secrets-security",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:gitguardian"
+      ],
+      "query": "websearch: open source secrets detection platform self-hosted findings dashboard github GitGuardian alternative；并读取 GitGuardian 官方文档",
+      "source_urls": [
+        "https://www.gitguardian.com/",
+        "https://docs.gitguardian.com/platform/getting-started/first-incident",
+        "https://docs.gitguardian.com/public-monitoring/detect-public-secret-incidents/overview"
+      ],
+      "note": "GitGuardian 官方文档明确其秘密检测引擎持续扫描受监控仓库并生成秘密事件，事件包含来源、提交、文件与行号；修复指引要求先评估影响、吊销/轮换凭证，再验证未授权使用。公开监控文档补充公开来源事件与回归告警。商业条目仅记录官方来源和核心匹配，未展开价格、架构或部署。",
+      "service_boundary": "商业 SaaS/自托管平台；检测与事件跟踪在平台内完成，凭证吊销/轮换仍由客户在签发服务执行。未把 Gitleaks、TruffleHog、ggshield 等 CLI 或扫描引擎当作 SaaS 应用收录。",
+      "search_attempts": [
+        "websearch 检索开源/商业机密检测平台候选",
+        "直接访问 GitGuardian 官方首页与两篇文档"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.gitguardian.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "snapshot_path": "sources/513f2f09e2e657963fe0f5203ff24660933be7dfe07235a288081d3d9c29272b.txt"
+        },
+        {
+          "url": "https://docs.gitguardian.com/platform/getting-started/first-incident",
+          "kind": "documentation",
+          "status": "ok",
+          "snapshot_path": "sources/de106b07b4bd592aa9f0fa96d1d440dee9be9e75cd2e77100bc89deeb5a8f244.txt"
+        },
+        {
+          "url": "https://docs.gitguardian.com/public-monitoring/detect-public-secret-incidents/overview",
+          "kind": "documentation",
+          "status": "ok",
+          "snapshot_path": "sources/501bacfde126c08180efa9b370e744eb2f47209775288c1b1364997f5915578f.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "email-authentication-dmarc-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1317133034"
+      ],
+      "query": "websearch: open source DMARC management self-hosted web application SPF DKIM reports github；读取 dmarc-service README/FEATURES",
+      "source_urls": [
+        "https://api.github.com/repos/pescheckit/dmarc-service",
+        "https://api.github.com/repos/pescheckit/dmarc-service/license",
+        "https://raw.githubusercontent.com/pescheckit/dmarc-service/main/README.md",
+        "https://raw.githubusercontent.com/pescheckit/dmarc-service/main/docs/FEATURES.md"
+      ],
+      "note": "dmarc-service 官方 README/FEATURES 说明其接收 SMTP/HTTPS/IMAP 的 DMARC 与 TLS-RPT 报告，解析、去重并展示按发送源的 SPF 授权、DMARC 判定和认证域，同时生成应发布记录并对权威 DNS 做实时校验。MIT 许可证由 GitHub license API 证明。代码托管较新，未做运行验证；另检索到 parsedmarc（解析库/CLI）与 dmarc-analyzer 候选，前者缺少完整管理界面，未采用。",
+      "service_boundary": "自托管报告收集与查看服务，租户需把 _dmarc 的 rua 与 _smtp._tls 的 rua 指向该服务并自行发布 DNS 记录；应用不发送邮件、不替代邮件网关，执行策略仍由接收方按 DNS 记录落实。",
+      "search_attempts": [
+        "websearch 检索自托管 DMARC 管理应用",
+        "GitHub API 核对 dmarc-service 身份与许可证",
+        "读取 README 与 docs/FEATURES.md"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/pescheckit/dmarc-service",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "snapshot_path": "sources/53476617cef79d6fcb4b9e47d8b86e338a8eebcab42fdd14c58fecf78043a70f.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/pescheckit/dmarc-service/license",
+          "kind": "license",
+          "status": "ok",
+          "snapshot_path": "sources/3846ab3ee25a32304217b127b20b38b676263db6a6911107c4b23246c6903a51.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pescheckit/dmarc-service/main/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "snapshot_path": "sources/0a6d618afbb6281626d7555e422a65fc1ff9b91fa59a3ac1f9b4a9f5b04ced72.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pescheckit/dmarc-service/main/docs/FEATURES.md",
+          "kind": "documentation",
+          "status": "ok",
+          "snapshot_path": "sources/ffa6c0d5ed2ccd0d79ed7cc88c71f58d11543f5fa5529bae4340c14c90d15719.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "network-detection-response-ndr",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:821147194"
+      ],
+      "query": "GitHub API 查询 activecm/rita、Security-Onion-Solutions/securityonion、cisagov/Malcolm；读取 RITA README/license",
+      "source_urls": [
+        "https://api.github.com/repos/activecm/rita",
+        "https://api.github.com/repos/activecm/rita/license",
+        "https://raw.githubusercontent.com/activecm/rita/main/README.md"
+      ],
+      "note": "RITA 官方 README 说明其导入 Zeek TSV/JSON 日志，提供信标、长连接、DNS 隧道和威胁情报检测，并以数据集/视图支持调查；GPL-3.0 由 GitHub license API 证明。Security Onion 的许可证 API 返回 NOASSERTION，实际 LICENSE 为 Elastic License 2.0，非 OSI 开源，未按开源收录；Malcolm 的 license API 也为 NOASSERTION，未采用。未运行实例，响应动作需外部执行点完成。",
+      "service_boundary": "自托管网络流量分析应用，自身不接触在线流量，需由 Zeek 传感器或现有日志提供观测数据；检测为分析师输入，阻断/封禁需在防火墙或端点等执行点完成。",
+      "search_attempts": [
+        "GitHub API 对比 NDR 候选身份与许可证",
+        "读取 Security Onion LICENSE 正文确认 ELv2",
+        "读取 RITA README 与 license API"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/activecm/rita",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "snapshot_path": "sources/7e1add8a418e6100e73b9889b7745cea84c04a68e5475ebacb2d1f64f832dc0b.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/activecm/rita/license",
+          "kind": "license",
+          "status": "ok",
+          "snapshot_path": "sources/ae35fd6abbc60a525005efe07d30b331bf8fe80059206c314acd43d04a499ac8.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/activecm/rita/main/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "snapshot_path": "sources/9db58a2934da41b386b196ea93780c99adcd0507dd6ebb22b80a6a5b5d9b6649.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/Security-Onion-Solutions/securityonion/license",
+          "kind": "license",
+          "status": "ok",
+          "snapshot_path": "sources/767944ab0f13201fbc03c52b751d427e0aae855a7431d383a5d9064cd4789a65.txt"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "network-security-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:27965134"
+      ],
+      "query": "GitHub API 查询 opnsense/core；读取 README、license 与官方 firewall 文档",
+      "source_urls": [
+        "https://api.github.com/repos/opnsense/core",
+        "https://api.github.com/repos/opnsense/core/license",
+        "https://raw.githubusercontent.com/opnsense/core/master/README.md",
+        "https://docs.opnsense.org/manual/firewall.html"
+      ],
+      "note": "OPNsense 官方文档说明其包含状态化包过滤器，规则按接口/浮动分区顺序处理，quick 规则首次匹配生效，动作包括 Pass/Block/Reject，NAT 规则先于过滤规则；README 说明其开源防火墙定位与源码构建方式；BSD-2-Clause 由 GitHub license API 证明。未运行实例，未验证具体吞吐或高可用。",
+      "service_boundary": "自托管防火墙系统，部署在网络区域边界或分段点并内联经过流量；策略在本机 GUI/API 管理，威胁防护引擎等附加能力不在本次纳入范围。",
+      "search_attempts": [
+        "GitHub API 核对 opnsense/core 身份、许可证与语言",
+        "读取 README、license API 与官方 firewall 文档"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/opnsense/core",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "snapshot_path": "sources/39238a4bcc0074756f4f6799e17d8002fbe10608bdf4036ad777e3a972965a51.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/opnsense/core/license",
+          "kind": "license",
+          "status": "ok",
+          "snapshot_path": "sources/34a472e51410546ea4ae96e8129847063a95dff6b90311a6edf0784a4c7881b8.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/opnsense/core/master/README.md",
+          "kind": "readme",
+          "status": "ok",
+          "snapshot_path": "sources/0df745e2136f60b0f489ea5f402a29acc6f14c510e0dfa9608960a6952466ada.txt"
+        },
+        {
+          "url": "https://docs.opnsense.org/manual/firewall.html",
+          "kind": "documentation",
+          "status": "ok",
+          "snapshot_path": "sources/7b57a3badcac5714e726f55bf9bd90c1e83d1a4b2e97aa5ee147dc59714e4fe5.txt"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

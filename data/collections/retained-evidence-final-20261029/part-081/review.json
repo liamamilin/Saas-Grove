@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:onetrust — 首页快照 84379ba6…（https://www.onetrust.com/）通篇是导航、公告条与埋点脚本，只有导航项与页脚，不构成核心工作流证据；但同一条目的 Privacy Automation 页快照 a8bb3596… 正文（非导航/非摘要）明确写出『Centrally map the data, business, and regulatory context of your personal data processing』『always-available data inventory of assets, processes, and vendors for records of processing (ROPA)』『Automate DSRs from intake through fulfillment, including ID verification…』『Operationalize privacy risk assessments and mitigation workflows』，足以支撑登记册/监管义务背景/带证据的履行闭环三项；建议今后把首页仅保留为品牌与归属佐证，不复述其内容。",
+    "github:913434583 (Probo) — 处理登记册（data record + processing activity：目的/范围/法律背景/接收方/保留假设）与义务履行闭环（DPIA/TIA 为『first-class records』并关联 processing/data/vendors/risks/internal controls；rights requests 以任务与责任人跟踪生命周期）在官方文档正文中均有直述且充分；第三项『义务框架』属于间接支撑：文档只说明隐私记录与平台同一套 controls/risks/vendors/evidence 相连，并明确声明『Probo organizes privacy work; it does not determine which law applies』，未展示按司法管辖区逐条要求生成的合规状态。作为 GRC 平台的完整隐私子模块可以成立，但建议摘要措辞不要写成『逐辖区义务框架齐备』，以免超出快照可证范围。",
+    "github:694266896 (CISO Assistant) — 快照显示 DPIA/筛查受 DPIAs 功能开关控制且默认关闭（dpia.md:『DPIAs are gated by the DPIAs feature flag, off by default』），启用后连带打开 Forms and Requests。这不影响类型匹配与社区版边界，但摘要若把 DPIA 描述为开箱能力，宜补一句需启用功能开关。",
+    "github:694266896 — license_review 的 rationale 写『其余代码为 AGPLv3』略不完整：LICENSE.md 第 5 行另将 automation/n8n/n8n-nodes-ca 目录标为 MIT，二进制按 ghcr.io 命名空间区分 AGPLv3/商业许可。社区核心按 AGPL-3.0 记录的结论不变，建议在 rationale 中并列该 MIT 例外与二进制命名空间规则，便于后续复用时不产生歧义。",
+    "类型关系说明：Probo 与 CISO Assistant 的主身份都是 GRC 平台，隐私只是其中一个（完整、独立模型化的）业务子模块；本单元以『完整业务子模块』方式归入隐私管理平台可以接受，但建议在条目层面保持这一表述，避免被读成产品整体定位即 PMP。",
+    "input.json 的 seed 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，而 research.json 已据本轮定向补证改为 case_found 并列出三案；两者不同步属种子与产出阶段的正常差异，batch.json 与 research.json 内部一致，无需按缺口处理。",
+    "research.json 记录了 404（https://www.probo.com/docs/data-privacy，猜测路径）以及 Fides / Monoid / CNIL PIA 等『取回后未采纳』候选，均无对应快照文件；这些只应作为检索过程留档，不应在任何条目中被当作证据引用（当前 batch 未引用，符合要求）。"
+  ],
+  "leaf_checks": {
+    "privacy-management-platform": {
+      "leaf": "privacy-management-platform（Privacy Management Platform / 隐私管理平台，domain 11，parent 11.02）",
+      "verdict": "pass",
+      "definitional_core": "以 input.json 的三段结构（个人数据处理登记册 → 隐私义务框架/司法辖区关联 → 带证据的义务履行闭环）逐条比对。OneTrust：登记册（automated data mapping、assets/processes/vendors 清单、ROPA）、义务背景（data + business + regulatory context 集中映射、GDPR/CCPA 等法规导航与 regulatory intelligence 表述）、履行闭环（PIA 等隐私风险评估与缓解工作流、DSR intake→fulfillment 含身份验证与安全响应、事件通知指引、隐私态势集中视图）。Probo：登记册（data record 的敏感度与业务影响；processing activity 的目的、范围、法律背景、接收方、保留假设，且要求变更时更新记录）、履行闭环（DPIA/TIA 为 first-class records，链接 processing/data/vendors/risks/internal controls；rights requests 经 operational lifecycle 并以任务与 accountable owners 协同）、义务框架为间接支撑（与平台同一套 controls/risks/vendors/evidence 相连，文档同时声明不判定适用法律）。CISO Assistant：登记册（privacy-register.md 的 Processing 图谱 + backend/privacy/models.py 的 Purpose/PersonalData/DataSubject/DataRecipient/DataContractor/DataTransfer，按 controller/processor 区分 Art.30(1)/30(2) 登记册，Purpose 带 Art.6 合法性基础与 Art.9 条件，PersonalData 带保留/删除策略与敏感类别，DataTransfer 带 Chapter V 传输机制）、义务框架（框架/控制库与处理记录经 applied controls 相连；GDPR 审计发现回落为处理记录上的行动；README 列 GDPR/CCPA/ISO 27701 等框架）、履行闭环（DPIA 筛查与 DPIA 为处理记录上的一等对象，接受后写回 DPIA of record 并新增 applied controls，DpiaRequirementChange 为 append-only 并记来源/操作者/时间；RightRequest 有 owner/requested_on/due_date/status 并关联 processings；DataBreach 带通知追踪与证据；Processing 关联 Evidence/AppliedControl/Perimeter）。三案均满足核心，未见以简介、元数据或导航替代正文的情况（OneTrust 的首页属佐证，核心由 Privacy Automation 页正文承担）。",
+      "service_form": "持续运营的软件服务/自托管 Web 应用，非一次性工具或桌面客户端：OneTrust 为商业 SaaS（官方解决方案页正文，未核价与部署，符合商业只查基本真实性）；Probo 为 Docker Compose / Kubernetes 自托管的完整 Web 平台（Web console、CLI、MCP、GraphQL）；CISO Assistant 为 Docker Compose / Helm 自托管 Web 应用并有官方云实例。三者均为组织内部运行的隐私合规程序载体，符合『组织运营的平台』。",
+      "identity_and_track": "ID 与 track 逐一对上：commercial:onetrust（官网 https://www.onetrust.com/ 可归属，无仓库语义）；github:913434583 = getprobo/probo（API 快照 id 913434583、full_name 一致，跟踪 MIT）；github:694266896 = intuitem/ciso-assistant-community（API 快照 id 694266896、full_name 一致）。三条 leaf_matches 的 slug 均为 privacy-management-platform，与 leaf 精确匹配，无越级或多叶混挂。",
+      "open_source_license": "github:913434583 — license 快照 b3eacb… 为 GitHub contents API 返回的 LICENSE（size 1085），base64 解码后是完整 MIT 正文（『MIT License / Copyright (c) 2025 Probo Inc』+ 授予条款 + 全部大写免责声明），README 第 19/150 行亦称 MIT，仓库身份与许可证证据自洽，无 enterprise/闭源目录声明，故按整仓 MIT 记录成立。github:694266896 — api license 返回的是 LICENSE.md 多许可声明（research.json 记为 NOASSERTION，属实），LICENSE-AGPL.txt 为完整 GNU AGPL v3 文本（含 Version 3, 19 November 2007、Preamble、条款正文、END OF TERMS AND CONDITIONS 与 How to Apply 段），LICENSE.md 明确 enterprise/ 为 intuitem 商业许可、automation/n8n/n8n-nodes-ca 为 MIT、其余为 AGPLv3，并按 ghcr.io/intuitem/ciso-assistant-community/ 与 ghcr.io/intuitem/ 命名空间区分二进制许可；据此仅按社区核心记录 AGPL-3.0 成立。",
+      "community_boundary": "github:694266896 的隐私子模块可确证位于企业目录之外：证据取自 backend/privacy/models.py、product-docs/concepts/privacy-register.md、product-docs/concepts/dpia.md，均不在顶层 enterprise/ 下，故所核的登记册/DPIA/RightRequest/DataBreach 能力属 AGPLv3 社区核心；条目摘要与 license_review 的 scope=community_core 与之一致。github:913434583 无社区版/企业版切分，README 自述完整自托管，边界单一。commercial:onetrust 为纯商业，未声称任何开源版。",
+      "sources_and_snapshots": "按 REVIEW_SOURCES.json 的 path 原样读取全部 14 个快照（homepage 1、documentation 5、repository_metadata 2、readme 2、license 4），路径均在 data/collections/sources/ 下，未从项目根目录猜测 sources/；文件名与清单 sha256 一一对应，URL 与 kind 与内容类型吻合（HTML 页面为 homepage/documentation，raw README 为 Markdown，api.github.com/repos 为单行 JSON 元数据，license 端点一为 base64 内容体、一为 LICENSE.md 内容体）。未见摘要顶替正文、未见 Loading 页或纯导航页被当作核心（OneTrust 首页仅作佐证）。",
+      "gaps": [
+        "两处 api.github.com/repos 元数据为极长单行 JSON，只读工具展示被截断，无法在本单元内逐字读取 license/archived/pushed_at 字段；许可结论改由 license 端点与 README/LICENSE 正文独立支撑，结论不受影响，但属核对方式上的限制。",
+        "OneTrust 仅有营销页正文，无产品文档/帮助中心正文，因此其『义务框架』只能依 regulatory context、法规导航与 regulatory intelligence 的表述认定，未核到逐辖区要求级映射的界面级证据；商业条目只要求基本真实性与类型匹配，此深度已足。",
+        "Probo 的隐私文档为单页概览，未覆盖数据主体请求的时限/身份验证细则与按辖区义务映射；CISO Assistant 的 DPIA 依赖默认关闭的功能开关，且条款级义务映射经由框架/控制层间接实现，均未做运行验证。",
+        "research.json 中 404 与未采纳候选（Fides、Monoid、CNIL PIA）无快照留档，其判断只能视为检索记录，未作为本叶通过依据。"
+      ]
+    }
+  },
+  "limits": "只读初审：仅使用只读工具，未运行 shell、未写文件、未访问其他单元；核对范围为 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 中 14 个 path 对应的实际快照。未做部署或运行测试（runtime_tested 全为 false），未另行联网抓取，未核价、架构与 SLA。未计算 sha256 摘要，仅依据文件名与清单一致、内容与 url/kind 自洽来判断快照对应关系。GitHub api.github.com/repos 元数据为单行超长 JSON，展示被截断，license/archived 等字段无法逐字读取，许可与仓库身份结论改由 license 端点正文与 README 交叉支撑。OneTrust 仅有营销页与首页 HTML，无法核到产品内界面级证据；Probo 隐私文档为单页概览。open_source 的社区版边界仅依仓库目录与 LICENSE.md 声明判断，未逐文件核验企业目录内容。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-081/ses_groveopendesignp081review2_1793196016.jsonl",
+  "batch_sha256": "697a267565c1c0cef85176f8e676ad34c10152a79396addd7f3201a6b6282073",
+  "research_sha256": "e08a5256fa828803f05f8f770d7a64c9a865f5f424872eb5abe7234be1134053",
+  "input_sha256": "78c424025facd4c3c62fba759f415e7c6b0492be32fc2f9520a4e2719f01c051"
+}

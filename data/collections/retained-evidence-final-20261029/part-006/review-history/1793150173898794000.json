@@ -1,0 +1,36 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1168617272",
+      "issue": "FediProfile 的定义性核心证据不足，且与本叶研究记录自定的服务边界冲突。其 README 正文自述为 “The Decentralized Link-in-Bio”“a free, privacy-respecting link-in-bio tool”，并以 Linktree 为对照产品；产品主表面是用户点击进入的链接/徽章聚合页。README 能证明的是“档案页作为 ActivityPub actor 可在其他实例被发现、关注，可接收 BadgeFed 徽章”，但未证明链接、徽章等档案内容本身在其他系统中被读取/渲染，即无法证明“主要消费发生在应用之外”；反而是“访问本页”构成主要消费。批次 leaf_matches 中“档案在应用外被消费，且不以信息流为主，符合……对外消费”属于超出正文的推断。同时 research.json 的 service_boundary 明确写“链接聚合页……不计入”，本案例按自述正属链接聚合页，形成内部矛盾；README 的 auto-boost/relay 也属于内容流扩展，需说明其非主消费面。",
+      "fix": "二选一并落到资料中：(1) 将 github:1168617272 从本叶案例移入 withheld_candidates，注明“自述为 link-in-bio 链接聚合页，档案内容主要在本页消费，未证明满足‘对外消费为主’”，并同步修改 batch.json 与 research.json 的 case_ids/assessment；(2) 若坚持保留，须补充正文级证据（例如 ActivityPub actor 文档中携带链接/徽章字段并被外部实例实际渲染的文档说明，或第三方读取档案内容的官方说明），并在 leaf_matches 与 service_boundary 中明确说明为何它不属于被排除的“链接聚合页”，同时把 auto-boost/relay 标注为扩展而非定义性核心。"
+    }
+  ],
+  "non_blocking_notes": [
+    "research.json 的 fetch_outcomes 称 FediProfile 许可文本为 7523 字节，实际快照 b959fdaa… 的 GitHub license 元数据为 \"size\":7560（内容确为 GNU Lesser General Public License Version 3 全文）；字节数应更正，许可证结论本身不受影响。",
+    "research.json 的 ORCID fetch_outcome 引用历史快照 sha 37c44ed2…a45ed，但该快照不在本单元 REVIEW_SOURCES.json 与本单元 sources 目录内，无法在本单元复核；因其仅用于 withheld_candidates 的边界说明、未进入 batch.json 引用，属已如实记录的复用缺口，不阻断。",
+    "input.json 仍保留 seeds 状态（case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases），与 batch.json/research.json 的 case_found（两条案例）不一致；这是采集前的种子状态，建议下游明确以 batch.json/research.json 为准，避免误读为未采到案例。",
+    "PIN 的 Claims API 默认关闭（endpoints.md：PIN_CLAIMS_API_ENABLED=false），批次摘要将其作为既有能力表述；建议在 features 或 summary 中补一句“需显式启用”，避免读者误认为开箱即可用。",
+    "PIN 的 README 非目标明确写“Act as a social network or community platform”，其入叶依据是档案记录、稳定寻址与机器可读对外输出，与本叶“信息流/关注/消息均非定义项”的窄核心一致；建议在 leaf_matches 中显式引用该非目标段落，减少“社交网络”字面歧义。",
+    "PIN 的 /setup 首次创建所有者账户细节部分来自未落盘的 docs/user/getting-started.md（research 标注 fetched_and_read_not_snapshotted），但 /setup 端点本身在已快照的 endpoints.md 中有记载，故部署描述不属无据引用；建议后续将该辅助文档一并快照或删除对未快照文档的依赖表述。"
+  ],
+  "leaf_checks": {
+    "social-profile-network": {
+      "definitional_core": "按“个人档案记录 + 共享命名空间可寻址 + 向外消费设计”三项核对。github:1138270023（PIN）：README 正文明确“authoritative source of one or multiple people and organizations”、immutable subject_id（meta.subject）与稳定 URL/handle（endpoints.md 的 /{handle}.json、/json、/p/{...}），并提供 canonical JSON/XML/txt/vcf、/.well-known/pinc、claims API、增量同步与 webhook、LDAP/AD/SAML/Kerberos 投影，README 明示“The profile page is not the primary product, identity is”，三项均成立，属清晰成员。github:1168617272（FediProfile）：可确认个人自维护档案页、实例内 slug 句柄与 ActivityPub actor 联邦可发现性；但正文自述为 link-in-bio（对照 Linktree），未证明链接/徽章等档案内容主要在应用外被消费，第三项（对外消费为主）证据不足，且与 research 的“链接聚合页不计入”边界冲突，见 findings。",
+      "saas_service_form": "两者均为可自托管部署的完整 Web 应用，而非静态模板、协议规范、CLI/SDK 或一次性页面：PIN 为 Go net/http 服务端渲染 + SQLite（README Quick start、Architecture）；FediProfile 为 ASP.NET Core/Blazor + SQLite，提供预编译包、源码与 Docker 部署（README）。均未部署运行（runtime_tested=false），符合只读核对范围。",
+      "identity_and_track": "仓库身份与 ID 匹配：PIN snapshot 6d0a07c9… 的 id=1138270023、full_name=mlumeau/pin、fork=false、archived=false，与 batch 的 github:1138270023 及 repository_url 一致；FediProfile snapshot 1e28c9d8… 的 id=1168617272、full_name=tryvocalcat/fediprofile、fork=false、archived=false，与 batch 的 github:1168617272 一致。track 均为 open_source，与仓库形态相符。",
+      "license": "PIN：license API 快照 42322730… 返回 LICENSE 全文（size 11357），SPDX 为 Apache-2.0，内容以“Apache License Version 2.0, January 2004”起始，README 亦写明 Apache-2.0，属完整开源许可证。FediProfile：license API 快照 b959fdaa… 返回 LICENSE.md 全文（size 7560），SPDX 为 LGPL-3.0，内容以“GNU Lesser General Public License Version 3”起始，README 写明 LGPL v3，属完整开源许可证（应用程序采用 LGPL 属许可选择问题，不构成许可缺失）。",
+      "community_edition_boundary": "两者均未发现开源/商业双版本或社区版功能阉割证据：PIN 无付费版或企业版描述，README 所列 claims API、企业协议投影等均在开源仓库与文档中；FediProfile 自述 free and open source、“Free forever”，仅接受 Ko-fi 捐赠，未见付费档位或闭源模块。故社区版边界无阻断问题。",
+      "gaps": "FediProfile 的第三条核心（应用外消费为主）缺正文级证据；ORCID 历史快照不在本单元、无法复核（已 withheld，不影响已收案例）；未做部署运行与端点实测；GitHub 仓库元数据快照为单行 JSON，显示被截断，仅通过匹配确认 id/full_name/fork/archived/license.spdx_id 等关键字段。"
+    }
+  },
+  "limits": "仅使用只读工具读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 所列 7 份快照；未运行 shell、未写文件、未访问其他单元或外部网络，因此未做部署运行、端点实测与实时仓库复核。仓库元数据与 license 快照为单行 JSON，读取显示被截断，关键字段（仓库 id、full_name、fork、archived、license.spdx_id、license 文件 size）以全文匹配确认；许可文本仅核对解码后开头与 SPDX 声明，未逐字通读全文。research.json 引用的 ORCID 历史快照（37c44ed2…a45ed）及未落盘的 docs/user/getting-started.md 不在本单元证据范围内，无法独立复核。",
+  "notes_on_decision_scope": "PIN 一项本体无阻断问题；changes_required 仅由 FediProfile 的定义性核心/服务边界冲突触发。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-006/ses_groveopendesignp006review1_1793149814.jsonl",
+  "batch_sha256": "d5ca2b5652f6acee1dd8e4181b55755494f7b135b3b3ca262efc41d8fae8745f",
+  "research_sha256": "d8dcf4cf254a4a2f481a4e76be196b2a080666aed0d4c7ee37250502b33e72b1",
+  "input_sha256": "da138efc22be5eced70dbe50f0000a19ce3ac66b5498e98db73e8aa87f9ff1b2"
+}

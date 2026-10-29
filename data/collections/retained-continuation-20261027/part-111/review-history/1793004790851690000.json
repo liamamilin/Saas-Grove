@@ -1,0 +1,72 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:15717333",
+      "issue": "核心证据不足：批次对 FreePBX/queues 仅有 module.xml 与 README 快照，能证明 FIFO 队列、ring strategy、caller announcements、max wait；这些是 PBX 队列/ACD 子模块的配置说明，未提供叶定义要求的坐席系统可用状态、坐席通话处理工具或工作界面、实时与历史度量等核心正文。research.json 也承认可补充 Dynamic Members、expected wait 的 Sangoma 文档不在批次来源内且明确不作为批次来源，因此当前证据更像 ACD 组件，尚不足以证明其为 Call Center Platform。",
+      "fix": "补充允许域名下的官方 Queues/FreePBX 文档正文，直接引用坐席登录/登出、可用状态、呼叫分配、超时/等待、坐席工作界面和报表等能力；或将本条降为组件/无案例并记录缺口，不能以 module.xml 简介替代核心正文。"
+    },
+    {
+      "slug": "call-center-platform",
+      "application_id": "github:15717333",
+      "issue": "许可证表述不一致：batch.json 的 license 字段写 GPL-2.0，但 README 第 18 行写 GPLv2+，module.xml 第 7 行也写 GPLv2+ 并链接 GPL-2.0 文本。GPL-2.0 与 GPL-2.0-or-later 不是同一许可表述，开源完整许可证核对因此不完整。",
+      "fix": "将 license 改为 GPL-2.0-or-later（或 GPLv2+），并在 license_evidence_url 与说明中保留 README/module.xml 的 GPLv2+ 依据；若实际为 GPL-2.0-only，则需用许可证正文和仓库声明排除 or-later。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 中五个叶子的 progress 仍为 not_searched，application_ids 与 research_records 为空，而 batch.json/research.json 已记录案例；这是台账同步问题，未作为内容阻断，但建议下一轮同步。",
+    "AWS 功能页快照的 canonical 与 og:url 已指向 https://aws.amazon.com/products/connect/customer/features/，batch 仍使用 https://aws.amazon.com/connect/features/；当前可重定向，建议后续改为 canonical URL。",
+    "ERPNext 是完整 ERP 套件，本案仅取 Sales Order 模块；批次已在 service_boundary 中说明，未把 CPQ、履约编排、开票等相邻能力泛化为该叶。",
+    "Assembled 快照支持需求预测、人员配置、自动排班、规则与合规、草稿比较、班次交换、批假及 Slack/email 通知；技能维度未单独展开，但不影响排班平台的核心类型判断。",
+    "Pricefx 与 Amazon Connect 的商业条目仅按基本真实性和类型匹配审查，未核价、架构、合规驻留或后台管理细节。"
+  ],
+  "leaf_checks": {
+    "sales-order-capture": {
+      "status": "pass",
+      "application_id": "github:1864233",
+      "track": "open_source",
+      "service_form": "开源自托管 ERP；README 同时说明 Frappe Cloud 托管与 Docker 自托管。",
+      "basis": "实际读取 ERPNext Sales Order 手册快照：保存后为 Draft，Submit 确认承诺；状态含 To Deliver and Bill、To Deliver、To Bill、Completed、On Hold、Closed、Cancelled；支持部分交付/开票并按已交付、已开票百分比跟踪；包含 Customer's Purchase Order；Close 与 Cancel 语义区分，Amend 生成新草稿；FAQ 明确提交订单本身不改变库存或产生会计分录，后续由 Delivery Note/Sales Invoice 执行。README 与 license 快照显示 GPL-3.0 全文，GitHub ID 1864233 与仓库一致。",
+      "gaps": "未做运行时或部署测试；信用检查等可选能力未在该页展开，不影响销售订单捕获核心判断。仅按销售订单模块定界，未宣称覆盖 CPQ、履约编排或开票。"
+    },
+    "sales-pricing-application": {
+      "status": "pass",
+      "application_id": "commercial:pricefx",
+      "track": "commercial",
+      "service_form": "商业定价管理平台；官方 Price Management 能力页。",
+      "basis": "实际读取 Pricefx Price Management 快照：页面称其为 one governed system、list/base/customer prices 的单一可信来源；markups、indexes、corridors 作为规则自动重算；scenario simulation 比较策略与利润率影响；configurable approval workflows 带 audit trails；approval 后可将价格发布到 ERP、CRM、CPQ；并呈现 define、simulate、publish、monitor 及 price realization alerts。与销售定价应用的受治理价格记录、设定发布周期和销售接口三条核心匹配。",
+      "gaps": "商业条目仅核基本真实性与类型匹配；未核部署形态、价格档位或后台管理细节。"
+    },
+    "agent-scheduling-platform": {
+      "status": "pass",
+      "application_id": "commercial:assembled",
+      "track": "commercial",
+      "service_form": "商业客户支持 WFM/排班平台；官方 scheduling 与 forecasting 页面。",
+      "basis": "实际读取 Assembled 两个快照：forecasting 页支持按 queue、channel、site 预测，使用历史到达模式与 interval-level AHT 调整，输出各渠道 staffing requirements，并可提前数月规划；scheduling 页支持自动排班、预置业务规则/班次时长/合规要求、按 coverage needs 插入休息、草稿比较、AHT 与并发情景模拟、SLA 影响评估、日内调整、班次交换与按 staffing thresholds 自动批假，并通过 Slack/email 通知坐席。人类客服坐席的 demand→staffing→schedule→publication 核心链路成立。",
+      "gaps": "快照未单独展开 skills-based assignment；核心排班链路仍有直接正文支撑，不阻断。未做运行时或部署测试。"
+    },
+    "call-center-platform": {
+      "status": "changes_required",
+      "application_id": "github:15717333",
+      "track": "open_source",
+      "service_form": "自托管 FreePBX/Asterisk PBX 的 Queues 模块，不是独立云服务。",
+      "basis": "实际读取 FreePBX/queues 的 GitHub 元数据、README、module.xml 与许可证快照：module.xml 描述创建 FIFO 队列、ring strategy、caller announcements、max wait；README 说明其是 FreePBX/Asterisk 的 PHP/JavaScript 模块并随自托管 PBX 安装；许可证正文与 module.xml 指向 GPLv2+。这些证据支持队列与 ACD 分配子模块，但未提供坐席系统可用状态、坐席通话处理工具/工作界面、实时及历史度量等平台核心正文。research.json 提到的 Sangoma 文档不在 REVIEW_SOURCES 批次来源内，不能作为本案核心证据。",
+      "gaps": "需补官方核心文档或改判为组件/无案例；另需修正 batch license 字段与 GPLv2+ 的不一致。"
+    },
+    "cloud-contact-center-ccaas": {
+      "status": "pass",
+      "application_id": "commercial:amazon-connect-customer",
+      "track": "commercial",
+      "service_form": "AWS 运营的云联络中心服务，按实际用量付费。",
+      "basis": "实际读取 Amazon Connect Customer 管理员指南与功能页快照：管理员指南明确其为 contact center as a service，客户通过语音、聊天、短信等联系，系统连接客户到坐席、智能路由、按队列与 routing profiles 配置、实时跟踪绩效，管理员配置电话号码并按用量付费；功能页补充全渠道、agent workspace、skills-based routing、outbound campaigns、实时与历史指标，以及 AWS 电信网络覆盖 158 国 DID/免费号码、72 国呼出号码并直连 40+ 一级运营商，无需自管多供应商或承诺峰值容量。联络中心运营与供应商运营的云消费形态两个承重部分均有正文支撑。",
+      "gaps": "商业条目仅核基本真实性与类型匹配；未核价格档位、合规驻留或具体部署。产品现名为 Amazon Connect Customer，快照已说明其由 Amazon Connect 更名而来。"
+    }
+  },
+  "limits": "本次为只读初审；仅读取本单元 REVIEW_SOURCES.json 所列 13 个快照及 input.json、batch.json、research.json，未读取其他单元。未运行 shell，未重新计算快照 sha256；未进行部署、运行时、登录后功能或价格架构测试。HTML 快照含导航与脚本，结论以页面正文段落为准；商业产品仅核基本真实性与核心类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-111/ses_groveopencodegop111review1_1793004026.jsonl",
+  "batch_sha256": "826ccf7d646e0aa1c028700e19cf0016545a17117803cddb6376736415483e2e",
+  "research_sha256": "3b2702d496284deadcdf4367017f0de152bf514a6f71782aebf448c4eb700cf8",
+  "input_sha256": "de58edb702abea3be3d9dbb1042897c49f302b0a9f99af89c83c8d531c351597"
+}

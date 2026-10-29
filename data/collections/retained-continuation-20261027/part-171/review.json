@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，而 batch.json 与 research.json 已记录 5 个叶子的 case_found 和应用 ID；建议下游使用前同步进度字段，避免覆盖已采集结果。",
+    "REVIEW_SOURCES.json 只列了 batch 引用的 13 个快照；research.json 还提到 openMAINT（首页、许可证、设施维护模块、最新版本）与 IBM TRIRIGA/Maximo 的抓取，sources 目录中确有对应文件，但未进入 REVIEW_SOURCES。它们不支撑任何已收录条目，不影响本次结论，但审计链不完整。",
+    "OfficerRnD 的两份快照是 Nitro 压缩 HTML，正文集中在超长单行，无法按常规段落阅读；本次通过精确短语检索确认快照含有关键原句，并对照当前页面正文交叉核对，未把摘要或导航当作核心工作流证据。",
+    "Cobot 功能页没有出现 inventory 一词，空间库存是从 desks/rooms/resources、Office Rental 的 occupancy 视图和多地点能力推断的，属于措辞层面的弱证据；不影响会员、预订、计费三类核心的成立。",
+    "Planon 的 Asset & Maintenance Management 页面自述为 CMMS，且未逐项展示工单强制绑定场所或请求者自助跟踪；FMS 关系是套件模块级推断，按商业条目的基本类型匹配可以通过，但不宜表述为独立 FMS 产品。",
+    "Archibus 页面自称 on-premise、FedRAMP、通过合作伙伴销售；Planon 的部署形态也未核验。若本集合严格要求多租户 SaaS，应在入库前确认部署形态，避免把企业本地部署产品当作 SaaS 案例。",
+    "Property Meld 的供应商协调主要落在 Vendor Nexus 相关能力上，our-software 页正文更突出沟通、排程和维修团队绩效；不影响物业维护类型判断。",
+    "Archibus Space Optimization 页面以 space optimization 表述，未直接给出 site→building→floor→space 的空间台账字段，也未明确写出组织粒度 allocation 与个人粒度 assignment 的双粒度模型；空间库存是从平面图、分配和搬迁能力推断的。",
+    "本单元没有开源条目；research.json 已如实记录 websearch 401、GitHub API rate limit、openMAINT 仅 SourceForge 分发且无官方 GitHub 仓库、OpenProperty 主导对象为租务/租金等缺口。按任务规则，已留档的检索缺口不阻断。"
+  ],
+  "leaf_checks": {
+    "coworking-flexible-workspace-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:cobot",
+        "commercial:officernd"
+      ],
+      "basis": "Cobot：读取 f876...（/en/features）正文，确认 Bookings and Calendar（自助或管理员预订、会议室应用、循环预订）、Invoicing, Billing, and Payments（custom plans、月/年/一次性收款）、Office Rental Management（occupancy dashboard、自动租金收取）、Multi-location、Access Control（members unlock only the spaces their plan includes，access 随 membership status 变化）；6cba...（首页）补充 Web/iOS/Android 形态和功能清单。OfficeRnD：0c9c...（coworking operations 页）快照中可检索到 Manage Your Members’ Lifecycle、Automate Billing, Payments and Accounting、Streamline Bookings and Reservations、Manage Your Coworking Inventory 四组原句，覆盖 memberships/contracts/bookings/credits、开票收款、desk/room/resource 预订、desks/rooms/parking/custom resources 与 floorplans。空间单元、会员/计划、预订/分配、计费四结构均有正文依据。",
+      "service_form_and_identity": "两者均为运营商侧商业 Web 平台（Cobot 另有 iOS/Android 会员端）；ID 为 commercial:cobot、commercial:officernd，track=commercial，与条目摘要一致。",
+      "gaps": "Cobot 未使用 inventory 措辞；未验证价格、门禁实际集成、数据迁移。开源检索受 401 与 GitHub rate limit 阻断，research 已留档，未硬凑开源条目。"
+    },
+    "facility-management-system": {
+      "result": "pass",
+      "applications": [
+        "commercial:planon"
+      ],
+      "basis": "读取 a0b8...（Planon IWMS 页）正文：IoT-enabled IWMS，同一平台列出 Real Estate Management、Space & Workplace Services、Asset & Maintenance、Energy & Sustainability；读取 fa09...（Asset & Maintenance 页）正文：Reactive Work Orders、Preventive Maintenance、Graphical Resource Planner、Asset Lifecycle（location、value、age、performance、repairs）、Vendor & Warranty、Budget、Health & Safety、Project Management、Mobile Field Services、Objective Based Maintenance。套件级不动产/空间记录、模块级场所相关工作、面向员工的反应式服务与占用者健康安全，可支持 FMS 层的基本类型匹配。",
+      "service_form_and_identity": "商业 IWMS 套件中的设施运营模块；ID commercial:planon，track=commercial。batch 未宣称其为独立单点 FMS 产品。",
+      "gaps": "模块页自述为 CMMS，未逐项证明工单强制绑定场所、请求者自助提交/跟踪或服务成本回摊；FMS 第 3 结构（内部服务闭环）仅由模块定位和反应式工单文本间接支持；未运行产品。"
+    },
+    "integrated-workplace-management-system-iwms": {
+      "result": "pass",
+      "applications": [
+        "commercial:planon",
+        "commercial:archibus"
+      ],
+      "basis": "Planon：a0b8... 正文明确 IoT-enabled IWMS，并在同一平台列出房地产、空间与工作场所、资产与维护、能源与可持续性四个模块；Real Estate Management 文本涉及 leased/owned portfolio、leases、projects、transactions、finances。租赁会计为同厂商单独方案，未计入该 IWMS 模块清单。Archibus：4d42... 正文/导航明确 IWMS for complex environments，正文卡片覆盖 BIM asset management、field technicians、capital projects、space planning/hybrid work、workspace booking、lease and contract management；72d6...（lease）正文覆盖单一 lease repository、critical dates/renewals alerts、lease abstracts/clauses、connect lease data to property and space records；f1fd...（asset）正文覆盖 asset location/condition/service history、preventive/corrective maintenance、work orders/service requests、BIM Viewer。多领域跨度与租约/空间/资产共享记录基本成立。",
+      "service_form_and_identity": "两者均为商业企业级平台；ID commercial:planon、commercial:archibus，track=commercial。Archibus 页面另称 on-premise/FedRAMP、合作伙伴销售。",
+      "gaps": "Planon 未逐项证明同一租约/空间对象被各模块复用，只证明同一平台与 fully integrated 定位；Archibus 的 on-premise 形态与多租户 SaaS 不同；未运行产品。"
+    },
+    "property-maintenance-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:propertymeld"
+      ],
+      "basis": "读取 dfc6...（our-software 页）正文：property maintenance software 定位；Track communication、Schedule work orders in minutes、maintenance team performance metrics、maintenance requests；Single-Family、Multi-Family、HOA、Student Housing 四类受管物业场景。读取 070f...（首页）正文：面向 property management companies、resident/investor retention、Vendor Nexus（Source reliable vendors）、thousands of units。物业组合、维护工作项/工单生命周期、内部团队与供应商执行方协调三结构基本成立。",
+      "service_form_and_identity": "商业 Web 维护协调软件；ID commercial:propertymeld，track=commercial；batch 摘要与正文一致。",
+      "gaps": "工单页未直接写工单绑定到具体 unit、完成证据/照片或租户收费责任；供应商协调主要由 Vendor Nexus 关联产品承载；未运行产品。"
+    },
+    "space-occupancy-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:archibus"
+      ],
+      "basis": "读取 4f38...（space-optimization 页）正文：real-time occupancy and utilization、occupancy insights from sensors/badge/reservations、utilization analytics、scenario modeling、interactive floor plans/BIM、move management、Automated space assignments（按 roles/needs/availability，跨部门 allocation）；读取 4d42... 正文：space planning/hybrid work、workspace booking、lease data 与 property/space records 连接。楼层平面图、占用状态、分配与搬迁记录支持空间与占用管理的基本类型匹配。",
+      "service_form_and_identity": "商业 IWMS 的空间优化/空间管理模块；ID commercial:archibus，track=commercial；页面定位为占用组织侧的空间规划与占用分析。",
+      "gaps": "页面用 space optimization 表述，未直接给出 site→building→floor→space 的空间库存台账、房间类型/面积/容量字段，或组织粒度 allocation 与个人粒度 assignment 的双粒度模型；未验证平面图编辑、BIM 接入、传感器、工位预订或部署形态。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何产品，未做部署、价格、架构、API 或 UI 操作测试，未读取其他单元。核对范围限于 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中 13 个 batch 引用快照；快照为 HTML 页面，OfficerRnD 两份为 Nitro 压缩单行长文本，正文通过精确短语命中并与当前页面交叉核对，未能像普通段落一样逐段阅读。research.json 提到的 openMAINT 与 IBM TRIRIGA/Maximo 补充快照存在于 sources 目录但未列入 REVIEW_SOURCES，故其许可证/仓库/页面内容只按 research 留档评估，未逐页复核。商业应用只做基本真实性与类型匹配，未核验许可证、价格、托管方式、数据迁移或社区版边界；本单元无开源条目，开源缺口按 research 的 401、GitHub rate limit、openMAINT 仅 SourceForge 分发且无官方 GitHub 仓库、OpenProperty 主导对象为租务/租金等记录判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-171/ses_groveopencodegop171review2_1793018969.jsonl",
+  "batch_sha256": "7144bd1f38f8eec97ba272a3bf09a9a908891767fd4463553bfc680deed323b0",
+  "research_sha256": "48081cac1e0d2695156905a54fdbf7e5493b389957fed4b400a8916820c6707f",
+  "input_sha256": "ed7a020099eb6454714a184c46c8b3eaf6e452504f4755d4180447f6a66c5c1f"
+}

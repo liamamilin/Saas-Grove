@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "[government-vendor-management / commercial:b2gnow] B2Gnow 同时服务企业、总承包商、教育、医疗等非政府买方（官方产品页第1065、2092行），政府供应商管理是重要但非排他场景；条目摘要已限定政府机构，建议正文补充“亦服务其他买方”的范围说明，避免读者误认为纯政府专用产品。",
+    "[government-vendor-management / commercial:b2gnow] 官方页包含 Bid Management 模块（第1544行），可发布招标、接收提案并记录授予；但页面中心仍是供应商注册、预审、认证与合规跟踪，未达到政府采购平台的定义核心，该模块存在不改变类型判断，建议作为边界说明保留。",
+    "[government-vendor-management / commercial:b2gnow] 来源将认证授予主体表述为 certification agencies（含 UCP），并称支持多种认证类型；“政府授予的认证资格状态”是对政府/公共部门语境下认证机构的合理概括，但建议措辞改为“由政府或政府认可的认证机构授予”，避免把认证机构范围说得过窄。",
+    "[government-vendor-management / commercial:b2gnow] research.json 对 OpenGov、JAGGAER、Procuman、Vendor Registry、Tender_Management_Systems 的边界排除只有文字记录，REVIEW_SOURCES.json 未保留这些页面快照；这些均未被作为应用收录，故不阻断，但独立复核其边界判断受限。",
+    "[government-vendor-management] input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids 为空，而 batch.json/research.json 已记录 commercial:b2gnow；发布前应同步叶子状态和应用 ID，避免目录与批次记录不一致。",
+    "[government-vendor-management / commercial:b2gnow] 两份快照是官方产品/行业营销页，kind 标为 documentation；用于商业基本真实性和类型匹配足够，但不等于技术文档、管理界面或运行时验证。"
+  ],
+  "leaf_checks": {
+    "government-vendor-management": {
+      "slug": "government-vendor-management",
+      "application_ids": [
+        "commercial:b2gnow"
+      ],
+      "definitional_core": "通过。官方产品页正文明确写到在线供应商注册、按买方定义标准“register or prequalify vendors”、认证管理从申请到决定并管理到期与续期、按认证状态分配分包商，以及合同和付款层面的合规跟踪（快照 53a45e… 第1349、1479、1722、1284、1732-1734行）。这同时覆盖了“持久供应商记录”和“由政府/认证机构授予的资格状态”两个核心要素；政府公共部门页还说明服务联邦、州、地方各级政府机构，并面向认证机构提供在线申请与认证管理（快照 54d35f… 第782、969行）。",
+      "saas_form": "通过。产品页自述为 enterprise-class、multi-module、SaaS system，100% web-based，400 多个州、地方、企业和教育机构使用，约一百万用户定期访问，采用 fully redundant hosted solution 并提供 99.9% 可用性承诺（快照 53a45e… 第2077、2092行）；属于持续使用的托管软件服务，而非一次性交付或纯目录查询。",
+      "id_track": "通过。batch.json 使用 id=commercial:b2gnow、track=commercial、homepage=https://b2gnow.com；REVIEW_SOURCES.json 的 applications 为 commercial:b2gnow，research.json 的 case_ids 一致，两个来源 URL 与 batch 条目完全对应，未发现 ID、track 或来源归属错配。",
+      "open_source_license": "本叶没有收录开源应用，因此不存在需核对完整许可证的开源条目。research.json 记录了对 GitHub 的多轮仓库搜索及 Tender_Management_Systems（MIT）候选；该候选因中心是招标发布→投标→评标→授予、买方不限于政府、供应商名册仅为支撑模块而被排除，未作为开源应用建立关系。开源方向的检索记录和排除理由已如实留档。",
+      "community_edition_boundary": "本叶没有开源条目，故无社区版边界需要核对；商业条目 B2Gnow 为托管 SaaS，未出现开源社区版或自托管发行版声明。",
+      "source_check": "已按 REVIEW_SOURCES.json 的 path 原样读取两份快照：data/collections/sources/53a45e143392a8920bf63a2e12eed00814f0cb19bf2079ed421473094eb912ff.txt 和 data/collections/sources/54d35f9b2bd6f8a4eefb1c0a43fdb7360677df317af174eab47b9f1a5cf7b7e8.txt；文件名中的 sha256 与 REVIEW_SOURCES.json 记录一致。两份快照均包含实质正文，不是简介、元数据或 Loading 占位；核心工作流描述来自官方产品页正文，而非仅标题或导航。",
+      "verdict": "pass",
+      "gaps": [
+        "仅核对官方页面，未运行产品，未验证实际管理界面、供应商注册表单、认证审核队列或付款门禁行为。",
+        "来源未展示重复供应商记录合并、暂停/排除等不利变更记录，也未证明认证状态在付款环节具有强制门禁；这些属于类型规则细节，商业基本核对不阻断，但不宜在正文中声称已全部覆盖。",
+        "research.json 中非候选页面和 GitHub 搜索页未保留快照，无法独立复核其排除结论；不影响已收录商业条目的基本真实性。",
+        "input.json 的叶子 progress 仍是 insufficient_evidence 且 application_ids 为空，与 batch/research 已记录 commercial:b2gnow 不一致，属于元数据同步问题。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未访问其他单元，也未重新抓取网页或运行产品。仅核对 REVIEW_SOURCES.json 指定的两份 B2Gnow 官方页面快照及本单元的 input.json、batch.json、research.json；research.json 中其他候选与搜索页没有保留快照，无法独立复核。商业条目只做了基本真实性和类型匹配核对，未验证价格、架构、部署、运行时行为或管理界面。开源方向只有检索与排除记录，没有需核对完整许可证和社区版边界的开源应用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-209/ses_groveopencodegop209review1_1793259447.jsonl",
+  "batch_sha256": "398f39684a29893b9d0bf9aad242b19ab2fcd12e728e6e93d3e0b8f063fb454e",
+  "research_sha256": "8ec29b4ec8250315c9f3faf32467e9275322f3dc1388a67793a3d3b3a26220bf",
+  "input_sha256": "00851d808d9ba36add54862180c5c73b342a061d1ded3d4b8c9fa77b568bdc3d"
+}

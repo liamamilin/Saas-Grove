@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍记录 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已记录 github:862650765 为 pcb-design 的成立关系；建议同步更新进度元数据，避免下游按旧状态读取。",
+    "batch.json 的 features 中“评论、版本差异与回滚”对应官网所述 GitHub 审阅流程（Visual Diffs、Approvals、comments、rollback），不宜表述为已证实的应用内原生协作功能；建议改为“GitHub 集成的评审/版本流程”。",
+    "社区版边界仍有留档缺口：官网有 tscircuit Enterprise 入口，仓库树还含 api/、server/、lib/orders，现有快照不足以说明 MIT 仓库与托管/企业版的功能分界；研究记录已标注“未验证”，建议保持该限定，避免“托管版另有注册表/协作后端”的确定表述。",
+    "tscircuit 以 TSX/React 代码描述电路为主，手工布线通过 pcbPath 而非传统图形化逐点绘制；这不影响类型成立，但建议在 leaf 说明中标明 code-first 工作流。",
+    "快照未直接展示覆铜区（zone）和层叠编辑页面；现有 board/footprint/net/trace/制造文件证据足以覆盖定义核心，若按最严格口径可补充 board layers/zones 文档。"
+  ],
+  "leaf_checks": {
+    "pcb-design": {
+      "slug": "pcb-design",
+      "application_ids": [
+        "github:862650765"
+      ],
+      "definition_core": "通过。tscircuit.com README 与 Web Quickstart 证明在线创建 board 项目并在 PCB/Schematic/3D 视图间查看；docs 的 footprint 正文覆盖 platedhole/smtpad 封装焊盘，net 正文覆盖网络连接模型，trace 正文覆盖铜走线、铜宽、pcbPath 手工路径与过孔换层；fabrication-files 正文覆盖 Gerber 铜层、钻孔/板框、BOM 与 Pick'n'Place。",
+      "service_form": "通过。tscircuit.com 为浏览器内托管 Web 应用/在线编辑器，无需安装；README 另有本地开发与生产构建说明，形态不是桌面客户端或单纯 SDK。",
+      "identity_track": "通过。仓库页 octolytics 元数据给出 repository_id=862650765、nwo=tscircuit/tscircuit.com，与 batch 的 github:862650765、track=open_source 一致。",
+      "license": "通过。根 LICENSE 快照为完整 MIT 文本（版权、许可授予、条件、免责声明），README License 段也写明 MIT；license_review 的 scope=repository 与证据一致。",
+      "community_boundary": "基本通过，留有已记录缺口。仓库为 MIT，官网声明可商用；研究记录已如实说明托管生产后端/注册表未验证、社区版覆盖在线编辑器与本地 fake API。官网另有 Enterprise 入口，具体功能分层未取证。",
+      "withheld_candidates": "KiCad（github:14849992）仅桌面/CLI 形态，按研究记录保留为 withheld，不作为本叶成立关系；本叶以 tscircuit 成立。",
+      "sources_checked": [
+        "data/collections/sources/102afa1429b192d9dc6cd952e19cd3abe2d6be3414075447277f7457154fcf30.txt",
+        "data/collections/sources/0cf63448d1de225a3cb6043c3ecf385d3bd5108d2fee05d721ac4252fd891dea.txt",
+        "data/collections/sources/a5f5fb24026081322e48c6de970de4300dbc516fcddf02468d74b3978909f156.txt",
+        "data/collections/sources/9f716dcedbb9058218fe398e79170e07fcdc1425b9ab72bbee98e2f9141f8436.txt",
+        "data/collections/sources/f9a31cfe71b13755328527b3c6be0681e4914d3f00b83d6ccc60d31583f60196.txt",
+        "data/collections/sources/2b35e4978f5444b0cb951385d5872ca221cddb42212fa9fbbda4d2fd878ecbdf.txt",
+        "data/collections/sources/5eb254fdce309970d480a6aa3f313649a550346804dca734604ecbfc2c7e0f84.txt",
+        "data/collections/sources/bb8de82904a9238208526e4688437973dcb93fadcb99b830d43b4166be41b237.txt",
+        "data/collections/sources/e6095f0e3ca9d54e41f2da195e18b6bc278edf6ceae81ce010a3e44d86958335.txt",
+        "data/collections/sources/62d763ddd5928a01bfd5518feb3a4c709c04d51efe9a820fea166b7a548d4f1b.txt"
+      ],
+      "gaps": [
+        "未运行应用、未部署，未验证生产后端/注册表与 Enterprise 功能分层",
+        "GitHub API 元数据/许可证端点 403，已由仓库页与 raw LICENSE 补足",
+        "未独立重算快照 sha256"
+      ]
+    }
+  },
+  "limits": "只读初审：未运行 shell、未写文件、未部署或运行应用；仅读取本单元 input/batch/research 及 REVIEW_SOURCES.json 指定的 10 个快照，未访问其他单元；未独立重算快照 sha256；GitHub API 403 缺口由仓库页与 raw LICENSE 补足；KiCad 旧快照未在本单元 REVIEW_SOURCES.json 中提供，未独立读取，仅依据 research 记录的 withheld 说明；未验证生产后端/注册表、Enterprise 功能分层及实际浏览器交互。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-137/ses_groveopencodegop137review1_1793248718.jsonl",
+  "batch_sha256": "4cdc74aa87f785208ea21430fb1947788c42b43dbacb0dda2df5f487ce6921aa",
+  "research_sha256": "1d908f3e217c0b91da98b495104faa36aa6a7d885df32adcf1e2be56730af431",
+  "input_sha256": "fac8261d19443508e53d79b612742bee47fcbef8ee3d13b64befb62bc652af5c"
+}

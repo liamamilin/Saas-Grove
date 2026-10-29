@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "GitHub 仓库元数据 description 自述为“Mirror of https://slop.nettek.ca/jocelyn-stericker/hacklily”，README 也说明源码与 issue tracker 在 Forgejo、GitHub 为镜像。仓库身份（id 90661308、full_name jocelyn-stericker/hacklily、fork=false）与许可证文件均已核对一致，不影响收录；如后续需追溯上游变更，可在来源备注中标注镜像关系。"
+    },
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "batch.license 记为 AGPL-3.0（与 GitHub license 接口 spdx_id 一致），而 README 的 License 段与贡献条款表述为“version 3 or later / AGPLv3-or-later”。建议在许可证字段旁保留“or later”表述以免丢失授权范围细节，但当前 SPDX 记录并不错误。"
+    },
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "features 中“实时渲染 SVG/PDF/PNG/MIDI 预览”沿用 README 原文，MIDI 严格说属于音频/交换输出而非谱面预览，措辞可细化，不影响能力事实。"
+    },
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "input.json 的 leaf.progress 仍是 case_status=boundary_unresolved、application_ids=[]，而 research.json 已按补证路径改记为 case_found 并新增 github:90661308。补证轨迹（previous_review_gap、reused_history）已留档，建议下游同步更新叶子进度元数据以免两处状态不一致。"
+    },
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "官网快照仅为 SPA 壳（标题 Hacklily — sheet music editor、meta 描述为 online LilyPond-based sheet-music editor and publishing tool、含构建产物引用），采集方明确未把导航/壳页当功能正文，功能结论全部落在 README 正文，处理方式正确。"
+    },
+    {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "note": "sources 目录中还存在 LilyBin（34cec…、9389…、e8b2…）与 MuseScore（f852…、80ab…、73e7…）快照，但未登记于 REVIEW_SOURCES.json；其作为 withheld_candidates 的留档理由（LilyBin 托管实例停止、最后推送 2021-01-24；MuseScore 为桌面客户端）与快照内容相符，排除处理一致。"
+    }
+  ],
+  "leaf_checks": {
+    "music-notation-editor": {
+      "slug": "music-notation-editor",
+      "application_id": "github:90661308",
+      "name": "Hacklily",
+      "track": "open_source",
+      "definition_core": "成立。README 正文（c1cb2d…，第 5 行）明确“Hacklily is an online sheet-music editor. You write LilyPond in a Monaco-powered editor in your browser and get a live rendered preview (SVG/PDF/PNG/MIDI). Scores can be saved to and published directly to GitHub…”。编辑对象是 LilyPond 记谱（音高、时值、休止、声部、拍号等音乐语义），输出为传统五线谱的 SVG/PDF/PNG 渲染，构成“持久乐谱文档—音乐语义编辑—五线谱渲染”的定义性核心。乐谱以 .ly 文本为用户可保存/可发布的持久文档，渲染产物为其派生，符合“乐谱为记录本、渲染派生”的要求。采集方已在 leaf_matches.reason 中主动收窄断言（不称图形所见即所得、不称软件自动改写节奏、小节时值主要由 LilyPond 编译校验），未超出正文证据。",
+      "notation_semantics_and_validity": "基本成立但等级有限：音乐有效性由 LilyPond 编译报错/告警承担，而非编辑器在图形层强制放置事件；这与定义中“软件保证记谱连贯性”的同义要求相容，但不宜宣称更强的自动节奏纠正。PDF/SVG/PNG 作为固定渲染、MusicXML 经 musicxml2ly 导入，符合定义中的交换保真度层级分层，未见事实冲突。",
+      "service_form": "成立。README 第 51 行“Hacklily is stable and live at https://www.hacklily.org”；官网快照（8c87a7…）HTTP 200，含 title “Hacklily — sheet music editor”、meta description “online LilyPond-based sheet-music editor and publishing tool”及新构建产物引用，可支持浏览器访问的在线服务形态。README 另给出完整自托管路径（Node 前端 + Rust renderer-server 协调器 + 稳定 2.26/不稳定 2.27 LilyPond Docker 渲染器、JSON-RPC WebSocket、systemd 用户单元、TLS 反代），说明可运营方自托管，服务边界描述与正文一致。存储落在用户自己的 GitHub 仓库（GitHub OAuth），不改变“浏览器可用的应用服务”形态。未把 HTTP 成功或壳页当成工作流证据。",
+      "product_identity": "成立。快照（566c78…）显示 id=90661308、full_name=jocelyn-stericker/hacklily、html_url 与 batch.repository_url 一致、fork=false、archived=false、pushed_at=2026-10-22、homepage=https://www.hacklily.org、language=TypeScript（与 features 的 Monaco/React 及 technology_stack 的 TypeScript/React/Rust/Docker 相容）；官网 canonical 亦为 https://www.hacklily.org。",
+      "id_and_track": "成立。track=open_source 与 AGPL-3.0 许可证、公开仓库、完整自托管部署说明一致；id 前缀 github: 与 90661308 精确对应同一仓库，未发现 ID/type 错配。",
+      "license": "成立。许可证快照（afba58…）来自 /license 接口：name=LICENSE.txt、size=34520、download_url 指向 raw main 分支、license.key=agpl-3.0、spdx_id=AGPL-3.0，base64 正文开头为“GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”，与 README 第 66-68 行 License 段一致；34520 字节与 AGPLv3 全文体量相符，可判定为完整许可证而非片段。",
+      "community_edition_boundary": "未见开源/商业版本切分、付费托管档或功能阉割描述；README 未提企业版，自托管部署与在线实例共用同一代码库，社区版边界清晰可核。",
+      "withheld_and_gaps": "MuseScore Studio（github:4454793）快照显示为开源记谱与作曲软件、GPLv3 全文，但形态为本地桌面客户端，留档不进 batch 的处理合理；LilyBin（github:10328994）MIT 全文与“web-based LilyPond editor”README 可读，但 README 指向 lilybin.com、最后推送 2021-01-24，可持续服务证据弱于 Hacklily，排除理由有据。已如实记录首次 404 归属错误、改仓库后补证、官网为 SPA 壳等查询/抓取缺口，未作“不存在”推断。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元；未做 sha256 重算，故快照文件内容与其文件名/REVIEW_SOURCES 声明哈希的一致性以文件名与清单一致为准，未做独立校验。许可证快照是单行 JSON，read 每行截断在 2000 字符，故 AGPLv3 全文的逐字完整性只能由 /license 接口 spdx_id=AGPL-3.0、size=34520、base64 正文首段标题与 README 授权声明交叉支持，未逐字比对至 END OF TERMS 段。官网仅取得 SPA 壳 HTML，无法在在线实例中实际走通编辑—渲染—保存流程，功能结论依赖 README 正文；batch 记录 runtime_tested=false。未对 hacklily.org 之外的服务可用性、定价或账号体系做额外核查（本叶为开源条目，不要求）。LilyBin/MuseScore 快照存在于 sources 目录但未列入 REVIEW_SOURCES.json，仅用于理解留档与排除理由，未作为本单元收录证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-045/ses_groveopendesignp045review1_1793168835.jsonl",
+  "batch_sha256": "5c72c00baca57a953a655ed8651945519d5a90d52272bc0e0ea3d3572e70dae3",
+  "research_sha256": "436388adaafcb11ddfb59ecb461427e9328987976b2b167349f4ad4d1e845d39",
+  "input_sha256": "d3a2296694591aa5561709a7a8bf0da74225af579c2e924bf2d7e2f6f99bab73"
+}

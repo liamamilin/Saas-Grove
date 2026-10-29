@@ -1,0 +1,63 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "nonprofit-fund-accounting",
+      "application_id": "github:1324163874",
+      "issue": "batch 的 summary、features 和 leaf_matches.reason 把 OpenBooks 描述为具备基金分区和基金平衡能力，并列出运营、限制、留本（endowment）、设施（plant）、董事会指定基金及基金间配对；但本单元保留的官方快照中，可用于核心判断的只有 README 第 208 行的能力清单（nonprofit funds、gifts、grants、pledges、donor restrictions and releases、encumbrances、functional expense reporting）和行业示例文档第 15 行的演示目录行（operating and restricted funds、conditional award、pledges、encumbrances、functional reporting）。两处都没有出现 endowment/plant/board-designated、基金间配对、基金平衡分录、每笔交易按基金入账或基金级报表/预算对比的正文；research 所称“代码检查”没有对应的代码或文档快照，REVIEW_SOURCES.json 也只有元数据、许可证、README 和该演示文档。因此，“基金作为账簿分区”这一关键结构仍停留在能力关键词/演示目录层面，不能作为可复核的核心工作流证据。",
+      "fix": "补充并保留官方代码或文档快照，展示非营利模块的基金模型、按基金入账、基金间/基金平衡分录、限制解除过账和功能费用报表输出，并在 leaf_matches.reason 中只引用这些已保留来源；若无法补充，则删除 endowment/plant/board-designated 和基金间配对等无来源支撑的具体表述，把匹配结论改为“部分有据/存在缺口”，并如实记录该核心未闭合。"
+    },
+    {
+      "slug": "nonprofit-fund-accounting",
+      "application_id": "github:1324163874",
+      "issue": "类型边界和产品身份没有被来源闭合。官方 README 把 OpenBooks 定位为面向各种规模企业的通用 business suite（第 9-12、44-53 行），第 212 行列 11 个行业示例，非营利只是其中之一；第 208 行还把 Property 和 nonprofit 合并为一个能力区。batch 以“内置完整的非营利基金会计业务模块”纳入本叶，但没有证明该模块是完整、可独立承担非营利账簿的产品（或独立 SKU/edition），也没有说明通用商业账簿与基金会计的类型边界如何在该产品中成立；README 第 136 行还明确标注 alpha、未完成独立会计或安全认证，“完整”一词没有来源支撑。",
+      "fix": "补充官方证据证明非营利模块是完整、可独立使用的非营利账簿（或独立 SKU/edition），并说明其与通用商业账簿的功能/配置边界；同时在 summary 中保留 alpha、未认证和“能力清单不等于可直接投产”的限定。若不能证明，则应按通用 business suite 重新归类或移出本叶，并在研究记录中说明该可选模块与“非营利基金会计”类型边界的关系。"
+    }
+  ],
+  "non_blocking_notes": [
+    "许可证标签粒度：batch 写 AGPL-3.0，README 第 22、274 行写 AGPL-3.0-or-later；AGPL 全文快照存在（34,523 bytes，内容以 GNU AFFERO GPL v3 开头），建议统一为 AGPL-3.0-or-later 或注明 GitHub 检测口径。",
+    "社区版边界：未发现独立社区版/企业版；README 称开源、自托管、无按席位收费，非营利能力在同一 AGPL 仓库内。建议在 entry 中显式写明“无单独付费版边界”，避免读者误以为非营利模块属于封闭版。",
+    "input.json 的 progress 仍写 case_status=insufficient_evidence、application_ids=[]、phase=included_without_cases，而 batch/research 已收录 github:1324163874 并判为 case_found；建议同步叶状态和 application_ids，避免下游把该叶当作无案例。",
+    "input.json 称本轮已补存 Steward/Nonprofit Ledger README，research 称历史快照复用、本轮未重新抓取；两个快照实际存在于本单元 sources 目录，但未列入 REVIEW_SOURCES.json。建议统一措辞并把被引用的历史快照补入来源清单。",
+    "homepage https://openbooks-site.vercel.app 未在 README/docs 正文中出现；若来自仓库元数据，建议在 entry 中标明来源。",
+    "research 对 mikevan/cares、kuali/kfs 的排除结论标注 screened_not_retained，未保存快照；这不影响本叶纳入的 OpenBooks，但若下游要复核排除理由，需补来源。",
+    "README 只写 functional expense reporting，未列 program/management-general/fundraising 三类；batch 的三类细分若无代码/文档佐证，建议补证或弱化。",
+    "research 提到“非营利模块代码与集成测试”，保留快照只显示 README 的测试徽章和 106 个会计标准用例，未见到非营利模块集成测试正文；建议补证或改为可支持的表述。"
+  ],
+  "leaf_checks": {
+    "nonprofit-fund-accounting": {
+      "application_ids": [
+        "github:1324163874"
+      ],
+      "definitional_core": "部分有据、未闭合：README 第 208 行列出 nonprofit funds、gifts、grants、pledges、donor restrictions and releases、encumbrances、functional expense reporting；行业示例文档第 15 行列 operating and restricted funds、conditional award、pledges、encumbrances、functional reporting，可支持“基金存在、限制/解除、功能费用报告”的能力层面。但未见基金作为账簿组织分区、逐笔基金标记、基金间/基金平衡分录、基金级报表或预算对比的核心正文；batch 所称 endowment/plant/board-designated 及基金间配对不在保留快照中，research 的代码检查无对应快照。",
+      "service_form": "成立：README 第 144-150、249-260 行显示 Docker Compose 自托管 Web 应用、PostgreSQL 16、Redis 7、MinIO、后台 worker，属于持续运行的软件服务形态；不是厂商托管 SaaS，但在 open_source track 下不构成阻断。",
+      "identity_track": "ID/track 一致：仓库元数据 id=1324163874、full_name=braedonsaunders/openbooks 与 github:1324163874 匹配；track=open_source 与 AGPL 仓库一致。产品身份是通用 business suite，非营利为可选模块，类型关系需按 finding 2 修复。",
+      "license": "完整许可证快照存在：license 快照 size=34,523，base64 内容以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头；README 第 22/274 行标 AGPL-3.0-or-later，batch 写 AGPL-3.0，属标签粒度差异，非阻断。",
+      "community_boundary": "未发现独立社区版/企业版边界；README 称开源、自托管、零按席位收费，非营利能力在同一 AGPL 仓库内。batch 可显式说明该边界。",
+      "excluded_candidates": "Steward README（e90d...txt）自述 Early development，web layer/importers/report suite 在建；Nonprofit Ledger README（056b...txt）自述 Phase 1/7、Not yet usable for real books；不纳入的结论有快照支持。",
+      "sources_read": [
+        "data/collections/sources/7be1a8db97b308f700723a7f15e7e1869d69843a12792c08e6c2c5dc851ef13b.txt",
+        "data/collections/sources/436e9103637a55eb32559ff16c3463ce95280fab9cdd092d2c0841b5dd7a8293.txt",
+        "data/collections/sources/d2d3ecdd5438515e34022766c7c2c8ac000a612e88ebe9eb1886a0a3aabc8add.txt",
+        "data/collections/sources/bf8eeb972e0a155a834787d634fc4ecb9986127eaba969e21e074489f1fa4865.txt",
+        "data/collections/sources/e90d73ac9b4eb41d5a0dd99ee7e8ab8a0ee3ec381cfc6817136760e500aee098.txt",
+        "data/collections/sources/056bfe128c34fe72f5eab266a48a1d950de6a9c68f6d5614638318356f715db2.txt"
+      ],
+      "gaps": [
+        "非营利模块的基金分区/基金平衡/基金间分录/基金级报表无保留的代码或文档快照。",
+        "batch 的 endowment、plant、board-designated 及基金间配对具体表述无保留来源支撑。",
+        "通用 business suite 与独立 nonprofit 产品/SKU 的类型边界未证明。",
+        "research 的代码检查/集成测试说法无保留快照。",
+        "homepage 未在 README/docs 正文中核对；metadata 单行 JSON 被读取器截断，未能逐字核对尾部字段。",
+        "REVIEW_SOURCES.json 未列 research 引用的两个历史 README 快照。"
+      ],
+      "result": "changes_required"
+    }
+  },
+  "limits": "本次仅只读审查本单元，未运行 shell、未写文件、未读取其他单元；未部署或运行 OpenBooks，未做运行时验证。以 batch.json/research.json 为当前采集结果，input.json 的 progress 视为采集前状态。仓库元数据与许可证快照为单行 JSON，读取器在 2,000 字符处截断，未能逐字核对元数据尾部（homepage、archived 等）和 license JSON 的 spdx_id 字段；可见部分已确认 id=1324163874、full_name=braedonsaunders/openbooks 及 AGPL 全文开头与 size=34,523。未对外部 URL 重新抓取，未独立验证 homepage 和当前仓库状态。REVIEW_SOURCES.json 只列四个 OpenBooks 来源；research 另引用的 Steward、Nonprofit Ledger 两个历史 README 快照虽在本单元 sources 目录并已读取，但未列入 REVIEW_SOURCES；CARES、Kuali 的筛选结论没有保留快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-220/ses_groveopencodegop220review1_1793260832.jsonl",
+  "batch_sha256": "6c346b0a454588fbd850aa58dc4f0530945c14d7a69f137f01a6c67d5a523255",
+  "research_sha256": "52371c673a2418dce0409574d69bc3b2c2035869f389a253fb51529ca60251f9",
+  "input_sha256": "546167b8291a40e1a0b44407306e44552595566e5f640fc3e58d736b0c447b2f"
+}

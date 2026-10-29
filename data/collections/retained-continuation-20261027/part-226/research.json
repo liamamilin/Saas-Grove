@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "election-results-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:comitia"
+      ],
+      "query": "GitHub: election results management; 官网核对 comitiacorp.com",
+      "source_urls": [
+        "https://www.comitiacorp.com/en"
+      ],
+      "note": "仅记录商业产品 COMITIA 的基本类型关系：官网页列出 Turing 投票计票、选举之夜结果发布与选举运营信息集中监控。未核验竞赛级结果记录、报告单位聚合、核票对账或官方结果状态，故不写入这些能力断言。开源候选 VotingWorks VxSuite（GPL-3.0）包含 VxAdmin 中央选举管理，但整体产品身份是制票/投票/扫描套件，本次未将其收窄为结果管理应用。",
+      "service_boundary": "机构侧选举技术平台（商业）；结果管理只是其官网所列模块之一，运行时与部署未测试。",
+      "search_attempts": [
+        {
+          "tool": "GitHub repository search",
+          "query": "election results management",
+          "outcome": "返回多为小型在线投票/计票课程项目，未找到成熟的结果管理完整应用"
+        },
+        {
+          "tool": "official homepage fetch",
+          "query": "https://www.comitiacorp.com/en",
+          "outcome": "读取正文，确认计票、选举之夜结果发布与运营集中监控模块"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.comitiacorp.com/en",
+          "status": "ok",
+          "note": "首页正文已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "legislative-management-system",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "GitHub: legislation management system / parliament order paper；初审修复：补读该仓库 src/、sql-scripts/ 源码",
+      "source_urls": [
+        "https://github.com/SalimJarmakani/Legislation-Process-Management-System",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/README.md",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/LICENSE",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/sql-scripts/init.sql",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/Models/Bill.php",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/Repositories/BillRepository.php",
+        "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/routes.php"
+      ],
+      "note": "复核初审后补读仓库源码与建库脚本。sql-scripts/init.sql 中 bill 表以 AUTO_INCREMENT id 持久编号，status 为 Draft/Under Review/Approved/Rejected 四态，另有 amendment、vote、notification 表及 MP/Reviewer/Administrator 三种角色；BillRepository.php 提供建案、改案、发起表决、结束表决并回写状态，routes.php 只有法案新增/编辑/审查/表决/管理路由。可确认存在“持久编号 + 状态流转”的简化法案记录，但 Bill.php 的正文是单一 draft_content 字段，updateBill 在任一状态下都直接改写正文，没有按阶段盖章的受控版本（as introduced/as passed）；所读仓库全量文件清单与路由中也未见 order paper/calendar/agenda 等议院业务日程的编制、授权审批与发布模块；角色仅为 MP/Reviewer/Administrator，未见秘书处/文书岗的受理—审批—发布权限模型。故本叶三项定义结构（阶段版本、议院业务工具、秘书处操作位）未共同成立，不能按完整立法管理系统收录。仓库身份、MIT 许可证与源码核对结果保留；这里的“未见”仅限该仓库，不推断市场上不存在此类产品。",
+      "service_boundary": "空缺：该候选仅有简化的法案编号与状态流，未证明阶段受控版本、议院日程工具与秘书处审批发布，不收录为立法管理系统；仓库身份与 MIT 许可证核对留档保留。",
+      "search_attempts": [
+        {
+          "tool": "GitHub repository search",
+          "query": "legislation management system",
+          "outcome": "发现多个同名课程项目，其中 SalimJarmakani 仓库标注 MIT 且有立法流程说明"
+        },
+        {
+          "tool": "GitHub repository search",
+          "query": "parliamentary management system / parliament order paper",
+          "outcome": "未找到许可证明确的成熟议院管理系统；Bungeni 镜像无许可证元数据"
+        },
+        {
+          "tool": "repository source inspection",
+          "query": "SalimJarmakani/Legislation-Process-Management-System: sql-scripts/init.sql, src/Models/Bill.php, src/Repositories/BillRepository.php, src/routes.php",
+          "outcome": "确认 bill.id 自增编号、四态状态、修订/表决表与三角色；未发现阶段受控版本、order paper/calendar 或秘书处审批发布实现"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/SalimJarmakani/Legislation-Process-Management-System",
+          "status": "ok",
+          "note": "仓库页面含 repository_id 862660333"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/LICENSE",
+          "status": "ok",
+          "note": "完整 MIT 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/README.md",
+          "status": "ok",
+          "note": "项目用途与 Docker 说明"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/sql-scripts/init.sql",
+          "status": "ok",
+          "note": "建库脚本：bill 自增 id、状态枚举、amendment/vote/notification 表、三种角色；快照 sha256=17bc6744d902329bb232b1c583d5e8f876c05564a2520c0e6554317c54f897d9"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/Models/Bill.php",
+          "status": "ok",
+          "note": "Bill 模型：单一 draft_content 与 status，无阶段版本文档集合；快照 sha256=3f197dece774ab186ed2de129c049b0e1f537411d1274a013910bb8d4c382da3"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/Repositories/BillRepository.php",
+          "status": "ok",
+          "note": "建案/改案/发起与结束表决；updateBill 不受阶段限制改写正文；快照 sha256=754f4b44d254bbeb600ccc3e9d05bfb410627c0baf0f5d4a1ad5f2eba51ed841"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalimJarmakani/Legislation-Process-Management-System/main/src/routes.php",
+          "status": "ok",
+          "note": "路由仅覆盖法案新增/编辑/审查/表决/管理，无日程或 order paper 路由；快照 sha256=7332df1c4710b0b1e748a99bddc1ef059fc6792997c76afd3932b49ad1aa83b0"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "legislative-tracking-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:91511370"
+      ],
+      "query": "GitHub: openstates.org; 仓库订阅/关注代码核对",
+      "source_urls": [
+        "https://github.com/openstates/openstates.org",
+        "https://openstates.org"
+      ],
+      "note": "Open States 仓库为 MIT 许可的外部法案追踪网站；核对到 follow-button.js 关注入口与 process_subscriptions.py 订阅提醒处理脚本：查询订阅可按 state/chamber/session/sponsor/classification/status 检索新法案，法案订阅按 latest_action_date 判断变化，并按 DAILY/WEEKLY 频率邮件投递，支持镜像记录、关注定义与变化推送的观察者侧结构。所引快照未出现 Congress 覆盖、Plural 运营或议员/委员会资料功能，故不写这些表述；当前生产部署与运营方亦未核实。",
+      "service_boundary": "外部观察者侧法案追踪平台（开源实现）；README 给出 Docker 开发环境与 AWS/Ansible 部署流程，不参与法案提出、编号或阶段推进。",
+      "search_attempts": [
+        {
+          "tool": "GitHub API repository lookup",
+          "query": "openstates/openstates.org",
+          "outcome": "MIT，91511370，Django 网站与 GraphQL API"
+        },
+        {
+          "tool": "repository tree inspection",
+          "query": "subscription / alert / follow / dashboard",
+          "outcome": "发现 follow-button.js、templates/alerts、process_subscriptions.py 等追踪与提醒实现"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/openstates/openstates.org",
+          "status": "ok",
+          "note": "仓库页面含 repository_id 91511370"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openstates/openstates.org/main/LICENSE",
+          "status": "ok",
+          "note": "完整 MIT 文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openstates/openstates.org/develop/README.md",
+          "status": "ok",
+          "note": "网站与 API 用途、Docker 部署"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openstates/openstates.org/develop/js/follow-button.js",
+          "status": "ok",
+          "note": "关注按钮实现"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openstates/openstates.org/develop/profiles/management/commands/process_subscriptions.py",
+          "status": "ok",
+          "note": "订阅提醒处理脚本"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "rulemaking-public-consultation-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:citizen-space"
+      ],
+      "query": "official: delib.net Citizen Space consultation platform",
+      "source_urls": [
+        "https://www.delib.net/citizen_space/"
+      ],
+      "note": "仅记录商业产品 Citizen Space 的基本类型关系：官方首页正文称其为政府咨询与参与平台，覆盖发布信息、提问与收集回应、分析回应、结果发布；featureList 的 Activity templates 明确写明可用于 statutory consultation、permits 与 licensing，故保留“法定咨询模板”表述。未深入价格、架构与部署，也未核验单个咨询程序的日期窗口/状态机或匿名/署名处理；匹配仅到模块级。",
+      "service_boundary": "机构侧公共咨询平台（商业，SaaS）；运行时与具体合规模块未测试。",
+      "search_attempts": [
+        {
+          "tool": "official site discovery",
+          "query": "citizen-space.net / delib.net Citizen Space",
+          "outcome": "citizen-space.net 原域无正文返回，改读 delib.net 产品页获得正文"
+        },
+        {
+          "tool": "official homepage fetch",
+          "query": "https://www.delib.net/citizen_space/",
+          "outcome": "读取产品用途、咨询流程与法定咨询模板说明"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.delib.net/citizen_space/",
+          "status": "ok",
+          "note": "产品页正文已保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "voter-registration-system",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "GitHub: voter registration system / electoral register; vendors: VR Systems, KNOWiNK, Laxton",
+      "source_urls": [
+        "https://github.com/TrustTheVote-Project/registrar",
+        "https://www.knowink.com/",
+        "https://www.vrsystems.com/",
+        "https://www.laxton.com/"
+      ],
+      "note": "本叶未找到可成立的开源或商业条目并如实留档。TrustTheVote-Project/registrar 自述为州级数字选民登记系统，但许可证为 CC BY-SA 3.0（非 OSI 软件许可），不得标开源，且 README 仅 12 字节。KNOWiNK Poll Pad 是电子投票名册（roll 的下游消费者），不是登记册记录系统。VR Systems 返回 403；Laxton 官网定位为身份系统集成商，未取得选民登记产品正文。故不以名称匹配硬凑案例。\n\n可复核性说明：TrustTheVote 的仓库识别与 CC BY-SA 3.0 许可证结论来自既有检索/抓取记录，但本单元未留存对应快照；KNOWiNK、VR Systems（403）、Laxton 同样只有检索留档。上述排除理由按“不可独立复核的检索记录”保留，不当作已证事实。",
+      "service_boundary": "空缺：需要选举机构侧的登记记录、资格生命周期与选区放置证据；现有候选分别受许可证限制、产品边界不符或抓取受阻。",
+      "search_attempts": [
+        {
+          "tool": "GitHub repository search",
+          "query": "voter registration system",
+          "outcome": "最高相关为 TrustTheVote registrar（CC BY-SA）及若干在线投票项目；未找到许可证明确的完整登记系统"
+        },
+        {
+          "tool": "GitHub repository search",
+          "query": "electoral register / voter roll management",
+          "outcome": "仅见小型 CRUD 或单一国家课程项目，缺乏权威名册与生命周期证据"
+        },
+        {
+          "tool": "vendor homepage fetch",
+          "query": "VR Systems / KNOWiNK / Laxton",
+          "outcome": "VR Systems 403；KNOWiNK 为电子投票名册；Laxton 为身份系统集成商"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/TrustTheVote-Project/registrar",
+          "status": "partial",
+          "note": "仓库存在，README 近空；许可证 API 返回 CC BY-SA 3.0"
+        },
+        {
+          "url": "https://www.knowink.com/",
+          "status": "ok",
+          "note": "Poll Pad 电子投票名册，非登记系统"
+        },
+        {
+          "url": "https://www.vrsystems.com/",
+          "status": "blocked",
+          "note": "HTTP 403"
+        },
+        {
+          "url": "https://www.laxton.com/",
+          "status": "ok",
+          "note": "身份系统集成商，未见选民登记产品正文"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

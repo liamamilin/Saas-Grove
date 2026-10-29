@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，且 phase=included_without_cases，与 batch.json/research.json 中五个叶子均已 case_found 的记录不一致；若下游直接读取 progress 合并，应在发布前同步这些字段，但这不影响本次内容判断。",
+    "Albi 的“支付”能力主要由主页 Albi Pay 导航、'get paid faster' 表述及 Drylog 的付款周转说明支持，未单独读取 Albi Pay 产品页；作为商业案例的基本类型匹配足够，后续不宜扩展为具体支付功能断言。",
+    "Roofr 已读页面支持测量、提案签署、材料订单、日程、发票与在线收款；未证明班组工单/分包商执行和保险理赔路径，采集记录已避免这两项断言，后续不要补写。",
+    "Enerflo 明确面向美国住宅太阳能市场且不在美国以外提供；这是市场范围限制，不影响其作为太阳能安装管理案例的类型匹配。",
+    "Beveren FSM 的 README 安装命令和 GitHub 链接仍指向旧仓库名 beveren_fsm（GitHub 会重定向到 Field_Service_Management）；建议后续统一仓库 URL，避免身份混淆。",
+    "Beveren FSM 的许可证审查覆盖主仓库根目录 license.txt；README 另指向独立前端仓库 beveren_fsm_spa，该仓库许可证未在本单元核对，若要把“完整开源”作为对外结论，应补充该组件的许可证边界。",
+    "research.json 已如实记录 restorationmanager.com、acculynx.com、opensolar.com 的 403 抓取失败，以及 GitHub 检索未发现合格开源候选；这些缺口留档符合可通过条件。",
+    "部分商业快照（Enerflo、Boulevard 功能页）为单行 SSR HTML，读取工具按 2,000 字符截断，无法逐字通读全文；本次以同 URL 页面正文、标题和已读主页正文交叉核对，未把纯元数据当作核心证据。"
+  ],
+  "leaf_checks": {
+    "restoration-contractor-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:albi"
+      ],
+      "basis": "Albi 官网明确为修复管理软件；Field Documentation 页说明现场照片/视频、湿度图、损失评估、进度记录及向保险方提供材料；Drylog 2.0 页说明按 sites、chambers、moisture points、equipment、visits 记录，并生成用于向相关方说明 mitigation invoice、加快保险付款的报告。",
+      "notes": "损失作业→证据文件→保险付款审核的核心链条成立；未要求重建、contents 或具体理赔字段。"
+    },
+    "roofing-contractor-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:roofr"
+      ],
+      "basis": "Roofr 官网显示 CRM、即时估算、测量报告、提案、材料订购、日历、发票与在线收款；Measurements 页说明报告用于提案和材料清单；Material Ordering 页说明从已签提案转为可发送的材料订单；Payments 页支持在线收款。",
+      "notes": "测量驱动数量、材料订单绑定工作、销售到收款的核心成立；班组工单/保险理赔未证明，未写入结论。"
+    },
+    "small-business-field-service-management": {
+      "result": "pass",
+      "application_ids": [
+        "github:920286412"
+      ],
+      "basis": "Beveren FSM README 明确服务请求→可选报价→服务订单→预约派工→现场执行/备件→发票流程，面向服务型企业的 ERPNext 应用；仓库元数据确认 full_name 与 repository_id=920286412；根目录 license.txt 为完整 GNU AGPL v3 文本，GitHub 页面标注 AGPL-3.0。",
+      "notes": "开源主仓库许可证完整；安装命令使用旧仓库名 beveren_fsm（重定向到本仓库），前端 SPA 仓库许可证未核对，作为非阻断事项记录。"
+    },
+    "solar-installer-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:enerflo"
+      ],
+      "basis": "Enerflo 主页说明住宅太阳能 OS 连接 CRM、设计、融资、合同、项目管理，覆盖 first knock 到 PTO；项目页说明 Install Tracker、项目里程碑、任务、报告可按 permitting/MPU 筛选、集成变更单并同步 lender/NTP；主页还列出设计、提案、融资、合同签署和安装跟踪。",
+      "notes": "设计/提案→融资合同→许可/并网→安装→PTO 的类型匹配成立；快照为单行 SSR HTML，正文核对存在读取限制。"
+    },
+    "appointment-based-service-business-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:boulevard"
+      ],
+      "basis": "Boulevard 主页定位沙龙、水疗、医美等预约制企业，正文包含 self-booking、Precision Scheduling、客户档案与 checkout；Payments 页标题/描述为 seamless checkout 与 cardless POS；Scheduling 与 Client Management 页分别覆盖日历排班和客户档案。",
+      "notes": "预约→客户/员工/日历→结账收款的经营核心成立；功能页快照单行 SSR，主页正文为主要证据。"
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未计算 sha256、未部署或运行任何应用；商业案例仅核对官方页面基本真实性与类型匹配，未核价、未做架构或安全测试。REVIEW_SOURCES.json 的 16 个快照均存在且文件名与 sha256 一致；部分快照（Enerflo、Boulevard 功能页）为单行 SSR HTML，读取工具按 2,000 字符截断，无法逐字通读全文，核心正文通过同 URL 页面与已读主页交叉核对。Beveren FSM 未运行，README 安装 URL 指向旧仓库名，前端 SPA 仓库许可证未核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-272/ses_groveopencodegop272review1_1793042073.jsonl",
+  "batch_sha256": "a41aad8a1c08d0590ea86059d556ffec6e821c1f9d8c582247e5e237e5adca9a",
+  "research_sha256": "9a108ff305162422732b7a1210bd279d128cf7e4d11a5e771867c92ee36d29d4",
+  "input_sha256": "0c5a94d2dfc0bbdd8dc79786002e3e2670827950ed112df93ad04573d6cf59ee"
+}

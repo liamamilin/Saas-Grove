@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "electronic-data-capture-edc / github:169558966：LibreClinica 的快照能确认为 EDC/CDM Web 应用及自托管部署（Tomcat 9、OpenJDK 11、PostgreSQL），完整 LICENSE 正文为 GPLv3；但已声明的快照没有展示 eCRF 设计、采集时编辑检查或审计追踪等核心工作流，manuals 页仅有导航（research.json 已如实记录）。本单元摘要已相应收窄、未声称具体工作流，故不阻断；后续若补充功能/手册页会更稳。",
+    "electronic-data-capture-edc / github:169558966：GitHub 仓库元数据标注 lgpl-3.0，而 LICENSE 全文为 GPL-3.0，条目已通过 license_review 说明并记为 GPL-3.0，处理与正文一致；建议下游沿用该 rationale，避免被 API 标签覆盖。",
+    "clinical-trial-management-system-ctms / github:26468071：VOXCE 证据为 README（仅 10 行、无功能描述）+ src/com/Voxce/model 目录清单（可见 StudySite、PatientVisit、StudyPayment、Query、Discrepancy、AuditTrail 等类名），“最后推送 2015”与元数据一致。可确认研究/中心/受试者/访视/付款/质疑的数据结构，但方案里程碑、计划对实际、部署方式均未证实；摘要已限定为休眠应用，建议不要再向上描述成熟度或完整工作流。",
+    "clinical-trial-management-system-ctms：条目 features 中“study and participant payment records”在来源中能对应到 StudyPayment 类，但“participant 侧津贴支付”方向未单独证实；建议保持“付款记录”这类概括措辞。",
+    "clinical-trial-recruitment-platform / github:494161860：官网明确研究资格标准、临床数据自动筛查、screening list 与招募状态、attrition funnel、通知及模块架构，核心（研究标准、患者池、筛查决策记录、交研究团队、按研究漏斗）均有正文支撑；但官网 screening list 含 “on-study” 状态，建议条目继续保留“最终资格、知情同意与入组属于站点”的边界说明，避免读者理解为平台执行入组。",
+    "clinical-decision-support-system：research.json 只记录了 DoctorAgent 三条 404（repo/README/LICENSE）作为抓取缺口，另两个候选（smart-on-fhir-cds、cqf-ruler）只有 URL 与结论、无逐条抓取结果，判断更像基于检索摘要；结论（不建立关系）不受影响，但建议未来为每个候选补一条 fetch_outcome 或标注“仅检索摘要”。",
+    "clinical-trial-site-management：research.json 的 source_urls 列出 6 个候选，但 fetch_outcomes 只覆盖 phoenixctms（README/LICENSE/repo 页），e-delegate、euro-clinical-trials、RADAR ManagementPortal、ctims.ca、miracum/recruit 无逐条抓取记录；负向判断不受影响，建议补齐逐 URL 状态以提升可复核性。",
+    "来源清单：research.json 提到 phoenixctms 快照与 libreclinica.org/documentation/manuals.html 快照已保存，但 REVIEW_SOURCES.json 只列出与已收录应用绑定的 13 个来源；对应文件确实存在于 data/collections/sources（未声明）。因这些来源只用于排除性判断与已记录的导航缺口，未影响任何收录结论；如后续复审要在声明清单内复核排除判断，应把这些来源补入 REVIEW_SOURCES。",
+    "命名与措辞：LibreClinica 的“community successor of OpenClinica”与其 README“2019 年从 OpenClinica 3.14 fork”一致，未与 OpenClinica 商业版混淆，社区版边界表述恰当。"
+  ],
+  "leaf_checks": {
+    "clinical-decision-support-system": {
+      "result": "no_case_documented_gap",
+      "basis": "research.json assessment=insufficient_evidence；记录两次检索（open source CDSS github / self-hosted 2025）与候选 DoctorAgent、smart-on-fhir-cds、cqf-ruler；DoctorAgent 的 repo、README、LICENSE 三条均记录 HTTP 404；未在 batch.json 建立应用或关系。未发现被误收的 CDSS 应用。",
+      "gap": "仅 3 个候选、2 次查询；除 DoctorAgent 外无逐 URL 抓取结果；CDSS 定义性四要素（患者特定上下文、知识逻辑、决策点建议、医生保留决策）无任何可核验正文，符合“无案例+如实留档”的通过条件。"
+    },
+    "clinical-trial-management-system-ctms": {
+      "result": "case_matched_with_documented_limits",
+      "basis": "github:26468071 VOXCE：仓库 id 26468071 与元数据一致；LICENSE 快照正文为 Apache License 2.0（完整 11,325 字节）；元数据 pushed_at 位于 2015，与“最后推送 2015/休眠”一致；README 自述 Clinical Trial Management Framework Open Source；src/com/Voxce/model 目录清单含 StudySite、PatientVisit、StudyPayment、Query、Discrepancy、AuditTrail、CaseReportForms 等，支持“研究-中心-受试者/访视-付款/质疑”的数据结构，类型定位为 CTMS 合理。",
+      "gap": "README 仅 10 行、无功能/部署文档；方案锚定里程碑、计划对实际、监查与偏差流程未证实；无法确认实际可运行工作流。摘要已限定为休眠应用且未声称成熟度，属已披露缺口。"
+    },
+    "clinical-trial-recruitment-platform": {
+      "result": "case_matched",
+      "basis": "github:494161860 OpenRecruit（recruIT）：仓库 id 494161860 一致；LICENSE 快照为 GNU Affero GPL v3（2007-11-19，34,201 字节），与 AGPL-3.0 一致；仓库描述为 Cloud-Native Clinical Trial Recruitment Support System based on HL7 FHIR；官网正文给出资格标准即 SQL、trial editor、screening list（含筛查决策与变更历史）、attrition/recruitment funnel、通知、Docker Compose/Kubernetes 部署，并有 how-it-works 模块链路（list / query-sql-on-fhir / FHIR server）。据此可核对：带标准的研究、来自临床数据的可识别患者池、记录筛查决策、交研究团队复核、按研究漏斗，均在同意界限前止步。",
+      "gap": "未验证实际部署；官网 “on-study” 状态属筛查名单状态，不等同平台执行知情同意/入组，条目已保留该边界说明。"
+    },
+    "clinical-trial-site-management": {
+      "result": "no_case_documented_gap",
+      "basis": "research.json assessment=insufficient_evidence；记录两次检索与 phoenixctms、e-delegate、euro-clinical-trials、RADAR ManagementPortal、ctims.ca、miracum/recruit 六个候选；phoenixctms 的 README/LICENSE（LGPL-2.1）/repo 页记录为已抓取，判断其以试验/数据库为中心；其余按子模块、门户、招募方向或“许可与完整性未证”排除。未建立应用关系。",
+      "gap": "五个候选缺少逐 URL 抓取结果/快照；未证明“站点为运营主体+外部研究组合+站点侧预算回款津贴”的座席反转，故无案例结论成立但证据层级偏检索级。"
+    },
+    "electronic-data-capture-edc": {
+      "result": "case_matched_with_documented_limits",
+      "basis": "github:169558966 LibreClinica：仓库 id 一致；元数据描述为 OpenClinica 社区后继、EDC/CDM 开源临床试验软件；README 说明 2019 年 fork 自 OpenClinica 3.14，给出 install/validate/use 文档入口及 Tomcat 9 / OpenJDK 11 / PostgreSQL 版本矩阵；官网说明为可下载自托管 EDC（并可选由公司托管），与 entry 的 self-hosted、Java/Tomcat/PostgreSQL 一致；LICENSE 快照为 GNU GPL v3 全文（35,150 字节，2007-06-29），license_review 记录 API 标 lgpl-3.0 与正文不符并按正文记 GPL-3.0。",
+      "gap": "已声明快照未包含 eCRF 设计、采集时验证、审计追踪等核心工作流正文；documentation/manuals 页仅有导航（已记录）。因此为“身份/部署/许可可核、工作流未逐项核验”的收录，条目已收窄 features 且未声称具体工作流。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 逐条声明的 13 个快照（并核对了该单元 sources 目录以判断未声明文件的存在，未读取其他单元）；未运行 shell、未写文件、未联网、未部署或运行任何应用。GitHub API/网页快照多为单行超长 JSON/HTML，读取器按行截断，故部分字段（pushed_at=2015、仓库 license 标签 lgpl-3.0、模型目录中的 StudySite/PatientVisit/StudyPayment/Query/Discrepancy 等类名）通过定向字符串检索确认存在，未逐字通读整行。许可证仅核对快照内嵌 base64 正文开头与文件字节数（GPLv3 35,150；Apache-2.0 11,325；AGPLv3 34,201），未解码全文逐条比对。产品能力仅依据官方描述、README、官网正文与目录清单，未验证运行时行为、数据模型实现细节或合规状态。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-220/ses_groveopencodegop220review1_1793030146.jsonl",
+  "batch_sha256": "98a1bfcb1c36e849de235346746c16cfeec5f3d3f0ddc0517a56e5e3f2144732",
+  "research_sha256": "12a0aeb5a8a4ea0504d465fb3d4da7f6c8da6d89034e8834a8e75f04f9ebe274",
+  "input_sha256": "91f3a0d756735e3f7aeceb841f7d1616b07e7c5c1ec5d33cab52758f18ba9dbe"
+}

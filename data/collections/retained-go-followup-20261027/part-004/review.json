@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 phase=included_without_cases、application_ids 为空，且部分 note 写“初审未通过或调用受阻”，但 research.json 与 batch.json 实际记录了 5 个 case_found 及对应应用。本次按实际 batch/research 与快照核对，建议采集端同步该元数据，避免后续误判为无案例。",
+    "RT 的 6.0.2 文档索引页、Fider 的 guides 索引页主要是导航/落地页，未作为核心工作流证据；核心结论分别依据 RT 的 working_with_rt/lifecycles 与 Fider 的 README/API posts 正文。",
+    "Fider 的 guides/posts-and-votes、guides/posts 曾返回 404，api/posts 无斜杠返回 308；这些缺口已在 research.json 留档，batch 未引用失败 URL，不影响本叶判断。",
+    "Medallia 的 /solutions/customer-experience/ 与 /platform/act/ 快照缺失，已如实标为 snapshot_missing，且未被 batch 引用；本叶只依据 /platform/、/platform/signals/、/platform/text-analytics/ 的正文。",
+    "Assembled 排班页可证明自动排班、日内调整、基于人员阈值的休假审批、排班合规检查与遵守度告警；但未单独证明“排班表发布/审批”这一规则细节，research 已主动移除该表述，不影响 WFM 定义核心。",
+    "开源产品的社区版/云服务边界只核对到“自托管免费 + 官方云/商业支持”层级，未进一步核验云版功能清单；未发现核心功能被闭源切割的证据。"
+  ],
+  "leaf_checks": {
+    "ticketing-system": {
+      "application_id": "github:245541",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "RT 仓库元数据 id=245541，README 自述为开源 issue/ticket tracking system；许可证快照为完整 GNU GPL v2 文本。working_with_rt 正文展示按队列创建工单，以及 comment（不发送给请求者）与 reply（发送给请求者）的结构性分离；lifecycles 正文展示 new/open/stalled/resolved/rejected/deleted 状态、initial/active/inactive 分类、可配置状态流转、权限与队列间映射，符合工单作为受跟踪需求记录并保留处理轨迹的核心。",
+      "gaps": "未运行实例；文档索引页仅为落地页，未作为核心证据；合并/链接重复工单与 SLA 计算未在所引快照中直接展开，但不影响本叶核心匹配。"
+    },
+    "workforce-management-for-contact-centers": {
+      "application_id": "commercial:assembled",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Assembled 官方 forecasting 页正文展示可配置/ML 预测、按团队配置人员、邮件积压与 SLA/人员模拟；scheduling 页正文展示自动排班、日内调整、基于人员阈值的自动休假审批、自愿休假/额外工作调配，以及休息/加班/班次上限的排班合规检查；realtime-management 页正文展示坐席实时状态、SLA 监控、遵守度指标与智能遵守度警报、日内人员调整。三者共同支撑预测→人员配置/排班→日内对齐的持续循环。",
+      "gaps": "商业产品仅作基本真实性与类型匹配核对，未运行产品或部署测试；页面为营销正文，未直接展示“排班表发布/审批”细节，但该点已从采集表述中移除，不影响定义核心。"
+    },
+    "complaint-escalation-management": {
+      "application_id": "commercial:ruleguard",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Ruleguard 官方投诉管理方案页正文展示投诉从 intake、categorisation、investigation 到 resolution 的受治理流程，含可配置工作流阶段、自动通知、截止日期跟踪、升级规则、FOS 转介时间线、完整审计轨迹、六年记录留存及根因/趋势分析，符合投诉记录、受治理响应生命周期和升级路径的核心。",
+      "gaps": "仅核对单个官方方案页，未运行产品；商业产品按基本真实性和类型匹配处理，未深入价格、架构或部署。"
+    },
+    "customer-feedback-management": {
+      "application_id": "github:79280946",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "Fider 仓库元数据 id=79280946，README 自述为 feedback portal for feature requests and suggestions，许可证快照为完整 GNU AGPL v3 文本；官方 API posts 正文展示用户提交的 post、用户归属、投票/评论、相似帖检索、duplicate 状态与把投票合并到原帖的机制、open/started/planned/completed/declined/duplicate 状态、审核与官方回复，符合反馈记录、跨客户整合和受管理流水线核心。",
+      "gaps": "未运行实例；guides 索引快照内容有限，且 guides/posts-and-votes、guides/posts 曾 404，api/posts 无斜杠为 308，均已留档；公司/账户级归属未在快照中显式展开，现有证据足以支持用户级归属与反馈整合。"
+    },
+    "customer-experience-management-platform": {
+      "application_id": "commercial:medallia-experience-management",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Medallia /platform/ 正文展示 survey creation、experience programs、全渠道反馈/行为/运营信号采集、Total Experience Profiles 的客户级交互时间线、AI 主题与 CSAT/情感分析、alerts and case management、smart closed-loop；/platform/signals/ 正文展示通过 email、website、mobile、voice 等投放问卷及 social、SMS/chat、数字行为信号；/platform/text-analytics/ 正文展示主题/情感/意图分析、按分类或情感触发警报、路由责任人、优先支持工单与工作流。三者共同支撑体验计划→客户级响应与测量→警报/工单跟进闭环。",
+      "gaps": "商业产品仅作基本真实性与类型匹配核对，未运行产品；/solutions/customer-experience/ 与 /platform/act/ 快照缺失且未被 batch 引用；逐条响应与客户的绑定、指标时间序列在页面中为平台级描述，未展开到记录级细节，但不影响本叶核心匹配。"
+    }
+  },
+  "limits": "本次为只读审查，仅依据本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 20 个快照，未联网补充、未运行任何产品或部署测试，也未核验快照哈希之外的运行时行为。部分快照为营销页原始 HTML，含大量导航和脚本，核对以可读正文片段及精确短语为依据；缺失快照、404/308 与未引用的落地页已按 research 记录留档。input.json 的 progress 元数据与 research/batch 的 case_found 记录存在不一致，已在非阻断备注中说明，未作为内容阻断项。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-004/ses_groveopencodegop004review1_1793073616.jsonl",
+  "batch_sha256": "5cbdff850f915f07c7c9d084db1b3826f2fa1cfaedad237a85337d5c749733b3",
+  "research_sha256": "fa0ccc6c5e1a55714a198b9664eba4d20a0dc8fd0f7b1a3a21ba23075a48ccea",
+  "input_sha256": "0f4b30bc6e34564a37cbc82864adf29de8dd0986d7e73b1d26f05ece930e3dc6"
+}

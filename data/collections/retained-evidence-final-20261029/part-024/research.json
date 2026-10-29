@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "photo-culling-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1262723706",
+        "github:1298027412"
+      ],
+      "query": "photo culling web app self-hosted keep reject export selection",
+      "source_urls": [
+        "https://api.github.com/repos/yangzhg/culvia",
+        "https://api.github.com/repos/yangzhg/culvia/license",
+        "https://raw.githubusercontent.com/yangzhg/culvia/main/README.md",
+        "https://raw.githubusercontent.com/yangzhg/culvia/main/docs/en/user/getting-started.md",
+        "https://raw.githubusercontent.com/yangzhg/culvia/main/docs/en/user/export-workflows.md",
+        "https://api.github.com/repos/elpicoso/photo-triage-app",
+        "https://raw.githubusercontent.com/elpicoso/photo-triage-app/main/README.md",
+        "https://api.github.com/repos/elpicoso/photo-triage-app/license"
+      ],
+      "note": "针对原初审缺口（旧候选 PhotoX 只有桌面客户端形态、未证明可持续使用的应用服务）补采完整 Web 应用服务，采用两项开源案例。Culvia（github:1262723706，MIT，仓库元数据与许可证接口一致）：README 定位为照片筛选/评分/评审/交付工作台，Getting Started 的 Basic Workflow 明确按文件夹扫描一次拍摄批次、逐张做 pick/hold/reject 与星级色标，Export Workflows 说明把 picked 照片复制到目标目录并导出带 Lightroom/Capture One 映射的 CSV，决策存于本地 SQLite、原图只读，批次—逐张决定—选集三项均有官方正文。Photo Triage（github:1298027412，MIT）：自托管 Flask 应用，README 描述浏览 RAW 拍摄文件夹、抽取预览、AI 给出 reject/评分建议后在浏览器表格逐张复核，最后写入 XMP 边车供 Lightroom Classic 读取，并给出完整 Using it 循环与下游交接步骤。两者均为可持续运行的完整应用（前者本地 Web 服务、后者可 Docker/systemd 常驻），非 CLI/引擎/SDK/设备控制。成熟度如实记录：Culvia 自述 alpha、Photo Triage 为小项目且需自备 Anthropic 密钥，均未做部署实测（runtime_tested:false）；这不影响已由官方正文证明的核心工作流与形态，但规模/成熟度属非阻断观察，不作过度推断。历史 PhotoX 候选（github:1241807594，Apache-2.0）来源仍真实有效，但其为 macOS 桌面客户端形态，本轮不作为通过案例，保留在 withheld_candidates 与本文件历史字段中，不删除旧轨迹，也不据此断言桌面形态不存在或不合格。",
+      "service_boundary": "一次拍摄批次内的逐张保留/淘汰决定与选集交付；不做像素编辑、不做终身照片库/目录管理。Culvia 以本地 Web 服务运行并复制选集；Photo Triage 以自托管 Web 服务运行并把决定写入 XMP 边车。",
+      "search_attempts": [
+        {
+          "query": "photo culling raw viewer",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=photo%20culling%20raw%20viewer&sort=stars&order=desc&per_page=5",
+          "outcome": "历史复用（2026-10-24）：returned 10 results，top candidates 含 Frostman/photo-x 等；本轮不重复该查询作为新证据。"
+        },
+        {
+          "query": "photo culling in:name,description,readme",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=photo+culling+in:name,description,readme&sort=stars&order=desc&per_page=10",
+          "outcome": "4034 results，但高星结果多为 awesome-list、三维重建/安全工具等关键词噪声；未从中采用候选。"
+        },
+        {
+          "query": "open source self-hosted web app photo culling select keepers shoot batch",
+          "engine": "Web search",
+          "outcome": "命中 aesuli/photo-cull、denyszorinets/picturesque、ncoevoet/facet、cfelicio/ShotSieve、yangzhg/culvia、bihanikeshav/selects 等项目；据此进入仓库逐一核对形态与许可证。"
+        },
+        {
+          "query": "github open source photo culling web application server docker self-hosted cull keep reject export",
+          "engine": "Web search",
+          "outcome": "补充命中 sheshbabu/riffle、a45674567/fixxer、tlennon-ie/cull、yangzhg/culvia、elpicoso/photo-triage-app；选定 Culvia 与 Photo Triage 作为通过案例，其余候选缺口见未采用候选记录。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:1262723706",
+          "url": "https://api.github.com/repos/yangzhg/culvia",
+          "kind": "repository_metadata",
+          "sha256": "e969b136c44dd385c91140be6c28c79a8cb2994df81a2e3ee7a8dadf62e1d660",
+          "outcome": "saved_snapshot；证明 id 1262723706、full_name yangzhg/culvia、license MIT、未归档。"
+        },
+        {
+          "case_id": "github:1262723706",
+          "url": "https://api.github.com/repos/yangzhg/culvia/license",
+          "kind": "license",
+          "sha256": "a667f90a2a4897f5309cd0e0f256171949c22dcfcbfd1a3f101607973235a98a",
+          "outcome": "saved_snapshot；SPDX 为 MIT，正文含完整 MIT 授权段。"
+        },
+        {
+          "case_id": "github:1262723706",
+          "url": "https://raw.githubusercontent.com/yangzhg/culvia/main/README.md",
+          "kind": "readme",
+          "sha256": "12b746e0371bc4d388ef016a9046181d0eec7dc802aaa8449052d5d1636be2a5",
+          "outcome": "saved_snapshot；含项目定位、手动 pick/hold/reject、导出与本地 Web 启动方式。"
+        },
+        {
+          "case_id": "github:1262723706",
+          "url": "https://raw.githubusercontent.com/yangzhg/culvia/main/docs/en/user/getting-started.md",
+          "kind": "documentation",
+          "sha256": "1fb85444fa3e8e889ece4e849c3bcd9f8edbb50f8c183f86af558aa857362142",
+          "outcome": "saved_snapshot；含 Basic Workflow 与 Manual Decisions 正文。"
+        },
+        {
+          "case_id": "github:1262723706",
+          "url": "https://raw.githubusercontent.com/yangzhg/culvia/main/docs/en/user/export-workflows.md",
+          "kind": "documentation",
+          "sha256": "857345e3869b891a3f0c4346ec68c2e80a577cc332b7f729293421ada7862335",
+          "outcome": "saved_snapshot；含 selected-photo copy 与 CSV 映射/收据正文。"
+        },
+        {
+          "case_id": "github:1298027412",
+          "url": "https://api.github.com/repos/elpicoso/photo-triage-app",
+          "kind": "repository_metadata",
+          "sha256": "aba3950fcbf5bc3e6c3389a5577de7c8996877608b0e0fbd492c42c55e94695b",
+          "outcome": "saved_snapshot；证明 id 1298027412、full_name elpicoso/photo-triage-app、license MIT、未归档。"
+        },
+        {
+          "case_id": "github:1298027412",
+          "url": "https://raw.githubusercontent.com/elpicoso/photo-triage-app/main/README.md",
+          "kind": "readme",
+          "sha256": "46b8e5efc93da8c91223c43fe6141dd315372a6440b9f17b3e48df776dbaa892",
+          "outcome": "saved_snapshot；含自托管 Web 形态、逐张复核流程与 XMP 边车交接正文。"
+        },
+        {
+          "case_id": "github:1298027412",
+          "url": "https://api.github.com/repos/elpicoso/photo-triage-app/license",
+          "kind": "license",
+          "sha256": "590e18278659f5a598eb1af129141ffc5113e0990b42a0e689599ad8d339cd81",
+          "outcome": "saved_snapshot；SPDX 为 MIT。"
+        },
+        {
+          "case_id": "github:1118359459",
+          "url": "https://api.github.com/repos/sheshbabu/riffle",
+          "kind": "repository_metadata",
+          "sha256": "d674234d7a0828c7def3772c0467c069c4044b100e875f707b43a636a055d770",
+          "outcome": "saved_snapshot；仓库无许可证字段（license=null），未采用。"
+        },
+        {
+          "case_id": "github:1118359459",
+          "url": "https://api.github.com/repos/sheshbabu/riffle/license",
+          "kind": "license",
+          "sha256": null,
+          "outcome": "HTTP 404 Not Found；无许可证证据，未采用。"
+        },
+        {
+          "case_id": "github:1159371371",
+          "url": "https://api.github.com/repos/ncoevoet/facet",
+          "kind": "repository_metadata",
+          "sha256": "91d45e6ad1d8faeb5e9b1aa25471146b5ceacfabc135d4213c71c6a08e41fed2",
+          "outcome": "saved_snapshot；GitHub 分类为 Other/NOASSERTION。"
+        },
+        {
+          "case_id": "github:1159371371",
+          "url": "https://api.github.com/repos/ncoevoet/facet/license",
+          "kind": "license",
+          "sha256": "fbdbd080e16e3ee2587e57e93fc0b00b9ea6e577c9acd781591d6dc5196589bf",
+          "outcome": "saved_snapshot；正文为 MIT 文本但 API 未给出 MIT SPDX（NOASSERTION），本轮未做许可证编辑裁定，暂不采用。"
+        },
+        {
+          "case_id": "github:1220627214",
+          "url": "https://api.github.com/repos/cfelicio/ShotSieve",
+          "kind": "repository_metadata",
+          "sha256": "80da043e6e2a3bff262dfff1b5466399908647cc3d1fcee448740c8048587265",
+          "outcome": "saved_snapshot；GitHub 分类为 Other/NOASSERTION。"
+        },
+        {
+          "case_id": "github:1220627214",
+          "url": "https://raw.githubusercontent.com/cfelicio/ShotSieve/main/LICENSE",
+          "kind": "license",
+          "sha256": "2c98c809893d3405a30cd2fba8e2e2010c1b9dddddf995f5a1fb6721037c9b77",
+          "outcome": "saved_snapshot；正文声明 AGPL-3.0-or-later，但 API 未给出 AGPL SPDX，本轮未采用为通过案例。"
+        },
+        {
+          "case_id": "github:1220627214",
+          "url": "https://raw.githubusercontent.com/cfelicio/ShotSieve/main/README.md",
+          "kind": "readme",
+          "sha256": "6665af6f134bb1013187726f4c3f046e373533e5f08c50814b16f054fcfcde34",
+          "outcome": "saved_snapshot；README 证明 Review/keep-reject 流程，保留为候选记录。"
+        },
+        {
+          "case_id": null,
+          "url": "https://raw.githubusercontent.com/sheshbabu/riffle/master/README.md",
+          "kind": "readme",
+          "sha256": null,
+          "outcome": "HTTP 404 Not Found（默认分支为 master，但 README 名称为 readme.md），未取得正文。"
+        },
+        {
+          "case_id": null,
+          "url": "https://narrative.so/",
+          "kind": "homepage",
+          "sha256": null,
+          "outcome": "抓取失败：source response exceeds max_bytes（商业产品，仅作边界参考，未采用）。"
+        },
+        {
+          "case_id": null,
+          "url": "https://www.aftershoot.com/",
+          "kind": "homepage",
+          "sha256": null,
+          "outcome": "抓取失败：source request redirected to a different host（商业产品，未取得官方正文，未采用）。"
+        }
+      ],
+      "archived": false,
+      "historical_reuse": {
+        "records": [
+          "retained-go-20261025/part-004/research.json",
+          "var/collection/beam-continuation-20261025/part-018/project/data/collections/research.json",
+          "included-continuation-final-20261027-research.json#/leaf_cases/84"
+        ],
+        "note": "历史 PhotoX 三条快照（仓库元数据、README、许可证）按原 URL/SHA/抓取时间复用并保留在 data/collections/sources/ 与 REUSED_SOURCES.json；历史 assessment=case_found 未被当作本轮通过，旧的 boundary_unresolved 结论与候选保留在此，不删除也不改写。"
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:1241807594",
+          "name": "PhotoX",
+          "reason": "原初审缺口未消除：官方来源只证明其为 macOS 15+ 桌面客户端（GitHub Releases 分发 .dmg），未证明对应可持续使用的应用服务形态；本轮找到完整开源 Web 应用服务后不再将其作为通过案例，但保留其真实快照与候选身份。Apache-2.0 仅指应用代码，README 注明捆绑 LibRaw（LGPL 2.1）与 exiftool（Artistic 1.0）。"
+        },
+        {
+          "id": "github:1159371371",
+          "name": "Facet",
+          "reason": "许可证证据不一致：仓库元数据与 license 接口均为 Other/NOASSERTION，尽管 LICENSE 正文是 MIT 文本；本轮未做编辑裁定，未纳入。另有较重的库管理/共享/客户端交付功能，边界需再核。"
+        },
+        {
+          "id": "github:1220627214",
+          "name": "ShotSieve",
+          "reason": "许可证 API 为 NOASSERTION，正文声明 AGPL-3.0-or-later；未取得与 API 一致的 SPDX 证据，本轮未纳入。另默认仅回环监听，服务形态需进一步确认。"
+        },
+        {
+          "id": "github:1118359459",
+          "name": "Riffle",
+          "reason": "仓库无许可证字段且 license 接口 404，README 亦未取得（readme.md 小写），无法核对完整许可证与社区版边界，未纳入。"
+        }
+      ]
+    }
+  ]
+}

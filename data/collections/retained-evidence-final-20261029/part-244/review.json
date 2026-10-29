@@ -1,0 +1,41 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "research.json 的 fetch_outcomes 称官方 features 页证明了“借展相关流程与去入藏”，但保留的 features 快照只显示对象/收藏/地点/存储位置层级、批量编目、出入库与位置跟踪，未出现 loan/deaccession 内容；batch 的 leaf_matches 正确地把借展与去入藏归于 maxwell.xml，因此案例结论不受影响，建议修正研究记录的来源归因措辞。",
+    "考古能力主要由官方仓库内置的 maxwell 安装配置提供（Archaeology 对象类型、site 关联、Provenience 字段、发掘历史、墓葬号等），并非默认出厂模型；batch 的 leaf_matches 已说明这一点，但 entry summary 仍是通用博物馆/档案表述，建议在摘要或叶说明中显式标注“经 maxwell 配置支持”，避免读者误认为默认即具备完整考古模型。maxwell 是机构专用配置，但位于官方仓库，可作为产品能力证据。",
+    "Provenience 是自由文本字段，记录土墩号、发掘单元号、探坑号和高程；遗址关联是结构化的，但没有结构化的地层/context 实体。若下游要求把发掘单元或地层作为独立层级记录，当前证据只能算部分覆盖；就本叶“记录出土背景”的定义核心而言仍可接受。",
+    "features 列表未列借展、去入藏、状况/保护，虽然 maxwell 配置与 Providence 文档支持这些能力；可考虑补充以增强叶说明的一致性，但不影响本次结论。",
+    "batch 的 verification_status 为 official_sources_reviewed 且 runtime_tested=false，与现有证据一致；未做部署测试不构成阻断。"
+  ],
+  "leaf_checks": {
+    "archaeological-collection-management": {
+      "verdict": "pass",
+      "definition_core": "通过。maxwell.xml 证明该应用具备本叶四个核心结构：对象/批次编目（Archaeology 对象类型、object lot 列表与关系）、出土背景（对象经“was collected from”关系关联 site 类型记录，Provenience 字段说明用于土墩号、发掘单元号、探坑号和高程，另有 LA 遗址号、备用考古遗址号、发掘历史、墓葬号）、分级存储与位置历史（storage location 类型/关系、storage location history 界面、出入库与位置跟踪）、生命周期（ca_loans 借展字段、event_deaccession 与去入藏类型/处置原因、状况与保护管理）。遗址关联是结构化的；Provenience 为自由文本，未建模独立地层/context 实体，属于覆盖深度限制而非核心缺失。",
+      "service_form": "通过。README 与官方文档证明 Providence 是持续维护的 Web 端藏品编目与数据管理应用（README 版本 2.0.11，PHP 8.2/8.3，Composer 安装，可自托管；文档说明其为运行在服务器上的 Web 应用，支持协作编目与本地/离线部署），不是静态页面、数据集或一次性脚本。",
+      "id_and_track": "通过。批次 id 为 github:4337337，与 GitHub 仓库元数据快照中的 id=4337337、full_name=collectiveaccess/providence、fork=false 一致；track=open_source 与 GPL-3.0 仓库性质匹配；repository_url 与 homepage 均指向官方 CollectiveAccess 资产。",
+      "license": "通过。license 快照为 GitHub license API 返回的 GPLv3 正文（文件大小 35146，base64 内容开头为 GNU General Public License Version 3），README 亦明确“GNU Public License version 3”，与批次 license=GPL-3.0 一致；未发现许可证冲突或仅部分开源的情况。",
+      "community_edition_boundary": "通过。仓库是开源 Providence 后端应用，Pawtucket2 为独立的公共发布前端；现有资料未显示开放核心（open-core）功能阉割、付费版专属考古功能或社区版功能边界不清。考古能力通过官方仓库内置 maxwell 安装配置提供，而非单独商业版本。",
+      "evidence": [
+        "data/collections/sources/0c39aefb67d07aeed4d21ca7ae62ab41c13a14c787264dbdafc92f9b5c87df9c.txt：GitHub 仓库元数据，可见 id=4337337、full_name=collectiveaccess/providence、fork=false、描述为编目与数据/媒体管理应用。",
+        "data/collections/sources/7603e113372b1e0d14e9d99e6f79e2a21307b6014211610e1ee723d654cc2a8f.txt：GPLv3 许可证正文快照，文件大小 35146，base64 内容以 GNU GPL Version 3 开头。",
+        "data/collections/sources/692c03438d5028845e704d87893f2f65177e1ad013ea1ad1b94c51f7e96aba25.txt：README 证明 Providence 为 CollectiveAccess 后端编目应用、GPLv3、PHP 8.2/8.3、Composer 安装、位置历史/来源跟踪、复杂登录号检索、媒体、报告、GraphQL API。",
+        "data/collections/sources/e68d4258d8d8cb7b9bfdab63f9858b6920c624a5251c385fbb0777396162d3f8.txt：maxwell.xml 证明 Archaeology 对象类型、site 发生类型、ca_objects_x_occurrences 的“was collected from”关系且右侧限定 site、Provenience 字段的土墩/发掘单元/探坑/高程说明与 Cahokia/Mound 34 示例、LA 遗址号、发掘历史、墓葬号、分级存储位置、借展与去入藏事件。",
+        "data/collections/sources/5ca9fc8eb02081e1503cbe685a436866ecfcbeaa8023e1a0f8a99a8aec19f874.txt：Providence 官方文档证明可配置元数据/界面/报告、复杂层级、位置跟踪、状况与保护管理、Web 端服务器应用。",
+        "data/collections/sources/ea965516d445acf1c67c501a6bcc0e73710ba011163b0912d8f71c64f9ec967d.txt：官方 features 页证明对象/收藏/地点/存储位置层级、批量编目、出入库与位置跟踪。"
+      ],
+      "gaps": [
+        "未运行产品、未做部署或界面走查，runtime_tested=false 与证据范围一致。",
+        "Provenience 为自由文本，缺少结构化的发掘单元/地层/context 实体；遗址关联是结构化的，但发掘背景的细粒度结构覆盖有限。",
+        "GitHub 元数据与 license API 快照为单行 JSON，阅读器按 2000 字符截断，archived/default_branch 等字段及许可证末尾未能直接查看；仓库 id、full_name、fork=false 与 GPLv3 正文开头可见，足以支持本叶结论。",
+        "OpenAtlas、PastPerfect 等候选的排除依据未保留在 REVIEW_SOURCES.json 的快照中，无法独立复核；这些仅用于排除说明，不影响已纳入案例的核心匹配。"
+      ]
+    }
+  },
+  "limits": "本次仅做只读初审：未运行 shell、未写文件、未部署或运行产品、未做实时网络抓取，也未读取其他单元。结论基于 REVIEW_SOURCES.json 所列 6 份快照及 batch.json、research.json 文本；GitHub 元数据与 license API 快照为单行 JSON，阅读器按 2000 字符截断，仓库 archived/default_branch 等字段及许可证末尾未能直接查看，但仓库 id、full_name、fork=false 与 GPLv3 正文开头可见。OpenAtlas、PastPerfect 等候选的排除依据未保留快照，无法独立复核，但不影响已纳入案例的核心匹配。未对快照 sha256 做本地重算。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-244/ses_groveopencodegop244review1_1793264745.jsonl",
+  "batch_sha256": "7956342b70275ac1848990b7c869296cd6e00c84b8c27837959d41dc9204c87a",
+  "research_sha256": "054b8b5e675bc35a3b7f4e0cc59bfd9aca0597992627a4d52b96a332ea376d2d",
+  "input_sha256": "571b48a39dc4bd1e16d8f21d7fa4c63460bdd3c43957b22201ec9522041eacf7"
+}

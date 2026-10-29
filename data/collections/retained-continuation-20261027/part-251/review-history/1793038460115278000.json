@@ -1,0 +1,70 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ai-fitness-coach",
+      "application_id": "commercial:fitbod",
+      "issue": "唯一被引用的快照是 fitbod.me 首页；该快照的可见正文没有形成产品工作流描述，定义性核心主要只能从 title/meta description 和页面内 FAQPage JSON-LD 结构化数据中取得，缺少可见正文证明“评估学员→生成计划→逐次训练引导→依据表现/恢复调整”的闭环。按审查要求，不能用简介、元数据或加载壳替代核心正文。",
+      "fix": "补充 Fitbod 官方产品页、功能页或帮助中心快照，要求可见正文覆盖 onboarding 评估、计划生成、训练引导和基于记录/恢复的调整；若无法取得，应将该叶标为证据不足并移除 official_sources_reviewed 结论，而不是以首页元数据/FAQ schema 代替核心正文。"
+    },
+    {
+      "slug": "ai-fitness-coach",
+      "application_id": "commercial:fitbod",
+      "issue": "research.json 的 note 与 batch.json 的 leaf_matches.reason 称官方首页正文确认“按日程”生成计划、“推荐下一次训练的肌群”以及“随身体、恢复和进度更新计划”，但快照中可支持的表述仅为按目标、水平、可用设备生成/调整计划，跟踪已记录训练数据、恢复和渐进超负荷；“日程”和“下一次训练肌群”等说法没有对应证据。",
+      "fix": "将 note/reason 收窄为快照实际支持的表述，删除“日程”“下一次训练肌群”等未出现的说法；或补充能直接支持这些说法的官方正文后再保留。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Playtomic 快照确认了选运动/地点/日期时段/球场与时长、分摊或全额支付、俱乐部定价和取消政策，以及私场预订和 Open Match；但正文未展开实时库存和改签流程，相关能力仅见于同页文章导航。商业基本类型匹配可接受，描述时不要夸大为已验证实时库存或完整自助改签。",
+    "EZFacility 的产品覆盖面包含健身房/俱乐部会员、POS 和会员计费，体育设施专用性主要由 scheduling-operations 与 rentals 页面支撑；“多运动综合体”等措辞未在快照中直接出现，建议收窄描述。",
+    "GolfNow 的 19,000+ 是课程目录覆盖量，不等同于可预订 tee-time 库存量；可预订性由 mobile 页的数千家球场即时预订表述支撑，二者不要混写。",
+    "Wellable 快照确认雇主侧挑战、个人健康评估、员工个人反馈、雇主聚合数据、奖励和分析报告，但未展开资格条件、HR 名册同步等细节；商业基本类型匹配足够，深入核心时可再补页面。",
+    "Fitbod 快照未明确使用“AI”措辞，仅以 proprietary algorithm 和个性化训练描述；按类型定义可由软件自主编排与调整来支持，但更明确的 AI/教练表述会降低歧义。",
+    "各叶的商业来源均为厂商自有页面，未做独立第三方交叉验证；本次仅按商业案例的基本真实性和类型匹配审查，不涉及价格、合同、架构或部署。",
+    "research.json 中多次记录 websearch 返回 401、GitHub 未找到完整开源应用；这些缺口已如实留档，未作为核心证据使用，符合本次审查对检索缺口的处理要求。",
+    "input.json 的 progress 仍显示 not_searched、application_ids 为空，而 research.json 已记录 case_found 并关联商业应用；若 input.json 的 progress 会进入最终索引，需要另行同步，但这不影响本单元的内容类型判断。"
+  ],
+  "leaf_checks": {
+    "sports-court-booking": {
+      "status": "pass",
+      "application_id": "commercial:playtomic",
+      "basis": "读取 Playtomic 官方帮助快照 87b03b... 与 5a4d56...：球员可按运动、地点、日期和时段选择俱乐部球场与时长，选择分摊或全额支付，预订页显示俱乐部取消政策；另一篇说明可从俱乐部资料页预订私场或加入 Open Match。",
+      "boundary": "证据落在球员端需求侧，价格与政策由第三方俱乐部设定，未出现俱乐部运营后台作为核心，符合 Sports Court Booking 的第三方场馆中介关系。",
+      "gap": "正文未直接展开实时库存和改签流程，相关文章仅在导航列出；未运行账号流程验证实际可用性。"
+    },
+    "sports-facility-management": {
+      "status": "pass",
+      "application_id": "commercial:ezfacility",
+      "basis": "读取 EZFacility 首页、scheduling-operations 与 billing-payments 快照：面向 Sports Facilities 的排期、Facility Scheduling、Rentals & Special Events、多场地/多 venue 分配、冲突与双重预订防护、押金和容量管理，以及发票、支付、QuickBooks 财务报告。",
+      "boundary": "定位为场馆运营方的排期与营收系统，符合运营方可租赁空间库存、预订交易和资金记录的方向，不是球员端第三方订场平台。",
+      "gap": "产品同时覆盖健身房/俱乐部会员与 POS，体育设施专用性主要由排期和租赁页面支撑；未验证具体球场、冰场等空间模型。"
+    },
+    "tee-time-booking-platform": {
+      "status": "pass",
+      "application_id": "commercial:golfnow",
+      "basis": "读取 GolfNow mobile、course-directory 与 support/about-us 快照：可在全球数千家球场搜索 Hot Deals 并即时预订 tee time、收藏球场；目录覆盖 19,000+ 球场；支持页说明预订保存在 Upcoming Reservations，可按球场政策修改/取消，并可增减球员。",
+      "boundary": "球手端需求侧市场，球场保留自身 tee sheet、签到和营收系统，符合第三方球场中介关系。",
+      "gap": "未验证实际库存同步、支付结算或球场侧系统；19,000+ 为目录覆盖量而非可预订库存量。"
+    },
+    "ai-fitness-coach": {
+      "status": "changes_required",
+      "application_id": "commercial:fitbod",
+      "basis": "仅读取 fitbod.me 首页快照；可见正文没有形成评估、计划生成、逐次训练引导和调整闭环的描述，类型证据主要来自 title/meta description 与 FAQPage JSON-LD。",
+      "boundary": "现有文本可表明其为面向个人的力量训练应用，但不能仅凭元数据和结构化 FAQ 作为核心正文完成定义性核心核对。",
+      "gap": "缺少可见正文证明软件自身完成评估→编排→引导→调整；research/batch 中“按日程”“推荐下一次训练肌群”等说法也超出快照可支持范围。"
+    },
+    "corporate-wellness-platform": {
+      "status": "pass",
+      "application_id": "commercial:wellable",
+      "basis": "读取 Wellable 首页与 wellness-platform 快照：面向雇主的员工健康、奖励与认可平台；平台页说明健康挑战、个人健康评估（员工获得个性化反馈、雇主获得聚合数据）、奖励、项目分析和可导出报告。",
+      "boundary": "体现企业运营、员工参与的双受众结构，并以聚合报告区别于消费者健身应用和员工健康监控。",
+      "gap": "未展开资格条件、HR 名册同步和合同细节；商业基本类型匹配足够。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未执行应用登录/预订/支付、未访问外网、未重新计算 SHA-256；仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 11 个快照。快照按 data/collections 相对路径原样读取，文件名与声明 sha 一致，但未独立校验哈希。无法验证实时库存、实际账号流程、商业定价、部署架构或第三方独立评价；Fitbod 首页快照可能含 JS 渲染内容，本次只能就快照中可见文本和结构化数据判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-251/ses_groveopencodegop251review1_1793038034.jsonl",
+  "batch_sha256": "babc20e77105fe829128e843d05af42663a2f2c8ffe64c5a0e0a24ffd01d4318",
+  "research_sha256": "14166cb1080b651671ca07f83162636b8c4e843d7bb10867075925e4f02352b5",
+  "input_sha256": "f1befca46d7d6b055c7835ce9ad9c1820f6369db677128af37b7ea40fa1cd688"
+}

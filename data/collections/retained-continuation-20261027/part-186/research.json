@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "utility-billing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:867131396"
+      ],
+      "query": "GitHub 公开搜索 API: utility billing in:name,description（websearch 401 后备用）",
+      "source_urls": [
+        "https://api.github.com/repos/navariltd/utility-billing",
+        "https://raw.githubusercontent.com/navariltd/utility-billing/develop/README.md",
+        "https://api.github.com/repos/navariltd/utility-billing/license",
+        "https://raw.githubusercontent.com/navariltd/utility-billing/develop/utility_billing/docs/Utility-Billing.md"
+      ],
+      "note": "找到 ERPNext 公用事业计费子模块 navariltd/utility-billing（AGPL-3.0，GitHub id 867131396）。README 与官方模块文档给出服务申请→抄表→销售订单→发票→付款主流程、费率/批量计费与物业租户计费；未展示欠费停复电、最终账单、押金与换表分摊，相关断言已收窄。",
+      "service_boundary": "自托管 ERPNext 应用（完整子模块），不是独立 SaaS 多租户服务；计费资金动作依赖 ERPNext 会计模块。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source utility billing software github meter to bill",
+          "outcome": "HTTP 401，未重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "utility billing in:name,description",
+          "outcome": "命中 navariltd/utility-billing"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/navariltd/utility-billing",
+          "kind": "repository_metadata",
+          "outcome": "200，保存快照"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/navariltd/utility-billing/develop/README.md",
+          "kind": "readme",
+          "outcome": "200，保存快照"
+        },
+        {
+          "url": "https://api.github.com/repos/navariltd/utility-billing/license",
+          "kind": "license",
+          "outcome": "200，AGPL-3.0，保存快照"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/navariltd/utility-billing/develop/utility_billing/docs/Utility-Billing.md",
+          "kind": "documentation",
+          "outcome": "200，保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "utility-customer-information-system-cis",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:northstar-utilities-cis"
+      ],
+      "query": "GitHub 公开搜索：utility customer information system / topic:utility-billing / utility billing erpnext / energy retail billing；商业官网直接核对",
+      "source_urls": [
+        "https://www.northstarutilities.com/customer-information-billing"
+      ],
+      "note": "开源侧未发现成熟 CIS 应用；记录商业产品 NorthStar CIS。官方产品页给出面向公用事业/市政的客户信息与计费定位、入住到搬出服务周期、多公用事业合并账单和放松管制能源计费。页面未展开联系日志、案例、信函等关怀层细节，相关能力未作断言；未核验部署与价格，也未运行产品。",
+      "service_boundary": "商业 CIS，可自托管或由厂商 NorthStar Cloud 托管；本条目仅依据官方产品页记录客户账户、入住/搬出、多公用事业账单与放松管制计费，未验证联系日志/案例/信函模块。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "utility customer information system",
+          "outcome": "无成熟公用事业 CIS 应用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "topic:utility-billing",
+          "outcome": "仅计费/物业项目，无 CIS"
+        },
+        {
+          "tool": "http_get",
+          "query": "https://www.oracle.com/utilities/customer-care-billing/",
+          "outcome": "404，未继续猜测 Oracle 路径"
+        },
+        {
+          "tool": "http_get",
+          "query": "https://www.hansencx.com/products/customer-information-system/",
+          "outcome": "404，未继续"
+        },
+        {
+          "tool": "http_get",
+          "query": "https://gentrack.com/products/gentrack-billing/",
+          "outcome": "404，未继续"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.northstarutilities.com/customer-information-billing",
+          "kind": "documentation",
+          "outcome": "200，读取产品正文并保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "utility-field-service-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:northstar-servicelink"
+      ],
+      "query": "GitHub 公开搜索：field service management utility / power; 商业官网产品页直接核对",
+      "source_urls": [
+        "https://www.northstarutilities.com/mobile-workforce-management"
+      ],
+      "note": "开源候选未形成公用事业现场服务成立关系；记录商业产品 NorthStar ServiceLink。官方页正文给出面向水/气/电/环卫的调度、技能匹配、路由、预约通知、离线移动作业与完成表单能力，类型关系成立。未运行产品，未核验价格与架构。",
+      "service_boundary": "商业现场服务管理产品，官网同时提供自托管/云服务线索；本条目仅记录产品页可证的公用事业现场执行边界。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "field service management utility",
+          "outcome": "结果为空壳/原型仓库，未见成熟开源公用事业 FSM"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source utility field service management",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.northstarutilities.com/mobile-workforce-management",
+          "kind": "documentation",
+          "outcome": "首次超过默认1MB失败；以 max-bytes 4000000 重抓成功并保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "utility-gis",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:esri-arcgis-utility-network"
+      ],
+      "query": "GitHub 公开搜索：utility GIS network；通用 GIS 边界核对；Esri 官方产品页正文",
+      "source_urls": [
+        "https://www.esri.com/en-us/arcgis/products/arcgis-utility-network/overview"
+      ],
+      "note": "商业产品 ArcGIS Utility Network 官方页可证连通网络统一模型、连接规则/数据治理、追踪分析、2D/3D 与角色化编辑，类型关系成立。QGIS 等开源通用 GIS 虽有图层/画布/空间操作，但未证公用事业连接拓扑记录模型，故不建立关系。",
+      "service_boundary": "商业 GIS 平台扩展（ArcGIS Enterprise/Pro），非独立开源应用；仅记录产品页可证的公用事业网络模型能力。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "utility GIS network",
+          "outcome": "多为小工具/脚本，未见成熟开源公用事业 GIS 应用"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source utility GIS connected network model",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.esri.com/en-us/arcgis/products/arcgis-utility-network/overview",
+          "kind": "documentation",
+          "outcome": "200，读取产品正文并保存快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "utility-vegetation-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:aidash-ivms"
+      ],
+      "query": "GitHub 公开搜索：vegetation management utility / power line vegetation；商业官网产品页直接核对",
+      "source_urls": [
+        "https://www.aidash.com/intelligent-vegetation-management-system/"
+      ],
+      "note": "开源未发现成熟公用事业植被管理工作流应用；记录商业产品 AiDash IVMS。官方产品页正文可证 T&D 走廊植被监测、电路/子电路与预算约束下的修剪计划、前后检查与监管审计报告；承包商派工/现场闭环未获证据，未作断言。",
+      "service_boundary": "商业遥感/AI 植被管理平台，面向电力公用事业；本条目只记录产品页可证的走廊、计划与检查/审计能力。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "vegetation management utility",
+          "outcome": "仅 0 star 原型/数据集，无成熟应用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "power line vegetation",
+          "outcome": "仅检测脚本/数据集"
+        },
+        {
+          "tool": "http_get",
+          "query": "https://clearion.com/",
+          "outcome": "301 跳转 Arcos；产品页静态正文仅导航，未采用"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source utility vegetation management software",
+          "outcome": "HTTP 401，未重复调用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.aidash.com/intelligent-vegetation-management-system/",
+          "kind": "documentation",
+          "outcome": "200，读取产品正文并保存快照"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

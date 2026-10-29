@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍显示 not_searched / included_without_cases，而 batch.json 已有 4 个 entry、research.json 有 4 个 case_found；不影响本次内容结论，但建议归档前同步元数据，避免下游误判。",
+    "ERPNext 仅以 Sales Order 模块匹配 sales-order-capture；不要把整个 ERP 的会计、库存、制造能力泛化为该叶，research.json 的 service_boundary 已作此限定。",
+    "Assembled 的 scheduling 页面是压缩营销页，单行超过读取器 2000 字符上限；research note 中 queue/channel/site 粒度、班次交换、自动批假、Slack/email 通知等细节有一部分在可读片段之外（可检索到 swap、Slack、notification、months 等关键词）。核心类型匹配不依赖这些细节，但建议归档时保留更可读的正文摘录。",
+    "Pricefx、Assembled、Amazon Connect 的来源包含官方产品/能力页或官方文档；本次已用核心正文核对，未仅凭标题、meta 或导航判断。",
+    "call-center-platform 无案例；research.json 已记录 FreePBX Queues 的抓取失败、跨主机重定向、仓库树检查及许可证歧义。若未来恢复该条目，许可证应按 README/module.xml 的 GPLv2+ 记录为 GPL-2.0-or-later，而不是仅沿用 GitHub API 的 GPL-2.0。"
+  ],
+  "leaf_checks": {
+    "sales-order-capture": {
+      "verdict": "pass",
+      "application_id": "github:1864233",
+      "track": "open_source",
+      "basis": "batch.json entry id=github:1864233（ERPNext，repo frappe/erpnext，GitHub ID 1864233）；读取 c7d1... README 确认 100% open-source、Frappe Cloud 托管或自托管；读取 ec31... license 快照，内容为 GPLv3 全文（license.txt，35149 bytes）；读取 1e0b... 官方 Sales Order 手册，正文明确订单记录客户确认的采购、Draft 保存/Submit 确认、To Deliver and Bill/To Bill/Completed/On Hold/Closed/Cancelled 状态、部分交付/开票百分比、Customer's Purchase Order、Close 与 Cancel 区分、Amend 生成新草稿，以及 FAQ 说明订单本身只记录承诺、库存/会计影响由后续 Delivery Note/Sales Invoice 产生。",
+      "boundary": "仅销售订单捕获模块；报价/CPQ、履约编排、开票由相邻模块承担。"
+    },
+    "sales-pricing-application": {
+      "verdict": "pass",
+      "application_id": "commercial:pricefx",
+      "track": "commercial",
+      "basis": "batch.json entry id=commercial:pricefx（Pricefx）；读取 fc70... 官方 Price Management 页正文：集中 list/base/customer prices 的受治理价格库；markups/indexes/corridors 规则化并自动重算；scenario simulation 比较利润率影响；configurable approval workflows 带 audit trails；四步 define→simulate→publish→monitor；approved prices 发布到 ERP/CRM/CPQ；FAQ 明确 ERP 存价但不是设计/测试/治理价格之处。",
+      "boundary": "商业定价治理；不把报价、协议、返利、渠道管理等相邻模块泛化进本叶，也不声称替代 ERP 的价格存储/执行。"
+    },
+    "agent-scheduling-platform": {
+      "verdict": "pass",
+      "application_id": "commercial:assembled",
+      "track": "commercial",
+      "basis": "batch.json entry id=commercial:assembled（Assembled）；读取 fba4... scheduling 页正文：标题/描述为 Agent Scheduling Software for Support Teams，hero 为 smart/automated scheduling、SLA-proof schedules，正文含 intraday staffing changes、coverage、agent autonomy over schedules；读取 62fa... forecasting 页正文：historical/ML forecast、right-size staffing instantly、email backlog、staffing simulations。需求预测→人员配置→排班→向坐席共享/发布的链路成立。",
+      "notes": "queue/channel/site、班次交换、自动批假、Slack/email 通知等细节部分在压缩页可读片段之外；可检索到 swap、Slack、notification、months 等关键词，但本次未逐段展开。"
+    },
+    "call-center-platform": {
+      "verdict": "pass_no_case",
+      "application_id": null,
+      "track": null,
+      "basis": "batch.json 无该叶 entry；research.json assessment=insufficient_evidence、case_ids=[]，并记录 FreePBX/queues 的 GitHub metadata/license/README/module.xml、Sangoma KB 过程留档、docs.freepbx.org SSL 错误、wiki 跨主机重定向、仓库树仅见队列配置/API/视图而无坐席工作台/报表。结论是 FreePBX Queues 只支持 ACD 队列组件，不足以证明 Call Center Platform；该留档符合“无案例但记录缺口”的可通过条件。",
+      "notes": "REVIEW_SOURCES.json 未登记该叶快照，本次未独立复核 FreePBX 原文；许可证歧义（API GPL-2.0 vs README/module.xml GPLv2+）已留档，未来恢复条目应按 GPL-2.0-or-later 记录。"
+    },
+    "cloud-contact-center-ccaas": {
+      "verdict": "pass",
+      "application_id": "commercial:amazon-connect-customer",
+      "track": "commercial",
+      "basis": "batch.json entry id=commercial:amazon-connect-customer（Amazon Connect Customer）；读取 619d... 官方管理员指南正文：contact center as a service、客户通过 voice/chat/SMS 等联系、agents、intelligent routing、queues/routing profiles、real-time performance、provision phone numbers、pay only for what you use；读取 a02e... 功能页正文：global cloud contact center、managed telephony network 覆盖 158 国 DID/免费号码、72 国呼出号码、直连 40+ tier-1 carriers、无需自管多供应商或承诺峰值容量、omnichannel routing/agent workspace。联络中心核心与供应商运营云消费形态均具备。",
+      "boundary": "仅取人工坐席联络中心运营；页面中的 AI/agentic 能力不作为本叶匹配依据。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行应用、未执行 shell、未写文件、未抓取实时网页；仅使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 指定的 9 个快照（未读取其他单元）。部分快照是压缩 HTML，读取器按行截断 2000 字符，Assembled/Pricefx 页面部分正文只能结合关键词与可见段落核对；ERPNext license 快照为 GitHub contents API 的 base64 包裹，未逐字解码全文；call-center-platform 在 REVIEW_SOURCES 无快照，依据 research.json 的抓取/缺口留档判断；未重新计算 sha256，也未做运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-111/ses_groveopencodegop111review2_1793004790.jsonl",
+  "batch_sha256": "48b8858b6a6328b1d322751be35d2b5432cc2bd4d7af008e89a1f623030106a7",
+  "research_sha256": "a96debe71f713f9907ba00e15245cb1e04f6e0d4b13ea26c553da35542ccc3e0",
+  "input_sha256": "de58edb702abea3be3d9dbb1042897c49f302b0a9f99af89c83c8d531c351597"
+}

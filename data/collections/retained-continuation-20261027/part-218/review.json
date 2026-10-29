@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "medical-image-analysis-platform：batch 摘要称 Aidoc 将可疑和偶然发现“路由”给护理团队，原文更偏“呈现/激活”（surface suspected and incidental findings；activate care teams），并配合移动端沟通。属概括性措辞，不影响核心类型匹配。",
+    "pacs：Orthanc 官方 about 页明确称其为 standalone DICOM server、DICOM store（mini-PACS），主页说明可接收、上传、传输 DICOM 并提供 REST API，官方 Web viewer 插件页称其为 basic Web viewer；快照未直接展示放射科读片工作列表或诊断级查看器。因此“诊断级分发”主要是由 mini-PACS/临床常规定位推得，建议后续补充读片工作列表或诊断查看器的官方证据，或在条目中保留这一限定。",
+    "pacs：Orthanc 核心仓库许可证为 GPL-3.0（LICENSE 快照解码后为 GNU GPL v3），但官方 Web viewer 插件页明确写其采用 AGPL，且比核心许可证更严格；条目顶层 license 字段只覆盖核心仓库，建议在摘要或字段中区分组件许可证，避免读者误以为所有官方插件均为 GPL-3.0。",
+    "pacs：jodogne/Orthanc 的 GitHub README 自述为 2015 年后不再维护的发布镜像，正式源码在 hg.orthanc-server.com；batch 的 leaf_matches 已披露这一点，但结构化 repository_url 仍指向镜像，建议补充 canonical 仓库说明或改用正式源码地址。",
+    "organ-transplant-management / pathology-information-system：research.json 对候选许可证的括号说明（OpenTransplant、Starling 为 Apache-2.0）未附对应 license 快照；因两叶均未纳入应用，不影响本单元结论。",
+    "研究来源清单：REVIEW_SOURCES.json 只枚举了 batch 中三个应用的快照，未列出 research.json 引用的 Kaapana、OpenTransplant、InVita、Starling、APLIS 快照；这些文件实际存在于 data/collections/sources，我已按内容核对。建议后续将研究候选快照纳入清单，提升可复现性。",
+    "input.json 的 progress 仍显示五叶均为 not_searched、application_ids/research_records 为空，与 research.json 的三个 case_found 不一致；本次以 batch/research 为准，属账本字段陈旧，不影响内容结论。"
+  ],
+  "leaf_checks": {
+    "medical-image-analysis-platform": {
+      "status": "passed",
+      "basis": "Aidoc 官方 radiology 页正文：AI triage algorithms alert on suspected acute findings；quantification algorithms automate repetitive tasks；提供 key images 与结果摘要；AI triage results marked directly in worklist；View results of every algorithm run, both with and without AI findings；Widget 显示 which pathologies to confirm。aiOS 页正文：与 PACS/EHR/mobile/care tools 集成，按紧急程度优先与分诊，呈现 suspected and incidental findings，多算法编排。核心“影像计算→绑定检查→临床审阅→医生决策”成立。",
+      "gap": "商业条目只做基本真实性和类型匹配；未部署、未运行，未核对监管 clearance 细节。"
+    },
+    "organ-transplant-management": {
+      "status": "passed_no_case",
+      "basis": "research.json 记录开源检索、GitHub 搜索计数、OpenTransplant README（reference implementation only；OPTN 全国分配/等待名单匹配参考实现）、InVita donation-transplant 页面（供体/OPO 侧捐赠-移植平台）、OTTR 两次抓取失败（SSL hostname mismatch；域名停放/403）。定义中的医院移植项目候选人、等待名单、供给接受/拒绝、移植后随访核心未被候选满足。",
+      "gap": "无应用条目；未取得 OTTR 正文，未穷尽商业医院移植项目管理系统；检索、抓取失败和边界判断已如实留档。"
+    },
+    "pacs": {
+      "status": "passed_with_caveat",
+      "basis": "Orthanc 官方 about 页：Belgian open-source lightweight DICOM server；standalone DICOM server；可将任意计算机变成 DICOM store（mini-PACS）；RESTful API；Web viewer、PostgreSQL/MySQL、DICOMweb 插件。主页：upload, receive and transfer DICOM images；Web interface；REST API。官方 Web viewer 页：basic Web viewer plugin。GitHub metadata：id 15527090，jodogne/Orthanc；LICENSE 快照解码为 GNU GPL v3。设备摄入、持久存档、查看/分发三项核心基本成立。",
+      "gap": "官方材料未直接展示放射科读片 worklist 或诊断级查看器；README 为 2015 年后冻结的 release 镜像，canonical source 在 hg.orthanc-server.com。"
+    },
+    "pathology-information-system": {
+      "status": "passed_no_case",
+      "basis": "research.json 记录检索、Starling README（worklist、case detail、全切片 viewer、session safety、audit；定位为连接医院 LIS 与 AI 决策支持的开放病理平台；未见 specimen accession、gross examination、blocks/slides 制备、pathologist sign-out），APLIS README 仅标题、仓库为小骨架。未把仅工作列表/查看器/LIS 接口层误认为完整病理信息系统。",
+      "gap": "无应用条目；未找到同时具备病例记录、标本到切片制备流程、病理医师签署诊断的开源完整系统；缺口已如实留档。"
+    },
+    "radiology-information-system-ris": {
+      "status": "passed",
+      "basis": "Sirius RIS README：open source radiological information system，Angular/RxJS/OHIF/NodeJS/MongoDB/Docker，与 MWL/DICOM 服务协作。architecture：check-in 时由 Sirius RIS 生成 HL7 v2 ORM/MLLP modality worklist 发送至 PACS；flow states P01-P11 覆盖 reception、acquisition、image verification、report draft、report signed、finished。API：/exporter/reports、/users/findByRoleInReport（signer/authenticator）、/mwl/insert。data dictionary：reports.revision、medical_signatures、authenticated。GitHub id 474123487；LICENSE 快照为 MPL 2.0。影像检查工作流与报告生命周期核心成立。",
+      "gap": "未运行、未部署；未核对实际状态机强制程度和报告分发实现细节。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元；未做部署/运行测试、未做额外网络抓取或价格/架构研究。依据限于本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 data/collections/sources 下的实际快照。HTML 快照按原始文本读取，部分超长行被工具截断为 2,000 字符，GitHub metadata 中 archived/pushed_at 等尾部字段未完整显示；Orthanc 的 canonical Mercurial 源码未抓取。research.json 引用的 Kaapana、OpenTransplant、InVita、Starling、APLIS 快照未列入 REVIEW_SOURCES.json，我在同一 sources 目录按内容定位并读取，未猜测路径。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-218/ses_groveopencodegop218review1_1793029800.jsonl",
+  "batch_sha256": "f4f6623cdd0307e358ef4de27f7570b21eca8810d92be0b09d3a51e76abe8b4d",
+  "research_sha256": "811649377a129d6b863b071697e08a3ceddf7cfbcea27e0fe23944ccc7fefd65",
+  "input_sha256": "f8933fc5951f29eff5b264a980c545f4713fd5b961da6cde5a9226c04d9719e8"
+}

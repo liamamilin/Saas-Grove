@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Wazuh 条目按自托管开源平台记录，但 wazuh.com 首页快照同时出现 Free Cloud Trial 与 console.cloud.wazuh.com 登录入口；建议在 deployment 或 service_boundary 中明确本条代表自托管社区版，或补充 Wazuh Cloud 的 SaaS 形态说明。",
+    "Zscaler、CrowdStrike、Zimperium 的 homepage 与 sources.url 仍为旧路径，实际快照 canonical 已分别指向 /products-and-solutions/zero-trust-exchange-zte、/en-us/platform/endpoint-security/falcon-prevent-ngav/、/mtd/mobile-threat-defense；建议更新为最终 URL 或记录重定向。",
+    "Microsoft 条目的 homepage 与唯一引用的 Learn 文档 URL 不同；homepage 未被用作证据，但建议确认其可访问性。",
+    "Wazuh 根 LICENSE 快照包含 GPL-2.0-only 主体及 src/engine 的 AGPL-3.0-or-later 说明，但未单独快照 src/engine/LICENSE-engine；若要求逐组件完整许可证，建议补该文件，并在条目中明确社区版与商业云/支持服务的边界。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，顶层 phase 为 included_without_cases，与 batch.json 和 research.json 的 case_found 不一致；建议同步元数据，避免下游误判为无案例。",
+    "research.json 对 Firezone、ClamAV、MVT 的边界排除有检索记录，但 REVIEW_SOURCES.json 未保存这些候选的快照；排除结论可复核性有限。",
+    "Cloudflare 的 NaaS、FWaaS、RBI、DEM 等词主要出现在 FAQ 长段，Zscaler 可见标题更强调 Zero Trust/SSE；建议在 reason 中标注具体段落或采用更保守的类别措辞，便于复核。"
+  ],
+  "leaf_checks": {
+    "sase-sse-platform": {
+      "applications": [
+        "commercial:cloudflare-one",
+        "commercial:zscaler-zero-trust-exchange"
+      ],
+      "basis": "读取 Cloudflare One 的 SASE 页面正文与 FAQ，标题和描述明确 unified SASE platform，FAQ 覆盖 ZTNA、SWG、CASB、NaaS、FWaaS、RBI、DLP、邮件安全和 DEM，并说明单一控制平面、数据平面与全球边缘；读取 Zscaler Zero Trust Exchange 页面正文，说明代理架构按身份、上下文和业务策略在用户与应用间建立连接，并列出 ZIA、ZPA、Zero Trust Branch、Zero Trust Firewall、Cloud Sandbox、ZDX 等组件。两者均为厂商运营的云交付平台，满足云边缘调解、融合服务和身份上下文策略三项核心。",
+      "gaps": "Zscaler 可见标题和正文更强调 Zero Trust 与 SSE，SASE 标签来自平台范围而非标题；未做运行时验证。"
+    },
+    "endpoint-detection-response-edr": {
+      "applications": [
+        "github:40556106"
+      ],
+      "basis": "读取 Wazuh README 与官方 XDR 页面：agent 部署在受监控终端，manager 集中收集分析，具备恶意软件、rootkit、异常扫描、日志分析、文件完整性、漏洞检测和 active response，可阻断访问或远程查询取证；WUI 提供安全事件与终端状态；XDR 页正文明确 behavioral analysis、threat hunting 与 custom queries、automated response。对应 EDR 的终端遥测、行为检测、调查和终端响应四段核心。",
+      "gaps": "Wazuh 为自托管开源平台，不是厂商托管 EDR 服务；调查主要通过 WUI 和查询完成，未做运行时验证。"
+    },
+    "endpoint-protection-platform": {
+      "applications": [
+        "commercial:crowdstrike-falcon-prevent"
+      ],
+      "basis": "读取 CrowdStrike Falcon Prevent 官方产品页正文：以轻量代理覆盖终端集群、云原生架构和单一控制台管理；使用 AI、威胁情报、行为分析、内存扫描和漏洞利用缓解识别并阻止高级威胁，支持离线防护；产品定位为下一代防病毒与 EPP 预防模块。对应受管终端、威胁评估、预防执行和持续保护四项核心。",
+      "gaps": "产品页为厂商营销正文，未独立验证检测率、更新频率或全部 EPP 管理能力；Falcon Prevent 是 Falcon 平台中的 NGAV 模块。"
+    },
+    "extended-detection-response-xdr": {
+      "applications": [
+        "commercial:microsoft-defender-xdr"
+      ],
+      "basis": "读取 Microsoft Learn 的 What is Microsoft Defender XDR 正文：原生协调终端、身份、邮件和应用域的检测、预防、调查与响应；把跨产品告警、可疑事件和受影响资产关联为事件；Defender 门户提供单一队列与单一窗格、组合事件队列和 30 天原始信号查询；支持自动攻击中断以及邮箱、终端和身份的自愈修复。对应多域信号、跨域关联、统一调查和跨域响应四项核心。",
+      "gaps": "覆盖范围取决于已许可并接入的 Defender 工作负载；未做运行时验证。"
+    },
+    "mobile-threat-defense": {
+      "applications": [
+        "commercial:zimperium-mobile-threat-defense"
+      ],
+      "basis": "读取 Zimperium MTD 官方页面正文：面向企业自有和 BYOD 的 Android、iOS、ChromeOS 设备持续防护；覆盖应用审查、设备完整性检查、网络与钓鱼、恶意软件检测，支持设备离线时的端侧机器学习检测；设备完整性检查在授予企业资源访问前执行；提供终端用户告警、取证扫描及 MDM、EMM、UEM、SIEM、SOAR、XDR 集成。对应移动设备持续评估、逐设备风险判断和保护响应。",
+      "gaps": "逐设备风险状态主要通过 MDM 合规与访问门禁体现，快照未展示独立风险评分界面；未做运行时验证。"
+    }
+  },
+  "limits": "本次仅做只读快照核对，未运行 shell、未写文件、未读取其他单元，也未访问 REVIEW_SOURCES.json 之外的网页；未进行部署或运行时测试，未独立验证商业产品的价格、架构、检测率或更新频率；HTML 快照较大且部分内容为压缩或脚本，正文通过分段读取和定向 grep 核对，可能遗漏同页其他段落；Wazuh 的 LICENSE 快照为 base64 内容，未解码全文逐条比对，src/engine 的 AGPL 许可证文件未单独提供；Firezone、ClamAV、MVT 等边界候选在 research.json 中有检索记录但无快照，无法独立复核其排除理由。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-146/ses_groveopencodegop146review1_1793012540.jsonl",
+  "batch_sha256": "f67e3c705b99332d8fde2d55d3791a3702cd1858918db57bfa26c2397cc36fd0",
+  "research_sha256": "fab08baa3553e8ae485cd81ea848238176d7ea4386f62975d5a3105d3cb9d810",
+  "input_sha256": "0641925deb12c4618cc62ef9700dc5b3ca564d6ced51dafb1f326464cee3fb84"
+}

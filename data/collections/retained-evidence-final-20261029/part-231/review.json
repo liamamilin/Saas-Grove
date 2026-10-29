@@ -1,0 +1,44 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "event-credential-badge-management",
+      "note": "REVIEW_SOURCES.json 的 sources 为空数组，但 research.json 引用了 4 个带哈希的快照，且 data/collections/sources/ 下确有同名文件（3dc259…、5c54e2…、dfbe11…、4731f7…）。本次按 research.json 中的哈希原样读取并核对，未发现内容不符；建议后续把已引用快照登记进来源清单，便于复核。"
+    },
+    {
+      "slug": "event-credential-badge-management",
+      "note": "Badger 快照的安装段写的是 git clone https://github.com/dkapell/badger.git，而 research 引用的是 neinteractiveliterature/badger；后者应为前者的分支/镜像。该仓库仅作相邻候选，未作为案例依据，不影响结论；如保留引用可注明上游仓库身份。"
+    },
+    {
+      "slug": "event-credential-badge-management",
+      "note": "EventHive Registration Manager 快照只有 MIT 徽章与“MIT — free to use, modify, and distribute”字样，没有完整许可证正文。因其仅作相邻候选、未进入案例，不构成许可核对缺口。"
+    },
+    {
+      "slug": "event-credential-badge-management",
+      "note": "badgeprint 与 idento 的结论标注为“历史复用/前轮正文核对”，本单元未提供其快照，本轮无法独立重验；但研究记录明确未对其新增事实断言，且未将其作为成立案例，属于如实留档。"
+    },
+    {
+      "slug": "event-credential-badge-management",
+      "note": "FastBadge、Badgeyay、Certo、admitto、Eventyay 仅见于搜索摘要且未取得正文，研究已明确排除为证据，处理方式恰当。"
+    }
+  ],
+  "leaf_checks": {
+    "event-credential-badge-management": {
+      "slug": "event-credential-badge-management",
+      "assessment": "boundary_unresolved 成立，无案例可绑定",
+      "definition_core_check": "定义核心为“凭证类型体系 → 人员↔活动↔凭证类型分配 → 按类别模板渲染 → 发放/更换记录”。本单元所有候选均缺该核心：Badger 快照只有单份自定义徽章布局（Custom badge layout）、按活动的自定义参会者字段与 CSV 导入/现场补录/签到/审计，无凭证类型字段，类别不驱动设计或权限；ConfBadger 快照的 attendee-types 仅把 ticket-title 映射为徽章上一行文字（“name which will be printed to the badge”），渲染只用单一 --template，且无持久发放/更换记录；EventHive Registration Manager 以票种定价/名额/报名字段为中心，仅附统一可打印徽章，票种不驱动徽章模板。",
+      "saas_service_form_check": "Badger 为自托管打印服务器（npm/Postgres/pm2），EventHive 提供浏览器 localStorage 与 Docker 自托管，ConfBadger 为 FastAPI+React 本地服务；均为持续运行的软件服务形态，但均只覆盖徽章生成/打印或签到子集，不满足完整凭证管理边界。",
+      "id_track_check": "batch.json entries 为空，research.json case_ids 为空，input.json application_ids 为空，无任何 ID/track 绑定需要核对，也不存在错绑。",
+      "license_and_community_boundary_check": "ConfBadger 许可证快照为完整 MIT 正文（Copyright (c) 2023 William Rizzo），与 wrkode/ConfBadger 身份一致；Badger 未取得仓库元数据（API 403），仅 README，未主张许可结论；EventHive 仅有 MIT 徽章与声明；idento 历史记录为 proprietary 且被正确排除。由于均未作为案例，未出现以不完整许可证支撑成立的情况。",
+      "source_gap_check": "7 条检索尝试、含 GitHub API 403 限流与 eventyay README 404 的抓取失败均已如实记录；4 个快照经哈希路径原样读取，内容与 research 描述一致。未用简介、元数据、导航或关键词替代核心正文。",
+      "conclusion": "维持 boundary_unresolved，无案例绑定是正确的；保留 badgeprint 等为相邻候选亦无不妥。"
+    }
+  },
+  "limits": "本次仅做本单元只读初审：读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，并按 research.json 记录的哈希读取 data/collections/sources/ 下 4 个快照（REVIEW_SOURCES.json 未列任何 path）。未运行 shell、未写文件、未访问其他单元，也未重新联网抓取或部署验证；badgeprint、idento 及仅见搜索摘要的候选（FastBadge、Badgeyay、Certo、admitto、Eventyay）无本地快照，其结论依赖已留档的历史核对记录，本轮未独立重验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-231/ses_groveopencodegop231review1_1793262388.jsonl",
+  "batch_sha256": "685a0bd52d8fc7980f130111e3b0532e480329740321e478949f2a1b3149b4fd",
+  "research_sha256": "21c6946f274164c4b17984215ede368bb485494ec195c78db299672f723c381f",
+  "input_sha256": "ae64fc5d7da5953ac3a1d434a1c7bef8835f2422e800ae3f8f785c9e9de462f1"
+}

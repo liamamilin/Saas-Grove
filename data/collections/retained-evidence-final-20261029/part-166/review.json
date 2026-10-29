@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "LabAnimal 的笼位移动通过 Animal.cageId 的当前赋值和更新实现，未见独立的移动历史事件表；转出、退役也没有单独日期字段。因此，按历史日期回溯在栏数时，只能依赖出生、到达、死亡等日期。建议继续明确这是一种以当前状态记录种群数量的普查，而不是完整的事件溯源。",
+    "Animal.status 是 active、allocated、used、deceased、transferred、retired 等运营状态，未单独设置 newborn、weaned 生命阶段；断奶信息只汇总记录在 Breeding.weaningDate 和 weanedCount 中。该限制已在 research.json 和 batch.json 的 leaf_matches.reason 中记录，不阻断类型认定。",
+    "Protocol 使用 animalLimit 与关联动物计数（protocols API 的 _count.animals）进行对照，能表达批准上限与已分配数量，但没有单独记录 used、remaining 的台账，也没有 amendment 模型；建议摘要使用“分配数量与上限”，不要笼统称为“使用量核算”。",
+    "README 的社区版边界还包括每个用户 1 个实验室、每个实验室 10 个用户；batch.json 摘要只写了每个实验室 500 只。建议补全边界描述，避免读者误以为只有动物数量限制。",
+    "research.json 的 source_urls 还列有 MyVivarium 的 4 个 URL，但这些 URL 未出现在 REVIEW_SOURCES.json 和 batch.json 的 sources 中；它们只是未成立候选的过程记录，不影响本叶 LabAnimal 案例证据。",
+    "英文 dc 的第 4 个结构与中文 dc_zh 的第 4 条表述不完全一致，前者是 research-use linkage，后者是合规与报告基础；本案例同时具备 Protocol 关联和审计、电子签名，故不影响本次结论，但定义文本宜统一。",
+    "input.json 仍记录 case_status=insufficient_evidence、phase=included_without_cases，而 batch.json 与 research.json 已记录 case_found；本次按后者核对，建议合并时同步叶状态，避免下游误判为无案例。",
+    "JCMS、BioManager、Vivocare 的补充结论未在 REVIEW_SOURCES.json 中提供对应快照，无法独立复核；这些候选不影响 LabAnimal 的收录结论。"
+  ],
+  "leaf_checks": {
+    "research-animal-facility-management": {
+      "assessment": "case_found；以 github:1279052725（xxjzone01-cyber/labanimal）作为开源实验动物设施管理（AFMS）案例通过初审。",
+      "definition_core": "官方 Prisma schema 显示 Animal（internalId、species、strain、genotype、sex、dateOfBirth、arrivalDate、cageId、protocolId、status、identifiers）满足个体动物单元；Room→Rack→Cage（capacity、position、CageStatus、single housing）满足住房位置与占用；Breeding（pairDate、litterDate、litterSize、weanedCount、weaningDate）、HealthRecord、Medication、DeathReport 及到达日期提供普查与处置循环；Protocol（iacucNumber、status、animalLimit、version、approvedAt/By）与 Animal.protocolId、protocols API 的 animalCount 提供研究使用关联。",
+      "service_form": "README 与项目结构说明这是 React/Hono/Prisma/PostgreSQL 的自托管 Web 应用，含 Docker Compose、登录角色、REST API 与 React 页面；不是仅简介或元数据。",
+      "identity_track": "GitHub 元数据快照 id=1279052725、full_name=xxjzone01-cyber/labanimal，与 batch.json 的 github:1279052725、homepage/repository_url 一致；track=open_source 与 Apache-2.0 许可证相符。",
+      "license": "license API 快照的 LICENSE 文件 size=11264，content 以 Apache License Version 2.0 开头；README 许可证表也标明主仓库 Apache 2.0，且以 raw LICENSE 全文复核了完整 Apache-2.0 文本。",
+      "community_boundary": "README 明确开源版限制：每个实验室 500 只、每个用户 1 个实验室、每个实验室 10 个用户，并说明升级 LabAnimal Pro；商业插件为 proprietary。边界已披露，属于 open-core 模式，不是许可证不完整。",
+      "candidate_context": "此前候选 MyVivarium（github:741235791，LGPL-3.0）的保留 schema 仅有 cages、mice、holding、breeding、litters 及 iacuc 关联，缺房间与笼架占用、生命事件与方案用量核算，撤销其案例关系与本叶证据一致。",
+      "limitations": "未运行项目；未逐页核对 12 个 React 页面和 19 个 API 路由；GitHub API 实时再抓取返回 403，本次以同日保留快照为准；单行 JSON 元数据、许可证快照在读取器中被截断到 2,000 字符，但 LICENSE 头部、文件大小、README 与 raw LICENSE 足以确认许可证。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未部署或执行项目；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及所列 LabAnimal 快照，并额外核对同目录保留的 MyVivarium 候选快照作为上下文，未将其作为本叶案例证据。GitHub API 实时请求返回 403 rate limit，无法重新读取元数据中的 license.spdx_id、archived 等尾部字段；单行 JSON 快照被读取器按 2,000 字符截断。未验证运行时行为、页面渲染、API 实际响应和 500 只限额的技术实现，仅依据官方 README、Prisma schema、protocols/animals 路由与 LICENSE 文本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-166/ses_groveopencodegop166review2_1793253477.jsonl",
+  "batch_sha256": "e66ff30de80acc2d7574fc8fb9475df000dc0a4f8ae517a4593bf2a3b5ce1ff3",
+  "research_sha256": "ea3349a3af6ffa91c8f0dc16faa6b2e7200b8e5f260ec8a2f455d9ab62fdf4a0",
+  "input_sha256": "e21adacb9832b0fbcd19b2c6062db860a37f675f1f086f5cf00f42202a2ac08d"
+}

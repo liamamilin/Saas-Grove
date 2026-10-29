@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "reporting-platform / github:40549369：Seal Report 自身为完整 MIT，但 README 明确提示第三方组件按各自许可分发（尤其 QuestPDF）；采用方仍需核对 THIRD-PARTY-NOTICES，QuestPDF 社区许可存在营收门槛，这不是 Seal Report 仓库许可证的缺陷。",
+    "ai-cost-finops-platform / commercial:ai-spendops：产品以低延迟网关承载 token 计量与模型策略执行，成本归因是价值主张；与 AI Gateway 的边界建议在记录中持续写明。现有证据仅为厂商首页，属商业基本真实性范围，未做独立第三方核验。",
+    "ai-governance-platform / commercial:credo-ai：产品页将 CI/CD、CASB、API 网关的执行集成标为 planned；可核实的当前能力是注册、评估、审批门控与证据留存，不宜把运行时强制执行写成已交付。",
+    "enterprise-ai-assistant / github:600596928：README 仍以通用 self-hosted AI chat platform（Enhanced ChatGPT Clone）自述，“企业”定位依赖多用户认证、管理员面板和角色/组权限；未提供单独的社区版/企业版许可边界说明，MIT 仓库本身足以支持当前记录。",
+    "enterprise-knowledge-assistant / github:649170660：多用户实例与权限管理按 README 仅限 Docker 版，桌面版为单用户；记录中应保留该部署限定，避免把桌面版当作组织级 EKA。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，与 batch/research 的 5 个案例不一致；这是输入阶段快照，不影响内容结论，但下游复用 progress 字段时需刷新。",
+    "被排除候选（JasperReports Server、infofabrik/reportserver、Helicone、OpenMeter、TokenTrail/TokenLedger、TokenBudget、AI Verify、RAGFlow、Onyx）的排除理由已在 research.json 留档，但其快照未收入 REVIEW_SOURCES，本单元无法独立复核；不影响已采用案例。"
+  ],
+  "leaf_checks": {
+    "reporting-platform": {
+      "application_id": "github:40549369",
+      "verdict": "verified",
+      "basis": "Seal Report：GitHub metadata id=40549369；license API 返回完整 MIT 文本（Copyright (c) Ariacom SARL），metadata 的 license.spdx_id=MIT，README 亦声明 MIT。README 正文显示 SQL/NoSQL 数据源、restrictions、PDF/Excel/HTML/CSV/XML/JSON 输出、Web Report Server、Report Scheduler 投递到文件夹、FTP/SFTP、SharePoint 或邮件，以及 drill-down 与 sub-reports；Server.cshtml 显示 Security Provider、Security Group 对仓库文件夹与报表的查看/运行/编辑权限、审计脚本及计划同步。固定布局报表定义 → 文档渲染 → Web 发布 → 计划投递的定义核心成立，边界是报表平台而非交互式 BI。",
+      "gaps": "未运行；分页与固定版式细节依赖模板；JasperReports Server 404、infofabrik/reportserver NOASSERTION 仅见 research 留档，未在本单元快照中复核。"
+    },
+    "ai-cost-finops-platform": {
+      "application_id": "commercial:ai-spendops",
+      "verdict": "verified",
+      "basis": "AI SpendOps 官方首页：快照内逐字匹配到 attributes every token to a team, feature, or customer 与 16+ LLM providers，并以同 URL 实时页面核对正文；说明跟踪 16+ LLM 提供商的 token 成本、按 team/feature/customer/environment 归因、预算阈值与预测、支出仪表盘，并通过低延迟网关执行模型策略。AI 消耗计量 → 成本分配 → 组织归因 → 支出可见性四项核心均有正文证据，商业类型匹配。",
+      "gaps": "仅厂商首页单一来源，未核价目表、供应商账单对账或多租户实现；Helicone、OpenMeter、TokenTrail/TokenLedger、TokenBudget 仅有 research 留档，未在本单元快照中复核。"
+    },
+    "ai-governance-platform": {
+      "application_id": "commercial:credo-ai",
+      "verdict": "verified",
+      "basis": "Credo AI 官方产品页：快照内匹配到 Governance workflows with approval gates 与 Centralized inventory of every AI system 等正文；页面列出 AI Registry（agents/models/apps 与 shadow AI discovery）、risk library/动态评分、EU AI Act/NIST/ISO 42001/SOC 2 policy packs、带审批门控的治理工作流、automated evidence generation 与 audit trails。注册 → 风险评估 → 控制 → 生命周期门控 → 治理记录的定义核心成立，且明确为 AI 治理而非模型训练/部署流水线。",
+      "gaps": "证据为厂商产品页；CI/CD、CASB、API 网关执行集成在页面标为 planned；AI Verify 为测试/评估工具包，仅有 research 留档。"
+    },
+    "enterprise-ai-assistant": {
+      "application_id": "github:600596928",
+      "verdict": "verified",
+      "basis": "LibreChat：GitHub metadata id=600596928；license API 返回完整 MIT 文本（Copyright (c) 2026 LibreChat），metadata license.spdx_id=MIT。README 正文自述 self-hosted AI chat platform，支持 OAuth2/LDAP/Email 多用户认证、Admin Panel 管理 users/groups/roles 与 per-role/group permissions、Docker Compose 与 Redis 横向扩展，以及多模型对话、Agents、MCP、文件搜索和代码解释器。组织可自托管并管理用户与权限、面向自身用户提供模型生成对话，三项定义核心成立。",
+      "gaps": "未运行；README 的通用 chat platform/Enhanced ChatGPT Clone 自述使“企业”定位依赖管理能力；未提供社区版/企业版许可边界说明。"
+    },
+    "enterprise-knowledge-assistant": {
+      "application_id": "github:649170660",
+      "verdict": "verified",
+      "basis": "AnythingLLM：GitHub metadata id=649170660；license API 返回完整 MIT 文本（The MIT License，Copyright (c) Mintplex Labs Inc.），metadata license.spdx_id=MIT。README 正文显示 Chat with your docs、文档摄取（PDF/TXT/DOCX 等）、chat UI 的 source citations、自托管/本地运行、Full Developer API，以及 Docker 版 multi-user instance support and permissioning。组织自有文档构成语料、员工自然语言提问、返回带引用的合成答案，EKA 核心成立；工作区与文档问答而非搜索结果列表。",
+      "gaps": "多用户与权限按 README 仅限 Docker 版，桌面版为单用户；未运行；RAGFlow（Apache-2.0 但定位 RAG/context layer）与 Onyx（NOASSERTION）仅有 research 留档。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未重算 SHA-256、未做部署或运行时测试，也未核价目表/架构。12 个快照均按 REVIEW_SOURCES.json 的 path 原样读取；两个商业营销页的 HTML 为单行，读取器按 2000 字符截断，故对 AI SpendOps 与 Credo AI 辅以同 URL 的实时页面文本，并在快照内用逐字匹配确认关键陈述（快照标题/日期与实时页一致）。被排除候选（JasperReports Server、infofabrik/reportserver、Helicone、OpenMeter、TokenTrail/TokenLedger、TokenBudget、AI Verify、RAGFlow、Onyx）的快照不在本单元 REVIEW_SOURCES 中，其排除理由只能依据 research.json 留档。商业条目只核基本真实性与类型匹配，未做独立第三方验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-131/ses_groveopencodegop131review1_1793008568.jsonl",
+  "batch_sha256": "e731940c2a4282903ece520c39a1ed2e5c5cdb44dd903b946ef860e1b7931f93",
+  "research_sha256": "a5c401fe33cd6806fdfc2e9ff98f4a919fe420c8f090ed53a7cc26f43b74a849",
+  "input_sha256": "3784949d6bf1fe71387dd5603e11b7702f72037c5e35370d513b4e64f92d20af"
+}

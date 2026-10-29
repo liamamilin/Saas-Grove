@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "README 将项目定位为 NIT Goa techexpo prototype，并明确 demo ledger 不是真实资金、ESP32/PN532 固件未在真实硬件运行、真实 NTAG 424 provisioning 未测试；当前匹配只应理解为软件核心已实现，不应推断生产部署或真实刷卡已验证。",
+    "features 中“管理员控制台支持发卡、停用/恢复、充值调账与规则配置”的边界宜按快照收紧：README 可见的卡片/学生登记路径是 tools.seed --card/--sim，限额由环境变量配置，管理员页面明确支持读者模式/会话、停用/恢复与充值；若要保留“发卡/调账”表述，建议补充管理员页面或接口快照。该点不影响本叶核心匹配，属非阻断措辞精度问题。",
+    "未体现 SIS 关联同步、补发/换卡、商户结算等定义性核心之外的能力；leaf_matches 中“完整凭证生命周期”宜限定为发放、停用/恢复和单卡在用，避免读者理解为已覆盖补发与换卡流程。",
+    "README 的 Licenses 段说明代码为 MIT，但 app/static/fonts 下 IBM Plex 字体为 SIL OFL；license_review 可补充该第三方字体例外，避免把仓库全部资产简单概括为单一 MIT。",
+    "仓库快照为 GitHub HTML 页面与 raw README/LICENSE/architecture，未抓取 app/ 源码；README 所称 91 项测试通过未在本轮执行，核心工作流主要依据 README 与 architecture 文档。",
+    "input.json 的 leaf progress 仍为 case_status=insufficient_evidence、application_ids=[]，而本轮 batch/research 已给出 case_found/github:1432012861；归档时应同步该进度，避免同一单元出现新旧状态并存。",
+    "GitHub API 匿名配额耗尽、部分检索未取得结果、未取得生产运维或社区发布资料，已在 research.json 的 failed/not fetched 记录中披露，属已记录缺口，不阻断本次初审。"
+  ],
+  "leaf_checks": {
+    "campus-card-management": {
+      "status": "pass",
+      "input_application_ids": [],
+      "batch_application_ids": [
+        "github:1432012861"
+      ],
+      "definitional_core": "通过（软件层）。README 明确 One NFC card per student，并通过 --card 24ECE1020=04AABBCCDDEE11（roll number = 7-byte UID）把卡绑定到已识别学生；architecture 说明每次 tap 由服务端解密 UID/counter、校验 CMAC 与设备 HMAC，按 attendance/mess/vendor 模式及开启的会话规则判定，写入 append-only tap 与 ledger；admin 可停用/恢复（恢复需学生 PIN），且每生仅一张 live card。发放、停用/恢复、单卡在用构成集中生命周期管理；补发/换卡流程未见明确说明，但不影响本叶核心。",
+      "service_form": "通过。FastAPI + SQLite 自托管服务，含 admin/student/vendor 三个网页以及持续运行的 /api/tap、/api/poll；属于服务器端多用户软件服务，而非库、脚本或纯元数据。ESP32/PN532 只是接入端，tools.simtap 可无硬件演示。",
+      "identity_track": "通过。track=open_source；仓库 kartikeyy12/campus-tap，GitHub repository id 1432012861，页面元数据 public=true、is_fork=false，与 batch 的 github:1432012861 一致；产品身份为 NFC campus ID card，核心类型匹配 campus-card-management，而非门禁控制器、通用支付或教务记录系统。",
+      "license_and_community_boundary": "通过。快照 LICENSE 为完整 MIT 文本（Copyright (c) 2026 Kartikey），含授权、版权声明保留和免责声明；README 标注 code MIT。未发现 open-core/付费版分层，社区版即仓库完整代码；README 另说明 app/static/fonts 的 IBM Plex 字体为 SIL OFL，属已披露的第三方资产例外，不影响代码 MIT 的完整性。",
+      "source_verification": "四个 REVIEW_SOURCES path 均按原样读取：仓库页 HTML、raw README、raw LICENSE、raw docs/architecture.md；与 batch.json 的 sources/sha256 对应。核心工作流依据 README 与 architecture 正文，未以仓库简介、页面标题或 Loading 状态替代。",
+      "documented_gaps": "research.json 已记录 GitHub API 匿名配额耗尽、部分检索未取得结果、未运行/未部署项目、未做真实 ESP32/PN532 与 NTAG 424 provisioning 测试、未取得生产运维或社区发布资料；README 自述 91 项测试通过但本轮未执行。属已披露缺口，按任务规则可通过。",
+      "commercial": "N/A：本单元只有 open_source 条目，无商业条目需核对。"
+    }
+  },
+  "limits": "只读审查；仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 指定的四个快照；未运行 shell、未写文件、未部署或运行 Campus Tap、未做真实硬件/卡片测试、未抓取 app/ 源码、未访问其他单元或额外网络来源；未实际执行 README 所称 91 项测试；GitHub API 配额与生产运维资料缺口以 research.json 记录为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-177/ses_groveopencodegop177review1_1793254500.jsonl",
+  "batch_sha256": "140b099c4c7382d84342f8db0d0d5d9dfe32bbb989dc1c80cbebec7c0cf0210b",
+  "research_sha256": "e41e69b6424db3548ebca1250882a85d4531cc93b0b11a9c58a68d59f19436b3",
+  "input_sha256": "f289fb334ccb1f827ad49f5ff4f8eca7e7603a106dc8a0aa4c3c2073a5535c7a"
+}

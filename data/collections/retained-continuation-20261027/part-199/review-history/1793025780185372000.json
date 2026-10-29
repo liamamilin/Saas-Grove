@@ -1,0 +1,86 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "agribusiness-erp",
+      "application_id": "github:441383353",
+      "issue": "该仓库是 ERPNext 的农业领域模块，而不是完整的农业 ERP。README 只说明记录作物与土地、跟踪植物/土壤/水分/天气分析及病害和肥料，安装步骤以已安装的 ERPNext 站点为前提；快照中没有会计、库存、采购、销售、种植者合同、接收质检、结算，或生产事件过账到账簿的证据。依赖宿主的农艺模块本身不满足本叶“单一集成后台”的定义性核心，批次摘要中“属于农业 ERP 的领域模块，不是独立 ERP”的边界说明也印证了这一点。",
+      "fix": "改用能同时证明 ERP 后台与农产品商品流的完整农业 ERP；或将案例明确重构为“ERPNext + Agriculture”，补充 ERPNext 会计/库存/采购/销售及该模块过账或集成方式的来源。若无法提供这些证据，应移除该叶匹配并记录为无案例，而不是把该模块标为完整农业 ERP。"
+    }
+  ],
+  "non_blocking_notes": [
+    {
+      "slug": "timber-supply-chain-management",
+      "note": "Remsoft 首页快照支持木材流动规划（Tactical Optimization 的 Integrated Harvest, Roads and Wood Flow Planning）以及多方装载记录、路线规划、调度、称重验证和交付协调；但未明确展示 roadside/rolling/yard/mill 的链上库存画面，因此“覆盖三个核心”的表述略强于该快照。商业基本类型匹配不受影响；若严格要求链上库存，建议补产品页或数据表。"
+    },
+    {
+      "slug": "agricultural-gis",
+      "note": "Ag Leader SMS 页面同时包含可变速率处方、guidance line 等精准农业执行内容，且以桌面端和在线许可为主，不是纯 Web SaaS；但其田块边界、土壤调查、航拍/道路底图、多层查询、管理分区、NDVI 和 3D 地形等 GIS 核心证据充分，当前按商业类型匹配通过。"
+    },
+    {
+      "slug": "agribusiness-erp",
+      "note": "README 的 'track plant' 在批次摘要中被写成“跟踪种植”，属于轻微措辞偏差；即使改为“植物”也不改变该模块缺少 ERP 核心的结论。"
+    },
+    {
+      "slug": "all",
+      "note": "input.json 的 progress 仍为 not_searched，application_ids 和 research_records 为空，而 batch.json/research.json 已记录 case_found 和五个 application_id。若下游以 input.json 作为进度源需同步；否则应以 batch/research 为准。"
+    },
+    {
+      "slug": "all",
+      "note": "websearch 401、Trimble 页面超过 1MB、Ag Leader 先 502 后改用浏览器 UA 取得快照等查询/抓取缺口均已如实记录；这些留档缺口本身不阻断，因为已有可核对的官方页或仓库快照。"
+    }
+  ],
+  "leaf_checks": {
+    "timber-supply-chain-management": {
+      "track": "commercial",
+      "application_ids": [
+        "commercial:remsoft"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/6c3e496028e9dc1dcc96b634813d2f57914568d3cc7d8cf4d9eea7945e9f5b13.txt（remsoft.com 快照）。首页卡片将 Tactical Optimization 描述为 Integrated Harvest, Roads and Wood Flow Planning，将 Operations 描述为对 schedules、equipment、loads 的共享可见性，将 Transportation & Logistics 描述为 multiparty digital records，并明确 forest owners、contractors、mills 共享每次装载记录，连接路线规划、调度、称重验证和交付协调。",
+      "gaps": "首页快照未明确展示 roadside/rolling/yard/mill 的节点级库存画面；未验证价格、订阅和部署形态。商业条目仅按基本真实性和类型匹配核对。"
+    },
+    "agribusiness-erp": {
+      "track": "open_source",
+      "application_ids": [
+        "github:441383353"
+      ],
+      "status": "fail",
+      "basis": "读取 GitHub 仓库元数据（id 441383353）、README 和许可证快照。README 自述为 Agriculture Domain of ERPNext，功能限于记录作物与土地、跟踪植物/土壤/水分/天气分析及病害和肥料；安装要求先有 ERPNext 站点。许可证快照含完整 GPL-3.0 文本，仓库身份和许可证本身正确。",
+      "gaps": "缺少会计、库存、采购、销售、种植者合同、接收质检、结算及生产事件过账等本叶定义性核心；该应用是依赖宿主的农艺领域模块，不是独立农业 ERP。类型/核心不匹配即为 findings 中的问题。"
+    },
+    "agricultural-gis": {
+      "track": "commercial",
+      "application_ids": [
+        "commercial:ag-leader-sms"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/b1378c0250e331ae42e7b154de4ece3c536acd301e820d81a64b9c4929837e97.txt（agleader.com/sms-software 快照）。页面覆盖 Boundary logging、Soil survey maps、多层查询、多年度平均分析、management zone editor、NDVI analysis、3D Terrain View 和可变速率处方；价格区显示 SMS Basic/Advanced 及 AgFiniti 在线许可。",
+      "gaps": "桌面端为主并使用 AgFiniti 在线许可/云同步，不是纯 Web SaaS；同时包含精准农业执行功能。未做部署或运行验证。"
+    },
+    "agricultural-iot-platform": {
+      "track": "open_source",
+      "application_ids": [
+        "github:1150674441"
+      ],
+      "status": "pass",
+      "basis": "读取 GitHub 仓库元数据（id 1150674441）、README 和许可证快照。README 明确 HTTP/MQTT 传感器接入、10+ 传感器型号、实时看板与历史趋势、按 FPF 配置的阈值警报和 Matrix 通知、基于间隔/时间/传感器阈值的自动控制，以及多租户 Admin/Member 角色。许可证快照含完整 AGPL-3.0 文本。",
+      "gaps": "大学项目，未做生产验证或运行测试；未发现独立的社区版/商业版边界。"
+    },
+    "crop-remote-sensing-platform": {
+      "track": "open_source",
+      "application_ids": [
+        "github:1158459932"
+      ],
+      "status": "pass",
+      "basis": "读取 GitHub 仓库元数据（id 1158459932）、README 和许可证快照。README 明确绘制/上传 GeoJSON/KML 田块边界并自动计算面积、Sentinel-2 NDVI/EVI/SAVI/NDWI 与 24 个月历史回填、按指数配置阈值/跌幅警报、地理标记巡查、采样分区、地图与时间序列视图、分享报告。许可证为完整 BSD-3-Clause 文本。",
+      "gaps": "项目较新且尚无测试，未做运行验证；仓库为个人账号而非组织账号，未发现独立的社区版/商业版边界。"
+    }
+  },
+  "limits": "本次为只读桌面初审；未运行应用、未做部署/租户/价格/架构验证，未重算快照 sha256，也未读取其他单元或采集过程脚本。GitHub README/license 快照为单行 base64 JSON，读取工具会截断超长行，因此完整正文是通过快照 envelope 中的 download_url/LICENSE 对应 raw 文件核对，未用采集摘要替代核心正文。商业条目仅按基本真实性和类型匹配核对。websearch 401、Trimble 页面超 1MB 等缺口按已有留档接受。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-199/ses_groveopencodegop199review1_1793025266.jsonl",
+  "batch_sha256": "ef6783a70d31411f0f57d8ad8f8aae7256f31b4214362ff37161176ca97a3299",
+  "research_sha256": "bd656ac467eb1b6f25a8e7b8fd739e51811728487d8e38191f974af08267a656",
+  "input_sha256": "37db8d432ad541b45adf1c79bb46b2830f7bca0e4483c9e9b0f53554303757ab"
+}

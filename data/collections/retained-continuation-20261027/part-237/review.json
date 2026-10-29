@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "audience-response-system / github:703788791：README 的 Features Implemented 正文证明了实时课堂投票、WebSocket 实时反馈、MCQ/MAQ 与评分分析，但“汇总结果回投同一教室”只是由 live feedback 推得，并未逐字出现；batch 的 leaf_match 已经刻意不作此声称，建议后续补充演示或截图文档，无需在本轮阻断。",
+    "github:703788791：仓库元数据快照显示的默认分支为 development，而 README/LICENSE 快照取自 main；两处内容都完整，但 URL 分支不一致，建议在来源记录中注明所取分支，以免复审时误判。",
+    "github:703788791：homepage 记为 GitHub 仓库地址，而仓库侧栏另指向项目站点 https://osu-mc.github.io；这对开源条目无碍，可作为补充主页记录。",
+    "event-agenda-management / github:1479403：frab 的 README 只写了“create a schedule”，以及通过 rake 任务导出会议与静态日程，未逐字描述公开节目单页面或按房间编排。按定义，dc 允许“printed or downloadable program documents”作为发布面，因此可以成立；batch 也已回避过度表述。",
+    "github:1479403：LICENSE 快照以 Kalua 与第三方许可提示开头，GitHub 许可证识别为 NOASSERTION 与此相符，正文则是完整的 MIT 授予；README 也声明 MIT。因此按 MIT 记录是合理的，但仓库内捆绑的第三方库/资源未逐一列明，license_review 的 scope=repository 处已有提示。",
+    "digital-waiver-management / commercial:waiverforever：唯一来源是首页预渲染营销页，正文明确“create forms, collect legally binding electronic signatures, and securely manage records across web, tablet, and kiosk workflows”，足以支撑商业条目的基本真实性与类型匹配；可检索归档、留存期限、离线同步未见于正文，batch 与 research 已经不作声称。",
+    "digital-waiver-management：research 记录的检索词面向开源方案，最终采用的却是商业产品；research 的 note 已体现这一转向，建议在查询词与案例来源之间补一行说明，便于追溯。",
+    "input.json 的 progress 块对五个叶均记为 case_status=not_searched、application_ids 与 research_records 为空，而 research.json/batch.json 实际记录了 3 个案例；这看起来是检索前的种子元数据（phase=included_without_cases），下游不应据此丢弃已记录的案例。",
+    "convention-exhibition-management：research 记录了 eventyay-exhibition 的仓库/README/LICENSE 抓取与 README.md 404，并以“缺少可售展厅平面库存与空间分配”为由不建立关系；该判断保守且留档充分，但候选快照未列入 REVIEW_SOURCES，本轮无法独立复核。",
+    "event-credential-badge-management：badgeprint 的排除理由（仅 CSV 导入、二维码/条码/API 签到、打印与重打 Brother QL 标签，无凭证类别体系）与叶定义一致；idento 以 proprietary 及单事件模板被拒也已在 fetch_outcomes 留痕，但其快照同样不在本单元来源清单内。"
+  ],
+  "leaf_checks": {
+    "audience-response-system": {
+      "applications": [
+        "github:703788791"
+      ],
+      "status": "pass",
+      "core_check": "README 正文（Features Implemented）确认：面向学生/教师/管理员的角色控制、基于 WebSocket 的实时课堂投票与实时反馈、MCQ/MAQ 题型与评分分析、讲座/课程与花名册管理。由此可确认“主持人主导的实时会话 + 结构化题目 + 个人应答 + 实时聚合反馈”这一核心闭环，且与调查平台/表单工具明确区分（题项只在实时会话中开放）。",
+      "service_form_check": "开源、自托管 Web 应用（Docker/Docker Swarm、MySQL、Redis、WebSocket），track=open_source 与服务形态一致；未见开源核心之外的付费社区版限制。",
+      "identity_license_check": "repository_metadata 快照中 octolytics-dimension-repository_id=703788791、repository_nwo=OSU-MC/Open-Response，与 application_id 一致。LICENSE 快照为完整 GPLv3 正文（含 END OF TERMS AND CONDITIONS 及标准 How to Apply 模板），README 声明 GPL v3.0 且无 “or later”，故 GPL-3.0-only 的记法可接受。",
+      "gap": "“聚合结果展示回同一教室”与“学生以自有设备低摩擦加入”属推断而非逐字证据；未做运行验证。"
+    },
+    "convention-exhibition-management": {
+      "applications": [],
+      "status": "pass_no_case_documented",
+      "core_check": "本叶无案例。research.json 记录了检索词、eventyay-exhibition 仓库/README/LICENSE 抓取及 README.md 404，并说明该插件只覆盖展商/赞助商、展位记录、参展申请、套餐配额与线索扫描，未证明“展厅平面作为可售库存”和具体空间分配/合同支付门控，因此未建立关系；这符合叶定义中“移除可售平面与展商商业即退化为通用活动平台”的边界。",
+      "service_form_check": "无收录条目，无需核对 SaaS/开源形态；另以 floorplan-studio、spot-mapper 为纯客户端/静态工具为由不将其标为 SaaS 记录在案。",
+      "identity_license_check": "无收录条目，无 ID/许可证需核对。",
+      "gap": "候选来源快照未包含在 REVIEW_SOURCES.json，无法在本轮独立复核 eventyay-exhibition 的 README/LICENSE 内容；reference 仅到 research 记录层面。"
+    },
+    "digital-waiver-management": {
+      "applications": [
+        "commercial:waiverforever"
+      ],
+      "status": "pass",
+      "core_check": "首页快照正文（hero 段）明确：面向服务型企业的在线免责声明软件，可创建表单、收集具法律约束力的电子签名，并在 web、平板与自助机(kiosk)流程中安全管理记录。三要素（运营商编写的免责文件、参与者电子签名、签署记录管理）齐备，类型匹配为数字免责声明管理而非通用表单。",
+      "service_form_check": "商业 SaaS 平台，track=commercial 与形态一致；homepage 域名 waiverforever.com 与条目标识一致，页面为真实产品站（含产品导航、客户案例、多语言 hreflang）。",
+      "identity_license_check": "商业条目，不适用开源许可证；未发现 id 与 track 冲突。",
+      "gap": "只有首页营销正文，未覆盖按姓名检索归档、留存期限、未成年人/监护人流程、离线同步；商业条目只做基本真实性与类型核对，batch 的表述未超出该正文。"
+    },
+    "event-agenda-management": {
+      "applications": [
+        "github:1479403"
+      ],
+      "status": "pass",
+      "core_check": "README 正文确认：frab 是 Web 会议规划与管理系统，帮助收集投稿、管理演讲与讲者并创建日程；rake 任务可导出会议与静态日程，FrOSCon 自 2011 年起在 100+ 演讲、5 条以上并行 track 上使用。场次记录 → 组织方维护的议程 → 面向受众的发布面（导出/可下载静态日程）这一主干成立；投稿收集为附加层。",
+      "service_form_check": "开源、自托管 Ruby on Rails Web 应用，README 说明可用 Docker 或 PaaS 部署，track=open_source 与部署方式吻合；无开源版/商业版切分陈述。",
+      "identity_license_check": "repository_metadata 快照中 octolytics-dimension-repository_id=1479403、repository_nwo=frab/frab，与 application_id 一致。LICENSE 快照为完整 MIT 授予文本（Kalua 世系版权行 + 标准免责段落），README 亦声明 MIT；GitHub 识别为 NOASSERTION 与文件开头的第三方许可提示相符，按 MIT 记录合理，且已注明捆绑第三方可能另有许可。",
+      "gap": "未逐字证明公开节目单页面与按房间编排；发布面由“导出静态日程”推得。未做运行验证。"
+    },
+    "event-credential-badge-management": {
+      "applications": [],
+      "status": "pass_no_case_documented",
+      "core_check": "本叶无案例。research.json 与 batch 均不含该叶条目；研究记录说明 badgeprint 的 README 仅覆盖 CSV 导入、二维码/条码/后台/API 签到、按姓名/组织/活动打印及重打 Brother QL 标签，仓库主题自标 label-printing，未证明凭证类别体系、按类别模板或类别驱动权限，故按叶定义“没有类别及其后果即退化为标签打印”而不建立关系；idento 因 proprietary 与单一事件级模板被拒。四次检索与抓取/拒绝结果均有留档。",
+      "service_form_check": "无收录条目，无需核对 SaaS/开源形态；被拒候选作为相邻候选保留。",
+      "identity_license_check": "无收录条目，无仓库 ID/许可证需核对。",
+      "gap": "badgeprint、idento 的快照未列入 REVIEW_SOURCES.json，本轮只能依据 research 记录判断，未独立复核其 README/LICENSE 正文。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell，未自行计算 sha256，仅按 REVIEW_SOURCES.json 原样读取 7 个快照（Open-Response 仓库页/README/LICENSE、frab 仓库页/README/LICENSE、WaiverForever 首页）并据此核对；所有路径均以 data/collections 为基准。未做部署或运行时验证，未访问产品 UI、价格页或架构文档。convention-exhibition-management、event-credential-badge-management 为无案例留档，其候选来源（eventyay-exhibition、floorplan-studio、spot-mapper、badgeprint、idento）及 event-agenda 研究提及的 pretalx 抓取结果均不在本单元 REVIEW_SOURCES 内，无法独立复核，只能依据 research.json 的查询/抓取/缺口记录。GitHub 页面快照为 HTML 预渲染内容，侧栏字段可能随页面渲染变化；homepage 仅覆盖营销页正文片段。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-237/ses_groveopencodegop237review2_1793034713.jsonl",
+  "batch_sha256": "b87cc22699ec6ec08a2b7c73427a313594597145f941a86dfaae7bb069301a66",
+  "research_sha256": "078dcd800df9606c139bb643114f94cd514db36233139bf1b2a07a4673416758",
+  "input_sha256": "ab8b0abf836fe2c844529043744e52db8adcdbdd664ad1d86ca0b55913470f14"
+}

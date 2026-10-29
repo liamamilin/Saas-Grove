@@ -1,0 +1,76 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "uReport 的官方 Wiki Workflow 页明确写“uReport does not enforce workflows”，快照主要证明人物与案件的角色关联、案件动作/状态与对居民回复记录，未直接证明跨案件累计关系历史、联系人属性或去重；当前 summary 已收敛为 lightweight CRM，建议保持这一边界，不要外推为全渠道/360° constituent CRM。",
+    "Alaveteli 是 mySociety 面向公众的 FOI 请求与公开回复平台，快照未证明机构内部的路由、审查/脱敏、法定时限、费用与安全发布；它符合本叶的 fully-public publication pole，但边界说明中宜保留“非机构内部 FOI case management”。",
+    "uData 的许可证证据使用了与 uReport LICENSE 相同的内容寻址快照（两份均为逐字相同的标准 AGPL-3.0），且 GitHub 仓库页快照未显示 license badge；许可证内容已核对完整，但建议补抓 uData 自身 LICENSE URL 的独立快照以增强来源可追溯性。",
+    "Alaveteli LICENSE.txt 的授权措辞为 AGPL version 3 or later，并明确 acts_as_xapian 为 MIT；当前 SPDX 记为 AGPL-3.0，建议改为 AGPL-3.0-or-later，并在许可证注记中保留 MIT 子组件例外。",
+    "NiCE 的政府页是行业营销页；IVR/呼叫路由、omnichannel routing、智能坐席匹配等细节主要出现在站点导航/产品链接，而非政府页正文。商业条目只要求基本真实性与类型匹配，当前已满足，但不要把导航文案当作产品核心正文。",
+    "Decidim 是 Ruby on Rails 框架/生成器，需要机构自托管生成应用，并非开箱即用的托管 SaaS；这不影响本叶的类型匹配，但 summary 中宜明确“framework/self-hosted”而非“SaaS”。",
+    "input.json 的 phase 仍为 included_without_cases，而 batch/research 已为五叶建立 case_found 记录；这是单元元数据不一致，不影响内容核对，但建议同步 phase/状态。"
+  ],
+  "leaf_checks": {
+    "civic-engagement-platform": {
+      "application_id": "github:65914086",
+      "track": "open_source",
+      "assessment": "pass",
+      "identity": "2e3d161c... 仓库页元数据含 repository_id=65914086、nwo=decidim/decidim；README 08afa0f3... 说明其为 Ruby on Rails 的 participatory democracy framework，最初服务 Barcelona 市政府。",
+      "license": "76a97c87... 为完整 AGPL-3.0 文本（第1行 GNU AFFERO GPL v3，第59行 TERMS AND CONDITIONS，第619行 END OF TERMS，第621行 How to Apply）；README 要求生产应用沿用 GPL Affero 3。",
+      "service_form": "自托管 Ruby on Rails 框架/生成器，机构生成并持续运营参与式平台；不是托管 SaaS。",
+      "core_evidence": "ae08ca71... 正文列出 Run participatory processes、Collect proposals（可合并相似提案并设置 official approval/rejection 工作流）、Vote and select proposals（含 participatory budgeting）、meetings、comments；README 第146行列 accountability for results 组件，支持结果反馈。",
+      "community_boundary": "单一 AGPL 仓库，快照中未见独立社区版/商业版分层；模块位于同一仓库。",
+      "gaps": "官网未展示专门的结果发布页，report-back 由 official approval/rejection 与 accountability 组件支持；未做运行时测试。"
+    },
+    "constituent-relationship-management": {
+      "application_id": "github:5769803",
+      "track": "open_source",
+      "assessment": "pass",
+      "identity": "a29c0ab6... 仓库页元数据含 repository_id=5769803、nwo=City-of-Bloomington/uReport，description 为 Issue tracking and constituent relationship management system ... local governments；README 03b66c19... 自述 CRM web application with Open311 endpoint / lightweight constituent management。",
+      "license": "57c8ff33... 为完整标准 AGPL-3.0 文本；README 第79-81行声明 GNU Affero GPLv3；仓库页 License 段同声明。",
+      "service_form": "自托管 PHP/Apache/MySQL/Solr Web 应用，面向较小市政机构。",
+      "core_evidence": "Wiki People fc047317... 说明人物与案件之间的 reporter/opener/assigned/referred 关系；Cases b48c748f... 说明 Actions 含日期、执行人、备注，case history 为 Actions 列表，issue history 记录对 constituent 的 Responses（联系方式、人员、时间），并有 open/closed 与部门自定义状态；Responses eabee4d7... 说明对公众回复的跟踪与 respond via 字段；Workflow 6fd5aba2... 说明不强制工作流、任何 staff 可处理任何 case。",
+      "community_boundary": "单一 AGPL 仓库，未见独立社区版/商业版分层。",
+      "gaps": "未直接证明 person-level 跨案件累计历史/360° 档案、联系人属性或去重；Workflow 明确不强制流程。当前 summary 已收敛为 lightweight CRM，边界与证据一致；不应外推为全渠道 CRM。"
+    },
+    "foi-public-records-request-platform": {
+      "application_id": "github:1125389",
+      "track": "open_source",
+      "assessment": "pass",
+      "identity": "3a62f084... 仓库页元数据含 repository_id=1125389、nwo=mysociety/alaveteli；README b8b3db4e... 说明其为跨国家部署的 FOI request 平台，源自 WhatDoTheyKnow，并列出 fyi.org.nz 等部署。",
+      "license": "c20f65f3... 第1-34行为 mySociety 许可说明，第38行起为完整 AGPL-3.0（第656行 END OF TERMS）；说明多数代码 AGPL v3 or later，acts_as_xapian 为 MIT。",
+      "service_form": "自托管 Ruby 应用，按司法辖区独立部署；非托管 SaaS。",
+      "core_evidence": "abd7bf1b... 正文说明 public FOI requests to public bodies、request 与 responses 公开发布、controls the workflow of every request 并在各阶段通知/提醒 public bodies 与 requesters、25+ jurisdictions；README 说明 internationalised platform。",
+      "community_boundary": "单一 AGPL 仓库；LICENSE 明确 acts_as_xapian 子组件为 MIT；快照中未见独立社区版/商业版分层。",
+      "gaps": "公开请求/发布平台，未证明机构内部路由、审查/脱敏、法定时限、费用与安全发布；符合本叶 fully-public publication pole，但不是 agency-internal FOI case management。"
+    },
+    "government-contact-center": {
+      "application_id": "commercial:nice-cxone",
+      "track": "commercial",
+      "assessment": "pass",
+      "identity": "9cd46770... 为 nice.com/industries/government 页面，正文标题 Constituent CX Software for Governments，说明 CXone 为 FedRAMP-certified AI platform，覆盖 web/chat/voice/SMS，含 smart self-service、proactive alerts、analytics/agent assist 与 FedRAMP Moderate ATO；站点导航链接 IVR/call routing 与 omnichannel routing/smart agent matching。",
+      "license": "商业条目，无开源许可证要求；未核验价格/合同。",
+      "service_form": "商业云联络中心（CCaaS）/政府行业方案。",
+      "core_evidence": "政府行业页明确服务各级政府、以 constituents 为对象，并提供多渠道接入、自助服务、外联提醒、分析与 FedRAMP 合规；CXone 被页面表述为 CCaaS/AI platform。",
+      "community_boundary": "不适用（商业）。",
+      "gaps": "政府页为营销/行业页；队列、坐席分配、IVR/路由等核心机制主要出现在导航/产品链接而非政府页正文；未取得产品文档或运行时验证。商业只要求基本真实性与类型匹配，当前满足。"
+    },
+    "government-open-data-portal": {
+      "application_id": "github:19141754",
+      "track": "open_source",
+      "assessment": "pass",
+      "identity": "3c8faee1... 仓库页元数据含 repository_id=19141754、nwo=opendatateam/udata；README 0283484e... 说明其为 customizable and skinnable social platform dedicated to (open) data，由 data.gouv.fr 维护。",
+      "license": "57c8ff33... 为完整标准 AGPL-3.0 文本；该快照与 uReport LICENSE 字节相同（内容寻址去重），仓库树含 LICENSE；未在仓库页快照看到 license badge。",
+      "service_form": "自托管 Python 后端 + cdata 前端，机构可部署开放数据门户。",
+      "core_evidence": "RDF 6409349f... 将 Dataset 映射为 DCAT Dataset（title/description/tags/issued/modified/temporal/frequency/license），Resource 映射为 DCAT Distribution（downloadURL/accessURL/format/mediaType/byteSize/checksum），并提供 /site/catalog 与 /organizations/{id}/catalog；Harvesting b7908cc3... 说明远端元数据入库、Elasticsearch 索引与 /api/1/datasets/?q= 检索；getting-started 515e4e9c... 说明 backend + cdata 自托管。",
+      "community_boundary": "uData 为 AGPL 仓库，cdata 为独立开源前端；快照中未见 open-core/商业版分层。",
+      "gaps": "README 仅一句 tagline，核心证据来自官方文档；uData 后端与 cdata 前端分离；许可证快照为共享内容寻址文件，建议补 uData 自身 LICENSE 独立快照；未做运行时测试。"
+    }
+  },
+  "limits": "本次为只读独立初审；未运行 shell、未写文件、未读取其他单元。未执行部署、运行时、价格或架构测试；未独立重算快照 sha256，仅按 REVIEW_SOURCES.json 的 path 读取文件内容并核对文件名哈希。NiCE 仅有商业政府行业页/导航，未取得产品文档；uReport 与 Alaveteli 的部分能力来自官方 Wiki/README 的边界描述，未做运行时验证。为核对快照可读性，对 uData/uReport LICENSE 与 NiCE 页面做了在线只读比对，未新增条目来源。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-027/ses_groveopencodegop027review1_1793078082.jsonl",
+  "batch_sha256": "88cc72f05f99620ae775af7dfa638c91bba227d4990d8eee9ba06e718484ff1f",
+  "research_sha256": "404c08f004aa7f67ae7a50f392dbd9d82b241107533afbbe66c8ad420b2224b3",
+  "input_sha256": "17f25b5129dc340d32abcb8a7c7816436a5ac291dbf361284fc4ec0f618d5315"
+}

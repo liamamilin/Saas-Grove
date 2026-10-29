@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "clinical-decision-support-system",
+        "name_zh": "临床决策支持系统（CDSS）",
+        "domain_id": "22",
+        "parent_id": "22.04",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source clinical decision support system CDSS github"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/925",
+            "result": "insufficient_evidence",
+            "note": "检索到 DoctorAgent（宣称自托管 CDSS、FHIR R4/CDS Hooks）、smart-on-fhir-cds（CDS Hooks 示例，明确不可用于真实临床决策）和 cqf-ruler（FHIR 临床推理服务器）。DoctorAgent 的仓库页、README、LICENSE 均返回 HTTP 404，无法核验身份、完整许可证与核心工作流；其余候选不满足完整应用或临床决策边界。保留候选 URL 与实际抓取失败记录，未建立关系。",
+            "query": "open source clinical decision support system CDSS github; open source clinical decision support system CDSS self-hosted github 2025"
+          }
+        ],
+        "archived": false,
+        "note": "检索到 DoctorAgent（宣称自托管 CDSS、FHIR R4/CDS Hooks）、smart-on-fhir-cds（CDS Hooks 示例，明确不可用于真实临床决策）和 cqf-ruler（FHIR 临床推理服务器）。DoctorAgent 的仓库页、README、LICENSE 均返回 HTTP 404，无法核验身份、完整许可证与核心工作流；其余候选不满足完整应用或临床决策边界。保留候选 URL 与实际抓取失败记录，未建立关系。"
+      },
+      "definition": {
+        "slug": "clinical-decision-support-system",
+        "name": "Clinical Decision Support System",
+        "name_zh": "临床决策支持系统（CDSS）",
+        "aliases_zh": [
+          "临床决策辅助系统",
+          "医疗决策支持系统"
+        ],
+        "overview": "A **Clinical Decision Support System (CDSS)** is software that applies clinical knowledge to a specific patient's situation and delivers the result as advice to a clinician at the moment of a clinical decision — an alert while an order is being signed, a suggested order set during ordering, a differential list during diagnosis, an action list on a surveillance board. The system advises; the clinician decides and acts.\n\nIts defining structure is small:\n\n```text\nPatient-Specific Clinical Context\n└── Clinical Knowledge Evaluated Against That Context\n    └── Person-Specific Advisory Output, Delivered at a Clinical Decision Point\n        └── Clinician Retains the Decision (accept / reject / override)\n```\n\nEverything else commonly associated with the category — embedded delivery inside an electronic health record (EHR), licensed evidence-based content libraries, machine-learning models, alert-fatigue dashboards, population surveillance boards — is widespread in current products but is not what makes the software decision support.\n\nA CDSS is not the patient record itself (the EHR), not the order-entry or prescribing workflow it usually fires inside, and not generic clinical reference content: the binding of knowledge to an identified patient at a decision moment is the boundary.",
+        "overview_zh": "**临床决策支持系统 (CDSS)** 是一种软件，它将临床知识应用于特定患者的情况，并将结果以建议的形式在临床决策时刻提供给临床医生——例如在签署医嘱时的警报、在下医嘱过程中建议的医嘱集、在诊断时的鉴别诊断列表、或在监控面板上的行动列表。系统提供建议；临床医生做出决定并采取行动。\n\n其核心结构如下：\n\n```text\n患者特定临床背景\n└── 基于该背景进行评估的临床知识\n    └── 在临床决策点提供的、针对个人的建议输出\n        └── 临床医生保留决策权（接受/拒绝/覆盖）\n```\n\n其他通常与此类别相关的所有内容——嵌入在电子健康记录 (EHR) 中的交付方式、授权的循证内容库、机器学习模型、警报疲劳监控面板、人群监控面板——在当前产品中普遍存在，但它们并非该软件作为决策支持的核心特征。\n\nCDSS 不是患者记录本身（即 EHR），不是它通常触发于其中的医嘱录入或处方工作流程，也不是通用的临床参考内容：将知识与已识别患者在决策时刻进行绑定，这才是其边界。",
+        "dc": "Four properties, each necessary for the software to be recognizable as decision support:\n\n- **Patient-specific clinical context** — the computation is about an identified individual patient: their demographics, problems, medications, allergies, results, or the clinical features entered about them. Remove this and the product becomes generic reference content.\n- **Clinical knowledge applied through decision logic** — curated rules, evidence-based content, trained models, scores, or drug-knowledge modules that convert context into advice. Remove this and the product is data display, a function of the record system rather than decision support.\n- **Advisory output at a decision point** — the result is delivered where a clinical decision happens: order entry, order signing, documentation, chart review, diagnosis. Remove the decision-point binding and the product drifts toward reporting and analytics.\n- **Clinician retains the decision** — the advice enters care only through a human's acceptance; overriding is a supported and recorded path. The system does not execute the clinical action on the patient.",
+        "dc_zh": "- **特定患者的临床情境** — 计算是关于已识别的个体患者：他们的统计信息、问题、药物、过敏、结果或关于他们的临床特征。移除这个，产品就变成了通用参考内容。\n- **通过决策逻辑应用的临床知识** — 精心策划的规则、循证内容、训练模型、评分或药物知识模块，将上下文转化为建议。移除这个，产品就是数据显示，是记录系统的功能而非决策支持。\n- **在决策点提供咨询输出** — 结果在临床决策发生的地方提供：医嘱录入、医嘱签署、文档、病历审查、诊断。移除决策点绑定，产品就偏向报告和分析。\n- **临床医生保留决策权** — 建议仅通过人类的接受进入护理；覆盖是受支持和记录的路径。系统不对患者执行临床操作。",
+        "rules": "### Advice only enters care through a clinician\n\nThe system computes and proposes; the record system and the clinician execute. Even when a decision-support service proposes a change that could be applied automatically, applying it remains the record system's controlled decision, and clinical actions ultimately require the clinician. This advisory posture is the Type's invariant: a system that acted on patients autonomously would no longer be decision support.\n\n### Advice is bound to its decision moment\n\nGuidance is computed for the task at hand and refreshed or withdrawn when the context changes; stale advice is removed rather than left accumulating. This is why integration contracts emphasize speed and current context.\n\n### Overriding is expected, instrumented behavior\n\nClinicians override advice for legitimate reasons; products treat the override — with its coded reason — as first-class data feeding content tuning, not as a failure state.\n\n### Alert fatigue is managed as a structural risk\n\nBecause low-value alerts erode clinician trust across all decision support, mature products expose monitoring, customization, and benchmarking of alerting, and increasingly use patient-specific filtering to reduce alert volume at the source.\n\n### Content changes are governed\n\nClinical content typically passes through review and approval before activation; vendor updates are applied without destroying local customizations; changes are tracked and auditable. In healthcare settings this governance is treated as a clinical-safety obligation, not just a software practice.\n\n### Patient-specificity is a quality lever\n\nAdvice computed from a genuinely patient-specific context (this patient's allergens, renal function, age, genotype) is both safer and quieter than broad checking; improving specificity is a common direction of product investment.",
+        "rules_zh": "### 建议只能通过临床医生进入诊疗流程\n\n系统进行计算和提出建议；记录系统和临床医生执行。即使当决策支持服务提出一个可以自动应用的更改时，应用它仍然是记录系统的受控行为，并且临床操作最终需要临床医生的参与。这种咨询姿态是该类型的不变量：一个自主对患者采取行动的系统将不再是决策支持。\n\n### 建议与其决策时刻绑定\n\n指导是为手头的任务计算的，当背景信息发生变化时会被刷新或撤回；过时的建议会被移除，而不是任其累积。这就是为什么集成合同强调速度和当前背景信息。\n\n### 覆盖是预期的、被记录在案的行为\n\n临床医生出于合理原因覆盖建议；产品将覆盖行为——及其编码的原因——视为用于内容调优的一级数据，而不是一种失败状态。\n\n### 警报疲劳被视为结构性风险进行管理\n\n因为低价值的警报会削弱临床医生对所有决策支持的信任，成熟的产品会暴露警报的监控、定制和基准测试，并越来越多地使用基于患者的过滤来从源头减少警报数量。\n\n### 内容变更受到治理\n\n临床内容通常需要在激活前经过审查和批准；供应商的更新在不破坏本地定制的前提下被应用；变更被追踪且可审计。在医疗保健环境中，这种治理被视为临床安全义务，而不仅仅是一种软件实践。\n\n### 患者特异性是质量杠杆\n\n从真正患者特定的背景（该患者的过敏原、肾功能、年龄、基因型）计算出的建议，比宽泛的检查更安全也更安静；改进",
+        "parent_id": "22.04",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 169,
+    "phase": "directory",
+    "parent": 169,
+    "slugs": [
+      "clinical-decision-support-system"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "f9ddbb025aa5fd522d3d76c52adfe839699138a63257310d53f79a06fa285df9"
+  }
+}

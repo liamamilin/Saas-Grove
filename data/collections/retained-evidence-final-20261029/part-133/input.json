@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 29,
+  "offset": 700,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "electrical-design-application",
+        "name_zh": "电气设计应用",
+        "domain_id": "16",
+        "parent_id": "16.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/639",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "GitHub 检索 QElectroTech electrical schematic symbol library wire list 并读取 README 与许可证"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "electrical-design-application",
+        "name": "Electrical Design Application",
+        "name_zh": "电气设计应用",
+        "aliases_zh": [
+          "电气CAD",
+          "电气原理图设计",
+          "EDA（电气设计自动化）"
+        ],
+        "overview": "An **Electrical Design Application** is an engineering design application for electrical systems: engineers design how machines, control cabinets, vehicles, and installations are wired by drawing **wiring schematics** — diagrams of devices shown as symbols and joined by wires — and the application understands those drawings as an electrical network rather than as pictures. From the connected design it generates the lists and layouts that drive panel building, wire-harness manufacture, and installation.\n\nThe defining core is small:\n\n```text\nDevice/Symbol Library (devices with connection points + part data)\n└── Wiring Schematic (design of record — single-line and multi-line diagram pages)\n    └── Connectivity (designated wires and connections held as electrical data)\n        └── Generated Deliverables (wire lists, terminal documentation,\n            parts lists, panel/harness production data)\n```\n\nEverything else commonly associated with these tools — cabinet layout in 3D, harness formboards, PLC documentation, device data portals, multi-user platforms — is standard capability or variant, not the definition. A tool that draws circuit-like diagrams without device libraries, connection-point semantics, and derived deliverables is a diagramming tool, not this Type.\n\nLabel note: this Type names the electrical-engineering side of the electrical/electronic design family. The circuit-board side is documented under ECAD / EDA and PCB Design; the defining structure is shared, while the object world differs (devices, wires, cables, terminals, cabinets and harnesses here; footprints, copper and boards there). The overlap between the directory leaves is recorded for review rather than silently resolved.",
+        "overview_zh": "**电气设计应用**是一种用于电气系统的工程设计应用程序：工程师通过绘制**接线原理图**来设计机器、控制柜、车辆和装置的布线方式——原理图中设备以符号表示，并通过导线连接——该应用程序将这些图纸理解为电气网络，而非仅仅是图像。从连接设计中，它生成用于控制柜制造、线束生产和安装的清单和布局。\n\n其定义性核心很小：\n\n```text\n设备/符号库（带有连接点的设备 + 部件数据）\n└── 接线原理图（设计记录——单线和多线图页）\n    └── 连接性（指定的导线和连接，作为电气数据保存）\n        └── 生成的交付成果（导线清单、端子文档、\n            部件清单、控制柜/线束生产数据）\n```\n\n与这些工具通常相关的其他一切——3D控制柜布局、线束施工板、PLC文档、设备数据门户、多用户平台——都是标准功能或变体，并非定义。一个能绘制类似电路图但不具备设备库、连接点语义和派生交付成果的工具是绘图工具，而非此**类型**。\n\n标签说明：此**类型**命名了电气/电子设计家族中的电气工程侧。电路板侧在 ECAD / EDA 和 PCB 设计下记录；其定义结构是共享的，但对象世界不同（此处是设备、导线、电缆、端子、控制柜和线束；彼处是封装、铜和板）。目录叶子之间的重叠被记录下来以供审阅，而非被悄然解决。",
+        "dc": "**Device/symbol library.** Designs are composed from catalogued devices, not freehand shapes. A library entry carries the device's connection points (terminals or pins), its graphic symbol, and part data (manufacturer part numbers, technical attributes). Mature products draw on very large shared resources — vendor-operated device-data portals and manufacturer-provided parts repositories — alongside team-maintained collections, with dedicated editors for creating new symbols and devices.\n\n**Wiring schematic (design of record).** The engineer places device symbols onto drawing pages and draws wires between their connection points. Electrical design uses two diagram forms: **single-line diagrams** (power distribution condensed to one line per circuit) and **multi-line diagrams** (every conductor of a circuit drawn individually), plus control-circuit diagrams. Projects are multi-page, typically structured by function or location, and every page carries a title block. Every placed device receives a unique designation so it can be addressed unambiguously across pages, lists and reports.\n\n**Connectivity.** This is what separates the Type from drawing tools. The wires drawn between terminals are held as electrical data — named, numbered conductors and connections — not as lines on a page. The application maintains a model of \"what is connected to what\": wires are numbered (commonly automatically), connections cross page boundaries through labels and references, and coordinated device parts (for example a contactor's coil and its contacts, drawn on different pages) are linked by cross-references. Terminals are first-class objects: physical connection points where wires join, organized into terminal blocks and documented as terminal plans.\n\n**Generated deliverables.** The deliverables that drive manufacturing and installation are derived from the connected design, not drawn by hand:\n\n- wire/conductor lists and connection lists\n- terminal plans / terminal diagrams\n- parts lists (BOM/nomenclature) aggregated from the placed devices\n- I/O lists tying signals to PLC addresses\n- installation and production data: cabinet layouts, wire cut lists and lengths, harness documentation",
+        "dc_zh": "**设备/符号库。** 设计由编目设备（而非自由形状）组合而成。库条目包含设备的连接点（端子或引脚）、图形符号及部件数据（制造商零件号、技术参数）。成熟产品依托庞大的共享资源——包括供应商运营的设备数据门户和制造商提供的零件库——以及团队维护的集合，并提供专用编辑器用于创建新符号与设备。\n\n**接线原理图（设计记录）。** 工程师将设备符号放置于图纸页面，并在连接点间绘制导线。电气设计采用两种图表形式：**单线图**（每回路浓缩为一条线表示配电系统）和**多线图**（逐根绘制回路中所有导线），以及控制回路图。项目通常为多页结构，按功能或位置划分，每页包含标题栏。每个放置的设备均获得唯一标识符，以便在跨页面、列表和报告中明确寻址。\n\n**连接性。** 这是该类型区别于普通绘图工具的关键。端子间绘制的导线以电气数据形式存储——具有名称、编号的导体与连接关系——而非页面上的线条。应用程序维护着「什么连接着什么」的模型：导线通常自动编号，并依据信号/电源属性进行逻辑分组……",
+        "rules": "- **Connectivity is semantic, not visual.** Wires that share a name or label are the same connection even across pages; lines that merely touch visually are not necessarily connected. This is the single most important behavior distinguishing the Type from drawing tools — and the source of a classic class of errors that the checkers exist to catch.\n- **Every device instance must be uniquely designated.** Lists, terminal plans and I/O documentation are keyed by these designations; automatic numbering is the common implementation.\n- **Terminals are first-class objects.** A terminal is a physical connection point where wires join; terminal blocks are documented, and wire lists are organized around them.\n- **The schematic is the single source of signal logic.** Cabinet layouts, harness documentation and reports inherit it; a mismatch between the logical design and a physical view is treated as a defect.\n- **Checks gate manufacturing outputs.** Wire lists, terminal plans and production data are generated from a checked design; unresolved violations are meant to block or at least flag the handoff.\n- **Deliverables are derived, never hand-edited into truth.** The design of record is the schematic; lists and layouts are regenerated from it.\n- **The library is the quality backbone.** Terminal definitions, symbols and part data come from the library, which is why mature deployments treat device-data management as a governed discipline of its own.",
+        "rules_zh": "- **连接性是语义的，而非视觉的。** 共享相同名称或标签的导线是同一个连接，即使跨越不同的页面；仅仅在视觉上接触的线条不一定连接。这是将此**类型**与绘图工具区分开来的最重要行为——也是检查器旨在捕获的一类经典错误的根源。\n- **每个设备实例必须被唯一标识。** 清单、端子方案和I/O文档都以这些标识符为键；自动编号是常见的实现方式。\n- **端子是一等对象。** 端子是导线连接的物理连接点；端子排会被记录在案，导线清单也围绕它们组织。\n- **原理图是信号逻辑的唯一来源。** 控制柜布局、线束文档和报告都继承自它；逻辑设计与物理视图之间的不匹配被视为缺陷。\n- **检查是制造输出的关卡。** 导线清单、端子方案和生产数据从经过检查的设计中生成；未解决的违规项旨在阻止或至少标记移交。\n- **交付成果是派生的，绝不能手工编辑使其成为真实。** 设计记录是原理图；清单和布局从中重新生成。\n- **库是质量支柱。** 端子定义、符号和部件数据来自库，这就是为什么成熟的部署将设备数据管理视为一个独立的受控领域。",
+        "parent_id": "16.01",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 133,
+    "phase": "directory",
+    "parent": 133,
+    "slugs": [
+      "electrical-design-application"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "d6948b3dd6a7fade892fd717839375d7a85b4199be5f3b60fc7f68a62931ac2f"
+  }
+}

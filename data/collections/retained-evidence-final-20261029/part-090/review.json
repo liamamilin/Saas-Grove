@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "research.json 的 source_urls 与 fetch_outcomes 列出了 https://github.com/jjdejong/phpip/wiki/Task-Reminder-Emails 和 https://github.com/jjdejong/phpip/wiki/Docker-installation（均记为 success），但这两个页面没有出现在 REVIEW_SOURCES.json 和 batch.json 的 sources 中，也没有留存快照。建议后续要么补存快照，要么从 source_urls 中移出，避免出现无法回溯的抓取记录。",
+      "impact": "不影响结论：提醒闭环由已存快照的 README（每周到期任务提醒邮件、续展提醒流程）与 Events/Deadlines/Tasks 及 wiki Home（任务 assigned_to、done flag/date、仪表盘筛选）支撑；deployment=self-hosted 也由 README 的 PHP/MySQL 自建说明支撑，Docker 只是附加细节。"
+    },
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "采集方已如实记录 Task-Reminder-Emails 正文仅指向仓库内 TASK_REMINDERS.md、该路径返回 404 的缺口，并明确改用 README 与任务/负责人文档作为提醒证据；这种留档方式符合“如实记录抓取缺口可通过”的口径，本次照此采信，不另要求补抓。"
+    },
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "“续展/年费提醒流程”的具体前端步骤主要来自 README 变更记录（2019-12-08 续展流程管理、2024-12-30 续展同步与每周到期任务邮件）以及 matter 的 expire date/Expiry 事件说明；专门的 wiki Renewal-Management 页未留存。因定义性核心不要求续展付款处理，此点仅作证据强度提示，不构成缺陷。"
+    },
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids 为空（phase=included_without_cases），与 research.json 的 case_found、batch.json 的正式条目并存。这是“原缺口留档 + 本轮补证”的正常轨迹，research.json 的 final_review 已说明恢复成立关系；建议下游以 research.json/batch.json 为准，并注意不要沿用 input.json 的旧状态。"
+    },
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "产品覆盖面大于本叶：phpIP 同时管理商标、外观设计（wiki Home 明确 matter 含 patents/trademarks/designs），README 表述为“especially patents”。这是超集而非错配，无需修正描述；如需更精确，可在 summary 中保留“专利等 IP 权利”的表述（当前已如此）。"
+    },
+    {
+      "slug": "patent-management",
+      "application_id": "github:78779599",
+      "note": "data/collections/sources 下另有若干未被 REVIEW_SOURCES.json 引用的快照（HappyPatent 的 metadata/README/license/contents 等），属 research.json 记录的筛除候选备查材料，不在本叶引用范围，未纳入核对依据。"
+    }
+  ],
+  "leaf_checks": {
+    "patent-management": {
+      "application_id": "github:78779599",
+      "application_name": "phpIP",
+      "definitional_core": "满足。已读取快照：wiki Home（sources/3268...3007.txt）正文说明系统以 matter 中央表登记每件事项（category、case reference、country、expire date），并以 actors/events/tasks/classifiers 关联当事方、程序事件、带期限任务与分类信息；wiki Events,-Deadlines-and-Tasks（sources/dfd1...6be9.txt）正文明确“deadline 即 task 的 due date”，task 由事件触发（可经 task_rules 自动生成），含 due date、done flag、done date、assigned_to，并可按负责人仪表盘筛选；README（sources/eeb5...536e.txt，base64 正文已解码核对）自述为管理 IP 权利组合（尤其专利）的 Web 工具，并含每周到期任务提醒邮件与续展监视/提醒流程。三项核心要素——专利资产登记簿、逐条记录的期限义务、面向负责人且有结果记录的提醒闭环——均有官方正文而非简介/元数据支撑。",
+      "service_form": "满足。为多用户 Web 应用（Laravel/PHP + MySQL，自托管），具备用户/角色、仪表盘、规则表（Tools->Rules）、定时 Artisan 任务（每周提醒邮件、续展同步），属持续使用的应用服务形态，而非库/CLI/数据集。",
+      "identity_and_track": "满足。id=github:78779599 与 repository_metadata 快照中的 \"id\":78779599、full_name=jjdejong/phpip、fork=false 一致；track=open_source 与仓库形态一致；leaf_matches 仅挂 patent-management，产品身份与叶子（11.04 Patent Management）类型匹配，无父子/子产品混淆问题。",
+      "license": "满足。license 快照为 GitHub license API 返回的 LICENSE 文件对象（path=LICENSE，size=35131，ref=master），content 解码后开头为“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”并附完整条款正文，与 batch.json 的 GPL-3.0 一致；非仅 SPDX 标签或仓库简介。",
+      "community_edition_boundary": "满足。README 自述“we decided to open source it”，完整仓库即完整产品；未发现企业版/付费版拆分或需额外授权才能获得核心功能的表述，社区版边界清楚（GPL-3.0 全仓库、自托管）。",
+      "snapshot_verification": "按 REVIEW_SOURCES.json 的 path 原样读取了本叶 5 个快照：f9adf9...（repository metadata）、f3955e...（license）、eeb5bf...（readme，JSON+base64 正文，已解码核对实质内容）、326810...（wiki Home，完整 HTML 正文段落）、dfd19f...（wiki Events,-Deadlines-and-Tasks，完整 HTML 正文段落）。两个 wiki 快照均含实际正文，不是登录墙/Loading/导航页。sources 前缀按 data/collections 解析，未在项目根目录下另找 sources。",
+      "gap_handling": "原初审缺口（仅凭仓库元数据与许可证 API、未核正文）已在 research.json 中如实记录，并由本轮补读 README 与 wiki 正文关闭；Task-Reminder-Emails 指向的 TASK_REMINDERS.md 404 与 Docker-installation 页未留存快照两处缺口均已如实留档，按口径可通过。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "只读独立初审：仅使用 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 5 个快照（其中 README 快照为 GitHub contents API 的 JSON+base64 正文，已解码核对；license 快照仅能读到文件开头 GPLv3 条款与 35,131 字节完整正文标识，SPDX 字段等长行尾部内容受工具预览截断限制未逐字核对，故许可证类型以正文标题＋batch 声明互证）。未运行任何命令、未写文件、未读取其他单元，未做部署或运行时测试（runtime_tested=false 沿用）。未获取 Task-Reminder-Emails 与 Docker-installation 页快照，相关结论改由 README 与已存 wiki 正文支撑；未对价格、架构细节、社区支持渠道作额外核验，因本叶为开源条目且核心仅需基础真实性与类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-090/ses_groveopendesignp090review1_1793197181.jsonl",
+  "batch_sha256": "d1a3d4e60dae83635e3dfb6e707c9b908cc31feffe823b4c0698d7c814f51ced",
+  "research_sha256": "d39dd867a0e7cb973ebdd66b5c3835897118fd436a662c46cc91623140514649",
+  "input_sha256": "2409f91fe979b995810755a7efa86b55da6cd36b7bc529e6f9d658d5459f3149"
+}

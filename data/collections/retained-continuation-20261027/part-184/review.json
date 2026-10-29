@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "power-factors-unity：首页正文与产品导航可以证明组合级 system of record、APM/可用性与产出优化、Invoice Management、Field Service Management 和收入监督，但未明确展示 weather/resource-normalized expected energy 的计算与归因；该 leg 目前只有 APM、benchmark 和绩效指标的高层支撑，建议后续补充 Unity APM/Asset Oversight 产品页作为更直接证据。",
+    "energy-one-power-plant-management：页面明确该应用是 Energy One 定制并维护的客户交付型方案，不是自助开通的标准 SaaS；正文重点在 dispatch plan、availability declaration、nominations、settlement/audit 报告，actual-vs-expected production 的偏差归因未显式展开。research 已如实记录定制交付与非 SaaS 边界，因此不阻断商业类型匹配。",
+    "oracle-utilities-oms：产品页把 OMS 定位为 Oracle Utilities Network Management System 内的解决方案，并列出 network switching；记录已正确限定为停电事件、预测分组和班组恢复，未据此断言实时网络控制。页面未明确 SaaS 部署形态。",
+    "oracle-utilities-mdm、energy-one-power-plant-management、alsoenergy-powertrack 等产品/方案页在 batch 中标记为 kind=documentation，实际更接近官方产品/方案营销页；分类偏宽，但正文完整且为官方来源，不影响本次内容核对。",
+    "alsoenergy-powertrack：PowerTrack 页面说明其现已置于 Stem 的 Athena 平台；产品仍以 AlsoEnergy PowerTrack 品牌呈现，身份可用，但应保留该平台归属语境。其 fault→work-order→closure 闭环主要依赖第三方 CMMS 集成与 remote troubleshooting，而非页面原生工单闭环。"
+  ],
+  "leaf_checks": {
+    "meter-data-management-system-mdms": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:oracle-utilities-mdm"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/ff9e7a30ea6f6ab7eac8b885643e81f8348c41081b30c1028b1a095084080b8d.txt（Oracle Utilities MDM 官方产品页）。正文明确 scalar/interval 计量数据摄取、prebuilt VEE 与 usage calculations、信息生命周期归档、CIS 集成、on-premises 与 SaaS 部署，以及 meter-to-cash/计费一致性；与 MDMS 的计量记录、VEE、计费级发布核心一致。",
+      "gaps": "页面未逐项展开 VEE 的 validate→estimate→edit 各阶段、异常保持、原始值保留与更正重发等规则细节；商业案例按页面已述能力核对，未做运行时验证。"
+    },
+    "outage-management-system-oms": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:oracle-utilities-oms"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/e365f2986961114d4e895949d234df4471929f18ded97d53f3ac032d2bd848e6.txt（Oracle Utilities OMS 官方产品页）。正文含 outage and interruption management、automated outage detection/prediction、call grouping analysis、network tracing/restoration analysis、estimated restoration times、crew/restoration management、storm/major event management、Operations Mobile Application、CIS/GIS/AMI 集成；事件、预测分组、班组恢复闭环均有正文依据。",
+      "gaps": "产品页把 OMS 定位为 Oracle Utilities NMS 内的解决方案并列出 network switching；页面未明确 SaaS 部署形态，也未逐项展示 cause code、可靠性指标排除等监管细节。research 的 service_boundary 已限制为停电事件与班组恢复，不据此断言实时网络控制。"
+    },
+    "power-plant-management": {
+      "status": "passed_with_notes",
+      "application_ids": [
+        "commercial:energy-one-power-plant-management"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/0d3f0706b3fb87369193125da5d954297576545b18da2287aa50e53a8aa92990.txt（Energy One Power Plant Management System 页面）。正文面向燃气电厂，含按 turbine 的 Dispatch Plan、基于 planned outages/plant/weather/technical limits/correction curves 的可用能力与 availability declaration、planned/unplanned outages、market nominations/market communication、audit log，以及 availability/dispatch/settlement 报告；与电厂可用性、调度/市场参与、核算报告类型匹配。",
+      "gaps": "页面明确该应用是 Energy One 定制并维护的客户交付型方案，不是自助开通的标准 SaaS；正文未显式展示 actual vs expected production 的偏差归因，生产/核算闭环主要体现为 dispatch plan、availability declaration、TSO allocation 与 settlement report。research 已如实记录定制交付与非 SaaS 边界。"
+    },
+    "renewable-energy-asset-management": {
+      "status": "passed_with_notes",
+      "application_ids": [
+        "commercial:power-factors-unity"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/3ec331364ac808aa12b1c0edf352ff641d6893cac3a55fc1dd6ad4ea70f2b5b3.txt（Power Factors 官方首页）。正文与产品导航含 Renewable Energy Management Suite、Technical Asset Management（APM、可用性/产出优化、故障预判、O&M 投资、benchmark、FSM 工单）、Commercial Asset Management（组合级财务可视性、performance/risk/revenue、合同义务、Invoice Management，以及 Asset Oversight 的 portfolio-level system of record），并有 4.6 GW solar/storage 客户案例；与可再生资产组合记录、可用性/绩效、资金报告类型匹配。",
+      "gaps": "首页未明确展示 weather/resource-normalized expected energy（资源驱动预期）的计算与归因，该 leg 仅有 APM、benchmark 和绩效指标的高层支撑；页面也未明确 SaaS/多租户部署形态。batch 的 leaf_match 只主张组合记录、生产/可用性与资金报告，未过度声张资源校正预期。"
+    },
+    "solar-asset-management": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:alsoenergy-powertrack"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/7d19539cbc47e68b6d0f1f7f2f4521352e052af1c36b364aada0341f43f61509.txt（AlsoEnergy 首页，含 SaaS monitoring/management 表述）、data/collections/sources/ebae0131e7058a97a9d2530b6052ea4aea121e62eb5b91b992a924759fffa4aa.txt（PowerTrack 产品页：portfolio/site/individual hardware 层级、actual vs weather-adjusted energy production、remote troubleshooting、critical hardware faults、alerts、3rd-party CMMS/BI）、data/collections/sources/9040d801163190267e69dedfd663e1adbf2515a71dabcd67355d2dbdc5563172.txt（Asset Managers 页：portfolio-level financial reporting、site comparison、PPA、invoicing、O&M/EPC oversight、CMMS/BI 集成）。资源校正预期、故障/停机处理、资金/报告核心均有正文依据。",
+      "gaps": "PowerTrack 页未原生展示 fault→work order→closure 的完整工单闭环，主要通过第三方 CMMS 集成与 remote troubleshooting 体现；也未逐项展示 curtailment/derate 分类。另需保留 PowerTrack 现已置于 Stem Athena 平台的语境。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未执行部署或运行时测试、未重新抓取线上页面，结论基于归档快照。所有快照按 REVIEW_SOURCES.json 的 path 原样读取，sources 前缀按 data/collections 解析，未猜测或缩写路径；未计算文件哈希，仅核对 REVIEW_SOURCES.json 与 batch.json 的 sha256/path 一致性。input.json 的 progress 字段为采集前状态（not_searched、空 application_ids），与 batch/research 的 case_found 不一致，本次以 batch.json 和 research.json 为准。research.json 中标注为“对照，未采用”的 Siemens/Hitachi 页面及 GitHub/websearch 结果没有归档快照，未作为本次核对依据；也未对商业产品做价格、部署或多租户验证。未读取其他单元、采集者 TASK.md、历史脚本、notes/issues 等过程文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-184/ses_groveopencodegop184review1_1793021499.jsonl",
+  "batch_sha256": "1c1c43ebbaf39e5003512e43e6f305e795468ec4aaa32ab9c720001b824e2e54",
+  "research_sha256": "5a05b122e8f71b1bfd9856ae8145a5af5d5966f0a6bc71f8a90196ddcc1f5db8",
+  "input_sha256": "6671faa8d24efb1eb3ea8d65506205f71c38ed247ac4699c6ad9b53bd5892166"
+}

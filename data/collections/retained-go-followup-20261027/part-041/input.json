@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "capacity-management",
+        "name_zh": "容量管理",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "Kapacity open source capacity management Kubernetes"
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "capacity-management",
+        "name": "Capacity Management",
+        "name_zh": "容量管理",
+        "aliases_zh": [
+          "资源容量管理",
+          "系统容量管理"
+        ],
+        "overview": "A **Capacity Management** application is IT-operations software that keeps infrastructure supply ahead of demand. It maintains a picture of the organization's capacity-bearing resources — compute, memory, storage, network bandwidth, and their container/cloud equivalents — tracks how much of each is actually consumed over time, and continuously answers the question the practice exists for: *how much headroom is left, and when will demand reach the limits?*\n\nOn top of that assessment, it supports the decisions that follow: adding capacity before it runs out, reclaiming capacity that is provisioned but unused, resizing or rebalancing workloads, and evaluating planned changes (growth, migrations, consolidations) before committing to them. Some products stop at advisory output — dashboards, forecasts, recommendations, reports; others close the loop and execute optimization actions automatically under guardrails.\n\nThe boundary is easy to state: a monitoring system tells you what is happening now; a capacity management system tells you what is *about to happen* to your resource supply, and what to do about it. When the forward-looking, supply-vs-demand planning layer is removed, what remains is infrastructure monitoring; when resource limits and headroom are removed and only spend remains, what remains is cloud cost management.",
+        "overview_zh": "一个**容量管理**应用程序是IT运维软件，它保持基础设施供应领先于需求。它维护组织容量承载资源的图景——计算、内存、存储、网络带宽及其容器/云等效物——跟踪每个资源随时间实际消耗的多少，并持续回答该实践存在的问题：*还剩下多少余量，需求何时达到极限？*\n\n在该评估的基础上，它支持后续决策：在容量耗尽之前添加容量、回收已配置但未使用的容量、调整大小或重新平衡工作负载，以及在承诺之前评估计划变更（增长、迁移、整合）。一些产品仅停留在顾问输出——仪表板、预测、建议、报告；其他产品则闭环并在防护条件下自动执行优化操作。\n\n边界很容易说明：监控系统告诉你现在正在发生什么；容量管理系统告诉你资源供应*即将发生*什么，以及如何应对。当前瞻性的、供应与需求规划层被移除时，剩下的是基础设施监控；当资源限制和余量被移除，只剩下支出时，剩下的是云成本管理。",
+        "dc": "```text\nCapacity-bearing resource (with limits)\n    └── Consumption observed over time\n        └── Capacity position (headroom now)\n            └── Capacity risk (projected demand vs limits)\n                └── Capacity decision (add / reclaim / resize / rebalance / migrate)\n```\n\n- **Capacity-bearing resource** — the managed unit of supply: a host, cluster, storage array or volume, network link, virtual machine, container workload, cloud service allocation, or GPU pool. Each carries a notion of *total capacity* and, in most products, a notion of *usable capacity* — what is actually available after reservations, high-availability buffers, or policy-set headroom are subtracted. The distinction matters: a cluster whose raw capacity is fully allocated may still have usable headroom, and vice versa.\n- **Consumption over time** — utilization measurements collected from the resources through integrations, collectors, or agents, retained as history. History is the raw material of everything else: without it there are no trends, no forecasts, and no evidence for recommendations.\n- **Capacity position** — the current comparison of consumption against limits: how much headroom remains on each resource, expressed in resource units or percentages.\n- **Capacity risk** — the forward-looking extension of position: where the demand trend is heading and when it will cross the usable limit. Products express this as projected exhaustion (\"time remaining\" before resources run out), risk levels derived from conservative vs aggressive projections, or forecast results of the form \"these datastores may reach their usage limit within N days.\"\n- **Capacity decision** — the action the assessment exists to inform: procure/add capacity, reclaim or right-size overprovisioned resources, rebalance or move workloads, or accept the risk. The application's output — recommendations, scenario results, reports — is decision support; in automation-oriented products the decision can also be executed by the system itself under policy guardrails.",
+        "dc_zh": "容量承载资源（有限制）\n    └── 随时间观察到的消耗\n        └── 容量状态（当前剩余空间）\n            └── 容量风险（预测需求与限制的对比）\n                └── 容量决策（增加 / 回收 / 调整大小 / 再平衡 / 迁移）\n\n**容量承载资源** — 被管理的供应单元：主机、集群、存储阵列或卷、网络链路、虚拟机、容器工作负载、云服务分配或GPU池。每个都有一个总容量的概念，在大多数产品中，还有一个可用容量的概念——在扣除预留、高可用性缓冲或策略设置的剩余空间后实际可用的部分。这个区别很重要：一个原始容量已完全分配的集群可能仍然有可用的剩余空间，反之亦然。\n\n**随时间变化的消耗** — 通过集成、收集器或代理从资源收集的利用率测量值，作为历史保留。历史是其他一切的原始材料：没有它就没有趋势、没有预测，也没有推荐的证据。\n\n**容量状态** — 消耗与限制的当前比较：每个资源剩余多少剩余空间，以资源单位或百分比表示。\n\n**容量风险** — 状态的前瞻扩展：需求趋势的方向以及何时会超过可用限制。",
+        "rules": "- **Usable capacity is not total capacity.** Reservations, high-availability buffers, and policy-set headroom reduce what is actually available. Capacity conclusions that ignore this distinction are wrong in both directions — and products make the usable-capacity definition explicit precisely because it drives every risk number.\n- **\"Well balanced\" and \"about to run out\" are different verdicts.** A resource can be optimally balanced across its members and still be close to exhaustion; optimization health and exhaustion risk are separate measures, and mature products surface both rather than conflating them.\n- **How demand is counted changes the answer.** Consumption-based assessment (what workloads actually use) and commitment-based assessment (what workloads are allocated, including overcommit ratios) produce different headroom and risk figures. Products typically default to one model and allow the other; the choice is a policy decision, not a technical detail.\n- **Not all peaks matter equally.** Some forecasting engines distinguish momentary spikes (which do not justify new capacity) from sustained shifts and recurring seasonal patterns (which do). A forecast that treats every spike as demand would chronically overprovision.\n- **Forecasts are only as good as their history.** Products require a minimum span of utilization history before projections are trusted, and may restrict or gradually ramp automated actions for resources with thin history.\n- **Recommendations are bounded.** Right-sizing suggestions are typically capped relative to current allocations so that a single recommendation cannot radically reshape a resource — a deliberate conservatism that users can rely on.\n- **Alerts lead exhaustion.** Capacity warnings are keyed to warning windows before projected limits are crossed, because the corrective actions (procurement, migration) take time.\n- **Automation is guarded.** Where products execute optimization actions, they do so under disruption budgets, quota and policy compliance, target-capacity validation, and learning pauses after application changes; some also suspend automation automatically, with a cooldown, when repeated changes fail to stabilize a workload.",
+        "rules_zh": "- **可用容量不是总容量。** 预留、高可用性缓冲和策略设置的余量减少了实际可用的容量。忽略这一区别的容量结论在两个方向上都是错误的——而产品明确可用容量定义，正是因为它驱动每个风险数字。\n- **“平衡良好”和“即将耗尽”是不同的结论。** 一个资源可以在其成员之间达到最佳平衡，但仍接近耗尽；优化健康和耗尽风险是分开的衡量标准，成熟的产品将两者都呈现出来，而不是混淆它们。\n- **需求计数方式改变答案。** 基于消耗的评估（工作负载实际使用的）和基于承诺的评估（工作负载分配的，包括超额配置比率）产生不同的余量和风险数字。产品通常默认一个模型并允许另一个；选择是策略决策，不是技术细节。\n- **并非所有峰值都同等重要。** 一些预测引擎区分瞬时峰值（不证明需要新容量）和持续变化及重复季节性模式（需要）。将每个峰值视为需求的预测会长期过度配置。\n- **预测的好坏取决于其历史。** 产品在投影被信任之前需要最少的使用历史跨度，并且可能对历史薄弱的资源限制或逐步增加自动化操作。\n- **建议是有界的。** 调整大小建议通常相对于当前分配设限，以便单个建议不能从根本上重塑资源——这是用户可以依赖的刻意保守主义。\n- **警报领先于耗尽。** 容量警告与投影限制之前的警告窗口相关联",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "cloud-cost-management-finops",
+        "name_zh": "云成本管理（FinOps）",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "OpenCost open source FinOps Kubernetes cost allocation"
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "cloud-cost-management-finops",
+        "name": "Cloud Cost Management / FinOps",
+        "name_zh": "云成本管理（FinOps）",
+        "aliases_zh": [
+          "云财务管理",
+          "FinOps管理",
+          "云成本优化"
+        ],
+        "overview": "A **Cloud Cost Management / FinOps application** is the buyer-side application that turns an organization's cloud consumption into attributable, governable spend. It ingests billing and cost data from cloud providers, reorganizes that data into a unified queryable cost model, allocates spend to the teams, products, and environments that own it, and makes the result visible, budgetable, and actionable.\n\nThe defining core is small:\n\n```text\nIngested provider billing data\n└── Normalized cost model\n    └── Allocation to organizational accountability\n        └── Cost visibility surface\n```\n\nEverything commonly associated with modern FinOps platforms — budgets, anomaly detection, forecasting, optimization recommendations, commitment management, unit economics, Kubernetes allocation — is widespread in current products but is not what makes the product a cloud cost management application. A provider's own native cost suite implements the same core for a single cloud; a multi-cloud platform implements it across providers; a container specialist implements it for measured in-cluster consumption reconciled to the bill.\n\nWhen the primary object shifts from cloud billing data to something else — resource operations, telemetry, corporate spend, or AI-specific consumption — the product is drifting toward a different Application Type (Cloud Management Platform, Infrastructure Monitoring, Spend Management, AI Cost / FinOps).",
+        "overview_zh": "**云成本管理 / FinOps 应用程序**是买方侧的应用程序，它将组织的云使用量转化为可归属、可治理的支出。它从云提供商处摄取账单和成本数据，将这些数据重组为统一的可查询成本模型，将支出分配给负责的团队、产品和环境，并使结果可见、可预算且可操作。\n\n其定义性核心是精简的：\n\n```text\n摄取的提供商账单数据\n└── 标准化的成本模型\n    └── 分配至组织责任\n        └── 成本可见性界面\n```\n\n所有与现代 FinOps 平台常关联的功能——预算、异常检测、预测、优化建议、承诺管理、单位经济、Kubernetes 分配——在当前产品中普遍存在，但并非定义该产品为云成本管理应用程序的关键。提供商自身的原生成本套件为单个云实现此核心；多云平台跨提供商实现它；容器专家则为集群内已计量的消费（与账单对账）实现它。\n\n当主要对象从云账单数据转移到其他东西——资源运维、遥测数据、企业支出或 AI 特定消费——该产品正偏向不同的应用程序类型（云管理平台、基础设施监控、支出管理、AI 成本 / FinOps）。",
+        "dc": "```text\nIngested provider billing data\n└── Normalized cost model\n    └── Allocation to organizational accountability\n        └── Cost visibility surface\n```\n\nFour properties. If any one is removed, the product is no longer recognizable as this Type:\n\n- **Ingested provider billing data** — the system's facts come from cloud-provider billing systems: billing exports and cost APIs read by third-party platforms, the provider's own billing in native suites, or agent-measured consumption reconciled against the cloud bill. The platform does not generate the spend; it observes it. Without this, the product is not about cloud cost.\n- **Normalized cost model** — raw billing line items are reorganized into a unified, queryable schema: time, service, resource, account or project, region, and charge type, with explicit mappings between providers' differing labels for the same concept. Without this, the data is a pile of provider-specific exports rather than something an organization can analyze.\n- **Allocation to organizational accountability** — spend is mapped onto dimensions the organization defines (teams, products, features, environments, customers), including machinery for splitting shared costs and surfacing unallocated spend. Without this, the product is a billing viewer; the FinOps job — who owns what, showback, chargeback — collapses.\n- **Cost visibility surface** — the allocated spend is browsable, filterable, groupable, and comparable over time. Without this, the system is a data pipeline, not an application.",
+        "dc_zh": "摄入的提供商计费数据\n└── 标准化成本模型\n    └── 分配到组织问责\n        └── 成本可见性表面",
+        "rules": "### The platform observes; it does not spend or cut spend\n\nThird-party platforms ingest billing data read-only and do not change infrastructure or interrupt workloads. Optimization happens by influencing the people who own the resources, not by enforcement at the billing layer. (Container-specialist products may automate in-cluster actions such as resizing requests, but the billing layer itself remains read-only.)\n\n### Cost data is lagged and reconciles to the invoice\n\nBilling data arrives after consumption, on the provider's cadence, and is treated as reconcilable truth against the invoice. Real-time figures, where offered (for example, agent-measured container consumption), are estimates that reconcile to the bill later. This lag shapes the whole practice: investigations and alerts are about recent history, not the current second.\n\n### Allocation is retroactive and recomputable\n\nChanging an allocation rule re-attributes historical spend. The raw billing data is the stable substrate; the allocation model is a lens over it. This is why allocation mistakes are recoverable and why allocation models can be iterated.\n\n### Costs are allocated once\n\nMature allocation machinery prevents the same cost from being double-counted across owners — a cost claimed by one segment is not also counted in another. Showback and chargeback depend on this integrity.\n\n### Amortization changes the view, not the total\n\nCommitment fees (reserved capacity, savings plans) can be shown as lump-sum purchases or spread across the periods and resources they cover. Both views sum to the same money; the amortized view is the one that makes per-team costs fair and comparable.\n\n### Untagged spend is a managed state, not an error\n\nReal organizations have inconsistent or missing tags. The application treats untagged and unallocated spend as visible, tracked quantities to be burned down — and offers rule-based normalization so allocation does not depend on perfect tag hygiene.\n\n### Charge types are part of the model, not noise\n\nUsage, taxes, credits, discounts, support fees, and commitment fees are distinguished in the normalized model, because different audiences need different views: engineers investigate consumption; finance reconciles the invoice; both may exclude what they cannot influence.",
+        "rules_zh": "### 平台仅观察；它不消费或削减支出\n\n第三方平台以只读方式摄取账单数据，不更改基础设施或中断工作负载。优化是通过影响拥有资源的人员来实现的，而不是在账单层进行强制执行。（容器专家产品可能会自动执行集群内操作，例如调整请求大小，但账单层本身保持只读。）\n\n### 成本数据滞后并与发票对账\n\n账单数据在消费之后到达，遵循提供商的节奏，并被视为可与发票对账的真实数据。实时数据（如在提供的情况下，例如代理衡量的容器消费）是估计值，将在之后与账单对账。这种滞后影响了整个实践：调查和警报是关于近期历史，而非当前时刻。\n\n### 分配是追溯性的且可重新计算\n\n更改分配规则会重新归属历史支出。原始账单数据是稳定的基础；分配模型是其上的一层视角。这就是为什么分配错误是可恢复的，以及为什么分配模型可以迭代。\n\n### 成本仅分配一次\n\n成熟的分配机制防止同一成本在不同所有者之间被重复计算——被一个分段认领的成本不会同时计入另一个分段。成本展示和成本回收依赖于这种完整性。\n\n### 摊销改变视图，而非总额\n\n承诺费用（预留容量、节省计划）可以显示为一次性购买，或摊销到它们所覆盖的期间和资源上。这两种视图的总和是相同的金额；摊销视图使每个团队的成本公平且可比较。\n\n### 未标记的支出是受管理的状态，而非错误\n\n现实中的组织存在不一致或缺失的标签。应用程序将",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "cloud-management-platform",
+        "name_zh": "云管理平台（CMP）",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "ManageIQ open source hybrid cloud management platform"
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "cloud-management-platform",
+        "name": "Cloud Management Platform",
+        "name_zh": "云管理平台（CMP）",
+        "aliases_zh": [
+          "云管平台",
+          "多云管理平台"
+        ],
+        "overview": "A **Cloud Management Platform (CMP)** is an administrative platform that operates as an independent management layer above cloud infrastructure. It connects cloud environments — public cloud accounts and/or private-cloud and virtualization platforms — as managed estates, maintains a unified inventory of the resources inside them, and provides for the provisioning and ongoing lifecycle operation of those resources through one shared console.\n\nThe problems it exists to solve are familiar to any organization whose infrastructure has grown beyond a single environment: resources scattered across providers, accounts, and teams; no single picture of what exists; provisioning that depends on whichever specialist knows that console; and governance rules that each team interprets differently. The platform's answer is to bring the estates themselves — not just their billing data, not just their automation code — under one control plane with consistent inventory, consistent provisioning, and consistent rules.\n\nThree properties form the defining core. Remove any one and the product stops being recognizable as this type:\n\n1. **Connected cloud estates** — the platform onboards external cloud environments (accounts, subscriptions, virtualization platforms) as integrations and operates above their APIs.\n2. **A unified inventory** — the resources of those estates, whether discovered as already existing or provisioned by the platform, are visible and manageable in one place.\n3. **Lifecycle operations on those resources** — the platform can both create new resources from defined specifications and operate existing ones through their working life, including retiring them.\n\nEverything else commonly associated with the category — multi-cloud breadth, self-service catalogs, cost dashboards, policy engines, Kubernetes support, SaaS delivery — is standard modern equipment, not the definition. A platform managing a single private cloud, a self-installed on-premises product, or a tool with no cost module at all still fits the same shape; older and platform-native products confirm this.",
+        "overview_zh": "一个**云管理平台（CMP）**是一个管理平台，作为独立管理层运行于云基础设施之上。它将云环境——公共云账户和/或私有云与虚拟化平台——作为被管理资产连接起来，维护其中资源的统一清单，并通过一个共享控制台来提供这些资源的配置和持续的生命周期操作。\n\n它旨在解决的问题，对于任何基础设施已扩展到超出单一环境的组织来说都很熟悉：资源分散在多个供应商、账户和团队中；没有关于现有资源的全景视图；配置依赖于了解该控制台的特定专家；以及每个团队对治理规则的不同解读。该平台的解决方案是将这些资产本身——而不仅仅是其计费数据或其自动化代码——置于一个控制平面之下，实现一致的清单、一致的配置和一致的规则。\n\n三个属性构成了其定义的核心。去掉任何一个，该产品就不再可被识别为此类型：\n\n1.  **连接的云资产**——平台将外部云环境（账户、订阅、虚拟化平台）作为集成接入，并在其 API 之上运行。\n2.  **统一的清单**——这些资产的资源，无论是被发现的已存在资源还是由平台配置的资源，都可以在一个地方查看和管理。\n3.  **对这些资源的生命周期操作**——平台既可以按照定义的规范创建新资源，也可以在其整个工作周期内操作现有资源，包括退役它们。\n\n该类别通常关联的其他所有东西——多云广度、自助服务目录、成本仪表板、策略引擎、Kubernetes 支持、SaaS 交付——都是标准的现代配套功能，而非定义本身。一个管理单一私有云的平台、一个自安装的本地产品，或者一个完全没有成本模块的工具，仍然符合相同的形态；较旧和平台原生的产品也证实了这一点。",
+        "dc": "The onboarding unit. An administrator registers a cloud environment — a public cloud account with credentials, a virtualization platform, or a container platform — and the platform establishes an integration with it. From that point the estate's capacity (its regions, zones, clusters, or host pools) becomes deployable space, and the platform can read from it and, within granted authority, act on it. An organization typically connects several estates; the same mechanics apply whether the estate is a public cloud account or an on-premises virtualization cluster.",
+        "dc_zh": "接入单元。管理员注册一个云环境——一个具有凭据的公有云账户、一个虚拟化平台或一个容器平台——平台随之与之建立集成。自此，该环境实例的容量（其区域、可用区、集群或主机池）便成为可部署空间，平台可以读取信息，并在授权范围内执行操作。一个组织通常连接多个环境实例；无论该实例是公有云账户还是本地虚拟化集群，此机制均适用。",
+        "rules": "### The platform acts within granted authority\n\nEvery operation the platform performs executes through the connected estate's own APIs, using the credentials and permissions granted at connection time. The platform cannot do more to an estate than the integration allows; its reach is exactly the authority delegated to it.\n\n### Discovered is not the same as provisioned\n\nA resource that exists in a connected estate is not automatically governed by the platform's rules. Onboarding brings it into inventory management; the platform's full lineage — definitions, approvals, lifecycle history — belongs to provisioned resources. Products commonly restrict some operations (for example, wholesale reconfiguration) to resources the platform provisioned itself.\n\n### Deployment state gates actions\n\nA deployment carries lifecycle state, and the available day-2 actions follow from it: a running machine can be stopped or resized but not started; a retired deployment cannot be modified further. The exact state names and action sets vary by product, but the state-gated structure is general.\n\n### Governance is enforced before provisioning, not after\n\nApprovals, quotas, and budget checks evaluate the request before resources are created. This is the mechanism by which the platform makes \"everything goes through approved shapes\" true in practice rather than in policy documents.\n\n### Visibility follows membership\n\nWhat a user can see and do is bounded by their project or tenant membership and role. The platform is multi-user by construction: estate-wide visibility is an administrator property, not a default.\n\n### Cost is derived data\n\nWhere cost views exist, they are computed from provider billing information ingested through the integrations, attributed to projects and owners via tags and allocation rules. They are only as complete as the billing feeds and tagging discipline behind them — which is why tagging enforcement is a governance feature rather than a hygiene nicety.",
+        "rules_zh": "### 平台在授予的权限范围内运作\n\n平台执行的每个操作都通过连接的资产自身的 API 执行，使用连接时授予的凭证和权限。平台无法对资产执行超出集成允许范围的操作；其能力范围恰好是委托给它的权限。\n\n### 被发现不等于被配置\n\n存在于连接的资产中的资源并不自动受平台规则的治理。将其纳入管理将其带入清单管理；平台的完整谱系——定义、审批、生命周期历史——属于被配置的资源。产品通常将某些操作（例如，大规模重新配置）限制为平台自身配置的资源。\n\n### 部署状态决定操作\n\n部署承载生命周期状态，可用的后期运维操作由此决定：运行中的机器可以被停止或调整大小，但不能被启动；已退役的部署不能再被修改。具体的状态名称和操作集合因产品而异，但状态决定操作的结构是普遍的。\n\n### 治理在配置前执行，而非之后\n\n审批、配额和预算检查在资源创建之前评估请求。这是平台使“所有内容都通过经批准的形态”在实践中而非政策文件中成为现实的机制。\n\n### 可见性遵循成员关系\n\n用户能看到和操作的内容受限于其所属的项目或租户成员关系及角色。平台是多用户架构：全局可见性是管理员属性，而非默认设置。\n\n### 成本是派生数据\n\n如果存在成本视图，它们是通过集成导入的提供商账单信息计算得出的，并通过标签和所有",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "container-management",
+        "name_zh": "容器管理",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "Dockge open source Docker Compose stack manager self-hosted"
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "container-management",
+        "name": "Container Management",
+        "name_zh": "容器管理",
+        "aliases_zh": [
+          "容器管理平台",
+          "容器编排工具"
+        ],
+        "overview": "A **Container Management** application operates a population of containerized workloads through their lifecycle. It connects to one or more container runtime environments — a single host, a cluster of machines, or a managed cloud service — deploys workloads from container images, controls the running workloads (start, stop, restart, scale, update, remove), and exposes their state so that people can operate them.\n\nThe defining core is deliberately small:\n\n```text\nConnected container environment(s)\n└── Workloads deployed from images (with configuration)\n    └── Lifecycle control over running workloads\n        └── Observable workload state\n```\n\nEverything else commonly associated with the category — multi-host orchestration, Kubernetes, RBAC, registries, GitOps, edge deployment, monitoring dashboards — is widespread in current products but is not what makes a product a container-management application. Single-host tools from the early container era, non-Kubernetes orchestrators, and cloud-managed services all satisfy the four-element core without any of those additions.\n\nWhen the managed substrate narrows to Kubernetes clusters and Kubernetes-native objects specifically, the product drifts toward the Kubernetes Management Platform Type; when the managed unit becomes virtual machines, it drifts toward Virtualization Management; when workload operations disappear in favor of account, resource, and cost governance, it becomes a Cloud Management Platform.",
+        "overview_zh": "一个**容器管理**应用程序通过其生命周期操作一群容器化工作负载。它连接到一个或多个容器运行时环境——单个主机、机器集群或托管的云服务——从容器镜像部署工作负载，控制运行中的工作负载（启动、停止、重启、缩放、更新、移除），并暴露它们的状态以便人们操作。\n\n定义的核心刻意保持精简：\n\n```text\n连接的容器环境\n└── 从镜像部署的工作负载（带有配置）\n    └── 对运行工作负载的生命周期控制\n        └── 可观察的工作负载状态\n```\n\n其他通常与该类别相关的一切——多主机编排、Kubernetes、RBAC、注册表、GitOps、边缘部署、监控仪表板——在当前产品中很普遍，但并非使产品成为容器管理应用程序的关键。早期容器时代的单主机工具、非 Kubernetes 编排器和云托管服务都满足四元素核心，而无需这些附加功能。\n\n当托管底座具体缩小到 Kubernetes 集群和 Kubernetes 原生对象时，产品就向 Kubernetes 管理平台类型漂移；当托管单元变为虚拟机时，它向虚拟化管理漂移；当工作负载操作消失，取而代之以账户、资源和成本治理时，它就成为云管理平台。",
+        "dc": "Four properties. If any one is removed, the product is no longer recognizable as container management:\n\n- **Connected container environment(s)** — the manager binds to one or more runtime environments where containers actually run: a local host, a cluster of nodes, or a managed service's capacity. The connection is the operational substrate; every later action travels through it. Products realize this as an \"environment\" or \"endpoint\" registered with an agent or API connection, a cluster enrolled or provisioned into the manager, or the service's own cluster resource.\n- **Image-based workload deployment** — workloads are instantiated from container images with configuration: compute resources, networking, storage volumes, environment variables, commands. The image is the packaging unit; the deployment specification (a Compose file, a job specification, a task definition, a manifest, or a form) turns it into a running workload.\n- **Lifecycle control over running workloads** — start, stop, restart, scale up/down, update in place, roll back, and remove. This is what distinguishes a management application from a passive viewer.\n- **Observable workload state** — status (running, failed, pending), logs, and resource consumption surfaced inside the product so operators can see what the runtime is doing without leaving it.",
+        "dc_zh": "四个属性。如果任何一个被移除，产品就不再被识别为容器管理：\n- **连接的容器环境** — 管理器绑定到一个或多个容器实际运行的运行时环境：本地主机、节点集群或托管服务的容量。连接是操作基板；所有后续操作都通过它进行。产品通过代理或API连接注册为“环境”或“端点”，集群被注册或配置到管理器中，或服务自身的集群资源来实现这一点。\n- **基于镜像的工作负载部署** — 工作负载从容器镜像实例化，配置为：计算资源、网络、存储卷、环境变量、命令。镜像是打包单元；部署规范（Compose文件、作业规范、任务定义、清单或表单）将其转换为运行的工作负载。\n- **对运行中工作负载的生命周期控制** — 启动、停止、重启、扩缩容、原地更新、回滚和移除。这是区分管理应用程序与被动查看器的关键。\n- **可观测的工作负载状态** — 状态（运行、失败、挂起）、日志和资源消耗在产品内部显示，使操作员无需离开即可查看运行时的操作。",
+        "rules": "### Desired state is maintained, not just declared\n\nIn orchestrator-backed environments, declaring a workload is a standing instruction: the system keeps the declared number of instances running and replaces failed ones automatically. Removing a workload means withdrawing the instruction, not killing one process. This reconciliation behavior is the operational signature of the Type.\n\n### The environment connection is the substrate of everything\n\nEvery read and write travels through the registered connection. If the connection is down, the manager can typically still show its own records but cannot operate the environment. In some products, resources created outside the manager (directly on the runtime) still appear — discovered through the connection — but with limited control, since the manager did not create them and may not own their configuration.\n\n### Access control is scoped by container, not just by action\n\nRoles attach to environments, clusters, projects, or namespaces; a user may hold different roles on different environments. Workload-level ownership adds a second layer: a deployed stack or application can be restricted to specific teams, and child resources inherit the parent's access. The management layer supplies access control where the underlying runtime has none of its own, and layers its own model alongside the runtime's where one exists.\n\n### Updates are staged and reversible\n\nRolling updates proceed in steps with health checks between them; the previous revision remains available for rollback. Exact mechanics (step size, health criteria) vary by product and orchestrator.\n\n### State visibility is operational, not analytical\n\nStatus, logs, events, and basic resource consumption are part of operating the workload. Long-term metrics, dashboards, and alerting are integrations or bundles — the manager shows what is happening now; dedicated observability products own what happened over months.",
+        "rules_zh": "### 期望状态被维护，而不仅仅是声明\n\n在编排器支持的环境中，声明工作负载是一个持续指令：系统保持声明的实例数量运行，并自动替换失败的实例。移除工作负载意味着撤回指令，而不是杀死一个进程。这种协调行为是该类型的运维特征。\n\n### 环境连接是一切的基础\n\n每个读写操作都通过注册的连接进行。如果连接中断，管理器通常仍能显示其自身记录，但无法操作环境。在某些产品中，在管理器外部创建的资源（直接在运行时上创建）仍会出现——通过连接发现——但控制有限，因为管理器未创建它们且可能不拥有其配置。\n\n### 访问控制按容器限定，而不仅仅是按操作\n\n角色附加到环境、集群、项目或命名空间；用户可能在不同环境上持有不同角色。工作负载级别的所有权添加了第二层：部署的堆栈或应用程序可以限制给特定团队，子资源继承父资源的访问权限。管理层在底层运行时没有自身访问控制的地方提供访问控制，并在有运行时模型的地方与其模型并行分层。\n\n### 更新是分阶段和可逆的\n\n滚动更新逐步进行，步骤之间有健康检查；先前版本仍可用于回滚。具体机制（步骤大小、健康标准）因产品和编排器而异。\n\n### 状态可见性是运维性的，而非分析性的\n\n状态、日志、事件和基本资源消耗是操作工作负载的一部分。长期指标、仪表板和警报",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "disaster-recovery-platform",
+        "name_zh": "灾难恢复平台",
+        "domain_id": "14",
+        "parent_id": "14.01",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-136/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": "Zerto continuous replication disaster recovery failover official site"
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "disaster-recovery-platform",
+        "name": "Disaster Recovery Platform",
+        "name_zh": "灾难恢复平台",
+        "aliases_zh": [
+          "灾备平台",
+          "容灾平台"
+        ],
+        "overview": "A **Disaster Recovery Platform** is an IT-operations application that keeps designated workloads recoverable at a separate location: it continuously replicates each protected workload to a recovery site, and when the primary site is lost — or ahead of planned downtime — it brings the workload up and running at that recovery location.\n\nThe defining core is small:\n\n```text\nProtected workload (unit of record)\n└── Standing replication to a separate recovery location\n    └── Recovery execution at that location (failover)\n```\n\nEverything else commonly associated with DR products — recovery plans, test drills, failback, RPO dashboards, cloud targets — is standard capability that mature products add, not what makes the product a DR platform. A product that only replicates one workload and recovers it manually on demand is still recognizably this Type; a product that only makes scheduled copies for restoring data is not (that is backup).",
+        "overview_zh": "一个**灾难恢复平台**是一种IT运维应用程序，它能在异地保持指定工作负载的可恢复性：它持续地将每个受保护工作负载复制到恢复站点，并且在主站点丢失时——或在计划内停机之前——它会在该恢复位置启动并运行工作负载。\n\n其定义性核心很小：\n\n```text\n受保护的工作负载（记录单位）\n└── 持续复制到一个单独的恢复位置\n    └── 在该位置执行恢复（故障切换）\n```\n\n通常与DR产品相关的其他所有内容——恢复计划、测试演练、故障回退、RPO仪表板、云目标——是成熟产品增加的标准化能力，而非构成该产品为灾难恢复平台的核心要素。一个仅复制一个工作负载并按需手动恢复它的产品，仍然可被识别为此类型；而一个仅创建计划副本用于数据恢复的产品则不是（那是备份）。",
+        "dc": "Three structures, held together. Remove any one and the product stops being a DR platform:\n\n- **Protected workload** — the unit of record. A designated server, virtual machine, or application stack enrolled for recovery. Enrollment records what is protected, where it will recover to, and how (replication settings, target resources). The workload is the thing every other structure hangs from; without a designated subject there is nothing to protect or recover.\n- **Standing replication to a separate recovery location** — continuous or near-continuous copying that maintains a recoverable copy of the workload at a location other than the primary (another datacenter, another cloud region, or a provider's cloud). The copy is kept current to a defined recovery point objective; its currency is the platform's key property. Without this, there is nothing to recover.\n- **Recovery execution** — the ability to bring the workload up and running at the recovery location from the replicated copy, on demand, when the primary is lost or ahead of planned downtime. Without this, the platform is a data-copy pipeline, not a recovery capability.\n\nNote what is *not* in the core: no virtualization or hypervisor concepts, no cloud, no snapshots, no agents, no recovery plans, no testing, no failback. The core is deliberately implementation-neutral — the same triple describes mainframe-era, virtualization-era, and cloud-era DR.",
+        "dc_zh": "定义核心：三个结构，移除任何一个，产品就不再是灾难恢复平台：\n- **受保护的工作负载** — 记录单元。一个指定的服务器、虚拟机或应用程序堆栈，被注册用于恢复。注册记录了被保护的内容、恢复到哪里以及如何恢复（复制设置、目标资源）。工作负载是其他所有结构挂靠的基础；没有指定主体，就没有可保护或恢复的东西。\n- **持续复制到单独的恢复位置** — 持续或接近持续的复制，维护工作负载在非主位置（另一个数据中心、另一个云区域或提供商的云）的可恢复副本。副本根据定义的恢复点目标保持最新；其时效性是平台的关键属性。没有这个，就没有什么可恢复的。\n- **恢复执行** — 在需求时，当主位置丢失或计划停机之前，从复制的副本在恢复位置启动工作负载并使其运行的能力。没有这个，平台就是一个数据复制管道，而不是恢复能力。",
+        "rules": "### The recoverable copy must stay current\n\nThe platform's promise is only as good as its replication. Health states and RPO visibility exist because replication falls behind (network, churn, capacity) and because a stale copy silently breaks the recovery promise. Alerting on replication lag is a structural behavior, not an add-on.\n\n### Failover is a two-phase act\n\nBringing the workload up and finalizing the recovery are separate steps. Between them, the operator can verify the recovered workload and even choose a different recovery point. Commit locks the choice (and typically discards retained recovery points); before commit, the operation can be undone or redirected. This mirrors the reality that a failover performed in panic may need correction.\n\n### Planned and unplanned failover have opposite guarantees\n\nPlanned failover trades speed for zero data loss: it shuts the source down, synchronizes, and refuses to proceed if shutdown fails. Unplanned failover trades data for availability: it proceeds even if the source cannot be shut down, to the latest available point. A platform that behaved the same way in both situations would not serve its purpose.\n\n### Failover stops the protection relationship\n\nFailing over typically ends forward replication; the recovered workload is unprotected until reprotect runs. Cancelling a failover mid-flight can leave replication stopped. The return path (reprotect → planned failover back → re-arm) is therefore not optional bookkeeping — it is how the safety net is restored.\n\n### Testing must not touch production\n\nDrills and test failovers run the same machinery in isolation — separate network, sandbox, or drill instances — and clean up after themselves. Testing history is tracked and surfaced, because an untested recovery path is not a recovery path.\n\n### Consistency is a choice with consequences\n\nCrash-consistent points are cheap and frequent; application-consistent points cost production performance and are taken on a schedule. Multi-workload consistency groups tighten guarantees further at additional cost. Operators choose per workload; the platform enforces the trade-offs.",
+        "rules_zh": "### 可恢复的副本必须保持最新\n\n平台的承诺仅取决于其复制能力。健康状态和RPO可见性的存在，是因为复制会滞后（网络、变动、容量），也因为一个过时的副本会悄无声息地破坏恢复承诺。对复制滞后的告警是一种结构性行为，而非附加功能。\n\n### 故障切换是一个两阶段操作\n\n启动工作负载和最终恢复是两个独立的步骤。在此之间，运维人员可以验证已恢复的工作负载，甚至可以选择不同的恢复点。提交会锁定选择（并且通常会丢弃保留的恢复点）；在提交之前，该操作可以被撤销或重定向。这反映了在紧急情况下执行的故障切换可能需要修正的现实。\n\n### 计划和计划外故障切换具有相反的保证\n\n计划故障切换用速度换取零数据丢失：它关闭源，同步数据，并在关闭失败时拒绝继续执行。计划外故障切换用数据换取可用性：即使源无法关闭，它也会继续执行到最新的可用点。一个在两种情况下行为相同的平台无法实现其目的。\n\n### 故障切换会停止保护关系\n\n执行故障切换通常会终止正向复制；恢复的工作负载在重新保护运行完成之前处于无保护状态。在故障切换中途取消可能会导致复制停止。因此，返回路径（重新保护 → 计划故障切换回来 → 重新激活）并非可选的簿记工作——它是恢复安全网的方式。\n\n### 测试不得接触生产环境\n\n演练和测试故障切换在隔离环境中运行相同的机制——独立的网络、沙盒或演练实例——并在完成后自行清理。测试历史记录被跟踪并显示，因为未经测试的恢复路径不是一个真正的恢复路径。",
+        "parent_id": "14.01",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 41,
+    "phase": "complete",
+    "parent": 136,
+    "slugs": [
+      "capacity-management",
+      "cloud-cost-management-finops",
+      "cloud-management-platform",
+      "container-management",
+      "disaster-recovery-platform"
+    ],
+    "old_input_sha256": "55a412c4cdd08405bbabb05437ebda882cc873cbb87cfd9c15fa06f4a038795e"
+  },
+  "previous_continuation": {
+    "unit": 136,
+    "phase": "complete",
+    "parent": 25,
+    "slugs": [
+      "capacity-management",
+      "cloud-cost-management-finops",
+      "cloud-management-platform",
+      "container-management",
+      "disaster-recovery-platform"
+    ]
+  }
+}

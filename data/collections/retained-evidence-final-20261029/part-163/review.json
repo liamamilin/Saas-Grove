@@ -1,0 +1,40 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 仍记录 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，而 data/collections/batch.json 与 research.json 已补入 github:13254298 并给出补证说明；这是上游输入与产出批次之间的元数据未同步，不影响本单元内容证据链，但建议在归档时刷新 input/progress 以免下游误读为“无案例”。",
+    "batch/research 称 Component “具 DIN”，实际 Component 快照中 DIN 是经由 donation 关联取得的 getDonationIdentificationNumber()，单位身份由 Component UUID + donation DIN + componentCode 共同构成；表述可更精确，不构成事实错误。",
+    "Component 实体本身不直接存放血型字段，血型存放在关联 Donation 上，并通过 InventoryCRUDService 按 bloodGroup 查询在库单位；定义核心要求的“单位携带血型”在数据模型上成立但为间接引用，描述可注明。",
+    "发放环节的安全门控在 OrderFormCRUDService 中表现为 DISPATCHED 时的 orderFormConstraintChecker.canDispatch/issueComponent，而 issueComponent 快照自身只校验使用点并写入 ISSUED 状态变更；是否有“仅 AVAILABLE 才可发放”的显式校验依赖未纳入快照的 ComponentConstraintChecker/OrderFormConstraintChecker，属证据深度限制而非已发现的反证。",
+    "仓库最近一次推送为 2022-12-16（metadata 快照），维护活跃度较低；batch 已如实标注 runtime_tested=false，未做部署实测，符合“不要求部署测试”的审查口径。",
+    "homepage 快照是 Wix 渲染页，含大量脚本/CSS；核心正文（BSIS 为开源系统、覆盖献血登记至分发、已在莱索托/加纳/赞比亚/喀麦隆/埃塞俄比亚血液中心运行）确实存在于快照正文行内，不能仅凭 meta description 判断。",
+    "README 的 Disclaimer、Contributors Agreement 与单许可证模式说明该项目不存在“社区版/商业版”双轨边界，摘要与类型未夸大，仅建议在对外文案中避免暗示官方认证或合规背书。",
+    "research.json 中“ComponentStatusChange 记录操作者、时间与原因”的依据分散在 Component 实体与 ComponentCRUDService 的构造逻辑中，ComponentStatusChange 类本体未单独快照，证据已足够但对追溯链的证明是组合性的。"
+  ],
+  "leaf_checks": {
+    "blood-bank-management": {
+      "slug": "blood-bank-management",
+      "conclusion": "通过：存在真实、可核验的开源应用 github:13254298（BSIS），其定义性核心、Web 服务形态、身份/track 与完整 BSD-3-Clause 许可证均有实际正文/源码快照支撑。",
+      "definition_core": {
+        "individually_identified_unit": "data/collections/sources/806ed7bb9a83f45754cac9790b3726c0e6f6feba764ffd9dcba6a36d4ddf5206.txt（Component 实体：donation、componentCode、expiresOn、status、inventoryStatus、discardedOn/issuedOn/processedOn、statusChanges）+ 4a06d735...（createInitialComponent 以 donation 产生 QUARANTINED 单位并计算有效期；createChildComponent 按成分类型生成子单位并追加 -01 序号）",
+        "status_gated_lifecycle": "93ecb590...（ComponentStatus：QUARANTINED/AVAILABLE/EXPIRED/ISSUED/TRANSFUSED/UNSAFE/DISCARDED/PROCESSED，含 isFinalStatus）+ 7d19ab07...（ComponentStatusCalculator：AVAILABLE 需 donation.isReleased()、血型检测 COMPLETE、血型确认、TTI SAFE；过期覆盖为 EXPIRED；不合格献血者/TTI 不安全/血型未确认置 UNSAFE；DISCARDED/ISSUED/TRANSFUSED/PROCESSED/UNSAFE 为终态不再回退）",
+        "unit_inventory": "81c9b911...（InventoryCRUDService.findComponentsInStock 支持 DIN+componentCode 定位，或按 locationId、componentTypeId、dueToExpireBy、bloodGroups 查询在库单位）",
+        "request_driven_allocation_issue": "840a5714...（OrderForm：orderDate、dispatchedFrom/dispatchedTo、OrderStatus、OrderType、items、components、patient）+ b435df3f...（DISPATCHED 时按 OrderType 调 issueComponent 或 transferComponent，先经 orderFormConstraintChecker.canDispatch）+ 4a06d735...（issueComponent 校验 isUsageSite、置 ISSUED、移出库存、记录状态变更；transferComponent 校验 isDistributionSite；returnComponent 置回 AVAILABLE/IN_STOCK）",
+        "traceability_chain": "4a06d735...（discardComponent/issueComponent/returnComponent 均构造 ComponentStatusChange，写入 newStatus、statusChangedOn、changedBy、reason 与 reasonText；UNSAFE 处置保留原因类型）+ 4fcb3de1...（Transfusion 以 patient 与 component 必填关联，记录 dateTransfused、receivedFrom、outcome、反应类型）+ 806ed7bb...（statusChanges 为 @Audited 的 SortedSet）",
+        "expiry_and_disposition": "7d19ab07...（expiresOn 早于当前日期即 EXPIRED；getDaysToExpire）+ 4a06d735...（discardComponent 置 DISCARDED 并记录 discardedOn；processComponent 将父单位置 PROCESSED 并生成子单位）"
+      },
+      "service_form": "持续使用的自托管 Web 应用：80537df2...（README：browser based but locally deployable solution，Java/Tomcat/Spring/Hibernate/MySQL/Liquibase，Maven 与 Docker Compose 构建运行，./start.sh）+ batch.json deployment（浏览器访问、Docker Compose、WAR 部署 Tomcat + MySQL），非库/组件或一次性脚本。",
+      "identity_track": "github:13254298 与 12385b02... 元数据一致（id 13254298、full_name jembi/bsis、public、archived false、default_branch develop、pushed_at 2022-12-16、license BSD-3-Clause）；名称 BSIS 与 homepage、README、许可证版权方 Jembi Health Systems NPC 一致；track=open_source 与 homepage“open source information system”、README 可自建部署相符。",
+      "license": "ce00799a...（GitHub license API，LICENSE 路径、1510 字节、ref=develop，content 为完整 BSD-3-Clause 文本：Copyright (c) 2015 JEMBI HEALTH SYSTEMS NPC，含源码/二进制再分发条款、第三条不得使用名称背书条款与完整免责声明），非仅有元数据标签。",
+      "community_edition_boundary": "单仓库单许可证，未见 open-core/企业版/功能阉割说明；README 的 Disclaimer 与 Contributors Agreement 属使用与贡献约束，不构成社区版边界缺失；商业化以 Jembi 实施/支持服务形式存在（homepage 六条实施工作流），未影响开源完整性。",
+      "core_evidence_not_replaced_by_summary": "核心结论依据均来自源码正文（Component/ComponentStatus/ComponentStatusCalculator/InventoryCRUDService/OrderForm/OrderFormCRUDService/Transfusion/ComponentCRUDService）与 homepage 正文（开放源代码系统、覆盖献血登记→采集→检测→成分制备贴签→储存→分发，莱索托/加纳/赞比亚/喀麦隆/埃塞俄比亚在用），未以 GitHub description、README 标题、HTTP 成功或 Wix 页面脚本代替。",
+      "gaps": "未快照 ComponentConstraintChecker、OrderFormConstraintChecker 与 ComponentStatusChange 类本体，因此“发放瞬间是否强制 AVAILABLE/在库”“状态变更实体字段全集”为间接证据；未做部署或运行验证（batch 已标 runtime_tested=false）；仓库最近推送 2022-12-16，活跃度未评估；homepage 为 JS 渲染页，仅正文片段可用。上述缺口均为证据深度限制，已有来源足以支持定义核心。"
+    }
+  },
+  "limits": "本次为只读独立初审，未运行 shell、未写文件、未访问其他单元；仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 11 个快照，全部按 path 原样读取（快照基准为 data/collections/）；未额外抓取网页、未做部署/运行/价格/架构验证。GitHub repository_metadata 与 license 快照为单行 JSON 且读取时被截断，相关字段（id 13254298、archived=false、default_branch=develop、pushed_at 2022-12-16、license BSD-3-Clause、content 中完整 BSD-3-Clause 文本）经定点匹配与 base64 文本前缀核对确认，未逐字节解码全量 LICENSE。定义核心判断依据 definition 的 overview/rules 与首页正文、源码快照；ComponentConstraintChecker、OrderFormConstraintChecker、ComponentStatusChange 类本体及需求规格文档未提供，相关环节仅按现有引用推断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-163/ses_groveopencodegop163review1_1793252486.jsonl",
+  "batch_sha256": "b96370a55dd1366a75a591dd26b0e91c8dc9d4affd785b9569bb376f61b460e5",
+  "research_sha256": "4cd1c258ea167b72c2cf3a67125015f8e993cb4ad80c4b3f7a9e59b4419a37a3",
+  "input_sha256": "db7d67800fbb441c52b92f9fcfe6334517bd773bf55800112535d568a553b016"
+}

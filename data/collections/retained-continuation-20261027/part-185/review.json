@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 research.json 的 case_found 及 batch.json 的条目不一致；这属于采集元数据未回填，不影响本单元内容匹配，但下游若读取 input.json 会误判为无案例，建议同步。",
+    "wind-asset-management：PowerFactors Unity APM 是风光储多能源 APM，风电专用证据集中在组合/机组下钻、资源调整基线、实际与预期发电、停机/限电/欠发分类及工单衔接；可用性保证、O&M 合同经济性等资金侧能力主要出现在同套件 Asset Oversight/Invoice Management 导航中，条目已适当收窄，未过度声称。",
+    "gas-pipeline-management：DNV Synergi Pipeline 同时覆盖液体与气体管道，气体不是唯一对象；页面明确资产类别、完整性/风险/检查维修/异常生命周期、HCA/MCA、审计与 MOC、GIS 主数据及 SaaS/本地部署，但未展开压力/水力计算，条目未写入该能力是合适的。",
+    "subscriber-management：Ubilling 官方定位仍是 ISP billing system，订阅者与服务/费率/冻结/开通申请/服务迁移等能力有 Wiki 功能目录支撑，但状态机式生命周期（激活、暂停、恢复、终止及驱动下游）没有逐项正文展开；作为开源类型匹配可接受，后续补充用户生命周期文档会更稳。",
+    "subscriber-management：research.json 的 service_boundary 写“不覆盖网络元素配置执行”，但 Wiki 功能目录列出 MikroTik/NAS 管理、VLAN 管理器、DHCP 自动化等设备监控与部分控制能力；建议改为“含设备监控与部分配置，非完整 provisioning/网络配置执行系统”，避免边界表述过窄。",
+    "utility-asset-management：AssetWorks 页面是产品概览，正文明确公用事业资产、基础设施/管道/表计/设施、预防性维护、无纸化工单、检查/维护历史、GIS/Esri 与资本规划导航，但未点名电杆、导线、变压器、变电站、主干/阀门等网络资产，也未逐项证明网络层级与服务点建模；条目已按概览收窄，属于商业基本类型匹配而非深度功能证明。",
+    "gas-utility-management：Starnik 快照是单行压缩的 Next.js HTML，read 工具按 2000 字符截断行，无法顺序通读正文；已通过定向词项核验 Gas Utilities、natural gas、utility billing、AMI/AMR、service order、field service/work order、customer portal/self-service、deposit、accounts、payments、rate 等，支持 CIS/计费类型匹配。摘要中的“表计读数”不是页面原词，属概括性措辞。",
+    "research.json 对未采用候选（United Systems、CUSI、Tyler、Muni-Link、Oracle、Itineris、OpenOA/OpenFAST 等）记录了抓取失败、非 UTF-8、仅导航、垂直不符或仅分析库等缺口，留档方式符合“如实记录查询/抓取缺口”的要求。"
+  ],
+  "leaf_checks": {
+    "wind-asset-management": {
+      "result": "pass",
+      "application_id": "commercial:power-factors-unity-apm",
+      "basis": "官方 Unity APM 页正文明确面向 wind/solar/storage 组合，提供 fleet 到单台 turbine 的下钻、OEM/SCADA 数据归一、资源调整基线与 actual vs expected 对比、停机/限电/欠发自动分类、可用性提升与工单/现场服务衔接；导航另列 Asset Oversight（组合级 system of record、服务商与收入监督）和 Invoice Management。",
+      "gap": "风电专用的可用性保证、O&M 合同经济性、预算/业主报告未在 APM 页正文逐项展开；产品为多能源 APM，风电子域匹配而非风电专属。"
+    },
+    "gas-pipeline-management": {
+      "result": "pass",
+      "application_id": "commercial:dnv-synergi-pipeline",
+      "basis": "官方页明确覆盖 pipelines、valves、pressure regulator stations、storage 等资产，跨 gathering/transmission/distribution/offshore，且同时支持 liquid 与 gas；正文列出风险评估、检查/维修/维护、异常全生命周期、HCA/MCA、合规报告、审计追踪与 MOC、GIS 主数据、SaaS 或本地部署。",
+      "gap": "未展开压力/水力计算，未逐项列出压缩机站与连接拓扑细节；网络模型以 GIS/开放建模引擎和 UPDM/PODS 支撑，连接性语义需结合部署数据模型理解。"
+    },
+    "gas-utility-management": {
+      "result": "pass",
+      "application_id": "commercial:starnik-utility-billing",
+      "basis": "官方 utilities 页出现 Gas Utilities 与 natural gas，定位 utility billing/CIS，包含 accounts、AMI/AMR、utility billing、rate、payments、service order、field service/work order、customer portal/self-service、deposit 等客户账户与资金循环要素，符合燃气公用事业客户与计费系统类型。",
+      "gap": "快照为单行压缩 HTML，无法完整顺序阅读；未核到 budget plan、arrears、final bill、meter exchange 按比例分摊等细分工作流；商业仅要求基本真实性与类型匹配，故不阻断。"
+    },
+    "subscriber-management": {
+      "result": "pass",
+      "application_id": "github:3612045",
+      "basis": "GitHub API 确认仓库 id=3612045、full_name=nightflyza/Ubilling、未归档；license API 返回 GPL-2.0 且含 17,991 字节完整 GPL v2 正文；README 称其为基于 Stargazer 的开源 ISP billing system；主页称面向固定互联网运营商的计费系统并完全免费开源；Wiki 功能目录列出用户标签、复杂服务、费率周期、冻结天数限制、开通申请、用户间服务迁移、用户门户、网络设备监控等。",
+      "gap": "产品重心偏计费，订阅者状态机（激活/修改/暂停/恢复/终止）未逐项文档化；service_boundary 对网络设备配置能力的排除表述偏窄；开源完整许可证、仓库身份与无付费社区版切分均已核。"
+    },
+    "utility-asset-management": {
+      "result": "pass",
+      "application_id": "commercial:assetworks-eam-utilities",
+      "basis": "官方 Utilities 页 H1 为 Utility asset management，正文说明面向 utility providers 管理 infrastructure、pipelines、meters、vehicles、facilities，覆盖预防性维护、无纸化工单、检查/维护历史、认证与审计文档、GIS/Esri 集成及资本规划导航，符合公用事业 EAM 的基本类型。",
+      "gap": "未点名电杆、导线、变压器、变电站、主干/阀门等网络资产，也未证明网络层级、服务点与资产连接建模；页面同时有较强车队维护内容，条目已按产品概览收窄。"
+    }
+  },
+  "limits": "本次为只读初审：未运行产品、未做部署/价格/架构测试，未执行 shell 或哈希重算，按 REVIEW_SOURCES.json 的 path 原样读取快照并以文件名中的 sha256 作为声明值；Starnik 快照为单行压缩 HTML，read 工具按 2000 字符截断行，只能做定向词项核验；input.json 中部分长定义行同样被截断，但定义性核心结构可读；未读取其他单元，也未使用采集者历史脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-185/ses_groveopencodegop185review2_1793021958.jsonl",
+  "batch_sha256": "28bfb5ad4eb74ba952699239c20b16ca8faa5d7f4b28173e925f1753d3c70981",
+  "research_sha256": "56790db838487f26092004a4135771645ccfde57119eae25394ef7f7d6fecb7a",
+  "input_sha256": "d411aae707569350a4d36ef4db689993f950ee1e062d97c7dc79ddfe98f590ac"
+}

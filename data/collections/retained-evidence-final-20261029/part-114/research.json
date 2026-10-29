@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "etl-elt-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:210579021",
+        "github:27911088"
+      ],
+      "query": "复用 notes/etl-elt-platform.md 的候选 apache/hop；核对官方仓库元数据、LICENSE 与 hop.apache.org 首页正文；针对初审“未证明应用服务形态”的缺口，抓取官方手册的 Hop Web / Hop Server / Hop REST 页面；并做一组替代品定向查询（Apache NiFi）。",
+      "source_urls": [
+        "https://api.github.com/repos/apache/hop",
+        "https://api.github.com/repos/apache/hop/license",
+        "https://hop.apache.org/",
+        "https://raw.githubusercontent.com/apache/hop/main/README.md",
+        "https://hop.apache.org/manual/latest/hop-gui/hop-web.html",
+        "https://hop.apache.org/manual/latest/hop-server/index.html",
+        "https://hop.apache.org/manual/latest/hop-rest/index.html",
+        "https://api.github.com/repos/apache/nifi",
+        "https://api.github.com/repos/apache/nifi/license",
+        "https://nifi.apache.org/",
+        "https://nifi.apache.org/docs/nifi-docs/html/overview.html"
+      ],
+      "note": "本轮修复初审问题（应用服务形态未证）。历史复用的 4 个快照（apache/hop 仓库元数据、license API、官网首页、README）SHA/URL/抓取时间原样保留，未重抓。本轮新增证据来自官方手册：Hop Web 是浏览器版 Hop Gui，随默认构建提供并以 apache/hop-web 镜像发布（docker run -p 8080:8080，Tomcat 部署，访问 http://localhost:8080/ui，可挂载 project/environment）；Hop Server 是可启动的远程 pipeline/workflow 执行服务；hop-rest WAR 提供 /hop/api/v1 的 metadata/plugins/execution 服务。由此 Hop 具备完整的可自托管应用服务形态，关系 github:210579021 成立。另做一组替代品查询，补入 Apache NiFi（github:27911088）：官网与 Overview 正文证明浏览器 UI 设计/控制/监控、processor 执行路由/转换/中介、provenance 血缘、模板与背压，同样满足持久可配置 flow 与受管转换/执行监控的核心。一次抓取失败保留在 fetch_outcomes（hop-web.html 404）。未运行任何第三方项目，runtime_tested:false。 历史轨迹：上一轮 assessment 为 boundary_unresolved（boundary_unresolved）；本轮保留该历史记录于 HISTORY.json，不作伪装。issues.json 的“未证明可持续使用应用服务形态”已由官方手册正文解决：Hop Web 浏览器 GUI + Hop Server + hop-rest WAR。原历史候选不再作为未采纳草稿对待，其历史记录仍保留在 HISTORY.json。",
+      "service_boundary": "Hop：可自托管完整 ETL/ELT 平台，含桌面 GUI、浏览器版 Hop Web、Hop Server 与 hop-rest API 三种访问形态，Apache-2.0；官方另有商业支持通道，但社区版即完整平台，本条不涉及价格/商业条款。NiFi：可自托管 dataflow/数据分发平台，浏览器 UI 为一等界面，Apache-2.0；其侧重事件流、路由与投递保障，与批式仓库建模型 ETL 存在侧重差异，已在 note 说明。",
+      "search_attempts": [
+        "复用既有候选与快照：apache/hop（GitHub ID 210579021，Apache-2.0），核对 4 个历史快照 SHA-256 全部命中",
+        "定向补证第 1 组：抓取官方手册 hop-web.html（失败 404），改装 hop-gui/hop-web.html 成功；另抓 hop-server/index.html 与 hop-rest/index.html",
+        "定向补证第 2 组（替代品）：查询并抓取 Apache NiFi 官方仓库元数据、license、首页与 Overview 文档",
+        "未新增其他关键词搜索；未运行 Hop / NiFi 或任何第三方项目"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/apache/hop",
+          "kind": "repository_metadata",
+          "sha256": "35b3f79dbf007a77871ce8a25994a3e742a104fecdba602b54341c01dd368d49",
+          "snapshot_path": "sources/35b3f79dbf007a77871ce8a25994a3e742a104fecdba602b54341c01dd368d49.txt",
+          "fetched_at": "2026-10-26T18:01:42.255985+08:00",
+          "outcome": "used",
+          "origin": "historical_reuse"
+        },
+        {
+          "url": "https://api.github.com/repos/apache/hop/license",
+          "kind": "license",
+          "sha256": "ce671f2fc3f4d812c1f006aa973d846ebab4545809c78f4c854a57182969cdb2",
+          "snapshot_path": "sources/ce671f2fc3f4d812c1f006aa973d846ebab4545809c78f4c854a57182969cdb2.txt",
+          "fetched_at": "2026-10-26T18:01:42.253093+08:00",
+          "outcome": "used",
+          "origin": "historical_reuse"
+        },
+        {
+          "url": "https://hop.apache.org/",
+          "kind": "homepage",
+          "sha256": "0fc26ffcb0e386182e100b199cf703cf44ee71b2493825ae1263356506c0d033",
+          "snapshot_path": "sources/0fc26ffcb0e386182e100b199cf703cf44ee71b2493825ae1263356506c0d033.txt",
+          "fetched_at": "2026-10-26T18:02:23.664279+08:00",
+          "outcome": "used",
+          "origin": "historical_reuse"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/apache/hop/main/README.md",
+          "kind": "readme",
+          "sha256": "b53d4d73c3fa39945bca51752e6caac4d504187430350b7bef4fc6684cac7fd7",
+          "snapshot_path": "sources/b53d4d73c3fa39945bca51752e6caac4d504187430350b7bef4fc6684cac7fd7.txt",
+          "fetched_at": "2026-10-26T18:02:23.398190+08:00",
+          "outcome": "used",
+          "origin": "historical_reuse"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/hop-web.html",
+          "kind": "documentation",
+          "outcome": "failed_http_404",
+          "note": "预期路径不存在；改用手册索引中实际链接 hop-gui/hop-web.html 成功"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/",
+          "kind": "documentation",
+          "sha256": "ee983829dcda95027dc32a6628a65d313c7835f013d3df1d3dacee3f328ed27c",
+          "snapshot_path": "sources/ee983829dcda95027dc32a6628a65d313c7835f013d3df1d3dacee3f328ed27c.txt",
+          "fetched_at": "2026-10-28T23:43:27.491310+08:00",
+          "outcome": "fetched_not_cited",
+          "origin": "this_round_fetch",
+          "note": "用于定位 Hop Web 手册实际路径；仅作导航，未作为证据引用"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/getting-started/",
+          "kind": "documentation",
+          "sha256": "e57889748a00ba76194a28d160136b0597ea0edc9064bf8e1b9012aa9cca7914",
+          "snapshot_path": "sources/e57889748a00ba76194a28d160136b0597ea0edc9064bf8e1b9012aa9cca7914.txt",
+          "fetched_at": "2026-10-28T23:43:28.456290+08:00",
+          "outcome": "fetched_not_cited",
+          "origin": "this_round_fetch",
+          "note": "入门页补充了解整体结构，最终改由更具体的手册页作证据"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/hop-gui/hop-web.html",
+          "kind": "documentation",
+          "sha256": "57b9e70d6fb8e94182f96351e745b36a25ef384e05125b5cd07cc5053e08cc5b",
+          "snapshot_path": "sources/57b9e70d6fb8e94182f96351e745b36a25ef384e05125b5cd07cc5053e08cc5b.txt",
+          "fetched_at": "2026-10-28T23:43:54.160666+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/hop-server/index.html",
+          "kind": "documentation",
+          "sha256": "c62b581eee77b39066ae1c06a6418fdde01db94f3e17ae241351cb793c969e63",
+          "snapshot_path": "sources/c62b581eee77b39066ae1c06a6418fdde01db94f3e17ae241351cb793c969e63.txt",
+          "fetched_at": "2026-10-28T23:44:51.780870+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://hop.apache.org/manual/latest/hop-rest/index.html",
+          "kind": "documentation",
+          "sha256": "65bd6d939566b122f5186faffc8bf71233b48b368690eca27d0483416026d3a7",
+          "snapshot_path": "sources/65bd6d939566b122f5186faffc8bf71233b48b368690eca27d0483416026d3a7.txt",
+          "fetched_at": "2026-10-28T23:43:54.673047+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://api.github.com/repos/apache/nifi",
+          "kind": "repository_metadata",
+          "sha256": "c85342dfe4af8eca9e00c37a41e1f2cdd22e51cdc1a188374e275ba72efc240a",
+          "snapshot_path": "sources/c85342dfe4af8eca9e00c37a41e1f2cdd22e51cdc1a188374e275ba72efc240a.txt",
+          "fetched_at": "2026-10-28T23:44:27.307607+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://api.github.com/repos/apache/nifi/license",
+          "kind": "license",
+          "sha256": "58cf39d51585fd1809676de78c6ca145fcbdc6590297f70db3af6a076b451aa5",
+          "snapshot_path": "sources/58cf39d51585fd1809676de78c6ca145fcbdc6590297f70db3af6a076b451aa5.txt",
+          "fetched_at": "2026-10-28T23:44:27.673523+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://nifi.apache.org/",
+          "kind": "homepage",
+          "sha256": "897b564fa1866a1f2d689fffa05b6e300e86ca6d5acf9f53150107c7e018bafd",
+          "snapshot_path": "sources/897b564fa1866a1f2d689fffa05b6e300e86ca6d5acf9f53150107c7e018bafd.txt",
+          "fetched_at": "2026-10-28T23:44:29.054637+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        },
+        {
+          "url": "https://nifi.apache.org/docs/nifi-docs/html/overview.html",
+          "kind": "documentation",
+          "sha256": "dc4eb02af7d5c4ea194ab8f817b4052ce2c096526133fd9c825204fb33782362",
+          "snapshot_path": "sources/dc4eb02af7d5c4ea194ab8f817b4052ce2c096526133fd9c825204fb33782362.txt",
+          "fetched_at": "2026-10-28T23:45:18.665108+08:00",
+          "outcome": "used",
+          "origin": "this_round_fetch"
+        }
+      ],
+      "archived": false,
+      "collector_note_unapproved": "修正上一轮过窄判断：历史 4 快照并不只证明桌面/CLI/引擎——官网首页已含 apache/hop-web 容器入口，本轮官方手册正文补足了该入口所指的浏览器应用（Hop Web）、远程执行服务（Hop Server）与 REST 应用（hop-rest）。据此 hop 关系成立。新增 NiFi 依据官方首页与 Overview 正文（浏览器 UI、processor 路由/转换/中介、provenance、模板、背压）成立。未做运行时测试。"
+    }
+  ]
+}

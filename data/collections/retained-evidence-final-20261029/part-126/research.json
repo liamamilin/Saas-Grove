@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "zero-trust-network-access-ztna",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:223431735"
+      ],
+      "query": "复核 openziti/ziti 的服务级 Host/Application Access 与浏览器管理控制台，确认其为完整自托管 ZTNA 应用服务",
+      "source_urls": [
+        "https://api.github.com/repos/openziti/ziti",
+        "https://raw.githubusercontent.com/openziti/ziti/main/README.md",
+        "https://api.github.com/repos/openziti/ziti/license",
+        "https://raw.githubusercontent.com/openziti/ziti/main/quickstart/docker/all-in-one/README.md"
+      ],
+      "note": "原初审缺口是：已有来源只被读成客户端、CLI、引擎/基础设施或设备控制，未证明存在可持续运行的应用服务。本轮先复用 2026-10-26 的仓库元数据、README 与许可证快照，核对仓库 id=223431735、Apache-2.0、逐服务身份授权与 dark service 正文；再于 2026-10-29 定向补采官方 all-in-one Docker quickstart 文档，确认 docker compose 后可在浏览器打开 /zac/ 管理控制台并查看身份与 router。据此将关系收窄并成立为：只取 Host/Application Access 的服务级模型，即服务/应用是访问单位、策略按身份逐服务授权、服务无监听端口；不把 Network Access 的网络边界网关模式、多云 overlay 连通性或纯 SDK/CLI 端点算作本叶核心。ZAC 控制台仅由官方文档证明，未部署运行，不声称已实测。原 boundary_unresolved 结论与旧候选轨迹保留在 HISTORY.json，本轮不是把旧草稿直接当通过。",
+      "service_boundary": "自托管开源 ZTNA 平台：controller、edge router、ZAC 浏览器管理控制台以及 SDK/tunneler 端点；只取 Host/Application Access 的逐服务授权与隐藏服务模型，不把 Network Access 的网络边界接入、多云 overlay 连通性或纯客户端/SDK/CLI 当作本叶核心。未做部署测试。",
+      "search_attempts": [
+        {
+          "tool": "direct_repository_lookup",
+          "query": "openziti/ziti GitHub metadata + README + license",
+          "outcome": "历史复用：命中并核验仓库身份、Apache-2.0 与服务级零信任正文（2026-10-26 快照）"
+        },
+        {
+          "tool": "targeted_follow_up",
+          "query": "openziti/ziti all-in-one Docker quickstart 与 ZAC 浏览器控制台",
+          "outcome": "本轮补采：官方 quickstart 文档显示 docker compose 后可在浏览器打开 /zac/ 控制台并查看身份与 router，补足应用服务形态证据"
+        },
+        {
+          "tool": "alternative_scan",
+          "query": "Firezone / Teleport / Pomerium 作为完整开源 ZTNA Web 应用服务替代品",
+          "outcome": "本轮未纳入：Firezone 管理门户为 Elastic License 2.0，生产自托管不受官方支持；Teleport 为 AGPL-3.0 的广泛基础设施访问平台，应用访问只是其中子模块，需进一步核对其应用隐藏与逐应用策略正文；Pomerium 核心是身份感知访问代理，托管控制面与 GUI 在商业产品中。以上仅作替代品线索，不推断不存在其他开源 ZTNA。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openziti/ziti",
+          "status": 200,
+          "kind": "repository_metadata",
+          "snapshot": "sources/80d3e3a0d4045640b290963d54749d37a9e2257bb7618d190fda4232d90ebeb2.txt"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openziti/ziti/main/README.md",
+          "status": 200,
+          "kind": "readme",
+          "snapshot": "sources/eb59b0e0cd212b7be42d1f098ea027f84f4130ee1d845eed58ef98679f10f3f4.txt"
+        },
+        {
+          "url": "https://api.github.com/repos/openziti/ziti/license",
+          "status": 200,
+          "kind": "license",
+          "snapshot": "sources/1c33ec1251f830c7b2cd211c5ff060365f46ee0c48845f3321f5f8bb5c0a71a9.txt"
+        },
+        {
+          "url": "https://openziti.io/docs/learn/introduction/",
+          "status": "redirect_cross_host",
+          "kind": "documentation",
+          "snapshot": null
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openziti/ziti/main/quickstart/docker/all-in-one/README.md",
+          "status": 200,
+          "kind": "documentation",
+          "snapshot": "sources/4b2d10ca23628f27efbadf59c87d2bca8a10e653aac5d78b8b9f744088c09f5b.txt"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

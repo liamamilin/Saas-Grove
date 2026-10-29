@@ -1,0 +1,64 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "research-animal-facility-management",
+      "application_id": "github:741235791",
+      "issue": "该叶以 MyVivarium 作为 AFMS 案例收录，但被引 README 没有给出定义性核心的正文证据。README 的 Features/Usage 只描述用户/实验室管理和 IoT 环境监测；仓库元数据 description 只有一句 cage management；繁殖笼、饲养笼、笼卡打印、品系与 IACUC 记录只出现在 “Function of Each File” 的 PHP 文件名清单中。没有用户文档、截图正文或 schema 说明以下任一项：(a) 房间/笼架/笼具的占用跟踪；(b) 到达/出生、断奶、移动、死亡/安乐死/转出等普查与处置事件及可计算的在栏数；(c) IACUC 方案与笼/动物的关联及 approved/used/remaining 使用量核算。batch 的 leaf_matches 也自认个体标识与方案用量核算未证实，research.json 的 service_boundary 同样把住房占用、普查处置和研究使用关联列为必要条件，但未说明 MyVivarium 覆盖其中哪些。现有证据最多支持笼具/群体台账，不能确认该叶的四结构核心。",
+      "fix": "补充官方用户文档、演示走查或数据库/接口证据，证明笼位占用、生命事件与普查计数，以及 IACUC 方案分配和 approved/used/remaining 使用量核算；同时把 leaf_matches.reason 改为只陈述来源实际展示的内容，区分“文件名提及”与“工作流证据”。若拿不到这些证据，应撤销该叶的 AFMS 案例匹配，按未证实候选/无案例留档记录缺口，而不是以 included case 收录。"
+    }
+  ],
+  "non_blocking_notes": [
+    "MyVivarium 的 deployment 写有 “hosted web deployment”，但 README 只提供一个会定期清空的 demo 站点（demo.myvivarium.online），未说明这是对外提供的托管部署选项；建议改为 “demo/hosted instance” 或补充托管服务证据。",
+    "OpenChrom 的 ISTD 定量证据来自项目 wiki，README 同时声明免费基础版不含商业扩展；快照未说明 ISTD 定量属于免费基础版还是商业版。建议在 features 或 note 中标注版本/edition 依据。",
+    "OpenChrom 两篇短来源未明确描述原始信号持久化/再处理、命名/版本化 method 和按样品绑定的结果记录；若要在 CDS 核心上更稳，可补一份用户手册或功能页。",
+    "MyTardis 的 README 取自 develop 分支，项目明确声明该分支不宜用于生产；条目摘要本身是产品级描述，建议引用 master/series-4.6 的 README 作为部署/功能来源。",
+    "LibreClinica 手册只展示 CRF 级 Completed/Locked 和签署，未展示研究级 database lock 的 gating criteria（open queries、incomplete forms 等阻塞条件）；条目已省略该具体断言，建议补一份 study lock/admin 文档或在条目中保留该限制说明。",
+    "LibreClinica 的 license_evidence_url 指向 GitHub license API，其 LICENSE 正文是 GPL-3.0；LGPL-3.0 判定依赖 COPYING.LESSER。建议把 COPYING.LESSER 也列为主许可证据 URL，避免读者只看 LICENSE 正文时误判。",
+    "NUcore 的 doc/instrument_pricing.md 404 已如实记录并改用 doc/product_pricing.md；OpenChrom 的 SPA 首页标为 fetched_but_unusable；DataFed 的 UT-Battelle 自定义许可被排除——这些抓取/许可缺口留档与快照一致，可接受。",
+    "input.json 仍标 phase=included_without_cases，但 batch/research 已有 5 个案例；建议同步 phase/progress 标签，避免单元状态与内容不一致。"
+  ],
+  "leaf_checks": {
+    "research-animal-facility-management": {
+      "application_id": "github:741235791",
+      "result": "gap",
+      "evidence": "已读仓库元数据（id 741235791）、LGPL-3.0 license API 快照（正文为 GNU LGPL v3 全文）和 README。README 正文的 Features/Usage 只覆盖用户/实验室管理与 IoT 监测；繁殖/饲养笼、笼卡、品系、IACUC 仅见于脚本文件清单。未读到房间/笼架/笼具占用、到达/断奶/移动/处置事件与普查计数，或 IACUC 方案与使用量的正文说明。",
+      "license": "LGPL-3.0；LICENSE 快照为完整 GNU LGPL v3 文本；仓库 id 741235791 与 track=open_source 匹配。",
+      "core": "研究使用关联/使用量核算与普查处置循环未被证据覆盖；当前只能支持笼/群体台账，不能确认四结构 AFMS 类型。"
+    },
+    "scientific-core-facility-management": {
+      "application_id": "github:1439473",
+      "result": "pass",
+      "evidence": "已读仓库元数据（id 1439473）、MIT license 快照、README、doc/HOWTO_reservations.md、doc/product_pricing.md。文档显示 instrument 作为可预约的 Product、schedule rule、预约生成/更新 order、按分钟/阶梯/按日计价、internal/external price group、reservation/usage/overage 计费与取消费；README 列出 PI、facility staff/director 等角色及 Sanger sequencing、split accounts、purchase order 等可选引擎。",
+      "license": "MIT；LICENSE 快照为 MIT 许可文本；仓库 id 1439473 与 track=open_source 匹配。",
+      "core": "共享仪器/服务目录、实名预约与 order 归属、使用到再收费的价格/账单闭环有正文证据；培训/资格门槛与补贴未被声称，按定义为非核心机制。"
+    },
+    "scientific-data-management-system": {
+      "application_id": "github:2824643",
+      "result": "pass",
+      "evidence": "已读仓库元数据（id 2824643）、GPL-3.0 license 快照和 README.rst。README 说明其管理研究数据及元数据、提供中央仓库、长期安全归档、Web/SFTP 授权访问，并由 instrument integration 自动把仪器数据转移到仓库。",
+      "license": "GPL-3.0；LICENSE 快照为 GPLv3 全文；仓库 id 2824643 与 track=open_source 匹配。",
+      "core": "中央数据对象、系统驱动的仪器捕获、上下文元数据和受控长期保管均有正文描述；README 取自 develop 分支（项目声明不宜生产使用），属于来源版本提示，不改变类型匹配。"
+    },
+    "chromatography-data-system": {
+      "application_id": "github:202303561",
+      "result": "pass",
+      "evidence": "已读仓库元数据（id 202303561）、EPL-2.0 license 快照、README 和官方 wiki 的 Quantitation-ISTD 页。README 说明其为色谱/质谱数据分析的开源免费基础版，并明确不含厂商专用转换器和商业扩展；wiki 正文记录了峰检测/积分、定义 ISTD、执行 ISTD 定量和查看结果。",
+      "license": "EPL-2.0；LICENSE 快照为 EPL v2.0 全文；仓库 id 202303561 与 track=open_source 匹配；免费基础版/商业扩展边界已在条目中披露。",
+      "core": "峰积分与校准/定量（ISTD）有正文证据，单机分析形态符合定义允许的简化 CDS；原始信号持久化/再处理、命名/版本化 method、按样品绑定结果记录未被两篇短来源明确描述，作为证据深度限制记录。"
+    },
+    "clinical-data-management": {
+      "application_id": "github:169558966",
+      "result": "pass",
+      "evidence": "已读仓库元数据（id 169558966）、LICENSE（GPL-3.0 基础文本）、COPYING.LESSER（LGPL-3.0 附加条款）、README 及 investigator/monitor 手册。手册正文显示 subject/site/event/CRF 录入、必填与范围校验、discrepancy 类型（Query/Failed Validation Check/Annotation/Reason for Change）、分配/回复/关闭、不可删除 note、签署、审计日志，以及 CRF 的 Completed/Locked 状态。",
+      "license": "LGPL-3.0；GitHub license 元数据声明 LGPL-3.0，COPYING.LESSER 含 LGPLv3 附加条款正文，LICENSE 含其并入的 GPLv3 基础文本；仓库 id 169558966 与 track=open_source 匹配。",
+      "core": "受管研究记录、验证差异、解决循环与变更控制有强正文证据；研究级 database lock 的门槛未直接展示，条目已正确省略该具体断言，仅声称 CRF 级完成/锁定。"
+    }
+  },
+  "limits": "只读核对本单元的 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 21 个快照（按 data/collections 前缀原样读取）；未运行 shell、未写文件、未抓取网络、未读取其他单元。未做部署/运行时测试；README/手册中的图片与截图未渲染，无法核对仅存在于图片中的 UI 证据；data/collections/sources 下未被 REVIEW_SOURCES 引用的快照未作为条目证据。结论以 2026-10-25/26 抓取文本为限。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-219/ses_groveopencodegop219review2_1793030458.jsonl",
+  "batch_sha256": "0ba12cc329d0f7cf5108a5913894d1a01fa27045b3bce8c70af0ae82f69dea59",
+  "research_sha256": "4ff789ec65e251860eedc6bba110d9ba96d6f4402c241578490463d0123b553e",
+  "input_sha256": "5e9e375c25ae92bbb452432fd0a02215d50aaafb0d4bb8d6123b36035fb63eca"
+}

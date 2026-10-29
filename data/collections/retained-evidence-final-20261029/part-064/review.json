@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "hledger 的 license 记为 GPL-3.0，而 README 明示为 “GNU General Public License v3.0 or later”，完整 GPLv3 正文已在快照中；后续可将表述细化为 GPL-3.0-or-later，以免被理解为仅 GPL-3.0。",
+    "hledger 条目写“可浏览、添加与编辑交易”，手册正文显示默认权限为 add，编辑/上传/下载需 --allow=edit；建议在 features 中注明权限模式，以免读者以为默认即可编辑。",
+    "hledger 的服务形态已如实收窄为本地优先的单 journal Web UI：默认仅监听 127.0.0.1、无访问控制、--serve-browse 无活动两分钟后退出；这属于边界说明，不影响“可常驻提供服务化访问”的结论。",
+    "Bigcapital 的核心证据主要来自自动生成的 OpenAPI 页面（账户、手工日记账、总账报表），足以支撑数据模型与工作流语义，但缺少面向用户的界面/操作指南正文；后续可补一页用户手册以增强“Web 应用服务”的直观证据。",
+    "Bigcapital 的“可编辑/停用账户”目前仅由创建账户 DTO 的 active 字段与账户类型接口间接支持，没有更新账户接口快照；可在后续补证时补一条更新/停用接口正文。",
+    "Bigcapital 的社区版边界只体现为“AGPL 仓库 + Docker 自托管”与“Bigcapital Cloud”并列，快照未说明 Cloud 与自托管在功能上的差异；建议补一句官方对两者关系的说明，避免读者误判为功能受限的开源版。",
+    "LedgerSMB 的 GPL-2.0 依赖许可证文件全文（GitHub license.spdx_id 为 NOASSERTION）判定，批次已附 license_review 说明，处理方式恰当；可再注明是 GPL-2.0-only 还是 or-later 的官方表述。",
+    "research.json 提到抓取过 docs.bigcapital.app 的 llms.txt 索引，但该索引未作为快照留存；它仅用于导航，不影响核心结论。",
+    "GnuCash 因桌面客户端形态被排除、Firefly III 归入个人理财叶、ERPNext 未取得记账子模块正文，这些取舍在 research.json 中有记录，属于合理的范围控制。"
+  ],
+  "leaf_checks": {
+    "bookkeeping-application": {
+      "status": "pass",
+      "definition_core": "三结构均能从实际快照正文核对。①带日期的持久交易记录：hledger README 的 journal 示例为带日期、按账户分录的复式记录，hledger.org 首页展示 aregister 逐笔流水；LedgerSMB FAQ 的 Close Period/Close As-of 正文说明“2019-12-31 当日及之前的交易不可再录入或修改”，反证交易为带日期记录；Bigcapital 手工日记账 API 的 CreateManualJournalDto 必填 date 与 entries，分录含 accountId/debit/credit/index。②科目表/账户分类：hledger 示例使用 assets/liabilities/equity/income/expenses 层级账户名并按账户出报表；LedgerSMB features 的 General Ledger and Journal Entry 模块说明可管理科目、在科目间划转并以复式记账记录；Bigcapital 创建账户 API 含 name/code/accountType/parentAccountId/active，账户类型 API 含 rootType（asset）、parentType（current-asset）、normal（debit）、balanceSheet/incomeSheet。③持续累积的账簿与历史：hledger 以 journal 文件跨会话保存并生成 bs/is 报表；LedgerSMB 数据存于 PostgreSQL，关账可冻结历史；Bigcapital 总账报表按账户输出 opening_balance、逐笔 running_balance、closing_balance，并支持 cash/accrual 取数。未把 README 截图标题、文档入口页或元数据当作核心正文。",
+      "service_form": "三者均为可持续运行、可自托管的软件服务形态：hledger-web 手册正文明确 --serve 常驻提供 Web UI 与 JSON API、读写同一 journal、每次编辑写编号备份、可多用户共享但无访问控制、默认仅监听 127.0.0.1；LedgerSMB 为 Perl+PostgreSQL 的浏览器 Web 应用，README 给出 docker-compose 评估部署与 setup.pl/login.pl 入口；Bigcapital 官方 Docker 文档给出 docker-compose.prod.yml 生产部署、自带 Nginx 反代、浏览器访问 http://<IP>:8000，数据落在 MySQL 持久卷。",
+      "identity_track": "三条均为 open_source，仓库身份与批次一致：github:9301414 = hledgerorg/hledger；github:18471236 = ledgersmb/LedgerSMB；github:408868487 = bigcapitalhq/bigcapital。track 与 repository_url/homepage 无类型错配。",
+      "license": "hledger：license 接口快照的 license.spdx_id 为 GPL-3.0，content 解码为完整 GPLv3 正文（含 “GNU GENERAL PUBLIC LICENSE”“Version 3, 29 June 2007”），README 亦标注 GPLv3+。LedgerSMB：license 接口 spdx_id 为 NOASSERTION，但 content 解码为完整 GPL v2 正文（“Version 2, June 1991”），README 徽章与 License 段落标注 GPLv2，批次 license_review 解释合理。Bigcapital：license 接口 spdx_id 为 AGPL-3.0，content 解码为完整 GNU Affero GPL v3 正文，README 自述 AGPL、支持 Docker 自托管。三者均非仅凭徽章或摘要判定。",
+      "community_boundary": "hledger 为完整 GPL 项目，无商业版分层，仅 Open Collective 赞助；LedgerSMB 为完整开源 Web 会计/ERP，官网仅列商业支持顾问，未发现功能受限的社区版；Bigcapital 的 AGPL 仓库即自托管产品，另提供 Bigcapital Cloud 托管入口，快照未显示付费版与开源版的功能切割，条目已同时列出两种部署方式。",
+      "snapshots_checked": [
+        "sources/75dd44bb…（hledger 仓库元数据，id 9301414 / full_name hledgerorg/hledger）",
+        "sources/1eeccaa7…（hledger license 接口，GPL-3.0 + 完整 GPLv3 正文）",
+        "sources/9b778a75…（hledger README，复式记账/账户示例/报表/CSV/多币种/GPLv3+）",
+        "sources/79100b61…（hledger.org 首页，交易示例、bs/is 报表、hledger web 本地服务）",
+        "sources/2830e4d3…（hledger-web 手册正文，三种 serve 模式、--allow、默认 127.0.0.1、无访问控制、编辑备份）",
+        "sources/83972aad…（LedgerSMB 仓库元数据，id 18471236 / full_name ledgersmb/LedgerSMB）",
+        "sources/de88ba99…（LedgerSMB license 接口，NOASSERTION + 完整 GPLv2 正文）",
+        "sources/0b048db0…（LedgerSMB README，Web 复式记账、PostgreSQL、Docker quick start、GPLv2）",
+        "sources/55ac3419…（LedgerSMB features，General Ledger and Journal Entry 等模块正文）",
+        "sources/67820558…（LedgerSMB FAQ，General Journal > Year End / Close Period / Close As-of 正文）",
+        "sources/663b0691…（Bigcapital 仓库元数据，id 408868487 / full_name bigcapitalhq/bigcapital）",
+        "sources/0ec886db…（Bigcapital license 接口，AGPL-3.0 + 完整 AGPLv3 正文）",
+        "sources/4c76d10d…（Bigcapital README，会计与库存软件、AGPL、Docker 自托管、Cloud 入口）",
+        "sources/6d62520d…（Bigcapital 文档入口，仅作部署/导航参考，未用于核心论证）",
+        "sources/7b5179ee…（Bigcapital Docker 部署正文，docker-compose.prod.yml、Nginx、MySQL 持久卷）",
+        "sources/f114606f…（创建账户 API，name/code/accountType/parentAccountId/active）",
+        "sources/8bdb101a…（账户类型 API，rootType/parentType/normal/balanceSheet/incomeSheet）",
+        "sources/1e35d8c7…（手工日记账 API，date/entries/accountId/debit/credit/journalNumber/publish/attachments）",
+        "sources/11ef2140…（总账报表 API，opening_balance/running_balance/closing_balance 与 cash/accrual）"
+      ],
+      "gaps": "未做部署或运行验证（runtime_tested=false），服务形态结论基于官方文档正文；hledger 的 Web 形态为本地优先单 journal、无访问控制，需运营者以 --serve 并置于反向代理后才具备对外服务能力，已在批次与研究中如实记录；Bigcapital 核心证据为自动生成的 OpenAPI 参考页，缺用户手册式界面流程正文；未核查商业定价与 Cloud 功能差异。上述均为留档深度问题，不影响本叶核心匹配与开源许可结论。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅使用读取与检索工具，未运行 shell、未写文件、未部署或执行任何应用，也未访问本单元之外的资料；核对对象限于 REVIEW_SOURCES.json 列出的 19 份实际快照及 batch.json、research.json、input.json。快照抓取时间为 2026-10-24 与 2026-10-28，hledger-web 手册对应 1.52 版，Bigcapital 文档为 Mintlify 自动生成的 OpenAPI 页面；GitHub API 的 license.spdx_id 对 LedgerSMB 为 NOASSERTION，许可结论依赖快照内 base64 解码后的完整许可证正文与 README 表述。未验证运行时行为、数据持久化实测、权限控制实效，也未研究商业版定价或 Cloud 与自托管的功能差异。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-064/ses_groveopendesignp064review1_1793174830.jsonl",
+  "batch_sha256": "69d6749e1c33a0b418b8fd55df449a272366facbc48371f70ac8edee99622155",
+  "research_sha256": "71f39934f96e64f9a433c96548a36de8fcb172a22ddf5941cb2658064ebeef1e",
+  "input_sha256": "b519bff02d7b66604e04c7c3b0d6dbc4469a880f2633a740e74b42700a82136f"
+}

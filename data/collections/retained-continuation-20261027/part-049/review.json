@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "core-banking-system 的摘要与 leaf_match 提到“贷款与储蓄组合、实时会计与报表”，但本次读取的 README 与官网首页快照只明确出现“core banking platform”、客户数据、产品配置、KYC、还款记录与贷款/投资组合管理，未逐字出现 savings/deposit 账户或复式记账/总账；research 已记录 docs/stable 抓取因 max_bytes 失败，建议后续补充可读文档快照或把摘要收窄到快照可支持的范围。",
+    "consumer-lending-platform 的摘要使用“放款”一词，快照正文更明确的是 loan origination、decisioning、loan management/servicing 与 debt collection；这不影响消费信贷平台的类型判断，但“放款”属于未逐字验证的非关键措辞。",
+    "commercial-loan-origination 的 Abrigo 来源能证明受理、承保、决策、成交文件与 Board Loan to Core 的入账交接，未直接证明资金划拨；batch 与 research 已避免声称 funding，建议保持这一收窄口径。",
+    "collections-platform 的 Nortridge 快照内容对应 https://nortridge.com/features/loan-collections-software/（canonical），与批次记录的 https://nortridge.com/collections/ 存在跳转差异；页面正文与催收平台主题一致，不影响核对。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids 为空，与 batch.json、research.json 中的 case_found 和 5 个应用不一致；本次以 batch/research 及实际快照为准，建议同步任务清单元数据。",
+    "Finastra Loan IQ 快照以产品概览和营销文案为主，未逐项展示利息计提、付款应用或参与份额分配等细节；从商业贷款管理的基本真实性和类型匹配角度已足够。"
+  ],
+  "leaf_checks": {
+    "collections-platform": {
+      "application_ids": [
+        "commercial:nortridge-loan-collections"
+      ],
+      "result": "pass",
+      "basis": "读取 Nortridge 官方 Loan Collections 快照正文：面向贷款机构的逾期账户集中视图、借款人历史与逾期款项、规则化催收队列与自动提醒、承诺还款的履行/违约跟踪、邮件/短信/拨号外联，以及催收员共享记录。覆盖“债权人侧逾期账户→催收处理→处置/恢复”的核心链，且属于贷方服务套件中的催收模块形态。",
+      "id_track": "commercial track 与 commercial: 前缀一致。",
+      "gaps": "快照未展示 settlement、charge-off、法律/资产收回等具体操作细节；research 记录了 nortridge.com 根域及 Qualco/EXUS 抓取失败，但 Nortridge 具体页面成功，缺口已留档。"
+    },
+    "commercial-loan-management": {
+      "application_ids": [
+        "commercial:finastra-loan-iq"
+      ],
+      "result": "pass",
+      "basis": "读取 Finastra Loan IQ 官方页面正文：定位为商业贷款管理与服务台，覆盖银团、双边、CRE、SBA 等贷款，统一平台自动化贷款服务、集中管理组合，并提及 deal setup、booking 与 loan lifecycle。可对应商业借款人、已发放商业贷款账户的服务循环与生命周期操作。",
+      "id_track": "commercial track 与 commercial: 前缀一致。",
+      "gaps": "页面为产品概览，未逐项展示条款计算、利息计提、付款应用、非应计与参与份额分配；商业类型匹配和基本真实性已满足。"
+    },
+    "commercial-loan-origination": {
+      "application_ids": [
+        "commercial:abrigo-commercial-lending"
+      ],
+      "result": "pass",
+      "basis": "读取 Abrigo 商业贷款页、平台页与开发者 Boarding Loans 文档：明确为 commercial loan origination system，自动化数据收集、工作流路由、信贷备忘录、审批跟踪与机构信贷政策校验；平台流程覆盖 origination、underwriting、closing；开发者文档说明在 Sageworks 完成受理、承保、决策和文件准备后标记待入账，并执行 Board Loan to Core、关联 portfolio loan。覆盖商业借款人、在办信贷案件、财务评估、政策审批、成交文件与入账交接。",
+      "id_track": "commercial track 与 commercial: 前缀一致。",
+      "gaps": "来源未明确资金划拨/disbursement；research 已如实收窄且不声称放款，boarding to core 足以支持终端入账交接。"
+    },
+    "consumer-lending-platform": {
+      "application_ids": [
+        "commercial:turnkey-lender"
+      ],
+      "result": "pass",
+      "basis": "读取 TurnKey Lender 官网页与 Loan Management 页：同一云平台提供 Loan Origination、Credit Scoring、Underwriting、Decision Engine、Loan Management 与 Debt Collection，并设有 Consumer Lending 标签/解决方案，面向消费信贷机构。覆盖申请、评分/授信决策、贷后账户管理与催收的消费信贷平台形态。",
+      "id_track": "commercial track 与 commercial: 前缀一致。",
+      "gaps": "快照未逐字出现 disbursement、还款计划、余额或利息计提细节；以 loan management/servicing 与 consumer lending 方案作基本类型匹配，“放款”措辞未逐字验证。"
+    },
+    "core-banking-system": {
+      "application_ids": [
+        "github:48418599"
+      ],
+      "result": "pass",
+      "basis": "读取 Apache Fineract README、官网首页、GitHub 仓库元数据与 license 快照：README 自述为 open-source core banking platform；官网称 cloud-ready core banking system，列出客户端数据管理、灵活产品配置、KYC 文档、业务规则/四眼原则、还款记录与贷款/投资组合管理；仓库元数据确认 apache/fineract、id 48418599、fork=false；license 快照为完整 Apache License 2.0 文本（LICENSE_RELEASE），batch 记录 license=Apache-2.0。项目为 Apache 开源项目，未发现社区版/商业版切分。",
+      "id_track": "open_source track 与 github: 前缀、repository_url、github_repository_id 一致。",
+      "gaps": "README/首页未逐字出现 savings/deposit 账户、复式记账分录或 chart of accounts；fineract.apache.org/docs/stable 抓取因 max_bytes 失败、部分 raw license URL 404 已在 research 记录。存款与总账细节未独立复核，但核心银行类型、仓库身份和完整许可证已核实。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES 列出的快照；未运行 shell、未写文件、未读取其他单元。未部署或实测任何产品，未验证实时站点、价格或架构。部分来源为 HTML 营销页/导航较重的页面，正文通过 read/grep 抽取；Fineract 详细文档页与部分 license raw URL 的抓取失败已在 research.json 如实记录，因此相关细节以现有快照为限。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-049/ses_groveopencodegop049review1_1792989093.jsonl",
+  "batch_sha256": "8fac04aa6b98e89c73e731dc781b46db2578fd74a6d866c720df6c43f5b8cf0d",
+  "research_sha256": "d5f5c2e650bc34459b5f0a30bdfc8ce3a96df7b0de32583b486837d8ce379170",
+  "input_sha256": "f03648550f1e01c720e8d1cdb45d2d7388f0c2477097b3e8e21744724188416d"
+}

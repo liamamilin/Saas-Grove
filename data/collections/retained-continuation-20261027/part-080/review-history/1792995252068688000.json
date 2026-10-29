@@ -1,0 +1,66 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "academic-journal-management",
+      "application_id": "github:375152",
+      "issue": "新增的工作流证据是 data/collections/sources/44bc95021f8460c7cabb721f1f0abdc04f456f742fbf8984746993d3389b5742.txt，其 front matter 为 isBookIndex: true。该文件是 Learning OJS 指南索引页，正文只列出任务名称（如 Assigning reviewers、Making editorial decisions、Creating and publishing issues）并链接到 ./en/，没有描述分阶段工作流本身。README（04886c33...txt）也仅说明 OJS 是用于管理学术期刊的开源软件。因此，投稿→评审→编辑决定→出版这一核心仍由导航/索引页支撑，而不是由核心正文支撑；索引页也不能证明阶段名称、当前阶段状态、审稿人分配机制和决定流转。",
+      "fix": "补充并引用 PKP 官方编辑工作流英文正文或各阶段页面（submission、review、copyediting、production、publication），以证明阶段名称、状态可见性、审稿人分配和编辑决定流程；若只能取得索引页，应把 leaf match 收窄为索引页实际陈述的内容，并明确标注工作流核心未核实，不能继续以该索引页作为唯一证据。"
+    },
+    {
+      "slug": "animal-research-ethics-iacuc-platform",
+      "application_id": "github:1314262819",
+      "issue": "README 明确写明 “Because there is no login yet”，且多数审计记录的操作者记为 system；没有登录、SSO 或角色权限证据，无法保证 PI、委员会成员、IACUC 办公室人员按角色执行协议修改、评审、投票和决定。IACUC 平台的批准记录和审计轨迹是机构授权与合规证据，当前实现无法满足叶子规则中“所有操作均有归属”的要求，也使“多角色研究合规工作流”的服务形态无法成立。",
+      "fix": "补充登录/SSO、角色权限（PI、委员会、办公室）和带身份审计日志的证据，覆盖协议编辑、评审、投票与决定；若仍是演示原型，应移除机构级 IACUC 平台和多角色合规能力的表述，标注为 prototype/demo，或替换为真正实施角色与归属控制的平台。"
+    },
+    {
+      "slug": "animal-research-ethics-iacuc-platform",
+      "application_id": "github:1314262819",
+      "issue": "README 的 “Planned / future endpoints” 表和结尾 Roadmap 把 amendments & renewals、PAM & incidents、facilities & inspections 列为 planned domains，而正文另一处又称这些已 “now implemented”，前后矛盾；API 表中也没有 amendment/renewal、持续审查或 reportable event 的端点。batch 所称“协议生命周期”只能证明提交、委员会评审和批准，不能证明叶子核心要求的持续监督：修改在实施前审查、按周期复审、可报告事件附加到协议。",
+      "fix": "先解决 README 的自相矛盾，再补充 amendment/renewal、周期性复审和 reportable event 工作流的实际实现证据（UI、API、文档或测试）；若这些能力尚未实现，应把匹配范围收窄为“协议提交与委员会评审”，明确记录持续监督不在范围内，或改用覆盖完整 IACUC 核心的产品。"
+    }
+  ],
+  "non_blocking_notes": [
+    "bibliometrics-platform：Scopus 官方页面标题和描述主要定位为 “Abstract and citation database”；正文可见 CiteScore、19.5M+ author profiles 以及 analyze/compare/SciVal 相关内容。按商业案例“基本真实性和类型匹配”的宽松标准可通过，但叶子明确区分引文数据库与分析层，建议引用 Scopus 自身的分析/比较功能页面，或交叉引用 SciVal，并避免在没有正文依据时断言机构层面分析。",
+    "academic-search-engine：fatcat-scholar README 说明本地索引工作实际上需要 Internet Archive 集群访问，且对非 IA 员工没有开箱即用方案；该案例更适合作为 scholar.archive.org 托管服务，而不是可独立部署的社区版。README 还写的是 LICENSE.md，实际引用的是 LICENSE.AGPLv3.txt，并将许可证写成 “APGL 3+”；许可证正文本身是完整 AGPLv3，属措辞/文件名不一致。",
+    "electronic-lab-notebook-eln：README 支持 ELN 定位、实验与资源管理、可信/区块链时间戳、权限和导入导出，但没有明确描述版本历史、审计轨迹或签署/见证；补充版本管理和审计日志文档，能更直接地证明“防篡改归属记录”核心。README 提到 Deltablot 商业支持和托管、商标限制，但未显示功能分层的社区版边界。",
+    "animal-research-ethics-iacuc-platform：Apache-2.0 可由 GitHub license API 快照佐证（size 11357，标准 Apache 文本），但该条目缺少其他开源条目都有的 license_review 对象；建议补齐以保持记录一致。README 中 /api/reports 标为可用，而 planned 表又列 AAALAC-style reports 为未实现，这也是需要留意的内部矛盾。",
+    "bibliometrics-platform：research.json 对 bibliometrix/Biblioshiny 的排除说明声称其许可证只是简短 GPL 声明且 GitHub 识别为 NOASSERTION，但 REVIEW_SOURCES.json 没有 bibliometrix 快照；若保留该排除理由，应补充其 metadata/LICENSE 快照，或将该理由标为未独立核实。",
+    "input.json 仍把五个叶子全部记为 case_status: not_searched、application_ids 为空，而 batch.json/research.json 已记录 case_found；这看起来是 repair 阶段的输入状态，但若 input.json 会被下游消费，应同步最终进度元数据。",
+    "academic-journal-management：docs.pkp.sfu.ca 被 Anubis 验证页阻断一事已如实记录，问题不在抓取缺口本身，而在于替代来源是索引页而非工作流正文。",
+    "animal-research-ethics-iacuc-platform：README 的 CI/Codecov 徽章指向 iacuc-protocol-review-case-study，而仓库 metadata/API 指向 Iacuc-Protocol-Web-APP；更像过期徽章，未见 repository ID 不一致。"
+  ],
+  "leaf_checks": {
+    "academic-journal-management": {
+      "status": "changes_required",
+      "basis": "已读 repository metadata（id 375152，pkp/ojs，非 fork）、README、LICENSE 和 pkp-docs 快照。README 确认 OJS 用于管理学术期刊；LICENSE 是完整 GPLv3，含 END OF TERMS AND CONDITIONS。新增的 pkp-docs 快照是 isBookIndex: true 的指南索引，含语言选择和任务列表，不是工作流正文。",
+      "gap": "缺少阶段名称、阶段/状态跟踪、审稿人分配机制以及从编辑决定到出版的核心正文证据；当前仅有索引页和 README 的类别描述。"
+    },
+    "academic-search-engine": {
+      "status": "pass",
+      "basis": "已读 repository metadata（id 300025829，internetarchive/fatcat-scholar）、README 和 AGPLv3 LICENSE。README 说明该仓库是 scholar.archive.org 的源码，覆盖 2500 万篇以上开放研究论文的全文检索；数据管线把 fatcat release/work 实体转换为 Elasticsearch 索引文档，Web 界面解析查询并格式化带高亮的检索结果。LICENSE.AGPLv3.txt 是完整 AGPLv3 文本。",
+      "gap": "本地索引工作依赖 Internet Archive 集群和数据，非 IA 员工没有开箱即用路径；未做运行时验证。"
+    },
+    "animal-research-ethics-iacuc-platform": {
+      "status": "changes_required",
+      "basis": "已读 repository metadata（id 1314262819）、README 和 GitHub license API 快照。README 覆盖协议生命周期、Appendix A 申请、FCR/DMR 委员会评审与投票、CITI/OHSP 人员合规、动物使用台账、审计日志和报表；license API 返回标准 Apache-2.0 文本（size 11357）。",
+      "gap": "没有登录/角色权限，审计记录大多归为 system；amendments/renewals/incidents 在 planned 表与 roadmap 中仍属未来项，且与“now implemented”表述矛盾，持续监督核心未得到证明。"
+    },
+    "bibliometrics-platform": {
+      "status": "pass_with_notes",
+      "basis": "已读 commercial:scopus 的 Elsevier 官方产品页快照。页面标题/描述定位为摘要与引文数据库，正文可见 CiteScore、19.5M+ author profiles 以及 analyze/compare/SciVal 相关内容。按商业案例基本真实性和类型匹配标准，可作为文献计量平台案例通过。",
+      "gap": "引文数据库与分析层的边界尚未完全说明；机构层面分析和比较能力的正文依据不充分，建议引用 Scopus 自身分析功能页或交叉引用 SciVal；未做运行时验证。"
+    },
+    "electronic-lab-notebook-eln": {
+      "status": "pass_with_notes",
+      "basis": "已读 repository metadata（id 7167597，elabftw/elabftw）、README 和 LICENSE。README 将 eLabFTW 描述为面向研究团队的电子实验记录本，管理实验与资源，提供可信/区块链时间戳、高级权限、导入导出、科学文件格式支持和 Docker 安装；LICENSE 是完整 AGPLv3。",
+      "gap": "README 是功能级描述，未明确写出实验记录的版本历史、审计轨迹或签署/见证；防篡改归属核心更多依赖产品类别推断，而非直接正文证据；未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元提供的 input.json、batch.json、research.json、REVIEW_SOURCES.json 及按路径原样读取的快照；未运行 shell、未写文件、未部署或运行任何应用、未访问实时站点，也未读取其他单元或历史审查文件。若干单行 HTML/JSON 快照（Scopus 页面、GitHub API metadata、IACUC license API）被读取工具按每行 2000 字符截断，无法逐字核验全部正文和 JSON 尾部，因此在必要处使用短语存在性检查。OJS 的 docs.pkp.sfu.ca 被 Anubis 验证页阻断，仅有 pkp-docs 索引快照可用；bibliometrix 没有提供快照，其排除理由无法独立核实。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-080/ses_groveopencodegop080review1_1792994547.jsonl",
+  "batch_sha256": "045a4c3701b48af87967f82601fd21ad5ec7bda1dd53473697be34153a557a78",
+  "research_sha256": "9724eeddba882a6df5a68bbdd8c5996c0a667294ede241129738951bb95f797c",
+  "input_sha256": "980eb3ee8f32f9549ef6ce524c792485410b091789c217205b5b16991f847936"
+}

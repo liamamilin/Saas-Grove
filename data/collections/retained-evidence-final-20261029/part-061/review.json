@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "github:1218061070（humanplane/terminal）：叶定义核心属性二写的是“下单 / 改单 / 撤单”，而 README 只证明了市价/限价下单与未成交订单撤单，未见改单（amend/replace）正文；批次与 research 也未宣称支持改单，属能力覆盖偏薄而非虚假陈述。若下游要求逐条对齐“改单”，可补采订单修改说明或仅按“下单+撤单”描述该案例。",
+    "github:1218061070：叶定义核心属性一要求“用户自行安排、保存、复用的多品种工作区”。该案例实际是多市场侧栏列表 + localStorage 收藏置顶 + 单市场详情页订单簿，非多窗口/网格布局；research 已如实写明“未声称多窗口网格工作区”，未夸大，故不阻断，但建议在条目 summary/reason 中同样保留该边界措辞，避免读者理解为已具备多窗格工作区。",
+    "batch.json 中 github:1218061070 的 summary 写作“实时订单簿与成交明细（SSE 推送，单市场详情页）”，但 README 中 SSE 用于订单簿推送，Tape（近期成交）为轮询（polled）。建议改为“订单簿 SSE 实时推送、成交明细轮询”。属措辞精度问题，不影响核心匹配。",
+    "input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而已有 batch.json/research.json 给出两个案例；本次以批次与来源快照为准，建议下游在入库时同步更新该叶状态与 application_ids，避免留档前后不一致。",
+    "commercial:sierra-chart 本次合格依赖三份官方来源的组合（首页功能与路由、Trade Activity Log 的持仓/盈亏字段与实时更新、Chartbooks 的工作区保存与自动打开）；单看首页不足以证明定义性核心，后续如替换任一文档需重新核对闭环。",
+    "forexflow、openalgo 等被审视未采用的候选仅在 research.json 中有 URL 与抓取结论，无独立快照；因其不参与建库、且 404（/docs/features/dashboard/）已如实记录并说明替代核对路径，属可接受的留档缺口。"
+  ],
+  "leaf_checks": {
+    "professional-trading-terminal": {
+      "slug": "professional-trading-terminal",
+      "definition_core_checked": [
+        "多品种实时状态 + 用户可持久化工作区",
+        "直接订单构建与路由（下单/改单/撤单）",
+        "实时持仓与盈亏",
+        "交易时人工决策"
+      ],
+      "cases": [
+        {
+          "application_id": "commercial:sierra-chart",
+          "track": "commercial",
+          "verdict": "qualifies",
+          "basis": [
+            "首页快照（data/collections/sources/17e6bce9...txt，2026-10-24）：自称面向金融市场的专业桌面 Trading and Charting 平台，连接交易所与后端交易平台服务，支持实时与模拟交易、手动与自动交易；ChartDOM（depth of market）与图表集成的交易 DOM；明确“supports trading and order routing”、使用 FIX/DTC 协议，并有直达 CME/CBOT/NYMEX/COMEX 的 Direct Order Routing；多交易所实时行情（CME、CBOT、NYMEX、COMEX、EUREX、NASDAQ、NYSE 等）。",
+            "Trade Activity Log 文档快照（c81a81bf...txt）：存在 Trade Orders Window、Trade Positions Window、Trade Account Monitor；Position Quantity 字段随成交更新；Open Position Quantity/Close Position Quantity 用于还原头寸；Open Profit/Loss 明确按最新成交价或 Bid/Ask 计算（Use Bid/Ask for Open Profit/Loss Calculations 设置），并按实时数据更新（“Fields like the Open Profit/Loss and Net Profit/Loss update in real time”）；订单状态机与延迟改单/撤单、风控/风险管理员模式等亦有正文。",
+            "Chartbooks (Workspaces) 文档快照（db290b5e...txt）：Chartbook 被明确定义为“desktop/layout/workspace”，可容纳不限数量的图表、Time and Sales、Market Depth、Trade DOM 等窗口；保存后可重新打开并“完全恢复为关闭时的状态”，支持 Automatically Open a Chartbook，满足工作区跨会话持久化。"
+          ],
+          "gaps": "无阻断缺口。来源为官方首页 + 两份官方文档正文，非简介或元数据替代；未做部署实测（本任务不要求）。商业轨道只做真实性与类型匹配，官网身份、产品形态与类型一致。"
+        },
+        {
+          "application_id": "github:1218061070",
+          "track": "open_source",
+          "verdict": "qualifies_with_thin_edges",
+          "basis": [
+            "仓库元数据快照（1f1112c9...txt）：id=1218061070，full_name=humanplane/terminal，private=false，fork=false，描述为开源 Polymarket 终端（live book、trader leaderboard、self-custodial trading），与 batch 的 github_repository_id、repository_url 一致。",
+            "README 快照（e4a6bfd2...txt）核心正文：多市场侧栏（10,000+ markets，含实时价格与 24h 变动，j/k 导航）、收藏 hotkey 并以 localStorage 持久化、跨标签同步；单市场详情页经 SSE 推送实时订单簿（后端持 WS 过滤 asset_id 后 fan-out），Tape 为轮询近期成交；订单表单支持 Market（走订单簿计算均价/最差价/可成交量的 FAK）与 Limit（按对手方最优价预填、tick 对齐、可选 post-only）并直接提交 Polymarket CLOB；Open orders 列表可撤单；Trader view 提供 Open/Closed/Trades/Activity 与实时 PnL，可用钱包地址查看自身持仓与盈亏；交易由用户钱包逐单 EIP-712 签名，人工决策成立；自托管部署为 Rust axum 后端单二进制 + SolidJS 静态前端。",
+            "许可证快照（a9e18aca...txt）：LICENSE 内容字段 base64 解码为完整 MIT 正文（含授权条款、版权声明与全部免责声明，以 “SOFTWARE.” 结束），README 亦标注 MIT，与 batch 的 license=MIT、license_evidence_url 一致；仓库为原始仓库（fork=false），未见 open-core 拆分或付费版限制，社区版边界清晰（完整应用可自托管，README 声明无费用、无 relayer、无 Builder 凭证）。"
+          ],
+          "gaps": "非阻断边界：(1) 工作区为侧栏列表 + 收藏持久化，无多窗口/网格布局，属定义属性一的弱满足，research 已如实标注；(2) README 仅证明下单与撤单，未见改单能力；(3) README 的 Known limitations 列出“持仓兑付未实现”等，属产品限制而非社区版阉割；(4) 仓库元数据为单行 JSON，读取显示按 2000 字符截断，archived 字段未落在可视范围，未能直接复核归档标记，但许可证正文、fork=false、README 活跃功能与部署说明均支持其为在用完整开源应用。"
+        }
+      ],
+      "id_track_checks": "commercial:sierra-chart 为商业轨道，homepage 为厂商官网，类型为交易员端交易/图表平台，类型匹配；github:1218061070 与快照中仓库 id/全名一致，轨道为 open_source，许可证 MIT 完整正文可核。",
+      "service_form_checks": "Sierra Chart 为持续维护的桌面工作站型交易平台（官网给出当前版本 2976，2026-10-21），符合本叶定义中的 workstation 形态；humanplane/terminal 为可自托管部署、需持续连接 Polymarket 实时数据的 Web 应用服务，亦属可长期使用的应用服务形态。",
+      "source_integrity": "REVIEW_SOURCES.json 中 6 条快照均按 path 原样读取（sources 前缀相对 data/collections），sha256 与 batch.json 中记录的 sha256 一一对应；未发现以摘要、目录页、Loading 或元数据替代核心正文的情况（Sierra Chart 核心来自两份文档正文，humanplane 核心来自 README 正文）。",
+      "prior_gap_resolution": "input.json 记录的未关闭缺口为“未证明可持续使用的应用服务形态”。本次核对：Sierra Chart 以官方文档补齐了多品种持久工作区（Chartbook）、订单构建与路由、实时持仓与 Open P/L 的完整闭环；humanplane/terminal 以 README 补齐了自托管 Web 应用的下单—撤单—持仓/PnL 闭环。该缺口在来源层面已被证据覆盖；input.json 的状态字段本身尚未同步（见 non_blocking_notes）。",
+      "residual_risk": "未进行运行/部署实测（任务不要求）；humanplane 的改单与多窗格工作区未被来源证明，若下游采用更严格的属性逐条比对标准，该案例需降级或补证；Sierra Chart 结论依赖三份文档的组合阅读。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 6 份快照（按 path 原样读取），未运行 shell、未写文件、未读取其他单元、未访问网络或调用部署/运行测试；相同快照仅读一次并复用于同一叶的两个案例。两处读取显示限制：(1) GitHub 仓库元数据与许可证接口响应均为单行 JSON，逐行显示按 2000 字符截断，故 archived 等尾部字段未直接可视，许可证则以 content 字段内完整 MIT base64 正文核验；(2) Trade Activity Log 与 Chartbooks 文档为长 HTML，采用分段读取加关键词定位核对关键段落，未逐行通读全文。forexflow、openalgo 等被排除候选仅有 research.json 的记录与结论、无独立快照，本次未对其单独取证，也不据此推断功能不存在。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-061/ses_groveopendesignp061review1_1793173928.jsonl",
+  "batch_sha256": "c1d6861488f6f8ff50fa33ba2a47bffcd54c0503ac43f9375bae9693052bc3c6",
+  "research_sha256": "71023d122527267025cef86ae586dd9fa929d0fbb17699ee65762230829b169f",
+  "input_sha256": "fa943db40c14bd209d6d56fa3018f48ab2d52c29315ece09099a6314dc451892"
+}

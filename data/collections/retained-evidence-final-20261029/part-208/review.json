@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "government-revenue-management",
+      "issue": "REVIEW_SOURCES.json 的 sources 为空数组，而 research.json 实际引用了 7 个本地快照（仓库页、README、LICENSE.MD、官网首页、功能页、文档页、docs/metadata-fund.md）。",
+      "fix": "建议把已保留快照按 path 登记到 REVIEW_SOURCES，便于后续复核按清单读取；本次已直接在 data/collections/sources/ 读到同名文件且正文与记录一致，故不阻断。"
+    },
+    {
+      "slug": "government-revenue-management",
+      "issue": "KPRA-GIMS、navariltd/utility-billing、HA5ANT/Municipal-Utility-Billing-System 仅有历史摘要式记录，本单元未保留对应快照。",
+      "fix": "这些仅是历史候选、未建立关系，可在后续轮次补抓仓库页与 README 快照，或明确标注为“仅历史记录、无本地快照”。"
+    },
+    {
+      "slug": "government-revenue-management",
+      "issue": "官网首页写“now upgraded to .NET core 10”，research 记录只写“已升级至 .NET Core”，版本表述可更精确。",
+      "fix": "在候选边界说明中写明官网自述版本（.NET Core，首页示例为 core 10）与公开仓库 README 的 .NET Framework 4.8.1 之间存在公开代码滞后，避免读者误解为同一构建。"
+    },
+    {
+      "slug": "government-revenue-management",
+      "issue": "LocalGov IMS 的功能页出现“Transfers，例如 council tax support 授予后给 council tax 账户记账”与“Accounts 账户参考校验/账户持有人导入”，与“应收账户及欠款余额”边界接近但不等同。",
+      "fix": "若后续获得 Admin 模块源码说明或 Tailwind 提供的产品文档，可定向核对账户余额、账单/通知、欠款与逾期处理；当前公开正文不足，保持 boundary_unresolved 是稳妥的。"
+    },
+    {
+      "slug": "government-revenue-management",
+      "issue": "batch.json entries 为空，无 application 条目可供核对 ID/track、SaaS 服务形态与商业版边界。",
+      "fix": "无需修改；本轮该叶为 included_without_cases，条目层面无对象可查，相关检查以候选边界说明为准。"
+    }
+  ],
+  "leaf_checks": {
+    "government-revenue-management": {
+      "slug": "government-revenue-management",
+      "assessment_in_research": "boundary_unresolved",
+      "case_ids": [],
+      "batch_entries": 0,
+      "definition_core_checked": "已读 input.json 定义：三个不可或缺结构（付款人应收账户/账户余额、应收至收缴周期含账单—核销—逾期后果、收入来源与基金归属及对账），并明确支付网关、单纯收款分配、通用发票、预算分析、房产评估/税单制作不属本类型。定义性核心完整、边界陈述清晰。",
+      "evidence_read": [
+        "data/collections/batch.json：entries 为空，与 research 中“已从 batch entries 移除”的说明一致，无残留成立关系。",
+        "data/collections/research.json：leaf case_ids 为空，assessment=boundary_unresolved，含 11 条检索记录与 13 条抓取结果，记录了 404/未取得正文与公开文档需向供应商索取的缺口。",
+        "sources/c861a4a8…（GitHub 仓库页）：repository id 433455714，nwo LocalGovIMS/localgov-ims，默认分支 main，树中含 README.md、LICENSE.MD、docs、src。",
+        "sources/db96ad46…（README）：仅说明 PaymentPortal/Admin/Api 三应用、.NET Framework 4.8.1、SQL 存储与开发/构建/测试指南，未描述应收产生、账户欠款余额或逾期处理。",
+        "sources/8486a10c…（LICENSE.MD）：完整 GNU Affero GPL v3 文本（含 Version 3 与条款），许可证记录为 AGPL-3.0 无误。",
+        "sources/69d74e33…（官网功能页）：Dashboard、Transaction list、Transaction details（收据/退款/日记账/基金重分配）、Transfers、Payments（在线/MOTO/支票/现金/银行文件/DWP）、eReturns、Accounts（账户参考校验与账户持有人导入）、Suspense、基金/VAT/MOP 可配置；并称覆盖收入、付款到总账与对账。全页未见 bill/notice/arrears/penalty/enforcement 一类应收产生或逾期处理正文。",
+        "sources/dbd163e1…（官网首页）：定位为 council 收入受理与后台收入管理、审计轨迹、基金代码与工作流配置，AGPLv3；提到 Tailwind Digital 托管服务与待治理后发布更新版本。",
+        "sources/539aa8c3…（官网 documentation 页）：仅 MoU、价值、许可与治理，明确产品文档需联系 Tailwind Digital，未提供应收/账单/欠款/逾期模块正文。",
+        "sources/1b92937f…（docs/metadata-fund.md）：仅基金元数据键（credit note、eReturn 默认基金、suspense journal 基金、Payment Portal 基金展示），补证基金归属配置，不涉及应收余额或逾期。"
+      ],
+      "definitional_conclusion": "公开正文可支撑“付款人账户引用/收款受理—核销—退款/转账/日记账—suspense—基金归属—总账对账”，但无法支撑“应收金额如何产生（账单/收费通知）”“账户是否结转未付余额”“逾期后的罚金/提醒/分期/移交追讨”。按本叶定义的三结构标准，应收账户与应收至收缴周期两项未获正文证实，因此不建立成立关系、保持 boundary_unresolved 的判断成立，属于如实留档，而非以简介或关键词代替核心正文。",
+      "saas_form_check": "无成立关系可核；官网与 README 显示为可自建部署的开源 .NET 应用，另有 Tailwind Digital 提供实施/托管/支付集成/支持的全托管服务，服务形态描述与来源一致。",
+      "id_track_check": "候选身份可核：LocalGovIMS/localgov-ims GitHub repository id 433455714、默认分支 main；KPRA-GIMS 记录 id 162075347（历史记录，无本地快照）。批次条目为空，无 application_id/track 需核对。",
+      "license_and_community_edition_check": "仓库 LICENSE.MD 为完整 AGPL-3.0 文本，官网首页与文档页均自述 GNU AGPLv3，记录一致；文档页说明代码库保持开源、文档 CC-BY，Tailwind Digital 以托管服务方式提供支持，未见功能不同的闭源商业版正文，研究记录对此表述为“未见”，未越界断言。",
+      "gap_handling": "已记录 KPRA-GIMS 缺 README（main/master 404）、公开仓库可能滞后于官网所称 .NET Core 版本、产品文档需向 Tailwind Digital 索取等缺口；未把 HTTP 200、页面标题、导航或功能性关键词当作核心工作流证据。",
+      "result": "pass_no_case_established"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 data/collections/sources/ 下现存 7 个快照文件；REVIEW_SOURCES.json 的 sources 为空，故无声明快照清单可依，快照为按 research.json 引用自行定位读取（未运行 shell，未重算 SHA-256，仅比对文件名与记录中的摘要前缀）。未重新抓取任何在线页面，未运行产品、未部署或执行代码，未读取其他单元、采集者 TASK.md 或历史过程脚本。KPRA-GIMS、navariltd/utility-billing、HA5ANT 仅有历史文字记录，本单元无对应快照，其结论依赖历史记录而非本次正文核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-208/ses_groveopencodegop208review2_1793259653.jsonl",
+  "batch_sha256": "07d418dcfd166fdbe1417c562748bf7fdc72923e9f4862da35d0b03727331d7f",
+  "research_sha256": "af4504bb8e93ce1bbe83919f135c1803466949eacfcc30a5c7379e53b9161c2f",
+  "input_sha256": "145703ec9fb2c7ed76d57e8b4d00347e87356eea1ebba9bf89d2dd451213efe9"
+}

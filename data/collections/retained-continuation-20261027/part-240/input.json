@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 51,
+  "offset": 1250,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "event-ticketing-platform",
+        "name_zh": "活动票务平台",
+        "domain_id": "26",
+        "parent_id": "26.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "event-ticketing-platform",
+        "name": "Event Ticketing Platform",
+        "name_zh": "活动票务平台",
+        "aliases_zh": [
+          "票务平台",
+          "活动售票系统",
+          "票务系统"
+        ],
+        "overview": "An **Event Ticketing Platform** is organizer-side software for selling admission to events: the organizer defines ticketed events with priced ticket inventory, the platform sells that inventory to the public, each completed sale issues tickets as checkable entitlements to attend, and the organizer manages the resulting sales — orders, refunds, entry, and reporting — in the same system.\n\nThe defining structure is small:\n\n```text\nTicketed event (dated occurrence + ticket types with price and quantity)\n└── Sale → recorded order\n    └── Ticket issued as a distinct, checkable access artifact\n        └── Organizer-side management of the sale lifecycle\n            (on-sale control, orders, refunds, reporting, entry)\n```\n\nEverything commonly associated with modern ticketing — consumer marketplaces, seat maps, mobile-wallet tickets, scanning hardware, presales and queues, dynamic pricing, fan resale — is widespread in current products but is not part of the defining core. A box office selling paper tickets against an event allocation, with stubs taken at the door, satisfies the same structure without any of those specifics.\n\nWhen the center of gravity shifts from selling tickets to collecting sign-ups into a roster, the product is drifting toward a different Application Type (Event Registration Platform); when it shifts to running the whole event lifecycle, toward an Event Management Platform; when the inventory unit becomes admission capacity to a place rather than dated occurrences, toward Attraction Ticketing.",
+        "overview_zh": "一个**事件票务平台**是组织者端的软件，用于销售活动入场券：组织者定义有票事件及其定价票务库存，平台向公众销售该库存，每次完成销售后发行作为可验证入场凭证的票，组织者在同一系统中管理由此产生的销售——订单、退款、入场和报告。\n\n定义结构很简单：\n\n```text\n有票事件（定时发生 + 带价格和数量的票种）\n└── 销售 → 记录的订单\n    └── 票作为独立的、可验证的访问凭证发行\n        └── 组织者端的销售生命周期管理\n            （销售控制、订单、退款、报告、入场）\n```\n\n与现代票务常见关联的一切——消费者市场、座位图、移动钱包票、扫描硬件、预售和排队、动态定价、粉丝转售——在当前产品中普遍存在，但不是定义核心的一部分。一个在售票处出售纸质票并分配事件，入场时撕票的售票处，满足相同的结构，而无需这些具体细节。\n\n当重心从销售票转向收集报名名单时，产品正漂向不同的应用类型（事件注册平台）；当转向运行整个事件生命周期时，漂向事件管理平台；当库存单位变为地点的入场容量而非定时发生时，漂向景点票务。",
+        "dc": "Three structures. If any one is removed, the product is no longer recognizable as event ticketing:\n\n- **The ticketed event as sellable inventory.** The organizer defines, inside the system, a dated event occurrence — or a set of occurrences (multi-day, recurring, timed entry) — carrying **ticket types**: admission options with a name, a price (which may be zero), and a quantity. The system tracks availability against sales. Without dated admission inventory, the product is generic e-commerce or a sign-up form.\n- **The ticket as the sold access artifact.** Each completed order issues **tickets** — distinct, individually checkable entitlements to attend, delivered electronically or printed, carrying a scannable or otherwise verifiable identity. The ticket is the product being sold, not a receipt for a registration. Without the ticket artifact and its inventory semantics, the product is a registration platform.\n- **Organizer-side management of the sale lifecycle.** The organizer controls the on-sale (publish, open and close sales, set capacity and pricing windows) and works the resulting sales in the same system — searching orders, issuing refunds and exchanges, reading reports. Without this, the product is a bare listing or checkout, not a ticketing platform.\n\nTwo deliberate exclusions keep the core honest:\n\n- **Payment is not part of the core.** Free ticketed events are a standard mode (zero-priced ticket types), and deferred payment exists (reserve now, pay at the door). What defines the Type is the sale of a ticket artifact, which can be free or settled later.\n- **Entry-validation machinery is not part of the core.** Scanning apps and hardware are the modern standard, but the checkable ticket predates them — a paper stub torn at the door is the same structure. The machinery is a standard capability, not the definition.",
+        "dc_zh": "三个结构。如果任何一个被移除，产品将不再被识别为活动票务平台：\n\n- **有票活动作为可售库存。** 组织者在系统内定义有日期的活动发生——或一系列发生（多日、循环、定时入场）——带有**票类型**：入场选项，有名称、价格（可能为零）和数量。系统跟踪可用性与销售。没有日期入场库存，产品是通用电商或报名表。\n- **票作为已售访问凭证。** 每个完成订单发放**票据**——独特的、可单独检查的入场权利，电子交付或打印，带有可扫描或可验证的身份。票是正在销售的产品，而不是注册收据。没有票据凭证和其库存语义，产品是注册平台。\n- **组织者端的销售生命周期管理。** 组织者控制销售（发布、开启和关闭销售、设置容量和定价窗口）并在同一系统中处理销售——搜索订单、发放退款和换货、阅读报告。没有这个，产品是裸露列表或结账，而不是票务平台。\n\n两个有意排除确保核心诚实：\n\n- **支付不是核心的一部分。** 免费票务活动是标准案例。",
+        "rules": "### The ticket type is governed inventory\n\nA ticket type's quantity, sales window, and visibility rules determine what can be sold and when. In some products, hidden ticket types are revealed by promo codes, and sales windows can chain to other ticket types (early bird ends when the next tier opens). Holds remove inventory from public sale without deleting it.\n\n### Sold inventory is durable\n\nA ticket type that has had sales typically cannot be deleted — it can be edited for future sales or retired. This protects the integrity of the order and attendance record.\n\n### The ticket is distinct from the receipt\n\nThe order confirmation proves the purchase; the ticket proves the right to attend. Mature products keep them separate: a buyer can hold a valid ticket without a paid order (free and comp tickets) and an order without tickets (registration-style events in products that support both modes). The ticket carries the checkable identity that entry validation consumes.\n\n### Refunds and exchanges are organizer-side operations\n\nWhether and how buyers can get refunds is governed by the organizer's policy; the mechanics (refund to original payment, to account credit, or exchange to another occurrence) are executed in the platform, and the returned tickets return to inventory or are voided.\n\n### Transfer and resale are policy surfaces\n\nWhether a ticket can be transferred to another person, resold, or resold only at face value is a per-event policy in mature products, with enforcement at the artifact level (transferable barcodes, locked tickets, restricted resale channels).\n\n### Entry validation is stateful\n\nA scanned ticket is marked used; re-presentation is flagged. Scan history is retained and visible on the order. Check-in windows bound when a ticket is valid.",
+        "rules_zh": "### 票种是受控库存\n\n票种的数量、销售窗口和可见性规则决定了可以销售什么以及何时销售。在一些产品中，隐藏票种通过促销代码揭示，销售窗口可以链接到其他票种（早鸟票在下一级开放时结束）。保留从公开销售中移除库存而不删除它。\n\n### 已售库存是持久的\n\n已售出的票种通常无法删除——可以编辑以用于未来销售或退役。这保护了订单和出席记录的完整性。\n\n### 票与收据不同\n\n订单确认证明购买；票证明参与权。成熟产品将它们分开：购买者可以持有有效票而没有付费订单（免费和赠票），也可以有订单而没有票（在支持两种模式的产品中的注册式活动）。票携带入场验证消耗的可验证身份。\n\n### 退款和换票是组织者端操作\n\n购买者是否以及如何获得退款由组织者的政策决定；机制（退款到原支付、账户信用或换到另一次发生）在平台中执行，返回的票返回库存或作废。\n\n### 转让和转售是政策层面\n\n票是否可以转让给他人、转售或仅以面值转售，在成熟产品中是按事件策略，在凭证级别执行（可转让条码、锁定票、受限转售渠道）。\n\n### 入场验证是有状态的\n\n扫描的票被标记为已使用；重复出示被标记。扫描历史被保留并在订单中可见。签到窗口绑定票何时有效。",
+        "parent_id": "26.02",
+        "domain_id": "26"
+      }
+    },
+    {
+      "progress": {
+        "slug": "family-entertainment-center-management",
+        "name_zh": "家庭娱乐中心管理软件",
+        "domain_id": "26",
+        "parent_id": "26.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "family-entertainment-center-management",
+        "name": "Family Entertainment Center Management",
+        "name_zh": "家庭娱乐中心管理软件",
+        "aliases_zh": [
+          "家庭娱乐中心管理系统",
+          "娱乐场所管理软件"
+        ],
+        "overview": "A **Family Entertainment Center Management** application is the operator-side system of record for running a multi-activity entertainment venue — an arcade, trampoline park, laser tag arena, bowling and games center, indoor playground, go-kart track, mini-golf course, or any combination of these, usually with food service alongside. It manages the venue's entire revenue operation: what play costs, how guests get access to each activity, every sale across the venue's counters, the birthday-party and group-event business, and the records behind all of it.\n\nThree properties define the Type:\n\n```text\nThe venue's play as a configured, chargeable catalog\n└── Play entitlements issued to guests and validated when they play\n    └── One transaction system spanning the venue's revenue centers\n        (admissions · play · food & beverage · retail · prizes)\n```\n\n- **The play catalog** — the operator defines the venue's games and attractions as chargeable products: a game play, a minute of trampoline time, a laser-tag session, an admission, a party package — each with its price and access rules.\n- **Play entitlements** — guests hold value or rights (credits, minutes, sessions, passes) on a card, wristband, or booking, and the system validates that entitlement at the moment of play, activity by activity, throughout the visit.\n- **One transaction system for the whole venue** — admissions, play, food and beverage, retail, and prizes ring through the same selling surfaces and land in one operational record.\n\nEverything else commonly associated with the category — RFID game cards and wristbands, prize redemption counters, party rooms with itineraries, self-service kiosks, mobile apps, loyalty tiers, multi-site headquarters — is standard or optional structure layered on that core. A venue whose system only sells stored-value game cards, without whole-venue selling, parties, or prizes, is a payment slice rather than this Type; a venue whose system centers dated admission to a place is the sibling Type Attraction Management System.",
+        "overview_zh": "一个**家庭娱乐中心管理**应用是运营方的记录系统，用于管理多活动娱乐场所——如游戏厅、蹦床公园、激光射击场、保龄球及游戏中心、室内游乐场、卡丁车赛道、迷你高尔夫球场，或这些场所的任何组合，通常还伴随餐饮服务。它管理场所的整个收入运营：游玩费用、客人如何获得进入各项活动的权限、场所柜台的所有销售、生日派对和团体活动业务，以及所有这些背后的记录。\n\n三个特性定义了该类型：\n\n```text\n场所的游玩被配置为可收费的目录\n└── 发放给客人并在其游玩时进行验证的游玩权益\n    └── 一个跨越场所所有收入中心的交易系统\n        （入场 · 游玩 · 餐饮 · 零售 · 奖品）\n```\n\n- **游玩目录** — 运营方将场所的游戏和景点定义为可收费的产品：一次游戏游玩、一分钟的蹦床时间、一次激光射击、一次入场、一个派对套餐——每项都有其价格和访问规则。\n- **游玩权益** — 客人持有某种价值或权利（点数、时间、场次、通行证），存储在卡片、腕带或预订记录中，系统在游玩时、在每次活动过程中验证该权益。\n- **一个统一的场所交易系统** — 入场、游玩、餐饮、零售和奖品都通过同一个销售界面结算，并汇入一个运营记录。\n\n与此类别通常相关的其他一切——RFID游戏卡和腕带、奖品兑换柜台、带流程的派对房间、自助终端机、移动应用、忠诚度层级、多店总部——都是叠加在该核心之上的标准或可选结构。一个场所，如果其系统只出售储值游戏卡，而没有全场销售、派对或奖品，则属于一个切片，而非此类型；一个场所，如果其系统以基于日期的入场进入某个地点为中心，则属于其姊妹类型——景点管理系统。",
+        "dc": "**3. One transaction system.** Every sale — admissions, game cards and reloads, session passes, party deposits, food and drink, retail, prize-related items — rings through the same point of sale and online checkout and is recorded against the same venue record, with each item attributed to its revenue center. This unification is what makes the software a whole-venue system rather than a collection of a card system, a restaurant terminal, and a booking page.",
+        "dc_zh": "3. 统一交易系统。每一次销售——入场、游戏卡及充值、会话通行证、派对押金、餐饮、零售、奖品相关项目——都通过同一个销售点和在线结账进行，并记录在同一个场所记录中，每个项目归属于其收入中心。这种统一性使得软件成为一个全场系统，而不是一系列卡系统、餐厅终端和预订页面的集合。",
+        "rules": "- **Stored value is a liability, not a sale.** Value loaded onto cards and wallets is typically recognized as revenue only when spent or expired; products that document their accounting treat card and gift-card sales under deferred-revenue or accrual rules.\n- **Capacity and double-booking are enforced, not remembered.** Party rooms and timed activities have capacities; online sales decrement availability in real time; buffers after parties block the room for cleanup; overbooking requires an explicit override.\n- **The waiver gates participation.** Where activities carry risk, a signed waiver (with guardian signatures for minors) is verified at check-in or activity entry; expired waivers are re-surfaced; some venues gate the whole admission, others gate individual attractions.\n- **Entitlements have validity and state.** Passes and value carry expiry dates and usage rules; memberships have renewal and cancellation states; a lapsed or empty entitlement fails validation at the point of play.\n- **Sensitive actions need approval.** Refunds, voids, and certain redemptions are typically gated behind manager codes or approval prompts, with the approval recorded.\n- **Lost credentials are recoverable.** A lost card's balance can be looked up and merged onto a replacement — the account, not the plastic, holds the value.\n- **Headcounts come from validations.** Attendance figures are derived from scans and check-ins rather than counted by hand.\n- **Prize inventory must reconcile.** Prizes are stock: scanning them out decrements inventory, and shrinkage is a tracked concern.\n- **One play-value system per venue is a common constraint.** At least one platform documents that a venue connects to a single cashless card provider at a time; mixing providers at one venue is generally not supported.",
+        "rules_zh": "- **储值是负债，而非销售。** 加载到卡和钱包里的价值，通常只在消费或过期时才被确认为收入；记录其会计处理的产品将卡和礼品卡销售归入递延收入或应计规则之下。\n- **容量和重复预订是强制执行的，而非记忆。** 派对房间和定时活动有容量限制；在线销售实时扣减可用性；派对后的缓冲时间用于清理，阻止房间使用；超额预订需要明确的覆盖操作。\n- **免责声明是参与的前提。** 对于有风险的活动，签署的免责声明（未成年人需监护人签名）在签到或进入活动时进行验证；过期的免责声明会被重新显示；有些场所将整个入场作为门槛，有些则针对单个景点。\n- **权益有有效期和状态。** 通行证和价值带有有效期和使用规则；会员资格有续订和取消状态；一个过期或余额为零的权益在游玩时验证会失败。\n- **敏感操作需要批准。** 退款、作废和某些兑换通常需要经理代码或批准提示，且批准会被记录。\n- **丢失的凭证可以恢复。** 丢失的卡的余额可以查找并合并到替代卡上——账户，而非塑料卡本身，持有价值。\n- **客流量来自验证。** 出席人数来自扫描和签到，而非手工计数。\n- **奖品库存必须核对。** 奖品是库存：扫码取出会扣减库存，损耗是需要跟踪的问题。\n- **每个场所通常只有一个游玩价值系统。** 至少有一个平台记录显示，一个场所同时连接一个无现金卡提供商；在一个场所混合使用提供商通常不支持。",
+        "parent_id": "26.02",
+        "domain_id": "26"
+      }
+    },
+    {
+      "progress": {
+        "slug": "museum-visitor-experience-platform",
+        "name_zh": "博物馆游客体验平台",
+        "domain_id": "26",
+        "parent_id": "26.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "museum-visitor-experience-platform",
+        "name": "Museum Visitor Experience Platform",
+        "name_zh": "博物馆游客体验平台",
+        "aliases_zh": [
+          "博物馆导览平台",
+          "博物馆参观体验系统"
+        ],
+        "overview": "A **Museum Visitor Experience Platform** is the museum-operated interpretation layer of a visit: the institution's own team assembles digital guides — sets of stops bound to the museum's exhibits, objects, spaces, and points of interest, each carrying narrated or otherwise interpretive media — and publishes them through a surface the platform operates, which visitors use on their own phones, on museum-issued devices, or on screens inside the galleries.\n\nThe defining structure is deliberately small:\n\n```text\nInstitution-authored guide\n└── Stop bound to an exhibit / object / space\n    └── Interpretive content (narration first, text/image/video as companions)\n        └── Reached by the visitor on an operated surface\n            (own phone, museum device, or on-site screen)\n```\n\nSelling admission, validating entry, managing members, cataloguing objects, and publishing the collection for remote discovery are all real museum software needs — but they belong to neighboring application types. A visitor experience platform makes the visit itself more intelligible: it is the digital layer that stands between the visitor and what is on display.",
+        "overview_zh": "一个 **Museum Visitor Experience Platform** 是博物馆运营的参观解释层：机构自己的团队组装数字指南——一组与博物馆展品、物品、空间和兴趣点绑定的站点，每个站点携带叙述或其他解释性媒体——并通过平台运营的界面发布这些指南，访客可以使用自己的手机、博物馆发放的设备或画廊内的屏幕。\n\n定义结构故意很小：\n\n```text\n机构编写的指南\n└── 绑定到展品/物品/空间的站点\n    └── 解释性内容（叙述优先，文本/图像/视频作为补充）\n        └── 访客通过运营界面访问\n            （自己的手机、博物馆设备或现场屏幕）\n```\n\n售票、验证入场、管理会员、编目物品和发布收藏以供远程发现都是真实的博物馆软件需求——但它们属于相邻的应用类型。一个访客体验平台使参观本身更易于理解：它是站在访客和展示内容之间的数字层。",
+        "dc": "Three structures. If any one is removed, the product is no longer recognizable as this type:\n\n- **The institution-authored guide.** A persistent tour or guide assembled by the museum's own staff. It is composed of discrete **stops** (also called stories, tracks, or points of interest), each bound to an exhibit, an object, a room, an outdoor feature, or another point of interest in or around the venue. The guide — not the individual media file — is the unit the institution maintains and the unit visitors follow.\n- **The interpretive content carried by each stop.** Narration is the dominant and historically founding medium; text, images, video, and interactive material routinely accompany it. The content does the interpretation: context, stories, expert voices, close looks at details — the layer a wall label cannot carry.\n- **The operated visitor consumption surface with per-stop access.** A surface the platform itself operates — the visitor's own phone (app or web), a museum-issued device, or an on-site touchscreen — through which the visitor reaches the right stop for what is in front of them, by entering a code, scanning a code or object, using location, searching, or browsing the tour. Without an operated surface the content is just an archive; without per-stop access it is a brochure.",
+        "dc_zh": "三个结构：如果任何一个被移除，产品就不再是这种类型：\n1. 机构编写的导览。由博物馆工作人员创建的持久性游览或导览。它由离散的站点（也称为故事、轨道或兴趣点）组成，每个站点绑定到一个展品、一个物体、一个房间、一个户外特征或场地内外的另一个兴趣点。导览——而不是单个媒体文件——是机构维护和游客跟随的单位。\n2. 每个站点承载的阐释性内容。叙述是主导和历史创始媒介；文本、图像、视频和互动材料通常伴随它。内容进行阐释：上下文、故事、专家声音、细节的特写——墙壁标签无法承载的层次。\n3. 具有每站访问功能的操作化游客消费界面。平台自身操作的界面——游客自己的手机（应用或网页）、博物馆发放的设备或现场触摸屏——通过它，游客通过输入代码、扫描代码或物体、使用定位、搜索或浏览导览，找到与他们面前事物对应的正确站点。没有操作化界面，内容只是档案；没有每站访问，它就是一本小册子。",
+        "rules": "- **The stop is bound to what the visitor encounters.** Whether by number, code, recognition, or location, the access mechanism exists to connect one specific stop to one specific thing in the venue; guides are consumed stop-by-stop in physical context, not primarily as linear media.\n- **Content updates must not disturb the visit.** Publishing from the authoring console reaches visitor surfaces without gallery downtime; products emphasize real-time or near-real-time propagation because exhibitions rotate on working schedules.\n- **Accessibility is structural, not cosmetic.** Narration plus captions, transcripts, image descriptions, and sign-language options are treated as first-class content channels — the same stop serves multiple sensory modes.\n- **The visitor's own phone is both the cheapest and the least controlled surface.** Products therefore typically offer the same guide across phone, device, and screen realizations from one content base, letting the institution choose per venue what to operate.\n- **Interpretation is institution-voiced.** Content carries the museum's curatorial voice and credits; the platform operates the surface, but the institution owns what is said.\n- **Remote use does not change the model.** The same guides served on site also serve remote audiences; on-site use remains the primary posture, and the stop-in-front-of-an-object pattern degrades gracefully to browsing off site.",
+        "rules_zh": "- **站点绑定到访客遇到的内容。** 无论是通过编号、代码、识别还是位置，访问机制的存在是为了将一个特定站点与场馆中的一个特定事物连接起来；指南在物理上下文中逐站消费，而不是主要作为线性媒体。\n- **内容更新不得干扰参观。** 从编写控制台发布到访客界面无需画廊停机时间；产品强调实时或近实时传播，因为展览在工作日程中轮换。\n- **无障碍性是结构性的，而非装饰性的。** 叙述加字幕、文字记录、图像描述和手语选项被视为一等内容渠道——同一个站点服务于多种感官模式。\n- **访客自己的手机既是最便宜也是最不受控的界面。** 因此，产品通常提供相同指南，通过一个内容库跨手机、设备和屏幕实现，让机构根据每个场馆选择运营什么。\n- **解释是机构口吻的。** 内容携带博物馆的策展声音和署名；平台运营界面，但机构拥有所说的内容。\n- **远程使用不改变模型。** 现场服务的相同指南也服务远程受众；现场使用仍然是主要姿态，而“物品前的站点”模式优雅降级到场外浏览。",
+        "parent_id": "26.02",
+        "domain_id": "26"
+      }
+    },
+    {
+      "progress": {
+        "slug": "reserved-seating-platform",
+        "name_zh": "预留座位平台",
+        "domain_id": "26",
+        "parent_id": "26.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "reserved-seating-platform",
+        "name": "Reserved Seating Platform",
+        "name_zh": "预留座位平台",
+        "aliases_zh": [
+          "选座系统",
+          "售票选座平台"
+        ],
+        "overview": "Reserved seating is the seat-level selling layer of event ticketing: selling admission to **specific, assigned seats** rather than to an event at large. Its defining structure is small:\n\n```text\nSeat map (a designed, persistent chart of sections / rows / seats,\n          plus tables, pods, and general-admission areas)\n└── Seat-level allocation (specific seats assigned to specific buyers —\n    by the buyer's own selection or by best-available assignment)\n    └── Seat-bound ticket (the issued ticket names the seat)\n```\n\nIn the current market this layer is realized in two product forms, and the distinction matters for understanding the leaf:\n\n- **As a built-in capability of ticketing platforms.** In the events and venues domain, the products that sell assigned seats end-to-end — chart design, seat selection, checkout, tickets, entry — are event ticketing platforms, with reserved seating as one selling mode alongside general admission. Vertical systems (cinema, arts subscriptions, sports season ticketing) carry the same seat-level layer inside their own domain models.\n- **As a dedicated seat-map component.** A separate product family supplies exactly the seat-map layer — chart design tools, an interactive buyer-facing map, and real-time seat-availability management — for ticketing platforms to embed. These components explicitly do not sell tickets or take payments; the embedding platform does.\n\nNo standalone end-to-end \"reserved seating platform\" product family was found in the market: the seat map is always either a mode inside a selling system or a component serving one. This document therefore describes the seat-level layer itself — what it consists of, how it works, and where its boundaries sit — as it exists across the market.",
+        "overview_zh": "预留座位是活动票务的座位级销售层：销售的是进入**特定、指定座位**的入场券，而不是整个活动的入场券。其定义结构很简单：\n\n```text\n座位图（一个设计好的、持久的区域/排/座位图表，\n          加上桌子、包厢和普通入场区域）\n└── 座位级分配（特定座位分配给特定买家——\n    通过买家自己的选择或最佳可用分配）\n    └── 座位绑定票（发行的票上标明座位）\n```\n\n在当前市场中，这一层以两种产品形式实现，这种区别对于理解叶子层很重要：\n\n- **作为票务平台的内置功能。** 在活动和场馆领域，那些端到端销售指定座位——图表设计、座位选择、结账、票务、入场——的产品是活动票务平台，预留座位是与普通入场并列的一种销售模式。垂直系统（电影院、艺术订阅、体育季票）在其自身的领域模型中承载相同的座位级层。\n- **作为专用的座位图组件。** 一个独立的产品族正好提供座位图层——图表设计工具、交互式买家地图和实时座位可用性管理——供票务平台嵌入。这些组件明确不销售票务或处理支付；嵌入平台负责。\n\n在市场中没有发现独立的端到端“预留座位平台”产品族：座位图要么是销售系统内部的一种模式，要么是服务于该系统的组件。因此，本文档描述的是座位级层本身——它由什么组成、如何工作以及其边界在哪里——正如其在市场中存在的样子。",
+        "dc": "Three structures. If any one is removed, seat-level selling stops being recognizable:\n\n- **The seat map as managed inventory.** A persistent, designed, seat-granular structure — sections, rows, and individually identified seats, plus bookable tables, pods, and general-admission areas — with a state on every seat. The chart is an asset of the venue or organizer: it is built once, maintained, and reused across events. Without it, selling is capacity counting.\n- **Seat-level allocation.** Specific seats are assigned to specific buyers. Assignment happens either interactively (the buyer picks seats on a map) or automatically (the system assigns the best available seats, often the best seat at the buyer's price point). Every allocation changes seat states. Without it, nothing is \"reserved.\"\n- **Seat-bound entitlements.** The issued ticket names the specific seat — section, row, and seat number, or a table — and the seat is the unit of the commercial record: orders, refunds, exchanges, and entry all reference seat identity. Without it, the ticket is anonymous admission.",
+        "dc_zh": "三个结构。移除任何一个，座位级销售将不再可识别：\n\n- **座位图作为管理库存。** 一个持久的、设计好的、座位粒度的结构——区块、排和独立标识的座位，加上可预订的桌子、包厢和一般入场区域——每个座位都有状态。该图表是场馆或组织者的资产：它被构建一次，维护并在活动中重复使用。没有它，销售只是容量计数。\n- **座位级分配。** 特定座位分配给特定购买者。分配通过交互式（购买者在地图上选择座位）或自动式（系统分配最佳可用座位，通常是购买者价格点的最佳座位）进行。每次分配都改变座位状态。没有它，没有什么是“预留的”。\n- **座位绑定权益。** 发行的票证指明特定座位——区块、排和座位号，或一张桌子——座位是商业记录的单元：订单、退款、换票和入场都引用座位身份。没有它，票证只是匿名入场凭证。",
+        "rules": "### One seat, one buyer\n\nReal-time state management is the layer's core discipline: only one buyer can hold or book a given seat for a given event at a time. Holds time out; bookings are exclusive. This is what prevents double selling.\n\n### The chart outlives the event\n\nSeat maps persist and are reused across events; seat states are per event. A seat's sale for one event never affects its availability for another — except when the seat is sold at a series level (season seats), where the series-level sale blocks per-event sale and vice versa.\n\n### Seat identity travels with the record\n\nThe seat (section/row/seat or table) is part of the order, the ticket, and the entry record. Exchanges and refunds work at seat grain: a returned seat returns to that event's availability.\n\n### Blocked inventory is managed, not deleted\n\nNot-for-sale seats, locks, and hidden sections remove inventory from public sale without destroying it; gradual release is a common demand-shaping tool.\n\n### Whole-unit objects\n\nTables and pods can be bookable as units: some products require the buyer to purchase all seats within a pod, so the layout rule constrains the sale.",
+        "rules_zh": "### 一个座位，一个买家\n\n实时状态管理是这一层的核心纪律：对于给定活动，只有一个买家可以持有或预订给定座位。预留会超时；预订是排他的。这防止了双重销售。\n\n### 图表比活动更持久\n\n座位图持久化并在多个活动上重用；座位状态是按活动的。一个座位为一个活动的销售从不影响其为另一个活动的可用性——除非座位在系列级别被销售（季票），其中系列级销售阻止按活动销售，反之亦然。\n\n### 座位身份随记录移动\n\n座位（区域/排/座位或桌子）是订单、票务和入场记录的一部分。交换和退款在座位粒度上工作：退回的座位返回到该活动的可用性中。\n\n### 被阻止的库存被管理，而不是删除\n\n不可售座位、锁定和隐藏区域从公开销售中移除库存而不破坏它；逐步释放是常见的需求塑形工具。\n\n### 整体单位对象\n\n桌子和包厢可以作为单位预订：一些产品要求买家购买包厢内的所有座位，因此布局规则约束销售。",
+        "parent_id": "26.02",
+        "domain_id": "26"
+      }
+    },
+    {
+      "progress": {
+        "slug": "theme-park-management",
+        "name_zh": "主题公园管理系统（TPM）",
+        "domain_id": "26",
+        "parent_id": "26.02",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "theme-park-management",
+        "name": "Theme Park Management",
+        "name_zh": "主题公园管理系统（TPM）",
+        "aliases_zh": [
+          "主题公园运营管理",
+          "主题乐园管理系统"
+        ],
+        "overview": "Theme park management software is the operator-side system of record for running a theme park's guest business: it sells and validates admission to the park, carries each guest's entitlements on a credential that works across the park's control points, records what guests buy and ride while inside, and turns all of it into attendance, revenue, and guest data the park manages from.\n\nIts defining core is the admission business: operator-defined admission products, multi-channel sale, recorded transactions that issue entitlements, validation at entry, and on-site guest spending. This is the same core that admission-management systems serve across visitor attractions; what this page documents is how that core is shaped, extended, and operated in the theme-park segment — a single park-wide credential, high-throughput gates and rides, season-pass economy, and a park-specific extension layer of ride-level access control and ride queue management.\n\nThe boundary is equally clear: this is not the software that schedules shows, dispatches ride operators, or maintains rides. Those needs are real, but in the researched market they are served by separate tool families (workforce management, maintenance systems) or by parks' own in-house systems — they do not appear as a defining part of the park software itself.",
+        "overview_zh": "主题公园管理软件是运营方用于管理主题公园游客业务的记录系统：它销售和验证入园许可，将每位游客的权益承载于一个在公园各控制点通用的凭证上，记录游客在园内的消费和游玩项目，并将所有这些转化为公园管理层所使用的客流量、收入和游客数据。\n\n其定义性核心是入园业务：运营方定义的入园产品、多渠道销售、发出权益的记录交易、入园验证以及现场游客消费。这与游客景点领域入园管理系统所服务的核心相同；本页文档记录的是这一核心在主题公园细分市场中如何被塑造、扩展和运营——即单张全园通用凭证、高吞吐量的闸机和游乐设施、季票经济，以及用于游乐设施级别访问控制和排队管理的公园特定扩展层。\n\n边界同样清晰：这不是用于安排演出时间、调度游乐设施操作员或维护游乐设施的软件。这些需求是真实存在的，但在所研究的市场中，它们由独立的工具类别（劳动力管理系统、维护系统）或公园自身的内部系统来满足——它们并不作为公园软件本身的定义性部分出现。",
+        "dc": "```text\nAdmission product (day ticket / season pass / group ticket / ride value)\n  → sold through a channel (gate POS, online, kiosk, reseller)\n    → recorded transaction issues entitlements\n      → carried on a guest credential (ticket, card, wristband, mobile)\n        → validated at control points (entry — and optionally rides, lockers, spend)\n          → the attendance record\n+ on-site spending charged to the guest or credential during the visit\n```\n\nThree properties hold this together:\n\n- **Admission products defined by the park.** The park decides what admission means: a dated day ticket, a season or annual pass, a group ticket, or — where the business model requires — a balance of ride value to be spent per ride. Without operator-defined admission products there is no admission business to run.\n- **Entitlements on a credential, validated at control points.** A sale is only the beginning; the guest must be able to *exercise* the entitlement. The credential — barcode ticket, RFID wristband, or mobile app — is validated at the gate, and that validation is what produces the attendance record.\n- **On-site spending recorded against the same operation.** Food, beverage, retail, and extras are sold inside the park, usually on the same credential or the same guest account, and flow into the same reporting spine.\n\nNotably, the core is **not ride-shaped**. A park where all rides are included with admission runs the entire core with validation at the gate only; a pay-per-ride park adds validation points at rides. The core survives removal of rides altogether — which is why museums, zoos, and water parks run on the same structure. Rides are the *draw*; admission is the *transaction*.",
+        "dc_zh": "入场产品（日票 / 季票 / 团体票 / 游乐价值）\n  → 通过一个渠道销售（现场售票处、在线、自助终端、分销商）\n    → 记录的交易发放了权益\n      → 凭客凭证承载（门票、卡片、腕带、移动应用）\n        → 在控制点被验证（入口 — 以及可选的游乐设施、储物柜、消费点）\n          → 产生了到场记录\n+ 在游园期间对客或凭证记账的现场消费",
+        "rules": "- **Entitlement validity governs everything downstream.** A credential works only where and while its entitlement says it does — date windows, pass tiers, ride balances. Every control point checks the same entitlement state.\n- **One credential, many control points.** The gate, the rides, the lockers, and the food counters all consume from the same credential. Validation state is shared across the park; a closed or expired entitlement stops working everywhere at once.\n- **Ride-inclusive vs pay-per-ride is a business-model switch, not a different system.** The same core supports both; switching only adds or removes ride-level validation points. The pay-per-ride pattern is old — it is the digitized descendant of ride coupon books — while ride-inclusive admission is the modern dominant model.\n- **Validation produces the attendance record.** The gate count is the operational truth for staffing, capacity, and reporting; re-entry rules and validity windows vary by product and park policy.\n- **Capacity is actively managed, not just observed.** Queue systems adjust return windows to crowd conditions; timed entry caps inflow; closures — including maintenance closures — are communicated to guests proactively.\n- **Waivers can gate participation.** Where activities carry liability, a missing waiver can block an entitlement from working at that activity.\n- **Money is recorded per revenue center.** Admissions, rides, food, retail, lockers, and extras each land in their own reporting line so the park can see what actually drives the business.",
+        "rules_zh": "- **权益有效性决定一切后续环节。** 凭证仅在其权益所允许的时间和地点有效——日期窗口、通票等级、游乐设施余额。每个控制点都检查相同的权益状态。\n- **一张凭证，多个控制点。** 闸机、游乐设施、储物柜和餐饮柜台都使用同一凭证。验证状态在全园共享；一个已关闭或过期的权益会立即在所有地方失效。\n- **包含游乐设施 vs 按次付费是一种商业模式切换，而非不同的系统。** 核心系统支持两者；切换只是添加或移除游乐设施级别的验证点。按次付费模式由来已久——它是游乐设施优惠券本的数字化延续——而包含游乐设施的入园许可是现代主导模式。\n- **验证产生客流量记录。** 闸机计数是人员配置、容量和报告的运营真实依据；重新入园规则和有效窗口因产品和公园政策而异。\n- **容量是主动管理的，而不仅仅是观察。** 排队系统根据人流情况调整返回时间窗口；定时入场控制流入量；关闭——包括维护关闭——会主动通知游客。\n- **免责声明可控制参与资格。** 对于承担法律责任的活动，缺少免责声明可能会阻止权益在该活动中使用。\n- **资金按收入中心记录。** 入园、游乐设施、餐饮、零售、储物柜和额外项目各自归入其报告行，以便公园了解实际驱动业务的因素。",
+        "parent_id": "26.02",
+        "domain_id": "26"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 240,
+    "phase": "complete",
+    "parent": 51,
+    "slugs": [
+      "event-ticketing-platform",
+      "family-entertainment-center-management",
+      "museum-visitor-experience-platform",
+      "reserved-seating-platform",
+      "theme-park-management"
+    ]
+  }
+}

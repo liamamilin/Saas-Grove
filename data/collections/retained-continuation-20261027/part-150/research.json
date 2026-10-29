@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "saas-security-posture-management-sspm",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:appomni"
+      ],
+      "query": "open source SaaS security posture management SSPM github",
+      "source_urls": [
+        "https://appomni.com/platform/",
+        "https://appomni.com/use-cases/posture-management/",
+        "https://api.github.com/repos/PiotrMackowski/ClosedSSPM",
+        "https://raw.githubusercontent.com/PiotrMackowski/ClosedSSPM/main/README.md"
+      ],
+      "note": "商业侧采用 AppOmni：官方平台页与 Posture Management 专页正文明确集中管理 SaaS 配置、持续监控配置错误/策略违规与漂移、按发现项和态势评分排序，并提供修复步骤与策略执行，满足 SSPM 基本类型匹配。开源侧实际检查 ClosedSSPM（Apache-2.0，已归档）：它是 Go 编写的审计 CLI，连接 ServiceNow、Snowflake、Google Workspace、Entra ID 并输出报告，但缺少持续受管资产记录与修复验证闭环，属扫描引擎，故不写入批次关系；GitHub 另见 writer/aperio 等小型项目，未取得完整核心来源，未据此断言。",
+      "service_boundary": "AppOmni 是厂商托管 SaaS 服务平台；ClosedSSPM 是可本地/CI 运行的命令行扫描器，不是持续运行的 SSPM 服务，二者不能混同。",
+      "search_attempts": [
+        "websearch: open source SaaS security posture management SSPM github -> 命中 ClosedSSPM、Mondoo、Nudge Security 等",
+        "GitHub repository search: SSPM saas security posture -> 结果多为小型扫描器/清单项目，ClosedSSPM 是其中相对完整者"
+      ],
+      "fetch_outcomes": [
+        "GET https://appomni.com/platform/ -> 200，正文含 continuous SaaS security monitoring、misconfigurations and drift、remediation guidelines，已存快照",
+        "GET https://appomni.com/use-cases/posture-management/ -> 200，正文含 manage configurations/posture/drift、findings、remediation guidance、policy enforcement，已存快照",
+        "GET https://api.github.com/repos/PiotrMackowski/ClosedSSPM -> 200，archived=true，license=Apache-2.0，已存快照",
+        "GET https://raw.githubusercontent.com/PiotrMackowski/ClosedSSPM/main/README.md -> 200，确认 CLI 审计与报告输出，未证明修复闭环，已存快照"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cyber-incident-response-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:440092871"
+      ],
+      "query": "open source incident response platform case management",
+      "source_urls": [
+        "https://docs.dfir-iris.org/latest/",
+        "https://github.com/dfir-iris/iris-web",
+        "https://api.github.com/repos/dfir-iris/iris-web/license",
+        "https://github.com/TheHive-Project/TheHive"
+      ],
+      "note": "采用 IRIS（LGPL-3.0，GitHub ID 440092871）：官方文档正文显示告警队列可一键升级为案件，案件内管理资产、IOC、任务、证据、笔记与调查时间线，证据做 SHA-256 校验，支持报告、RBAC 与审计。另查 TheHive（AGPL-3.0，ID 72767327）但仓库已归档、元数据说明转商业分发，仅留档为候选，不作为本叶关系。",
+      "service_boundary": "IRIS 是可 Docker Compose 自托管的 Web 服务平台；检测/遥测由 SIEM/EDR 等承担，IRIS 负责事件响应案例与响应活动记录，不是检测引擎或纯 SDK。",
+      "search_attempts": [
+        "GitHub repository check: dfir-iris/iris-web -> 活跃，LGPL-3.0",
+        "GitHub repository check: TheHive-Project/TheHive -> archived=true，AGPL-3.0，说明转商业分发"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/dfir-iris/iris-web -> 200，id=440092871，license=LGPL-3.0，archived=false，已存快照",
+        "GET https://api.github.com/repos/dfir-iris/iris-web/license -> 200，SPDX=LGPL-3.0，完整许可文本，已存快照",
+        "GET https://docs.dfir-iris.org/latest/ -> 200，正文含 alerts、cases、IOCs、tasks、evidence、timeline、reports，已存快照"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "digital-forensics-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:2516243"
+      ],
+      "query": "open source digital forensics platform case evidence timeline",
+      "source_urls": [
+        "https://sleuthkit.org/autopsy/",
+        "https://sleuthkit.org/autopsy/docs/user-docs/latest",
+        "https://github.com/sleuthkit/autopsy",
+        "https://raw.githubusercontent.com/sleuthkit/autopsy/develop/LICENSE-2.0.txt"
+      ],
+      "note": "采用 Autopsy（GitHub ID 2516243，Apache-2.0）：官方项目页称其为端到端数字取证平台，官方用户指南正文列出案件、数据源、摄取模块、关键词搜索、时间线、标记与报告；README 说明其检验磁盘镜像、以 The Sleuth Kit 为分析核心并支持单案件多用户协作。仓库 license API 返回空 SPDX，故以完整 LICENSE-2.0.txt 原文和 README 的 Apache 2.0 声明做许可证核验；第三方库许可差异已在 README 中提示。",
+      "service_boundary": "Autopsy 是本地桌面取证应用（Windows 安装为主），不是在线 SaaS；本叶接受完整可自托管/本地应用，不宣称多租户或云采集。",
+      "search_attempts": [
+        "GitHub repository check: sleuthkit/autopsy -> 活跃，license API 为 null，LICENSE-2.0.txt 为 Apache-2.0",
+        "官方站点与 use-cases 页核对平台定位、搜索/哈希/标记/报告能力"
+      ],
+      "fetch_outcomes": [
+        "GET https://api.github.com/repos/sleuthkit/autopsy -> 200，id=2516243，archived=false，已存快照",
+        "GET https://raw.githubusercontent.com/sleuthkit/autopsy/develop/LICENSE-2.0.txt -> 200，完整 Apache License 2.0，已存快照",
+        "GET https://sleuthkit.org/autopsy/ -> 200，称 end-to-end digital forensics platform 并说明可恢复证据，已存快照",
+        "GET https://sleuthkit.org/autopsy/docs/user-docs/latest -> 200，正文含 Cases、Data Sources、Ingest Modules、Timeline、Reporting、Tagging，已存快照"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "penetration-testing-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:plextrac"
+      ],
+      "query": "penetration testing management platform scope findings retest",
+      "source_urls": [
+        "https://plextrac.com/platform/",
+        "https://api.github.com/repos/dradis/dradis-ce",
+        "https://raw.githubusercontent.com/dradis/dradis-ce/develop/README.md",
+        "https://api.github.com/repos/reconmap/reconmap",
+        "https://raw.githubusercontent.com/reconmap/reconmap/HEAD/README.md"
+      ],
+      "note": "商业侧采用 PlexTrac：官方平台页正文列明排期与范围、手动测试、发现项集中、修复与复测工作流、报告和客户门户，覆盖 PTM 的 engagement→finding→修复验证闭环。开源侧细查 Dradis CE（GPL-2.0，ID 50029969）：社区版是渗透测试协作与报告生成器，README 只证明项目/节点/问题/证据/报告，未证明范围、授权、测试窗口与复测关闭，未建立完整关系；Reconmap（MIT，ID 343221881）以 AI 扫描规划/执行/分诊为主，属扫描自动化平台，也未建立关系。",
+      "service_boundary": "PlexTrac 是厂商托管平台；Dradis CE 与 Reconmap 可自托管，但分别偏重报告协作和扫描自动化，不能替代完整渗透测试管理服务。",
+      "search_attempts": [
+        "GitHub repository check: dradis/dradis-ce -> GPL-2.0，README 定位为报告/协作框架",
+        "GitHub repository check: reconmap/reconmap -> MIT，README 定位为 AI 扫描/分诊/报告平台",
+        "官方 PlexTrac 平台页核对 Schedule & Scope、manual testing、retest workflows"
+      ],
+      "fetch_outcomes": [
+        "GET https://plextrac.com/platform/ -> 200，正文含 schedule and scope engagements、manual testing、retest workflows、reports，已存快照",
+        "GET https://api.github.com/repos/dradis/dradis-ce -> 200，GPL-2.0，未归档，已存快照",
+        "GET https://raw.githubusercontent.com/dradis/dradis-ce/develop/README.md -> 200，自述报告生成器，已存快照",
+        "GET https://api.github.com/repos/reconmap/reconmap -> 200，MIT，未归档，已存快照",
+        "GET https://raw.githubusercontent.com/reconmap/reconmap/HEAD/README.md -> 200，扫描自动化定位，已存快照"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "security-awareness-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:knowbe4"
+      ],
+      "query": "security awareness training platform phishing simulation risk score",
+      "source_urls": [
+        "https://www.knowbe4.com/security-awareness-training",
+        "https://api.github.com/repos/gophish/gophish",
+        "https://raw.githubusercontent.com/gophish/gophish/master/README.md"
+      ],
+      "note": "商业侧采用 KnowBe4：官方页正文说明持续培训与测试、AIDA 自动编排培训/钓鱼模拟、SmartRisk 为每位员工生成动态风险评分并按失败情况安排补救培训，覆盖受管学习者、模拟攻击与度量的同一闭环。开源侧检查 GoPhish（ID 14508450）：仅钓鱼演练/模拟，不含培训内容与完成跟踪，许可为 GitHub 未识别文本（NOASSERTION），故不建立关系也不标开源；GitHub 检索到的其余项目多为模板或单点模拟工具，未发现完整开源安全意识平台。",
+      "service_boundary": "KnowBe4 是厂商托管 SaaS；GoPhish 是自托管的钓鱼模拟工具，只有模拟一条腿，不能标为完整安全意识平台。",
+      "search_attempts": [
+        "websearch: open source security awareness training platform github phishing simulation training -> 返回泛化/不相关结果，未作为证据",
+        "GitHub repository search: security awareness training phishing simulation -> 结果多为模板、单点钓鱼工具或教学材料"
+      ],
+      "fetch_outcomes": [
+        "GET https://www.knowbe4.com/security-awareness-training -> 200，正文含 continuous training/testing、AIDA、SmartRisk Risk Score、remedial training，已存快照",
+        "GET https://api.github.com/repos/gophish/gophish -> 200，license=NOASSERTION，未归档，已存快照",
+        "GET https://raw.githubusercontent.com/gophish/gophish/master/README.md -> 200，确认为钓鱼演练工具，已存快照"
+      ],
+      "archived": false
+    }
+  ]
+}

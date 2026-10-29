@@ -1,0 +1,68 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "intellectual-property-management",
+      "application_id": "github:78779599",
+      "note": "批次 features 第3项把 Filed/Published/Granted/Abandoned/Expiry 一并称作“状态事件”，但 wiki Events,-Deadlines-and-Tasks 实际区分 status events（Filed/Published/Granted）与 killer events（Abandoned/Expiry/Transferred）。核心判断不受影响，建议措辞精确为“状态事件与终止事件”。"
+    },
+    {
+      "slug": "intellectual-property-management",
+      "application_id": "github:89721549",
+      "note": "HappyPatent 的“记录的生命周期”证据主要是 Patent.case_status 的14个当前状态值加 ControlEvent 的 control_date/deadline/complete_date 日期记录，未见显式的状态变更历史表；作为旧式/区域型系统仍满足定义下限，建议在卡片中如实表述为“当前状态 + 带日期的控制事项记录”，不要写成完整状态迁移审计。"
+    },
+    {
+      "slug": "intellectual-property-management",
+      "application_id": "github:89721549",
+      "note": "该仓库 README 自述 Maintaining=False、Django 1.10/Python 3.6，最后 push 为 2018 年，属定义允许的旧式/区域型系统；research.json 已如实留档，建议在展示层保留“未维护/未实测”提示，避免读者误认为在维护中。"
+    },
+    {
+      "slug": "intellectual-property-management",
+      "application_id": "github:78779599",
+      "note": "LICENSE 完整文本（35131 字节，GPLv3）确认，但版权行写的是 “Copyright (C) 2011 Omnipart”。这是上游自带内容，不影响许可证判定；若卡片要写权利人，建议只写仓库署名 jjdejong/phpip 而不臆断。"
+    },
+    {
+      "slug": "intellectual-property-management",
+      "note": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]，而 batch.json/research.json 本次已记录两个 case_found 条目。research.json 已说明这是“上轮缺口、本轮补正文”，属状态同步问题而非内容错误；建议在入库时把 input.progress 与新证据对齐，避免下游按空案例处理。"
+    },
+    {
+      "slug": "intellectual-property-management",
+      "application_id": "github:78779599",
+      "note": "批次 technology_stack 写 PHP/Laravel/MySQL，与 README（Apache-MySQL-PHP 框架）及变更日志（升级至 Laravel 11）一致；如卡片显示版本信息，建议注明“当前 master 为 Laravel 11”，不要沿用早期的框架表述。"
+    }
+  ],
+  "leaf_checks": {
+    "intellectual-property-management": {
+      "slug": "intellectual-property-management",
+      "status": "verified_with_two_cases",
+      "definition_core": "三项定义性核心均由正文核实。phpIP：Matter 记录（wiki Overview 的 case reference/UID、分类 Patents/Trademarks、actors、priority claim、status events）为 IP 资产记录；Events,-Deadlines-and-Tasks 明示 “a deadline is represented by the due date of a task”，task 含 due date/done date/done flag/assigned_to 并可由 task_rules 自动生成，为期限/案卷跟踪；events 累积 Filed/Published/Granted 状态事件及 Abandoned/Expiry/Transferred 终止事件，为记录的生命周期。HappyPatent：proposals/models.py 定义 Patent（case_id、application_no、filing_date、优先权字段、inventor M2M、agent、14 态 case_status、公开/授权/复审等日期）为资产记录；ControlEvent（control_item、control_date、deadline、complete_date，FK 到 Patent）与 Work（control_deadline、control_person、closed_case）为期限/案卷跟踪；case_status 状态集与带日期的 ControlEvent 记录共同构成生命周期留痕。",
+      "service_form": "两者均为持续使用的自托管 Web 应用，非纯客户端/SDK/检索引擎。phpIP：README 自述为面向 IP 律所的 IP 权利组合与 docketing Web 工具，Laravel Web 应用，wiki 给出 Dashboard/Matter/Task/Renewal 实际操作界面与流程。HappyPatent：Django 应用，README 给出 docker-compose build/up 部署、Dashboard/Application/Proposal 等界面截图与全站全文检索，覆盖完整业务模块。",
+      "id_and_track": "id 与仓库身份一致：github:78779599 对应快照 f9adf9… 中 \"id\":78779599、full_name jjdejong/phpip、非 fork；github:89721549 对应快照 fa4c8e… 中 \"id\":89721549、full_name ktshen/happypatent、非 fork。两条 track 均为 open_source，与实际仓库形态相符。research.json case_ids 与 batch entries id 完全一致，无跨仓库/子产品身份混用。",
+      "license": "phpIP：license 快照 f3955e…（LICENSE blob，size 35131）正文为 “GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”，属完整 GPLv3 文本而非仅标题，与条目 license=GPL-3.0 一致。HappyPatent：license 快照 8421cb…（LICENSE blob，size 1085）为完整 MIT 许可文本（含授予条款、版权声明与免责声明），与条目 license=MIT 一致。两者均为单一完整许可证。",
+      "community_edition_boundary": "两者均无开源核心 + 商业闭源版的“社区版”切分：phpIP 全部功能（含续展与 OPS/USPTO 导入）都在 GPLv3 仓库内；HappyPatent 全部模块在 MIT 仓库内。不存在未标注的付费版或功能阉割边界问题。",
+      "commercial_review": "本叶无商业条目，未涉及商业真实性与类型匹配检查。",
+      "evidence_used": [
+        "data/collections/sources/f9adf9f9d0173ccb7cbfefd2284469c3db52ca62a6bd71ef93fb0babaac2ce71.txt（仓库元数据，id/名称/描述 docketing system）",
+        "data/collections/sources/f3955ee6a7ff735c7c81dc109325eeff31db6c04f0dcd1638f1cb9320855e088.txt（GPLv3 完整文本）",
+        "data/collections/sources/eeb5bfc9e27565b51b1909aa7f3f006bd4e42fbca1226454fc91b0a505b0536e.txt（README：IP 律所组合与 docketing Web 工具、OPS/USPTO ODP 家族导入、续展流程发布记录）",
+        "data/collections/sources/fdf957bf46a922bdb1feff0602bf0a6ca6983d713da716dec7696aaf75db1755.txt（wiki Overview：Dashboard、Matter 列表/详情、actors、status events、tasks、renewals）",
+        "data/collections/sources/422f616bc43b7e75e4fd27f40ea51cdb46a20814ca7210f9749c9d3a732b29b7.txt（wiki Events/Deadlines/Tasks：deadline=task due date、done date/flag、assigned_to、status/killer events）",
+        "data/collections/sources/216964bc10045bfe7378f10750217e8155f6fa8c3445bb982bc3ef0331ee8a45.txt（wiki Renewal Management：首函→提醒→缴费→收据→关闭/放弃/失效，逾期红标与宽限期）",
+        "data/collections/sources/fa4c8e168464d64046ff98dabca365d3b7c06bd3ef427d54a0110bb59d5be0b2.txt（HappyPatent 仓库元数据，id/描述 agency management system）",
+        "data/collections/sources/f94963e3356ce2a35fe8fbd20043d4f78a9e5aacf3ac5a996977027aad0b8793.txt（README：台专利商标代理机构、docker-compose、PostgreSQL/Redis/ElasticSearch、Maintaining=False）",
+        "data/collections/sources/8421cb87f7dc05c2f2adf68e111d3d7be7a53da1952c5b500670d0d9f5fbdca3.txt（MIT 完整文本）",
+        "data/collections/sources/8efbb10fd87c09afd18495e0ec167ae483d25d8fa032156300ae29c462b13648.txt（proposals/models.py：Patent/ControlEvent/Work 数据结构正文）",
+        "data/collections/sources/e4b02919c357cfbe1ccb00c2a92e9adede0c82239c0ef2cf2a79e9ef1b9f0f22.txt（仓库树，用于确认模块结构与 billboard 等非核心模块区分）"
+      ],
+      "records_and_gaps": "research.json 的查询、抓取结果、证据来源分组与排除项（PatZilla/OpenPatent/thinkphp_fastadmin_ipr/oipms 未取正文，商业 IPMS 未检索）均有如实留档，未把 HTTP 成功、导航或关键词当核心证据；排除项表述为“本轮未取得正文”而非断言产品不存在。未部署实测、HappyPatent 未维护与现代环境可用性未验证均已记录，符合本批边界。",
+      "conclusion": "通过：两款开源自托管 Web 应用均以实际正文证据满足 IP 资产记录 + 期限/案卷跟踪 + 记录的生命周期三项核心，ID/track 一致，许可证为完整 GPLv3 与 MIT，无社区版边界争议；无必须修复项。"
+    }
+  },
+  "limits": "本次为只读桌面审查：未运行 shell、未写入或修改任何文件、未读取其他单元，也未部署或执行被审项目，runtime_tested 仍为 false。所有 sources 快照均按 REVIEW_SOURCES.json 的 path 原样读取（相对 data/collections，非项目根）。GitHub API/代码类快照为单行 JSON 且阅读器单行截断至 2000 字符，base64 正文无法在工具内完整解码；为判读正文，仅对 readme.md、README.md、proposals/models.py 三处按快照给出的 blob SHA/仓库同一 master 内容做了等价的 raw 只读比对，其余（仓库元数据、license、wiki HTML、仓库树）均以快照内可见正文为准，未据元数据替代核心正文。未独立复核 pushed_at 等被截断的元数据字段，也未核验商业 IPMS。对 HappyPatent 旧依赖的现代可运行性未验证，仅据正文判断类型归属。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-088/ses_groveopendesignp088review1_1793196907.jsonl",
+  "batch_sha256": "807dac3998fa8fc5637ebfa6275a0c491146efe8fae2e18b989764ac290b9e11",
+  "research_sha256": "0d946bd7b4f83dcba9e2fbbef638b33f603ea3233f26be2a2fb2135dd4d21394",
+  "input_sha256": "53738df5e743125b20ea216697d2c03b8d11e2a7e03f6de8f10f6a170c018a34"
+}

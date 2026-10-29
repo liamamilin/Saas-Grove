@@ -1,0 +1,40 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "event-mobile-app",
+      "application_id": "github:91032869",
+      "issue": "batch.json 的 summary 与 leaf_matches.reason 将“自 2011 年起用于 CCC、FOSDEM 等活动”及“2011-2026 年活动名单”归因于官方站点 eventfahrplan.eu；但该首页快照仅展示功能、离线优先与集成信息，没有活动名录或年份。README 才载有 2011 年项目起源及 CCC/CCCamp/FOSDEM/FrOSCon/KotlinConf 等活动示例，且未给出 2015-2026 年范围或 17,000 名参与者。research.json 的 note 还写入了“2019 年 17,000 名参与者”“FOSDEM 2015-2026”等四个快照均未载明的具体数据。",
+      "fix": "将 2011 年起源和活动名单的归因改为 README；删除首页未载明的“2011-2026”“2019 年 17,000 名参与者”“FOSDEM 2015-2026”等细节，或补充包含这些内容的快照并在 REVIEW_SOURCES.json/batch.sources 中登记；同步修正 batch.summary、batch.leaf_matches.reason 与 research.note。"
+    }
+  ],
+  "non_blocking_notes": [
+    "核心匹配本身有 README 支撑：组织者按活动新增 product flavor、设置 SCHEDULE_URL/applicationId/品牌并构建发布；参会者侧有日程网格、讲者/房间、收藏、提醒、离线与变更追踪。修正上述归因后，定义性核心不受影响。",
+    "首页页脚的 MIT/CC BY-NC-SA 是网站代码与内容的许可，不是 Android 应用许可；应用许可应只引 LICENSE.txt 的 Apache-2.0。",
+    "该条目是白标 Android 应用模板/按活动构建发布，不是托管多租户 SaaS；research.service_boundary 已正确收窄，建议在所有描述中避免“SaaS 平台”措辞。",
+    "仅 Android 不构成缺口；定义只把智能手机作为特征平台，未要求 iOS 或 Web 版本。",
+    "“F-Droid / Google Play”是 README 的发布渠道说明，实际快照只给出 CCC 应用的商店链接，不能推断每个活动应用都同时上架两个渠道。",
+    "GitHub API 搜索结果（Eventyay/Open Event archived 等）没有保留快照，属于已记录的检索缺口；不影响本候选的核心证据，但若后续以“无替代品”作结论，应保留结果页。",
+    "input.json 仍标 boundary_unresolved，research.json 已改为 case_found；本次以研究记录为准，建议下游同步状态，避免同一单元状态不一致。"
+  ],
+  "leaf_checks": {
+    "event-mobile-app": {
+      "application_ids": [
+        "github:91032869"
+      ],
+      "definitional_core": "pass：README 的“Create an app for your event”给出按活动 fork、新增 product flavor、设置 SCHEDULE_URL/applicationId/品牌并构建发布的流程；日程数据来自组织者维护的 Frab/Pretalx/Wafer；参会者侧有日程网格、讲者/房间、收藏、提醒、离线与变更追踪，覆盖活动绑定容器、组织者编写内容、参会者移动伴侣三项。",
+      "service_form": "pass_with_narrowing：开放源代码白标 Android 应用，按活动构建并发布到 F-Droid/Google Play；不是托管多租户 SaaS，研究记录已如实收窄边界。",
+      "identity_track": "pass：github:91032869 与仓库元数据中的 repository_id 91032869、network_root_id 91032869 一致；track 为 open_source，仓库非 fork。",
+      "license": "pass：LICENSE.txt 快照为完整 Apache-2.0 正文（第 1-9 节及附录），README 许可块与徽章一致；未发现附加限制。",
+      "community_edition_boundary": "pass：仓库即完整 Apache-2.0 应用，未发现社区版/企业版拆分或 open-core 限制；条目也未声称存在付费版。",
+      "evidence": "读取了 data/collections/sources/4c277d...README.md、43fe04...GitHub 仓库页、c71d23...LICENSE.txt、3d956b...eventfahrplan.eu 首页，以及 batch.json、research.json。",
+      "gaps": "官方首页快照不含活动名录/年份；batch 与 research 对该首页的归因需修正。未做 APK 构建/运行、应用商店核验或源码树逐文件审查；GitHub 搜索 API 结果未留快照。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未访问其他单元。结论仅基于 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的四个快照（GitHub 仓库 HTML、README、LICENSE、eventfahrplan.eu 首页）。未做 APK 构建/运行、应用商店核验、源码树逐文件审查、NOTICE/第三方依赖许可审计，也未实时抓取网页；首页快照不含活动名录，GitHub 搜索 API 结果未留快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-232/ses_groveopencodegop232review1_1793262611.jsonl",
+  "batch_sha256": "d78fd341442002b3887f9f466779310e0ab2d5002817c3c032cc7911e47c9188",
+  "research_sha256": "a686adea4aaf0766e67f6c99bb54c4914e1f9e36acfc1dfcd1fb76a1c223e705",
+  "input_sha256": "3b4285a3a46c7a106121a8744df9d3d1749c2ddc390c7406e1eaf90b60e1c607"
+}

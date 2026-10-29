@@ -1,0 +1,90 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "artwork-consignment-management",
+      "application_id": "commercial:art-galleria",
+      "issue": "batch.json 的 summary/leaf_matches.reason 与 research.json 的 note/search_attempts 将官方 features 快照描述为可跟踪“What's held, where it came from and the terms attached”，并称支持艺术家与画廊共享记录。实际读取的 95b5fd04… 快照只能确认 Inventory & Collections 下列出 artworks、artists、editions、locations、consignments，以及 For Artists 下列出 consignments；快照中检索不到 “What's held”“where it came from”“attached”，也没有共享记录或条款字段的说明。该直接引文及条款跟踪、共享记录断言缺乏来源依据。",
+      "fix": "删除该直接引文及“所附条款”“艺术家共享记录”断言；改为仅陈述官方功能页把 consignments 列为库存与收藏模块管理的实体之一，并将逐件处置状态、寄售条款、佣金/结算、共享记录标为未核实。若需保留条款跟踪结论，补充能直接证明 consignment terms 的官方文档或页面，并同步更新快照索引。"
+    }
+  ],
+  "non_blocking_notes": [
+    "artwork-consignment-management：修正表述后，Art Galleria 的商业匹配仍只到“consignments 作为库存实体被列出”的层面；建议保留 summary 中“未核实逐件销售/退回状态与佣金结算实现”的限定语，不要用功能页营销文案替代操作文档。",
+    "digital-collection-portal：Omeka S 的 README 与首页能证明 web publication system、多个独立站点共享 items/media/metadata、发布 items 与关联开放数据；但公共 search/browse 和逐条目详情页未在快照中直接说明，属于已注明的核心证据缺口。若上游要求四段核心均有正文证据，建议补充 user manual 或 features 页。",
+    "media-asset-management-mam：Nebula README 能证明 EBU Core 媒体目录、元数据、检索、低分辨率预览、trim/子片段与转码；主文件存储分层、归档/按需恢复和位置感知保管未直接说明，属于已注明的缺口。",
+    "media-asset-management-mam：github:146662901 的 repository_url 是 Nebula server 核心，README 明确转码等媒体处理由 nebula-worker 执行，完整系统还含 firefly 等仓库；当前 features 描述的是完整 Nebula 系统，建议在 deployment/features 中注明多仓库组成，避免把 server 仓库等同于全部组件。",
+    "museum-accession-cataloging：Providence README 能证明后端编目、元数据标准、复杂 accession numbers 检索、位置/来源历史、媒体、报告、批量导入导出与 GraphQL；正式入藏接收、产权凭证、自动编号和退编流程未直接说明，属于已注明的缺口。",
+    "media-asset-management-mam：Nebula README 的许可证表述为 GPLv3 或任何更晚版本，batch 的 license 字段写作 GPL-3.0；建议按实际授权标为 GPL-3.0-or-later（GitHub API 的 SPDX 字段为 GPL-3.0），以避免许可证标签精度不足。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 的 5 个 case_found 不一致；建议同步任务元数据，避免下游误判本单元没有案例。",
+    "research.json 中 CollectionSpace/ResourceSpace 的排除依据引用了 REVIEW_SOURCES.json 未列出的 URL；sources 目录虽存在额外快照，但来源清单未覆盖这些 URL，建议补入来源索引或只在已索引来源范围内保留排除结论。",
+    "Art Galleria 的 features 快照是 Next.js 单行 HTML，正文与样式、脚本混排；本次用字符串检索核对关键措辞，建议后续保存可读文本快照，便于逐句复核。"
+  ],
+  "leaf_checks": {
+    "artwork-consignment-management": {
+      "application_ids": [
+        "commercial:art-galleria"
+      ],
+      "track": "commercial",
+      "status": "changes_required",
+      "basis": "读取 data/collections/sources/95b5fd04… 快照；快照标题为 Features — Art Galleria，正文/功能列表包含 Inventory & Collections、artworks、artists、editions、locations、consignments，For Artists 下列出 consignments，并有 Start free trial/Book a demo 入口。",
+      "core_check": "能确认这是商业画廊管理平台，且 consignments 是库存与收藏模块管理的实体之一；不能从该页确认逐件寄售作品记录、寄售条款、sold/returned 处置状态、佣金/结算或艺术家与画廊共享记录。",
+      "identity_check": "ID 为 commercial:art-galleria，track 为 commercial；homepage 与 features URL 一致，未见 ID/track 冲突。",
+      "license_check": "商业闭源，无开源许可证义务；不适用开源完整许可证或社区版边界检查。",
+      "gap": "batch/research 的直接引文及“terms attached”“艺术家共享记录”断言不被快照支持，见 findings。"
+    },
+    "cultural-heritage-asset-management": {
+      "application_ids": [
+        "github:49451058"
+      ],
+      "track": "open_source",
+      "status": "pass",
+      "basis": "读取 README 1bedb381…、repository metadata cf99f93d…、license 61012aff…、homepage 109f95de…。README 明确 Arches 是 web-based geospatial information system for cultural heritage inventory and management，purpose-built 记录考古遗址、建筑、历史结构、景观、遗产群/街区；仓库 id 49451058，默认分支 dev/8.2.x；首页称其为面向遗产领域的开源数据管理平台。",
+      "core_check": "常设遗产资产清单、遗产领域特征描述和地理位置锚定均有直接正文证据；明确面向不可移动遗产，不涉及入藏、存储位置或借出，符合本类型无保管边界。",
+      "license_check": "license API 的 SPDX 为 AGPL-3.0，完整许可文本随 API 返回（size 34520，正文以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头）；未发现独立收费社区版或开放核心分割证据。",
+      "identity_check": "github:49451058 与仓库 id 49451058、full_name archesproject/arches 一致；track 为 open_source。",
+      "gap": "未核对受控术语管理、权限分级、规划咨询、状况监测等扩展能力；不影响本类型核心判定。"
+    },
+    "digital-collection-portal": {
+      "application_ids": [
+        "github:12057192"
+      ],
+      "track": "open_source",
+      "status": "pass_with_note",
+      "basis": "读取 README 66bebea2…、repository metadata a8ae05df…、license 28da1c85…、homepage 91604ffc…。README 称 Omeka S 是面向大学、画廊、图书馆、档案馆、博物馆的 web publication system，由多个独立策展站点共享条目、媒体与元数据池；首页称其为 next-generation web publishing platform，支持发布 items 与关联开放数据，并可创建和管理多个站点；仓库 id 12057192，默认分支 develop。",
+      "core_check": "已发布条目/媒体/元数据池、独立策展站点和面向机构外部受众的发布层成立；公共 search/browse 控件和逐条目详情页未在快照中直接说明，属于已注明的证据缺口。",
+      "license_check": "license API 的 SPDX 为 GPL-3.0，完整许可文本随 API 返回（size 35147，GPLv3 正文）；未发现独立收费社区版或开放核心分割证据。",
+      "identity_check": "github:12057192 与仓库 id 12057192、full_name omeka/omeka-s 一致；track 为 open_source。",
+      "gap": "未核对字段级发布控制、条目地址稳定性、部署级访问限制；这些是扩展或实现细节，不阻断当前发布层匹配。"
+    },
+    "media-asset-management-mam": {
+      "application_ids": [
+        "github:146662901"
+      ],
+      "track": "open_source",
+      "status": "pass_with_note",
+      "basis": "读取 README 952f8404…、repository metadata f89a0eb9…、license 6b54fffb…、homepage f5002575…。README 明确 Nebula 是开源广播自动化与媒体资产管理系统，媒体目录基于 EBU Core，含 genre、rights、relations、technical metadata，提供快速检索、低分辨率预览、trim/子片段、交叉转码与规范化；首页称其为可在本地或共享环境 24/7 运行的 MAM；仓库 id 146662901，默认分支 develop。",
+      "core_check": "资产记录、结构化元数据层、全库检索/预览和媒体处理核心有直接正文证据；主文件存储分层、归档/按需恢复和位置感知保管未直接说明，属于已注明的缺口。",
+      "license_check": "license API 的 SPDX 为 GPL-3.0，完整 GPLv3 文本随 API 返回（size 35141）；README 表述为 GPLv3 或任何更晚版本，标签可精确为 GPL-3.0-or-later；未发现独立收费社区版或开放核心分割证据。",
+      "identity_check": "github:146662901 与仓库 id 146662901、full_name nebulabroadcast/nebula 一致；track 为 open_source。",
+      "gap": "repository_url 指向 Nebula server 核心，完整系统还含 nebula-worker、firefly 等仓库；当前 features 描述的是完整 Nebula 系统，建议注明多仓库组成。"
+    },
+    "museum-accession-cataloging": {
+      "application_ids": [
+        "github:4337337"
+      ],
+      "track": "open_source",
+      "status": "pass_with_note",
+      "basis": "读取 README 692c0343…、repository metadata 87bb0650…、license 7603e113…、homepage 37fa351a…。README 说明 Providence 是 CollectiveAccess 的后端编目组件，面向博物馆、档案与研究收藏，支持多种元数据标准、复杂 accession numbers 检索、位置历史与 provenance 跟踪、媒体、报告、批量导入导出和 GraphQL API；首页称 CollectiveAccess 是免费开源的博物馆与档案收藏编目/发布软件，Providence 为编目软件、Pawtucket2 为可选发布前端；仓库 id 4337337，默认分支 master。",
+      "core_check": "对象目录记录、持续编目、登录号检索、位置/来源历史有直接正文证据；正式入藏接收、产权凭证、自动编号和退编流程未直接说明，属于已注明的缺口。",
+      "license_check": "license API 的 SPDX 为 GPL-3.0，完整 GPLv3 文本随 API 返回（size 35146）；未发现独立收费社区版或开放核心分割证据；Pawtucket2 是可选发布前端，不改变 Providence 的编目后端身份。",
+      "identity_check": "github:4337337 与仓库 id 4337337、full_name collectiveaccess/providence 一致；track 为 open_source。",
+      "gap": "未核对自动编号、防篡改审计、退编流程和入藏产权凭证的具体实现。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 17 个快照，未运行或部署任何应用；Art Galleria、Omeka S、Nebula、CollectiveAccess 的 HTML 快照多为单行长文本，正文定位依赖字符串检索；许可证以 license API 的 SPDX 字段、文件大小和 base64 正文开头核对，未逐字通读全部许可文本；未核对用户手册、价格、架构、权限或实际 UI；对少量公开页面做了辅助只读文本抓取以确认措辞，判定仍以指定快照为准；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-242/ses_groveopencodegop242review1_1793035837.jsonl",
+  "batch_sha256": "5809e8bf6a80bd2080059a6610e7d1938cc78e685490be352ad02c939c644821",
+  "research_sha256": "3631a9e69e4e451c1b85705496c77117bcd32fbd21881d57f76d41cb5cf26717",
+  "input_sha256": "d6a40c77bb219641ec09289968d3de01ce80b00cdf74c0a9595c29d816235eaf"
+}

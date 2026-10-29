@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、phase=included_without_cases，而 batch.json 与 research.json 已为全部五个叶子提供案例与研究记录；这属于流水线元数据未回填，不影响本次内容结论，但保存前宜同步。",
+    "commercial:becpg 的来源页面页脚自称 “Open source PLM software” 并提供 Community 入口，而条目按 commercial track 记录；页面同时提供付费试用/演示和 SaaS/on-prem，商业真实性成立，但建议在条目中明确这是付费版/企业版，并注明社区版因许可证证据为 NOASSERTION、且许可证仅为简短 LGPL 声明而未导入，避免 track 与社区版边界混淆。",
+    "github:1864233 的 ERPNext 追溯能力：traceability 文档显示 Backward/Forward/Both 报告，但“原料批次→成品批次”的精确映射需在 Manufacture/Repack Stock Entry 中显式建立；batch.json 的 leaf_match 理由可补此限制，research.json 已记录，故不阻断。",
+    "ERPNext 是通用开源 ERP，食品行业适配（过敏原、catch weight、质量门等）未在本单元来源中展开；其核心三项（集成后台、BOM/工单、批次保质期与追溯）有官方文档支撑，按当前叶子定义可通过，但建议摘要避免让读者误以为它是食品专用垂直产品。",
+    "commercial:recipal 首页明确 FDA/CFIA 规则、营养/配料/过敏原声明与 PDF/PNG 导出，但未明确展示标签版本历史或供应商持续更新规则层；按商业基本类型匹配可通过，若后续有产品文档可补充这两点。",
+    "research.json 对 Brix 是否含过敏原计算的表述不一致：note 称“该页未写明过敏原计算”，fetch_outcome 又称“含...过敏原计算及输出”；同站页面可见 allergen statement。批次条目未依赖该断言，建议统一措辞。",
+    "Sonicu 是跨医疗、制药、食品等多行业的环境监测平台，本条目仅以其 HACCP/食品安全冷链场景取证；正文足以覆盖叶子核心，但摘要中“食品冷链”定位宜说明是行业解决方案而非食品专用产品。"
+  ],
+  "leaf_checks": {
+    "food-cold-chain-management": {
+      "application_ids": [
+        "commercial:sonicu"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Sonicu HACCP 页面正文（快照 aa782b50f995d73972b1c9b748b35f653cf73e28c5c70e034d09ae7c1cddadaa.txt）明确：24/7 监测冰箱、冷冻柜和备餐区；按 HACCP 范围自定义告警阈值；通过电话、短信、邮件和 App 告警并提供升级路径；自动生成带纠正措施记录的数字日志，可导出供检查；SoniCloud 云端可远程查看 walk-in coolers 与 holding lines。四个结构（受监控冷链资产、温度要求、偏离及响应、留存温度记录）均有正文证据，SaaS 形态明确。",
+      "gaps": "未覆盖随单次配送的在途货件监控，符合叶子边界；未做产品运行测试；页面为厂商营销正文，未验证传感器校准、防篡改记录等具体能力。"
+    },
+    "food-formulation-platform": {
+      "application_ids": [
+        "commercial:brix"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Brix 官网正文（快照 29b3f6f2f04c09f65dbe5ddde45ff1361b6000baa1f60023dec09ba86eabdd2a.txt；该快照为单行 HTML，读取工具截断，使用同站实时页面交叉核对）显示：原料记录与供应商数据、子配方嵌套成品配方、改动任一行即重算总固形物、脂肪、蛋白、糖、密度、成本、热量等指标，并从同一配方输出 Nutrition Facts、配料表、BOM 和批次表；含版本历史与审计轨迹。满足成分基底、配方记录、成分驱动评估三个核心，Web/SaaS 工作区形态明确。",
+      "gaps": "未登录运行；单行快照的完整正文无法逐字读取，依赖同站页面交叉核对；未验证配方协调、发布纪律的具体实现。"
+    },
+    "food-labeling-platform": {
+      "application_ids": [
+        "commercial:recipal"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "ReciPal 首页正文（快照 be15b9362b75fc66e12685afb840c56e27672f26372dcbce459e8032dcca4602.txt）明确：以配方、原料库、batch yield 和 serving size 生成营养数据；自动应用 FDA 和 CFIA 的舍入与格式规则；生成营养声明、配料表和过敏原；支持多种标签版式及 PDF/PNG 导出；配方和标签保存在云端。满足产品标签数据、生成标签制品、辖区合规层三个核心，SaaS 形态明确。",
+      "gaps": "仅见 FDA/CFIA 两个辖区，未见供应商持续更新规则层的明确表述；未运行产品；页面未明确展示标签版本历史或版本化制品。"
+    },
+    "food-manufacturing-erp": {
+      "application_ids": [
+        "github:1864233"
+      ],
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "ERPNext README（快照 c7d12496fddc6771a44d9c84dcaa6868eea52ef32aca5a6a68d5b59d88a7022b.txt）说明会计、订单、库存与制造同属一个开源 ERP；BOM 文档（ea4008175e2c23f39136bada87c2236af1d691e6dc1c5f88ce1f6fa1db8c071a.txt）说明 BOM 是制造核心主数据、支持多级展开、提交后不可编辑只能取消重建；batch 文档（8ad574ee09dda909d0606b4884c466a743d685b57e39c66f36945684e57936da.txt）说明批次物料每笔库存交易必须携带批号、可设保质期并显示过期状态；traceability 文档（cd86ac709468a555d08d4d6ae63d1df43fcce536ee3119c07d44f2da24c3d7f5.txt）提供 Backward/Forward/Both 追踪及原料批次到成品批次的映射功能；许可证快照（ec31fbeaa841d1ffca36d84e3f1834827a34d639c769f9bc1966b2c39bf53e9c.txt）为完整 GPL-3.0 文本（35149 字节），仓库元数据 id 1864233、full_name frappe/erpnext 与条目一致；README 称 100% open-source，自托管与 Frappe Cloud 托管均有依据。",
+      "gaps": "ERPNext 为通用 ERP，食品行业专属能力未在本单元来源中展开；精确的原料批次到成品批次映射需在 Manufacture/Repack Stock Entry 中显式建立，并非默认自动全链；未运行产品。"
+    },
+    "food-plm": {
+      "application_ids": [
+        "commercial:becpg"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "beCPG PLM 页面正文（快照 7b979fa0dfb1b023f4d6500a7a72ce8196cf974fc866ab0e6ab718ecffe956c3.txt）明确：产品库集中原料、成品、包装和文档；R&D formulation 实时重算成本、营养和过敏原；生成规格与营养表；包装 BOM；项目与工作流从 brief 到 launch；保留每次产品变更的完整历史；提供 REST API、ERP、GS1 连接器；面向食品饮料行业；支持 SaaS 与 on-premise。满足产品记录、结构化受控定义、开发到上市生命周期三个核心。",
+      "gaps": "页面为产品概览，未展开版本发布与审批门的具体机制；页脚自称 open source 并提供 Community 入口，但本条目按 commercial 记录，商业版与社区版边界未在条目中明示；未运行产品。"
+    }
+  },
+  "limits": "本次仅做只读初审：未运行 shell、未计算文件哈希、未部署或登录任何产品，也未读取本单元之外的资料。核对依据为 REVIEW_SOURCES.json 列出的 10 个快照及 batch.json、research.json。Brix 的 29b3f6f2... 快照是单行 HTML，read 工具按 2000 字符截断，无法逐字读取全量正文，故以同站公开页面交叉核对；ERPNext 的 b5ea... 与 ec31... 为单行 JSON，部分字段被截断，但仓库 id/full_name、许可证 35149 字节的 GPL-3.0 全文可核对。research.json 中若干未导入候选（beCPG Community、NutriLabe、LabelCompliance、msupply-cold-chain 等）只有 fetch_outcome 记录、没有 REVIEW_SOURCES 快照，无法独立复核；这些均作为未采用候选留档。未验证监管合规、价格、架构或实际运行行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-195/ses_groveopencodegop195review1_1793024058.jsonl",
+  "batch_sha256": "ea5cf9a656f7d993f0c9f18e58e344d4abfee1b5b0100796a1e5de9ea3059027",
+  "research_sha256": "02c5006b18bf6fc8f289c343915e648a46f7ab7fb6a2182f3b5727a34e6b8524",
+  "input_sha256": "c3e9416c025efbebf7a64868dbdc84e00993a172fe1850099e981e2e22ab544e"
+}

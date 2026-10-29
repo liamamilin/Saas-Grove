@@ -1,0 +1,31 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch 摘要中“用 YAML 或页面内编辑把多个页面、分区与小组件组合”容易被理解为小组件也可在界面内编辑；docs/widgets.md 明确写着“Widgets cannot currently be edited through the UI”，建议改为“页面、分区与条目可界面编辑，小组件经 YAML 配置组合”。此措辞不影响四项核心判定。",
+    "research.json 将 updateInterval 写成“10–7200 秒”，但 docs 原文要求该值必须大于 10 且小于 7200；建议改为区间 (10, 7200)。",
+    "README 的 License 段落称 MIT X11，并附有一句广告使用限制；而 LICENSE 文件及许可接口快照是不含该句的标准 MIT 全文。两者均属开源许可，建议条目注明以 LICENSE 文件为准。",
+    "research.json 将 gethomepage/homepage 与 glanceapp/glance 的候选快照记为已保存或复用，但 REVIEW_SOURCES.json 未提供这些快照；因二者未进入 case_ids，且 Dashy 证据完整，不影响本叶通过；后续若引用，应补齐快照。",
+    "Dashy 的主线定位偏 homelab 起始页与应用启动器，个人生活类小组件并非唯一内容；但定义明确不要求特定小组件集，其天气、日历、RSS、行情、状态等小组件与用户自行组合的界面足以支撑核心，故不阻断。"
+  ],
+  "leaf_checks": {
+    "personal-dashboard": {
+      "status": "passed",
+      "application_ids": [
+        "github:343078060"
+      ],
+      "definition_core": "四项核心均有正文依据：①个人数据基底——docs/widgets.md 列出 Weather、Calendar、RSS Feed、Crypto Watch List、News Headlines、Uptime Kuma 等小组件，面向本人自托管实例；②组合个人界面——README 支持多页面、分区、条目及 UI 编辑，YAML 配置持久化；③小组件单元——小组件可按 section 独立添加、配置，并支持自定义小组件；④一目了然的时效性——docs 的 Continuous Updates 允许用 updateInterval 让小组件持续更新，README 的状态检查也支持 continuous polling。注意默认仅页面加载取数，自动刷新是可配置能力，并非默认开启。",
+      "service_form": "自托管 Web 应用服务：提供 Docker Hub 与 GHCR 多架构镜像、compose 示例及 Node.js 源码构建方式，实例常驻、配置持久；不是多租户商业 SaaS，track=open_source 与形态匹配。",
+      "identity_track": "仓库元数据 id=343078060、full_name=lissy93/dashy、html_url 与条目 repository_url 一致；条目 id github:343078060、track open_source 与元数据一致。",
+      "license_and_community": "许可接口快照为完整 MIT 文本（约 1100 字节，含标准授权与免责声明）；README 声明 100% free and open-source，未发现付费社区版或企业版分界；可选 cloud backup 为仓库内建功能，不构成闭源社区版边界。README 的 MIT X11、广告限制句与 LICENSE 文件存在措辞差异，已列入非阻断 notes。",
+      "source_check": "REVIEW_SOURCES.json 的 4 个 path 均按 data/collections 前缀原样读取，文件名中的 sha256 与记录一致；batch.json 的 4 个 sources 与之一一对应。核心结论来自 README 与 docs/widgets.md 正文，未用简介、元数据或 Loading 替代。",
+      "gaps": "未运行 Dashy，未做运行时自动刷新验证；未提供 gethomepage/homepage、glanceapp/glance 候选快照，未独立复核其结论；未重新计算文件哈希。上述缺口不影响本叶通过。"
+    }
+  },
+  "limits": "本次仅只读核对本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 4 个 Dashy 快照；未运行 shell、未写文件、未读取其他单元；未部署或运行 Dashy，未验证运行时行为；未独立核验未提供的 Homepage、Glance 候选快照；未重新计算哈希。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-016/ses_groveopendesignp016review1_1793151954.jsonl",
+  "batch_sha256": "af75025a244ff439d4d32a53ce2f5c5091af709e3469e72dc7c6d61116c04387",
+  "research_sha256": "ebdca2480e9bfc5663d9c4e3bd54b0573c57e44b7049753d667c7ac892cf2fd2",
+  "input_sha256": "adb2d3a95216e73f3a3af554bcfc0ea0b5c22818e4642729948ed5f7380414fb"
+}

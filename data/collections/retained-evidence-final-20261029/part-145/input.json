@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 31,
+  "offset": 750,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "robotics-engineering-platform",
+        "name_zh": "机器人工程平台",
+        "domain_id": "16",
+        "parent_id": "16.07",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/660",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "open source robot offline programming simulation platform self-hosted complete application"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "robotics-engineering-platform",
+        "name": "Robotics Engineering Platform",
+        "name_zh": "机器人工程平台",
+        "aliases_zh": [
+          "机器人仿真平台",
+          "机器人数字孪生平台"
+        ],
+        "overview": "A **Robotics Engineering Platform** is the engineering-side system for robot behavior: it lets engineers build a digital model of a robot and its working environment, author the behavior that robot will run — programs, applications, configurations — verify that behavior in software against the model, and carry it to real robot hardware.\n\nIts purpose is to move robot engineering off the production floor. Programming a robot directly at the machine stops production and makes every change expensive; an engineering platform replaces that with a virtual loop — model, author, simulate, then transfer the finished behavior to the robot. The same loop serves very different robots (industrial arms, cobots, mobile machines) and very different engineering styles (graphical teaching, vendor languages, general-purpose code).\n\nThe boundary that defines the Type:\n\n- It **authors** robot behavior; it does not **operate** deployed robots. Running a fleet of robots day-to-day is a different Application Type (Robot Fleet Management).\n- It **consumes** geometry; it does not design it. Mechanical part and machine design belongs to CAD tools, whose output these platforms import.\n- Its simulations exist to **produce and validate runnable robot behavior**, not to analyze designs against physical loads (that is engineering simulation/CAE) and not to mirror operating assets for monitoring (that is digital-twin territory).",
+        "overview_zh": "**机器人工程平台**是机器人行为的工程侧系统：它让工程师构建机器人及其工作环境的数字模型，编写机器人将运行的行为——程序、应用、配置——在软件中根据模型验证该行为，并将其传递到真实的机器人硬件上。\n\n其目的是将机器人工程从生产现场转移出去。直接在机器上编程机器人会停止生产，并使每次更改成本高昂；工程平台用一个虚拟循环取代了它——建模、编写、模拟，然后将完成的行为传输到机器人。这个相同的循环服务于非常不同的机器人（工业臂、协作机器人、移动机器）和非常不同的工程风格（图形化教学、供应商语言、通用代码）。\n\n定义该类型的边界：\n\n- 它**编写**机器人行为；它不**操作**已部署的机器人。日常运行一个机器人机群是不同的应用类型（机器人机群管理）。\n- 它**消耗**几何数据；它不设计它。机械部件和机器设计属于CAD工具，这些平台导入其输出。\n- 其模拟存在是为了**产生和验证可运行的机器人行为**，而不是根据物理负载分析设计（那是工程模拟/CAE），也不是镜像操作资产用于监控（那是数字孪生领域）。",
+        "dc": "│\n        ▼  carried to\nReal robot execution\n(controller program, device runtime, or validated robot stack)\n```\n\n**1. The robot/cell model — the engineering subject.** A digital representation of the robot or robots being engineered and the environment they work in: geometry, kinematics, tools, stations, conveyors, sensors, and the spatial relationships between them. It takes different forms — a 3D work cell assembled from CAD models, a simulation scene with physics and sensors, or a structured configuration of hardware components and coordinate frames — but in every case it is what behavior is authored against and tested against. Without it, the product is a generic programming tool with no robot semantics.\n\n**2. The behavior artifact — what engineers author.** The persistent, iterated definition of what the robot does: motion paths and targets, task and application logic, component wiring, control code. It may be a program in a vendor language, a graphical program tree, a set of configuration declarations plus code modules, or trained policies and pipelines. It accumulates, is versioned, and is revised as the cell and requirements change. Without it, the product is a viewer — a model that shows but does not define behavior.\n\n**3. The virtual-to-real bridge — how behavior becomes real.** Authored behavior is first executed in software against the model — simulation, a virtual controller, mock components — so errors are found before hardware is touched. Then the platform carries the verified behavior to real robots: downloading a program to a controller, post-processing it into a controller's native language, deploying code and configuration to a device runtime, or validating the software stack that will run on the robot. Without the software-verification half, the product collapses into direct shop-floor teaching; without the hardware half, it is a pure simulation environment. The bridge is what makes this an engineering platform rather than a simulator.",
+        "dc_zh": "将行为带到真实机器人执行环境（控制器程序、设备运行时或已验证的机器人技术栈）的一类平台。其核心包含：1. 机器人物模型（作为工程对象的数字表征）；2. 行为制品（工程师所创建的持久化、可迭代的行为定义）；3. 虚实桥接（行为如何被首先在软件中针对模型执行，再转化为真实执行）。",
+        "rules": "- **Engineering happens away from the floor.** The Type's organizing rule: authoring and verification are performed against the model, not the running production cell, so that robot changes do not stop production. On-site work shrinks to installation and commissioning.\n- **Virtual-real parity is a design goal, and products differ in how strongly they guarantee it.** Some products state it explicitly — the program validated in simulation behaves the same when deployed on the robot — while others provide virtual controllers that approximate the real one. The parity claim is a vendor commitment, not a physical law; final validation still happens at the real robot.\n- **Verification moves error discovery earlier; it does not abolish commissioning.** Simulation predicts mistakes in cell design and programs before hardware exists, but the loop still ends with the behavior running on the real machine, where residual differences (calibration, environment) surface.\n- **Vendor lock shapes the bridge.** OEM-locked platforms carry behavior natively to their own controllers; vendor-agnostic platforms bridge through post processors that translate a neutral program into each controller's language, or through abstraction layers that expose uniform APIs over different hardware.\n- **The artifact is versioned and iterable.** Programs are files under change control; in cloud-shaped products, configurations and code modules are versioned with staged rollouts and rollback — software-engineering discipline applied to robot behavior.\n- **Extensibility is the norm.** Drivers for new hardware, application capabilities, and UI extensions arrive as modules, add-ins, or SDK packages rather than product releases.\n- **The model is the shared substrate.** Every phase — authoring, verification, transfer — operates on the same cell model or machine configuration; changes to the model propagate to everything built against it.",
+        "rules_zh": "- **工程远离现场进行。** 该类型的组织规则：编写和验证是针对模型进行的，而不是运行的生产单元，因此机器人更改不会停止生产。现场工作缩减为安装和调试。\n- **虚实一致性是一个设计目标，产品在保证强度上有所不同。** 有些产品明确说明——在模拟中验证的程序在部署到机器人上时表现相同——而其他产品提供近似真实控制器的虚拟控制器。一致性声明是供应商承诺，而不是物理定律；最终验证仍然在真实机器人上进行。\n- **验证将错误发现提前；它不会消除调试。** 模拟在硬件存在之前预测单元设计和程序中的错误，但循环仍然结束于行为在真实机器上运行时，那里残余差异（校准、环境）会显现。\n- **供应商锁定塑造了桥梁。** OEM锁定的平台原生地将行为传递到其自身控制器；供应商无关的平台通过后处理器将中立程序翻译成每个控制器的语言，或通过抽象层在不同硬件上暴露统一API，来架起桥梁。\n- **产物是版本化且可迭代的。** 程序是变更控制下的文件；在云形产品中，配置和代码模块通过分阶段推出和回滚进行版本控制——软件工程纪律应用于机器人行为。\n- **可扩展性是常态。** 新硬件驱动程序、应用能力和UI扩展作为模块、插件或SDK包到达，而不是产品发布。\n- **模型是共享基础。** 每个阶段——编写、验证、传输",
+        "parent_id": "16.07",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 145,
+    "phase": "directory",
+    "parent": 145,
+    "slugs": [
+      "robotics-engineering-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "21ffd880403f4e0f1300c090858b263f8a8ab9ee15f250b2fa588f1321f9ab8c"
+  }
+}

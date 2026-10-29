@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的 features 中「Run 运行与 Preview 预览」建议补充条件：Preview 仅在输入 INSERT/REPLACE 时出现，且会移除写入子句并附加 LIMIT，属于写入前预览；这不影响本叶五项核心的成立。",
+    "input.json 的 progress 仍为 boundary_unresolved 且 application_ids 为空，而 research.json 与 batch.json 已记录 case_found 和 github:6358188；这是输入快照与后置研究记录的同步问题，建议调用方同步叶子状态与 application_ids。",
+    "Druid Web Console 同时承载 datasource、segment、supervisor、task、service 等管理视图；条目应继续把匹配范围明确限定为 Query 视图，避免把整个控制台当作分析查询编辑器。",
+    "本单元仅有官方文档与仓库证据，runtime_tested=false；按任务要求不进行部署测试，因此不阻断。",
+    "Query 视图也服务于 SQL-based ingestion 和 multi-stage query task engine；教程中的 SELECT 查询已足以证明分析查询工作流，但条目不宜把 Query 视图描述为纯查询界面而忽略其写入与多阶段用途。"
+  ],
+  "leaf_checks": {
+    "analytical-query-editor": {
+      "status": "passed",
+      "application_id": "github:6358188",
+      "application_name": "Apache Druid",
+      "track": "open_source",
+      "definition_core": {
+        "bound_to_analytical_platform": "通过。Web Console 文档说明控制台由 Router 承载；Query 视图用于对 Druid 自身 datasource 执行 SQL/native 查询。Druid SQL 文档说明 FROM 指向 druid schema 的 datasource，SQL 在 Broker 规划并翻译为 native query，属于平台绑定，而非可连接任意数据库。",
+        "query_editor_surface": "通过。Web Console 文档的 Query 节明确 Query 视图提供编辑和使用 SQL 的 UI，含多标签、schema/datasource/column 面板、查询历史等编辑辅助；Query 教程还展示了自动补全与查询编写。",
+        "immediate_execution": "通过。Query 教程说明在 edit pane 写入的 SELECT 会立即运行，点击 Run 执行并返回结果；文档还给出运行计时、进度条、live reports 与取消运行中查询。",
+        "result_grid": "通过。教程展示 Run 后出现两列结果数据，并说明 Smart query limit 默认将控制台结果限制在约一百行，属于表格化结果预览。",
+        "in_place_refinement": "通过。教程在同一 edit pane 中增加 countryName、修改 GROUP BY/WHERE 后再次 Run，形成编写、运行、阅读、调整、重跑的闭环。"
+      },
+      "service_form": "通过。Query 视图是 Router 托管的 Web 控制台界面，不是一次性 CLI 或纯库/SDK；官方教程给出完整交互工作流。自托管开源交付不违背本叶定义。",
+      "identity_and_track": "通过。仓库元数据 id=6358188、full_name=apache/druid、fork=false、private=false、archived=false，主页与仓库一致；track=open_source 与 Apache-2.0 仓库身份匹配。条目明确将匹配范围限定为平台内置 Query 视图，未把它表述为跨库 SQL 客户端、业务即席问答或纯管理控制台。",
+      "license_and_community": "通过。README 明确 Apache License, Version 2.0；LICENSE 快照文件头为 Apache License Version 2.0，文件 size=19315，batch 的 license=Apache-2.0。资料中未发现社区版/商业版功能切分或额外限制声明。",
+      "source_basis": "通过。按 REVIEW_SOURCES.json 的 path 原样读取了 6 份快照：仓库元数据、许可证、README、Web Console 文档、Query 教程和 Druid SQL 文档。核心判断依据 Web Console 的 Query 节和 Query 教程正文步骤，而非简介、元数据或导航。",
+      "gaps": "无阻断性缺口。仅缺运行时实测；官方文档正文已覆盖五项定义性核心。许可证 JSON 尾部字段因单行快照读取截断未逐字展开，但 README、LICENSE 文件头与 batch 许可证字段相互一致。"
+    }
+  },
+  "limits": "只读审查本单元；未运行 shell、未重算 sha256、未访问其他单元；按 REVIEW_SOURCES.json 原样读取 6 份快照。快照为单行 HTML/JSON，读取工具将单行截断到约 2000 字符，因此许可证 JSON 的尾部字段和全文未能逐字核验；未做运行时部署测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-112/ses_groveopendesignp112review1_1793202317.jsonl",
+  "batch_sha256": "94be9450113be11b2fee70dd28b12216a6ea5ca5e1316dc6b39335bf25a22d55",
+  "research_sha256": "10926a79c06d0008c0184409ab03f67065e9fa666c5650302b33122b5756e9ea",
+  "input_sha256": "e4c75fb3d3ef09c883554a742504433cd19f7bc27b4f57e4108b3bba71b07235"
+}

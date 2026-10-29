@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json 与 research.json 已按 case_found 收录 github:1138270023。内容本身有一致证据，但上下游元数据需在入库汇总时对齐，避免沿用旧的 boundary_unresolved 状态丢弃本案例。"
+    },
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "README 的 Non-goals 含“Act as a social network or community platform”，与本叶英文名 Social Profile Network 存在字面张力。entry 的 leaf_matches 理由已说明本叶核心为“档案即记录、共享命名空间寻址、对外消费”，不以信息流/关注为定义项，故判定成立；建议保留该说明文字，避免后续仅凭名称误判。"
+    },
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "deployment 中“首次运行在 /setup 创建所有者账户”较所引快照略强：endpoints.md 仅写“/setup - first-run setup (when no user exists)”。如需精确措辞，应补存 research.json 提到的 docs/user/getting-started.md 快照（当前记为 fetched_and_read_not_snapshotted）。"
+    },
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "claims API 默认关闭（PIN_CLAIMS_API_ENABLED=false），entry 的 features 已如实标注；但对外消费的默认路径应表述为公开 /{handle}.json|.xml|.txt|.vcf 与 /.well-known/pinc 等无鉴权端点，claims 与 interop 为显式启用后的扩展。"
+    },
+    {
+      "slug": "social-profile-network",
+      "note": "research.json 称 ORCID 复用快照“未列入本单元 REVIEW_SOURCES.json，独立复核时无法在本单元内重读”，但 data/collections/sources/ 下实际存在 37c44ed2…3a45ed.txt（及 FediProfile 的 1e28c9d8…、b959fdad…、d5569dce…）。缺口描述与实况不符，建议更正为“未列入 REVIEW_SOURCES.json 但快照在本单元可见”。该候选为 withheld、未建立关系，故不影响本叶结论。"
+    },
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "开源边界：仓库为单一 Apache-2.0 项目，未见社区版/企业版拆分或付费墙；README 的“Enterprise integration”（claims API 与 LDAP/AD/SAML/Kerberos 投影）位于同一许可仓库内，未观察到 open-core 限制。建议在条目中明示“无独立社区版边界”，以免后续误判功能缺失。"
+    },
+    {
+      "slug": "social-profile-network",
+      "application_id": "github:1138270023",
+      "note": "成熟度与运行状态：README roadmap 显示 v1.0 尚未勾选，runtime_tested=false，本次未部署验证；这不影响内容初审，但条目描述宜避免暗示生产级稳定性。"
+    }
+  ],
+  "leaf_checks": {
+    "social-profile-network": {
+      "slug": "social-profile-network",
+      "definition_core": "满足。定义性核心三项均有快照正文支撑：(1) 档案即记录——README 开篇称 PIN 为“authoritative source of one or multiple people and organizations on the web”，并提供“multi-profile management in settings”及 /settings/profile 路由；(2) 共享命名空间寻址——README 载“Stable identity keys via immutable subject_id exposed as meta.subject”，endpoints.md 载 /{handle}.json、/{handle}.xml|.txt|.vcf 与 /{handle} 的统一句柄命名空间，并注明 subject_id 即 meta.subject；(3) 对外消费设计——README “Protocol-first, UI-second”明示“The profile page is not the primary product, identity is”“exports are intended to be consumed directly by programs, tools, and agents”，endpoints.md 给出 canonical JSON/XML/txt/vcf 公开端点、/.well-known/pinc 与 /.well-known/pinc/identity，以及 claims、changes、interop（ldap|ad|saml|kerberos）端点。属核心正文与端点文档证据，非简介或关键词。",
+      "service_form": "满足。属持续运行的完整自托管 Web 应用服务（Go net/http 服务端渲染 + SQLite；默认 127.0.0.1:5000；/setup、/login、/settings、/settings/admin/users、/invite 等账户与运营路由齐备），不是 CLI、静态生成器、纯规范或 SDK。单机自托管形态与本叶边界（完整应用服务）相符。",
+      "identity_and_track": "匹配。id github:1138270023 与仓库快照 id 1138270023、full_name mlumeau/pin 一致；fork=false、archived=false、private=false、default_branch=main；track=open_source 与仓库性质一致；homepage 指向同一仓库，无独立商业站。",
+      "license_and_community_boundary": "成立。GitHub 仓库元数据 license 为 Apache-2.0；license 快照为 LICENSE 文件（sha 261eeb9e…，size 11357，encoding=base64），正文以“Apache License / Version 2.0, January 2004”开头，SPDX 为 Apache-2.0，README 亦声明“Apache-2.0. See LICENSE”。未发现社区版/企业版分立或额外限制性条款；enterprise 能力在同一仓库。",
+      "core_type_fit": "成立且已说明张力。README Non-goals 明确“Act as a social network or community platform”，但本叶定义明确不要求 feed/关注/消息，仅要求档案为可寻址、对外消费的记录对象；entry 的 leaf_matches 理由已就此作出解释，且 PIN 自述非主产品为档案页、产品为身份，与定义第三项同向。故不构成类型不匹配。",
+      "sources_verified": [
+        "data/collections/sources/6d0a07c9ec30e15064fc00f4c878902f71c2ca8271b1cf5d3c8e27595f683bcc.txt（repository_metadata，已读）",
+        "data/collections/sources/42322730fd43e2e90b52356a48c1192b5ad728551491d67364f18681265a41c1.txt（license，已读）",
+        "data/collections/sources/576216b427b37f7d0bde290114bb0292829e8eb744bd4b8da9344195de4b15bb.txt（readme，已读）",
+        "data/collections/sources/b1da24522c5459e1a5c97deb6fc63a5e8e438c361aa9bd5c1febd9c8a1a565f3.txt（documentation，已读）"
+      ],
+      "gaps": "未部署运行，故运行时行为（/setup 实际建号流程、claims 开启后的返回结构）未验证；单行 GitHub 元数据在只读查看器中截断于 2000 字符，stars/created_at 等非关键字段未能逐字核对；许可完整性依据 size=11357 与标准正文开头判断，未重算 SHA。均为可接受留档缺口。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "仅只读访问本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 4 个快照（另只读查看了同目录下 ORCID 复用快照以核对 research.json 的缺口陈述）；未运行 shell、未写文件、未计算或校验 SHA-256、未部署或运行 PIN、未访问网络复采；GitHub API 快照为单行超长文本，查看器在 2000 字符处截断，仓库统计字段与许可正文尾部未能逐字确认，许可完整性由 size=11357、标准开头与 SPDX 声明推定；FediProfile 与 ORCID 仅作为 withheld 留档核对，未据此改变本叶结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-006/ses_groveopendesignp006review2_1793150173.jsonl",
+  "batch_sha256": "8329eb6c163e5c2f4a4c5ea200a734ab7b809cf73c0b27848d3917e42273dcf0",
+  "research_sha256": "04597a30242e3ec82e2c85b55f68ae6fb2de01336540f6750e1a9ba0d6370be6",
+  "input_sha256": "da138efc22be5eced70dbe50f0000a19ce3ac66b5498e98db73e8aa87f9ff1b2"
+}

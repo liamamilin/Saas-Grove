@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "版本范围建议写明：README（快照 95ccfeb6…）说明 opencut.app 仍运行经典版（opencut-classic，已归档），而 features 逐条来自重写仓库的 0.2.0/0.3.0 变更日志；官网 changelog 快照（53cb0d69…）确实同文刊载这两份发行说明，故这些功能属于厂商以 OpenCut 名义发布的发行内容，但建议在 summary/deployment 中注明“功能依据为重写代码库发行说明，官方托管入口当前为经典版构建”，避免读者误认为所列功能均已在该站点上线。",
+    "research 已如实记录 https://opencut.app/editor 与 https://opencut.app/projects 仅为 HTTP 200 可达性检查、无快照、不作工作流证据；首页快照中可检索到 /projects 与 Projects 字样，但未见 /editor 链接。建议 leaf_matches 不要以“均返回 200”支撑在线服务形态，改用首页正文/Projects 路由表述，并保留可达性检查的限定说明。",
+    "features 中的蒙版、关键帧、图形编辑器、逐剪辑效果属于定义性核心之外的专业能力；可在条目中标注其非核心属性，以免被误读为 NLE 判定条件（定义本身已正确说明这些不是本质）。",
+    "docs.opencut.app 抓取失败、无用户手册类来源，核心工作流由发行说明（changelog）而非用户指南重建；现有官方来源足以支撑判定，若后续补采，优先补一份编辑器使用文档而非价格/架构材料。",
+    "首页快照标题/描述为“A simple but powerful video editor ... In your browser.”，属营销式一句话描述；leaf_matches 中“官方首页正文”措辞略强于快照实际可见内容（页面以元数据与脚本壳为主），建议改为“官方首页描述并提供 Projects 入口”。"
+  ],
+  "leaf_checks": {
+    "non-linear-editing-system-nle": {
+      "status": "passed",
+      "application_id": "github:1006414368",
+      "application_name": "OpenCut",
+      "track": "open_source",
+      "identity_and_track": "batch.json 的 id github:1006414368、github_repository_id 1006414368 与快照 4dd2f04e… 中 \"id\":1006414368、\"full_name\":\"OpenCut-app/OpenCut\"、\"html_url\":\"https://github.com/OpenCut-app/OpenCut\" 一致；repository_url 与 homepage https://opencut.app 均与元数据 \"homepage\":\"https://opencut.app\" 一致；元数据 \"archived\":false、\"fork\":false，track=open_source 与 MIT 仓库相符。",
+      "service_form": "官网快照 c0d216eb… 含 <title>OpenCut</title>、描述“A simple but powerful video editor that gets the job done. In your browser.”及 Projects 与 /projects 路由字样，README 说明 opencut.app 为官方托管入口且为浏览器 Web 应用；可确认其为持续可用的浏览器内剪辑服务，而非纯客户端壳、CLI 或渲染引擎。补充说明：/editor、/projects 的 200 属 research 明确标注的可达性检查（无快照），仅用于存在性，不作为核心工作流证据。",
+      "core_coverage": {
+        "addressable_clips": "0.3.0 变更日志（快照 25ff04cb…）含时间线剪辑的修剪把手、分割、多选、逐剪辑效果、“Expand keyframes”逐属性轨道；0.2.0（724c2c96…）含拖拽剪辑入时间线、修剪把手位于剪辑外侧、剪辑间重叠限制，说明素材以可单独操作的剪辑实例存在于时间线。",
+        "layered_arbitrary_order_timeline": "0.3.0 明示 Track 结构为 overlay、main（单一 VideoTrack）、audio 三类，并含“The timeline now opens scrolled to the bottom, so your main video track is visible right away”“More vertical space between timeline tracks”“Timeline track rows now highlight…”，构成主视频轨+覆盖层+音频轨的分层时间线；0.2.0 含跨轨拖动、波纹编辑。",
+        "non_destructive_editing": "0.2.0“Undoing a trim-from-start operation now correctly restores the clip to its original position and length, instead of stretching it to the right.”与 0.3.0 的波纹编辑 diff 机制（对操作前后轨道区间做快照比较并生成 RippleAdjustment）、逐剪辑效果/蒙版/速度控制，表明编辑改变项目引用而非源媒体；另 0.3.0“Your projects can disappear if your disk runs low on space. OpenCut now asks the browser to protect them.”与 16 步存储迁移指向持久化项目容器。",
+        "render_export": "0.3.0“MP4 exports with audio failed on Firefox. The export now completes successfully regardless of browser.”证明成品以含音频 MP4 交付导出，且导出在浏览器内完成。",
+        "type_boundary": "条目未主张多人协同共享项目、AI 自动执行剪辑或动效图形为主任务，核心仍为素材组接为节目；features 中的蒙版/关键帧/效果属核心之外能力，不改变 NLE 类型判定。"
+      },
+      "license": "license 快照 b4f5f7f5…（GitHub license 接口）返回 LICENSE 文件内容，base64 解码为完整 MIT 文本（“Copyright 2026 OpenCut … Permission is hereby granted, free of charge … THE SOFTWARE IS PROVIDED \"AS IS\"”，含完整授权与免责条款，size 1060），repo 元数据 license 为 mit；README 亦标注 MIT。完整许可证与仓库身份一致，非仅摘要或徽章。",
+      "community_edition_boundary": "MIT 授予使用、复制、修改、合并、发布、分发、再许可与销售权利，未见过滤字段、开源核心+闭源企业版声明；changelog 说明 web 应用可经 OpenNext 部署到 Cloudflare Workers 供自托管（“included for anyone self-hosting”），README 说明同一代码库规划 Web/桌面/移动端、桌面仍为早期（0.3.0：apps/desktop 仅 main.rs 与构建，尚无功能），与 batch deployment 描述一致。经典版位于独立已归档仓库 opencut-classic（github:1241019195），research 已作为背景证据 withheld，未混入本条目。",
+      "withheld_candidates": "Kdenlive（github:42723268）GPL-3.0、持久项目/多轨时间线/非破坏编辑/渲染输出证据充分但为桌面客户端，无 Web 服务正文，research 将其从本叶成立关系中移除并留档为 withheld，同时声明不据此判定不存在 SaaS 变体；处理符合“服务形态”边界，未以简介或 HTTP 成功替代核心证据。",
+      "source_gaps_recorded": "research 如实记录：docs.opencut.app 抓取失败、new.opencut.app/editor HTTP 404、/editor 与 /projects 仅 200 无快照、GitHub 检索多为 AI/SDK/桌面候选未采用、pikimov 仅非官方镜像；README 自述重写进行中、官网仍运行经典版。上述缺口未阻断判定，但构成版本范围说明的必要背景。",
+      "review_limits": "首页与 changelog 官网快照为单行压缩 HTML，读取按 2000 字符/行截断；对关键表述（Projects、/projects、Masks…、main video track、Ripple editing 等）以定向 grep 确认存在于文件内，未做浏览器渲染或运行验证。"
+    }
+  },
+  "limits": "只读审查：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 7 个快照（另参考 research 中已记录 sha 的 opencut-classic README 快照 2907b0a1… 以核对版本背景），未运行 shell、未写文件、未读取其他单元、未联网。首页 c0d216eb… 与官网 changelog 53cb0d69… 为单行 HTML，工具按行截断至 2000 字符，正文完整性只能通过定向 grep 命中确认，未能逐字通读全页；未做部署/运行测试，未验证编辑器交互与非破坏性行为，核心判定基于官方发行说明（0.2.0/0.3.0）与官方站点同文刊载的正文。GitHub 元数据快照为单行 JSON，同样以定向模式匹配核对 id、full_name、homepage、archived、license 与 default_branch 字段，未解析全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-029/ses_groveopendesignp029review2_1793165479.jsonl",
+  "batch_sha256": "75fcd9a6974d8a29fa8bca0920fadcae3fa22804e5820b4713f21cc0b763cb64",
+  "research_sha256": "a009776350b8a978de98f5e3bfad0147b0be88defa373b429aca54ae60b2e34e",
+  "input_sha256": "dccc730f315df5ce8bee21a2bc228ee20cc48ec4e104eb8cf7ea87006add0349"
+}

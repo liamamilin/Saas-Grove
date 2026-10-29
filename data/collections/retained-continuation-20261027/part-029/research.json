@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "online-store-builder",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:shopify"
+      ],
+      "query": "官网直达：shopify.com 首页与 /online-store、/orders、/inventory 官方页面（主题/AI 建店、可视化编辑、checkout、订单与库存）",
+      "source_urls": [
+        "https://www.shopify.com",
+        "https://www.shopify.com/online-store",
+        "https://www.shopify.com/orders",
+        "https://www.shopify.com/inventory"
+      ],
+      "note": "修复初审 blocking：原 reason 仅凭首页 title/meta 推断。本次抓取 /online-store、/orders、/inventory 正文，分别证明主题/AI 建店与可视化编辑、平台托管、内置 checkout，以及同一后台的订单/履约/库存/退货管理；首页快照保留用于产品身份。未登录后台验证具体状态机。",
+      "service_boundary": "托管建站服务；商家无代码组装自有店铺，平台运营基础设施与购买机制，不面向开发者自建前端为主路径。",
+      "search_attempts": [
+        "官网核对：shopify.com 首页（主题或 AI 建店、托管、结账支付、订单与履约集中管理）",
+        "候选比较：Shopify / Squarespace / Wix；Shopify 对“同一产品内完成购买与订单”说明最直接",
+        "抓取：canva.com 403；adobe.com/express 403，均未采用",
+        "补充核对（初审修复）：help.shopify.com 主题编辑器文档 HTTP 403，未采用",
+        "补充抓取：shopify.com/online-store（主题/AI 建店、可视化编辑器、checkout、托管）",
+        "补充抓取：shopify.com/orders 与 /inventory（订单、履约、库存、退货）"
+      ],
+      "fetch_outcomes": [
+        "https://www.shopify.com → 抓取成功，快照 0c0c36ee7e93",
+        "https://www.canva.com → HTTP 403，未采用",
+        "https://help.shopify.com/en/manual/online-store/themes/theme-structure/theme-editor → HTTP 403，未采用",
+        "https://www.shopify.com/online-store → 抓取成功，快照 48c1bd5cd842",
+        "https://www.shopify.com/orders → 抓取成功，快照 b6a2686be274",
+        "https://www.shopify.com/inventory → 抓取成功，快照 1648a7a06bb6"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "marketplace-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sharetribe"
+      ],
+      "query": "官网直达：sharetribe.com 首页与 /features/monetization-methods/（多卖家、卖家档案/上架、佣金拆分、托管）",
+      "source_urls": [
+        "https://www.sharetribe.com",
+        "https://www.sharetribe.com/features/monetization-methods/",
+        "https://raw.githubusercontent.com/sharetribe/sharetribe/master/LICENSE"
+      ],
+      "note": "修复初审问题：Sharetribe 首页正文可读，证明多供应商聚合、卖家 profiles/listings、支付/变现/管理工具与托管基础设施；monetization 官方页逐句证明按交易佣金、自动计算与 Stripe 拆分付款。其 Sharetribe Go 为采用 Sharetribe Community Public License 1.0 的源码可用产品（非 OSI 认证开源），许可证快照已留存。未登录市场后台验证具体配置。",
+      "service_boundary": "面向运营方的市场软件；卖家为外部第三方，运营方治理与抽成，区别于单商家店铺平台。",
+      "search_attempts": [
+        "官网核对：sharetribe.com 首页（多卖家上架、卖家档案、支付变现、运营方管理工具与托管）",
+        "候选比较：Sharetribe / Mirakl / Bagisto 多卖家模块；Sharetribe 以“运营方开设市场”为中心，Mirakl 已有共享条目仅关联 seller-portal",
+        "抓取：首次无 www 抓取被重定向拦截，改用 www.sharetribe.com 成功",
+        "补充核对（初审修复）：重新解析首页快照正文（多供应商、profiles/listings、admin tools、hosted cloud infrastructure）",
+        "补充抓取：sharetribe.com/features/monetization-methods/（佣金比例、最低/固定佣金、自动计算、Stripe 拆分付款）",
+        "许可证边界：抓取 Sharetribe Go 仓库 LICENSE，确认 Sharetribe Community Public Licence 1.0（非 OSI 开源）"
+      ],
+      "fetch_outcomes": [
+        "https://www.sharetribe.com → 抓取成功，快照 0bd4bbb76c00",
+        "https://www.sharetribe.com 首次抓取被重定向拦截，改用带 www 的主页成功",
+        "https://www.sharetribe.com/features/monetization-methods/ → 抓取成功，快照 e0f3bf365d84",
+        "https://raw.githubusercontent.com/sharetribe/sharetribe/master/LICENSE → 抓取成功，快照 de11a362ff30"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "digital-product-catalog",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:catalog-machine"
+      ],
+      "query": "官网直达：catalogmachine.com 首页（产品库→在线/PDF 目录、分享与可选下单）",
+      "source_urls": [
+        "https://www.catalogmachine.com"
+      ],
+      "note": "Catalog Machine 首页证明产品库→在线/PDF 目录、模板排版、分享与密码保护，并可选择性嵌入下单；浏览阅读为主符合该类型。",
+      "service_boundary": "卖方目录发布工具；以浏览阅读与导出为主，下单与收款为可选叠加，不作为电商交易系统记录。",
+      "search_attempts": [
+        "官网核对：catalogmachine.com 首页（产品库/CSV/网址→在线与 PDF 目录、模板、分享、密码保护、可选下单）",
+        "候选比较：Catalog Machine / Issuu / Pinterest 式画册；Catalog Machine 明确“产品数据库驱动目录”符合视图语义",
+        "抓取：issuu.com 主机重定向失败，未采用"
+      ],
+      "fetch_outcomes": [
+        "https://www.catalogmachine.com → 抓取成功，快照 df191bacc871"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "product-catalog-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:131995661"
+      ],
+      "query": "官方文档与仓库直达：docs.shopware.com 产品页、shopware/shopware README",
+      "source_urls": [
+        "https://docs.shopware.com/en/shopware-6-en/catalogues/products",
+        "https://raw.githubusercontent.com/shopware/shopware/HEAD/README.md"
+      ],
+      "note": "Shopware 官方产品文档逐步展示产品记录、变体生成、类目与销售渠道可见性，README 证明其可直接作为购物车系统运行。未部署后台。",
+      "service_boundary": "电商后台的目录管理面；维护商品记录、变体、类目与渠道可用性，不承担结账或履约执行。",
+      "search_attempts": [
+        "官方文档核对：docs.shopware.com/en/shopware-6-en/catalogues/products（产品记录、变体生成、类目、销售渠道可见性）",
+        "官方仓库 metadata 与 README：shopware/shopware（131995661，MIT，可直接作为购物车系统）",
+        "辅助核对：docs.shopware.com 类目页（类目树组织）"
+      ],
+      "fetch_outcomes": [
+        "https://docs.shopware.com/en/shopware-6-en/catalogues/products → 抓取成功，快照 4d02ff468187",
+        "https://raw.githubusercontent.com/shopware/shopware/HEAD/README.md → 抓取成功，快照 614ee87582fa"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "product-information-management-pim",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:298274485"
+      ],
+      "query": "官方仓库直达：api.github.com/repos/atrocore/atropim、raw README（属性/渠道/分发）",
+      "source_urls": [
+        "https://raw.githubusercontent.com/atrocore/atropim/HEAD/README.md"
+      ],
+      "note": "修复初审问题：AtroPIM README 明确本仓库是 AtroCore 平台上的 PIM 模块，安装需先装 AtroCore 再叠加模块（两者同为 GPLv3）；README 证明可配置属性/关系/分类/渠道、变体与渠道取值，并向下游商店、市场、印刷目录与 ERP 分发。核心免费无功能墙，原生集成等 premium 模块另售。未部署验证。",
+      "service_boundary": "组织级产品内容主数据系统；本体为 AtroPIM 模块，需叠加 AtroCore 平台运行，治理属性、翻译与渠道分发，不承担交易或工程 PLM 职责。",
+      "search_attempts": [
+        "官方仓库 metadata：GET api.github.com/repos/atrocore/atropim（298274485，GPL-3.0）",
+        "候选比较：AtroPIM / Akeneo CE / Pimcore；Akeneo 与 Pimcore 的许可证为 NOASSERTION/POCL，AtroPIM 为明确 GPLv3 且有完整正文",
+        "正文核对：raw README（可配置属性/关系/分类/渠道、变体、下游分发、自托管无功能墙）",
+        "依赖边界复核（初审修复）：README 第 19 行与安装段要求先安装 AtroCore 再添加 PIM 模块，summary 与 service_boundary 已据此收窄",
+        "许可证边界复核：README 说明核心模块 GPLv3 免费无功能墙，premium 原生集成为商业许可"
+      ],
+      "fetch_outcomes": [
+        "https://raw.githubusercontent.com/atrocore/atropim/HEAD/README.md → 抓取成功，快照 2a602730a298"
+      ],
+      "archived": false
+    }
+  ]
+}

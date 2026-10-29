@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 batch.json、research.json 已记录 5 个 case_found 不一致；本次以 batch/research 的公开资料为准判定通过，建议流水线同步进度元数据以免下游漏索引。",
+    "DIS Quantum for Agriculture 同时提供 Cloud Hosting 与 On-Premise 两种部署；属于持续销售和运维的商业 DMS，不是纯多租户 SaaS，但软件服务形态成立，不影响类型判定。",
+    "GMS 首页正文能证明粮库票证、合同、库存、结算、市场数据接口及 Sage 50/QuickBooks 集成；质量折扣表、逐笔质量调整和完整结算工作流的细节未在首页展开，本次按商业条目基本真实性和核心类型匹配通过。",
+    "Croptracker Packing 是面向果蔬种植者与包装作业的农场管理平台中的 Packing 模块，并非独立包装厂套件；其页面正文已覆盖原料批次接收/关联、包装消耗与成品创建、剔除与库存变化、托盘/产品标签、仓储库位及发货/订单追溯，核心类型可成立。",
+    "FieldClock 首页明确覆盖农场与 FLC、班组/运营管理、工时与考勤、非生产时间、产量记录、离线采集、H-2A 合规与薪资输出；未在首页逐项展开地块/作物任务级排班，但农场用工锚定与记录型核心充分。",
+    "Bushel Trade 定位为收购侧报价、种植者 firm offers、接受锁价、合同定价与期货订单跟踪；实体保管、地磅票和结算按定义属于相邻粮库系统，当前边界清晰，不构成越界。",
+    "GMS 与 Croptracker 的检索曾遇 HTTP 401，研究记录已如实留档，并分别通过官方域名/官方 sitemap 与产品页正文完成核对；该查询缺口按任务规则可通过。",
+    "本单元 5 条均为 commercial track，未提供开源条目，因此无完整许可证、仓库身份和社区版边界可核；research.json 已记录未发现可核实的完整开源自托管替代品。"
+  ],
+  "leaf_checks": {
+    "agricultural-dealer-management": {
+      "application_id": "commercial:dis-quantum-ag",
+      "status": "pass",
+      "basis": "读取 DIS Quantum for Agriculture 官方产品页正文：面向农业设备经销商，覆盖整机/单元销售、零件与库存、服务工单、客户历史与跨部门客户视图、财务、多门店/多分支运营，并提供云端与本地部署；与经销店 DMS 核心（客户账户、序列化整机与零件库存、销售、服务工单）匹配。",
+      "gaps": "首页未逐项证明保修索赔、地板计划融资、劳动力类型分账等全部成熟能力；商业条目仅要求基本真实性与类型匹配，不阻断。"
+    },
+    "farm-labor-management": {
+      "application_id": "commercial:fieldclock",
+      "status": "pass",
+      "basis": "读取 FieldClock 官方首页正文：面向农场及农场劳务承包商，提供班组与运营管理、工时与考勤、非生产时间、产量/生产率记录、离线采集与同步、员工门户、H-2A 合规（Hours Offered、Three-Quarters Guarantees、工资单）及向薪资流程输出；符合农场用工记录系统的定义核心。",
+      "gaps": "首页未明确展示地块/作物任务级计划排班和计件工资底线计算细节；农场、班组、季节性用工与记录型核心已具备，不阻断。"
+    },
+    "grain-elevator-management": {
+      "application_id": "commercial:gms-grain",
+      "status": "pass",
+      "basis": "读取 GMS 官方首页正文：明确面向谷物升降机/粮库，提供自动票证（在线/批量）、合同管理（固定价、储存、DP 等）、自有与代储库存、月末合同市值、结算、市场数据接口、GrainView 种植者门户（票证、合同、库存），并支持 QuickBooks/Sage 会计交接；覆盖票证—合同—结算—库存核心。",
+      "gaps": "首页未展开质量折扣表和逐笔质量调整配置；结算与会计细节以概要呈现，商业基本真实性足够，不阻断。"
+    },
+    "grain-origination-platform": {
+      "application_id": "commercial:bushel-trade",
+      "status": "pass",
+      "basis": "读取 Bushel Trade 官方页面正文及结构化描述：面向粮食买家的收购/交易平台，支持数字现金报价、种植者报价与 firm offers、在线接受并时间戳锁价、合同定价、期货订单跟踪和统一仪表盘；符合收购侧报价—接受—合同—未定价承诺的核心。",
+      "gaps": "页面未完整展示未定价合同市值台账和逐合同剩余数量视图的界面细节；核心类型与身份成立，不阻断。"
+    },
+    "produce-packing-house-management": {
+      "application_id": "commercial:croptracker-packing",
+      "status": "pass",
+      "basis": "读取 Croptracker Packing 官方页面正文：其 Packing 模块记录原料批次到包装成品的转化，支持消耗原料库存并创建包装成品、记录剔除/修剪/干燥或仓储导致的库存变化、包装材料耗用、托盘与产品标签、仓储库位，并与 Harvest、Receiving、Storage、Shipping、Order Desk 关联实现批次谱系和发货追溯；符合接收批次—包装转化—批次谱系核心。",
+      "gaps": "该产品是农场管理平台中的包装模块，主要面向果蔬种植者与包装作业，不是独立包装厂 ERP；分级/尺寸决策细节未在页面展开，但包装转化与追溯核心明确，不阻断。"
+    }
+  },
+  "limits": "本次仅只读核对本单元 5 个叶子、5 条商业条目及 REVIEW_SOURCES.json 指定的 5 份官方快照；未运行产品、未登录验证后台工作流、未独立计算快照 sha256（仅核对快照路径、文件名与登记哈希一致），未检索开源仓库/许可证（本单元无开源条目），未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-201/ses_groveopencodegop201review1_1793025363.jsonl",
+  "batch_sha256": "395996e10c855fd763061802376ba498e7052474155cb93b07c9f9a1b5ce39ff",
+  "research_sha256": "c36cc2ee7d106c298098f2a039eb0d0d4fa88776aaeb40b7bbada725365edf9e",
+  "input_sha256": "3f98003ac1589ab2b1563d5879576d188886827f4553d9d1ff3a6bbc9417c85e"
+}

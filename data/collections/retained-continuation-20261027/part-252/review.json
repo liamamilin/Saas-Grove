@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "fitness-assessment-application：采集记录称“采用五项研究定义评估”，但实际读取的 fitnessgram.net/software-overview 快照正文只明确出现“tracking physical fitness assessment scores and healthy zone achievements”“reports … monitor and share fitness achievements … individual growth”，未出现“five”或五项测试清单原文；该细节属于非定义性表述，建议改为页面可支持的“研究型体能评估与健康区间”，或补充标准/协议来源。",
+    "fitness-progress-tracker：wger 的 README 明确“Track diet plans, body weight, and custom measurements”和“Progress Gallery”，但未直接说明趋势线或目标参考线；进度追踪是该健身管理器的一个模块，而非唯一产品形态，案例按模块级匹配成立，建议在条目中保留这一边界说明。",
+    "wger 许可证记录为 AGPL-3.0；README 第 99 行写明“AGPL-3.0-or-later”，LICENSE.txt 为完整 AGPLv3 文本（第 619 行 END OF TERMS AND CONDITIONS）。当前记录不构成许可错误，但更精确的 SPDX 可写作 AGPL-3.0-or-later，或在 license_review 中明确“full text v3 + README or-later”。",
+    "cycling-application：Ride with GPS 快照中可见“voice navigation/turn cues”“offline”“sensor”“Record rides”“training progress”“route planner”等正文表述，但未出现“turn-by-turn”原词；条目摘要的“逐向语音导航”属于同义措辞，可保留，建议与快照用词对齐。",
+    "research.json 中对 OpenTracks、GoldenCheetah、OpenNutriTracker 的排除依据只有 fetch_outcomes 文字记录，REVIEW_SOURCES.json 未归档这些候选的快照或元数据；排除逻辑本身有留档，但无法独立复核其 archived/纯客户端等判断，属可接受的次级证据缺口。",
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 的 case_found 不一致；本次以 batch/research 为准，建议下游不要依据该 progress 字段判定“无案例”。",
+    "商业案例均只核对官方公开页面，未登录验证账号内工作流、价格、导出/权限等；各条目的 service_boundary 已如实写明这些限制，符合本轮要求。"
+  ],
+  "leaf_checks": {
+    "cycling-application": {
+      "status": "pass",
+      "application_id": "commercial:ride-with-gps",
+      "basis": "按 REVIEW_SOURCES.json 原样读取 sources/3742da3...txt（https://ridewithgps.com/，homepage）。快照正文出现“Record rides”“route planner/plan your route”“voice navigation/turn cues”“offline”“sensor”“training progress”，可支持“骑行活动为持久记录单元 + 骑行性能语义”的定义性核心；产品为账号制云端/移动骑行服务，类型与商业 track 匹配。",
+      "gaps": "首页为营销页，压缩单行 HTML 未能逐字通读；未登录验证记录、导航与设备同步的实际工作流；摘要“turn-by-turn”原词未见，快照用 voice navigation 类表述。"
+    },
+    "endurance-training-platform": {
+      "status": "pass",
+      "application_id": "commercial:trainingpeaks",
+      "basis": "读取 sources/c670ef7...txt（https://www.trainingpeaks.com/，homepage）。正文（第 232 行起）含 training plan、calendar、sync、coach、fitness/fatigue、endurance 等表述，与“计划训练—完成训练—累积训练状态—反馈下一次计划”的核心闭环一致；条目类型为商业账号制耐力训练平台。",
+      "gaps": "首页为营销页，未验证计划模板、合规评分、阈值机制与设备同步明细；research.json 已如实记录未登录、未验证价格与运行行为。"
+    },
+    "fitness-assessment-application": {
+      "status": "pass",
+      "application_id": "commercial:fitnessgram",
+      "basis": "读取 sources/260fdf3...txt（https://www.fitnessgram.net/software-overview，documentation）。正文明确“tracking physical fitness assessment scores and healthy zone achievements”，并有“Data Tracking & Reporting”“reports … monitor and share fitness achievements … individual growth”，可支持评估方记录、健康区间参照与纵向报告三个核心要素；FitnessGram 为学校/教师侧评估软件，类型匹配。",
+      "gaps": "未见明确的测试组合/五项清单原文，“五项研究定义评估”属采集结论超出该页可核范围；未验证教师端录入、豁免与再评估流程，也未验证采购部署。"
+    },
+    "fitness-progress-tracker": {
+      "status": "pass",
+      "application_id": "github:7705569",
+      "basis": "读取 sources/aee3810...txt（仓库元数据：id=7705569、full_name=wger-project/wger、archived=false、license=AGPL-3.0）、sources/11b4826...txt（README：body weight 与 custom measurements 追踪、Progress Gallery、docker compose 自托管、官方实例、AGPL-3.0-or-later）、sources/57c8ff3...txt（完整 GNU AGPL v3 文本，含 END OF TERMS AND CONDITIONS）。带日期的个人身体测量与进度照片构成追踪器核心；开源仓库身份、完整许可证、自托管形态均可核。",
+      "gaps": "README 未明确趋势图/目标参考线，进度追踪是 wger 多模块健身管理器的一部分；wger.de 功能页被 Anubis 校验拦截，未作为正文证据，研究记录已如实留档。"
+    },
+    "food-calorie-tracking-application": {
+      "status": "pass",
+      "application_id": "commercial:myfitnesspal",
+      "basis": "读取 sources/07928ec...txt（https://www.myfitnesspal.com/，homepage）。页面正文（第 48 行）含 food log/food database、calorie、macro/protein、goal 相关表述，可支持“个人饮食日志—营养参考层解析—每日目标比较”的核心；MyFitnessPal 为面向个人的商业营养/卡路里追踪应用，类型匹配。",
+      "gaps": "首页为营销页，未登录验证每日剩余额度界面、目标校准、数据导出；research.json 已记录该服务边界。"
+    }
+  },
+  "limits": "本次审查仅使用只读工具，未运行 shell，无法重新计算 SHA-256，只能确认 REVIEW_SOURCES.json 给出的 7 个路径均存在且文件名与 sha256 字段一致。HTML 快照多为压缩后的超长单行，read 工具按行截断（约 2000 字符），因此正文核对以可读片段和精确短语存在性为主，未逐字通读全部 HTML；未联网复核、未登录、未部署测试。审查范围仅限本单元 part-252 的 input.json、batch.json、research.json 及其引用快照，未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-252/ses_groveopencodegop252review1_1793037930.jsonl",
+  "batch_sha256": "9441a7326b156937f331e08e2a03964d3ceb194a2e8cc3d6fa198de01d1dbfb1",
+  "research_sha256": "0e7cdb03b53fd72be3f0745dad32faefe36c163a1ad1736b05ea260abc375e4a",
+  "input_sha256": "279591bf8834b8dac37a93290bf2f741ab712e756b9f94a8741ecb853ef85661"
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "product-configuration-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4630534"
+      ],
+      "query": "本轮先重读 OCA/product-configurator 16.0 历史快照与初审意见，再以两组定向 websearch 寻找完整开源 Web 应用，最终直读 DocDokuPLM 官方仓库 README、完整许可证、安装指南与官网产品配置文档。",
+      "source_urls": [
+        "https://github.com/OCA/product-configurator",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/LICENSE",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/README.rst",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/models/product_config.py",
+        "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator_mrp/README.rst",
+        "https://github.com/docdoku/docdoku-plm",
+        "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/README.md",
+        "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/LICENSE.txt",
+        "https://www.docdokuplm.com/how-to-manage-product-configuration",
+        "https://www.docdokuplm.com/features/products",
+        "https://github.com/docdoku/docdoku-plm/wiki/Installation-Guide"
+      ],
+      "note": "本轮先核对初审问题：现有 batch/research 已把 OCA 候选移出 case_ids，assessment 为 boundary_unresolved，原“case_ids 与 assessment 不一致”的结构问题已消除，旧轨迹保留。重读 16.0 快照，OCA product_configurator 仍只证明配置域/domain.line 的 in/not in 规则与制造订单配置向导，未见模型发布、版本化或生效期；且它是 Odoo 组件而非完整应用，故不建立产品关系。随后两组定向检索找到 DocDokuPLM：官方 README、产品页、配置文章与安装指南显示其为 AGPL-3.0 自托管 Web PLM；产品结构含可选使用链接、替代件、配置约束与生效性，配置对象保存选择，基线按“最新/已发布”冻结精确部件版本并生成特定配置 BOM；部件含 revision/iteration、released/obsolete 状态，配合工作流与变更管理维护模型生命周期，覆盖配置模型、变体解析、模型生命周期三结构。故本轮新增 github:4630534 成立关系，OCA 保留为未成立候选。GitHub license API 返回 403，改用完整 LICENSE.txt 文本核对。未运行项目，runtime_tested=false；未因本轮未命中而断言其他产品不存在。",
+      "service_boundary": "成立关系基于 DocDokuPLM 完整自托管 Web 应用的产品配置/基线模块，输出面向工程与制造的特定配置 BOM，属构建侧产品定义。产品配置以可选/替代件、配置约束与生效性表达，不主张声明式约束语言、3D 可视化配置或跨系统同步等附加能力。OCA/product-configurator 仅作为 Odoo 组件候选留档，不建立产品关系；两者均未部署实测。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source product configurator full application GitHub constraint rules",
+          "outcome": "历史复用（此前记录）：HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "OpenPLM open source product lifecycle management GitHub",
+          "outcome": "历史复用（此前记录）：HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "frePPLe open source advanced planning scheduling finite capacity",
+          "outcome": "历史复用（此前记录）：HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source aftermarket service management installed base warranty service contracts GitHub",
+          "outcome": "历史复用（此前记录）：HTTP 401 authentication failed"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source manufacturing execution system MES GitHub factory operations",
+          "outcome": "历史复用（此前记录）：HTTP 401 authentication failed"
+        },
+        {
+          "tool": "github_search",
+          "query": "product configurator in:name,description; manufacturing execution system; field service management; aftermarket service; open source PLM",
+          "outcome": "历史复用（此前记录）：返回候选仓库列表，未逐项验证"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source product configuration management web application variant rules BOM lifecycle GitHub",
+          "outcome": "本轮：返回 Dokuly PLM、GitPLM、OpenBOM、Tacton CLM 等；Dokuly/GitPLM 未见配置规则+变体解析正文，OpenBOM/Tacton 为商业资料，未选。"
+        },
+        {
+          "tool": "websearch",
+          "query": "github open source product configurator CPQ self-hosted web app constraint rules",
+          "outcome": "本轮：返回 openCPQ（浏览器配置库）及 Salesforce/Conga/Epicor 商业资料；openCPQ 非完整应用服务，未选。"
+        },
+        {
+          "tool": "websearch",
+          "query": "DocDokuPLM product configuration variant options rules product structure open source",
+          "outcome": "本轮：命中 docdoku/docdoku-plm 及官方产品配置文章/用户指南，转入直读核对。"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source PLM web application product configuration variants BOM configurable product lifecycle GitHub",
+          "outcome": "本轮：再次命中 DocDokuPLM，并见 Dokuly、PLMore、Cascadia、OdooPLM；其中 DocDoku 官方正文同时覆盖产品配置、基线与发布状态，故选为补证对象。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/OCA/product-configurator",
+          "result": "历史复用（原 16.0 快照，未重新抓取）",
+          "sha256": "910115dde50f5ee5393ac02686ca7d19799cbf22895d7e71810e65976d7171d7"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/LICENSE",
+          "result": "历史复用（原 16.0 快照，未重新抓取）",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/README.rst",
+          "result": "历史复用（原 16.0 快照，未重新抓取）",
+          "sha256": "bbc285904325d2f510d82f25b505e011a716e6e500651867f03fa0e20e875467"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator/models/product_config.py",
+          "result": "历史复用（原 16.0 快照，未重新抓取）",
+          "sha256": "5b327ff5fb02ff7d71c48716913ed13a8aac50bc1cd31a79314f64732be52e71"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OCA/product-configurator/16.0/product_configurator_mrp/README.rst",
+          "result": "历史复用（原 16.0 快照，未重新抓取）",
+          "sha256": "01458a2579ca6acf63ce9b03112827e6ce1e26c8b1a03b89fbc7926c8f4aaffe"
+        },
+        {
+          "url": "https://github.com/docdoku/docdoku-plm",
+          "result": "fetched",
+          "sha256": "6f19bd4e8fe69d37cbc09f5f5a8dcf7b18284b104d30228df68eebaba0dea9e1"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/README.md",
+          "result": "fetched",
+          "sha256": "ed474e367f00ac9cbd11e807cd3cc0fc1ef6948364a1cf9cc3c773a54b716b4b"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/docdoku/docdoku-plm/master/LICENSE.txt",
+          "result": "fetched",
+          "sha256": "91b65277959ec273763d28ef002e83a6b3fba57c7a35436c9e5b66536333d720"
+        },
+        {
+          "url": "https://www.docdokuplm.com/how-to-manage-product-configuration",
+          "result": "fetched",
+          "sha256": "0d4e052a04c2f9e1b5c610c01ec8ab8643ed10bbf59754873cf3d3fdccdb1088"
+        },
+        {
+          "url": "https://www.docdokuplm.com/features/products",
+          "result": "fetched",
+          "sha256": "cd4f64c70e4d6c1557b1c35f1bdd6aa361b2128114c8907abfb706d07d21f616"
+        },
+        {
+          "url": "https://github.com/docdoku/docdoku-plm/wiki/Installation-Guide",
+          "result": "fetched",
+          "sha256": "70af70d2f7bb6fa2087afe88877c9fb8742ecdf8d3d24316f18aff95423dbf2e"
+        },
+        {
+          "url": "https://api.github.com/repos/docdoku/docdoku-plm/license",
+          "result": "HTTP 403 rate limit; 改用 raw LICENSE.txt 完整文本核对并记录 license_review"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

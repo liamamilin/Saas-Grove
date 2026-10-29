@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "meeting-notes-application",
+      "application_id": "commercial:fireflies",
+      "issue": "research.json 的 meeting-notes-application 记录称已归档的 Pre-Meeting Setup 快照（data/collections/sources/818c1569…txt）正文包含“Meeting Prep 从日历邀请描述取议程”，但实际读取该快照只见会前账号设置、自动加入、录制规则、合规通知、集成等配置内容；全文检索不到 agenda、Meeting Prep、calendar 等表述，invite 仅出现在 invite-only 的自动加入设置中。该断言不能作为排除会议记录类型的证据。",
+      "fix": "删除该断言，或改为引用真正包含“从日历邀请读取议程”内容的快照。meeting-notes-application 的 insufficient_evidence 结论可仅依据已归档的 Notepad 与 Summaries 正文重述：Notepad 正文将 AI summary、full transcript、video recording、action items 汇于会议工作区，Summaries 的 Meeting Notes/Action Items 为 AI 生成小节，均未呈现人工撰写的议程—决策结构。批次条目的 leaf_matches 不受影响。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Fireflies 同时命中 ai-meeting-assistant 与 meeting-recording-transcription-application，符合两层定义（AI 理解层叠加在录制/转录/持久库之上）；关系元数据宜显式说明这是同一产品的双重类型，而非两个独立案例。",
+    "Slido 兼具 Audience Response System 的现场互动特征（Present mode、主持驱动的会议/活动场景）；其快照仍能证明 poll 的问题+预置选项、低摩擦分发、聚合结果三要素，故不阻断，但类型说明应交代与 ARS 的边界。",
+    "research.json 称 Slido live polling 快照为“166,464 字节单行 HTML（不是 2 行）”，实际读取为至少两行；正文短语确在快照中，故仅需更正描述。",
+    "input.json 的 progress 仍将全部叶子标为 case_status=not_searched、application_ids 为空，与 research.json 中 ai-meeting-assistant、meeting-recording-transcription-application、polling-application 的 case_found 不一致；若 progress 是交付物的一部分，应同步。",
+    "两条 included 案例均为商业产品，open_source_search 写“优先开源”但没有记录开源负向检索；若单元政策要求开源优先，应补记检索尝试或明确接受商业范围。",
+    "Fireflies 批次摘要把“应用内截止日期字段未在已存档正文中证实”写进产品摘要，透明度好，但更像审查注记；可移到边界说明，摘要只保留产品能力。"
+  ],
+  "leaf_checks": {
+    "ai-meeting-assistant": {
+      "status": "matched",
+      "application_id": "commercial:fireflies",
+      "basis": "What is Fireflies 快照正文说明 bot/Chrome/desktop/mobile 捕获、上传音视频、带 speaker labels 的 transcript、AI summaries、action items 与 search；Summaries 快照正文含 Action Items 小节并与相关 speakers 关联、可定制或 regenerate。真实会议、系统捕获、机器生成的转录+理解三层均成立。"
+    },
+    "meeting-action-item-management": {
+      "status": "no_case_gap_documented",
+      "application_id": null,
+      "basis": "Fireflies Tasks Feed 快照正文可证自动/手动建任务、指派给本人/同事/参会者/用户组/邮件地址、重指派、勾选完成/撤销、My Tasks/All Tasks；整页仅在 Edit a Task 段落出现一次 deadline，没有到期日字段、日期选择器或逾期提示。两次查询与缺口已记录，按边界未决留档。"
+    },
+    "meeting-notes-application": {
+      "status": "no_case_gap_documented_note_needs_correction",
+      "application_id": null,
+      "basis": "Fireflies Notepad 快照正文只呈现 AI-generated summary、full transcript、video recording、analytics、action items，可 review/edit/share/send notes；Summaries 的 Meeting Notes/Action Items 为 AI 生成小节；未见人工撰写的议程—决策结构。排除结论可成立，但 research note 中 Pre-Meeting Setup 的议程断言与快照不符，需按 finding 修正。"
+    },
+    "meeting-recording-transcription-application": {
+      "status": "matched",
+      "application_id": "commercial:fireflies",
+      "basis": "What is Fireflies 快照正文列 bot/Chrome/desktop/mobile 录制与音视频上传、自动转录；Notepad 快照正文将 AI summary、full transcript、video recording、action items 汇于按会议打开的 Notepad，Meetings tab 可浏览近期会议并链接搜索会议。捕获+转录+持久可检索库三层成立。"
+    },
+    "polling-application": {
+      "status": "matched",
+      "application_id": "commercial:slido",
+      "basis": "Slido 官方社区帮助快照正文含 Select Multiple choice、Type in your question and answer options、Hit Start to run your poll instantly、Present mode、results displayed as percentages；官方 live polling 页快照正文含 predefined options/prevailing answer、link or QR code、real time、export to Excel/PDF/Google Sheets。问题+预置选项、低摩擦分发、聚合结果三项成立。Slido 的 ARS 邻接性见 non_blocking_notes。"
+    }
+  },
+  "limits": "只读审查；未运行产品、未做部署或交互测试。快照为 HTML，关键正文位于超长行，读取工具按约 2,000 字符截断，因此部分正文通过针对性短语检索确认存在，并以同 URL 的公开页面文本作结构交叉核对，未逐字通读整行；交叉核对不替代快照证据。未计算 SHA-256（无 shell），仅核对路径/文件名与 REVIEW_SOURCES.json 一致；未读取其他单元。本单元无开源条目，完整许可证与社区版边界检查未实际触发。除同 URL 交叉核对外未扩展抓取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-014/ses_groveopencodegop014review1_1792939802.jsonl",
+  "batch_sha256": "65790e989823d85ec75a8c100339a292010a45dc83d078263277d86b5257529f",
+  "research_sha256": "ef62be60cf0d3c56810b1e1dcff6e766b110175f43ff9a9fdc5cb92d9634627e",
+  "input_sha256": "af3b1e4189f6f9d4e9addb75cb2ffe009ac417bbfdf48078921af7ab222dc8e1"
+}

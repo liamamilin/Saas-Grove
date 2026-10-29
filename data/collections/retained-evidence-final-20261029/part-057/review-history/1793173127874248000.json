@@ -1,0 +1,56 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "typeface-design-application",
+      "application_id": "github:136254950",
+      "issue": "batch.json 的 leaf_matches 称四项定义性属性“均有官方正文段落支撑”，并列出 features、import-export、editing、kerning、open-project 等帮助页；但 REVIEW_SOURCES 中这六份帮助页快照（a9cfafef、3d85524c、95e5cc80、3c63939d、3c007b69、99cef03f）实际都是 VitePress 单页外壳，只含 title、导航、资源预载与 __VP_HASH_MAP__/__VP_SITE_DATA__，没有文章正文。因此，在可读的保留快照中，“持久字体项目”“带字符映射的字形集”“在字体自身几何上直接绘制并调整间距”这三项缺少正文依据；只有字体文件生成可在首页“Export fonts / Generate ready-to-use font files”与 README 的 OTF 导入导出表述中得到较弱的支持。",
+      "fix": "补抓帮助页渲染后的正文，或 Help 仓库对应 markdown 原文（about/features、getting-started/import-export、getting-started/editing、pages/kerning、pages/open-project、pages/characters），按四项属性逐条落到快照；在此之前，把 leaf_matches 与 research 的 case_found 降为 boundary_unresolved，并在留档中写明缺口，不保留“四项均有正文支撑”的结论。"
+    },
+    {
+      "slug": "typeface-design-application",
+      "application_id": "github:136254950",
+      "issue": "batch 的 summary 与 features 列出多项保留快照不支持的具体能力：.gs2 项目文件、自动保存与恢复、kern 组编辑、连字与可复用组件、按 Unicode 码位新增或隐藏字符、实时文本预览、TTF/WOFF/WOFF2 导出。这些细节只出现在帮助页标题、侧边栏条目、资源文件名或页面路径中，正文并未保留；首页只笼统写到排版工具、合并字形、导入 SVG/OTF/TTF/WOFF、导出字体。以导航和页面标题充当能力证据不满足核心工作流证据要求。",
+      "fix": "按可读证据裁剪 summary/features，只保留首页与 README 明确表述的浏览器内运行、导入、矢量编辑、合并字形、导出字体文件；其余条目在补到正文证据后逐条加来源（URL + 快照片段），否则删除。"
+    },
+    {
+      "slug": "typeface-design-application",
+      "application_id": "github:136254950",
+      "issue": "research.json 的 service_boundary 写“官方明确不支持可变字体、多母版插值、OpenType 高级特性”等，但这些不支持项同样只来自 features 页外壳；快照中没有可读的“支持/不支持”清单。把无法核对的范围声明写进边界，会让边界看起来已被官方正文确认。",
+      "fix": "补抓 features 页渲染正文或 markdown 源文后再保留这些不支持项；否则把 service_boundary 收缩为“仅有首页与 README 可支持的浏览器端编辑与字体导入导出”，并把不支持项移入未核实缺口。"
+    },
+    {
+      "slug": "typeface-design-application",
+      "application_id": "github:136254950",
+      "issue": "license_review.rationale 称“官方 Licensing 文档同样声明应用以 GPL 3.0 发布”，但 licensing 页快照只有标题与外壳，没有该声明正文；README 中的 GPL 3.0 链接还指向 mattlag/Glyphr-Studio（v1 仓库），不是当前仓库的许可证文件。许可证结论本身有独立依据：仓库根 LICENSE-gpl-3.0.txt 快照含完整 GPLv3 标题、0–17 条与 END OF TERMS AND CONDITIONS，README 也自述 GPL 3.0。问题在于理由引用了不含正文的页面。",
+      "fix": "把 rationale 改为以仓库根 LICENSE-gpl-3.0.txt 完整正文和 README 的 GPL 3.0 声明为依据；若保留 Licensing 页作为佐证，需补渲染正文快照。SPDX 可维持 GPL-3.0，或按无“or later”表述写 GPL-3.0-only。"
+    }
+  ],
+  "non_blocking_notes": [
+    "身份与 track 一致：github:136254950 对应 glyphr-studio/Glyphr-Studio-2，仓库元数据快照显示 id 136254950、full_name 匹配、default_branch 为 main、archived 为 false；track 记为 open_source，与 GPL-3.0 许可证相符。",
+    "社区版边界未单独记录。现有材料显示应用本体整体以 GPL-3.0 发布，未发现付费版或开放核心分层；FontFlux JS、帮助站与已弃用的 v1 属于相邻项目或历史分支，建议在条目中显式写明“社区版即完整应用仓库，无商业版边界”，以免边界含义含糊。",
+    "浏览器形态有首页与 README 支持（100% in-browser、免注册、构建产物可无后端运行）；但 /app/ 抓取只得到外壳与加载提示，未作为能力证据，属于已如实记录的缺口。条目宜表述为“可在线使用或自托管的静态 Web 应用”，不要暗示已核实托管实例可用。",
+    "首页属于营销文案，可支持产品形态与“从浏览器生成字体文件”的一般表述，但不能替代编辑、字距、项目保存等内部工作流正文；后续补证应优先用文档正文而非首页特性卡片。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids 为空，而 research 标为 case_found；这是采集前后的状态差异。若最终保留案例，应同步 progress/application_ids；若撤回，应同步 research 与 batch。",
+    "runtime_tested=false 不构成阻断；本次审查也未要求部署测试。"
+  ],
+  "leaf_checks": {
+    "typeface-design-application": {
+      "slug": "typeface-design-application",
+      "definition_core": "未充分核对通过。持久字体项目：仅 README 提到 multi-project editing 与跨项目复制/合并，未证明保存、重开、自动恢复；字符映射字形集：仅首页“Combine glyphs”与截图文件名，未证明 Unicode 码位映射或字符清单；在字体几何上直接绘制：仅首页“Vector editing tools”泛述，未证明 em 坐标、基线、advance width、贝塞尔路径点/手柄；字体文件生成：首页“Export fonts”与 README 的 OTF 导入导出可支持一般性导出，但 TTF/WOFF/WOFF2 无正文依据。",
+      "service_form": "浏览器内运行、免注册、可自托管静态构建，有首页与 README 支持；属于可持续使用的 Web 应用形态，但托管实例本身未验证（/app/ 仅外壳与加载提示）。",
+      "identity_track": "通过。github:136254950、glyphr-studio/Glyphr-Studio-2、open_source、default_branch=main、未归档，与 batch/research 一致。",
+      "license": "许可证结论通过。仓库根 LICENSE-gpl-3.0.txt 为完整 GPLv3 正文（含 0–17 条与 END OF TERMS AND CONDITIONS），README 声明 GPL 3.0；license_review 中对 Licensing 页的引用不成立，需修正理由。",
+      "community_boundary": "未明确记录。未发现商业版分层；建议补充“完整应用仓库即社区版”的边界说明。",
+      "evidence_read": "已读 batch.json、research.json 及 REVIEW_SOURCES 列出的 10 份快照：仓库元数据 c156e133、LICENSE 4d383a04、README 1db6fe51、首页 d4f24343、features a9cfafef、licensing 3d85524c、import-export 95e5cc80、editing 3c63939d、kerning 3c007b69、open-project 99cef03f。",
+      "gap": "六份帮助页均为客户端渲染外壳，正文未保留；因此三项定义性属性与多项功能细节、服务边界不支持项无法从保留快照核对。",
+      "result": "证据不足，不能确认该案例成立；需补正文证据，或按 boundary_unresolved 保留案例缺口。"
+    }
+  },
+  "limits": "仅做只读审查，未运行 shell、未写文件、未部署或运行 Glyphr Studio；未联网补抓页面，仅使用 REVIEW_SOURCES.json 指定路径的快照。帮助文档快照为 VitePress 单页外壳，正文由客户端脚本加载，保留文件内无文章内容；长单行 HTML 在读取时被截断显示，因此对文档页使用全文检索核对，未对未列入 REVIEW_SOURCES 的其他快照（如 /app/、help 导航、Glyphs 旧快照）作证据认定。无法在本次审查中判断渲染后文档的实际文字，也无法验证托管实例当前可用性或运行时行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-057/ses_groveopendesignp057review1_1793172399.jsonl",
+  "batch_sha256": "8abbc1d2ed373a20bfb8c8877073252bd72ccd7c3522a54b1631fbe062af662d",
+  "research_sha256": "7615bb436231c9daa9ed385b4b523f6b90bdfa1825e1e29d3a91277827632f59",
+  "input_sha256": "0d13c9d49070876b41d4c34b572431c176b71b897f46136e75f2e20519ef3210"
+}

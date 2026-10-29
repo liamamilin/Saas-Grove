@@ -1,0 +1,47 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍把 inspection-metrology-software 标为 boundary_unresolved，且 application_ids 为空；batch.json/research.json 已记录 github:1333252617 的 case_found。建议归档时同步叶子状态，避免调用方把旧种子状态当成最终状态。",
+    "批次摘要把 GD&T 概括为“形状/方向/位置”；手册的 location 类实际列出同轴度、同心度，位置度和圆跳动仍在 roadmap。建议限定为“同轴度/同心度等位置公差”，避免读者误以为已支持位置度。",
+    "手册说明形位公差值采用 Gaussian 拟合的峰峰值，ISO 最小区域值只会更小；“按 ISO 1101”宜表述为采用 ISO 1101 的特征/公差框架，或注明评估方法，避免被读成完整 ISO 1101 符合性认证。",
+    "technology_stack 中的 TypeScript 未出现在 README/manual 快照正文里；README 只明确 Vite + React + three.js 和 Web Worker。建议核实后保留，或删去未证实的条目。",
+    "3D 检验输出主要是 .scanruler 本地工程加剪贴板纯文本 summary/report；未看到版本化检验计划或零件 ID 模式。作为轻量零件级记录成立，但不宜表述为完整 QMS/审计追踪。",
+    "官方托管实例与闭源附加工作区均由 README 正文支持，未单独抓取 scanruler.com 首页；不影响核心判断。",
+    "本单元批次只有开源条目；PolyWorks|Inspector 等商业候选仅在 withheld 留档，本次未作商业真实性/类型结论。",
+    "research.json 已如实记录 first article inspection 查询未完成、OpenIndy 文档抓取失败等缺口；这些留档缺口不影响 ScanRuler 的核心证据，但检索结论不应表述为穷尽。"
+  ],
+  "leaf_checks": {
+    "inspection-metrology-software": {
+      "result": "pass",
+      "application_id": "github:1333252617",
+      "track": "open_source",
+      "definitional_core": "四结构均有正文证据：①名义参考——README 明确可将 nominal part 作为 mesh 或 CAD STEP 载入，manual 的 Dimensions 支持为尺寸输入 nominal 与 +/− tolerance，GD&T 支持 limit；②实测几何——STL/PLY/OBJ/3MF/STEP 扫描、PNG/JPEG flatbed 图像及 section 均可作为被测几何；③几何评估——manual 的 Align part（3-2-1）、Auto-align、Deviation 的 ICP 最佳拟合，以及球/圆柱/圆锥/圆环/平面/圆拟合、距离/角度尺寸和 signed deviation 色图；④零件级记录——.scanruler 工程保存扫描、参考与 project.json 中的元素/尺寸/对齐/计数/设置，Copy summary/Copy report 输出 PASS/FAIL 与计数，2D 另有 CSV/SVG/DXF。核心闭环成立。",
+      "service_form": "README 第 3 行写明可在 https://scanruler.com/ 直接使用、无需安装；第 16–17 行写明全部在浏览器本地处理；COMMERCIAL 说明浏览器应用放到 Web 服务器即属通过网络提供服务；README 的开发段说明是 Vite + React + three.js 静态构建。因此它是官方托管且可自托管的完整 Web 应用，不是桌面客户端；无多租户后端不影响本单元对 Web 应用服务形态的认定。闭源的 Reverse engineer/Mesh Tools 未作为服务形态或核心证据。",
+      "identity_track": "batch 的 id github:1333252617 与仓库元数据 id=1333252617、full_name=CNCKitchen/ScanRuler 一致；fork=false、archived=false、default_branch=main；track=open_source 与仓库、README、COMMERCIAL 的 AGPL 开源定位一致。各快照路径与 REVIEW_SOURCES 的 sha256 字段对应。",
+      "license": "REVIEW_SOURCES 的 license 快照是 GitHub license API 响应，含 size=34523 的 LICENSE 载荷；解码开头为 GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007，不是仅有 SPDX 元数据；API 的 spdx_id 为 AGPL-3.0。README 的 License 段与 COMMERCIAL 均明确 AGPL-3.0-only，并说明可修改、自托管、再分发及网络提供服务时的源码义务。",
+      "community_boundary": "README 明确仓库内是 3D Measure、Deviation、Wall thickness、2D Measure 四个工作区；Reverse engineer 与 Mesh Tools 只在 scanruler.com 提供且闭源，不属于本仓库、不受其许可证覆盖；COMMERCIAL 说明闭源嵌入或修改后不公开源码的托管需商业许可例外，并列出字体 OFL 1.1、viridis MIT、商标不在 AGPL 范围内的边界。开源核心足以覆盖本叶检测闭环，闭源附加项属于相邻的逆向建模/网格编辑。",
+      "record_note": "零件级记录成立但为轻量形态：工程文件是本地 .scanruler，3D 报告为剪贴板纯文本；未见版本化检验计划/程序对象与零件 ID 模式，故不宜延伸为完整 QMS。",
+      "evidence": [
+        "data/collections/sources/5e7a301b965c694ec7a19a75c961a9c7dd00a22ae7f99fef4dc51a7fddd8dcb9.txt（仓库元数据；id/full_name/archived/default_branch/license）",
+        "data/collections/sources/721cabb6505faa8dc84710cf5ea8f819b5833eaba7574fe74345bfc49271a007.txt（README 正文；托管、四工作区、文件格式、对齐/拟合/公差/GD&T、工程与报告、许可证）",
+        "data/collections/sources/5a38bd223933003062372a459b4ad4bcf559667f2d4ea17ddc9701bbabb035a8.txt（manual 正文；3D Measure、Dimensions、GD&T、Align part、Deviation、Projects、2D Measure）",
+        "data/collections/sources/51a22bd54b7530770840ee74ba2f67d801b233fcd04b34c21fe03ec25186dd3d.txt（license API 响应；完整 AGPLv3 载荷）",
+        "data/collections/sources/ed5fe121dba3b83d873089fe22995e2e27d8257e30e4d5e5286756573039f439.txt（COMMERCIAL；AGPL-3.0-only、自托管/网络义务、商业例外与边界）"
+      ],
+      "gaps": [
+        "未运行应用或构建，未做运行时验证。",
+        "未读取仓库源码树/依赖，开源核心与闭源附加项的技术隔离只能依据 README/COMMERCIAL 声明。",
+        "未单独抓取 scanruler.com 首页；托管实例由 README 正文支持。",
+        "input.json 的叶子状态仍是 boundary_unresolved/无 application_ids，与 batch/research 的 case_found 不一致。",
+        "research.json 中历史 withheld 候选（PolyWorks、Open2DMeasure、OpenIndy 等）的旧快照未在 REVIEW_SOURCES 提供，未独立复核其排除理由。"
+      ]
+    }
+  },
+  "limits": "只读审查，仅依据本次提供的本地快照与 batch.json/research.json；快照按 REVIEW_SOURCES.json 的 path 原样读取。未运行 ScanRuler、未构建、未访问实时站点，也未读取仓库源码树、依赖或 CI 配置；未独立复核未提供的旧候选快照，故对 withheld 商业/历史候选不作真实性结论；input.json 的进度与批次状态存在差异，结论以实际读到的 batch/research 与快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-143/ses_groveopencodegop143review1_1793249428.jsonl",
+  "batch_sha256": "32189023169de7063705e0496e7827f7e1c431b3e05d5813672ef0f0e247eb70",
+  "research_sha256": "0ce2294e64f30f0d13cf19e4b9019f437ecc403f2e622fd886a74580f02b19b5",
+  "input_sha256": "50a8df9f79d30b6edb7b1a25787f083cb02bd93a67c54b88a48f27813ba6b7ca"
+}

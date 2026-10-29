@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 review_pending 且 application_ids 为空，与 batch.json、research.json 中的 case_found 及具体 application 不一致；批准后应同步叶进度和关联 ID。",
+    "NetBox 整体是网络 source-of-truth/DCIM 产品，本叶只采用其 IPAM 模块的官方文档作为依据；条目不宜把 NetBox 表述为纯 IPAM 产品。",
+    "Traefik 是反向代理/数据面负载均衡器，管理面是动态配置、API 与 Web UI，不是第三方硬件负载均衡器的管理平台；按本叶“操作员配置负载均衡”的口径可以通过，但该边界应保持明确。",
+    "OpenWISP Controller 主要面向 OpenWrt 设备，监控、固件升级等属于生态内其他模块；本叶仅依据设备配置管理与 SSH 推送能力。",
+    "Tangoe 的证据来自厂商产品页、指南页和宣传材料，并包含托管服务措辞；商业条目仅做基本真实性与类型匹配，未独立核验计费工作流、价格或部署。",
+    "ShareArchiver 的备份、灾难恢复、勒索软件防护属于相邻能力，不应作为本叶核心依据；其归档目标、策略转换、stubbing/restore 证据已足够。",
+    "NetBox 许可证使用 GitHub license API JSON 快照，正文为 base64；仓库元数据、SPDX 字段及完整 Apache-2.0 条款尾部均可核对，但本次未逐字节解码整段 base64。",
+    "phpIPAM、Archivematica 候选快照未保留，GitHub license API 曾返回 403；research.json 已如实记录这些检索/抓取缺口，且未将其作为批次证据。",
+    "多个网页快照是压缩 HTML，正文夹在脚本和样式中；已定位并读取核心正文，但未做浏览器渲染或运行时验证。"
+  ],
+  "leaf_checks": {
+    "ip-address-management-ipam": {
+      "status": "pass",
+      "application_id": "github:52796596",
+      "basis": "读取 README、官方 IPAM 文档、GitHub 仓库元数据与 license API 快照；IPAM 文档明确 aggregate→prefix→IP range→IP address 层级、自动层级、prefix/aggregate 利用率、prefix 的 role/status、VRF 隔离与唯一性约束；README 确认 source-of-truth 与 API；仓库 ID 52796596 与 Apache-2.0 证据匹配，社区仓库与 NetBox Cloud/Enterprise 边界已在研究记录中区分。",
+      "gaps": "官方 IPAM 页重点展示层级、利用率与 VRF，未逐项列出 allocate/reserve/reclaim 操作；核心仍可由地址记录、状态/角色与利用率证据识别。"
+    },
+    "load-balancer-management": {
+      "status": "pass",
+      "application_id": "github:42408804",
+      "basis": "读取 README、官方 Load Balancing Service 文档、完整 MIT LICENSE 与仓库元数据；文档明确 loadBalancer service、servers、wrr/p2c/hrw/leasttime、sticky、主动/被动 healthcheck 将不健康 server 移出轮换；README 确认 HTTP reverse proxy/load balancer、动态配置、API 与 Web UI；仓库 ID 42408804 与 MIT 证据匹配，社区版与 Traefik Hub/Enterprise 边界已区分。",
+      "gaps": "引用页面聚焦 service/backend 侧，listener/entrypoint 的地址端口细节未在同一页展开；产品身份与 service 核心结构仍足以支持类型匹配。"
+    },
+    "network-management": {
+      "status": "pass",
+      "application_id": "github:77444607",
+      "basis": "读取 README、Controller Structure & Features、Push Operations 文档、完整 GPL-3.0 LICENSE 与仓库元数据；文档展示设备采用/开通、配置编辑器、Configuration Templates/Variables/Device Groups、NetJSON/JSON-Schema，以及配置变更后通过 SSH 推送到设备；仓库 ID 77444607 与 GPL-3.0 全文匹配，监控/固件升级等生态模块未混入本条。",
+      "gaps": "设备资产记录的证据部分来自 README/结构文档而非单独的设备页；写入路径由 Push Operations 文档直接支持。"
+    },
+    "telecom-expense-management": {
+      "status": "pass",
+      "application_id": "commercial:tangoe",
+      "basis": "读取 Tangoe One Telecom 产品页、TEM 指南与 Invoice Audit 页面正文；正文展示库存与对应发票集中管理、自动发票验证/成本分摊/处理、按实际需要/使用/合同审计、账单问题准备争议、跟踪应得贷记并追回退款、跟踪潜在节省与实际节省，以及发票审批、成本分配和付款；产品身份为 Tangoe One Telecom，track 为 commercial，符合 TEM 的发票—审计—差异—争议/节省资金闭环。",
+      "gaps": "商业条目仅做基本真实性与类型匹配；未独立核验价格、部署架构或完整工作流。"
+    },
+    "archive-storage-management": {
+      "status": "pass",
+      "application_id": "commercial:sharearchiver",
+      "basis": "读取 ShareArchiver 首页与 Archive Storage Solutions 页面正文；正文展示归档到 on-prem/cloud 存储、stubbing、按价值/访问频率/年龄/格式/位置的可配置或规则化策略、autopilot 归档、搜索与 restore/retrieval；产品身份为 ShareArchiver，track 为 commercial，符合归档目标、受管转换与检索路径三要素。",
+      "gaps": "商业条目仅基本记录；恢复被描述为 seamless/instant，检索更慢或计费不同的细节未直接体现；备份/灾难恢复/勒索软件防护仅作相邻能力，未作为核心依据。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未重算哈希、未部署或运行产品；仅使用本单元的 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 及指定快照；商业证据限于厂商公开页面；部分 HTML 快照为压缩页面，正文夹在脚本/样式中，未做浏览器渲染或运行时验证；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-010/ses_groveopencodegop010review1_1793074772.jsonl",
+  "batch_sha256": "d21b8221270ae26f716e4c6e222ebe1a21544fe02fa7bc651d11078a57b73ecd",
+  "research_sha256": "ef5776bb198e5f864822c0cbed4cab0bb7c418347b5b65b4f9acfd226037a127",
+  "input_sha256": "eb85d4b8a849d9d91a7b12cf0d3fadd88d36d7cd0ef570cd12d1b9e82d2661f6"
+}

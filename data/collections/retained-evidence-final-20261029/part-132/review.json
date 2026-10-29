@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "许可证字段精度：ZiroEDA 与 Tracelet 的 README 及源码 SPDX 头均写 GPL-3.0-or-later，但 batch.json 与 research.json 的 license 字段记为 GPL-3.0；建议统一为 GPL-3.0-or-later，并保留 LICENSE 快照（完整 GPLv3 文本）作为依据。该差异不影响本次开源属性与核心结论。",
+    "捆绑资产边界：ZiroEDA 的代码/图标为 GPL，但 KiCad 官方符号、封装和 3D 模型库为 CC-BY-SA 4.0 + KiCad 库例外；Tracelet 的第三方 3D 模型及 OCCT 转换组件也各自保留许可。建议在条目中注明，避免把整个仓库理解为单一 GPL 许可。",
+    "两个 homepage 快照仅为 Vite/React 单页应用外壳（空 root div + JS bundle），不能作为原理图/PCB 工作流证据；本次核心证据取自官方 README、CHANGELOG 和 bom.ts，首页只用于确认部署地址存在。",
+    "ZiroEDA 仍处 public beta（CHANGELOG 0.8.0；README 自述部分对话框和少用工具未完成），建议在 summary 中明示 beta 状态。",
+    "Tracelet 是 local-first 的静态 Web 应用：默认 IndexedDB，本地设计不依赖后端；团队共享需自托管 apps/server（文件或 PostgreSQL）。其服务形态应表述为“浏览器应用 + 可选自托管后端”，不宜暗示为厂商托管的多租户 SaaS。",
+    "Tracelet summary 的“多层原理图”宜改为“多页/多图纸原理图”，与 README 的 multi-sheet schematics 对齐；这是术语精度问题，不影响核心匹配。",
+    "input.json 仍保留 boundary_unresolved / included_without_cases 和空 application_ids，而 research.json/batch.json 已转为 case_found 并收录两个应用；建议下游同步叶子状态，避免旧状态覆盖新证据。",
+    "research.json 的 historical_reuse 引用了 4 个 KiCad 快照（KiCad/kicad-source-mirror 元数据、README、许可证和 9.0 eeschema 文档），但 REVIEW_SOURCES.json 未列出这些路径；它们仅用于 withheld 历史候选的事实核对，未用于本轮成立关系，故不影响结论。"
+  ],
+  "leaf_checks": {
+    "ecad-eda": {
+      "result": "passed",
+      "applications": [
+        {
+          "application_id": "github:1280911053",
+          "name": "ZiroEDA Designer",
+          "track": "open_source",
+          "definitional_core": "官方 README 的“What works today”明确列出 KiCad eeschema 原理图编辑器（symbols、wires、buses、labels、hierarchical sheets、annotation、ERC、symbol fields table、plot/print）、符号/封装库编辑器和 pcbnew PCB 编辑器（footprints、interactive router、DRC、3D、fabrication outputs）；CHANGELOG 0.5.0 记录 netlist 导出（PADS/CadStar/Allegro 等），0.4.0 记录 Update PCB from Schematic，0.9.0 记录 Gerber/PDF 输出和完整 ERC；eeschema/exporters/bom.ts 的 buildBom 从各页符号收集 Reference、按 Value/Footprint 分组并输出 refs/qty，证明 BOM 从原理图派生。覆盖“元件库→原理图捕获→连通性/ERC→网表/BOM/制造交付物”的定义性核心。",
+          "service_form": "README 指向 designer.ziroeda.com 的浏览器应用，支持账户、端到端加密云项目、共享和实时协作；云侧通过 Supabase migrations 自托管，未配置 Supabase 时账户/云同步/共享自动关闭。属于持续可用的 Web 应用服务，不是仅桌面客户端。",
+          "identity_and_license": "GitHub 元数据 full_name 为 ZiroEDA/ziro-designer、id 1280911053，与 batch 的 github:1280911053 及 repository_url 一致，fork=false。LICENSE 快照为完整 GPLv3 文本（35,149 字节，含 GPLv3 开头和 END OF TERMS AND CONDITIONS 标记）；README 与 bom.ts 的 SPDX 头写 GPL-3.0-or-later。batch 的 license 字段记为 GPL-3.0，属精度差异，已在 non_blocking_notes 提示。",
+          "community_boundary": "代码和图标为 GPL-3.0-or-later；KiCad 官方符号/封装/3D 库为 CC-BY-SA 4.0 + KiCad 库例外。云端账户/同步/共享为可选集成，可关闭并自托管，未发现仅限付费版的封闭核心功能。",
+          "gaps": "未运行/部署，未实测原理图编辑、ERC、网表/BOM 或 Gerber 输出（runtime_tested=false）；公开 beta，部分对话框和少用工具尚未完成。"
+        },
+        {
+          "application_id": "github:1358123591",
+          "name": "Tracelet",
+          "track": "open_source",
+          "definitional_core": "官方 README 明确描述多页原理图（元件、导线、网络标签、总线、ERC）、内置/可导入元件库与引脚映射、PCB 布局/布线/DRC、连通性检查、网表、BOM、Gerber/钻孔/贴装/装配输出，以及 Update PCB from Schematic；Fabrication 页从连通设计生成 BOM、Gerber、钻孔、贴装和装配文件。覆盖“元件库→原理图捕获→连通性→派生交付物”的核心。",
+          "service_form": "README 与 homepage 指向 tracelet.org 的浏览器工作区；默认使用浏览器 IndexedDB 本地存储，本地设计和制造导出不需要后端；团队共享可自托管 apps/server（Hono REST，文件或 PostgreSQL）。属于可持续使用的浏览器应用，服务形态为静态 Web 应用 + 可选自托管后端。",
+          "identity_and_license": "GitHub 元数据 full_name 为 gongbin/tracelet、id 1358123591，与 batch 的 github:1358123591 及 repository_url 一致。LICENSE 快照为完整 GPLv3 文本（34,674 字节，含 GPLv3 开头和 END OF TERMS AND CONDITIONS 标记）；README 写 GPL-3.0-or-later，并说明 kernel、CLI、web app、server 均覆盖。batch 的 license 字段记为 GPL-3.0，属精度差异，已在 non_blocking_notes 提示。",
+          "community_boundary": "kernel、CLI、web app 和 server 均为 GPL-3.0-or-later；README 明确允许使用、修改和商业销售，分发修改版需以同许可证公开源码；第三方 3D 模型和 OCCT 组件保留各自许可。未发现封闭的付费社区版边界。",
+          "gaps": "未运行/部署，未实测原理图编辑、ERC/DRC、网表/BOM 或制造文件导出（runtime_tested=false）；版本自述为 v0.1，部分高级功能有明确限制。"
+        }
+      ],
+      "coverage": "两案例均由官方仓库元数据、官方 README 正文和许可证快照支持；ZiroEDA 另有 CHANGELOG 与 BOM 导出源码，Tracelet 的 README 覆盖完整工作流。ID、track、核心、服务形态、许可证和社区边界均已核对。",
+      "gaps": "无阻断性缺口；运行测试和商业官方正文未取得，已如实留档。"
+    }
+  },
+  "limits": "本次仅做只读静态核对；未运行或部署 ZiroEDA/Tracelet，未实测原理图编辑、ERC、网表/BOM 或制造文件导出（两案例 runtime_tested=false）。未取得 EasyEDA 等商业 Web EDA 的官方正文，商业侧仅见检索摘要，未纳入。两个 homepage 快照为 SPA 外壳，不能作为核心工作流证据；核心证据来自官方 README/CHANGELOG/bom.ts。许可证快照为 GitHub contents API 的 base64 单行响应，阅读器按 2,000 字符截断显示；已用文件大小（35,149/34,674 字节）、GPLv3 开头和 END OF TERMS 标记确认完整 GPLv3 文本，但未逐字解码全文。未读取 REVIEW_SOURCES 之外的 4 个历史 KiCad 快照；它们仅用于 withheld 历史候选。input.json 的叶子状态仍为 boundary_unresolved，与 research/batch 的 case_found 不一致，已在 non_blocking_notes 提示下游同步。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-132/ses_groveopencodegop132review1_1793247978.jsonl",
+  "batch_sha256": "95ed4836a4ea4c617a6890486bf39ccd5869c8edbe708c0af186d3cd2d1e6d4b",
+  "research_sha256": "dde16ffdf871884516ee95ecca0205c716d1e10dcf12ea857a0a3632470480ff",
+  "input_sha256": "bc2b350c954531749f8b1085921bbaff9f9d3b126f542b7561ebe7b21677be08"
+}

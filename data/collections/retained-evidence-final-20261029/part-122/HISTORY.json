@@ -1,0 +1,271 @@
+{
+  "current_hold_reason": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+  "history": [
+    {
+      "source": "var/collection/go-followup-20261027/part-011/project/data/collections/research.json",
+      "source_sha256": "e1b5987c7c306a222fba6cc14067c63e8c8175baa7edf4e8d1051ce683633d41",
+      "record": {
+        "slug": "certificate-lifecycle-management",
+        "assessment": "case_found",
+        "case_ids": [
+          "github:92313258"
+        ],
+        "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+        "source_urls": [
+          "https://github.com/cert-manager/cert-manager",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "https://cert-manager.io/docs/usage/certificate/"
+        ],
+        "note": "复核 review.json：本叶无 findings；非阻断备注指出 features 中 ACME DNS-01/HTTP-01 仅来自文档导航，正文核到 ACME Issuer 与 Certificate/Secret/续订流程，不影响集群内控制器形态。保留 cert-manager 案例、仓库 ID 92313258、Apache-2.0 完整许可证与既有快照；未新增查询，历史抓取（含 GitHub API 403）保持原样。",
+        "service_boundary": "开源 Kubernetes 集群内证书控制器；覆盖证书申请、签发、Secret 交付与到期前自动续订/重新签发，属于定义明确包含的集群内控制器形态；不含企业级证书发现、跨端点部署、审批与吊销工作流，不据此扩展。",
+        "search_attempts": [
+          "直接抓取 cert-manager 官方文档 https://cert-manager.io/docs/usage/certificate/",
+          "直接抓取 GitHub 仓库页、README 与 LICENSE",
+          "尝试 GitHub API license 端点，返回 403 rate limit 后停止，不重复调用"
+        ],
+        "fetch_outcomes": [
+          {
+            "url": "https://github.com/cert-manager/cert-manager",
+            "kind": "repository_metadata",
+            "result": "success",
+            "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+            "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+            "fetched_at": "2026-10-26T18:44:38.762337+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+            "kind": "readme",
+            "result": "success",
+            "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+            "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+            "fetched_at": "2026-10-26T18:44:27.819945+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+            "kind": "license",
+            "result": "success",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+            "fetched_at": "2026-10-26T18:44:22.458095+08:00"
+          },
+          {
+            "url": "https://cert-manager.io/docs/usage/certificate/",
+            "kind": "documentation",
+            "result": "success",
+            "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+            "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+            "fetched_at": "2026-10-26T18:44:46.541491+08:00"
+          },
+          {
+            "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+            "kind": "license",
+            "result": "failed: HTTP 403 rate limit exceeded"
+          }
+        ],
+        "archived": false
+      }
+    },
+    {
+      "source": "var/collection/beam-continuation-20261025/part-141/project/data/collections/research.json",
+      "source_sha256": "ed2afebd2be23f5160fe472ed63e785d681391fbb8ee36c2ec69352471cf0347",
+      "record": {
+        "slug": "certificate-lifecycle-management",
+        "assessment": "case_found",
+        "case_ids": [
+          "github:92313258"
+        ],
+        "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+        "source_urls": [
+          "https://github.com/cert-manager/cert-manager",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "https://cert-manager.io/docs/usage/certificate/"
+        ],
+        "note": "复用已有 README 与文档快照（a8f3d7f2…、11e1d679…）并重新抓取核验一致；GitHub 仓库页因动态内容重新抓取，使用新快照 8a00947c…。官方文档正文说明 Certificate 资源经 Issuer/ClusterIssuer 签发、证书与私钥写入 Secret，并按 duration/renewBefore 自动续订和重新签发。GitHub API license 端点返回 403 rate limit，未使用 API 证据；改用完整 LICENSE 文本和 license_review 记录 Apache-2.0。",
+        "service_boundary": "开源 Kubernetes 集群内证书控制器；覆盖证书申请、签发、Secret 交付与到期前自动续订/重新签发，属于定义明确包含的集群内控制器形态；不含企业级证书发现、跨端点部署、审批与吊销工作流，不据此扩展。",
+        "search_attempts": [
+          "直接抓取 cert-manager 官方文档 https://cert-manager.io/docs/usage/certificate/",
+          "直接抓取 GitHub 仓库页、README 与 LICENSE",
+          "尝试 GitHub API license 端点，返回 403 rate limit 后停止，不重复调用"
+        ],
+        "fetch_outcomes": [
+          {
+            "url": "https://github.com/cert-manager/cert-manager",
+            "kind": "repository_metadata",
+            "result": "success",
+            "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+            "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+            "fetched_at": "2026-10-26T18:44:38.762337+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+            "kind": "readme",
+            "result": "success",
+            "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+            "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+            "fetched_at": "2026-10-26T18:44:27.819945+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+            "kind": "license",
+            "result": "success",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+            "fetched_at": "2026-10-26T18:44:22.458095+08:00"
+          },
+          {
+            "url": "https://cert-manager.io/docs/usage/certificate/",
+            "kind": "documentation",
+            "result": "success",
+            "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+            "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+            "fetched_at": "2026-10-26T18:44:46.541491+08:00"
+          },
+          {
+            "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+            "kind": "license",
+            "result": "failed: HTTP 403 rate limit exceeded"
+          }
+        ],
+        "archived": false
+      }
+    },
+    {
+      "source": "retained-continuation-20261027/part-141/research.json",
+      "source_sha256": "ed2afebd2be23f5160fe472ed63e785d681391fbb8ee36c2ec69352471cf0347",
+      "record": {
+        "slug": "certificate-lifecycle-management",
+        "assessment": "case_found",
+        "case_ids": [
+          "github:92313258"
+        ],
+        "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+        "source_urls": [
+          "https://github.com/cert-manager/cert-manager",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "https://cert-manager.io/docs/usage/certificate/"
+        ],
+        "note": "复用已有 README 与文档快照（a8f3d7f2…、11e1d679…）并重新抓取核验一致；GitHub 仓库页因动态内容重新抓取，使用新快照 8a00947c…。官方文档正文说明 Certificate 资源经 Issuer/ClusterIssuer 签发、证书与私钥写入 Secret，并按 duration/renewBefore 自动续订和重新签发。GitHub API license 端点返回 403 rate limit，未使用 API 证据；改用完整 LICENSE 文本和 license_review 记录 Apache-2.0。",
+        "service_boundary": "开源 Kubernetes 集群内证书控制器；覆盖证书申请、签发、Secret 交付与到期前自动续订/重新签发，属于定义明确包含的集群内控制器形态；不含企业级证书发现、跨端点部署、审批与吊销工作流，不据此扩展。",
+        "search_attempts": [
+          "直接抓取 cert-manager 官方文档 https://cert-manager.io/docs/usage/certificate/",
+          "直接抓取 GitHub 仓库页、README 与 LICENSE",
+          "尝试 GitHub API license 端点，返回 403 rate limit 后停止，不重复调用"
+        ],
+        "fetch_outcomes": [
+          {
+            "url": "https://github.com/cert-manager/cert-manager",
+            "kind": "repository_metadata",
+            "result": "success",
+            "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+            "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+            "fetched_at": "2026-10-26T18:44:38.762337+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+            "kind": "readme",
+            "result": "success",
+            "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+            "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+            "fetched_at": "2026-10-26T18:44:27.819945+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+            "kind": "license",
+            "result": "success",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+            "fetched_at": "2026-10-26T18:44:22.458095+08:00"
+          },
+          {
+            "url": "https://cert-manager.io/docs/usage/certificate/",
+            "kind": "documentation",
+            "result": "success",
+            "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+            "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+            "fetched_at": "2026-10-26T18:44:46.541491+08:00"
+          },
+          {
+            "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+            "kind": "license",
+            "result": "failed: HTTP 403 rate limit exceeded"
+          }
+        ],
+        "archived": false
+      }
+    },
+    {
+      "source": "included-go-followup-final-20261027-research.json#/leaf_cases/61",
+      "source_sha256": "c2f273f6a63084505e7527da4e0d25726a2a5679cca1fc095cf66cbdf813768e",
+      "record": {
+        "slug": "certificate-lifecycle-management",
+        "assessment": "boundary_unresolved",
+        "case_ids": [],
+        "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+        "source_urls": [
+          "https://github.com/cert-manager/cert-manager",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "https://cert-manager.io/docs/usage/certificate/"
+        ],
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+        "service_boundary": "开源 Kubernetes 集群内证书控制器；覆盖证书申请、签发、Secret 交付与到期前自动续订/重新签发，属于定义明确包含的集群内控制器形态；不含企业级证书发现、跨端点部署、审批与吊销工作流，不据此扩展。",
+        "search_attempts": [
+          "直接抓取 cert-manager 官方文档 https://cert-manager.io/docs/usage/certificate/",
+          "直接抓取 GitHub 仓库页、README 与 LICENSE",
+          "尝试 GitHub API license 端点，返回 403 rate limit 后停止，不重复调用"
+        ],
+        "fetch_outcomes": [
+          {
+            "url": "https://github.com/cert-manager/cert-manager",
+            "kind": "repository_metadata",
+            "result": "success",
+            "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+            "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+            "fetched_at": "2026-10-26T18:44:38.762337+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+            "kind": "readme",
+            "result": "success",
+            "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+            "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+            "fetched_at": "2026-10-26T18:44:27.819945+08:00"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+            "kind": "license",
+            "result": "success",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+            "fetched_at": "2026-10-26T18:44:22.458095+08:00"
+          },
+          {
+            "url": "https://cert-manager.io/docs/usage/certificate/",
+            "kind": "documentation",
+            "result": "success",
+            "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+            "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+            "fetched_at": "2026-10-26T18:44:46.541491+08:00"
+          },
+          {
+            "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+            "kind": "license",
+            "result": "failed: HTTP 403 rate limit exceeded"
+          }
+        ],
+        "archived": false,
+        "collector_note_unapproved": "复核 review.json：本叶无 findings；非阻断备注指出 features 中 ACME DNS-01/HTTP-01 仅来自文档导航，正文核到 ACME Issuer 与 Certificate/Secret/续订流程，不影响集群内控制器形态。保留 cert-manager 案例、仓库 ID 92313258、Apache-2.0 完整许可证与既有快照；未新增查询，历史抓取（含 GitHub API 403）保持原样。",
+        "withheld_candidates": [
+          {
+            "id": "github:92313258",
+            "reason": "所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+          }
+        ]
+      }
+    }
+  ],
+  "historical_decisions_are_new_approval": false
+}

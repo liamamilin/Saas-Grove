@@ -1,0 +1,44 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "OpenActuary：已读的 README 与 CURRENT_STATE 可以证明可视化模型构建、项目与连接器、orchestrator 运行以及 scoring/部署，但没有直接展示“受管理且版本化的精算假设对象”。research.json 已如实记录这一缺口，关系理由也没有主张这一细节；若后续要进一步加强核心匹配，建议补充 rate table 或 assumption 版本管理的正文来源。",
+    "Duck Creek：summary 中的“会计结算”略强于页面正文的“accounting / financial control / reconciling data”；页面明确的是 premiums、claims、commissions 的会计与多币种处理，未逐字出现 bordereaux 或 settlement。建议改为“再保险会计与财务核对”，或在正文补一句边界说明。",
+    "Kalepa：summary 的“财产险承运人”在已读页面中没有逐字对应，页面表述为 carriers/insurers 和 every line you write；另外，leaf_matches.reason 把“decision-ready quotes”归到 Carriers 页，实际该短语出现在首页。建议措辞改为“承运人/专业险”并校正引用页。",
+    "BlackLine：快照是 2.2MB 的单行 SSR HTML/JSON，read 工具按 2,000 字符截断长行，无法逐段显示正文；已通过快照内 grep 确认 reconciling items、subledger/GL、auto-certify、audit trail/who did what 等核心词句，并做了一次只读 live 页面辅助理解。建议后续保存一份规范化文本快照，便于逐段复核。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，顶层 phase 仍为 included_without_cases，而 research.json/batch.json 已记录五个 case_found 条目；内容判断不受影响，但建议同步元数据，避免下游误读。"
+  ],
+  "leaf_checks": {
+    "insurance-underwriting-platform": {
+      "result": "pass",
+      "evidence": "Kalepa 官方首页与 carriers 页快照：Submission Ingestion→Clearance→Triage（align to appetite/guidelines）→Risk Analysis→Rating→Quote & Bind；首页 UI 出现 Preferred 与 referral guidance，carriers 页称其为 AI underwriting platform，强调 automation + expert judgment。商业基本真实性与类型匹配成立。",
+      "gap": "未运行产品；未主张审计轨迹、价格或部署细节。"
+    },
+    "reinsurance-management-system": {
+      "result": "pass",
+      "evidence": "Duck Creek Reinsurance 产品页快照：reinsurance management software；ceded/assumed 全生命周期；treaties/facultative；proportional/non-proportional；layers；claims recoveries；premiums/claims/commissions 会计；多币种；cloud-native SaaS。",
+      "gap": "页面未逐字给出 settlement/bordereaux 流程；summary 的“结算”为概括。"
+    },
+    "account-reconciliation-platform": {
+      "result": "pass",
+      "evidence": "BlackLine account-reconciliations 产品页快照：AI-powered account reconciliation、account substantiation、end-to-end reconciliations、Verity Prepare 的 audit trail、final human review、prior reconciliations、exception handling；快照正文含 reconciling items、subledger/GL、auto-certify、audit trail/who did what。",
+      "gap": "2.2MB 单行 SSR 快照无法逐段读取；核心词句已在快照中确认，另做一次 live 页面辅助阅读。"
+    },
+    "actuarial-modeling-platform": {
+      "result": "pass",
+      "evidence": "OpenActuary GitHub 元数据 id=1335844694/full_name=openactuary-io/openactuary；README 可视化模型构建器编译 Python、Projects、connectors、orchestrator、scoring API/deploy；CURRENT_STATE 多租户建模平台；license API AGPL-3.0，README 明确 SDK Apache-2.0 与 commercial licence 边界。",
+      "gap": "未直接展示版本化 assumption 对象；CURRENT_STATE 自述若干 stub；research.json 已记录。"
+    },
+    "algorithmic-trading-platform": {
+      "result": "pass",
+      "evidence": "Freqtrade GitHub 元数据 id=91629816/full_name=freqtrade/freqtrade；README Python crypto trading bot、策略创建/优化、backtesting、dry-run、交易所交易、WebUI/Telegram、forceexit/open trades；license API GPL-3.0。",
+      "gap": "README 未展开部分成交/订单对账；未运行产品。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元的 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其列出的 12 个快照；未运行 shell、未写文件、未部署或运行产品、未核价或核架构，也未读取其他单元。所有快照均按 REVIEW_SOURCES.json 的 path 原样读取；未独立重算 SHA-256。BlackLine 快照为 2.2MB 单行 SSR HTML/JSON，read 工具对长行按 2,000 字符截断，无法逐段显示全文；关键正文词句已在快照内确认，并仅以一次只读 live 页面抓取辅助理解。OpenActuary 的 CURRENT_STATE 标注 2026-06-07，实现细节可能已变化；商业产品仅核对公开页面，未验证价格、客户或部署。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-117/ses_groveopencodegop117review1_1793005672.jsonl",
+  "batch_sha256": "48274a2ab95515da1dc85605ffd867529ff37943bc2e7a71ef27fa6cd075b015",
+  "research_sha256": "f7a2ca794cc39bbd265e8e79de189b46de421e85745562ddd04bbb6786834f51",
+  "input_sha256": "1e84f3d7d0a09a7bc4f64605c18e72e616f04d65de81706571fb392f467bd2ed"
+}

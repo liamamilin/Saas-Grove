@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "来源 kind 标注不够精确：ERP 平台页和 Financial Management 产品页标为 homepage，请购页标为 documentation，但三者实际都是厂商产品/营销页。正文包含实质产品能力描述，不影响本叶通过；若 kind 参与证据分级，建议改为 product/marketing page。",
+    "快照明确覆盖 AP/AR、现金收款、银行对账、请购→采购订单→应付→总账及公用事业计费入账，但未明确命名 treasury 或现金预测。按商业案例的基本真实性/类型匹配已足够；若需严格核验三合一中的国库腿，建议补充 treasury/cash management 页面。",
+    "Tyler 快照 09547df913380d2415477377d5f0008ad394a203da3fd4c550dd6a7be8065564 存在于 data/collections/sources/，但未列入 REVIEW_SOURCES.json，也未绑定任何 application。research.json 对其“应付/应收/现金管理”的描述宽于该快照正文可见内容；Tyler 仅为未建案候选，不影响本叶结论，建议统一来源清单与表述。",
+    "本案证据均为 OpenGov 官方营销/产品页，runtime_tested=false，未做部署或独立第三方核验。对商业案例的基本真实性和类型匹配足够，但不能据此推断具体生产行为、性能或实施效果。",
+    "input.json 仍记录 case_status=insufficient_evidence、application_ids=[]，而 batch.json/research.json 已建立 commercial:opengov-erp；本次以 batch/research 为当前材料审查。若 input.json 需供下游使用，应同步刷新状态。",
+    "research.json 的 GitHub 检索为汇总性记录，未附仓库快照；其“本轮未发现合规开源项目”属于检索性结论，不是对开源项目不存在的断言。"
+  ],
+  "leaf_checks": {
+    "public-financial-management-system": {
+      "result": "passed",
+      "checked_application": "commercial:opengov-erp",
+      "definition_core": "通过。定义性三合一核心均有正文支持：(1) 统一记录：ERP 页称交易、审批和资金在 one shared system 中流转，one chart of accounts、one vendor record、one fund structure，并明确 fund accounting 与 GASB；(2) 预算执行控制：请购页称提交瞬间按 available budget、existing encumbrances、pre-encumbrances 校验，超预算和错科目即时标记，采购订单生成前须通过实时预算检查；(3) 资金操作：请购→采购订单→应付→总账贯通，财务页列总账、应付、应收、现金收款、银行对账、固定资产等模块，ERP 页称公用事业计费和税收收入即时入账。",
+      "service_form": "通过。ERP 页称 cloud platform/cloud-native，面向 2,000+ governments（cities、counties、state agencies、school districts、special districts）；属于持续提供的云端政府 ERP/财政管理服务，未见桌面或一次性交付形态。",
+      "identity_and_track": "通过。application_id=commercial:opengov-erp，track=commercial；页面以 OpenGov ERP / OpenGov Financial Management 命名，产品身份与条目一致；商业 track 无需开源许可证或社区版边界核验。",
+      "open_source_and_license": "本叶未纳入开源 application。research.json 记录了 IFMIS、public financial management、integrated financial management information system、encumbrance 等 GitHub 检索尝试，并说明未发现同时具备可核验 OSI 许可证、完整仓库身份和完整应用形态的候选；该缺口已如实留档，且未据此断言此类项目不存在。无开源许可证或社区版边界可核。",
+      "evidence": [
+        "https://opengov.com/platform/enterprise-resource-planning/：正文称 general ledger 为财务运营核心、交易批准即过账、采购 encumbrances 实时更新、基金余额始终最新；并称 one chart of accounts / one fund structure 贯通财务、采购、薪资、计费与补助。",
+        "https://opengov.com/products/financial-management/：正文称 OpenGov Financial Management 为面向政府的 AI-powered ERP，连接 general ledger、accounts payable、accounts receivable、fixed assets；列明 General Ledger、Accounts Payable、Accounts Receivable、Cash Receipting、Bank Reconciliation、Fixed Assets、Purchasing、Project Accounting、Financial Reporting。",
+        "https://opengov.com/products/financial-management/requisitions/：正文称提交时按 available budget、existing encumbrances、pre-encumbrances 做实时预算控制；采购订单生成前须通过实时预算检查；请购→采购订单→应付→总账贯通；pre-encumbrances 在请购提交时自动创建，encumbrances 在采购订单批准时创建并进入总账和财务报表。"
+      ],
+      "gaps": [
+        "treasury/现金预测未在快照中明确命名；现有证据覆盖支出到付款、收款、现金收款和银行对账。",
+        "仅有厂商官方营销/产品页，无独立第三方来源，未做运行测试。",
+        "Tyler 候选未建案，且其快照未列入 REVIEW_SOURCES.json。",
+        "GitHub 检索无仓库快照，无法独立复核检索结果。"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元。未对快照做 SHA-256 重算（按 REVIEW_SOURCES.json 的 path 原样读取，文件名与声明哈希一致）。未访问实时站点，未做部署或运行测试。证据限于 OpenGov 三个官方营销/产品页及本单元 batch/research 留档；GitHub 检索结果未附快照，无法独立复现；Tyler 快照虽在 data/collections/sources/ 中存在，但不在 REVIEW_SOURCES.json 中，未作为本叶建案证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-210/ses_groveopencodegop210review1_1793259592.jsonl",
+  "batch_sha256": "c194a59d283e97b15de73920b540ac814d29844011967eba07e66138193c268f",
+  "research_sha256": "00ce873f6ac49075320d5b465b93ea5d31df3bf3884e2ea6cc73bb63d273f241",
+  "input_sha256": "3060e79c53ef239f3314a346899aeac8eba6a2adbe49c5e486efd51eee9b1792"
+}

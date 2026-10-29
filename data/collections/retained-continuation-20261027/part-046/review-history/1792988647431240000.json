@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "account-management-crm",
+      "application_id": "github:24459441",
+      "issue": "账户管理CRM的核心只被部分证实：归档的 Accounts/Contacts 页面能证明账户是公司/组织、可关联多个联系人并保留交互历史，但没有出现账户负责人/分配用户、团队/角色或记录可见性控制；而 batch 的 leaf_matches.reason 与 features 明确写了“由用户与团队权限控制记录可见范围”。research 虽记录抓取过 docs.espocrm.com/administration/users-management/（sha cf447...），但该快照不在 REVIEW_SOURCES.json、batch sources，也不在 data/collections/sources/ 中，无法核对。两页的实质性内容也主要是一段简介加一个未归档的 quick-tour iframe，不能替代完整的核心工作流正文。",
+      "fix": "补充并归档 users-management 快照（或在 batch/REVIEW_SOURCES 中引用其他官方账户所有权/团队/角色/ACL 来源），并据此重写 reason/features；若无法补充，则删除该权限断言，将该叶标记为核心部分未完全证实，并说明缺口。"
+    },
+    {
+      "slug": "account-management-crm",
+      "application_id": "github:24459441",
+      "issue": "开源条目的社区版边界未明确：README 只说明免费/开源并链接 AGPLv3，batch 同时列出“官方云托管”，但未说明所引 Accounts/Contacts/权限功能属于 AGPL 社区版还是官方云/付费扩展；引用的功能页又在商业官网而非仓库文档中。",
+      "fix": "在 batch 中增加社区版边界说明或来源（例如明确核心 Accounts/Contacts 功能在 AGPL 仓库/社区版中，官方云托管和付费扩展另列），并避免把未标明的商业版功能计入社区版。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids/research_records 为空，与 batch/research 不一致；本次未把它当作证据，但建议修复该元数据。",
+    "research.json 中还有若干成功抓取但未进入 REVIEW_SOURCES/batch 的 URL（Gainsight renewals、Medallia experience-management/Qualtrics、EspoCRM users-management/portal）；除 EspoCRM users-management 已在 findings 中指出外，其余不影响本单元结论，但后续应归档所有被引用来源。",
+    "Medallia 的平台页明显覆盖 social、employee feedback、digital/contact-center 等更广体验信号，并写“Move beyond surveys”；条目已承认与社交聆听/全渠道体验管理的重叠，且 survey/measurement/closed-loop 核心有正文支撑，故按商业基本类型匹配通过；但 transactional trigger 和逐条响应归因的细节不够明确。",
+    "Impartner 的快照支持伙伴/供应商角色、deal registration、供应商审批、MDF、tiering 与 CRM 同步，但“authenticated partner portal”只以“traditional PRM ... partner portal”泛称出现，未展示具体门户登录/权限工作流；按商业基本类型匹配通过，补充门户专门来源会更稳。",
+    "EspoCRM 的 features 还写了“记录邮件、会议、通话等交互历史”和“官方云托管”；归档的 Accounts/Contacts 页面只支持泛化的 interaction history，且云托管没有归档来源。这不影响账户/联系人核心判断，但建议改为泛化措辞或补来源。"
+  ],
+  "leaf_checks": {
+    "renewal-management-platform": {
+      "result": "pass",
+      "basis": "Gainsight Renewal Center Overview（929006...）与 User Guide（4afcfb...）已读：续约机会从 Salesforce 导入；到期日与关闭日期区分；Analyze/Forecast；Renewals Due、Late Renewals、Churn Forecast、Renewal Waterfall；Actuals 含续约、流失、增购；Opportunity Owner、编辑/新增机会、CTA 工作项；保存受 Salesforce 校验与字段权限约束；Viewer+Analytics 许可限制。Revenue-teams 页面（61b8...）补充续约流程、playbook 与告警。",
+      "notes": "条目正确把产品呈现为 Gainsight CS 的 add-on/模块，核心匹配强，无阻断缺口。"
+    },
+    "voice-of-customer-platform": {
+      "result": "pass",
+      "basis": "Medallia platform 页面（eb492...）已读：survey creation/change management；survey responses 与 unstructured data 转为 AI themes/sentiment；Total Experience Profiles 形成单客户时间线；alerts and case management；smart closed-loop。覆盖主动征询调研、体验测量、归因与跟进闭环。",
+      "notes": "该页是更广的 experience management 平台，强调 social/employee/digital 等信号；条目已承认重叠并把匹配限定在调研、测量与闭环核心，商业基本类型匹配通过。"
+    },
+    "account-management-crm": {
+      "result": "gap",
+      "basis": "EspoCRM repository metadata（b260...）确认 espocrm/espocrm、id 24459441；license 快照（da146...）内容为 AGPLv3；README（7e359...）称 free/open-source 且链接 AGPLv3；Accounts 页（5859...）说明账户是公司/组织/部门、每个账户可关联一个或多个联系人、B2B 模式下账户是中心记录；Contacts 页（2cb2...）说明联系人记录保存交互历史并可关联多个账户。",
+      "notes": "核心仅部分证实：没有归档来源展示账户负责人/分配用户、团队/角色或记录可见性；batch 的 reason/features 却明确断言这些。research 记录的 users-management 抓取（sha cf447...）没有对应快照，无法核对。社区版边界也未明确。"
+    },
+    "customer-portal": {
+      "result": "pass",
+      "basis": "Clinked client-portal 页（84ba...）与 homepage（f4d9...）已读：one portal per client、branded workspace、secure file management、e-signature/one-click approvals、project management、communication、access controls；FAQ 明确写 invite clients with secure login credentials、clients can upload files securely、clients log in from website。",
+      "notes": "认证、客户专属空间与自助操作三项核心均有正文支撑，无阻断缺口。"
+    },
+    "partner-relationship-management-prm": {
+      "result": "pass",
+      "basis": "Impartner platform 页（7743...）与 PRM 页（bc2f...）已读：partner lifecycle 从 recruitment/onboarding 到 training/planning/tiering；Pipeline Management 同步 deal registration 与 partner leads 到 CRM；Partner 注册交易，Vendor 审批注册并支持 co-sell；MDF requests/fulfillment/ROI；Tiering and Compliance；CRM 同步。覆盖伙伴注册表、共享渠道工作流与供应商控制审批。",
+      "notes": "authenticated partner portal 只以“traditional PRM ... partner portal”泛称出现，未展示具体门户登录/权限工作流；按商业基本类型匹配通过，补充门户专门来源会更稳。"
+    }
+  },
+  "limits": "本次为只读初审：读取了本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中列出的 13 个快照；未运行 shell、未写文件、未抓取外部网页、未读取其他单元。未重新计算 SHA256，按 REVIEW_SOURCES 的文件名与内容核对。长 HTML 快照使用定点读取与 grep 核对，未做运行时测试。research 中另有若干未归档 URL，EspoCRM users-management 快照缺失，因此相关权限/所有权断言无法核实；未验证价格、架构或部署细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-046/ses_groveopencodegop046review1_1792988150.jsonl",
+  "batch_sha256": "4da46796fe94e88849705f053217a34476e874a8a00b510b53e4a68fdf64dd19",
+  "research_sha256": "582eb786746bae33da0c5fba0b16aa47eeb0e2bcbdf4c2391f8d49f2330c0ea4",
+  "input_sha256": "1c65f23cea06054bac2e2b0f7944b5f9947082d5bf1bdfb37a59ed11a7816c89"
+}

@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "application-portfolio-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sap-leanix-application-portfolio-management"
+      ],
+      "query": "直接访问 SAP LeanIX 官方 Application Portfolio Management 产品页（未使用关键词搜索）",
+      "source_urls": [
+        "https://www.leanix.net/en/products/application-portfolio-management"
+      ],
+      "note": "复用本单元已有快照 7c629c0f43e8a463dd3d19d027ab14beb9a6444f09db97806d6c35c40f31cb92；本次重新抓取同一官方 URL，哈希一致。issues.json 无待修复 findings，本工作区没有 review.json。官方页面正文覆盖应用清单、所有权、功能/技术适配/成本/生命周期评估、TIME 分类与退役影响分析，因此保留商业案例，仅做基本类型匹配。",
+      "service_boundary": "商业企业架构/APM 产品；本单元只记录官方产品页可证实的应用登记、所有权、评估、生命周期与合理化能力，不延伸价格、部署架构或页面未展示的工作流。",
+      "search_attempts": [
+        "直接抓取官方产品页 https://www.leanix.net/en/products/application-portfolio-management"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.leanix.net/en/products/application-portfolio-management",
+          "kind": "homepage",
+          "result": "success",
+          "sha256": "7c629c0f43e8a463dd3d19d027ab14beb9a6444f09db97806d6c35c40f31cb92",
+          "snapshot_path": "sources/7c629c0f43e8a463dd3d19d027ab14beb9a6444f09db97806d6c35c40f31cb92.txt",
+          "fetched_at": "2026-10-26T18:44:46.497779+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "certificate-lifecycle-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:92313258"
+      ],
+      "query": "直接访问 cert-manager 官方文档、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+      "source_urls": [
+        "https://github.com/cert-manager/cert-manager",
+        "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+        "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+        "https://cert-manager.io/docs/usage/certificate/"
+      ],
+      "note": "复用已有 README 与文档快照（a8f3d7f2…、11e1d679…）并重新抓取核验一致；GitHub 仓库页因动态内容重新抓取，使用新快照 8a00947c…。官方文档正文说明 Certificate 资源经 Issuer/ClusterIssuer 签发、证书与私钥写入 Secret，并按 duration/renewBefore 自动续订和重新签发。GitHub API license 端点返回 403 rate limit，未使用 API 证据；改用完整 LICENSE 文本和 license_review 记录 Apache-2.0。",
+      "service_boundary": "开源 Kubernetes 集群内证书控制器；覆盖证书申请、签发、Secret 交付与到期前自动续订/重新签发，属于定义明确包含的集群内控制器形态；不含企业级证书发现、跨端点部署、审批与吊销工作流，不据此扩展。",
+      "search_attempts": [
+        "直接抓取 cert-manager 官方文档 https://cert-manager.io/docs/usage/certificate/",
+        "直接抓取 GitHub 仓库页、README 与 LICENSE",
+        "尝试 GitHub API license 端点，返回 403 rate limit 后停止，不重复调用"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/cert-manager/cert-manager",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08",
+          "snapshot_path": "sources/8a00947caf933a784ace37cbf6bfc0bada8d4a5045e44287bbc4ce4c08dd0e08.txt",
+          "fetched_at": "2026-10-26T18:44:38.762337+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1",
+          "snapshot_path": "sources/a8f3d7f2729728395fcb9f4ba904881718e07b5a3e962f115bffc258315f6bc1.txt",
+          "fetched_at": "2026-10-26T18:44:27.819945+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/master/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "snapshot_path": "sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+          "fetched_at": "2026-10-26T18:44:22.458095+08:00"
+        },
+        {
+          "url": "https://cert-manager.io/docs/usage/certificate/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890",
+          "snapshot_path": "sources/11e1d6795f90fa931fa1e59304d78d92e642af28fc98946c107ed7fc3f543890.txt",
+          "fetched_at": "2026-10-26T18:44:46.541491+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/cert-manager/cert-manager/license",
+          "kind": "license",
+          "result": "failed: HTTP 403 rate limit exceeded"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cpaas-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:61023964"
+      ],
+      "query": "直接访问 Somleng 官网、docs.html、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+      "source_urls": [
+        "https://github.com/somleng/somleng",
+        "https://raw.githubusercontent.com/somleng/somleng/develop/README.md",
+        "https://raw.githubusercontent.com/somleng/somleng/develop/LICENSE",
+        "https://www.somleng.org/",
+        "https://www.somleng.org/docs.html"
+      ],
+      "note": "复用已有 README、LICENSE 与 docs.html 快照并重新抓取核验一致；官网首页使用新抓取快照 31495028…。官方文档正文覆盖 Using the Dashboard、Accounts、Phone Numbers、Voice、Messaging、Team、Authentication 与 API Reference，证明存在面向运营商/客户的 CPaaS 管理面。Messages/Phone Calls/Events 记录可见；成本汇总未逐条核到，未写成已证实能力。",
+      "service_boundary": "开源自托管 CPaaS 及其 Dashboard/API；管理面与通信平台同属一个项目，不是仅管理第三方 CPaaS 的独立控制台；未核实实际计费/成本汇总、运行部署与真实运营商接入。",
+      "search_attempts": [
+        "直接抓取 Somleng 官网 https://www.somleng.org/",
+        "直接抓取官方文档 https://www.somleng.org/docs.html",
+        "直接抓取 GitHub 仓库页、README 与 LICENSE"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/somleng/somleng",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "01a5dab951898a3958b859da9e054280aea94c6ff96411b45f5873b68bedda78",
+          "snapshot_path": "sources/01a5dab951898a3958b859da9e054280aea94c6ff96411b45f5873b68bedda78.txt",
+          "fetched_at": "2026-10-26T18:44:39.247167+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/somleng/somleng/develop/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "26a836c383e34d365fded07b61bba650e7288e9a733919dc84f5aa2aeff5109d",
+          "snapshot_path": "sources/26a836c383e34d365fded07b61bba650e7288e9a733919dc84f5aa2aeff5109d.txt",
+          "fetched_at": "2026-10-26T18:44:27.693550+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/somleng/somleng/develop/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "e8a49b238763dd788d632f63ddde3c89a2363f2112afff50c212ee853c81be66",
+          "snapshot_path": "sources/e8a49b238763dd788d632f63ddde3c89a2363f2112afff50c212ee853c81be66.txt",
+          "fetched_at": "2026-10-26T18:46:15.544348+08:00"
+        },
+        {
+          "url": "https://www.somleng.org/",
+          "kind": "homepage",
+          "result": "success",
+          "sha256": "3149502811dc1c76c6148d5ef6a3fe407ca89a31477e4a8371a34cdc8f1f4479",
+          "snapshot_path": "sources/3149502811dc1c76c6148d5ef6a3fe407ca89a31477e4a8371a34cdc8f1f4479.txt",
+          "fetched_at": "2026-10-26T18:44:46.126486+08:00"
+        },
+        {
+          "url": "https://www.somleng.org/docs.html",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "cb5ee38931fc9eb180f521591c1e2690a631365cc0d70dd73171d8d9a17bbaaf",
+          "snapshot_path": "sources/cb5ee38931fc9eb180f521591c1e2690a631365cc0d70dd73171d8d9a17bbaaf.txt",
+          "fetched_at": "2026-10-26T18:44:57.223386+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:21491087"
+      ],
+      "query": "OpenUDS documentation connection broker VDI app virtualization admin",
+      "source_urls": [
+        "https://github.com/VirtualCable/openuds",
+        "https://raw.githubusercontent.com/VirtualCable/openuds/master/README.md",
+        "https://raw.githubusercontent.com/VirtualCable/openuds/master/LICENSE"
+      ],
+      "note": "用上述关键词做一次搜索，定位到官方 GitHub 仓库与社区文档站；批次只引用官方仓库页、README 与 LICENSE。README 明确 OpenUDS 是多平台 connection broker，覆盖 VDI 虚拟桌面管理部署、应用虚拟化与桌面服务整合；仓库主题列出 OpenStack/oVirt/Proxmox/VMware/Xen 等平台。www.openuds.org 抓取因 TLS 主机名不匹配失败；docs.openuds.ru 可抓取但非官方来源，仅作背景、未引用。未核到细粒度 entitlement、会话策略与管理手册，不扩展这些断言。",
+      "service_boundary": "开源 VDI/应用虚拟化连接代理；集中托管、发布桌面/应用与会话交付可由 README/仓库描述支持，但本次未核到细粒度授权、会话超时策略与完整管理手册，因此按类别记录核心匹配，不延伸未读到的能力。",
+      "search_attempts": [
+        "关键词搜索：OpenUDS documentation connection broker VDI app virtualization admin",
+        "直接抓取 GitHub 仓库页、README 与 LICENSE",
+        "尝试官方域名 www.openuds.org，TLS 证书主机名不匹配后停止"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/VirtualCable/openuds",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "a7e5cc309271cd19c578c0e93032af2bd012edc7b4eec33415a9539899ab1ec3",
+          "snapshot_path": "sources/a7e5cc309271cd19c578c0e93032af2bd012edc7b4eec33415a9539899ab1ec3.txt",
+          "fetched_at": "2026-10-26T18:44:38.653290+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/openuds/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "7fea53744125301421052c0c4c8772e9359948602d06fd77d5444c1f8974be1f",
+          "snapshot_path": "sources/7fea53744125301421052c0c4c8772e9359948602d06fd77d5444c1f8974be1f.txt",
+          "fetched_at": "2026-10-26T18:44:27.819912+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VirtualCable/openuds/master/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "2fc0a0cae386425ce8af4c1bb3c02c2b13b8ba8f788882a540966d62e9533908",
+          "snapshot_path": "sources/2fc0a0cae386425ce8af4c1bb3c02c2b13b8ba8f788882a540966d62e9533908.txt",
+          "fetched_at": "2026-10-26T18:46:15.912346+08:00"
+        },
+        {
+          "url": "https://www.openuds.org/",
+          "kind": "homepage",
+          "result": "failed: SSL certificate hostname mismatch"
+        },
+        {
+          "url": "https://docs.openuds.ru/admin_guide_36.html",
+          "kind": "documentation",
+          "result": "fetched_but_not_cited: community documentation site, not official vendor source",
+          "sha256": "774ad354ad5817c90c2abcedfe49ad504c50ac2dc7dcc4d024cd34d625edfe37",
+          "snapshot_path": "sources/774ad354ad5817c90c2abcedfe49ad504c50ac2dc7dcc4d024cd34d625edfe37.txt",
+          "fetched_at": "2026-10-26T18:45:40.453222+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "message-queue-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:148059143"
+      ],
+      "query": "直接访问 AKHQ 官网、docs、GitHub 仓库、README 与 LICENSE（未使用关键词搜索）",
+      "source_urls": [
+        "https://github.com/tchiotludo/akhq",
+        "https://raw.githubusercontent.com/tchiotludo/akhq/master/README.md",
+        "https://raw.githubusercontent.com/tchiotludo/akhq/master/LICENSE",
+        "https://akhq.io/",
+        "https://akhq.io/docs/"
+      ],
+      "note": "复用已有 README、LICENSE 与官网首页快照并重新抓取核验一致；docs 使用新抓取快照 257079eb…。官网首页说明可查看 topics、浏览 topic 内数据、查看 consumer groups 与 lag、管理 Schema Registry/Kafka Connect，并在 Manage 部分列出 topics、consumer groups、cluster configurations、users and ACLs。文档覆盖 Docker/Helm 安装与 Schema Registry 配置。未核到 purge、死信浏览/重投的具体工作流，未写成已证实。GitHub API license 端点 403，改用完整 LICENSE 文本和 license_review。",
+      "service_boundary": "开源 Kafka 管理 GUI/管理面，不是消息队列本身；覆盖 topics、消息浏览、consumer lag、ACL 与 Schema Registry/Kafka Connect 管理，未核实 purge、死信浏览/重投、连接终止等具体操作页面。",
+      "search_attempts": [
+        "直接抓取 AKHQ 官网 https://akhq.io/",
+        "直接抓取官方文档 https://akhq.io/docs/",
+        "直接抓取 GitHub 仓库页、README 与 LICENSE",
+        "尝试 GitHub API license 端点，返回 403 rate limit 后停止"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/tchiotludo/akhq",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "2c3e52771dca03202b3b81d5b9ddccb24c6c68bfc5f7f39fdc1f194ffbdfc3d7",
+          "snapshot_path": "sources/2c3e52771dca03202b3b81d5b9ddccb24c6c68bfc5f7f39fdc1f194ffbdfc3d7.txt",
+          "fetched_at": "2026-10-26T18:44:38.784914+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/tchiotludo/akhq/master/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "ae2c5c3f720f84d0291350ce36eef4e6da9f2016ec860cb093268a8aca62b307",
+          "snapshot_path": "sources/ae2c5c3f720f84d0291350ce36eef4e6da9f2016ec860cb093268a8aca62b307.txt",
+          "fetched_at": "2026-10-26T18:44:27.819954+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/tchiotludo/akhq/master/LICENSE",
+          "kind": "license",
+          "result": "success",
+          "sha256": "55b6cb57c1485b07a544fec6cce494e916682f36977e8dbb1620de91d6eeca86",
+          "snapshot_path": "sources/55b6cb57c1485b07a544fec6cce494e916682f36977e8dbb1620de91d6eeca86.txt",
+          "fetched_at": "2026-10-26T18:44:22.420454+08:00"
+        },
+        {
+          "url": "https://akhq.io/",
+          "kind": "homepage",
+          "result": "success",
+          "sha256": "71ce6194b8c794f8799717567c75681ac8fdfca002b3c8da2b321ac1108c9fb8",
+          "snapshot_path": "sources/71ce6194b8c794f8799717567c75681ac8fdfca002b3c8da2b321ac1108c9fb8.txt",
+          "fetched_at": "2026-10-26T18:46:15.474278+08:00"
+        },
+        {
+          "url": "https://akhq.io/docs/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "257079ebaf16703038e398e82d5070db69e42dd0aa78a9fccc503d06ed0f7ad5",
+          "snapshot_path": "sources/257079ebaf16703038e398e82d5070db69e42dd0aa78a9fccc503d06ed0f7ad5.txt",
+          "fetched_at": "2026-10-26T18:44:46.071433+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/tchiotludo/akhq/license",
+          "kind": "license",
+          "result": "failed: HTTP 403 rate limit exceeded"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

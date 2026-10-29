@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 元数据仍为 case_status=not_searched、application_ids=[]，与本单元 batch.json/research.json 中 5 个 case_found 不一致；建议同步进度字段，避免下游误读。本次判定以 batch/research 和实际快照为准。",
+    "commercial:procore 的摘要写有“关闭分发”，但本次读取的三篇 Procore 官方 FAQ 只明确到审查决定后的分发/接收与修订关联，未直接展示 closed 状态；建议将措辞收敛为“审批后分发”或在后续补充 closed 状态来源。",
+    "commercial:argus-developer 的 leaf_match 使用了“端到端/从初始 pro forma 到交付”的表述，快照正文明确展示 pro forma、土地残值、情景分析、项目融资、预算监控、实际数更新和组合报告，但未直接出现“交付”或施工后 occupancy/stabilization 的完整 resolution；建议避免超出页面正文的措辞。",
+    "commercial:dealpath 的页面支持交易/资产数据集中、管道、承销、审计轨迹以及 hold/sell/refi 组合决策，但未展示基金/载体、所有权头寸、股权/债务资本结构或 waterfall/投资者账户；建议在类型说明中保留 deal-workflow pole 的边界，不扩张为 fund-operations 能力。",
+    "github:1181094397 的许可证快照实际是 GitHub contents API 形态（含完整 MIT 文本），不是 /license 端点常见的 SPDX 字段形态；完整 MIT 文本与 README 的 MIT 声明足以核对许可证，但建议记录实际端点或在后续补充 SPDX 响应。",
+    "InsulaCRM 的 broker 模式是安装时选择、非默认模式；README 对挂牌侧 pipeline、Listings/Showings/Open Houses 和 Listing Agent/Buyers Agent 角色说明清楚，但对买方客户/过去客户角色的记录方式不如挂牌侧明确，建议在条目中注明该边界。",
+    "commercial:visual-lease 首页强调 ASC 842/IFRS 16 等租赁会计合规，条目已把范围限定在租赁管理侧；后续描述中建议继续区分“租赁管理”与“租赁会计输出”，避免把会计合规当作本叶的独立定义核心。"
+  ],
+  "leaf_checks": {
+    "submittal-management": {
+      "application_id": "commercial:procore",
+      "track": "commercial",
+      "result": "passed",
+      "sources": [
+        "https://support.procore.com/faq/what-is-a-submittal",
+        "https://support.procore.com/faq/what-is-a-submittal-revision",
+        "https://support.procore.com/faq/what-does-each-column-in-the-submittals-log-represent"
+      ],
+      "basis": "读取 Procore 官方支持三篇正文：what-is-a-submittal 明确定义送审件是承包方提交材料、设备、车间图纸等给设计团队审批，批准后方可制造/安装，并给出提交者→审核者→分发者的审批工作流示例；Submittals Log 正文确认其为项目级登记表，含 Spec Section、Number & Revision、Title、Type、Status、Ball In Court、Approvers、Response、Due Date 等列；revision 正文说明被拒后对同一送审件创建修订，并按同一 Spec Section/Number 关联、保留修订历史。三项合并覆盖登记册、送审记录、审查决定与修订循环。",
+      "gaps": "快照未直接展示 closed 状态；摘要中的“关闭分发”应理解为审批后的分发/接收，核心登记册、审查决定与修订循环已覆盖。Procore 是综合施工管理平台，本叶仅以其 Submittals 工具为匹配对象，未把 RFI/施工文档管理计入。"
+    },
+    "lease-administration": {
+      "application_id": "commercial:visual-lease",
+      "track": "commercial",
+      "result": "passed",
+      "sources": [
+        "https://visuallease.com/solutions/lease-management-software/",
+        "https://visuallease.com/"
+      ],
+      "basis": "Visual Lease 官方租约管理页正文说明其集中维护 lease database，拆分复杂租约以理解 obligations、options、cash flow 和 critical dates；支持跟踪 lease clauses、obligations、master leases、subleases、lease options、critical dates，并对 renewal、expiration、rent increase、insurance deadline 等提供自动提醒；Audit Manager 可按 lease terms 设置规则和阈值测试房东/供应商账单。首页补充 lease portfolio 与 AI lease abstraction。租约记录、条款派生义务与期限日期生命周期三项核心均有正文依据。",
+      "gaps": "未运行产品；未核对具体会计输出、集成或部署形态；商业页面为厂商自述。"
+    },
+    "real-estate-brokerage-crm": {
+      "application_id": "github:1181094397",
+      "track": "open_source",
+      "result": "passed",
+      "sources": [
+        "https://api.github.com/repos/InsulaCRM/InsulaCRM",
+        "https://api.github.com/repos/InsulaCRM/InsulaCRM/license",
+        "https://raw.githubusercontent.com/InsulaCRM/InsulaCRM/main/README.md"
+      ],
+      "basis": "README 正文说明这是 self-hosted、multi-tenant 的房地产 CRM，包含 wholesaling 与 Real Estate Agent/Broker 两种 business mode；broker 模式 pipeline 为 Listing Agreement → Active Listing → Showing → Closing，模块含 Listings、Showings、Open Houses，角色含 Listing Agent、Buyers Agent。Lead Management 含来源、状态、经纪人归属、活动历史和角色隔离；Property Tracking 与 lead 关联；Deal Pipeline 含阶段、活动日志和文档上传。仓库元数据核对 id=1181094397、full_name=InsulaCRM/InsulaCRM；许可证快照含完整 MIT 文本，README 亦声明 MIT。客户记录、房产关联和经纪管道三项核心均有依据。",
+      "gaps": "broker 模式为安装时选择、非默认；README 对买方客户/过去客户角色的记录方式不如挂牌侧明确；未运行应用。",
+      "license": "MIT（快照含完整 MIT 许可证文本；README 的 License 段亦声明 MIT）",
+      "repository_identity": "GitHub repository id 1181094397，full_name InsulaCRM/InsulaCRM，与 batch.json 一致。",
+      "community_boundary": "MIT 自托管单一开源版本；README 说明 broker/wholesale 两种 business mode 的模块随每个 release 提供，未发现付费/企业版功能门禁。"
+    },
+    "real-estate-development-management": {
+      "application_id": "commercial:argus-developer",
+      "track": "commercial",
+      "result": "passed",
+      "sources": [
+        "https://www.altusgroup.com/solutions/argus-developer/"
+      ],
+      "basis": "ARGUS Developer 官方产品页正文称“Manage every stage of your development project”，步骤包含：建立 pro forma 并设置项目 timescale/configurable stages；计算 residual land value 以确定收购价；比较开发情景；建模 debt/equity/JV 项目融资；监控项目预算；从会计系统导入 actuals 并重新预测；生成覆盖 development portfolio 的 60+ 报告。功能卡还说明 cashflow forecasting、按 actuals 更新并与原始 feasibility budget 比较差异。对应开发项目记录、施工前可行性到建设期的分阶段管理，以及预计成本/预算/实际数/修订预测的资金结构。",
+      "gaps": "快照未直接展示 post-construction occupancy/stabilization/sale 的完整 resolution，也未展示文档、里程碑、审批或 parties；页面未明确云端/SaaS 交付形态。条目已避免主张这些未展示能力。"
+    },
+    "real-estate-investment-management": {
+      "application_id": "commercial:dealpath",
+      "track": "commercial",
+      "result": "passed",
+      "sources": [
+        "https://www.dealpath.com/platform/"
+      ],
+      "basis": "Dealpath 官方平台页正文面向 CRE investment teams，说明集中 deal data、提供 real-time pipeline visibility；Deal Execution 段包含 AI-powered underwriting in Excel、structured workflows 和 clear audit trail；Portfolio Insights 段说明可查看 entire portfolio 并支持 hold、sell、refi 决策；页面还称覆盖 every stage of the investment process，并展示 Trusted by 300+ Institutional Firms。对应投资/交易记录、从寻源/承销/执行到持有的生命周期，以及承销与组合价值/回报结构。",
+      "gaps": "快照未展示基金/载体、所有权头寸、股权/债务资本结构或 waterfall/投资者账户；仅支持 deal-workflow pole 的承销与组合决策，未主张 fund-operations 深度。"
+    }
+  },
+  "limits": "本次为只读静态初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 10 个快照（按 path 原样读取，sources 前缀相对于 data/collections）；未运行应用、未部署、未做价格/架构/安全/客户数验证；未访问实时站点，InsulaCRM 官网 HTTP 530 已在 research 中记录并改用 GitHub 仓库来源；商业页面均为厂商自述，未独立核验营销数据；未读取其他单元，未运行 shell，未写文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-173/ses_groveopencodegop173review1_1793018752.jsonl",
+  "batch_sha256": "8339e42ac012ea5472306b549ac12c57650f894be6a6600e3006fd9ae2bff800",
+  "research_sha256": "0b84e8a25b2f6fa0801fc08438e9a0d074a6e2d5a45f2b68061592bbc36e3046",
+  "input_sha256": "35f9bbefbfbd14b30506d306881b2cd6e6f834b27c99ea875a9802643333bca1"
+}

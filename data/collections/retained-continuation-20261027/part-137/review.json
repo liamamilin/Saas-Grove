@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Postal 的 feature-list 快照是单行压缩的 Nuxt HTML，行式读取会截断超长行；快照内可匹配到功能条目原文，且同一公开 URL 的只读页面内容一致。建议后续采集时另存可读文本快照，便于审计，不影响本次结论。",
+    "Rancher 的 What is Rancher 页面是高层概述，工作负载级 Kubernetes 对象（Deployment/Service/ConfigMap 等）的增删改操作描述较少；可补一页操作文档增强证据，当前不阻断。",
+    "SigNoz 的核心证据主要来自 README 与仓库元数据，未附单独 docs 快照；README 的功能描述已覆盖三项核心，建议后续补官方文档快照。",
+    "AWX 候选的许可证缺口可能可以通过 licenses/awx.txt 的完整 Apache-2.0 文本闭合；若后续放宽许可证据路径规则，可复核是否建立案例。当前按留档缺口通过。",
+    "input.json 的 progress 仍显示 not_searched、application_ids/research_records 为空，与 batch.json/research.json 的四个 case_found 和一个 insufficient_evidence 不一致；建议同步进度元数据。",
+    "Rancher 主页快照实际标题为 SUSE Rancher Prime（canonical 指向 rancher-platform），但同页明确列出 Free forever 的 Rancher 与 Prime 商业支持，社区版/商业版边界仍可核对。",
+    "Postal 的入站垃圾/病毒检查属于附加能力，未据此扩展为邮件安全网关；类型边界处理正确。"
+  ],
+  "leaf_checks": {
+    "email-infrastructure-management": {
+      "status": "passed",
+      "application_ids": [
+        "github:88740103"
+      ],
+      "basis": "Postal 仓库元数据（ID 88740103）与 README 确认其为自托管邮件投递平台；feature-list 快照含 'Send messages to the SMTP server or using the HTTP API'、'Support for DKIM signing of outbound messages'、'Built-in DNS checking and monitoring'、'Built-in suppression list'、'webhooks to receive live information about delivery information'、'view historical messages'、'full outgoing and incoming message queue'、'multiple organizations with mail servers and users' 等条目，覆盖发送基础设施、发送域认证、程序化注入、递送结果反馈四项核心。",
+      "licensing": "MIT；/license 快照为 GitHub license API 返回的 'MIT-LICENCE'，含完整 MIT 文本；无商业版/社区版拆分。",
+      "gap": null
+    },
+    "infrastructure-as-code-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:679421146"
+      ],
+      "basis": "README 列出 Infrastructure as Code、Execution Plans、Resource Graph、Change Automation；core-workflow 文档为 Write/Plan/Apply；State 文档说明状态在真实资源与配置资源实例之间建立绑定，创建远程对象后记录其身份，并据此更新/删除，覆盖声明、托管生命周期执行、托管资源记录三项核心。",
+      "licensing": "MPL-2.0；LICENSE 快照含完整 MPL-2.0 文本（size 16048，spdx_id MPL-2.0）；CLI + 本地/远端状态形态符合该叶定义。",
+      "gap": null
+    },
+    "infrastructure-automation-platform": {
+      "status": "passed_with_documented_gap",
+      "application_ids": [],
+      "basis": "无 batch 应用。research.json 记录 AWX（ansible/awx，GitHub ID 91594105）候选的检索、官方 URL、抓取哈希与失败项；记录称其 README/overview/RBAC 与自动化内容、集中执行、治理三项结构相符，但未建立 batch 关系。",
+      "licensing": "未建立条目。AWX 许可证据未闭合：GitHub license API 为 NOASSERTION；根 LICENSE.md 缺 Apache-2.0 附录；licenses/awx.txt 有完整文本但路径不符合许可证据规则。",
+      "gap": "许可证证据缺口已如实留档；AWX 快照不在 REVIEW_SOURCES.json，未独立复核。按无案例留档缺口通过。"
+    },
+    "kubernetes-management-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:26337322"
+      ],
+      "basis": "官方 What is Rancher 文档称其为 Kubernetes management tool，可向托管商供给、在自备节点安装或导入现有集群，集中认证与 RBAC，提供集群/资源监控告警、日志外送、Helm Application Catalog 与 Fleet 工作负载交付；README/元数据确认开源仓库；覆盖集群资产库与 Kubernetes 原生操作面。",
+      "licensing": "Apache-2.0；LICENSE 快照含完整 Apache-2.0 文本（spdx_id Apache-2.0）；主页区分 Free forever Rancher 与 SUSE Rancher Prime 商业支持。",
+      "gap": null
+    },
+    "observability-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:326404870"
+      ],
+      "basis": "README 与仓库元数据称其为 OpenTelemetry 原生可观测性平台，日志/指标/追踪/异常/告警/仪表板统一；日志可与 trace/metrics 关联，服务图表可跳转 trace、日志、基础设施指标与异常；覆盖多信号摄取、共享上下文、跨信号调查三项核心。",
+      "licensing": "MIT 社区核心；LICENSE 明确 ee/ 与 cmd/enterprise/ 另按企业许可；README 区分 Community/Enterprise/Cloud；未把企业版或云版能力当作社区核心。",
+      "gap": null
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未安装或运行任何产品（各条 runtime_tested=false），未做部署测试、价格或额外架构研究。按 REVIEW_SOURCES.json 的 path 原样读取 17 个快照，sources 前缀按 data/collections 解析。Postal feature-list 快照是单行压缩 HTML，行式读取会截断超长行；已用快照内匹配到的功能条目文本及同一公开 URL 的只读页面交叉核对。AWX 候选快照不在 REVIEW_SOURCES.json 的 sources 列表中，未独立复核，仅依据 research.json 的留档缺口。Rancher 主页快照经重定向为 SUSE Rancher Prime 页面。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-137/ses_groveopencodegop137review2_1793010469.jsonl",
+  "batch_sha256": "f679e530384b44c9e24e3f88b931e7d34c8d4f3658d639b1b5e7c51a489d4a3e",
+  "research_sha256": "6abc5ad0cc435cada7436e0c611738244a348442c256c5b04a56f567964159b6",
+  "input_sha256": "d1d1a0468223926d114190cfc5aede532fe10bcb71142db2a9546bfd9e36216e"
+}

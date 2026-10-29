@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "github:1255299527",
+      "note": "input.json 中本叶的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，phase=included_without_cases；而 research.json 为 case_found（github:1255299527、commercial:kalepa），batch.json 也有对应 leaf_matches。research.json 的 note 已说明这是在保留历史轨迹的基础上补充证据，不属于事实或来源缺陷；建议在汇总阶段同步 progress.application_ids 和 case_status，避免下游误判本叶无案例。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "commercial:kalepa",
+      "note": "batch.json 中 Kalepa 的 leaf_match reason 写到 Quote & Bind 页在“single workspace”内完成流转并“回写既有核心系统”。实际 quote-bind 快照仅有“integrated in one unified platform”“Move from decision to bind”，未出现 write-back/core system 表述；“single workspace for every underwriting decision”出自首页快照。商业案例只做基本真实性核对，类型匹配仍成立，建议把回写表述删除或收窄为“统一平台内决策到绑定”。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "github:1255299527",
+      "note": "LatticePolicy 的自我定位是 P&C 保单管理与多租户保单管理框架，承保是其模块；README 明确报价/核保/绑定/签发在同一平台内完成。这与定义文档“同一产品家族、平台视角覆盖 intake→post-bind”的说明一致，但引用时宜始终保持“同一平台内部交接给报价/绑定/签发”的表述，不宜暗示独立第三方 PAS 交接。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "github:1255299527",
+      "note": "承保规则引擎与转介工作流的主要证据是仓库内任务说明（issue-50、admin-underwriting-rules-engine、issue-316）与 uw.service.ts 源码，可支撑已实现的核心判定与转介门禁；但 issue-50 的 follow-up 指出转介的指派/评论接口尚未接入 UW 队列 UI，仅审批动作在界面中。描述“工作台协作轨迹”时应避免过度概括为完整 UI 协作功能。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "github:1255299527",
+      "note": "开源候选的证据形态是仓库 README、文档与源码，未做部署或运行验证（runtime_tested=false）。README 自称 starter framework，并说明完全开源且无功能门控；若在案例卡片中呈现，建议保留“可自托管、以仓库文档与源码为依据、未经运行时验证”的限定。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": "commercial:kalepa",
+      "note": "Kalepa 仅有官网首页与 Quote & Bind 产品页两份营销页面，无产品文档或界面截图正文。用于商业案例的基本真实性和核心类型匹配足够，但价格、部署形态、与保单管理系统的边界均未由来源主张，保持现状即可，不要补写产品常识。"
+    },
+    {
+      "slug": "underwriting-workbench",
+      "application_id": null,
+      "note": "research.json 的 search_attempts/fetch_outcomes 如实记录了搜索配额耗尽改用 GitHub 搜索 API、underwriting+workbench 候选不成立、OpenUnderwriter 无 README（404）等情况，符合“真实记录检索与缺口”的留档要求，属于可通过的检索留档，不需要补做搜索。"
+    }
+  ],
+  "leaf_checks": {
+    "underwriting-workbench": {
+      "result": "pass",
+      "definition_core": "有源码与文档正文支撑：docs/SUBMISSION_INTAKE.md 描述提交作为独立案件被摄取、逐值人工确认、审批作为原子门禁（RECEIVED→…→COMPLETED/DECLINED）；server/src/services/uw.service.ts 的 evaluateUW 返回 Eligible/Refer/Decline 及 reasons，并支持租户配置的 underwriting_rules 覆盖硬编码回退；issue-50 文档给出 underwriting_referrals 记录（状态、理由、指派、评论、decided_by、时间）并在审批前阻断 bind/renew/rewrite/endorse；issue-316 文档给出有效期授权额度超限自动转介与 uw.authority.override 显式覆盖。核心结构“提交→按运营商偏好评估→记录承保决定（接受/拒绝/转介+条款）→交下游”成立；条款以报价的承保范围/限额/评级体现，交接发生在同一平台的报价—绑定—签发流程内。",
+      "saas_service_form": "开源侧为可自托管的完整 P&C 保单平台应用（React 前端、Node 服务、PostgreSQL/Redis、Docker Compose、迁移、CI 与 AWS ECS 示例、运营界面与客户门户），属于持续使用的软件服务形态而非演示页或纯元数据；商业侧 Kalepa 为面向承运人/MGA 的 SaaS 承保平台。",
+      "identity_and_track": "仓库 ID 与批次一致（GitHub id 1255299527，full_name kishorjakkula/LatticePolicy），非 fork、非归档（fork=false、archived=false），track=open_source 与仓库性质相符；Kalepa track=commercial，ID commercial:kalepa 与官网一致。",
+      "license_and_community_edition": "license API 快照返回 LICENSE（size 11358，base64 正文为 Apache License 2.0 全文），仓库元数据 license.spdx_id=Apache-2.0，README 亦声明 Apache-2.0；README “fully open-source with no feature gating” 明确社区版无功能门控，商业支持仅为实施/托管服务，社区版边界清晰。",
+      "commercial_authenticity": "Kalepa 官网快照可核验：首页列出 Submission Ingestion、Clearance、Triage、Risk Analysis、Rating、Quote & Bind 平台能力，提交列表展示 Preferred/Refer/Decline 状态与 “referral guidance”、“A single workspace for every underwriting decision”；Quote & Bind 页给出 decision→bind 的统一平台表述。商业案例的基本真实性与承保工作台类型匹配成立。",
+      "gaps": "未做部署/运行验证；快照为单行 HTML，展示层有截断，未逐字复核页面全部文案；未重算 SHA-256。Kalepa 仅有营销页面，无产品文档或保单管理边界说明；LatticePolicy 的“单一风险工作区”由提交审阅页、报价向导、UW 队列等分散界面拼合，未提供统一工作台截图或用户文档，协作轨迹 UI 仅部分落地。上述均已在 research.json 的 note/service_boundary 中限定，不构成事实或许可缺陷。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未执行部署或运行时测试，未重算快照 SHA-256（按 REVIEW_SOURCES.json 的 path 原样读取了全部 10 份快照）；快照为单行压缩 HTML 或超长 JSON，读取工具对单行有 2000 字符展示截断，Kalepa 页面部分长段落无法逐字全文核对（Refer/Decline 状态与 referral guidance 均能在快照中定位）；未访问快照之外的在线页面，未核对仓库历史提交、Issue/PR 实际状态或其他单元资料；商业案例仅按官网营销内容做基本真实性与类型匹配核对，不涉及价格、架构或部署验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-063/ses_groveopendesignp063review1_1793174554.jsonl",
+  "batch_sha256": "bf652d29f8e6d6c0bd218dc0844b0f0c93d62fe039ca8f61eaaf88c203f27a58",
+  "research_sha256": "084252cdd74d8401f1b61436a35d6c8eb4d8f73d7b14c0794718770b8e241ffc",
+  "input_sha256": "079c31ebf9c8dd1835665c65fd8a09fc8925c254d2da8bd59151ad8325279579"
+}

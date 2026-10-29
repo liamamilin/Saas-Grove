@@ -1,0 +1,76 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "legal-e-filing-platform",
+      "application_id": "commercial:one-legal",
+      "issue": "该叶唯一引用的官方快照 data/collections/sources/87389c5715eafa0d8b8c7ac012b1f6db644b04365f60c84987c3e52e80371f9c.txt（https://www.onelegal.com/products/filing）实际只包含 HTML head、WordPress/Elementor 脚本和 meta 信息（title 为 One Legal - Court Filing，description 为 file documents across California and Nevada），没有产品正文；快照中检索不到 Matter、status tracking、rejected/rejection、Re-File 等字样，也没有法院案件绑定、提交单元、书记员受理/驳回循环或费用处理的说明。batch.json 的 leaf_match reason 和 research.json 的 fetch_outcome 却声称该页正文确认了按 Matter 管理、状态跟踪和被拒重提，与实际快照不符，属于以元数据替代核心正文并高估证据。",
+      "fix": "重新抓取并保存包含产品正文的官方页面或官方帮助文档，正文须能直接支持法院案件绑定、文件提交、书记员受理/驳回、状态跟踪及被拒重新提交；据此重写 batch.json/research.json 的 reason 与 note，并将 verification_status 调整为与证据相符的状态。若该页面始终只能取得无正文的渲染结果，应如实记录抓取/渲染缺口，将 One Legal 移出该叶或把该叶标为无案例并保留检索与缺口记录，不得保留当前正文已确认的表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "DeedBox 同时匹配 law-practice-management-system 与 legal-billing-application。两者核心均有正文依据，属于产品功能重叠而非重复计数错误；但 legal-billing-application 定义强调独立资金循环，后续归类时应按主类型说明其同时具备事项工作区与计费闭环，避免被误读为两个独立产品。",
+    "DeedBox README 未逐项列出 contingency、flat fee 等费用安排，只明确时间捕获、费率、估算/预算、草稿账单、审批、开票、贷项、核销、争议、利息、分期与对账单；对法律计费核心已足够，但费用安排覆盖面的表述可更保守。",
+    "ImmiBox 的 e-filing 是 USCIS/DOL 的移民表格电子提交，不是法院电子立案；不应据此把 ImmiBox 补入 legal-e-filing-platform。",
+    "Lawmatics 的 intake 快照中未检索到 engagement、retainer、agreement 字样，聘用协议执行与事项创建的具体交接闭环未在快照中明说；现有 onboarding、e-signature、matter 及冲突页 approve/deny/flag 证据可支持商业基本类型匹配，但后续最好补充一句正文级证据。",
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids 为空，与 research.json 的 case_found 及 batch.json 的应用记录不一致；下游应以 research.json/batch.json 为当前状态，或回填 progress。",
+    "Lawmatics 与 One Legal 的 HTML 快照为压缩单行，read 对每行仅显示前 2,000 字符；Lawmatics 的关键词存在性已在完整文件中确认，但未能逐句通读全部正文句段。",
+    "DeedBox 许可证快照是 GitHub license API 的 base64 JSON；核对了解码头部（GNU AFFERO GENERAL PUBLIC LICENSE Version 3）、metadata spdx_id=AGPL-3.0 与 LICENSE 大小 34,523 字节，未做逐字全文解码。仓库 metadata 显示 archived=false、default_branch=main，与 batch 的 github:1331339595 一致。",
+    "One Legal 的 /efiling/ 404 已如实留档，这是良好做法；但它不能弥补 /products/filing 正文缺失的问题。",
+    "batch.json 将产品子页（如 /features、/client-intake、/conflict-checking、/products/filing）的 kind 标为 homepage，属轻微元数据不精确，不影响本轮内容判断。",
+    "DeedBox README 说明国家包未激活前账单不计税、后台任务需外部调度器触发；这是部署与运营注意事项，不属于许可证或社区版边界问题。"
+  ],
+  "leaf_checks": {
+    "immigration-practice-management": {
+      "status": "pass",
+      "application_id": "commercial:immibox",
+      "evidence": "读取 data/collections/sources/66599e66308ad989515c3f1cec1ddc540c9851c5f1b4df7791454f77daac2346.txt（https://immibox.com/features，标题 ImmiBox Features: Best Immigration Practice management tool）。正文明确面向 Immigration Law practitioners 的移民案件管理，包含案件全生命周期与工作流配置、RFE 与主案件关联、Dynamic Case Status 实时跟踪 USCIS 案件并通知相关方、USCIS 表格自动生成/回填与可定制 Questionnaire、文档管理、截止日期、按客户维护 LCA/PWD 库、G-28/I-907/I-130/I-129/I-765/PERM/PWD 与 USCIS/DOL 的电子提交，以及按 case type/subtype 配置费用和发票。页脚说明由 Ideateq, Inc. 以订阅方式提供、云托管。",
+      "core_check": "客户/申请人/受益人及联系人记录、绑定案件类型与工作流的移民案件、问卷到官方表格与支持文件的准备、持续案件记录及政府状态跟踪四要素均有正文依据。",
+      "service_form": "云端订阅制 SaaS，符合持续使用的软件服务形态。",
+      "track_check": "commercial track 与 immibox.com 来源一致；无开源许可证要求。",
+      "notes": "客户记录主要以 petitioner、beneficiary、stakeholder、contact 形式出现，未显式描述外国人登记号等字段；不影响该叶核心判断。"
+    },
+    "law-practice-management-system": {
+      "status": "pass",
+      "application_id": "github:1331339595",
+      "evidence": "读取仓库元数据 data/collections/sources/2abe8a4e305faa37372bcc52d0bb56f61c0f08671e3a6e10252c440725c23572.txt（id=1331339595，full_name=deedbox-maintainers/deedbox-app，archived=false，default_branch=main，描述为 Free, open-source and complete practice management system for law firms）、许可证快照 data/collections/sources/5f3719e2115a67b925c5c82c568a0d4e0164d66a51f6c642f46c6d5f4588831e.txt（AGPL-3.0 正文，LICENSE 34,523 bytes）以及 README data/collections/sources/2be4d9b62139df45c2d64cbc0df11d81154dae69169d2597515370b7698d6a32.txt。README 正文含 matters and parties、relationships、conflict checking、duplicate detection、restricted matters、time and billing、client and trust ledgers、documents/e-signature/client portal、workflow、key dates、reporting、email filing、data import，并明确自托管。",
+      "core_check": "客户与当事人记录、事项容器、事项档案（文档/邮件/日程/任务/笔记/时间与费用）、计费与信托资金闭环四层均有正文依据，符合律所客户-事项-档案-计费核心。",
+      "service_form": "开源自托管应用，非订阅 SaaS，但 open_source track 允许自托管部署。",
+      "track_check": "github:1331339595 与仓库 metadata id 1331339595、full_name、homepage 一致；仓库未归档。",
+      "notes": "README 称 Free, open-source and complete，未见 open-core 或付费社区版分界；AGPL-3.0 为完整标准许可证文本。"
+    },
+    "legal-billing-application": {
+      "status": "pass",
+      "application_id": "github:1331339595",
+      "evidence": "复用并复核 DeedBox README data/collections/sources/2be4d9b62139df45c2d64cbc0df11d81154dae69169d2597515370b7698d6a32.txt：时间与计费部分含 time capture、rates、estimates and budgets、draft bills、approval、issue、credit notes、write-offs、disputes、interest、reminders、instalment arrangements、statements；客户资金部分含 client and trust ledgers、receipts、payments、transfers、earmarks、instruments and dishonours、bank reconciliation with certification、examiner access；事项与当事人、数据导入也在正文中。许可证与仓库身份同 law-practice-management-system。",
+      "core_check": "客户+事项计费锚点、带费率的时间记录、可计费条目、草稿账单/审批/开票、应收账款与信托资金/对账闭环均有正文依据，符合法律账单应用核心。",
+      "service_form": "开源自托管应用，open_source track 允许。",
+      "track_check": "github:1331339595 与仓库 metadata 一致；AGPL-3.0 许可证完整。",
+      "notes": "README 未逐项列出 contingency、flat fee 等费用安排，费率与时间计费及信托会计已足够支撑核心；与 LPM 叶的双重匹配属功能重叠。"
+    },
+    "legal-e-filing-platform": {
+      "status": "changes_required",
+      "application_id": "commercial:one-legal",
+      "evidence": "读取 data/collections/sources/87389c5715eafa0d8b8c7ac012b1f6db644b04365f60c84987c3e52e80371f9c.txt（https://www.onelegal.com/products/filing）。文件为 WordPress/Elementor 页面，实际仅有 head、meta（title 为 One Legal - Court Filing；description 为 file documents across California and Nevada；og:site_name 为 One Legal | An InfoTrack Company）及脚本；没有正文段落，未出现 Matter、status/status tracking、rejected/rejection、Re-File 等词。",
+      "core_check": "只能从标题和描述确认其自称法院文件提交服务；无法确认法院案件绑定、以案件为单位的提交、书记员受理/驳回循环、费用处理及回传盖章副本等定义性核心，核心证据不足。",
+      "service_form": "商业法院提交服务形态可基本确认，但核心类型未获正文支持。",
+      "track_check": "commercial track 与 onelegal.com 域名一致；无开源许可证要求。",
+      "notes": "research.json 对 /efiling/ 的 404 有留档，但未记录 /products/filing 正文缺失；batch.json 的 Matter 管理、状态跟踪、被拒重提等表述超出快照内容。"
+    },
+    "legal-intake-client-onboarding": {
+      "status": "pass",
+      "application_id": "commercial:lawmatics",
+      "evidence": "读取两个官方快照：data/collections/sources/7a3639676e3f3f7dacbafa6aabb6a87ec2b2763cfbcecd8525af764a6b40dae0.txt（https://www.lawmatics.com/client-intake，title 为 Legal Client Intake Software | Lawmatics；H1 为 LEGAL CLIENT INTAKE SOFTWARE；H2 为 Swift, seamless client intake for you and your clients；H2 为 LAW FIRM INTAKE AUTOMATION；H3 为 Automate the entire client intake journey；正文含 custom、file request、signature、signed、onboarding、matter、conflict）与 data/collections/sources/f35bd5bacb48b9c606eac79b39720f6402ce53293079259660eb9527b57d70c9.txt（https://www.lawmatics.com/conflict-checking，H1 为 CONFLICT CHECK SOFTWARE；H2 为 Law firm conflict checks made easy；FAQ 含 What is conflict checking?；正文含 intake、approve、deny、flag）。",
+      "core_check": "潜在客户/lead 记录、承接前冲突筛查、approve/deny/flag 的明确决定、电子签署与 onboarding 及 matter 交接均有正文词语级依据；具体句段因单行截断未能逐句通读。",
+      "service_form": "商业 SaaS/云平台，符合持续使用的软件服务形态。",
+      "track_check": "commercial track 与 lawmatics.com 来源一致；无开源许可证要求。",
+      "notes": "快照中未检索到 engagement、retainer、agreement 字样，聘用协议执行与事项创建的具体闭环未明说；按商业基本类型匹配可通过，建议后续补充正文级证据。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未部署或登录产品、未发起 webfetch 补抓、未读取其他单元。快照按 REVIEW_SOURCES.json 的 path 原样读取，未重算 sha256，仅核对 batch.json 的 snapshot_path 与 manifest 的 path/sha 对齐。HTML 快照为压缩单行，read 对每行仅显示前 2,000 字符，Lawmatics/ImmiBox 的部分正文只能以完整文件中的关键词存在性加可见标题核对，未能逐句通读；One Legal 快照无正文可核。DeedBox 许可证为 GitHub API base64 JSON，核对了解码头部、spdx_id 与 LICENSE 大小，未逐字解码全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-129/ses_groveopencodegop129review1_1793007758.jsonl",
+  "batch_sha256": "2068713b545e2627977c865baefecba91f70fd0af35bc460c9658d97cc5e6707",
+  "research_sha256": "401ad1ebc66d5cfb0453a0dd8f54bc4d38386a500750e07745c109f26317adde",
+  "input_sha256": "1f4054f98cbd4071d6a03959c87087e9dd49ecf312defb79c4f385507b25de99"
+}

@@ -1,0 +1,24 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "kanban-task-board",
+      "severity": "blocking",
+      "problem": "Plane 的类型边界不成立。本叶 dc 明示“看板是首要工作界面和记录模型——不是在其他任务数据库之上的一种视图”，且规则要求“位置即状态、没有第二个状态字段需要协调”。采集者自己引用的 kanban-group.tsx 恰好证明：列拖放会把 state_id 回写到工作项，状态是独立字段，Board 只是 list/spreadsheet/gantt/calendar 之外的一种 layout；docs Layouts 也把它描述为布局。这与 task-management 叶里“看板是视图而非记录”的判别标准直接冲突，属于类型误配，而非“完整子模块”可豁免的问题。",
+      "fix": "改用 board-first 的开源产品（如 Kanboard、Wekan、Focalboard 等）重新取证：要求来源正文能证明板是主要工作面、列即状态、移动卡片即状态变更且无并行状态字段需要同步。若坚持保留 Plane，则需明确论证其 Board 布局本身构成可独立成立的完整子模块，并说明为何不落入“视图而非记录”的排除项；否则应把该 leaf 改为证据不足/边界未决并移除 Plane 在此叶的关联（Plane 仍可保留在 work-management-platform）。"
+    },
+    {
+      "leaf": "to-do-list-application",
+      "severity": "major",
+      "problem": "reason 以 docs/manual_sort_mode 证明“界面提供‘显示已完成’开关”，但该快照原文明确写“Show hidden 和 Show completed toggles are not supported”（在 Astrid 手动排序模式下）。引用与原文相反，属于引证错误；而“列表为归属地/主工作面”在该页也未获正面描述。",
+      "fix": "改用真正描述列表与完成状态/显示已完成开关的官方文档页（如 Lists、Task completion 相关页）重新取证；若找不到，删去该具体断言，仅保留首页与 docs 能支持的“命名列表、提醒、重复、过滤器”，并在 note 中如实标注完成状态证据薄弱。"
+    },
+    {
+      "leaf": "project-portfolio-management-application",
+      "severity": "minor",
+      "problem": "商业条目基本类型匹配（组合汇总、预算预测、intake 入口均有官方页面），但“按优先级评审/批准”“按团队产能排期”“预算审批”等细粒度措辞在已读正文片段中未能逐句确认，页面多为 JS 渲染。按契约商业只要求基本真实性与类型匹配，故不作阻断，但不应把未逐句核到的审批语义写成确定事实。",
+      "fix": "将 reason 中“批准/审批”类措辞降级为页面可支持的范围（收集候选、优先级评审、组合预算与实际成本对比、仪表盘跟踪），或在 notes 标注该细节未逐句核验；无需追加深入调研。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-003/project/review.json"
+}

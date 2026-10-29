@@ -1,0 +1,84 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Advyzon：/advisor-platform/ 快照实际是 Enterprise Solutions 页面（canonical/og:url/title 均指向 /enterprise-solutions/），research.json 已如实记录，且 leaf_matches 未把它当作 Advisor Platform 的直接正文证据；建议后续替换为真实的 Advisor Platform 页面，或从 sources 中移除，以免下游误用。",
+    "Advyzon：财务规划页明确 Full Financial Planning 为 Coming Soon，当前 live 的是 Goals-Based Investing；CRM 页使用 client 级记录，未出现 household/co-client/dependents 措辞，家庭粒度未被直接证明，但客户关系记录、账户/持仓/估值与目标/情景/提案工作流已有正文支撑。",
+    "StarCompliance：页面证实个人账户交易预审/交易后监控、私人投资与外部业务活动申报、礼品与招待、公司交易监控、MNPI/限制名单、利益冲突、培训认证、可配置工作流与报表；未出现 audit trail/immutable records/examiner evidence 措辞，审计证据 posture 仅按基本类型匹配。",
+    "OneStream：合并链（实体层级、LOCAL→TRANSLATED→SHARE→ELIMINATION→OWNERPOSTADJ、按 % Consolidation、Journal 调整、statutory consolidation）由官方 Consolidation/Consolidation Dimension 文档正文支撑；/platform/ 快照为客户端渲染壳，具体 data quality、audit trail、drill-back 等营销表述不易从快照正文逐字复核。",
+    "Planful：页面证实同一财务模型、planning/budgeting/forecasting、headcount 的 managers propose/finance approve、budget 对 committed spend/results；versioned plan/scenario 机制与 actuals 独立层未在页面直接展开，research.json 已收窄相应表述。",
+    "Madar：MIT 许可证正文完整（1072 bytes，标准 MIT 文本，版权 2026 Shahin ILDEREMI），仓库 id/full_name 与元数据一致；README 的 Release boundaries 说明不含第三方银行/托管/KYC/行情等集成凭据，生产需部署方完成合规与集成，未发现隐藏的社区版/企业版功能切分。",
+    "Madar 定位为基金管理人/基金会计运营平台，未明确第三方基金行政外包商的多客户服务边界；其复式账簿、NAV、投资者登记册、费用/高水位、报表与审计事件仍直接匹配基金行政管理核心。",
+    "所有商业页均为官方营销/产品/文档页，未做运行时、价格、部署或架构测试；本次仅按基本真实性和类型匹配审查。",
+    "快照均为只读文本；对 Next.js/MadCap 超长单行 HTML，读取工具按行截断，部分正文只能通过关键词命中确认，未逐字复核全文。"
+  ],
+  "leaf_checks": {
+    "financial-advisor-platform": {
+      "application_id": "commercial:advyzon",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": [
+        "Advyzon CRM 页正文：客户记录汇聚 emails、meetings、notes、tasks、opportunities、planning details、portfolio information 与 relationship history，构成顾问侧客户关系记录。",
+        "Advyzon Financial Planning 页正文：Goals-Based Investing 已 live，覆盖 goal creation、scenario modeling、portfolio alignment、proposal generation、progress monitoring；accounts、holdings、valuations、client details 自动流入 scenario。",
+        "商业真实性与类型匹配：Advyzon 为面向顾问的财富管理/顾问执业平台，非托管、交易执行或消费者直连理财。"
+      ],
+      "core_match": "客户关系记录 + 结构化账户/持仓/估值 + 目标/情景/提案工作产品，达到商业基本类型匹配。",
+      "gaps": "未证明 household/co-client/dependents 家庭粒度；Full Financial Planning 为 Coming Soon，当前 live 的是 Goals-Based Investing；/advisor-platform/ 快照不是该产品页，未作为直接证据。"
+    },
+    "financial-compliance-management": {
+      "application_id": "commercial:starcompliance",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": [
+        "StarCompliance compliance-solutions 页正文：Personal Account Dealing、Crypto Dealing 的 pre-clearance/post-trade oversight、Private Investments 申报、Gifts & Hospitality 申报、Outside Business Activities 披露。",
+        "同页正文：Firm Trade Surveillance 对比 watch/restricted lists；MNPI Management 覆盖 wall crossings、insider lists、restricted lists；Conflicts 管理 deal teams 与 wall crossing；Training & Competency 跟踪培训/认证。",
+        "同页正文：可配置 conditional-logic workflows、分级权限与 customizable dashboards/reports，形成受监管机构可审查的合规活动记录。"
+      ],
+      "core_match": "受监管金融机构的合规活动、披露、审批与监控工作流，达到商业基本类型匹配。",
+      "gaps": "页面未直接出现 audit trail/immutable records/examiner evidence 措辞，审计证据 posture 未被逐字证明；单页营销资料未覆盖全部模块细节。"
+    },
+    "financial-consolidation-platform": {
+      "application_id": "commercial:onestream",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": [
+        "OneStream 官方 Consolidation 文档：base level Entities 沿 hierarchy 汇总到 Parent，运行 calculations/translations；数据单元为 LOCAL→TRANSLATED（FX）→SHARE（% Consolidation）→ELIMINATION（IC offset/plug）→OWNERPOSTADJ（Journal）→TOP（贡献给 Parent 的 LOCAL）。",
+        "OneStream 官方 Consolidation Dimension 文档：该层级展示 entity data 从本币滚到贡献给 parent 的最终数字，涵盖 translation、share、elimination、adjustment（Journal）与 currencies，并用于 statutory consolidation。",
+        "Financial Close & Consolidation 页正文含 consolidat/intercompany/ownership/audit/drill 等词；平台页 schema 将 Financial Close & Consolidation 列为核心能力。"
+      ],
+      "core_match": "集团实体层级 + 实体数据 + 币种换算/公司间抵消/份额合并/调整的合并计算链，达到商业基本类型匹配。",
+      "gaps": "合并报表输出、trial balance 采集细节与所有权变更事件未逐字展开；/platform/ 快照正文为客户端渲染壳，部分营销表述未直接复核。"
+    },
+    "financial-planning-analysis-platform": {
+      "application_id": "commercial:planful",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": [
+        "Planful solutions 页正文：FP&A solutions for every team that touches the plan，Every function connects back to the same financial model。",
+        "同页正文：Planning、Budgeting and Forecasting、Annual Operating Plan；marketing budget 对 committed spend/results；headcount 由 managers proposing changes、finance approving them in the same workflow；operational plan 连接 live data 使 volume/cost assumptions 保持最新。",
+        "同页 FAQ/解决方案内容连接 close、consolidation、reporting 与多实体场景。"
+      ],
+      "core_match": "共享财务模型 + 预算/预测/年度计划 + 受管审批周期 + plan 对实际结果的比较，达到商业基本类型匹配。",
+      "gaps": "versioned plan/scenario 机制与 actuals 独立层未在页面直接展开；页面为 solutions 营销页，未覆盖具体产品界面与版本管理细节。"
+    },
+    "fund-administration-platform": {
+      "application_id": "github:1345752498",
+      "track": "open_source",
+      "verdict": "pass",
+      "evidence": [
+        "Madar README：multi-tenant、multi-asset investment operations and portfolio-accounting platform；投资者与投资账户登记、pooled/unitized 与 segregated 账户、申购/赎回、复式记账、不可变已过账日记账。",
+        "README：NAV 计算与最终化、份额核算、管理费/绩效费与高水位、对账、风险控制、报表受控发布、append-only audit events、investor portal；明确 pooled/unitized 的 NAV、units、fees 公式。",
+        "许可证：GitHub license 快照含完整 MIT 正文（size 1072，标准 MIT 条款与版权声明）；仓库元数据 id 1345752498、full_name ildrm/madar-investment-operations-platform 与批记录一致。",
+        "Release boundaries：仓库实现核心会计与运营平台及 adapter 边界，不附第三方银行/托管/KYC/行情等凭据，生产需部署方完成合规与集成；未发现社区版/企业版功能切分。"
+      ],
+      "core_match": "受管基金 + 官方复式账簿 + 投资者登记册/资本账户 + NAV/费用/报表的周期生产，达到开源基金行政管理平台的核心匹配。",
+      "gaps": "定位偏向基金管理人/基金会计运营，未明确第三方基金行政外包商的多客户服务边界；未做部署或运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 11 个快照；未运行 shell、未写文件、未访问其他单元、未做外部抓取或运行时测试。Next.js/MadCap 快照存在超长单行 HTML，读取工具按行截断至 2000 字符，部分正文只能以关键词命中确认，未逐字复核全文；未独立重算 SHA-256，仅按文件名与记录中的哈希比对；未审查价格、部署、架构或完整模块边界。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-119/ses_groveopencodegop119review2_1793006558.jsonl",
+  "batch_sha256": "505d5f15dfa31509f45e7157a830d643fda06a426e27233aaedc86deab8ac9e1",
+  "research_sha256": "9b5e9df2926a1ca19f001faafdbfcec7bbebe457ce5596beec69ec114e9e682d",
+  "input_sha256": "e14896e86f815e76f94fd7c908a678468abc86abb1621f5e68047a7a0423307f"
+}

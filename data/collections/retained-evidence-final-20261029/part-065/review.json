@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "career-site-platform / github:501292795：批次 features 中的“职位描述富文本”一项在留存快照里没有直接证据，job_opening.html 以 `<p>{{ description }}</p>` 直接输出（未见 |safe 或编辑器字段类型说明）。职位描述由雇主后台字段维护这一事实成立，但“富文本”属于附加修饰，建议改为“职位描述字段由雇主在后台维护”，不影响四项定义属性的判定。",
+    "career-site-platform / github:501292795：品牌表达的证据是 docs.frappe.io/erpnext/website-theme（Frappe 站点层 Website Theme：配色、字体、按钮样式），属同一站点框架能力而非 Frappe HR 专属的 career-site 可视化设计器；research.json 已按此收窄表述，建议条目文案继续保留“站点层主题”这一限定，不要表述为独立职业站点设计器。",
+    "career-site-platform / github:501292795：research.json 该叶的 case source_urls 里含 Phenom 产品页，但该 URL 未出现在 REVIEW_SOURCES.json 且无留存快照，本单元无法独立复核；它只用于说明历史 boundary_unresolved 的复核过程、未被当作本案证据。建议把该 URL 从 case source_urls 移到历史复核说明，避免读者误认为它是 entry 的来源。",
+    "career-site-platform / github:501292795：公开列表按 company 字段做筛选项（index.py 的 allowed_filters 含 company），说明单个 Frappe 站点可承载多个 Company 的职位；单雇主边界实际依赖“一个雇主站点/实例”这一前提。建议在 service_boundary 中补一句该限定，避免被理解为多雇主聚合板。",
+    "career-site-platform / github:501292795：input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids 为空，与 batch.json/research.json 的 case_found + github:501292795 不一致，属上游进度状态待同步，不影响本轮内容结论。",
+    "career-site-platform / github:501292795：research.json 的 historical_reuse 已如实记录旧记录与旧快照未在本工作区落地、旧 previous_sha256 指向工作区外路径，本轮对 Phenom 的复核结论没有留存快照可查；按“如实记录缺口”的规则不阻断，但后续如需引用 Phenom 判断应补留存。"
+  ],
+  "leaf_checks": {
+    "career-site-platform": {
+      "application_id": "github:501292795",
+      "verdict": "核心成立，建议收录",
+      "identity_and_track": "仓库元数据快照（api.github.com/repos/frappe/hrms）显示 id=501292795、full_name=frappe/hrms、owner=frappe、private=false，与条目 github:501292795 一致；README 自述“Open Source HR and Payroll Software”，track=open_source 与部署形态（自托管 Frappe 站点，Frappe Cloud 可选）相符。application 本体是 HRMS，叶关系落在其 Job Portal 子模块，条目已在 leaf_matches.reason 与 service_boundary 中明确只计该子模块、不含面试/Offer 等 ATS 流程与多雇主职位板。",
+      "definition_core": {
+        "employer_operated_public_presence": "成立。docs.frappe.io/hr/job-portal 正文：Job Portal 供申请人浏览并申请已发布职位，入口为雇主自有站点的 https://<sitename>/jobs；job-opening 正文说明启用 Publish on website 后可在“your site”上查看并申请。属于单一组织自有站点上的公开职业入口。",
+        "jobs_bound_to_own_openings_publication_state": "成立。index.py 中 get_job_openings/get_no_of_pages/get_all_filters 均以 (status == 'Open') & (publish == 1) 过滤；job-opening 文档说明 Publish on website 才发布到 Job Portal、关闭后不能再创建 Job Applicant；job_opening.html 在 status != Open 时渲染“Opening closed.”。发布状态即公共可见性开关，站点是职位数据的投影。",
+        "candidate_response_path": "成立。job_opening.html 在 Open 时输出 Apply Now，链接 /job_application/new?job_title=...；job_application Web Form 快照 login_required=0、doc_type=Job Applicant、success_url=/jobs；job-portal 文档第 4–5 步说明点击 Apply Now 打开 Web Form，提交后创建 Job Applicant 文档；job-applicant 文档明确申请人是针对特定 Job Opening 的申请记录，来源含 Website Listing。",
+        "employer_side_management": "成立（有收窄）。job-opening 文档给出后台路径 Home > Human Resource > Recruitment > Job Opening，以表单方式新建、填写 Job Title/Designation/Department、开关 Publish on website，属无代码管理；Website Theme 文档说明可在 Theme Configuration 选择配色、字体、按钮样式并在 Website Settings 应用，提供站点层品牌设置。缺少独立的 career-site 页面构建器，但定义列举的“site settings”形态已满足，故按站点层主题收窄表述可接受。"
+      },
+      "service_form": "持续使用的软件服务形态成立：公开 /jobs 门户 + 职位详情页 + 公开申请 Web Form + 后台职位记录管理的完整闭环，由雇主自行运营；非一次性页面或仅元数据。",
+      "license_and_community_boundary": "许可证据为 GitHub license API 快照，文件名 license.txt、size=34916，content 为 base64，解码开头为“### GNU GENERAL PUBLIC LICENSE / Version 3, 29 June 2007 / Copyright (C) 2007 Free Software Foundation, Inc.”，属完整 GPL-3.0 正文（非片段或许可标识符），与条目 license=GPL-3.0、license_evidence_url 一致。未发现 open-core/企业版功能切分声明，社区边界按“整个 frappe/hrms 仓库 GPL-3.0、本叶只计 Job Portal 子模块”表述成立。",
+      "sources_read": [
+        "data/collections/sources/cb9dd2f3ece7cd5ffe7cacaab4355699b45159d08339e8af341d1daaf32f09bd.txt",
+        "data/collections/sources/ae3aeb82597f07a3736c56570f195adf78fbce702b03c4e083313aeeb4bf80d5.txt",
+        "data/collections/sources/ae77ad8aba2eb33fab75d40dac3326069ee0087953fa3d7eab406a60fddb5fa1.txt",
+        "data/collections/sources/3f7bd304e2ae080a549e36feba75527a145c1901f09aefeaabce364d6926a5aa.txt",
+        "data/collections/sources/76f46399a1d22c6c732c60ca482442361d26b8ff4d8f8387b6308b65774c480b.txt",
+        "data/collections/sources/7e3c11631ac00bf6173593cd2279f3174273809416a32781d90d458c7b8e763e.txt",
+        "data/collections/sources/37f78d5082845185b410f621bdc1130ca293cd65e6633cf819ac5769450d9ae0.txt",
+        "data/collections/sources/e6ebd361b798b95533fe3ab6a79aec7702fee3c8e6e8b8617440772e058f4810.txt",
+        "data/collections/sources/6ff7154cc8a80504355a131df0ff8c4e4078cf20cad8999c0f6e59ae7c5a30ed.txt",
+        "data/collections/sources/8ff10fdd44e6b42a681a503508f89205a579a558ed70bf397c547cfd92eff963.txt",
+        "data/collections/sources/1ab586bafcbae8dba82e3d58602e2cc265c8c3042c77a700a1188bc59c753e1f.txt"
+      ],
+      "evidence_quality": "核心工作流由三路独立证据交叉支撑：官方文档正文（job-portal / job-opening / job-applicant）、仓库模板与控制器源码（index.py / job_opening.html / job_application.json）、仓库身份与完整许可证。非以简介、导航、Loading 状态或 HTTP 成功替代正文；research.json 中的检索与抓取缺口（Phenom 两项核心未明确、Website Theme 首次超 1MB 上限后重试）已如实记录。",
+      "gaps": "未核对项：无法在只读工具下重算各快照 sha256；“富文本”描述字段类型无直接证据；Phenom 页面无留存快照、本单元不可复核（且未被用作案件证据）；未做运行时部署验证（条目 runtime_tested=false，本轮亦不要求）。"
+    }
+  },
+  "limits": "本次为只读审查，不能运行 shell、写文件或读取其他单元，因此无法重算 11 个快照的 sha256，只能依据文件名、REVIEW_SOURCES.json 的 path/sha256 字段与实际读取内容相互对应来核对；GitHub API 的 repository_metadata 与 license 快照为单行 JSON，读取工具按行截断（约 2000 字符），故 repo 的 license.spdx_id 字段不可直接读取，GPL-3.0 结论依据 license 快照中 base64 content 解码开头的“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”以及 size=34916 的完整正文；data/collections/sources 中不含 Phenom 页面快照，历史复核的 Phenom 结论无法在本单元独立重验（该页未被用作本案证据）；未进行任何部署或运行时验证，未补充价格、架构或额外来源研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-065/ses_groveopendesignp065review1network0report1_1793175704.jsonl",
+  "batch_sha256": "58d589c6b8098b0612189659cf48e3f9fea581728d2bda5f9dca86205358483f",
+  "research_sha256": "93d7b5ed080094b4b2888b4b4fef58e20b6457044b73e6fd445e67746a0eab18",
+  "input_sha256": "495db91234092870eb7a5135f28161e17fc754328d052ab68e7f72b2e50ea1b7"
+}

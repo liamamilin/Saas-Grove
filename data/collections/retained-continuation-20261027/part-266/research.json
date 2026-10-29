@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "crematory-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:plotbox"
+      ],
+      "query": "GitHub repository search: cremation management / crematory / crematorium / funeral home; direct check of plotbox.com sitemap and /crematory-software",
+      "source_urls": [
+        "https://plotbox.com/crematory-software"
+      ],
+      "note": "找到商业产品 PlotBox 的火葬场模块。官方正文明确列出火化预约日历、火化授权表/合同/许可文件上传归档、火化报告、Stored Remains Report 与殡仪馆门户，和本类型的登记簿、授权文件、骨灰追踪核心吻合。开源侧 GitHub 搜索到的 ViacheslavBlazhkov/CrematoriumSaaS、waypass-ca/waypass、Crematorium39 等均无许可证或无法确认完整应用，未标为开源；sunrise-cms 是墓地记录系统，不作为火葬场案例。",
+      "service_boundary": "商业 SaaS/本地部署的火葬场运营系统；本单元只记录官方火葬场模块的用途和类型关系，不核价格、架构或部署。",
+      "search_attempts": [
+        "GitHub API repository search: cremation+management、crematory、crematorium、funeral+home、mortuary，逐项查看许可证与描述",
+        "读取 plotbox.com/sitemap.xml，定位 /crematory-software 与火葬场案例页",
+        "直接抓取 plotbox.com/crematory-software 正文"
+      ],
+      "fetch_outcomes": [
+        "plotbox.com/crematory-software HTTP 200，快照 b2949111...（UTF-8 文本）",
+        "cremationmanagementsystems.com 连接失败（HTTP 000），未再重试",
+        "opusx.com 返回跳转 lander 的空白页，未作为证据",
+        "GitHub API 随后触发速率限制，改用已抓到的仓库页面和旧搜索结果，未读取认证"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "lost-pet-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:pet-fbi"
+      ],
+      "query": "GitHub repository search: lost+pet / lost-and-found pets (license MIT); direct review of petfbi.org official pages",
+      "source_urls": [
+        "https://petfbi.org/"
+      ],
+      "note": "找到 Pet FBI（非营利全国失踪/发现宠物数据库）。官网正文说明可提交 lost 或 found 报告、进入全国数据库、接收潜在匹配报告提醒，并可在动物回家或发现宠物团聚后编辑报告，覆盖失主报告、发现侧与团聚闭环。GitHub 候选 PawFinder、open-austin/pet-finder、chandel-aman/lost-and-found-pets 无许可证；guilehm/pet-lost 为 MIT，但仓库无 README 且未核实其发现侧与匹配闭环，故未作为开源案例。PawBoost 官网返回 403，仅记录受阻，不据此断言产品不存在。",
+      "service_boundary": "非营利网站服务，按商业 track 仅作基本记录；不涉及价格、架构或部署。平台负责发布、检索和匹配提醒，实际交接与所有权仍在线下完成。",
+      "search_attempts": [
+        "GitHub API repository search: lost+pet、lost+found+pets、lost pet license:mit，查看星标、许可证和描述",
+        "检查 guilehm/pet-lost、MananKanani5/PawFinder、open-austin/pet-finder 的仓库页面与许可证情况",
+        "直接抓取 petfbi.org 首页正文",
+        "尝试 pawboost.com 首页"
+      ],
+      "fetch_outcomes": [
+        "petfbi.org HTTP 200，快照 228ebf45...，正文含 Search Reports、Post a Report、Potential Matching Reports、Edit My Reports",
+        "pawboost.com HTTP 403，未绕过访问限制",
+        "guilehm/pet-lost 仓库页 HTTP 200，文件树无 README，未据此补写功能",
+        "websearch 认证失败 HTTP 401，未重复调用"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pet-boarding-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:kennel-connection"
+      ],
+      "query": "GitHub repository search: pet+boarding / kennel+software / dog+boarding license:mit; direct review of kennelconnection.com boarding software page",
+      "source_urls": [
+        "https://kennelconnection.com/boarding-kennel-software/"
+      ],
+      "note": "找到 Kennel Connection 的寄养/犬舍模块。官方正文明确面向 boarding facilities 与 kennels，描述预约管理、可自定义 run 设置、run 转移与节假日拆分、押金和账单一体化，匹配寄养预约、容量占用和按次计费。开源候选 Snapegit/PetBoardingSystem 为 MIT、Java+SpringBoot+Vue+MySQL 的完整寄养系统，README 列出预约寄养、寄养服务和寄养日志，但未说明犬舍容量库存与按次计费，证据不足以覆盖本类型核心，故保留为候选而未建立关系。",
+      "service_boundary": "商业犬舍/寄养设施管理软件；只记录寄养业务模块，不核价格、架构和部署。产品同时有日托/美容等模块，但本叶只按寄养核心匹配。",
+      "search_attempts": [
+        "GitHub API repository search: pet+boarding、kennel+software、pet+boarding+license:mit，查看许可证和描述",
+        "读取 Snapegit/PetBoardingSystem 的 README 与模块清单",
+        "直接抓取 kennelconnection.com/boarding-kennel-software/ 正文",
+        "查看 simsustech/petboarding 的 NOASSERTION 许可证与官网线索"
+      ],
+      "fetch_outcomes": [
+        "kennelconnection.com/boarding-kennel-software/ HTTP 200，快照 682ccf1e...，正文含 Unlimited Run Setup、Simple Run Transfers、Deposits、billing",
+        "Snapegit/PetBoardingSystem 仓库页 HTTP 200、README/LICENSE 原始文件 HTTP 200（MIT），但核心容量/计费未在文档出现",
+        "simsustech/petboarding 许可为 NOASSERTION，未标开源"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pet-care-business-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:gingr"
+      ],
+      "query": "GitHub repository search: pet+care+management / pet grooming / dog daycare management; direct review of gingrapp.com homepage and pet scheduling page",
+      "source_urls": [
+        "https://www.gingrapp.com/pet-scheduling-software",
+        "https://www.gingrapp.com/"
+      ],
+      "note": "找到 Gingr。官网首页写明 boarding、daycare、grooming、training 和 dog park 在同一个系统中；预约页进一步说明面向 dog daycares、boarding facilities、grooming salons、trainers，提供跨服务预约、容量上限、客户门户、套餐/押金和支付，符合多服务线共享排期与客户账户结算的 PCBM 核心。开源搜索到的 PetCare/Pet-Care-Management-System 多为兽医诊所或单服务学生项目，未找到许可证与多服务线范围都能核实的应用，故本叶以商业产品基本记录。",
+      "service_boundary": "商业宠物护理业务一体化平台；只记录多服务线排期与账户结算能力，不核价格、架构或部署细节。",
+      "search_attempts": [
+        "GitHub API repository search: pet+care+management、pet+care+license:mit、pet+grooming+license:mit、dog+daycare，查看许可证和描述",
+        "读取候选 geosem42/PetCare 等项目描述，识别为兽医诊所/单线项目",
+        "直接抓取 gingrapp.com 首页和 /pet-scheduling-software 正文"
+      ],
+      "fetch_outcomes": [
+        "gingrapp.com/pet-scheduling-software HTTP 200，快照 16c8d1d4...，正文含 dog daycares、boarding、grooming、trainers、capacity management、packages/deposits",
+        "gingrapp.com 首页 HTTP 200，快照 1b601faf...，正文含 boarding/daycare/grooming/training in one system",
+        "petexec.net/all-features HTTP 404，未作为证据"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "pet-daycare-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:doggiedashboard"
+      ],
+      "query": "GitHub repository search: pet+daycare / dog+daycare license:mit; direct review of doggiedashboard.com features page",
+      "source_urls": [
+        "https://blog.doggiedashboard.com/features"
+      ],
+      "note": "找到 DoggieDashboard。官方功能页展示犬舍/run 占用日历（哪些占用、哪些空闲）、预约与循环预约、宠物签到、疫苗到期记录、客户档案、开票和收款，产品定位包含 dog daycare，覆盖日托出勤、每日容量与按次计费。开源候选 redhat-beyond/Hotails 为 MIT 的 Django 犬日托项目，README 仅说明启动方式和 MIT 许可，未记录每日容量、签到或计费流程，证据不足，保留候选而未建立关系。",
+      "service_boundary": "商业宠物日托/犬舍管理软件；按日托出勤与犬舍占用匹配，不核价格、架构和部署。产品也覆盖寄养与美容，本叶只取日托核心。",
+      "search_attempts": [
+        "GitHub API repository search: pet+daycare、pet+daycare+license:mit、dog+daycare+license:mit，查看许可证和描述",
+        "读取 redhat-beyond/Hotails 的 README、LICENSE 和仓库文件树",
+        "直接抓取 doggiedashboard.com/features 正文"
+      ],
+      "fetch_outcomes": [
+        "www.doggiedashboard.com/features 301 跳转到 blog.doggiedashboard.com/features，改抓最终 URL 成功，快照 9b48d809...",
+        "功能页正文含 Kennel/Run Tracking、Appointment Calendar、Recurring Appointments、Pet Check-Ins、Invoicing",
+        "redhat-beyond/Hotails 仓库页与 README/LICENSE HTTP 200（MIT），但文档未覆盖容量/计费，未建立关系"
+      ],
+      "archived": false
+    }
+  ]
+}

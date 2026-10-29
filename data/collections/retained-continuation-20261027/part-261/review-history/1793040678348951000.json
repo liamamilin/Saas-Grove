@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "sports-scheduling-platform",
+      "application_id": "github:1069982088",
+      "issue": "OpenLeague 的产品身份是球队/联赛运营平台，不是以竞赛日历、赛程编排与发布为主业的 Sports Scheduling Platform。README 开头将其定位为管理球队、联赛和俱乐部的平台，核心 MVP 同时包含 team/roster management、communication、RSVP、attendance，另有 Association Gear 与 Signup Events（含 tournament standings）等联盟管理能力；Event Scheduling 只是其中一个模块。batch 的 service_boundary 也写明“排期模块”。定义要求“the schedule is the whole job”，并把 league management 列为相邻类型，因此该案例与 leaf 的类型不匹配。",
+      "fix": "改用专门做竞赛日历、比赛编排和赛程发布的产品；若没有合适案例，按“无案例”留档并保留检索/抓取缺口说明。若保留 OpenLeague，应将其改挂到球队/联赛管理相关叶，不能作为 sports-scheduling-platform 的案例；不要仅凭“排期是核心 MVP 功能之一”认定类型匹配。"
+    }
+  ],
+  "non_blocking_notes": [
+    "OpenLeague 的 license 字段只写 Apache-2.0；README 同时声明文档为 CC BY 4.0、OpenLeague 名称/标识为商标保留。代码许可证快照是完整 Apache-2.0，但记录宜注明文档与商标边界，避免把整个仓库简化为单一许可证。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；建议同步进度元数据，避免下游误读。此项不影响本次内容判断。",
+    "Wyscout 记录的“球探报告”措辞偏强：页面正文的 Reports 主要是赛事/球队/球员的数据与指标报告，未明确展示球探自撰评估、评级框架或球员账户边界。若要保留该措辞，建议补充 Scouting Area 正文，或改为“数据报告/视频评估”。",
+    "Hudl Sportscode 页面明确覆盖 coding、视频报告、分享和 telestration，但未明确描述持久素材库/赛季归档；若记录声称“素材库→分解→回看”完整闭环，建议补充产品文档或收窄为 coding/report/sharing。",
+    "Hudl Statsbomb 是数据优先、多用途平台（recruitment、tactical analysis、performance evaluation）；本叶仅按 tactical analysis 用途收窄，页面未明确教练组备赛报告/演示交付，建议保留“数据/分析平台”限定，避免夸大为完整战术准备应用。",
+    "auto-repair-saas 的 Job 只有 charged 总额、description、status、assigned 和支付字段，没有 labor/parts 行项目或 invoice 模型；当前证据更像简易工单/收款跟踪。记录已避免声称 VIN/里程/零件库存，建议同时避免“完整 repair order 核心”措辞，或补充 labor/parts 证据。",
+    "auto-repair-saas 的 deployment 写“README 提供 DigitalOcean 部署示例”，但 README 只有 DigitalOcean 演示链接；建议改为“有 DigitalOcean 演示部署”，不要声称逐步部署示例。",
+    "Wyscout/Statsbomb 的 research note 写“301 后读取正文”，fetch_outcomes 则记录跨主机 301 被拒绝后另行抓取 Hudl 页面；建议统一措辞，明确实际抓取路径（缺口已留档，不影响本次通过）。"
+  ],
+  "leaf_checks": {
+    "sports-scheduling-platform": {
+      "result": "type_mismatch",
+      "basis": "已读 OpenLeague 仓库元数据（id=1069982088、Apache-2.0、archived=false）、完整 Apache-2.0 许可证快照�� README。README 第 14、20、146-157 行显示产品是 team/roster/communication 平台，Event Scheduling 只是核心 MVP 功能之一；第 159-184 行还有 Association Gear 和 Signup Events/tournament standings。",
+      "notes": "排期能力本身存在：比赛/训练事件含日期、时间、地点、对手，日历/RSVP/事件变更通知可支持发布与变更传播；但产品身份是球队/联赛运营，未证明竞赛日历/赛程发布是 whole job，故不满足本叶定义。"
+    },
+    "sports-scouting-platform": {
+      "result": "pass_with_notes",
+      "basis": "已读 Hudl Wyscout 产品页正文：第 2504-2511 行“世界最大的足球视频和数据库”、第 2516-2521 行 1000+ 赛事及通过视频标记/评估目标、第 2561-2570 行高级搜索/球员名单/shadow teams 短名单、第 2595-2600 行球员/球队/赛事报告、第 2552 行球探部门招募工作流。运动员是被评估记录对象，页面未显示运动员账户或双向联系。",
+      "notes": "商业页面基本真实性和类型匹配成立；Reports 偏数据/指标报告，未明确展示球探自撰评估框架；无独立 Scouting Area 快照。"
+    },
+    "sports-video-analysis": {
+      "result": "pass_with_notes",
+      "basis": "已读 Hudl Sportscode 产品页正文：第 2487-2493 行“Fully Customizable Performance Analysis”；第 2553-2559 行 coding/scripting、MacOS offline coding、timeline/video；第 2585-2592 行 live capture、interactive player reports linked to video、shareable from any device、telestration/Studio。",
+      "notes": "核心的 coding→视频关联报告→共享回看有正文证据；持久素材库/赛季归档未明确写出，属于记录收窄点，不阻断商业基本类型匹配。"
+    },
+    "tactical-analysis-platform": {
+      "result": "pass_with_notes",
+      "basis": "已读 Hudl Statsbomb 产品页正文：第 2224-2230 行职业球队足球数据及 player recruitment/tactical analysis/performance evaluation；第 2237-2249 行 3,400 events/match、300+ competitions、40+ leagues 球员位置数据；第 2285-2303 行数据质量、xG/OBV/phases of play 模型；第 2385 行可定制可视化+集成视频的分析平台；第 2502 行 opposition analysis 证言。",
+      "notes": "数据优先、多用途平台，tactical analysis 是明确用途之一；本叶按该用途收窄。页面未明确教练组备赛报告/演示交付，核心准备循环证据偏弱，但商业基本类型匹配可接受。"
+    },
+    "auto-repair-shop-management": {
+      "result": "pass_with_notes",
+      "basis": "已读仓库元数据（id=320998981、Apache-2.0、archived=false）、完整 Apache-2.0 许可证、README、jobs/models.py 和 vehicles/models.py。README 第 7-8 行定位 cloud-based auto repair shop management，第 17-50 行有 Jobs 的 estimate pending/confirmed、in progress、done，Contacts、Vehicles、Staff 和销售/收款；jobs/models.py 第 20-40 行 Job 外键绑定 Contact/Vehicle/Staff，带 status、charged、payment_method、paid、payment_registered_on；vehicles/models.py 第 7-15 行 Vehicle 有 number_plate 和 owner。",
+      "notes": "店内工单/估价/派工/收款的最小核心成立；车辆无 VIN/里程/完整服务历史字段，Job 无 labor/parts 行项目和 invoice 模型，记录已作收窄，不应扩写为完整零件库存/数字检查。README 只有 DigitalOcean 演示链接，不是部署教程。"
+    }
+  },
+  "limits": "本次为只读初审：未运行应用、未登录商业产品、未执行部署或运行时测试；未重新抓取网页，未计算或校验快照 sha256，只能依据提供的快照内容与 URL/仓库元数据核对；商业证据来自公开产品营销页，OSS 证据来自 GitHub API/RAW 和 README/模型文件；未读取其他单元或采集过程脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-261/ses_groveopencodegop261review1_1793039885.jsonl",
+  "batch_sha256": "911bd446f6b39dd7c59f0c71bad3e68e54fa634426b28bcf34660d236d7e3c05",
+  "research_sha256": "3cb8c4edf8f8c6b65582966c396a26f4f1d28228506bbcf95ee9596d511f47f7",
+  "input_sha256": "d2ba0e577fa9287b1ffd109201f870cf8ac2e207b78e78dc1403201fffa3f438"
+}

@@ -1,0 +1,82 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "golf-tracking-handicap-application：HandicapTracker 是简化模型，差分记录只保存 Score、Slope、Rating、9or18、Differential、ScoreDate，未保存球场名称或发球台标识；虽仍能按球场难度比较成绩并维护差点，但不如叶定义中的“命名球场 + 特定发球台”完整，建议在摘要或关系说明中保留这一限定。",
+    "golf-tracking-handicap-application：lib/handicap-calc.php 未在快照中，未独立核对差点计算的具体选取规则；但 entry.php、hndcp_trckr.php、hndcp_insert.php、handicap-updater.php、recent-diffs.php 的调用与存取链路足以证明差分历史和差点指数的维护。",
+    "golf-tracking-handicap-application：TheGrint 仅有首页快照，属于商业案例的基本真实性与类型核对，未验证其官方差点服务授权、订阅层级或实际记分流程。",
+    "hiking-trail-application：AllTrails 仅有首页快照，首页文案覆盖步道搜索、地图/离线地图、实时定位与路线指引，但未独立验证地形图层、离线导航和现场循迹的实际行为；商业案例按基本真实性/类型匹配通过。",
+    "hiking-trail-application：AllTrails 同时具有户外发现/内容平台属性，本叶关系依赖其地图与导航能力；若下游需要严格区分“发现”与“步道操作对象”，应保留这一边界说明。",
+    "meal-planning-application：Mealie 文档同时允许直接向购物清单添加条目或关联食谱；计划→清单的派生路径有官方文档原文支持，但跨餐食食材自动合并算法未验证，批次也未对此作强声明。",
+    "nutrition-coaching-platform：MeroDiet 仅有 README 作为核心工作流证据，未提供代码或官方文档快照来独立验证客户门户、权限隔离和从业者复核界面；项目自述为 pre-release 0.1.x，研究记录已如实说明未部署验证。",
+    "nutrition-coaching-platform：许可证记为 GPL-2.0-or-later，LICENSE 快照是完整的 GNU GPL v2 文本；“or later”依据 README 第 72 行的项目声明，批次 rationale 已透明记录，若需严格 SPDX 证据可再引用该声明。",
+    "nutrition-coaching-platform：MeroDiet 以 WordPress 插件形式自托管，属于从业者端软件服务形态；未验证其多客户隔离、SaaS 多租户或客户自助注册能力，按现有资料仅能确认单实践/自托管部署。",
+    "recreational-fishing-application：Fishbrain 仅有首页快照，首页文案覆盖钓点、深度图、渔获报告、法规、物种与渔获记录；未独立验证离线记录、自动环境上下文和钓点保密设置的实际行为。",
+    "recreational-fishing-application：开源候选 Anglers' Log 仅证明渔获记录/统计/分享，未证明水域知识层，研究记录已如实留档并选择不建立关系；本叶只有商业案例。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，而 research.json 已记录 case_found；若该文件用于下游状态汇总，建议同步，但不影响本次内容审查结论。"
+  ],
+  "leaf_checks": {
+    "golf-tracking-handicap-application": {
+      "applications": [
+        "github:193416728",
+        "commercial:thegrint"
+      ],
+      "basis": "GitHub 元数据确认 repository_id 193416728、nwo srukelman/HandicapTracker、public、非 fork；LICENSE 快照为完整 GPL-3.0 文本（含 END OF TERMS AND CONDITIONS）。README 仅两行，故以代码快照核对核心：entry.php 提供球场名称/评分/坡度、9/18 洞、日期与总分录入；hndcp_trckr.php 用 (Score-Rating)*113/Slope 计算单轮差分；hndcp_insert.php 将差分写入 differentials、对 9 洞调用 nine_combine、调用 handicap_calc 并更新 trend；handicap-updater.php 遍历 Users 重算并写入 Handicap；recent-diffs.php 展示差点趋势、Handicap Index 与差分历史。TheGrint 首页 title/meta/JSON-LD 与正文含 score、official handicap、USGA、40,000+ courses、GPS 等表述，商业案例基本真实性/类型匹配成立。",
+      "core": "球员端记分、持久差分历史、维护差点指数三结构成立，但为简化模型：差分表不保存球场名称/发球台，且无逐洞成绩。",
+      "license": "GPL-3.0，完整文本；仓库身份与批次 ID 一致。",
+      "boundary": "球员端个人记录，不涉及开球时间销售、球场运营或赛事运营；TheGrint 的 GPS/官方差点服务未做授权核验。",
+      "gaps": "lib/handicap-calc.php 未快照；无逐洞/发球台细目；商业首页单源。",
+      "result": "pass"
+    },
+    "hiking-trail-application": {
+      "applications": [
+        "commercial:alltrails"
+      ],
+      "basis": "唯一关系为商业 AllTrails；首页快照正文可检索到 Search by city、Offline Maps、real-time、directions、elevation 等表述，覆盖可复用步道对象、地形/地图呈现与实地导航三项。研究记录另留档 Wanderer（AGPL-3.0，规划/目录但未证明实地循迹）、Trail Sense（MIT，偏通用离线工具）、IsraelHikingMap/Site（NOASSERTION）等开源候选的排除理由。",
+      "core": "步道对象、地形地图、步行循迹成立（依据首页文案）；商业案例不要求开源许可证。",
+      "license": "商业，不适用开源许可证；homepage/source 均为 alltrails.com。",
+      "boundary": "徒步者端发现、规划与导航；不覆盖商业订阅价格、后端架构或步道/露营地运营系统。",
+      "gaps": "仅首页快照；地形图层与离线导航未实际验证；AllTrails 同时具户外发现属性。",
+      "result": "pass"
+    },
+    "meal-planning-application": {
+      "applications": [
+        "github:319167362"
+      ],
+      "basis": "元数据确认 repository_id 319167362、nwo mealie-recipes/mealie；README 明确 self-hosted recipe manager、meal planner、shopping list、REST API、Vue、Docker。官方 Features 文档第 2763 行原文：“When you add a day or the whole plan to a shopping list, the ingredient quantities follow the serving sizes you've planned”，并说明 meal plan 有 Breakfast/Lunch/Dinner/Snack 与按份量调整，购物清单可由计划/食谱派生。LICENSE 为完整 AGPL-3.0 文本（含 END OF TERMS AND CONDITIONS）。",
+      "core": "前瞻膳食计划、食谱内容、计划派生购物清单三结构成立；非食品/卡路里追踪。",
+      "license": "AGPL-3.0 完整文本；README 与 LICENSE 一致；社区版完整代码同仓库，文档另提托管版 Recipinned 但未作为本案例。",
+      "boundary": "家庭/个人自托管应用；不含食材定价、预算、厨房生产或配送交易。",
+      "gaps": "跨餐食食材自动合并算法未验证；README/LICENSE 取自 master 而默认分支为 mealie-next，研究记录称已核对 README 哈希相同，未复核 LICENSE 分支差异。",
+      "result": "pass"
+    },
+    "nutrition-coaching-platform": {
+      "applications": [
+        "github:1366620115"
+      ],
+      "basis": "元数据确认 repository_id 1366620115、nwo lihsaa591/merodiet、main；README 第 3-12 行描述 practice management for RDs/nutritionists，从业者从食物/食谱库编制个体化餐食计划并分配给客户、快照营养总量，客户记录进食合规/替换/体重等测量，从业者仪表盘复核 roster-wide compliance 与 planned-vs-actual nutrition；第 20 行说明客户/食物/食谱/计划/日志/测量等自定义表；第 49 行提到 client-portal screens；第 68 行自述 pre-release 0.1.x；第 72 行声明 GPL-2.0-or-later。LICENSE 为完整 GNU GPL v2 文本（含 END OF TERMS AND CONDITIONS）。",
+      "core": "客户名册、客户绑定营养处方、执行-复核闭环三结构在 README 中均有明确描述。",
+      "license": "GPL-2.0-or-later；LICENSE 为 GPLv2 完整文本，or-later 依据 README 声明。",
+      "boundary": "从业者端实践管理/营养指导；不含通用健身计划、单纯个人卡路里追踪或远程医疗问诊套件。",
+      "gaps": "仅 README，无代码/官方文档快照验证客户门户、权限隔离和复核界面；未部署；pre-release。",
+      "result": "pass"
+    },
+    "recreational-fishing-application": {
+      "applications": [
+        "commercial:fishbrain"
+      ],
+      "basis": "唯一关系为商业 Fishbrain；首页快照正文可检索到 fishing spots、depth maps、fishing reports、regulations、species、weather、total catches logged（20M）等表述，覆盖水域知识层与个人渔获记录两侧；研究记录另留档 Anglers' Log（GPL-3.0）仅证明渔获记录/统计/分享、未见水域知识层而排除。",
+      "core": "水域/钓点知识、渔获记录及二者循环成立（依据首页文案）；商业案例不要求开源许可证。",
+      "license": "商业，不适用开源许可证；homepage/source 均为 fishbrain.com。",
+      "boundary": "垂钓者端水域情报与个人渔获记录；不覆盖商业渔船运营、渔具电商或渔业执法系统。",
+      "gaps": "仅首页快照；离线记录、自动环境上下文、钓点保密未实际验证；无开源案例。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任一应用，也未验证价格、订阅、后端架构、权限隔离或实际导航/记录行为。已按 REVIEW_SOURCES.json 的 path 原样读取 18 个快照，并核对 batch.json/research.json 的 URL、snapshot_path 与 SHA-256 文件名一致；因工具限制未重新计算哈希。AllTrails、Fishbrain、TheGrint、Mealie 文档等为长行 HTML，逐行读取会被截断，故对关键文案采用定向检索确认，未做整页渲染或 DOM 解析。商业案例仅依据单一首页快照做基本真实性和类型匹配；MeroDiet 仅依据 README/LICENSE/仓库元数据，未核对代码。input.json 的 progress 字段仍为 not_searched 空数组，未作为本次内容结论依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-253/ses_groveopencodegop253review2_1793038849.jsonl",
+  "batch_sha256": "e0346f9ca6da4c6cc2d4f38182b6c1743e57637095781eafaddb74679e5e5e33",
+  "research_sha256": "053efef4653a324a1dc52490e5042c287d315e353dc1b58891a2b9b2c672b036",
+  "input_sha256": "9f9d1196c1bf543a6b4fbead6434b56f29b229ae6a3fb50c1d13524440a063dd"
+}

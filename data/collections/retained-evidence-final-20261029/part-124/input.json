@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 27,
+  "offset": 650,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "identity-governance-iga",
+        "name_zh": "身份治理 (IGA)",
+        "domain_id": "15",
+        "parent_id": "15.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/591",
+            "result": "boundary_unresolved",
+            "note": "未建立 batch 关系。midPoint README 明确自称 comprehensive IGA platform 并列出身份治理、审批、供应与对账，但其 LICENSE 指向 LICENSE.EUPL，代码为 EUPL-1.2+，GitHub license API 返回 NOASSERTION，未抓取完整 EUPL 文本，无法按采集器规则完成 SPDX 证明，故不标开源入库。Syncope 的 Apache-2.0 证据完整，但本次读取的 README 与官网只说明身份/访问管理，未证明定期认证、访问审查和修复闭环。",
+            "query": "核对开源 IGA 候选 Evolveum midPoint 与 Apache Syncope 的 IGA 核心流程和许可证"
+          }
+        ],
+        "archived": false,
+        "note": "未建立 batch 关系。midPoint README 明确自称 comprehensive IGA platform 并列出身份治理、审批、供应与对账，但其 LICENSE 指向 LICENSE.EUPL，代码为 EUPL-1.2+，GitHub license API 返回 NOASSERTION，未抓取完整 EUPL 文本，无法按采集器规则完成 SPDX 证明，故不标开源入库。Syncope 的 Apache-2.0 证据完整，但本次读取的 README 与官网只说明身份/访问管理，未证明定期认证、访问审查和修复闭环。"
+      },
+      "definition": {
+        "slug": "identity-governance-iga",
+        "name": "Identity Governance / IGA",
+        "name_zh": "身份治理 (IGA)",
+        "aliases_zh": [
+          "身份访问管理",
+          "身份管理系统"
+        ],
+        "overview": "An **Identity Governance and Administration (IGA)** application is an organization's system for governing who has access to what — deciding whether access should exist, recording those decisions against accountable people, driving the actual access state to match, and proving all of it to auditors.\n\nThe defining core is a closed loop with three parts:\n\n```text\nAccess model of record\n  (\"who has what access\", built from connected systems)\n        ↕ reconciled\nStructured human decisions\n  (requests + approvals, periodic certifications, policy violations)\n        ↓\nRemediation toward the desired state\n  (grant / revoke / change access; execution native or delegated)\n```\n\nIGA does not authenticate anyone and does not enforce access at sign-in time — that is the job of the neighboring identity-and-access (IAM) infrastructure. IGA sits above that operating plane and governs it over time: what *should* each person have, what they *actually* have, whether the two match, and whether someone has reviewed and signed off on the difference.",
+        "overview_zh": "一个**身份治理与管理（IGA）** 应用程序是一个组织用于治理谁可以访问什么资源的系统——它决定访问权限是否应该存在，将这些决策记录到有责任的人员名下，驱动实际的访问状态与之匹配，并向审计人员证明这一切。\n\n其定义的核心是一个包含三部分的闭环：\n\n```text\n权威的访问模型记录\n  （“谁拥有什么访问权限”，从关联系统构建）\n        ↕ 对账校准\n结构化的人类决策\n  （请求与审批、定期认证、策略违规）\n        ↓\n向期望状态进行修复\n  （授予/撤销/变更访问权限；执行方式为原生或委托）\n```\n\nIGA不进行身份认证，也不在登录时执行访问控制——那是相邻的身份与访问管理（IAM）基础设施的职责。IGA位于该运行层之上，并随时间推移对其进行治理：每个人*应该*拥有什么、他们*实际*拥有什么、这两者是否匹配，以及是否有人已审查并签字确认了其中的差异。",
+        "dc": "Three structures jointly define the Type. Remove any one and the product stops being IGA.\n\n**1. Access model of record.** The system maintains a unified, identity-resolved picture of who has what access. It connects to target systems (directories, business applications, cloud platforms), aggregates their accounts and entitlements, and correlates each person's scattered accounts into a single identity record. Around that identity it organizes access into a hierarchy: individual **entitlements** discovered from the connected systems, grouped into bundles (called access profiles, access packages, or similar), grouped again into **roles** that can be assigned by attribute or request. The applications and entitlements themselves carry business meaning — ownership, descriptions, risk classifications — so that humans can decide about them.\n\n**2. Structured human decision processes.** Access decisions are routed to specific accountable people through defined mechanisms:\n\n- **Access requests** — a self-service catalog where users (or their managers) request bundles or entitlements; requests flow through approval chains that typically involve the requester's manager, the resource owner, and, for sensitive access, security reviewers. Every approval or denial is recorded.\n- **Certifications / attestations / access reviews** — recurring campaigns in which reviewers (managers, resource owners, role owners) are presented with the access held by identities or the contents of entitlements and must confirm or revoke each item. Campaigns are scoped (which population, which systems, which reviewers), tracked for progress, and closed with a sign-off.\n- **Policy-violation handling** — when a rule such as a separation-of-duties constraint is breached (or would be breached by a pending grant), the system flags it and routes it for resolution.\n\n**3. Desired-state direction with reconciliation.** Recorded decisions are not just filed — they change things. Approvals and certification outcomes trigger grants or revocations in the target systems (executed directly by the product's provisioning machinery or handed off to IT processes for execution). Conversely, changes made directly inside target systems are detected and reconciled back into the model, so the record does not silently drift from reality. The maintained invariant is that the *actual* access state, the *recorded* state, and the *approved* desired state converge — assignments can sit in states such as approved, pending removal, orphaned, or in violation until they are resolved.",
+        "dc_zh": "三个结构共同定义该类型。移除任一，产品便不再是IGA。\n\n1. 记录式访问模型。系统维护一个统一、身份解析的视图，显示谁拥有什么访问权限。它连接到目标系统（目录、业务应用、云平台），聚合其账户和权限，并将每个人的分散账户关联为单一身份记录。围绕该身份，它将访问组织为层次结构：从连接系统中发现的单个权限，分组为捆绑包（称为访问配置文件、访问包或类似），再分组为可通过属性或请求分配的角色。应用程序和权限本身承载业务含义——所有权、描述、风险分类——以便人类做出决策。\n\n2. 结构化的人类决策过程。访问决策通过定义的机制路由到特定的责任人：\n- 访问请求——一个自助服务目录，用户（或其经理）请求捆绑包或权限；请求流经审批链，通常涉及请求者的经理、资源所有者，对于敏感访问，还包括安全审查员。每次批准或拒绝都被记录。\n- 认证/证明/访问审查——定期活动，审查员（经理、资源所有者",
+        "rules": "- **Decisions have consequences.** A certification \"revoke\" or a denied request is not advisory — it initiates deprovisioning (or a documented handoff to those who execute it). Recording without action is what distinguishes an audit report from IGA.\n- **The model must not drift.** Changes made directly in target systems (bypassing governance) are detected and reconciled; unmanaged drift defeats the model of record.\n- **Least privilege is the direction of travel.** Reviews, expiry, and lifecycle automation all pull toward \"no more access than the current role requires\"; time-bound access and expiring packages enforce it mechanically.\n- **Separation of duties binds at the gate.** SoD rules are checked when access is requested, and continuously against held access; violations are workflow items with owners, not just log entries.\n- **Accountability is personal.** Approvals and certification sign-offs attach to named individuals (with reassignment and delegation handled explicitly, e.g., when a reviewer is absent or leaves); some products support re-authentication for sensitive approvals and electronic signatures for sign-off.\n- **Orphans are surfaced, not ignored.** An account or assignment without an accountable owner is a flagged state awaiting reassignment or deletion.\n- **Sensitive access gets more eyes.** Approval chains and review frequency typically deepen with the sensitivity or privilege level of the access; privileged roles commonly receive just-in-time activation with review — while privileged *credential vaulting and session control* remain the separate PAM territory.",
+        "rules_zh": "- **决策具有后果。** 认证活动中的“撤销”或被拒绝的请求不是建议性的——它会触发取消配置（或记录移交给执行者的交接流程）。只记录而不执行，是审计报告与IGA的区别。\n- **模型不能漂移。** 在目标系统中直接进行的变更（绕过治理）会被检测并进行对账校准；不受管理的漂移会破坏权威的访问模型记录。\n- **最小权限是行进的方向。** 审查、到期和生命周期自动化都推动实现“不多于当前角色所需的访问权限”；有时间限制的访问和过期包在机制上强制执行此原则。\n- **职责分离在关卡处绑定。** 职责分离规则在请求访问时进行检查，并持续针对已持有的访问权限进行检查；违规行为是带有所有者的工作流项，而不仅仅是日志条目。\n- **问责到人。** 审批和认证签字确认都关联到具名个人（重新分配和委托需明确处理，例如审核人缺席或离职时）；部分产品支持对敏感审批进行重新认证，以及对签字确认进行电子签名。\n- **孤儿账户会被曝光，而非被忽略。** 没有负责人的账户或分配是一个被标记的状态，等待重新分配或删除。\n- **敏感访问受到更多关注。** 审批链和审查频率通常随着访问的敏感性或权限级别而加深；特权角色通常获得带审查的即时激活——而特权*凭据保管库和会话控制*仍然是独立的PAM（特权访问管理）领域。",
+        "parent_id": "15.01",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 124,
+    "phase": "directory",
+    "parent": 124,
+    "slugs": [
+      "identity-governance-iga"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "c000c3451761de23c57a6426f464d8a0627b8961ea1dace7025a2d3eeea64864"
+  }
+}

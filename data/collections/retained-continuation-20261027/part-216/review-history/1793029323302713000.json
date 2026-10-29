@@ -1,0 +1,32 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "patient-portal",
+      "application_id": "github:954668905",
+      "issue": "Opal 的 README 和仓库元数据只能证明经认证的患者可以查看预约、化验结果、临床报告和健康教育材料，即只覆盖了身份认证与记录窗口；它们没有明确展示患者发起的自助事务，例如预约请求或取消、安全消息、处方续开、表单提交、支付等。patient-portal 的定义把这类事务列为三项承载结构之一，而当前 leaf_match 也只写了“presenting ... to authenticated patients”，因此对该门户的核心覆盖不完整。",
+      "fix": "补充能证明患者可发起事务的 README、源码或模块文档快照，例如预约请求或取消、消息、表单、支付等功能，并在 research note 中记录这些证据；如果该产品实际只有读取面，应把条目类型说明收窄为患者记录访问应用，并明确记录该核心缺口，或按未找到完整 patient-portal 案例处理，不应表述为完整符合门户边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "CodaMetrix 首页正文支持从就诊到编码再到计费结果的流程以及 coding quality，但没有逐字出现 coder-reviewed decisions，也没有逐字出现 diagnosis/procedure code。摘要中相应措辞宜与首页正文对齐，避免把自动化编码描述成人工复核流程。",
+    "Artera 首页没有明确展示 staff 队列界面和 EHR 回写，正文也没有逐字确认 rich text、email 渠道。批次已经注明这只是基本类型关系，建议摘要不要扩展为完整的受管理响应工作台。",
+    "ReferralMD 的 consult management 和 provider matching 主要来自元数据或导航，正文对分诊、接受或拒绝等细节展开有限；这不影响转诊管理的基本类型匹配。",
+    "MediPi 的临床端是试点用的 mock clinical system，且 README 明确患者端和集中器被归类为 Health IT、非医疗器械，只有 mock clinical system 经 MHRA 批准。建议 summary 和 leaf reason 保留这一监管边界，避免被读成生产级 RPM；干预记录的证据也较弱。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch.json、research.json 中五个叶子均为 case_found 不一致。如果该文件用于下游进度展示，应同步更新，但这不影响本次应用内容核对。",
+    "Opal 使用已 EOL 的 AngularJS，README 提到需要付费 HeroDevs LTS；这属于维护风险，不影响本次类型与许可证核对。"
+  ],
+  "leaf_checks": {
+    "medical-coding-platform": "commercial:codametrix（CodaMetrix，commercial）。已读官网快照正文：Every encounter begins with a patient... then codes and bills it, touchlessly；brings together notes, orders, charges and schedules... identify the encounter, apply the right code and support the right billed outcome；另有 Rosetta coding quality 与 autonomous coding 表述。支持就诊事件级编码工作对象、代码分配与计费输出；仅首页，未展示 coder review 细节，按商业基本类型匹配通过。",
+    "patient-engagement-platform": "commercial:artera（Artera，commercial）。官网正文包含 AI agents 处理 calls、intake、scheduling、payments，outbound campaigns 与 care gap closure，warm handoff to human staff 以及 complete conversation log；支持机构发起外联、患者响应和人工升级。队列界面与 EHR 回写未展示，批次已注明这是基本类型关系；按商业基本匹配通过。",
+    "patient-portal": "github:954668905（Opal，open_source）。README 明确写有 patient portal application、登录，以及 appointments、lab results、clinical reports、educational material；Apache-2.0 由 README 与 license 快照支持（size 11560，content 开头为 Apache License 2.0）；README 说明需要独立的 listener/backend，边界已披露。但快照只证明身份认证与记录窗口，未明确展示患者发起的自助事务（预约请求或取消、消息、表单、支付等），第三项定义性结构证据不足，见 finding。",
+    "referral-management": "commercial:referralmd（ReferralMD，commercial）。官网正文包含 managing inbound and outbound patient referrals directly within your existing EHR software、automatically alerts staff about referrals needing attention and sends updates to referring providers, efficiently closing the feedback loop；另有 routing、scheduling、status updates。支持以患者为锚点的转诊、双边处理与闭环结局；仅首页，未核价格、架构或部署。",
+    "remote-patient-monitoring": "github:53318448（MediPi，open_source）。README 写明这是 NHS Hertfordshire 社区信托试点，家用 scales、pulse oximeter、BP、thermometer 及问卷，数据加密传至 MediPi Concentrator；Mock Clinical System 按阈值检查、向患者回传警报、展示 cohort 状态与测量历史并允许更新阈值；Apache-2.0 由 README 与 license 快照支持（size 11357）；仓库 ID 53318448 匹配。README 明确患者端与集中器为 Health IT、非医疗器械，临床端为 pilot mock（仅该 mock 经 MHRA 批准），干预记录证据有限；按试点级 RPM 记录通过，边界已在批次和研究记录中披露。"
+  },
+  "limits": "只读审查：未运行任何产品、未抓取新页面、未写文件、未读取其他单元或采集者 TASK.md、历史脚本；商业条目仅核对官网首页快照，开源条目仅核对 GitHub 元数据、license 与 README；未核价格、架构、部署、安全与运行时行为；GitHub API 快照为单行 JSON，读取工具按 2k 字符截断，已核对可见的 id、full_name、description 与 license 内容前缀，未核 archived、stars 等未显示字段；HTML 快照有截断，但关键正文段落已读。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-216/ses_groveopencodegop216review1_1793028920.jsonl",
+  "batch_sha256": "bff067b0929d58261ddef5cb1ced10eeaf61dfc30b66058612d9af72cba42bf7",
+  "research_sha256": "e0d7a64880176a0b7c00770b9168ce47175850106acf0250acff9c6ccacc178e",
+  "input_sha256": "9001674e9b60f54a3676104aef5c7a972e0b79f8af314cd7eb02b8ecfee81b9a"
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "ip-address-management-ipam",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:52796596"
+      ],
+      "query": "官方仓库直查 netbox-community/netbox（IPAM）",
+      "source_urls": [
+        "https://github.com/netbox-community/netbox",
+        "https://raw.githubusercontent.com/netbox-community/netbox/main/README.md",
+        "https://api.github.com/repos/netbox-community/netbox/license",
+        "https://netboxlabs.com/docs/netbox/features/ipam/",
+        "https://raw.githubusercontent.com/phpipam/phpipam/master/README.md"
+      ],
+      "note": "复用已有 NetBox 来源快照并重新抓取官方仓库页、README 与 IPAM 文档；许可证复用前次抓取的 GitHub license API 快照（当前 API 再次请求返回 403 限流），其 JSON 中 SPDX 为 Apache-2.0；解码后的仓库 LICENSE.txt 为 10174 字节，止于 END OF TERMS AND CONDITIONS，未含常见 Apache 附录。README 与 IPAM 文档正文覆盖 aggregate→prefix→IP range→address、自动层级与利用率统计。phpIPAM 另作候选读取 README，但仓库许可证文件位于 misc/gpl-3.0.txt，未完成当前规则所需的许可证证据，故未写入批次。 说明：历史记录中的 phpIPAM 候选 README 当前未在工作区保留为来源快照，故仅作候选线索，未作为批次证据。",
+      "service_boundary": "NetBox 社区版是自托管的网络真实来源/文档型 IPAM，不执行网络扫描，也不运营 DNS/DHCP 服务；NetBox Cloud/Enterprise 为商业托管版本，本条目仅对应 Apache-2.0 社区仓库。",
+      "search_attempts": [
+        "GitHub 官方仓库页直查 netbox-community/netbox",
+        "读取 README、官方 IPAM 文档与已有 GitHub license API 快照",
+        "GitHub license API 再次请求遇到 403 限流，复用前次同仓库 API 许可证快照",
+        "读取 phpIPAM 官方 README 作为第二候选"
+      ],
+      "fetch_outcomes": [
+        "fetched https://github.com/netbox-community/netbox (repository_metadata) sha256=6e5c53617affff5ee182757e857f1a966de764b26b57307510e599c422dee123",
+        "fetched https://raw.githubusercontent.com/netbox-community/netbox/main/README.md (readme) sha256=3674638ca1d513087d21d8da8325587dba33d57a9085e44099ccdf67db2b5e2c",
+        "fetched https://netboxlabs.com/docs/netbox/features/ipam/ (documentation) sha256=53c7be409c7a47e6cf34d0031a28ed9bbe180fa7ce8c16e1c4d8e4c1b6d41794",
+        "reused existing https://api.github.com/repos/netbox-community/netbox/license snapshot sha256=f0eb0311250794dcbc280398e4e79984192813cf69777d745304c1c97036f503 (fetched 2026-10-26T18:28:04+08:00); fresh API request returned HTTP 403 rate limit",
+        "历史记录称读取 https://raw.githubusercontent.com/phpipam/phpipam/master/README.md（phpIPAM 候选）；当前工作区未见对应快照文件，未作为批次证据"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "load-balancer-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:42408804"
+      ],
+      "query": "官方仓库直查 traefik/traefik（Load Balancing Service 文档）",
+      "source_urls": [
+        "https://github.com/traefik/traefik",
+        "https://raw.githubusercontent.com/traefik/traefik/master/README.md",
+        "https://raw.githubusercontent.com/traefik/traefik/master/LICENSE.md",
+        "https://doc.traefik.io/traefik/reference/routing-configuration/http/load-balancing/service/"
+      ],
+      "note": "复用已有 Traefik 快照并重新抓取仓库页、README、LICENSE 与官方 Load Balancing Service 文档；文档正文列出服务/后端 servers 配置、wrr/p2c/hrw/least-time 策略、健康检查与 sticky session。未执行或部署。 条目摘要已收窄为已引用文档直接支持的 HTTP 路由服务与后端池能力。",
+      "service_boundary": "Traefik Proxy 社区版（MIT 开源仓库）是自托管的 HTTP 反向代理/负载均衡器，管理面为动态配置、API 与 Web UI，面向自身数据面而非第三方硬件负载均衡器；Traefik Hub/Enterprise 属独立商业产品，本条仅对应开源仓库，未混用商业版功能，未执行部署。",
+      "search_attempts": [
+        "GitHub 官方仓库页直查 traefik/traefik",
+        "读取 README、完整 MIT LICENSE 与官方 Load Balancing Service 文档"
+      ],
+      "fetch_outcomes": [
+        "fetched https://github.com/traefik/traefik (repository_metadata) sha256=c624d4e798f33a9add57cdb4b6fdf0c6731fe962895c565600a33552b84eedac",
+        "fetched https://raw.githubusercontent.com/traefik/traefik/master/README.md (readme) sha256=a0d231580233fd3096498e738578e222c2fb524e6aaa84723357f846ed440634",
+        "fetched https://raw.githubusercontent.com/traefik/traefik/master/LICENSE.md (license) sha256=c33e29340498ccde22ba0ab9537d6eb0aa3a2eae0dda61bb6df31df6a032fa5b",
+        "fetched https://doc.traefik.io/traefik/reference/routing-configuration/http/load-balancing/service/ (documentation) sha256=7ec4e2d3b87da80b8ad253baa688e0bde480c8dd383694474a11db32fa93bbe9"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "network-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:77444607"
+      ],
+      "query": "官方仓库直查 openwisp/openwisp-controller（配置管理与推送）",
+      "source_urls": [
+        "https://github.com/openwisp/openwisp-controller",
+        "https://raw.githubusercontent.com/openwisp/openwisp-controller/master/README.rst",
+        "https://raw.githubusercontent.com/openwisp/openwisp-controller/master/LICENSE",
+        "https://openwisp.io/docs/stable/controller/user/intro.html",
+        "https://openwisp.io/docs/stable/controller/user/push-operations.html"
+      ],
+      "note": "复用 OpenWISP 已有来源并重新抓取仓库页、README、LICENSE、结构文档与 Push Operations 文档；结构文档列出设备配置、模板、变量、设备组，推送文档说明配置变更可触发后台推送到设备。未执行或部署。",
+      "service_boundary": "OpenWISP Controller 管理 OpenWrt 类设备的配置与推送，不等同于 SNMP 监控或纯配置归档；监控、固件升级等为生态内独立模块，未纳入本条。",
+      "search_attempts": [
+        "GitHub 官方仓库页直查 openwisp/openwisp-controller",
+        "读取 README、完整 GPL-3.0 LICENSE、结构文档与 Push Operations 文档"
+      ],
+      "fetch_outcomes": [
+        "fetched https://github.com/openwisp/openwisp-controller (repository_metadata) sha256=75c3501cbced5d9e7f607ee3f9f9e2e1c1c2c36a1a282c07ffb3358cc52a7363",
+        "fetched https://raw.githubusercontent.com/openwisp/openwisp-controller/master/README.rst (readme) sha256=0d247a19f6a2e1bf6003a1ae3cf65ebdd83cad0115a83e7a765b99dd2133b3e4",
+        "fetched https://raw.githubusercontent.com/openwisp/openwisp-controller/master/LICENSE (license) sha256=457211dba739c5b727ccf04acace1eaa6ca4cc851a9e0fe8f3c0662723abcbe6",
+        "fetched https://openwisp.io/docs/stable/controller/user/intro.html (documentation) sha256=a2d17270c41509898d634e7c0aae9d51fc34cdc9825f7d29567baf92f7fab466",
+        "fetched https://openwisp.io/docs/stable/controller/user/push-operations.html (documentation) sha256=399d82e00080233ec2e7ecb84011c87ed47f392b73d06d8abdd480714a2ecca1"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-expense-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:tangoe"
+      ],
+      "query": "官方站点直查 Tangoe TEM 与 Invoice Audit 页面",
+      "source_urls": [
+        "https://www.tangoe.com/telecom-expense-management/",
+        "https://www.tangoe.com/telecom-expense-management/invoice-audit-optimization/",
+        "https://www.tangoe.com/guides/what-is-telecom-expense-management-tem/",
+        "https://www.tangoe.com/brochure/tangoe-one-telecom/"
+      ],
+      "note": "复核初审意见：旧有两份 Tangoe 快照为整页 HTML，去除 script/style 后可提取产品正文，但初审未能据此核对核心闭环。本轮新增抓取官方 TEM 指南与 Tangoe One Telecom 产品页，二者正文可直接读取：指南明确“Collect invoices, auditing invoices against the list of services tracked in the inventory”“Compare invoices against contracted service rates, identifying billing errors”“Manage billing disputes, track credits owed, and recover refunds from vendors”“tracking potential savings and actual dollars saved”；产品页明确计费问题“prepped for dispute”并在追回资金后报告月度节省。batch summary 与 leaf_matches.reason 已按这些正文收窄，不再声称覆盖未出现的“历史账单”审计或未验证的营销数字。商业仅基本记录。",
+      "service_boundary": "商业 TEM 仅做基本记录：官方 TEM 指南与产品页证明发票审计对账、争议/贷记和节省跟踪闭环；未核价、未核部署架构、未执行产品。",
+      "search_attempts": [
+        "访问 Tangoe 官方 telecom-expense-management 产品页",
+        "读取官方 invoice-audit-optimization 页面正文",
+        "补充读取官方 TEM 指南 what-is-telecom-expense-management-tem 正文",
+        "补充读取官方 Tangoe One Telecom 产品页 tangoe-one-telecom 正文"
+      ],
+      "fetch_outcomes": [
+        "fetched https://www.tangoe.com/telecom-expense-management/ (documentation) sha256=102aba423887766dd3c364f92fcb4bef633414fb95e02a41966737c3d3ed8db2",
+        "fetched https://www.tangoe.com/telecom-expense-management/invoice-audit-optimization/ (documentation) sha256=d44fce819cda42440281a4b36c145c8b8d0a47659aaad05f39bfd433304f8f86",
+        "fetched https://www.tangoe.com/guides/what-is-telecom-expense-management-tem/ (documentation) sha256=9e1d56abdc680bbdbca6a5ad5ee5bde7ebdaecd6377e18524eb1c131891b559a",
+        "fetched https://www.tangoe.com/brochure/tangoe-one-telecom/ (documentation) sha256=52e4d170ff4f0a8d732dd40a9f457037015c399ae6c62e7fd4a5417e71ce9ecf"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "archive-storage-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sharearchiver"
+      ],
+      "query": "官方站点直查 ShareArchiver Archive Storage Solutions",
+      "source_urls": [
+        "https://sharearchiver.com/",
+        "https://sharearchiver.com/our-solution/archive-storage-solutions/",
+        "https://raw.githubusercontent.com/artefactual/archivematica/master/README.md"
+      ],
+      "note": "复用 ShareArchiver 已有快照并重新抓取官方首页与 Archive Storage Solutions 页面；正文覆盖按策略归档到本地/云、stubbing、检索与恢复。Archivematica 的 README 显示其为数字长期保存系统，属于数字保存而非冷数据归档层级管理，故仅作相邻候选未纳入批次。 说明：历史记录中的 Archivematica 相邻候选 README 当前未在工作区保留为来源快照，故仅作相邻类型线索，未作为批次证据。",
+      "service_boundary": "商业归档存储仅做基本记录：官网页面证明策略归档与恢复；备份/灾难恢复为相邻能力，未作为核心类型依据；未执行产品。",
+      "search_attempts": [
+        "访问 ShareArchiver 官方首页",
+        "读取官方 Archive Storage Solutions 页面正文",
+        "读取 Archivematica README 作为相邻类型候选核对"
+      ],
+      "fetch_outcomes": [
+        "fetched https://sharearchiver.com/ (homepage) sha256=d9ca1351cadca2bd87b377f378853bddf06a738f0525a824bd4bea66ee2a8325",
+        "fetched https://sharearchiver.com/our-solution/archive-storage-solutions/ (documentation) sha256=fc806b1ba0b9da28bd3faa386901c23f62185799fd59dd393c858baa888350e6",
+        "历史记录称读取 https://raw.githubusercontent.com/artefactual/archivematica/master/README.md（相邻候选）；当前工作区未见对应快照文件，未作为批次证据"
+      ],
+      "archived": false
+    }
+  ]
+}

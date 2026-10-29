@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示各叶 case_status=not_searched、application_ids 为空，顶层 phase 为 included_without_cases，但 batch.json 与 research.json 已记录 8 个案例；建议同步进度元数据，避免下游误判。此项不影响本次按实际条目与快照核对。",
+    "input.json 的中文定义文本存在截断/占位残留：air-cargo-management 的 dc_zh 第三条含“用户输入不完整，基于上下文……”字样，多个 rules_zh 在句末截断；英文定义完整，未影响本次核对，但建议修复定义语料。",
+    "commercial:champ-cargospot-neo-airline 同时引用 Cargospot neo Airline 与 Cargospot Handling 两个产品页；两者是同一厂商的相关但不同产品。建议在名称/摘要中明确这是 Airline+Handling 套件，或把 Handling 标为补充证据；摘要中的“货运代理”宜改为航空公司/地面代理，以免越过货代边界。",
+    "github:1153079753（Simple Aircraft Manager）面向个人机主和小型飞行俱乐部，README 说明代码由 Claude 生成；它满足最小飞机登记册、到期清单和适航记录闭环，但不覆盖工作包、延期缺陷全生命周期、部件履历等成熟能力，不宜表述为航空公司/MRO 级系统。",
+    "github:1170139933（SmartCrew）的“enterprise-grade”、疲劳 ML 与自动重训均为 README 自述，未做运行时验证；其离线 fallback 会生成模拟航班，生产航班需求集成与告警可靠性需另行确认。",
+    "github:1300432801（Openfront Airline）的支付适配器仅为人工对账，不是实时收单或全球分销连接；README 也显示它是多垂直 Openfront 模板之一，生产级 PSS 能力未验证。",
+    "commercial:navitaire-new-skies 产品页证明预订、分销、IBE、GDS/电子客票、支付、代理账户、Single Order 与 GoNow 旅行当天服务，但未明示座位库存/availability bucket 的具体实现；本审查仅按 PSS 类型匹配通过，不据此断言库存模型。",
+    "商业案例页面均为厂商营销页，未做部署、API 或运行时验证；本次仅按“基本真实性 + 核心类型匹配”标准核对，不把页面功能列表等同于生产环境实测。"
+  ],
+  "leaf_checks": {
+    "air-cargo-management": {
+      "applications": [
+        "commercial:champ-cargospot-neo-airline"
+      ],
+      "status": "pass",
+      "basis": "Cargospot neo Airline 正文明确 flexible schedule & capacity management、comprehensive reservations and bookings、经 SSIM/SSM/ASM 的航班计划自动化、Air Waybill stock control、eAWB compliance & messaging、TACT/Spot/Contract/Market/Hurdle 费率管理、shipment prioritization & rebooking、shipment status 实时客户通知；Cargospot Handling 正文补充 ULD/散舱 manifest、departure control、weight & balance、import check-in、import delivery 及 ancillary charge/invoicing。组合后可核对 AWB 系列编号、航班运力分配、机场到机场状态/费用三类核心，并符合航空公司/地面代理的航空货运管理类型。",
+      "gap": "AWB 作为“货物主记录”的表述主要来自 AWB stock control、eAWB messaging 与 shipment status 功能，页面未逐项展示 AWB 运单记录界面；Handling 是同一厂商的相邻产品而非 Airline 单品页。未找到可核对的开源航空货运完整应用，research.json 已如实记录 GitHub 候选提交少、许可证不明等缺口。"
+    },
+    "aircraft-maintenance-management": {
+      "applications": [
+        "github:1153079753",
+        "commercial:swiss-as-amos"
+      ],
+      "status": "pass",
+      "basis": "Simple Aircraft Manager README 明确 Aircraft & Fleet Management（多机、飞行小时、状态）、Component Tracking（TBO/服务间隔）、Airworthiness Status（AD、squawk、inspection、component health）、AD recurring due dates/overdue detection、Inspection Tracking、Logbook、Major Records、角色权限；仓库 id=1153079753 与 metadata 一致，LICENSE 为完整 Unlicense 文本，README 亦声明 public domain，属可自托管完整应用。AMOS 官网明确 comprehensive aircraft maintenance and engineering system、full airworthiness and audit readiness；模块页覆盖 Engineering（持续适航/合规/改装/可靠性）、Planning（预测维修事件、工包）、Production（航线/基地维修、实时进度、无纸化工包）、Maintenance Control（机队可靠性与缺陷）。可核对飞机登记册、维修方案到期清单、适航记录与合规监督闭环。",
+      "gap": "Simple Aircraft Manager 是面向个人机主/小型俱乐部的轻量记录工具，未覆盖工作包、延期缺陷、部件履历等完整 MRO 能力；AMOS 为商业营销页，未做运行时验证。开源侧无独立的商业社区版边界，完整仓库即交付物。"
+    },
+    "airline-crew-management": {
+      "applications": [
+        "github:1170139933",
+        "commercial:aims-crew-management"
+      ],
+      "status": "pass",
+      "basis": "SmartCrew README 明确机组/资质/机型等级匹配、值勤与休息及周/月值时约束、重叠冲突检测、拖拽排班、个人 roster、shift bidding、peer swap、请假、调度告警与 FIDS 同步；仓库 id=1170139933 与 metadata 一致，LICENSE 为完整 MIT 文本，README 声明 MIT，属可自托管全栈应用。AIMS Crew Management 产品页明确 Crew Planning/Tracking、Crew Duty Regulations、automatic crew legality/flight coverage checks、Crew Pairings、Preferential/Bidline/Fair Assignment、Crew Check-in、standby、irregularities、flight/duty/credit hours 及 medical/training records。可核对机组登记、航班需求、合法性约束分配、个人值勤表与运行日维护。",
+      "gap": "SmartCrew 的“enterprise-grade”、疲劳 ML 与自动重训为 README 自述，未做运行时验证；AIMS 为商业营销页。开源侧未发现单独的收费社区版，完整 MIT 仓库即交付物。"
+    },
+    "airline-operations-platform": {
+      "applications": [
+        "commercial:aims-operations-control"
+      ],
+      "status": "pass",
+      "basis": "AIMS Operations Control 产品页明确 Aircraft Movement Control：按机尾优化/重分配、6 小时至 1 个月实际/预计运行视图、SITA 动态报文自动更新、延误及机组值勤冲突提示、快速重排飞机与机组、授权用户可 override；并含 Aircraft Maintenance Schedule Planning 与 Aircraft Schedule Construction（按机尾分配、维护事件与限制联动）。官网确认 Operations Control 产品线。可核对运营日航段、实时运行状态、机尾轮转资源与 OCC 修订传播四类核心。",
+      "gap": "开源检索仅见 AirOps 单提交、TurnControl 演示看板、phpVMS 虚拟航司，未构成完整开源 OCC，research.json 已如实记录；商业案例为营销页，未做运行时验证。"
+    },
+    "airline-reservation-passenger-service-system": {
+      "applications": [
+        "github:1300432801",
+        "commercial:navitaire-new-skies"
+      ],
+      "status": "pass",
+      "basis": "Openfront Airline README 明确 routes/schedules/dated flights/cabins/fare brands/rules/ancillaries/inventory buckets/holds、offers 与 bookings（immutable booking lines）、passengers/documents/tickets/coupons/seats/check-in/boarding passes/bags/manifests/boarding/offloading，以及 payments/reconciliation/exchanges/refunds/disruptions；仓库 id=1300432801 与 metadata 一致，LICENSE 为完整 MIT 文本，README 声明 MIT，属可自托管应用。Navitaire New Skies 产品页明确 reservation/retailing/e-commerce、PSS、IBE、GDS/电子客票/支付/代理账户/codeshare/interline、Single Order/ONE Order，并与 GoNow 旅行当天服务集成。可核对可售航班库存、旅客预订记录、商业承诺与旅行当天处理。",
+      "gap": "Openfront 的支付适配器仅为人工对账，不是实时收单或全球分销连接；Navitaire 页面未明示座位库存/availability bucket 的实现细节。两例均未做运行时验证；Openfront 为较新的多垂直模板产品，生产级 PSS 能力未验证。"
+    }
+  },
+  "limits": "只读初审：未运行应用、未部署、未做 API/数据库或运行时测试；未执行 shell、未写文件、未读取其他单元。核对依据限于 review 输入、batch.json、research.json 及 REVIEW_SOURCES.json 指定路径的快照；HTML 快照未执行 JavaScript，部分页面可能含客户端渲染或营销性内容；GitHub 仓库 metadata/README 为单行大 JSON，部分字段未逐项展开；未访问 REVIEW_SOURCES.json 之外的网页。中文定义字段存在截断/占位残留，本次以完整英文定义核对案例；商业案例仅按基本真实性与类型匹配判断，不把页面功能列表视为生产实测。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-176/ses_groveopencodegop176review1_1793019436.jsonl",
+  "batch_sha256": "023c7e043cf0c68a3a574dd284b158aae4e830f6f36c3c3b7f39fafcccdabd2b",
+  "research_sha256": "3c6ed6ce0ae62bf3778926039f5cda0543f3c970aa7b2f39ebec4e1fe0108113",
+  "input_sha256": "2fb250de68413c56b49ecc67f49a657cf5c5e5cad91e5de1db1660c7c39610c3"
+}

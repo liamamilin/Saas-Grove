@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "video-calling-application",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": [
+        "Nextcloud Talk documentation making a call accept decline incoming call one-to-one",
+        "Nextcloud Talk user manual install self-hosted video calls one-to-one conversation",
+        "site:docs.nextcloud.com \"Leave call\" Talk",
+        "open source video calling app call a specific contact by username answered ringing no meeting room Jami documentation",
+        "self-hosted open source web app \"video call\" specific user ring accept decline no meeting room github",
+        "Jami documentation \"Accept call\" ringing incoming call one-to-one contact call end hang up GPL-3.0"
+      ],
+      "source_urls": [
+        "https://api.github.com/repos/nextcloud/spreed",
+        "https://api.github.com/repos/nextcloud/spreed/license",
+        "https://raw.githubusercontent.com/nextcloud/spreed/main/README.md",
+        "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call.html",
+        "https://docs.nextcloud.com/server/stable/user_manual/en/talk/conversations.html",
+        "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call_from_anywhere.html",
+        "https://raw.githubusercontent.com/nextcloud/spreed/main/docs/call.md",
+        "https://nextcloud.com/talk/",
+        "https://docs.jami.net/en_US/user/faq.html",
+        "https://jami.net/",
+        "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+        "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+      ],
+      "note": "修正结论（按独立初审 findings 第1条 option 2）：移除 github:67111446（Nextcloud Talk）在本叶的关系，本叶本单元无成立案例，assessment=insufficient_evidence，case_ids=[]。理由为一手正文与定义性核心第1、3项结构性冲突，而非措辞问题：(a) call.html 原文是“If someone else starts a call, you may receive a notification and your device may ring or vibrate… Tap Phone or Video to join, or tap the red button to decline”，被叫动作是 join / decline 通知，不是“响铃后应答才建立连接”；conversations.html 原文为“Chats and calls take place in conversations”“You can extend an ongoing call to a new group conversation… Call will be continued there without interruption”，呼叫本体存在于会话；(b) 仓库 docs/call.md 的模型是 POST /call/{token} 加入某会话的呼叫，向个人响铃只是附加动作 POST /call/{token}/ring/{attendeeId}，且“When the room has no call in process”返回 400——即无进行中的呼叫时无法响铃，拒接也不会使该呼叫不存在；(c) 该产品通话后 chat 历史、文件、成员、会话设置继续存在，README 自述“A video & audio conferencing app for Nextcloud”，官网标题“Calls, chat and video conferencing”，故不满足“The product holds no persistent shared space beyond the call”。按 dc，该候选属 01.04 下的视频会议/协作平台，不属本叶，已改归并留档，不再以“仅取 1:1 子流程”方式计入本叶。本轮另做一次有区别的定向检索，查“具备个人定向响铃、由被叫接听、可自托管/可自运营”的开源候选：Jami（GNU Jami，GPLv3+）官方正文确有“the participant clicks the Accept call button”等接听语义，其产品形态为完全 P2P 的桌面/移动客户端（官网：“completely peer-to-peer and doesn't require a server for relaying data between users”），属纯客户端而非供客户部署运营的完整 Web 应用服务，按本目录“纯客户端/引擎/SDK 不因联网而纳入”的边界不收录；Jami for servers 为无头 daemon、JAMS 为账号管理服务器，均非本叶的通话服务本体。故本叶保留“已检索但未找到符合本叶核心的候选”的如实结论，不据此断言此类产品不存在。历史复用：Signal 官方文档（d53eaa6…、b884db1…、488b4f9…，2026-10-24 抓取）确有 1:1 视频呼叫的 Calling/Ringing/接听/拒接/结束正文，但属消费级加密通讯服务，沿用主会话结论不恢复关系；Discord DM 视频快照（4fa3242…、ed46527…）只有 Start Video Call 与摄像头开关，未见响铃/接听/挂断，维持不成立。以上历史快照仅作边界对照，非本轮新检索，未补造抓取时间或 URL。本轮未运行第三方项目，runtime_tested:false。",
+      "service_boundary": "本叶要求：个人可达面定向呼叫 + 被叫应答（answered，而非 join）+ 以视频为媒介的实时连接 + 呼叫之外无持久共享空间（有界生命周期，挂断即结束）。本轮核对结果：Nextcloud Talk 的呼叫寄居于持久会话（call 在 conversation/room 内，个人 ring 为可选通知且需已有进行中的呼叫），产品身份为会议/协作平台，整体改归 01.04 视频会议/协作平台范围，不计入本叶；Jami 虽满足“向个人发起的接听式呼叫”，但形态为 P2P 客户端软件，非可部署运营的完整应用服务，不计入。已移除的关系与被排除的候选均保留来源与理由，不删除历史轨迹。",
+      "search_attempts": [
+        {
+          "date": "2026-10-28",
+          "query": "Nextcloud Talk documentation making a call accept decline incoming call one-to-one",
+          "status": "searched_found_candidate_but_core_mismatch_after_review",
+          "result_urls": [
+            "https://nextcloud.com/talk/",
+            "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call.html",
+            "https://nextcloud-talk.readthedocs.io/en/latest/constants/"
+          ],
+          "result_note": "前一轮按初审意见改找完整开源应用服务而非消费通讯工具，定位到 Nextcloud Talk。本轮复核结论改变：官方正文为 join/notify 语义且通话寄居于持久会话，与本叶 dc 第1、3项结构性冲突，已移除该关系。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "docs.nextcloud.com Nextcloud Talk user manual \"Talk\" start call conversation sidebar",
+          "status": "searched_official_lifecycle_but_join_semantics",
+          "result_urls": [
+            "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call.html",
+            "https://docs.nextcloud.com/server/stable/user_manual/en/talk/conversations.html"
+          ],
+          "result_note": "官方手册给出移动端 Video 图标发起、他人来电可响铃并按红色按钮拒接，以及私密一对一会话定义；但同页原文为“Tap Phone or Video to join, or tap the red button to decline”，拒接只关闭设备通知，会话与呼叫不因此消失。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "site:docs.nextcloud.com \"Leave call\" Talk",
+          "status": "searched_no_user_manual_page_api_doc_only",
+          "result_urls": [
+            "https://raw.githubusercontent.com/nextcloud/spreed/main/docs/call.md"
+          ],
+          "result_note": "用户手册未见“Leave call”正文页；仓库 Call API 的 DELETE /call/{token} 为“Leave a call (but staying in the conversation for future calls and chat)”，恰说明通话结束后会话仍持续，反向支持本叶“无持久空间”不成立。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "open source video calling app call a specific contact by username answered ringing no meeting room Jami documentation",
+          "status": "searched_found_candidate_form_mismatch",
+          "result_urls": [
+            "https://docs.jami.net/en_US/user/faq.html",
+            "https://jami.net/"
+          ],
+          "result_note": "找到 Jami：官方 FAQ 有“The participant clicks the Accept call button”，官网说明“completely peer-to-peer and doesn't require a server for relaying data between users”“licensed under GNU GPLv3 or later”。接听语义成立，但形态是完全 P2P 的桌面/移动客户端，不属可自托管运营的完整应用服务，未收录。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "self-hosted open source web app \"video call\" specific user ring accept decline no meeting room github",
+          "status": "searched_no_additional_qualifying_candidate",
+          "result_urls": [
+            "https://github.com/miroslavpejic85/mirotalk",
+            "https://openvidu.io",
+            "https://www.plugnmeet.org"
+          ],
+          "result_note": "返回结果集中于房间/链接式会议（MiroTalk P2P、OpenVidu Meet、plugNmeet 等），组织对象为房间或会议地址、以加入为主，与本叶 dc 不符，未进一步取正文，未作为证据。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "Jami documentation \"Accept call\" ringing incoming call one-to-one contact call end hang up GPL-3.0",
+          "status": "searched_official_lifecycle_confirms_client_form",
+          "result_urls": [
+            "https://docs.jami.net/en_US/user/faq.html",
+            "https://jami.net/"
+          ],
+          "result_note": "复核 Jami 接听与许可表述；另尝试 docs.jami.net/en_US/user/calls.html 返回 404，未作为证据。结论维持“行为符合、形态为客户端，不纳入”。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Discord support article incoming call ring direct message voice call how to answer",
+          "status": "historical_reused_no_official_lifecycle_doc",
+          "result_urls": [
+            "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+            "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls"
+          ],
+          "result_note": "历史复用（非本轮检索）：快照只写 DM 内 Start Video Call 与摄像头开关，未证明响铃/接听/拒接/挂断。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:support.signal.org video call answer decline end call",
+          "status": "historical_reused_official_lifecycle_but_consumer_service",
+          "result_urls": [
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+          ],
+          "result_note": "历史复用（非本轮检索）：正文确有 1:1 视频呼叫生命周期，但产品属消费级加密通讯，不满足本目录的服务形态要求，维持移除关系。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:support.apple.com FaceTime make receive call decline end call",
+          "status": "historical_fetch_failed",
+          "result_urls": [
+            "https://support.apple.com/guide/facetime/fctm35828/5.0/mac/14.0"
+          ],
+          "result_note": "历史复用（非本轮检索）：摘要显示 Accept/Decline/Leave Call，但抓取返回 404，未取得正文，未作为证据。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/nextcloud/spreed",
+          "status": "fetched_and_read",
+          "sha256": "fc744c6af78c0599157138f2bbc5241b351ee828b4b439240031581092e48dce",
+          "note": "GitHub 仓库元数据：id 67111446、full_name nextcloud/spreed、AGPL-3.0、homepage nextcloud.com/talk。身份与许可成立；本轮关系仍按 dc 移除。"
+        },
+        {
+          "url": "https://api.github.com/repos/nextcloud/spreed/license",
+          "status": "fetched_and_read",
+          "sha256": "ce5db1f2cd62fe5dccc8450670d7dccdb6969c413666f657823c11b42cdb23c2",
+          "note": "完整 AGPL-3.0 许可证正文（COPYING，34520 字节 base64），SPDX 与仓库一致。许可不构成移除原因。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/nextcloud/spreed/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "d8e0e6f76200db39c666b1e63c47c34df0b575a87855f71c9dea9c905d0aa8ad",
+          "note": "README 自述“A video & audio conferencing app for Nextcloud”，支持私密/群组/公开通话；为本叶“产品身份为会议/协作平台”的判定依据之一。"
+        },
+        {
+          "url": "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call.html",
+          "status": "fetched_and_read",
+          "sha256": "7101912d1e32faf0610bf371f385cb4a1676da4aa5bdb9a6fb2415fd88a0e5a9",
+          "note": "原文：“If someone else starts a call, you may receive a notification and your device may ring or vibrate… Tap Phone or Video to join, or tap the red button to decline. Declining dismisses the call notification on that device.”即 join/decline 通知语义，非 answered 建立连接。"
+        },
+        {
+          "url": "https://docs.nextcloud.com/server/stable/user_manual/en/talk/conversations.html",
+          "status": "fetched_and_read",
+          "sha256": "f87c27f0ed561647603542860e68716f7d75b82fa7cf589586a2756423e3be2f",
+          "note": "原文：“Chats and calls take place in conversations.”“Nobody except you and the other person can see this conversation or join a call in it.”“You can extend an ongoing call to a new group conversation… Call will be continued there without interruption.”证明呼叫寄居于持久会话。"
+        },
+        {
+          "url": "https://docs.nextcloud.com/server/stable/user_manual/en/talk/call_from_anywhere.html",
+          "status": "fetched_and_read",
+          "sha256": "bd53c14782afe547d93d0c87d02fab026721b2ba26d65d0fc45e98e4a9d40756",
+          "note": "头像菜单 Call {user} 可在任意应用发起直接呼叫；证明个人可达面存在，但不改变呼叫在会话内进行的模型。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/nextcloud/spreed/main/docs/call.md",
+          "status": "fetched_and_read",
+          "sha256": "80aee7b9677dec5dedaf903f6bcc7ebd63b0cb778e78bd6b49a4206f5e161338",
+          "note": "Call API：POST /call/{token} 为 Join a call；POST /call/{token}/ring/{attendeeId} 在“When the room has no call in process”返回 400；DELETE /call/{token} 为 Leave a call (but staying in the conversation)。三项均不支持“个人定向呼叫独立于会话且挂断即终止”。"
+        },
+        {
+          "url": "https://nextcloud.com/talk/",
+          "status": "fetched_and_read",
+          "sha256": "14198e91576b5607845f06f35f1805a839d048d547313b3bc9adf891e722e901",
+          "note": "官网标题“Calls, chat and video conferencing”，正文“Talk makes it easy to call customers and partners in one-to-one or group scenarios”，并写明“The chat, which remains open even when the user leaves a call”；HPB 由 Nextcloud GmbH 提供。产品身份判定依据。"
+        },
+        {
+          "url": "https://docs.jami.net/en_US/user/faq.html",
+          "status": "fetched_and_read",
+          "sha256": "1ebd4ea0f45dfd0b4b00fd7eb08e0bcf969cc7e57db442924e4af8749b83fd66",
+          "note": "本轮新增：Jami 官方 FAQ 有“The participant clicks the Accept call button”，且写明“Jami is a GPLv3+ project”。接听语义成立，但为 P2P 客户端形态。"
+        },
+        {
+          "url": "https://jami.net/",
+          "status": "fetched_and_read",
+          "sha256": "12526052acc473ac32c2cdfb9d663a12f47e1d6fea1824dce697980e7b63b1be",
+          "note": "本轮新增：官网自述“Jami is completely peer-to-peer and doesn't require a server for relaying data between users”“licensed under GNU GPLv3 or later”，功能含 Audio and video calls、Group chats、Video-conferences。形态为客户端软件/平台，非供客户部署运营的完整 Web 应用服务。"
+        },
+        {
+          "url": "https://docs.nextcloud.com/server/stable/user_manual/en/talk/conversation.html",
+          "status": "fetch_failed",
+          "error": "HTTP 404（正确路径为 conversations.html），未作为证据；已改用有效页面。"
+        },
+        {
+          "url": "https://docs.jami.net/en_US/user/calls.html",
+          "status": "fetch_failed",
+          "error": "本轮 HTTP 404，未作为证据；改用 docs.jami.net/en_US/user/faq.html 的有效正文。"
+        },
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "4fa324212f2dd2d030662f6bd6af5053840b130228d732ad071a2a5fd3380393",
+          "note": "历史快照复核：仅 DM 内 Start Video Call 与摄像头开关，未说明响铃、接听/拒接或挂断，不成立关系。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "d53eaa617006c666f280112c0c97b91a3d8176c6dbeac5050771713a3d8347bc",
+          "note": "历史快照复核：1:1 视频呼叫的 Calling/Ringing/接通与摄像头开关确实有正文，但产品形态为消费级通讯服务，不恢复关系。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "b884db12b57d9fa0ea699a8008e2ba07a99f3c2fd51e116e4528d2731dc03f52",
+          "note": "历史快照复核：通话状态与 No Answer 说明补充了生命周期，但同样不改变消费级服务形态判断。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "488b4f946ef0e4869bbaa4a56246a53004f93c971801d20a3dfc82b702a167fa",
+          "note": "历史快照复核：桌面快捷键含带视频接听、拒接与结束通话，仅作生命周期补充。"
+        },
+        {
+          "url": "https://faq.whatsapp.com/1862285217468140",
+          "status": "historical_fetch_failed",
+          "error": "历史记录：抓取内容为 JavaScript 加载壳（约 1.08MB，无可读通话步骤），未作为证据。"
+        },
+        {
+          "url": "https://support.apple.com/guide/facetime/fctm35828/5.0/mac/14.0",
+          "status": "historical_fetch_failed",
+          "error": "历史记录：HTTP 404，未取得正文。"
+        }
+      ],
+      "archived": false,
+      "historical_reuse": {
+        "note": "复用 retained-go-20261025/part-001 与 included-continuation-final-20261027 的 Signal/Discord 快照与原抓取收据，时间与 SHA 原样保留；未视为本轮新检索，也未视为已通过。",
+        "records": [
+          "retained-go-20261025/part-001/research.json",
+          "included-continuation-final-20261027-research.json#/leaf_cases/13"
+        ]
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:67111446",
+          "reason": "本轮经独立初审后移除本叶关系：Nextcloud Talk 的呼叫发生在持久会话/房间中，被叫动作为 join 或 decline 通知（ring 需已有进行中的呼叫，无则 400），通话后 chat/文件/成员/设置继续存在，产品自述为 video & audio conferencing app。按 dc 归属 01.04 视频会议/协作平台，不计入本叶；身份、AGPL-3.0 许可与来源均保留可查。"
+        },
+        {
+          "id": "jami",
+          "reason": "本轮新检索的边界候选（GNU Jami，GPLv3+）：官方 FAQ 有“Accept call”接听语义，符合个人定向呼叫与接听式建立连接；但官网自述完全 P2P、无需中继服务器，形态为桌面/移动客户端，属“纯客户端”而非供客户部署运营的完整应用服务，按目录边界不收录。仅作边界对照，未取得其仓库/许可证快照。"
+        },
+        {
+          "id": "commercial:signal",
+          "reason": "保留原主会话判断：属消费级加密聊天/通话服务，未证明供客户持续运营自身资料与工作流的应用服务形态；本轮不恢复关系，仅保留官方来源与历史研究轨迹。"
+        },
+        {
+          "id": "commercial:discord",
+          "reason": "DM 视频快照只证明 Start Video Call 与摄像头开关，未证明个人呼叫的响铃/接听/拒接/挂断；且为社交场所形态，不纳入本叶。"
+        }
+      ]
+    }
+  ]
+}

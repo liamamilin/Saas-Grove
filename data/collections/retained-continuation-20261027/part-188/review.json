@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "commercial:csg-bss 的官方页面在定位上属于“BSS 解决方案组合/能力页”（含 Business Support Systems FAQ），而不是单一 SKU 名称；作为套件级商业案例可以使用，但如目录要求可售产品名，建议在名称或摘要中标注其为 CSG BSS 解决方案组合。",
+    "telecom-number-management 的 Twilio 页面能证明号码搜索/购买、库存查看与账户内转移、携入与号码托管、监管验证、有效性/线路类型校验；但对“释放后隔离/冷却再分配”这一号码生命周期细节未给出正文说明，属商业案例可接受的基本类型匹配，不宜据此推断其具备完整隔离回收机制。",
+    "commercial:sunvizion-network-planning 复用了 2026-10-23 的共享快照，其余条目为 2026-10-26 抓取；快照内容与页面标题、产品能力一致，时效差异不影响本次核对，但后续复核应注意页面可能已更新。",
+    "research.json 中 telecom-field-service 的检索记录出现“401? 实际 201 stars”这类未清理的检索备注，属记录整洁度问题，不影响案例结论。",
+    "research 明确记录 websearch 返回 401 且未重复调用，并以 GitHub 搜索与官方页面直取替代；该缺口已如实留档，符合允许的检索缺口处理方式。"
+  ],
+  "leaf_checks": {
+    "telecom-bss": {
+      "application_id": "commercial:csg-bss",
+      "track": "commercial",
+      "source_read": "data/collections/sources/5f4f731f6af5f25c2262460abe45d56f7a3580c0fe5b0453c5147ff73430f418.txt（https://www.csgi.com/solutions/business-support-system）",
+      "result": "通过。快照正文包含 BSS 关键组件问答与构成说明，核到 Product Catalog、Order Capture、rating and charging、Revenue Management、customer care/customer and account、billing 等表述，并区分 BSS 与 OSS；符合套件级电信 BSS 的目录—订单—计费—账单—客户关怀商业链。",
+      "service_form": "商业电信 BSS 软件/解决方案组合；official_sources_reviewed，runtime_tested=false，未验证价格与部署架构（商业案例仅需基本真实性与类型匹配）。",
+      "open_source": "无开源条目；research 记录 GitHub 检索 A2Billing/ASTPP/MagnusBilling/OV500/Freeside 均为 VoIP 计费或 ISP 计费工具、CGRateS 仅覆盖 OCS/charging，未强行建立开源关系，处理合理。"
+    },
+    "telecom-field-service": {
+      "application_id": "commercial:csg-field-service-management",
+      "track": "commercial",
+      "source_read": "data/collections/sources/14b84ab2e00efb472ce81ffb14726b004584c1d883686bb4ff4f2fef8c777b5a.txt（https://www.csgi.com/products/field-service-management）",
+      "result": "通过。快照为 CSG 产品页，正文核到 purpose-built for cable/broadband/fiber 定位，以及 work order、dispatch、skills、capacity、technician/mobile、contractor、SLA 等表述，覆盖电信现场工单—排程派工—现场执行—闭环的持续服务形态。",
+      "service_form": "商业电信级现场服务管理产品，面向有线/宽带/光纤运营商；未验证价格、托管与移动端部署。",
+      "open_source": "无开源条目；research 说明 OCA/field-service（AGPL-3.0）与 Beveren-Software Field_Service_Management（AGPL-3.0）为通用 ERP 模块，未体现电信 CPE/光纤工作主题，未采用的理由成立。"
+    },
+    "telecom-network-design": {
+      "application_id": "commercial:sunvizion-network-planning",
+      "track": "commercial",
+      "source_read": "data/collections/sources/d44c2cd7cfa21d20f3368e391f37d5bf201695677057052034a8fa8ac8d0bdb2.txt（https://www.sunvizion.com/products/network-planning）",
+      "result": "通过。快照正文（可完整读取）明确 GIS-based end-to-end network design、物理与逻辑资源、FTTH/HFC/5G backhaul，支持从 Network Inventory 提取选定网段到规划工作区、规划态与现网并行、实时记录变更、计划与现网冲突检测、审批后合并回主库存，并自动更新设备/人工/材料成本与文档；与定义中的“建议网络配置—物理环境创作—验证与设计到构建/库存移交”核心一致。",
+      "service_form": "商业电信 OSS/BSS 网络规划设计产品（Suntech S.A. / SunVizion），依赖其 Network Inventory；未验证实际库存集成与部署模式。",
+      "open_source": "无开源条目；research 记录 QGIS 插件型 FTTH 设计项目（无许可证）与 netbox-fms（AGPL-3.0）为组件或光纤资产管理，未达到独立设计工作台，未采用结论合理。"
+    },
+    "telecom-number-management": {
+      "application_id": "commercial:twilio-phone-numbers",
+      "track": "commercial",
+      "source_read": "data/collections/sources/8a8ef55825eed89ee74422a2dc18be5dc9837184d8d461674b3142bba2407e7e.txt（https://www.twilio.com/en-us/phone-numbers）",
+      "result": "通过。快照正文核到：全球号码库存、按区域/类型搜索并即时购买、通过 Console/API 开通、账户内号码管理与转移、从其他供应商携入、号码托管、Trust Hub/A2P 10DLC/GDPR/KYC 监管验证、发送前校验号码有效性与线路类型；对应定义允许的“云通信平台把号码群体打包为搜索购买 API/门户”形态。",
+      "service_form": "商业云通信平台号码产品（开发者 API + 控制台），属号码资源获取、分配使用、携转与合规生命周期的商业实现；未验证国家覆盖细节与隔离回收机制。",
+      "open_source": "无开源条目；research 记录 ASTPP/A2Billing/MagnusBilling 的 DID 仅为 VoIP 计费附属模块，未找到以号码群体为系统记录的成熟开源专用应用，未强行建立关系合理。"
+    },
+    "telecom-order-management": {
+      "application_id": "commercial:csg-quote-and-order",
+      "track": "commercial",
+      "source_read": "data/collections/sources/becf9ad58852889fc795dd1bd0edecfdaa7cc706352bf108f217c9c901d8dc5f.txt（https://www.csgi.com/solutions/quote-to-cash/order-management）",
+      "result": "通过。快照为 CSG 报价到现金的订单管理解决方案页，正文核到多通道订单管理、订单按目录分解、跨网络/IT/现场/合作伙伴编排、依赖与状态跟踪、在途变更（moves/adds/changes）、库存预留以及回写计费与客户关怀系统；与电信订单管理的“订单记录—分解—编排—完成回写”核心一致。",
+      "service_form": "商业电信 B2B CPQ/订单管理产品，叠加于既有 stack 并连接周边系统；未验证 TM Forum API 实现与实际集成。",
+      "open_source": "无开源条目；research 记录命中 0–1 star 的课程/API 原型，未发现成熟可自托管电信订单管理应用，未用通用 ERP 订单模块强行匹配，处理合理。"
+    }
+  },
+  "limits": "本次仅做只读初审：未运行 shell、未写文件、未访问其他单元，未做部署或运行时验证，未复核 SHA-256 摘要值（快照以路径原样读取，并以页面标题/URL 与正文短语佐证身份）。CSG 三个快照为服务端渲染的单行压缩 HTML，逐行读取会被截断，故以正文关键短语在页面主体中的命中情况核对核心能力，未能通读全部段落；Twilio 与 SunVizion 快照可正常逐段读取。商业条目仅核对基本真实性与类型匹配，未验证价格、许可证条款、托管架构与集成实现；无开源条目，故未涉及仓库许可证与社区版边界核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-188/ses_groveopencodegop188review1_1793022576.jsonl",
+  "batch_sha256": "cf1c6b3e2d013bb25b07b15987a42e1587d25ee3d8a1cbe3aa12338d7c3d28ac",
+  "research_sha256": "7545c9eda3d321b169c93daaf9c07cc6c3d8e732106a0a20fde3bd10b5c9dc3d",
+  "input_sha256": "f8205903f479ed51253ab3a4cf79ac113322bed159c6daca4c37b4a2ecf77883"
+}

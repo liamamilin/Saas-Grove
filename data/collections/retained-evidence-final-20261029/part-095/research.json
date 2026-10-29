@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "device-testing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:165815646",
+        "github:396380514"
+      ],
+      "query": [
+        "OpenSTF official Device Testing Platform",
+        "复核已有官方快照（2026-10-26）",
+        "self-hosted device farm / remote control / Appium（2026-10-28 补采替代品）",
+        "复核 openstf/stf 与 DeviceFarmer/stf LICENSE 完整条款正文（2026-10-28）"
+      ],
+      "source_urls": [
+        "https://raw.githubusercontent.com/openatx/atxserver2/master/README.md",
+        "https://raw.githubusercontent.com/openatx/atxserver2/master/API.md",
+        "https://raw.githubusercontent.com/openatx/atxserver2/master/LICENSE",
+        "https://github.com/openatx/atxserver2",
+        "https://soniccloudorg.github.io/",
+        "https://raw.githubusercontent.com/SonicCloudOrg/sonic-server/main/README.md",
+        "https://api.github.com/repos/SonicCloudOrg/sonic-server",
+        "https://api.github.com/repos/SonicCloudOrg/sonic-server/license",
+        "https://raw.githubusercontent.com/openstf/stf/master/README.md",
+        "https://api.github.com/repos/openstf/stf",
+        "https://api.github.com/repos/openstf/stf/license",
+        "https://raw.githubusercontent.com/DeviceFarmer/stf/master/LICENSE"
+      ],
+      "note": "本叶成立关系 2 条，均来自本轮补采的完整开源 Web 应用服务，不再采用旧候选 openstf/stf。\n\n【旧候选复核对齐】历史 openstf/stf 三份快照（2026-10-24 抓取，原样复用）证明其 README 存在设备清单/搜索、浏览器实时远程控制、APK 拖放安装与设备日志，核心流程本来可用；唯一未关闭的问题是许可证：仓库 LICENSE 只有 623 字节的 Apache-2.0 适用声明加 apache.org 链接，GitHub license API 对该仓库返回 NOASSERTION。本轮进一步核对维护分支 DeviceFarmer/stf（2026-10-28 抓取官方 raw LICENSE），该文件与原仓库 LICENSE 的 git blob SHA 一致（84a0516…），仍为同一份 623 字节短声明，git blob 未截断（API size 626≈解码 623 字节），说明这是仓库本身缺完整条款正文，而不是快照残缺。因此 openstf/stf 继续列为 withheld，不建立关系，也不据此断言产品不存在。\n\n【本轮补采并成立】1) openatx/atxserver2（github:165815646）：README 自述“移动设备管理平台（支持 Android 和 iOS）”，浏览器打开即为设备列表页，设备经 android/ios provider 接入后可远程真机操作；API.md 给出按 platform/present/using/colding 过滤的设备目录接口、设备占用与释放、provider 端 APK/IPA 安装接口，README 另给“安装应用并运行 uiautomator2 测试”的示例脚本。LICENSE 为 1064 字节 MIT 完整正文。构成“维护中的设备目录 + 按需在选定设备上安装并运行自有应用、返回可观察行为（人工远程控制或脚本/API 驱动）”。边界为自托管、管理自有设备。\n\n2) SonicCloudOrg/sonic-server（github:396380514）：官网正文自述“免费开源的云真机测试平台”，列 Android/iOS/车载/智能手表四类设备、远程调试与一键使用设备、设备分布式集群（跨网段多机房）、0 编码 UI 自动化与多设备任务分发、可视化报表（截图/日志/录像）、Docker 分布式部署；仓库 README 自述为集成移动设备远程控制调试与自动化测试的平台。license 端点返回 AGPL-3.0 且含 34493 字节完整条款正文，与 raw LICENSE 仅有模板署名两行差异。构成完整应用服务（server + client-web + agent 同组织分仓），按平台整体记录。仓库元数据 archived=true、最后 push 2025-03-24，成熟度事实如实保留，不改变类型匹配。\n\n【排除的候选】shamanec/GADS 的 README 说明为双重许可、hub-ui 目录为专有且混淆发布，缺少开源 UI 时不构成完整开源应用服务，未收录。BrowserStack 共享身份为 commercial:browserstack（名称 BrowserStack Automate），App Live/App Automate 页面快照能证明本叶核心，但名称与既有产品身份不一致，按“勿覆盖旧产品核心字段”未强行挂接，仅留作商业线索。\n\n【历史轨迹】原 2026-10-25 采集草稿的 case_found 结论未采纳；2026-10-27 主会话的 insufficient_evidence 记录保留，本轮以新补采的两条完整证据替代，并未把旧草稿当成本轮通过。",
+      "service_boundary": "atxserver2：自托管移动设备管理 Web 应用，管理用户自有 Android/iOS 设备，提供浏览器远程真机操作与 REST/provider 接口的安装与脚本驱动；不是厂商托管设备云。Sonic：开源自托管云真机平台，由 sonic-server 后端、sonic-client-web 前端与 sonic-agent 设备代理分仓组成，覆盖远程调试与 UI 自动化任务分发；不是商业设备云。二者均未在本轮运行或部署（runtime_tested=false）。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "OpenSTF official Device Testing Platform",
+          "status": "searched",
+          "result_urls": [
+            "https://api.github.com/repos/openstf/stf"
+          ],
+          "result_note": "历史检索（复用），基于官方仓库来源完成元数据核验；当时结论为 collector_draft_unapproved，未获最终收录。"
+        },
+        {
+          "date": "2026-10-26",
+          "query": "复核已有官方快照：openstf/stf README、GitHub 元数据与 LICENSE",
+          "status": "snapshot_reviewed",
+          "result_urls": [
+            "https://raw.githubusercontent.com/openstf/stf/master/README.md",
+            "https://api.github.com/repos/openstf/stf",
+            "https://api.github.com/repos/openstf/stf/license"
+          ],
+          "result_note": "历史复核（复用），直接读取已有快照、未新增网络检索；确认设备目录与浏览器远程控制、未见自动化测试编排；发现 LICENSE 仅为适用声明。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "self-hosted device farm / remote control / Appium 开源替代品（第一组）",
+          "status": "searched",
+          "result_urls": [
+            "https://github.com/openatx/atxserver2",
+            "https://github.com/SonicCloudOrg/sonic-server",
+            "https://github.com/shamanec/GADS"
+          ],
+          "result_note": "本轮定向补采：找到 atxserver2 与 Sonic 两个完整开源 Web 应用服务并核验；GADS 因 hub-ui 专有排除。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "device farm 开源平台（第二组，与第一组区分）",
+          "status": "searched",
+          "result_urls": [
+            "https://devicefarm.org/",
+            "https://github.com/DeviceFarmer/stf"
+          ],
+          "result_note": "第二组补证：devicefarm.org 为 Appium 插件（会话管理组件），不构成完整应用服务；同时确认 STF 的维护分支 DeviceFarmer/stf 仍在活跃开发，用于核对许可正文缺口是否可补。"
+        },
+        {
+          "date": "2026-10-28",
+          "query": "复核 openstf/stf 与 DeviceFarmer/stf LICENSE 完整条款正文",
+          "status": "snapshot_reviewed",
+          "result_urls": [
+            "https://raw.githubusercontent.com/DeviceFarmer/stf/master/LICENSE"
+          ],
+          "result_note": "读取历史 openstf 许可快照与新抓取 DeviceFarmer LICENSE：两者 git blob SHA 同为 84a0516…，均为 623 字节 Apache-2.0 适用声明，仓库本身无完整条款正文；旧候选许可缺口成立，维持 withheld。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/openatx/atxserver2",
+          "status": "fetched_and_read",
+          "sha256": "6bd392fe7846e0e185baed8f08762ff41ad528635fc6c0870b55af909dfd6c86",
+          "note": "本轮官方抓取（kind=repository_metadata）。页面内 octolytics 元数据证明 repository_id=165815646、nwo=openatx/atxserver2，用于仓库身份核验。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openatx/atxserver2/master/README.md",
+          "status": "fetched_and_read",
+          "sha256": "9c6796ec967bae2847838619f24b0679aa5dfc43312856ff381336a90d6df6bb",
+          "note": "本轮官方抓取（kind=readme）。设备列表页、真机远程操作、uiautomator2 测试示例与部署方式均出自此快照。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openatx/atxserver2/master/LICENSE",
+          "status": "fetched_and_read",
+          "sha256": "426f967a2f4288b1f6a50b24a6d5e6cbb91d01350429b9e8d5fe5be5ce901acf",
+          "note": "本轮官方抓取（kind=license）。1064 字节 MIT 完整条款正文，含授权与免责段落。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openatx/atxserver2/master/API.md",
+          "status": "fetched_and_read",
+          "sha256": "6ba53a878b4fdcae07187e3c2a4437401f5df4333ea272fadb5558085547c024",
+          "note": "本轮官方抓取（kind=documentation）。设备列表过滤字段、占用/释放接口、provider 安装 APK/IPA 接口。"
+        },
+        {
+          "url": "https://api.github.com/repos/SonicCloudOrg/sonic-server",
+          "status": "fetched_and_read",
+          "sha256": "9ddcd66705963b29e17067da17bae9c459dd80b00dd1d169956357853bd7e957",
+          "note": "本轮官方抓取（kind=repository_metadata）。id=396380514、full_name 一致；archived=true、pushed_at=2025-03-24。"
+        },
+        {
+          "url": "https://api.github.com/repos/SonicCloudOrg/sonic-server/license",
+          "status": "fetched_and_read",
+          "sha256": "0c1ec68050e225fea56dbc45cc1a45889a45b41e486b8eacc70707deaa1a440a",
+          "note": "本轮官方抓取（kind=license）。spdx_id=AGPL-3.0，base64 内容解码为 34493 字节完整条款正文。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SonicCloudOrg/sonic-server/main/README.md",
+          "status": "fetched_and_read",
+          "sha256": "197154a974fde42ed54a0bc656e3511c35f2c6eaae5a079cd90f2973f49bb2b7",
+          "note": "本轮官方抓取（kind=readme）。自述为集成移动设备远程控制调试与自动化测试的平台。"
+        },
+        {
+          "url": "https://soniccloudorg.github.io/",
+          "status": "fetched_and_read",
+          "sha256": "678a923d54ed92a25f061bac9afda07f615dcdd99050e2db080a22b718f4ffe6",
+          "note": "本轮官方抓取（kind=homepage）。正文可见设备类型、远程调试、UI 自动化、分布式集群、可视化报表与 Docker 部署等表述。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/DeviceFarmer/stf/master/LICENSE",
+          "status": "fetched_and_read",
+          "sha256": "9e482bb32334d2ca0f787a3124e7159bea48290b0cdd388df4623f90632beabc",
+          "note": "本轮补充核对（kind=license）。内容为 623 字节 Apache-2.0 适用声明，与原 openstf/stf LICENSE 的 git blob 一致，未出现完整条款正文。"
+        },
+        {
+          "url": "https://api.github.com/repos/openstf/stf",
+          "status": "fetched_and_read",
+          "sha256": "676e2b869c3e38a9e739b800b1cac1b139b4e5766d9bbb5900c7499003208f84",
+          "note": "历史快照复用（2026-10-24 抓取，URL/SHA/时间原样保留），仅作事实核对，不代表通过。"
+        },
+        {
+          "url": "https://api.github.com/repos/openstf/stf/license",
+          "status": "fetched_and_read",
+          "sha256": "d548c4b2ba3cb4d021071d66d7ecd25a6582c3ea0ba319f33ee92a1c250c2ec3",
+          "note": "历史快照复用（2026-10-24 抓取）。spdx_id=NOASSERTION，content 解码为 623 字节短声明，是本叶许可缺口的核心证据。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openstf/stf/master/README.md",
+          "status": "fetched_and_read",
+          "sha256": "8041ed39a314e4699d343f0277260a26cc5e3c59bf76c84be5d9d65f26419fe4",
+          "note": "历史快照复用（2026-10-24 抓取）。设备清单/搜索、浏览器远程控制、APK 安装与设备日志的原始依据。"
+        },
+        {
+          "url": "https://api.github.com/repos/shamanec/GADS",
+          "status": "fetch_failed",
+          "note": "本轮早前尝试的元数据抓取返回 HTTP 403（API rate limit exceeded），未取得快照、未记录 SHA；GADS 的取舍依据改为其 README 自述的双重许可说明。"
+        },
+        {
+          "url": "https://api.github.com/repos/openatx/atxserver2",
+          "status": "fetch_failed",
+          "note": "本轮早前尝试的元数据抓取返回 HTTP 403（API rate limit exceeded），未取得快照、未记录 SHA；改用 github.com 仓库页完成 repository_id 与 nwo 核验。"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": [
+        {
+          "id": "github:37834277",
+          "reason": "openstf/stf（维护分支 DeviceFarmer/stf）：仓库 LICENSE 仅 623 字节 Apache-2.0 适用声明 + 官方链接，git blob SHA 84a0516… 在 fork 中一致且未被截断，GitHub license API 返回 NOASSERTION，未取得完整许可条款正文。核心流程（设备目录、浏览器远程控制、APK 安装、日志）本可匹配，但许可证据不完整，故不建立关系、不断言产品不存在。"
+        },
+        {
+          "id": "github:shamanec/GADS",
+          "reason": "README 自述双重许可，hub-ui 目录为专有且混淆发布；缺少开源 UI 时只构成无界面后端，不是完整开源应用服务。"
+        }
+      ]
+    }
+  ]
+}

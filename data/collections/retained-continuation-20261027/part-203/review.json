@@ -1,0 +1,82 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中各叶 progress 仍为 case_status=not_searched，application_ids 与 research_records 均为空，且 phase 标为 included_without_cases；这与 batch.json 中 3 条商业记录、research.json 中 3 个 case_found 及 2 个无案例留档不一致。建议同步进度元数据，但不影响本次对条目正文的核对。",
+    "environmental-management-system 的批次摘要写“环境因素与影响”，而 Ecesis 页面正文主要写 environmental aspects 与 control measures，并说明其属于跨环境、安全、质量的 broader risk register；impacts 与显著性评价只出现在截图 alt 文案“Aspects and Impacts Inventory”中。类型判断成立，建议摘要措辞与正文保持一致。",
+    "三条商业来源的 kind 均为 documentation，但实际是厂商产品/营销页面；若来源类型体系区分 product_page/marketing，可考虑调整标签。",
+    "REVIEW_SOURCES.json 只列了 3 个快照，未列 environmental-site-assessment 留档所引用的 gaeatech E-ASR 快照 d0b7fcf675a4d232635c49dbd44be928db0d9cfea404a36363d10d450b8a797b；该文件实际存在且与 research.json 的引用一致，建议补入清单以便追溯。",
+    "research.json 把 www.gaeatech.com 到 gaeatech.com 的跳转记为 host mismatch；这更像常规 canonical 跳转，措辞可弱化，不影响留档结论。",
+    "environmental-site-assessment 的 assessment 标为 boundary_unresolved，而非 insufficient_evidence；两者都表示未建立关系，语义差异不阻断。",
+    "本单元未收录开源应用，因此不存在需核对完整许可证、仓库身份或社区版边界的条目；开源检索缺口已在 research.json 中如实记录。"
+  ],
+  "leaf_checks": {
+    "environmental-laboratory-management": {
+      "application_ids": [
+        "commercial:labware"
+      ],
+      "track": "commercial",
+      "basis": "已读取 data/collections/sources/8a0018f0...txt（labware.com/industries/water-environmental）正文：明确为水、废水与环境检测实验室 LIMS，包含 Sample Login and Chain of Custody、项目/场地/样品交付组、hold time、batch QC、多级审核与电子签名、结果变更审计追踪、批准后锁定、按批准结果生成合规报告/EDD 及客户门户。",
+      "core_match": "环境样品记录（采样点、项目、监管链）—分析工作流（登录、制备、仪器、结果）—经验证交付物（QC、审核批准、审计追踪、合规报告）三项均有正文依据，属于环境 LIMS 而非环境数据平台或现场监测。",
+      "service_form": "商业 LIMS 软件产品，页面说明为可运行于云端的持续使用系统；未做部署验证。",
+      "identity_and_track": "batch、research、REVIEW_SOURCES 三处的 id commercial:labware、来源 URL 与 home 一致，track 为 commercial。",
+      "license_or_boundary": "商业闭源产品，不适用开源许可证核对；边界为实验室分析工作流，不覆盖现场连续监测。",
+      "gap": "仅有厂商产品页，未验证价格、架构或实际部署；开源环境 LIMS 未找到完整项目，已在 research 中记录检索与取舍。",
+      "verdict": "pass"
+    },
+    "environmental-management-system": {
+      "application_ids": [
+        "commercial:ecesis-ems"
+      ],
+      "track": "commercial",
+      "basis": "已读取 data/collections/sources/abe18d8b...txt（ecesis.net/ISO-14001-Software.aspx）正文 Features 与 Benefits：环境因素及控制措施库、合规义务、环境目标、职责、培训、文件化信息、应急准备、事件调查、监测测量、不符合与纠正/预防措施、内部审核、变更管理、管理评审，以及覆盖 PDCA 的仪表板与云端访问。",
+      "core_match": "管理系统循环（方针/目标—运行控制—评估—审核—纠正—管理评审）在正文中完整可辨；因素登记册以 aspects/control measures 形式存在，但 impacts 与显著性评价未在正文明确展开，仅截图 alt 提及 Aspects and Impacts Inventory。作为商业条目，类型匹配成立。",
+      "service_form": "云端 ISO 14001 EMS 软件，页面明确 Cloud-Based 与持续使用场景。",
+      "identity_and_track": "batch、research、REVIEW_SOURCES 的 id commercial:ecesis-ems、名称、URL 一致，track 为 commercial。",
+      "license_or_boundary": "商业闭源产品；页面将其定位为 ISO 14001 EMS，同时也属于更广的 EHS 套件，但本叶按 EMS 记录，边界说明合理。",
+      "gap": "未读取独立的因素影响登记册/显著性评分页面，也未验证部署；均为商业基本记录可接受范围。",
+      "verdict": "pass"
+    },
+    "environmental-permit-management": {
+      "application_ids": [
+        "commercial:ecesis-permit"
+      ],
+      "track": "commercial",
+      "basis": "已读取 data/collections/sources/a62f77d2...txt（ecesis.net/Environmental-Permit-Management-Software.aspx）正文：Centralized Permit Register 记录许可编号、类型、签发机构、生效/到期日、设施、状态、条件与附件；Permit Condition Tracking 将条件转为带负责人和截止日的任务；Compliance Calendar、Renewal Management（申请提交、审查中、已签发）、Document Management、合规仪表板与移动端。",
+      "core_match": "许可记录、授权生命周期（申请—审查—授予—修订—续期—到期）、条件可操作三项均有正文依据，且明确面向设施运营方（permittee side），未混同政府审批流水线。",
+      "service_form": "商业 SaaS/云端 EHS 平台中的许可管理模块，持续使用形态明确。",
+      "identity_and_track": "batch、research、REVIEW_SOURCES 的 id commercial:ecesis-permit、URL 与名称一致，track 为 commercial。",
+      "license_or_boundary": "商业闭源产品；边界为被许可方许可组合管理，与合规义务登记册有交叉链接但未以其为核心。",
+      "gap": "未验证实际许可文件解析、直接向机构电子报送等能力；页面已说明续期状态与文档管理，属基本真实性范围。",
+      "verdict": "pass"
+    },
+    "environmental-remediation-management": {
+      "application_ids": [],
+      "track": "none",
+      "basis": "research.json 记录两轮检索，候选覆盖修复咨询服务机构、建模/决策与数据采集工具（SADA、MAROS 等）、政府项目管理制度，另尝试 Locus、Enablon、Sphera 的 remediation management 页面均记录 HTTP 404；未建立条目或关系。",
+      "core_match": "未找到同时具备修复项目记录、定义最终状态、受控执行与进展记录的完整应用，故不强行匹配；未把“未检索到”表述为“不存在”。",
+      "service_form": "无条目，无法核对软件服务形态。",
+      "identity_and_track": "无 application_id，符合无案例留档。",
+      "license_or_boundary": "不适用开源许可核对；边界判断与定义一致（服务、组件或方法不等同于修复项目管理应用）。",
+      "gap": "404 页面与检索结果未保存快照，仅以 fetch_outcomes 留档；本次未复跑检索或复核 404 原因。按“如实记录检索/抓取缺口”可通过。",
+      "verdict": "pass"
+    },
+    "environmental-site-assessment": {
+      "application_ids": [],
+      "track": "none",
+      "basis": "已读取 data/collections/sources/d0b7fcf6...txt（gaeatech.com/easr.php）正文：E-ASR 以结构化问卷和可定制 Word 模板生成 Phase I/II ESA 报告草稿，覆盖 ASTM E1527-21、E1903-19、CSA Z768-01/Z769-00 等模板，并明确由合格专业人员负责证据、解释、结论与最终批准。research.json 据此判定其缺少委托记录与结构化证据收集管理，未建立关系。",
+      "core_match": "该产品实质是报告自动化/生成组件，仅覆盖“正式交付物”的一部分；评估委托记录与案卷研究/现场踏勘/取样等证据收集未在正文体现，因此 boundary_unresolved 的取舍有正文依据。",
+      "service_form": "商业报告生成软件（含下载演示与购买），非完整评估执行平台；未收录为条目。",
+      "identity_and_track": "无 application_id；research 引用的 E-ASR 来源与快照内容一致。",
+      "license_or_boundary": "商业闭源组件，不适用开源许可核对；边界判断合理，未与污染场地管理、环境影响评价或持续监测混淆。",
+      "gap": "仅核查 E-ASR 与部分检索结果，未确认其他商业产品是否满足三项核心；REVIEW_SOURCES.json 未列入该快照，属清单完整性问题，不影响本次正文核对。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读初审：实际读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json，以及 REVIEW_SOURCES.json 所列 3 个快照和 research.json 引用的 gaeatech 快照；未运行 shell、未写文件、未读取其他单元、未访问实时网页。未独立复算文件哈希、未复跑检索、未验证 404 的真实原因、未做部署/价格/架构测试。商业条目仅依据厂商产品页做基本真实性与类型匹配判断；本单元无开源条目，故未执行完整许可证、仓库身份与社区版边界核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-203/ses_groveopencodegop203review1_1793025736.jsonl",
+  "batch_sha256": "c9573dd28bc6469666cf52b2472e462370eb27b2c6a7cbdcfa71f20de6713161",
+  "research_sha256": "acb240408f32a36fbb852322458c6bfb827549c1ff686f547383bf2e099c659e",
+  "input_sha256": "34a0f6a119b363526f9dd2b9a53f1ad1da5cee2284c44d6ee57313c471ff0495"
+}

@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 仍记录该叶为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已给出 github:295864168 与 case_found；这是流水线状态未同步，不影响本次应用内容核对，建议调用方在入库时统一该叶状态。",
+    "VxHub 文档直接展示 Election Info、Districts、Precincts/precinct splits、Parties、Contests、ballot/audio proofing、finalize 与导出；ballot style 的具体创建/编辑界面未在快照中单列，style 与 districts 的关系主要依据 VxSuite Election Definition 数据模型及 proofing 流程推定，建议后续补充一页直接的 ballot style 配置正文以增强链路证据。",
+    "README 将 VxHub 描述为“An application for designing ballots”，VxHub 文档称其为“online portal for election management”；两者不矛盾，但对外摘要可统一措辞。",
+    "technology_stack 的 Rust 来自仓库级 Cargo 配置，快照未证明 VxHub 后端本身使用 Rust；作为套件级技术栈记录可接受，若字段意在描述 VxHub 单体则应精简。",
+    "仓库 README/package.json 均支持 GPL-3.0-only；LICENSE 为标准 GPLv3 全文，其中“How to Apply”示例含“or any later version”模板句，项目特定声明已明确 only，当前 SPDX 记录无误。",
+    "VxHub 为 VotingWorks 托管，快照未提供客户自托管说明；research.json 已如实记录该边界，batch 也未声称客户可自行部署同一托管服务。",
+    "应用身份是 vxsuite 仓库级套件，本叶匹配的是其中的 VxHub 在线选举管理面；batch 的 leaf_matches.reason 已明确 VxAdmin/VxPrint 仅作下游离线配置与打印，阅读时不应把整套设备软件都当作 EMS 本体。",
+    "package.json 与 run-vxhub 被标为 repository_metadata，类型标签略显宽泛，但不影响身份、许可证与部署形态的核对。"
+  ],
+  "leaf_checks": {
+    "election-management-system": {
+      "slug": "election-management-system",
+      "application_ids": [
+        "github:295864168"
+      ],
+      "track": "open_source",
+      "result": "pass",
+      "definitional_core": "通过。VxHub《Data Entry and Proofing》正文覆盖 Election Info（title、date、type、state、jurisdiction、seal、languages）、Districts、Precincts 与 precinct splits、Parties、Contests（candidate contests 与 ballot measures）、按 ballot style 的 ballot/audio proofing 及 finalize 锁定；《Data Export》覆盖 election package、precinct/absentee 与 official/test/sample ballot PDF、test decks。另《VxSuite Election Definition》说明 Election 顶层对象、ballot style 的 contests 由关联 districts 决定、ballotStyle.precincts 绑定使用 precinct，形成“选举对象—地理/contest—ballot style—选票生产/设备配置”的完整链路。",
+      "service_form": "通过。VxHub 文档明确称其为 online portal for election management，Data Entry/Proofing 与 Data Export 展示持续使用的在线选举筹备工作流；README 说明 VxHub 由 VotingWorks 管理、不部署到地方硬件，run-vxhub 也显示 vendor 侧 web/worker 运行方式，符合托管软件服务形态。",
+      "identity_track": "通过。GitHub 仓库快照中的 repository_id 为 295864168，与 github:295864168 一致；仓库为 public、非 fork，track=open_source 匹配。VxHub 为同一 vxsuite 仓库 apps/hub 内的应用，未虚构独立仓库身份。",
+      "license": "通过。LICENSE 快照为 GNU GPL v3 完整文本（含 END OF TERMS AND CONDITIONS 与 How to Apply）；README 明示 All files are licensed under GNU GPL v3.0 only；apps/hub/backend/package.json 的 license 字段为 GPL-3.0-only，SPDX 记录一致。",
+      "community_edition_boundary": "通过/不适用。未发现社区版与商业版的代码分界；README 声明全部文件采用同一 GPL-3.0-only，VxHub 代码位于同一仓库 apps/hub，batch 未把托管服务说成可自托管的社区版。",
+      "sources_checked": [
+        "https://github.com/votingworks/vxsuite",
+        "https://raw.githubusercontent.com/votingworks/vxsuite/main/LICENSE",
+        "https://docs.voting.works/vxsuite-tdp-v4.1/system-overview/election-package.md",
+        "https://docs.voting.works/vxsuite-tdp-v4.1/system-overview/election-package/vxsuite-election-definition.md",
+        "https://docs.voting.works/vxsuite-tdp-v4.1/system-overview/vxprint-function.md",
+        "https://docs.voting.works/vxsuite-user-manual-v4.1/vxadmin-system-setup/configure-vxadmin.md",
+        "https://docs.voting.works/vxhub/vxhub.md",
+        "https://docs.voting.works/vxhub/election-creation/data-entry-and-proofing.md",
+        "https://docs.voting.works/vxhub/election-creation/data-export.md",
+        "https://raw.githubusercontent.com/votingworks/vxsuite/main/apps/hub/backend/package.json",
+        "https://raw.githubusercontent.com/votingworks/vxsuite/main/run-vxhub",
+        "https://docs.voting.works/vxsuite-tdp-v4.1/system-overview/vxadmin-function.md"
+      ],
+      "snapshots_read": [
+        "data/collections/sources/6ed28cd077d7ed7976518ad60965e984cd452cebbaf668700ae5a17e8a824ff3.txt",
+        "data/collections/sources/b13a3307e6df0d29b7ffb10ff16aefa1ff9989dec32887a01c302051e9cd06f2.txt",
+        "data/collections/sources/c109990215f618f61f8862be843564086391687665149f934e8432cc8b584169.txt",
+        "data/collections/sources/e621205f1a4d39b3be7c6008d3421526ad2e02a2d9a048a2c6e70132c7012ea9.txt",
+        "data/collections/sources/c3a16beae9ef1034b58995600d62242e76e1a5355117b16898c408d263114848.txt",
+        "data/collections/sources/c7f974c4a396c8a47f9db0b06ed186ce07ec7b235bbe97d513dced5e9d2b33db.txt",
+        "data/collections/sources/f9f11dd65709d1588342f2bc2cbd36452f315dfddb772d7991194c215a0c7d94.txt",
+        "data/collections/sources/4ed45d309ea22b08f552d03abf3c4928774ec94d049cad5ea588eaddaba2682f.txt",
+        "data/collections/sources/650ca03ed662261d6f2651692f79a60a2a6b7c5e2ac8e51c925a3bf64565d90c.txt",
+        "data/collections/sources/610e022b59115399d33655eac7f4e23667546cc99d2200f680818aaf769ec3db.txt",
+        "data/collections/sources/fc04c5fa11fe0fbef2a12a067f76b085392bc79398d070763e5824a7176d1491.txt",
+        "data/collections/sources/762aa367471cea172b3493908c220889edc6754cbcb5050d7577bf338dcfa17d.txt"
+      ],
+      "gaps": "未实测 VxHub 托管实例；VxHub ballot style 的直接创建/编辑界面未在快照中单列；apps/hub/README.md 404 且无客户自托管说明，均由 research.json 如实记录。上述缺口不影响已核实的选举对象、地理/contest、ballot proofing 与导出核心。"
+    }
+  },
+  "limits": "本次为只读桌面审查：未运行代码、未部署或登录 VxHub、未访问外部网络、未计算快照哈希（仅按 REVIEW_SOURCES.json 的 path 原样读取，并与文件名中的 SHA-256 对应）；未核验 VxHub 托管实例的实际可用性、账号/租户配置、商业条款及价格。GitHub README 为 HTML 快照，正文可读但含大量页面脚本；部分 GitBook 文档含嵌入式 Agent Instructions，已按来源内容处理而未执行。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-201/ses_groveopencodegop201review1_1793258234.jsonl",
+  "batch_sha256": "14bad0df430f666e2cd6a7147c3ee128e5a0df3ef3e12ae8c99c579e163c8770",
+  "research_sha256": "c8768df89b9a37df557ba4a4933b4594ac564f4bf30017033eda8a0d5880997d",
+  "input_sha256": "29821d511a92aae2d627bb228a192dad8ea80464bb61c20cc628837058744a75"
+}

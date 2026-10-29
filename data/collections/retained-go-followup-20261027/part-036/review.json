@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "race-management-platform / github:567123100：批次摘要写“皮划艇静水与激流回旋”，但 README 只写“canoe and kayak regatta management system”，未直接展开静水与激流回旋两个分项；建议改为“皮划艇赛事管理”，或补一条分项来源。这不影响四段核心判断。",
+    "race-management-platform / github:567123100：未运行项目，未核验赛事生命周期状态、报名前端、成绩导入/发布与 UI 工作流；四段核心主要由 README 的项目定位和代码树路径支撑，属于结构证据，不是运行时验证。",
+    "sports-eligibility-management / commercial:dragonfly-athletics：官网为营销首页，能证明面向州协会/学校的 Rosters & Eligibility、Eligibility & Certifications、Injury Reporting，以及 physical/playing status、rehab compliance 与 restrictions；但未展开要求集配置、证据审核、状态计算和门控工作流。按商业案例基本类型匹配可以通过，后续不要把它写成专用资格系统。",
+    "sports-federation-management / commercial:sport80：首页能证明 NGB/管理机构定位、会员/赛事/合规/报告与 club management，但未明确展示成员组织附属登记、affiliation 状态/续期/费用及多级费用拆分；按商业案例基本类型匹配可以通过。",
+    "sports-membership-licensing-platform / commercial:sport80：首页能证明会员资料、续费、资格更新、赛事报名及 Membership/Certification/Payments 模块，但未明确展示期限凭证、许可证等级、先决条件、到期暂停与消费点验证；按商业案例基本类型匹配可以通过。",
+    "sports-federation-management 与 sports-membership-licensing-platform 共用 commercial:sport80；建议下游展示时区分“联合会治理/组织登记”与“会员/许可关系”两种用途，避免把同一首页当作两套独立证据。",
+    "input.json 的 progress.application_ids 对有案例的四个叶子仍为空，与 batch.json/research.json 的 case_ids 不一致；建议同步进度元数据，本次内容判断以 batch.json 为准。"
+  ],
+  "leaf_checks": {
+    "race-management-platform": {
+      "status": "case_found",
+      "application_ids": [
+        "github:567123100"
+      ],
+      "track": "open_source",
+      "basis": "读取 README、仓库元数据、LICENSE 与 git tree 快照。README 明确定位为开源皮划艇赛事管理 Web 系统，使用 Go 与 Lit，自托管 Web 服务器、SQLite 数据库，并描述用户、API 权限和赛事数据导入；仓库元数据 description 与 README 一致，archived=false；LICENSE 快照为 17,992 字节的 GPL-2.0 文本，含 license 对象 spdx_id=GPL-2.0；tree 快照 truncated=false，存在 event/race/entry/person/team/lane 相关 Go 路径及 RaceResults/MedalCount 报表路径。可对应赛事容器、参赛者/队伍与报名条目、泳道/出发编排、成绩/奖牌记录四段核心。",
+      "gaps": "未运行系统，未核验赛事生命周期状态、报名前端、成绩导入/发布和 UI 工作流；树路径属于结构证据，不能替代运行时行为。摘要中“静水与激流回旋”比 README 的“canoe and kayak regatta”更具体。"
+    },
+    "sports-club-management": {
+      "status": "no_case_documented_gap",
+      "application_ids": [],
+      "track": "n/a",
+      "basis": "research.json 记录 assessment=insufficient_evidence，保留 GitHub 搜索（701 个结果）、websearch 无结果、Sportyweb development 分支完整树（448 个路径）等检索/抓取留档；复核结论是仅有 club/department/group/contact/membership/fee/contract/finance，未见 team/squad/season/roster 建模，因此未把 Sportyweb 计入本叶。",
+      "gaps": "本叶无 batch 应用条目，无法按定义核对球队/队伍组织单元、赛季/注册周期与会员资金循环；Sportyweb 相关快照未列入 REVIEW_SOURCES.json，本次只依据 research.json 的留档，未独立重读其快照。该缺口已如实记录，按“无案例但留档完整”处理。"
+    },
+    "sports-eligibility-management": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:dragonfly-athletics"
+      ],
+      "track": "commercial",
+      "basis": "读取 DragonFly Athletics 官网快照正文。首页定位为面向州高中体育协会、学校、体育主管与裁判的 athletic management 平台；正文列出 State Associations 的 Eligibility & Certifications，Schools + Athletic Dir. 的 Rosters & Eligibility、Injury Reporting，Officials + Assigners 的 Certifications，并提到 certifications/exams/eligibility 的复杂管理、student-athletes 的 physical status、playing status、rehab compliance 与 restrictions。可支持资格/认证与状态门控的基本类型匹配。",
+      "gaps": "仅首页营销正文，未核验要求集配置、证据收集与审核、eligible/not eligible/pending 状态计算、客户端门控和审计留痕；未核验价格与部署。按商业案例只要求基本真实性与类型匹配，故不阻断。"
+    },
+    "sports-federation-management": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:sport80"
+      ],
+      "track": "commercial",
+      "basis": "读取 Sport:80 官网快照正文。首页以 NGBs 与 sports organizations 为目标，写明为 NGBs 提供 membership、events、compliance、reporting 的统一系统，90+ governing bodies 使用，含 club management、Governance & Compliance、member portal，并覆盖国际/国家管理机构、会员组织和社区体育组织。可支持管理机构侧平台的基本类型匹配。",
+      "gaps": "首页未明确展开成员组织附属登记、affiliation 状态/续期/费用、多级费用拆分与参与者登记的组织绑定；仅首页文案，未核验治理流程。按商业案例基本类型匹配可以通过。"
+    },
+    "sports-membership-licensing-platform": {
+      "status": "case_found",
+      "application_ids": [
+        "commercial:sport80"
+      ],
+      "track": "commercial",
+      "basis": "读取 Sport:80 官网快照正文。首页写明 membership platform 被 80+ NGBs 与体育组织使用；会员、运动员、教练、裁判与粉丝可通过会员门户管理个人资料、续费会员、更新资格、报名赛事并跟踪成绩；导航列出 Membership Management、Certification Management、Payments & Finance。可支持有期限会员/许可关系持续运营的基本类型匹配。",
+      "gaps": "首页未明确展示期限凭证/卡、许可等级与先决条件、到期暂停/续期激活、消费点验证与多级费用拆分；仅首页文案，未核验具体许可产品和客户端流程。按商业案例基本类型匹配可以通过。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何应用、未登录产品，也未做部署、支付或权限测试；未抓取 REVIEW_SOURCES.json 之外的网页。REVIEW_SOURCES.json 仅列 6 份快照（JRaceman 4 份、DragonFly 1 份、Sport:80 1 份）；sports-club-management 的 Sportyweb 相关快照未列入清单，故该叶负向结论依赖 research.json 的检索/抓取留档，未独立重读快照。部分快照是单行 JSON/HTML，读取工具只显示 2,000 字符预览，完整路径/正文通过定向模式匹配核对，未逐字通读全部内容；无 shell 环境，无法复算 REVIEW_SOURCES.json 的 SHA256。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-036/ses_groveopencodegop036review1_1793079157.jsonl",
+  "batch_sha256": "d120fb047bd1f1dd9f3fab0f6d02d8261d89ed85c4e4b6402150555775d9b6a1",
+  "research_sha256": "dcd323cbea6f95b5682b772dd2bb52e81670fe448282edf54da21e9b235ef109",
+  "input_sha256": "f347a7d5ca7db1781afb2233ed56323de2cd72ddcc10ff8d1258d935dc2105ec"
+}

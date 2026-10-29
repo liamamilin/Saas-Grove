@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "race-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:567123100"
+      ],
+      "query": "复用 jimmc/jraceman 已有快照：GitHub 仓库元数据、README、LICENSE 与 git tree",
+      "source_urls": [
+        "https://api.github.com/repos/jimmc/jraceman",
+        "https://api.github.com/repos/jimmc/jraceman/license",
+        "https://raw.githubusercontent.com/jimmc/jraceman/main/README.md",
+        "https://api.github.com/repos/jimmc/jraceman/git/trees/66b15f905e3e4fc8d11135b7aad4eaca6c34ed03"
+      ],
+      "note": "已有工作区快照足以判定：README 明确为开源皮划艇赛事管理系统，代码树含 event/race/entry/person/team/lane 领域模型及 RaceResults、MedalCount 报表模板，赛事、参赛名册、泳道/出发编排与成绩四段核心均有证据。未运行项目，未核验具体赛事生命周期状态与 UI 工作流。",
+      "service_boundary": "组织者侧赛事记录系统，自托管 Web 服务；不含计时硬件，也不是纯报名工具。",
+      "search_attempts": [
+        {
+          "tool": "workspace_snapshot",
+          "query": "jimmc/jraceman 已有快照",
+          "result": "命中仓库元数据、README、LICENSE、git tree 四类快照，逐份读取"
+        },
+        {
+          "tool": "github_api",
+          "query": "git trees 66b15f905e3e4fc8d11135b7aad4eaca6c34ed03",
+          "result": "436 个路径，含 event/race/entry/person/team/lane 及 RaceResults/MedalCount 报表"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/jimmc/jraceman",
+          "status": "ok",
+          "sha256": "e654975abb4d316f26019e37ee57eb841df7b0f804be83343a5b88ec95896fb4",
+          "kind": "repository_metadata",
+          "fetched_at": "2026-10-27T02:15:23.667155+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/jimmc/jraceman/license",
+          "status": "ok",
+          "sha256": "b1139c040a3095966be7656e9d78e12dc50145f75af4e9d749c3a5b06f80fec9",
+          "kind": "license",
+          "fetched_at": "2026-10-27T02:18:41.776449+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jimmc/jraceman/main/README.md",
+          "status": "ok",
+          "sha256": "55744b3c70eaea18ec125522859b7cbb7ccaa69b21909c1f331de8558ae6055f",
+          "kind": "readme",
+          "fetched_at": "2026-10-27T02:15:26.611026+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/jimmc/jraceman/git/trees/66b15f905e3e4fc8d11135b7aad4eaca6c34ed03",
+          "status": "ok",
+          "sha256": "dbba5aa5adbf2262985f2670dec5e17120da861e015052c1543a726dd14e4d23",
+          "kind": "documentation",
+          "fetched_at": "2026-10-27T02:15:28.520827+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sports-club-management",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "sports club management in:name,description（GitHub 仓库搜索）；复核 sportyweb development 分支仓库树",
+      "source_urls": [
+        "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb",
+        "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb/license",
+        "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/main/README.md",
+        "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/development/README.md",
+        "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/development/CHANGELOG.md",
+        "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb/git/trees/development?recursive=1"
+      ],
+      "note": "初审指出 Sportyweb 仅证明俱乐部/部门、联系人与会员、费用与财务，未证明俱乐部管理定义中作为组织单元的球队/队伍名册，也未证明赛季/注册续期周期，且项目自述处于早期开发、尚不适合生产。本轮复核 development 分支完整仓库树（448 个路径），仍只有 club/department/group/contact/membership/fee/contract/finance 等模块，未见 team/squad/season/roster 建模，无法补足两项核心。因此移除该叶关系，改为证据不足留档；这不表示该类型不存在，原有检索与抓取记录均保留。",
+      "service_boundary": "无成立案例。留档说明：Sportyweb 的会员/部门/费用模块属于通用会员与财务软件范围，缺少球队组织单元和赛季/注册周期，不足以认定为体育俱乐部管理；商业候选本轮未新增。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source sports club management software self-hosted github memberships teams fees",
+          "result": "无搜索结果"
+        },
+        {
+          "tool": "github_search",
+          "query": "sports club management in:name,description",
+          "result": "701 个结果；前列多为健身房或学生项目，复用已命中的 Lehrstuhl-BWL-EvIS/sportyweb（11 stars，明确的俱乐部管理定位）"
+        },
+        {
+          "tool": "github_api",
+          "query": "git trees development?recursive=1（sportyweb）",
+          "result": "448 个路径；仅见 club/department/group/contact/membership/fee/contract/finance 等模块，未见 team/squad/season/roster"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb",
+          "status": "ok",
+          "sha256": "da14680527ac020469e9952fd96e800eac52dceb3c9f28aa2462916209bd688c",
+          "kind": "repository_metadata",
+          "fetched_at": "2026-10-27T02:15:34.492032+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb/license",
+          "status": "ok",
+          "sha256": "284a026b66d775e690288fbdcb25a752a60382815e3802268fa0730c99dedbeb",
+          "kind": "license",
+          "fetched_at": "2026-10-27T02:18:43.341300+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/main/README.md",
+          "status": "ok",
+          "sha256": "9771d789b946ff6b72ccdb7e2705ca874665daaa7c4c922a5f9c19ecc02e50bc",
+          "kind": "readme",
+          "fetched_at": "2026-10-27T02:15:37.671738+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/development/README.md",
+          "status": "ok",
+          "sha256": "ba76073c206abfbfa3937cc7d316d6bc957d754622f415a8950461696348b38d",
+          "kind": "readme",
+          "fetched_at": "2026-10-27T02:18:32.044993+08:00"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Lehrstuhl-BWL-EvIS/sportyweb/development/CHANGELOG.md",
+          "status": "ok",
+          "sha256": "6c9c1de40ce2bbb25f40c50d209bdd254af1c39181cdf0ebd18b2f0534db449c",
+          "kind": "documentation",
+          "fetched_at": "2026-10-27T02:15:38.770742+08:00"
+        },
+        {
+          "url": "https://api.github.com/repos/Lehrstuhl-BWL-EvIS/sportyweb/git/trees/development?recursive=1",
+          "status": "ok",
+          "sha256": "52cc12f130542f90e8151017bc84c39f6dd6d2d741efa152e1554fb216d6bac6",
+          "kind": "documentation",
+          "fetched_at": "2026-10-27T13:30:55.585546+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sports-eligibility-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:dragonfly-athletics"
+      ],
+      "query": "athlete eligibility in:name,description（GitHub 仓库搜索）+ DragonFly Athletics 官网",
+      "source_urls": [
+        "https://www.dragonflymax.com/"
+      ],
+      "note": "开源检索未得到可用的维护中资格平台（结果多为脚本或学生项目），改用已有 DragonFly Athletics 官网快照。官网正文面向州协会与学校列明 Rosters & Eligibility、Eligibility & Certifications、Injury Reporting，并提到运动员出场状态与康复限制，可支持资格/认证状态门控关系。仅首页营销正文，未核具体要求集配置、证据审核和客户端工作流。",
+      "service_boundary": "商业 SaaS 的学校/协会侧资格与认证管理；价格、部署与具体规则引擎未核。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "github open source athlete eligibility management system",
+          "result": "无搜索结果"
+        },
+        {
+          "tool": "github_search",
+          "query": "athlete eligibility in:name,description",
+          "result": "11 个结果，多为抓取脚本、学生作业或零星项目，未发现可维护的完整资格管理应用"
+        },
+        {
+          "tool": "workspace_snapshot",
+          "query": "DragonFly Athletics 官网快照",
+          "result": "命中 Rosters & Eligibility、Eligibility & Certifications、Injury Reporting 等正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.dragonflymax.com/",
+          "status": "ok",
+          "sha256": "e800940dfbb289a1048d27c5bcb35f1d97266ab9bc847dedf18061956b9f650f",
+          "kind": "homepage",
+          "fetched_at": "2026-10-27T02:14:49.570990+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sports-federation-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sport80"
+      ],
+      "query": "sports federation management in:name,description（GitHub 仓库搜索）+ Sport:80 官网",
+      "source_urls": [
+        "https://www.sport80.com/"
+      ],
+      "note": "开源检索结果多为零星学生/数据库课程项目，未采用。复用 Sport:80 官网快照：正文以 NGB 与体育组织为目标，列出会员管理、俱乐部管理、认证、赛事报名与治理合规，可支持管理机构侧组织与参与者关系；但会员组织附属审批、续期与多级费用未在首页展开，故按基本商业类型记录并收窄断言。",
+      "service_boundary": "商业云端体育组织/联合会管理平台；仅首页文案，未核附属费用与多级治理流程。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "github open source sports federation membership management software",
+          "result": "无搜索结果"
+        },
+        {
+          "tool": "github_search",
+          "query": "sports federation management in:name,description",
+          "result": "11 个结果，多为零星课程/案例项目，无可用开源候选"
+        },
+        {
+          "tool": "workspace_snapshot",
+          "query": "Sport:80 官网快照",
+          "result": "正文含 NGB、club management、membership management、governance & compliance"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sport80.com/",
+          "status": "ok",
+          "sha256": "6b2767ad8500e4dfdbc407dc59890f8eae2d74ea84ed35b38180b4c597d6e60d",
+          "kind": "homepage",
+          "fetched_at": "2026-10-27T02:14:25.688361+08:00"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sports-membership-licensing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:sport80"
+      ],
+      "query": "sports membership management in:name,description（GitHub 仓库搜索）+ Sport:80 官网",
+      "source_urls": [
+        "https://www.sport80.com/"
+      ],
+      "note": "开源检索以健身房或学生项目为主，未采用。复用 Sport:80 官网快照：正文说明会员、运动员、教练与裁判可管理个人资料、续费会员、更新资格并报名赛事，平台含 Membership Management、Certification Management、Payments & Finance，构成有期限会员/许可关系的持续运营。未核具体许可等级、先决条件与多级费用拆分。",
+      "service_boundary": "商业会员/许可 SaaS；持续会员关系与续期，区别于一次性报名。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "github open source sports federation membership management software",
+          "result": "无搜索结果"
+        },
+        {
+          "tool": "github_search",
+          "query": "sports membership management in:name,description",
+          "result": "62 个结果，多为健身房、学生或电子竞技粉丝俱乐部项目，无合适开源候选"
+        },
+        {
+          "tool": "workspace_snapshot",
+          "query": "Sport:80 官网快照",
+          "result": "正文含 renew memberships、update qualifications、Membership/Certification Management"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.sport80.com/",
+          "status": "ok",
+          "sha256": "6b2767ad8500e4dfdbc407dc59890f8eae2d74ea84ed35b38180b4c597d6e60d",
+          "kind": "homepage",
+          "fetched_at": "2026-10-27T02:14:25.688361+08:00"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

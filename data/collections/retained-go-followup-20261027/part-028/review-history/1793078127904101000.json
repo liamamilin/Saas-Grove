@@ -1,0 +1,74 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "public-financial-management-system",
+      "application_id": null,
+      "issue": "research.json 把 OpenGov Financial Management 与 Tyler ERP 两页标记为 fetched，并据其正文陈述总账、应付、应收、固定资产及公共部门财务、预算监控、收入与公用事业计费能力；但 REVIEW_SOURCES.json 与 batch.json 均未登记这两页的快照。sources 目录下确实存在对应的未登记 HTML 文件（4dbbac…、0a645…、79ba1…、d6467…），但它们不在清单中，无法按 REVIEW_SOURCES 的 path 复核这些正文陈述。",
+      "fix": "将上述快照以 path、url、sha256、kind、applications 登记进 REVIEW_SOURCES.json，并在 research.json 的 source_urls/fetch_outcomes 中引用；如果这些页面确实没有留档，则把相关表述改为“抓取内容未留档/仅据检索结果”的缺口说明，删除未经留档的正文断言。"
+    },
+    {
+      "slug": "court-e-filing-platform",
+      "application_id": "github:1259409130",
+      "issue": "research.json 以 apps/api/src/routes/public-efile.ts 的具体流程（未认证用户选择法院、缴费后直接创建 Case，无文件包与法院接受/退回关卡）作为不把 TPT Court 扩展到电子立案的依据，但该文件的快照未出现在 REVIEW_SOURCES.json 中（目录内存在未声明的 3a3c… 文件），排除理由无法按清单路径核对，且与仓库标题/描述自述的 public e-filing 形成需要留证的冲突。",
+      "fix": "把 public-efile.ts 快照登记进 REVIEW_SOURCES.json 并在 research 的 source_urls 中引用（或在 batch 中注明该核验来源）；如果无法登记，则退回为仅依据 README/仓库描述的 boundary_unresolved，并明确写出“路由实现未留档”。"
+    }
+  ],
+  "non_blocking_notes": [
+    "public-budgeting-platform：batch 记录的产品页 URL（/products/budgeting-planning/）实际落点为 /products/budgeting-and-performance/，快照 canonical 也是后者；正文一致，建议记录解析后的最终 URL，避免后续复核时误判来源。",
+    "court-case-management-system：TPT Court 的 Prisma schema 没有独立的 docket/案卷事件模型，案卷时间线需由 Document、Hearing、Motion、Deadline 与 AuditLog 组合推断；建议在 leaf_matches 说明中降低“案卷事件”这一措辞的确定度，或补一条 docket 列表路由快照。",
+    "code-enforcement-management：noticeofviolation 表与 NoticeOfViolation 实体均无独立收件人/送达对象字段，送达对象只能经案件-房产-人员关联推断；research 已如实披露，建议在最终条目中保留该限制说明。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与 research.json/batch.json 已有检索与案例的状态不一致；如该字段属于生成器维护范围，建议同步，避免读者误读为未检索。",
+    "TPT Court 仓库标题/描述自述 “public e-filing”，batch 未据此扩展 court-e-filing 关系是正确处理；建议在 note 中保留这一区分，防止后续被误当作漏配。",
+    "public-financial-management-system 即使补齐快照登记，现有页面仍属产品营销正文，未展开承诺/支付前的预算可用性校验与国库操作，维持“无案例、记为候选”的结论是合理的。"
+  ],
+  "leaf_checks": {
+    "public-budgeting-platform": {
+      "applications": [
+        "commercial:opengov-budgeting-performance"
+      ],
+      "core_check": "已读 OpenGov Budgeting & Performance 产品页正文（非仅 meta）：明确面向州与地方政府 build/manage/publish budgets，覆盖 operating budgets、workforce planning、capital projects、online budget book、performance reporting，并提到 multi-fund、multi-department、general fund、council budget presentation，与“按财政框架组织、多部门编制、发布预算书”的定义性核心一致；治理机构表决在平台外，不构成缺失。",
+      "type_check": "商业主体真实（OpenGov 官方站点、产品页、Request a demo），产品类型为政府预算编制与绩效平台，与叶子类型匹配；持续在线平台形态成立。",
+      "license_check": "不适用（commercial）。",
+      "result": "通过（非关键 URL 落点差异见 non_blocking_notes）。"
+    },
+    "public-financial-management-system": {
+      "applications": [],
+      "core_check": "无建立关系的应用；research 记录 GitHub IFMIS 多为无明确许可证的课程/演示项目，并核对 OpenGov Financial Management 与 Tyler ERP 页面仅能证明总账/应付/应收/固定资产与公共部门财务、预算监控、收入与公用事业计费，未证明承诺/支付前预算权限校验与国库操作，三合一核心不足，故不建关系。",
+      "type_check": "未纳入应用，不涉及类型误配。",
+      "license_check": "不适用（无纳入应用）。",
+      "result": "留档缺口基本如实，可接受为“无案例”；但作为依据的两页正文快照未登记于 REVIEW_SOURCES/batch，见 findings，需补齐来源登记后方可完成核对。"
+    },
+    "code-enforcement-management": {
+      "applications": [
+        "github:116288758"
+      ],
+      "core_check": "已读实体与 SQL：cecase 以 property_propertyID（及 propertyunit）为锚并含 casePhase/closingdate；codeviolation 关联 codesetelement→codeelement 的 ordchapterNo/ordSecNum/ordSubSecNum 条款编号，含 stipulatedComplianceDate、actualCompliancDate、penalty；person/propertyperson/propertyunitperson 与 PersonType（OwnerOccupant/OwnerNonOccupant/Tenant/Manager）及 propertyexternaldata（ownerName/ownerPhone）支撑责任方；noticeofviolation 保存信件文本与寄出/退回日期；CasePhase 覆盖 NoticeDelivery、两级合规期限、AwaitingHearing、HearingPreparation、Closed，构成房产锚定→条款违规→定向通知→合规/升级到终结的闭环。",
+      "type_check": "仓库与 README 明确为 Turtle Creek Valley COG 的法规执法与占用许可数据库，属地方政府运营软件，类型匹配；非 311/纯检查/许可产品。",
+      "license_check": "LICENSE 为完整 GNU GPL v3 文本（含 END OF TERMS AND CONDITIONS 与 How to Apply）；CasePhase.java、CodeViolation.java、PersonType.java 等源码头明确 “version 3 ... or any later version”，GPL-3.0-or-later 记录正确；仓库根即完整开源应用，未发现单独商业社区版切分。",
+      "result": "通过；通知收件人未建模已在 research 披露，列入 non_blocking_notes。"
+    },
+    "court-case-management-system": {
+      "applications": [
+        "github:1259409130"
+      ],
+      "core_check": "已读 README 与 Prisma schema：Case 含 caseNumber（unique）、type、status、closeReason、filedAt/closedAt、assignedJudge、courtId；Party 含当事人角色与代理/送达字段；Document 含类型、保密级别与版本；Hearing 含法院法庭、法官、排期、延续关系；另有 Motion、Deadline、AuditLog 记录操作者/实体/动作/状态迁移，支撑案件登记、当事人绑定、听证日历与结构化结果。",
+      "type_check": "产品为法院侧案件管理/法院 ERP（Court、法庭、法官、书记员、公众角色），非律所工具或单一立案通道，类型匹配；Docker 部署与多法院数据划分体现持续服务形态。",
+      "license_check": "LICENSE 为完整 MIT 文本（含版权与许可声明），README 标注 MIT；仓库元数据 repository_id=1259409130、nwo=tpt-solutions/tpt-court，与 application_id 一致。",
+      "result": "通过；无独立 docket 实体属实现层面可推断缺口，列入 non_blocking_notes。"
+    },
+    "court-e-filing-platform": {
+      "applications": [],
+      "core_check": "本单元未建立关系。research 记录 GitHub 检索未发现许可证明确且实现“文件包+提交至特定法院+法院审查接受/退回+回执”的开源电子立案平台；TPT Court 虽在标题/描述自述 public e-filing，但据 public-efile.ts 流程为缴费后直接创建 Case，缺少文件包与法院审查关卡，故有意不扩展到本叶，边界判断与定义一致。",
+      "type_check": "未纳入应用，不涉及类型误配。",
+      "license_check": "不适用（无纳入应用）；TPT Court 的 MIT 许可与仓库身份另在 court-case-management-system 叶核对。",
+      "result": "无案例结论本身可接受；但支撑排除的 public-efile.ts 正文未登记于 REVIEW_SOURCES，见 findings，需补齐后方可完成核对。"
+    }
+  },
+  "limits": "本次为只读初审：未部署或运行任何被测应用，未执行 shell，未写文件，未访问本单元之外的资料；结论仅基于 input.json、data/collections/batch.json、data/collections/research.json 以及按 REVIEW_SOURCES.json 的 path 原样读取的 21 个快照，另用同单元 sources 目录中未被清单登记的若干文件（OpenGov Financial Management、Tyler Solutions、public-efile.ts）仅作来源缺失识别与内容一致性确认，未将其作为通过依据。未核验采集时间之后的远程变更、未核算快照 sha256 与文件内容的一致性、未检查 CMS/e-filing 路由之外的运行时行为；商业产品判断以官方页面正文为准，未做价格或架构尽调。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-235/ses_groveopencodegop235review2_1793034623.jsonl",
+  "batch_sha256": "3b4f334c54e555c960ad526736de3484692079d4a4597b9bb737b2df40250e3e",
+  "research_sha256": "c6ce08ddcbf92c2ea8f808fda5210296011f83bc825132704ce1c03bf2864183",
+  "input_sha256": "6fdcf99bf4b2f99d05b589c9b6c40d654e2f5795b7761b10a1f760089596de79"
+}

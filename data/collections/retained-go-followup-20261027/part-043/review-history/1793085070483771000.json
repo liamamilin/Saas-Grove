@@ -1,0 +1,117 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "parks-recreation-administration",
+      "application_id": "commercial:traction-rec",
+      "issue": "批次摘要（batch.json 第89行）写“社区成员可维护家庭信息、注册项目与活动、查看注册历史并更新付款偏好”，research.json 该叶 note 又声称“正文确认 household information、programs and events registration、enrollment history”。但实际快照 data/collections/sources/5295be58…txt 全文没有 household／family account／registration history 等表述（grep 仅命中 CSS nth-child 与导航链接），正文只写到 program catalogs、courses、options、limits、waitlisting、prerequisites，self-service registration 与 payment preferences／waivers／contracts，设施与公园空间预订、waivers／contracts、real-time availability、program schedules、rental sales。也就是说，摘要里的“家庭信息”“注册历史”以及 note 里的“正文确认”都没有快照正文支撑，属于对来源内容的事实性夸大。",
+      "fix": "删除或改写这两处表述：只保留快照正文可核对的“项目目录／限额／候补／先决条件、在线注册与付款偏好、设施与公园空间在线预订（选时段、签豁免书／合同、付款）、实时可用性”；若要保留 family/household 账户与 enrollment history，须补抓 Traction Rec 相应页面快照，并按 REVIEW_SOURCES.json／batch.sources 的 path 要求收录后再写。该叶的核心类型匹配（定时项目目录 + 参与者注册 + 设施可预订库存）不依赖这两条表述，可保留。"
+    },
+    {
+      "slug": "government-vendor-management",
+      "application_id": "github:1069652626（候选，未入 batch）",
+      "issue": "research.json 以“供应商资格依附单次交易，不是跨交易、仅由政府授予的供应商登记册”为由排除 steve-ongera/Tender_Management_Systems，但所引 README 快照（55e05276…txt 第219-224行）的 Vendor 模型是跨招标持久存在的记录：business registration details、capabilities and service areas、verification and blacklist status、rating system，并非按单次投标生成与失效。排除结论仍可成立，但记录的理由与所引正文不符，且真正需要说明的边界（多组织与私营买方、verification 由平台／采购方自行授予而非仅政府机构授予、资格不构成下游授予与付款的强制门禁）未写明。",
+      "fix": "把该候选的排除理由改写为：产品中心是招标发布→投标→评标→授予（属政府采购平台形态），供应商名册是招标平台的支撑模块；快照未证明资格状态仅由政府机构授予、跨交易强制门禁参与／授予／付款；README 中 vendor blacklisting／verification 属平台内功能，不足以建立 Government Vendor Management 关系。结论（不建关系）不变，仅修正依据表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "BC Digital Marketplace 的 batch.homepage 直接用 GitHub 仓库地址，没有独立产品页；不影响记录，但公开条目若要展示“服务形态”，可补一个运行中的产品入口（README 已给出 app-digmkt-prod 生产 URL）。",
+    "README 明确引用 NOTICE.txt 与 Apache-2.0 第4(d)条，但本次未收录 NOTICE.txt 快照；LICENSE.txt 已是完整 Apache License 2.0（含版权行 2020 Real Folk Inc.／2022 Province of British Columbia），许可证身份无歧义，补抓 NOTICE 只是完备性改进。",
+    "README 顶部徽章指向 button-inc/digital_marketplace 分支，与 bcgov 主仓库并存；属项目沿革信息，不影响仓库身份（id 220540094）与 Apache-2.0 判定。",
+    "government-records-management 的缺口记录已如实写明检索未穷尽；可考虑补记一条“未评估 Alfresco／OpenKM 类通用 EDRMS 是否具备外部档案机构授权处置”，使“不建关系”的依据更完整。",
+    "government-revenue-management 使用 assessment=boundary_unresolved，而另外两个无案例叶使用 insufficient_evidence；建议统一无案例状态词表，避免下游按状态聚合时口径不一。",
+    "government-revenue-management 对 HA5ANT/Municipal-Utility-Billing-System 的判断是“未证明基金／总账归属”，该结论只基于 README；若后续复核，可直接看代码中是否有 GL／fund 字段，避免长期停留在候选。",
+    "input.json 中 government-procurement-platform 与 parks-recreation-administration 的 progress.application_ids 仍为空、case_status=incomplete，但 research.json 已为 case_found、batch.json 已有条目；这像是沿用旧输入快照，下游应以 batch.json／research.json 为准，建议在进度块同步 application_ids。",
+    "REVIEW_SOURCES.json 只列了 5 份快照，而 data/collections/sources 下另有 8 份候选快照（Purview、KPRA-GIMS、utility-billing、Municipal-Utility-Billing、Tender Management 仓库页与 README、LiteRec 仓库页与 LICENSE）；这些是三个无案例叶判断的实际依据，建议全部登记以利复现（本次已按存在文件逐一读取核对）。",
+    "Traction Rec 页面为营销正文，商业条目只做基本真实性与类型匹配，本可接受；但“家庭账户”是 Parks & Recreation 类型的典型结构，若产品确有此能力，建议后续用产品页正文补证，而不是在摘要中先行断言。",
+    "parks-recreation-administration 快照未出现 season／session 结构，定义中的“季节周期”一项仅有 program schedules 间接支持；不影响类型匹配，可在 leaf_checks 中保留为弱证据说明。"
+  ],
+  "leaf_checks": {
+    "government-procurement-platform": {
+      "status": "matched",
+      "evidence": [
+        "batch.json 条目 github:220540094（track=open_source，license=Apache-2.0），leaf_matches 仅指向本叶。",
+        "快照 4d5e1ce0…txt：og:title/description 与仓库 About 为 bcgov/digital_marketplace；octolytics-dimension-repository_id=220540094、repository_nwo=bcgov/digital_marketplace、is_fork=false；codeViewRepoRoute.refInfo.name=development，与 id／track／默认分支一致。",
+        "快照 d2be544a…txt 第5行：“administers British Columbia's Code With Us and Sprint With Us procurement programs … public sector employees to create and publish procurement opportunities, and … vendors to submit proposals”，直接给出“公开征求 + 供应商响应”主干。",
+        "快照 53464e7b…txt：提案资源含 Draft/Submitted 状态、submit/score/award/disqualify/withdraw 动作（第67-76、490-514、671-806行）；create 在机会未发布或过截止时以“This opportunity is no longer accepting proposals.”拒绝（第317-328行），update 走 awardCWUProposal（第852-865行）；proponent 解析出法律名称／邮箱／地址或组织 id（第86-120行），即受控响应绑定到已识别供应商。",
+        "快照 5ab0fcba…txt 为完整 Apache License 2.0（第1-202行，含第1-9条、END OF TERMS 与 APPENDIX，附 2020 Real Folk Inc.／2022 Province of British Columbia 版权行），与 README 第43行“available to use under the Apache 2.0 license”一致；未见专有社区版／企业版切分，自托管说明见 README 的 docker-compose／helm／OpenShift 段落。",
+        "定义核对：正式征求（opportunity，含状态与 proposalDeadline）＋ 已识别供应商 ＋ 绑定征求的受控提案 ＋ 记录在案的 award，四项均在正文／代码层面有依据，非仅元数据或简介。"
+      ],
+      "gaps": [
+        "仅读取了 code-with-us 提案资源；Sprint With Us 的征求／授予路径未单独取证。",
+        "授予结果的对外公布（award 发布到公开记录）未见正文证据，仅见内部 award 动作与通知。",
+        "未运行应用，运行时行为与版本一致性未验证。"
+      ]
+    },
+    "government-records-management": {
+      "status": "no_case_documented",
+      "evidence": [
+        "research.json assessment=insufficient_evidence，case_ids 为空，检索与抓取过程完整留档：GitHub API `records management government` total_count 128、`records retention disposition` 2、`records management retention` 39，均记录 HTTP 200 与结果构成。",
+        "候选 lokeshm-it/Microsoft-Purview-Records-Management 已实际抓取（快照 d998eede…txt）：repository_id=1288543265，README 正文（第499、507行）自述为 Microsoft Purview Records Management 的“enterprise implementation”“deployed for a regulated organisation”，围绕 Record Labels、File Plan、Disposition Review、Regulatory Records，跨 Microsoft 365 workloads；属 M365 商业服务上的实施文档，不是可自托管的记录管理应用，也未证明外部法定档案机构授权的处置计划。",
+        "note 明确写“检索未穷尽，不能据此断言此类产品不存在”“不作不存在判断”，符合无案例留档要求。",
+        "定义核对：本叶要求“作为公共事务证据的记录 + 外部法定档案机构批准／授权的保留处置计划 + 有据销毁或移交”，现有候选均未同时满足三项，排除理由与正文一致。"
+      ],
+      "gaps": [
+        "未评估通用开源 EDRMS（如 Alfresco 类）是否具备处置授权机制，检索覆盖有限。",
+        "GitHub API 计数与结果清单无法离线复现。",
+        "无候选的可核对核心正文，故不能建立关系。"
+      ]
+    },
+    "government-revenue-management": {
+      "status": "no_case_documented",
+      "evidence": [
+        "research.json assessment=boundary_unresolved，case_ids 为空；检索留档含 property tax billing 81、municipal utility billing 17、government revenue management 20 三条 GitHub API 查询与结果构成。",
+        "候选 KPRA-GIMS 已抓取仓库页（1a7c6013…txt）：repository_id=162075347，描述为 KP Revenue Authority 的 Generic Invoice Management System；页面 readme=null，无 README／用户文档，故未用描述替代核心正文，保留候选不建关系，处理正确。",
+        "候选 navariltd/utility-billing README（fdfba6ac…txt 第15-36行）确有 tariff／customer grouping／meter readings／invoice→payment 与 accounting auto-invoicing，但同时含 Property Management 与 tenant portal（第40-78行），未明确逾期罚金与收入来源／基金归属，判为候选合理。",
+        "候选 HA5ANT/Municipal-Utility-Billing-System README（ec85b9dc…txt 第24-45行）有 customer accounts、bills、partial payments、penalty calculations、payment history 与报告，但无基金／总账归属或收入来源编码，未建立关系与本叶三条结构（应收账户、收缴／逾期循环、归属与问责）缺第三项相符。",
+        "定义核对：未出现把“通用发票／支付处理／预算分析”误当 GRM 的情况，边界说明与正文一致。"
+      ],
+      "gaps": [
+        "HA5ANT 的 fund／GL 归属仅按 README 判断，未查代码模型。",
+        "KPRA-GIMS 无 README，无法核对缴费人应收账户与逾期循环。",
+        "无一条候选同时满足三项结构，故本叶无案例。"
+      ]
+    },
+    "government-vendor-management": {
+      "status": "no_case_documented",
+      "evidence": [
+        "research.json assessment=insufficient_evidence，case_ids 为空；检索留档含 `supplier registry government` total_count 0、`vendor management government` 21、`supplier registration procurement` 因 GitHub API rate limit 未获结果（并明确“未据此作不存在判断”），以及 GovBuy 仓库 URL HTTP 404 的抓取缺口。",
+        "候选 steve-ongera/Tender_Management_Systems 已抓取仓库页（182f3b7b…txt，id 1069652626，MIT）与 README（55e05276…txt）：README 第9-18行显示系统中心是 tender 发布／投标／评标／合同／付款，第219-224行 Vendor 模型有 registration details、capabilities、verification/blacklist、rating，属招标平台内的供应商模块。",
+        "按定义“当产品核心转向运行征求周期本身即为政府采购平台”，该候选归入采购平台而非供应商登记册的结论可成立；但 research note 中“资格依附单次交易”的表述与上述 Vendor 持久模型不符，已列为 finding 要求改写依据（结论不变）。",
+        "定义核对：本叶要求“持久逐一供应商记录 + 仅由政府机构授予／变更的资格状态并门禁参与、授予、付款”；候选未证明资格仅由政府授予、跨交易门禁，不建关系。"
+      ],
+      "gaps": [
+        "supplier registration procurement 查询被限流，检索覆盖不完整。",
+        "未读到任何候选的资格状态机正文（仅有 README 功能列表）。",
+        "无案例，故本叶保留空关系。"
+      ]
+    },
+    "parks-recreation-administration": {
+      "status": "matched_with_correction_required",
+      "evidence": [
+        "batch.json 条目 commercial:traction-rec（track=commercial，homepage=https://tractionrec.com/），leaf_matches 指向本叶。",
+        "官方快照 5295be58…txt（tractionrec.com/parks-recreation，2026-10-14 发布）：正文第1439行定位“parks and recreation management software”；第1498行“reserve facilities or park spaces online … Select a time, sign waivers or contracts and confirm payment”“program schedules, space inquiries, and rental sales … real-time availability”；第1507行“program catalogs, courses and options with customizable limits, waitlisting, prerequisites, contracts and discounts”“Community users can search for programs, register and pay … Set up payment preferences, sign and save waivers”“Manage class attendance … Automate waitlist invitations”。",
+        "定义核对：定时项目目录（catalog/courses/options/limits/prerequisites）、参与者注册（search/register/pay、waivers、attendance/waitlist）、设施／场地可预订库存（reserve facilities or park spaces、real-time availability、rental sales）三项均有正文依据；商业条目仅要求基本真实性与类型匹配，已满足。",
+        "待修正项：摘要与 research note 中的“家庭信息”“注册历史”及“项目与活动”的 events 部分在快照中无对应正文（详见 findings），属来源事实问题，不影响上述核心匹配。"
+      ],
+      "gaps": [
+        "household／family account 与 enrollment history 未在快照中出现，需删改或补源。",
+        "season／session 季节周期结构未被正文明确写出。",
+        "未验证产品实际可访问性与价格，按任务不要求。"
+      ]
+    }
+  },
+  "limits": [
+    "本次为只读审查：未运行 shell、未写文件、未联网，因此未复算任何快照的 sha256，也未回源核对 GitHub 页面或 GitHub API 的实时内容与计数。",
+    "REVIEW_SOURCES.json 仅登记 5 份快照；data/collections/sources 下另有 8 份候选快照（Purview、KPRA-GIMS、utility-billing、Municipal-Utility-Billing、Tender Management 仓库页/README、LiteRec 仓库页/LICENSE），本次按文件实际存在逐一读取用于核对三个无案例叶与开源排除理由，但这些文件未被登记，复现路径依赖本报告说明。",
+    "长行 HTML 快照在读取时被工具按行截断显示；判定“某表述不存在”依赖全文 grep（含被截断区间），未做逐字节解析，理论上仍可能遗漏图片内文字或脚本内文案。",
+    "input.json 的 definition 字段（dc／rules 等）在读取时被截断，本报告的类型核对基于 overview／overview_zh 及可读的 dc／rules 片段，未使用被截断段落之外的推断。",
+    "未做运行时测试、部署验证、价格与架构研究；采集端 runtime_tested=false 与本审查结论一致。",
+    "商业条目（Traction Rec）仅依据单一官方产品页快照，未核对其余页面或第三方资料，符合“商业只查基本真实性与类型匹配”的口径，但也意味着特征覆盖面有限。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-043/ses_groveopencodegop043review1network0report1_1793084641.jsonl",
+  "batch_sha256": "661cf6ae718546c92728101046424b1fe6ed2022a6281d6b5622849a1684d058",
+  "research_sha256": "d5d09413bcdf0abf3f7a1340882892b329658fde24c8d38b01c08cff0a240f97",
+  "input_sha256": "69a74531fe65a757a23534d8ca0d4debee7e2ad0d49b9890358dbabff203891f"
+}

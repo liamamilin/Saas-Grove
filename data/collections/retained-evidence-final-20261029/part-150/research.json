@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "mobile-network-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:170803235",
+        "commercial:nokia-mantaray-nm"
+      ],
+      "query": "GitHub API searches: mobile network management, cellular network management, RAN OAM, O-RAN SMO, 5G network management, telecom network management, radio network management, eNodeB/gNB management; checked Magma, Open5GS, OpenNMS, Boda BTS-CE, O-RAN SC OAM and nutcas3/telecom-platform; fetched official Magma NMS docs/LICENSE and the current Nokia MantaRay NM page.",
+      "source_urls": [
+        "https://github.com/magma/magma",
+        "https://raw.githubusercontent.com/magma/magma/master/README.md",
+        "https://raw.githubusercontent.com/magma/magma/master/LICENSE",
+        "https://magma.github.io/magma/docs/nms/overview",
+        "https://www.nokia.com/autonomous-networks/network-management/",
+        "https://github.com/bodastage/bts-ce",
+        "https://bts-ce-docs.readthedocs.io/en/latest/modules.html",
+        "https://github.com/open5gs/open5gs",
+        "https://github.com/OpenNMS/opennms",
+        "https://github.com/o-ran-sc/oam",
+        "https://github.com/nutcas3/telecom-platform",
+        "https://www.ericsson.com/en/portfolio/network-management-and-automation/network-manager",
+        "https://www.nokia.com/networks/netact/"
+      ],
+      "note": "本轮是对原 insufficient_evidence 的定向复核，不是把历史候选直接当通过。历史记录保留了 Magma、Open5GS、OpenNMS、Ericsson Network Manager、Nokia NetAct 的旧结论与失败抓取；本轮重新核对了 Magma 的仓库身份、完整 BSD-3-Clause LICENSE 与 NMS 官方文档，确认其 NMS 是可创建/管理 Networks、Gateways and eNodeBs、Subscribers、Policies/APNs 的 Web GUI，并提供 KPI/状态、firing alerts、远程重启、软件升级、呼叫跟踪等配置/故障/性能能力，因此以同一 GitHub 身份（170803235）收录为开源案例，修正此前“许可与服务边界未闭合”的结论。商业侧本轮取得 Nokia 当前官方 MantaRay NM 页面正文（NetAct 旧 URL 为 403；Ericsson 旧 URL 为 403/404），页面明确其为面向移动运营商、覆盖 radio/core/transport 现网网元的单一管理系统，含配置/软件/性能管理、告警关联与批量变更验证，故作基本商业记录；未深入价格、架构或部署。另有 Boda BTS-CE（Apache-2.0，但官方模块仅 Network Browser/Baseline/Audit，缺故障/性能与写配置闭环）、Open5GS（移动核心网，WebUI 仅用户配置）、OpenNMS（通用网络监控）、O-RAN SC OAM（组件/适配器集合，仓库未检出许可证，且非完整应用）、nutcas3/telecom-platform（MIT，BSS/计费/私有核心，不是 RAN 网元管理）经核对后未收录。未取得正文的 Ericsson 页面与旧 NetAct 页面保留为失败抓取，不据此断言产品不存在。",
+      "service_boundary": "本叶要求运营商侧对现网移动网络元素（以基站/小区为主，可含核心/传输节点）具备配置、故障、性能三腿闭环。Magma NMS 的受管对象是 Magma 网络的网关与 eNodeB，具备配置开通/软件升级、告警处置、KPI/指标，属于完整开源 Web 管理服务；其边界是 Magma 平台而非多厂商宏站网，已在 leaf_matches 中明确。Nokia MantaRay NM 是面向多技术 RAN/核心的商用网管，具备配置/软件/性能/告警能力。两者均不是 OSS 伞形、规划工具或纯监控/服务保障。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "mobile network management",
+          "result": "total_count=8；结果为课程项目、计费 MVC、论文/加密流量提案等，没有完整移动网管应用。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "RAN OAM",
+          "result": "total_count=7；多为 O-RAN SC OAM 部署指南、YANG/VES 模型和适配器，不是完整应用服务。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "O-RAN SMO",
+          "result": "total_count=22；多为 SMO 安装指南、示例 App、ONAP 自动部署脚本，未出现可独立使用的完整 SMO 网管。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "5G network management",
+          "result": "total_count=135；发现 Boda BTS-CE、nutcas3/telecom-platform 等，逐项核对后分别因缺故障/性能闭环、偏 BSS/私有核心而未收录。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "telecom network management",
+          "result": "total_count=122；BTS-CE 为配置/基线/审计平台，VyManager 面向 VyOS，cablelabs 面向 DOCSIS/FTTH，均非移动 RAN 网管。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "cellular network management",
+          "result": "total_count=41；以调制解调器控制面板、仿真环境和研究代码为主，没有完整现网移动网管。"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "radio network management / eNodeB management / gNB management / network management mobile operator",
+          "result": "结果以模组/热点工具、研究代码和零散 BTS 管理课程项目为主；未出现可验证的完整开源移动网管。"
+        },
+        {
+          "tool": "official_docs",
+          "query": "Magma NMS overview",
+          "result": "200；页面明确 NMS 是 provisioning/operating Magma 网络的企业级 GUI，管理 Networks、Gateways and eNodeBs、Subscribers、Policies/APNs，并展示 KPI/状态、firing alerts、远程重启、软件升级与呼叫跟踪。"
+        },
+        {
+          "tool": "official_license",
+          "query": "magma/magma LICENSE",
+          "result": "200；完整 BSD-3-Clause 文本，含版权声明、三条款与免责声明，可闭合此前 GitHub NOASSERTION 的许可证缺口。"
+        },
+        {
+          "tool": "official_page",
+          "query": "Nokia MantaRay NM",
+          "result": "200（使用浏览器 UA 与站内 referer 后取得正文）；明确其为面向移动运营商、统一管理 radio/core/transport 现网网元的网管，含配置/软件/性能管理、告警关联与 mass change verification。"
+        },
+        {
+          "tool": "official_page",
+          "query": "Ericsson Network Manager / Nokia NetAct old pages",
+          "result": "Ericsson 旧 URL 404（curl 403）；Nokia NetAct 旧 URL 403；均未取得正文，保留为失败抓取，不作产品断言。"
+        },
+        {
+          "tool": "official_docs",
+          "query": "Boda BTS-CE modules",
+          "result": "200；模块仅 Network Browser、Network Baseline、Network Audit，未提供故障/性能管理或对现网网元的写配置闭环，故未收录。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/magma/magma",
+          "status": "200",
+          "result": "仓库身份为 magma/magma，GitHub repository id=170803235；快照已保存。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/magma/magma/master/README.md",
+          "status": "200",
+          "result": "README 可读；Orchestrator 被描述为配置/监控无线网络并展示指标与 Web UI；快照已保存。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/magma/magma/master/LICENSE",
+          "status": "200",
+          "result": "完整 BSD-3-Clause 许可证文本；快照已保存，并以 license_review 绑定。"
+        },
+        {
+          "url": "https://magma.github.io/magma/docs/nms/overview",
+          "status": "200",
+          "result": "NMS 官方文档可读；明确 Gateways and eNodeBs、KPI/状态、firing alerts、远程重启、软件升级与呼叫跟踪；快照已保存。"
+        },
+        {
+          "url": "https://www.nokia.com/autonomous-networks/network-management/",
+          "status": "200",
+          "result": "当前 Nokia MantaRay NM 官方产品页正文可读；快照已保存。"
+        },
+        {
+          "url": "https://www.ericsson.com/en/portfolio/network-management-and-automation/network-manager",
+          "status": "403/404",
+          "result": "旧 URL 未取得正文（curl 403、webfetch 404）；未据此建立关系。"
+        },
+        {
+          "url": "https://www.nokia.com/networks/netact/",
+          "status": "403",
+          "result": "旧 NetAct URL 访问被拒绝，未取得正文；未据此建立关系。"
+        },
+        {
+          "url": "https://github.com/bodastage/bts-ce",
+          "status": "200",
+          "result": "仓库与 Apache-2.0 许可证元数据可读；但 README/文档仅展示配置浏览、基线和 RAN 审计，缺故障/性能管理与写配置闭环，未收录。"
+        },
+        {
+          "url": "https://bts-ce-docs.readthedocs.io/en/latest/modules.html",
+          "status": "200",
+          "result": "模块页仅列 Network Browser、Network Baseline、Network Audit；确认不满足三腿闭环，未收录。"
+        },
+        {
+          "url": "https://github.com/open5gs/open5gs",
+          "status": "200 (历史复用)",
+          "result": "上一轮记录：AGPL-3.0 移动核心网，WebUI 仅用户配置；本轮未重复抓取，保留旧结论。"
+        },
+        {
+          "url": "https://github.com/OpenNMS/opennms",
+          "status": "200 (历史复用)",
+          "result": "上一轮记录：通用网络管理/监控平台，缺移动网络元素模型与写配置权威；本轮未重复抓取，保留旧结论。"
+        },
+        {
+          "url": "https://github.com/o-ran-sc/oam",
+          "status": "200",
+          "result": "仓库存在，但 GitHub 未检出许可证，内容为 O-RAN OAM 组件/适配器生态的一部分，非完整可独立使用的应用服务；未收录。"
+        },
+        {
+          "url": "https://github.com/nutcas3/telecom-platform",
+          "status": "200",
+          "result": "MIT 许可证；定位为私有 5G/LTE 的 BSS/用户/计费/开发者 API 平台，未提供 RAN 网元配置-故障-性能闭环，未收录。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

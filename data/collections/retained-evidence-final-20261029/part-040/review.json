@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Alitu 摘要中的“波形编辑”在两条引用快照正文中没有直接表述；快照明确的是文稿/文本编辑、Episode Builder 工具、自动清理和发布。建议下游把摘要改为“文稿编辑”，或补充编辑器官网页面后再保留“波形”。这属于非关键措辞，不影响三项定义性核心。",
+    "Alitu 首页快照包含试用、价格、用户评价等营销内容；本次只把它作为四步工作流、录制/上传、清理、文稿编辑以及 Apple Podcasts/Spotify 发布语句的流程佐证，没有把价格或推广语当作核心证据。",
+    "research.json 的 historical_reuse 文字写“2026-10-24 原抓取”，而记录目录名为 beam-continuation-20261025；这只是时间标注上的小差异。Hindenburg 与 audapolis 均以留档理由排除，没有推断产品不存在。",
+    "input.json 仍保留上一阶段的 boundary_unresolved 与空 application_ids；本轮 batch.json/research.json 已依据新的官方正文改为 case_found。若 input.json 是不可变种子可忽略；否则下游应同步叶子状态。",
+    "HarborFM 是自托管、单实例的完整 Web 应用，不是厂商运营的多租户云服务；其 MIT 社区版包含制作与发布主链路，下游描述服务形态时不宜写成商业托管 SaaS。",
+    "Alitu 同时提供内置托管、节目网站和目录提交，但其核心工作流仍是单集编辑与发布准备；按定义归入播客编辑应用而非播客平台，下游不应仅因托管功能重复归类。",
+    "两案例均未做部署、登录或端到端运行测试；本报告只依据官方正文，符合本任务不要求运行测试的范围。"
+  ],
+  "leaf_checks": {
+    "podcast-editing-application": {
+      "slug": "podcast-editing-application",
+      "result": "pass",
+      "applications_checked": [
+        "commercial:alitu",
+        "github:1152449694"
+      ],
+      "definitional_core": "Alitu：帮助中心正文写明在 show 下创建、构建并查看 episodes 及其状态，可从该处回放、编辑或发布单集；Episode Builder 内可上传单集音频、以文本方式编辑，Magic Filters 去除填充词和静音；发布阶段生成可分享的成品文件，可推送播客托管商、下载音频或生成视频版。HarborFM：README 正文写明 show/episode 为持久对象，单集由可录制或上传的 segments 组装，支持裁剪、分割、去静音、噪声抑制、重排并由 ffmpeg 合成成品音频，最终生成 RSS 并可导出到 S3、FTP 等目标。两者均具备单集工作单元、语音优先捕获/编辑、面向发布的完成三项核心。",
+      "commercial_case": "Alitu 的官方帮助中心正文明确 show 下 episodes 状态管理、Episode Builder 录制/上传、文本编辑、Magic Filters、发布生成可分享文件并可推送 host/下载/生成视频；官方首页四步流程及 Apple Podcasts/Spotify 语句补强。基本真实性成立，类型匹配播客编辑应用。",
+      "open_source_case": "HarborFM 的 README 正文明确 show/episode 持久对象、segments 录制/上传、裁剪/分割/去静音/噪声抑制/重排、ffmpeg 合成、Make Final Episode 后下载、RSS 以及 S3/FTP/SFTP/WebDAV/IPFS/SMB 导出；官网功能卡与安装说明补强。基本真实性成立，类型匹配播客编辑应用。",
+      "service_form": "Alitu 为持续运营的商业托管 Web 制作服务（app.alitu.com 注册/试用，帮助中心描述完整制作与发布流程）。HarborFM 为单 Node 进程同时服务 API 与前端、SQLite 持久化、Docker/PM2/Terraform 部署的自托管 Web 应用，社区版即完整制作与发布流程。",
+      "id_and_track": "commercial:alitu / track=commercial，homepage 与帮助中心均为官方域名；github:1152449694 / track=open_source，repository_url 为 LoganRickert/harborfm，GitHub 页面元数据 repository_id=1152449694 与 batch 一致。",
+      "license_and_community_boundary": "license API 快照的 base64 内容解码后为完整 MIT 文本，含授权、版权声明保留和 AS IS 免责条款，版权行为 2026 Logan Rickert；README 与站点 footer 均标 MIT。仓库未显示付费/企业版门槛，segments、ffmpeg 合成、RSS、导出、转录及可选 WebRTC 均在社区版代码与文档中；可选 Whisper/LLM/WebRTC 不是核心链路的强制付费项。",
+      "snapshot_verification": "按 REVIEW_SOURCES.json 原样读取 6 个快照：data/collections/sources/b0f9efa9cc0a6212756e5033cd8b0e24164b30d449d48a76f262cb3c6d773e0e.txt、9a9ebfea1fb29ca66ac6c47b0abaefe1be6a73c21a956bbcbe41b17ebefb80d7.txt、b2632313722f98015ac2bcac012c210ba023ed450fe6f14e0023bb4a726a932f.txt、c00b8376a53fc3ed25866a2f0f4c9304b7b5c6409950d5eeb0a78e1a94791247.txt、a4f9bf4cd874a5a5fdcc958673ebcb98a07ee1b3c7e5b6f0146c999cc1ed7c45.txt、e88ea90ce2d7f18dedd29519e6fbfc512f005a7943fca07894639564a4666da3.txt。batch 的 snapshot_path 均以 data/collections 为基准对应到这些文件，未使用项目根目录下的 sources/。正文核对依据帮助文档段落、README 功能段与首页工作流，没有以标题、导航、HTTP 成功或 Loading 替代核心。",
+      "gaps": "未重算 sha256（只读审查无 shell）；未部署、登录或执行产品工作流；Alitu 帮助快照为单行渲染 HTML，阅读时用关键词定位正文；Alitu 首页为营销页；HarborFM 未做运行时验证；Hindenburg 历史快照未重新抓取。上述缺口均如实留档，不影响核心、身份与许可证结论。"
+    }
+  },
+  "limits": "本次为只读桌面审查：未运行 shell、未写文件、未重算快照哈希；未部署、登录或执行产品工作流；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其列出的 6 个快照，并对 Alitu 首页/帮助页做了同 URL 的只读在线复核以确认渲染正文（未替代快照）；未重新抓取 Hindenburg 历史快照；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-040/ses_groveopendesignp040review1_1793167040.jsonl",
+  "batch_sha256": "8eb5cd5d29a0787f44a81c4d3e3e25c37996f7b93fa7a64f56c369c6700f3c6c",
+  "research_sha256": "eb273c1c926042d83b2c18b7458be7f9aebe4397de5831b064ad812ca30d9850",
+  "input_sha256": "55d55cb79dc39aa629232a22db73449149862d8c85356772727981f2e409ab5c"
+}

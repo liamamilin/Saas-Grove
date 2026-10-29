@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Social Blade 的官方首页更接近公开频道统计目录（Top Lists、favorites、Business API），快照未直接证明其只服务创作者自有频道；首页也未展示受众人口构成或逐内容观看时长。按商业条目基本类型匹配可通过，但 batch summary 中 'content performance' 的覆盖范围比首页证据宽，建议收窄措辞或补充功能页。",
+    "Patreon 唯一来源是官方帮助中心首页，实际可见的是 Creator/Member topics 以及 Tiers and Benefits、Billing、Pricing and fees、Paying out your earnings、Your benefits 等栏目索引，不是文章正文；batch 与 research 中 'describes recurring fan memberships' 属于从栏目名推断。商业基本类型匹配可通过，但建议补一篇官方文章（层级/计费/权益/提现），并把 homepage 改为产品主页。",
+    "creator-media-kit-builder 无案例；research 已记录 Paperclip 首页仅有 Media Kit Builder 工具入口、缺模板/内容模型/成品分发证据的缺口，符合无案例留档要求。若希望补案例，可再抓取该工具专页，但不阻断本次。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch/research 的 4 个 case_found 不一致；合并前应回填进度，避免下游误判。",
+    "REVIEW_SOURCES.json 只列了 batch 4 个条目对应的 5 个快照；research 用于排除候选的 Paperclip、GRIN、Greenfly 快照未列入清单（文件实际存在于 data/collections/sources），建议补齐审计清单。",
+    "旧候选移除理由与快照一致：GRIN 首页为 'Creator marketing for brands'（品牌侧），Greenfly 为 'High-Performance Content Operations'（内容运营），均不属于对应叶核心，移除合理。"
+  ],
+  "leaf_checks": {
+    "creator-audience-analytics": {
+      "application_ids": [
+        "commercial:socialblade"
+      ],
+      "track": "commercial",
+      "result": "pass_with_caveat",
+      "basis": "batch 条目 commercial:socialblade，track=commercial；快照 data/collections/sources/c6e869683a22a877baf76f05a9ae26fdbb9ec392e9800297a62cd92c2b8ec95b.txt 首页可见 'Analytics Made Easy'、按日追踪 YouTube/TikTok/Twitch/Instagram/Facebook 统计与增长、3+ 年日历史/周与日图表/report cards、favorites/top lists、Business API。支持平台来源指标随时间累积和创作者可读界面；SaaS 免费账户加付费会员。",
+      "gaps": "定位偏公开频道统计目录，未直接证明仅面向创作者自有频道；首页未见受众人口构成或逐内容观看时长，research 的 '内容表现' 比首页证据宽。商业基本类型匹配仍成立。"
+    },
+    "creator-media-kit-builder": {
+      "application_ids": [],
+      "track": "none",
+      "result": "no_case_documented",
+      "basis": "无 batch 条目；research assessment=insufficient_evidence，case_ids=[]，query='creator media kit builder'；候选 papercliphq.com 快照（data/collections/sources/57a74c8de66fdaa552fc1b1d13e72f8e166187f7738bf869608aff0916be4bfc.txt）首页将 Media Kit Builder 列为免费工具，但未见工具主导的模板/内容模型/托管页或下载成品正文。",
+      "gaps": "缺口已记录；未抓取该工具专页，无法确认是否存在完整 builder 工作流。按无案例留档可通过。"
+    },
+    "creator-sponsorship-management": {
+      "application_ids": [
+        "commercial:brandtrack"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "batch 条目 commercial:brandtrack，track=commercial；快照 data/collections/sources/9fec44cec32893db485422ec4b5377c94e7d031fc9f7a072a48074238674f192.txt 首页可见 'purpose-built for creators managing their own brand deals'、deal pipeline（Pitch/Signed/Content Due/Published/Paid）、deliverable due dates/status、usage-rights expiry、contract/invoice storage、payment reminders/revenue dashboard；覆盖品牌交易记录、商业条款、交付物和生命周期。SaaS 订阅（14-day trial/$12 mo）。",
+      "gaps": "开源候选因 GitHub API 403 未核验，未采用；research 已如实记录，不影响商业条目。"
+    },
+    "creator-subscription-platform": {
+      "application_ids": [
+        "commercial:patreon"
+      ],
+      "track": "commercial",
+      "result": "pass_with_caveat",
+      "basis": "batch 条目 commercial:patreon，track=commercial；快照 data/collections/sources/4a165f71a3dacc1cfac3c5e12a07f6e6b9377485fe0eb8df05e6fb567800b550.txt 为官方帮助中心首页，可见 Creator/Member topics 及 Tiers and Benefits、Billing、Pricing and fees、Paying out your earnings、Your benefits 等栏目；可支持品牌真实性与订阅/会员类型匹配。SaaS 平台。",
+      "gaps": "快照是栏目索引/导航，未含具体文章正文，未直接证明自动续费、权益随订阅状态、创作者名单管理等细节；batch reason 的 'describes recurring fan memberships' 属推断。商业基本类型匹配可通过。"
+    },
+    "fan-engagement-platform": {
+      "application_ids": [
+        "commercial:fanthreesixty"
+      ],
+      "track": "commercial",
+      "result": "pass",
+      "basis": "batch 条目 commercial:fanthreesixty，track=commercial；快照 data/collections/sources/4bb0775d2e9d1ea754ae684657235bf3935c536974a65b805350abb2e31f9eef.txt 首页确认面向 sports/entertainment organizations；快照 data/collections/sources/2b38cf4722a3734f67788cc191ad94c9e07e6c288a6ac4101d72ea015d12c6c9.txt 产品页可见 Single Fan Profiles 多源合并并持续丰富、120+ Audiences 自动刷新、ticketing/merch/F&B integrations、Campaigns、Forms（网站/应用/社交）、Sponsorship impressions。覆盖持久球迷档案、组织方控制的参与活动、参与回流与商业结果；SaaS。",
+      "gaps": "参与记录回写档案的措辞未在页面逐字出现，但由 single profile/audiences/forms 组合支持；商业基本类型匹配成立。"
+    }
+  },
+  "limits": "只读审查，未运行 shell，未写文件，未读取其他单元；未做运行时/登录态/部署测试，未重新计算 sha256（仅核对清单 sha 与文件名、引用一致性）；部分快照为压缩 HTML，正文依赖快照可见文本，并用同 URL 只读页面辅助确认动态渲染内容；未验证需要登录的产品界面；media kit 无案例；Patreon 仅有帮助中心索引；本单元无开源条目，未评估价格、架构或部署。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-103/ses_groveopencodegop103review1_1793000822.jsonl",
+  "batch_sha256": "ec3b862066afdb754a1a939c5b193029a272fdd3b6133cec764a6a27ca5071cd",
+  "research_sha256": "df6e61466b41b3a1c58ea355a79744491650404e1e2f4160e7260ff34b15099d",
+  "input_sha256": "0ea9e82c41f38c02bdedcd1eaff647ab9e9ae0aefa2436c7c1ae2f8d2cb53e6b"
+}

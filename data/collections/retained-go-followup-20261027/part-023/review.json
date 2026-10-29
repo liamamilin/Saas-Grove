@@ -1,0 +1,64 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Mahara 的公开 GitHub 仓库是 2023-04 起停止更新的旧仓库，README 与仓库标题均说明最新代码通过订阅获取；条目摘要、leaf_match 和 service_boundary 已明确该边界。建议下游展示时保留该限定，避免把订阅版误读为公开社区版。",
+    "DSpace 官方文档 wiki 返回 403、docs.dspace.org 不可达，采集改用 DSpace/RestContract 官方仓库文档；该缺口已在 research.json 如实记录，communities、collections、items、submission、workspaceitems、workflowitems 正文足以支撑对象模型及提交/审批工作流。",
+    "AtoM 的 SPDX 记为 AGPL-3.0，仓库 LICENSE 为完整 AGPLv3 文本，未发现项目层面的 or later 授权语句；若下游要求严格 SPDX 表达式，可规范为 AGPL-3.0-only，但不影响许可事实。",
+    "Mahara 手册 create/share 快照为章节入口页，ePortfolio 四个核心结构主要由官网正文和章节概述支撑；评估提交与反馈的细节仅见目录及官网 LTI/反馈描述，属于非核心能力，未作为核心判断依据。",
+    "input.json 的 progress.application_ids 仍为空，而 batch.json 与 research.json 已给出四个应用及 case_ids；这是进度元数据同步问题，不影响本次内容核对结论。"
+  ],
+  "leaf_checks": {
+    "archives-management-system": {
+      "application_id": "github:5705943",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "AtoM 仓库元数据 ID 5705943、名称 artefactual/atom 与 README 的 standards-based archival description and access 一致；官方手册 Archival Descriptions 正文给出 fonds/series/files/items 多级描述、child description 与 draft/publish；Authority Records 正文给出 creators、ISAAR(CPF) 权威记录及其与描述的链接；Print finding aid 正文给出生成、上传、下载及每个 archival unit 一份查找辅助工具的流程。",
+      "license": "仓库 LICENSE 快照为完整 AGPLv3 文本；README 与官网均声明 AGPLv3。",
+      "boundary": "开源、可自托管的 Web 档案描述与访问系统；README 另列 Artefactual 付费支持、托管等服务，但代码、安装说明与自托管路径独立可得，未把付费支持当作社区版本体。",
+      "gaps": "未运行部署测试；查找辅助工具当前主要按 RAD 模板生成，属于产品限制而非类型不符。"
+    },
+    "digital-library-platform": {
+      "application_id": "github:3743376",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "DSpace 仓库 ID 3743376、README 的 turnkey repository application；dspace.org 首页正文说明机构可用其承载 subject、dataset 或 media repositories；Features 正文列出多格式数字内容管理/保存、Solr 元数据与全文检索、组访问控制；RestContract 的 communities/collections/items/submission/workspaceitems/workflowitems 正文给出 Community→Collection→Item 层级、Collection 仅含 Item、Item 的 metadata/bundles/owningCollection、WorkspaceItem 的元数据/上传/访问/许可分节，以及按 Collection 配置的审批工作流。",
+      "license": "仓库 LICENSE 为完整 BSD 3-Clause 文本；README 明确 BSD-3-Clause。",
+      "boundary": "开源、可自托管；同一应用可承担机构知识库或数字馆藏平台，本条按数字项与馆藏管理、检索和公开交付限定。",
+      "gaps": "官方 wiki 403、docs.dspace.org 不可达，已记录并改用 RestContract；未运行部署测试。"
+    },
+    "eportfolio-platform": {
+      "application_id": "github:18741799",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "Mahara 仓库 ID 18741799、README 的 open source ePortfolio system；官网正文给出上传/嵌入证据、撰写反思、创建 portfolio、按个人/组/全世界分享并限制时间或评估范围；手册 Create/Share 章节概述给出 artefacts、pages/collections 与分享入口。个人证据记录、作品集展示面、持有者反思、受控受众四个核心结构均可对应。",
+      "license": "COPYING 为完整 GPLv3 文本；README 明确 version 3 or later，故 GPL-3.0-or-later 成立。",
+      "boundary": "GitHub 公开仓库自 2023-04 起停更，README 与仓库标题明确最新代码通过订阅获取；条目已把开源关系限定为该仓库版本，未把订阅版当作公开社区版。",
+      "gaps": "create/share 快照为章节入口页，详细子页未保存；核心由官网正文与章节概述支撑，评估提交/反馈细节仅见目录和官网 LTI/反馈描述，未作为核心依据。"
+    },
+    "institutional-repository": {
+      "application_id": "github:3743376",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "DSpace README 的 turnkey repository application、dspace.org About 正文的 researchers and scholars to publish documents and data 与 open digital repositories、首页的 institutional repository use case；RestContract submission/workspaceitems/workflowitems 正文给出托管摄入：WorkspaceItem 的元数据/文件/访问/禁运/许可、按 Collection 配置的审批 WorkflowItem、archived Item；items 正文给出 metadata/bundles/owningCollection 及撤回。",
+      "license": "仓库 LICENSE 为完整 BSD 3-Clause 文本；README 明确 BSD-3-Clause。",
+      "boundary": "开源、可自托管；机构可保存并公开研究人员与机构的数字产出，提供条目页、检索和开放访问；OAI-PMH、ORCID 等可选集成不计入类型核心。",
+      "gaps": "官方 wiki 403、docs.dspace.org 不可达，已记录并改用 RestContract；未运行部署测试。"
+    },
+    "integrated-library-system-ils": {
+      "application_id": "github:5885483",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "Koha 仓库元数据 ID 5885483，标题与 README 明确 free software ILS 且为官方仓库同步镜像；Cataloging 正文说明每条书目记录可附一个或多个 items（holdings），item 记录实体复本的馆藏地、索书号、条码；Circulation 正文给出从读者条码启动 check out、按 circulation rules 计算到期日、renew 与 check-in；Administration 正文给出按馆别、读者类别、物品类型配置 circulation and fine rules；Patrons 正文给出读者记录与读者类别。",
+      "license": "LICENSE 为完整 GPLv3 文本；README 明确 GNU GPL version 3 or later，故 GPL-3.0-or-later 成立。",
+      "boundary": "开源、可自托管的 Web ILS；GitHub 仓库明确为官方仓库的同步镜像，采购、OPAC、馆际互借等为附加模块，不计入核心判断。",
+      "gaps": "未运行部署测试；未逐提交核对镜像与上游官方仓库的一致性。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，并按 REVIEW_SOURCES.json 的 path 原样读取 36 个快照；未运行 shell、未写文件、未部署测试、未读取其他单元。DSpace 官方 wiki 403、docs.dspace.org 不可达，依赖 dspace.org 与 RestContract 快照；Mahara 公开仓库停更，无法核对订阅版当前代码；许可证与仓库身份均以已保存快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-023/ses_groveopencodegop023review1_1793077337.jsonl",
+  "batch_sha256": "6e037b0fa58fef5319d78636eb083d0686100f7404dfb5c280cd939264299d07",
+  "research_sha256": "cc710182caa03ecf47f4ea6def685fd3e69d76d773fcb150823bf90e50accfdd",
+  "input_sha256": "374dfad489c32616aba4a4cc302f757f6610009e3a604d27debb2029384f7919"
+}

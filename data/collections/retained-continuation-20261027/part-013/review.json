@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五叶标为 not_searched、application_ids/research_records 为空，而 research.json 与 batch.json 已有 case_found 和 github ID；这不影响本次内容核对，但若下游依赖 progress 字段，就需要同步更新。",
+    "两个开源条目的 license 字段写 AGPL-3.0，README 的 SPDX 头写 AGPL-3.0-or-later；作为简写可以接受，若要求精确，可改为 AGPL-3.0-or-later。",
+    "shared-team-calendar 的 leaf_matches 称创建者可通过共享菜单调整或取消共享；快照正文只明确 write/read-only 共享以及接收方 unshare/重新共享，owner 侧调整或撤销属于合理 UI 推断，核心的组共享与读写分级已有正文支持。",
+    "meeting-scheduling 的 leaf_matches 未提邮件确认链接这一强制确认步骤；research.note 已如实记录，且快照明确确认后才接受并转发，核心属性不受影响。",
+    "resource-calendar 的条目是资源后端应用，实际预约与可用性界面由 Calendar 提供；deployment 与 service_boundary 已说明组合关系，因此不阻断。",
+    "用户手册称相关应用为 “Calendar Rooms and Resources”，仓库/应用商店 id 为 calendar_resource_management；管理员手册的 Known backends 指向同一仓库，身份可以对齐。",
+    "group-availability 的 Nextcloud Proposals 参与者是实例内用户或被邀请者，而不是 leaf 规则中常见的无账户链接投票；核心的候选时段、参与者声明、聚合比较与选定时间已满足。",
+    "技术栈中的 Vue、calendar-application 的“移动事件”未在已读快照中逐字出现，属于非核心元数据或常规 UI 表述。"
+  ],
+  "leaf_checks": {
+    "calendar-application": {
+      "status": "supported",
+      "application_ids": [
+        "github:68362560"
+      ],
+      "basis": "用户手册快照 a917 正文说明：默认日历与跨设备同步（186-208 行）、日/周/月视图创建事件、起止时间/时区/全天事件（382-401 行）、编辑/复制/删除（416-433 行）、重复（531-538 行）、提醒（509-529 行）、参与者与 free/busy（435-471 行）。README 8331 说明这是 Nextcloud Calendar 应用、经应用商店安装、仓库仅管理前端、CalDAV 后端在 server；仓库元数据 id 68362560 与条目一致。",
+      "gaps": "未做运行时验证；“移动事件”未在快照中逐字说明，但编辑时间/常规拖动可覆盖；文档为 Nextcloud 36，未固定 Calendar 应用版本。"
+    },
+    "resource-calendar": {
+      "status": "supported",
+      "application_ids": [
+        "github:371047037"
+      ],
+      "basis": "README bfe8 说明管理 buildings/floors/rooms/general resources/vehicles，用户查看 room availability 并在预订事件时选择地点，资源 email 必须唯一；管理员手册 d4fe 379-389 说明 CalDAV 后端支持 resources/rooms、同一时间只能使用一次、资源须由后端应用提供；用户手册 a917 473-489 说明把房间/资源加入事件、冲突显示 rejected、Room availability 面板。仓库元数据 id 371047037 与条目一致。",
+      "gaps": "条目是资源后端应用，实际预约与可用性界面由 Calendar 提供；资源自身日历的独立时间网格未单独展示，持久化依赖 CalDAV 资源语义；未做运行时验证。"
+    },
+    "shared-team-calendar": {
+      "status": "supported",
+      "application_ids": [
+        "github:68362560"
+      ],
+      "basis": "用户手册 a917 282-295 说明日历可共享给本地用户、组或联邦远端用户，共享可为 write 或 read-only，写权限用户可新建/编辑/删除事件；297-313 说明日历委托；329-343 说明公开链接只读；186-208 说明日历持久保存并跨设备同步。组共享指向同一日历存储，权限分级由分享者控制。",
+      "gaps": "快照未逐字说明 owner 调整或撤销单个共享的 UI；接收方 unshare 与重新共享有说明；未做运行时验证。"
+    },
+    "group-availability-scheduling-application": {
+      "status": "supported",
+      "application_ids": [
+        "github:68362560"
+      ],
+      "basis": "用户手册 a917 689-747 说明 Calendar v6 的 Meeting Proposals：组织者创建提案，填写标题、描述、地点、时长、参与者，并选择多个 proposed times；系统通知参与者；参与者在时间×参与者矩阵中按 Yes/No/Maybe 回应并 Submit；组织者查看回应与各时段票数，选择最受欢迎时间后 Create，生成日历事件并通知全体参与者。时间查找投票、候选时段、参与者声明、聚合比较与选定时间均成立。",
+      "gaps": "参与者是实例用户或被邀请者，不是无账户链接投票；提案结束后是否冻结未说明；README 未提 Proposals，核心证据主要来自用户手册；未做运行时验证。"
+    },
+    "meeting-scheduling-application": {
+      "status": "supported",
+      "application_ids": [
+        "github:68362560"
+      ],
+      "basis": "用户手册 a917 592-687 说明 Appointments：组织者配置标题、地点、描述、时长、时段增量、每周可预约时间、会前/会后缓冲、最短通知时间、每日上限，选择写入日历，生成 public/private 链接；预约页只显示不与已有事件冲突的时段；访客填写姓名和邮箱（可选评论），点击邮件确认链接后预约才被接受并转发给主办人，随后在主办人日历生成事件，改期/取消邮件通知受邀者，并可创建 Talk 房间。README 8331 提到 appointment booking 与 Talk rooms。",
+      "gaps": "快照明确写入主办人日历，受邀者侧日历写入未逐字说明（依赖 attendee invitation 机制）；邮件确认 gating 在 leaf_matches 中省略，但 research.note 已记录；未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读审查；未运行 shell、未计算或复核 SHA-256、未联网补充抓取、未部署或操作 UI；仅依据本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 8 个快照。GitHub 元数据/许可证快照为单行 JSON，read 工具显示截断，但 id/full_name/description 及 COPYING size=34520 可见；许可证全文以 base64 存在，未逐字节解码。文档快照为 Nextcloud 35/36 HTML，未固定 Calendar 应用版本。未审查已从本单元移除且未被 batch 引用的 Calendly 快照；未读取 TASK.md、scripts 或其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-013/ses_groveopencodegop013review1_1792939384.jsonl",
+  "batch_sha256": "d17e6a0ae30b73b6f881c6290764672e9454a1a224e8e80643547761cdb93cb9",
+  "research_sha256": "e5fc585a763398fce706ab82dba56b87f42c09502f0d7d573883f25edc38d80d",
+  "input_sha256": "71d1da3e6498d13f9cf645d5f5f48bc230002cccb265e4ae7d540fdd75a0f89d"
+}

@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Primero 的公共部门部署证据没有保留快照：research.json 记录官网首页与 Stories 页抓取失败，备注中列出的墨西哥、约旦、巴拿马、中国民政部等部署情况无法在本次只读审查中复核；当前保留来源（README、CPIMS+ 用户指南）能证明个案管理核心工作流，但不能独立证明“政府运营/公共授权”属性。建议后续补一份官方政府部署或项目规则来源，或在条目中明确该属性由部署方承担。",
+    "Primero 的核心工作流证据部分来自 PrimeroCPIMSUserGuide，而 LICENSE 明确 CPIMS+/GBVIMS+ 配置包需单独联系获取；条目已把许可证范围记为 community_core，边界基本正确，但建议在 features/reason 中区分 AGPL 平台核心与受限配置包，避免把 CPIMS+ bundle 的能力误读为无条件开源功能。",
+    "Harbor README 的 Quick Start 写的是 `cd beacon`，而仓库名为 harbor；这是复制残留，不影响仓库身份、MIT 许可证或拨款生命周期证据。",
+    "OpenGov、Granicus、Envisio 的引用均为厂商营销/产品页，足以满足商业条目的基本真实性与核心类型匹配，但不能证明正式采纳流程、逐成员投票/纪要批准、实施深度等细节；按商业初审标准不阻断。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids 为空，而 batch.json/research.json 已记录 5 个 case_found；这看起来是采集前输入状态，后续合并时应以 batch/research 为准，避免进度元数据回退。",
+    "REVIEW_SOURCES.json 将 OpenGov、Granicus、Envisio 的产品/方案页标为 kind=homepage，属标签措辞问题，不影响来源真实性。",
+    "Primero license_review.rationale 写“contacting UNICEF”，而 LICENSE 原文是联系 childprotectioninnovation@gmail.com；版权人为 UNICEF，措辞可更精确，但不影响 AGPL-3.0 判定。"
+  ],
+  "leaf_checks": {
+    "social-services-case-management": {
+      "application_id": "github:72849464",
+      "basis": "仓库元数据确认 id=72849464、nwo=primeroIMS/primero；LICENSE 为完整 GNU AGPL v3 文本，并注明 CPIMS+/GBVIMS+ 配置包需另联系，条目按 community_core 记录；README 与官方 CPIMS+ 用户指南正文覆盖个案登记、评估、个案计划、服务、转介/移交、结案审批、任务截止/逾期、审计日志和角色权限。",
+      "result": "个案管理定义性核心与开源许可证/仓库身份通过；公共部门部署/公共授权仅有研究备注，未保留快照，作为已记录缺口处理。"
+    },
+    "capital-improvement-planning": {
+      "application_id": "commercial:opengov-capital-budget-project-management",
+      "basis": "OpenGov 产品页正文明确 5/10/15 年资本改善计划、情景建模、优先级评分、资金来源对齐、资本预算与实际值对比，并面向政府/议会/居民/审计报告；条目已把关系收窄到规划与资助层。",
+      "result": "商业真实性与多年期资本项目规划/资助核心匹配通过；未核验正式采纳流程和实施细节，按商业基本标准不阻断。"
+    },
+    "government-grants-management": {
+      "application_id": "github:1160274829",
+      "basis": "Harbor 仓库元数据确认 id=1160274829、nwo=okeefedaniel/harbor；LICENSE 为标准 MIT 全文；README 正文覆盖机会发布（含资格条件）、申请门户、评审评分、授予/修正、提款/交易台账、报告/SF-425、结案及七种角色 RBAC。",
+      "result": "资金机会→外部申请→授予承诺→管理执行/结案四段链完整，开源许可证与仓库身份通过。"
+    },
+    "government-meeting-agenda-management": {
+      "application_id": "commercial:granicus-agenda-meeting-management",
+      "basis": "Granicus 方案页正文明确面向书记官，自动化议程创建、审批、会议材料、纪要管理，提供公开议程/直播与点播视频/录像/纪要门户，并含 boards and commissions 管理。",
+      "result": "公共治理机构、议程组装/发布、会议记录与公开门户的类型匹配通过；快照未明确逐成员投票和纪要批准细节，按商业基本标准不阻断。"
+    },
+    "government-performance-management": {
+      "application_id": "commercial:envisio-performance-analytics",
+      "basis": "Envisio 产品页正文明确将绩效指标与战略优先级/计划目标对齐，支持目标线/基准、员工叙述更新、红绿灯记分卡、仪表板、自动邮件提醒、内部/外部发布，并面向公共部门/地方政府。",
+      "result": "目标—指标—实际值—状态—报告循环匹配通过；商业真实性与类型匹配成立。"
+    }
+  },
+  "limits": "只读独立初审；未运行 shell、未重算 SHA-256、未做部署或运行时测试、未抓取新网页；仅依据本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 所列 10 个快照；部分 HTML 快照仅按相关正文段落核对，未逐行审阅模板/脚本，也未执行 JavaScript；商业页面为营销/产品页，未验证价格、架构、客户部署或实施深度；Primero 官网及 Stories 页抓取失败且无快照，公共部门部署与政府项目规则未独立核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-233/ses_groveopencodegop233review1_1793033751.jsonl",
+  "batch_sha256": "d525e7f9840a89b06b5d9434ae57960b2f05ba848330536c9f0edc2bc7ebe489",
+  "research_sha256": "101d11f8f92ec9e8cb98a7d05f1f1d59a8e0eba9aab978c06f5cef8c61298472",
+  "input_sha256": "1c622aba5997cdc2c164ae4edd0d5c1b63390b24d826a3f808653196c329b4a7"
+}

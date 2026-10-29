@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 12,
+  "offset": 275,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "renewal-management-platform",
+        "name_zh": "续订管理平台",
+        "domain_id": "07",
+        "parent_id": "07.07",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "renewal-management-platform",
+        "name": "Renewal Management Platform",
+        "name_zh": "续订管理平台",
+        "aliases_zh": [
+          "续约管理平台",
+          "续费管理平台"
+        ],
+        "overview": "A **Renewal Management Platform** is a vendor-side system for managing the renewal of the vendor's own recurring customer agreements. It treats each upcoming renewal — a customer's subscription, contract, or service agreement that will expire and must be decided on — as a managed record with a due date, a recurring amount at stake, and an owner; it drives the work needed to secure that renewal before the agreement lapses; and it records the outcome (renewed at the same, higher, or lower amount, or lost), rolling all of it into a forward-looking renewal pipeline and forecast.\n\nThe defining core is deliberately small:\n\n```text\nCustomer's recurring agreement\n  └── Renewal record (customer × amount up for renewal × decision date)\n      └── Pre-decision motion (ownership, work items, risk flags before the date)\n          └── Recorded outcome (renewed / renewed with change / lost)\n              └── Forward view of the whole renewal book (pipeline & forecast)\n```\n\nEverything else commonly associated with modern renewal operations — health-score-driven risk predictions, probability-weighted forecasting, renewal playbooks, CRM synchronization, retention dashboards — is standard in mature products but is built on top of this core.\n\nThe system sits deliberately between three neighbors. It is not the **billing engine**: billing charges the customer automatically and handles payment retries and cancellations, but a renewal here is a commercial *decision* the vendor must actively secure — something billing machinery does not contain. It is not a general **CRM**: renewals may be stored as opportunities in a CRM, but this system adds renewal-specific structure (what is up for renewal versus what was finally renewed, the decision date versus the close date, renewal-specific outcomes and retention metrics). And it is not the whole **customer success platform**: it is frequently delivered as a renewal-focused module inside one, centered on the renewal event rather than the ongoing relationship.",
+        "overview_zh": "一个**续约管理平台**是供应商端的系统，用于管理供应商自身重复性客户协议的续约。它将每个即将到来的续约——即即将到期并需做出决定的客户订阅、合同或服务协议——视为一条具有到期日、涉及重复金额及负责人的受管记录；它驱动在协议失效前确保续约所需的工作；并记录结果（以相同、更高或更低金额续约，或流失），将所有内容汇总为面向未来的续约管道和预测。\n\n其定义性核心被刻意保持精简：\n\n```text\n客户的重复性协议\n   └── 续约记录（客户 × 待续约金额 × 决定日期）\n       └── 决定前动作（到期前的所有权、工作项、风险标记）\n           └── 记录的结果（已续约 / 变更续约 / 流失）\n               └── 整个续约组合的前瞻视图（管道与预测）\n```\n\n现代续约运营中通常关联的其他一切——基于健康分数的风险预测、概率加权预测、续约剧本、CRM 同步、留存仪表盘——在成熟产品中已是标准配置，但均构建于此核心之上。\n\n该系统刻意位于三个相邻领域之间。它不是**计费引擎**：计费引擎自动向客户收费并处理支付重试和取消，但此处的续约是供应商必须主动争取的商业*决定*——这是计费机制所不包含的。它也不是通用**CRM**：续约可作为机会存储在 CRM 中，但本系统增加了续约特定结构（待续约项与最终续约项的区别、决定日期与关闭日期的区别、续约特定结果和留存指标）。它也不是完整的**客户成功平台**：它通常作为其中一个以续约为中心的模块交付，聚焦于续约事件而非持续关系。",
+        "dc": "The central object is the **renewal record**: one managed entry per renewal event, binding together:",
+        "dc_zh": "中心对象是**续订记录**：每个续订事件一个受管理条目，绑定在一起：",
+        "rules": "- **Only recurring money counts.** The amount up for renewal, and every retention calculation, is built from recurring dollars; one-time and non-recurring charges are excluded from renewal math.\n- **Due date and close date are different objects.** The decision is due when the contract lapses; the recorded decision may be early, on-time, or late. Lateness is itself a tracked business metric.\n- **Open and closed records contribute differently.** Forecasts combine open records (expected amount weighted by probability) with closed actuals; actuals include only closed records. Mixing them up would corrupt both forecast and performance views.\n- **Outcome recording has a fixed shape.** A closed renewal is won or lost, with an amount result relative to what was up for renewal, and — when lost — a reason. Mid-term expansions and contractions are recorded as separate events so they do not distort the renewal outcome.\n- **Forecasts are period-bound and usually non-retroactive.** A forecast states what will happen in a specific period; once the period closes the forecast is captured for comparison, and in some products can no longer be edited.\n- **Write-back respects the source system.** Where renewal records sync to a CRM, saves are subject to that system's validation rules and field-level edit permissions; some deployments restrict editing to designated users.\n- **Renewal reporting is permission-gated.** Viewing and exporting renewal reports is typically broader; creating and changing their definitions is restricted to designated roles.\n- **The contract posture changes the motion.** Agreements that renew automatically without new paperwork are managed through monitoring, notice windows, and win-back plays if the customer opts out; agreements with no automatic renewal mechanism require the full manual motion — proposal, negotiation, paperwork — before the expiry date.",
+        "rules_zh": "- **仅重复性收入计入。** 待续约金额及每项留存计算均基于重复性收入构建；一次性及非重复性费用被排除在续约计算之外。\n- **到期日与关闭日期是不同对象。** 决定在合同失效时到期；记录的决定可能提前、准时或延迟。延迟本身是一个被追踪的业务指标。\n- **开放与关闭记录贡献方式不同。** 预测结合开放记录（按概率加权的预期金额）与已关闭实际值；实际值仅包含已关闭记录。混淆两者将破坏预测和绩效视图。\n- **结果记录具有固定形态。** 已关闭续约为赢得或流失，附带相对于待续约金额的金额结果，以及——若流失——原因。中期扩展和缩减作为独立事件记录，以免扭曲续约结果。\n- **预测按周期限定且通常不可追溯。** 预测陈述特定周期内将发生的情况；周期关闭后预测被捕获用于对比，在某些产品中不再可编辑。\n- **回写尊重源系统。** 当续约记录同步至 CRM 时，保存受该系统验证规则和字段级编辑权限约束；某些部署将编辑限制为指定用户。\n- **续约报告受权限门控。** 查看和导出续约报告通常范围较广；创建和修改其定义则限制为指定角色。\n- **合同姿态改变动作。** 无需新文件即可自动续约的协议通过监控、通知窗口及客户退出时的赢回策略进行管理；无自动续约机制的协议则需...",
+        "parent_id": "07.07",
+        "domain_id": "07"
+      }
+    },
+    {
+      "progress": {
+        "slug": "voice-of-customer-platform",
+        "name_zh": "客户之声平台（VoC）",
+        "domain_id": "07",
+        "parent_id": "07.07",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "voice-of-customer-platform",
+        "name": "Voice of Customer Platform",
+        "name_zh": "客户之声平台（VoC）",
+        "aliases_zh": [
+          "用户反馈平台",
+          "客户体验洞察平台"
+        ],
+        "overview": "A **Voice of Customer Platform** is an organization-side system for operating a standing program of asking the organization's own customers structured questions about their experience, measuring the answers into tracked experience metrics, and acting on what customers say — down to following up with the individual customer who reported a problem.\n\nThe defining core has four parts that only work together:\n\n```text\nExperience program of record\n└── Instruments fielded to the organization's own customers\n    (recurring relationship cadence + event-triggered transaction moments)\n    └── Attributed response record\n        (each response bound to a customer and to the rated interaction)\n        └── Experience measurement\n            (scores tracked over time; open text turned into themes)\n            └── Follow-up routing loop\n                (adverse responses routed to accountable owners; close the loop)\n```\n\nA VoC platform is deliberately solicited: the organization decides when and whom to ask. When the system's center of gravity moves to volunteered item-level feedback requests, public conversation monitoring, or account-managed relationship work, it has drifted into a different Application Type (Customer Feedback Management, Social Listening, Customer Success).",
+        "overview_zh": "一个**客户之声平台**是组织侧的系统，用于运营一项持续性的计划，向组织自身的客户提出关于其体验的结构化问题，将回答转化为可追踪的体验指标，并对客户反馈采取行动——直至跟进报告问题的具体客户。\n\n其定义性核心由四个仅能协同工作的部分组成：\n\n```text\n体验记录计划\n└── 向组织自身客户投放的问卷\n     （定期关系节奏 + 事件触发的交易时刻）\n     └── 归属响应记录\n         （每个响应绑定到客户及被评定的交互）\n         └── 体验测量\n             （随时间追踪的分数；开放文本转化为主题）\n             └── 跟进路由循环\n                 （负面响应路由至责任人；闭环处理）\n```\n\nVoC平台是刻意主动征询的：组织决定何时向谁提问。当系统的重心转向自愿提交的条目级反馈请求、公共对话监控或账户管理的关系工作时，它已漂移至另一种应用类型（客户反馈管理、社交聆听、客户成功）。",
+        "dc": "Four jointly-held structures:\n\n**1. The experience program of record.** The organization configures standing question instruments — built around experience-metric questions (the recommendation / satisfaction / effort family of scores) plus open-text — and fields them to its own customer base across defined touchpoints. Programs run in two canonical postures:\n\n- **Relationship programs** — recurring or scheduled sends to the customer base or segments, measuring the overall relationship.\n- **Transactional programs** — sends triggered by a business event at an interaction endpoint: an order delivered, a support ticket closed, a stay completed, a payment processed. The trigger typically arrives from an integrated system (CRM, helpdesk, commerce, billing) through a native integration, webhook, or API.\n\nMature products carry both postures; together they turn isolated surveys into a continuous measurement program covering the customer journey.\n\n**2. The attributed response record.** Every response is held as an identified record bound to the customer — a contact record, and in business-to-business configurations a company/account above the contact — and to the context of the rated interaction (the triggering event, channel, touchpoint, location). Responses accumulate into per-customer history and program-level history. Identified attribution is the norm; anonymous collection exists as a variant that weakens exactly this structure.\n\n**3. The experience measurement layer.** Responses are continuously computed into experience metrics — scores tracked as trends over time, broken out by touchpoint, segment, location, or cohort — and open-text answers are classified into themes and sentiment. The metrics are the \"voice\" made comparable; the themes are the reasons behind it. Per-customer score history and program dashboards are the two standing views of this layer.\n\n**4. The follow-up routing loop.** Individual responses — adverse ones above all — are routed outward to accountable people: alerts, automated replies to the customer, tickets or cases created in the platform or in connected service systems, and frontline follow-up queues. Alongside the individual loop runs the systemic one: reports and dashboards that put recurring issues in front of the people who own the process. \"Close the loop\" is the program's own vocabulary for both.",
+        "dc_zh": "四种共同持有的结构：\n\n**1. 体验跟踪计划。** 组织配置固定的调研工具——围绕体验指标问题（推荐/满意度/费力度评分系列）及开放式文本构建——并在定义的触点处向其自身的客户群投放。计划以两种典型姿态运行：\n\n- **关系型计划** —— 定期或按计划向客户群或细分群体发送调研，测量整体关系。\n- **交易型计划** —— 由交互终端的业务事件触发发送：订单交付、工单关闭、入住完成、支付处理。触发器通常通过原生集成、Webhook 或 API 来自集成系统（CRM、帮助台、商务、计费）。\n\n成熟产品兼具两种姿态；二者结合将孤立的调研转化为覆盖客户旅程的持续性测量计划。\n\n**2. 归因响应记录。** 每条响应都作为已识别的记录被保存，与客户——一条联系人记录，在 B2B 配置中是联系人之上的公司/账户——以及被评估交互的上下文（触发事件、渠道、触点、位置）相绑定。响应累积形成单客户历史和计划级历史。已识别归因是常态；匿名收集作为……",
+        "rules": "- **Solicited, not scraped.** The program asks; the platform's data is consented responses from the organization's own customers, not harvested public speech. This rule is the structural seam from social listening.\n- **Attribution is the point — with a deliberate exception.** Identified responses power per-customer history and follow-up; anonymous collection exists (public link pages) but at the cost of exactly the structures that make the program actionable.\n- **Over-surveying is managed.** Frequency caps, throttling, last-asked tracking, and reminders exist because response quality degrades when the same customers are asked too often.\n- **Opt-out is honored.** Customers who decline further surveys are suppressed from future sends.\n- **Triggers reflect source-system truth.** Transactional sends fire from real business events; the fidelity of \"which event, which customer, which context\" depends on the integration.\n- **Metric definitions are program assets.** What counts as a promoter, a satisfied response, or a theme is configured and versioned by the organization, not fixed universally by the product; treat any specific band or formula as product/program configuration, not a standard.\n- **Follow-up has owners.** Alerts and tickets name an accountable person; the loop is closed when the response has been acted on and, in mature programs, the customer told.\n- **Visibility is role-scoped.** Executives, managers, and frontline staff see different slices of the same program; frontline scores are often confined to the respondent's own location or team.",
+        "rules_zh": "- **主动征询，而非抓取。** 计划进行询问；平台数据来自组织自身客户的同意响应，而非采集的公共言论。此规则是与社交聆听的结构分界。\n- **归属是关键——但有刻意例外。** 已识别响应支持每客户历史和跟进；匿名收集存在（公共链接页面），但代价是失去使计划可操作的确切结构。\n- **过度调查受管理。** 频率上限、节流、上次询问追踪和提醒存在，因为同一客户被询问过频时响应质量会下降。\n- **退出权受尊重。** 拒绝进一步调查的客户将从未来发送中抑制。\n- **触发器反映源系统真相。** 事务性发送由真实业务事件触发；“哪个事件、哪个客户、哪个上下文”的保真度取决于集成。\n- **指标定义是计划资产。** 什么算推荐者、满意响应或主题由组织配置和版本化，而非产品普遍固定；将任何特定区间或公式视为产品/计划配置，而非标准。\n- **跟进有责任人。** 警报和工单指名责任人；当响应已被行动处理，且在成熟计划中已告知客户时，循环闭合。\n- **可见性按角色限定。** 高管、经理和一线员工看到同一计划的不同切片；一线分数通常限于受访者自身地点或团队。",
+        "parent_id": "07.07",
+        "domain_id": "07"
+      }
+    },
+    {
+      "progress": {
+        "slug": "account-management-crm",
+        "name_zh": "账户管理CRM",
+        "domain_id": "07",
+        "parent_id": "07.08",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "account-management-crm",
+        "name": "Account Management CRM",
+        "name_zh": "账户管理CRM",
+        "aliases_zh": [
+          "客户管理CRM",
+          "账户系统"
+        ],
+        "overview": "An **Account Management CRM** is a customer-relationship application organized around the customer organization — the **account** — as its central record. Instead of treating each deal or each person as the primary unit of work, it maintains one durable, identified record per customer organization, gathers the people who represent that organization under it, accumulates the history of interactions and commercial dealings with it, and assigns internal users to manage that record over the life of the relationship.\n\nThe job it serves is stewardship of customer relationships at the organization level: knowing who at the customer matters, what has been said and sold to them, what is currently open with them, and who on the selling side is responsible for keeping the relationship alive and growing.\n\nThe defining core is deliberately small:\n\n```text\nAccount (durable record of a customer organization)\n└── Affiliated people (contacts / employees at that organization)\n└── Accumulated relationship record (activity history + commercial associations)\n└── Accountable ongoing management (owners/users who maintain and work the record)\n```\n\nA product can carry a large volume of modern capability — hierarchies, health scores, AI summaries, auto-captured email — without any of it being part of what makes it an account management CRM. The same four-part core is satisfied by a client-account file system from long before cloud software: one folder per client organization, person cards inside, correspondence and order history, and an assigned account executive.",
+        "overview_zh": "一个**账户管理 CRM** 是一种以客户组织——即**账户**——作为核心记录的客户关系应用。它不将每笔交易或每个人视为主要工作单元，而是为每个客户组织维护一个持久且已识别的记录，将该组织所代表的人员归集在其下，积累与该组织的互动及商业往来历史，并指派内部用户在关系存续期间管理该记录。\n\n它所承担的职责是在组织层面管理客户关系：了解客户方哪些人至关重要，向他们传达了什么、销售了什么，目前与他们有哪些未结事项，以及销售方谁负责维持并推动关系的发展。\n\n其定义性的核心被刻意保持精简：\n\n```text\n账户（客户组织的持久记录）\n└── 关联人员（该组织的联系人/员工）\n└── 累积的关系记录（活动历史 + 商业关联）\n└── 负责的持续管理（维护并操作该记录的负责人/用户）\n```\n\n一个产品可以承载大量现代功能——层级结构、健康评分、AI 摘要、自动捕获的邮件——而其中没有任何一项构成其作为账户管理 CRM 的本质。早在云软件出现之前，客户档案系统就已满足同样的四部分核心：每个客户组织一个文件夹，内含人员卡片、通信与订单历史，以及指定的客户经理。",
+        "dc": "The account is a standing record of one customer organization — a company, institution, or other entity the organization does business with or intends to. It carries:",
+        "dc_zh": "账户是一个持续记录的一个客户组织——公司、机构或其他实体，该组织与之有业务往来或打算进行业务往来。它携带：",
+        "rules": "### One record per organization\n\nThe account model presumes a single standing record per organization. Identity rules (domain- or number-based matching) and duplicate-merge machinery enforce this; products treat duplicates as a data-quality defect to resolve, not a normal state.\n\n### Accounts outlive their deals and their people\n\nDeals close or die; contacts leave the customer organization; owners change jobs. The account record persists through all of it, which is why history and ownership reassignment are first-class behaviors rather than conveniences.\n\n### Retirement is non-destructive\n\nTaking an account out of active management (deactivate, archive, mark as past) makes it read-only and removes it from working views while preserving its history; related records generally remain, and creating new records from retired ones is typically blocked.\n\n### History is (increasingly) captured at the source\n\nMature products log communications — email, meetings, calls — to the right account automatically from users' inboxes and calendars, with privacy controls governing what is captured and who sees it. Manual logging remains the fallback everywhere.\n\n### Ownership and access are enforced structures\n\nAccounts are owned records: assignment determines responsibility; visibility and edit rights follow user, team, role, or sharing settings; sensitive accounts can be restricted to a limited group. Audit and change history make the record trustworthy as a system of record.\n\n### Relationship classifications are seller-defined\n\nCategories such as customer / prospect / partner / vendor / competitor describe the seller's posture toward the organization and are maintained by its users — they shape views, segmentation, and reporting, not any external authority.",
+        "rules_zh": "### 每个组织一条记录\n\n账户模型假定每个组织仅有一条常驻记录。身份规则（基于域名或编号的匹配）与重复合并机制强制执行此原则；产品将重复项视为需解决的数据质量缺陷，而非正常状态。\n\n### 账户比交易和人员更持久\n\n交易会关闭或终止；联系人会离开客户组织；负责人会更换工作。账户记录贯穿所有变化而持续存在，这就是为何历史与所有权重新分配是一等行为而非便利功能。\n\n### 退役是非破坏性的\n\n将账户移出活跃管理（停用、归档、标记为过往）使其变为只读并从工作视图中移除，同时保留其历史；相关记录通常保留，且通常禁止从已退役账户创建新记录。\n\n### 历史（日益）在源头被捕获\n\n成熟产品会自动将通信——邮件、会议、通话——从用户的收件箱和日历记录到正确的账户，并由隐私控制决定捕获内容及可见范围。手动记录在所有场景中仍作为后备手段。\n\n### 所有权与访问是强制结构\n\n账户是受所有权的记录：分配决定责任；可见性与编辑权限遵循用户、团队、角色或共享设置；敏感账户可限制为有限群体。审计与变更历史使该记录作为记录系统具备可信度。\n\n### 关系分类由卖方定义\n\n如客户/潜在客户/合作伙伴/供应商/竞争对手等类别，描述的是卖方对该组织的立场，并由其用户维护——它们塑造视图、细分与报告，而非受任何外部权威约束。",
+        "parent_id": "07.08",
+        "domain_id": "07"
+      }
+    },
+    {
+      "progress": {
+        "slug": "customer-portal",
+        "name_zh": "客户门户",
+        "domain_id": "07",
+        "parent_id": "07.08",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "customer-portal",
+        "name": "Customer Portal",
+        "name_zh": "客户门户",
+        "aliases_zh": [
+          "客户自助服务门户",
+          "客户中心"
+        ],
+        "overview": "A **Customer Portal** is an organization's authenticated, customer-facing surface where its own customers can see and manage their side of the relationship: one persistent place holding the customer's own records with the organization — purchases and orders, money and billing, entitlements and subscriptions, documents, requests, and profile — together with the ability to act on those records without going through staff.\n\nThe defining core is small:\n\n```text\nIdentified customers of the organization\n+ The customer's own account space (scoped, persistent view of their own records)\n+ Self-service action on those records\n```\n\nThe organization decides what appears in the space and which actions are allowed; the customer operates the surface. What fills the space varies with the business — an order history for a supplier, invoices and subscriptions for a software vendor, files and approvals for a service firm, cases and entitlements for a support-heavy business — but the structure is the same: a login-gated, per-customer window onto the relationship, built for the customer to use alone.\n\nEverything else commonly associated with modern portals — knowledge bases, white-label branding, notifications, company-level views, in-portal purchasing, AI assistants — is widespread in current products but is not what makes the surface a customer portal.",
+        "overview_zh": "一个 **客户门户** 是一个组织经过认证的、面向客户的交互界面，其自身客户可以在此查看和管理与该组织关系中的自身一侧：这是一个持久化的空间，集中存放客户与该组织的自身记录——采购与订单、款项与账单、权益与订阅、文档、请求及个人资料——并提供了无需通过工作人员即可直接对这些记录进行操作的能力。\n\n其定义的核心十分简洁：\n\n```text\n组织的已识别客户\n+ 客户自身的账户空间（一个有范围限定的、持久化的视图，展示其自身记录）\n+ 对这些记录的自助操作\n```\n\n由组织决定空间中显示哪些内容以及允许哪些操作；客户则操作这个界面。空间中填充的内容因业务而异——供应商的订单历史、软件供应商的发票与订阅、服务公司的文件与审批、支持密集型业务的案例与权益——但结构是相同的：一个需要登录、针对每个客户的窗口，用于查看双方关系，其设计目的是让客户能够单独使用。\n\n现代门户通常关联的其他一切——知识库、白标品牌、通知、公司级视图、门户内采购、AI助手——在当今产品中普遍存在，但并非使该界面成为客户门户的核心要素。",
+        "dc": "Every person in the portal is an identified customer of the organization, gated by an identity mechanism: a username and password, federated single sign-on, a passwordless flow, or — in some products — a lighter mechanism such as a secure link that identifies the recipient. Anonymous visitors and internal staff do not belong here; the public website and the internal systems are different surfaces. Identity is what makes everything else possible: the portal can only show a customer their own records because the customer is known.",
+        "dc_zh": "门户中的每个人都是组织的已识别客户，通过身份机制把关：用户名和密码、联合单点登录、无密码流程，或在某些产品中，更轻量的机制如识别接收者的安全链接。匿名访客和内部员工不属于此处；公共网站和内部系统是不同的界面。身份使得其他一切成为可能：门户只能向客户显示他们自己的记录，因为客户是已知的。",
+        "rules": "### Visibility is scoped, deliberately\n\nA customer sees their own records — and, where configured, those of the customer organization they belong to. Company-level visibility is granted by the organization (sometimes with criteria for who in the account may see it), never inferred. No customer ever sees another customer's records.\n\n### The customer sees a projection, not the operation\n\nInternal handling detail — assignments, internal notes, internal statuses, internal email — never appears. Organizations keep internal discussion out of the customer-visible conversation deliberately (separate internal notes, filtering rules). The customer-side status is a curated view of the record's state.\n\n### Actions are curated\n\nEvery action available in the portal exists because the organization enabled it: which record types can be acted on, which actions, under which conditions (for example, whether a closed request may be reopened, or whether a customer may close their own request). The customer's power is real but bounded by configuration.\n\n### Identity gates everything personal\n\nNothing personal is visible before the customer is identified. The mechanism varies — full accounts, federated sign-on, passwordless flows, secure links — but the gate is always there. Some organizations restrict access to specific groups of customers; some let anyone with a relationship self-register.\n\n### The portal and the back office stay coherent\n\nWhat the customer does in the portal lands in the organization's systems (a submitted request becomes a case; a payment posts to the account; a message logs against the customer's record), and what the organization records surfaces in the portal. The two sides work on the same relationship, from their own surfaces.\n\n### Sensitive data can be deliberately withheld\n\nOrganizations can exclude sensitive content from the portal surface even when it exists in their systems — a structural reminder that the portal shows a curated subset of the relationship, chosen for what the customer should handle directly.",
+        "rules_zh": "### 可见性是有范围限定的，这是有意为之\n\n客户只能看到其自身的记录——在配置允许的情况下，也可以看到其所属客户组织的记录。公司级别的可见性由组织授予（有时会限定账户中谁可以看到），绝不会被推断出来。任何客户都绝不会看到其他客户的记录。\n\n### 客户看到的是投影，而非实际操作\n\n内部处理细节——任务分配、内部备注、内部状态、内部邮件——永不出现在客户界面。组织会有意地将内部讨论与客户可见的对话分开（通过独立的内部备注、过滤规则）。客户侧的状态是对记录状态的一种策划后视图。\n\n### 操作是经过策划的\n\n门户中提供的每一项操作都存在，是因为组织启用了它：哪些记录类型可以操作、可以执行哪些操作、在哪些条件下（例如，已关闭的请求是否可以重新打开，或者客户是否可以关闭自己的请求）。客户的权限是真实的，但受到配置的约束。\n\n### 身份验证是访问所有个人信息的门禁\n\n在客户身份未被识别之前，任何个人信息都是不可见的。实现机制各不相同——完整账户、联合登录、无密码流程、安全链接——但这道门禁始终存在。有些组织将访问权限制在特定的客户群体；有些则允许任何有业务关系的人自行注册。\n\n### 门户与后台办公系统保持数据一致\n\n客户在门户中的操作会同步到组织系统中（提交的请求会生成一个案例；支付会记入账户；消息会记录到客户档案中），而组织记录的信息也会在门户中呈现。双方基于各自的交互界面，围绕同一份关系数据协同工作。\n\n### 敏感数据可以被有意地",
+        "parent_id": "07.08",
+        "domain_id": "07"
+      }
+    },
+    {
+      "progress": {
+        "slug": "partner-relationship-management-prm",
+        "name_zh": "合作伙伴关系管理 (PRM)",
+        "domain_id": "07",
+        "parent_id": "07.08",
+        "case_status": "not_searched",
+        "application_ids": [],
+        "research_records": [],
+        "archived": false
+      },
+      "definition": {
+        "slug": "partner-relationship-management-prm",
+        "name": "Partner Relationship Management / PRM",
+        "name_zh": "合作伙伴关系管理 (PRM)",
+        "aliases_zh": [
+          "渠道伙伴管理",
+          "合作伙伴管理"
+        ],
+        "overview": "A **Partner Relationship Management (PRM) application** is a vendor-operated system for running a program of external selling partners — resellers, referral partners, distributors, agents, and similar organizations — through three connected structures: a registry of partner organizations with a governed relationship status, an authenticated partner portal where the partners' own users work on behalf of their organization, and shared channel-selling workflows (lead distribution, deal registration, referrals) that pass between partner and vendor under vendor-controlled approval.\n\nThe problem it solves is indirect revenue. When a company sells through partners rather than (or alongside) its own sales force, the vendor cannot see or steer partner activity with the tools it uses for direct sales: partners are separate legal entities with their own pipelines, systems, and people. A PRM gives both sides one shared place where the relationship is governed and the selling work — who owns which deal, which leads go to whom, what partners may access, what they get paid — is transacted and recorded.\n\nThe boundary: a PRM is not the vendor's CRM (which manages the end customer), not a commerce portal (which centers orders), and not a marketing affiliate system (which centers individual link-and-commission promoters). It is the system of record for the *channel program* — the vendor's governed relationship with the organizations that sell for, with, or through it.",
+        "overview_zh": "一个**合作伙伴关系管理（PRM）应用程序**是由供应商运营的系统，用于管理由外部销售合作伙伴组成的项目——包括转售商、推荐合作伙伴、分销商、代理商及类似组织——通过三个相互连接的结构实现：一个具有受治理关系状态的合作伙伴组织注册表，一个经过身份验证的合作伙伴门户（合作伙伴自身的用户在此代表其组织开展工作），以及在合作伙伴与供应商之间流转、由供应商控制审批的共享渠道销售工作流（线索分配、交易注册、推荐）。\n\n它解决的问题是间接收入。当一家公司通过合作伙伴而非（或同时通过）其自身销售团队进行销售时，供应商无法使用其直接销售工具来查看或引导合作伙伴的活动：合作伙伴是独立的法律实体，拥有自己的销售管道、系统和人员。PRM为双方提供了一个共享场所，在此处关系受到治理，销售工作——谁拥有哪笔交易、哪些线索分配给谁、合作伙伴可以访问什么、他们获得什么报酬——得以交易和记录。\n\n边界：PRM不是供应商的CRM（管理最终客户），不是商务门户（以订单为中心），也不是营销联盟系统（以个人链接和佣金推广者为中心）。它是*渠道项目*的记录系统——即供应商与代表其、与其或通过其进行销售的组织之间受治理的关系。",
+        "dc": "The world of a PRM is organized around one central record and three groups of structures attached to it.",
+        "dc_zh": "PRM的世界围绕一个中心记录和三个附加于其上的结构组来组织。",
+        "rules": "- **Approval gates everywhere.** The consequential objects — partner applications, deal registrations, MDF requests, business plans — all move through vendor-controlled status workflows. The partner proposes; the vendor disposes. This is the structural signature of the Type.\n- **Deal protection is time-boxed and conditional.** An approved registration grants the partner recognized rights to that deal for a defined protection period tied to the approval date; after expiry, protection lapses (with notifications to both sides in products that automate this). Registrations can be denied when they conflict with existing pipeline or program rules.\n- **Partner visibility is organization-scoped.** A partner user sees their own organization's records only. Vendors can further restrict fields (e.g., deal stage or close date can be made read-only for partners), and lead details may be withheld until the partner opens or accepts the assignment.\n- **Content access is programmatic.** Library items, training tracks, and portal areas are gated by group, partner type, or tier — access to enablement is itself a program benefit.\n- **Funds are accounted, not just approved.** MDF money lives as balances on the partner's account with issuance, expiration, and reimbursement transactions; reimbursement debits the balance automatically. Expired funds and stale requests trigger reminders.\n- **The CRM remains the vendor's system of record for customers.** The PRM syncs partners, leads, and deals with the CRM; the direction and conflict handling of that sync is a per-product design decision, but the two systems are expected to stay consistent.\n- **Attribution drives money.** Deal registrations, referrals, and MDF-linked activities exist so that sourced revenue can be attributed to a specific partner — which is what commissions, tier progression, and program ROI depend on.",
+        "rules_zh": "- **处处设有审批关卡。** 关键对象——合作伙伴申请、交易注册、MDF请求、商业计划——都通过供应商控制的状态工作流流转。合作伙伴提出；供应商处置。这是该类型的结构特征。\n- **交易保护有时限且附条件。** 批准的注册赋予合作伙伴在定义的保护期内对该交易的认可权利，该保护期与批准日期挂钩；过期后，保护失效（在自动化此功能的产品中，会向双方发送通知）。当注册与现有管道或项目规则冲突时，可被拒绝。\n- **合作伙伴可见性以组织为范围。** 合作伙伴用户仅能看到其自身组织的记录。供应商可以进一步限制字段（例如，交易阶段或关闭日期可对合作伙伴设为只读），并且线索详情可能在合作伙伴打开或接受分配之前被扣留。\n- **内容访问是程序化的。** 库项目、培训路径和门户区域由组、合作伙伴类型或层级进行门控——赋能访问本身就是一种项目福利。\n- **资金是记账的，而不仅仅是批准的。** MDF资金作为余额存在于合作伙伴账户中，具有发行、过期和报销交易；报销会自动扣减余额。过期的资金和陈旧的请求会触发提醒。\n- **CRM仍然是供应商的客户记录系统。** PRM与CRM同步合作伙伴、线索和交易；该同步的方向和冲突处理是每个产品的设计决策，但预期两个系统保持一致。\n- **归属驱动资金。** 交易注册、推荐和MDF关联活动的存在，是为了使来源收入能够归属于特定的合作伙伴",
+        "parent_id": "07.08",
+        "domain_id": "07"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 46,
+    "phase": "repair",
+    "parent": 12,
+    "slugs": [
+      "renewal-management-platform",
+      "voice-of-customer-platform",
+      "account-management-crm",
+      "customer-portal",
+      "partner-relationship-management-prm"
+    ]
+  }
+}

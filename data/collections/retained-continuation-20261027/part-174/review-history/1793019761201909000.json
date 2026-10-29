@@ -1,0 +1,56 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "autonomous-fleet-management",
+      "application_id": "commercial:applied-autonomy",
+      "issue": "唯一引用的快照 data/collections/sources/a020cdef777a18438abc41b3a0cf5f33e621329ab7469c42a61d4f656508106c.txt 是 Google Sites 的加载壳：正文只有加载动画和空 iframe，唯一可读的产品描述是 meta description 的“xFlow makes autonomous transport secure, cost-efficient and sustainable”。快照中没有 xFlow 产品正文，也没有混合车队监控、遥测/视频、远程操作员干预、任务调度或运营报表等内容。research.json 的 note/fetch_outcomes 与 batch.json 的 summary/leaf_matches 却声称已从“官方首页正文”核实这些能力，属于用简介/元数据/Loading 替代核心正文，且未如实记录抓取缺口。",
+      "fix": "重新抓取渲染后的官方产品页或方案页并保存包含正文的快照，至少覆盖自主车队登记、自动驾驶任务执行、监督与干预闭环；若仍只能取得加载壳，应将该叶改为无案例并如实记录“Google Sites 加载壳、正文不可得”的缺口，同时删除 batch/research 中无快照支持的具体能力描述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "real-estate-transaction-management：SkySlope 首页能证明其是面向经纪公司的交易管理 SaaS，但“每笔交易一个持久文件、文档执行状态、合同到交割时间线”主要是从 contract to close、Forms、DigiSign、smart checklists/auditing 等营销表述推断，首页未展示具体交易文件界面；作为商业基本记录可接受。",
+    "dangerous-goods-transportation-management：DGM-SDG 页面是解决方案总览，正文支持 DGOffice 覆盖多法规、创建 documents/labels、共享数据、覆盖 1-9 类/LQ/EQ；但按产品分类记录和按托运批次的合规判定没有直接演示。batch 中“提供危险货物分类数据维护”的唯一依据是 DGMIDS 下载弹窗中的“article classification and maintenance”，该弹窗是数据库/出版物入口，不宜当作 DGOffice 工作流证据，建议收紧措辞。",
+    "driver-management：Tenstreet DQF 页对数字资格文件、年度 MVR/COV、到期提醒、批量 MVR、移动端上传和审计证据支持充分；但“entitled / action required / not entitled”的派生授权状态未在页面直接出现，属于类型层面的合理推断。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 已记录 5 个案例不一致；这看起来是进度元数据未同步，不影响本次内容判断。",
+    "dangerous-goods-transportation-management：batch/research 记录源 URL 为 https://dgm-sdg.com/services/，快照正文的 canonical/og:url 为 https://dgm-sdg.com/solutions/；若为 301 跳转可接受，建议在来源记录中写最终 URL。"
+  ],
+  "leaf_checks": {
+    "real-estate-transaction-management": {
+      "result": "pass",
+      "id_track": "commercial:skyslope",
+      "basis": "读取 SkySlope 官方首页快照（615732d4c99750002eabc3bdf7caf7798aecf96705d631fe2f963c5ad58a014b.txt）：title/正文明确 Real Estate Transaction Management Software，正文有 from contract to close、from contract to payout、manages over 3 million transactions annually，并列有 Forms、DigiSign、smart checklists、automated auditing、proactive compliance 等；属于面向经纪公司的商业 SaaS，类型匹配。",
+      "gap": "首页级营销证据，未直接展示每笔交易文件、文档执行状态和合同到交割时间线的具体界面；不阻断商业基本记录。"
+    },
+    "autonomous-fleet-management": {
+      "result": "fail",
+      "id_track": "commercial:applied-autonomy",
+      "basis": "读取快照 a020cdef777a18438abc41b3a0cf5f33e621329ab7469c42a61d4f656508106c.txt：文件为 Google Sites 加载壳，正文只有加载 spinner/iframe；唯一产品文字是 meta description 的 xFlow autonomous transport 一句。grep 未发现正文中的 fleet、mission、remote、operator、telemetry、video 等词。",
+      "gap": "无法核对自主车队登记、自动驾驶任务、监督干预闭环；batch/research 的具体能力声明无快照支持，且未记录该抓取缺口。"
+    },
+    "dangerous-goods-transportation-management": {
+      "result": "pass",
+      "id_track": "commercial:dgoffice",
+      "basis": "读取 DGM-SDG 官方 Solutions 页快照（d074ac58be26b031c8b9f949a09af6dd44a9b7dd1347fedf5bda45c6c88390d9.txt）：正文说明 DGOffice 数字解决方案，Transport regulations included 列出 ICAO/IATA、IMDG、ADR、49CFR、TDG、ADG、RID、ADN、AFMAN，Dangerous goods classes 1-9、LQ/EQ，Dedicated functionalities 可 create documents and labels、share data，页面提供 buy now/free trial；属于危险货物合规 SaaS，类型匹配。",
+      "gap": "页面是解决方案总览，未直接演示按产品分类记录和按托运批次的合规判定；“article classification and maintenance”仅出现在 DGMIDS 弹窗，不作为 DGOffice 工作流证据。"
+    },
+    "driver-management": {
+      "result": "pass",
+      "id_track": "commercial:tenstreet",
+      "basis": "读取 Tenstreet 官方首页（40ad42afa50fb2e5dc08207e177e0d1ef0a555bc208cba861666b84d83917bd8.txt）与 DQF 页（e5f8668e9e74750cf7321b0c34f62c2d4a8ad50a37ae04e8c5dfcb5428b92061.txt）：首页称 driver lifecycle management platform；DQF 页正文明确 Digital Driver Files 保存 DOT/公司要求文件（含离职驾驶员 3 年）、年度 MVR/COV 跟踪、Document Expiration Alerts、Bulk MVR Ordering、移动端 Document Uploader、审计/历史保留；属于驾驶员资格与合规管理 SaaS，类型匹配。",
+      "gap": "未直接展示由证据派生的 entitled/action required/not entitled 授权状态；属于产品页营销描述，不阻断商业基本记录。"
+    },
+    "electronic-logging-device-hos-platform": {
+      "result": "pass",
+      "id_track": "commercial:motive",
+      "basis": "读取 Motive 官方 ELD 页（de1d385832488b66b98af5a87bf14a3563d7b3a46cfd394f60935fff02e7c026.txt）与首页（9efb5e63e1feae0a05396fd14dc659f2f130e35ce44a89b539c8f643d35f3a45.txt）：ELD 页正文明确 FMCSA-registered、HOS countdown clocks、driver logs/duty status、unidentified trips 自动匹配、violation breakdowns/cycle trends、US/Canada ELD 认证、roadside inspection 的 web services/email 传输；首页将 Electronic Logging Device (ELD) 列为产品。属于 ELD/HOS 合规平台，类型匹配。",
+      "gap": "未做运行时验证；产品为车载硬件+Driver App+SaaS 组合，不影响类型判断。"
+    }
+  },
+  "limits": "本次仅做只读静态审查：读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 7 个快照；未运行 shell、未写文件、未访问其他单元。未做浏览器渲染、运行时测试、额外抓取或 sha256 重算，仅核对快照 path 与文件名/sha 字段一致。Applied Autonomy 快照为 Google Sites 加载壳，静态快照无法还原其正文，这是本次唯一阻断缺口；其余 4 个商业案例按官方快照做基本真实性和类型匹配，未独立验证价格、架构或客户数据。本单元无开源条目，故未涉及完整许可证/社区版边界核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-174/ses_groveopencodegop174review1_1793019285.jsonl",
+  "batch_sha256": "3124950c93cc95b93353e67405b67810c642799ebc89129c6831457360cbbc05",
+  "research_sha256": "26f0a1e573541549bcb57893ee6704a29606ae4357ff08c09d884e54b484b7da",
+  "input_sha256": "45d8251c739d5cab334fd20c2c31ca6b68c760d32080e0b9e5d09f25e7b4059c"
+}

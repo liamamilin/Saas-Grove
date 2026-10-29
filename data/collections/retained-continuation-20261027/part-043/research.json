@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sales-document-automation",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hubspot-quotes"
+      ],
+      "query": [
+        "官方站点定位：knowledge.hubspot.com 报价文档两篇（模板创建、创建与发送）",
+        "读取模板创建与创建发送两页，核对模板与文档分离、审批、签署与接受"
+      ],
+      "source_urls": [
+        "https://knowledge.hubspot.com/quotes/create-quote-templates",
+        "https://knowledge.hubspot.com/quotes/create-and-send-quotes"
+      ],
+      "note": "HubSpot 知识库区分报价模板与报价文档：模板可锁定区块并预置接受方式，文档由交易与产品数据组装、支持分层与阶梯定价，带到期日，命中审批条件时须先获批才能分享，最终以电子签名或点击接受成交并跟踪查看与收款。缺口：审批条件的具体阈值字段未在这两页列出。",
+      "service_boundary": "销售侧的报价文档与接受记录；合同签署后的履约与收入确认由 ERP 或财务系统承接。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：knowledge.hubspot.com 报价文档两篇（模板创建、创建与发送）",
+          "result": "实际定位并抓取两篇官方知识库文档，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取模板创建与创建发送两页，核对模板与文档分离、审批、签署与接受",
+          "result": "复核正文：模板可显示、隐藏或锁定模块；报价由交易与产品数据组装，含到期日；满足条件须先请求并取得批准才能分享；接受方式含电子签名与无签名接受"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://knowledge.hubspot.com/quotes/create-quote-templates",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "b98a6b03aeac0252d95218677c0fd90e9d5278ae5baa81f5531a4251cb9a3e66"
+        },
+        {
+          "url": "https://knowledge.hubspot.com/quotes/create-and-send-quotes",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "c20eb08cc8e08b39d3e35f3cf2fe8304f88c81d0b6fa3f4c87cc8e01f5baa8c8"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-engagement-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:salesloft"
+      ],
+      "query": [
+        "（帮助中心正文不可读）salesloft developer docs Cadence Imports",
+        "salesloft developer docs Cadence Imports > Settings",
+        "salesloft developer docs Cadence Imports > Automated Settings"
+      ],
+      "source_urls": [
+        "https://www.salesloft.com/platform-overview",
+        "https://www.salesloft.com/platform/sales-engagement-software",
+        "https://developer.salesloft.com/docs/platform/cadence-imports/settings/",
+        "https://developer.salesloft.com/docs/platform/cadence-imports/automated-settings/"
+      ],
+      "note": "Salesloft 平台页与销售互动软件页证明 Cadence 为跨渠道步骤集合；帮助中心文章仍为客户端渲染空壳，改用官方开发者 Cadence 导入文档取推进规则：settings 明确 remove_replied、remove_bounced、收到自动回复标记 out of office 并可暂停后重排、target_daily_people 每日新增上限与各事件对应阶段；automated-settings 明确发送时间、联系人/用户时区与周末开关。回复与退信中断、发送日历与每日上限已补证。缺口：退订/取消订阅后移出的规则未在保留快照中出现。",
+      "service_boundary": "销售执行层而非客户关系记录系统；与 CRM 并行，接收联系人并回写互动结果。",
+      "search_attempts": [
+        {
+          "stage": "failed",
+          "query": "help.salesloft.com Cadence 文章",
+          "result": "返回客户端渲染空壳（Loading + CSS 错误），无正文；platform/cadence、cadence-software、cadences 均 404"
+        },
+        {
+          "stage": "failed",
+          "query": "salesloft websearch 检索",
+          "result": "检索工具无结果；改从 salesloft.com 的 sitemap_platform.xml 取候选"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 /docs/platform/cadence-imports/settings/",
+          "result": "成功，正文含 remove_replied、remove_bounced、reschedule_from_pause_enabled、target_daily_people 与各事件阶段"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 /docs/platform/cadence-imports/automated-settings/",
+          "result": "成功，正文含 time_of_day、timezone_mode、allow_send_on_weekends"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://developer.salesloft.com/docs/platform/cadence-imports/settings/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "8a20b94559dc8f42e945897e83c6639aee9900c5427885caaab5119ca6bce42d"
+        },
+        {
+          "url": "https://developer.salesloft.com/docs/platform/cadence-imports/automated-settings/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "4e823687c0d7093a5c0d83c0341e311ff923cd1d0fbf41ea699ecd4226b676cd"
+        },
+        {
+          "url": "https://www.salesloft.com/platform-overview",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "9e13f19b684b7f3fbc62d49f95022106fe85d9fe061594085311a1b7463996cb"
+        },
+        {
+          "url": "https://www.salesloft.com/platform/sales-engagement-software",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "667a8767f9bd067b86c643e6440dc08062b51a74cd8533eb60c77b663e2b7b31"
+        },
+        {
+          "url": "https://help.salesloft.com/s/article/Salesloft-Cadence",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "正文仅返回 Loading 与 CSS 错误提示，无可核验内容，未作为证据"
+        },
+        {
+          "url": "https://www.salesloft.com/platform/cadence",
+          "kind": "documentation",
+          "outcome": "failed",
+          "detail": "HTTP 404"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "channel-sales-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:channeltivity"
+      ],
+      "query": [
+        "（检索工具无结果，改为站内导航定位）channeltivity 渠道销售页内 Deal Registration 子页链接",
+        "channeltivity 渠道销售页内 Referrals & Commissions 子页链接",
+        "复核渠道销售总览页的 Lead Distribution 段落"
+      ],
+      "source_urls": [
+        "https://www.channeltivity.com/channel-sales/",
+        "https://www.channeltivity.com/channel-sales/deal-registration/",
+        "https://www.channeltivity.com/channel-sales/referrals-commissions/"
+      ],
+      "note": "Channeltivity 渠道销售页给出交易注册、线索分发、推荐与佣金三模块及 CRM 同步；Deal Registration 页补充厂商评估审批的具体流程（资格标准、重复商机检查、有期限独家保护、审批历史与到期提醒、审批标准与 SLA 跟踪），渠道销售总览页的线索分发段补充按地域/产品专长/伙伴层级路由与接受、跟进、转化跟踪，Referrals & Commissions 页补充推荐接受/转派/拒绝与成交后佣金计算。厂商控制的接受审批与冲突检查已由正文证实。缺口：注册保护期长度、可配置字段权限与佣金税率处理未在快照中展开。",
+      "service_boundary": "厂商的间接销售记录系统；最终客户主数据仍在厂商 CRM，伙伴侧仅见本组织数据。",
+      "search_attempts": [
+        {
+          "stage": "navigation",
+          "query": "读取已有 /channel-sales/ 快照，提取模块子页链接",
+          "result": "得到 /channel-sales/deal-registration/ 与 /channel-sales/referrals-commissions/"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 /channel-sales/deal-registration/",
+          "result": "成功，正文含注册流程、资格评估、重复商机检查、有期限独家保护、审批历史与到期提醒、SLA 跟踪"
+        },
+        {
+          "stage": "fetch",
+          "query": "抓取 /channel-sales/referrals-commissions/",
+          "result": "成功，正文含推荐提交/自动生成、接受-转派-拒绝、成交后佣金计算与状态流转"
+        },
+        {
+          "stage": "verification",
+          "query": "channeltivity lead distribution 子页（未抓取）",
+          "result": "按每叶查询预算未再抓子页，改用渠道销售总览页 Lead Distribution 段的正文（路由规则、接受/跟进/转化跟踪）"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.channeltivity.com/channel-sales/deal-registration/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "ab730d1c45e6419bbd5f000eb8e1495b18a379ddeb8858c8bf2385a3c7b2fd58"
+        },
+        {
+          "url": "https://www.channeltivity.com/channel-sales/referrals-commissions/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "c99e1321a1743b6fbee70e0a312799d7d65edc28524fba70d4ebd730c8da24ec"
+        },
+        {
+          "url": "https://www.channeltivity.com/channel-sales/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "08a9245db52aba6392befccfef8cdcffb654a18a3738909e48649826383e2acd"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "opportunity-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:24459441"
+      ],
+      "query": [
+        "官方站点定位：espocrm.com 文档 Sales Management > Opportunities",
+        "读取商机章节，核对阶段、概率、多管道与输赢结果"
+      ],
+      "source_urls": [
+        "https://raw.githubusercontent.com/espocrm/documentation/master/docs/user-guide/sales-management.md"
+      ],
+      "note": "EspoCRM 文档定义 Opportunity 为潜在或已成交交易，提供可配置阶段（含 Closed Won 与 Closed Lost）、阶段概率、多管道，Closed Won 商机计入默认销售仪表盘，并可通过 Account 关联买方、记录金额与 Close Date。收入预测在文档中明确标注为“Available with Reports from Advanced Pack”，属付费扩展与下游报表，不计入 AGPLv3 社区版核心。缺口：阶段进入数据校验与审批为可配置项，文档未作为默认能力说明；文档也未显式展示商机 owner 与输单原因字段。",
+      "service_boundary": "单笔交易的记录与推进（AGPLv3 社区核心）；收入预测依赖 Advanced Pack 的 Reports 付费扩展，与报价、合同同属下游消费方，不在社区版核心内。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：espocrm.com 文档 Sales Management > Opportunities",
+          "result": "已定位并抓取官方用户指南 sales-management.md，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取商机章节，核对阶段、概率、多管道与输赢结果",
+          "result": "复核正文：Opportunity 为潜在或已成交交易；默认 Closed Won / Closed Lost，阶段与概率可配置，可启用多管道，Closed Won 进入默认销售仪表盘；收入预测另需 Advanced Pack 付费扩展"
+        },
+        {
+          "stage": "repair",
+          "query": "复核 sales-management.md 的 Revenue forecast 段与默认仪表盘表述，修正开源/付费扩展边界",
+          "result": "正文中 Revenue forecast 明确标注“Available with Reports from Advanced Pack”，仅为付费扩展报表；Closed Won 商机计入默认销售仪表盘。据此从 leaf_match 移除收入预测表述，并将预测标注为付费扩展/下游，社区核心保留 Opportunity 记录、买方/Account 关联、金额与 Close Date、可配置阶段与概率、Closed Won/Lost、多管道和销售仪表盘。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/espocrm/documentation/master/docs/user-guide/sales-management.md",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "318d14efa9bc6e42fba5d633590b20a9f1dfaa216623366b8786c27c16c32229"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "quota-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:xactly"
+      ],
+      "query": [
+        "官方站点定位：xactlycorp.com 平台页 Plan 与 Manage 区块",
+        "读取平台页，核对配额分配、单一事实源与配额达成表述",
+        "补抓官方 products/xactly-manage，补证配额达成与绩效跟踪"
+      ],
+      "source_urls": [
+        "https://www.xactlycorp.com/platform",
+        "https://www.xactlycorp.com/products/xactly-manage"
+      ],
+      "note": "修复初审缺口：原仅引平台页，第三项“达成衡量”缺少直接正文。补抓官方 Xactly Manage 页后，Quota Management 段给出配额分配、按规则与命名派生二级/覆盖团队配额，以及用户定义工作流中的配额变更影响预览；People Management 段明确对销售人员当前与历史销售绩效进行实时监控并跟踪进展；Quota Fairness Monitoring 明确监控团队的配额达成模式并指出目标过高或过低；FAQ 另提到按销售人员所在区域日历应用 credit 与 attainment 规则。配额对象、分配机制与达成衡量三要素均有正文。缺口：配额变更的审批与审计留痕、期间锁定未在保留快照中展开。",
+      "service_boundary": "目标设定与达成衡量层；实际销售数据来自 CRM，薪酬计算由其激励模块或其他系统承接。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：xactlycorp.com 平台页 Plan 与 Manage 区块",
+          "result": "已抓取 /platform，重定向后正文为 platform-overview，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取平台页，核对配额分配、单一事实源与配额达成表述",
+          "result": "复核正文：支持覆盖模型、区域潜力、配额分配，以及区域、人员、商机、归属与配额的单一事实源；配额达成仅有概述性提及，无独立机制段落，构成初审缺口"
+        },
+        {
+          "stage": "repair",
+          "query": "补抓 https://www.xactlycorp.com/products/xactly-manage，核对配额达成/绩效跟踪正文",
+          "result": "成功；正文含 Quota Fairness Monitoring（监控团队配额达成模式）、People Management 的实时绩效监控与进展跟踪，以及配额变更影响预览"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.xactlycorp.com/platform",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "910b4f757b5bfb71e28ccd4a1ae681addbaee882131227156b4e71c2e0b3cc0b"
+        },
+        {
+          "url": "https://www.xactlycorp.com/products/xactly-manage",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "a1a7463a66b3e5dddcbbcba17e2371293ac1cc840e3ca0e9b9eb2893a4722e70"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "RosarioSIS 的产品中心是学生信息系统（SIS）。本叶依据定义中“嵌入学校记录系统的考勤模块”条款，接受它作为模块级匹配，并没有声称整个产品是纯考勤系统；如果下游明确要求产品中心必须是考勤，则应改挂 SIS 叶。",
+    "batch 的 summary/features 写“家长和学生门户”，但 REVIEW_SOURCES 中的家长手册只直接证明家长门户；学生门户仅有 README 的一般性“parents, students”提及。建议删去“学生”或补充学生门户、学生手册快照。",
+    "research 称 Email Parents/Email Alerts 为“另售附加模块”，但 REVIEW_SOURCES 没有对应的 add-ons、价格或许可页面；已抓取的管理员手册反而把 Email Alerts、Email Parents、Student Billing Premium 作为模块列出。建议在 batch 的 license_review/说明中写清社区版与付费或可选模块的边界，不要把“另售”当作已证事实。",
+    "batch 的 license_review 写“不涉及商业附加模块”容易被读成产品没有商业模块；建议改为“本次许可核对仅覆盖仓库核心，附加模块另计”。",
+    "input.json 仍为 case_status=boundary_unresolved、application_ids=[]，而 batch/research 已为 case_found；这是输入快照与产物的元数据不同步，建议同步。",
+    "research 对 SAS README 的复核没有对应 REVIEW_SOURCES 快照；该候选未写入 batch，不影响本叶结论，但该段历史说明无法在本单元内独立复核。",
+    "input.json 的 definition.dc_zh/rules_zh 在提供文本中截断（“原文截断”/“部分”），本次定义核对以英文 definition 为准；若中文定义用于下游，应补全。"
+  ],
+  "leaf_checks": {
+    "student-attendance-system": {
+      "status": "pass_with_notes",
+      "application_ids": [
+        "github:11130811"
+      ],
+      "definition_core": {
+        "verdict": "核心结构基本成立，存在已记录的范围限制",
+        "evidence": [
+          "data/collections/sources/d74bd8022752859fa9bdcc34b2f3a8d842576b7a5b91fc2b0796e68fa4322584.txt 的 Attendance > Take Attendance（约 631-635 行）：教师按课程/课时从名册录入出勤代码并保存。",
+          "同一手册 Attendance > Administration（约 1050-1058 行）：管理员按日期/时段查看、修改出勤代码并添加注释，可按 Absent 等代码筛选学生。",
+          "同一手册 Attendance > Add Absences（约 1064-1069 行）：按学生/时段/日期批量登记缺勤代码与缺勤原因。",
+          "同一手册 Attendance Codes（约 1129-1133 行）：学校配置代码，代码区分出勤状态及原因；Teacher 类型供教师选择，管理员可分配全部代码。",
+          "同一手册 Average Daily Attendance / Attendance Chart / Absence Summary / Teacher Completion（约 1075-1104 行）：出勤与缺勤报表。",
+          "data/collections/sources/70d8e54d96d3f521295f65cb0afcc23b1e88f7d20e64c96fe6b9381e9524c527.txt 的 Attendance > Daily Summary / Absence Summary（约 218-229 行）：家长门户查看每日出勤状态与缺勤摘要。",
+          "data/collections/sources/24d7c2cf6a653c6af0d222992a0a9fcfa521beec31039954b665f31100b028fc.txt（README，约 86-91 行）：教师电子点名、办公室可修改，Attendance 组件提供 ADA、每日摘要与按日跟踪。"
+        ],
+        "gaps": "未证明家长提交缺勤的审批生命周期、自动家庭通知或授权复核队列；研究记录已明确不主张这些。现有证据是管理员录入原因/代码、生成报表、家长查看，属于可操作的记录与报告循环，但家庭侧仅证明查看，不是提交/审批。"
+      },
+      "service_form": "自托管 Web 应用（PHP + PostgreSQL/MySQL/MariaDB），持续用于学校考勤；track=open_source，不是多租户商业 SaaS。",
+      "id_track": "github:11130811 = francoisjacquet/rosariosis；仓库快照中 octolytics-dimension-repository_id=11130811，homepage/repository_url 与 batch 一致，track=open_source。",
+      "license": "GPL-2.0；mobile 分支 LICENSE 为完整 GPLv2 正文（Preamble、Sections 0-12、NO WARRANTY、END OF TERMS），README 亦声明 GNU GPL version 2；未见“or later”语句。",
+      "community_boundary": "考勤核心（Take Attendance、Administration、Add Absences、Attendance Codes、报表）在 GPL 仓库内；研究提到 Email Parents/Email Alerts 为可选或另售模块，但未提供对应许可或价格快照；batch 的核心匹配不依赖这些功能。",
+      "evidence_sources": [
+        "data/collections/sources/73306a11e26cf4ae2a1315e7336402ec21bbdae704832714f93298463b463a28.txt",
+        "data/collections/sources/d954e14e5c752eb0ddb5cd85459a46d755d12d76c69c6e5dac4b0df532fcab1c.txt",
+        "data/collections/sources/24d7c2cf6a653c6af0d222992a0a9fcfa521beec31039954b665f31100b028fc.txt",
+        "data/collections/sources/d74bd8022752859fa9bdcc34b2f3a8d842576b7a5b91fc2b0796e68fa4322584.txt",
+        "data/collections/sources/70d8e54d96d3f521295f65cb0afcc23b1e88f7d20e64c96fe6b9381e9524c527.txt"
+      ],
+      "source_integrity": "五个 REVIEW_SOURCES path 均可按原文读取；batch 中五个 sha256 字符串与 REVIEW_SOURCES 的 path 文件名一致；未做内容哈希复算，未发现路径或摘要替换。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 列出的五个快照；未部署或运行 RosarioSIS，未做运行时测试；未抓取 SAS/OpenEduCat/OpenCampus、add-ons/价格页面或学生手册；input.json 的 dc_zh/rules_zh 在提供文本中截断，定义核对以英文 definition 为准；REVIEW_SOURCES 未包含 SAS README，研究中的 SAS 复核无法在本单元独立验证；未运行 sha256 工具，未复算快照内容哈希。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-181/ses_groveopencodegop181review1_1793255080.jsonl",
+  "batch_sha256": "8379a2a161ffb5cd10c3a39654d4f70d761fda2a70d76f2fe80dd4e627c81728",
+  "research_sha256": "d8375630952bdf6d2637a111a2b15c91767a420c2d5c526bc81e4e1fa8cc6e48",
+  "input_sha256": "9ed491b0efd120349c9573766bd5384127d61f8d20e0017c1094fa6c428d1001"
+}

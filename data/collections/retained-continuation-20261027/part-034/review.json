@@ -1,0 +1,94 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "promotion-management",
+      "application_id": "commercial:voucherify",
+      "note": "审批请求快照只说明受限自定义角色会触发审批、审批前变更不生效，未出现“Enterprise 计划、需申请”字样；建议删去该计划层级表述，或补官方定价/功能页来源。该点不影响促销记录、审批与效果监测的核心类型匹配。"
+    },
+    {
+      "slug": "retail-space-planning-application",
+      "application_id": "commercial:dotactiv",
+      "note": "空间规划页实际包含“physically compliant”陈列图、实时空间检查与计算、TrueView 门店合规比对、LUNA 全网刷新；“货架实测尺寸校验与合规核查未在页面明示”的缺口表述偏保守，建议改为“未逐项展开实测尺寸字段与门店级下发机制”。"
+    },
+    {
+      "slug": "gift-card-management",
+      "application_id": "commercial:square-gift-cards",
+      "note": "页面 FAQ 明确 Square Gift Cards 不过期，batch.reason 仍写“有效期未在页面展开”不够准确；建议注明“不过期”，并保留逐卡余额活动明细与未偿负债报表的真实缺口。“按面值或自定义金额售出”只能从“amount added”等表述间接推断，建议改为“按加载金额”或补原文。"
+    },
+    {
+      "slug": "retail-pricing-management",
+      "application_id": "commercial:oracle-retail-price-management",
+      "note": "条目名使用 Oracle Retail Price Management（RPM），homepage 指向 Retail Pricing Cloud Service（RPCS）文档，存在产品代际与命名差异；建议在条目或研究记录中明确 RPM 与 RPCS 的关系，或统一名称与主页指向。"
+    },
+    {
+      "slug": "markdown-optimization-application",
+      "application_id": "commercial:7learnings",
+      "note": "7Learnings 页面以 markdown/clearance 表达，未逐字说明降价不会自动恢复；“永久降价”属于由清仓语义作出的合理推断，建议在 reason 中标注该推断或补一条明确原文。"
+    },
+    {
+      "slug": "all",
+      "application_id": null,
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 research.json 已记录 case_found；若下游依赖该进度文件，应同步状态。该差异未被用作内容证据。"
+    }
+  ],
+  "leaf_checks": {
+    "retail-space-planning-application": {
+      "application_ids": [
+        "commercial:dotactiv"
+      ],
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 data/collections/sources/5e659a380a1c31d9f0725dd8c81c4f3133faf1c5aa255518ee321874def91a2a.txt（DotActiv Space Planning & Planogram Software）及 bc92b8c758ba705a88d1a7583cd4f0a4c6bac0a5a47d0e6097d34d70ff5334ce.txt（Assortment Planning）。正文明确 planogram generation、planogram automation、real-time space checks and calculations、Live Graphs、Analysis Grid、planogram reporting、physically compliant data-driven planograms、TrueView 门店照片与数字空间计划比对、LUNA 全网刷新，并与 clustering/assortment/floor planning 联动；可支持“空间/货架对象→商品到位置陈列图→绩效数据驱动”的核心。",
+      "service_form": "商业零售空间与陈列规划软件，页面有 Book a demo、Pricing、FastSpring 购买入口；track=commercial，ID 为 commercial:dotactiv。",
+      "gaps": "未逐项列出货架、层板、层高的实测尺寸字段，也未完整说明门店级下发审批与版本流程；该缺口已在 batch/research 中记录，不影响本叶的类型识别。",
+      "license": "不适用：commercial 条目，无开源许可证或社区版边界需核。"
+    },
+    "markdown-optimization-application": {
+      "application_ids": [
+        "commercial:7learnings"
+      ],
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 data/collections/sources/02bf4b7362e5cb3afa7ce6d1b70d9bafceda788b09f6874f3fce31583784460f.txt（7Learnings Markdown & Clearance Optimization）。正文明确“lowest necessary discount to ensure timely clearance”、从“first markdown to final clearance”、比较折扣深度与时间窗、预测售罄轨迹、按商品/渠道/周计算最优降幅、模拟 timing/depth/product scope；可支持永久性清仓降价、分步计划与售罄进度决策循环的核心。",
+      "service_form": "商业 AI 定价/降价优化平台，页面有 Book Demo，属 SaaS 软件服务；track=commercial，ID 为 commercial:7learnings。",
+      "gaps": "页面未逐字说明 markdown 不自动恢复，也未展开审批锁定、价格尾数护栏与硬性毛利底线；batch/research 已记录审批与护栏缺口，未据此扩写。",
+      "license": "不适用：commercial 条目，无开源许可证或社区版边界需核。"
+    },
+    "promotion-management": {
+      "application_ids": [
+        "commercial:voucherify"
+      ],
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 data/collections/sources/026347c3fbde9a833b117c4321408d9956632fee5d1ff27e8d683b33220d7857.txt（Promotion Engine）、f225de79c59fda7762507f75d856dad0f6293ae55284de74187541c309cf8665.txt（Approval requests）、6791029d4ce19e2473779aa148e9e228b2d3243f9b250af41940051fbaeead7c.txt（Performance analytics）。可证优惠机制库（百分比/金额、BOGO、多买、捆绑、买赠、免运费、按品类/SKU）、按 segments/products/channels/dates 定向、预算与兑换上限、叠加/优先级/排除规则；审批请求使受限用户的创建/更新在批准前不生效并保留状态；效果分析提供兑换量、收入影响（折扣金额）、活动排行。",
+      "service_form": "商业 API-first 促销引擎，提供 API/SDK、试用与多计划，属 SaaS；track=commercial，ID 为 commercial:voucherify。",
+      "gaps": "审批仅针对受限自定义角色，不是所有促销的强制流程；性能分析不含基线 ROI/增量利润报表；“Enterprise 计划、需申请”未见于审批页快照。上述缺口已部分记录，核心类型仍清楚。",
+      "license": "不适用：commercial 条目，无开源许可证或社区版边界需核。"
+    },
+    "retail-pricing-management": {
+      "application_ids": [
+        "commercial:oracle-retail-price-management"
+      ],
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 data/collections/sources/4ab1414b98c6b71b45aed5d8f6804dcc65fbbb9a3d454a6bbaf1cd9c2905fb74.txt（Price Change Overview）、c0ea4bf2b2ae6a330f7500f79ea195dccf451b3c2e254912eb1b88540cd4f815.txt（RPM Implementation Guide）及 b4595f15f79835d0ea526ed82ceacb40c38011e5cb8a9fa43284be87ba487d85.txt（Retail Pricing Cloud Service）。正文明确价格变更按 item、zones/locations、百分比/金额/新固定价、生效日期与原因码创建；须经 checks、可按角色推进 submitted/approved 状态；获批事件在生效日前下发 ticketing 与销售地点；RPM 被明确称为 all retail pricing 的系统记录；RPCS 首页确认价格变更、清仓与促销的定义、维护、审阅及向销售系统下发。",
+      "service_form": "商业零售定价后台/云服务，服务门店 POS 与电商；track=commercial，ID 为 commercial:oracle-retail-price-management。",
+      "gaps": "RPM 实施指南与 RPCS 云文档并用，名称与主页存在代际差异；门店加入/退出价格区域是否追溯既有事件、以及变更频率限制仅在文档片段中出现，research 已如实记录未逐条核验。",
+      "license": "不适用：commercial 条目，无开源许可证或社区版边界需核。"
+    },
+    "gift-card-management": {
+      "application_ids": [
+        "commercial:square-gift-cards"
+      ],
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 data/collections/sources/cf6f5074d16b2e7b5279cd280e9314bf9f638c6209dfcae7ab5fdaf3e4de9449.txt（Square Gift Cards）。正文明确实体卡与数字礼品卡、线上与门店销售、QR/条码兑换、顾客自查余额与充值、退款退回礼品卡作为商店积分、与 Square POS 同步计入报表、可在 Square POS/Square Online/多家门店兑换，FAQ 明确不过期；可支持商户闭环预付凭证、发行与按余额扣减兑换的核心。",
+      "service_form": "商业商户礼品卡计划，依托 Square POS/Online 的 SaaS 服务；track=commercial，ID 为 commercial:square-gift-cards。",
+      "gaps": "逐卡 typed 余额活动明细（激活/加载/兑换/调整/退款等事件史）与未偿负债报表未在页面展开；batch/research 已记录该缺口，未据此扩写。",
+      "license": "不适用：commercial 条目，无开源许可证或社区版边界需核。"
+    }
+  },
+  "limits": "本次仅做只读核对：读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，并按 REVIEW_SOURCES.json 的 path 原样读取其列出的 10 个快照；未联网复核、未运行产品、未重算 SHA-256、未读取其他单元或采集脚本。5 叶均为 commercial，本单元无开源条目，故未触发完整许可证与社区版边界核对，该情形不视为遗漏。input.json 的 progress 状态与 research.json 的 case_found 存在不同步，未将其作为内容证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-034/ses_groveopencodegop034review1_1792943741.jsonl",
+  "batch_sha256": "577a39465f32490fd58b341bf127bbd02325b4861418db324ce1ef78aeb24698",
+  "research_sha256": "1bf20eb55b9fcc2940b505ed24ef76e291da37f4e2eb47589fa0fa174ac47b06",
+  "input_sha256": "fd49fd9c76d965090bbc15fc507c47b4301a5cec43ce94fc0548a73d6c6c3bed"
+}

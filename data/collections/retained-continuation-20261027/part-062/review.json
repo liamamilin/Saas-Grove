@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍将五个叶子标为 not_searched 且 application_ids/research_records 为空，与 batch.json 的条目和 research.json 的 case_found 不一致；本次以 batch/research 为准，建议后续同步清单元数据。",
+    "三个开源条目的 license_review.rationale 为通用模板，未逐条写明社区版/托管云边界；实际 LICENSE 文本完整且 scope=repository，Gitea Cloud/gitea.com 与 Qdrant Cloud 作为独立托管服务未被混同为开源仓库。",
+    "Qdrant README 的 Web UI 段较简短，只概括浏览 collection、管理数据、调用 REST API 和监控部署健康，未逐字描述可视化最近邻查询；按定义中 thin console + documented API parity 的规则可接受，但控制台工作流证据偏薄。",
+    "TrueCommerce 首页未点名 ANSI X12/EDIFACT，只以 EDI、partner-specific requirements、orders/invoices/shipments 表述；作为商业案例的基本真实性/类型匹配仍成立。",
+    "Harness 的治理能力是交付平台中的 Risk & Governance 模块，而非独立治理产品；定义明确允许交付平台内嵌治理层，batch 的 service_boundary 已作此限定。",
+    "research.json 记录了 Attu、Vector Admin 的排除理由及 fetch hash，但这两者的快照未列入 REVIEW_SOURCES，本单元无法独立复核其排除依据；不影响 Qdrant 入选项。",
+    "所有条目 runtime_tested=false，未做部署或运行时验证；任务不要求部署测试，故不作阻断。"
+  ],
+  "leaf_checks": {
+    "software-delivery-governance-platform": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:harness"
+      ],
+      "track": "commercial",
+      "basis": "Harness 首页快照正文的 Risk & Governance 段含 Only approved steps run、human-in-the-loop approvals、policies you set，并检索到 Policy-as-Code、OPA、gates、RBAC、Full audit trail；对应策略、关卡/审批、审计与 RBAC 的治理核心。",
+      "type_relation": "Harness 整体是 AI software delivery platform，治理为内嵌模块；定义允许这种模块化实现，未把它夸大为独立治理产品。",
+      "gaps": "仅有官方首页营销正文，未研究价格、架构或部署；商业案例只要求基本真实性/类型匹配，已满足。"
+    },
+    "source-code-hosting-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:72495579"
+      ],
+      "track": "open_source",
+      "basis": "Gitea 仓库元数据快照显示 repository_id=72495579、repository_nwo=go-gitea/gitea；README Purpose 明确 self-hosted all-in-one software development service，含 Git hosting、code management、team collaboration；LICENSE 为完整 MIT 文本。",
+      "type_relation": "以 Git 仓库托管为中心，自托管网络服务加团队协作/代码管理，符合源代码托管平台核心；code review、issue、wiki、package registry、CI/CD 仅作为叠加协作能力，未作为核心判定依据。",
+      "gaps": "README 为高层 Purpose，未逐条展开访问控制/可见性控制；Git hosting 加 self-hosted 加 team collaboration 足以支持基本类型匹配。"
+    },
+    "vector-database-console": {
+      "status": "passed",
+      "application_ids": [
+        "github:268163609"
+      ],
+      "track": "open_source",
+      "basis": "Qdrant 仓库元数据快照显示 repository_id=268163609；README 的 Web UI 段说明可 visual interact with data、explore collections、manage data、interact with REST API、monitor deployment health；LICENSE 为完整 Apache-2.0 文本。",
+      "type_relation": "Qdrant 主体是向量数据库引擎，Web UI 为其内置控制台；按定义中 console 可为 thin surface、只要数据与相似性工作可通过其或 documented API parity 访问即属类型内。",
+      "gaps": "README 未逐字描述可视化最近邻查询；控制台证据偏薄，但符合定义中的 API-parity 例外。"
+    },
+    "data-exchange-platform": {
+      "status": "passed",
+      "application_ids": [
+        "github:14051004"
+      ],
+      "track": "open_source",
+      "basis": "Dataverse 仓库元数据快照显示 repository_id=14051004；README 说明用于 sharing、finding、citing、preserving research data；官方用户文档 Restricted Files 明确 restricted file cannot be downloaded unless permission granted，并记录 Request Access、Terms of Access；LICENSE 为完整 Apache-2.0 文本。",
+      "type_relation": "数据集充当 offering，restricted file/Request Access/Terms of Access 构成 provider-controlled entitlement，平台下载构成 platform-mediated delivery；跨组织科研数据共享符合 data exchange 核心。",
+      "gaps": "文档说明部分 Dataverse 安装不允许文件限制；案例表述为产品能力而非所有部署默认。未声称 marketplace、付费交易或 live zero-copy。"
+    },
+    "edi-platform": {
+      "status": "passed",
+      "application_ids": [
+        "commercial:truecommerce"
+      ],
+      "track": "commercial",
+      "basis": "TrueCommerce 首页正文含 EDI integration、exchange documents electronically、orders/invoices/shipments across systems and formats、specific EDI requirements to avoid chargebacks、pre-connected trading partners、ERP integrations。",
+      "type_relation": "交换标准化业务单据而非匿名文件或数据集；伙伴网络、单据校验、ERP 集成与交付跟踪符合 EDI 平台核心。",
+      "gaps": "首页未点名 ANSI X12/EDIFACT；商业案例的基本类型匹配仍成立。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未重新计算 SHA-256、未部署或运行时测试；仅使用本单元 REVIEW_SOURCES.json 指定快照及 batch/research 记录；Attu/Vector Admin 候选快照未归档，无法独立复核其排除理由；商业条目未研究价格、架构或部署。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-062/ses_groveopencodegop062review1_1792991642.jsonl",
+  "batch_sha256": "b7e1f7d3310f92dfe1ef48dd2d31bb994c0f2ee9927ecf6a47707861223014a5",
+  "research_sha256": "57ab949c8e98e570da8f1b5ca5898ba24c2523ffb045f4d7712fc69609c79ee6",
+  "input_sha256": "c971dfee008c23910188407291c675a61888f56e0d4e5aff60a640db6ef8aca9"
+}

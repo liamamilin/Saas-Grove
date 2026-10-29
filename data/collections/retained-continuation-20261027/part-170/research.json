@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "building-condition-assessment",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:gordian-assessments-capital-planning"
+      ],
+      "query": "websearch: open source facility condition assessment software github; GitHub API search: facility condition assessment; official Gordian Assessments and Capital Planning page",
+      "source_urls": [
+        "https://www.gordian.com/products/assessment-and-planning/"
+      ],
+      "note": "Gordian 官方产品页明确列出 FCA、FCA+、Modeled Assessment、Self-Assessment，Asset Capture 现场采集资产/照片/信息，RSMeans 成本数据，以及多年资本计划，和本叶的元素—状况—成本—资本计划核心吻合。先查开源：GitHub 搜到的 FCA 仓库均无许可证或为教学/空项目，未采用；vfa.com 现跳转 Gordian，deerwood.com 实为紧固件厂商而非该评估产品。",
+      "service_boundary": "商业设施状况评估与资本规划产品，含供应商实施的评估服务与软件；本条只记录其软件/平台能力，不深入价格、部署架构或服务交付细节。",
+      "search_attempts": [
+        "websearch 'open source facility condition assessment software github' → 0 results",
+        "GitHub API search 'facility condition assessment' → 4 repos, 0 stars, no declared license (teaching/empty projects)",
+        "curl https://www.vfa.com/ → redirects to Gordian; identified Gordian assessment-and-planning product page",
+        "curl https://www.deerwood.com/ → unrelated wood-fastener supplier, discarded"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.gordian.com/products/assessment-and-planning/",
+          "status": "saved",
+          "sha256": "7b264ae66896f127a1c87ada8514c2ca6ae9c22adf238b2a3a297a7ec55c3bdb",
+          "note": "612756 bytes; body contains FCA/FCA+, Asset Capture, RSMeans and multi-year capital plans"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "building-energy-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:240169434"
+      ],
+      "query": "复核 OpenEMS README/许可证后改选开源 BEM：GitHub API search 'myems in:name' 按星排序；读取 MyEMS/myems 仓库元数据、README、LICENSE 和官方社区版文档",
+      "source_urls": [
+        "https://api.github.com/repos/MyEMS/myems",
+        "https://raw.githubusercontent.com/MyEMS/myems/master/README.md",
+        "https://raw.githubusercontent.com/MyEMS/myems/master/LICENSE",
+        "https://myems.cn/en/docs/community/",
+        "https://raw.githubusercontent.com/OpenEMS/openems/develop/README.md",
+        "https://api.github.com/repos/OpenEMS/openems",
+        "https://api.github.com/repos/OpenEMS/openems/license"
+      ],
+      "note": "初审指出 OpenEMS 的 README 只证明设备/站点监控与 PLC-like 控制，未展示账单/计量能耗记录、跨建筑/基线比较、报表/告警/节约跟踪，且单标 AGPL-3.0 与 UI/Edge/Backend 分许可不符。复核确认其实时控制是主用途，按叶定义更接近 BMS/EMS，故移除 OpenEMS 与本叶的关系；判断限于既有 README/仓库元数据/许可证快照，未抓取 OpenEMS 官方文档站，结论是“README 未证明本叶核心”，不是断言其绝无相关功能。其候选、README 与许可证事实保留备查。改选开源 MyEMS：README 说明其面向建筑、工厂、商场、医院、园区采集、分析并报告能耗与碳排；官方社区版文档列出空间/仪表/设备/租户台账、在线/离线仪表、同比/环比/自由对比、能耗/成本/碳排放报表、看板、租户账单和 Excel 导出，覆盖本叶核心。社区版许可证为 MIT 正文并附保留 MyEMS LOGO/版权标识的附加条件，已在条目中明示；未把企业版的光伏/储能/充电桩/设备控制计入。",
+      "service_boundary": "MyEMS 社区版建筑/园区能源管理平台；只记录社区版的空间/仪表/设备/租户能耗采集、比较分析、报表与看板能力，不纳入企业版的设备控制、微电网、虚拟电厂等可选模块，也不把其采集协议或硬件集成当作应用核心。",
+      "search_attempts": [
+        "复核既有 OpenEMS README：Edge 采集并执行控制算法，Backend 聚合/监控/控制，UI 实时/历史；未见账单/计量能耗记录、跨建筑/基线比较、报表/告警/节约跟踪 → 不满足本叶核心",
+        "GitHub API search 'myems in:name' sorted by stars → MyEMS/myems 744 stars, Python, not archived",
+        "GET api.github.com/repos/MyEMS/myems → id 240169434, homepage myems.cn, default_branch master; GitHub license API reports NOASSERTION",
+        "GET raw.githubusercontent.com/MyEMS/myems/master/LICENSE → MIT text plus additional logo/copyright retention condition",
+        "GET myems.cn/en/docs/community/ → community edition features: data comparison, meter/space reports, offline meter reports, dashboards, tenant bill, Excel export"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/MyEMS/myems",
+          "status": "saved",
+          "sha256": "440a0ea55d822aba0c767632913024102631ba46add44e3e96dba4010ac620c3",
+          "note": "repository metadata; id 240169434, full_name MyEMS/myems, homepage myems.cn, not archived"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MyEMS/myems/master/README.md",
+          "status": "saved",
+          "sha256": "f9ee2d0055526af80b0fc2046adece117c71d7d6ced7ff25a91aea697762dcb7",
+          "note": "README; building/factory/mall/hospital/park energy collection, analysis and reporting; community edition"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MyEMS/myems/master/LICENSE",
+          "status": "saved",
+          "sha256": "2ff2d46afb3f180c84c77b9614177714d274fafca32f1ef55a30c3b2c3734c5a",
+          "note": "MIT License text with additional logo/copyright retention condition"
+        },
+        {
+          "url": "https://myems.cn/en/docs/community/",
+          "status": "saved",
+          "sha256": "7b051f2701c6f41d5aa3268ae4b6c970442aec786ee07b0f9493c66327f84a0d",
+          "note": "official community edition page; MIT label, data comparison, reports, dashboards, tenant bill, Excel export"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OpenEMS/openems/develop/README.md",
+          "status": "reused_existing_snapshot",
+          "sha256": "5690bcf8e84ab16726db181a5f52a39a2a7fada71f552d46670c1bd3cdde7590",
+          "note": "rechecked for prior finding; PLC-like control and split AGPL/EPL licensing; no BEM reporting/savings workflow"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenEMS/openems",
+          "status": "reused_existing_snapshot",
+          "sha256": "6011243ce351da2e4d8656aa767f041a698a385325c362c017c2aee66097ac72",
+          "note": "rechecked id/archive/license metadata; relation removed from this leaf"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenEMS/openems/license",
+          "status": "reused_existing_snapshot",
+          "sha256": "baa881589222ce5f2060a15c7e18204a7ff5c24dda18e81c680ca0ea2707f394",
+          "note": "rechecked for prior license finding; GitHub license API returns AGPL-3.0 text, but README assigns EPL-2.0 to Edge/Backend and AGPL-3.0 only to UI"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "amenity-booking-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:condo-control"
+      ],
+      "query": "websearch: amenity booking software condo association official; GitHub API search: amenity booking; official Condo Control amenity-booking page",
+      "source_urls": [
+        "https://www.condocontrol.com/resident/amenity-booking/"
+      ],
+      "note": "Condo Control 官方 Amenity Booking 页明确：运营者创建/定制设施页面，限制可约时长和频率，住户在线支付设施费用与押金并同意条款，管理员审批或拒绝预订并触发邮件通知，住户可在移动端预约支付。GitHub 搜到的 AmenityBooking 仓库为 0 星学生项目或无许可证，未采用。",
+      "service_boundary": "社区/物业管理系统中的设施预约模块；不把其会计、维护、访客、公告等其余模块计入本叶，也不把它当作酒店/单元短租或通用预约调度。",
+      "search_attempts": [
+        "websearch 'amenity booking software condo association official' → 0 results",
+        "GitHub API search 'amenity booking' → HotelBookingReact, student AmenityBookingSystem repos; no credible building amenity product",
+        "curl Condo Control homepage → found /resident/amenity-booking/ link"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.condocontrol.com/resident/amenity-booking/",
+          "status": "saved",
+          "sha256": "ae5c910b02718d03bb4550011fcba26289e7570eee50e8549f244f5bf3ca19f3",
+          "note": "192948 bytes; body contains booking, fees/deposits, approve/decline, limits and mobile booking"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "building-maintenance-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:facilio"
+      ],
+      "query": "websearch: open source CMMS building maintenance github AGPL; GitHub API search: cmms maintenance; official Facilio preventive-maintenance page",
+      "source_urls": [
+        "https://facilio.com/product/preventive-maintenance-software/"
+      ],
+      "note": "Facilio 官方预防性维护页明确：按资产类别/位置/优先级/关键性配置 PPM，按时间、用量或状况触发工单，分派技术人员或供应商，移动端查看检查清单和资产历史，支持物业/设施组合。开源 Atlas CMMS (Grashjs/cmms, AGPL-3.0) README 把楼宇/物业列为众多行业之一，定位仍是跨行业通用 CMMS，建筑设备绑定不足，故未作为本叶关系；OpenMAINT 未找到官方 GitHub 仓库，不能按开源仓库身份登记。",
+      "service_boundary": "Facilio 是面向物业/设施运营的 Connected CMMS；本条只取建筑设备维护工作流，不纳入其能源监控、租赁、访客等外围模块，也不把它描述为纯通用制造业 CMMS。",
+      "search_attempts": [
+        "websearch 'open source CMMS building maintenance github AGPL' → 0 results",
+        "GitHub API search 'cmms maintenance' sorted by stars → Grashjs/cmms (840 stars, AGPL-3.0), libremaint, CalemEAM etc.; README checked",
+        "GitHub API search 'openmaint' → only Docker wrappers/forks, no official upstream repository",
+        "curl Facilio preventive-maintenance product page → body contains PPM, work orders, asset history, vendors"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://facilio.com/product/preventive-maintenance-software/",
+          "status": "saved",
+          "sha256": "3770932a167a94a52fa12380f49a4cc501868b580bf5622495321fab66824393",
+          "note": "445306 bytes; body contains PPM by asset/location, time/usage/condition triggers, work orders and asset history"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "construction-equipment-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:tenna"
+      ],
+      "query": "GitHub API search: construction equipment management (stars); official Tenna construction-equipment-management use-case page",
+      "source_urls": [
+        "https://www.tenna.com/use-cases/construction-equipment-management/"
+      ],
+      "note": "Tenna 官方施工设备管理页明确面向承包商混合车队：统一管理自有/租赁设备与车辆，跟踪位置、状态和历史，提供利用率、调度、预防性维护/工单、检查、资产财务与成本跟踪。GitHub 搜到的施工设备仓库多为学生项目、目标检测或数据集，未发现可自托管的完整设备管理应用，故采用商业基本记录。",
+      "service_boundary": "承包商侧施工设备管理平台；GPS/远程信息处理只是采集与追踪手段，不把纯 telematics、行车记录仪或道路车队管理单独算作本叶。",
+      "search_attempts": [
+        "GitHub API search 'construction equipment management' sorted by stars → student projects, YOLO detector, dataset repos; no complete self-hostable app",
+        "curl Tenna homepage → identified /use-cases/construction-equipment-management/ and product pages"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.tenna.com/use-cases/construction-equipment-management/",
+          "status": "saved_after_retry",
+          "sha256": "3a55dcf2375f3f9b8e3bc5354f1a1015c0bd5a3e49b8c7b50f72842b0a95c021",
+          "note": "first fetch exceeded default 1MB; retried with 3MB max, 1510667 bytes; body contains construction equipment management, utilization, dispatch, maintenance/work orders and asset financials"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

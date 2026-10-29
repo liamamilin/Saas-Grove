@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空数组，但 data/collections/sources/ 实际存在 11 份以内容哈希命名的快照，research.json 的 fetch_outcomes 也逐一引用了这些哈希。建议补登记来源清单（path/url/sha256），便于后续审计复现；本次已按哈希与 research.json 对应关系直接读取并核对这些快照，不影响叶结论。",
+    "research.json 将 RenzoFernando/Django-Sistema-Acreditacion-Universitaria 标注为“（MIT）”，但本单元保留的 README 快照在“Licencia”一节仅写明“uso académico”，且未保留任何 LICENSE 文件快照。建议改为“许可证未见/未核验（README 声明仅学术用途）”，避免被误读为具备开源许可资格；该候选未收录，不影响本叶判定。",
+    "QualifAi 的 README 角色描述（Employee 评估 colleges、与 institutions 沟通，Manager 管理认证类型/报告/付款）更接近认证机构或中介侧平台，而非叶定义要求的“寻求认证的机构”侧；因其仅前端且无法证明完整可自托管服务已不成立，建议在留档说明中补一句该类型歧义，避免后续误用其功能清单。",
+    "MIT-ARS 已被仓库自身标注 archived；其 README、schema.sql、export-data.mdx 与本次“仅有数据采集/分类/按类别 PDF 导出，缺少逐条合规响应、证据—标准关联与跨周期历史”的判断一致。若未来重新评估，应以其归档状态和 AGPL-3.0 网络服务条款为前置条件。",
+    "本叶定义的五项属性（外部标准结构、逐条合规响应、证据链接、报告汇编、常备周期）表述清晰，并与“认证机构侧”应用类型有明确边界；无需修改。"
+  ],
+  "leaf_checks": {
+    "academic-accreditation-management": {
+      "definition_core": "已核对 input.json 中的定义：明确的机构端（seeking institution）定位，以外部认证机构标准为组织骨架，要求逐条合规响应、证据链接到标准、汇编自评/合规报告，并保持跨周期纵向连续性；同时明确认证裁决在系统外，与认证机构侧应用区分。五项定义性属性齐全且互不重复。",
+      "service_form": "本单元 batch.json 的 entries 为空，无任何 application_id，未声称存在持续使用的软件服务案例；research.json 的 assessment 为 insufficient_evidence，与 input.json 的 included_without_cases 阶段一致。",
+      "id_track": "leaf 的 domain_id=23、parent_id=23.03 与 slug 一致，application_ids 与 case_ids 均为空，未建立任何叶关系；未发现 ID 或 track 错配。",
+      "open_source_license_and_boundary": "逐份核对保留快照：QualifAi（github:1289329993）MIT LICENSE 为完整 MIT 文本，但仓库文件树仅 public、src、package.json、vite.config.js、index.html 等 React/Vite 前端文件，无服务端、数据库或部署资料，README 自述为毕业设计，不能证明完整可自托管的认证管理服务；MIT-ARS（github:886218841）LICENSE 为完整 AGPL-3.0 文本，仓库已 archived，schema.sql 中仅有 programs.accreditation_status、number_of_times_accredited 与若干 link_to_relevant_document(s) 字段，无 criterion/response/evidence/cycle 实体，export-data.mdx 只描述按 NAAC/NBA/NIRF 等类别导出数据 PDF，不构成自评/合规报告汇编；RenzoFernando 项目无 LICENSE 快照、README 声明仅学术用途且为在建课程项目，aspectManager/models.py 只有 Aspect 的权重/审批/验收字段，generar_informe.py 为按 Factor/Trait/Aspect 生成 Google Doc/PDF 的报告命令，未证明证据—标准关联、认证机构模板或跨周期历史。三者的开源许可与社区版边界均不足以支撑收录。",
+      "commercial": "本单元无商业产品条目，无需做商业真实性与类型匹配核对。",
+      "search_and_gap_record": "research.json 记录了多轮 GitHub 搜索（in:name,description、self-study、topic:accreditation、license:mit）、逐项候选复核、GitHub REST API 403 限流后改用仓库页/raw 文件的情况，并明确说明未运行第三方项目（runtime_tested:false）及“不能据此断言相关产品不存在”。检索与抓取缺口记录具体、未被摘要或 HTTP 成功替代核心正文证据，符合无案例留档可通过的要求。",
+      "conclusion": "既有来源与记录足以支持该叶保持 insufficient_evidence、不建立任何应用关系；未发现需修复的事实、许可、核心匹配或来源问题。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未访问其他单元，也未部署或运行任何第三方项目（runtime_tested:false）。REVIEW_SOURCES.json 的 sources 为空，快照是依据 research.json 中的内容哈希与 data/collections/sources/ 目录实际文件对应后直接读取的，未按清单 path 逐项映射。未进行实时网络复核，GitHub API 限流情况仅依据 research.json 记录。未获取领域树完整数据，故 parent_id=23.03 的语义标签仅按 input.json 判断，未独立核验上级节点内容。部分候选（如 BAC Accreditation Management System、ATOM、PUPCon、InstituteFlow 等）仅有检索层面的记录，未保留可核验正文，因此无法独立判断其能力。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-193/ses_groveopencodegop193review2_1793257252.jsonl",
+  "batch_sha256": "b3ec25fca4df8492d7ab719c951fe0d13796fdffa4423d2bce635fb6dbef9d69",
+  "research_sha256": "748f111f17f4974fcca85e6f2a935fa0824daf9a63e84fd275c05d158e0cbb6b",
+  "input_sha256": "7eb4059c939caec89a23e4156d175f3479a2c0456a4f85487cc941755230f976"
+}

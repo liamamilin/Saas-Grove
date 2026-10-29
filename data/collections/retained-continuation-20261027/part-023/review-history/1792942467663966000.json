@@ -1,0 +1,60 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "virtual-recording-studio",
+      "application_id": "github:8757552",
+      "issue": "许可证标注与所引 COPYING 不一致：条目的 license 与 license_review.spdx_id 均记为 GPL-2.0，但该 COPYING 的 Plugin Clarification 明写 “Ardour's license (GPL v2.0 or later)”。SPDX 精确标识应为 GPL-2.0-or-later；当前写法会把实际授予的 or-later 权利收窄为 v2-only。",
+      "fix": "将 license 与 license_review.spdx_id 改为 GPL-2.0-or-later，并在 rationale 中引用 COPYING 的 “GPL v2.0 or later” 语句；若项目实际选择 v2-only，则补充源码头或官方许可页证据，并解释该澄清语句。"
+    },
+    {
+      "slug": "sheet-music-reader",
+      "application_id": "github:373495382",
+      "issue": "SheetAble 的 leaf_match 只证明自托管曲库、上传、作曲家/描述/封面、标签、账号共享与 Web 客户端，未证明乐谱阅读界面、分页/翻页、缩放或页面布局等阅读状态控制；其 reason 也自认“本叶阅读核心由 forScore 关系承担”。因此它不满足 sheet-music-reader 的三项承重结构，不应作为该叶的完整匹配。",
+      "fix": "补充官方文档或截图证明 Web 端可显示乐谱并控制翻页、页面布局或缩放；若无法补充，将 SheetAble 从该叶 leaf_matches 移除，或明确标为“曲库/相关应用”而不计入阅读器核心。"
+    }
+  ],
+  "non_blocking_notes": [
+    "MuseScore Studio README 只显式列出 WYSIWYG 谱面输入、编辑功能、MusicXML/MIDI/MEI 导入导出、播放与打印/PDF，未逐字写乐谱文件的保存/打开；“持久乐谱文档”属类型推断，建议补官方文件/工程文档。",
+    "Ardour 的 COPYING 在 END OF TERMS AND CONDITIONS 结束，未含 GPLv2 的 How to Apply 附录；许可证条款正文完整，但 rationale 中“完整文本”措辞可更精确。",
+    "SheetAble 缺少与其他开源条目一致的 license_review 结构化字段；AGPL-3.0 全文快照已读，建议补齐 reviewer、source_url、spdx_id、scope、rationale。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 的 case_found 不一致；若该字段用于下游状态，应同步。",
+    "FreeCAD 的 SPDX 可能为 LGPL-2.1-or-later；快照仅含 LGPL-2.1 正文，无法从该文件确认项目选择的版本，建议以源码头或官方许可页补证。",
+    "MuseScore features 中“多声部、力度与演奏记号”未在 README 快照逐项出现，属非关键补充，不影响类型判定。",
+    "GarageBand 页面的“导出”可更精确表述为分享、保存到 Music App 或设为铃声；不影响核心匹配。",
+    "SheetAble 的 FAQ 与 README/tablet-client 对移动端支持的表述不一致；batch 已按 0.8.1 FAQ 如实记录，未把移动端阅读当作已证能力。"
+  ],
+  "leaf_checks": {
+    "virtual-recording-studio": {
+      "result": "core_supported",
+      "basis": "GarageBand 官方产品页正文覆盖录音、软件乐器/循环编曲、255 轨、压缩/EQ/声像混音、分享及保存到 Music App；Ardour 官方 Features 正文覆盖多轨录音、MIDI/钢琴卷帘、非破坏性编辑、Mixer 与 WAV/分轨导出。商业条目基本真实且类型匹配；Ardour 仓库 id 8757552 与许可证快照已核对。",
+      "gaps": "Ardour 许可证 SPDX 标注需修正，见 finding；未运行应用。"
+    },
+    "music-notation-editor": {
+      "result": "core_supported_with_minor_gap",
+      "basis": "MuseScore Studio README 功能列表覆盖 WYSIWYG 虚拟谱纸输入、编辑功能、MusicXML/MIDI/MEI 导入导出、内置音序器/合成器播放、打印或生成 PDF；LICENSE.txt 为完整 GPLv3，仓库 id 4454793 匹配。",
+      "gaps": "README 未显式写乐谱文件的保存/打开；持久化由记谱文档与打印/PDF 语境推定，建议补官方文件/工程文档。"
+    },
+    "sheet-music-reader": {
+      "result": "core_supported_by_forscore; sheetable_partial",
+      "basis": "forScore 官方页正文覆盖动态曲库、PDF 导入/iCloud、批注、演出曲目单、重排页面、书签、音频跟练、自适应缓存翻页与 Reflow，满足乐谱、阅读界面、演奏者库三项。SheetAble README/docs 只证明自托管曲库、上传、元数据、标签、账号共享与 Web 客户端。",
+      "gaps": "SheetAble 的阅读界面/翻页/缩放未证，见 finding；其移动端支持在 FAQ 与 README/tablet-client 间存在差异，batch 已如实记录。"
+    },
+    "3d-modeling-application": {
+      "result": "core_supported",
+      "basis": "FreeCAD 官网正文说明开源参数化 3D 建模、模型历史改参数、2D 草图到 3D、读写 STEP/IGES/STL/OBJ 等；PartDesign 文档正文说明 Body、Sketch、Pad/Pocket、特征累积与可编辑草图。LICENSE 为完整 LGPL-2.1，仓库 id 5736080 匹配。",
+      "gaps": "交互视口的轨道/平移操作未逐字展开，由 3D 建模器定位与文档支撑；未运行应用。"
+    },
+    "digital-sculpting-application": {
+      "result": "core_supported",
+      "basis": "Nomad 官方 manual/tools 正文覆盖 Clay/Brush/Smooth/Layer/Inflate/Nudge/Stamp/DelLayer、Crease/Pinch 等笔刷，radius/intensity 滑杆、Stroke/Sub 模式与 pressure/texture；manual/files 正文覆盖保存/打开/另存/重命名工程，导入 .nom/.glb/.gltf/.obj/.stl/.ply/.fbx，导出三维模型和渲染图。商业条目基本真实且类型匹配。",
+      "gaps": "快照为超长单行 HTML，读取工具显示截断；已用同页关键词与补充只读网页核对，未逐字通读全文。"
+    }
+  },
+  "limits": "只读独立初审；未运行 shell、未写文件、未读取其他单元；未运行应用或做部署/运行时测试；未重新计算快照哈希，仅按 REVIEW_SOURCES.json 的 path 原样读取并核对文件存在与内容；部分快照为超长单行 HTML（Nomad manual/tools、manual/files、SheetAble FAQ/docs），读取工具在 2000 字符处截断显示，相关正文通过同页关键词匹配和一次补充性只读网页核对，未逐字通读全部正文；未用线上页面替代快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-023/ses_groveopencodegop023review1_1792941817.jsonl",
+  "batch_sha256": "f1ccea045ca35a616c57bdaa92ea43fc01ccc888886d5a1b5dc3be472630d611",
+  "research_sha256": "94cdaafb1bd5aae37115b698371bf6ffe6e579cb6b3bde5ecbb3ef024814d24f",
+  "input_sha256": "902e297274a35d8021f8266dcb8778b7973706da86064db28f43d84aee1ebdce"
+}

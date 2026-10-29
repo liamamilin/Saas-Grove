@@ -1,0 +1,89 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "sports-meet-management",
+      "application_id": "github:534519069",
+      "note": "SCM 是 Windows 桌面 + 本地 SQL Server Express 的自托管开源应用，不是多租户云端 SaaS；batch 与 research 已明确披露其部署形态，按 open_source 保留可以通过，但不宜作为云端 SaaS 交付形态宣传。"
+    },
+    {
+      "slug": "athlete-management-system",
+      "application_id": "commercial:athletemonitoring",
+      "note": "引用页能证明计划编排、下发、回收、完整训练历史及 planned vs reported 对比；但未出现 roster/team/group 模块的显式正文，组织名册主要由产品定位和教练面向多名运动员的工作流隐含支持。商业条目按基本类型匹配可通过。"
+    },
+    {
+      "slug": "school-college-athletics-management",
+      "application_id": "commercial:dragonfly-athletics",
+      "note": "学校页证明名册、参赛资格、体检/医疗、伤病报告和学业资格；协会页证明成员、教练认证、队伍申报和季后赛。学校侧向协会回传规则/审计 trail 的界面未单独截取，属于学校端与协会端证据拼合。"
+    },
+    {
+      "slug": "sports-academy-management",
+      "application_id": "commercial:iclasspro",
+      "note": "两份快照是 Duda 导出的单行 JSON（css 字段在前），读取工具只能显示前 2,000 字符；已用精确短语核对 classes/camps/private lessons、capacity、online registration、waitlist、auto-approve、prorated、billing、attendance、portal 等，但未逐段阅读完整正文。"
+    },
+    {
+      "slug": "athlete-injury-availability-management",
+      "application_id": "commercial:teamworks-sports-emr",
+      "note": "核心功能标签位于 Next.js 序列化 payload/正文，页面可见段落主要是 roster/ecosystem/HIPAA/permissions；未做 UI 或工作流实测。"
+    },
+    {
+      "slug": "sports-meet-management",
+      "application_id": "github:534519069",
+      "note": "SCM 摘要中的“泳道安排”属于合理概括，README 明确写的是 auto/manual heats，未逐字出现 lane；不影响游泳比赛管理的基本类型判断。"
+    },
+    {
+      "slug": "sports-academy-management",
+      "application_id": "commercial:iclasspro",
+      "note": "iClassPro 摘要中的“家庭门户”“按月/学期/时段计费”属于概括性表述，快照中可核对到 parent/portal、prorated、billing 等对应能力，但未逐字出现全部原词；不影响基本真实性。"
+    },
+    {
+      "slug": "athlete-injury-availability-management",
+      "application_id": "commercial:teamworks-sports-emr",
+      "note": "input.json 的 progress 仍为 not_searched/空 application_ids，与 batch/research 的已研究状态不一致，疑似前置清单未回写；本次以 batch/research 和实际快照为准。"
+    }
+  ],
+  "leaf_checks": {
+    "athlete-injury-availability-management": {
+      "application_id": "commercial:teamworks-sports-emr",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "已读 teamworks.com/sports-emr 快照：正文/功能标签含“Injury / Illness Record & Reporting”“Return to Play Tracker”“availability status”，并有“Streamlined Roster Management”“HIPAA Compliant”“Robust Permissions & SSO”及与 Nutrition/S&C 等集成说明。可对应伤病/疾病记录、复出流程、运动员可用状态和医疗数据权限边界。",
+      "gaps": "未提供具体角色矩阵或教练端脱敏视图截图；商业条目按基本真实性和类型匹配核对，未做 UI/工作流实测。"
+    },
+    "athlete-management-system": {
+      "application_id": "commercial:athletemonitoring",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "已读 AthleteMonitoring 首页与 Workout Builder 快照：首页定位为 Athlete Management System，正文说明面向整个 programme 的运动员健康与表现数据管理；Workout Builder 正文明确可构建周期化计划、向运动员手机下发多周程序、回收 reps/load/RPE 等数据、查看每名运动员完整训练历史，并比较 planned vs reported load。可覆盖计划—执行—纵向记录—审查调整闭环。",
+      "gaps": "组织名册/团队分组未在引用页显式展开，主要由“your athletes/每名运动员/教练下发计划”的工作流隐含支持；未做部署或运行时验证。"
+    },
+    "school-college-athletics-management": {
+      "application_id": "commercial:dragonfly-athletics",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "已读 DragonFly 学校页与协会页快照：学校页含“Rosters & Eligibility”“Simplify roster management for teams and levels”“Easily see who is eligible to play”、physicals/medical information、injury reports、academic eligibility 第三方集成和自定义注册；协会页含 22 个州协会、membership、coach certification、player eligibility、academic eligibility、team declarations、playoff brackets，以及 preseason/in-season/postseason/offseason 表述。可覆盖项目组合、学生运动员参赛门控和上级管理机构循环。",
+      "gaps": "学校端向协会回传/审计的具体界面未单独出现，治理循环部分依赖协会端页面；未核大学校际规则或 FERPA 具体实现。"
+    },
+    "sports-academy-management": {
+      "application_id": "commercial:iclasspro",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "已读 iClassPro 首页与 Class Management 快照：内容含 classes、camps、private lessons，以及 capacity、online registration、waitlist、auto-approve、priority、prorated、billing、payment、attendance、parent/portal 等词；业务面向 gymnastics、cheer、swim、dance 等儿童运动培训机构。可覆盖项目组合、容量与报名审核、候补以及项目资金循环。",
+      "gaps": "快照为单行 Duda JSON，读取工具只显示 css 开头部分，无法逐段审阅完整正文；部分摘要措辞为概括而非逐字原文。未做价格、支付流程或运行时验证。"
+    },
+    "sports-meet-management": {
+      "application_id": "github:534519069",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "已读 SCM README、GitHub 仓库元数据和许可证快照：README 明确支持会员数据、创建 sessions/events、提名会员参加项目、自动或手动建 heats、打印 marshal/timekeeper 表、记录 race-times 并生成 20 余种报告，支持 TimeDrops/Dolphin Timing；仓库元数据 id=534519069、full_name=Artanemus/SCM_SwimClubMeet-R、default_branch=main、archived=false、spdx_id=GPL-3.0；许可证 API 返回 GPLv3 全文。可覆盖运动会容器、项目、报名和逐项结果，开源身份与完整许可证成立。",
+      "gaps": "未验证泳道分配细节、计时设备实机连接或安装运行；应用为 Windows 桌面 + 本地 MSSQL 自托管，不是多租户云 SaaS，但研究记录已如实披露。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元，未联网复核或部署测试。已按 REVIEW_SOURCES.json 的 path 原样读取全部 9 份快照；部分快照为单行压缩 HTML/JSON，读取工具对超长行截断，故以可见正文片段与精确字符串存在性交叉核对，未能逐字审阅全部页面文本。商业条目仅核对基本真实性、产品身份和类型匹配，未核价格、架构、部署或角色矩阵；开源条目核对了 GitHub 仓库身份、GPL-3.0 许可证全文和 README，但未安装运行或验证计时设备。采集阶段的 websearch HTTP 401 已留档，未重新执行搜索。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-259/ses_groveopencodegop259review1_1793039552.jsonl",
+  "batch_sha256": "b87f2658fcd0780022dcdc4c1af33bd6637a59805f5c0d77abf224cf8c14a50f",
+  "research_sha256": "5004ae1a562a29e681a2d546d72e11883a400fbee5c6d1d3ecf29dfbb7cc1980",
+  "input_sha256": "056e4e18c15f77230e1f9dace91a098a21e9c0d0cd196ead9963cfcbc43d6d30"
+}

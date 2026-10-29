@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 44,
+  "offset": 1075,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "student-attendance-system",
+        "name_zh": "学生考勤系统",
+        "domain_id": "23",
+        "parent_id": "23.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-044/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source student attendance system github"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/944",
+            "result": "boundary_unresolved",
+            "note": "核验到独立开源考勤应用 SAS（MIT，id 881988839）：README 显示管理员维护班级/学生/学期，班主任按名册逐日 present/absent，查看班级与个人历史并导出 Excel。但它只证明裸登记与报表，未证明准假/原因码、家长提交缺勤、审核生命周期、授权人员最终定码与缺勤通知/跟进等缺勤问责循环，故边界未决，不写入 batch。OpenEduCat 的考勤页虽宣称 absence reason codes 与家长通知，但仓库 license 元数据 NOASSERTION 且为 Odoo 学校 ERP 模块；OpenCampus 仓库 API 返回 404。",
+            "query": "open source student attendance system github school attendance management"
+          }
+        ],
+        "archived": false,
+        "note": "核验到独立开源考勤应用 SAS（MIT，id 881988839）：README 显示管理员维护班级/学生/学期，班主任按名册逐日 present/absent，查看班级与个人历史并导出 Excel。但它只证明裸登记与报表，未证明准假/原因码、家长提交缺勤、审核生命周期、授权人员最终定码与缺勤通知/跟进等缺勤问责循环，故边界未决，不写入 batch。OpenEduCat 的考勤页虽宣称 absence reason codes 与家长通知，但仓库 license 元数据 NOASSERTION 且为 Odoo 学校 ERP 模块；OpenCampus 仓库 API 返回 404。"
+      },
+      "definition": {
+        "slug": "student-attendance-system",
+        "name": "Student Attendance System",
+        "name_zh": "学生考勤系统",
+        "aliases_zh": [
+          "学生点名系统",
+          "学生出勤管理系统"
+        ],
+        "overview": "A **Student Attendance System** is the school's attendance operation as a system of record: it captures which enrolled students are present for the school day and its sessions, holds each student's presence state as a persistent coded record, resolves absences with families, and reports attendance outward — for statutory and funding obligations, for internal accountability, and for follow-up when attendance becomes a concern.\n\nThe defining structure is small:\n\n```text\nEnrolled student population (from the school's records)\n└── Attendance capture against the school's schedule\n    └── The attendance record of record\n        (per student × day × session/period × presence code)\n    └── The absence accountability loop\n        (reconcile unexplained absences → report → follow up)\n```\n\nEverything else commonly associated with school attendance — parent apps, kiosk check-in, biometric or GPS capture, predictive early-warning, live headcounts — is widespread in current products but is not what makes the product an attendance system. Older paper-register practices, regional statutory variants, and attendance modules embedded in school record systems all satisfy the same definition without any of those specifics.\n\nWhen the product's center shifts to the whole school (people, academic structure, fees, admissions), it is a School Management System; when it shifts to the teacher's in-the-moment lesson register without a school-wide record, it is a classroom-management capability; when it only consumes attendance data captured elsewhere and works the intervention loop, it operates downstream of this Type.",
+        "overview_zh": "一个 **学生考勤系统** 是学校作为记录系统的考勤运营：它记录哪些注册学生在校日及其课程中出席，将每个学生的出勤状态保存为持久化的编码记录，与家庭协调缺勤事宜，并对外报告出勤情况——用于法定义务和经费要求、内部问责，以及在出勤成为关注问题时的后续跟进。\n\n其定义性结构很小：\n\n```text\n注册学生群体（来自学校记录）\n└── 根据学校时间表进行出勤捕获\n    └── 作为记录的考勤记录\n        （每位学生 × 天 × 课程/课时 × 出勤状态码）\n    └── 缺勤问责循环\n        （协调未解释的缺勤 → 报告 → 后续跟进）\n```\n\n与学校考勤通常关联的所有其他事项——家长应用、自助终端签到、生物识别或GPS捕获、预测性预警、实时点名——在现有产品中很普遍，但并非构成考勤系统的核心。更早的纸质登记做法、地区性法定变体，以及嵌入学校记录系统中的考勤模块，无需这些具体功能也能满足相同定义。\n\n当产品的中心转向整个学校（人员、学术结构、费用、招生）时，它是一个学校管理系统；当转向教师在课堂上即时使用的点名簿，而没有全校性记录时，它是一种课堂管理能力；当它仅消费在其他地方捕获的出勤数据并运作干预循环时，它便在此类型之下运作。",
+        "dc": "**The attendance record of record.** The center of the system is a persistent record of presence states: for each enrolled student, for each school day, and commonly for each session or period within the day, a code stating whether the student was present, absent, late, or off-site — with, where the segment requires it, a second dimension of excused versus unexcused and a reason code. The record is cumulative and durable: it is the school's answer, months or years later, to \"was this student here?\" Without it, the product is a notification tool or a live headcount display with no memory.\n\n**Attendance capture against the school's schedule.** The record is produced by an operational act bound to the school's own time structure — the school day and its timetable of sessions, periods, or AM/PM registrations — and to the enrolled roster. Capture takes recognizable forms across products: the teacher's roll call on a class or tutor group; office or kiosk check-in; a guardian's absence submission; or automated student self-check-in (QR, RFID, biometric, sound-prompt, or location-verified). The roster and the timetable are the substrate: a student who is not yet in the enrollment system does not appear on the roll, and a session that does not exist in the timetable has no register to take.\n\n**The absence accountability loop.** A mark alone is not the system's purpose. The record is worked: unexplained absences are reconciled — the family is notified and invited to give a reason, the reason is recorded, and an authorized staff member assigns the final code; attendance is reported outward, whether as statutory or funding returns, as records written back to the school's student-information system, or as internal summaries; and patterns (repeated absences, accumulating tardies) are surfaced for follow-up. This loop is what distinguishes an attendance system from a bare register.",
+        "dc_zh": "**出勤记录的记录。** 系统的核心是持久化的出勤状态记录：对于每个注册学生，每个上学日，通常是每个课程或时段，一个代码说明学生是出勤、缺席、迟到还是离校——如果需要，第二个维度是请假与未请假，以及原因代码。记录是累积和持久的：它是学校对“这个学生在这里吗？”的数月或数年后的回答。没有它，产品只是一个通知工具或无记忆的实时人数显示。**出勤捕获与学校时间表绑定。** 记录是通过与学校自身时间结构——学校日及其课程表、时段或上午/下午注册——以及注册名册绑定的操作行为产生的。捕获在不同产品中以可识别的形式呈现：老师对班级或导师组的点名；办公室或自助签到；监护人提交的缺席；或自动的学生自助签到（二维码、RFID、生物识别、声音提示或位置验证）。名册和时间表是基础：尚未在注册系统中的学生不会出现在点名册上，时间表中不存在的课程没有点名册。**缺勤问责循环。** 仅仅一个标记不是系统的目的。记录是（原文截断）。",
+        "rules": "### Codes are governed, not free\n\nThe mark set is configured by the school; some codes are restricted to staff with specific permissions. The excused/unexcused dimension and reason codes are part of this governance, and the final code on the record is assigned by an authorized staff member — a guardian's submission proposes, the school disposes.\n\n### The roster and timetable are the substrate\n\nRolls are populated from the enrollment system and the timetable. A student added to the enrollment system after a roll was taken will not appear on that roll until it is retaken; a class created in the SIS takes time to appear in an integrated product. Capture is only as complete as the substrate it runs on.\n\n### A guardian report is a request with a lifecycle\n\nParent-submitted absences enter a review state (awaiting review → approved/rejected), are guarded against duplicates for the same student and period, and only become record marks on approval with an authorized code. The family is informed of the outcome either way.\n\n### The record is corrected deliberately\n\nMarks can be overwritten, bulk-edited, and annotated, but edits are permission-gated and visible: comments attach to marks, and overwriting a mark can displace its comment. The record is kept defensible because it feeds statutory and funding returns.\n\n### Attendance drives downstream operations\n\nThe AM register's marks can drive meal counts; the record feeds funding returns, census returns, and clock-hour compliance; the live record feeds emergency headcounts. Downstream consumers treat the attendance record as authoritative, which is why its correction rules are strict.\n\n### Granularity follows the school's schedule\n\nWhether the school registers AM/PM, per period, or once daily is configuration; block schedules, partial-day absences (time-bounded excusals that apply only to overlapping periods), and exam-session registers are all supported shapes of the same record.",
+        "rules_zh": "### 代码是受控的，而非自由的\n\n标记集由学校配置；某些代码仅限于具有特定权限的教职员工使用。准假/未准假维度和原因代码是这种治理的一部分，记录上的最终代码由授权教职员工分配——监护人的提交是提议，学校做出决定。\n\n### 花名册和课程表是基础\n\n点名簿从登记系统和课程表填充。在点名后加入登记系统的学生，除非重新点名，否则不会出现在该点名簿上；在学生信息系统中创建的班级需要时间才会出现在集成产品中。捕获的完整性取决于其运行的基础数据。\n\n### 监护人报告是一个具有生命周期的请求\n\n家长提交的缺勤进入审查状态（待审查 → 批准/拒绝），针对同一学生和时段的重复提交受保护，并且仅在批准并分配授权代码后才成为记录标记。无论结果如何，家庭都会被告知。\n\n### 记录是经过刻意更正的\n\n标记可以被覆盖、批量编辑和注释，但编辑受权限控制且可见：注释附加在标记上，覆盖标记可能会替换其注释。记录保持可辩护性，因为它为法定和经费报告提供数据。\n\n### 考勤驱动下游运营\n\n上午点名簿的标记可以驱动餐数统计；记录为经费报告、人口普查报告和学时合规性提供数据；实时记录为紧急点名提供数据。下游消费者将考勤记录视为权威来源，这就是其更正规则严格的原因。\n\n### 粒度遵循学校的时间表\n\n学校是进行上午/下午点名、按课时点名，还是每日一次点名，这属于配置；区块课程表、部分",
+        "parent_id": "23.01",
+        "domain_id": "23"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 181,
+    "phase": "directory",
+    "parent": 181,
+    "slugs": [
+      "student-attendance-system"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "459c7f131785a4f42740e34531a5e6c23bff822562928b485f7809669a5dc100"
+  }
+}

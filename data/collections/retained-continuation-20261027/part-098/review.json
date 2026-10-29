@@ -1,0 +1,73 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "hotel-booking-engine",
+      "application_id": "github:45409645",
+      "issue": "batch.json 的 leaf_match 与 research.json 的 note/fetch_outcomes 将 docs.qloapps.com/front_office/home_page/、guest_information/、booking_confirmation/ 当作可核对正文，声称可证明按日期/入住人数搜索、姓名/邮箱/电话填写、确认页付款与预订摘要；但实际快照中这三页只有站点导航、侧栏和 footer，没有 article 正文，相关细节无法核对。",
+      "fix": "重新抓取并阅读这三页的实际正文；若仍无正文，请删除这些具体断言，改以 room_listing、room_detail、checkout、payment_information、hrs/book_now、orders 的正文作为证据，并在 research.json 中明确记录 guest details/confirmation 正文缺口。"
+    }
+  ],
+  "non_blocking_notes": [
+    "hotel-channel-manager: SiteMinder 官方页只证明多渠 ARI 发布、房型/房价映射、实时 rates/availability/restrictions 同步和 PMS/CRS/RMS 集成，未展开预订/取消回传与逐渠道映射实现；research.json 已如实记录该缺口，按商业基本类型匹配保留。",
+    "hotel-booking-engine: QloApps 的 batch summary 提到“paid addons exist separately”，但已抓取快照只有官网 addons 链接，未直接说明付费；核心 OSL-3.0 与模块级 AFL/Webkul 许可边界有 README 支持，不影响核心判断。",
+    "hotel-booking-engine: license 字段写 OSL-3.0 仅指核心；README 明确 Webkul 模块各自许可、其他模块 AFL-3.0，后续引用时不要简写为整包单一 OSL-3.0。",
+    "hotel-crm-loyalty-platform: dailypoint 的 CRM/CDP 页提供 200+ systems、Central Profiles；实时 PMS/POS/CRS/CRO/IBE 同步主要由 loyalty 页的 Real-Time System Integration 支撑，两页合并后满足核心，但单页不足以独立证明全部属性。",
+    "hotel-front-desk-application: Kamra 仅审阅 README、仓库元数据和 AGPL-3.0 全文，未运行代码；README 是项目自述而非独立用户手册，后续可补官方用户指南或代码级核对。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与 research.json/batch.json 的 case_found 不一致；不影响本次内容判断，但下游状态需同步。",
+    "Agilysys、SiteMinder、dailypoint 均为商业官方营销页，未做合同、价格、部署或运行时验证；本次仅按商业基本真实性和类型匹配审查。"
+  ],
+  "leaf_checks": {
+    "hotel-booking-engine": {
+      "application_ids": [
+        "github:45409645"
+      ],
+      "track": "open_source",
+      "status": "changes_required",
+      "basis": "仓库元数据 id=45409645、full_name=Qloapps/QloApps、fork=false 与 batch 一致；license API 返回 OSL-3.0 全文，README 说明核心 OSL-3.0、Webkul 模块各自许可、其他模块 AFL-3.0。room_listing 正文可见可用状态（含“Only 5 Rooms Left”）、每晚房价、Select Occupancy 和 Book Now；room_detail 含 Booking Summary/Extra Services 章节及 Book Now；checkout 正文含 cart/price/room/date；payment_information 正文含 Full/Partial Payment 与“I confirm my order”；hrs/book_now 正文含 booking calendar、房态与后台建单；orders 正文含订单管理和付款/房间相关操作。",
+      "gap": "front_office/home_page、guest_information、booking_confirmation 快照只有导航/侧栏/footer，无 article 正文；research note 对日期/入住人数搜索、姓名/邮箱/电话、确认摘要的细节不可核对，需按 finding 修正证据链。"
+    },
+    "hotel-central-reservation-system-crs": {
+      "application_ids": [
+        "commercial:agilysys-central-reservations"
+      ],
+      "track": "commercial",
+      "status": "passed",
+      "basis": "Agilysys 官方产品页正文与页面结构化描述明确其为 centralized reservation system (CRS)：集中管理跨物业、房型、渠道的 availability、rates、restrictions，提供 real-time reservation engine；正文含 call center agents “book, modify, or cancel reservations”、single sign-on/common profiles、跨物业库存与房价视图，并与 PMS、channel managers、booking engines、RMS 集成。中央可售库存、中央预订记录生命周期和分销交换三项均有正文对应。",
+      "gap": "仅为商业产品页，未独立验证实际合同、部署或运行时；按商业基本真实性和类型匹配通过。"
+    },
+    "hotel-channel-manager": {
+      "application_ids": [
+        "commercial:siteminder-channel-manager"
+      ],
+      "track": "commercial",
+      "status": "passed",
+      "basis": "SiteMinder 官方 Channel Manager 页正文可见：单一平台连接 500+ booking channels、一次性映射房型和房价、在 SiteMinder 更新 rates/availability/restrictions 后实时流向各渠道、PMS/CRS/RMS 集成、real-time parity control 和防止超售。第三方多渠 ARI 分发和映射层有正文证据。",
+      "gap": "页面未展开预订/取消自动回传及逐渠道映射实现；research.json 已明确记录该缺口，商业基本类型匹配通过。"
+    },
+    "hotel-crm-loyalty-platform": {
+      "application_ids": [
+        "commercial:dailypoint"
+      ],
+      "track": "commercial",
+      "status": "passed",
+      "basis": "dailypoint 官方 CRM/CDP 页正文说明从 200+ systems（含 PMS、POS、IBE、WiFi）收集、合并客人数据为 Central Profiles；loyalty 页正文说明运营 B2C/B2B/HR 忠诚度计划，管理 points、tiers、status 与权益，提供会员注册、积分查看、奖励兑换、品牌化会员门户，并与 PMS/POS/CRS/CRO/IBE 实时同步，在入住、渠道和服务触点识别会员。统一客人档案与忠诚度计划记录两侧均有正文证据。",
+      "gap": "两页均为商业产品页，未做价格、合同或运行时验证；按商业基本真实性和类型匹配通过。"
+    },
+    "hotel-front-desk-application": {
+      "application_ids": [
+        "github:1289281455"
+      ],
+      "track": "open_source",
+      "status": "passed",
+      "basis": "仓库元数据 id=1289281455、full_name=Kamra-PMS/kamra-pms、fork=false 与 batch 一致；license 快照为 AGPL-3.0 全文。README 正文明确列出 Today board 的 arrivals/departures/in-house、分步 check-in（房号、押金、登记卡、钥匙）、check-out 账单、folio 拆分/转账/开票、夜审、Docker 与 Frappe Bench 自托管；并说明社区核心为 AGPL-3.0，企业版路线图、付费实施/支持和 Frappe Cloud 托管属于收费或托管边界。",
+      "gap": "未运行项目或核对代码实现；README 为项目自述而非独立用户手册。"
+    }
+  },
+  "limits": "本次为只读静态审查；未运行 shell、未写文件、未部署或调用产品。按 REVIEW_SOURCES.json 的原样路径读取了 21 个快照；部分快照为压缩 HTML，单行正文受工具 2000 字符显示上限影响，因此结合可见章节标题、正文段落和精确短语交叉核对。未重算 sha256，未访问外部 URL，未验证商业合同、价格、部署或运行时。QloApps 的 home_page、guest_information、booking_confirmation 三页正文缺失已作为 finding 记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-098/ses_groveopencodegop098review2_1793000428.jsonl",
+  "batch_sha256": "8bf0029f9e64fd1f0a4ed5ce41fe4bf990762127d28bde76a72b753c4c34e847",
+  "research_sha256": "f98d91b2e8a77c1e7bb29bacee4369f227bbeeaf4c37ad2f005b88cb65c2f249",
+  "input_sha256": "47f96a38fdddb5cb193222f90db08365e00180b4c07675283181700700991234"
+}

@@ -1,0 +1,72 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "jury-management-system：Tyler 官方 Jury Management 页面正文可以证明其面向法院书记官和法院管理者提供陪审流程管理，并提到陪审员历史和延期/交易请求处理；但该页没有展开随机抽选、资格/豁免裁决、陪审小组组建、出勤到付款等定义性细节。本条按商业基本真实性和类型匹配通过，正文不要据此补写这些未证细节。",
+    "law-enforcement-case-management：Case Closed 官方首页正文实际提到把人员、地点、车辆、证据、搜查令等链接到案件，并提到 link analysis/entity visualization；batch 理由中“未展开实体网络”的表述偏保守。主管审查仍未单独证实，保留为商业基本匹配。",
+    "prosecutor-case-management：eProsecutor 正文强支持执法转介审查、指控接受/修正/追加/驳回、指控历史与指控文件、案件参与冲突检查、eDiscovery 披露；页面中的“法庭排期”宜理解为法庭流程/开庭日程支持，不宜扩写为完整案卷或截止日期集成。",
+    "public-defender-case-management：LegalServer 正文支持公设辩护案件/文档管理、实时案件量、按案件类型的工作量基准、案件分配/外部律师协作、工作流和结果报告；法院案号同步、客户锚点和冲突筛查未在该页展开，商业条目仅按基本类型匹配保留。",
+    "public-sector-case-management：ArkCase 官方开源版页面与法务案件页支持案件/文档/记录 360° 视图、人员/组织、备注、任务与审批工作流、队列管理和检索报表；个案工作者分配/案件量视图未单独证实，保留为平台级公共部门案件管理匹配。LGPL-3.0 许可和社区版/企业版边界已在快照中核对。",
+    "research.json 中 Primero 等被排除候选只有检索/抓取记录，未提供对应快照；不影响本单元纳入的 ArkCase 结论，但该排除理由无法由本次快照独立复核。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，与本单元 batch/research 的 case_found 状态不同步；若下游依赖 progress 字段，应另行同步。"
+  ],
+  "leaf_checks": {
+    "jury-management-system": {
+      "application_ids": [
+        "commercial:tyler-enterprise-jury-manager"
+      ],
+      "status": "pass",
+      "definition_core": "Tyler 官方 Jury Management 页正文称 Enterprise Jury Manager 是面向陪审书记官和法院管理者的 web-based 陪审管理系统，覆盖陪审流程端到端，并提到陪审员历史与延期请求处理；可确认其属于陪审团管理类型。",
+      "service_form": "法院持续使用的 web-based 陪审管理软件；未验证部署或运行。",
+      "identity_track": "commercial:tyler-enterprise-jury-manager，commercial track，名称和官方 URL 与 batch 一致。",
+      "gaps": "未展开随机抽选、资格/豁免裁决、陪审小组组建、出勤/付款等细节；仅按商业基本真实性和类型匹配通过。"
+    },
+    "law-enforcement-case-management": {
+      "application_ids": [
+        "commercial:case-closed"
+      ],
+      "status": "pass",
+      "definition_core": "Case Closed 官方首页正文明确为执法与调查机构案件管理平台，覆盖从接报到庭审的案件生命周期、证据/情报、任务与角色共享、实体链接和 link analysis；与执法案件管理的调查案件记录和实体网络匹配。",
+      "service_form": "云或本地部署的持续型调查案件管理平台；首页 FAQ 说明 Azure 云托管和 on-premises 选项。",
+      "identity_track": "commercial:case-closed，commercial track，官方首页 URL 一致。",
+      "gaps": "主管审查/审批和完整状态机未在该页展开；商业基本匹配。"
+    },
+    "prosecutor-case-management": {
+      "application_ids": [
+        "commercial:eprosecutor"
+      ],
+      "status": "pass",
+      "definition_core": "eProsecutor 官方页明确为检察官专用 CMS，正文覆盖执法转介审查、指控接受/修正/追加/驳回、指控历史与指控文件、案件参与冲突检查、eDiscovery 披露以及法庭流程/日程；匹配检察官案件记录、指控决定和法庭过程跟踪。",
+      "service_form": "面向检察官办公室的持续型案件管理系统；页面另提 eProsecutor Online 为 fully hosted SaaS。",
+      "identity_track": "commercial:eprosecutor，commercial track，官方 URL 一致。",
+      "gaps": "具体案卷/截止日期集成和最终处置字段未验证；商业基本匹配。"
+    },
+    "public-defender-case-management": {
+      "application_ids": [
+        "commercial:legalserver"
+      ],
+      "status": "pass",
+      "definition_core": "LegalServer 官方 public-defender 页正文明确为公设辩护人的案件与文档管理软件，列出实时案件量、按案件类型的工作量基准、案件分配/外部律师协作、工作流、结果报告以及角色权限/审计；匹配辩护案件和案件量管理核心。",
+      "service_form": "web-based、AWS 托管的持续型案件管理服务，页面说明政府云选项。",
+      "identity_track": "commercial:legalserver，commercial track，官方 public-defender URL 一致。",
+      "gaps": "法院案号/案卷同步、客户锚点和冲突筛查未在该页展开；商业基本匹配。"
+    },
+    "public-sector-case-management": {
+      "application_ids": [
+        "github:146009627"
+      ],
+      "status": "pass",
+      "definition_core": "ArkCase 官方开源版页将其定位为面向政府等组织的案件管理平台；法务案件页正文列出案件/文档/记录 360° 视图、人员/组织、备注、任务与审批工作流、检索报表，首页另列队列管理和低代码工作流；足以确认公共部门案件管理平台类型。",
+      "service_form": "开源社区版可自托管，企业版支持本地/混合/云部署，属于持续型平台。",
+      "identity_track": "github:146009627，open_source track；仓库 ArkCase/ArkCase，GitHub repository id 146009627。",
+      "license": "GitHub license API 快照为 LGPL-3.0，LICENSE.txt 为 GNU Lesser General Public License v3 全文（size 7651，encoding base64）；官方开源页对比表明确社区版为 self-support/core functionality，企业版另含 full support、HA/clustering、scalability 等商业能力。",
+      "gaps": "个案工作者分配/案件量视图未单独证实；按平台级公共部门案件管理匹配保留，未补写该细节。"
+    }
+  },
+  "limits": "仅只读访问本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 10 个快照；未运行 shell、未部署或登录产品，未做运行时、价格、架构或安全验证。GitHub API 的 README/license 快照为 base64 编码，本次依据 encoding、size、许可证标题及仓库元数据核对，license 文件为 LGPL-3.0 全文（7651 bytes）；research.json 中 Primero 等被排除候选没有对应快照，无法独立复核；input.json 的 progress 字段早于本轮修复，未作为 case 状态依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-086/ses_groveopencodegop086review1_1792996134.jsonl",
+  "batch_sha256": "48b6d51a06a565f65131c2fa4b0d117d1b78025426074b96dd2049e67858a1db",
+  "research_sha256": "b2af6d4c68ec5a32d434d150f494a376758af245797be64101ad1d48e70d324a",
+  "input_sha256": "704b6e6d87a1ce83c56f3a4f5d1c16cb81f45d5686ecad9f4fc089f3cae1edd1"
+}

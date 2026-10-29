@@ -1,0 +1,48 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "care-plan-management / github:1084967884：根 README 第21行仍写“MIT license”，但仓库 LICENSE（GitHub API，size 35356）与仓库描述均为 AGPL-3.0；license_review 已记录并解释该冲突，license 字段按 LICENSE 原文取 AGPL-3.0，故不阻断。建议上游修正 README；另 LICENSE 头部含“or any later version”，更精确的 SPDX 可写 AGPL-3.0-or-later。",
+    "care-plan-management / github:1084967884：垂直 README 第1行仍写“Backend Complete | Frontend In Progress | Testing Needed”，第277-284行称前端“planned”，与根 README 第129行“Backend + Frontend Complete”及 CreateCarePlanPage 快照冲突；采集的 service_boundary 已披露该文档冲突。编辑/详情/GoalSection/InterventionSection 页面未单独留存快照，当前只能确认创建页及文档所称 17 components + 7 pages，不能把“完整前端”当作已逐页核验。",
+    "care-plan-management / github:1084967884：care-plan.ts 自述为“simplified from backend”，其中 Intervention 仅含 id/name/description/category/instructions/status/startDate/endDate/notes，未含 goalIds/frequency/performedBy；采集理由把这些字段归因于前端类型不够准确，实际由垂直 README 的示例/数据模型支持。建议在 leaf_matches.reason 中把该细节归到 README，而非 care-plan.ts。",
+    "care-plan-management / github:1084967884：Folk Care 整体是家庭护理机构平台（EVV、排班、账单、家庭门户），护理计划是其一垂直模块；本条关系已在 service_boundary 明确限定到 Care Plans & Tasks 子模块，不应扩展为“Folk Care 整体是专用 CPM”。这是范围说明，不是四要素核心缺失。",
+    "care-plan-management / github:1084967884：README 称可自托管或使用托管服务，但未给出托管版与开源自托管版的功能/版本边界；仓库整体 AGPL 且称 full code access，未见独立闭源版证据。社区版边界属于文档缺口，非已证实的 open-core 限制。",
+    "care-plan-management / github:1084967884：runtime_tested=false，未部署验证；UI、权限与审计行为来自 README、类型和创建页源码，未做运行时核验。",
+    "care-plan-management / github:1084967884：根 README 的 GitHub 链接写 neighborhood-lab/folkcare（无连字符），实际仓库为 neighborhood-lab/folk-care；属文档陈旧链接，不影响 ID 核对。",
+    "care-plan-management / github:1084967884：垂直 README 的数据模型与 API 示例是文档正文，未保留后端迁移/实际 schema；核心结构由 README + care-plan.ts + 创建页三方交叉支持，但数据库层未独立核验。"
+  ],
+  "leaf_checks": {
+    "care-plan-management": {
+      "application_ids": [
+        "github:1084967884"
+      ],
+      "verdict": "supported_with_disclosed_boundary_caveats",
+      "definitional_core": "识别的护理对象：CarePlan.clientId 与 organizationId 将计划锚定到个人（care-plan.ts 202-208；垂直 README 101-148）。结构化计划：assessmentSummary、medicalDiagnosis、functionalLimitations 加上 goals（targetValue/currentValue/progressPercentage/lastAssessedDate）与 interventions（README 示例含 goalIds、frequency、performedBy、instructions；care-plan.ts 117-142）。可归责作者：createCarePlan(..., userContext)、care-plans:* 与 tasks:* 权限、审计记录 user/timestamp/reason、ProgressNote 含 authorId/authorName/authorRole/reviewedBy/approved（README 542-557、571-580；care-plan.ts 182-200）。活记录：version、reviewDate/lastReviewedDate、expirationDate、modification_history、到期提醒及 DRAFT/PENDING_APPROVAL/ACTIVE/EXPIRED 等状态（care-plan.ts 12-19、202-243；README 25-34）。四项均具备，非仅简介或元数据。",
+      "service_form": "Folk Care 是自托管/托管的多租户家庭护理软件服务；folk.care 提供 hosted SaaS 与 14-day trial，organizationId 体现多租户；Care Plans & Tasks 具备后端 API 与 React 页面（CreateCarePlanPage.tsx 9-56），不是纯文档或静态目录。",
+      "identity_track": "仓库元数据 id=1084967884、full_name=neighborhood-lab/folk-care 与 application id github:1084967884 一致；public、archived=false、default_branch=develop；track=open_source 与公开仓库及 AGPL-3.0 LICENSE 匹配。",
+      "license": "GitHub license API 快照 size=35356，content 以 AGPL v3 全文头开始（Copyright 2025 Brian Edwards / Neighborhood Lab），license_review 记录完整文本；LICENSE 头部含“or any later version”。README 第21行仍写 MIT，属已披露冲突；license 字段按 LICENSE 取 AGPL-3.0，证据链成立。",
+      "community_edition_boundary": "仓库整体 AGPL，README 称 full code access，未描述独立闭源版或功能阉割；托管服务与自托管的功能边界未明确，deployment 已如实记录该缺口。",
+      "evidence": [
+        "data/collections/sources/0b6c64225deff20fa21a4977902a7c141a31877cd0635990c77d4c4e6f497d91.txt",
+        "data/collections/sources/170eaa7dcad0df13a158805363c6dd364812564e8581df9b8aff893192959871.txt",
+        "data/collections/sources/c1a0ce71461afd7d2dfa519d16974568a724529bbec2a79cbcd6f57bc7b2e8d8.txt",
+        "data/collections/sources/53cd23f4b0667ade2e519fc7b240d21904bb6bc1bdc21171f2c3720b46866568.txt",
+        "data/collections/sources/ef8d27a2ca41ec0408c51b0b6aebc40f391ab147b72d00e527b19b63070f1042.txt",
+        "data/collections/sources/31a468de903dcc301f7bbc1e7e74aad2668a48c83e5829013e2075dd5fa42146.txt"
+      ],
+      "gaps": [
+        "垂直 README 前端状态与根 README/创建页快照冲突，编辑/详情/Goal/Intervention 页面未单独留存快照。",
+        "无运行时部署验证，runtime_tested=false。",
+        "托管服务与开源自托管版的功能边界未明确。",
+        "后端迁移/实际数据库 schema 未保留，数据模型完整性主要依据 README 与前端类型。",
+        "历史候选 REAN careplan-service 因缺 needs→goals→interventions 骨架与终端 UI 未纳入，仅在 research.json 留档，符合边界处理。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未执行测试/部署、未联网复核、未重算快照哈希；已按 REVIEW_SOURCES.json 的 path 原样读取 6 个快照，sources 前缀按 data/collections 解析。读取工具对单行 JSON 的预览有截断，许可证未逐字解码全部 base64，完整性依据 GitHub API 的 size=35356、内容前缀及既有 license_review 判断。未保留垂直模块目录清单与后端迁移，编辑/详情/Goal/Intervention 页面仅有文档与采集记录支持。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-161/ses_groveopencodegop161review1_1793252401.jsonl",
+  "batch_sha256": "a745906f853f8a34c4cdd0a7b8ec5f9113545ff5f93f6e9013bb71d232fc58e1",
+  "research_sha256": "c14c67319af0f824bde19a026c457661e65c7f5b6e4fceeee06defe9469d7ec1",
+  "input_sha256": "d05a954e477160042919c2b8313e366cfa5e85a5867a3985fdbfc28ce4c41851"
+}

@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "leaf_matches 中“企业汇总与董事会级报告”的表述主要依据营销页（Risk Management 页“show the board what actually matters”、首页“Run a risk register your board will read”）与仪表盘/报表库正文；知识库正文只证明登记册级仪表盘与报表存在，未直接描述董事会级报告输出。建议表述时区分“登记册汇总视图”与“董事会报告”，或补一条明确提到董事会输出的资料。",
+    "知识库 01.04 正文提到可通过 v2 API 提交/读取评审（POST /api/v2/risks/{id}/reviews），而 Extras 页将 API 列为付费 Standard Extra。该段不应被用来推断免费 Core 具备 API 能力；当前 batch 未把 API 计入 features，处理正确，后续复用该快照时请注意此边界。",
+    "核心登记册是单一组织级登记册；按业务单元拆分与数据隔离（Organizational Hierarchy、Team-Based Separation）在 Extras 页为付费项，仪表盘按业务单元的小部件也需 Organizational Hierarchy Extra。batch 未把这些计入 Core，仅把整册仪表盘/报表计入，边界把握正确，但“跨业务单元汇总”的粒度在 Core 中体现为整册汇总与报表筛选，而非组织层级维度。",
+    "batch 的 LICENSE 证据位于仓库子目录 simplerisk/LICENSE，而非仓库根目录；license_review.rationale 写作“Repository LICENSE file”，建议精确到“应用目录下的 LICENSE”，不影响 MPL-2.0 完整性与 scope=repository 的结论。",
+    "input.json 的 progress.case_status 仍为 insufficient_evidence、application_ids 为空、phase 为 included_without_cases，而 research.json 已为 case_found 并新增正文补充。二者属不同轮次留档的正常差异，但同一单元内并存易误读，建议在进度字段同步为已补证或注明“以 research.json 为准”。",
+    "知识库快照为完整 HTML（含大量内联 CSS/导航），核心正文位于正文区（约 3910–3990 行），已按正文核对；仅用 meta description 不足以支撑结论，本次未依赖摘要。",
+    "GitHub 许可证 API 返回 404 已如实记录，并以仓库内完整 LICENSE 文本替代，属可接受的查询缺口留档；未据此推断其他许可证。",
+    "“Mitigate / Accept / Transfer / Avoid”是 Planning Strategy 的可配置种子值（KB 01-05 明示 common seeded values），batch 直接列为固定四类略强于原文，可加“等可配置策略”限定。"
+  ],
+  "leaf_checks": {
+    "enterprise-risk-management": {
+      "slug": "enterprise-risk-management",
+      "application_ids": [
+        "github:16085812"
+      ],
+      "identity_and_track": "id github:16085812 与仓库元数据 id=16085812、full_name=simplerisk/code、html_url=https://github.com/simplerisk/code 一致；track=open_source 与 MPL-2.0、self-hosted 开源 Core 相符；未把付费 SaaS/On-Premise 部署混入该条目。",
+      "definitional_core": "四项核心均有正文证据：(1) 组织级风险登记册与负责人——/grc/risk-management 正文“A central registry with custom fields, owners, and status tracking”“one living registry … scales from a startup to an enterprise”，开源版页“Submit risks, maintain a living registry”；(2) 统一评估量表——KB 01.03 正文说明六种评分法、Classic 为 Likelihood×Impact 5×5、默认方法与矩阵/阈值可在 Admin Configuration 配置、同时产出 inherent 与 residual；(3) 记录管理响应——KB 01.05 正文 Planning Strategy 种子值 Mitigate/Accept/Transfer/Avoid、Mitigation Percent 驱动残余风险、Plan 与 Accept 权限分离（Able to Plan/Accept Mitigations）；(4) 汇总与报告——KB 01.07 正文默认四个部件、Reports Hub、Risk Charts/Risk Trend/Dynamic Risk Report 等报表库，开源版页“Graphical dashboards and dynamic, custom reporting”。另有 KB 01.04 正文佐证提交后管理评审、按风险等级（Insignificant/Low/Medium/High/Very High）分级授权、Next Review Date 周期复核、评审历史与审计轨迹。",
+      "software_service_form": "SimpleRisk Core 为 PHP + MySQL 的持续运行 Web 应用（/deployment/open-source 与 /download 正文：scripted setup、VM appliance、Docker、manual install；unlimited users、self-hosted），属持续使用的软件服务形态，非库/SDK/一次性模板。SaaS 托管形态为另一商业部署方式，未计入本开源条目。",
+      "open_source_license": "仓库 simplerisk/LICENSE 为完整 MPL 2.0 文本：标题“Mozilla Public License, version 2.0”，含第 1–10 条及 Exhibit A、Exhibit B，无截断、非 HTML 页面；batch 的 license=MPL-2.0、license_evidence_url 与该快照 URL 对应，scope=repository 合理（仅覆盖发布的源码仓库）。",
+      "community_edition_boundary": "边界清楚：/deployment/open-source 对照表列明 Open Source（Core，免费、unlimited users、自管）与 On-Premise/SaaS 差别，并注明 Open Source 不可用 Paid Extras；/extras 正文列 Registration Required（免费解锁）、Standard Extras（$5,000/yr）、Premium Extras（$10,000/yr），含 API、Organizational Hierarchy、Team-Based Separation、Incident Management、AI 等；/grc/risk-management 明示“Everything above is free in Core. Add paid Extras when you need them.”。batch 的 features 未把付费 Extras 能力计入。",
+      "commercial_or_source_authenticity": "均为厂商官方域名（simplerisk.com、support.simplerisk.com）与 GitHub 官方 API/raw 快照，URL、SHA256、fetched_at 与 REVIEW_SOURCES.json 一一对应；13 个快照按给定 path 原样读取，无缺失。research.json 中 GitHub license API 404 已如实记录并以仓库内 LICENSE 替代。",
+      "gaps": "无阻断缺口。轻微局限：董事会级报告与跨业务单元层级汇总的直接正文略弱（营销页表述为主）；KB 01.04 的 v2 API 段落属付费 Extra 范围，不能作为免费 Core 能力证据。"
+    }
+  },
+  "limits": "仅做只读静态核对：未运行 shell、未写文件、未部署或运行 SimpleRisk（runtime_tested=false），未进行实时抓取或价格/架构补充研究；结论基于本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 13 个快照，其中 3 个为历史复用快照（首页、GitHub 仓库元数据、仓库内 LICENSE），10 个为本轮抓取；知识库快照为含大量内联 CSS 的完整 HTML，核心正文经正文区定位核对；GitHub 许可证 API 404 与未取得 OpenGRC 正文等检索/抓取缺口以 research.json 留档为准，未访问其他单元或采集脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-084/ses_groveopendesignp084review2_1793196358.jsonl",
+  "batch_sha256": "ea0209ef9d5ffada2699efef9c53ddd45f51ce94ac101c633fdfe0e1b61c2d92",
+  "research_sha256": "5a1b769143707a88eb5536ae1c21176a79bd5bb35b4c984ba0bc9f369586bf5d",
+  "input_sha256": "c2e67595f618a6e432999cf474afa082b4be531cd9e8e9cbfd2656eabd82e7d8"
+}

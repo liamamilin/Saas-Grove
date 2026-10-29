@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Moira's assignment model is reporter/presenter attribution on each story (reporterId/presenterId), not a separate task object, task list, or task due-time field. The batch and research correctly avoid claiming a task module, but the leaf's assignment-and-task branch is only minimally realized; schedule-derived clock/backtime is the only deadline mechanism.",
+    "There is no distinct unscheduled backlog or pitch area: addStory() inserts a new story directly into the running order before the end marker, so the leaf rule that scheduled and unscheduled are distinct states is not demonstrated.",
+    "Producer/Reporter/Presenter are staff labels, and rundown locking is a collaborative editor lock rather than enforced authorization; Firestore rules in instructions/firestore.md allow any authenticated session to read/write bulletins and rundown_stories. Producer-managed is a workflow description, not a permission check, and the product should not be described as role-based access control.",
+    "The trash/restore feature is session-local (state.ui.trash, labelled 'deleted ... this session'), not a persistent trash collection; the batch does not claim permanence, but downstream copy should not imply it.",
+    "Moira is a single-file browser app with optional Firebase/Firestore sync, not a multi-tenant SaaS; the case is explicitly scoped to the broadcast-bulletin realization. The leaf definition names no deployment form, so this is a scope caveat rather than a type mismatch.",
+    "The README snapshot is only 28 lines and ends mid-changelog; core workflow claims were verified against moira.html and instructions/firestore.md, not README or repository metadata alone.",
+    "research.json cites historical Superdesk fetch outcomes (llms.txt SHA, Broadcasting 404, docs repository tree) whose snapshots are not in this unit's REVIEW_SOURCES.json; they are not needed for the Moira match, but those negative claims cannot be independently re-verified from this unit.",
+    "batch.json's leaf_matches.source_urls omits the license API and raw LICENSE URLs even though the reason cites the MIT license; the entry-level sources and license_evidence_url include both, so there is no evidence gap.",
+    "The repository is wholly MIT with no separate commercial/community edition, so no open-core boundary exists; the complete LICENSE and GitHub license API both confirm MIT."
+  ],
+  "leaf_checks": {
+    "newsroom-management-system": {
+      "application_ids": [
+        "github:1178344846"
+      ],
+      "definition_core": "Verified against moira.html: persistent story records in Firestore (slug, format, reporterId, presenterId, duration, script, mediaFile), running order with drag/up-down reordering, per-story TX clock from txClockTime plus accumulated durations, backtime from scheduled end versus projected end, floated-story exclusion, TX On Air/Preview Next, presenter/autocue, roles, rundown lock, and trash/restore. This supports the work-item and timed ordered broadcast-rundown pillars.",
+      "assignment_task_scope": "People are bound to stories through reporterId/presenterId only; no separate task entity, task list, or task due-time field was found. The second pillar is minimal; urgency comes from the rundown clock/backtime. This limitation is disclosed in research.json and is treated as a scope note.",
+      "service_form": "Browser-delivered single-page app with optional Firebase/Firestore real-time sync and a hosted demo; continuously usable as a newsroom system, but self-hosted/single-tenant rather than multi-tenant SaaS.",
+      "id_track": "Repository metadata snapshot gives id 1178344846 and full_name digitaldickinson/moira, matching batch github:1178344846; public repository with MIT license, so track open_source is correct.",
+      "license": "Complete MIT LICENSE (Copyright (c) 2026 Andy Dickinson) and GitHub license API both confirm MIT; no missing license file. The entire repository is MIT, so no community-edition boundary or open-core split applies.",
+      "boundary": "Moira ends at rundown/playout (radio/OBS) and has no publication, correction, retraction, legal-archive, or front-page curation workflow, so it does not conflict with the leaf rule that the system ends at the public record.",
+      "source_basis": "Read all seven REVIEW_SOURCES snapshots: repository metadata, license API, raw LICENSE, README, CHANGELOG, instructions/firestore.md, and moira.html. Batch claims about story fields, reordering, clocks/backtime, roles, lock, float, trash, and playout are supported by the application source; README and firestore.md support product identity and multi-user sync.",
+      "result": "pass_with_scope_notes"
+    }
+  },
+  "limits": "Read-only review; no shell, no hash recomputation, no runtime or deployment test, and no access to other units. I read the seven snapshots listed in REVIEW_SOURCES.json and compared them with batch.json and research.json. Superdesk historical snapshots cited in research.json are not part of this unit's REVIEW_SOURCES, so those negative claims could not be independently re-read; the Moira case does not depend on them. The README snapshot is short and ends mid-changelog. The GitHub metadata snapshot is a single long JSON line whose display is truncated by the read tool, but repository id, full_name, and MIT license were confirmed through matching strings and the separate license API/raw LICENSE snapshots.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-243/ses_groveopencodegop243review1_1793264795.jsonl",
+  "batch_sha256": "f3f384848932dda293de4ff60b3bd6f9fd7e768c421a9ee9686f7b57ee384304",
+  "research_sha256": "8b726b4222acae7b9b08bd7cc16959466af2549d433ca4a26ede2a5a31988557",
+  "input_sha256": "f88e6489b63c9d6a65725045ec83a683ff5895adbb9580f820061ae0af912183"
+}

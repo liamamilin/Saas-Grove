@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "github:522877749",
+      "note": "aiku 是覆盖批发/零售/市场/3PL 的 ERP 级产品，本叶仅按其 warehouse & dispatch 子模块匹配。建议在 summary 或匹配说明中显式写出“模块级匹配、非整站 ERP 能力”，并说明 3PL 履约模块的存在本身不构成卖家端履约证据。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "github:522877749",
+      "note": "“渠道订单进入仓库队列”和“发货回传渠道”目前依据 README 的 products/orders/shipments 双向同步与首页“渠道订单进入同一仓库队列、库存一动各渠道皆知”的表述；research.unretrieved 已如实记录未取得逐渠道回传步骤正文，保留该缺口即可，无需扩写机制细节。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "github:522877749",
+      "note": "官方文档实际状态集合含 Waiting（拣货中待决）与 Cancelled，batch.features 只列到 dispatched；属部分枚举，不影响结论，若追求精确可补齐这两个状态。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "github:522877749",
+      "note": "开源边界可写得更明确：所核仓库为单一完整 AGPL-3.0 代码库（LICENSE 34,523 字节全文、README 与首页一致标注 AGPL-3.0），未见社区版/商业版分层；建议在服务形态说明中直接写明“无单独社区版，整仓 AGPL”。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "commercial:shipbob",
+      "note": "batch 记录的抓取 URL 为 https://www.shipbob.com/wms/，而快照内 canonical/og:url 为 https://www.shipbob.com/product/wms/（前者重定向到后者）。内容一致，建议补记规范化目标地址，避免后续核对歧义。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "commercial:shipbob",
+      "note": "ShipBob WMS 页确认“Have your own warehouse?”、cloud-based WMS、warehouse/inventory/order/transportation management、pick and pack、batch/auto-cluster/single-order picking、逐步打包流程、location-specific inventory、picked/packed/labeled 状态、order routing 与 carrier selection、渠道接入；未展示挂单（hold）与库位级分配/短缺策略，已在匹配说明中标注，商业条目按基本真实性与类型匹配判定可接受。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "commercial:veeqo",
+      "note": "Veeqo 快照为单行压缩 HTML，正文以定向文本比对核对：可确认 “Powerful inventory and warehouse features”“Digital picking … optimized pick lists and smart route mapping”“Founded by a seller. Powered by Amazon.”，且 “21+”“relevant channel”“sync”“carriers” 等关键串确实存在于快照中；但 “ready-to-ship” 未在快照中逐字命中，建议把匹配说明里的“ready-to-ship 订单分批”改为“批量/分批拣选可发货订单”一类可逐字回指的措辞。"
+    },
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "application_id": "commercial:veeqo",
+      "note": "Veeqo 官方营销功能页被标为 kind=documentation；不影响判定，但若库内对 source kind 有严格语义，可改标为 product/feature page。"
+    }
+  ],
+  "leaf_checks": {
+    "e-commerce-fulfillment-management": {
+      "status": "passed",
+      "applications_checked": [
+        "github:522877749",
+        "commercial:veeqo",
+        "commercial:shipbob"
+      ],
+      "definition_core": "三例均能对上四段定义性核心：渠道/订单进入有状态工作记录、对自有地点库存作业、拣选→打包→承运商发货、以及完成状态回到来源侧。aiku 由官方文档逐段给出 to do/queued/handling/waiting/picked/packing/packed/finalised/dispatched 状态队列、拣货批次与库位扣减/退回、打包与包裹记录、finalise+dispatch 时逐行记录发货时间、取消释放库存并回滚客户订单；README 给出 library 级库位与库存估值、拣货路径与 picking sessions、打包台/箱型/标签打印机、承运商 API（DPD/GLS/APC/CTT/Packeta/ITD）、Shopify/WooCommerce/Magento/TikTok Shop/Amazon/eBay/Allegro 双向同步，首页说明渠道订单进入同一仓库队列。Veeqo 由首页与拣货/发货功能页支撑集中管单、库存与仓库功能、优化拣货清单与路线、打包与承运商标签、订单状态自动更新到相应渠道。ShipBob 由独立 WMS 页支撑面向自有仓库商家的云端 WMS、仓库/库存/订单/运输管理、pick and pack、batch/auto-cluster/single-order 拣货、location-specific inventory、picked/packed/labeled 状态、order routing 与承运商选择、主流平台与市场接入。",
+      "saas_service_form": "aiku：开源自托管、卖家员工在自己仓库持续操作（README 自托管步骤与 PHP/Laravel/PostgreSQL 栈），属可持续使用的软件形态；Veeqo：云端 SaaS，卖家在自有仓库使用，Amazon 为其母公司背景仅作说明；ShipBob：主体为 3PL 服务商，但本条以独立 WMS 产品页为边界，明确“Have your own warehouse?”与 cloud-based WMS、unlimited users、多仓运营，属供自有仓库商家使用的软件，未把其履约中心代运营服务当成本叶案例。",
+      "id_track": "github:522877749 与 GitHub 仓库元数据 id=522877749、full_name=Inikoo-Ltd/aiku、fork=false、私有 false 一致，track=open_source 正确；commercial:veeqo、commercial:shipbob 为官网可核的商业产品，track=commercial 正确。",
+      "license": "aiku：LICENSE 接口返回 name=LICENSE、size=34523、content 为 Base64，解码首段即 “GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007”；仓库元数据含 spdx_id=AGPL-3.0；README 与首页均标注 AGPL-3.0 并附 LICENSE 链接，许可证为完整 AGPL-3.0 全文而非摘要或 SPDX 单行。Veeqo/ShipBob 为商业闭源，不适用开源许可证核对。",
+      "community_edition_boundary": "aiku 所核证据只呈现单一完整 AGPL-3.0 代码库，README/首页未出现社区版与商业版分层、功能阉割或另行收费的表述；3PL 履约与多实体为其同仓功能模块，不构成“仅商业版可用”的证据。建议如后续发现托管/企业版，再单独界定边界。",
+      "commercial_basic_check": "Veeqo 与 ShipBob 均通过基本真实性：官网域名、产品名与功能页正文一致，产品类型（多渠道卖家的仓库/发货与履约软件）与本叶匹配；未要求价格、架构或部署验证。",
+      "recorded_gaps": "aiku 未取得“渠道订单如何进入仓库队列并逐渠道回传发货”的单独步骤正文（sales channels 仅索引页），已在该叶 research.unretrieved 与 batch.leaf_matches.reason 中如实记录；ShipBob WMS 页未展示挂单与库位级分配/短缺策略，亦已记录；Veeqo 仅核对官方功能页表述，未取得操作文档级流程。以上缺口均有留档，未用摘要、导航、HTTP 成功或关键词替代核心正文。",
+      "archived": false
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 9 份快照，未运行应用、未部署、未联网补采、未读取其他单元或采集者过程脚本。快照按 REVIEW_SOURCES.json 的 path 原样读取（sources 相对 data/collections）。Veeqo 三份页面为单行压缩 HTML，读取工具按 2000 字符截断，故其细节以定向文本比对核验，未做全文逐段通读；aiku 的 GitHub license 接口快照为 Base64 单行大字段，仅解码到许可证标题与开头段落并结合 size=34523 判定为完整 AGPL-3.0 全文。未纳入核对 research.json 中引用但未列入 REVIEW_SOURCES.json 的快照（ShipBob 历史首页 136be9…、aiku 两个 docs 索引页 ab24b6…/1b60ba…），亦未据其结论作出判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-058/ses_groveopendesignp058review1_1793172827.jsonl",
+  "batch_sha256": "5554a5139aa90262fa50376eda1aff60c348bc318172cb11403d69aaea66b939",
+  "research_sha256": "0bbcb775997b975e347ca2ab86d4c2180cf4b0ca09fab0f86f1eb18fe1ebd9a1",
+  "input_sha256": "eb810b45783b35cd3103e320a8e32efbab2e92a2dd03018d05b56aad3cc99850"
+}

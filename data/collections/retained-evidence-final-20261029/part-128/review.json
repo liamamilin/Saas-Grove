@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Contrast Assess 快照未直接写出 SaaS/本地部署字样；其商业 IAST 类型、agent 插桩和持续运行时检测正文足以满足商业基本真实性/类型匹配。若下游要求明确部署形态，可补官方部署页。",
+    "input.json 的 progress 仍为 boundary_unresolved 且 application_ids 为空，research.json 已是 case_found 并列出 commercial:invicti 与 commercial:contrast-assess；这是状态元数据未同步，不影响本次按 batch/research 的证据核对，但建议下游同步。",
+    "ZAP 的五份历史快照由 REUSED_SOURCES.json 记录而非 REVIEW_SOURCES.json；按原路径读取后，README/Getting Started 支持其为桌面、守护进程和 Docker 扫描器，故 withheld 处理与旧 issue 一致。",
+    "research.json 对 ArcherySec、Arachni、OWTF、Faraday、w3af 的许可证/归档/产品定位只有筛查记录，未单独保留正文快照；因其未作为收录案例，按留档缺口记录，不阻断本叶。",
+    "Invicti 页面的 99.98% 准确率与市场排名属于营销表述，未作为核心工作流证据；核心依据是 proof-based scanning 的利用验证、API/已认证扫描和调度说明。"
+  ],
+  "leaf_checks": {
+    "dast-iast": {
+      "status": "pass",
+      "assessment": "case_found（research.json）与 batch.json 两条商业记录一致；按 DAST/IAST 定义性核心、商业基本真实性和类型匹配核对通过。",
+      "definitional_core": "Invicti 正文：对运行中的 Web 应用/API 进行主动扫描，以 proof-based scanning 安全利用并展示证据（含 XSS 的浏览器内确认 PoC），支持已认证流程和按发布节奏调度；Contrast Assess 正文：以 agent 对运行中的应用插桩，持续观测代码执行、数据流和配置，实时定位可利用漏洞代码并给出修复指导。两者分别对应外部 DAST 与内部 IAST，均满足“运行目标 + 练习/观测 + 运行时证据”的核心。",
+      "service_form": "Invicti 明示 SaaS、on-prem、hybrid 三种部署；Contrast 页面提供 app.contrastsecurity.com 的客户登录和试用入口，并以商业化平台形式呈现持续运行时检测。Contrast 未显式写 SaaS，但作为商业 IAST 产品的基本类型匹配成立，batch 也未作 SaaS 承诺。",
+      "id_track": "commercial:invicti（track=commercial，homepage=https://www.invicti.com）；commercial:contrast-assess（track=commercial，homepage=https://www.contrastsecurity.com）；两条 leaf_matches.slug 均为 dast-iast，与 REVIEW_SOURCES.json 的 applications 对应。",
+      "sources_checked": [
+        "data/collections/sources/735fc9e781c9d5b06b6ee23fe96ba202c5bb4dd3b350f6e116a116f46e2d46bd.txt（https://www.invicti.com/product/dast）",
+        "data/collections/sources/6268b7b6439b844abc190b6cff5b8fd354b5479f04a1fb103fc370421598a505.txt（https://www.contrastsecurity.com/contrast-assess）"
+      ],
+      "open_source_boundary": "本叶没有收录开源应用，故无收录项需要核完整许可证/社区版边界。research 将 ZAP 作为 withheld：REUSED_SOURCES 的 Apache-2.0 许可证快照、仓库元数据和 README/Getting Started 显示其为桌面/守护进程/Docker 扫描器，未证明完整持续服务；ArcherySec、Arachni、OWTF、Faraday、w3af 仅为筛查记录，未作为成立案例。旧 ZAP 形态问题通过不收录 ZAP、改以两条商业记录成立而消解。",
+      "gaps": "Contrast 缺显式 SaaS/部署说明；开源筛查候选的许可证/归档结论未保留正文快照；input.json 的 progress 与 research.json/batch.json 状态不同步。上述均为留档/元数据缺口，不改变两条商业记录的核心与类型匹配结论。"
+    }
+  },
+  "limits": "只读初审：未运行任何产品、未做部署或运行时测试；未访问实时网络，仅使用本单元保留快照与记录；因不能运行 shell，未重算文件 sha256，仅按 REVIEW_SOURCES/REUSED_SOURCES 的 path、文件名和记录对应核对；未读取其他单元，未核价或补充架构研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-128/ses_groveopencodegop128review1_1793247393.jsonl",
+  "batch_sha256": "32dea8b9c7efa8763be010daae9012d351c36c6a4f9a806f0002fdf49b65a3b0",
+  "research_sha256": "18a252b80365d2391c5f3353e206e36af861889d20ea620374314289d70bf164",
+  "input_sha256": "a786e859b9409fb0a10bfb37be3b7ab90e4bf4da1b23a82518c0dd8bf192e835"
+}

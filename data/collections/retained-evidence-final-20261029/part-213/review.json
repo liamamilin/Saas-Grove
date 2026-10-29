@@ -1,0 +1,43 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "certification-management",
+      "application_id": "commercial:certemy",
+      "note": "batch.json 的 leaf_matches.reason 写“覆盖认证项目申请审核、记录授证和持续维护”，其中“记录授证”略强于快照正文：正文只以 Approval Workflows、Document Generation（自动生成已填写的执照/认证申请 PDF）描述审批与文书，未明确写出考试/审核结果及授证决定的记录。建议把措辞收窄为“申请审批与续期维护”，或另补认证委员会专属页面/用户指南作为佐证。"
+    },
+    {
+      "slug": "certification-management",
+      "application_id": "commercial:certemy",
+      "note": "同一快照的详细模块区带有明显雇主侧合规/执照跟踪口径（Track Compliance ... across your organization；页脚 'permits enterprises to track, verify, and manage credentials across staff, equipment and facilities'），与组织合规、执照跟踪类目相邻。因 hero 与首段明确 'For professional certification boards & associations' 且主打 certification applications and renewals，按商业基本记录可接受；下游归类时宜以认证机构运营个人凭证项目的语境为准，避免被页脚措辞带偏。"
+    },
+    {
+      "note": "input.json 的 progress 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids=[]，而 research.json 为 case_found（case_ids=[commercial:certemy]），batch.json 也已收录该条目。建议同步该进度块，避免下游按“本单元无案例”建立索引。"
+    },
+    {
+      "note": "research.json 以 edubadges-server、certo 的 README 说明开源候选排除理由，但这两个 URL 只有 fetch_outcomes 记录、未保留正文快照；二者未被收录为条目，不影响本单元结论，后续若复用该排除判断宜补快照。"
+    },
+    {
+      "note": "快照中的 'Certification and Training Management Software' 标题、Customer 证言与 SOC 2 徽章属营销/训练管理邻近措辞，不与个人认证项目管理核心冲突，作非阻断表述。"
+    }
+  ],
+  "leaf_checks": {
+    "certification-management": {
+      "slug": "certification-management",
+      "status": "definition_core_matched_as_commercial_basic_record",
+      "definition_core": "唯一来源为 Certemy 官方 Professional Certification Management 页面：H1 与首段面向 professional certification boards & associations，明确 'Process certification applications and renewals faster and easier'；正文以 'Certification and Training Management Software' 列出 Approval Workflows（Data Entry / Document Uploads / Experience Logs / References / 3rd Party Links）、'Configurable steps and requirements'、Expiration Reminders、Document Generation、Career Advancement。据此可核对到定义核心中的认证项目容器、资格材料（经历记录、推荐人、上传件）、提交后审批路径，以及授予后到期/续期的持续状态维护。缺口：评估结果（考试/审核结果）与授证决定作为受控事件的记录未在正文直接出现，仅由审批工作流与申请文书生成间接支持；继续教育要求与失效/恢复状态未展开。该缺口属商业条目“基本真实性与类型匹配”容忍范围内，但不宜在条目理由中表述为已核实“记录授证”。",
+      "saas_form": "确认为持续使用的软件服务形态：站点提供 app.certemy.com/entry/login 登录入口、Pricing、Sales/Support 与 HRIS、SSO 集成说明，正文以 SaaS 平台（可配置、可品牌化、'Your Compliance Platform'）描述交付；非一次性下载、非纯咨询或静态资料。",
+      "identity_track": "id=commercial:certemy、name=Certemy、track=commercial，homepage 与来源 URL 均为 certemy.com，与 REVIEW_SOURCES.json 的 applications=[commercial:certemy] 一致；同单元无重复 ID、无 track 误标（非开源项目被记为 commercial）。",
+      "open_source": "本单元无开源条目，故无完整许可证、仓库身份、社区版边界需核对。research.json 如实记录多组 GitHub 检索（certification management / credentialing / open badges / certification program management / topic:certification-management / certification lifecycle）及候选排除（TLS/PKI 证书工具、KYC/身份凭证、Open Badges 签发平台、培训考试项目），并说明未取得覆盖“资格门槛申请→评估→授证→续期”闭环且许可证完整的 Web 应用；该检索/缺口留档符合“无案例但如实记录”的要求，且未以 README 简介或检索命中替代核心正文。",
+      "source_check": "按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources/60e08d5327a1c65270822ee1cf06860f5943963668f0ab0ab205f19eb8792557.txt（未在项目根目录下找 sources/），文件为完整 HTML（1206 行），含实质正文与模块文案，非简介、元数据或 Loading 占位；其 sha256 文件名与 batch.json sources[0].sha256、REVIEW_SOURCES.json 记录一致，fetched_at 2026-10-29 与审查日期相符，URL 与 kind=documentation 记录吻合。",
+      "gaps": "仅单一官方营销页支撑；缺评估/考试结果与授证决定的直接正文、缺续期与继续教育规则细节、未做运行时验证（runtime_tested=false，本次亦未登录产品）；无开源条目可核许可证与社区版边界。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 指定的唯一快照 data/collections/sources/60e08d5327a1c65270822ee1cf06860f5943963668f0ab0ab205f19eb8792557.txt；未运行 shell、未写文件、未访问其他单元、采集者 TASK.md 或历史脚本；未部署或登录 Certemy 验证工作流，未重新计算 sha256（仅做记录一致性比对）；未抓取快照之外的页面（含 certifying-boards 专属页、用户指南、pricing），未复核 research.json 中两个 GitHub README 的原文（无留存快照）；商业条目按单页官方资料做基本真实性与类型匹配核对，未评估价格、架构或市场份额。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-213/ses_groveopencodegop213review1_1793260133.jsonl",
+  "batch_sha256": "eb66b5e34423ee46f196a1e9f7f801dbea2738c692cd8ade8e055cd5adcd8943",
+  "research_sha256": "07eda9938a701ae4dcc30d9505002205d4c38bfdec5f86668cb2aab33075e416",
+  "input_sha256": "cb0c38ed569dd2e09d5d95cd50e94d6e702197c04783c71543cc598ef0e6d383"
+}

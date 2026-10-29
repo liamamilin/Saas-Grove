@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "infection-prevention-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:inovalon-vigilanz-infection-prevention",
+        "commercial:premier-theradoc-clinical-surveillance"
+      ],
+      "query": "infection prevention surveillance software NHSN EHR official product page；open source hospital infection prevention surveillance web application github（本轮补证，并复核旧 Prevexium、Sentri7 候选）",
+      "source_urls": [
+        "https://www.prevexium.com/",
+        "https://www.wolterskluwer.com/en/solutions/sentri7-clinical-surveillance/infection-prevention",
+        "https://www.inovalon.com/products/provider-cloud/care-management/infection-prevention/",
+        "https://premierinc.com/providers/care-transformation/clinical-surveillance",
+        "https://github.com/christianpeut95/Sentinel",
+        "https://github.com/folkehelseinstituttet/NoHAI",
+        "https://github.com/CDCgov/nhsnlink"
+      ],
+      "note": "本轮先复用并复核历史证据。旧候选 Prevexium 的官方页快照仍只展示 Prevexia AI 临床问答、Salvium 州级 HAI 仪表板/NHSN 表单映射、Inspectus 轮次记录，并明确 no PHI required；没有展示设施 EHR/实验室数据持续入流、IP 逐事件审核、设施感染登记簿或逐事件 NHSN 提交。按定义中的临床决策支持与设施记录系统边界，该候选不成立，已删除旧批次中的 Prevexium 条目（旧草稿保留在 HISTORY，不视为本轮通过）。本轮补证取得两条商业产品的官方产品页正文：Inovalon VigiLanz Infection Prevention 明确 24/7 监测实验室、生命体征、用药和记录等数据，以规则近实时生成警报、优先级工作列表，支持 HAI/MDRO、集群/疫情、隔离提示、NHSN 自动报告和机构级分析；Premier Clinical Surveillance (TheraDoc) 明确实时 EHR 接口、自动感染追踪、标准化工作流、可定制警报/仪表板及自动化 NHSN 报告，面向医院和长期护理机构。故本轮成立上述两条商业关系。Sentri7 官方页本轮再次返回 HTTP 403，采集脚本与直接请求均未取得正文，仅保留候选与失败记录，未据搜索摘要写条目。开源替代核查：Sentinel（GPL-3.0-or-later）是面向公共卫生团队的病例/接触者/疫情与报告平台；NoHAI（MIT）仓库仅为 R 分析脚本，不是完整应用服务；CDC Link/nhsnlink（Apache-2.0）是公共卫生报告与临床数据处理基础设施。三者均未展示设施 IPC 工作列表、IP 审核与设施登记簿闭环，故仅作边界候选留档，不纳入。未找到可核验的完整开源设施 IPC 平台，不等于该类别不存在产品。",
+      "service_boundary": "定义要求平台作为设施 IPC 计划的记录系统：持续比对患者临床数据、由 IP 审核疑似感染事件、维护设施感染登记簿并支持监管报告。Inovalon VigiLanz 与 Premier/TheraDoc 的官方正文覆盖持续临床数据监测、规则警报/工作列表、NHSN 报告及机构级分析，符合设施 IPC 工作系统；Prevexium 属临床指导/轮次与州级参考工具且不收患者信息，排除；Sentinel 面向公共卫生病例管理，NoHAI 是脚本，nhsnlink 是报告基础设施，均不满足完整设施 IPC 记录闭环。",
+      "search_attempts": [
+        {
+          "query": "复核旧候选 Prevexium 官方页（复用历史快照）",
+          "candidate": "Prevexium (https://www.prevexium.com/)",
+          "outcome": "excluded_boundary_clinical_decision_support_no_phi"
+        },
+        {
+          "query": "open source infection prevention surveillance platform hospital HAI github",
+          "candidate": "Sentinel; NoHAI; CDC nhsnlink",
+          "outcome": "no_complete_open_source_facility_ipc_platform_boundary_or_scripts_or_reporting_infrastructure"
+        },
+        {
+          "query": "infection prevention surveillance software NHSN EHR official product page",
+          "candidate": "Inovalon VigiLanz; Premier Clinical Surveillance (TheraDoc); Wolters Kluwer Sentri7",
+          "outcome": "inovalon_and_premier_official_pages_fetched; sentri7_forbidden_http_403"
+        },
+        {
+          "query": "open source hospital infection prevention control surveillance web application github self-hosted",
+          "candidate": "generic hospital/EHR projects; no facility IPC platform",
+          "outcome": "no_additional_matching_open_source_candidate"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.prevexium.com/",
+          "status": "reused_historical_snapshot_read",
+          "sha256": "f1c4ca441be483d0c31e86301ec406a3b5d835516ef3a0df0f6aeb7c77a04155"
+        },
+        {
+          "url": "https://www.wolterskluwer.com/en/solutions/sentri7-clinical-surveillance/infection-prevention",
+          "status": "forbidden_http_403_collector_and_direct_request"
+        },
+        {
+          "url": "https://www.inovalon.com/products/provider-cloud/care-management/infection-prevention/",
+          "status": "fetched_with_browser_user_agent",
+          "sha256": "d5b9e3682e88f5010d8e5035d5db47794c92d9bbfc0f9a92eff484be673d4287"
+        },
+        {
+          "url": "https://premierinc.com/providers/care-transformation/clinical-surveillance",
+          "status": "fetched",
+          "sha256": "643744aad038c35b8933aaee71dda99037ce1070ee50d7a1c9a434939a2b01c5"
+        },
+        {
+          "url": "https://github.com/christianpeut95/Sentinel",
+          "status": "fetched",
+          "sha256": "d8aa2bbba9bd4fec887a010a42a52df6f4cfd9134a22f6f549f9aeee0ad324c2"
+        },
+        {
+          "url": "https://github.com/folkehelseinstituttet/NoHAI",
+          "status": "fetched",
+          "sha256": "c4dd291717380ea5605099615f2c913d73bfe88fe925e080116e4cfe0dc0542f"
+        },
+        {
+          "url": "https://github.com/CDCgov/nhsnlink",
+          "status": "fetched",
+          "sha256": "0f6c447281c4156387d896f94112eb623b790d3d860f82fe42e0acbceda7af66"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

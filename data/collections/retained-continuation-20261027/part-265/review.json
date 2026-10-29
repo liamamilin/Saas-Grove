@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Sawyer 的 leaf_match 理由提到“学期”，但快照正文主要出现 long term enrichment、schedules、booking 等表述，未检出 semester 一词；“学期”属于非关键措辞，建议改为“定期课程/长期项目”，避免比来源更具体。",
+    "Campminder 的“分组/床位”依据主要是 features 页的 Group Requests、Drag-and-Drop Group Creator，以及客户引述中的 cabin assignments，并非专门的床位/分组文档；这不影响商业基本类型匹配。",
+    "Sawyer 同时运营面向家长的 Marketplace；本次引用的是 for-business 运营端页面，服务边界宜写成“运营端为主、含可选市场”，不宜绝对化为“不是消费者活动发现市场”。",
+    "research.json 记录了 Campminder 候选 seanwittmeyer/camper 的仓库、许可证和 README 抓取结果，但 REVIEW_SOURCES.json 未包含对应快照；该候选未作为最终案例来源，若后续复用应补档。",
+    "ASM3 的引用资料未明确描述独立的社区版/商业版边界；README 与 GPL 全文表明仓库可完整自托管，未发现功能门控，但本次未核对官网商业托管或商业版本页面。",
+    "Brightwheel 与 Procare 均同时符合 childcare-management-system 与 daycare-preschool-management 的相近定义，当前分别挂到两个叶可以接受，但两叶类型边界较窄，后续扩样时需避免重复计数或按同一产品重复挂叶。",
+    "input.json 的 progress 仍标记为 not_searched、application_ids 为空，phase 为 included_without_cases，与 batch/research 已收录 5 个案例不一致；本次以 batch.json 和 research.json 为内容审查依据，建议调用方不要用旧 progress 判断本单元当前状态。"
+  ],
+  "leaf_checks": {
+    "after-school-program-management": {
+      "result": "pass",
+      "application_id": "commercial:sawyer",
+      "basis": "读取 data/collections/sources/37cc6b91ccd98b4218d1c8f1940d592af893b9e90b2bb62098b5885068038e9c.txt 与 acd12e61368beaa1e88a2186f5ce14d01948210590c6df146e925b7bcaf39d22.txt。官方 after-school 页正文可见 kids after-school programs registration/management、schedules/bookings、allergies、pickup、roster、attendance、waitlist 等；automated-rosters 页正文有 Rosters & Attendance、automated rosters、dynamic waitlists、customizable registration forms，覆盖运营方项目/课程报名、儿童报名与按活动名册的核心结构。track=commercial，application_id 与 batch 一致。",
+      "gaps": "引用页面是官方营销正文而非操作文档或产品手册；未做运行时验证；未核对价格、部署或 API。"
+    },
+    "camp-management-system": {
+      "result": "pass",
+      "application_id": "commercial:campminder",
+      "basis": "读取 aed4960fbe359e948e5dda80afa64a0991fcd399e8e9e034e8d17e701286b513.txt、2bfb6b226ae6c524a655327509a416970453011687df27eb94eb2df417cdce3a.txt、88e117d01a370d9727fa67d327bf2ce0fc35b1229d6adebf5ca2ed26bf8c60bd.txt。FAQ 正文明确 families create accounts、add payment information、submit registration and health forms、enroll in sessions；registrar 正文有 Registration and Forms、enrollment、transportation 与 attendance；features 正文有 Health Center、Transportation and Attendance、Daily Attendance Reports、Group Requests、Drag-and-Drop Group Creator，并有 cabin assignment 引述。覆盖营期/会话、监护人账户下的营员注册与期次名册核心结构。track=commercial，application_id 与 batch 一致。",
+      "gaps": "床位/分组只有间接证据；引用页面为营销正文，未做运行时验证；未核对价格或部署。"
+    },
+    "childcare-management-system": {
+      "result": "pass",
+      "application_id": "commercial:brightwheel",
+      "basis": "读取 186fb50f7b79bb8dbfed8dfc7096ca776427d1e545eeda27e542559e1c28f89f.txt、8ee15ca5df558f1727f455390537eb93fb9a29b8d4605bc48bc8b2deac83777a.txt、0b8be6a4537861742f831801ef6ab066300a6e29bae62f5313d23345e2c84b02.txt、4be3e57c55b773d506b78c5bb3ae08dfed1d5541a45f4aadef561fba76689346.txt。Homepage 正文称 #1 childcare management software，并含 enrollment、billing、communication、attendance、digital check-in、health checks、room ratio；daily report 页正文含 food、nap、potty、meds、health check、photos、child tagging、family feed；attendance 页正文含 check-in/check-out、attendance reports、ratios、attendance-based billing；enrollment 页正文含 online application、student profiles、waitlist。覆盖持续入托、监护事件与照护日记录。track=commercial，application_id 与 batch 一致。",
+      "gaps": "引用页面为产品营销页与功能页，不是完整操作文档；未做运行时验证；未核对价格或架构。"
+    },
+    "daycare-preschool-management": {
+      "result": "pass",
+      "application_id": "commercial:procare-solutions",
+      "basis": "读取 2d46d31073758e4c25f43ba6c1ee6e715d44c787ac1ea5808b963e18d3225cfb.txt 与 f9b5ddb5cc9f75f144b6fd304e09fa3d909b8d57db386c6e08e5563975231db3.txt。Capabilities 正文含 Family Registration、Attendance Tracking、authorized pick-ups、staff-to-child ratios、billing/subsidy、meals 与 enrollment；centers 页正文含 check-in/check-out、meals 与 movement among classrooms、immunizations、authorized pickups、allergies。覆盖日托/幼儿园持续入托、监护事件与照护日记录。track=commercial，application_id 与 batch 一致。",
+      "gaps": "引用页面以 child care/daycare 为主，未单独出现 preschool 专页；引用为营销正文而非操作文档；未做运行时验证。"
+    },
+    "animal-shelter-management": {
+      "result": "pass",
+      "application_id": "github:73817618",
+      "basis": "读取 36cdbcdb3758a50cca15ebb49906b289ac5947b458857d35aceaa63213da07f1.txt、07f600915d4101c6758317e686e546a45188249ce74d7de550d9f4ae47b69c55.txt、49834e16825c53a117ef81d9e730d474ec1e64331972b2805c71cd12b0df0a85.txt、f16ddca93f1f053904ef46139cf697353f09ee93fc4f0fb66e20b41f7e820338.txt、f0c33b5a39d67ae4b44a394cbf253ec59c2f503ea448ad3a0028381936d7a937.txt。仓库元数据确认 id=73817618、full_name=sheltermanager/asm3、archived=false、default_branch=master、spdx_id=GPL-3.0；license 快照为 35147 字节的完整 GPL-3.0 文本；README 声明 GPL v3 并提供自托管部署；animals 文档含独立动物记录、shelter view/地点/unit、entry、death、vaccination、test、medical、daily observations 与 movements；movements 文档含离开/返回事务、同一时间仅一个未归还 movement、foster/adoption/transfer/retailer/trial/return 及人员记录。覆盖动物记录、入所-在护-结果生命周期、护理事件与相关人员核心结构。track=open_source，repository ID 与 batch 一致。",
+      "gaps": "引用资料未明确给出独立社区版/商业版边界；未运行部署或数据库验证；文档版本 52u 与 README master 不是同一发布号。"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、测试、部署或数据库操作，未重新抓取线上页面，也未重新计算 sha256；部分 HTML 快照正文为超长单行，读取工具按行截断，因此对这些页面通过快照内精确词句检索确认关键内容存在，未逐段通读全部营销文案；未核对价格、托管架构、API、商业版授权或社区版发行说明；research.json 中部分候选开源项目的抓取只有结果记录、没有 REVIEW_SOURCES.json 快照，未作为最终案例依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-265/ses_groveopencodegop265review1_1793040583.jsonl",
+  "batch_sha256": "d230880339fb86d65c799212923ed85dcfc143ea49695f812a5af29e4e9309d4",
+  "research_sha256": "7aa1f8dc597033dd1b3227078e35024df99521c0d0d7188c7aa4062f90a86907",
+  "input_sha256": "d4be8482e04efc37def606fbbf9844283513256882d668d5d1386ac3b64e8d85"
+}

@@ -1,0 +1,66 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "returns-exchange-portal",
+      "application_id": "commercial:loop-returns",
+      "issue": "batch.json 的 leaf_matches.reason 和 research.json 的 note 都把 “Loop Returns is a self-service returns portal that automates your entire ecommerce returns process, from policy enforcement to resolution” 归到 /faq/ 快照（data/collections/sources/6d6482db6528632fac99df8050ab890b708ddd9ae27fb9ca4da577de70f10f69.txt），但该快照正文未检出这句话，也未检出 “self-service returns portal” 或 “policy enforcement”。同一句实际出现在 /returns/ 快照（data/collections/sources/54209f066f7985642704d5b41ad00a98c899f9a777791b310f69d9609dddc791.txt）中。该引用把内容来源归错了页面，不能作为 /faq/ 的正文证据。",
+      "fix": "把该句的证据来源改为 /returns/ 快照，并从 batch/research 中删除或改写对 /faq/ 的这句引用；如保留 /faq/，只描述其实际可核内容，或重新抓取并做正文抽取，确认该句确实存在后再引用。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍把五个叶子标为 case_status=not_searched、application_ids=[]、research_records=[]，且 phase 为 included_without_cases，与 batch/research 的 case_found 不一致；建议同步元数据，避免下游按无案例处理。",
+    "research.json 的 ShipBob note 称正文未见“同步商品”表述，但 ShipBob 首页快照第 460 行附近有 “Connect your store and sync your products in a couple clicks.”；最终 reason 已不使用该词，故不影响匹配，但 note 的事实描述应更正。",
+    "Fulfil 的 summary/reason 使用“打包”，首页正文只明示 “Full WMS”“Barcode scanning. Batch picking. Wave releases.”“Ship faster”；打包、面单/追踪号和发货回传渠道属于推断或未展示，建议软化措辞或补官方 WMS/发货页。",
+    "Loyverse 的 reason 称“符合移动 POS 的五项属性”，首页正文能支持手机/平板、收据、折扣退款、离线、Tap to Pay/读卡器、items 管理与 sale totals，但未逐字展示定价商品目录（价格/税率）和设备上组单计价；建议补官方 POS 产品页，或把该点记录为缺口。",
+    "Loop 的 /faq/ 快照为单行 Next.js HTML，正文可核内容有限；修正来源归属后可考虑从 source_urls 移除 /faq/，避免用 FAQ 外壳充当核心正文。"
+  ],
+  "leaf_checks": {
+    "e-commerce-fulfillment-management": {
+      "application_ids": [
+        "commercial:shipbob"
+      ],
+      "result": "pass_with_recorded_gaps",
+      "basis": "ShipBob 首页正文明确 “Connect your store and sync your products”“Send us your inventory”“50+ Fulfillment centers”“200+ Retail channels”，并以 “picking, packing, shipping, returns” 描述履约网络；服务形态为卖家自有库存寄入 ShipBob 履约中心、由服务商员工执行作业的 3PL/履约服务极点。ID 为 commercial:shipbob，track 为 commercial，与 REVIEW_SOURCES 中的应用映射一致。",
+      "gap": "页面未逐项展示库位级分配、订单状态/挂起以及发货完成回传渠道；batch/research 已记录该证据缺口，未据此扩写。"
+    },
+    "order-fulfillment-platform": {
+      "application_ids": [
+        "commercial:fulfil"
+      ],
+      "result": "pass_with_recorded_gaps",
+      "basis": "Fulfil 首页正文列出 20+ marketplace/channel integrations、Shopify/Amazon/TikTok Shop 接入、多仓库存避免超卖、WMS 条码扫描/批次拣货/波次释放、按库存路由至 3PL、拆单发货，并由同一系统管理订单、库存与仓库作业；服务形态为商户端 SaaS ERP/履约平台。ID 为 commercial:fulfil，track 为 commercial。",
+      "gap": "首页未明示面单/追踪号生成、挂单和发货完成回传渠道；batch/research 已记录部分缺口。summary 的“打包”并未在正文逐字出现，属轻度推断。"
+    },
+    "returns-exchange-portal": {
+      "application_ids": [
+        "commercial:loop-returns"
+      ],
+      "result": "changes_required",
+      "basis": "/returns/ 正文有 “an ecommerce returns portal that decides the right outcome automatically”“customize your return policy settings across different regions, warehouses, products”“Instant Refund”“store credit”“Happy Returns”等；/faq/ 与首页作交叉来源，/docs 的 Deep Link 文档说明顾客可被直接带入其订单退货门户。核心的购物者自助、政策判定、解决方案与退货方式均可核对。ID 为 commercial:loop-returns，track 为 commercial。",
+      "gap": "购物者侧生命周期展示与礼品退货流程未逐项说明（batch/research 已留档）；/faq/ 引文归属错误，见 findings，需修正后才能作为该叶的完整来源记录。"
+    },
+    "returns-management-platform": {
+      "application_ids": [
+        "commercial:reverselogix"
+      ],
+      "result": "pass_with_recorded_gap",
+      "basis": "ReverseLogix 平台页正文明确 RMA 与面单签发、承运商选择；按 RMA 收货，并按 SKU 标准检验分级；按规则分流至 restock/refurbish/repair/resale/return to vendor/liquidation/scrap；退款可在承运商接管时释放，并回写 ERP/WMS/commerce 平台。服务形态为商家侧企业级 SaaS 退货管理平台。ID 为 commercial:reverselogix，track 为 commercial。",
+      "gap": "页面未展示部分收货/部分入库的数量台账细节；research.json 已记录该缺口。"
+    },
+    "mobile-pos": {
+      "application_ids": [
+        "commercial:loyverse"
+      ],
+      "result": "pass_with_minor_unrecorded_detail",
+      "basis": "Loyverse 首页正文明确 “Transform your smartphone or tablet into an easy-to-use point of sale”、打印/电子收据、折扣与退款、离线继续记账、Tap to Pay 或读卡器收款、“Manage items” 与 “Sale totals are sent to the payment device automatically”，并说明交易会同步到 Back Office；服务形态为免费 SaaS 移动 POS。ID 为 commercial:loyverse，track 为 commercial。",
+      "gap": "首页未逐字展示卖家定价商品目录（价格/税率）及设备上组单、系统计价的完整流程；reason 的“五项属性均符合”略强，建议补官方 POS 产品页或记录该细节缺口。"
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未写文件、未访问其他单元；仅依据本单元保存的 9 份快照及 input/batch/research 核对，未做运行时测试或新抓取。部分快照（Loop 的 /returns/、/faq/ 等）为单行 Next.js HTML，正文通过精确短语命中核对，未能完整渲染。未核验 Loop 购物者生命周期/礼品退货、ShipBob 库位分配/渠道回传、Fulfil 面单追踪/回传、ReverseLogix 部分收货台账、Loyverse 价格/税率。本单元无开源条目，故未做许可证与社区版边界核对。input.json 的 progress 元数据与 batch/research 不一致，本次以实际快照和 batch/research 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-031/ses_groveopencodegop031review1_1792943141.jsonl",
+  "batch_sha256": "472e3475e052d7f6e12844a9783e08c1183a9947196bf9d62bdbfe10e73f2cba",
+  "research_sha256": "2a96f6f196fa085223be852c52f00a436c319d0c7b0566611ab0e39fdb7bceed",
+  "input_sha256": "b00f463458d985710be85e1c6ff8a80842b25bff1ce126b755aa25e5e8d98a5b"
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 44,
+  "offset": 1075,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "admissions-management",
+        "name_zh": "招生管理系统 (Admissions Management)",
+        "domain_id": "23",
+        "parent_id": "23.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-044/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source admissions management software github"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/934",
+            "result": "boundary_unresolved",
+            "note": "OpenEduCat 官方招生模块页明确覆盖申请、材料完整性、评分审核、录取/候补与定金，核心匹配；但 GitHub 仓库 openeducat/openeducat_erp 的 license 为 NOASSERTION，LGPLv3 仅见营销页声明，未取得可核对的开源许可证文本，故不标开源。Fedena 核心为 Apache-2.0，但 schema 仅有 admission_no/admission_date，未证明申请审核与决定流程。均留档为边界未决。",
+            "query": "open source admissions management system github applicants application review decision"
+          }
+        ],
+        "archived": false,
+        "note": "OpenEduCat 官方招生模块页明确覆盖申请、材料完整性、评分审核、录取/候补与定金，核心匹配；但 GitHub 仓库 openeducat/openeducat_erp 的 license 为 NOASSERTION，LGPLv3 仅见营销页声明，未取得可核对的开源许可证文本，故不标开源。Fedena 核心为 Apache-2.0，但 schema 仅有 admission_no/admission_date，未证明申请审核与决定流程。均留档为边界未决。"
+      },
+      "definition": {
+        "slug": "admissions-management",
+        "name": "Admissions Management",
+        "name_zh": "招生管理系统 (Admissions Management)",
+        "aliases_zh": [
+          "招生管理软件",
+          "入学管理系统",
+          "学生招生平台"
+        ],
+        "overview": "An **Admissions Management** application is institution-operated software for managing applications from prospective students: receiving applications, tracking each one toward completeness, coordinating structured review, recording an admission decision, and communicating that outcome back to the applicant — with the whole pipeline tracked on the application record from first submission to final response.\n\nThe defining core is small:\n\n```text\nApplicant (prospective student / family)\n└── Application → a program + an entry term\n    └── Completeness tracking (required items / materials)\n    └── Institutional review (assigned evaluators, structured evaluation)\n    └── Recorded admission decision, made available to the applicant\n```\n\nEverything else commonly associated with modern admissions offices — inquiry capture, recruitment campaigns, events and interviews, scoring rubrics, decision-letter release machinery, deposits, waitlists, AI-assisted reading — is widespread standard capability, but the product remains admissions management without it. Older, SIS-embedded, and differently regional admissions systems also fit this definition.\n\nWhen the primary object becomes the *prospect relationship* rather than the application, the product is drifting toward Student Recruitment CRM. When the primary record becomes the *enrolled student's* academic history, it has crossed into the Student Information System.",
+        "overview_zh": "一个**招生管理**应用程序是由机构运营的软件，用于管理潜在学生的申请：接收申请、跟踪每个申请的完整性、协调结构化审核、记录录取决定，并将结果反馈给申请人——整个流程从首次提交到最终响应都在申请记录上跟踪。\n\n定义的内核很小：\n\n```text\n申请人（潜在学生/家庭）\n└── 申请 → 一个项目 + 一个入学学期\n    └── 完整性跟踪（所需项目/材料）\n    └── 机构审核（指定评估者，结构化评估）\n    └── 记录的录取决定，可供申请人查看\n```\n\n其他通常与现代招生办公室相关的一切——咨询捕获、招生宣传、活动和面试、评分标准、决定信发布机制、押金、候补名单、AI辅助阅读——都是广泛的标准功能，但即使没有这些，产品仍然是招生管理。旧的、嵌入SIS的、以及不同地区的招生系统也符合这个定义。\n\n当主要对象变为*潜在关系*而非申请时，产品正向学生招聘CRM倾斜。当主要记录变为*已注册学生*的学术历史时，它已跨入学生信息系统。",
+        "dc": "**Applicant.** An identified person record for a prospective student — someone who is not yet a student of record. The applicant record carries identity, contact, and demographic data, and typically shows a status progression (prospect → applicant → admitted/declined → enrolled student). The same record can hold multiple applications, and a well-formed history survives withdrawal and re-application.\n\n**Application.** The central unit of work: a binding of one applicant to one institutional offering (a program, grade level, or degree type) for one entry term or academic year. All admission activity — requirements, materials, reviews, decisions — hangs off the application, and the application carries the stage/status that organizes the pipeline. One applicant can hold multiple applications (different programs, repeated cycles), and applications move through named stages from received to decided.\n\n**Requirements / checklist / materials.** Each application type defines what a complete application consists of: forms, transcripts, test scores, references, essays, portfolios, signatures, fees. The system tracks each required item's state (not received / received / verified) and rolls it up into a completeness view. Incoming documents — uploaded by the applicant, submitted by external recommenders, or imported from external sources — become materials attached to the application.\n\n**Review.** The institution's evaluation of a submitted application. Reviewers are assigned (individually, by queue, or in sequence), given a workspace showing the application's forms, files, and history, and record structured evaluation through review forms, rubrics, or scored criteria, plus notes and document annotations. Review may be single-reader or multi-reader, parallel or sequential, and its outputs (scores, recommendations) feed the decision.\n\n**Decision.** The institution's recorded outcome on an application: admit, deny, waitlist, defer, and equivalents. The decision is a first-class record — dated, attributed, tied to an official communication (letter) — and is *released* to the applicant through a controlled step rather than merely saved. Applicants are notified and read the outcome through their portal.\n\n**Offer response.** What the applicant does with the decision: accept, decline, or hold (waitlist). Acceptance typically opens the enrollment side — deposits, enrollment checklists — and ends in the applicant's conversion into a student of record, at which point the record hands off to the student information system.\n\n```text\nApplicant\n  ↓ applies to\nApplication (program × entry term)\n  ↓ accumulates\nChecklist / Materials → completeness\n  ↓ assigned to\nReview (readers · forms/rubrics · notes)\n  ↓ produces\nDecision (admit / deny / waitlist / defer)\n  ↓ released via\nApplicant portal → Offer response\n  ↓ accept + deposit\nEnrollment handoff (student of record)\n```",
+        "dc_zh": "**申请人。** 指潜在学生的已识别个人记录，此人尚未成为正式在册学生。申请人记录包含身份、联系和人口统计数据，并通常显示状态进展（潜在生源 → 申请人 → 已录取/已拒绝 → 已注册学生）。同一记录可承载多次申请，且结构化的完整历史记录会保留撤回与重新申请的信息。\n\n**申请。** 这是工作的核心单元：将一位申请人与一项院校提供的课程、年级层次或学位类型，绑定到一个特定入学学期或学年。所有招生相关活动——包括要求、材料、审核、决定——都围绕该申请展开，申请本身也承载着组织工作流的阶段/状态信息。一位申请人可持有多个申请（不同专业、重复周期），申请会经历从收到至决定的若干明确阶段。\n\n**要求/清单/材料。** 每种申请类型都定义了完整申请所包含的内容：表格、成绩单、考试成绩、推荐信、论文、作品集、签名、费用。系统会跟踪每个必需项的状态（未收到/已收到/已核实），并将其整合为完整的视图。收到的文件——由申请人上传、由外部推荐人提交或从外部来源导入——成为附加于该申请的材料。",
+        "rules": "### The application is the spine\n\nEvery artifact — checklist item, material, review, score, note, decision, letter — is attached to an application, and stage progression on that application is how work moves. Reports and permissions are likewise usually application-scoped.\n\n### Completeness gates review\n\nInstitutions define what \"complete\" means per application type, and review typically cannot responsibly begin until required items are satisfied; hard requirements can block progression while soft requirements warn only. Whether an item is \"missing\" is a computed state, and applicants see the same checklist states staff do.\n\n### Decisions are recorded, safeguarded, and released\n\nA decision is a durable, attributed record with its own lifecycle (typically entered, confirmed, and released). Several products bind the official letter to the recorded outcome, so an offer letter cannot be issued on a denial; release is batch- and schedule-capable, and outcome communication is delivered through the applicant's portal rather than as an uncontrolled email of the result. An applicant may accrue multiple sequential decisions over time (waitlisted → admitted → enrolled).\n\n### Attribution and audit\n\nReview actions, decision entries, and status changes are attributed to the acting person (and distinguished from automated rule actions in some products), giving institutions an auditable chain for every outcome — important because decisions are consequential and sometimes contested.\n\n### Applicant data is access-controlled\n\nReviewer access is normally limited to assigned work; sensitive materials (disability, family financial, disciplinary data) can be restricted by role; and some products let institutions control what applicants see on their portal — for example, hiding specific imported items such as official test scores from applicant view. Institutions treat applicant data as regulated personal data; products expose the permission and audit machinery for this, but compliance settings are the institution's responsibility.\n\n### Duplicates are an operational fact\n\nApplicants apply repeatedly, through multiple channels, or as siblings from one family. Mature products provide duplicate detection at submission and record-linking tools; unresolved duplicates corrupt funnel reporting and decision integrity.\n\n### Exceptions are first-class\n\n- **Waitlist** — a distinct decision outcome with its own later movement (off waitlist → admitted), sometimes automated.\n- **Deferral and re-application** — applications can be cloned or re-created for a future term, often reusing prior materials and opening a fresh review cycle.\n- **Withdrawal** — ends a candidacy but preserves history; a reviewer may stop a review mid-flight when it happens.\n- **Late or changed requirements** — criteria and checklists change between cycles; products differ on whether changes retroactively affect already-submitted applications (some evaluate criteria as of submission time).\n- **Multiple applications** — one person applying to several programs or cycles; decisions are tracked per application, not per person.",
+        "rules_zh": "### 申请是脊柱\n\n每个构件——清单项目、材料、审核、分数、笔记、决定、信函——都附加到申请上，申请上的阶段推进是工作如何移动的方式。报告和权限通常也限定在申请范围内。\n\n### 完整性限制审核\n\n机构根据申请类型定义“完整”的含义，审核通常不能在要求项目满足之前负责任地开始；硬性要求可以阻止推进，而软性要求仅警告。项目是否“缺失”是一个计算状态，申请人看到与工作人员相同的清单状态。\n\n### 决定被记录、保护和发布\n\n决定是一个持久的、归因的记录，具有自己的生命周期（通常输入、确认和发布）。一些产品将官方信函绑定到记录的结果，因此不能基于拒绝发布录取信；发布支持批量和计划，并且结果通信通过申请人的门户传递，而不是作为不受控制的结果电子邮件。申请人可能随着时间累积多个顺序决定（候补 → 录取 → 注册）。\n\n### 归因和审核\n\n审核行动、决定输入和状态更改归因于执行者（在一些产品中与自动规则行动区分开），为机构提供每个结果的可审核链——这很重要，因为决定是有影响的，有时会被质疑。\n\n### 申请人数据受访问控制\n\n审核者访问通常限于分配的工作；敏感材料（残疾、家庭财务、纪律数据）可以按角色限制；一些产品让机构控制申请人在其门户上看到的内容——例如，隐藏特定导入",
+        "parent_id": "23.01",
+        "domain_id": "23"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 175,
+    "phase": "directory",
+    "parent": 175,
+    "slugs": [
+      "admissions-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "50448d0372ef70b160a2f95e1962ee197172cb4b8ea02ae4b1cc130e8bf3b582"
+  }
+}

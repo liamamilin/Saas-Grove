@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 19,
+  "offset": 450,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "immigration-practice-management",
+        "name_zh": "移民案件管理",
+        "domain_id": "11",
+        "parent_id": "11.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-019/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "immigration practice management open source"
+          },
+          {
+            "record": "retained-continuation-20261027/part-129/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source immigration case management software github self-hosted"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "immigration-practice-management",
+        "name": "Immigration Practice Management",
+        "name_zh": "移民案件管理",
+        "aliases_zh": [
+          "移民法律事务管理",
+          "移民业务系统"
+        ],
+        "overview": "An **Immigration Practice Management** application is the practitioner-side system of record for an immigration practice's caseload. It keeps the record of each client — the foreign national whose status or permission is at stake — organizes the work into immigration cases bound to defined case types, turns case data into official filings (government forms plus supporting documents), and tracks each case's progression through a long-running, multi-stage process, including against status issued by the government itself.\n\nThe defining core is small:\n\n```text\nClient (foreign national) record\n└── Immigration case bound to a case type\n    └── Filing preparation from case data\n        (questionnaire → forms + supporting-document packet)\n    └── Persistent case record with tracked progression\n```\n\nEverything else commonly associated with these products — client portals, multilingual intakes, deadline reminders, e-filing, billing, reporting, AI assistance — is standard capability that mature products add around this core, not what makes the product an immigration practice tool. The definition also holds for older desktop-era form-and-case tools, for non-US practitioner models (Canadian, UK, Australian representatives), and for non-lawyer operators, none of which depend on any single country's forms or identifiers.\n\nTwo boundaries matter most. Against a **general law practice management system**, the difference is the immigration-specific case model: case types that encode government processes, a form library populated from case data, and ingestion of government case status — machinery a generic matter system does not carry. Against **government-side immigration case management**, the difference is who operates the system and what happens to the case: a practitioner prepares and tracks filings on a client's behalf, while a government agency adjudicates them.",
+        "overview_zh": "一个**移民执业管理**应用程序是移民律师事务所执业方的案件记录系统。它记录每位客户——即身份或许可利益相关的外籍人士——的信息，将工作组织成与明确案件类型绑定的移民案件，将案件数据转化为正式提交材料（政府表格加上支持文件），并跟踪每个案件在长期多阶段过程中的进展，包括针对政府自身签发的状态。\n\n其核心定义要素很小：\n\n```text\n客户（外籍人士）记录\n└── 与案件类型绑定的移民案件\n    └── 基于案件数据的提交材料准备\n        （问卷调查 → 表格 + 支持文件包）\n    └── 带有跟踪进展的持续案件记录\n```\n\n与此类产品通常相关的其他一切——客户门户、多语言信息收集、截止日期提醒、电子提交、计费、报告、AI辅助——是成熟产品围绕此核心添加的标准功能，而非构成移民执业工具的本质。该定义同样适用于桌面时代的旧式表格和案件工具，适用于非美国执业者模式（加拿大、英国、澳大利亚代表），以及适用于非律师操作者，这些都不依赖任何特定国家的表格或标识符。\n\n两个边界最为重要。与**通用律师事务所管理系统**相比，其区别在于移民特定的案件模型：编码政府流程的案件类型、基于案件数据填充的表格库，以及政府案件状态的录入——这些是通用案件管理系统所不具备的机制。与**政府端移民案件管理**相比，其区别在于谁操作系统以及案件发生什么：执业者代表客户准备并跟踪提交材料，而政府机构则对其进行裁决。",
+        "dc": "**Client (foreign national) record.** One identified person whose immigration status is the subject of the work. The record carries identity and contact data, relationships to related people (family members, petitioners, employers), and immigration-relevant identifiers — in US practice most notably the alien registration number, which some products treat as a first-class search key. In employment-based practice the client sits inside an employer/petitioner context, so organization records attach to the same model.\n\n**Immigration case bound to a case type.** The case — called a matter in firm-side products, a case in corporate platforms — is the unit of work. What makes it an immigration case is that it is an instance of a **defined immigration process**: a visa category, a petition, an application for residence or citizenship, a work authorization. The case type shapes the work: it determines the sequence of stages the case moves through, the forms it requires, and the documents that must be collected. Whether the type library is configured by the firm or pre-built by the vendor varies by product; the concept does not.\n\n**Filing preparation from case data.** The characteristic work product of an immigration case is a **filing**: one or more official forms plus supporting documents, assembled into a submission package. Products operationalize this as a pipeline:\n\n```text\nQuestionnaire (case data collected from the client)\n  → auto-populated official forms\n  → supporting documents collected against requests\n  → assembled packet (forms + documents, ordered, with a table of contents)\n  → submission (paper output or electronic filing)\n```\n\nThe questionnaire is the intake instrument: a structured interview whose answers populate the forms. Mature products make it client-facing — the practitioner invites the client (and related parties) to complete it online, in the client's language, with per-question collaboration (comments, flags, hidden questions) — and treat the collected answers as case data that persists beyond any single form.\n\n**Persistent case record with tracked progression.** The case lives in the system across the whole process. Its state is tracked through the case type's stages, with each stage carrying the work done in it; the record accumulates the filing trail — what was filed, when, under which government receipt or notice — and survives to support renewals, follow-on cases, and the practice's institutional memory. A client's history of cases is itself part of the record: prior-case data is reused to pre-populate new intakes.",
+        "dc_zh": "**客户（外籍国民）记录。** 一个已识别的人，其移民身份是工作的主题。该记录包含身份和联系数据、与相关人员（家庭成员、申请人、雇主）的关系，以及与移民相关的标识符——在美国实践中最显著的是外国人登记号，某些产品将其视为一级搜索键。在基于就业的实践中，客户位于雇主/申请人的上下文中，因此组织记录附加到同一模型。\n\n**绑定到案件类型的移民案件。** 案件——在律所端产品中称为matter，在企业平台中称为case——是工作单元。使其成为移民案件的原因是它是一个**定义的移民流程**的实例：签证类别、申请、居留或公民身份申请、工作授权。案件类型塑造了工作：它决定了案件经历的阶段顺序、所需表格和必须收集的文件。类型库是否由律所配置或由供应商预构建因产品而异；但概念不变。\n\n**基于案件数据的立案准备。** 移民案件的特征性工作产品是**立案**：一个或多个官方表格加支持文件，组装成提交包。产品将其操作化为一个管道：",
+        "rules": "**The case type shapes the case.** The stage sequence, required forms, and document requests derive from the case's type. Changing type mid-case is at best awkward; the type is chosen at intake and drives everything after.\n\n**Questionnaire answers are case data, not form filler.** Answers persist on the case and repopulate forms; the same data seeds later cases (renewals, dependents' filings). The distinction between the collected data and the rendered form is visible to users — products show both the underlying values and the print-ready output.\n\n**E-filing delegates to the government's own platform.** Products do not replace the government portal; they prepare and transfer data into it. This has two consequences users must respect: the practitioner's government account credentials are involved, and a submitted draft may no longer be editable from the product — final review, evidence upload, and signature happen inside the government portal. Not every form is e-fileable; coverage varies by product and grows over time, and paper filing remains a first-class path.\n\n**Deadlines are structural, not decorative.** Expirations, priority dates, notice response windows, and stage durations are tracked data with reminders and late indicators, because missing them has direct legal consequences for the client.\n\n**Government status flows in and out.** Receipts, notices, and decisions enter the case record (manually or via automated capture) and are pushed to clients; the case's official timeline is the government's, mirrored in the system.\n\n**Client participation is mediated and controlled.** What the client sees is scoped: practitioners hide questions, control which parts of an intake are shared, revoke invitations, and approve before anything is filed. The client never files directly from the practice's system.\n\n**Roles gate sensitive work.** Preparation is delegable; signature and submission authority sit with the attorney/preparer. Corporate deployments add region-scoped access and separate employee self-service from program-staff control.\n\n**Billing follows the case.** Fees are invoiced against the case, payments collected, and — in US firm practice — client funds held in trust and handled with compliance-grade accounting until earned.",
+        "rules_zh": "**案件类型塑造案件。** 阶段序列、所需表格和文件请求都源于案件的类型。在案件中途更改类型最多是不妥的；类型在信息收集时选择，并驱动之后的一切。\n\n**问卷调查答案是案件数据，而非表格填充内容。** 答案保存在案件上并重新填充表格；相同的数据可用于后续案件（续期、家属申请）。收集的数据与渲染表格之间的区别对用户是可见的——产品既显示底层值也显示打印就绪的输出。\n\n**电子提交委托给政府自身的平台。** 产品不取代政府门户；它们准备数据并传输到其中。这有两个用户必须尊重的后果：执业者的政府账户凭证涉及其中，且提交的草稿可能无法再从产品中编辑——最终审查、证据上传和签名发生在政府门户内。并非所有表格都可电子提交；覆盖范围因产品而异并随时间增长，纸质提交仍然是主要路径。\n\n**截止日期是结构性的，而非装饰性的。** 到期日期、优先日期、通知回复窗口和阶段持续时间是被跟踪的数据，带有提醒和逾期指示器，因为错过它们会直接给客户带来法律后果。\n\n**政府状态流入和流出。** 收据、通知和决定进入案件记录（手动或通过自动捕获），并推送给客户；案件的官方时间线是政府的，在系统中镜像反映。\n\n**客户参与是受调解和控制的。** 客户看到的内容是限定范围的：执业者隐藏问题，控制信息收集的哪些部分被共享，撤销邀请，并在任何提交前批准。客户从不直接提交。",
+        "parent_id": "11.01",
+        "domain_id": "11"
+      }
+    },
+    {
+      "progress": {
+        "slug": "law-practice-management-system",
+        "name_zh": "律师事务所管理系统",
+        "domain_id": "11",
+        "parent_id": "11.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-019/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "DeedBox law practice management official"
+          },
+          {
+            "record": "retained-continuation-20261027/part-129/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "DeedBox law practice management official"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "law-practice-management-system",
+        "name": "Law Practice Management System",
+        "name_zh": "律师事务所管理系统",
+        "aliases_zh": [
+          "法律管理软件",
+          "律所业务系统"
+        ],
+        "overview": "A **Law Practice Management System** is the business system of record for a law firm. It holds the firm's client records, organizes legal work into **matters** (cases) — persistent, client-anchored containers that accumulate the firm's working file — and closes the loop from legal work to money: capturing time, expenses and fees against matters, generating client invoices, collecting payments, and reporting the firm's financial position to its owners. Where the firm holds money on a client's behalf, that money is administered on a separate trust ledger beside the billing loop.\n\nThe defining core is small and can be stated as four things held together:\n\n```text\nClients & parties (named records)\n└── Matter / case (persistent container of one legal engagement, anchored to a client)\n    └── The firm's file on the matter (documents, email, events, tasks, notes, time & expenses)\n        └── The money loop (fee arrangement → billing → payment → firm books)\n```\n\nEverything else commonly associated with these products — intake forms, lead pipelines, conflict checking, calendaring and deadline tracking, document automation, task workflows, client portals, online payments, AI drafting — is standard equipment in mature products but not what makes the system a law practice management system. A matter-tracking tool without the billing loop is case/matter record-keeping of a different Type; a time-and-billing tool without the matter and client file is standalone legal billing software.",
+        "overview_zh": "**律师事务所管理系统**是律师事务所的核心业务系统。它记录事务所的客户信息，将法律工作组织为**事项**——持久、以客户为锚点的工作容器，用于积累事务所的工作档案——并完成从法律工作到收入的闭环：针对事项记录时间、费用和酬金，生成客户账单，收取款项，并向事务所所有者报告财务状况。当事务所代客户持有资金时，该资金会在计费循环之外的单独信托账册中进行管理。\n\n其定义性的核心框架很小，可以概括为以下四个相互关联的要素：\n\n```text\n客户与相关方（命名记录）\n└── 事项/案件（单次法律委托的持久容器，锚定于客户）\n    └── 事项档案（文档、邮件、日程、任务、笔记、时间与费用）\n        └── 资金循环（酬金安排 → 计费 → 支付 → 账目）\n```\n\n与此类软件产品通常相关的所有其他功能——受理表单、潜在客户管理、利益冲突检查、日程与截止日期追踪、文档自动化、任务工作流、客户门户、在线支付、AI辅助起草——在成熟产品中都是标准配置，但并非使该系统成为律师事务所管理系统的本质特征。没有计费循环的事项追踪工具属于不同类型的案件/事项记录工具；没有事项和客户档案的时间与计费工具则是独立的法律计费软件。",
+        "dc": "**Clients and parties.** Every engagement starts from people: the client, related contacts, opposing counsel, referral sources. These exist as named records with contact details and relationships, and they anchor everything else. A matter cannot exist without at least one client record attached to it — this anchoring is the structural difference between a law firm's system and matter-tracking tools used inside organizations that have no clients.\n\n**The matter.** The matter (some products call it a \"case\") is a persistent, identified container for one legal engagement — a dispute, a transaction, an application. It carries a name, a number, a practice-area context, the client parties linked to it, the firm users responsible for it (including who is assigned to work it and who originated it), and a status that moves from open toward closed. One client can have many matters; some products also let a matter be linked to related matters when engagements overlap. Conceptually it is the legal profession's version of the project-plus-file: everything the firm does for that engagement happens on the matter.\n\n**The matter's file.** The matter accumulates the firm's working record: documents (drafted from templates or uploaded), email conversations filed to the matter, calendar events (hearings, meetings, deadlines), tasks, notes, and — critically for a firm — the work as money-bearing records: time entries, expense entries, and fee items. Every action taken on the matter is typically kept in a running history, so the matter is both the workspace and the durable record of what was done, when, and by whom.\n\n**The money loop.** The firm's revenue is billing on matters, and the system carries the full loop:\n\n```text\nFee arrangement on the matter (hourly rates / flat fees / contingency)\n        ↓\nWork captured: time entries, expenses, fee items — attributed to matter, user, rate\n        ↓\nInvoice generated from the matter's unbilled work (batch or per matter)\n        ↓\nDelivered to the client (PDF, portal, secure payment link)\n        ↓\nPayment recorded (portal payment, card/eCheck, check, cash)\n        ↓\nFirm financials reported; client-held funds administered on the trust side\n```\n\nFee arrangements are structural: hourly matters bill from time entries at configurable rates (firm defaults, per-user, per-role, or a custom rate for one matter); flat-fee matters bill defined service items; contingency matters track recovery-based billing rather than hours. This billing vocabulary is what makes the loop legal-specific rather than generic invoicing. Where the firm holds client funds, a separate trust ledger runs alongside this loop (see Trust accounting below and the rules section).",
+        "dc_zh": "**客户和当事人。** 每个法律业务都始于人：客户、相关联系人、对方律师、推荐来源。这些作为带有联系信息和关系的命名记录存在，并锚定所有其他内容。一个案件不能没有至少一个客户记录附加其上——这种锚定是律师事务所系统与组织内无客户使用的案件跟踪工具之间的结构性区别。\n\n**案件。** 案件（一些产品称为“case”）是一个持久、已识别的容器，用于一个法律业务——争议、交易、申请。它带有名称、编号、业务领域上下文、链接的客户当事人、负责的事务所用户（包括分配工作的人和发起人），以及从开放到关闭的状态。一个客户可以有多个案件；一些产品还允许案件在业务重叠时链接到相关案件。概念上，它是法律专业版本的项目加文件：事务所为该业务所做的所有事情都发生在案件上。\n\n**案件文件。** 案件积累了事务所的工作记录：文档（从模板起草或上传）、归档到案件的电子邮件对话、日历事件（听证会、会议、截止日期）、任务、笔记，以及——对事务所关键的是——作为计费收入的工作记录。",
+        "rules": "- **A matter is anchored to a client.** Matter records are created against client/contact records; the file cannot exist without them. Reassigning or merging client records propagates to their matters.\n- **Work and money are attributed, not pooled.** Time, expenses, fees, invoices, payments, and trust balances all carry matter (and usually person) attribution; firm-level totals are roll-ups of matter-level records.\n- **Fee rules drive billing.** The matter's fee arrangement (hourly rate table, flat-fee items, contingency terms) determines how captured work becomes invoice lines; rates can vary by user, role, or the individual matter.\n- **Trust money is segregated and audit-safe.** Where client funds are held in trust, they are tracked in ledgers separate from operating accounts, moved only by recorded transactions (deposit, disbursement, transfer to operating on billing, refund), reconciled against the bank, and typically corrected by reversal-style operations rather than silent edits, so the audit trail stays intact. Over-disbursement is guarded (e.g., protected/held amounts).\n- **Deadlines are user-visible obligations.** Calendar events, reminders, and (where offered) limitation-date tracking are treated as compliance machinery; reminders typically reach every user linked to the matter.\n- **Visibility follows matter linkage.** Users generally see the matters they are linked to; seeing the whole firm's matters is a granted permission. Administrative functions (enabling features, configuring rates and workflows) are restricted to admin roles.\n- **The record persists.** Matters retain their full history across the engagement and after closure; actions are logged with attribution. Deleting or correcting financial records is constrained (reversal/credit operations, retained histories) because these records may face audit or disciplinary review.",
+        "rules_zh": "- **事项锚定于客户。** 事项记录针对客户/联系记录创建；档案无法脱离客户而存在。重新分配或合并客户记录会同步更新其相关事项。\n- **工作与资金归属明确，不混同。** 时间、费用、酬金、发票、付款和信托余额均带有事项（及通常为人员）归属；事务所级别的汇总是事项级记录的汇总。\n- **酬金规则驱动计费。** 事项的酬金安排（小时费率表、固定费用项目、风险代理条款）决定如何将捕获的工作转化为发票项目；费率可根据用户、角色或具体事项而异。\n- **信托资金隔离且审计安全。** 当为客户资金设立信托时，它们在独立于运营账户的账册中追踪，仅通过记录的交易（存入、支付、在计费时转入运营账户、退款）进行变动，与银行对账，并通常通过反向操作而非静默修改进行更正，以保持审计线索完整。超支受到防护（例如，受保护/挂起金额）。\n- **截止日期是用户可见的义务。** 日历事件、提醒以及（如提供）诉讼时效追踪被视为合规机制；提醒通常发送给与该事项关联的所有用户。\n- **可见性遵循事项关联关系。** 用户通常只能看到其关联的事项；查看全所所有事项需要授予权限。管理功能（启用功能、配置费率和工作流）限于管理员角色。\n- **记录持久保存。** 事项在整个委托期间及关闭后保留其完整历史；所有操作均记录归属信息。删除或修正财务记录受到限制（反向/贷记操作，保留",
+        "parent_id": "11.01",
+        "domain_id": "11"
+      }
+    },
+    {
+      "progress": {
+        "slug": "legal-billing-application",
+        "name_zh": "法律账单应用（Legal Billing Application）",
+        "domain_id": "11",
+        "parent_id": "11.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-019/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "DeedBox legal billing official"
+          },
+          {
+            "record": "retained-continuation-20261027/part-129/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "DeedBox legal billing official"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "legal-billing-application",
+        "name": "Legal Billing Application",
+        "name_zh": "法律账单应用（Legal Billing Application）",
+        "aliases_zh": [
+          "法律计费软件",
+          "律所账单系统"
+        ],
+        "overview": "A **Legal Billing Application** is a law firm's money-loop system of record: it converts the firm's captured legal work into client bills, tracks those bills to payment, administers client-held funds, and holds the firm's billing money position — work-in-progress, receivables, collections — as an inspectable picture the firm is managed by.\n\nThe defining structure is small:\n\n```text\nClient + Matter (billing anchors) + Timekeepers with rates\n└── Captured billable work (time / expenses / flat fees) as entries\n    └── Bill assembly under fee arrangements (draft → review → final invoice)\n        └── The firm money loop (delivery → payment/AR → client funds → firm money position)\n```\n\nEverything else commonly associated with legal billing software — timers, client portals, online payments, trust-accounting reconciliation, e-billing formats, dashboards, AI time capture — is widespread in current products but is not what makes the product a legal billing application. A paper-era firm running time sheets, typed bills from a rate card, and a receivables ledger fits the same definition.\n\nThe boundary that matters most: this is the **firm side** of legal money. The firm generates the bills; the client's legal department reviews and approves them on the other side of the boundary (Legal Spend Management). And this is the **money loop standing alone** — the matter workspace (documents, deadlines, conflicts) belongs to Law Practice Management, which fuses the two.",
+        "overview_zh": "一个**法律账单应用**是律师事务所的金钱循环系统记录：它将事务所捕获的法律工作转化为客户账单，跟踪这些账单至支付，管理客户持有资金，并持有事务所的账单资金状况——在制品、应收账款、收款——作为一个可检查的图像，事务所据此进行管理。\n\n定义性结构很简单：\n\n```text\n客户 + 案件（账单锚点）+ 带费率的时间记录员\n└── 捕获的可计费工作（时间 / 费用 / 固定费用）作为条目\n    └── 根据费用安排进行账单组装（草稿 → 审查 → 最终发票）\n        └── 事务所金钱循环（交付 → 支付/应收账款 → 客户资金 → 事务所资金状况）\n```\n\n其他通常与法律账单软件相关的内容——计时器、客户门户、在线支付、信托会计对账、电子账单格式、仪表板、人工智能时间捕获——在当前产品中很常见，但并不是使该产品成为法律账单应用的原因。一个纸张时代的事务所使用时间表、根据费率卡打印的账单和应收账款账本也符合同样的定义。\n\n最重要的边界：这是法律资金的**事务所端**。事务所生成账单；客户法律部门在边界另一端（法律支出管理）审查和批准它们。而这是一个**独立的金钱循环**——案件工作区（文档、截止日期、冲突）属于法律实践管理，它融合了两者。",
+        "dc": "```text\nClient + Matter (billing anchors) + Timekeepers with rates\n└── Captured billable work (time / expenses / flat fees) as entries\n    └── Bill assembly under fee arrangements (draft → review → final invoice)\n        └── The firm money loop (delivery → payment/AR → client funds → firm money position)\n```\n\n- **Client + Matter as billing anchors** — every billable unit of work is attributed to a client and, within the client, to a matter (the legal unit of work: a case, a transaction, a piece of advice). The matter is the container that rates, fee arrangements, and billing settings attach to. Without this legal attribution structure, the product is generic invoicing.\n- **Timekeepers with rates** — the people whose work is billed exist in the system as timekeepers, each carrying rate tables (by timekeeper, by level such as partner/associate/paralegal, by client or matter). Rates are configuration, not afterthought: the same hour is worth different amounts depending on who worked it and for whom.\n- **Captured billable work as entries** — time entries (with configurable billing increments and activity/task codes), expense entries, and flat fees, each tied to client + matter + timekeeper, marked billable or non-billable. Entries accumulate as unbilled work-in-progress until billed.\n- **Bill assembly under fee arrangements** — entries are compiled into draft bills, reviewed and adjusted (pre-bill review, write-downs, holds), then finalized as invoices under the matter's billing arrangement: hourly, flat fee, contingency, retainer, progress billing, split-fee, or task-based electronic billing.\n- **The firm money loop** — issued invoices are delivered (print, email, portal, e-billing) and tracked to payment; client-held funds (retainers, trust where the jurisdiction requires) are administered against bills; and the firm's money position — WIP, accounts receivable, realization of billed vs collected, productivity and profitability by timekeeper and client — is held as reports and dashboards.",
+        "dc_zh": "客户 + 案件（计费锚点） + 持有费率的计费人员\n└── 作为条目记录的应计工作（时间/费用/固定费用）\n    └── 在费用协议下进行账单汇编（草案 → 审核 → 最终发票）\n        └── 律所资金循环（服务交付 → 收款/应收账款 → 客户资金 → 律所资金头寸）",
+        "rules": "### Entries are attributed, then consumed once\n\nA time or expense entry is captured against a client-matter-timekeeper and remains unbilled WIP until it is included in an invoice; billed entries are consumed. Mature products restrict editing of entries and records once they are billed or paid — corrections happen through adjustments, credits, or void-and-reissue rather than silent edits. Exact edit rules vary by product.\n\n### The fee arrangement governs the bill\n\nThe matter's billing arrangement determines what a bill contains and how amounts are computed — hourly entries at rate-table rates, a fixed fee regardless of hours, contingency handling, retainer application. The same captured work can produce different bills under different arrangements.\n\n### Pre-bill review is a deliberate gate\n\nDraft bills exist so the firm can catch errors and write down work before the client sees it. This internal review step is structural, not optional polish.\n\n### Client funds are segregated\n\nWhere the jurisdiction's client-money rules apply, funds held for clients are kept separate from the firm's operating money, tracked in their own ledgers, and reconciled — a compliance-shaped constraint that shapes the whole payment side.\n\n### Client guidelines reach back into the firm\n\nCorporate clients impose billing guidelines (rates, task codes, invoice formats). The firm side carries machinery to comply — rate tables, activity/task codes, task-based e-billing, electronic delivery — because a bill that violates the guidelines is reduced or rejected on the buyer side.\n\n### Access is controlled by role and by wall\n\nBilling data is confidential and ethically sensitive; products provide role-based permissions and segregated access so that timekeepers and staff see only what their role and ethical walls allow.",
+        "rules_zh": "### 条目先归属，然后一次性消费\n\n时间或费用条目被捕获于客户-案件-时间记录员，并保持为未计费在制品，直到它包含在发票中；已计费条目被消费。成熟产品在条目计费或支付后限制编辑——更正通过调整、贷项或作废重开进行，而非静默编辑。具体编辑规则因产品而异。\n\n### 费用安排支配账单\n\n案件的账单安排决定账单包含什么以及金额如何计算——按费率表费率的小时条目、无论小时数的固定费用、或有处理、预付费应用。相同捕获的工作在不同安排下可以产生不同的账单。\n\n### 预账单审查是刻意的关口\n\n草稿账单的存在是为了事务所能在客户看到之前捕获错误并核销工作。这个内部审查步骤是结构性的，而非可选的润色。\n\n### 客户资金是隔离的\n\n在管辖区的客户资金规则适用的情况下，为客户持有的资金与事务所的运营资金分开，在各自的账本中跟踪，并对账——一个合规形状的约束，塑造了整个支付端。\n\n### 客户指南回溯到事务所\n\n企业客户强制执行账单指南（费率、任务代码、发票格式）。事务所端配备合规机制——费率表、活动/任务代码、基于任务的电子账单、电子交付——因为违反指南的账单在买方端会被削减或拒绝。\n\n### 访问由角色和墙控制\n\n账单数据是机密且伦理敏感的；产品提供基于角色的权限和隔离访问，以便时间记录员和员工只能看到他们的角色和伦理墙所允许的内容。",
+        "parent_id": "11.01",
+        "domain_id": "11"
+      }
+    },
+    {
+      "progress": {
+        "slug": "legal-e-filing-platform",
+        "name_zh": "法律电子立案平台",
+        "domain_id": "11",
+        "parent_id": "11.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-019/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "legal e-filing platform open source"
+          },
+          {
+            "record": "retained-continuation-20261027/part-129/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source legal e-filing platform github court filing software"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "legal-e-filing-platform",
+        "name": "Legal E-filing Platform",
+        "name_zh": "法律电子立案平台",
+        "aliases_zh": [
+          "在线诉讼提交平台",
+          "司法文书电子报送系统"
+        ],
+        "overview": "A **Legal E-filing Platform** is a filer-facing application through which legal documents are submitted electronically to a court and tracked through the court's acceptance decision. It is the filer's side of the filing transaction: the platform assembles a filing, submits it into the court's system, conveys the clerk's accept/reject decision back to the filer, handles the fees the filing triggers, and returns the officially filed (file-stamped) copies.\n\nIt solves a specific operational problem: getting documents on file with a court is not a simple upload. A filing must be bound to the right case, name the right parties, use the court's own document classifications, satisfy court-specific formatting rules, carry the correct fees, and — decisively — it is not \"filed\" until a court clerk reviews and accepts it. Rejections are routine, and a rejected filing must be corrected and resubmitted without losing what was already accepted.\n\nThe boundary of the Type: the platform is filer-facing. The court's own case management system — the system of record that receives, reviews, and dockets filings — sits on the opposite side of the transaction and is a different Application Type. The platform is also not a document drafting tool (that happens upstream) and not a courier service (physical delivery is a peripheral channel, not the core).",
+        "overview_zh": "**法律电子归档平台**是一个面向归档者的应用程序，通过它，法律文件可以电子方式提交给法院，并跟踪法院的接受决定。它是归档交易中归档者的一方：平台组装归档内容，将其提交到法院系统，传达书记员的接受/拒绝决定给归档者，处理归档触发的费用，并返回正式归档（盖章）的副本。\n\n它解决了一个特定的操作问题：将文件归档到法院不是简单的上传。归档必须绑定到正确的案件，命名正确的当事人，使用法院自身的文件分类，满足法院特定的格式要求，携带正确的费用，并且——决定性地——直到法院书记员审查并接受后才“归档”。拒绝是常规操作，被拒绝的归档必须在未丢失已接受部分的情况下更正并重新提交。\n\n类型的边界：平台是面向归档者的。法院自身的案件管理系统——接收、审查和登记归档的记录系统——位于交易的另一方，是不同的应用程序类型。平台也不是文档起草工具（那在上游发生），也不是快递服务（实物交付是外围渠道，不是核心）。",
+        "dc": "```text\nCourt case (existing, from court records — or new, initiated here)\n└── Filing submission (documents + case/party context, one case per submission)\n    └── Clerk adjudication loop\n        ├── accepted → filed (file stamp, conformed copies returned)\n        ├── partially accepted → accepted documents stay; rejected documents re-filed\n        └── rejected → reasons conveyed back → correct → resubmit\n```\n\nThree structures, held together:\n\n- **The filing submission** — the unit of work: one or more documents plus case and party context, submitted as a single transaction to one court case. A submission may contain multiple documents, but they must all pertain to the same case. The submission receives a confirmation number and an official receipt timestamp from the court. (Without the submission as a managed unit, the product is just document delivery.)\n- **Case binding** — every submission is bound to a court case. Either the case already exists and is retrieved from the court's records by case number, or the filing initiates a new case by selecting the court and case type and supplying the parties in the roles the court requires. (Without case binding, the product is a generic government form submission.)\n- **The clerk adjudication loop** — the submission crosses into the court's system and comes back with a decision: accepted, partially accepted, or rejected. The clerk's rejection reasons are conveyed back through the platform. Acceptance is what constitutes filing — the court's receipt timestamp becomes the official file stamp, and file-stamped copies flow back to the filer. Rejections feed a correct-and-resubmit loop. (Without this loop, the product is a one-way upload portal, and the filing semantics disappear.)",
+        "dc_zh": "法院案件（已存在，来自法院记录——或为新案件，在此处发起）\n└── 立案提交（文件 + 案件/当事人信息，每次提交对应一个案件）\n    └── 书记员裁定循环\n        ├── 受理 → 立案完成（归档戳记，核对副本退回）\n        ├── 部分受理 → 受理文件留存；被驳回文件重新提交\n        └── 驳回 → 驳回理由反馈 → 修正 → 重新提交",
+        "rules": "- **A filing is not filed until the clerk accepts it.** The platform can only submit; the court's review is the constitutive act. The receipt timestamp issued at submission becomes the official file stamp if the filing is accepted. Submissions made after the court's cutoff — or on weekends and court holidays — commonly receive the next court business day as their file stamp; exact cutoffs vary by court.\n- **Rejection reasons flow one way, from the court.** The clerk may attach a reason at the filing level or per document; the platform displays it but did not generate it. Sometimes no reason is provided at all, and the filer must contact the court directly, quoting the confirmation number.\n- **Accepted content is immutable in the loop.** On partial rejection, accepted documents remain part of the case record and must not be resubmitted; only the rejected documents are corrected and re-filed.\n- **Document types belong to the court.** The list of types is maintained by the court, and the filer — not the platform — is responsible for choosing the right one; the platform's role ends at presenting the court's list. The document description should be the document's exact title.\n- **Security settings and service interact dangerously.** Documents carry a security level (commonly public or confidential, options vary by court). Electronic service sends *all* documents in the filing to *all* selected parties regardless of per-document security — a filer who wants a confidential document kept from a party must not e-serve that party.\n- **Fees are the court's rules made arithmetic.** The computed fee set follows from case type, document types, and additional services; some fees are triggered automatically by document selection while others must be added by the filer's own knowledge. Incorrect document-type selection therefore produces incorrect fees.\n- **Court-specific rules permeate everything.** Formatting requirements, file-size limits, field character limits, hearing-date procedures, courtesy-copy rules, and under-seal procedures all vary court by court; the platform encodes them as configuration and help content rather than as uniform product behavior.\n- **Deadlines give the loop its urgency.** In mandatory-e-filing jurisdictions, a filing rejected late in the day may lose its filed-that-day status; providers staff live support precisely because a technical failure near a deadline is an emergency.",
+        "rules_zh": "- **归档直到书记员接受才算归档。** 平台只能提交；法院的审查是构成性行为。提交时发出的接收时间戳在归档被接受时成为官方归档章。在法院截止时间后提交——或在周末和法院假日——通常以下一个法院工作日作为归档章；确切截止时间因法院而异。\n- **拒绝原因单向流动，来自法院。** 书记员可能在归档级别或每个文件上附加原因；平台显示它但未生成它。有时根本不提供原因，归档者必须直接联系法院，引用确认号。\n- **接受的内容在循环中是不可变的。** 在部分拒绝时，接受的文件保留在案件记录中，不得重新提交；只有被拒绝的文件被更正并重新归档。\n- **文件类型属于法院。** 类型列表由法院维护，归档者——而非平台——有责任选择正确的类型；平台的角色止于呈现法院的列表。文件描述应是文件的准确标题。\n- **安全设置和送达交互危险。** 文件携带安全级别（通常是公开或机密，选项因法院而异）。电子送达将归档中的*所有*文件发送给*所有*选定当事人，无论每个文件的安全级别——希望将机密文件对当事人保密的归档者不得对该当事人进行电子送达。\n- **费用是法院规则的算术化。** 计算的费用集来自案件类型、文件类型和额外服务；有些费用由文件选择自动触发，其他费用必须由归档者自己的知识添加。",
+        "parent_id": "11.01",
+        "domain_id": "11"
+      }
+    },
+    {
+      "progress": {
+        "slug": "legal-intake-client-onboarding",
+        "name_zh": "法律案件受理与客户入案管理 (Legal Intake & Client Onboarding)",
+        "domain_id": "11",
+        "parent_id": "11.01",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-019/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "legal intake client onboarding open source"
+          },
+          {
+            "record": "retained-continuation-20261027/part-129/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source legal intake client onboarding software github law firm"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "legal-intake-client-onboarding",
+        "name": "Legal Intake & Client Onboarding",
+        "name_zh": "法律案件受理与客户入案管理 (Legal Intake & Client Onboarding)",
+        "aliases_zh": [
+          "法律案件受理系统",
+          "客户入案管理",
+          "案源受理系统"
+        ],
+        "overview": "A **Legal Intake & Client Onboarding** application is the law firm's system for turning an incoming legal inquiry into an accepted client with an executed engagement and an opened matter. It captures each prospective client and their matter inquiry as a managed record, runs the firm's pre-commitment screening — of which conflict screening against the firm's own records is the signature step — records an explicit accept-or-decline decision, and, on acceptance, formalizes the relationship (engagement agreement) and hands the new client and matter into the firm's client-matter system of record.\n\nThe defining structure is deliberately small:\n\n```text\nProspective client (person/organization + matter inquiry) — explicitly not yet a client\n  ↓ captured through defined intake surfaces\nScreening gate — conflict screening, case evaluation, risk assessment (firm-defined)\n  ↓ recorded outcome\nEngagement decision — accept as client / decline (declined representation stays reportable)\n  ↓ on acceptance\nOnboarding closure — engagement agreement executed + client/matter opened in the firm's system of record\n```\n\nEverything else commonly associated with modern intake — web forms, automated texts, scheduling links, e-signature, marketing attribution, AI lead scoring — makes intake fast and measurable but is not what makes it intake. A paper intake form, a conflicts check, a partner's yes-or-no, and a typed engagement letter realize the same structure; mature products digitize each step.\n\nThe Type ends where representation begins: once a client is accepted and the matter is opened, ongoing work belongs to Law Practice Management and Legal Matter Management. Likewise, deep firmwide conflicts search machinery belongs to Legal Conflict Checking Platform; intake only requires that a screening step can be run and recorded.",
+        "overview_zh": "一个**法律咨询与客户入驻**应用程序是律师事务所的系统，用于将传入的法律咨询转化为已接受的客户，执行协议并开启案件。它将每个潜在客户及其案件咨询捕获为管理记录，运行事务所的预承诺筛选——其中针对事务所自身记录的冲突筛选是关键步骤——记录明确的接受或拒绝决定，并在接受后正式化关系（聘用协议）并将新客户和案件移交给事务所的客户-案件记录系统。\n\n定义结构特意较小：\n\n```text\n潜在客户（个人/组织 + 案件咨询）——明确尚未成为客户\n  ↓ 通过定义的咨询界面捕获\n筛选关卡——冲突筛选、案件评估、风险评估（事务所定义）\n  ↓ 记录的结果\n聘用决定——接受为客户 / 拒绝（拒绝的代理仍需报告）\n  ↓ 接受后\n入驻完成——聘用协议已执行 + 客户/案件在事务所记录系统中开启\n```\n\n其他所有通常与现代咨询相关的东西——网络表单、自动文本、调度链接、电子签名、营销归因、AI潜在客户评分——使咨询快速且可衡量，但这不是构成咨询的本质。一张纸质咨询表、一次冲突检查、一位合伙人的同意或拒绝，以及一份打印的聘用协议实现相同的结构；成熟的产品将每一步数字化。\n\n该类型在代理开始时结束：一旦客户被接受且案件开启，持续工作属于法律实践管理和法律案件管理。同样，深入的全事务所冲突搜索机制属于法律冲突检查平台；咨询只要求能够运行和记录筛选步骤。",
+        "dc": "Four properties. If any one is removed, the product is no longer recognizable as legal intake:\n\n- **Prospective-client record** — an identified person or organization together with their matter inquiry, held as a managed record that is explicitly *not yet* a client. The record accumulates everything learned during intake: contact details, matter description, source, screening results, communications. Remove it, and there is nothing to screen or decide about — only a contact form.\n- **Screening gate before commitment** — the firm evaluates the inquiry through defined checks before any obligation arises. Conflict screening against the firm's existing client and adverse-party records is the legal-profession-signature instance; case evaluation (merits, viability, value) and, at the enterprise pole, risk and compliance questionnaires sit in the same gate. Remove it, and the product is marketing lead capture.\n- **Recorded engagement decision** — an explicit outcome that changes the record's class: accepted as a client, or declined. The decision is recorded, not conversational; a declined prospective client remains on record and reportable, which matters professionally because a firm must be able to show it did not accept a representation it screened and passed on. Remove it, and the product is a lead tracker.\n- **Onboarding closure into representation** — on acceptance, the relationship is formalized: the engagement agreement (engagement letter, fee agreement, retainer) is executed, and the client and matter are created in the firm's client-matter system of record. Remove it, and the product is a screening register; the \"client onboarding\" half of the Type disappears.\n\nThese four hold jointly. A record plus a decision without screening is a CRM; screening plus a decision without onboarding is a compliance checkpoint, not intake.",
+        "dc_zh": "四大核心属性。移除其中任一，产品将无法被识别为法律案件受理：\n\n- **潜在客户记录**：一个已识别的个人或组织及其案件咨询，作为受管理的记录明确持有，该记录**尚未成为**正式客户。记录中累积了受理过程中了解到的一切信息：联系方式、案件描述、来源、筛查结果、沟通记录。移除它，则无从筛查或决策——只剩一个联系表单。\n\n- **承接前的筛查关卡**：事务所在产生任何义务之前，通过既定检查对咨询进行评估。与事务所现有客户及对方当事人记录进行的利益冲突筛查，是该法律行业标志性的审查实例；案件评估（价值、可行性、价值）以及在企业级应用中的风险与合规问卷，均属于同一关卡。移除它，该产品就变成了营销线索捕获工具。\n\n- **正式受理决定**：一个明确的结果，改变了记录的状态：接受为客户，或拒绝受理。该决定被记录在案，而非口头沟通；被拒绝的潜在客户仍保留记录并可纳入统计，这在专业上很重要，因为事务所必须能证明其未接受已通过筛查并决定放弃的委托代理关系。移除它，该产品就变成了线索跟踪器。\n\n- **建立代理关系的入案闭环**：接受后，客户关系转化为正式代理关系的完整建立流程。",
+        "rules": "- **The prospect is not the client until the decision.** Records live in an explicitly \"not yet client\" state; the accept/decline is a recorded transition, and the record's class changes with it (prospective → client, or prospective → declined). This is the Type's central state rule.\n- **Screening precedes commitment.** Engagement follows screening; a failed or unresolved screening gate (conflict hit, risk rejection) blocks progression. The gate order is structural, not a suggested best practice.\n- **Declined representation is retained, not erased.** A declined inquiry stays on record and reportable — a firm must be able to demonstrate what it screened and declined.\n- **Client submissions are typically frozen at submission.** Where products document this behavior, a form submitted by the prospective client is locked against their further edits; if information is missing, staff corrections are recorded as a new version alongside the original rather than overwriting it, with each version filed to the record and its timeline. Products vary in whether staff-side editing exists at all.\n- **Duplicate protection at capture.** Because inquirers may already exist in the firm's records (as former clients, adverse parties, or referral sources), products detect likely duplicates at form submission or import and typically merge or link rather than create parallel records.\n- **The handoff must reconcile.** When intake hands an accepted client to the practice-management system, the accepted matter must exist exactly once — a second, parallel client/matter record for the same acceptance would corrupt the firm's books and conflicts base. Products therefore either share one system of record with practice management or automate/tightly integrate the conversion step.\n- **Speed of first response is a designed behavior, not a nicety.** In the high-volume consumer pole, immediate automated acknowledgment and booking are first-class automation because unresponsiveness loses clients to competing firms.",
+        "rules_zh": "- **潜在客户在决定前不是客户。**记录存在于明确的“尚未成为客户”状态；接受/拒绝是记录的转换，记录的类别随之改变（潜在→客户，或潜在→拒绝）。这是该类型的核心状态规则。\n- **筛选先于承诺。**聘用跟随筛选；失败或未解决的筛选关卡（冲突命中、风险拒绝）阻止进展。关卡顺序是结构性的，而非建议的最佳实践。\n- **拒绝的代理被保留，而非删除。**拒绝的咨询保留在记录中且可报告——事务所必须能够证明它筛选和拒绝了什么。\n- **客户提交通常在提交时冻结。**如果产品记录此行为，潜在客户提交的表单被锁定以防止进一步编辑；如果信息缺失，工作人员的更正被记录为新版本与原版并存，而不是覆盖它，每个版本归档到记录及其时间线。产品在工作人员端编辑是否存在方面有所不同。\n- **捕获时的重复保护。**因为咨询者可能已存在于事务所记录中（作为前客户、对方或推荐来源），产品在表单提交或导入时检测可能的重复，通常合并或链接而不是创建并行记录。\n- **移交必须协调。**当咨询将接受的客户移交给实践管理系统时，接受的案件必须仅存在一次——为相同接受创建第二个并行客户/案件记录会破坏事务所的账簿和冲突基础。因此，产品要么与实践管理共享一个记录系统，要么自动化/紧密集成转换步骤。\n- **第一次响应的速度",
+        "parent_id": "11.01",
+        "domain_id": "11"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 7,
+    "phase": "repair",
+    "parent": 129,
+    "slugs": [
+      "immigration-practice-management",
+      "law-practice-management-system",
+      "legal-billing-application",
+      "legal-e-filing-platform",
+      "legal-intake-client-onboarding"
+    ],
+    "old_input_sha256": "1f4054f98cbd4071d6a03959c87087e9dd49ecf312defb79c4f385507b25de99"
+  },
+  "previous_continuation": {
+    "unit": 129,
+    "phase": "complete",
+    "parent": 19,
+    "slugs": [
+      "immigration-practice-management",
+      "law-practice-management-system",
+      "legal-billing-application",
+      "legal-e-filing-platform",
+      "legal-intake-client-onboarding"
+    ]
+  }
+}

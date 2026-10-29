@@ -1,0 +1,74 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态：五个叶子的 case_status 均为 not_searched，application_ids 与 research_records 为空；而 research.json 与 batch.json 已有 case_found 及对应应用。该不一致不影响本批内容判断，但若下游读取 progress，应同步更新。",
+    "Jersey Watch 的帮助中心快照是 Online Registration 分类页，证据主要是文章标题列表而非文章正文；首页正文已覆盖报名、收款、消息与排程，核心判断可成立，但若需要更强的名单/退款工作流证据，建议补抓 1–2 篇 article 正文。",
+    "Bracket 的 features 列出的 “CSV import” 未在已读 README 或 docs 首页快照中出现；它不是定义性核心，建议补证或删除该细节。",
+    "SportsEngine HQ 页面顶部显示 “SportsEngine is now part of PlayMetrics!”；批次仍以 SportsEngine HQ 命名，作为产品名可接受，但品牌/归属说明宜保留该过渡信息。",
+    "Jackrabbit 的 “家长/家庭门户” 在快照中对应 “Parents & Families” 功能入口与 “Enhanced Parent Engagement” 文案，未直接出现 “portal” 字样；建议措辞收敛为家长/家庭功能。",
+    "Bracket 的 docs 仅抓到落地页，未抓到完整 usage guide；核心仍由 README 与落地页支撑，实际比赛流程未运行验证。"
+  ],
+  "leaf_checks": {
+    "sports-registration-platform": {
+      "application_id": "commercial:jersey-watch",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/8b798a3645d91cafe0464e731a6f8dbd2f8272e2f8859bec6f857008d9581813.txt",
+        "data/collections/sources/be64337a70ba89c94de55a904694d5c7a0de1f3257d52bf55e69c25fa6a86fd5.txt"
+      ],
+      "core_evidence": "官网正文可见 youth sports organizations、Online Registration、Collect Payments Online、customized registration forms、message teams、divisions 等表述；官方帮助中心 Online Registration 分类页列出 How to Create a New Program、Viewing and Exporting Registrant Information、Refunding Online Payments、How to Set up a Payment Plan、How to Create a Waiver、How to Create and Manage Teams、How to Create a Private Program、How to Move Registrants Between Programs。可对应参与项目、平台内报名交易和报名名单三项核心。",
+      "assessment": "pass：商业产品真实性可确认，核心类型与 Sports Registration Platform 匹配；未把帮助中心导航本身当作唯一证据，首页正文亦覆盖报名与收款。",
+      "gaps": "帮助中心文章正文未抓取；未验证监护人账户、数据模型或具体名单编辑界面；未运行产品。"
+    },
+    "tournament-management-platform": {
+      "application_id": "github:576223889",
+      "track": "open_source",
+      "sources_read": [
+        "data/collections/sources/6533bf788e38693b8dde42d434b9f30c0a257cd29c74823cc7661b0d649490bf.txt",
+        "data/collections/sources/ee6b6cc517d867a78671e622ede235c2f665e0429ffcbec647a159b4663c6d51.txt",
+        "data/collections/sources/54da1069c7a73db05bbbe6dd1fe8d4d511ad1e3a87a6c4c938bb4324380eb50e.txt",
+        "data/collections/sources/b36be88669aeb164e25dc32110fc9ceee73051ad6d5649f0e6d78880aa955a75.txt"
+      ],
+      "core_evidence": "README 明文支持 single elimination、round-robin、swiss，multiple stages 且每阶段可有多个 groups/brackets，teams/players，多个 clubs 与 multiple tournaments per club，以及 drag-and-drop 到不同 court/start time；官方文档首页明文 “Build tournament setups, add teams, schedule matches, keep track of scores and present ranking live to the public”。仓库元数据可见 id=576223889、full_name=evroon/bracket；license 端点快照含 GNU Affero GPL v3 完整文本（base64），与 AGPL-3.0 标注一致。四項核心具备。",
+      "assessment": "pass：开源身份、仓库 ID、track、完整许可证与核心赛制/比分/排名能力均可核对；自托管项目不存在社区版/商业版功能边界冲突。",
+      "gaps": "docs 仅落地页，未抓完整 usage guide；未运行系统验证实际比赛流程；features 中 CSV 导入未在已读快照出现。"
+    },
+    "youth-sports-management": {
+      "application_id": "commercial:sportsengine-hq",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/5a06f7ba2d0d1c8be650b89396fcf45b892d57920de44db63dcb2a3418ea55de.txt"
+      ],
+      "core_evidence": "页面标题为 SportsEngine HQ Sports Management Software；正文有 “Youth sports technology that saves you time”，并列出 Online registration、Easy payments、Seasons & schedules、create and manage teams/leagues/events、Volunteers、families、Eligibility、Background checks、Safety & risk management；顶部横幅注明 “SportsEngine is now part of PlayMetrics!”。可对应组织参与者、赛季、球队/联赛组建与赛季运营。",
+      "assessment": "pass：商业 SaaS 基本真实性可确认，产品身份与青少年体育管理类型匹配；页面为营销页但含具体功能正文，不是仅元数据或 Loading。",
+      "gaps": "未展开赛季隔离、分区组建、监护人账户或隐私实现；未运行产品；未验证价格、接口或数据模型。"
+    },
+    "climbing-gym-management": {
+      "application_id": "commercial:rock-gym-pro",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/d307a7b2372c7ce6429141d6227b20e1c517f0f5a31859b44e53cdebb4eaa636.txt"
+      ],
+      "core_evidence": "官网正文称 “All-in-One Member Management Software for High-Volume Facilities”，明确 tailored for climbing gyms，并列出 memberships、digital waivers、point-of-sale、online bookings、Member Management、Integrated Digital Waivers、Efficient Check-In、POS 可售 day passes 或 memberships、billing、Reporting & Analytics。可对应访客身份、入场资格、签到、费用结算及免责声明安全层。",
+      "assessment": "pass：商业产品真实性与攀岩馆管理类型匹配；核心商业闭环和攀岩特有免责声明有正文证据。",
+      "gaps": "官网未展示线路/抱石问题库存、资质标记、冻结/欠费生命周期；未运行产品；未验证价格、接口或数据模型。"
+    },
+    "dance-studio-management": {
+      "application_id": "commercial:jackrabbit-dance",
+      "track": "commercial",
+      "sources_read": [
+        "data/collections/sources/aab2d0a62c467429e6deb9e354ba644a02663850cd367b9737042d96b20ae1eb.txt"
+      ],
+      "core_evidence": "官网正文称其为 “premier class and payment management software”，并列出 Online Class Registration、Automated Billing（Effortlessly collect and manage tuition payments）、Parents & Families / Enhanced Parent Engagement、Tailor policies and waivers by class or recreational and competitive levels、Costume & Recital Management、Studio Management、Reporting。可对应家庭/课程、报名、学费及演出核心。",
+      "assessment": "pass：商业 SaaS 真实性与舞蹈工作室管理类型匹配；课程、报名、学费、政策/免责声明和演出管理均有正文证据。",
+      "gaps": "未展示家庭余额、出勤/补课、容量限制的具体实现；快照未直接出现 “portal” 字样；未运行产品；未验证价格、接口或数据模型。"
+    }
+  },
+  "limits": "只读审查；已读取 REVIEW_SOURCES.json 列出的全部 9 个快照；未运行或部署任何应用，未登录后台；未重算快照 sha256；部分 HTML 快照为压缩长行，读取工具对单行有截断，核心判断依据为正文可见片段与精确短语命中；未核验实时价格、API、数据模型或合同条款；商业产品仅依据公开页面，开源项目仅依据仓库元数据、README、许可证端点与文档首页。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-256/ses_groveopencodegop256review1_1793039068.jsonl",
+  "batch_sha256": "a58e551c054a199bc9ef5d59a015b80e229e2091a01aab1747b4c08789d8f435",
+  "research_sha256": "313cc85e289f8a9a30e97c7c5f641f24d36ce4dc3b750039d92c289cb05e6f02",
+  "input_sha256": "6b05ffd5673bf700487d877aa0a8a607175602b930504c6df7f85d0f6f6979a2"
+}

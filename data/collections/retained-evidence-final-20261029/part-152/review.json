@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "条目把 SMS（桌面主体）与 AgFiniti（云端/移动端配套服务）放在同一个 commercial:ag-leader-sms 下；research.service_boundary 已如实说明该边界，batch 摘要也写明“以桌面端为主并配合云服务”，未虚构单一产品能力。若目录要求“一条目=一个可独立订阅的产品”，建议后续明确产品族规则或拆分条目。",
+    "SMS 主要为本地安装软件：Basic/Advanced 采用年维护费（快照行707、719），许可证经 AgFiniti 账户在线注册（行901），Advanced 模块为年度订阅解锁（行925）；AgFiniti 为 cloud-based platform 并有年度 Essentials 许可与账户/权限（AgFiniti 快照行940、992、1016）。就“持续使用的软件服务形态”可接受，但若目录严格要求纯托管 SaaS，交付形态口径需另行约定；本次未把“桌面+云”表述当作事实错误。",
+    "AgFiniti 快照中“Generate prescriptions”一段包在 ChatGPT 组件式 HTML（gizmo-bot-avatar、bg-token-main-surface-primary 等，行705-708）内，疑似站点编辑时粘贴残留；同一文本亦出现在该页 JSON-LD（行958），且处方/管理区能力另有 SMS 页面独立支持（SMS 快照行666、720），不影响结论。建议后续补一份产品帮助文档或用户指南以降低对单一营销页的依赖。",
+    "部分能力证据来自产品页的教程视频字幕式说明（如“Learn how to create and edit a boundary…”，SMS 快照行676），而非逐步操作文档；用于类型匹配足够，但若要写入更强的工作流证据，建议补 help center/用户指南链接。",
+    "input.json 仍为 boundary_unresolved 且 application_ids 为空，而 research.json 已改为 case_found 并保留同一候选 ID；这是输入阶段的历史状态，research.historical_reuse 已记录改判理由。建议下游合并时以 research.json 为准并同步单元状态，避免状态字段歧义。",
+    "batch 的 verification_status=official_sources_reviewed、runtime_tested=false 与研究记录“未部署、未运行”一致；本轮未要求部署或价格核验，未将未运行作为缺陷。",
+    "开源替代品（farmOS/Pignoletto/DigiAgriApp/OpenAgri/FarmMaps）仅作为未采纳候选记录，未混入本叶案例；其拒绝理由与所引来源类型基本相符，不影响本叶结论。"
+  ],
+  "leaf_checks": {
+    "agricultural-gis": {
+      "slug": "agricultural-gis",
+      "name_zh": "农业GIS",
+      "result": "pass",
+      "application_ids": [
+        "commercial:ag-leader-sms"
+      ],
+      "definitional_core": "通过。按 REVIEW_SOURCES 原样读取的 SMS 快照正文给出完整核心链：田块边界创建/编辑及查询、平移、测量工具（sources/b1378c...txt 行676，“Boundary logging”）；土壤调查图下载并保存成图（行631）；多图层查询、结果修改与打印（行636）；管理区编辑器与生产力区编辑（行661）；公式化处方与自定义管理图层（行666）；3D 地形视图（行671）；批量导入（行646）；多年度均值分析（行656）；定价清单中的航拍/道路底图、简单处方、NDVI/地形分析、比较分析（行707、719、720）。覆盖“农业土地基础→注册到土地基础的农艺图层→地图工作面→空间操作→区/处方/报告输出”，并非仅客户端或元数据。",
+      "service_form": "基本满足。SMS 是持续销售和维护的商业软件：Basic/Advanced 年维护费（行707、719），许可证在线经 AgFiniti 账户注册（行901），Advanced 模块按年度订阅解锁（行925）；AgFiniti 官方正文自述为 cloud-based platform，连接显示器、移动端与 SMS，支持无线传输、远程查看与安全共享（sources/d7ed62...txt 行940），提供账户、Essentials 许可与用户权限（行992、1016），移动端可看地图、叠加图层、查询、打印地图和报告（行790），并与显示器同步边界和引导线（行802）。属于“桌面主体+云端账户服务”的持续使用形态，且 batch/r研究已如实披露桌面为主、未部署运行。",
+      "product_identity_and_track": "ID/track 一致：batch 条目 id=commercial:ag-leader-sms、track=commercial，research.case_ids 与 REVIEW_SOURCES.applications 均为 commercial:ag-leader-sms，homepage 与来源 URL 均为 https://www.agleader.com/sms-software/。产品身份为 Ag Leader SMS（含 SMS Mobile），AgFiniti 作为其官方配套云服务出现在 SMS 页面的“AgFiniti Connections”区块（SMS 快照行728），两者关系已在 research.service_boundary 中明确，未发现 ID 错配或类型错配。",
+      "license_and_community": "商业闭源产品，无开源许可证或社区版声明，故不适用“完整许可证/社区版边界”核对；未被当作开源案例。研究记录中的开源替代品仅为 rejected_candidates，未进入本叶 case_ids。",
+      "source_integrity": "两个快照均按 REVIEW_SOURCES 的 path 原样读取：data/collections/sources/b1378c0250e331ae42e7b154de4ece3c536acd301e820d81a64b9c4929837e97.txt（https://www.agleader.com/sms-software/）与 data/collections/sources/d7ed62aaed4dc653bcddafd42d49f8bb304899c0fa7ddb15cf9255564d08f883.txt（https://www.agleader.com/agfiniti/）。文件名与声明 sha256 一致，batch 的 snapshot_path 均以 data/collections 为基准且可解析；核心证据来自页面主体功能/定价/FAQ 正文，而非仅标题、meta description 或 Loading 占位。",
+      "gaps": "未部署、未登录 AgFiniti、未验证价格与设备兼容性，也未实际走通边界编辑→管理区→处方工作流；SMS 页面部分能力以教程视频字幕形式呈现；按审查范围未读取 HISTORY.json、REUSED_SOURCES.json 及采集脚本，故历史改判声明仅依据 research.json 的记载采信。"
+    }
+  },
+  "limits": "只读独立初审：未运行 shell，无法重算快照 SHA-256 或字节数，只能核对文件名/声明哈希一致并通读正文；未部署、未登录、未操作 SMS 或 AgFiniti，未验证价格、设备兼容和真实工作流，runtime_tested=false 与资料一致；仅读取本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及两份被引用快照，未读取采集者 TASK.md、HISTORY.json、REUSED_SOURCES.json、notes/、scripts/、server/ 或其他单元；未重跑 websearch/GitHub/GitLab 检索，检索计数与 HTTP 502 等缺口按采集留档采信；快照为官方营销页，虽含功能/定价/FAQ 正文，但不等于逐屏 UI 验证，个别段落存在站点 CMS 粘贴痕迹，已降权并以页面其他区块交叉核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-152/ses_groveopencodegop152review1_1793250637.jsonl",
+  "batch_sha256": "b2b9958ee2b43e13cde4f6e3912c7f971058af8b5ef231bc9d650f2befdebf13",
+  "research_sha256": "aeb3df5e7eaf9304bcc1f084338c8afa01e16cbb80280e7789568613b3845054",
+  "input_sha256": "9fca0fc88b3e7f4099c3a1b083e7df8ab301c8afb06284c2693be1db43024ae8"
+}

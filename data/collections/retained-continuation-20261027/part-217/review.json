@@ -1,0 +1,107 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "telehealth-platform",
+      "application_id": "github:874555509",
+      "note": "README 的“How TeleMedPilot Works”（注册→预约→视频/电话就诊→诊断与治疗方案→病历）构成核心就诊流程证据，但未见 HIPAA、知情同意、执照校验等受监管姿态材料；条目与研究记录均未宣称合规，建议保持这一措辞边界，不要升级为“合规/生产级远程医疗平台”。"
+    },
+    {
+      "slug": "telehealth-platform",
+      "application_id": "github:874555509",
+      "note": "README 功能段写视频通话用 Agora，技术栈段写 WebRTC，条目 technology_stack 仅取 WebRTC；另 README 克隆地址为 innovay.io/TeleMedPilot、Logo 指向 tele-med-pilot.vercel.app，与仓库及 homepage 不完全一致（研究记录已披露克隆地址差异），建议统一技术栈表述并避免把演示部署当作运营服务。"
+    },
+    {
+      "slug": "biobank-management",
+      "application_id": "github:22343235",
+      "note": "仓库元数据 fork=true 源自 NCIP/catissue-core（该父仓库 archived=true），本仓库自身 archived=false、default_branch=master、license=BSD-3-Clause、language=Java，README 亦自述前身为 caTissue Plus；仓库身份可用，但建议在来源说明中写清 fork 血缘，避免被误读为停更仓库。"
+    },
+    {
+      "slug": "biobank-management",
+      "application_id": "github:22343235",
+      "note": "README 只到“Storage and Inventory management”层级，未展示库位层级、占用率或冻存盒位置模型；BSD-3-Clause 为完整三条款文本，但社区版与商业支持/企业版的边界未在快照中说明（仅提 Krishagni 提供专业支持），如目录需要该边界应补充说明。"
+    },
+    {
+      "slug": "laboratory-information-management-system-lims",
+      "application_id": "github:1031078379",
+      "note": "案例对象是官方 Docker 打包仓库，README 明确“release contains only Docker packaging... not the application source code”；条目名称、摘要与匹配理由均已收窄为发行包，GPL-2.0 证据覆盖打包与文档，组件表列上游 SENAITE/Bika 组件均为 GPL-2.0，但未单独抓取上游仓库身份与许可证；建议注明“许可证核验范围=打包层”，避免读者将其当作应用源码的完整许可证审计。"
+    },
+    {
+      "slug": "laboratory-information-management-system-lims",
+      "application_id": "github:1031078379",
+      "note": "核心工作流证据主要是 README 的能力概述句（sample tracking、analytical workflows、instrument integration、QC、results reporting、ISO 17025 支持），缺少样品登记→分派→分析→结果验证→报告的具体流程描述；作为官方发行说明可接受，但不宜据此再扩写验证、电子签名或审计追踪等未出现的细节。"
+    },
+    {
+      "slug": "laboratory-information-system-lis",
+      "application_id": "github:165933530",
+      "note": "快照直接支持订单接收、分析仪结果导入、结果发送到其他系统、FHIR R4 与 ISO/SLIPTA；条目中的“HL7”“specimen accessioning”“result validation”在 README/元数据中无对应字面表述（仅有 standards-based interoperability、result accuracy），属非关键措辞，建议改为“FHIR/标准化结果交换”或补充来源。"
+    },
+    {
+      "slug": "blood-bank-management",
+      "application_id": null,
+      "note": "无案例结论有检索词、候选与 404 留档，排除理由（仅献血者/库存/请求 CRUD，无单位级状态门控与追溯链）与叶子核心一致；但唯一被阅读的候选 README 未保留快照，排除过程无法独立复核，且检索仅限 GitHub 名称/描述，建议保留候选快照并注明检索范围有限，不将“未找到”表述为“不存在”。"
+    },
+    {
+      "slug": "blood-bank-management",
+      "application_id": null,
+      "note": "该叶定义内部存在口径张力：overview 明确把 donor management、collection、manufacturing 排除在核心之外（医院输血服务即为血库软件），而 dc 又列出 donor registry、screening、collection、component manufacturing；本次采集按 overview 的保守口径排除候选是自洽的，建议后续统一定义表述以免筛选口径漂移。"
+    },
+    {
+      "slug": "telehealth-platform",
+      "application_id": null,
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]（phase=included_without_cases），与 research.json 的 4 个 case_found 及 batch.json 的 4 个条目不一致；若下游以 input.json.progress 为准，需同步刷新，否则可能丢弃本轮已收录案例。"
+    },
+    {
+      "slug": null,
+      "application_id": null,
+      "note": "本单元 4 个案例全部为 self-hosted 开源项目，无商业托管/SaaS 订阅案例；服务形态覆盖以自托管为主，若目录要求“持续运营的托管服务”证据，应在单元层面注明该覆盖限制。"
+    }
+  ],
+  "leaf_checks": {
+    "telehealth-platform": {
+      "applications": [
+        "github:874555509"
+      ],
+      "result": "matched_with_documented_regulatory_gap",
+      "evidence": "仓库元数据 id=874555509、full_name=MMansy19/Telemedicine-App、fork=false，描述为连接患者与认证医生的远程医疗平台；README 记录患者/医生注册、医生可维护可预约时段、视频或电话就诊、诊断与治疗方案、处方/检验结果/就诊史、安全消息，并给出 Users/Appointments/Medical Records 数据模型；许可证快照为完整 GPL-3.0 文本（35,149 字节），与 license API 一致，homepage 与 README Live Demo 一致。",
+      "gaps": "已识别患者+临床医生+远程就诊及预约/处方等护理交付上下文具备；但 HIPAA/知情同意/执照校验等受监管姿态无证据，README 自述含学习总结、Vercel 演示，属作品型项目；README 克隆地址与仓库不一致。研究记录已如实披露，条目未宣称合规。"
+    },
+    "biobank-management": {
+      "applications": [
+        "github:22343235"
+      ],
+      "result": "matched",
+      "evidence": "仓库元数据 id=22343235、full_name=krishagni/openspecimen，描述为开源 biobanking/biorepository 管理软件，language=Java，fork=true（父仓库 NCIP/catissue-core 已归档，本仓库 archived=false）；README 列出 planned/unplanned 采集、存储与库存管理、参与者与知情同意、样本请求与分发、运输追踪、样本生命周期事件、完整审计、条码/标签；许可证快照为完整 BSD-3-Clause 三条款文本（1,588 字节），与 README“BSD 3 Style”一致。",
+      "gaps": "样本库存、来源/同意关联、存储与监护生命周期均有对应；但库位/占用模型仅到“storage and inventory”层级，未展示 freezer/box 结构；社区版/企业版边界未说明。"
+    },
+    "blood-bank-management": {
+      "applications": [],
+      "result": "documented_no_case",
+      "evidence": "research.json 记录 GitHub 名称/描述检索、候选 suraj-savle/blood-bank-management-system（仅献血者、医院请求、实时库存）、Devzstudio/BloodBank（无可见许可证，README 404）、techinfo-youtube 项目（无许可证），均未出现单位级血液制品标识、检测/隔离/放行状态门控、过期/废弃处置及献血到患者追溯链，排除理由与叶子核心一致；assessment=insufficient_evidence、case_ids=[]。",
+      "gaps": "唯一被阅读的候选 README 未保留快照，404 亦无快照，排除结论无法独立复核；检索范围仅 GitHub，未覆盖其他开源目录。按“无案例但如实记录检索与缺口”的口径可通过。"
+    },
+    "laboratory-information-management-system-lims": {
+      "applications": [
+        "github:1031078379"
+      ],
+      "result": "matched_as_official_distribution_with_boundary_note",
+      "evidence": "仓库元数据 id=1031078379、full_name=bikalims/bika.lims、fork=false，描述为“Ingwe Bika LIMS 4 – Docker Suite”；README 明确该仓库是 Bika Open Source LIMS 的官方 Docker 发行包，用于 sample tracking、analytical workflows、instrument integration、QC、results reporting 并支持 ISO 17025，同时声明仅含 Docker 打包、部署脚本与文档，应用源码在上游仓库；许可证快照为完整 GPL-2.0 文本（18,092 字节），组件表列各上游组件 GPL-2.0。",
+      "gaps": "样品记录→请求分析→管理工作流→验证结果的核心能力只有 README 概述级证据；应用本体源码不在本仓库，上游 Bika/SENAITE 仓库身份与许可证未单独抓取；社区版/商业支持边界未说明。"
+    },
+    "laboratory-information-system-lis": {
+      "applications": [
+        "github:165933530"
+      ],
+      "result": "matched_with_high_level_evidence",
+      "evidence": "仓库元数据 id=165933530、full_name=DIGI-UW/OpenELIS-Global-2、fork=false，描述为面向临床与公共卫生实验室的开源 LIS/LIMS（Java/Spring+React、FHIR R4 native、Docker）；README 说明其为公共实验室 LIS，自动化工作计划、从临床分析仪导入结果、接收入院检验订单并向其他系统发送结果、满足 ISO/SLIPTA，并含 sample storage 与结果录入/合规判定等内容；许可证快照为完整 MPL-2.0 文本（16,727 字节）。",
+      "gaps": "订单—样本—结果—交换链路有 README 级证据，但患者锚定、结果验证/审核门控未直接描述；HL7、specimen accessioning 无字面来源，属非关键措辞；未做部署验证。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未重算 sha256（快照哈希按 REVIEW_SOURCES.json 与 batch.json 记录核对一致性，未独立校验）；repository_metadata/ license 快照为单行 JSON，read 工具按 2,000 字符截断，顶层 license/archived/default_branch/时间戳等字段不可见，故对 krishagni/openspecimen 额外做了一次只读 GitHub API 查询以消歧（确认顶层 archived=false、BSD-3-Clause、Java、master，archived=true 属于嵌套父仓库 NCIP/catissue-core）；许可证文件为 base64 载荷，仅解码识别开头与条款结构并结合字节数判断为完整文本，未逐条做法务审计；未做运行时/部署测试，未访问产品站点验证运营状态（仅上述一次 API 查询）；血库叶的排除结论依赖未留存快照的候选 README 与一次 404，无法独立复核；input.json 中长定义文本亦受 2,000 字符行截断，仅用于界定类型，不作为应用行为证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-217/ses_groveopencodegop217review1_1793029561.jsonl",
+  "batch_sha256": "8c287cac2ef91b240ae2b4744f4704e9d66fd6f733879db2fd8ea767da8f77d7",
+  "research_sha256": "5c547ef941ad9e1a9acd850844364ff58ee0d90a530b6820e6a3eb452b017dd5",
+  "input_sha256": "b8a0ec84bf6b32711f44369c4229e21bfa7bd81823d13d043bfcf29d5cd502e6"
+}

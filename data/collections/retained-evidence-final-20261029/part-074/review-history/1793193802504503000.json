@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "compliance-policy-management",
+      "application_id": "github:847006986",
+      "issue": "Openlane 条目对官方产品页的归属不实：batch.json 称 https://www.theopenlane.io/product/compliance 正文列出“政策与程序管理及审批工作流、政策签署”，但实际快照 a33c177a… 的正文只有“connect each one to the policies and evidence”“controls your business operates”“auditors read-only access”等表述，全篇检索 policy/procedure/approval/sign/acknowledg 未出现政策审批工作流或政策签署内容（“sign”仅出现在前端脚本的 signup 选择器中）。另 README 原文为“policies, controls, evidence, and programs, with editors, approvals, comments, and full history on every object”，并无“程序（procedures）文档”对象，batch 所称“政策与程序文档”亦无来源支撑。",
+      "fix": "将 Openlane 的政策能力表述改为与 README 逐字对应（policies/controls/evidence/programs 四类对象，均有 editors、approvals、comments、full history），删除“程序文档”与“政策签署”表述；source_urls 中政策审批/评论/历史只指向 README（fbe17e3f…），产品页仅用于 controls/evidence、框架导入、auditor 只读访问。若坚持保留签署与程序文档说法，须补交能显示该正文的官方快照。"
+    },
+    {
+      "slug": "compliance-policy-management",
+      "application_id": "github:847006986",
+      "issue": "Openlane 未证明本叶定义核心的第三环（向受管辖群体发布生效版本并由其确认）。所引 README 与产品页只显示政策对象的编辑、审批、评论、历史，以及控件/证据/框架/审计员访问；没有把已批准版本发布给受管人群、按其分发范围产生义务、确认签署绑定版本的任何正文。且 README 明示其定位是“system of record for your compliance program”，组织对象是 controls/evidence，政策只是其中一类对象，更接近 GRC/控制自动化平台而非以政策语料库为核心的系统记录。",
+      "fix": "补充 Openlane 官方文档中关于政策/程序发布与面向员工的分发、确认（acknowledgment/sign-off）及版本绑定的正文快照；若确无该能力，则把 Openlane 记为部分匹配（GRC 平台内含政策对象），从 leaf_matches 移除或标注为待证，不能以此条支撑本叶“受控生命周期 + 向受影响群体发布”的核心。"
+    },
+    {
+      "slug": "compliance-policy-management",
+      "application_id": "github:847006986",
+      "issue": "开源完整性与社区版边界未闭合。README 自述“This repository contains the core server and orchestration services behind the Openlane cloud service”，控制台前端在另一仓库 theopenlane/openlane-ui；research.json 记录了该仓库但仅以“proprietary branding”为由未导入，其许可证并未核对（本单元快照 ee936688… 仅含仓库元数据，未见 license 文件）。在 UI 许可证未证的情况下，批次与研究记录中“可自托管完整应用”的表述超出已核证据。",
+      "fix": "补取 https://api.github.com/repos/theopenlane/openlane-ui/license 快照并核对许可证，或在条目中明确社区版边界：core 仓库为 Apache-2.0 后端与编排服务，Web 控制台位于独立仓库（许可证待证），SaaS/云服务与商标不在 Apache-2.0 范围内（README Licensing 段已如此声明）；同时把“完整应用”改为与已核范围一致的表述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 中该叶 progress 仍为 case_status=insufficient_evidence、application_ids=[]，note 称“未完成足够正文核对”，而 research.json 已记 case_found 并列出三个 case_ids，batch.json 亦有对应条目；该 progress 属上一轮统一复核留档，研究记录已说明缺口闭合，建议下一轮同步 progress 状态与 application_ids，避免下游读到的叶级状态与条目不一致。",
+    "PowerDMS 的历史首页快照 a05390d6…（2026-10-24 抓取）正文基本为营销首页与 FAQ 元数据级内容，不含政策生命周期正文；本叶的实际证据应归于产品页 a43baf36…（第 1462、1513、2000–2014、2075–2148 行及 FAQ 2693+ 行），首页仅作身份/厂商佐证。research.json 已如实记录该快照为复用，不阻断。",
+    "PowerDMS 条目名“PowerDMS Policy”与其产品页 Product/SoftwareApplication 结构化数据中的 name 一致；但其为 PowerDMS by NEOGOV 套件中的 Policy 模块，非独立公司产品，建议在备注中保留“模块/子产品”身份说明，勿将其扩写为整套公共安全套件。",
+    "PowerDMS 页面对确认签署的描述是分配到个人/组/组织单元并带到期日与自动提醒，未说明重新实质性修订是否强制二次确认；这属于定义中“确认绑定版本”的细节，现有正文足以支撑核心，具体机制可不阻断。",
+    "research.json 服务边界称 Probo 与 Openlane“均为可自托管完整应用”，对 Probo 成立（README 自托管指南含 Docker Compose/Kubernetes，Web console、CLI、MCP/GraphQL 齐全），对 Openlane 的“完整”措辞应按上条 finding 收敛。",
+    "Openlane 产品页快照为大型 Astro 页面，部分长行在工具输出中被截断，我以正文关键词检索交叉核对；未发现策略发布/确认相关段落，但该页为营销页而非产品文档，后续宜直接引用 docs.theopenlane.io 平台文档而非营销页。",
+    "Probo 的许可证文件（b3eacb4d…，1085 字节）base64 解码后为完整 MIT 文本（含版权行、许可授予、AS IS 免责与结尾），与 SPDX MIT 一致；仓库 id 913434583、full_name getprobo/probo 与条目一致，未发现 MIT 之外的附加限制。",
+    "Openlane 的 LICENSE（174c480c…，11346 字节）base64 解码后为完整 Apache License 2.0 文本（含 Definitions、Grant of Patent License 等条款）；仓库 id 847006986、full_name theopenlane/core 与条目一致。"
+  ],
+  "leaf_checks": {
+    "compliance-policy-management": {
+      "leaf": "合规政策管理 (CPM)，parent 11.02；本单元唯一叶子",
+      "definition_core_check": "定义核心为“组织范围政策语料库 → 具名/有权责/有版本的政策文件 → 受控生命周期（起草→审核批准→生效发布）→ 向受影响群体发布”；据此逐条核对，不要求证明证明追踪、法规映射等扩展能力。",
+      "applications_checked": {
+        "commercial:powerdms": {
+          "identity_track": "commercial，track 与条目一致；产品页 Product/SoftwareApplication 结构化数据 name 为 PowerDMS Policy，与条目名一致，属 PowerDMS by NEOGOV 套件内 Policy 模块。",
+          "service_form": "SaaS 形态成立：正文与 FAQ 明示 cloud-based、无需自建服务器，移动应用可离线读政策并在恢复联网后同步确认。",
+          "core_match": "核心三环均有正文：集中库（policies/procedures/SOPs/SOGs/directives 等“single source of truth”，第 645、1513 行）；受控生命周期（可配置的评审审批路由至 legal/command staff 等后才发布、年度评审提醒、发布后自动归档旧版并保留完整历史，第 613、621 行及第 2005 行）；向受管群体发布与确认（按个人/组/组织单元分配、带到期日、自动提醒、电子确认带时间戳、审计轨迹，第 629、2002–2014、2075–2148 行）。类型匹配为政策管理/合规政策管理，商业条目仅作基本真实性与类型核对，通过。",
+          "sources_used": "a43baf36…（产品页正文，主体证据）、a05390d6…（首页，仅身份/厂商与套件关系佐证；复用历史快照已如实记录）。"
+        },
+        "github:913434583": {
+          "identity_track": "open_source；仓库元数据 id 913434583、full_name getprobo/probo、html_url 与条目一致；track 正确。",
+          "license_check": "b3eacb4d… 为 LICENSE 文件 API 响应，解码后为完整 MIT 许可文本（含版权声明、授予、条件、AS IS 免责），SPDX MIT；无附加限制。",
+          "service_form": "自托管 Web 应用成立：README 载明 self-hostable、web console/CLI/MCP/GraphQL，自托管指南含 Docker Compose 或 Kubernetes；MIT 许可下可自行部署。",
+          "core_match": "文档对象即 policies/procedures/reports 等受控记录（1cb762a9… 第 168 行）；生命周期有明确状态机：draft→approval quorum→published→signature requested→signed/cancelled/voided→superseded（第 169–183 行），审批决策绑定具体版本（第 188 行），签署请求绑定版本（第 190 行），归档后仍属记录（第 185 行），可导出 PDF 并关联 controls/internal controls（第 192 行）；向受管群体发布由 Employee Portal 承担（2cf337bb… meta 与正文：“sign policies, approve documents”）。三环齐备，类型匹配，通过。",
+          "sources_used": "4a6fdb61…、b3eacb4d…、94800a76…、1cb762a9…、2cf337bb…；另有官网 /docs/product/documents 404 与 openlane 文档 404 已如实留档，不影响本叶。"
+        },
+        "github:847006986": {
+          "identity_track": "open_source；仓库元数据 id 847006986、full_name theopenlane/core、html_url 与条目一致；track 正确。",
+          "license_check": "174c480c… 为 LICENSE 文件 API 响应，解码后为完整 Apache License 2.0 文本；README Licensing 段另声明 SaaS/云服务按商业条款、logo 与商标不在 Apache-2.0 范围内。core 仓库许可证本身核对通过，但社区版/完整应用边界见 findings 第 3 条。",
+          "service_form": "Web 服务形态存在（console.theopenlane.io 与 README 的 Run It Yourself、GHCR 镜像、task run-dev），但 README 自述本仓库为“core server and orchestration services”，控制台前端在独立仓库且其许可证未核（见 findings 第 3 条）。",
+          "core_match": "仅部分成立：README 正文可证政策与 controls/evidence/programs 同属 compliance management，且每个对象有 editors、approvals、comments、full history（fbe17e3f…）；产品页可证 controls 与 policies/evidence 关联、框架导入、auditor 只读访问。但两处来源均无政策发布给受管群体、确认签署绑定版本、按分发范围产生义务的正文，第三环缺失；且平台组织对象是 controls/evidence，政策为其中一类对象。结论：需按 findings 第 1、2 条更正归属并补证或降级，未通过。",
+          "sources_used": "4ae947a7…、fbe17e3f…、174c480c…、a33c177a…；ee936688…（openlane-ui 元数据）仅作边界讨论，不作为政策核心证据。"
+        }
+      },
+      "overall": "两叶内条目可支撑（PowerDMS、Probo），Openlane 存在来源归属不实与核心第三环缺失，需修正后方可通过。"
+    }
+  },
+  "limits": "只读审查：仅使用 read/grep/glob 与只读网页抓取，未运行 shell、未写文件、未读取其他单元或采集者 TASK.md/历史脚本；无法重算来源 sha256，只能核对 REVIEW_SOURCES.json 的 path/sha 文件名与 batch.json 的 snapshot_path 一一对应及内容自洽。Openlane 产品页与部分快照为大型单行 HTML，工具输出有截断，政策/审批/签署等结论以多次大小写不敏感关键词检索为准。两份 README 与 LICENSE 在快照中以 base64 存储，为核对正文我另行只读抓取了 GitHub raw 的同一 README（getprobo/probo、theopenlane/core）作补充对照；结论仍以本单元快照与官方快照为准，补充抓取不替代快照。未部署或运行任何第三方项目（batch 与 research 均记 runtime_tested:false），故 SaaS 形态与核心工作流仅按公开正文判定，不含实测。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-074/ses_groveopendesignp074review1_1793192961.jsonl",
+  "batch_sha256": "1953924773874e3dbcdf6b5980b0585939959b9ee89b283e0255a080e747a677",
+  "research_sha256": "b822fbcceebaf6d84fa77bac803d63bb3eeadf35bc5bd1423d6be996a0aa1895",
+  "input_sha256": "057827743e51e94e3f737d76d62307542fe2d59afbb8c3d31b18f2c0f85916de"
+}

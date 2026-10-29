@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "OBrush 的 license 字段记录为 Apache-2.0，但 README 与 LICENSE-MIT 快照表明其为 MIT 或 Apache-2.0 双许可；建议后续把该字段改为 SPDX 表达式 MIT OR Apache-2.0。当前 summary 与 license_review 已说明双许可，故不阻断。",
+    "SculptGL 仓库 archived=true，README 说明仅做少量小修；本叶通过依赖其仍可自托管的静态构建，公开实例的长期可用性不在本次证据范围内，展示时宜保留维护状态提示。",
+    "OBrush 仍为 public alpha，README 提到的多对象/雕刻图层与 0.1.6 文档的单网格说明冲突；batch 已正确不计入这些功能，后续版本更新时应重新核对 features。",
+    "obrush.app 入口脚本包含可选的 WebGPU preview 路径，而 BUILDING.md 明确主视口为 WebGL2；技术栈记录 WebGL2 与主文档一致，WebGPU 仅为预览能力，不构成事实错误。",
+    "Nomad Sculpt 仍作为 withheld 候选保留；其本地客户端形态与本叶 local-first 定义存在边界张力，若目录允许本地商业客户端可另行评估纳入，但不影响本批两个开源 Web 应用案例的通过。"
+  ],
+  "leaf_checks": {
+    "digital-sculpting-application": {
+      "result": "pass",
+      "cases_checked": [
+        "github:11232735",
+        "github:1427684344"
+      ],
+      "definitional_core": "四项核心均有正文级证据。SculptGL：Tools.js 注册 Brush/Inflate/Twist/Smooth/Flatten/Pinch/Crease/Drag/Paint/Move/Masking/LocalScale/Transform 等沿表面作用的工具，english.js 给出 Radius/Intensity/Hardness、Negative、Alpha 纹理、Tablet pressure（radius/intensity）及 Continuous/Accumulate per stroke，Export.js 提供 OBJ/PLY/STL/SGL 导出，配合 README/package.json 的 WebGL 应用与构建说明，构成持久网格、笔刷笔触、笔触参数、可导出结果。OBrush：README 列出 Draw/Clay/Move/Smooth/Crease 等笔刷、遮罩、顶点绘制、X 对称、压力控制及 OBJ/PLY/STL 导入导出；CONTROLS.md 给出左键拖拽雕刻、Shift 临时 Smooth、半径快捷键、浏览器压力调制强度；SCULPTING_FOUNDATIONS.md 给出持久 Loop 细分、体素重网格、PNG alpha 与版本化 .obrush 工程；BUILDING.md 给出本地打开/保存工程与活动网格导出。",
+      "service_form": "两者都是以浏览器交付的完整应用，而非仅引擎、CLI 或库：SculptGL 由 README/package.json 的 webpack 构建产出 app/ 静态站点，并有 stephaneginier.com/sculptgl 公开实例；OBrush 由 BUILDING.md/WEB_HOSTING.md 说明同一 Rust 核心编译为 WebAssembly、WebGL2 静态包并由普通 Web 服务器托管，公开实例 obrush.app。两者均披露可选桌面打包（SculptGL Electron；OBrush macOS alpha），且工程/导出文件归用户本地所有，符合本叶 local-first 的边界；此前 boundary_unresolved 所缺的 Web 应用服务形态已由这两个可自托管/公开访问的浏览器应用补齐。",
+      "identity_and_track": "ID 与仓库元数据一致：github:11232735 = stephomi/sculptgl（archived=true，默认分支 master，license MIT）；github:1427684344 = Reza2kn/OBrush（archived=false，默认分支 main，GitHub license API 识别 Apache-2.0）。两者 track 均为 open_source，无商业条目混入。",
+      "licenses": "SculptGL：license API 快照的 base64 内容可读出完整 MIT 文本（LICENSE 1072 字节，SPDX MIT），package.json 亦写 MIT。OBrush：license API 快照的 LICENSE-APACHE 为 10834 字节、SPDX Apache-2.0，正文以 Apache License Version 2.0 开头；另有 LICENSE-MIT 原始快照（1076 字节）为完整 MIT 文本，README 明确 MIT 或 Apache-2.0 任选。两仓库的许可证文本与仓库身份均已留档，未发现许可证缺失或许可不一致。",
+      "community_edition_boundary": "两个开源条目的仓库即完整产品，来源中未出现付费企业版/闭源云版本被混入，也未把社区版限制写成完整产品能力。SculptGL 作者后来的商业产品 Nomad Sculpt 作为独立 withheld 候选处理，未与 SculptGL 仓库混同；OBrush 未见付费层级。社区版边界无需额外扣减。",
+      "evidence_quality": "核心判断依据为仓库代码与文档，不以简介、元数据或 Loading 页代替：SculptGL 使用 Tools.js、english.js、Export.js、README、package.json；OBrush 使用 README、CONTROLS.md、SCULPTING_FOUNDATIONS.md、WEB_HOSTING.md、BUILDING.md。SculptGL 首页快照仅为 canvas + sculptgl.js 启动壳，obrush.app 快照仅为 WASM 启动页与本地文件输入控件，两者均只作交付形态证据，未用于功能正文；SculptGL help/about/manual 403 与未做运行时测试均已如实记录。",
+      "gaps": "未运行 SculptGL/OBrush，未做浏览器交互、笔刷实际变形或导出文件实测；SculptGL 已归档、上游基本停止维护；OBrush 为 public alpha，缺少 autosave/crash recovery；Nomad 的历史手册快照为 VitePress HTML，未作为本批核心证据。上述缺口均有留档，不影响四项定义性核心与浏览器应用形态的通过判断。"
+    }
+  },
+  "limits": "本次为只读桌面初审：未运行 shell、未写文件、未运行任何应用，也未做部署、浏览器交互、导出文件或哈希复算；仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json、issues.json、HISTORY.json、REUSED_SOURCES.json、notes 及 data/collections/sources 下实际快照。长 JSON 快照中的 base64 许可证正文在读取工具中显示截断，Apache-2.0 主要依据 GitHub license API 的 SPDX 标识、10834 字节 size 与可见标准文本核对，MIT 全文可直接读出；未独立访问网络复核实时页面。未核对共享 application-index 或其他单元，也未评估本叶之外的目录范围。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-048/ses_groveopendesignp048review2_1793170897.jsonl",
+  "batch_sha256": "a312fa55f2f156accfb48fd6fac8346e168e2b1bb1ec95e5131ef47dfa7635bb",
+  "research_sha256": "be19214810ca0656e0f000a5e00f033993a0148d7ac52bde947fb171f0c49bd7",
+  "input_sha256": "202c99694b8dd074f9dfb65e1fa1e24a0d2b64d2e801784364fd90564c7daf76"
+}

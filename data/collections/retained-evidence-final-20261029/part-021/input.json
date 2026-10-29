@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 4,
+  "offset": 75,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "raster-image-editor",
+        "name_zh": "位图图像编辑器",
+        "domain_id": "04",
+        "parent_id": "04.02",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-004/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "raster image editor paint | pinta image editor"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/81",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "raster image editor paint | pinta image editor"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "raster-image-editor",
+        "name": "Raster Image Editor",
+        "name_zh": "位图图像编辑器",
+        "aliases_zh": [
+          "图像编辑软件",
+          "照片编辑器"
+        ],
+        "overview": "A **Raster Image Editor** is a general-purpose application for directly editing images made of pixels. Its editable object is a **raster document** — a pixel grid with defined dimensions where each pixel carries a color (and optionally transparency). The user modifies this grid through tools (painting, erasing, filling, transforming) on a visual canvas, and persists the result as standard image files.\n\nThe defining structure is small:\n\n```text\nRaster Document (pixel grid)\n└── Direct pixel manipulation (tools that change pixel values)\n    └── Visual canvas (zoomable direct-manipulation surface)\n        └── Persist as image (save/export to standard formats)\n```\n\nEverything commonly associated with modern editors — layers, masks, blend modes, adjustment stacks, color management, non-destructive workflows — is widespread in current products but is not part of the defining core. Simpler and older raster editors without any of those (the platform-native paint-program lineage) still fit this definition.\n\nWhen the primary job shifts to creating artwork from scratch with brushes, developing camera RAW files, editing geometry instead of pixels, or generating images from prompts, the product is drifting toward a different Application Type (Digital Painting, RAW Photo Editor, Vector Graphics Editor, AI Image Editing).",
+        "overview_zh": "一款**光栅图像编辑器**是一种用于直接编辑由像素构成的图像的通用应用程序。其可编辑对象是**光栅文档**——一个具有定义尺寸的像素网格，其中每个像素携带颜色（以及可选的透明度）。用户通过工具（绘制、擦除、填充、变换）在视觉画布上修改此网格，并将结果保存为标准图像文件。\n\n其定义性结构很小：\n\n```text\n光栅文档（像素网格）\n└── 直接像素操作（改变像素值的工具）\n     └── 视觉画布（可缩放的直接操作表面）\n         └── 持久化为图像（保存/导出到标准格式）\n```\n\n通常与现代编辑器相关的一切——图层、蒙版、混合模式、调整堆栈、色彩管理、非破坏性工作流——在当前产品中很普遍，但并非定义核心的一部分。更简单、更古老的光栅编辑器，即使没有这些功能（平台原生绘图程序的血统），仍然符合此定义。\n\n当主要任务转变为使用画笔从头创建艺术品、开发相机 RAW 文件、编辑几何形状而非像素，或从提示生成图像时，该产品正在转向不同的应用程序类型（数字绘画、RAW 照片编辑器、矢量图形编辑器、AI 图像编辑）。",
+        "dc": "```text\nRaster Document (pixel grid: defined dimensions; per-pixel color, optionally alpha)\n└── Direct pixel manipulation (tools/operations that paint, erase, fill, transform pixels)\n    └── Visual canvas (zoomable direct-manipulation surface where edits happen)\n        └── Persist as image (save/export the result to standard image formats)\n```\n\nFour properties. If any one is removed, the product is no longer recognizable as a raster image editor:\n\n- **Raster document** — the editable object is a bitmap: a grid of pixels, each holding color values (and optionally an alpha/transparency value). Without this, the product is a vector editor or a 3D tool.\n- **Direct pixel manipulation** — the user changes pixel values through operations: paint, erase, fill, clone, transform. Without this, the product is a viewer.\n- **Visual canvas** — the raster is displayed at zoom/pan and edited in place through direct manipulation. Without this, the product is a batch processor or conversion utility.\n- **Persist as image** — the edited result can be saved or exported into standard image formats. Without this, it is not an editor.",
+        "dc_zh": "位图文档（像素网格：定义尺寸；每个像素的颜色，可选alpha通道）\n└── 直接像素操作（绘制、擦除、填充、变换像素的工具/操作）\n    └── 可视画布（可缩放的直接操作表面，编辑在此发生）\n        └── 持久化为图像（将结果保存/导出到标准图像格式）",
+        "rules": "### Edits land on the active layer\n\nWith a layer stack, tools act on the currently selected layer. Editing one layer does not change the pixels of other layers; the visible image is the composite. Forgetting which layer is active is a common source of \"nothing happens\" or \"edited the wrong thing\" — at least one major product devotes a troubleshooting section to exactly this class of confusion.\n\n### Selections constrain edits\n\nWhen a selection exists, painting, filling, filtering, and transforming apply only inside it; operations outside it do nothing. A selection can persist invisibly and silently constrain later edits — products provide \"select none\" and visibility toggles for this reason.\n\n### Layer order and blend modes change the result\n\nThe same pixels produce different visible outcomes depending on stack order, opacity, and blend mode. Reordering is itself an edit.\n\n### Masks hide without destroying\n\nMask edits change visibility, not pixel data; disabling or deleting the mask restores the layer. This is the primary non-destructive mechanism common across mature products.\n\n### Undo has limits\n\nThe researched products all document limits: some operations cannot be undone, and history depth is bounded by available resources. Saving, flattening, and mode conversions are typical hard boundaries; the History panel mitigates but does not remove them.\n\n### Native format preserves editability; export may not\n\nLayer structure, masks, and text survive in the native project format. Exporting to interchange formats may flatten layers or drop features (e.g. transparency in formats without alpha). The save/export distinction is a structural rule of the Type, not a product quirk.\n\n### Destructive vs non-destructive is a spectrum\n\nDirect pixel edits are destructive by default. Masks, and (where offered) adjustment layers/smart objects, defer or avoid pixel destruction. Products differ in how far they push non-destructive editing; the raster editor as a Type does not require it.",
+        "rules_zh": "### 编辑落在活动图层上\n\n在有图层堆栈的情况下，工具作用于当前选定的图层。编辑一个图层不会改变其他图层的像素；可见图像是合成结果。忘记哪个图层是活动的是“没有反应”或“编辑了错误对象”的常见原因——至少有一个主要产品专门为此类混淆提供了故障排除部分。\n\n### 选区限制编辑\n\n当存在选区时，绘制、填充、滤镜和变换仅应用于其内部；其外部的操作不起作用。选区可以不可见地持续存在并静默地限制后续编辑——产品提供“取消选择”和可见性切换功能正是出于这个原因。\n\n### 图层顺序和混合模式改变结果\n\n相同的像素根据堆栈顺序、不透明度和混合模式产生不同的可见结果。重新排序本身就是一种编辑。\n\n### 蒙版隐藏而不破坏\n\n蒙版编辑改变可见性，而非像素数据；禁用或删除蒙版可恢复图层。这是成熟产品中常见的非破坏性机制的主要形式。\n\n### 撤销有限制\n\n研究过的产品都记录了限制：某些操作无法撤销，且历史记录深度受可用资源限制。保存、展平和模式转换是典型的硬性边界；历史记录面板可以缓解但不能消除这些限制。\n\n### 原生格式保留可编辑性；导出可能不保留\n\n图层结构、蒙版和文本在原生项目格式中得以保留。导出到交换格式可能会展平图层或丢弃功能（例如没有 alpha 通道的格式中的透明度）。保存/导出的区别是该类型的结构规则，而非产品怪癖。\n\n### 破坏性与非破坏性是一个光谱\n\n直接像素编辑默认是破坏性的。Mas",
+        "parent_id": "04.02",
+        "domain_id": "04"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 21,
+    "phase": "directory",
+    "parent": 21,
+    "slugs": [
+      "raster-image-editor"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "987cd142391aa052f5f839c69a5715269e8e99696547662da68ae80d9bad26fc"
+  }
+}

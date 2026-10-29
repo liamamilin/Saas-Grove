@@ -1,0 +1,94 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "legal-document-automation",
+      "application_id": "github:34148903",
+      "issue": "定义性核心缺少正文证据。可读的 README 只有 8 行且只指向 docassemble.org；batch 的 leaf_matches 只列 GitHub 仓库元数据，核心匹配实际依赖一句仓库 description（guided interviews/document assembly）。快照中没有模板变量、条件逻辑、数据采集、自动组装、生成可编辑文档等定义性行为的说明，也无法核对完整社区版的功能边界。",
+      "fix": "补充并快照 docassemble 官方文档或仓库中说明 interview/YAML、DOCX/PDF 模板、条件与变量、生成文档的页面或源码，并在 batch 的 source_urls 与 reason 中引用这些正文。若无法取得，应将本叶标为证据不足并移出 case_found，不能用仓库简介替代核心工作流。"
+    },
+    {
+      "slug": "contract-analytics-platform",
+      "application_id": "commercial:luminance",
+      "issue": "来源与叙述不匹配。快照可读内容只有 title/meta description 和导航（Contract Intelligence Platform/actionable insights），没有产品正文说明合同语料导入、条款或义务抽取、源文回溯、组合级检索问答或审查流程；research.note 却声称页面正文呈现义务与风险提取、组合级检索问答，batch 的 summary 也写了“内容提取与分析”。这等于用摘要和导航替代核心工作流证据。",
+      "fix": "重新抓取 Luminance 官方产品/平台页正文（不要用首页 meta 或 JS 壳），或将该条限定为“合同智能/分析平台”的基本类型匹配，删除快照中不存在的具体能力描述，并同步修正 research.note、batch.summary 与 leaf_matches.reason。"
+    }
+  ],
+  "non_blocking_notes": [
+    "case-law-research-platform：LICENSE 文本写的是 version 3 或任何更晚版本，严格 SPDX 可记为 AGPL-3.0-or-later；当前 AGPL-3.0 的写法不影响开源身份判断，但可在 license/spdx_id 中写得更精确。",
+    "legal-research-platform：Westlaw 快照是品牌落地页，正文对 KeyCite Overruling Risk、法规版本对比和 Practical Law 有直接表述，但未逐项列出判例语料；商业基本类型匹配可接受，若需更强证据可补产品页。",
+    "due-diligence-platform：DealRoom 整体定位是端到端 M&A OS，尽职调查是其 Diligence 模块；建议在条目中明确这是模块级匹配，避免把 VDR 或 pipeline 当作 DD 核心。",
+    "batch 中商业三叶的 leaf_matches.reason 多为通用句式，建议改写成具体的能力与正文对应关系；不影响本次类型判断。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]，与 batch/research 的 case_found 不一致；若 input 是修复前快照可保留，否则应同步。",
+    "Docassemble 条目缺少 license_review 对象；MIT 全文已在许可证快照中核实，建议补齐字段以与 CourtListener 条目一致。",
+    "目录中另有 3 个未列入 REVIEW_SOURCES.json 的快照文件，本次未作为依据；若其中含相关正文，应在来源清单和 batch 中显式登记。"
+  ],
+  "leaf_checks": {
+    "case-law-research-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:22257580"
+      ],
+      "evidence": "仓库元数据快照确认 full_name=freelawproject/courtlistener、id=22257580、description 为可全文检索的法院数据档案（含 opinions）；README 确认其为 Free Law Project 的 CourtListener 项目；API 索引列出 search、opinions、clusters、courts、opinions-cited 等端点；models.py 中 OpinionCluster/Opinion/Citation 构成判决与引用对象，OpinionsCited 明确 citing_opinion（related_name=cited_opinions）与 cited_opinion（related_name=citing_opinions）、depth，支持双向导航。",
+      "core_match": "判决语料库、检索层、判决间引用关系三层均有实际正文或源码证据；未把注释中的 treatment 字段误写成已实现的 citator。",
+      "service_form": "持续运营的公开 CourtListener 网站/API，加上可自托管的 Django 开源应用；track=open_source。",
+      "identity_track": "github:22257580 与仓库 id 一致；开源仓库身份明确。",
+      "license_boundary": "许可证快照为完整 AGPL v3 文本，README 亦确认 Affero GPL；社区核心覆盖判决检索与 citing/cited 引文图，不主张 treatment/citator 判断或商业订阅能力。",
+      "gap": "官方 wiki 引文文档因主机限制未保存快照，已在 research 中如实记录；检索按引用可通过 Citation 模型/过滤与 search 端点核对，不是专门的 citation-lookup 页面证据。"
+    },
+    "legal-document-automation": {
+      "status": "partial",
+      "application_ids": [
+        "github:34148903"
+      ],
+      "evidence": "仓库元数据快照确认 full_name=jhpyle/docassemble、id=34148903、description 为 free/open-source expert system for guided interviews and document assembly；许可证快照为完整 MIT 文本；README 快照只有 8 行，指向 docassemble.org 和支持页面。",
+      "core_match": "仅能确认“guided interviews + document assembly”这一层；模板变量、条件逻辑、数据绑定、自动组装为完成文档、模板与产出解耦等定义性行为没有正文证据。",
+      "service_form": "MIT 开源、可自托管的文档组装应用；本轮未部署或运行。",
+      "identity_track": "github:34148903 与仓库 id 一致；track=open_source。",
+      "license_boundary": "完整 MIT 许可证文本已核实，仓库身份明确；但社区版功能边界只有“free, open-source”这一句，缺少文档佐证。",
+      "gap": "README 没有能力说明，batch 的 leaf_matches.source_urls 只列仓库元数据；需要补充官方文档/源码正文后才能确认定义性核心。"
+    },
+    "legal-research-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:westlaw"
+      ],
+      "evidence": "Thomson Reuters 官方 Westlaw 品牌页确认其为 Legal Research Platforms，正文出现 Legal research tools、KeyCite Overruling Risk、任意两个版本的 statute/regulation 对比、judges/courts/attorneys/damages/case types 数据洞察，以及 Practical Law 的 how-to guides/templates/checklists；页面有 Sign in 与 pricing CTA。",
+      "core_match": "多内容家族（判例/权威、法规与 regulation、Practical Law 二次资料）加专业检索/研究入口，足以支持法律研究平台的基本类型匹配。",
+      "service_form": "商业订阅制 Web 平台；官方产品页有登录与定价入口。",
+      "identity_track": "commercial:westlaw 与官方 Thomson Reuters 页面一致；track=commercial。",
+      "license_boundary": "商业条目，不做开源许可证核对；仅记录基本产品信息，未扩写价格、架构或部署。",
+      "gap": "品牌页未逐项枚举判例语料，判例层主要由 KeyCite/authority 与研究语境间接体现；对商业基本类型匹配不构成阻断。"
+    },
+    "contract-analytics-platform": {
+      "status": "partial",
+      "application_ids": [
+        "commercial:luminance"
+      ],
+      "evidence": "官方首页快照的 title/meta description 为 Contract Intelligence Platform，将 business language 转为 actionable insights；导航可见 Product Overview、Negotiation、Repository 等入口。正文主体是 Framer 生成的 HTML，单行截断后无法读到完整产品正文；快照中检索不到 extract、clause、obligation、portfolio 等词。",
+      "core_match": "只能确认“合同智能/分析平台”的宽泛定位；合同语料导入、条款/义务抽取、源文可追溯、组合级分析交付等定义性核心没有被正文证据覆盖。",
+      "service_form": "商业 Web 平台；首页为厂商官方站点，但快照未展示完整 SaaS 功能面。",
+      "identity_track": "commercial:luminance 与 Luminance 官方首页一致；track=commercial。",
+      "license_boundary": "商业条目，不做开源许可证核对；按基本真实性/类型匹配审查。",
+      "gap": "research.note 对义务/风险提取、组合级检索问答的描述超出快照可读内容；需补正文或收窄叙述。"
+    },
+    "due-diligence-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:dealroom"
+      ],
+      "evidence": "DealRoom 官方首页 JSON-LD 描述其为统一 pipeline management、due diligence、post-merger integration 的 M&A 平台；featureList 含 Due Diligence Management、Collaborative Q&A、Virtual Data Room、BI Reporting；正文有 Run Efficient Due Diligence、Execute diligence inside DealRoom、Track deal progress with reporting，以及客户关于 specific request items 实时答复、连接 PE/运营公司/卖方的引述，并展示 140+ diligence requests。",
+      "core_match": "请求项、答复/审查、跨方可见性、进度报告与发现积累的尽调询问循环有实际页面证据；文档库/VDR 作为相邻能力，不被当作定义核心。",
+      "service_form": "商业 SaaS Web 平台；有 Request a demo、Log in、Pricing 入口。",
+      "identity_track": "commercial:dealroom 与 dealroom.net 官方站点一致；track=commercial。",
+      "license_boundary": "商业条目，不做开源许可证核对；仅记录基本产品信息。",
+      "gap": "产品整体是更宽的 M&A OS，尽调叶对应其 Diligence 模块；建议在条目中明确模块级匹配，避免与 Deal Management/VDR 混淆。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未执行部署或运行时测试，未访问实时网页；依据仅为 input.json、batch.json、research.json 和 REVIEW_SOURCES.json 列出的 11 个快照。HTML 快照按行读取时单行超过 2000 字符会被截断，Luminance 的 Framer 正文及 Westlaw/DealRoom 的长 HTML 行只能结合可见片段和检索命中判断；未使用目录中未列入来源清单的 3 个快照。开源许可证按快照内完整 LICENSE 文本核对，未提供法务意见。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-056/ses_groveopencodegop056review1_1792990352.jsonl",
+  "batch_sha256": "b89a02c37bbcdac44960fcd5ca6348327f9accb18749d3d576ac453e4f89723e",
+  "research_sha256": "b6bed8174636c93c221cf65169e783a85aaa7b372ab5b822863464b47f130221",
+  "input_sha256": "e553bdc2cb3e4324bf915bcf7aa058a03c18b195e7ccdbf5ed99c07b9c58c84e"
+}

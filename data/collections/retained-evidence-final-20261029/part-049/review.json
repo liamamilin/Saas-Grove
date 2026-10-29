@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "溯源轻微偏差（不阻断）：batch.features 中的“（CTRL-r 重新渲染）”与 leaf_matches.reason 中的“按 CTRL-r 重新渲染”，在已登记的五份快照中找不到依据。登记的首页快照（sources/d162c9d7…）正文只说“创建一个 .js 文本文件…拖到 JSCAD 建模窗口”，以及“从格式列表选择 STL/3MF 导出”，并未出现 CTRL-r 或编辑器内重算的描述。该细节实际出自 openjscad.xyz/v2/ 应用页快照（sources/aa772c49…，文件在 sources 目录内，但未登记进 REVIEW_SOURCES.json 与 batch.sources）。建议把这枚 v2 快照连同 sha256 补登记为正式来源，或把措辞收缩为已登记快照可支撑的表述。",
+    "features 里“实时预览”与括号内“CTRL-r 重新渲染”语义略有冲突；JSCAD 是整段脚本重算后刷新视图，建议统一为“执行/重算后预览并导出”，避免让人误读为拖动参数即连续实时求值。",
+    "input.json 中该叶仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而本批次 research.json 已按 case_found 收录 github:8684805 并在 batch 中建立 leaf_matches。合库时需同步叶状态与 application_ids，否则案例可能挂不到叶上。",
+    "被排除的候选（OpenSCAD、cables、CadHub、BlocksCAD）仅在 research.json 以文字记录抓取结果（如 cables license API 404、CadHub 最近推送 2023-01、BlocksCAD 仓库 404），本单元未登记对应快照（sources 目录中虽有历史 OpenSCAD 快照，但不在 REVIEW_SOURCES.json 内）。作为“未取得足够证据、不作不存在判断”的留档可以接受，若下游需复核排除理由，建议保留这些快照。",
+    "许可证范围：根 LICENSE 为 MIT 完整正文（license API 返回 size=1091，base64 内容含完整授权与免责段落并正常结束），README 与 packages/web README 均声明 MIT“unless specified otherwise”。未逐一核对 monorepo 各子包是否有例外声明；因整仓开源、无付费版与社区版分层，不影响社区版边界判断，仅作为后续可选核查点。",
+    "服务形态表述：托管站点 openjscad.xyz 为免费、免安装的浏览器应用，packages/web 只提供静态前端文件与可选远端代理脚本，求值与预览发生在浏览器侧，因此这里的“服务形态”是浏览器交付的 Web 应用而非多租户后端服务；若目录口径要求服务端交付，建议在条目 service_boundary 中点明这一区别（research.json 已基本覆盖）。"
+  ],
+  "leaf_checks": {
+    "procedural-3d-creation-application": {
+      "slug": "procedural-3d-creation-application",
+      "definition_core": "符合。登记快照 readable 正文支持三项核心：①过程即文档——README 第 3 行“creating parametric 2D and 3D designs with JavaScript code”，首页第 62-65 行“创建一个文本文件、存为 .js…拖入 JSCAD 建模窗口”，设计以源码文件为持久产物；②评估产出 3D——首页第 91-115 行说明在选择格式后导出 STL/3MF 网格，第 155-173 行列出 STL/3MF/OBJ/AMF/SVG/DXF/X3D/JSON 等格式，说明代码被求值为可导出几何；③变更后重算——由“代码为文档 + 应用执行代码得到模型”的脚本式求值模式支撑（定义明确允许纯脚本形态），且首页第 97 行以 Parametric Gear 示例说明参数化设计。已登记快照中没有直接展示“改一行代码→自动重算”的交互正文，该细节仅见于未登记的 v2 应用页快照（见 non_blocking_notes 第 1 条），不影响核心类型判定，但证据强度略低于叙述。",
+      "service_form": "符合可持续使用的软件服务形态：README 第 7、39-48 行给出在线版 openjscad.xyz（免安装、主流浏览器可用）与自托管 Web UI（packages/web）；packages/web README 第 3、35-50 行给出“直接使用在线站点”与“克隆后起静态服务器访问 index.html”的自托管步骤，说明以完整 Web 应用交付，而非仅引擎/SDK/CLI（CLI 与 experimental desktop 已在条目中标注为非判定依据）。",
+      "id_track": "一致。batch id=github:8684805 与 repository_metadata 快照中的 \"id\":8684805、\"full_name\":\"jscad/OpenJSCAD.org\"、\"html_url\":\"https://github.com/jscad/OpenJSCAD.org\" 相符；repository_url 与 homepage 与快照/首页一致；track=open_source 与公开仓库、MIT 许可相符；快照中 \"archived\":false，非归档仓库。",
+      "license": "通过。license 快照（sources/d90e0baa…）为 GitHub license API 返回，path=LICENSE、size=1091、encoding=base64，解码后为完整 MIT 正文（“The MIT License (MIT) / Copyright (c) 2017-2024 JSCAD Organization”+授权段+AS IS 免责段），无截断；repository_metadata 中出现 \"spdx_id\":\"MIT\"；README 第 155-158 行与 packages/web README 第 136-139 行均指向同一 LICENSE。",
+      "community_boundary": "通过。仓库整体（含 packages/web 这一在线/自托管前端）以 MIT 发布，README 未提及付费版、功能阉割版或 open-core 分层，全部包以 @jscad 发布到 NPM；因此不存在“社区版被剥离核心能力”的边界问题。仅“unless specified otherwise”留有子包例外可能，未逐包核对，记为非阻断。",
+      "rejected_alternatives": "已在 research.json 如实记录：OpenSCAD 为桌面安装、本地脚本与导出，无 Web 应用服务形态；cables 定位交互式视觉内容且许可证未证实（license API 404）；CadHub 为聚合型 CodeCAD 平台、pre-alpha 且最近推送 2023-01；BlocksCAD 仓库 404 未取得证据。均为“未取得足够证据”表述，未据缺口断言产品不存在，留档方式可接受。",
+      "sources_read": [
+        "data/collections/sources/7adbd0639784f5ec9f9333171ae921763baa245eb860febecf40f2e463ca91ee.txt",
+        "data/collections/sources/d90e0baa312f983f11ea31dbbfdbf4d0252bad00c7fdca234072e10a37c71c56.txt",
+        "data/collections/sources/655a72e4e52f54f766ede34129a94ebbea40ed9b9956db7352b5c0ded7fb3c30.txt",
+        "data/collections/sources/a085e4e02acd45a8e97b63bde4c09dadf932c08151c5dd2025426d49afe1993a.txt",
+        "data/collections/sources/d162c9d7f99feba01f2d60b20b3a819c17581d60638ff77b21aa2e4b8baa0674.txt"
+      ],
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查，未运行任何 shell、未写文件、未读取其他单元。已按 REVIEW_SOURCES.json 的 path 原样读取全部 5 份快照，并以 batch.sources 的 sha256 与文件名逐一比对一致性（文件名即摘要，未做哈希重算，无法在不执行命令的前提下校验内容摘要）。repository_metadata 与 license 快照为单行 JSON，读取时行内容被截断到 2000 字符显示，因此仅通过检索确认 id/full_name/archived=false/spdx_id=MIT 等关键字段，未读取 pushed_at 等其余字段。data/collections/sources 目录内另有若干未登记快照（含 openjscad.xyz/v2/ 应用页、历史 OpenSCAD 快照），本次仅用于定位 CTRL-r 说法的出处，未作为本单元通过依据；若下游要求该工作流细节具备登记证据，需在正式来源清单中补登。未做在线复核、未做运行时验证（runtime_tested=false），也未补充价格或架构研究；价格与企业版信息本单元不适用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-049/ses_groveopendesignp049review1_1793169767.jsonl",
+  "batch_sha256": "80661a51caed6cd3d4233b83bdd8d558afe500a77ee88a4805cae8dd257b8976",
+  "research_sha256": "bcd3e8b59e8ce5e84d5c27c3cd8fb286843c45d99d9ea9fa2c39c0cda0b7e51d",
+  "input_sha256": "5724b1b4e6d931b6280aeb464612ee3ed5b24e0776cce7de6bd4e0b7541569c3"
+}

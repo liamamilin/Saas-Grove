@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "electronic-health-record-ehr",
+      "application_id": "github:679584",
+      "issue": "该叶只引用了 GitHub 仓库元数据、GPL 许可证和 README。README 及其描述只把 OpenEMR 称为 electronic health records and medical practice management application，属于类别标签和简介；所引快照没有展示已识别患者的纵向图表、问题/诊断、药物、临床笔记、encounter 组织，也没有展示登录/角色权限或作者署名。batch 的 features 还声称“问题列表、药物与临床笔记”，但引用正文没有对应证据。因此，这里不能用简介或元数据替代 EHR 的定义性核心。",
+      "fix": "补充 OpenEMR 官方用户指南、功能页或演示文档快照，至少证明患者图表、问题列表、药物、临床笔记、encounter，以及角色权限/作者署名；若无法补证，移除该 EHR leaf_match 和未支持的 features，或将关系标为未核实。"
+    },
+    {
+      "slug": "cpoe-clinical-order-management",
+      "application_id": "github:679584",
+      "issue": "关系写有“取消状态”，但所引 procedure_provider_help.php 和 configure_orders_help.php 中的 Canceled 属于 Procedure Report Statuses / Procedure Result Statuses，不是医嘱取消或停用；wiki 只展示保存/传输、pending review、状态更新和签署后结果回写，没有展示 order 的修订/续开/停用，也没有展示开嘱医生归属。把报告/结果状态当作医嘱生命周期证据，属于事实与来源不匹配。",
+      "fix": "将关系收窄为检查、影像与操作类医嘱的创建、传输、审阅和结果回链，删除“取消状态”或明确写成“报告/结果取消状态”；若要主张完整 managed order lifecycle，补充展示 order revision/renew/discontinue 与 ordering clinician attribution 的官方文档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 not_searched / included_without_cases，application_ids 为空，而 batch.json 与 research.json 已给出 case_found 和具体案例；本次以 batch/research 为准，建议流水线同步元数据。",
+    "eCareMD 快照是官方营销页和演示 UI，正文支持资格核验、数字同意、条件化护理计划、月度服务时间和 CMS 计费，但未展示同意版本/时间戳、护理计划修订历史或逐次服务记录明细；按商业基本证据接受，若用于强产品能力断言宜补产品文档。",
+    "Fresenius TDMS 快照支持透析处方/设备预设、透析前/后体重、治疗过程及治疗中检验/用药记录、治疗与用药排程、临床数据管理和报告；未明确患者名册的 admission→active→discharge 生命周期或持久纵向治疗史，关系宜保持为透析临床数据管理，不外推完整中心运营。",
+    "Wellsoft EDIS 快照支持 pre-arrival 到 disposition 的实时跟踪、triage/fast-track 视图、CPOE 医嘱与结果回传、出院计划；未细述分诊量表、生命体征/过敏字段或临时身份，关系宜限定在页面所述的 ED 工作流。",
+    "OpenEMR 是单一 GPL-3.0 仓库，未发现社区版/商业版功能切分；CPOE 与 EHR 复用同一仓库身份，需注意多叶匹配去重和各自证据边界。",
+    "部署形态/多租户能力未由快照证明：eCareMD 页面自称 cloud-based；Fresenius TDMS 提到安装、维护和客户基础设施集成；Wellsoft/OpenEMR 未展示 SaaS 多租户。本次按持续使用的软件产品/服务核对，未把云部署作为通过条件。",
+    "research.json 记录了 Friska CCM 候选和 OpenMRS 候选，但未提供可核对快照且未纳入 batch；作为未采用候选不影响本单元案例结论。"
+  ],
+  "leaf_checks": {
+    "chronic-care-management": "商业案例 commercial:ecaremd-ccm；eCareMD 官方产品页快照正文明确 cloud-based CCM，自动核验 Medicare 2+ 慢病资格、收集数字同意并记录注册、提供 20+ 条件化护理计划模板、自动记录月度服务时间并生成 CMS/CPT 计费文档；资格、同意注册、护理计划、循环服务四段核心均有正文支持。缺口：营销页未展示同意版本/时间戳、护理计划修订历史或逐次服务明细；按商业基本证据通过。",
+    "cpoe-clinical-order-management": "开源案例 github:679584；快照 f3cd6572…、d3e001a2…、d698ac3b… 明确 Procedures 模块用于 place and review orders，满足 lab/radiology CPOE，列出 Procedure、Laboratory Test、Imaging 等可开项，wiki 记录保存/传输、pending review、状态更新、签署后结果回写患者与 encounter。问题：Canceled 只是报告/结果状态，不是医嘱取消/停用；未见开嘱医生归属及修订/续开/停用生命周期。需按 findings 收窄或补证。",
+    "dialysis-center-management": "商业案例 commercial:fresenius-tdms；Fresenius TDMS 官方产品页快照正文明确服务透析中心/医院，支持超滤管理、处方传输到透析设备、治疗前/后体重、设备预设、治疗过程及治疗中检验/用药/结果记录、治疗与用药排程、临床数据管理、报告和医生信件。缺口：未明确患者名册 admission→active→discharge 或持久纵向治疗史；按商业基本类型匹配通过，关系限临床数据管理。",
+    "electronic-health-record-ehr": "开源案例 github:679584；仅仓库元数据、GPL-3.0 许可证和 README 快照。README/描述只称 OpenEMR 是 electronic health records and medical practice management application，未展示已识别患者纵向图表、问题/诊断、药物、临床笔记、encounter、角色权限或作者署名；batch features 的“问题列表、药物与临床笔记”无引用正文支持。定义性核心未核实，见 findings。",
+    "emergency-department-information-system": "商业案例 commercial:wellsoft-edis；Wellsoft 官方产品页快照正文明确其为急诊科 ED EHR/EDIS，提供 pre-arrival 到 disposition 的实时患者跟踪、部门级状态视图、triage/fast-track、CPOE 医嘱与结果回传、出院计划、charge capture 和分析。缺口：未细述 acuity 量表、生命体征/过敏字段或临时身份；按商业基本证据通过，关系限页面所述 ED 工作流。"
+  },
+  "limits": "只读审查；仅使用本单元提供的 input.json、batch.json、research.json、REVIEW_SOURCES.json 和 10 个实际快照，不运行产品、不访问实时站点、不验证动态 UI、不重算哈希、不做部署/多租户测试。商业产品页的厂商自述按基本真实性和类型匹配接受；OpenEMR 的 CPOE 文档为仓库帮助文件和旧版 wiki（4.1.2/5.0.2），未验证当前版本行为；input.json 的 progress 与 batch/research 不一致，本次以 batch/research 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-212/ses_groveopencodegop212review1_1793028097.jsonl",
+  "batch_sha256": "51a327905b040f12299035e7977f107b6573c2b295f3644ef4c6ca28978868ee",
+  "research_sha256": "03fdb867f1af787a2d1f566ddbe2e3d7f20c2ef8336f423f592dd8b2be19e8a2",
+  "input_sha256": "9c739828e36989b242bff8ffb712d5f09cc177057654406e22dac63839257777"
+}

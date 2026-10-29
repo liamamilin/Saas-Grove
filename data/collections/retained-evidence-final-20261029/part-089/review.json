@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "批次摘要写“不可变审计日志”，该措辞来自 README 的 “Immutable record of all system actions”。代码侧 audit_log 模型与 /audit 仅提供读取接口，未见更新/删除路由，逻辑上不提供改删入口，但未见数据库层不可变约束；作为产品自述可接受，建议后续用词改为“仅追加的审计记录（产品自述不可变）”以免被理解为已独立验证的不可变性。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "定义性 dc 描述留置生命周期为 drafted → issued → active → released，该实现为 active / suspended / released（HoldStatus），创建即 active，无独立 drafted/issued 状态；签发语义由 hold_notice 的创建与发送承载。属于同一类型的不同实现粒度，不改变“留置记录 + 保管人群体 + 通知确认 + 记录式解除”四要素成立，故不阻断。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "matter/case 在该实现中是 hold 上的 matter_name + trigger_event 字段，而非独立事项对象；定义明确说明触发容器因产品而异（matter / case / project），且允许留置于承载法律事件的锚点上，故判定为可接受的简化实现。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "release_hold 只做状态置为 released、写入 released_at 与审计条目，未向保管人发送解除通知；定义为“记录式解除、非删除、解除后仍可报告”，该核心已满足，解除通知的缺失仅是全流程完整性上的弱项，不影响类型归属。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "类型规则中“对已签发通知的实质性编辑重置确认”在该实现中不存在（通知创建后无编辑路径），属规则覆盖不全而非类型错配；同时 update_hold 不重置确认状态。可在后续字段级说明中标注该实现未覆盖此规则。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "仓库 2026-03-06 创建、1 star、0 fork、无发布，成熟度低；research 已如实记录未部署、runtime_tested=false，且未据此断言库内不存在其他产品。属于成熟度提示，不影响本次收录判断。"
+    },
+    {
+      "slug": "legal-hold-management",
+      "application_id": "github:1174128093",
+      "note": "technology_stack 只列 Python/FastAPI/SQLAlchemy/Streamlit/SQLite，README 与 pyproject.toml 另有 Pydantic v2、python-jose JWT、bcrypt、aiosmtplib/docxtpl 等依赖；清单非穷尽但不错误，可择机补齐。"
+    }
+  ],
+  "leaf_checks": {
+    "legal-hold-management": {
+      "slug": "legal-hold-management",
+      "name": "Legal Hold Management / 法律留置管理",
+      "application_ids": [
+        "github:1174128093"
+      ],
+      "result": "passed",
+      "definition_core": "四要素均可在正文与代码中核对到：(1) 留置记录本体：holds 表含 matter_name、trigger_event、scope_data_types、scope_date_start/end、status、created_at、released_at，具备生命周期与唯一标识；(2) 保管人群体：custodians 表 + hold_custodians 关联表，支持在事项下增删保管人（holds.py 的 assign/remove 路由）；(3) 义务传达与合规追踪：hold_notices 路由 + notice_service.create_and_send_notice 按 hold 向每位保管人发送并把状态置为 notified，HoldCustodianStatus 提供 pending/notified/acknowledged/overdue，acknowledgments 路由由保管人本人确认并记录 acknowledged_at，dashboard 提供确认率与逾期视图；(4) 记录式解除：release_hold 置 released + released_at 并写审计，非删除，且无“回到 active”的接口，符合不可回退语义。保管人只能看到自己的 hold 行（/my-holds 与 acknowledge 均按 current_user.custodian_id 过滤），与“通知是个人化的”一致。",
+      "service_form": "持续运行的多用户自托管 Web 服务：FastAPI 后端（uvicorn，/docs）+ Streamlit 多页前端（holds、hold_detail、custodians、dashboard、audit_log、my_holds、login、simulated_emails），SQLite/SQLAlchemy 持久化，JWT + bcrypt 认证，admin/custodian 角色，docker-compose、Dockerfile.railway、railway.json、start.sh 提供启动方式，tests/ 存在 pytest 套件。不是 CLI、脚本、SDK 或聊天平台插件。",
+      "identity_track": "batch 中 id=github:1174128093、github_repository_id=1174128093 与仓库元数据快照的 \"id\":1174128093、\"full_name\":\"noamrazbuilds/legal-hold-manager\"、\"fork\":false、\"archived\":false、\"default_branch\":\"main\" 一致；track=open_source 与单一公开仓库形态相符，homepage/repository_url 指向同一仓库。",
+      "license_check": "license 快照为 GitHub license 接口返回：name=LICENSE、size=1090、ref=main、content 为完整 MIT 正文（含 “MIT License”、版权行 “Copyright (c) 2026 Noam Raz and Pleasant Secret Labs”、许可授予、署名保留条件与 AS IS 免责段落），与 raw LICENSE 全文逐段一致；仓库元数据 license.spdx_id=MIT，pyproject.toml 亦为 license = {text = \"MIT\"}。属于 OSI 认可的完整宽松许可证，非 NOASSERTION/自定义限制性条款。",
+      "community_boundary": "开源边界清晰：整仓单一 MIT 许可，未见 open-core 拆分、企业版专属目录、feature flag 门控或“社区版功能删减”声明；README 列出的全部功能（留置管理、保管人库、通知、确认跟踪、提醒、看板、审计、角色）即代码中全部路由，无付费版对照。商业版不适用，无类型/真实性疑点。",
+      "evidence_used": [
+        "data/collections/sources/964a9d6293945aa2a84656d2b793be32883885747026109401183271e53c500f.txt（仓库元数据：id/full_name/license.spdx_id/created_at/stars/default_branch）",
+        "data/collections/sources/a0f010d70ebaff736da58170228bb5cec590a82df4842cf4bf86c58d824440f7.txt（license 接口，1090 字节 MIT 全文）",
+        "data/collections/sources/59d2ad2a9537e566abec6334bd3302bacca20e6444a189864b18704875fecc11.txt（README 正文：功能清单、部署方式、技术栈、项目结构）",
+        "data/collections/sources/6e984ead2c664fdb12cf7dfb6af9166c4063e9597b50c0dcae2ad96ab74f49fe.txt（lhm_app 目录清单）",
+        "data/collections/sources/c726dab728cd4d4bf56002c951a7b2fccc07579f2992b50f9b90ed34a49544c2.txt（lhm_app/routers 目录清单：acknowledgments/audit/auth/custodians/dashboard/hold_notices/holds/reminders/simulated_emails）"
+      ],
+      "gaps": "未部署运行（runtime_tested=false），核心工作流依据为 README 正文 + 路由/服务/模型源码与目录清单，未做端到端执行验证；仓库成熟度低（1 star、无 release）。这些缺口已在 research.json 的 service_boundary、fetch_outcomes 与 search_attempts 中如实留档，包含两条替代品检索（legal hold、litigation hold）及对 Mattermost 插件、PowerShell 脚本、无许可证原型、3KB 占位仓的排除理由，未夸大检索结论，故按留档充分处理。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未部署或执行被测项目，也未访问本单元之外的资料。快照文件为单行 GitHub API JSON（含 base64 content），按行读取会被截断，故在保持 REVIEW_SOURCES.json 路径原样读取的前提下，另以同一 URL 的 raw 内容（README.md、LICENSE）及只读 API 端点核对完整正文与 blob 身份：LICENSE 的 git blob sha e99c311b1988d4cb6dfa0c08b1ccebaa1cf1b0b0、README 的 sha f3b1a8494b2bc9d77c68449ee301b2bd1d752994 与快照内字段一致，LICENSE size=1090 与快照一致。核心工作流判断基于 README 正文与 holds/hold_notices/acknowledgments/reminders/audit/dashboard/custodians/auth 路由及 hold_service、notice_service、reminder_service、audit_service、email_service、hold/hold_custodian/custodian/audit_log 模型源码，未以简介、元数据、导航或 Loading 页面替代正文。未核实 PostgreSQL 迁移、SMTP 真实投递、定时提醒调度器部署方式等运行期行为；这些不影响本次类型与许可证结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-089/ses_groveopendesignp089review1_1793196903.jsonl",
+  "batch_sha256": "8e64a5dc5e25c67b8ad69be5499e8da5b6aee7a1e1e2a2ee105d933e58c6020c",
+  "research_sha256": "12185291c09149eadea3e3f7d2c718d3d789c078563fb0260dcbbdafa25097a0",
+  "input_sha256": "255589998c4e03cfefadd895dd2f357844e5fcf23630ff52c22b7f55fc5e7408"
+}

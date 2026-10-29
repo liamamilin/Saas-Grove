@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 26,
+  "offset": 625,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "log-management",
+        "name_zh": "日志管理 (Log Management)",
+        "domain_id": "14",
+        "parent_id": "14.05",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-026/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "github grafana loki log management official"
+            ]
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/307",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": [
+              "github grafana loki log management official"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "log-management",
+        "name": "Log Management",
+        "name_zh": "日志管理 (Log Management)",
+        "aliases_zh": [
+          "日志分析平台",
+          "日志监控系统"
+        ],
+        "overview": "A **Log Management** application is the operational event-record system of record for an organization's software estate. It continuously collects timestamped log records — the running narrative of events produced by applications, servers, containers, network devices, and cloud services — from many sources into one centralized store, keeps that corpus over time, and makes it searchable and examinable through time-anchored search.\n\nIts purpose is to answer, after the fact and during the fact: *what happened, when, where, and in what order?* When something breaks or behaves unusually, the log corpus is the evidence base a team turns to.\n\nThe defining core is small — three things held together:\n\n```text\nCollection from many external sources\n└── Centralized persistent store of log records (time-organized, source-attributed)\n    └── Search and examination over the corpus (the primary interaction)\n```\n\nEverything else commonly associated with the category — parsing pipelines, retention tiers, archives, dashboards, alerting, trace correlation, AI assistants, security analytics — is widespread in current products but does not define the Type. Older forms (a central syslog host with rotated files and command-line search) satisfy the same core with none of that machinery.",
+        "overview_zh": "**日志管理**应用程序是组织软件资产的运营事件记录系统。它持续收集带时间戳的日志记录——这些记录是由应用程序、服务器、容器、网络设备和云服务产生的事件的持续叙述——将来自多个源的数据汇入一个集中存储库，随时间保留该语料库，并通过基于时间的搜索使其可搜索和可审查。\n\n其目的是事后或在事件发生时回答：*发生了什么、何时发生、在哪里发生以及按什么顺序？* 当出现故障或异常行为时，日志语料库就是团队依赖的证据基础。\n\n其定义核心很简单——由三件事紧密结合：\n\n```text\n从多个外部源收集\n└── 集中持久的日志记录存储（按时间组织、标注来源）\n    └── 对语料库进行搜索和审查（主要交互方式）\n```\n\n与此类别通常关联的其他所有功能——解析管道、保留层级、归档、仪表盘、警报、追踪关联、AI助手、安全分析——在当前产品中普遍存在，但并不定义该类型。早期形式（具有轮换文件和命令行搜索的中央syslog主机）用更简单的机制满足了相同的核心需求。",
+        "dc": "- **processing pipelines** — parse incoming entries, extract fields, enrich them (add environment, service, or geo context), and route them to the right store unit\n- **retention management and tiering** — different store units kept for different spans, moved between faster and cheaper storage, archived or forwarded out to object storage\n- **aggregation and analytics** — counts and groupings over time, automatic clustering of similar messages into patterns, comparison of current vs earlier periods\n- **dashboards** — panels built on saved log queries\n- **alerting** — rules over log conditions (a threshold exceeded, an error signature appearing) that notify people or systems\n- **saved searches/views** — named, shareable queries that encode recurring questions\n- **correlation** — jumping from a log entry to the request trace or metric series that share its identifiers (and, in suite products, the reverse)\n- **access control and audit** — role-based visibility over log data, which is operationally sensitive; administration of the collection and storage configuration itself\n\nOptional or posture-dependent: deriving metrics from logs, security analytics layered on the same corpus, machine-learning anomaly detection, plain-language AI query assistants, report generation, data-quality views that surface badly parsed entries.",
+        "dc_zh": "- **处理管线** — 解析传入条目，提取字段，进行信息丰富（添加环境、服务或地理位置上下文），并将其路由至合适的存储单元\n- **保留期管理与分层** — 为不同的存储时间跨度保留不同的存储单元，在快速和廉价存储之间进行数据迁移、归档或转发至对象存储\n- **聚合与分析** — 按时间进行计数和分组，自动将相似消息聚类成模式，对比当前与历史时期\n- **仪表板** — 基于已保存的日志查询构建的面板\n- **告警** — 基于日志条件（超过阈值、出现错误特征）的规则，用于通知人员或系统\n- **已保存搜索/视图** — 命名的、可共享的查询，用于编码重复性问题\n- **关联** — 从一条日志条目跳转到共享其标识符的请求追踪或指标序列（在套件产品中，反之亦然）\n- **访问控制与审计** — 针对日志数据（操作上敏感）的基于角色的可见性控制；对收集和存储配置本身的管理\n\n可选或依赖特定部署形态的：从日志中衍生指标、在同一语料库上分层的安全分析、机器学习异常检测、自然语言AI查询助手、报告生成、用于展示解析不良条目的数据质量视图。",
+        "rules": "- **Append-only records.** Entries are written once and not edited; corrections happen by new entries or reprocessing, never by rewriting history. The corpus's value as evidence depends on this.\n- **Time is the organizing axis.** Storage is partitioned by time and every search is anchored on a time range; a query without a time bound is not a normal operation.\n- **Retention is policy-bounded.** Nothing is kept forever by default. Entries age out per configured spans; archives and forwarding extend life at lower cost. The interplay of retention spans, tiers, and cost is a permanent operational concern.\n- **Volume is the defining constraint.** Ingestion rate and storage volume drive the product's economics and much of its design: filtering before ingestion, deciding what gets indexed versus merely stored, tiering, sampling, and per-source volume visibility all exist because of it.\n- **Structure extraction is a product-choice point.** Whether fields are parsed before storage, at query time, or curated later varies by product — and bad parsing is a first-class problem (products expose views that surface entries that failed to parse). The *capability* to structure logs is standard; *when* it happens is an implementation difference.\n- **Access is controlled and audited.** Logs contain sensitive operational and personal data; role-based visibility and audit trails over both the data and the configuration are standard posture in mature deployments.\n- **The same corpus can serve neighboring purposes.** Security analytics, SIEM products, and derived metrics can be layered on the identical log store — the corpus is substrate, and its consumers vary by organization.",
+        "rules_zh": "- **仅追加记录。** 条目只写入一次不作编辑；更正通过新条目或重新处理实现，绝不会重写历史。语料库作为证据的价值依赖于此。\n- **时间是组织轴线。** 存储按时间分区，每次搜索都锚定在时间范围上；没有时间限制的查询不是正常操作。\n- **保留期受策略约束。** 默认情况下没有任何内容永久保留。条目按配置的时间范围过期；归档和转发以更低成本延长生命周期。保留时间跨度、层级和成本的相互作用是持续的运营关注点。\n- **容量是决定性约束。** 摄取速率和存储容量决定了产品的经济性和大部分设计：摄取前过滤、决定什么需要索引而什么仅存储、分层、采样以及按源的容量可视性，所有这些都因此而存在。\n- **结构提取是产品的选择点。** 字段是在存储前解析、在查询时解析，还是在后期整理，因产品而异——而解析不佳是一等难题（产品会展示解析失败的条目视图）。结构化日志的*能力*是标准的；*何时*发生则是实现差异。\n- **访问受控且可审计。** 日志包含敏感运营和个人数据；基于角色的可见性以及对数据和配置的审计跟踪是成熟部署中的标准姿态。\n- **同一语料库可服务于相邻用途。** 安全分析、SIEM产品和派生指标可以叠加在相同的日志存储上——语料库是基底，其使用者因组织而异。",
+        "parent_id": "14.05",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 121,
+    "phase": "directory",
+    "parent": 121,
+    "slugs": [
+      "log-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "0598a7b62db9614233df47e1c816296f466c89566075b3bb3d3025fc5b981ba6"
+  }
+}

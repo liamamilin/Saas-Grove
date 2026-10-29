@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "strategic-sourcing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1306204230",
+        "commercial:workday-strategic-sourcing",
+        "commercial:jaggaer-value-tracker",
+        "commercial:vendorful",
+        "commercial:simfoni-strategic-spend-hub",
+        "commercial:zycus"
+      ],
+      "query": "复用历史 Zycus 抓取；本轮直接抓取 Zycus 财务协作与战略寻源套件页、Workday 产品页与管理员指南；GitHub API 检索 \"strategic sourcing\" 并核对 gruvyo/opensourcingos 的元数据、README、许可证与落地页（websearch 返回免费额度用尽，未使用搜索）",
+      "source_urls": [
+        "https://www.zycus.com/",
+        "https://www.zycus.com/solution/merlin-autonomous-sourcing",
+        "https://www.zycus.com/solution/esourcing-software",
+        "https://www.zycus.com/solution/procurement-finance-collaboration",
+        "https://www.zycus.com/solution/strategic-sourcing-suite",
+        "https://www.workday.com/en-us/products/spend-management/strategic-sourcing.html",
+        "https://doc.workday.com/admin-guide/en-us/spend-management/strategic-sourcing/pipeline/npv1595945851205.html",
+        "https://doc.workday.com/admin-guide/en-us/spend-management/strategic-sourcing/pipeline/tzb1595951755853.html",
+        "https://www.jaggaer.com/solutions/value-tracker",
+        "https://vendorful.com/e-sourcing/sourcing-pipeline/",
+        "https://vendorful.com/e-sourcing/",
+        "https://simfoni.com/strategic-spend-hub/",
+        "https://api.github.com/repos/gruvyo/opensourcingos",
+        "https://api.github.com/repos/gruvyo/opensourcingos/license",
+        "https://raw.githubusercontent.com/gruvyo/opensourcingos/main/README.md",
+        "https://opensourcingos.com/"
+      ],
+      "note": "修正本轮结构错误：Workday 条目首页为 www.workday.com 而两份管理员指南在 doc.workday.com，校验器只接受同名或子域主机，故把首页改为注册域 https://workday.com/（301 到同一官网），保留原 URL/SHA/抓取时间。初审问题（Zycus 三页只有事件级 eSourcing）已按原记录复核：现批次不再引用那三页，改用财务协作页（集中式节约跟踪、支出机会转受审批节约项目、可配置节约规划与审批管线、按寻源策略/节约类型分析并映射财务指标）与战略寻源套件页（同套件内 eSourcing/品类管理/寻源分析），计划管线、节约台账及二者关联成立，故保留关系而非回滚。另按开源优先补入 OpenSourcingOS：Apache-2.0、可自托管的完整 Web 应用，README 正文含寻源项目组合、基线/报价/最终授标、按期间排程的预计-已执行-已实现节约、财年与组合报表；其自述为 MVP/public beta、落地页截图为方向示意，按实际状态记录且未部署。betterspend 与 OpenS2P 的既有快照只有 RFQ/报价比较或采购全流程，正文无节约台账/节约管线，未建立关系。",
+      "service_boundary": "战略寻源平台：需同时具备持久寻源计划（管线/阶段）与项目级节约台账，且两者相互关联；仅事件级 RFx/拍卖/谈判归电子寻源，单纯支出分析或采购执行不计入。Zycus 以节约项目+审批管线承接其战略寻源套件；OpenSourcingOS 以寻源项目组合+节约排程与状态分层承接；Workday、JAGGAER、Vendorful、Simfoni 均以项目/举措管线对应节约目标或预测-实际对账。",
+      "search_attempts": [
+        {
+          "query": "复用 retained-go-20261025/part-018 与 included-continuation-final-20261027 的 Zycus 首页、Merlin Autonomous Sourcing、eSourcing 快照",
+          "result": "历史结论成立：三页只证明事件级 RFx/拍卖/谈判与单次事件节约测算，无计划管线/阶段门/节约台账"
+        },
+        {
+          "query": "直接抓取 https://www.zycus.com/solution/procurement-finance-collaboration",
+          "result": "正文确认集中式节约跟踪、支出机会转受审批节约项目、可配置节约规划与审批管线、多维分析与财务指标映射"
+        },
+        {
+          "query": "直接抓取 https://www.zycus.com/solution/strategic-sourcing-suite",
+          "result": "正文确认套件含 eSourcing（RFI/RFP/RFQ、反向拍卖）、品类管理与寻源分析，与节约跟踪同一套件"
+        },
+        {
+          "query": "websearch: open source strategic sourcing platform savings pipeline github self-hosted",
+          "result": "搜索服务返回免费额度用尽提示，未取得搜索结果；改用 GitHub API 检索与官方站点直接抓取"
+        },
+        {
+          "query": "GitHub API 检索 \"strategic sourcing\" in:name,description（108 条结果，人工筛前若干）",
+          "result": "仅 gruvyo/opensourcingos 正文涉及寻源项目与节约台账；其余插件/模板类不符合完整应用服务"
+        },
+        {
+          "query": "核对既有快照 AsynchronousVentures/betterspend、opens2p/OpenS2P 的 README",
+          "result": "betterspend 为采购到付款、含 RFQ 与报价比较但无节约台账；OpenS2P 为 S2P 全流程含 RFQ，无节约管线/台账；均不建关系"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.zycus.com/",
+          "status": "success",
+          "note": "历史复用快照（sha b9d56edc…，2026-10-24 抓取，原样保留），首页仅列模块导航，未单独作为战略寻源证据"
+        },
+        {
+          "url": "https://www.zycus.com/solution/merlin-autonomous-sourcing",
+          "status": "success",
+          "note": "历史复用；正文为 RFP 执行、授标推荐与事件级节约测算，属电子寻源层面"
+        },
+        {
+          "url": "https://www.zycus.com/solution/esourcing-software",
+          "status": "success",
+          "note": "历史复用；正文为 RFx、拍卖、谈判与授标，属事件执行层面"
+        },
+        {
+          "url": "https://www.zycus.com/solution/procurement-finance-collaboration",
+          "status": "success",
+          "note": "本轮快照；正文含节约预测/跟踪、节约项目审批管线、多维节约分析与财务指标映射，并给出谈判节约→合同→PO→发票→总账的归因链"
+        },
+        {
+          "url": "https://www.zycus.com/solution/strategic-sourcing-suite",
+          "status": "success",
+          "note": "本轮快照；正文确认套件范围含 eSourcing、品类管理、寻源分析与 CLM，与节约跟踪同属一套件"
+        },
+        {
+          "url": "https://www.workday.com/en-us/products/spend-management/strategic-sourcing.html",
+          "status": "success",
+          "note": "正文含引导式受理→寻源管线→RFx/反向拍卖/谈判，以及预计与实际节约跟踪报告"
+        },
+        {
+          "url": "https://doc.workday.com/admin-guide/en-us/spend-management/strategic-sourcing/pipeline/npv1595945851205.html",
+          "status": "success",
+          "note": "管理员指南 Savings Trackers：节约目标、确认/未确认节约、节约类型、财年起始、按财年目标计算 Gap/Bonus"
+        },
+        {
+          "url": "https://doc.workday.com/admin-guide/en-us/spend-management/strategic-sourcing/pipeline/tzb1595951755853.html",
+          "status": "success",
+          "note": "管理员指南 Add Savings to Projects：项目财务明细登记节约类型/频率/日期/金额，已确认节约计入公司目标"
+        },
+        {
+          "url": "https://www.jaggaer.com/solutions/value-tracker",
+          "status": "success",
+          "note": "正文含构想→提案→计划→实现→关闭五阶段管线、基准与预测审批、逐期预测与实际对账、关联寻源事件与品类策略"
+        },
+        {
+          "url": "https://vendorful.com/e-sourcing/sourcing-pipeline/",
+          "status": "success",
+          "note": "正文含组织级寻源管线、项目状态、节约登记与预测/已实现报告"
+        },
+        {
+          "url": "https://vendorful.com/e-sourcing/",
+          "status": "success",
+          "note": "正文含管线节约目标设定与达成度量，及同一产品内 RFP/RFI/RFQ 与反向拍卖"
+        },
+        {
+          "url": "https://simfoni.com/strategic-spend-hub/",
+          "status": "success",
+          "note": "正文含寻源管线、Pipeline & PMO 全生命周期跟踪、预测与实际节约自动计算及归属、CFO/CPO 报表"
+        },
+        {
+          "url": "https://api.github.com/repos/gruvyo/opensourcingos",
+          "status": "success",
+          "note": "仓库元数据：id 1306204230，full_name gruvyo/opensourcingos，license spdx Apache-2.0，homepage opensourcingos.com"
+        },
+        {
+          "url": "https://api.github.com/repos/gruvyo/opensourcingos/license",
+          "status": "success",
+          "note": "GitHub license API 返回 Apache-2.0 及完整许可证正文（11357 字节）"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/gruvyo/opensourcingos/main/README.md",
+          "status": "success",
+          "note": "README 正文含寻源项目组合、基线/报价/授标、节约排程与财年归属、预计/合同/已实现分层、报表与自托管步骤；自述 MVP/public beta"
+        },
+        {
+          "url": "https://opensourcingos.com/",
+          "status": "success",
+          "note": "落地页正文自述开源、Apache 2.0、public beta，截图标注为产品方向示意，不据此声称生产可用"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

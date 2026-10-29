@@ -1,0 +1,102 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "fitness-studio-management",
+      "application_id": "github:1109547882",
+      "note": "Tandava 的 README 自述为 pre-1.0，后端（Supabase schema、RLS、支付、邮件）仍在 hardening，且“Wiring the booking/checkout UI to the live payment + entitlement layer”列在 Still in progress。功能正文足以证明工作室管理的四段结构，但摘要与 leaf_match 中“消耗权益的预约已闭环”的措辞偏强，建议在摘要或备注中保留“按已披露功能记录、未运行验证”的限定。"
+    },
+    {
+      "slug": "fitness-class-booking",
+      "application_id": "github:1314049369",
+      "note": "Studio OS 同时具备课程包/会员、Stripe 订阅计费、教练登录和收入报表，与 fitness-studio-management 的权益经济存在重叠。其归入课程预约的主要依据是公开课程表—有限名额—候补递补仍是主流程，且明确不做 POS/零售与门禁；该边界可接受，但建议在类型说明中显式写出这一排除理由，避免与 Tandava 的类型边界混淆。"
+    },
+    {
+      "slug": "gym-management-system",
+      "application_id": "github:1341279254",
+      "note": "README 第 9 行与许可证正文写的是 GPL-3.0-or-later，batch.license 记为 GPL-3.0。GitHub 许可证 API 通常以 GPL-3.0 作为 SPDX 标识，二者不算冲突，但建议统一为“GPL-3.0-or-later（SPDX: GPL-3.0）”以免下游误读。"
+    },
+    {
+      "slug": "gymnastics-club-management",
+      "application_id": "commercial:iclasspro",
+      "note": "官网体操功能页与支付服务页能证明班级/私教/队训排程、报名、技能跟踪、家长/客户门户、学费与周期扣款；但“家庭账户”与“学员—监护人”关系主要由页面中的 families/parents/customer accounts 及评价文字体现，属于营销正文而非工作流文档。对商业条目满足基本真实性与类型匹配，无需阻断。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "application_id": null,
+      "note": "input.json 中各叶 progress 仍为 not_searched、application_ids/research_records 为空，而 research.json 已记录检索与 case_found/boundary_unresolved；若下游以 progress 字段装配案例，应同步，否则会把已有案例丢掉。"
+    },
+    {
+      "slug": "fitness-membership-management",
+      "application_id": null,
+      "note": "REVIEW_SOURCES.json 只列 batch 条目的来源，未列 research.json 中 GymManagerPro 候选的 8 个快照；这些文件实际存在于 data/collections/sources/ 且已读取。若 REVIEW_SOURCES 被用作完整性校验清单，建议补齐候选来源。"
+    }
+  ],
+  "leaf_checks": {
+    "fitness-class-booking": {
+      "status": "pass",
+      "track": "open_source",
+      "application_ids": [
+        "github:1314049369"
+      ],
+      "repository_identity": "GitHub API 元数据 id=1314049369、full_name=Booyaka101/studio-os，与 batch 的 github:1314049369、repository_url、github_repository_id 一致；fork=false。",
+      "license": "LICENSE 快照为完整 MIT 文本（版权行 + 许可/免责声明），与 batch.license=MIT 一致；无额外商业版限制。",
+      "service_form": "自托管 Web 应用（Docker/Node + SQLite），单工作室持续运营；不是厂商托管多租户 SaaS，但属于 open_source 轨的持续软件服务形态。",
+      "definitional_core": "README 正文覆盖：Class types 的 duration/capacity/drop-in price/credits；Schedule 周规则自动生成 8 周实例；公开课程表访客凭 name+email 预约并签免责声明；atomic capacity；FIFO waitlist auto-promotion；cancellation-window policy；admin roster/check-in 与教练按课 roster。构成“课程表—名额预约—有限可逆名额经济”的定义核心。",
+      "boundary_and_gaps": "同一产品还含课程包、会员与 Stripe 订阅，属于课程预约定义所允许的常见附加能力；与工作室管理的重叠见 non_blocking_notes。未运行应用；README 自述 single studio/single location，未显式建模每场合的 room/place，地点由单一工作室隐含，不影响类型成立。"
+    },
+    "fitness-membership-management": {
+      "status": "pass_with_documented_gap",
+      "track": null,
+      "application_ids": [],
+      "repository_identity": "本叶无成立案例。research.json 记录 assessment=boundary_unresolved，候选为 eppsteve/GymManagerPro（Windows Forms/.NET + SQL Server，GPL-3.0）。",
+      "license": "候选仓库的许可证快照与 README 表明 GPL-3.0，但候选未进入 batch，故无 track/许可证字段需要核对；不作为开源案例收录是正确的。",
+      "service_form": "候选为本地部署的胖客户端，不是厂商托管 SaaS，也未证明多租户；仅作边界候选，未计入案例。",
+      "definitional_core": "候选源码可见 Member（会员档案、卡号）、Plan（名称/时长/价格）、Membership（member×plan、起止日期、价格）、Checkin，并在 Member.GetAttedance 中按 Membership.EndDate 判定 Active/Inactive 与 Entrance allowed/denied，能支持“会员记录 + 持有会员 + 粗糙的到期状态”。",
+      "boundary_and_gaps": "仓库文件树中未见支付、账单、续费、订阅模块，源码也未证明定期自动扣费、冻结/取消状态机或欠费停权；定义核心中的“受控会费—状态周期”未闭合，因此不把该候选计入案例是合理留档。已记录 4 组检索、8 次抓取与文件树核对，属于真实缺口留档，可通过。"
+    },
+    "fitness-studio-management": {
+      "status": "pass_with_caveat",
+      "track": "open_source",
+      "application_ids": [
+        "github:1109547882"
+      ],
+      "repository_identity": "GitHub API 元数据 id=1109547882、full_name=TaylorONeal/tandava，与 batch 的 github:1109547882、repository_url、github_repository_id 一致；fork=false。",
+      "license": "LICENSE 快照为完整 GNU AGPL v3 文本，README 明确 AGPL-3.0；托管版与自托管共用同一代码，明确“Open core, not open bait”，无付费锁定功能，社区版边界清晰。",
+      "service_form": "同一代码既可自托管（Supabase + 静态 SPA），也提供厂商托管版 tandavastudio.com；托管版收费来自支付分成而非功能分层，属于持续运营的软件服务。",
+      "definitional_core": "README 正文覆盖：重复课程排程、代课与取消；Membership/class pack 的购买与消耗跟踪；学生档案、到访历史、免责声明；kiosk/QR 签到；教师工资率与可用性；出勤/收入/留存分析；事件与工作坊。对应“客户记录—权益经济—排程课程—消耗权益的预约与出勤—资金循环”的耦合结构。",
+      "boundary_and_gaps": "README 的 Honest status/Current Status 明确 pre-1.0、后端仍在 hardening，且 booking/checkout UI 与 live payment+entitlement 的接线仍在进行中；这不否定类型匹配，但意味着“闭环已运行”不应被表述为已验证。未部署测试。"
+    },
+    "gym-management-system": {
+      "status": "pass",
+      "track": "open_source",
+      "application_ids": [
+        "github:1341279254"
+      ],
+      "repository_identity": "GitHub API 元数据 id=1341279254、full_name=maxlevels-ae/gymos，与 batch 的 github:1341279254、repository_url、github_repository_id 一致；fork=false。",
+      "license": "LICENSE 快照为完整 GNU GPL v3 文本；README 声明 GPL-3.0-or-later，整个产品（19 个模块、PWAs）均在开源仓库，付费项仅为定制开发与支持服务，无 open-core 功能切分。",
+      "service_form": "自托管 Node.js/Express + SQLite，可单健身房或多门店部署，提供 cPanel 路径；属于 open_source 轨的持续运营管理应用，不是厂商托管 SaaS。",
+      "definitional_core": "README 正文覆盖：会员档案、生命周期阶段、会员计划（周期/次数包/试用/单次）；订阅、续费、自动续费与状态引擎；冻结规则与冻结计费；二维码签到、前台模式、门禁（Wiegand/ZKTeco）、欠费入场策略；课程排程/容量/预约/候补；POS/会计/HR/多门店。会员记录、持有会员、入场核验、会费循环四项均有正文证据。",
+      "boundary_and_gaps": "门禁硬件集成仅据 README，未验证实际设备；许可证版本措辞见 non_blocking_notes。多门店与 POS/HR 属于同一 Gym Management 类型的常见扩展，不改变归属。"
+    },
+    "gymnastics-club-management": {
+      "status": "pass",
+      "track": "commercial",
+      "application_ids": [
+        "commercial:iclasspro"
+      ],
+      "repository_identity": "商业条目，无 GitHub 仓库身份需要核对；homepage 指向 iclasspro.com，来源为官方 gymnastics-software-features 与 payment-services 页面。",
+      "license": "商业闭源 SaaS，无开源许可证要求；track=commercial 正确。",
+      "service_form": "厂商托管的多租户商业 SaaS，按 Signature/Elite/Premium/Enterprise 计划销售，提供 Customer/Office/Staff Portal 与 Branded App，属于持续订阅的软件服务。",
+      "definitional_core": "官方体操功能页正文覆盖：面向体操俱乐部的班级管理；recreational classes、clinics、private/group lessons、competitive individual and team practices、birthday parties/events 的排程与报名；Office Portal 的 classes/billing/customer accounts/enrollments；Staff Portal 的考勤与 skill evaluations；Customer Portal 的家长/家庭账号、在线报名与支付；Skill Tracking 与证书；Autopilot Billing、tuition billing、recurring payments/payment plans、POS。支付服务页补充家庭多支付方式、账户应收与线下/线上支付。足以支持“家庭/监护人账户—学员记录—报名—学费循环”的类型匹配。",
+      "boundary_and_gaps": "快照是单行 HTML/JSON（前置大量 CSS），本地读取工具只能显示前 2000 字符，正文经 grep 确认存在但未能完整展开；已用同日官方页面正文交叉核对，结论仍以官方正文为准。仅官网营销材料，未试用产品、未核价；家庭账户与监护人关系由 families/parents/customer accounts 表述推得，非工作流文档。"
+    }
+  },
+  "limits": "本次仅做只读文件核对，未运行 shell、未写文件、未访问其他单元；未部署或运行任何应用，未验证支付、邮件、门禁硬件与真实租户。GitHub API 元数据与许可证快照为单行 JSON，读取工具按行截断到 2000 字符，因此 archived/pushed_at/stars 等靠后字段及 license 对象未能从快照直接读取，仓库身份以文件开头的 id/full_name/fork 与 batch 对照，许可证以 LICENSE 快照正文为准。iClassPro 两个快照同为单行 HTML/JSON 且正文在 CSS 之后，本地只能确认关键词存在而无法完整展开，故以同日官方页面正文补充核对，存在页面随时间变化的风险。未对 GymManagerPro 的全部源码做逐文件审计，仅核对其 README、Member/Membership/Plan 数据层与文件树关键词。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-257/ses_groveopencodegop257review2_1793039243.jsonl",
+  "batch_sha256": "dbc53922e44655ade8175988ff0269e820d6bc7e25c13d9983bb5f08ef4ef090",
+  "research_sha256": "74ab4b52534413a3861936e8548a762796502a8464d2cf36d4d5e9d7b9e77db1",
+  "input_sha256": "f52419dea7246d7b2f06399cdc4bf019ab905c617fe397695f46ab16114d6634"
+}

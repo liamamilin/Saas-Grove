@@ -1,0 +1,89 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "HydroServer 的官方文档快照（sources/7b5391cd5a9094d49583f78816504062dfa0632b53040363bef6632ced3001ca.txt）实际是 VitePress 导航/资源壳，未包含 overview 正文；research 中据该页描述的实例组成、QC/导出/HydroShare/访问控制细节无法从该快照复核。README 与仓库页已足以支持核心匹配，建议后续补充实际文档页快照。",
+    "Workiva 的 leaf_match.reason 将“ESG 数据 SEC-ready、XBRL 校验”归于 ESG 页面，实际 XBRL/EDGAR/10-K 工作流证据在 SEC 页面；ESG 页面主要支撑 ESG 报告生产与审计轨迹。建议修正该句或补充 CSRD/综合报告 filing 来源；不阻断当前基本类型匹配。",
+    "Portail RSE 的 summary、features 与 leaf_match.reason 提到 PPTX 报告导出，但快照中仅有 export_xlsx.py，未提供 PPTX 导出代码证据；XLSX 已足以支撑报告交付物核心，建议删除 PPTX 表述或补充来源。",
+    "EnergyCAP 的“目标设定/目标实际对比”未在已读正文中明确出现；research 已如实记录该缺口。建筑基准比较、异常识别与 IPMVP 前后项目测量验证足以支撑效率闭环，不阻断。",
+    "IBM Envizi 对社会与治理维度的具体数据域主要是页面级总括表述，详细模块偏环境、能源与碳；不影响基本类型匹配，但若需强化“多域 ESG 资产管理”论证，建议补充具体社会/治理工作流来源。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，而 research.json 为 case_found；若 progress 代表最终状态，应同步元数据，避免下游误读。"
+  ],
+  "leaf_checks": {
+    "environmental-data-platform": {
+      "application_id": "github:663663407",
+      "track": "open_source",
+      "status": "pass",
+      "core_check": "HydroServer 的 README 与仓库页正文明确其为水文与环境监测站点观测时序的采集、管理、共享平台，包含站点、数据流、元数据、Django API、ETL/编排及独立部署资产；符合“环境观测语料库 + 受控导入 + 共享输出”的遥测型环境数据平台核心。其以站点为容器而非污染场地生命周期，类型边界正确。",
+      "identity_license_check": "GitHub 仓库页 meta 的 repository id 663663407 与 hydroserver2/hydroserver 一致；LICENSE 为完整 BSD 3-Clause 文本，包含源码/二进制再分发、版权声明保留、不得背书及免责声明条款；许可证覆盖仓库，未发现付费版/社区版分叉，自托管 Web 应用与后端服务形态成立。",
+      "source_basis": [
+        "sources/4b1b4b1c1c0329873604e697c973a0564db252ae403c0d1ca0e680155a162b02.txt",
+        "sources/424b9d53637e234e5cb81dada7d73d4595959877a72dbf4ee6c1625bf785deb9.txt",
+        "sources/c55a85c43c3740e109ba46a42fb8100aa20c4d0d5d952093a3a39cd68b4d5bcd.txt",
+        "sources/7b5391cd5a9094d49583f78816504062dfa0632b53040363bef6632ced3001ca.txt"
+      ],
+      "gap": "官方文档快照仅为导航/资源壳，无法从该页正文验证实例组成、QC 查看、导出下载、HydroShare 归档与访问控制；README 已明示“collection, management, and sharing”及数据管理、API、ETL/编排模块，核心匹配仍成立。"
+    },
+    "esg-disclosure-management": {
+      "application_id": "commercial:workiva",
+      "track": "commercial",
+      "status": "pass",
+      "core_check": "Workiva SEC 页面正文/视频记录显示 10-K/10-Q/8-K 等 filings、权限控制、版本与审计轨迹、审核、数据源链接、XBRL/EDGAR 生成及跨期滚动；ESG 页面正文显示 ESG 数据、源文档集中、修订历史/审批记录、审计轨迹和对外 ESG 报告。两者组合可识别为“披露文件记录 + 源连接内容 + 交付治理链”的披露管理产品，且具备财务报告披露管理机制向 ESG 内容延伸的类型关系。",
+      "identity_license_check": "Workiva 为真实商业云平台，track=commercial；无开源许可证核验要求，也无 repository id 要求。产品身份与披露管理/报告类型匹配。",
+      "source_basis": [
+        "sources/7e20d0f6b20b4ed5ac6ee906a71df7c007b9b0506b6317ffe523b65b4aa382bb.txt",
+        "sources/3dfb0df635682bb82c42a0bcb3d559ef4c6e3f408a33673bc5dd276a8e698f55.txt",
+        "sources/eb12331a506262c525cd800121fc8db12c785934ff31011502eb7cbe9bb6efa8.txt"
+      ],
+      "gap": "ESG 页面本身未直接展示 ESG 内容进入带标记的监管 filing；XBRL/EDGAR 证据在 SEC 页面，ESG 与 filing 的同一受控文档集关系主要是平台层综合判断。"
+    },
+    "esg-management-platform": {
+      "application_id": "commercial:ibm-envizi",
+      "track": "commercial",
+      "status": "pass",
+      "core_check": "IBM Envizi 的 ESG 数据管理页正文明确将环境、社会与治理数据整合为单一权威记录系统，提供自动采集、规范化、灵活层级、数据质量工具、验证规则、异常警报与可审计性；首页正文列出 Sustainability Program Tracking、Target Setting + Tracking、Utility Bill Analytics、Interval Meter Analytics 等模块。符合“多域 ESG 数据资产 + 组织级采集运营 + ESG 计划（目标/倡议/进度）”三层核心。",
+      "identity_license_check": "IBM Envizi ESG Suite 为真实商业 SaaS，track=commercial；无开源许可证要求。产品身份与 ESG 管理平台类型匹配。",
+      "source_basis": [
+        "sources/a79b4936b6d197b057fd954468b853f3471d33ddae57ca4622190325564ddbe2.txt",
+        "sources/655260ce8429b0dd4941c8b5bb3e6ad7c6c06d77432c9519c25b70e71f25f0ea.txt",
+        "sources/adfc56f8613340265794ce58a41f5a58bcdc7fa44b0e3f66c486c225bedc351e.txt"
+      ],
+      "gap": "社会与治理维度的具体数据域在正文中主要是总括性表述，详细模块偏环境、能源与碳；不影响基本类型匹配，但多域论证可再补充具体社会/治理工作流来源。"
+    },
+    "esg-reporting-platform": {
+      "application_id": "github:533334646",
+      "track": "open_source",
+      "status": "pass",
+      "core_check": "Portail RSE 的 doc/overview.md 说明主应用让企业填报并验证 RSE 义务；impact/vsme/models.py 定义按企业、年度保存的 RapportVSME、B1-B11/C1 等披露项、环境/社会/治理分类及 JSON schema；impact/vsme/export_xlsx.py 从指标 schema 导出 XLSX。符合“ESG 绩效数据记录 + 披露结构 + 报告交付物”三层核心，属于 ESG 报告平台而非碳核算或全面 ESG 项目管理套件。",
+      "identity_license_check": "GitHub 仓库页 meta 的 repository id 533334646 与 betagouv/portail-rse 一致；LICENSE 为完整 AGPL-3.0 条款文本，包含网络交互对应的源码提供义务（section 13）；track=open_source，可自托管/公共服务部署，未发现付费社区版边界；外部 AI 服务另有公开源码仓库说明。",
+      "source_basis": [
+        "sources/c288c60f8744b393b46d79ecf2588d87682ed6206497711ac4f8f87a284a29bc.txt",
+        "sources/2564a8c5f6aacdfbaf436a587c2a3465285e61b1d1054ad1dad0c20a6b3b4ee1.txt",
+        "sources/8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef.txt",
+        "sources/b0840a43aff7856f413472337da9f19b814a5f4eedc5cd01ffac00c372f2f67e.txt",
+        "sources/44c5ce43bcbb8b4e87a4b933edacd5009910cdfdcd5fddaad90dc4243a8e4772.txt",
+        "sources/9755128ba7bac99c16cad72e0aa2cc1d8478c0833befd1fe66678f5c38be3526.txt"
+      ],
+      "gap": "PPTX 导出未在快照中出现，仅有 XLSX 导出代码；审批门控与逐项证据追溯在已读正文中不完整，但记录、披露结构与 XLSX 交付物足以支撑核心匹配。"
+    },
+    "resource-efficiency-management": {
+      "application_id": "commercial:energycap",
+      "track": "commercial",
+      "status": "pass",
+      "core_check": "EnergyCAP 的方案页与首页正文显示其集中管理电、天然气、水、污水、蒸汽等多类公用事业账单与表计数据，保留逐项费用/费率，自动账单审计与异常识别，支持建筑基准比较、天气归一化、IPMVP 前后项目节能量验证及排放输出；符合“多资源消耗账本 + 效率闭环（基准、异常/浪费识别、节能量验证）”的核心。",
+      "identity_license_check": "EnergyCAP 为真实商业 SaaS，track=commercial；无开源许可证要求。产品身份与资源效率管理类型匹配，碳与 ESG 披露属于附属输出而非中心。",
+      "source_basis": [
+        "sources/ceadc834d36f07eaa2dd7dbeb7af75145dea03d30167b21c0b6328ea9b333085.txt",
+        "sources/168a10484f80d6629ed857078c6762a32799407a2bef70123ceb15ba0d48999d.txt",
+        "sources/fdd3051e792dc3724425780583931159dc7a0a585c66247476b3f5ffe4b8d399.txt"
+      ],
+      "gap": "未在已读来源中明确出现目标设定/目标实际对比；research 已如实记录。建筑基准、账单异常、项目 M&V 与多资源账本足以支撑效率闭环的主要部分，不阻断类型匹配。"
+    }
+  },
+  "limits": "本次为只读初审：未运行产品、未部署、未登录、未执行 shell，也未写入任何文件；未重算快照 sha256；未做价格、架构或运行时行为验证。HydroServer 官方文档快照仅为 VitePress 导航/资源壳；Portail RSE 的 PPTX 导出与 Workiva 的 ESG tagged filing 未能从快照直接验证；结论仅基于本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 所列快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-207/ses_groveopencodegop207review1_1793027104.jsonl",
+  "batch_sha256": "c5107d4d2c6f4de33e1badbd53a426a85cd97bdebeba30cd315720524329a81d",
+  "research_sha256": "0ccfa1b858a90add8aa4e46054314a65afbc615d7146ccf917287d423c569b42",
+  "input_sha256": "605e785338e867b1bd112b021a25e18f2315697bbfdfb01ae42c21749288e27e"
+}

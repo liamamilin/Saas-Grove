@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "ip-address-management-ipam",
+        "name_zh": "IP地址管理 (IPAM)",
+        "domain_id": "14",
+        "parent_id": "14.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方仓库直查 netbox-community/netbox（IPAM）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "ip-address-management-ipam",
+        "name": "IP Address Management / IPAM",
+        "name_zh": "IP地址管理 (IPAM)",
+        "aliases_zh": [
+          "IP管理系统",
+          "网络地址管理"
+        ],
+        "overview": "An **IP Address Management (IPAM) application** is the network team's system of record for an organization's IP address space: it holds the space itself — blocks, subnets, and individual addresses — as a structured, searchable record, and it is the medium through which that space is planned, allocated, tracked, and reclaimed.\n\nThe problem it solves is as old as networking itself: IP addresses are a finite shared resource consumed by many teams, systems, and sites at once. Without a ledger, the same address gets assigned twice, orphaned allocations are never reclaimed, nobody can say how full a subnet is, and planning for growth means guessing. IPAM turns \"who has what address, what is free, and how much is left\" into questions answered from a maintained record instead of tribal memory and spreadsheets.\n\nThe defining core is deliberately small — two structures held together:\n\n```text\nThe address space as a structured record\n└── CIDR-organized containers (blocks / aggregates → subnets)\n    └── Individually addressable entries, each carrying state and attributes\n        plus\nThe allocation lifecycle performed against that record\n    (divide → allocate / reserve → track → find free → reclaim → report)\n```\n\nEverything else commonly associated with the category — automated network scanning, DNS/DHCP integration, VLAN and VRF overlays, cloud sync, approval workflows, REST APIs — is widespread in current products but is not what makes a product an IPAM. Pure address ledgers without any of those capabilities satisfy this definition; the pre-software form of this discipline, a maintained spreadsheet of subnets and assignments, satisfies it too.",
+        "overview_zh": "一个 **IP Address Management (IPAM) 应用程序** 是网络团队用于组织 IP 地址空间的官方记录系统：它以结构化、可搜索的记录形式保存空间本身——包括块、子网和单个地址——并且是规划、分配、跟踪和回收该空间的媒介。\n\n它所解决的问题与网络本身一样古老：IP 地址是由许多团队、系统和站点同时消耗的有限共享资源。如果没有一本账簿，同一个地址会被分配两次，孤立的分配永远不会被回收，没有人能说出一个子网已使用多少，而规划增长就意味着猜测。IPAM 将“谁拥有什么地址、哪些是空闲的、还剩多少”这些疑问，从依赖团队记忆和电子表格的状态，转变为从一个被维护的记录中获得答案。\n\n其定义性核心故意保持小巧——由两个紧密关联的结构组成：\n\n```text\n作为结构化记录的地址空间\n└── 按 CIDR 组织的容器（块 / 聚合 → 子网）\n    └── 可独立寻址的条目，每个条目都带有状态和属性\n        加上\n对该记录执行的分配生命周期\n    （划分 → 分配 / 保留 → 跟踪 → 查找空闲 → 回收 → 报告）\n```\n\n通常与此类别相关的其他所有功能——自动化网络扫描、DNS/DHCP 集成、VLAN 和 VRF 覆盖、云同步、审批工作流、REST API——在当前产品中很普遍，但并非使产品成为 IPAM 的要素。没有任何这些功能的纯地址账簿也满足此定义；此学科的前软件形式，即一份维护的子网与分配电子表格，也满足此定义。",
+        "dc": "- **Space organization layer** — groupings above subnets (sections, sites, regions, locations) used to structure large estates and scope permissions.\n- **Named state vocabulary** — explicit statuses and roles on addresses and subnets (for example: in use, reserved, free, abandoned; functional roles such as loopback or virtual IP). Exact state names vary by product.\n- **Free-space and capacity machinery** — find the next free address; find a free subnet of a requested size; utilization percentages, thresholds, and depletion alerts.\n- **Reconciliation against the live network** — automated scanning, ping checks, or infrastructure discovery that compares the record with reality. Posture varies: some products make continuous discovery central, while source-of-truth-oriented products center on documenting the intended network rather than live scanning.\n- **IP ↔ DNS name linkage** — a DNS name held as an address attribute; in some products, creating or deleting an address creates or removes the corresponding DNS record. Operating DNS itself belongs to a different Type (see Related Application Types).\n- **DHCP visibility** — pool and lease data feeding the address picture; in products that bundle service management, DHCP servers and scopes are operated from the same console. Pure IPAM products lack this entirely.\n- **Context overlays** — VLAN association, VRF / routing-table separation (allowing the same address range to exist in several contexts), NAT relationships, device or virtual-machine interface binding, tenancy.\n- **Governance** — permission scoping down to section and subnet; authentication against directory systems; in some products, request/approval workflows for allocations.\n- **Search and reporting** — estate-wide search by address, hostname, or MAC; utilization history and audit trails.\n- **IPv4 and IPv6 dual-stack** throughout the data model.\n- **API surface** — the same objects and operations exposed for automation.",
+        "dc_zh": "- **空间组织层** — 子网之上的分组（部分、站点、区域、位置），用于构建大型网络并限定权限范围。\n- **命名状态词汇** — 地址和子网上的显式状态和角色（例如：使用中、保留、空闲、已废弃；功能角色如回环地址或虚拟IP）。确切的状态名称因产品而异。\n- **空闲空间与容量机制** — 查找下一个空闲地址；查找指定大小的空闲子网；利用率百分比、阈值和耗尽警报。\n- **与实时网络的对账** — 自动扫描、ping检查或基础设施发现，将记录与实际情况进行对比。姿态各异：一些产品以持续发现为核心，而面向真实来源的产品则侧重于记录预期网络而非实时扫描。\n- **IP ↔ DNS名称关联** — DNS名称作为地址属性保存；在一些产品中，创建或删除地址会创建或删除相应的DNS记录。操作DNS本身属于不同类别（参见相关应用类型）。\n- **DHCP可见性** — 池和租约数据为地址图像提供信息；在捆绑服务管理的产品中，DHCP服务器和范围从同一控制台操作。纯IPAM产品完全缺乏此功能。\n- **上下文覆盖** — VLAN关联、VRF / 路由表分离。",
+        "rules": "### Every address counts against the hierarchy\n\nAllocation state is computed within CIDR containment: a child subnet consumes its parent's space; utilization, free space, and overlap are consequences of the tree structure. Products therefore enforce or at least surface structural facts — a subnet cannot meaningfully exceed its parent, overlaps are detectable, and the \"same\" range can coexist only when explicitly separated into different routing contexts.\n\n### Allocation state is explicit and user-visible\n\nThe distinction between free, reserved, in-use, and abandoned is a first-class part of every record, not a footnote. Reservations differ from assignments (space held for the future versus space with a holder), and both differ from free. Exact state names vary by product.\n\n### The record is authoritative — but its truthfulness is a posture\n\nIn the documentation-first posture, the record is the intent and wins by definition. In the scanning-led posture, the record is continuously corrected against the network. Either way, the record — not ad-hoc live queries — is the basis for allocation decisions; drift between record and reality is treated as a condition to be fought (scans, checks, audits), not ignored.\n\n### Uniqueness is per context\n\nAn address is unique within its routing context (VRF / table). Products that support multiple contexts can hold the same address range several times; products that do not, cannot. Uniqueness enforcement within a context is what prevents the classic duplicate-address failure.\n\n### Space is reclaimed, not just consumed\n\nThe lifecycle is deliberately closed: releasing, deleting, or re-marking entries is as much a part of the model as allocation, because finite space runs out. Depletion planning — knowing how soon a subnet or scope will be exhausted — is the reporting consequence of this rule.\n\n### Couplings exist but are not the ledger\n\nDNS names and DHCP pool data commonly attach to addresses, and some products write DNS records or read leases as part of address operations. The ledger, however, remains complete without any of these couplings — a product can be a fully functional IPAM while never operating a DNS or DHCP service.",
+        "rules_zh": "### 每个地址都计入层次结构\n\n分配状态在 CIDR 包含关系内计算：一个子网消耗其父级的空间；利用率、空闲空间和重叠是树结构的结果。因此，产品强制执行或至少揭示结构事实——一个子网在意义上不能超过其父级，重叠是可检测的，并且只有当显式分离到不同的路由上下文时，才可以存在“相同”的范围。\n\n### 分配状态是显式且用户可见的\n\n空闲、保留、使用中和废弃之间的区别是每个记录的一等组成部分，而非脚注。保留不同于分配（为未来保留的空间与带有持有者的空间），两者都不同于空闲。确切的状态名称因产品而异。\n\n### 记录是权威的——但其真实性是一种姿态\n\n在文档优先的姿态下，记录是意图，根据定义胜出。在扫描主导的姿态下，记录根据网络持续校正。无论如何，记录——而非临时实时查询——是分配决策的基础；记录与现实之间的偏差被视为需要对抗的状况（扫描、检查、审计），而非被忽略。\n\n### 唯一性是基于上下文的\n\n一个地址在其路由上下文（VRF / 表）内是唯一的。支持多个上下文的产品可以在多个上下文中持有相同的地址范围；不支持的产品则不能。在上下文内强制唯一性是防止经典重复地址故障的关键。\n\n### 空间被回收，而不仅仅是消耗\n\n生命周期是刻意闭环的：释放、删除或重新标记条目与分配一样，是模型的一部分，因为有限的空间会耗尽。耗尽规划——了解一个子网或范围将何时耗尽——是回收工作的自然延伸。",
+        "parent_id": "14.03",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "load-balancer-management",
+        "name_zh": "负载均衡器管理",
+        "domain_id": "14",
+        "parent_id": "14.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方仓库直查 traefik/traefik（Load Balancing Service 文档）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "load-balancer-management",
+        "name": "Load Balancer Management",
+        "name_zh": "负载均衡器管理",
+        "aliases_zh": [
+          "负载均衡",
+          "网络负载均衡"
+        ],
+        "overview": "A **Load Balancer Management** application is the operator-facing application for defining, changing, and operating load balancers — the traffic systems that spread incoming service traffic across a set of interchangeable backends. Through this application, operators create a stable client-facing entry point (an address and port), attach a managed set of backend servers to it, configure how traffic is distributed across that set, and keep unavailable backends out of rotation — so that a service appears to clients as one always-available endpoint while capacity is added, removed, and repaired behind it.\n\nThe defining structure is small:\n\n```text\nDistribution point (listener / virtual server: address + port + protocol)\n└── Managed backend set (pool of interchangeable members)\n    └── Distribution policy (algorithm + weights, optionally session persistence)\n    └── Health-gated rotation (unhealthy members receive no traffic)\n```\n\nEverything else commonly associated with the category — TLS termination, content-based routing rules, connection caps, metrics dashboards, autoscaling integration, the balancer's own high availability — is widespread in mature products but is not what makes the application a load balancer manager. Remove health gating and only static traffic-splitting configuration remains; remove the backend set and only a proxy or port-forwarding rule remains; remove the distribution point and only backend monitoring remains.",
+        "overview_zh": "一个**负载均衡器管理**应用程序是面向操作员的应用程序，用于定义、更改和操作负载均衡器——这些流量系统将传入的服务流量分布到一组可互换的后端。通过这个应用程序，操作员创建一个稳定的面向客户端的入口点（一个地址和端口），附加一组受管理的后端服务器到它，配置如何在该组上分布流量，并将不可用的后端排除在轮换之外——这样服务在客户端看来就像一个始终可用的端点，而容量在后面被添加、移除和修复。\n\n其定义结构很小：\n\n```text\n分发点（监听器/虚拟服务器：地址 + 端口 + 协议）\n└── 受管理的后端集（可互换成员的池）\n    └── 分发策略（算法 + 权重，可选会话持久性）\n    └── 健康门控轮换（不健康成员不接收流量）\n```\n\n其他与此类别通常相关的一切——TLS终止、基于内容的路由规则、连接限制、指标仪表板、自动缩放集成、负载均衡器自身的高可用性——在成熟产品中广泛存在，但并非使该应用程序成为负载均衡器管理器的关键。移除健康门控，只剩下静态流量分割配置；移除后端集，只剩下代理或端口转发规则；移除分发点，只剩下后端监控。",
+        "dc": "- **Algorithm breadth** — least-connections/least-outstanding/least-time selection, weighted round robin, hash-based selection (client IP, URL, cookie — including consistent hashing, which minimizes remapping when membership changes), and random with two choices.\n- **Session persistence** — cookie-based affinity, source-address affinity, or server-side session tables, so all requests in a session reach the same member.\n- **Content routing on the listener** — ordered rules that select different backend pools by hostname, URL path, header, method, or query parameters, with a default destination; plus redirects and fixed responses.\n- **TLS termination** — presenting certificates at the listener and decrypting client traffic, with optional re-encryption toward backends.\n- **Per-member capacity controls** — connection limits and queues, slow-start behavior for recovering members.\n- **Membership automation** — backends registered automatically from autoscaling groups or container orchestrators, or derived from DNS records that the balancer re-resolves.\n- **Operational observation** — metrics and logs per listener, pool, and member; health-state surfaces; activity dashboards.\n- **Balancer self-availability** — provider-managed scaling and multi-zone operation in cloud services; paired instances sharing a floating address in self-managed deployments.",
+        "dc_zh": "- **算法广度** — 最少连接/最少未处理/最少时间选择，加权轮询，基于哈希的选择（客户端IP、URL、Cookie——包括一致性哈希，最小化成员变更时的重映射），以及随机两选一。\n- **会话持久性** — 基于Cookie的亲和性、源地址亲和性或服务器端会话表，确保会话中的所有请求到达同一成员。\n- **监听器上的内容路由** — 有序规则，根据主机名、URL路径、头部、方法或查询参数选择不同的后端池，并设置默认目的地；加上重定向和固定响应。\n- **TLS终结** — 在监听器处呈现证书并解密客户端流量，可选择向后端重新加密。\n- **每个成员的容量控制** — 连接限制和队列，恢复成员的慢启动行为。\n- **成员自动化** — 后端从自动扩展组或容器编排器自动注册，或从负载均衡器重新解析的DNS记录派生。\n- **操作观察** — 每个监听器、池和成员的指标和日志；健康状态表面；活动仪表板。\n- **负载均衡器自身可用性** — 云服务中由提供商管理的扩展和多区域操作；自管理部署中配对实例共享浮动地址。",
+        "rules": "- **Only healthy members receive traffic.** The gate is continuous: a member that fails its checks is excluded regardless of the configured algorithm, and stays excluded until it passes again. This, not the algorithm, is the behavior clients depend on.\n- **Membership changes never move the client-facing endpoint.** Adding, removing, weighting, and draining members changes the distribution behind a stable address; DNS and client configuration are untouched.\n- **Removal from rotation is distinct from removal from the record.** A drained or disabled member remains defined in the pool (for later re-admission); a deregistered member leaves the record. Products distinguish these states.\n- **Persistence overrides the algorithm.** When session persistence is configured, an established session keeps going to its member as long as that member is healthy; the algorithm decides only for new sessions.\n- **The balancer sits between both sides.** Clients see the balancer as the service; backends see the balancer as the client. Address-translation and header-preservation behaviors follow from this posture.\n- **Content rules are ordered, with a default.** Listener rules evaluate in defined priority; a default rule or default pool catches unmatched traffic.\n- **Distribution policy is a pool property.** One policy per backend set; products commonly allow a member to be registered with more than one pool, each pool applying its own policy and checks.\n- **The balancer itself must not be a single point of failure.** Self-managed products pair instances behind a floating address; managed services distribute the balancer across availability zones internally. The management surface operates this as configuration, not as an afterthought.\n- **Capacity limits shape distribution.** Per-member connection caps and queues redirect or fail traffic when a member is saturated; some algorithms use live connection counts, making weight and capacity settings interact with the algorithm's behavior.",
+        "rules_zh": "- **只有健康的成员接收流量。** 门控是持续的：检查失败的成员被排除，无论配置的算法如何，并保持排除直到再次通过检查。这是客户端依赖的行为，而非算法。\n- **成员变更从不移动面向客户端的端点。** 添加、移除、加权和排空成员改变稳定地址后的分发；DNS和客户端配置不受影响。\n- **从轮换中移除与从记录中移除不同。** 被排空或禁用的成员仍定义在池中（以便后续重新纳入）；被注销的成员离开记录。产品区分这些状态。\n- **持久性覆盖算法。** 当配置会话持久性时，已建立的会话只要其成员健康就继续访问它；算法只决定新会话。\n- **负载均衡器位于双方之间。** 客户端将负载均衡器视为服务；后端将负载均衡器视为客户端。地址转换和头保留行为源于此姿态。\n- **内容规则是有序的，带有默认值。** 监听器规则按定义优先级评估；默认规则或默认池捕获未匹配的流量。\n- **分发策略是池属性。** 每个后端集一个策略；产品通常允许成员注册到多个池，每个池应用自己的策略和检查。\n- **负载均衡器本身不能是单点故障。** 自管理产品在浮动地址后配对实例；托管服务在内部将负载均衡器分布到可用性区域。管理界面作为配置操作此，而非事后想法。\n- **容量限制塑造分发。** 每个成员连接",
+        "parent_id": "14.03",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "network-management",
+        "name_zh": "网络管理",
+        "domain_id": "14",
+        "parent_id": "14.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方仓库直查 openwisp/openwisp-controller（配置管理与推送）"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "network-management",
+        "name": "Network Management",
+        "name_zh": "网络管理",
+        "aliases_zh": [
+          "网络管理软件",
+          "网管"
+        ],
+        "overview": "A **Network Management** application is the network team's operating system for its own device estate: it holds the organization's network infrastructure devices — switches, routers, firewalls, wireless access points and controllers — as individually managed records, holds each device's configuration as versioned, comparable, restorable state, and applies changes to devices through itself as the normal course of operation.\n\nThe defining core is small:\n\n```text\nNetwork device estate of record\n└── Device configuration as managed substance\n    └── Write path to devices\n```\n\n- **Device estate of record** — every managed device is a persistent, individually identified record with its management-plane reachability (management address, credentials or adopted/registered state), organized into sites, groups, or domains.\n- **Configuration as the managed substance** — the system holds device configuration as state that outlives any session: retrieved from devices, authored in the system, or held by a controller; preserved as revisions; comparable across devices and over time; restorable.\n- **The write path** — configuration changes are applied to devices through the system — to one device, a group, or the whole estate. The system is an operator of the network, not only an observer or an archivist.\n\nEverything else commonly bundled with these products — device discovery and zero-touch onboarding, firmware upgrades, compliance audits, change-approval workflows, dashboards, integrated health views — is standard capability, not what makes the product a network management application. Remove the write path and what remains is network monitoring or a configuration archive; remove the configuration substance and what remains is an asset inventory; remove the device estate and what remains is a config-file repository with nothing to manage.",
+        "overview_zh": "一个**网络管理**应用程序是网络团队针对其自有设备资产的操作系统：它以单独管理记录的形式持有组织的网络基础设施设备——交换机、路由器、防火墙、无线接入点和控制器；将每台设备的配置作为可版本化、可比较、可恢复的状态；并通过其自身作为正常操作流程的一部分，将变更应用于设备。\n\n其定义性核心是精简的：\n\n```text\nNetwork device estate of record\n└── Device configuration as managed substance\n    └── Write path to devices\n```\n\n- **Network device estate of record（记录的设备资产）** —— 每个被管理设备都是一个持久化、单独标识的记录，包含其管理平面的可达性信息（管理地址、凭证或采用/注册状态），并按站点、组或域进行组织。\n- **Configuration as the managed substance（作为被管理实体的配置）** —— 系统将设备配置作为比任何会话都持久的状态进行持有：从设备检索、在系统中创建，或由控制器持有；保存为修订版本；可在设备间和随时间进行比较；可恢复。\n- **Write path（写入路径）** —— 配置变更通过系统应用于设备——可以是单个设备、一个组或整个资产。系统是网络的操作者，而不仅仅是观察者或归档者。\n\n通常随这些产品捆绑的其他所有功能——设备发现和零接触入门、固件升级、合规审计、变更审批工作流、仪表板、集成的健康状况视图——都是标准功能，并非使其成为网络管理应用程序的本质。移除写入路径，剩下的就是网络监控或配置归档；移除配置实体，剩下的就是资产清单；移除设备资产，剩下的就是一个无管理对象的配置文件仓库。",
+        "dc": "- **Change control** — detecting configuration changes that happen outside the system, alerting on them, optionally auto-reverting; approval workflows for planned changes; user-activity audit.\n- **Operational visibility** — device health/status dashboards, topology views, and often integrated monitoring surfaces.\n- **Access control** — role-based permissions over who can view, edit, approve, and install configuration.",
+        "dc_zh": "- **变更控制** — 检测在系统外部发生的配置更改，发出警报，可选自动回滚；对计划内更改的审批工作流；用户活动审计。\n- **操作可见性** — 设备健康/状态仪表板、拓扑视图，通常集成监控界面。\n- **访问控制** — 基于角色的权限，控制谁可以查看、编辑、批准和安装配置。",
+        "rules": "### The system's config picture is meant to stay authoritative\n\nOut-of-band changes (made directly on a device) are treated as events to be detected and reconciled — retrieved into the version history, alerted on, and in some products automatically reverted. The estate record is the reference; device-side drift is an exception to surface, not a parallel source of truth.\n\n### Changes are staged, then installed\n\nIn controller-style products, edits land in the system's database first and reach devices only when an install/push is executed. This two-step shape (author → install) is what makes review, approval, and scheduling possible.\n\n### Restore targets last-known-good\n\nBackups exist to be restored — after a failed change, a compromised device, or hardware replacement. The versioned config history is the recovery mechanism, not just an archive.\n\n### Write access is the privileged act\n\nPermissions concentrate on who may author, approve, and install changes. Viewing is broad; pushing to devices is the controlled operation. Multi-tenant products scope entire device populations and config objects per tenant/domain.\n\n### Scale is expressed as groups, not one-offs\n\nBulk application to groups/sites is normal operation. A tool that can only configure one device at a time through a terminal is not this Type — it is the ad-hoc CLI work this Type replaces.",
+        "rules_zh": "### 系统的配置视图旨在保持权威性\n\n带外变更（直接在设备上进行的）被视为需要检测和调和的事件——检索到版本历史中，触发告警，并在某些产品中自动回退。设备资产记录是参考基准；设备端的漂移是需要表面化的异常，而非并行的事实来源。\n\n### 变更先暂存，后安装\n\n在控制器风格的产品中，编辑首先落入系统数据库，仅在执行安装/推送时才到达设备。这种两步流程（创建→安装）使得审查、批准和调度成为可能。\n\n### 恢复目标为最后已知良好状态\n\n备份的存在是为了被恢复——在变更失败、设备受损或硬件更换之后。版本化的配置历史是恢复机制，而不仅仅是归档。\n\n### 写入访问是特权操作\n\n权限集中在谁可以创建、批准和安装变更。查看权限广泛；推送到设备是受控操作。多租户产品按租户/域划分整个设备集合和配置对象。\n\n### 规模体现为组，而非单个操作\n\n批量应用于组/站点是正常操作。一个只能通过终端一次配置一台设备的工具不属于此**类型**——它属于此类型所取代的临时CLI工作。",
+        "parent_id": "14.03",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "telecom-expense-management",
+        "name_zh": "电信费用管理",
+        "domain_id": "14",
+        "parent_id": "14.03",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方站点直查 Tangoe TEM 与 Invoice Audit 页面"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "telecom-expense-management",
+        "name": "Telecom Expense Management",
+        "name_zh": "电信费用管理",
+        "aliases_zh": [
+          "电信支出管理",
+          "电信成本控制"
+        ],
+        "overview": "A **Telecom Expense Management** application is an enterprise-side system for controlling what an organization pays for its telecommunications services. Its defining core is a recurring invoice-to-money loop: bills received from connectivity vendors are captured into a structured record of charges, every charge is audited against the organization's own telecom records — the services it actually has, the rates it actually agreed to, what it was billed before — and every discrepancy is driven to a tracked money outcome before the validated spend is released for accounting and payment.\n\n```text\nVendor invoices (carrier bills)\n└── captured & structured charges — the billing record of record\n    └── audited against the organization's own records\n        (service inventory · contract rates · prior billing periods)\n        └── discrepancies → tracked outcomes\n            (disputes → collected credits · corrective actions → realized savings)\n            └── validated spend → allocation → settlement\n```\n\nThe defining structure is deliberately small. Everything else commonly associated with the category — payment execution, GL allocation machinery, benchmarking, AI invoice extraction, mobile and cloud scope — is widespread in current products but is not what makes the product a telecom expense management application. The category predates all of that machinery: auditing carrier bills against circuit inventories and contract rate schedules is a practice decades old, and the essential loop has not changed.\n\nThe category lives in a bundle-heavy market: the same providers usually also carry the carrier-relationship machinery (contracts, orders, enforcement) and the telecom inventory record, marketed as one telecom lifecycle. What makes this type distinct is the **money side** — the charge, its validation, and its resolution. If the invoice-and-expense machinery is removed, what remains is carrier or inventory management; if that machinery is kept, the product is recognizably telecom expense management regardless of delivery model.",
+        "overview_zh": "**电信费用管理**应用是一种企业级系统，用于控制组织支付的电信服务费用。其核心是一个循环的发票到资金流程：从连接供应商接收的账单被捕获到结构化的费用记录中，每一笔费用都根据组织自身的电信记录进行审计——组织实际拥有的服务、实际同意的费率、之前的账单——并且在验证的支出释放用于会计和支付之前，每一个差异都会驱动到一个跟踪的资金结果。\n\n```text\n供应商发票（运营商账单）\n└── 捕获并结构化的费用——权威的账单记录\n    └── 根据组织自身的记录进行审计\n        （服务清单 · 合同费率 · 先前账单期）\n        └── 差异 → 跟踪结果\n            （争议 → 收取的贷记 · 纠正措施 → 实现的节约）\n            └── 验证的支出 → 分配 → 结算\n```\n\n定义结构是故意小的。其他通常与该类别相关的一切——支付执行、GL分配机制、基准测试、AI发票提取、移动和云范围——在当前产品中广泛存在，但不是使产品成为电信费用管理应用的原因。该类别早于所有这些机制：根据电路清单和合同费率表审计运营商账单是已有数十年实践的做法，基本循环没有改变。\n\n该类别存在于一个捆绑销售严重的市场中：相同的供应商通常还携带运营商关系机制（合同、订单、执行）和电信清单记录，作为一个完整的电信生命周期进行营销。使这种类型独特的是**资金方面**——费用、其验证及其解决。如果发票和费用机制被移除，剩下的是运营商或清单管理；如果保留该机制，无论交付模型如何，产品都是可识别的电信费用管理。",
+        "dc": "- **The resolution-to-recovered-money loop.** Flagged discrepancies and identified waste are driven to tracked, money-measured outcomes. Disputed charges become dispute records with a lifecycle — flagged, pursued with the vendor, resolved as a credit or adjustment posted to the right account. Identified waste becomes corrective action — disconnecting services billed but no longer used, rightsizing plans, enforcing contract rates — drafted, approved, and executed. Realized savings are recorded against the actions that produced them. The cycle closes with the validated spend approved and released for allocation and settlement.",
+        "dc_zh": "解决至回收资金的循环。标记的差异与识别的浪费被导向跟踪的、以金钱衡量的结果。争议费用转化为具有生命周期的争议记录——标记、与供应商交涉、作为贷记或调整解决并记入正确账户。识别的浪费转化为纠正行动——断开已计费但未使用的服务、优化计划大小、执行合同费率——起草、批准并执行。实现的节省被记录为产生它们的行动。循环以验证的支出获批并释放用于分配与结算而闭合。",
+        "rules": "- **Validation is referential, not arithmetic.** The system does not just check that a bill sums correctly; it checks each charge against the organization's own records of what exists, what was ordered, what was contracted, and what was billed before. Without current inventory and contract records, the audit has nothing to check against — which is why maintaining those references is a load-bearing activity, not an afterthought.\n\n- **The billing cycle is the clock.** Work is organized around monthly billing periods per vendor. Savings opportunities are perishable: an unused service keeps billing until someone disconnects it, and a credit unclaimed this cycle tends to become a recurring overcharge.\n\n- **Disconnected does not mean no longer billed.** The recurring failure mode this type exists to catch is drift between the estate and the bill — services billing after disconnection, delivered services missing from inventory, charges that crept above contract. Eliminating such lingering services is a managed outcome, not a side effect.\n\n- **Disputes are tracked records, not correspondence.** A variance becomes a dispute with a lifecycle and a recorded outcome (credit, adjustment, or denial), and recovery is reported over time. Credits must be collected, not merely awarded.\n\n- **Savings must be traced to actions.** Identified savings only count once the corrective action is approved, executed, and confirmed in a later bill. Mature products keep that traceability explicitly.\n\n- **Granularity is line-item.** The charge record and the audit operate at the individual charge level — recurring, usage, one-time, taxes and fees — because that is where billing errors live, not at invoice totals.\n\n- **Attribution everywhere.** Every charge is attributable to a vendor, a service, and a cost object (site, department, cost center). This is what makes disputes, enforcement, chargebacks, and negotiation evidence possible.\n\n- **Lifecycle states are conceptual; labels vary.** Invoices move from receipt through validation, exception handling, approval, and settlement; disputes move from flag through pursuit to posted credit or denial; savings move from identified through action to realized. The exact status names differ by product; the state machines themselves are stable.",
+        "rules_zh": "- **验证是参考性的，不是算术性的。** 系统不仅检查账单是否正确求和；它根据组织自身的记录检查每笔费用——什么存在、什么被订购、什么被合同约定、以及之前被计费什么。没有当前的清单和合同记录，审计无从检查——这就是为什么维护这些参考是一项承重活动，而不是事后思考。\n\n- **账单周期是时钟。** 工作围绕每个供应商的月度账单期组织。节约机会是易腐的：未使用的服务持续计费直到有人断开它，而本周期未索取的贷记往往成为重复的超额收费。\n\n- **断开并不意味着不再计费。** 该类型存在是为了捕获的反复故障模式是资产和账单之间的偏差——断开后仍在计费的服务、交付的服务在清单中缺失、费用悄悄高于合同。消除此类残留服务是管理的结果，而不是副作用。\n\n- **争议是跟踪的记录，不是通信。** 一个差异成为一个有生命周期和记录结果（贷记、调整或拒绝）的争议，恢复随时间报告。贷记必须被收取，而不仅仅是授予。\n\n- **节约必须追溯到操作。** 识别的节约只有在纠正操作被批准、执行并在后续账单中确认后才算数。成熟的产品明确保持这种可追溯性。\n\n- **粒度是行项目级别的。** 费用记录和审计在单个费用级别运行——周期性、使用量、一次性、税费——因为计费错误存在于那里，而不是在发票总计中。\n\n- **处处归因。** 每笔费用可归因于一个供应商、一个服务和一个",
+        "parent_id": "14.03",
+        "domain_id": "14"
+      }
+    },
+    {
+      "progress": {
+        "slug": "archive-storage-management",
+        "name_zh": "归档存储管理",
+        "domain_id": "14",
+        "parent_id": "14.04",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方站点直查 ShareArchiver Archive Storage Solutions"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "archive-storage-management",
+        "name": "Archive Storage Management",
+        "name_zh": "归档存储管理",
+        "aliases_zh": [
+          "归档存储系统",
+          "数据归档管理"
+        ],
+        "overview": "An **Archive Storage Management** application governs how an organization's data is retired from active storage into a dedicated, lower-cost **archive destination** over time, and how that data is brought back into usable access when needed.\n\nThe defining structure is deliberately small:\n\n```text\nArchive destination  — a storage tier/target distinct from active storage,\n                       with lower cost and constrained or delayed access\nGoverned transition  — rules or explicit operator actions that determine\n                       what moves into the archive, and when\nRetrieval path       — a defined, distinct operation that returns archived\n                       data to usable access\n```\n\nEverything else commonly associated with the category — estate analytics, savings dashboards, inventory search, retention/expiration automation, immutability, retrieval priority tiers — is standard capability layered on this triple, not what makes the product an archive storage manager. The economic motive (storing rarely-used data cheaply for years) is universal, but the defining structure is the managed movement into the archive and the defined way out.\n\nThis Type manages the **storage lifecycle of cold data**. It does not protect systems (that is backup), it does not operate the live storage estate day to day (that is storage management), and it does not make data quickly available after a disaster (that is disaster recovery).",
+        "overview_zh": "一个**归档存储管理**应用程序负责管理组织数据如何随着时间推移从活跃存储退役到专用、成本更低的**归档目标**，以及在需要时如何将这些数据重新引入可用访问。\n\n其定义性结构非常精简：\n\n```text\n归档目标 — 有别于活跃存储的存储层/目标，\n                      成本更低，访问受到约束或延迟\n受管理的转换 — 决定什么数据移入归档、何时移入的\n                      规则或明确的操作员操作\n检索路径 — 一个明确、独特的操作，将归档数据\n                      恢复到可用状态\n```\n\n与此类别通常相关的其他一切——资产分析、节省看板、清单搜索、保留/过期自动化、不可变性、检索优先级层——都是建立在此三要素之上的标准功能，而非使产品成为归档存储管理器的核心要素。经济动机（以低成本存储很少使用的数据多年）是普遍存在的，但定义性结构在于受管理的归档移动过程和明确的移出方式。\n\n此**类型**管理的是**冷数据的存储生命周期**。它不保护系统（那是备份的功能），它不日复一日地操作活跃存储资产（那是存储管理的工作），它也不在灾难后使数据快速可用（那是灾难恢复的范畴）。",
+        "dc": "- cloud object storage archive classes (service-managed tiers of a public cloud)\n- on-premises object storage\n- tape libraries\n- hybrid gateways that pool disk, object storage, and tape behind one interface\n\n**Governed transition.** The mechanism that determines which data moves into the archive destination and when. This is the management artifact the operator actually authors: rules that select data by scope (file paths, prefixes, containers, tags) and conditions (age, last access or modification time, size, type), or explicit operator-initiated moves. Transitions are applied over time — typically on a schedule or continuously — and in mature products they apply to both existing and newly created data. Without governed transition, the \"archive\" is just a cold file share that someone copies files into by hand.\n\n**Retrieval path.** A defined operation that brings archived data back into usable access. It is always a distinct, deliberate step — never equivalent to ordinary reading — and it is slower and priced differently from active access. Common forms: an explicit restore or rehydrate command with a wait, recall handled transparently when a tiered file is opened, or a download-back operation. Without a retrieval path, the system is a write-once sink, not archive management.\n\n**Data with a storage-lifecycle state.** The managed unit is the data object (file, blob, object, backup chain) carrying its current storage placement — active tier, cooler tier, archive destination — and the timestamps that policies evaluate. Moving between placements is the central state change of the Type.",
+        "dc_zh": "- 云对象存储归档类别（公共云的服务管理层次）\n- 本地部署对象存储\n- 磁带库\n- 混合网关，在单一接口后整合磁盘、对象存储和磁带\n\n**管理转换。** 决定哪些数据移动到归档目的地以及何时移动的机制。这是操作员实际创建的管理制品：通过范围（文件路径、前缀、容器、标签）和条件（年龄、最后访问或修改时间、大小、类型）选择数据的规则，或操作员明确发起的移动。转换随时间应用——通常按计划或持续进行——在成熟产品中，它们适用于现有和新创建的数据。没有管理转换，“归档”只是一个冷文件共享，有人手动将文件复制进去。\n\n**检索路径。** 将归档数据恢复到可用访问的定义操作。它总是一个独特的、刻意的步骤——绝不等同于普通读取——并且比活动访问慢且定价不同。常见形式：显式的恢复或重新水化命令并等待，当分层文件打开时透明处理召回，或下载回操作。没有检索路径，系统是一次性写入汇，而不是归档管理。\n\n**具有存储生命周期状态的数据。** 管理单元是数据对象（文件、blob、对象、备份）",
+        "rules": "### Archived data is not read in place\n\nThe behavioral contract of the archive destination defines the Type. In the offline model, read attempts fail until an explicit restore/rehydrate completes; in the near-online model, reads succeed but involve system-handled recall that is materially slower; in the transparent model, reads succeed through a standing reference with recall folded in. If data could simply be read at active-storage speed from everywhere, the product would be tiering or capacity management, not archive management.\n\n### Retrieval is slower and costed differently\n\nEvery sampled model attaches distinct economics to retrieval: per-retrieval fees, priority premiums, or minimum-storage-duration charges that penalize short stays in the archive. Policy design is therefore economic design: a rule that moves data too eagerly or retrieves too casually can cost more than it saves. (This document intentionally does not state specific durations or fee structures; they vary by product and change frequently.)\n\n### Transition policy and retrieval interact\n\nPolicies evaluate data properties that retrieval may not refresh. A directly documented interaction pattern: rehydrated data can be immediately re-archived by a policy keyed on last-modified time, unless the policy includes a condition guarding against it. The general rule: **treat retrieval as a tier change that policies see, not as an invisible access grant.**\n\n### Policies act over the data, not through user permissions\n\nLifecycle and tiering policies operate on the datasets they scope regardless of individual access controls — transitions and expirations are executed as the data owner's standing instruction, not as per-user actions. (One cloud vendor explicitly documents that access policies cannot block its lifecycle rules; the general principle is that these policies are a governance instrument above day-to-day permissions.)\n\n### Policies apply to existing and future data\n\nA new rule reaches back over data already in scope, not only over data created after it. Operators should treat policy authoring as dataset-wide action, not forward-only configuration.\n\n### Immutability variants constrain the lifecycle\n\nWhere archives are kept immutable for compliance (WORM or equivalent), deletion and tier-down actions do not operate on immutable data; end-of-life handling must go through the immutability regime's own rules. Some products offer immutability as a destination property chosen precisely to shrink the ransomware attack surface alongside cost savings.\n\n### Archiving production data shrinks the protection estate\n\nMoving cold data out of primary storage commonly reduces backup scope, backup licensing footprint, and recovery complexity — a frequently cited second-order benefit in the file-tiering and active-archive segments. (Backup products mirror this relationship from the other side by offloading long-term backup retention into archive targets.)",
+        "rules_zh": "### 归档数据不就地读取\n\n归档目标的行为契约定义了此类型。在离线模型中，读取尝试会失败，直到明确的恢复/重水合完成；在近线模型中，读取成功，但涉及系统处理的、实质上更慢的召回；在透明模型中，读取通过持久引用成功完成，召回过程已包含在内。如果数据在所有地方都能以活跃存储的速度读取，那么该产品就是分层或容量管理，而不是归档管理。\n\n### 检索更慢且计费方式不同\n\n每个采样模型都为检索附加了不同的经济模式：每次检索费用、优先级溢价，或对短暂停留在归档中进行惩罚的最低存储期限费用。因此，策略设计就是经济设计：过于急切地移动数据或过于随意地检索的规则，其成本可能会超过它所节省的。（本文档有意不说明具体的时间长度或费用结构；它们因产品而异，且变化频繁。）\n\n### 转换策略与检索相互作用\n\n策略评估的数据属性，检索可能并不会更新。一个直接记录的交互模式：重水合的数据可能被一个基于最后修改时间的策略立即重新归档，除非该策略包含防止这种情况的条件。一般规则是：**将检索视为策略可见的层级变更，而不是一次不可见的访问授权。**\n\n### 策略作用于数据，而非通过用户权限\n\n生命周期和分层策略作用于其界定的数据集，与单个访问控制无关——转换和过期作为数据所有者的常设指令执行，而非按用户执行的操作。（某云服务商明确记录其访问策略无法阻止其生命周期……（此处原文截断）",
+        "parent_id": "14.04",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 10,
+    "phase": "repair",
+    "parent": 140,
+    "slugs": [
+      "ip-address-management-ipam",
+      "load-balancer-management",
+      "network-management",
+      "telecom-expense-management",
+      "archive-storage-management"
+    ],
+    "old_input_sha256": "b9f23fedff2a6bb62fc002995e532de515f308060b4d8ea0166c9bd76fcf70ee"
+  },
+  "previous_continuation": {
+    "unit": 140,
+    "phase": "complete",
+    "parent": 25,
+    "slugs": [
+      "ip-address-management-ipam",
+      "load-balancer-management",
+      "network-management",
+      "telecom-expense-management",
+      "archive-storage-management"
+    ]
+  }
+}

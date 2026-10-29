@@ -1,0 +1,25 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "HubSpot Quotes 的 summary 写“经审批后发送”，但保留正文表示仅在触发审批条件时才需先请求批准再分享；建议改为“按条件审批后发送”，避免读成所有报价都强制审批。",
+    "HubSpot Quotes 实际是 Revenue Hub / AI-powered CPQ 下的报价工具，summary 的“销售套件内”可更精确写成“Revenue Hub 的报价工具”，以说明其模块身份。",
+    "EspoCRM 的 leaf_match 将 Advanced Pack 称为“付费扩展”，保留快照仅写“Available with Reports from Advanced Pack”，未明示付费；建议写成“需 Advanced Pack 扩展（付费扩展，未纳入 AGPLv3 核心）”或补充授权/价格证据。",
+    "Salesloft 的 leaf_match 中“按渠道、时区与账户排序步骤”在保留快照可见正文中不够直接；现有开发者 settings/automated-settings 已支持逐 Cadence 控制、发送时间、时区与延迟，建议删除该额外表述或补充 Cadence Steps 页面证据。",
+    "Channeltivity 的 leaf_match 写“统计审批标准与 SLA 达成”，快照原文是 tracking deal registrations 以确保遵守审批标准和 SLA，建议改为“跟踪审批标准与 SLA”，避免把跟踪写成统计报表。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与 research.json/batch.json 的 case_found 不一致；若下游依赖 progress，应同步更新。"
+  ],
+  "leaf_checks": {
+    "sales-document-automation": "应用 commercial:hubspot-quotes。依据：HubSpot 官方知识库 create-quote-templates 与 create-and-send-quotes 正文：模板与报价为不同对象，模板预置版式/模块并可显示、隐藏、锁定；报价由交易、买方与产品行项目数据组装，支持固定/阶梯/斜坡定价和到期日；触发条件时进入 Pending approval，批准后才能分享；分享后为 Shared 状态，买家可以电子签名或点击接受，页面同时说明收款与报价活动。模板、数据组装、有状态文档、审批门与买方接受均有正文支持。缺口：两页未列出审批阈值字段，未单列 viewed 状态；产品属 Revenue Hub/CPQ 模块，但引用正文重心仍是报价文档。",
+    "sales-engagement-platform": "应用 commercial:salesloft。依据：Salesloft 平台页/销售互动软件页正文把 Cadence 作为跨渠道外呼框架，页面含 calls、emails、LinkedIn 步骤计数与 across every channel 表述；开发者 Cadence 导入 settings 给出 target_daily_people、remove_replied、remove_bounced、reschedule_from_pause_enabled（autoresponder 标记 out of office）、added/bounced/finished/replied stage settings；automated-settings 给出 time_of_day、timezone_mode（person/user）、send_type（at_time/after_time_delay）与 allow_send_on_weekends。可支持逐 Cadence 的潜客节奏、回复/退信/OOO 中断和发送日历。缺口：保留快照未说明退订/取消订阅移出规则（研究中已留档）；混合渠道步骤序列在快照中主要见平台页与 step 配置，未逐条展开；未做运行时验证。",
+    "channel-sales-management": "应用 commercial:channeltivity。依据：渠道销售总览页列出交易注册、线索分发、推荐与佣金模块及 HubSpot/Salesforce/Dynamics 365 同步；Deal Registration 页正文给出伙伴在门户提交客户/地点/产品兴趣等字段、厂商按 ICP/最低金额/目标客户评估、无重复商机则批准并通常授予有期限独家保护、审批历史/状态通知/到期提醒；总览页 Lead Distribution 段给出按地域、产品专长、伙伴层级/自定义条件路由并跟踪接受、跟进、转化；Referrals & Commissions 页给出伙伴提交或专属链接自动生成推荐、厂商接受/转派/拒绝、成交后 Won, payment pending 并自动计算佣金。厂商控制审批、伙伴侧参与和来源归因均有正文。缺口：保护期长度、伙伴字段级权限、佣金税率处理未在保留快照展开；SLA 仅为跟踪/遵守表述，未给统计口径。",
+    "opportunity-management": "应用 github:24459441（EspoCRM）。依据：官方 sales-management.md 正文定义 Opportunity 为 potential deal or closed sale，默认 Prospecting/Qualification/Proposal/Negotiation/Closed Won/Closed Lost，阶段与概率可配置，支持多管道，Closed Won 计入默认 sales dashlets；Accounts 段说明 Account 与 Opportunity 关联，Currency 段与 Revenue forecast 报表使用 Opportunity 的 Amount/Close Date 字段；Sales analytics 提供 Opportunities by Stage 与 Sales Pipeline。仓库元数据 id 24459441、README 与 LICENSE 快照确认 AGPLv3 完整许可证。缺口：文档未显式展示商机 owner 与输单原因字段，也未把阶段进入数据校验/审批写成默认能力；收入预测明确依赖 Advanced Pack 的 Reports，已排除在 AGPLv3 社区核心匹配之外。",
+    "quota-management": "应用 commercial:xactly。依据：Xactly Manage 页 Quota Management 段说明以 intelligent logic rules 与 name assignments 为 secondary/overlay teams 派生配额，并可在 user-defined workflow 中查看 planned quota changes 及其潜在影响；People Management 段说明实时监控销售人员当前与历史销售绩效并跟踪进展；Quota Fairness Monitoring 监控团队配额达成模式并标出目标过高/过低；平台页 Plan/Manage 段以覆盖模型、区域潜力、配额分配及 territories/people/opportunities/credits/quotas 单一事实源作补充，平台页并说明 CRM 数据接入。配额对象、分配机制与达成衡量均有正文支持。缺口：配额变更审批/审计留痕、期间锁定和时间分阶段未在保留快照展开。"
+  },
+  "limits": "本次为只读初审：未运行或部署任何产品，未做运行时、权限或数据流测试，未核验价格、架构或 Advanced Pack 的实际授权条款。结论基于 REVIEW_SOURCES.json 所列快照及本单元 batch/research；部分网页快照为压缩的单行 HTML，读取工具按行截断，只能核对可见正文片段，截断处仅用同一 URL 的官方页面作只读交叉核对，未据此扩展新的应用或来源。Salesloft 帮助中心快照为客户端渲染空壳，研究中已记录失败，未作为证据；Salesloft 退订、Channeltivity 保护期/字段权限/税率、EspoCRM owner/输单原因、Xactly 审批审计/期间锁定等缺口已在对应 leaf 中留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-043/ses_groveopencodegop043review2_1792988575.jsonl",
+  "batch_sha256": "7e04a7d261481b5dd6a83dcad50c131cac003bef0b25cd9499965c5745fcca99",
+  "research_sha256": "ddba4afc5e0e9646943b8a1fe5348b5ab65aa92a4bc76147aa16a56f55155758",
+  "input_sha256": "601fa064956b3162206a7a50d308725ae77cb460ab3ffd3829605a694d5a47b6"
+}

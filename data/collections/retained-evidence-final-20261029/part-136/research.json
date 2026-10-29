@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "mechanical-cad",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1143546390"
+      ],
+      "query": "开源 Web 机械 CAD：约束草图、装配关节与制造导出；复用 FreeCAD 桌面候选并寻找完整 Web 应用服务",
+      "source_urls": [
+        "https://github.com/ecto/vcad",
+        "https://raw.githubusercontent.com/ecto/vcad/main/README.md",
+        "https://raw.githubusercontent.com/ecto/vcad/main/LICENSE",
+        "https://github.com/FreeCAD/FreeCAD",
+        "https://api.github.com/repos/FreeCAD/FreeCAD/license",
+        "https://wiki.freecad.org/Assembly_Workbench"
+      ],
+      "note": "本轮针对原初审问题重新分开处理“桌面应用”和“Web 应用服务”：历史 FreeCAD 快照仍只证明它是开源参数化桌面 CAD（README 描述约束草图、参数化历史与生产图纸；Assembly Workbench 文档描述装配容器与关节），其主要交付形态是本地安装的桌面程序，旧记录没有证明完整 Web 应用服务，因此不再作为成立关系，保留为桌面边界候选并保留原来源。随后做两组有区别的定向查询，发现 vcad 并核对官方 GitHub 仓库页、README 与 LICENSE：仓库身份 id 1143546390 / ecto/vcad；README 明确给出 Web App（vcad.io）、packages/app 的 React + Three.js 应用、Supabase 云同步，以及约束草图、B-Rep 特征、装配 parts/instances/joints/forward kinematics、STEP/STL/GLB/DXF 导出。据此将 vcad 记录为机械 CAD 的成立案例。未验证关联工程图纸文档，按定义允许的导出式交付理解；未运行项目，未做部署实测。",
+      "service_boundary": "vcad 为 Apache-2.0 开源完整 Web 应用，仓库含浏览器端应用与 Supabase 迁移，README 给出本地开发启动方式；官方同时运营 vcad.io 托管服务。生产环境自托管未单独验证。其 macOS 原生应用与 CLI 是附加形态，不是本次判定依据。FreeCAD 仍为开源桌面应用，不计入本轮成立关系。",
+      "search_attempts": [
+        "websearch：open source browser-based mechanical CAD web app assembly constraints sketches drawings self-hosted（结果含 awesome-cad 清单、SolidCraft、jsketcher 等候选线索）",
+        "websearch：open source web CAD parametric modeling assembly constraints online GitHub（结果含 vcad、jsketcher、SolidCraft、FreeCAD 等候选）",
+        "读取 mlightcad/awesome-cad 清单用于候选对比；该清单不是产品官方来源，未作为批次证据",
+        "复用并重读历史 FreeCAD 仓库页、许可证 API 与 Assembly Workbench 文档快照，核对桌面形态边界",
+        "抓取 vcad 官方 GitHub 仓库页、README 与 LICENSE；尝试 GitHub license API 时遇 403 限流，改用仓库根目录完整 LICENSE 正文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/ecto/vcad",
+          "result": "fetched",
+          "note": "官方仓库页元数据确认 repository id 1143546390、full_name ecto/vcad、非 fork；用于仓库身份核对"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ecto/vcad/main/README.md",
+          "result": "fetched",
+          "note": "完整 README，含 Web App、约束草图/特征、装配关节与正向运动学、STEP/DXF 导出、React + Three.js 应用与 Supabase 云同步说明"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ecto/vcad/main/LICENSE",
+          "result": "fetched",
+          "note": "完整 Apache License 2.0 正文，含版本、条款与免责声明；作为许可证证据"
+        },
+        {
+          "url": "https://api.github.com/repos/ecto/vcad/license",
+          "result": "failed",
+          "note": "HTTP 403 rate limit exceeded；未使用该接口作为证据"
+        },
+        {
+          "url": "https://vcad.io",
+          "result": "fetched",
+          "note": "仅返回 Web 应用 HTML 外壳，正文由脚本渲染；只确认官方入口存在，未将其作为功能证据"
+        },
+        {
+          "url": "https://github.com/FreeCAD/FreeCAD",
+          "result": "reused_snapshot",
+          "note": "历史快照，证明 FreeCAD 为开源参数化桌面 CAD；本轮保留为桌面边界候选，不列入批次"
+        },
+        {
+          "url": "https://api.github.com/repos/FreeCAD/FreeCAD/license",
+          "result": "reused_snapshot",
+          "note": "历史许可证快照，LGPL-2.1；随桌面候选保留，不列入本批次"
+        },
+        {
+          "url": "https://wiki.freecad.org/Assembly_Workbench",
+          "result": "reused_snapshot",
+          "note": "历史官方文档快照，说明装配容器与关节；仍属桌面应用文档，不证明 Web 应用服务"
+        }
+      ],
+      "archived": false,
+      "historical_reuse": {
+        "candidate": "FreeCAD",
+        "case_id": "github:5736080",
+        "result": "withheld_desktop_boundary",
+        "note": "复用历史快照，不伪称本轮新抓取；旧候选是完整桌面 CAD，但不是完整的 Web 应用服务，按原初审问题收窄为边界候选。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "construction-document-management: CDE/Transmittals 的正文足以支撑文档登记、修订纪律和受控发行；但多组织边界主要由外部 transmittal 收件人与 CDE 状态角色访问体现，组织级工作区隔离未明示，建议后续补一条组织权限说明。",
+    "construction-field-management: daily_diary、fieldreports、punchlist 主要见于 MODULES.md 的模块级描述，官方 docs 只详述 inspections/NCR；第二方验证、位置/责任方/期限等字段未明示，batch 中“两条核心结构均有正文证据”的措辞偏强，建议改为“模块级证据”或补充用户指南。",
+    "construction-labor-management: resources、field_time、payroll 均为模块级描述；个体工人记录、雇主归属和项目分配是由模块功能推断，建议补充资源计划/现场工时正文；不过 recorded form 已足以落入该类型。",
+    "construction-materials-management: procurement 正文较完整，site_inventory/site_logistics 仅模块级描述；issue/install 阶段未证实，research 已正确避免宣称完整安装闭环，建议保留该边界并补 site inventory 正文。",
+    "license/community: LICENSE 快照为完整标准 AGPL-3.0 文本，README/docs 一致；商业许可属于双许可替代，不是功能分版的社区版边界；README 提到 18.7.0 及更早版本曾带 AGPL 的 PyMuPDF，属历史发行说明，不影响当前许可。",
+    "service form/deployment: 产品为自托管多用户 Web 应用（pip/Docker/桌面），不是厂商托管 SaaS；项目/角色范围和持续使用形态成立。macOS 桌面包仅 Apple Silicon，属部署细节。",
+    "source versioning: 官方 docs 页面同时出现 v18.5.0 徽标、v18.8.0 og:description 与 README 的 18.2.0 最新发行号，版本标识不一致；不影响本次核心匹配，但建议统一。"
+  ],
+  "leaf_checks": {
+    "construction-document-management": {
+      "application_id": "github:1199643986",
+      "status": "pass",
+      "basis": "batch.json 条目 github:1199643986；research.json construction-document-management；快照 b3a54a86... 的 #cde 与 #transmittals 节；145f6e36... 的 Documents and CDE 组；d640bcee... 的 README/License。",
+      "core_check": "CDE 节明确 ISO 19650 的 WIP/Shared/Published/Archived、S1-S4 适用性代码、受控修订编号与 superseded 版本保留、按状态的角色访问；Transmittals 节明确多文档包、外部收件人、发送/接收/回执及已废止修订警告。对应项目文档登记、当前修订纪律和多组织受控发行三项核心。",
+      "service_form": "自托管多用户 Web 应用，按项目启用文档/CDE 模块；可 Docker/pip/桌面部署，不是厂商托管 SaaS。",
+      "license_check": "LICENSE 快照（GitHub license API，34,523 字节）为 GNU AGPL v3 全文；README、docs 与仓库元数据均标 AGPL-3.0。",
+      "gap": "多组织权限细节以外部收件人/CDE 状态角色体现，未明确组织级工作区隔离。"
+    },
+    "construction-estimating": {
+      "application_id": "github:1199643986",
+      "status": "pass",
+      "basis": "d640bcee... 的 BOQ Management 节；b3a54a86... 的 #boq、#costs、#tendering 节；145f6e36... 的 Estimating and BOQ 组；research.json construction-estimating。",
+      "core_check": "层级 sections/positions/sub-positions、数量×单价自动计算、资源与 assemblies、markups、章节小计与总计、缺量/零价/重复校验、Excel/CSV/PDF/GAEB 输出；docs 另有 tender/bid 流程。对应授标前定价行项目、分组汇总和结构化总额。",
+      "service_form": "自托管多用户 Web 应用，项目内维护 BOQ/估算与投标流程；不是厂商托管 SaaS。",
+      "license_check": "AGPL-3.0，README/docs 与 LICENSE 快照一致。",
+      "gap": "无核心缺口；仅官方 docs 版本标识不一致。"
+    },
+    "construction-field-management": {
+      "application_id": "github:1199643986",
+      "status": "pass",
+      "basis": "145f6e36... 的 Field and site / Quality, safety and compliance 组（daily_diary、fieldreports、punchlist、inspections、ncr）；b3a54a86... 的 #inspections、#ncr 节；d640bcee... 提到 punch lists、daily diary with HSE tracking；research.json construction-field-management。",
+      "core_check": "daily_diary 提供天气、条目、照片/视频与签名归档的日记录；fieldreports 提供每日现场报告（天气、劳动力、延误、安全）；punchlist 提供带照片证据和 verification 的缺陷/整改项；inspections 的失败项生成后续行动/NCR，NCR 生命周期含 Verified。两条核心结构均有模块级证据。",
+      "service_form": "自托管 Web 应用，现场/质量模块按项目启用；支持移动端现场填写，不是厂商托管 SaaS。",
+      "license_check": "AGPL-3.0，README/docs 与 LICENSE 快照一致。",
+      "gap": "daily diary/punch list 仅有模块目录级描述；第二方验证、位置/责任方/期限未明示。"
+    },
+    "construction-labor-management": {
+      "application_id": "github:1199643986",
+      "status": "pass",
+      "basis": "145f6e36... 的 Planning and schedule / Field and site 组（resources、field_time、payroll）；d640bcee... 的 site hours/equipment 提及；research.json construction-labor-management。",
+      "core_check": "resources 管理人员/班组/plant/subs 的技能、可用性与冲突检测；field_time 记录带成本编码、签名的劳务/设备工时；payroll 从现场工时生成工资批次草稿。已识别人员+计划/记录两种跟踪形式均有模块级证据；recorded form 单独即可落入该类型。",
+      "service_form": "自托管 Web 应用，人员/工时/工资模块按项目使用；不是厂商托管 SaaS。",
+      "license_check": "AGPL-3.0，README/docs 与 LICENSE 快照一致。",
+      "gap": "个体工人记录、雇主归属、项目分配为推断；resources 同时覆盖 plant/subs。"
+    },
+    "construction-materials-management": {
+      "application_id": "github:1199643986",
+      "status": "pass",
+      "basis": "145f6e36... 的 Field and site / Tendering and procurement 组（site_inventory、site_logistics、procurement）；b3a54a86... 的 #procurement 节；research.json construction-materials-management。",
+      "core_check": "procurement 正文明确 PO 行项目关联 BOQ 位置/成本码、收货记录数量/质量备注/照片、PO 状态；site_inventory 记录现场材料移动并推导在手库存、损耗率和成本偏差；site_logistics 提供大门、堆场和交付预约。对应带数量的材料记录、移动事件和工作关联。",
+      "service_form": "自托管 Web 应用，采购/现场库存/物流模块按项目使用；不是厂商托管 SaaS。",
+      "license_check": "AGPL-3.0，README/docs 与 LICENSE 快照一致。",
+      "gap": "issue/install 阶段未证实；site_inventory/site_logistics 仅模块级描述，未宣称完整安装闭环。"
+    }
+  },
+  "limits": "只读审查；未运行应用、未做部署测试或运行时验证；仅使用本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 5 个快照，未读取其他单元。官方 docs 为 HTML 快照，版本标识存在 v18.5.0/v18.8.0/18.2.0 不一致；LICENSE 快照以 base64 存储，已核对标准 AGPL-3.0 全文与 README/docs 声明；field/labor/materials 的部分核心依赖 MODULES.md 模块级描述，缺少用户指南级正文，已在 leaf_checks 标为留档缺口。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-166/ses_groveopencodegop166review1_1793016935.jsonl",
+  "batch_sha256": "284e0abdf3e7ed5defdb91b1067855d22e84a52bbbaf099b4ed7384d922b0a5c",
+  "research_sha256": "6fdf4ffd3e830141e8a4ace8da0a7cdd061e26c98d6502e6b61f2ab9c56d59ef",
+  "input_sha256": "473a9a48421c02665fb1f2f9a584ec7ece3b879d085e894e257ea3b86457a3be"
+}

@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "graphic-design-application: batch.license 记为单一 Apache-2.0，而 README 与两份许可证全文显示为 MIT 或 Apache-2.0 双许可；summary、license_review 与 leaf_match 已如实说明这是共享验证器只接受单一 OSI SPDX 标识所致，并保留了 MIT 全文，因此不按事实错误处理。若上游 schema 后续支持多许可，建议改为 MIT OR Apache-2.0 的双值表达，避免下游仅读 license 字段时误认为仓库只有 Apache 分支。",
+    "graphic-design-application: 官方自述偏重“procedural toolbox / 2D content creation / node-based graphics engine”，与邻接的 Vector Graphics Editor 类型表述接近。本单元据画布多元素构图、.graphite 文档持久保存/重开、用户直接编辑为先、PNG/JPG/SVG 成品导出四点完成归类，依据充分；建议后续描述继续以这四点为锚，不要因节点图能力把产品改写成节点库/SDK 或程序化生成器。",
+    "graphic-design-application: features 路线图把 CMYK/ICC、PDF 导出、可安装 PWA、桌面版与 1.0 发布、稳定文档格式、Web 版覆盖保存本地文件等列为计划项，条目已正确未把它们计入现有能力与部署；summary 中的 alpha 说明可以再补一句“文档格式尚未宣布稳定”，以免读者把 .graphite 当作长期格式承诺。",
+    "graphic-design-application: input.json 仍为 phase=included_without_cases、case_status=insufficient_evidence、application_ids 为空，而 research.json 与 batch.json 本轮已给出 case_found 与 github:258967860。二者属不同轮次的状态快照，不构成本单元证据矛盾；建议上游在汇总时以 batch/research 为准并消除该元数据错位。",
+    "graphic-design-application: features 页与手册页快照保存为压缩 HTML，正文集中在单个超长行、位于脚本之后，普通读取会被截断。本轮以整文件内容检索确认关键句存在，并交叉核对同一 URL 的渲染文本；后续采集可另存一份去脚本的可读正文，降低审查成本，也避免再次出现“快照无正文”的误判。",
+    "graphic-design-application: 资料未显示存在独立的商业版/企业版或闭源增值模块，仓库整体按 MIT 或 Apache-2.0 提供（README 保留“除非仓库内另有说明”的范围限定），因此社区版边界即为仓库代码本身，未发现需要额外标注的版本切割；此点属资料范围限制，不影响结论。"
+  ],
+  "leaf_checks": {
+    "graphic-design-application": {
+      "slug": "graphic-design-application",
+      "application_ids": [
+        "github:258967860"
+      ],
+      "track": "open_source",
+      "result": "pass",
+      "definitional_core": {
+        "design_composition_on_canvas": "满足。document-panel 手册：Document panel 为主内容区，viewport 即画布的可交互视觉编辑区，工具架分 general/vector/raster，Layers 面板组织 artboard 与图层；menu-bar 手册 File>New… 可建空白画布或 artboard（含 Infinite Canvas 与像素尺寸），Layer 菜单提供 Raise/Lower/Raise to Front/Lower to Back 堆叠顺序、Group/Ungroup、Align、Flip、Turn、Boolean(Union/Subtract/Intersect/Difference) 与 Grab/Rotate/Scale。",
+        "editable_object_state_persisted": "满足。Document panel 手册：每个打开的文档文件对应一个 Document panel 与一个以文件名命名的标签页，未保存改动在文件名后加 *；menu-bar 手册：Open… 从磁盘选择 .graphite 文件在新标签页打开、Save 将 .graphite 写回磁盘、Close 遇未保存改动会提示保存或丢弃，Edit 提供 Undo/Redo；Make Path Editable 让矢量层在其他非破坏操作之后仍可由 Path/Pen 工具直接修改。features 页另述作品以数据而非像素保存、按当前视角分辨率重绘，层与节点图是同一文档结构的两种等价视图。",
+        "user_composed_editing_first": "满足。features 页明确“The current alpha version of Graphite is a tool for vector art and graphic design”；features-and-limitations 手册写明“Vector editing is the core competency of the Graphite editor at this stage”，由使用者用 Rectangle/Ellipse/Pen/Path 等工具直接绘制与调整参数，非模板浏览、非 AI 生成首稿。",
+        "finished_design_output": "满足。menu-bar 手册 Export… 可将作品存为 PNG、JPG 或 SVG，Scale Factor 按倍数放大像素，Bounds 可选 All Artwork、Selection 或指定 Artboard；README 亦提及可任意尺寸导出。",
+        "core_text_vs_metadata": "核心工作流均取自官方正文页（features-and-limitations、document-panel、menu-bar 手册与 features 页），未以 README 简介、仓库 description、页面标题或导航文本替代定义性核心；README 与仓库元数据仅用于身份、部署入口与双许可佐证。"
+      },
+      "service_form": "网页版编辑器 editor.graphite.art 现可用（README 的“available now”链接与 features 页 Launch 按钮均指向该入口），属持续可用的托管式 Web 图形设计应用；当前为 alpha。可安装 PWA、桌面 RC、1.0 发布在 features 路线图中列为计划项，条目未计入现有部署，处理正确。",
+      "identity_and_track": "ID github:258967860 与 GitHub 仓库元数据一致（id=258967860、full_name=GraphiteEditor/Graphite、homepage=https://graphite.art、archived=false、language=Rust）；track=open_source 与公开仓库、README 自述 free/open source 一致；technology_stack 仅记 Rust，与元数据相符，未保留无正文支撑的 WebAssembly/Vello 断言。",
+      "license": "README License 节写明源代码为 MIT 或 Apache-2.0 双许可、由使用者选择、除非仓库内另有说明，并同时链接 LICENSE-MIT 与 LICENSE-APACHE；两份全文快照均实际读取（MIT 标准全文含版权与免责声明，Apache-2.0 标准全文含 Definitions 至 Appendix）。GitHub license API 快照归类为 LICENSE-APACHE。license 字段取单一 Apache-2.0 属验证器取值限制，已在 summary 与 license_review 中披露双许可事实，不构成唯一许可的错误陈述。",
+      "community_edition_boundary": "仓库为社区构建与资助的完整开源项目，资料中未见独立商业版、闭源企业版或功能受限的社区切割；README 的“除非仓库内另有说明”范围限定已保留在 summary 中，边界表述与来源一致。alpha 状态与“光栅编辑仅有限实验能力、brush 工具有多处缺陷”的限制在 summary、features 与 repair 记录中均如实保留，未把路线图能力当现况。",
+      "sources_checked": [
+        "data/collections/sources/c953ea4ae4ec7a6dc265f7512d29c4df3baedcda879e5ac01b389b87b6ec0bfa.txt (repo metadata, id/full_name/homepage/language/archived/license 分类)",
+        "data/collections/sources/40e1f3b0468bd88205958ea44dd888c69efcf9716e388c5d01a8d576715ce53d.txt (README: available now / alpha / nondestructive / 双许可)",
+        "data/collections/sources/53f89374be184baab5e3a7f841ab6de0497678e8bb76bb6ae97c4fa8c07c3ad1.txt (license API: LICENSE-APACHE)",
+        "data/collections/sources/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt (Apache-2.0 全文)",
+        "data/collections/sources/4949989af51b07086e4ec4bfdaa843a4cd35cda7495f77747b3d9a45cb8b4ca3.txt (MIT 全文)",
+        "data/collections/sources/df13dd09e53168ed1b18cab81798495105333960e557aa200dcf793a3fdd2872.txt (features: 矢量艺术与平面设计、以数据保存按当前分辨率重绘、任意尺寸导出、光栅有限实验、路线图)",
+        "data/collections/sources/7cee6e96ec0159ea868fb937aaafc8633da5d34d7d35c302ab0c180c64c4abdd.txt (learn 入口，章节导航)",
+        "data/collections/sources/f8a19bade7f0b1e77662806109e830467fd91bdba607e53e860200cb209f0766.txt (features-and-limitations: Vector editing is the core competency、raster brush very limited/multiple bugs)",
+        "data/collections/sources/e15f9de0536fb86e25c34055f14c8f8278a0aed3b7f6009243343ec29838f4e6.txt (document-panel: 每文档一标签页、未保存 * 标记、viewport 为画布交互编辑区、工具架 general/vector/raster)",
+        "data/collections/sources/2671938f34c8d9c7d1b64c54a1bae710e089bd18cd752c674d291926ba0c336f.txt (menu-bar: New…/Open… .graphite/Save .graphite/Export PNG·JPG·SVG 与 Scale Factor/Bounds、Arrange/Align/Flip/Boolean、Make Path Editable、Undo/Redo)"
+      ],
+      "source_integrity": "REVIEW_SOURCES.json 列出的 10 个 path 全部存在于 data/collections/sources/，文件名与 sha256 字段一致；batch.json 与 research.json 的 source/fetch_outcomes 的 url、sha256、snapshot_path 与 REVIEW_SOURCES.json 逐条对应，无缺项、无路径猜测。",
+      "gaps": "未做运行时验证（runtime_tested=false，已披露），未实际打开 editor.graphite.art 建立文档并导出；alpha 版本界面与路线图可能变动，条目已保留 alpha 与实验性光栅的限制说明。以上属已如实记录的验证范围限制，不构成核心事实缺口。"
+    }
+  },
+  "limits": "本次为只读静态初审，未运行任何编辑器、未做部署或导出实测，也未复核 alpha 版本后续变更。四个 graphite.art 手册/features 快照以压缩 HTML 形式保存，正文集中在单个超长行且被读取工具截断，故采用整文件内容检索确认关键语句存在，并以同一 URL 的渲染文本交叉核对语义；未逐字通读快照全文，未做字符数等量化复核。许可判断依据 README 声明与 LICENSE-MIT、LICENSE-APACHE 两份文本全文及 GitHub license API 分类，未审查仓库内可能“另有说明”的个别子目录或素材许可。未获取任何商业版/企业版信息，因资料未显示存在此类版本。仅审查本单元（part-018）的 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 所列 10 个快照，未读取其他单元、采集者 TASK.md 或历史脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-018/ses_groveopendesignp018review1_1793152359.jsonl",
+  "batch_sha256": "a2f087fbc8ec88f5918d47adf4c4e4e3e9695490b0033f516c93323aee164968",
+  "research_sha256": "8fc869359972e8c653ca6cf932fb126e13349fb528067e6f31894ea09dd059d3",
+  "input_sha256": "e5251b5fd4dc7ac239f0800e0a947410787682c606c3fda487c1a1c1b48a9d9d"
+}

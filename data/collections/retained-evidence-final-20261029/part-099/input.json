@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 22,
+  "offset": 525,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "static-code-analysis-platform",
+        "name_zh": "静态代码分析平台 (SAST)",
+        "domain_id": "12",
+        "parent_id": "12.02",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/100",
+            "result": "boundary_unresolved",
+            "note": "统一复核留档：Semgrep：引文证明开源命令行/CI扫描引擎，未证明同一开源条目提供完整的在线SAST管理应用。",
+            "query": "web search and official sources for static-code-analysis-platform"
+          }
+        ],
+        "archived": false,
+        "note": "统一复核留档：Semgrep：引文证明开源命令行/CI扫描引擎，未证明同一开源条目提供完整的在线SAST管理应用。"
+      },
+      "definition": {
+        "slug": "static-code-analysis-platform",
+        "name": "Static Code Analysis Platform",
+        "name_zh": "静态代码分析平台 (SAST)",
+        "aliases_zh": [
+          "静态代码扫描",
+          "源代码安全审计"
+        ],
+        "overview": "A **Static Code Analysis Platform** is software that examines a program's own code **without executing it**, driven by a packaged catalog of detection rules, and reports **located, actionable findings** — each pointing at a specific place in the code with an explanation of the problem — to the developers who can fix it.\n\nIt answers a question no runtime tool can ask: *what is wrong with this code as written, before anyone runs it?* Compilers reject what the language forbids; tests observe only the paths their cases exercise; profilers measure only what actually ran. A static analysis product reads the code the way a careful reviewer would — but systematically, against a written catalog of what counts as wrong, on every file and (in deeper products) across potential execution paths.\n\nThe defining core is small:\n\n```text\nThe program's own code\n  └── examined statically (without executing it)\n      └── against a packaged, configurable catalog of detection rules\n          └── producing located, actionable findings\n              └── delivered where developers work\n```\n\nEverything else commonly associated with the category — servers, dashboards, quality scores, merge gates, compliance packs, AI-suggested fixes — is widespread market structure layered on that core, not what makes the product a static analysis product. The category spans a packaging spectrum from bare engines (a command-line tool with a rule catalog) to platform-backed suites; a product remains squarely in this Type with none of the platform machinery.",
+        "overview_zh": "一个**静态代码分析平台**是一种软件，它**在不执行代码的情况下**检查程序自身的代码，由一个封装好的检测规则目录驱动，并报告**定位的、可操作的发现**——每个发现都指向代码中的具体位置并解释问题——交由可以修复的开发人员处理。\n\n它回答了一个运行时工具无法提出的问题：*这段代码在编写时有什么问题，甚至在任何人运行它之前？* 编译器拒绝语言禁止的内容；测试仅观察其用例执行的路径；分析器仅测量实际运行的内容。静态分析产品以细心审阅者的方式阅读代码——但更系统化，依据一个写好的目录，判断什么是错误的，对每个文件进行检查（在更深入的产品中）甚至跨越潜在的执行路径。\n\n定义的核心是小的：\n\n```text\n程序自身的代码\n  └── 静态检查（不执行它）\n      └── 基于一个封装好的、可配置的检测规则目录\n          └── 产生定位的、可操作的发现\n              └── 交付到开发人员工作的地方\n```\n\n所有其他通常与此类别相关的内容——服务器、仪表盘、质量评分、合并门控、合规包、AI建议的修复——是叠加在核心之上的广泛市场结构，而不是使产品成为静态分析产品的关键。该类别跨越了一个打包范围，从裸引擎（带有规则目录的命令行工具）到平台支持的套件；产品即使没有平台机制，也完全属于这个类型。",
+        "dc": "Three structures, held together. Remove any one and the product stops being a static analysis product:\n\n**1. Static examination of the program's own code, without executing it.**\nThe object of analysis is the code under development — typically the source, parsed into a syntax tree the rules can reason over; in some products, a form captured from the build. \"Static\" is the operative word: the code is never run as part of the analysis. The product reasons about what the code *would* do — which paths could execute, which values could reach which operations — rather than observing what it *did* do. This is the seam against every runtime tool: tests, profilers, and debuggers all need the program to run; this Type does not.\n\n**2. Packaged detection knowledge.**\nThe product ships its own judgment about what counts as wrong, in the form of a catalog of rules, checkers, or bug patterns — commonly a large one, organized by category (correctness bugs, resource handling, style, security, coding standards). This is what separates the Type from ad-hoc grep or a manual checklist: the knowledge is packaged, maintained by the vendor or community, and — critically — **configurable**. Teams turn rules on and off, adjust their strictness, and write their own. The catalog is the product's opinion, made inspectable and adjustable.\n\n**3. Located, actionable findings.**\nThe output is not a score or a summary but a stream of individual findings, each bound to a location in the code (file and line, commonly a symbol) and carrying an explanation: what the problem is, why it matters, and — in mature products — how to fix it. A typical finding reads like: *file, line, severity, message* (\"array index out of bounds\"). Deeper products enrich the location with an evidence trail: the sequence of assignments and calls that led the analysis to its conclusion, so the developer can verify the reasoning rather than take it on faith.",
+        "dc_zh": "三个结构，相互依存，移除任何一个，产品就不再是静态分析产品：\n\n**1. 对程序自身代码的静态检查，无需执行。**\n分析对象是正在开发中的代码——通常是解析为可被规则推理的语法树的源代码；在某些产品中，则是从构建产物中捕获的一种形式。关键在于“静态”：代码在分析过程中从未被运行。产品推理的是代码*将会*做什么——哪些路径可能被执行，哪些值可能到达哪些操作——而非观察它*实际*做了什么。这是本类型与所有运行时工具（测试、分析器和调试器都需要程序运行）的根本区别。\n\n**2. 封装的检测知识。**\n产品内置了对“什么是错误”的判断，表现为规则集、检查器或缺陷模式目录——通常规模庞大，并按类别（如正确性缺陷、资源处理、代码风格、安全性、编码规范）组织。这是本类型与临时grep或手动检查清单的区别：知识是封装的，由供应商或社区维护，并且——关键的是——**可配置的**。团队可以开启/关闭规则、调整其严格程度并编写自定义规则。该目录是产品的“观点”，被变得可审查和可调整。\n\n**3. 定位清晰、可操作的发现结果。**\n输出不是分数或",
+        "rules": "- **Findings are advisory until a human disposes of them.** The analysis never silently changes the code. Auto-fixes and AI-suggested fixes are proposals requiring review.\n- **Suppression is explicit and reasoned.** Silencing a finding is a recorded act — an inline comment, a suppression entry, a triage decision with a reason — not a silent disappearance. This keeps the \"we decided this is acceptable\" decision visible and revisitable.\n- **Finding identity persists across runs.** A finding is tracked as the same finding while the code that triggered it remains (across re-runs, and in mature products across branches); it becomes \"fixed\" when the code no longer triggers it, and \"removed\" when the rule changed or the code disappeared. This persistence is what makes dispositions meaningful over time.\n- **Baselines partition old debt from new work.** Pre-existing findings are recorded and held; the operative standard is applied to what changes introduce. Without this, adoption fails on legacy codebases.\n- **The catalog is opinionated and tunable.** What the product calls \"wrong\" is its packaged judgment; teams adjust it. Two teams running the same product can enforce materially different standards.\n- **Static analysis complements, never replaces, runtime verification.** The category's own framing: it finds what can be reasoned from the code; testing, dynamic analysis, and fuzzing find what only execution reveals.",
+        "rules_zh": "- **发现是建议性的，直到人工处理。** 分析从不静默更改代码。自动修复和AI建议的修复是需要审查的提案。\n- **抑制是显式的和有理由的。** 沉默一个发现是一个记录的行为——一个内联注释、一个抑制条目、一个带有理由的分诊决策——而不是静默消失。这使得\"我们决定这是可接受的\"决策可见且可重新审视。\n- **发现身份在多次运行中持续存在。** 只要触发发现的代码保持不变，一个发现就被跟踪为同一个发现（跨越重新运行，在成熟产品中跨越分支）；当代码不再触发它时，它变为\"已修复\"，当规则更改或代码消失时，变为\"已移除\"。这种持续性使得处置在时间上有意义。\n- **基线将旧债务与新工作分开。** 预先存在的发现被记录和保存；操作标准应用于变更引入的内容。没有这一点，在遗留代码库上的采用会失败。\n- **目录是主观的和可调的。** 产品所说的\"错误\"是其封装的判断；团队可以调整它。两个团队运行同一个产品可以执行实质上不同的标准。\n- **静态分析补充，从不替代运行时验证。** 该类别自身的框架：它发现可以从代码推理的内容；测试、动态分析和模糊测试发现只有执行才能揭示的内容。",
+        "parent_id": "12.02",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 99,
+    "phase": "directory",
+    "parent": 99,
+    "slugs": [
+      "static-code-analysis-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "d341afdbd873d75269d25e8b6d24bf628fc4da518b801818152fe00e036cbd84"
+  }
+}

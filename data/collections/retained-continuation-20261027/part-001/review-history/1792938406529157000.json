@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "group-messaging-application",
+      "application_id": "github:43160685",
+      "issue": "Zulip 的官方身份是团队聊天应用：README 正文明确称其为 organized team chat app，并以 topic-based threading 组织频道。批次资料却以“频道之外的私信”子功能来匹配群组消息应用，并声明不把 Zulip 的频道/团队消息计入本叶。该私信文档本身也说，频繁群组交流更适合创建 private channel，说明群组 DM 并非产品的顶层组织单位，不符合本叶“群组是用户创建、加入、管理的单位”及产品身份要求。此外，该文档只展示发起时选择参与者、对话仅参与者可见和管理员可导出，未展示成员后续增删或成员可回看的持久共享历史，核心证据不完整。",
+      "fix": "改用以群组为顶层单位的应用，并由官方正文展示群组创建、成员邀请/增删、共享消息流和持久历史；或补充 Zulip 官方正文，证明其群组 DM 是一等持久群组并说明团队聊天语境为何不占主导。若无法补充，应将本叶如实记为无合适案例/缺口，而不是 case_found。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Chatwoot 的 license 顶层字段写作 MIT，实际 LICENSE 为复合许可：enterprise/ 目录适用 enterprise/LICENSE，第三方组件按原许可，其余为 MIT Expat。license_review.scope=community_core 与 summary 已说明，建议下游展示时保留“社区核心”限定，避免把整个仓库简称为 MIT。",
+    "Chatwoot 共享收件箱快照是单行 SSR HTML，读取工具只显示行首；建议来源说明明确核心证据来自 README 正文和网站聊天设置文档正文，共享收件箱页仅作辅助，不把 meta description 当作正文证据。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 research.json/batch.json 的 case_found 不一致；若该文件会对外发布，应同步更新。",
+    "Zulip 的 features 中“访客角色和自定义权限”未在本次引用的 README/direct-messages 快照中直接出现，建议补引官方文档或删去该非核心表述。",
+    "Chatwoot 同时匹配 business-messaging-application 与 customer-to-business-messaging-application，二者为包含/子类型关系；建议下游保留 C2B 的“客户主动发起”区分，避免重复计数。",
+    "Discord 与 Telegram 为商业案例，本次仅按官方支持/FAQ 页面核对基本真实性与核心类型，未做独立商业尽调或运行验证。"
+  ],
+  "leaf_checks": {
+    "business-messaging-application": {
+      "status": "pass",
+      "application_id": "github:202291859",
+      "basis": "Chatwoot README 正文说明统一收件箱集中网站实时聊天、邮件、Facebook、Instagram、WhatsApp 等客户会话，并提供私密备注、分配、联系人互动历史等团队协作能力；网站聊天设置文档正文说明企业创建 website inbox、安装 widget、客户发起会话后由 agents 处理，支持 pre-chat form 与后续 CSAT。组织作为会话一方、外部个人、双向聊天和企业端记录均有正文支撑。仅计 MIT 社区核心，enterprise/ 已排除。"
+    },
+    "community-chat-platform": {
+      "status": "pass",
+      "application_id": "commercial:discord",
+      "basis": "Discord 官方 Advanced Community Server Setup 正文显示 server 是成员加入的顶层社区容器，roles 在 server 层设置，categories 下挂 text/voice channels，频道有 message history、welcome channel 等；Roles and Permissions 正文显示 server 角色与 channel 权限分层管理。社区—房间—共享消息流结构成立，商业案例基本真实性与类型匹配成立。"
+    },
+    "customer-to-business-messaging-application": {
+      "status": "pass",
+      "application_id": "github:202291859",
+      "basis": "Chatwoot 网站聊天设置文档正文说明企业在自有网站创建 website inbox 并发布 live chat widget，客户开始会话后由加入 inbox 的 agents 处理，支持 pre-chat form、email collect、business hours 与后续 CSAT；README 正文补充统一收件箱与客户会话管理。客户通过企业发布点主动发起、企业作为被寻址方、1:1 双向聊天与企业端持久记录均有支撑。仅计 MIT 社区核心。"
+    },
+    "group-messaging-application": {
+      "status": "changes_required",
+      "application_id": "github:43160685",
+      "basis": "Zulip README 明示其为 organized team chat app，以 topic-based threading 和频道组织对话；direct-messages 文档把 DM 描述为频道之外的 1:1/小组会话，并建议频繁群组交流改用 private channel。批次仅以该 DM 子功能匹配，同时排除 Zulip 的频道/团队消息，未证明群组是产品顶层单位；文档也未展示成员后续增删或成员可回看的持久共享历史。类型关系与定义性核心证据不足。"
+    },
+    "instant-messaging-application": {
+      "status": "pass",
+      "application_id": "commercial:telegram",
+      "basis": "Telegram 官方 FAQ 正文说明用户可通过手机号或用户名被联系，可在手机联系人和用户名之间发起 1:1 或群组会话，云端聊天跨设备同步并保留历史，并展示已读状态、联系人可达性与消息管理。个人可寻址身份、特定已知参与者之间的可达性、对话线程和持久历史成立，商业案例基本真实性与类型匹配成立。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的快照；未运行 shell、未写文件、未访问其他单元或实时网络。快照中的单行 SSR HTML（如 Chatwoot shared-inbox）在读取工具中按行截断，核心判断以可读正文、README/文档正文及必要的定向检索交叉核对为准。商业案例只做基本真实性和类型匹配，未做部署/运行测试、价格或架构尽调；许可证判断仅基于提供的 LICENSE 快照，不构成法律意见。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-001/ses_groveopencodegop001review1_1792933645.jsonl",
+  "batch_sha256": "d66f8fdab6ce0686e6e679592bf071521467fa0e57aa3c2671e0bccf2af0df54",
+  "research_sha256": "701641763e85af38cbf5b0b4c501976daab4997bde18e620b21fa9d70de3a9d8",
+  "input_sha256": "136ddd5ac978d5ecd7630ba29dc703b5bc08b1275ad603084a5528d112df24dc"
+}

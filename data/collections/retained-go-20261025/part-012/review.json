@@ -1,0 +1,95 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "application_id": "github:6325420",
+      "leaf_slug": "billing-platform",
+      "severity": "blocking",
+      "category": "license/community_boundary",
+      "issue": "Kill Bill 条目把“用量计量（metering）”和“税费（tax）”作为 Apache-2.0 社区版能力写入 summary、features 和 research.note；但官方 Aviate 文档把 Metering、advanced tax、custom invoice sequencing 等列为 Premium/enterprise extension。README 的笼统表述与 Aviate 页存在冲突，当前写法有把付费独占功能挂到开源社区版的风险。",
+      "evidence": "README（876ccc55...）称 core handles usage metering、tax；https://docs.killbill.io/latest/what_is_aviate.html 的 Premium 区明确列 Metering、wallet、coupons、advanced tax 为 Aviate enterprise extension。",
+      "required_fix": "从开源条目 summary、features、research.note 删除或收窄“用量计量”和“税费”；若确为社区版基础能力，须补社区版官方文档明确边界并区分 Aviate 专属能力，同时补 Aviate 官方来源快照。"
+    },
+    {
+      "application_id": "commercial:abrigo-commercial-lending",
+      "leaf_slug": "commercial-loan-origination",
+      "severity": "blocking",
+      "category": "core_workflow_evidence",
+      "issue": "Abrigo 的 summary 声称覆盖到“放款”，leaf_match.reason 也声称“从申请到放款”“放款交接”，但唯一引用页只证明申请受理、数据收集、工作流路由、信贷备忘录、审批跟踪、政策校验和文档管理，没有 closing、funding、disbursement 或 booking handoff 的正文证据。",
+      "evidence": "快照 2b7b389b... 全页检索无 funding/disbursement/closing/booking 段落；仅有 approval tracking、workflow、credit memo、credit policy、document upload。",
+      "required_fix": "补 Abrigo 官方 closing/funding/booking 来源；否则删除“放款/放款交接”，将 summary 和 reason 收窄为申请→评估→审批/文档，并把该叶 assessment 改为 boundary_unresolved，不应继续标 case_found。"
+    },
+    {
+      "application_id": "commercial:medallia-experience-management",
+      "leaf_slug": "voice-of-customer-platform",
+      "severity": "blocking",
+      "category": "factual_boundary",
+      "issue": "Medallia 的 research.service_boundary 写“不含公共言论抓取（社交聆听）”，但同一官方平台页明确说统一 surveys、voice、chat、web behavior、social、employee feedback，并写“Move beyond surveys”。该边界陈述被来源正文直接反证。",
+      "evidence": "快照 eb49212f... 行 3672、3698-3699、3831-3832：social、every signal、alerts and case management。",
+      "required_fix": "删除“不含社交聆听”的绝对表述，改为承认多信号/社交聆听重叠，并说明本条匹配的是以主动征询调研为核心的 VoC 能力；若坚持纯征询边界，需换来源或改 boundary_unresolved。"
+    },
+    {
+      "application_id": "commercial:oracle-banking-payments",
+      "leaf_slug": "banking-back-office-platform",
+      "severity": "blocking",
+      "category": "factual_evidence",
+      "issue": "Oracle Banking Payments 的 summary 称“支付交易录入”，research.note 称“审计”，但三条引用只覆盖 Repair Queue、Exception & Investigation Queues、Repair Action；transaction input 页面为 404，来源也未证明 persistent audit trail。",
+      "evidence": "快照 3e1c2a05... 为 Repair Queue；99722e41... 为 Exception & Investigation Queues；7b81cab8... 为 Repair Action；fetch log 对 payment-transaction-input.html 记录 404。",
+      "required_fix": "删除“交易录入”和“审计”或补官方来源；保留已证明的异常队列、修复、重新提交。若审计是核心必备，需补审计/日志来源后再标 case_found。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Backbase Banking Operations 的实际中心是跨系统运营自动化/异常处理工作台，页面还描述 payments、disputes、lending 的 STP 与人工 override，与 Banking Operations Management“只观察、协调、度量、不执行交易”的边界有重叠；建议留档为“执行平台内嵌的管理面”，并补 workforce capacity/绩效归因证据，不因此否决该关系。",
+    "ICE Encompass 的“承销”正文未明示，来源证明的是 loan manufacturing、document collection、data verification、quality checks、pricing、TPO、eClose 与 closing/settlement；建议把“承销”收窄为这些已证明阶段，或补承销官方页。",
+    "Finastra Loan IQ 的“记账”正文未明示，来源证明的是 commercial/syndicated/bilateral/CRE/SBA servicing、组合管理与 booking；建议收窄为“贷款服务/组合管理/booking”，或补总账/会计来源。",
+    "Zoho Expense 的 service_boundary 写“不是差旅预订系统”，但官方导航和页脚列有 Corporate Travel Management；建议改为“本条以费用报告/报销为核心，不把差旅预订作为匹配核心”，不要断言产品不具备差旅能力。",
+    "Gainsight 的 leaf_match.reason 写“Renewal Due”，正文图表名为“Renewals Due”，属非关键命名差异，建议统一。",
+    "Zoho CRM Territory Management 的来源 URL 会重定向到 /crm/sales-force-automation/territory-management.html，且快照为压缩单行 HTML；建议使用 canonical URL 并保存可读文本，便于后续复核。",
+    "Stripe Issuing 的 stripe.com/issuing 产品页 kind 标为 documentation；建议按 homepage/product 页标 kind，非关键。",
+    "部分 research.source_urls 含未进入 batch 的发现页（如 Qualtrics、Kapta、Varicent、Salesforce、Brex、FICO、Marqeta、Finastra commercial lending），作为检索记录可保留，但不要当作本条目来源；最终入库时建议只保留实际引用快照。",
+    "商业条目多为首页/产品页，基本真实性和类型匹配够用；更深的官方文档能提高可复核性，但不是本批阻塞项。",
+    "初审与采集使用同一模型，独立性弱于跨模型审查；最终仍需主会话或人工复核结构、来源与入库统计。"
+  ],
+  "leaf_checks": {
+    "renewal-management-platform": "Gainsight 官方帮助证明续约机会对象、到期日、预测/实际值、Late Renewals、Churn/Waterfall，续约记录→决策前动作→结果→前瞻视图成立；作为 Customer Success 平台 add-on 模块可接受。",
+    "voice-of-customer-platform": "Medallia 平台页证明调研创建、主题分析、角色化报表、告警/案件闭环；但 service_boundary 的“不含社交聆听”与 social/every signal 正文矛盾，修正边界后可保留。",
+    "account-management-crm": "EspoCRM Accounts/Contacts 文档证明账户为公司级中心记录、关联多联系人、交互历史、用户/团队权限；AGPL-3.0 与仓库元数据一致。",
+    "customer-portal": "Clinked 客户门户页证明安全登录、每客户独立工作区、文件/任务/审批/项目自助；白标与移动端为附加能力，核心成立。",
+    "partner-relationship-management-prm": "Impartner PRM 页证明伙伴生命周期/分层、交易注册与 CRM 同步、供应商审批、联合销售与 MDF；伙伴注册表、伙伴门户、供应商控制审批三结构成立。",
+    "strategic-account-planning-platform": "Revegy Plans/Maps/Accounts 帮助证明持久计划对象、计划分段/共享、Contact/Strategy Map 与账户团队；行动项证据较薄但可接受。",
+    "territory-management": "Zoho Territory 页证明按 region/team/individual 的层级、自动化账户分配、区域业绩/实时报表；来源 URL 重定向，建议 canonical 化。",
+    "billing-platform": "Kill Bill README/文档证明目录、订阅、发票、支付、信用与 dunning；但计量/税费被 Aviate 页标为 Premium，社区版边界须先修正。",
+    "card-issuing-platform": "Stripe Issuing 文档证明 card program、cardholder、虚拟/实体卡、spending controls、实时授权与交易生命周期；发卡方侧成立。",
+    "corporate-card-spend-platform": "Ramp 页证明公司卡、报销、账单支付、收据匹配、预算/供应商护栏与违规采购阻止；组织发卡、公司侧支出记录、项目管理控制三结构成立。",
+    "expense-management-platform": "Zoho Expense 页证明费用报告、审批、政策/审计、报销与卡支出；“不是差旅预订系统”与官方 Corporate Travel 导航不符，改为匹配核心说明即可。",
+    "payment-orchestration-platform": "Hyperswitch README 证明 120+ 处理商、统一 API、智能路由/重试、vault 与对账；Apache-2.0 与仓库元数据一致。",
+    "spend-management-platform": "Procurify 页证明采购申请、PO、发票付款、spending cards、报销、审批路由、预算与 spend insights；多渠道加集中控制成立。",
+    "banking-back-office-platform": "Oracle 文档证明 repair/exception 队列、修复动作与重新提交；但未证明交易录入与审计，summary/note 需收窄。",
+    "banking-operations-management": "Backbase 页证明统一工作区、异常路由、override/升级/人工对账、SLA 与决策记录；workforce capacity/绩效归因不足，作为执行平台内嵌管理面留档。",
+    "collections-platform": "Nortridge 页证明逾期账户中心、队列、承诺还款跟踪、自动活动与报表；债权人侧自有账本成立。",
+    "commercial-loan-management": "Loan IQ 页证明商业/银团/双边/CRE/SBA servicing、组合管理与 booking；“记账”正文未明示，建议收窄。",
+    "commercial-loan-origination": "Abrigo 页证明申请、工作流、信贷备忘录、审批、政策与文档；未证明 closing/funding/booking，“从申请到放款”需收窄或补证。",
+    "consumer-lending-platform": "TurnKey 页证明 origination、scoring/underwriting、decision engine、loan management 与 debt collection，明确 consumer lending；申请→授信→贷后→催收链条成立。",
+    "core-banking-system": "Fineract README/官网证明 client/KYC、loan/savings portfolio、real-time accounting/reporting、OpenAPI、Docker/K8s；Apache-2.0 一致。",
+    "debt-collection-management": "Collect! 页证明工作队列/业务规则、批量信函、client/consumer 门户、信用局报送、SMS/dialer 与合规审计；第三方/受托视角成立。",
+    "loan-management-system": "LoanPro Servicing Suite 页证明贷后实时账本、还款、利息计提、费用/状态与多类贷款；服务循环成立。",
+    "loan-origination-system": "MeridianLink 页证明 consumer/mortgage/business/indirect LOS、application→decision→funding、decision engine 与 workflow；核心成立。",
+    "mortgage-origination-platform": "ICE Encompass 页证明 system of record、loan manufacturing、pricing、TPO、eClose 与 closing/settlement；“承销”正文未明示，建议收窄。",
+    "mortgage-servicing-platform": "Sagent Dara 页证明 servicing lifecycle、loan administration、escrow、investor management、collections/loss mitigation 与规模数据；核心成立。"
+  },
+  "limits": {
+    "review_status": "本次独立初审在工具步数上限到达时结束；已完成对 25 个 leaf 的只读核对，未写文件、未运行 shell、未部署或运行第三方项目。",
+    "scope": "已逐叶核对 input.json 的定义性核心、batch.json 25 条、research.json 25 条及引用来源快照；重点检查事实、来源、许可证/开源社区版边界与核心类型匹配。",
+    "remaining": "需采集会话按 findings 做一次修复；未修复项不应导入。非阻塞建议可在最终复核时统一处理。",
+    "next_steps": "1) 修正 Kill Bill 社区版计量/税费边界并补 Aviate 来源；2) Abrigo 补 closing/funding 来源或收窄并改 assessment；3) Medallia 修正 service_boundary；4) Oracle 删除或补证交易录入与审计；5) 复核 ICE、Finastra、Backbase、Zoho Expense 的措辞与边界。",
+    "independence": "初审与采集同为 open-design/deepseek-v4.1-flash，独立性弱于跨模型审查；最终需主会话或人工复核。",
+    "evidence": "商业条目多为官方首页/产品页，未登录、未读付费文档、未运行产品；大型 HTML 未逐行全文审阅，主要按正文段落和关键词核读。",
+    "no_writes": true,
+    "no_runtime": true
+  },
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-012/ses_groveopendesignp012review2_1792842419.jsonl",
+  "batch_sha256": "5f1f0b6d1b867ae8f9a53a81d35a7e4fafbe98b2d2da3cad9cf45057ce2b7411",
+  "research_sha256": "5441bf029028244c9f9905dffd14ed30a27174335474c9bd012c30303995347e",
+  "input_sha256": "7bfe38c03972836696bad03c76ade32fa134ea421c4dc1426031ed0f694b02b6"
+}

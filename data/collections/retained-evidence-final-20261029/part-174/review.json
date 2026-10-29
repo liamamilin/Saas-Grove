@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "EAB 官方主页对三项核心能力的支持主要停留在功能清单和 FAQ 段落层面：学生档案由 SIS 填充、顾问使用、预约与笔记/附件均有明确正文，但未展示案例分配（caseload）或服务匹配的具体流程，也未直接说明咨询笔记跨学期持久保留。对商业案例的基本类型匹配已足够，若后续提高证据等级，可补充产品工作流或帮助文档页面。",
+    "该产品页面以“higher education CRM”自我定位，覆盖面包含招生、校友等；本叶匹配依赖其中的 Program Advising、Notes & Attachments、顾问使用与 SIS 学生档案等学术咨询能力，而非 CRM 标签本身。当前匹配成立，但建议在条目说明中避免让读者误以为整个产品仅为学术咨询平台。",
+    "input.json 的 leaf progress 仍显示 application_ids 为空、phase 为 included_without_cases、case_status 为 boundary_unresolved，而 batch.json 与 research.json 已纳入 commercial:eab-navigate360 并判定 case_found。这属于输入阶段与后续研究结果的元数据不同步，不影响该商业条目的内容真实性，但建议在归档时同步状态。",
+    "开源候选的排除理由总体可复核：Berkeley BOA 的许可证为 UC Regents 自定义条款且限教育/研究/非营利使用，SAAIS 为 All rights reserved，MSU 项目许可证为 MIT 但公开 README 仅见移动端门户与本地状态骨架。需要说明的是，research.json 对 SAAIS 功能覆盖的描述没有对应的 README 快照（fetch_outcomes 仅保存 LICENSE），属于被拒候选的留档详略问题，不影响本单元最终纳入的商业案例。",
+    "REVIEW_SOURCES.json 仅列出 EAB 官方主页一个快照；research.json 引用的开源候选快照虽实际存在于 data/collections/sources/，但未纳入 REVIEW_SOURCES.json。就本单元已收录的条目而言来源闭合，若做全量审计追溯，可把候选快照一并登记。",
+    "官方页面中的 850+ 院校、ROI 和毕业率提升等属于厂商营销表述，未做独立核验；这些不是本叶类型判断的必要依据。"
+  ],
+  "leaf_checks": {
+    "academic-advising-platform": {
+      "definition_core": "通过。定义要求三项结构同时存在：(1) 带机构学术上下文的学生记录——官方页列出 Complete Student Profile，并在 FAQ 说明学生档案主要由 institution 的 SIS 数据填充，另有 Program Advising、Holds Center、Faculty Progress Reports、course planning 等学术相关内容；(2) 正式顾问—学生关系——页面明确 advising 是主要 staff 用户群之一，出现“their advisors”、Coordinated Care Network、appointment campaigns、ongoing advising activities 等表述，能够支持顾问参与和持续咨询关系，但未展开 caseload 分配机制；(3) 有记录的咨询互动——Appointments & Surveys、Notes & Attachments、会议记录/笔记及 advising 活动报表共同覆盖预约、记录与历史查询。三项合并可判定为学术咨询平台，而非单纯预约器或通用 CRM。",
+      "saas_form": "通过。快照正文明确写明 Navigate360 是 hosted on AWS 的 cloud-based SaaS solution，通过浏览器和专用移动应用访问；FAQ 还说明按院校规模与服务范围定价，符合持续订阅使用的软件服务形态。",
+      "identity_and_track": "通过。batch.json 条目 id 为 commercial:eab-navigate360，track 为 commercial，名称 EAB Navigate360 与官方页面标题/品牌一致，homepage 为 https://eab.com/solutions/navigate360/，快照 canonical 指向同一 URL；商业身份与 ID 前缀、track 字段匹配。",
+      "license_and_community": "不适用且留档合理。本单元未收录开源条目，因此不存在需要核对的 OSI 完整许可证或社区版边界。research.json 对开源候选逐项记录了排除理由：BOA 为 UC Regents 自定义许可、非 OSI；SAAIS 为 All rights reserved；MSU 为 MIT 但功能边界不足；Momenh2 缺咨询会谈/备注记录；Stubegru 为咨询中心 groupware；datakind 为分析工具包。开源边界未决的状态有真实检索、抓取与缺口记录，未把非 OSI 许可或功能不足的候选强行标为开源案例。",
+      "source_integrity": "通过。REVIEW_SOURCES.json 指定的 path 按原样读取，文件存在且内容为 EAB 官方产品页 HTML；文件名与登记的 sha256 一致，正文含实质功能与 FAQ 内容，不是简介、元数据或 Loading 占位。batch.json 的 snapshot_path 以 data/collections 为基准解析后正确指向该文件。",
+      "gaps": [
+        "仅有一个官方主页快照，未做登录、演示或运行时验证；caseload 分配和笔记跨学期持久化的具体工作流未在页面中展开。",
+        "开源候选的功能描述部分依赖仓库 README，SAAIS 的功能性判断没有对应 README 快照。",
+        "未独立核实厂商营销数据与客户数量。"
+      ],
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读独立初审：仅依据本单元的 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json，以及按指定路径读取的 EAB 官方主页快照和 research.json 引用且实际读取的部分候选快照；未运行 shell、未写文件、未访问其他单元或外部网络，未做部署/登录/运行时测试，未重新计算 sha256，未独立核实厂商营销数据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-174/ses_groveopencodegop174review1_1793254057.jsonl",
+  "batch_sha256": "bc79d7e5f5aebd2593233bdf9a8b5a22dbff012390536e97ac4f303486a15a87",
+  "research_sha256": "cb584fd9eb39005ed1294433c8fc572ea72494dbaf247e844da1873f0caf0d42",
+  "input_sha256": "cc7e3fb3468e4cecbb115fb5a1452eb83cf662de2800467b92c8da2f5d84730a"
+}

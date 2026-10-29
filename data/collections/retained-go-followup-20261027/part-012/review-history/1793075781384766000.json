@@ -1,0 +1,33 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ai-security-platform",
+      "application_id": "commercial:hiddenlayer",
+      "issue": "批次摘要、leaf_matches 理由与 research.json 的记录都声称三个模块页的正文可以证明这些能力：越狱、提示注入，模型与数据外泄，agent 工具滥用，逐条 finding 的修复建议，SIEM/SOAR 交接，扫描 AWS/Azure/GCP、仓库与流水线，以及 NIST/OWASP/ATLAS 映射。实际读取的快照与该说法不符：ai-attack-simulation 快照（7cca1f84…）只有 H1 “Simulate Attacks on Your AI” 和副标题 “Simulate attacks to Automatically red team.”，全文检索不到 jailbreak、prompt injection、exfiltration、finding、remediation；ai-runtime-security 快照（52017e18…）只有 “runtime visibility, threat detection, and inline enforcement”，检索不到 investigate、redaction、SIEM、SOAR；ai-discovery 快照（beb86189…）正文只有 shadow AI、ownership、living inventory 的 hero 文案，检索不到 AWS/Azure/GCP、NIST/OWASP/ATLAS。因此该叶子核心所要求的“发现→分诊→修复/响应闭环”在引用正文中没有证据，条目对能力的描述超出了可核范围。",
+      "fix": "从 batch.summary、leaf_matches.reason 与 research.json note 中删除或收窄没有快照支持的能力表述（SIEM/SOAR、逐条 finding 修复建议、越狱/提示注入/外泄/工具滥用、云/仓库/流水线扫描、NIST/OWASP/ATLAS 映射）；补充能读到 findings 分诊与修复/处置闭环的官方正文页或文档作为来源；若无法补齐，就如实记录缺口，并把断言限定在 AI 资产清单（shadow AI/ownership/living inventory）、模型扫描、自动化红队、运行时检测与 inline 阻断这些可核内容上。"
+    }
+  ],
+  "non_blocking_notes": [
+    "api-security-platform / commercial:salt-security：/platform 快照（ed1e6016…）的正文与演示已转向 Agentic Security Platform，主要描述 agent、MCP server、gateway 和 app 的统一图谱、暴露/源码/配置/运行时风险因子、Risk Score/Posture Gaps 以及实时阻断；API 只以“路径末端的 app and API”、标题/描述和导航副标题（Salt Connect/Collect/Protect）出现，缺少 API 语义清单（endpoint、参数、认证、归属）与分诊/修复工作流正文。基本类型匹配仍成立，但若要坐实 API 安全平台核心，建议后续引用 Salt 的 API 专页或 API 清单/工作流文档，不要依赖导航副标题。",
+    "application-security-platform / github:31028375：docs 的 os__assets 和 os__engagements 快照主要呈现站点头部、侧边导航与页脚，Asset/Engagement 正文解释不足；该叶子的核心判断主要依赖 README 正文（ASPM、漏洞管理、去重、修复、报告）与 os__findings 正文（Finding 字段、关闭与重导入自动关闭）。建议后续抓取时保留 Asset/Engagement 主内容，或把理由收窄到已读到正文的页面。",
+    "dast-iast / github:36817565：现有来源已把该产品称为 “ZAP by Checkmarx”；批次名称 “OWASP ZAP” 是旧称。作为名称/别名处理即可，不影响 Apache-2.0、仓库身份或 DAST 类型判断。",
+    "commercial:hiddenlayer：平台总览页的 Model Scanning 卡片与各模块 hero 都属于营销文案层级；后续若要保留精细能力断言，应优先使用产品文档或帮助中心正文，而不是单页 hero 文案。",
+    "commercial:cymulate：exposure-validation 页正文混有 CTEM/Agentic 外层叙事，但 BAS 核心（攻击库、MITRE ATT&CK/APT、控制验证、scorecard、缓解/检测更新）在 accordion 正文中可核，canonical 与 title 也指向本页；无需按外层叙事改写类型。",
+    "github:31028375 的 license 快照实际是 GitHub contents 风格 JSON（LICENSE.md 的 base64 全文），并非 /license 元数据端点；BSD-3-Clause 三条款全文与免责声明完整，许可结论不受影响。",
+    "research.json 中仍保留早期 cymulate 首页抓取记录（success_but_canonical_mismatch）；该快照未被 batch 引用，作为历史留档可接受。"
+  ],
+  "leaf_checks": {
+    "ai-security-platform": "核对依据：platform 快照（90385f19…）的 H1 “The Most Comprehensive AI Security Platform”、副标题“Discover every model. Secure every workflow. Prevent AI attacks”，以及 Model Scanning 卡片正文“Analyze models for malware, vulnerabilities, backdoors, and unknown components before they reach production.”；ai-discovery 快照 hero“Discover Every Model, Agent, and AI Workflow / reveal shadow AI, map ownership, and build a living inventory”；ai-runtime-security hero“Detect and Stop AI Threats at Runtime / runtime visibility, threat detection, and inline enforcement”。这些可支撑 AI 资产识别、AI 专项评估和运行时检测/阻断，但没有证据支持 findings 分诊与修复闭环；research.json 与 batch 对三个模块页正文的具体能力描述与快照不符。该叶不能按现状通过，需按 finding 收窄断言或补充正文来源。",
+    "api-security-platform": "核对依据：salt.security/platform 快照（ed1e6016…）正文含“every agent, MCP server, gateway and app, in one graph”、暴露/源码/配置/运行时风险因子逐项标注、Risk Score/Posture Gaps 控制台演示、“Catches sensitive data leaking through model responses”“Detects intent, not just known signatures”“Blocks machine-speed abuse in real time”，以及 agentless discovery 与通过既有 gateway/WAF/SOC 接入。可证统一资产图谱、发现与响应/阻断；API 语义清单与分诊修复工作流只以标题/描述/导航和“路径末端的 app and API”间接出现，属于证据偏薄，但基本商业类型匹配尚可，不阻断；建议后续补 API 专页正文。",
+    "application-security-platform": "核对依据：GitHub API 快照确认仓库 id 31028375、full_name DefectDojo/django-DefectDojo；license 快照为 BSD-3-Clause 三条款全文（Copyright 2015-2023 DefectDojo, Inc. + 三条条款 + 免责声明）；README 正文自述“DevSecOps, ASPM (application security posture management), and vulnerability management tool … orchestrates end-to-end security testing, vulnerability tracking, deduplication, remediation, and reporting”，并给出 Docker Compose Quick Start、Community Edition 与 Pro demo/版本文档切换；os__findings 正文说明 Finding 字段（CVSS、EPSS、KEV、fix availability、endpoints、component）、关闭 Finding 与重导入自动关闭。核心的应用记录—发现—修复生命周期成立；os__assets/os__engagements 快照正文偏导航是留档缺口，不阻断。",
+    "breach-attack-simulation": "核对依据：cymulate.com/exposure-validation/ 快照（e76e98bb…）canonical 与 og:url 均为本页，title“Exposure Validation: Identify & Prioritize Threats”；正文含“Test with the most complete attack library”“Real-world testing of MITRE ATT&CK techniques and APT campaigns updated with a daily threat feed”“Validate prevention and detection”“Prove prevention and detection for EDR, SIEM, web/email, WAF, DLP and more”“Testing results create scorecards and benchmarks …”“Optimize security controls with vendor-specific threat mitigation and rules for SIEM, EDR, XDR, WAF and Snort”“Mitigate with virtual patch & control-ready updates”，以及安全执行攻击模拟、分析结果并部署控制更新的正文。运行模拟—观察已部署控制响应—记录/排序—修复更新的 BAS 核心成立；商业类型匹配，未核价格/架构。",
+    "dast-iast": "核对依据：GitHub API 快照确认仓库 id 36817565、full_name zaproxy/zaproxy；license 快照为 Apache License Version 2.0 全文（11357 字节）；README 说明 ZAP 是免费开源的 Web 应用扫描器，用于开发/测试阶段自动发现漏洞及手工渗透测试；Getting Started 正文完整描述 explore→attack→report、spider/Client spider/AJAX spider、被动与主动扫描、Alert 与 Alert Details、Safe Mode 授权提醒、独立应用/daemon、Docker 镜像、Automation Framework 与 Marketplace（插件全部免费）。运行目标—主动测试—运行时证据的 DAST 核心成立；仅主张 DAST、未虚构 IAST，符合该叶家族边界。"
+  },
+  "limits": "只读初审：仅使用 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 列出的快照；未运行 shell、未写文件、未读取其他单元、未重新抓取网页。多个快照是压缩后的 HTML 单行文本，读取工具按行截断至 2000 字符，部分正文只能通过关键词检索判断存在或缺失，无法逐段通读全部页面；因此对 HiddenLayer 模块页的结论基于可检索全文（相关关键词在整份快照中均无命中）。未做运行时测试、价格、部署架构或实际控制台验证；商业条目仅按官方营销/文档页面做真实性与类型核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-012/ses_groveopencodegop012review1_1793075013.jsonl",
+  "batch_sha256": "b4372c10c640ad97f50dfd513950f3faffdb8208809caa7ec5500003e190cefd",
+  "research_sha256": "b3992207726f30f019eb29ce2ae994ec79d2c608f4b3257fbf254afb96951943",
+  "input_sha256": "85d88ba64df0a308219b9e8766ab13b400687028aece8536409e4c2eb5d080b1"
+}

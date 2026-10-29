@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 46,
+  "offset": 1125,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "scientific-instrument-management",
+        "name_zh": "科学仪器管理",
+        "domain_id": "23",
+        "parent_id": "23.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-046/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "scientific instrument management software GitHub"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/379",
+            "result": "boundary_unresolved",
+            "note": "真实检索后未找到同时满足三结构的可用案例，但不把无结果写成不存在。GitHub Search API 查询了 lab equipment booking（248 条）、equipment maintenance booking（53 条）、shared equipment scheduling（20 条）、instrument management research lab（2 条）、laboratory instrument booking（23 条），结果多为课程项目、个人小应用或无许可证项目。重点读取 eLabFTW 官方文档：Resources 可登记 Equipment 类资源与模板，Scheduler 可把 bookable resources 拖放预约并绑定实验，覆盖登记与时段分配；但文档没有维护/维修/校准记录，也没有由服务记录驱动的 in service/down/under maintenance 状态与不可预约门控。BookedScheduler 的 effyyzhang/Booked 与 effgarces/BookedScheduler 仓库均返回 404，搜索到的均为个人镜像/修改版，不能作为权威上游身份与许可证来源。",
+            "query": "open source scientific instrument management booking maintenance GitHub"
+          }
+        ],
+        "archived": false,
+        "note": "真实检索后未找到同时满足三结构的可用案例，但不把无结果写成不存在。GitHub Search API 查询了 lab equipment booking（248 条）、equipment maintenance booking（53 条）、shared equipment scheduling（20 条）、instrument management research lab（2 条）、laboratory instrument booking（23 条），结果多为课程项目、个人小应用或无许可证项目。重点读取 eLabFTW 官方文档：Resources 可登记 Equipment 类资源与模板，Scheduler 可把 bookable resources 拖放预约并绑定实验，覆盖登记与时段分配；但文档没有维护/维修/校准记录，也没有由服务记录驱动的 in service/down/under maintenance 状态与不可预约门控。BookedScheduler 的 effyyzhang/Booked 与 effgarces/BookedScheduler 仓库均返回 404，搜索到的均为个人镜像/修改版，不能作为权威上游身份与许可证来源。"
+      },
+      "definition": {
+        "slug": "scientific-instrument-management",
+        "name": "Scientific Instrument Management",
+        "name_zh": "科学仪器管理",
+        "aliases_zh": [
+          "仪器管理",
+          "实验室仪器管理"
+        ],
+        "overview": "A **Scientific Instrument Management** application is the system of record for shared scientific instruments in a laboratory or research facility. It holds an identified register of the instruments a lab or facility operates, allocates their use over time to a population of users, and keeps the fitness and service record of each instrument.\n\nThe defining core is small — three jointly-held structures:\n\n```text\nInstrument register of record\n└── Shared-use time allocation (reservations on each instrument's schedule)\n    └── Fitness & service record (maintenance / repair / calibration → operating state)\n```\n\nEverything else commonly associated with the category — training-gated access, actual-usage capture, utilization reporting, cost recovery, hardware interlocks, external booking portals — is a standard capability or an optional extension, not part of what makes the software this kind of application. Remove the register and the software is a generic calendar; remove the scheduling and it is generic equipment maintenance software; remove the fitness record and it is a booking site that cannot see a broken instrument.",
+        "overview_zh": "一个**科学仪器管理**应用程序是实验室或研究机构中共享科学仪器的记录系统。它持有实验室或机构运行仪器的已识别登记簿，将仪器的使用时间分配给一批用户，并保存每台仪器的适应性与服务记录。\n\n其定义性的核心很精简——由三个共同持有的结构组成：\n\n```text\n仪器记录登记簿\n└── 共享使用时间分配（每台仪器日程上的预约）\n    └── 适应性与服务记录（维护/修理/校准 → 运行状态）\n```\n\n通常与该类别相关的所有其他功能——基于培训的访问控制、实际使用量采集、利用率报告、成本回收、硬件互锁、外部预约门户——都是标准能力或可选扩展，并非构成该类应用软件的必要部分。移除登记簿，该软件就变成通用日历；移除调度功能，它就变成通用设备维护软件；移除状态记录，它就变成无法识别故障仪器的预约站点。",
+        "dc": "```text\nInstrument register (instrument → physical units, location, status, responsible party)\n        ↓\nReservation (identified user books time on the instrument's schedule)\n        ↓ conflict-checked against other reservations\nFitness & service ring (maintenance / repair / calibration events on the instrument)\n        ↓ keeps an\nOperating state (in service / down / under maintenance) → shapes availability\n```\n\n**The instrument register of record.** The central object is the instrument as a persistent, individually identified record: name and type, make and model, location, operating status, and a responsible party. Physical reality is modeled underneath it — one instrument entry commonly carries multiple serial-numbered units (for example, several identical thermal cyclers or centrifuges), each with its own location, booking rules, and history. The register is the anchor to which bookings, usage, service, and documents attach. Without it, bookings and maintenance entries float free of any identifiable instrument.\n\n**Shared-use time allocation.** Because the instruments are shared, the system allocates instrument time: users reserve slots on a per-instrument calendar, the system prevents conflicting (double) bookings, and each reservation belongs to an identified user, usually within a group or lab. This is the dimension that distinguishes the type from asset management: the software manages not just what the instruments are, but **who gets to use them and when**.\n\n**Fitness and service records.** Each instrument carries its service history: scheduled preventive maintenance, logged repairs, calibration events, and associated documents such as calibration certificates. These records maintain an **operating state** — in service, under maintenance, down — and that state matters operationally: an instrument that is down or under maintenance is not bookable, and users are steered to other units or other times.",
+        "dc_zh": "仪器登记（仪器 → 物理单元、位置、状态、责任方）\n↓\n预约（已识别用户在仪器时间表上预订时间）\n↓ 与其他预约进行冲突检查\n维护与服务环（仪器上的维护 / 维修 / 校准事件）\n↓ 保持\n运行状态（在服务中 / 停机 / 维护中）→ 影响可用性",
+        "rules": "**A reservation is conflict-checked.** The system prevents double-booking of the same instrument or unit; overlapping requests are rejected or routed to alternatives. Booking rules (duration, frequency, timing windows) further constrain what can be reserved.\n\n**Fitness state gates availability.** An instrument flagged down or under maintenance is not bookable — products commonly block the booking outright, guide users to equivalent units, or suggest alternative times. This is the join that makes the service record operational rather than archival.\n\n**Qualification gates booking.** Where an access policy exists, only trained and authorized users can reserve (and, with hardware enforcement, physically start) the instrument. The gate is evaluated at booking time against recorded training status.\n\n**A reservation is not usage.** Booked time and actual use can diverge — no-shows, overtime, unbooked use. Where usage capture exists, actual usage is recorded against the user and instrument and is the basis for utilization and any charging; where it does not, the reservation record stands in.\n\n**Service requests attach to instruments.** Problems are reported against the instrument record, triaged into work orders, and tracked to completion — leaving the instrument's history on its record.\n\n**Identity is institutional.** Users book as members of the organization (labs, groups, departments); access policies, approvals, and any cost attribution follow that identity. Anonymous or walk-up use is the exception (kiosk-assisted or supervised modes).\n\n**Records persist on the instrument.** Bookings, usage, incidents, maintenance, and calibration accumulate on the instrument record as its history — supporting audits, warranty and service decisions, and capital planning.",
+        "rules_zh": "**预约会经过冲突检查。** 系统防止同一仪器或单元被重复预约；重叠的请求会被拒绝或引导至其他选项。预约规则（时长、频率、时间窗口）进一步限制可预约的范围。\n\n**状态决定可用性。** 被标记为停用或维护中的仪器不可预约——常见做法是直接阻止预约、引导用户至同等仪器，或建议其他时间。这使得服务记录具有可操作性，而不仅是存档。\n\n**资质门控预约。** 在存在访问策略的情况下，只有经过培训并获授权的用户才能预约（并且在硬件强制执行下，才能物理启动）该仪器。该门控在预约时根据记录的培训状态进行评估。\n\n**预约不等于使用。** 预约时间与实际使用可能不同——包括未出席、超时使用、未预约使用等情况。在存在使用量采集的情况下，实际使用量被记录在用户和仪器名下，并作为利用率和任何收费的依据；若不存在，则以预约记录为准。\n\n**服务请求关联至仪器。** 问题针对仪器记录报告，被分类为工单，并跟踪至完成——这些历史保留在仪器的记录上。\n\n**身份是机构的。** 用户作为组织成员（实验室、课题组、部门）进行预约；访问策略、审批以及任何成本归属均依此身份进行。匿名或临时使用是例外情况（通常由信息亭协助或在监督模式下进行）。\n\n**记录在仪器上持续存在。** 预约、使用、事件、维护和校准记录累积在仪器记录上，构成其历史——支持审计、保修与服务决策以及资本规划。",
+        "parent_id": "23.04",
+        "domain_id": "23"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 199,
+    "phase": "directory",
+    "parent": 199,
+    "slugs": [
+      "scientific-instrument-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "7ae9976bea073a2b090426550f07fb49fb89a6d846f0cf59b9752bcec50f6949"
+  }
+}

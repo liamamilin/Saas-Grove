@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "batch.json 的 technology_stack（Python/TypeScript/React/PostgreSQL/ClickHouse）在本次读取的 README、LICENSE、仓库元数据和评估文档快照中均无对应正文；虽不影响核心与许可证判断，建议后续以仓库正文核实或标注为推断项。"
+    },
+    {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "README 与产品首页均同时提到 enterprise/云端版本，而 batch.json 摘要写作“全量平台可自托管”。“全量”应理解为仓库内 Apache-2.0 覆盖的服务端+Web 应用，而非企业/托管商业版；research 的 service_boundary 已作此限定，建议摘要措辞与之保持一致。"
+    },
+    {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:633927609",
+      "note": "Promptfoo 作为 withheld 候选的记录完整（保留原查询轨迹、说明仅证明 CLI/库形态、不作不存在判断），无需补充操作；其历史快照不在本次 REVIEW_SOURCES.json 列表中，故未复核。"
+    },
+    {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:arize-ai/phoenix",
+      "note": "withheld_candidates 中关于 Phoenix 的 Elastic License 2.0 判断注明“未抓取正文”，属检索备注而非能力/许可结论；如后续引用该许可判断，应补抓 LICENSE 正文。"
+    },
+    {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:638951438",
+      "note": "输入侧元数据待同步：input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids 为空，而 research.json/batch.json 已确立 github:638951438。建议写回时统一这些字段。"
+    }
+  ],
+  "leaf_checks": {
+    "llm-evaluation-platform": {
+      "slug": "llm-evaluation-platform",
+      "application_id": "github:638951438",
+      "application_name": "Opik",
+      "track": "open_source",
+      "definitional_core": "满足。docs 快照 Evaluation Overview 正文给出完整评估闭环：从生产 trace 中提取失败样本→加入 Test Suites/数据集并写自然语言断言→更新应用→用测试套件验证；明确两种方式（Test Suites 的 LLM 判定断言、Datasets & Metrics 的预置/自定义指标打分），并列出 30+ 预置指标、自定义指标、Experiment tracking 版本并排比较、Annotation Queues 人工评审。README 正文对应给出 Datasets + Experiments 评估、LLM-as-a-judge 指标（Hallucination/Moderation/Answer Relevance/Context Precision）、Opik Dashboard 实验图表与对比。即“被测 LLM 应用→测试用例数据集→评分→持久可比较运行”四要素齐备，且运行绑定到应用/prompt/模型版本（experiment 版本对比、prompt 版本管理）。非以简介、导航或 Loading 代替正文。",
+      "service_form": "满足。README 明确本仓库包含 server backend 与 web application，自托管后浏览器访问 localhost:5173，提供 Dashboard、实验对比、标注队列、在线评估规则等持续可用的 Web 应用形态；另有 Docker Compose（./opik.sh）与 Kubernetes/Helm 部署说明，并存在 Comet 云端托管形态。已不再是先前 Promptfoo 仅有 CLI/本地查看器的形态缺口。",
+      "identity_and_track": "满足。仓库元数据快照 octolytics 证据显示 repository_id=638951438、repository_nwo=comet-ml/opik、repository_public=true、repository_is_fork=false，与 batch.json 的 id=github:638951438、repository_url 和 track=open_source 一致；README 与产品首页 sameAs 均指向同一仓库，产品身份为 Comet 的 Opik。",
+      "license": "满足。LICENSE 快照为完整 Apache License Version 2.0 全文（含 Definitions、Grant of Copyright/Patent License、Redistribution 四项条件、Contribution、Trademarks、Disclaimer、Limitation of Liability、Accepting Warranty，以及 APPENDIX 与 “limitations under the License” 结尾），版权行为 Comet ML, Inc；与 batch.json 的 license=Apache-2.0、license_evidence_url、license_review 一致。",
+      "community_edition_boundary": "基本满足。README 明确 “Apache-2.0 licensed, free to self-host the full platform, backend included, not just a client SDK”，并列出 server backend、web application、tracing、datasets、experiments、evaluations、prompt management、online evaluation、agent optimization 均在 Apache-2.0 之下；产品首页称核心可观测与评估功能集在源码中免费。research 的 service_boundary 已把本叶限定为 Apache-2.0 开源全量自托管平台中的评估子工作流，并声明未核验企业/云端商业版，边界表述诚实。仅“全量”措辞需按上述非阻断建议收窄。",
+      "source_quality": "满足。所有 5 个 REVIEW_SOURCES.json 条目均按 path 原样读取并与文件名 sha256 对应：仓库元数据（身份/非 fork/公开）、README 正文、完整 LICENSE、官方评估文档正文（含正文段落而非仅导航）、产品首页正文。文档快照为 JS 富集 HTML，但评估循环、两种评估方式与关键功能段落可读，足以支撑核心判断。",
+      "gaps": "未做部署与运行验证（batch runtime_tested=false，与本轮要求一致）；技术栈字段缺正文支撑；企业/云端商业版与开源仓库的功能差异未核验；未复核历史 Promptfoo 快照（不在本单元来源清单内）。上述均不影响本叶成立判断。"
+    }
+  },
+  "limits": "仅使用只读工具，读取范围限于本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 5 个快照，未运行 shell、未写文件、未访问其他单元或历史记录（retained-go-20261025/part-023、included-continuation-final-20261027 及 Promptfoo 历史快照均未打开）。未执行部署、登录或实际调用 Opik 服务，服务形态与功能均基于官方 README、文档与产品首页正文；技术栈与商业版边界未独立核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-111/ses_groveopendesignp111review1_1793201815.jsonl",
+  "batch_sha256": "03c3758807b50c2925e35f4a92d868d1bf011ead4a36df6f5ecc196c15e812fa",
+  "research_sha256": "f1663ca8d8dd31f55778458a2db0555a8dc831931c076872a5aef42d19c0b048",
+  "input_sha256": "7636a9e0b8da56c92697087a0c9ec7f62b26fdf09880f2e6b6ac9a00941568ff"
+}

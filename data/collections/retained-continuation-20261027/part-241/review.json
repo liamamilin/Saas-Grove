@@ -1,0 +1,59 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "publishing-editorial-workflow：OJS 官方 editorial-workflow 文档页被 Anubis 人机验证拦截，research 已如实记录该抓取缺口，且未把它当作正文证据；现有首页文案已覆盖投稿、评审、文字编辑、生产阶段以及指派编辑、截止日期、逾期提示，核心证据成立。若后续需要逐阶段关卡证据，可补该文档的可访问快照。",
+    "publishing-metadata-management：Thoth 首页快照是 Next.js 页面，较多内容在 JSON/脚本中，记录创建与维护的界面级证据主要来自 README 和站点描述；建议后续补导出 API 文档或 wiki 快照，以便逐项核实 ONIX、MARC、KBART、BibTeX、Crossref XML 等格式。",
+    "publishing-metadata-management：批次功能表把 KBART、CSV、BibTeX、Crossref XML 与 ONIX、MARC 并列，README 仅举例 ONIX、MARC；这些词能在首页快照中检索到，但未取得逐项说明，公开文案宜改成举例式表述，或补一条对应文档来源。",
+    "archaeological-collection-management：候选页面（museumsoftware.com、collectiveaccess/providence、collectionspace/services）在 REVIEW_SOURCES.json 中没有快照，无案例的边界判断只能复核 research 的记录本身；建议把候选首页或 README 一并留档，便于复现该缺口判断。",
+    "record-label-management 与 art-gallery-management：Reprtoir 同时面向唱片公司和音乐出版商，Artlogic 同时面向画廊、艺术家和收藏者；两叶的核心侧（label、gallery）在快照中有独立描述，建议公开条目继续保持这种范围限定，避免读者误读为覆盖全部音乐出版或艺术业务。",
+    "art-gallery-management：Artlogic 仅有一份首页快照，报价、开票、付款的逐环节页面未取证；商业基本真实性与类型匹配已经足够，若后续要求更强证据，可补 sales 或 payments 子页快照。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch 和 research 记录的 4 个 case 和 1 个无案例结论不一致，属于进度记录未同步，不影响本次内容结论，但建议调用方统一状态。"
+  ],
+  "leaf_checks": {
+    "publishing-editorial-workflow": {
+      "application_ids": [
+        "github:375152"
+      ],
+      "status": "verified",
+      "basis": "OJS 官方产品页正文（快照 609be13e…）明确以 submission、peer review、copyediting、production 为主线，支持指派编辑与审稿人、设置 due date 并自动提醒、显示逾期，角色系统可配置；另一份快照说明稿件可在投稿、评审、文字编辑和生产阶段间跟踪，并可由 managing editor 分派编辑。GitHub 仓库元数据 id=375152、full_name=pkp/ojs；license API 快照返回 GPL-3.0 并含完整 GPLv3 文本；README 给出 PHP 8.2+、MySQL/MariaDB/PostgreSQL 自托管要求。定义核心中的编辑中作品记录、阶段关卡、角色分派与截止日期均有对应。",
+      "gaps": "官方逐阶段工作流文档被人机验证拦截，未作为证据；明确写出 accept、decline、revision 关卡的操作层文案未取得，现依赖产品页的评审与编辑决策描述。"
+    },
+    "publishing-metadata-management": {
+      "application_ids": [
+        "github:239727725"
+      ],
+      "status": "verified",
+      "basis": "README 自述为 Open bibliographic metadata management and dissemination system；GraphQL API 提供面向开放获取图书的数据模型，REST export API 以 ONIX、MARC 等格式对外交付；首页快照描述为 metadata management、distribution、archiving、DOI registration。仓库元数据 id=239727725、full_name=thoth-pub/thoth；license API 快照为 Apache-2.0 并含完整 Apache 2.0 文本；部署为 Docker/Cargo + PostgreSQL。书目记录作为资产、记录维护、向外部接收方交付三点均有直接对应。",
+      "gaps": "记录创建与富化的界面级证据较薄，主要来自 README 的 API 与数据模型说明；首页正文在快照中多为 JSON/脚本，未能逐段通读。"
+    },
+    "record-label-management": {
+      "application_ids": [
+        "commercial:reprtoir"
+      ],
+      "status": "verified",
+      "basis": "Reprtoir 官网快照（f29c7094…）定位为面向唱片公司和音乐出版商的一体化 workspace，目录管理覆盖 tracks、videos、works 的元数据与文件，并列出 contracts、accounting、analytics。royalty-accounting 快照（8144e190…）正文含按资产绑定的 incoming/outgoing contracts 与 net/gross 分成、跨合同 recoup fees 与 advances、多来源 royalty statement 导入、royalty statement 生成与批量发送、payments 记录、Rights-Holder 门户。目录、合同资金条款、收入到账单与支付的结算循环三结构均出现，商业真实性与类型匹配成立。",
+      "gaps": "未部署验证实际结算结果；产品同时面向音乐出版商，但唱片公司侧的目录、合同与结算有独立描述。"
+    },
+    "archaeological-collection-management": {
+      "application_ids": [],
+      "status": "no_case_documented",
+      "basis": "research 记录了对考古藏品管理软件的检索、GitHub API 候选核对，以及 PastPerfect、CollectiveAccess、CollectionSpace 的页面检查；结论是现有公开材料只证明一般博物馆或藏品管理（编目、入藏、借展、位置历史），未证明围绕遗址、探方、地层或 context 组织出土背景，故未建立应用关系。该缺口与叶子定义中出土背景关联这一核心要求一致，且没有把一般藏品管理强行等同为考古藏品管理。",
+      "gaps": "候选页面未在 REVIEW_SOURCES.json 中留快照，无法独立复核采集时的页面正文；本次只能确认 research 已记录检索、候选与缺口。"
+    },
+    "art-gallery-management": {
+      "application_ids": [
+        "commercial:artlogic"
+      ],
+      "status": "verified",
+      "basis": "Artlogic 官网快照（618e6414…）正文与 FAQ 明确 inventory database、consignments、sales integrated CRM、websites、marketing、payments，并说明 inventory 与网站、销售自动同步；覆盖作品编目与库存、寄售保管、销售与客户记录、在线收款。商业基本真实性与类型匹配成立。",
+      "gaps": "仅有首页一份快照，未逐页取得 offer、invoice、payment 及寄售结算细节；证据足以支持基本类型匹配，但不足以支持详细流程断言。"
+    }
+  },
+  "limits": "本次为只读审查，未运行或部署任何应用，未做价格、架构或运行时验证；仅使用本单元 input.json、batch.json、research.json 以及 REVIEW_SOURCES.json 列出的 11 份快照。部分快照是超长单行 HTML/JSON，读取器会截断长行，仓库 ID、许可证 SPDX 与页面关键句通过定向检索确认存在，未逐字通读全部脚本与样式。Reprtoir 的 royalty-accounting 快照因单行截断，另读取了同一 URL 的在线正文以核对可见文案，结论引用的关键句均可在快照中检索到。OJS 官方工作流文档页被人机验证拦截，未读取正文。考古叶及相关未采用候选没有归档快照，无法对其页面内容做独立复核；未核查抓取后站点内容是否变化。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-241/ses_groveopencodegop241review1_1793035339.jsonl",
+  "batch_sha256": "945bf0276ace7211c28256a982c5c9152efc8bc3d6efaca2da7a6ebc60d65479",
+  "research_sha256": "b3d1c80432ca16191031f0575220192ed4f48a27845e0d3b2e288ad14b5e1d76",
+  "input_sha256": "f91447e016736fef2963550639f341b7fee7e9d4973bc36a30c7a547b4b2dc8a"
+}

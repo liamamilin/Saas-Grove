@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "服务形态为纯客户端静态 Web 应用（README『Deployment』：普通 Web 服务器即可，无需编译；托管实例 jspaint.app 快照含完整应用页面与脚本入口，About 页含内嵌 iframe 应用）。这对创作工具是自然形态（同 Photopea 一类），但本叶『持续应用服务』的判定实际依赖托管实例在线且为完整应用，而非服务端多租户能力；建议在服务边界说明中保留这一限定表述。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "社区版边界：README『Deployment > Multiplayer Support』明确多人协作依赖 Firebase（非开源软件），且自述该模式『very shoddy』。核心绘画工作流（画布、笔刷、橡皮、PNG/BMP 存取）完全在开源代码内，batch 的 features 也未把多人协作计入，无过度声明；如需更完整，可在部署说明中一句注明该可选功能的外部依赖。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "许可证：license 接口快照返回完整 MIT 正文（Copyright (c) 2022 Isaiah Odhner，含授权段与免责声明），与 API spdx_id=MIT、README『License』段、About 页链接一致。仅提示项目首页 2022 年『Open Source』公告自述部分内置资源非作者版权、依赖合理使用，属资产溯源层面的自述保留，不影响代码 MIT 声明；本轮不作为阻断。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "batch 的 technology_stack 列了 Node.js，但 README 中 Node 仅用于 npm 开发/测试与打包脚本，运行时是浏览器 JavaScript + canvas；建议改述为构建工具或在字段语义上澄清，避免被理解为服务端运行时。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "叶定义 dc 提到『可保存为原生工作格式并导出标准图像』，JS Paint 无独立分层原生格式，工作格式即 PNG/BMP 等标准位图（另有局部备份与非线性历史树）。因 overview 的结构性要求只是『持久化为图像』，且 MS Paint 系产品本就以标准位图作工作格式，不构成类型失配，仅记录差异。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "research.json 如实记录了两次 GitHub 搜索 403 限流与 jspaint.app/about/ 的 404（改用无尾斜杠成功），并声明不作为『不存在』证据；检索与抓取缺口留档充分。"
+    },
+    {
+      "slug": "digital-painting-application",
+      "application_id": "github:16602433",
+      "note": "笔刷体系：MS Paint 工具箱中橡皮为独立工具，与『绘画/混合/擦除同属一个笔刷系统』的举例不完全一致；但 README 记载自定义笔刷涂抹（Shift+拖动选区）、画笔缩放、右键橡皮做颜色替换，笔刷仍是核心工具，属定义弹性的可接受范围，不必改动条目。"
+    }
+  ],
+  "leaf_checks": {
+    "digital-painting-application": {
+      "application_ids": [
+        "github:16602433"
+      ],
+      "definition_core": "通过。README 正文（非简介/元数据）证明四项定义性属性：①创作导向——About 页内嵌应用默认标题『untitled - Paint』，README 以 MS Paint 复刻的空白画布工作流为中心；②笔触驱动——复刻 MS Paint 全部工具与菜单，含画笔、Brush Scaling（小键盘 +/-）、Custom Brushes（Shift+拖动涂抹）、橡皮与颜色替换；③位图画布——浏览器 HTML canvas（About 页直接访问 .main-canvas，README/PWA 说明围绕 canvas 与像素艺术）；④持久化为图像——Supported File Formats 表给出 PNG、BMP/DIB 的 Read/Write ✅，并以 GIF/WebP 等为浏览器支持项；Edit>Undo 可回退保存导致的质量损失等细节印证保存/导出是一等流程。",
+      "service_form": "通过但有其形态限定。证据：jspaint.app 首页快照是完整应用页面（含 about-paint 对话框、版本 1.1.0、news 条目至 2026-04-09、脚本入口 src/theme.js 等），About 页提供嵌入式 iframe 应用与桌面/PWA 下载入口；README『Deployment』说明可用普通 Web 服务器部署、无需编译，说明存在可自托管的完整 Web 应用服务形态，而非仅桌面客户端或库组件。属客户端静态托管应用，服务端无业务逻辑，已在非阻断说明中记录。",
+      "identity_and_track": "通过。GitHub API 元数据快照 id=16602433、full_name=1j01/jspaint、fork=false 与 batch id『github:16602433』、repository_url 一致；track=open_source 与仓库公开开源属性相符。research 中 withheld 的 Krita（github:43975673）理由为其仅证明桌面客户端，属类型/形态不符而保留来源，处理一致且未据此推断该类型无 SaaS 变体。",
+      "license_and_community_boundary": "通过。license 接口快照含完整 MIT 正文（base64 解码为『MIT License / Copyright (c) 2022 Isaiah Odhner』+ 完整授权与免责条款），与 API spdx_id=MIT、README『License』段（MIT）、About 页『Open source under the permissive MIT License』、应用内 About 对话框 MIT 链接一致；社区版边界：核心绘画功能全部在开源仓库内，多人协作依赖非开源 Firebase 且 README 已明示，batch 未将该功能计入条目能力。",
+      "source_integrity": "通过。REVIEW_SOURCES.json 所列 5 个快照按 path 原样读取且均存在，文件名即 sha256，与 batch.sources / research.fetch_outcomes 的 url、sha256、kind 一一对应；条目 source_urls 无未留档 URL；无简介或 Loading 页替代正文的情形。",
+      "gaps_recorded": "检索层面：GitHub 搜索两次 403 限流、about 尾斜杠 404 已如实留档并声明不作为不存在证据；未做运行时验证（runtime_tested=false），本轮亦不要求部署测试。"
+    }
+  },
+  "limits": "只读初审，未运行 shell、未写入文件、未读取本单元以外的条目或历史报告。仅核对本单元提供的 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 5 个快照（另注意到 sources/ 下存在若干未列入 REVIEW_SOURCES.json 的文件，属历史 Krita 复用来源，未作为本轮证据）。GitHub 仓库元数据与 license 快照为单行 JSON，读取工具对单行内容有 2000 字符显示截断，id、full_name、fork、license spdx_id 等关键字段已通过定向匹配确认，但未能逐字段通读完整 JSON（如 homepage、stars、default_branch 等字段未验证）。未做运行时/部署测试，服务可用性判断基于 2026-10-28 抓取的 jspaint.app 首页与 About 页快照及 README 部署说明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-019/ses_groveopendesignp019review1_1793153003.jsonl",
+  "batch_sha256": "0aeda903beb8d17df00c69c97f781fd85083812db7394684c32af9307013252c",
+  "research_sha256": "f86069dce7472a46a919f71da37a7bd21dd1f4f575c18a68f4df70d6977a6627",
+  "input_sha256": "cfd082859126fcc6dc6cfa647a395beffd2f7f56bbbac4a8615036ec7194873a"
+}

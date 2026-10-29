@@ -1,0 +1,89 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "film-production-management",
+      "application_id": "commercial:studiobinder",
+      "severity": "blocking",
+      "issue": "唯一被引用的快照是 StudioBinder 的 Call Sheet Software 功能页。正文只证明通告单可由项目/拍摄日程自动填充（天气、场地、停车、地图、日程、联系人），并支持短信/邮件分发及 sent/viewed/confirmed/undeliverable 跟踪；“Script Breakdowns”“Shooting Schedules”只出现在顶部导航；“条板/stripboard”在快照中没有出现。“场景—拍摄日程—通告单”的场景层核心没有正文依据，因此 batch summary 的“以剧本分解、条板拍摄日程和通告单为核心”和 research note 的“覆盖场景→拍摄日程→通告单核心”属于证据溢出；定义又明确排除单纯通告单生成器。",
+      "fix": "补充 StudioBinder 官方 Script Breakdowns 与 Shooting Schedules 页面快照，核对剧本场景分解、条板/日程编排到通告单的连续工作流；若补不到，则把 commercial:studiobinder 从 film-production-management 关系移除（或降为候选），并删去 summary/reason 中未证实的“剧本分解、条板”表述，只保留有正文支持的“项目/日程驱动的通告单分发”。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空、phase=included_without_cases；与本单元 batch/research 已记录的 5 个 case_found 不一致。若该 progress 会被下游消费，应同步；本次不据此否定 batch/research 内容。",
+    "GreenSlate 软件页直接证明应付账款、剧组支出、采购订单和薪资过账总账；周成本报告、预算与银行对账主要出现在同厂商服务页。按商业基本类型匹配通过，但不要把服务交付能力写成软件功能。",
+    "本单元 5 个条目均为 commercial，无开源条目；SBS（AGPL-3.0）仅预算/现金流工具、DMP（MIT）的版税功能仅到 CSV 报表/分配数据导出，均因核心不足留档为候选；影院/制片开源候选 license=null，未导入。社区版边界不适用。",
+    "Qlero 页面明确把 publishing rights、mechanical royalties、licenses 等列为 in development；这些不应写成现有能力，但不影响其版税结算核心。"
+  ],
+  "leaf_checks": {
+    "production-accounting-platform": {
+      "application_ids": [
+        "commercial:greenslate-production-accounting"
+      ],
+      "status": "pass_with_note",
+      "basis": [
+        "data/collections/sources/88cd23b67745560796372852e3ba1f949aebf816bb3b7b302639b3aacde359e0.txt",
+        "data/collections/sources/bbdbc2422dbacab3de754f1496fce125516bfb1b1426c2eb3ffb533d6449eb5b.txt"
+      ],
+      "core_evidence": "首页标题/hero 为 TV & Film Production Accounting Software、The New Standard for Production Accounting；四张功能卡为 Accounts Payable、Crew Expenditures、Purchase Orders、Crew & Cast Payroll（post payroll directly to the General Ledger）；客户引述提到可搜索/编辑的总账和 journal entries；服务页说明 production expenses/payroll 付款、weekly production cost reports、monthly bank reconciliations，并有 from budgeting ... to cost reporting 表述。",
+      "type_and_id": "batch id commercial:greenslate-production-accounting，track commercial；app.gslate.com 登录入口表明 SaaS 形态。",
+      "caveat": "预算 of record、EFC、预算 vs 实际成本报告的软件界面证据不足，周成本报告主要挂在服务页；按商业基本类型匹配通过，不阻断。"
+    },
+    "royalty-management-platform": {
+      "application_ids": [
+        "commercial:qlero-royalty-management"
+      ],
+      "status": "pass",
+      "basis": [
+        "data/collections/sources/804fc4fd708ea514642ad782c941cad039012a84a084939d561fb01fa31df279.txt"
+      ],
+      "core_evidence": "正文含 any CSV or Excel file 导入、tree-structured deal models 的 advances/recoupments、sub-publisher 链条、source-level detail 报表、draft, review, publish, and close、Periods that close and stay closed、审计日志、self-bill invoicing 与 payment-file export；收款人合并余额被写成 goal。",
+      "type_and_id": "batch id commercial:qlero-royalty-management，track commercial；app.qlero.io 登录与定价页表明 SaaS。",
+      "caveat": "publishing rights/mechanical licensing 等明确 in development；不影响合同条款→计算→报表→支付→期间关闭核心。"
+    },
+    "cinema-management-system": {
+      "application_ids": [
+        "commercial:vista-cinema"
+      ],
+      "status": "pass",
+      "basis": [
+        "data/collections/sources/557d8745b75d3c5107af58550befad7f299ffdc7b1b93a3146d5b411b22bb800.txt",
+        "data/collections/sources/961e177e5e12eaba6054b1b332a6061fb3b9d416c8444dcf244d74e3f9eff79c.txt"
+      ],
+      "core_evidence": "Operational Excellence 页面列出 Head Office、Cinema Manager、POS、CashDesk、Film Manager、Film Hire、Food & Beverage；On-site 覆盖 sales、stock management、box office、cash flow、reporting、ticket validation；Film 部分覆盖排片/上座预测/排片优化；961e 进一步说明 Film Manager/Assisted Scheduling 与发行协议约束。",
+      "type_and_id": "batch id commercial:vista-cinema，track commercial；Vista Cloud/home.app.vista.co 表明 SaaS。",
+      "caveat": "页面未逐项展开 auditorium/seat layout 与 session 对象；但业务系统核心足以支持商业类型匹配。"
+    },
+    "cinema-scheduling-application": {
+      "application_ids": [
+        "commercial:filmgrail-planning-tool"
+      ],
+      "status": "pass",
+      "basis": [
+        "data/collections/sources/7a22b986b8affc384c2b934311b2cbc6d7fe744b6dc77194d551a60da7148d65.txt",
+        "data/collections/sources/fdec283dd88152d339eedcad6890339211c7283fd87cc01caf657be9a349c963.txt"
+      ],
+      "core_evidence": "planning tool 页面自称 cinema scheduling software，按影厅/日期铺排每周节目，发布 showtimes 到网站、应用和 listings；FAQ 明确不替代 theatre management/POS，而是与 ticketing/back-office 集成；首页说明其为影院数字平台的一部分。",
+      "type_and_id": "batch id commercial:filmgrail-planning-tool，track commercial；Web/iOS/Android 与按屏定价表明 SaaS。",
+      "caveat": "它从既有 POS 读取 programme、seat maps、ticket types、pricing，属于排片/发布层而非售票结算；与叶边界一致。"
+    },
+    "film-production-management": {
+      "application_ids": [
+        "commercial:studiobinder"
+      ],
+      "status": "changes_required",
+      "basis": [
+        "data/collections/sources/29be519dcb8009b12461d83b14acfd6238f0204ee7fce0fcd94f8ad924c37439.txt"
+      ],
+      "core_evidence": "Call Sheet Software 页面：call sheets automatically populated with details from your project — weather, shoot locations, parking notes, map links, schedules, contact info；SMS/email 分发；dashboard 跟踪 sent/viewed/confirmed/undeliverable；页面称 call sheet maker 是 suite 的一部分；导航列出 Script Breakdowns、Shooting Schedules。",
+      "type_and_id": "batch id commercial:studiobinder，track commercial；app.studiobinder.com 注册/登录表明 SaaS；产品身份真实。",
+      "gap": "正文没有剧本分解、场景、条板/stripboard 的工作流描述；这些只在导航/套件措辞中出现，不能证明 scene→shooting schedule→call sheet 核心，也无法排除单纯通告单生成器。"
+    }
+  },
+  "limits": "只读独立初审；未运行、部署或登录任何产品，未做运行时测试。未重算 SHA-256，仅核对快照文件名与 batch/REVIEW_SOURCES 的 sha256 一致。Qlero/Vista 等为单行压缩 HTML，未执行 JS，正文以快照内精确字符串/段落核对。研究记录中的开源候选（SBS、DMP、影院/制片仓库）不在 REVIEW_SOURCES 的 8 个正式快照清单内，其许可证与排除理由按 research.json 留档及候选快照抽查采信，未重抓全部候选。未补充价格、架构或部署研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-248/ses_groveopencodegop248review2_1793037774.jsonl",
+  "batch_sha256": "409dfb8e00800992e1a289dc59f3a1ecc8d4d4f022c737348fe8a7de2f6ed64f",
+  "research_sha256": "2ac62de543ec6e822fe85632c2a2f2a0458eead01c686d77d1c15e7b2a185192",
+  "input_sha256": "18da4f931116a35fbee168fcb7613ef7e41a304c2775c82bd863fb8f26438b66"
+}

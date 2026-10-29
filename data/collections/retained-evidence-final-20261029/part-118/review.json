@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 数组为空（snapshot_base 仍为 data/collections），与 batch.json、research.json 中 20 份快照索引不一致。batch.json 的 note 已说明该文件由工作区只读控制、本轮未写入；本次按 batch.json 中显式列出的 path 原样读取全部 20 份快照，未猜测路径，故不影响内容结论。建议后续重新生成统一 manifest，便于追溯。",
+    "Meshery 首页快照偏营销与导航，核心边界证据主要来自 architecture 页面与 Istio adapter 页面；research.json 对 Meshery 的表述已正确限定为“管理平台，而非网格控制平面”，无需修改。",
+    "Kiali 的 README 快照为 GitHub contents API 的 base64 内容，仓库身份与许可证另由 metadata/LICENSE 快照核对；其管理控制台身份另有 features、topology、configuration、security 文档正文佐证。",
+    "Istio、Meshery、Kiali 均为自托管开源项目；Meshery Cloud 等托管形态明确未核实，留档未推断此类 SaaS 不存在，符合 boundary_unresolved 的处理方式。",
+    "research.json 已如实说明 current_round 快照的 fetched_at 取自本地 mtime、原始 HTTP 状态未单独留收据，且复用 Istio 历史快照时保留原收据；这些缺口记录不阻断本次初审。",
+    "Meshery Adapter for Istio 页面可证明 Istio 生命周期管理、工作负载管理、sidecar 注入与策略配置能力，但并不证明 Meshery 自身即服务网格控制平面；现有研究结论未越过这一界线。"
+  ],
+  "leaf_checks": {
+    "service-mesh-management": {
+      "slug": "service-mesh-management",
+      "assessment": "boundary_unresolved",
+      "applications_reviewed": [],
+      "entries_reviewed": 0,
+      "sources_checked": 20,
+      "definition_core_check": "读取 Istio Traffic Management、Security、About service-mesh 正文：服务注册/服务图、VirtualService/DestinationRule 路由与流量切分、重试/超时、mTLS、身份与授权策略均有实质说明，支持本叶“被管理的网格 + 带身份服务图 + 声明式东西向策略”的定义核心；但证据主体是自托管控制平面/基础设施，而非独立应用服务。",
+      "saas_form_check": "Istio 为开源服务网格基础设施；Meshery 为自托管云原生管理平台，通过 Adapter 安装和管理 Istio；Kiali 为运行在集群内或作为 Istio add-on 的管理控制台。三者官方资料均未证明存在以账户持续使用的托管 SaaS 形态；Meshery Cloud 未核实且未作否定结论。",
+      "id_track_check": "input.json 的 application_ids 为空，batch.json 的 entries 为空，research.json 的 case_ids 为空；本叶没有产品条目，因此没有 application_id 或产品轨道可核。",
+      "license_check": "三个仓库的 GitHub 元数据与 LICENSE 快照一致：istio/istio id=74175805、meshery/meshery id=157554479、kiali/kiali id=120181748；三份 LICENSE 均为 Apache License 2.0 全文快照（GitHub contents API，解码后约 11.3KB），不是仅元数据或摘要。",
+      "community_edition_boundary_check": "因未建立开源产品条目，未出现社区版/商业版边界声明；Meshery Cloud 等托管形态明确未核实，未把未验证形态写成社区版边界事实。",
+      "source_integrity_check": "batch.json、research.json 与 data/collections/sources/ 下实际文件一一对应，20 个文件名与记录 sha256 字段一致；无缺失快照，未见 Loading、错误页或仅用元数据替代核心正文的情况。",
+      "conclusion": "无案例，但检索、抓取、来源与边界缺口记录完整；将 Istio、Meshery、Kiali 保留为边界未决候选而不建立产品关系，符合当前证据，可通过初审。",
+      "gaps": "未部署运行、未核实托管 SaaS（含 Meshery Cloud）、未补采商业替代品；REVIEW_SOURCES.json 的 sources 为空，追溯入口依赖 batch.json 与 research.json。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或注册任何服务，也未重新计算 sha256 或独立复核 HTTP 状态；快照 fetched_at、sha256 与 200 状态沿用采集记录（current_round 的 fetched_at 来自本地 mtime，已在 research.json 说明）。REVIEW_SOURCES.json 的 sources 为空，故按 batch.json 与 research.json 中显式列出的 20 个 path 原样读取，未猜测路径；长 HTML 单行快照由读取器截断，核心段落通过分段读取与检索核对。未做价格、托管服务条款或额外商业替代品研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-118/ses_groveopencodegop118review2_1793246502.jsonl",
+  "batch_sha256": "c278e1f0ffb253bc5d8a577d2473db3b37bcf2d3c1268d81a52a3ec3d312d089",
+  "research_sha256": "417e6739600b15a4d3ed97b6e663528aab3ef2b9c0e61cdeb640a11c4bcc5389",
+  "input_sha256": "c4adb3a7ee1f566d3430307c74e73202a7a39478730b9add2382e39761f48078"
+}

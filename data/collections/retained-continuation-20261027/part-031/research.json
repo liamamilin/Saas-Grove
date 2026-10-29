@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "e-commerce-fulfillment-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:shipbob"
+      ],
+      "query": "复核 ShipBob 官方首页快照（2026-10-24 抓取）中 200+ 零售渠道、50+ 履约中心与集成表述，收窄 reason 中“50+ 集成”“同步商品”的措辞",
+      "source_urls": [
+        "https://www.shipbob.com/"
+      ],
+      "note": "ShipBob 属履约服务的运营极点：卖家自有库存寄入其履约中心，拣货、打包、发货由服务商员工执行，卖家通过平台管理。读取原快照并抽取正文复核：原文为 '200+ Retail channels supported'、'50+ Fulfillment centers across the world'，集成句为 'Connect your ecommerce platform, sales channels, ERP, and dozens of other tools'；另有 App Store '50+ few-click integrations' 一句，但为避免与履约中心数字混淆，reason 不再引用该数字。此前 note 称正文未见“同步商品”有误：首页原文有 'Connect your store and sync your products in a couple clicks.'；本批 reason 未使用“同步商品”概括，故无需据此扩写。页面仍未逐项说明挂单（hold）、库位级分配与“渠道完成回传”机制，属证据缺口；未据此扩写。",
+      "service_boundary": "卖家端履约管理；库存归卖家所有，由服务商在自有履约中心存储与作业，履约动作由服务商执行而非卖家自营仓库。",
+      "search_attempts": [
+        {
+          "engine": "websearch",
+          "query": "open source order fulfillment management software self-hosted pick pack ship",
+          "result": "候选为 Fleetbase、OpenBoxes、Pyck、SKUSavvy 等；OpenBoxes 已在共享库以仓库管理（WMS）收录，Fleetbase 与 Pyck 未在本批取得官方仓库/许可证正文，故不据此新增条目"
+        },
+        {
+          "engine": "official-source",
+          "query": "复核已保存的 ShipBob 官方首页快照并重新抓取 https://www.shipbob.com/ ，核对渠道接入、自有库存入库、拣货/打包/发货表述",
+          "result": "已取得并阅读官方首页正文，确认渠道接入、库存寄入、拣打包与退货均由履约网络执行"
+        },
+        {
+          "engine": "snapshot-recheck",
+          "query": "读取 data/collections/sources/136be9ba2057483362ef244cb5fb7ae6427a4f19182c591d333758c78b2cca7f.txt，抽取正文核对 '200+ Retail channels'、'50+ Fulfillment centers'、'50+ few-click integrations' 与 'Connect your ecommerce platform, sales channels, ERP...'",
+          "result": "确认 200+ 零售渠道与 50+ 履约中心为原文；另有 App Store 50+ few-click integrations，但按初审要求不在 reason 使用该数字；并确认 'Connect your store and sync your products in a couple clicks.' 与 'Connect your ecommerce platform, sales channels, ERP...' 均为原文，前轮“同步商品无原文”的记录已更正"
+        },
+        {
+          "engine": "snapshot-recheck",
+          "query": "回读 ShipBob 首页快照，复核 'sync your products' 与 '50+ few-click integrations' 的原文及语境",
+          "result": "确认正文有 'Connect your store and sync your products in a couple clicks.'；50+ 在正文分别指履约中心与 App Store 集成，reason 继续只用 50+ 履约中心，避免混用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.shipbob.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "136be9ba2057483362ef244cb5fb7ae6427a4f19182c591d333758c78b2cca7f",
+          "snapshot_path": "sources/136be9ba2057483362ef244cb5fb7ae6427a4f19182c591d333758c78b2cca7f.txt",
+          "note": "HTTP 2xx 且正文有效，已保存不可变快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "order-fulfillment-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fulfil"
+      ],
+      "query": "复核已保存的 Fulfil 官方首页快照并重新抓取 https://www.fulfil.io/ ，核对多渠道订单、多仓库存与仓库拣打包表述",
+      "source_urls": [
+        "https://www.fulfil.io/"
+      ],
+      "note": "Fulfil 为商户端订单/库存/仓库运营系统，覆盖多渠道订单接入、多仓库存与条码/批次/波次拣货，并可向 3PL 路由发货。官方首页以 'Full WMS'、'Barcode scanning. Batch picking. Wave releases.'、'Ship faster' 展示仓库作业，未逐字使用“打包”；summary/reason 已收窄为“拣货与发货作业”。官方首页未展示面单与追踪号生成、挂单（hold）机制，属证据缺口。",
+      "service_boundary": "商户自履约为主，也可向 3PL 路由发货。",
+      "search_attempts": [
+        {
+          "engine": "official-source",
+          "query": "复核已保存的 Fulfil 官方首页快照并重新抓取 https://www.fulfil.io/ ，核对多渠道订单、多仓库存与仓库拣打包表述",
+          "result": "已取得并阅读对应官方页面正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.fulfil.io/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "46d11009a4076e77678d9bb7216dd94545c3fd9067f3831d8d054f80cc412c15",
+          "snapshot_path": "sources/46d11009a4076e77678d9bb7216dd94545c3fd9067f3831d8d054f80cc412c15.txt",
+          "note": "HTTP 2xx 且正文有效，已保存不可变快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "returns-exchange-portal",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:loop-returns"
+      ],
+      "query": "复核 Loop 官方 /returns/ 快照并新增抓取 /faq/、官网首页与官方文档（Deep Link、Return Actions），核对自助退货门户、政策自动判定、换货/商店积分/即时退款与退货方式原文",
+      "source_urls": [
+        "https://www.loopreturns.com/returns/",
+        "https://www.loopreturns.com/faq/",
+        "https://www.loopreturns.com/",
+        "https://docs.loopreturns.com/integration-guides/deep-link.md",
+        "https://docs.loopreturns.com/integration-guides/return-actions.md"
+      ],
+      "note": "原有 /returns/ 快照为单行 Next.js HTML；去除 script/style 与 HTML 标签后正文可读，关键原文为 'an ecommerce returns portal that decides the right outcome automatically'、'customize your return policy settings across different regions, warehouses, products'、'exchanges and store credit instead of refunds'、'Customers that get an Instant Refund...'、'Offer flexible shipping & drop-off options ... multiple global carriers ... POS ... Happy Returns'。该页 FAQ 区块同时有 'Loop Returns is a self-service returns portal that automates your entire ecommerce returns process, from policy enforcement to resolution'；此前 repair 轮误将该句归到 /faq/ 快照，本轮回读 /faq/ 未检出该句或 'self-service returns portal'、'policy enforcement'，已把归属改回 /returns/。/faq/ 可核内容为 'Our self-service portal manages returns and exchanges without support involvement'、'checks return eligibility' 与 'full customization of return windows, product eligibility, geographic rules, fees, and exchange logic'；官网首页为 'Returns guides shoppers to exchanges or store credit instead of refunds'。另抓取两份官方文档；Deep Link 文档标题为 'Deep Link to a Customer Order in the Return Portal'，说明可将顾客直接带入其订单的退货门户；Return Actions 文档说明 Process Return 触发 refunds/exchanges/store credits，Flag 阻止自动处理并转人工复核。购物者侧生命周期展示与礼品退货流程在正文未见，留作缺口。",
+      "service_boundary": "面向购物者的自助退货换货界面；商家侧在后台处理、复核并执行退款/换货/商店积分等结果。",
+      "search_attempts": [
+        {
+          "engine": "official-source",
+          "query": "复核 Loop Returns 官方退货页快照并重新抓取 https://www.loopreturns.com/returns/ ，核对自助门户、政策判定与换货/商店积分",
+          "result": "已取得并阅读对应官方页面正文"
+        },
+        {
+          "engine": "snapshot-recheck",
+          "query": "读取 data/collections/sources/54209f066f7985642704d5b41ad00a98c899f9a777791b310f69d9609dddc791.txt，去除 script/style 与标签后抽取正文，核对自助门户、政策、换货/商店积分/即时退款原句",
+          "result": "正文可读，确认 'ecommerce returns portal that decides the right outcome automatically'、'customize your return policy settings across different regions, warehouses, products'、'exchanges and store credit'、'Instant Refund' 等原文"
+        },
+        {
+          "engine": "official-source",
+          "query": "重新抓取 https://www.loopreturns.com/faq/ 并读取正文，核对 self-service returns portal 与 policy enforcement to resolution",
+          "result": "HTTP 2xx，已保存快照；回读该快照未检出 'Loop Returns is a self-service returns portal ... from policy enforcement to resolution'，也未检出 'self-service returns portal' 或 'policy enforcement'，该归属有误；/faq/ 实际可核 'Our self-service portal manages returns and exchanges without support involvement' 与 'checks return eligibility'"
+        },
+        {
+          "engine": "official-source",
+          "query": "重新抓取 https://www.loopreturns.com/ 并读取正文，核对 exchanges/store credit 表述",
+          "result": "HTTP 2xx，已保存快照；首页原文明确 'Returns guides shoppers to exchanges or store credit instead of refunds'"
+        },
+        {
+          "engine": "official-source",
+          "query": "抓取 https://docs.loopreturns.com/integration-guides/deep-link.md，核对 customer return portal 与订单直达",
+          "result": "HTTP 2xx，text/markdown 纯文本；标题与正文确认 'Deep Link to a Customer Order in the Return Portal'，顾客可被直接带入其订单的退货门户"
+        },
+        {
+          "engine": "official-source",
+          "query": "抓取 https://docs.loopreturns.com/integration-guides/return-actions.md，核对退款/换货/商店积分与人工复核",
+          "result": "HTTP 2xx，纯文本；确认 Process Return 触发 refunds/exchanges/store credits，Flag 阻止自动处理并转人工复核"
+        },
+        {
+          "engine": "snapshot-recheck",
+          "query": "回读 Loop 的 /returns/ 与 /faq/ 两份快照，核对 'Loop Returns is a self-service returns portal ... from policy enforcement to resolution' 的实际出处",
+          "result": "该句在 /returns/ 快照的 FAQ 区块命中（'FREQUENTLY ASKED QUESTIONS ... What is Loop Returns? ...'），/faq/ 快照未命中；已将 batch reason 与 research note 的归属改为 /returns/，/faq/ 仅保留其实际可核表述"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.loopreturns.com/returns/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "54209f066f7985642704d5b41ad00a98c899f9a777791b310f69d9609dddc791",
+          "snapshot_path": "sources/54209f066f7985642704d5b41ad00a98c899f9a777791b310f69d9609dddc791.txt",
+          "note": "HTTP 2xx 且正文有效，已保存不可变快照"
+        },
+        {
+          "url": "https://www.loopreturns.com/faq/",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "6d6482db6528632fac99df8050ab890b708ddd9ae27fb9ca4da577de70f10f69",
+          "snapshot_path": "sources/6d6482db6528632fac99df8050ab890b708ddd9ae27fb9ca4da577de70f10f69.txt",
+          "note": "HTTP 2xx 且正文可抽取，已保存不可变快照；该快照未含 self-service returns portal/policy enforcement 整句，相关引文应归 /returns/"
+        },
+        {
+          "url": "https://www.loopreturns.com/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "13456df66b5dbfc1a34f960df68dc1d54509a3ae5fc04d6e6080d42992004d0d",
+          "snapshot_path": "sources/13456df66b5dbfc1a34f960df68dc1d54509a3ae5fc04d6e6080d42992004d0d.txt",
+          "note": "HTTP 2xx 且正文可抽取，已保存不可变快照"
+        },
+        {
+          "url": "https://docs.loopreturns.com/integration-guides/deep-link.md",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "cc2da5ecf4ee1acedeea63f5ee7257cbd333d8d1f40dec0f3674a727dfd3d114",
+          "snapshot_path": "sources/cc2da5ecf4ee1acedeea63f5ee7257cbd333d8d1f40dec0f3674a727dfd3d114.txt",
+          "note": "HTTP 2xx，text/markdown 纯文本且正文可读，已保存不可变快照"
+        },
+        {
+          "url": "https://docs.loopreturns.com/integration-guides/return-actions.md",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "9c871cfd5e9933281121e61c1d18aa4a5c5b3d53628824ac14a4ceedb1c1db49",
+          "snapshot_path": "sources/9c871cfd5e9933281121e61c1d18aa4a5c5b3d53628824ac14a4ceedb1c1db49.txt",
+          "note": "HTTP 2xx，text/markdown 纯文本且正文可读，已保存不可变快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "returns-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:reverselogix"
+      ],
+      "query": "复核 ReverseLogix 官方平台页快照并重新抓取 https://www.reverselogix.com/platform/ ，核对 RMA、收货检验、处置与退款回写",
+      "source_urls": [
+        "https://www.reverselogix.com/platform/"
+      ],
+      "note": "ReverseLogix 以 RMA 为商家侧工作记录，覆盖授权、收货检验、分级处置与退款/回写。独立初审未提出该叶阻断问题；页面未展示部分收货与部分入库的数量台账细节，保留为证据缺口。",
+      "service_boundary": "商家侧退货运营，含保修与维修。",
+      "search_attempts": [
+        {
+          "engine": "official-source",
+          "query": "复核 ReverseLogix 官方平台页快照并重新抓取 https://www.reverselogix.com/platform/ ，核对 RMA、收货检验、处置与退款回写",
+          "result": "已取得并阅读对应官方页面正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.reverselogix.com/platform/",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "1f6870e8e858ce960cd20dedfa190ce5b6126d95e63a3db1434d951f46442e19",
+          "snapshot_path": "sources/1f6870e8e858ce960cd20dedfa190ce5b6126d95e63a3db1434d951f46442e19.txt",
+          "note": "HTTP 2xx 且正文有效，已保存不可变快照"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "mobile-pos",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:loyverse"
+      ],
+      "query": "复核 Loyverse 官方首页快照并重新抓取 https://loyverse.com/en-us ，核对手机/平板收银、目录、小票与离线销售",
+      "source_urls": [
+        "https://loyverse.com/en-us"
+      ],
+      "note": "Loyverse 在自有手机/平板上运行，首页明确 'Transform your smartphone or tablet into an easy-to-use point of sale'、打印/电子收据、折扣与退款、离线记账、Tap to Pay/读卡器收款，并可管理 items 与客户；符合移动 POS 的核心工作流。首页未逐字展示卖家定价商品目录（价格/税率）与设备上组单计价的完整流程，reason 已收窄，不再写“五项属性均符合”。未核验硬件配件清单与权限分级细节。",
+      "service_boundary": "小微商户与门店员工自带设备收银。",
+      "search_attempts": [
+        {
+          "engine": "official-source",
+          "query": "复核 Loyverse 官方首页快照并重新抓取 https://loyverse.com/en-us ，核对手机/平板收银、目录、小票与离线销售",
+          "result": "已取得并阅读对应官方页面正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://loyverse.com/en-us",
+          "kind": "homepage",
+          "status": "ok",
+          "sha256": "069f64210d3385388d95b46ed347684869dfe06227e7f178388cf5edd398a343",
+          "snapshot_path": "sources/069f64210d3385388d95b46ed347684869dfe06227e7f178388cf5edd398a343.txt",
+          "note": "HTTP 2xx 且正文有效，已保存不可变快照"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

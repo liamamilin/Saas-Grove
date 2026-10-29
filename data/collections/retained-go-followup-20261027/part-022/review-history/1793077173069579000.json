@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "bibliometrics-platform",
+      "application_id": "commercial:scopus",
+      "issue": "The only cited snapshot is the Elsevier Scopus product homepage. Its captured text identifies Scopus as an 'abstract and citation database' and mentions author profiles and author searches, but it does not evidence the leaf's defining analytics layer: no citation-derived quantitative indicators, no entity-level aggregation for evaluation, and no comparative or benchmarking analysis. The batch and leaf_matches claim that the page shows citation indicators and analysis/comparison, but that claim is not supported by the snapshot. The leaf definition explicitly treats a citation database as the data substrate and a bibliometrics platform as the analytics layer built on it, so this is a core type-match gap, not a wording issue.",
+      "fix": "Add and register an official Scopus source section that documents the analytics core (for example CiteScore/metrics, Analyze search results, Compare sources or institutions, or research-performance analysis), or replace the case with a documented bibliometrics platform such as SciVal. Then align the entry summary, features and leaf_matches reason with the actual captured evidence."
+    }
+  ],
+  "non_blocking_notes": [
+    "OJS: the collection could not use docs.pkp.sfu.ca because of an Anubis challenge and instead used PKP's official pkp-docs Markdown chapters. This is an adequate official-source workaround and is recorded in research.json.",
+    "Internet Archive Scholar: the README calls the license file 'LICENSE.md' and says 'APGL 3+', while the saved file is LICENSE.AGPLv3.txt with complete AGPLv3 text. This is a documentation typo, not a license defect.",
+    "IACUC: the app is explicitly a non-production demo with no login; access.js permits any caller to self-declare an X-Actor persona and audit.js records ordinary writes as 'system'. The batch and research already scope the case to a demo/protocol-workflow prototype; it should not be promoted to institution-grade authorization or compliance audit. If the catalog requires a production service, consider a replacement case.",
+    "eLabFTW: the README documents trusted/blockchain timestamping and advanced permissions but does not document version history, an audit trail, or signing/witnessing. The research note records this limitation. Adding official documentation on revisions, audit logs and signatures would strengthen the core match; the current match should not claim those unproven features.",
+    "eLabFTW: the README mentions Deltablot commercial support/hosting and a registered trademark. The source is AGPL-3.0 and no feature-gated community edition is documented; this appears to be a support/hosting boundary rather than an open-core split.",
+    "Scopus: the saved homepage is a partial JS-rendered capture. The finding concerns the snapshot evidence, not a claim that the live Scopus product lacks analytics.",
+    "Bibliometrix: research.json cites bibliometrix metadata and license URLs, but those files are not registered in REVIEW_SOURCES.json. The negative decision is recorded, but I did not rely on unregistered snapshots for the leaf conclusions.",
+    "No runtime deployment or live interaction was performed; the review is based only on the saved snapshots listed in REVIEW_SOURCES.json."
+  ],
+  "leaf_checks": {
+    "academic-journal-management": {
+      "status": "pass",
+      "basis": "Read the OJS repository metadata, README and LICENSE, plus PKP official editorial-workflow chapters for index, submission, review, copyediting, production and publication. The chapters show journal-scoped staged work: editor assignment and desk decisions, reviewer assignment and status tracking, revision rounds, recorded decisions, copyediting, galleys, issue creation/publication, and versioning for corrections. Repo id 375152 matches github:375152; the LICENSE snapshot contains GPL-3.0 text.",
+      "gap": ""
+    },
+    "academic-search-engine": {
+      "status": "pass",
+      "basis": "Read the fatcat-scholar GitHub API metadata, README and AGPL-3.0 license. The README identifies the repository as the source for scholar.archive.org, a full-text web search interface over 25+ million open research papers; it describes a pipeline converting fatcat release/work entities into Elasticsearch index documents and a web interface that parses queries and formats results with highlights and thumbnails. Repo id 300025829 matches github:300025829; the saved AGPL-3.0 text is complete.",
+      "gap": ""
+    },
+    "animal-research-ethics-iacuc-platform": {
+      "status": "pass_with_limitation",
+      "basis": "Read the IACUC repository metadata, Apache-2.0 license API response, README, ROADMAP, and the amendments, pam, facilities, access and audit route sources. README and routes show Appendix A protocol intake, FCR/DMR committee review, reviewer assignments, comments and votes, approval state, animal-use ledger, personnel compliance, amendments with protocol versioning, continuing/de novo review, incident/CAPA handling, and facility inspections. Repo id 1314262819 matches github:1314262819; the Apache-2.0 content is present (size 11357).",
+      "gap": "The only hosted instance is a demo explicitly not for production, with public daily-reset data; access is self-declared X-Actor without authentication, and ordinary audit entries default to 'system'. The core workflow is documented, but the leaf's 'institutional authorization' and 'everything is attributed' rule is not met at production grade. This limitation is already recorded in batch/research."
+    },
+    "bibliometrics-platform": {
+      "status": "blocked",
+      "basis": "Read the only cited snapshot, the Elsevier Scopus product homepage. The visible text identifies Scopus as an 'abstract and citation database' and mentions author profiles and author searches (19.5M+ profiles), but does not document citation-derived quantitative indicators, entity-level aggregation for evaluative analysis, or comparative/benchmarking output. The leaf definition explicitly separates the citation database (data substrate) from the bibliometrics platform (analytics layer).",
+      "gap": "Core analytics layer and comparative/evaluative evidence are missing from the snapshot."
+    },
+    "electronic-lab-notebook-eln": {
+      "status": "pass_with_limitation",
+      "basis": "Read the eLabFTW repository metadata, AGPL-3.0 license and README. The README describes a browser-based electronic lab notebook for research teams, storing and organizing experiments and a resource database, with trusted/blockchain timestamping, advanced permissions, import/export and multi-team installation. Repo id 7167597 matches github:7167597; the saved AGPL-3.0 text is complete. The match relies on these documented notebook, timestamping and permission features.",
+      "gap": "The README is a feature list and does not explicitly document version history, an audit trail, or signing/witnessing. The research note records this; the current match does not claim those unproven behaviors."
+    }
+  },
+  "limits": "Read-only review of this unit's input.json, batch.json, research.json and the snapshots registered in REVIEW_SOURCES.json; no shell, no writes, no deployment or live browsing, and no other units. The Scopus homepage snapshot is a partial JS-rendered capture with no analytics section, so the bibliometrics core could not be verified. The bibliometrix snapshots referenced in research.json are not registered in REVIEW_SOURCES, so those negative claims were not independently re-read. eLabFTW's official revision/audit/signing documentation was not supplied. All conclusions are limited to the saved snapshots actually read.",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-080/ses_groveopencodegop080review2_1792995252.jsonl",
+  "batch_sha256": "599b3bc3bb057f21b10617dc8a3e9bbf272301cd53a9d8ce36b9afd9255097ea",
+  "research_sha256": "82adda56efc564571f09ae5c6345faf5e9f079eefbb7c647dfd13278adaaea00",
+  "input_sha256": "980eb3ee8f32f9549ef6ce524c792485410b091789c217205b5b16991f847936"
+}

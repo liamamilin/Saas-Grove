@@ -1,0 +1,55 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Databricks 条目主要依据官方产品页和营销页（Lakehouse Storage、Unity Catalog），足以满足商业条目的基本真实性与类型匹配；其中“细粒度治理”“REST/开放 API”等细节属于厂商页面表述，未作为独立深度技术核验。",
+    "Dremio Enterprise 的 Sonar 文档同时列出 Reflections 物化加速；条目已把虚拟化主张限定为外部源连接、持久虚拟视图与查询时求值，不应理解为完全无物化或完全无自有表。",
+    "phpMyAdmin 属边界案例：其核心证据集中在服务器信息、status/variables、服务器维护和用户/权限管理；快照未证明重启/停止、备份、会话管理等部署生命周期能力，条目已避免这些主张。",
+    "Qualitis 的用户手册较薄，规则定义、调度和报告主要依据 README；快照未明示结果历史趋势，条目未作该主张。",
+    "phpMyAdmin 的许可证标为 GPL-2.0，README 同时说明新贡献采用 GPLv2-or-later；如需更精确的 SPDX 标识可写 GPL-2.0-only 或 GPL-2.0-or-later，但不影响本次开源许可证识别。",
+    "Databricks 的 unity-catalog 来源在 REVIEW_SOURCES.json 中标为 documentation，实际为产品页；商业条目按基本真实性通过，来源类型标签可在后续批次中更精确。"
+  ],
+  "leaf_checks": {
+    "data-integration-platform": {
+      "application_id": "github:27911088",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 明确 Apache NiFi 用于处理与分发数据，提供浏览器界面的设计、控制、监控、版本化管道和可搜索溯源；用户指南正文给出 Processor、FlowFile、Connection 队列、Timer/CRON/Event 调度、运行监控与组件版本化；组件页列出数据库、Kafka、JMS、MQTT、SFTP、S3 等外部连接组件。LICENSE 快照为 Apache License 2.0，仓库 ID 27911088 与条目一致。",
+      "gaps": "未做运行时测试；NiFi 的“连接”以 Processor/Controller Service 实现，并非名为 connection 的外部配置对象，条目已按此表述。"
+    },
+    "data-lake-platform": {
+      "application_id": "commercial:databricks",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "Lakehouse Storage 官方产品页正文称以 Delta Lake 或 Apache Iceberg 开放表格式保存一份源数据、可被任意引擎访问，并有单一 catalog 用于发现与治理；Unity Catalog 页正文称一个 catalog 管理数据与 AI 资产、跨云治理与发现。存储、目录、受治理多引擎访问三项核心均有官方正文，商业条目满足基本真实性与类型匹配。",
+      "gaps": "产品页为营销正文，未提供逐项权限或 REST 细节的深度技术文档；未做运行时测试；“细粒度”等措辞按厂商表述保留。"
+    },
+    "data-quality-platform": {
+      "application_id": "github:223347908",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 说明 Qualitis 是数据质量管理平台，支持单表、多表、自定义质量模型，提供空值、枚举、数字等预置校验模板，并支持模型调度、质量报告、异常数据与日志；用户手册说明质量模型定义、结果可视化与监控；Quick Deploy 说明 Spring Boot、MySQL、Linkis/Spark 的自托管形态。LICENSE 快照为 Apache License 2.0，仓库 ID 223347908 与条目一致。",
+      "gaps": "用户手册内容较薄，规则执行和结果细节主要来自 README；快照未明示结果历史趋势，条目未作该主张；未做运行时测试。"
+    },
+    "data-virtualization-platform": {
+      "application_id": "commercial:dremio-enterprise",
+      "track": "commercial",
+      "result": "pass",
+      "basis": "25.x Sonar 概览称其为 lakehouse query engine，可查询 lakehouse、数据库与数据仓库；Connecting to Your Data 列出对象存储、关系数据库与 metastore，并说明可在已连接的 Dremio Enterprise 集群间联邦查询；Datasets 说明表不可被 Sonar 修改、view 不是数据副本且始终反映父表状态；平台页将 Dremio Enterprise 列为自管理软件，将 Community Edition 列为免费查询引擎，条目未混用 OSS 或 Cloud 身份。",
+      "gaps": "Sonar 同时提供 Reflections 物化加速，条目已限定虚拟化主张；25.x 文档为特定版本，未做运行时测试；企业版身份主要依据数据源页的 Enterprise 集群表述与平台页分列。"
+    },
+    "database-management-console": {
+      "application_id": "github:3217621",
+      "track": "open_source",
+      "result": "pass",
+      "basis": "README 称 phpMyAdmin 是 MySQL/MariaDB 的 Web 管理界面；docs/intro.rst 说明其用于管理 MySQL/MariaDB 服务器，支持服务器、数据库与表的维护、多服务器管理、用户账户与权限管理；docs/config.rst 的 ShowServerInfo 可在主页面显示 detailed server information，DefaultTabServer 可选 status、variables、privileges；docs/privileges.rst 说明用户与权限由 MySQL 判定。LICENSE 快照为 GPLv2，仓库 ID 3217621 与条目一致。",
+      "gaps": "边界案例：phpMyAdmin 仍有较强的 schema、SQL 与数据功能；快照未证明重启/停止、备份、会话管理等部署生命周期能力，条目已避免这些主张；未做运行时测试。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未做部署或运行时测试、未重新计算快照 SHA-256；快照按 REVIEW_SOURCES.json 的 path 原样读取，HTML 页面按可见正文与章节核对，长行页面存在截断，未逐字复核全部营销文案；未读取其他单元、采集脚本或历史过程文件。input.json 的 progress.application_ids 为空且 phase 为 included_without_cases，与 research.json/batch.json 的 case_found 不一致，本次以 batch.json、research.json 及实际引用快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-009/ses_groveopencodegop009review1_1793074896.jsonl",
+  "batch_sha256": "a7e51d3a56de10d2a54612b7e1eb6e56c5e83cb214f9045332b543661cdd1bf5",
+  "research_sha256": "11ba98dc5be839a60c3f1d76ae97df227dccd17bf3c35d5aee24cf9383e09435",
+  "input_sha256": "668d15b8e732713d79f3f4d249d64ebb405119b320aa8a494dddb43d5926ec94"
+}

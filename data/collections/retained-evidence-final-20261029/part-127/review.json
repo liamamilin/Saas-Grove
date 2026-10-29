@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "network-security-platform",
+      "note": "input.json 仍为 phase=included_without_cases、application_ids=[]、case_status=boundary_unresolved，而 research.json 与 batch.json 已记录 case_found 并纳入 github:27965134。内容证据本身支持纳入，但建议在单元输入/进度元数据中同步该状态，避免下游把本叶误当作无案例叶。"
+    },
+    {
+      "slug": "network-security-platform",
+      "note": "条目以产品 OPNsense 为对象，但 repository_url 指向 opnsense/core（README 自述为 GUI、API 与系统后端，完整发行需配合 opnsense/tools 构建）。research.json 的 service_boundary 已如实说明该源码边界，建议在 batch summary 或 deployment 中也保留一句说明，避免把仓库等同于完整发行镜像。"
+    },
+    {
+      "slug": "network-security-platform",
+      "note": "默认姿态表述“默认拒绝未匹配流量”总体准确（firewall 文档：默认拒绝规则在无规则适用时丢弃流量），但同页亦说明出站流量默认被一条非 quick 规则接受。若追求措辞精确，可写为“入站/区域间未匹配流量默认拒绝”。"
+    },
+    {
+      "slug": "network-security-platform",
+      "note": "文档导航含 Business Edition，条目未显式声明记录范围是社区/开源版、Deciso 商业版与商业订阅不在纳入依据内；service_boundary 已部分覆盖，建议在条目层补一句社区版边界说明。"
+    },
+    {
+      "slug": "network-security-platform",
+      "note": "research.json 中“首页列出状态化防火墙、内联入侵防御”与首页正文略有出入：首页正文明确写的是 stateful firewall（IPv4/IPv6），内联 IPS 见 Introduction 的核心功能列表。属采集叙述的轻微归纳，不影响结论。"
+    },
+    {
+      "slug": "network-security-platform",
+      "note": "GitHub license API 快照以 base64 形式保存完整 LICENSE，人工阅读不便；建议后续附一份解码后的纯文本快照，提升许可证据的可核查性（本次已通过 README、仓库元数据 license 字段与 GUI 文档交叉确认 BSD-2-Clause）。"
+    }
+  ],
+  "leaf_checks": {
+    "network-security-platform": {
+      "status": "supported",
+      "application_id": "github:27965134",
+      "definition_core": "docs.opnsense.org/manual/firewall.html 正文（非导航/摘要）证实：OPNsense 含状态化包过滤器（stateful packet filter），规则按 Floating→Group→Interface 分节顺序处理，quick 为默认且首匹配生效，动作含 Pass/Block/Reject，未匹配流量由默认拒绝规则丢弃，NAT 规则先于过滤规则；规则可按源/目的地址、端口、协议、接口/方向匹配并逐条配置日志。对应定义中的“内联执行点 + 有序受管策略 + 默认拒绝”核心，且属交互式转发路径上的执行点而非带外观察。",
+      "product_form": "opnsense.org 首页正文标题与简介称其为开源、功能丰富的防火墙与路由平台，并列出 Stateful firewall（IPv4/IPv6）；docs.opnsense.org/intro.html 称其为基于 FreeBSD 的防火墙与路由平台，列出流量整形、VPN、高可用、入侵检测/内联阻断、更新机制等；manual/gui.html 正文说明通过图形界面登录、菜单与表单完成系统查看和配置。据此可确认是可持续使用、可自托管的完整平台，而非仅客户端、CLI 或设备控制器。交付形态为自托管设备/软件，符合本叶定义中“具有有序规则集的状态化防火墙设备”这一明确允许项。",
+      "identity_track": "GitHub API 元数据快照 id=27965134、full_name=opnsense/core、owner=opnsense、fork=false，与 batch 的 github_repository_id 和 repository_url 一致；track=open_source 与许可证、仓库性质相符。",
+      "license": "根目录 LICENSE 完整文件快照（GitHub contents API，size=3600，含版权清单与 BSD 条款正文，可检索到 Redistribution 条款片段）；仓库元数据 license 字段为 bsd-2-clause / BSD-2-Clause；README 明确写“OPNsense is and will always be available under the 2-Clause BSD license”且要求贡献沿用同一许可；GUI 文档亦提到 Lobby 可查看 2-clause BSD license。三处交叉一致，非仅 SPDX 标签。",
+      "community_boundary": "service_boundary 说明威胁防护引擎（IPS、URL 过滤等）与商业订阅不作为纳入依据；核心仓库为开源实现，完整发行需 opnsense/tools。商业版/商业订阅边界未在条目层显式写出，已列入非阻断建议。",
+      "sources_read": [
+        "data/collections/sources/39238a4bcc0074756f4f6799e17d8002fbe10608bdf4036ad777e3a972965a51.txt",
+        "data/collections/sources/34a472e51410546ea4ae96e8129847063a95dff6b90311a6edf0784a4c7881b8.txt",
+        "data/collections/sources/0df745e2136f60b0f489ea5f402a29acc6f14c510e0dfa9608960a6952466ada.txt",
+        "data/collections/sources/7b57a3badcac5714e726f55bf9bd90c1e83d1a4b2e97aa5ee147dc59714e4fe5.txt",
+        "data/collections/sources/f1117b8aaf51e2911a2c22105296f162beb17d48458fad46996ee9dc0af2e0a7.txt",
+        "data/collections/sources/58d5a38628c65aa4814a2f3c77e19504ff1ba5e6af955acd7b72670ce68b046b.txt",
+        "data/collections/sources/a8d7c9e728bb5089ed2612133e0d100f3fc8fd24861df8cfdccb53670d25de6e.txt"
+      ],
+      "gaps": "未运行实例（runtime_tested=false），未验证吞吐、HA 与真实阻断效果；此为部署验证缺口，不影响类型匹配。商业版/订阅边界仅有条目文字说明，未单独抓取商业版页面。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未读取其他单元；未重算快照 SHA-256，仅核对 REVIEW_SOURCES.json 中 path/sha256 文件名与 batch sources 一致。LICENSE 快照为 GitHub API 的 base64 内嵌内容，受单行 2000 字符预览限制，仅能核对到文件元数据、条款片段与全文长度，完整条款文本依赖 README、仓库 license 字段与 GUI 文档三处交叉确认。审查基于 2026-10-26 与 2026-10-29 快照，未做线上复核，未进行部署测试、价格或架构补充研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-127/ses_groveopencodegop127review1_1793247012.jsonl",
+  "batch_sha256": "e8231424b6d928caf0ac12c2bcc821e2dcd9515362672bf3a203a01235f538d1",
+  "research_sha256": "9269e7c1317580c2d99a9a45b39b28165c60a357ada7e0b30a6c89db3433bd9a",
+  "input_sha256": "076fb14fddc91c5c67ef3b7107221da044e9c76dbf845655d2cbdd03d95bde9f"
+}

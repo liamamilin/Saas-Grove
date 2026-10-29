@@ -1,0 +1,47 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "hotel-guest-experience-platform",
+      "application_id": "github:1061484721",
+      "issue": "类型核心不成立：KeyCard.NET 的宾客 Web 门户在 README 中可证实的能力集中在预订/房态查询、自助入住、二维码数字钥匙、退房与发票等抵店和离店事务；没有住宿期间（在住）的宾客触点，如消息沟通、服务请求、升级或附加服务购买，也没有离店后触点。README 亦未说明酒店可按阶段配置旅程、白标品牌化或由宾客操作一个跨旅程的统一界面。该形态接近该 leaf 定义中明确降级为“能力切片”的自助入住/钥匙类产品，而不是多触点、旅程级的宾客体验平台。采集记录中的 service_boundary 也承认未证实身份核验、升级销售、宾客消息或离店后触点，与 leaf_matches 声称覆盖“抵店前→抵达→在住→离店主要触点”的结论不一致。",
+      "fix": "撤销该条 leaf_matches，将 hotel-guest-experience-platform 保持为 insufficient_evidence，不建立应用关系；若坚持收录，需补充能证明宾客门户覆盖抵店前、抵达、在住、离店且包含在住服务或沟通，并由酒店配置旅程、绑定具体住宿记录并产生运营效果的 README/docs 或 Web 门户实现快照。"
+    },
+    {
+      "slug": "hotel-guest-experience-platform",
+      "application_id": "github:1061484721",
+      "issue": "宾客侧功能归属超出快照证据：README 的 Features 清单是系统级能力（员工桌面端、宾客 Web 门户、后端合并列出），其中只有 “Guest self-check-in + digital key (QR)” 明确为宾客自助；check-in/check-out workflows 与 PDF invoices 未说明由宾客门户实现。batch 的 summary/features 和 leaf_matches 却将“宾客退房、下载 PDF 发票”直接归为宾客门户能力，属于把系统级功能推断为宾客侧实现。",
+      "fix": "将 summary/features 改为 README 的系统级表述，或明确标注退房与 PDF 发票为系统功能而非已证实的宾客门户能力；如要保留宾客侧归属，补充 Web 门户页面、路由或文档快照作为依据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍记录 case_status=insufficient_evidence、application_ids 为空，且 research_records 只列旧候选；与 data/collections 中新增的 github:1061484721 及 research.json 的 case_found 不一致。建议同步更新进度元数据，避免留档自相矛盾。",
+    "research.json 称该仓库为“活跃仓库”，但已读元数据快照仅能确认 archived=false，未直接引用 pushed_at/updated_at 等活跃度字段；建议改为可核验的表述或补充相应字段。",
+    "batch 将 verification_status 标为 official_sources_reviewed，但本次仅核对仓库元数据、许可证 API 与 README，未审阅代码、Web 门户页面或部署运行；该状态应理解为来源级核对，不宜暗示实现级验证。",
+    "历史候选 ekwe7/conciergeIQ 的排除理由（license=null、pre-alpha、仅客房点单/请求）已如实记录；检索缺口也已说明，不构成阻断。",
+    "若后续补充在住触点证据并恢复收录，需注意该产品同时包含员工前台与 PMS 能力，应继续明确只按宾客侧表面记录，且不得把员工端功能计入类型核心。"
+  ],
+  "leaf_checks": {
+    "hotel-guest-experience-platform": {
+      "status": "core_type_not_met",
+      "definition_core": "已读 README 与仓库元数据。可证实的宾客侧能力为预订/房态查询、Guest self-check-in + digital key (QR)、退房与 PDF 发票等抵店/离店事务；README 未列出在住期间宾客沟通、服务请求、升级或附加服务购买，也未列出离店后触点，未说明酒店如何按住宿阶段配置旅程或进行白标品牌化。按本 leaf 的三项定义属性，仅能确认“宾客可操作的界面”和一定程度上的“住宿锚定”，无法确认“以完整旅程为组织框架、由酒店配置的多触点平台”，更接近定义中降级为能力切片的入住/钥匙类产品。",
+      "service_form": "为持续运行的完整自托管应用（ASP.NET Core 后端、Blazor Server 宾客 Web/kiosk、Avalonia 员工桌面端、SQLite），不是库或纯演示代码；但属于酒店管理系统整体中的宾客门户子模块，而非独立的旅程级宾客体验平台。README 明确需分别启动 Backend/Web/Desktop，本次未部署运行。",
+      "identity_and_track": "entry id github:1061484721 与元数据 id=1061484721、full_name=NimaShafie/keycard.net 一致；repository_url/homepage 指向同一仓库；track=open_source 与仓库公开、fork=false、archived=false 相符。",
+      "license_and_boundary": "元数据 license 的 SPDX 为 MIT；license API 快照返回 LICENSE 文件（1068 字节），base64 解码为完整标准 MIT 文本（Copyright (c) 2025 Nima Shafie），含使用、复制、修改、合并、发布、分发、再许可和销售权利，未发现附加限制、Commons Clause 或仅限非商业条款。仓库未见独立企业版/社区版切割，整仓按 MIT 提供，社区版边界无阻断问题。",
+      "evidence_read": [
+        "data/collections/batch.json：github:1061484721 条目、features、sources、leaf_matches",
+        "data/collections/research.json：hotel-guest-experience-platform 的 case_found、service_boundary、search_attempts、fetch_outcomes",
+        "data/collections/sources/c7215d5529cd00af2d0a07d9631de8050d30dceeb84b7815915b63becf8ca623.txt：GitHub 仓库元数据（id、full_name、description、archived=false、default_branch=main、license SPDX MIT）",
+        "data/collections/sources/46efe95ae4ca3a88c2df1979a8b75bbdb4e1453e58e725a5a66e684ad43e1645.txt：LICENSE 文件 API 返回的完整 MIT 文本",
+        "data/collections/sources/a7117d2812a62b0759831cefcaf55252aeabcdad315192301053ce41f6ee4af4.txt：README 全文（项目结构、运行方式、Features、技术栈）"
+      ],
+      "gap": "缺少 Web 门户实现、页面路由、旅程配置与品牌化证据；缺少在住/离店后宾客触点的来源；无法从现有快照确认退房与 PDF 发票由宾客门户而非员工端实现。"
+    }
+  },
+  "limits": "本次为只读初审，仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的三个快照（仓库元数据、license API、README），未运行 shell、未写文件、未访问其他单元。仓库元数据与 license API 快照为单行 JSON，读取展示有截断，关键字段（id、full_name、archived、default_branch、license SPDX、LICENSE 完整文本）通过定向检索确认。未部署或运行应用，未审阅源代码、Web 门户页面、docs/architecture.md、Issue/Release 或外部部署文档，因此无法验证门户的实际旅程配置、品牌化、身份核验、支付及在住触点实现。未进行额外网络检索，检索充分性与候选排除依赖 research.json 的留档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-237/ses_groveopencodegop237review1_1793263845.jsonl",
+  "batch_sha256": "b8cc7f3c4bd042107f0e0dc90745bb4951cb07ef9c0ed18ac99245a89dafbd61",
+  "research_sha256": "43a2ddfa65158d68e3a7a3f0507ac6ff75b850e54859a69bd04635ee30cc6d24",
+  "input_sha256": "984afab9425d14417ea90e31a34df152ebdddf0bfb3d662c632084589870301a"
+}

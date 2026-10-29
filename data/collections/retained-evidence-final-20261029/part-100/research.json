@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "api-design-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:19390712",
+        "github:244036821"
+      ],
+      "query": "api design platform open-source self-hosted OpenAPI/AsyncAPI editor web application; official repository and docs verification",
+      "source_urls": [
+        "https://api.github.com/repos/swagger-api/swagger-editor",
+        "https://raw.githubusercontent.com/swagger-api/swagger-editor/main/README.md",
+        "https://raw.githubusercontent.com/swagger-api/swagger-editor/master/LICENSE",
+        "https://swagger.io/tools/swagger-editor/",
+        "https://api.github.com/repos/asyncapi/studio",
+        "https://raw.githubusercontent.com/asyncapi/studio/master/README.md",
+        "https://raw.githubusercontent.com/asyncapi/studio/master/apps/studio/README.md",
+        "https://raw.githubusercontent.com/asyncapi/studio/master/LICENSE",
+        "https://api.github.com/repos/Apicurio/apicurio-studio"
+      ],
+      "note": "已解决原留档缺口：上一轮只证明Swagger Editor是可嵌入浏览器编辑器，未核定服务化应用边界。本轮核对README的Standalone构建（build:app:serve，localhost:3050）与官方Docker镜像（docker.swagger.io/swaggerapi/swagger-editor，8080→80）证明它是可自托管的完整Web应用；再以官方产品页补齐“编辑时按OAS校验+即时可视化渲染”。定义核心不要求多租户/持久后端（定义原文明确单用户无服务器编辑器同属该类型），故服务化持久应用不再是阻断项，据此恢复该候选。另新增完整开源Web应用AsyncAPI Studio（Apache-2.0，Docker/nginx运行），其README原文覆盖编写、校验、版本转换、文档预览与事件流可视化。两家均未运行，runtime_tested=false。",
+      "service_boundary": "仅收“定义/契约生命周期”的设计与校验应用：规范原生编辑、编辑时一致性校验、规范渲染预览、导入导出。不扩展到运行中API的部署、网关、监控、契约测试执行；不要求多租户、协作、持久化服务端或部署实测。组件/SDK/单HTML客户端不因联网纳入。",
+      "search_attempts": [
+        {
+          "query": "open source self-hosted OpenAPI design editor web application Apache-2.0 complete platform",
+          "result": "found candidates: Swagger Editor, AsyncAPI Studio, Apicurio (archived/component), OASForge, xcancloud/OpenAPIDesigner"
+        },
+        {
+          "query": "official repository metadata + README/LICENSE for shortlisted candidates",
+          "result": "verified Swagger Editor and AsyncAPI Studio; Apicurio Studio archived; Apicurio OpenAPI Editor and OpenAPIDesigner are embeddable components"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/swagger-api/swagger-editor",
+          "status": "reused_historical_snapshot",
+          "sha256": "f3a8a9779c6398752fd2a2cc3891fcf4741d4aaae605f6f3eb628d07f53f6bac",
+          "note": "历史快照，id=19390712，full_name=swagger-api/swagger-editor，archived=false；原URL/SHA/抓取时间未改"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/swagger-api/swagger-editor/main/README.md",
+          "status": "reused_historical_snapshot",
+          "sha256": "57c8f11565d1a40c5cf22c6cdaaf61b00bdec105079f9bf8fd694e38e68a0bf3",
+          "note": "历史快照；本轮重新抓取得到相同SHA，内容一致，故保留原抓取记录"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/swagger-api/swagger-editor/master/LICENSE",
+          "status": "reused_historical_snapshot",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "note": "历史快照，Apache-2.0全文"
+        },
+        {
+          "url": "https://swagger.io/tools/swagger-editor/",
+          "status": "fetched",
+          "sha256": "c22d4f0cc1d2463bbe31b3b492a3b72487eadb78330879f4d7f0034c108dbe1a",
+          "note": "本轮官方产品页，正文含 Runs Anywhere、OAS合规校验、即时可视化渲染"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/swagger-api/swagger-editor/main/package.json",
+          "status": "fetched",
+          "sha256": "b6c32b5d42524e08de2742f041665aeae08d78d36336bc4417fd2bc399f29687",
+          "note": "辅助核对：version 5.10.0，license Apache-2.0，存在 build:app/build:app:serve 脚本"
+        },
+        {
+          "url": "https://api.github.com/repos/asyncapi/studio",
+          "status": "fetched",
+          "sha256": "149a5560e16db26984cd968df241d55a8c2bef15be44c34232f08fb1bc4820d3",
+          "note": "id=244036821，archived=false，Apache-2.0，homepage=studio.asyncapi.com"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/asyncapi/studio/master/README.md",
+          "status": "fetched",
+          "sha256": "f64484fd5421e387fc406939e21bc225249fb6a4225328965096fdac61b206f1",
+          "note": "完整README；含Docker构建与远程引用解析说明"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/asyncapi/studio/master/apps/studio/README.md",
+          "status": "fetched",
+          "sha256": "05dbc5e5d786448a58db14c3c8a49973537c5c1e267dc3c8ae396a7150fcd25c",
+          "note": "应用级README，正文明确编写/校验/转换/预览/事件流可视化及Docker运行"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/asyncapi/studio/master/LICENSE",
+          "status": "fetched",
+          "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+          "note": "Apache-2.0全文"
+        },
+        {
+          "url": "https://api.github.com/repos/Apicurio/apicurio-studio",
+          "status": "fetched_but_excluded",
+          "sha256": "f91cfafd1c4ee72aa9b2cdf39171df94a3b9d1b8b2f501326f3c351c703f5056",
+          "note": "返回 full_name=ApicurioArchive/apicurio-studio 且 archived=true，已归档，不作为在维护应用收录"
+        },
+        {
+          "url": "https://studio.asyncapi.com/",
+          "status": "fetched_without_substantive_body",
+          "sha256": "a8f067284de0d347dc62e909d55f194a6310a8ab9e5f2dfa474144231fe8d3e0",
+          "note": "仅脚本壳，去脚本后无可核正文，未用作核心工作流证据"
+        }
+      ],
+      "archived": false,
+      "evidence_use": {
+        "historical_reused": [
+          "github:19390712 的三个历史快照（repository_metadata/readme/license），SHA与原抓取时间原样保留"
+        ],
+        "current_round_fetched": [
+          "swagger.io 官方产品页（documentation）",
+          "swagger-editor package.json（辅助）",
+          "AsyncAPI Studio 的 repository_metadata/README/apps README/LICENSE",
+          "Apicurio Studio 元数据（用于排除，不成立关系）",
+          "studio.asyncapi.com 首页（仅脚本壳，未采信）"
+        ],
+        "no_substantive_body": [
+          "https://studio.asyncapi.com/：正文未取得，结论不依赖它"
+        ],
+        "candidates_not_recorded": [
+          "OASForge：搜索摘要自述 Elastic License 2.0、纯浏览器无后端；未取得官方正文，不收，也不断言不存在",
+          "Apicurio OpenAPI Editor：自述为可嵌入 React 组件",
+          "xcancloud/OpenAPIDesigner：README 自述为 React 组件/npm 包"
+        ]
+      },
+      "prior_record": {
+        "source": "included-go-final-20261025-research.json#/leaf_cases/110",
+        "source_sha256": "4de3145afa2ec6f06b5696df12261b0af21f1e3ecd27e691471f664088de55e7",
+        "prior_assessment": "boundary_unresolved",
+        "prior_issue": "Swagger Editor：现有资料证明可嵌入的浏览器编辑器与构建方式，服务化持久应用边界未核定。",
+        "resolution": "经README独立应用构建+Docker镜像+官方产品页校验/预览正文，原缺口已落实；服务化持久化非本类型硬门槛。",
+        "previous_review_is_approval": false
+      }
+    }
+  ]
+}

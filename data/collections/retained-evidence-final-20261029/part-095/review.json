@@ -1,0 +1,42 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "device-testing-platform",
+      "application_id": "github:396380514",
+      "issue": "Sonic 的收录理由和设备能力清单大量依据“官网正文”，但 data/collections/sources/678a923d54ed92a25f061bac9afda07f615dcdd99050e2db080a22b718f4ffe6.txt 实际只是 VitePress 单页应用（SPA）的空壳，正文未渲染：可读取内容仅 <title>“Sonic | Sonic - 开源云真机平台”、meta description“免费开源的云真机平台”和 meta keywords，没有出现 batch.json 所称的 Android/iOS/车载/智能手表四类设备、一键远程调试、设备分布式集群（跨网段多机房）、0 编码 UI 自动化、多设备任务分发、可视化报表（截图/日志/录像）、Docker 一键部署等正文。去掉这些无法核对的表述后，本叶核心只剩下 README 的一句自述（“Sonic is a platform that integrates remote control debugging and automated testing of mobile devices”）和 GitHub 仓库描述（“Back-end of Sonic cloud real machine platform”），二者属于简介与元数据，不能替代设备目录、按需在选定设备上安装/运行应用、回传可观察结果等定义性核心正文。",
+      "fix": "补充可读取的正文快照后再建立关系：抓取 soniccloudorg.github.io 的实际正文渲染页或文档页（如 /doc/doc-device.html、/doc/doc-control.html、/doc/doc-run.html、/doc/doc-result.html、/deploy/back-end-deploy.html）以及 sonic-client-web、sonic-agent 的 README，能证明设备目录、远程控制会话、自动化任务执行与结果回传；或按现有快照把 batch.json 的 features/leaf_matches 收窄为 README 与仓库元数据可支持的范围，并重新判断是否足以成立。当前状态下 Sonic 不应以未渲染首页表述作为核心依据通过。"
+    },
+    {
+      "slug": "device-testing-platform",
+      "application_id": "github:396380514",
+      "issue": "条目身份是平台整体“Sonic”（server + client-web + agent 同组织分仓），但开源许可证证据只有 sonic-server 仓库：license 快照（0c1ec680…，size=34493，content 为 AGPL-3.0 完整正文）只覆盖后端。sonic-client-web 与 sonic-agent 的仓库身份、许可证正文与社区版边界均未提供快照，无法核对“完整开源应用服务”的许可完整性；而 sonic-server 单独只是后端服务，不构成面向用户的完整应用。",
+      "fix": "补充 SonicCloudOrg/sonic-client-web 与 SonicCloudOrg/sonic-agent 的仓库元数据与 LICENSE 快照（含完整条款正文），说明三仓版本对应关系与统一许可；若无法补齐，则把条目范围明确限定为 sonic-server 后端，并在 summary/service_boundary 中说明其非完整应用服务、不按平台整体收录，或改为不建立关系。"
+    }
+  ],
+  "non_blocking_notes": [
+    "atxserver2（github:165815646）核心证据与来源基本自洽：LICENSE 快照为 1064 字节 MIT 完整正文（Copyright (c) 2019 openatx，含授权与免责条款）；github.com 仓库页 octolytics 元数据含 repository_id=165815646、nwo=openatx/atxserver2，ID 与 track 对应一致；README 有设备列表页、provider 接入后远程真机操作、examples/android_test.py 链接，API.md 有设备列表过滤（platform/present/using/colding、brand、version）、占用/释放与 provider 端 APK/IPA 安装接口。",
+    "atxserver2 README 明确写有“项目已经不开发了”，仅有 2026/3/23 的手动安装方式更新；batch.json 已如实记录，属于成熟度事实，不改变类型匹配，但建议在对外描述中保留该停止维护提示，避免读者误判活跃度。atxserver2 是自托管、管理自有设备的形态，batch.json 未声称其为厂商托管设备云，边界表述正确，可在 service 描述中继续显式标注。",
+    "research.json 的 fetch_outcomes 引用了 openstf/stf 与 DeviceFarmer/stf 的多份快照（如 9e482bb32334d2ca0f787a3124e7159bea48290b0cdd388df4623f90632beabc），但这些文件不在本单元 REVIEW_SOURCES.json 中，本次无法直接复核；由于 openstf/stf 处于 withheld、未建立关系，不影响本叶收录结论，但该许可缺口的复述应视为未独立验证。",
+    "research.json 称 Sonic license 端点内容与 raw LICENSE“仅有模板署名两行差异”，本轮未提供 raw LICENSE 快照，该对比无法独立复核；建议后续直接保存 raw LICENSE 作为许可正文依据，减少对 API 封装内容长度推断的依赖。",
+    "input.json 中 progress.case_status 仍为 insufficient_evidence 且 note 只描述 openstf 许可缺口，与 research.json 的 case_found（两条新案例）不一致；这是上游进度字段未同步，不影响本次逐叶核对，但调用方在落库前应统一状态与说明。",
+    "batch.json 中 Sonic 的 features 与 leaf_matches 存在同义重复表述（官网能力项在 summary、features、reason 三处重复），补齐证据后可精简，避免同一未核实表述扩散。"
+  ],
+  "leaf_checks": {
+    "device-testing-platform": {
+      "verdict": "changes_required",
+      "definitional_core": "定义性核心（设备目录 + 按需在选定设备上安装/运行自有应用 + 可观察结果 + 设备覆盖任务）本身清晰，无内部矛盾；但两条候选的证据强度不同。atxserver2 具备可读取的核心正文（设备列表页、远程真机操作、REST 设备目录字段、provider 安装 APK/IPA、uiautomator2 示例链接），可支撑核心；Sonic 在现有快照下只有 README 一句平台自述与仓库描述，首页为未渲染 SPA 空壳，缺少设备目录、会话/任务执行与结果回传的正文证据，不足以支撑核心。",
+      "service_form": "atxserver2 为自托管 Web 应用（浏览器设备列表 + 远程操作 + REST API），属于持续使用的软件服务形态而非库或组件；Sonic 条目意图记录平台整体（server + client-web + agent），但快照仅覆盖 sonic-server 后端，客户端与设备代理的可用性、安装运行流程未取得正文证据。",
+      "id_and_track": "atxserver2：repository_id=165815646 与 github:165815646 一致，track=open_source 与 MIT 仓库相符。Sonic：repository_id=396380514 与 github:396380514 一致，track=open_source 与 AGPL-3.0 后端仓库相符；但平台整体身份与单仓证据不完全对齐。",
+      "license": "atxserver2：LICENSE 快照为完整 MIT 正文（1064 字节，含许可授予、版权声明与免责条款），README 亦标注 MIT，许可完整。Sonic：sonic-server license 快照为 AGPL-3.0 完整条款（size=34493，base64 内容以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 开头）；sonic-client-web 与 sonic-agent 许可未提供，社区版/商业版边界未记录。",
+      "boundary": "atxserver2 的边界表述（自托管、管理自有 Android/iOS 设备、非厂商托管设备云）与 README/API.md 一致，且未与浏览器兼容性测试、端点管理、监控等相邻类型混淆。Sonic 的“云真机平台”与浏览器兼容性测试、端点管理边界无冲突，但因缺少正文证据，边界判断主要基于名称与简介，证据等级不足。",
+      "gaps": "未运行或部署任何产品（runtime_tested=false），不构成阻断；主要缺口是 Sonic 首页正文与文档页快照、sonic-client-web/sonic-agent 的仓库身份与许可正文；另有 openstf/DeviceFarmer 相关快照未被纳入本单元 REVIEW_SOURCES.json，无法独立复核其 withheld 理由。"
+    }
+  },
+  "limits": "本次为只读初审，未运行 shell、未写文件、未访问其他单元，也未发起新的网络抓取或部署测试；核对范围限于 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 份快照（按 path 原样读取）。其中 Sonic 首页快照为客户端渲染的 VitePress 空壳，正文不可读；research.json 引用的 openstf/stf、DeviceFarmer/stf 快照不在本单元来源清单内，无法核对；许可仅就快照文本判断，未做法律意见或逐条 SPDX 比对；未评估价格、架构与商业条款。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-095/ses_groveopendesignp095review2_1793199123.jsonl",
+  "batch_sha256": "accf0c8749e9b9198d14487a1fb4c8e83677c727687163028f5638a20baf328d",
+  "research_sha256": "1ba06d781670823d51e9beb1d4f51606933358aaa2cc018aeed96b4f746c0817",
+  "input_sha256": "cdd5c62cab5e4ea9a3b68c326914dcf36b1b77c1f031ec2dec07befd042afd86"
+}

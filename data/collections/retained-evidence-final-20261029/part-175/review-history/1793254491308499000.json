@@ -1,0 +1,45 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "admissions-management",
+      "application_id": "github:12769307",
+      "issue": "batch.json 将许可证记为 GPL-3.0-only，理由是 README 只写 GPL v3.0 且没有 or later 条款；但本条目实际引用的两份 PHP 源文件头部均明确写有 “either version 3 of the License, or (at your option) any later version”，即 GPL-3.0-or-later。顶层 LICENSE 是 GPLv3 全文，不能据此排除后续版本；README 的简短表述也不足以覆盖源文件头部的许可声明。因此当前 SPDX 标识与证据不一致，属于开源许可事实错误。",
+      "fix": "将 license 与 license_review.spdx_id 更正为 GPL-3.0-or-later，并依据 PHP 文件头重写 rationale；若坚持 GPL-3.0-only，则必须补充能明确排除 later 版本的项目级声明，并解释其与现有源文件头的冲突，不能仅以 README 单句作为 only 的依据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 仍标记 phase=included_without_cases、case_status=boundary_unresolved，而 batch.json/research.json 已建立 github:12769307 的 case_found 关系。建议同步单元状态，避免下游误读；不影响本次内容判断。",
+    "research.json 的 OpenEduCat 记录称已抓取 LGPLv3 LICENSE，但 REVIEW_SOURCES.json 与 batch.json 均未登记该快照；本单元 sources/ 下存在未登记的 528f8403... 文件，内容为 OpenEduCat LGPLv3，且 GitHub API NOASSERTION 检查没有留存快照。建议补登记哈希与 URL，或明确标为未留存；该候选未纳入，不影响本叶结论。",
+    "applications_manage.php 与 ApplicationMilestonesForm.php 在 batch/REVIEW_SOURCES 中的 kind 为 documentation，实际为源代码；若来源类型用于审计或筛选，建议改为 source_code。",
+    "核心证据显示里程碑勾选（记录工作人员与日期）及 Accept/Reject 决定，未直接展示“指定评估人”或评分 rubric。定义将评分标准列为可选能力，故不阻断，但 leaf_matches 措辞宜限定为“工作人员审核并决定”，避免表述为已完成完整结构化评估。",
+    "README 说明 core 可由单独提供的 modules/themes 扩展；本条目许可范围仅覆盖核心仓库，Admissions 模块位于 core 内。建议在 license_review 中写明社区版/外部模块边界。",
+    "features 中的 Markbook 等能力未在本次引用的 6 份快照中出现；不影响 Admissions 核心匹配，但建议补源或删去未证实的特性描述。"
+  ],
+  "leaf_checks": {
+    "admissions-management": {
+      "application_id": "github:12769307",
+      "result": "定义性核心通过；开源许可证标识需更正",
+      "identity_track": "仓库快照的 GitHub HTML 元数据含 repository:12769307、repository_id 12769307、full_name GibbonEdu/core，且 refInfo 指向 v31.0.00，与 batch 的 github:12769307 及 open_source track 一致；README 与 LICENSE 均指向开源 GPLv3 项目。",
+      "core_match": "官方 Admissions 文档说明：公开表单提交后创建 Admissions Accounts，账户用于提交和跟踪申请；Manage Applications 是运营中心，工作人员可 review、edit 并决定申请；录取后申请人数据转入 Student Enrolment。applications_manage.php 显示申请状态 Incomplete/Pending/Waiting List/Accepted/Rejected/Withdrawn、未完成表单筛选、里程碑完成进度，以及仅对 Pending/Waiting List 提供 Accept/Reject；ApplicationMilestonesForm.php 显示可配置里程碑清单并按工作人员与日期记录勾选。由此可核对“申请人—申请绑定学年/年级—完整性/里程碑—机构人员审核—记录的录取/拒绝决定—录取后转入注册”的主链，满足本叶定义性核心。申请人在门户上看到决定的具体界面未单独留存，但文档的“track applications”与招生账户机制提供了间接依据。",
+      "service_form": "Gibbon 是自托管 PHP Web 学校管理平台，Admissions 为核心仓库内的完整业务子模块；README 提供安装与 Docker 开发路径，属于持续使用的完整 Web 应用，不是桌面/CLI 工具或单纯注册记录。本次未部署运行，形态判断依据官方文档与代码结构。",
+      "license": "LICENSE 快照为完整的 GNU GPL v3 正文（含 END OF TERMS AND CONDITIONS 与 How to Apply），README 写 “GNU General Public License v3.0”；但两份 PHP 源文件头均写 “either version 3 ... or any later version”。完整文本可核对，但 batch 的 GPL-3.0-only 标识与源文件头冲突，需按 finding 更正。",
+      "community_boundary": "README 明确 Core 仓库承载 Gibbon 主要功能，并可由单独提供的 modules/themes 扩展；本次纳入的 Admissions 模块位于 core 的 modules/Admissions 下，属于核心开源范围。未评估单独分发模块/主题的许可证，建议在条目中写明该边界。",
+      "evidence_checked": [
+        "data/collections/sources/74a9afaf...txt：GitHub 仓库页，确认 GibbonEdu/core、repository_id 12769307、v31.0.00 及 README 定位",
+        "data/collections/sources/93178a43...txt：完整 GPLv3 LICENSE 文本",
+        "data/collections/sources/e9302fc5...txt：README，GPL v3.0 声明、安装路径、core 与 modules/themes 边界",
+        "data/collections/sources/4d9afd96...txt：Admissions 官方文档，Admissions Accounts、Manage Applications 审核/编辑/决定、录取转入 Student Enrolment",
+        "data/collections/sources/9afec10e...txt：applications_manage.php，状态、未完成筛选、里程碑进度、Accept/Reject",
+        "data/collections/sources/4eddc781...txt：ApplicationMilestonesForm.php，可配置里程碑及工作人员/日期记录"
+      ],
+      "gaps": "未部署运行；未取得申请人门户决定可见性的直接界面快照；未核对指定评估人/评分 rubric（定义列为可选，故不阻断）；OpenEduCat 的 LGPLv3 快照未登记在 REVIEW_SOURCES/batch，仅作为旁证；Fedena 旧候选未重新取证。"
+    }
+  },
+  "limits": "本次为只读初审，仅使用 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES 列出的 6 份快照；另读取了本单元 sources/ 下未登记的 528f8403... 文件以核对 OpenEduCat 记录。未运行 shell、未写文件、未访问外网、未重新计算 SHA-256、未部署应用、未核对 Fedena 旧证据、未获取 OpenEduCat GitHub API NOASSERTION 原始响应，也未读取其他单元。结论仅基于上述留存资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-175/ses_groveopencodegop175review1_1793254275.jsonl",
+  "batch_sha256": "489c11c4a8a6a234cc0cc112c9b29e331e4a513cc2ebaff91bddf068f8ffe512",
+  "research_sha256": "ef8667ce73a20d0d083f80334a0e6a59b14595f36b998c7b52a5cf258b2e0b36",
+  "input_sha256": "4df4ee10e816c24ed767ee64fedf1a571a84013b6d3df2ee324443f088ed2ea7"
+}

@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "lead-management-platform",
+      "application_id": "github:24459441",
+      "issue": "开源社区版边界被混同：batch 的 summary、features 和 leaf reason 把“新线索按 Round-Robin 或 Least-Busy 自动分配”列为 AGPLv3 开源 CRM 的能力，但所引 sales-management 文档明确该分配通过 Workflows 工具配置（复杂流程用 BPM），web-to-lead 文档同样指向 Workflow/BPM；EspoCRM 官方将 Workflows、BPM 放在付费 Advanced Pack 扩展中（同一销售文档也出现 Advanced Pack 的付费报表说明）。因此该分配能力不属于 AGPL 社区版自带，“可完全自托管”不能等同于该功能免费可用。",
+      "fix": "在 features/deployment 中明确标注 Round-Robin/Least-Busy 分配需 Advanced Pack（付费扩展），或从开源功能清单和 leaf match 中移除该能力；补充 AGPL 核心社区版与付费扩展、官方云托管的边界。若 LMP 核心仍依赖该分配能力，应改用不依赖付费扩展的官方证据，或降级该案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "lead-management-platform：EspoCRM 是完整 CRM，Lead 只是其中一个模块；本案应明确写成 CRM 的 Lead 模块或承载产品匹配，而不是独立 LMP。所引文档未展示不合格/回收处置与响应时间纪律，research 只记录了响应时间缺口；建议把 leaf reason 的“结构齐备”改为“捕获/转化/分配有据，响应时间等未内置”。",
+    "contact-discovery-platform：Apollo 页面是 Apollo Data，属于更广的 GTM 数据、补全与编排套件，batch 已把范围限定为寻源与交付；但“浏览器扩展作为交付通道”的证据较弱，扩展更偏 Prospect Anywhere 外展。净新增与去重机制未展开，research 已记录，按商业基本匹配可以接受。",
+    "referral-marketing-platform：ReferralCandy 同时运营 affiliate 与 loyalty；本案应明确只取 customer referral program，避免把外部合作伙伴佣金计划混入推荐者定义。",
+    "outreach-sequencing-platform：reply.io/features 已列入 batch 与 REVIEW_SOURCES，但 research 的 fetch_outcomes 未记录该 URL；建议补记成功/哈希或从 batch 移除。核心结论由两篇 behavior 文档支撑，条件分支缺口已记录。",
+    "sales-dialer：PhoneBurner 平台页包含团队管理、自动线索分配和 live coaching；本案应按单个销售代表的 power dialer 限定，不能把团队级能力当作销售拨号器核心。DNC、录音同意与单次通话报表缺口已记录。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found/application id 不一致；这是进度元数据陈旧，建议同步，避免 ID/track 台账不一致。",
+    "EspoCRM 的“另有官方托管服务”未在 README 或仓库快照中出现；如保留，请补官方云托管来源，否则删除。"
+  ],
+  "leaf_checks": {
+    "referral-marketing-platform": {
+      "status": "pass",
+      "evidence": "已按 data/collections/sources/9f086c36bd750706155b77682838fd901cac253a2645a25653af8a21f1139363.txt 读取 ReferralCandy 首页快照；正文/示例支持客户推荐计划、个人推荐链接与优惠码（/r/…、JORDAN-10 等）、好友首单归因、双向奖励、奖励确认与欺诈检查。定义性链条中的推荐计划、可追踪身份、分享、归因和奖励均有依据。",
+      "gaps": "首页未细化资格审核窗口，也未说明退款/取消后的奖励回收，research 已记录；产品还含 affiliate/loyalty，本案应限定为客户推荐计划。"
+    },
+    "contact-discovery-platform": {
+      "status": "pass",
+      "evidence": "已按 data/collections/sources/12d36a35695bf7c9bbcc088136ce37be79a3202daee0a364c4055d91270e469e.txt 读取 Apollo Data 快照；结构化数据和正文给出 240M+ contacts、30M+ companies、65+ filters、七步邮箱验证、实时电话验证、REST API、CRM 双向同步和 Chrome Extension，寻源与交付基本匹配。",
+      "gaps": "页面偏数据供给、补全与编排，净新增和去重机制未展开，research 已记录；产品名 batch 用 Apollo Prospect，页面为 Apollo Data；扩展作为交付通道的证据较弱。"
+    },
+    "lead-management-platform": {
+      "status": "changes_required",
+      "evidence": "已读取 563bd89b1d945a55ac78c7d3f4387d952b4127e6a264bf59964da2acbfbd856c、da1460df5d1ffeea7af3779a5d4f22797cae1b3c4d7660cb99dafacbdca2ceaa、7e3594c47d68d8410dd68441df06cd897877b0da21ac479a237ea1a61f9ac6ed、318d14efa9bc6e42fba5d633590b20a9f1dfaa216623366b8786c27c16c32229、f711adea06a535a26ec160b3bbb969d9a493e8b463fb4f89f3f47955199c9c3f；仓库 id 24459441、README 的 GNU AGPLv3 与 license 快照全文一致；Lead 捕获、转化、Converted 记录、机会阶段/多管道有据。",
+      "issue": "自动分配依赖 Workflows/BPM，属付费 Advanced Pack 扩展；batch 将其列为 AGPL 社区版功能，社区版边界错误。",
+      "type_note": "EspoCRM 是 CRM，Lead 为模块；引文未展示 LMP 的不合格/回收处置与响应时间纪律，research 仅记录响应时间缺口，产品身份应按 CRM 的 Lead 模块限定。"
+    },
+    "outreach-sequencing-platform": {
+      "status": "pass",
+      "evidence": "已读取 d3f34da72fde42d6c1fcfcf1ad97caa111990868e0b30afc26703cae850679a2、ed0a2773dfa48354460676995aafff1135c0ff7278c159f4d539f38b08e02221、e8cb315edbd37389b922f601c65b12f976a0d615b31ce796c82cc3719797b85b；sequence execution 文档明确步骤加延迟、Max new daily contacts 与邮件上限、per-contact current step、task manual/automatic；stopping 文档明确回复/退信/退订到 Finished、六种 toggle 状态与 8% bounce 暂停。",
+      "gaps": "条件分支细节未完整覆盖，research 已记录；features 页在 batch/REVIEW_SOURCES 有快照，但 research 未记录其 fetch outcome。"
+    },
+    "sales-dialer": {
+      "status": "pass",
+      "evidence": "已读取 bf28f950f888b8bf9a8fb345a15bed531484e3b38590925e4c9c07abbc93234b、b12faf7c12e57d096460fd097559254e848c8f74baac3dc96b1d2717d2e329fd；power dialer 页明确上传/CRM 联系人、选列表、逐通 1-to-1 外呼、无延迟真人接听、一键 disposition 回写并触发 voicemail/email/CRM、录音/转录；平台页补充 custom dispositions、call recordings、automatic lead distribution。",
+      "gaps": "DNC、录音同意与单次通话报表未在快照中展开，research 已记录；团队管理/lead distribution 应按承载产品层限定。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未部署或调用产品，未做运行时、价格或架构验证；未重新计算文件哈希，按 REVIEW_SOURCES/batch/research 记录的 sha256 与文件名一致性核对；所有快照均按 REVIEW_SOURCES.json 的 path 原样读取。ReferralCandy、Apollo、PhoneBurner 的快照是压缩 HTML，单行超过读取工具 2000 字符上限，正文存在截断；对这部分的正文核对辅以同 URL 当前公开页面文本，未用其替代快照路径或哈希。未读取其他单元、历史脚本或采集 TASK.md。商业条目仅按基本真实性和类型匹配审查，未要求完整功能复现。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-042/ses_groveopencodegop042review1_1792987954.jsonl",
+  "batch_sha256": "335e40b38e78850a8d95255dd010ac4c2ef67eb6d58f608e4614b8c5a4b3f134",
+  "research_sha256": "290a02c8e4d6d2e889c57fc7dea13e35394981c367ec85e2cef16751900838ae",
+  "input_sha256": "f724f71537b3d13b3836009a4ed7694b5b4ccfa4cd295f80cb540bf313db9c14"
+}

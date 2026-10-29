@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "photo-editor",
+      "application_id": "github:4917029",
+      "issue": "batch.json 将 PhotoDemon 的 license 和 license_review.spdx_id 都记为 BSD-3-Clause，并称已逐条核对“三条款”且含“不得以作者名义背书”。实际读取 0d28... 许可证快照，PhotoDemon 自身许可证块在两项条件（源码再分发保留声明；二进制再分发在文档中重现声明）之后直接进入“THIS SOFTWARE IS PROVIDED...”免责声明，没有 Neither the name... 第三条款；README 也只写 BSD-licensed。许可证标识和复核理由与快照不一致。",
+      "fix": "把 license 与 license_review.spdx_id 改为 BSD-2-Clause，并把 rationale 改为“两项条件加免责声明、无背书条款”；若要保留 BSD-3-Clause，必须补充包含第三条款的许可证文件或具体位置。可在 scope 或备注中说明第三方插件另有许可证。"
+    },
+    {
+      "slug": "raw-photo-editor",
+      "application_id": "github:1001684671",
+      "issue": "leaf_matches.reason 称“官方文档的编辑器页面”列出 Adjustments、Color、Curves、Detail、Effects、Crop、Masks、Inpaint、Presets、Export 等面板，并称文档说明导出可设 DPI、写入 XMP。实际读取 494e... 快照是 RapidRAW Docs 落地页：正文只有文档导览和快速链接，上述面板名只在侧边栏导航出现；DPI/XMP 只在 README 的 Recent Changes。该 reason 把导航/落地页当作核心正文，并错误归属证据。",
+      "fix": "改写 reason：以 README 的 Key Features（RAW 支持、.rrdata 非破坏编辑、GPU/WGSL 管线、导出）和 Recent Changes（DPI、XMP）作为证据；或补抓并引用 /docs/interface/editor-view、/docs/adjustments/basic、/docs/other-panels/export 等正文页。删除“编辑器页面列出面板”的不实描述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Converseen README 的许可证段写 GPL v3 or any later version，batch 的 license 字段为 GPL-3.0；建议精确为 GPL-3.0-or-later，以免把“或更高版本”误读为仅 GPLv3。",
+    "PhotoDemon 的 service_boundary 写“非批量流水线”，但 README 明确有宏录制和文件夹批处理；建议改为“以逐图交互编辑为主，批处理为附带能力”，避免与 image-batch-processor 混淆。",
+    "RapidRAW 的 service_boundary 写“非通用像素编辑”，但 README 明确也支持 JPEG/PNG/TIFF 等非 RAW 输入；建议改为“以 RAW 传感器数据开发为核心，兼可处理已渲染图像”。",
+    "darktable 的 features 列有“评分与筛选”，本次 README/仓库页快照直接证明的是数据库、lighttable、darkroom、导出和 XMP，未直接出现评分/筛选；建议补引相应文档或改为快照可证措辞。",
+    "input.json 的 progress 仍是 case_status=not_searched、phase=included_without_cases，而 research.json 已记录 case_found；若下游使用 progress，应同步状态。",
+    "五个案例均为本地桌面应用（DaVinci 为商业桌面 NLE）；叶子定义未把托管 SaaS 作为必要条件，本次按持续使用的软件应用形态核对，未验证多租户云端交付。",
+    "Converseen 自述为 batch image converter and resizer，与 Image Conversion Application 相邻；其同时提供 resize/rotate/flip/rename 的一次配置流水线，故本次按 image-batch-processor 通过，但边界说明可更明确。"
+  ],
+  "leaf_checks": {
+    "photo-editor": "核心通过：README 明确 PhotoDemon 为 portable photo editor，列出 levels/curves/shadow-highlight/white balance 等摄影调整、实时预览、多图层与主流格式读写，满足逐图交互与交付；仓库 id 4917029 与 open_source track 一致。许可证快照首段实为 BSD-2-Clause，batch 标 BSD-3-Clause，需按 findings 修正；修正后本叶可过。",
+    "photo-workflow-catalog-application": "核心通过：README 首段称 darktable 为 photography workflow application 和 non-destructive raw developer，明确以数据库管理 digital negatives、zoomable lighttable 浏览、darkroom 开发并导出到本地或远端，另有 library.db/XMP 段落；GPLv3 全文快照与 id 3791835 一致。“评分与筛选”未在本次快照正文直接取证，仅作非阻断提示。",
+    "raw-photo-editor": "核心通过：README 明确 non-destructive GPU-accelerated RAW editor，rawler 解码、.rrdata 旁车保存可修改参数、WGPU/WGSL 管线与 JPEG/TIFF 等导出，符合 RAW 输入—参数化开发—渲染输出；AGPL-3.0 全文与 id 1001684671 一致。docs 首页快照只是导览/导航，不能支撑 reason 的面板与 DPI/XMP 表述，需按 findings 改引。",
+    "image-batch-processor": "核心通过：README 与官网明确 Converseen 为 cross-platform batch image processor，可一次对任意数量图片执行 convert/resize/rotate/flip、批量重命名、整份 PDF 逐页转图，并可设尺寸/分辨率/文件名，满足多图输入—一次配置—自动输出；GPLv3 COPYING 全文与 id 9392534 一致。产品同时具 converter 身份，按叶子定义仍可归批处理；GPL 版本表述见 non-blocking。",
+    "collaborative-video-editor": "核心通过：DaVinci Resolve 官方 collaboration 页说明以 Blackmagic Cloud ID 登录 Project Server 建 project library、分配任意数量 collaborator、多人同一 timeline 工作、改动在 viewer 中 accept 后才应用，并有 timeline compare/merge、clip auto-lock、live save 与私有 Project Server；timeline 剪辑/trim 语境满足视频编辑核心。commercial track 与官方产品页基本真实性、类型匹配成立；未核价与版本细节。"
+  },
+  "limits": "本次为只读初审：未运行应用、未做部署/价格/运行时/架构测试；未重新计算快照 SHA-256，未访问快照之外网页。读取工具对超长单行有截断，PhotoDemon 的 LICENSE.md 仅核对开头的自身许可证块（未展开 115KB 全文件的后续第三方许可证），darktable/Converseen 的 GitHub HTML 仅读正文相关段。五个案例均为本地桌面软件（DaVinci 为商业桌面 NLE），未验证托管多租户 SaaS、各产品付费/社区版功能边界（仅依据 README/官方页明示内容）。未审查其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-019/ses_groveopencodegop019review1_1792940494.jsonl",
+  "batch_sha256": "cfc1080ea512637707d90df47d33b4a24ba500b14f310794d5ba851061cb1c48",
+  "research_sha256": "d354b60a09b1ac4629a320ac6f11dd88dbd59179790e724dd5000fd43ab656e7",
+  "input_sha256": "90df92f28859db15f6f0e746bbfa72fe1c7ecc32d44b18d8542c7322f1539ecc"
+}

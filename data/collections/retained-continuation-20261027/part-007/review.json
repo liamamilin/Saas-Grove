@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Zotero 在 batch 中归为 commercial，但官方首页明确称其 free 且 open source；其商业性主要由付费存储/同步服务支撑。若 track 表示许可形态，建议改标 open_source 并补 AGPL/仓库证据；若按付费存储服务归类，建议在摘要或边界说明中写清，避免读者误以为核心客户端是专有商业软件。",
+    "Zotero 的 web_vs_desktop 文档明确桌面端为主、网页文库为补充且一次只加载部分数据；batch 摘要称其为「在线学术文献库和研究管理服务」略有拔高。本条学术阅读核心实际由桌面端 PDF Reader 文档支撑，建议措辞改为「桌面为主、提供同步与网页文库访问」。",
+    "Kavita 的产品重心是自托管书库/阅读服务器，e-book-reader 关系依赖其内置 EPUB 阅读器。阅读器四项核心在官方 wiki 中成立，但属同一产品的双类型匹配，建议在理由中明示「书库产品中的阅读器组件」，避免被读成独立电子书阅读器。",
+    "Kavita 书库条目的封面/封面缩略图未在 README 明示；现有正文已证明书籍条目、元数据筛选/搜索、Collections/Reading Lists/Want to Read 与阅读入口，封面不是阻断项，但可作为后续补证点。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 中的 case_found 不一致；若下游依赖该字段需同步更新，但不影响本次基于 batch/research 的内容核对。",
+    "Miniflux 首页存在 15 美元/年的 Paid Hosting 入口，但项目本体是 Apache-2.0 自托管软件，付费托管不改变 open_source 归类；摘要已限定「自托管」，无需阻断。"
+  ],
+  "leaf_checks": {
+    "feed-reader": {
+      "result": "matched",
+      "application_ids": [
+        "github:111364256"
+      ],
+      "basis": "README 正文列 Atom 0.3/1.0、RSS 1.0/2.0、JSON Feed 1.0/1.1、OPML 导入导出，并说明通过内部调度器或 cron 后台更新 feed；官方 API 文档把 entry status 定义为 read/unread/removed，支持 status=unread 过滤，并提供 feed、category、user 三级 mark-all-as-read 与 unread counters；首页写明可快速浏览未读条目。用户自选订阅、自动接收、带阅读状态的消费面三项齐备。",
+      "license": "Apache-2.0；license 快照正文为 Apache License Version 2.0 全文，仓库 ID 111364256 与 batch 一致。",
+      "gap": "无阻断缺口；未做运行时部署。"
+    },
+    "academic-paper-reader": {
+      "result": "matched",
+      "application_ids": [
+        "commercial:zotero"
+      ],
+      "basis": "首页说明 Zotero 用于 collect、organize、annotate、cite、share research，并支持 collections/tags 与跨设备同步；web_vs_desktop 文档说明桌面端有本地数据库、网页文库可访问同步资料；pdf_reader 文档说明内置 PDF 阅读器支持按页显示、文本选择、批注与笔记，批注挂在 parent item 和引文上，体现书目身份与持久文库。三项核心有正文支撑。",
+      "gap": "网页文库是桌面端的补充，PDF 阅读工作流主要由桌面端文档证明；商业性由付费存储支撑，属表述层面注意项。"
+    },
+    "e-book-library-application": {
+      "result": "matched",
+      "application_ids": [
+        "github:320936145"
+      ],
+      "basis": "README 正文列 Books（epub、pdf）、responsive readers、Rich Metadata filtering/searching/smart filters、Collections/Reading Lists/Want to Read，并明确 Kavita 是自托管 reading server/reading collection；同时提供网页阅读入口，构成持久书籍条目、书籍级组织与每本书的阅读访问。",
+      "license": "GPL-3.0；license 快照正文为 GNU GPL v3，仓库 ID 320936145 与 batch 一致；README 明确 Kavita+ 为单独付费的互联网功能，batch 已把元数据下载、评论、评分与推荐排除在社区核心之外。",
+      "gap": "封面/封面缩略图未在 README 明示；不影响三项核心。"
+    },
+    "e-book-reader": {
+      "result": "matched",
+      "application_ids": [
+        "github:320936145"
+      ],
+      "basis": "Kavita 官方 EPUB reader 文档描述字体、行距、边距、字体与布局模式、主题等阅读呈现，说明以 in-page 方式保存进度并可跨桌面/手机恢复，提供上一页/下一页、Go To Page 和目录跳转；README 确认其为自托管阅读服务器。打开单本、阅读呈现、持久位置、书内移动四项核心齐备。",
+      "gap": "产品重心是书库，阅读器是其组件；四项核心有正文支撑，属双类型匹配。"
+    },
+    "pdf-document-reader": {
+      "result": "no_case_documented",
+      "application_ids": [],
+      "basis": "research.json 记录 ONLYOFFICE DocSpace 复核为 insufficient_evidence：已保存正文只覆盖房间内查看/编辑 PDF、创建 PDF 表单、docx/xlsx/pptx 转 PDF 以及 Preview 入口，未描述固定版式渲染、翻页/跳页、缩放/适应页面；PDF Editor 帮助页仅返回站点导航与元数据骨架。batch 中无对应条目，来源缺口记录完整。",
+      "gap": "本叶无案例；检索、抓取与缺口已如实留档，符合「没有案例但留档完整」的通过条件。"
+    }
+  },
+  "limits": "本次为只读审查，未运行 shell、未重算 sha256、未部署或操作产品，也未读取其他单元或采集脚本。来源核对限于 REVIEW_SOURCES.json 列出的 12 个快照；pdf-document-reader 的 ONLYOFFICE 页面未列入该清单，无法独立复读，只能依据 research.json 的 fetch_outcomes 与缺口记录判断。Zotero/Kavita 的搜索记录为 legacy/unverified，本次只核对已保存官方快照。input.json 的 progress 字段与 batch/research 不一致，未作为内容证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-007/ses_groveopencodegop007review1_1792938589.jsonl",
+  "batch_sha256": "fc964a4ff0b082304772c6340b7ac94ca8dc7d9b0f69a0675e3917ba5bd966f0",
+  "research_sha256": "d18e9d72260b2eed0c394b5d1c9978859e318b16f99295c4bb48a143e367f0c5",
+  "input_sha256": "1fd07642a9c2ad6c197879c14c002661eab69c76f9216ab3e1edcc10c913989a"
+}

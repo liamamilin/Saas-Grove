@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 40,
+  "offset": 975,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "life-cycle-assessment-application",
+        "name_zh": "生命周期评估应用（LCA）",
+        "domain_id": "21",
+        "parent_id": "21.03",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/875",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "GitHub API 搜索 openLCA in:name；核对官方仓库 GreenDelta/olca-app 与 openlca.org 功能/手册"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "life-cycle-assessment-application",
+        "name": "Life Cycle Assessment Application",
+        "name_zh": "生命周期评估应用（LCA）",
+        "aliases_zh": [
+          "LCA软件",
+          "生命周期评估工具"
+        ],
+        "overview": "A **Life Cycle Assessment Application** is a modeling and assessment environment for product life cycles: it lets a practitioner build a quantified model of the processes behind a product, compile the environmental flows of that model into a life cycle inventory, and translate that inventory into environmental impact results using selectable impact assessment methods.\n\nThe defining core is small and held jointly:\n\n```text\nProduct system (linked network of quantified unit processes)\n└── anchored to a functional unit (the demand everything is normalized to)\n    └── life cycle inventory (compiled flows over the whole network)\n        └── impact assessment (characterization methods → impact results)\n```\n\nEverything else commonly associated with modern LCA software — licensed background databases, method libraries, contribution trees, Sankey diagrams, Monte Carlo uncertainty, parameters, EPD generation, cloud delivery — is widespread in current products but is not what makes the product an LCA application. Older desktop generations of the same product lineage, built before cloud delivery and bundled mega-databases, satisfy the same core; so does a code framework with no graphical interface at all.\n\nWhen the center of gravity shifts from the product system to an organization's scopes and activity data, the product is drifting toward a different Application Type (Carbon Accounting Platform). When the deliverable narrows to a single impact category as the customer-facing output, it approaches the Product Carbon Footprint Platform.",
+        "overview_zh": "生命周期评估应用是一种用于产品生命周期的建模和评估环境：它允许从业者构建产品背后过程的量化模型，将该模型的环境流量汇编成生命周期清单，并使用可选择的评估方法将该清单转化为环境影响结果。\n\n其定义核心小而共同持有：\n\n```text\n产品系统（量化单元过程的连接网络）\n└── 锚定到功能单位（所有内容正常化的需求）\n    └── 生命周期清单（整个网络的汇编流量）\n        └── 影响评估（特征化方法 → 影响结果）\n```\n\n其他与现代 LCA 软件通常相关的所有内容——授权的背景数据库、方法库、贡献树、桑基图、蒙特卡洛不确定性、参数、EPD 生成、云交付——在当前产品中很普遍，但并非使该产品成为 LCA 应用的要素。同一产品系列的较旧桌面版本，在云交付和捆绑大型数据库之前构建，满足相同的核心；一个完全没有图形界面的代码框架也是如此。\n\n当重心从产品系统转向组织的范围和活动数据时，该产品正漂移向不同的应用类型（碳核算平台）。当交付物缩减为以客户为导向的单一影响类别输出时，它接近产品碳足迹平台。",
+        "dc": "Three structures, held jointly, make the application what it is.\n\n**1. The product system — a linked network of quantified unit processes.**\nThe central modeled object is not a document or a form; it is a *system*: a set of unit processes (raw material extraction, transport, manufacturing steps, energy provision, use, waste treatment) connected by flows. Each process carries quantified inputs and outputs of two kinds:\n\n- **technosphere flows** (also called product or intermediate flows) — goods, materials, energy, and services exchanged *between* processes; these are the links of the network;\n- **elementary flows** — resources drawn from, and emissions released to, the environment; these are what eventually become impacts.\n\nProcesses may be modeled at fine granularity (unit processes, each with its own inputs and links) or as aggregated blocks (a cradle-to-gate summary of everything upstream, treated as one record). Expert tools expose both forms and let the practitioner choose; the aggregated form is faster but hides its internals. The network is typically visualized as a graph the practitioner can inspect and edit link by link.\n\n**2. The functional unit — the quantified anchor.**\nEvery model is calculated *for a demand*: a stated amount of function or reference flow (for example, a quantity of material, a packaged unit, a painted area). All flows in the network are scaled to deliver this demand, and all results are expressed per this unit. This is what makes two products comparable and what distinguishes an assessment from a pile of process data. Some studies, especially cradle-to-gate ones, use a simpler declared unit (per kilogram, per piece) instead of a full function-based unit; declarations under product category rules often prescribe the unit for a product group.\n\n**3. The inventory → impact assessment calculation chain.**\nWhen the practitioner runs a calculation, the application does two things in sequence:\n\n- **Life cycle inventory (LCI):** it resolves the whole linked network — following every upstream link, scaling every flow — and compiles the total elementary flows attributable to the functional unit;\n- **Life cycle impact assessment (LCIA):** it applies an impact assessment method — a set of characterization factors that convert each elementary flow into contributions to impact categories (climate change, acidification, eutrophication, resource use, human toxicity, and similar) — and produces the impact results.\n\nThe method layer is *selectable and separable*: the same model can be calculated under different methods, and methods are managed objects (importable, editable, with per-flow characterization factors). Single-category methods (for example, climate change only) are legitimate members of this layer; multi-impact breadth is the typical posture, not the definition.",
+        "dc_zh": "三个结构共同构成了该应用的本质。\n\n1. 产品系统——量化单元过程的链接网络。\n中心建模对象不是文档或表单，而是一个*系统*：一组单元过程（原材料提取、运输、制造步骤、能源供应、使用、废物处理）通过流连接。每个过程携带两种量化的输入和输出：技术圈流（也称为产品或中间流）——在过程之间交换的货物、材料、能源和服务；这些是网络的链接；基本流——从环境获取的资源和向环境排放的物质；这些最终成为影响。过程可以以精细粒度建模（每个单元过程有自己的输入和链接），或作为聚合块建模（所有上游的从摇篮到大门的摘要，作为一个记录处理）。专家工具暴露两种形式，让从业者选择；聚合形式更快但隐藏其内部结构。网络通常可视化为图，从业者可以逐链接检查和编辑。\n\n2. 功能单元——量化锚点。\n每个模型都是*为一个需求*计算的：指定数量的功能或参考流（例如，材料量、包装单元、涂漆面积）。网络中的所有流都缩放到这个功能单元。",
+        "rules": "### Everything is per functional unit\n\nResults have no absolute meaning; they are impacts *of delivering the functional unit*. Changing the unit rescales the entire model. Comparing two products requires the same functional unit — a rule that also drives declaration standards, which prescribe units per product group.\n\n### Boundary choices change results\n\nCradle-to-gate and cradle-to-grave models of the same product produce different numbers by construction. Omitting a known part of the value chain underestimates impacts; practitioners are expected to document boundaries and justify exclusions.\n\n### Multifunctional processes force allocation decisions\n\nReal processes often yield several products (and recycling loops couple systems). The practitioner must choose how to split burdens and benefits — allocation factors, recycled-content (cut-off) approaches, closed-loop assumptions, or substitution-based formulas. Different standards prescribe different approaches, and the choice materially changes results. This is one of the most consequential modeling decisions in the domain.\n\n### Unit process vs aggregated process is a transparency trade-off\n\nFine-grained unit processes keep every upstream link inspectable; aggregated (system) processes collapse the upstream chain into a single record — faster and simpler, but a black box. Products ship databases in both forms and let the practitioner choose per study.\n\n### Database and method must fit together\n\nBackground datasets are tied to database versions and, in some products, to method families. Mixing incompatible datasets and methods can silently produce zero or missing impacts — a known failure mode that products surface through validation checks and workspace settings.\n\n### Cut-off is a modeling lever, not an error\n\nPractitioners can exclude tiny contributors below a threshold to keep large networks manageable; the exclusion is deliberate, applied across the supply chain, and must be documented.\n\n### Results feed claims, and claims invite scrutiny\n\nPublic comparisons and declarations typically require third-party verification. The application's role is to make the model transparent and reproducible — full network visibility, documented assumptions, exportable evidence — so that a verifier can reconstruct the result.\n\n### The loop is iterative\n\nScope, data, and even the functional unit may be revised as data arrives; models are living artifacts that get updated when databases, methods, or products change.",
+        "rules_zh": "### 一切都按功能单位\n\n结果没有绝对意义；它们是*提供功能单位*的影响。更改单位会重新缩放整个模型。比较两个产品需要相同的功能单位——这一规则也驱动声明标准，标准规定了每个产品组的单位。\n\n### 边界选择改变结果\n\n同一产品的摇篮到大门和摇篮到坟墓模型在结构上产生不同的数字。省略已知的价值链部分会低估影响；从业者需要记录边界并证明排除的合理性。\n\n### 多功能过程迫使分配决策\n\n实际过程通常产生多个产品（回收循环耦合系统）。从业者必须选择如何分割负担和收益——分配因素、回收含量（扣除）方法、闭环假设或基于替代的公式。不同的标准规定不同的方法，选择实质性地改变结果。这是该领域中最具影响力的建模决策之一。\n\n### 单元过程与聚合过程是透明度权衡\n\n精细的单元过程使每个上游链接可检查；聚合（系统）过程将上游链折叠成单个记录——更快更简单，但像一个黑匣子。产品以两种形式提供数据库，让从业者按研究选择。\n\n### 数据库和方法必须匹配\n\n背景数据集绑定到数据库版本，在某些产品中，绑定到方法族。混合不兼容的数据集和方法可能悄无声息地产生零或缺失的影响——一种已知的故障模式，产品通过验证检查和工作区设置来揭示。\n\n### 扣除是建模杠杆，而非错误\n\n从业者",
+        "parent_id": "21.03",
+        "domain_id": "21"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 157,
+    "phase": "directory",
+    "parent": 157,
+    "slugs": [
+      "life-cycle-assessment-application"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "a686410ef52a7d80fa2f87fdaf17ae1ee0eb94165262516b68d4ff276747928d"
+  }
+}

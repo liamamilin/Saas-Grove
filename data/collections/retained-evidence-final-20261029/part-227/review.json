@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Verastly Compass 是会员 CRM 的附加模块，权益目录、等级资格、门户领取与使用报告只是其中一组能力。批次条目按模块级能力归述，未把它夸大为独立的权益管理套件，类型定位可接受；若后续撰写案例正文，宜明确其为会员管理平台中的权益模块。",
+    "权益记录字段为名称、描述、估值、单位、是否计量、自动来源、适用会员等级，未见独立的提供商字段、条款正文或到期日字段。领取说明、按会员期/自然年/月/总量的限额以及启停开关部分承担了条款与有效期作用，属覆盖深度不足而非类型不符；建议后续补证或在措辞上避免声称具备完整条款/有效期管理。",
+    "research.json 称 www.verastly.com/help 三篇正文与 app.myverastly.com 旧快照逐字一致，但旧 app 快照不在本单元 REVIEW_SOURCES 中，无法复核该比对结论。当前五份快照的正文本身已足以支撑条目结论，故不阻断。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids 为空，而 batch.json/research.json 已建立 commercial:verastly-compass 的案例关系（case_found）。属输入侧元数据未同步，不影响本次内容判断，建议在正式入库前更新进度字段。",
+    "批次 summary 中“auto-logged usage from events, directory and committees”是 Auto-Source 枚举（活动报名、目录条目、委员会出席、通讯收录、Hot Deal/推广、推荐）的子集式概括，不构成事实错误。",
+    "三篇帮助文章的 JSON-LD 复用同一 YouTube 视频 ID 与缩略图，疑为模板占位；视频未被当作核心工作流证据，不影响结论。",
+    "未验证价格、架构与部署方式，这不在本次初审要求范围内；价格表述仅按页面所见记录。"
+  ],
+  "leaf_checks": {
+    "member-benefits-management": {
+      "slug": "member-benefits-management",
+      "application_ids": [
+        "commercial:verastly-compass"
+      ],
+      "verdict": "pass",
+      "definition_core": {
+        "benefit_offerings_of_record": "通过。帮助文档《Setting up member benefits》正文给出 Benefit Catalog 的完整字段与操作：Add Benefit、Name、Description、Estimated Value ($)、Unit Label、Quantifiable、Auto-Source、Membership Tiers，列表展示 Value/Source/Tiers/Redemptions/Total Value，并支持编辑、启停与 Show inactive，属于持久、独立标识的权益记录。缺口是未见独立提供商字段、条款正文与到期日字段。",
+        "membership_derived_eligibility": "通过。权益按 Membership Tiers 勾选适用等级，留空表示全部等级；《Letting members claim benefits in the portal》明确成员在门户只看到其会员等级包含的权益，并对企业/家庭会员提供“每人独立限额”开关。资格来自会员等级而非积分或购买。",
+        "verify_and_redeem_loop": "通过。会员通过免密码 magic-link 会员门户验证身份；Portal claims 提供“显示代码”“员工逐次审批”“即时记录领取”三种领取方式，支持共享码与一次性码、按会员期/年/月/总量的限额、审批列表（Waiting/Approved/Declined），并由 Auto-Source 或门户领取产生记录；Usage Reports 汇总 Total Value Delivered、Total Redemptions、Members Benefited、Zero Usage Members、逐权益明细与 Top Members，形成计划记录与核算闭环。",
+        "type_boundary": "通过。权益因会员归属而行使，自动来源是使用归集而非消费积分累计，未滑向忠诚度计划；也未涉及员工保险/退休计划，未落入雇主福利类型。"
+      },
+      "saas_form": "通过。托管式商业 SaaS：Compass 为 Verastly CRM 的付费附加模块（Starter 每月 19 美元，付费计划内含；chambers 页称 39 美元/月起含 Compass，且不按成员收费），会员侧使用 app.myverastly.com 的免密码门户，属持续订阅使用的在线服务，而非一次性交付物。",
+      "id_track": "通过。batch.json 条目 id 为 commercial:verastly-compass、track 为 commercial，与 research.json 的 case_ids、REVIEW_SOURCES.json 的 applications 一致；homepage 为 https://www.verastly.com/compass，canonical 与快照 URL 一致。",
+      "open_source": "不适用且处理正确。条目未声称开源；research.json 记录了开源检索尝试（Tendenci、CiviCRM、Galette、Admidio、Forus 方向）及 Tendenci memberships/models.py 的阅读结果，明确未找到具备逐项权益记录与领取闭环的完整开源应用，未虚构仓库、许可证或社区版边界，也未把商业模块冒充为开源。",
+      "evidence_read": [
+        "data/collections/sources/b42450589b4f4f8f5f0ef4fdafdbe04c19aafde62132b1458b0e3ef7f886b967.txt（https://www.verastly.com/compass）：正文含“A benefit catalog with dollar values per tier and auto-logged redemptions”“Benefits and ROI”“Benefits catalog with auto-logging”“Portal benefits ROI widget”及免密码门户说明。",
+        "data/collections/sources/488054fa2913cf15fede977190df7a255ecb64f160208bc1953464d842f4dcd1.txt（https://www.verastly.com/chambers）：正文含 Benefits ROI（按会员的美元价值与自动记录兑换）、会员门户查看权益 ROI、Hot deals 与会员等级/续费。",
+        "data/collections/sources/ef33f336afd466395d0bf6041e554c5c1431b09af252c0458921ed7d3ce886e2.txt（https://www.verastly.com/help/benefits-setting-up-member-benefits）：权益目录字段、按等级适用、自动来源类型、目录管理、会员门户与联系人权益卡片。",
+        "data/collections/sources/f304e78e9f05dc7bdf8c049856c671800f5a7db8ea23d6a819efb95d5767cb94.txt（https://www.verastly.com/help/benefits-portal-claims）：领取方式、限额、共享/一次性代码、审批流程、按等级可见。",
+        "data/collections/sources/2aeca64df5ab0527ea5cab180f90f7e6651f8315800d48db03b0a3b990d88535.txt（https://www.verastly.com/help/benefits-usage-reports）：使用报告口径、按权益与按会员的价值统计、未记录不计数的说明。"
+      ],
+      "coverage_gaps": "未取得独立提供商字段、条款正文、到期日字段的文档；未验证会员失效/待续状态下的自动重新评估、私下谈判优惠的门户内保护策略；未做运行时验证。以上为深度缺口，未影响三类定义性结构的成立。"
+    }
+  },
+  "limits": "仅以只读方式读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的五份快照（按原样路径读取，未使用项目根目录下的 sources）；未运行 shell、未写文件、未读取其他单元，也没有访问上一轮 app.myverastly.com 旧快照及 Access Development/MemberDeals 历史快照，因此无法独立复核 research.json 中“www 正文与 app 旧快照逐字一致”的比对结论。未做哈希重算、部署测试、登录体验、价格或架构核验；结论限于静态快照正文与文档所载能力。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-227/ses_groveopencodegop227review2_1793262601.jsonl",
+  "batch_sha256": "b022b7268e4cfcafcb4ae92d0e862994d979225b1d625332d9ca25de399d2355",
+  "research_sha256": "4f040d4a7d53358ae8c7c80af6a9b2f9a9eddb4f06d32e0d83284df8c623b8aa",
+  "input_sha256": "c7102519ecc7dd53b81c83d6d6b4aba832f9c48374c874b4a7d3053f4a7222a8"
+}

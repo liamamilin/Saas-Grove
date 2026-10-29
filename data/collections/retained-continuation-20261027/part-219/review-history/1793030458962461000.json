@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "clinical-data-management",
+      "application_id": "github:169558966",
+      "issue": "LibreClinica 的许可证证据彼此不一致：GitHub 仓库元数据和许可证接口（/license）都标为 LGPL-3.0，但批次保存的 LICENSE 快照正文却是完整的 GPL-3.0 文本：文件 35,150 字节，开头为 GNU GENERAL PUBLIC LICENSE Version 3，未见 LGPL-3.0 的附加许可条款（LGPL 正文通常约 7.5KB，并以 GNU LESSER GENERAL PUBLIC LICENSE 开头）。条目却直接把 license 与 summary 写成 LGPL-3.0，现有快照正文不能支持这一许可标识。",
+      "fix": "以项目实际许可声明为准重新核定 SPDX 标识：核对 README、项目站点、源码头或 COPYING.LESSER 等许可声明。若项目确为 LGPL-3.0，应补充 LGPL 正文或明确的 LGPL 声明作为许可证据；若以 LICENSE 文件为准，则把 license 改为 GPL-3.0。并在条目中注明所依据的许可文件与检测来源，避免把元数据标签当作正文证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "research-animal-facility-management / github:741235791：README 主要证明笼级管理（繁育笼、饲养笼、笼卡打印、小鼠品系、IACUC 记录、任务提醒）与 IoT 环境监测；未见个体动物标识、普查/处置事件或方案使用量核算。条目已主动收窄为 cage/colony-level，建议在 summary 中保留这一限定，避免读者据此推断完整的 AFMS 核心。",
+    "chromatography-data-system / github:202303561：官方 wiki 只覆盖峰检测/积分与内标（ISTD）定量及结果查看；原始信号可再处理、方法版本化、样品绑定结果记录与审计追踪没有正文证据，条目也未作这些声称，作为简化型单机 CDS 可以留档。",
+    "scientific-data-management-system / github:2824643：README 快照取自 develop 分支，README 自身声明该分支不适合生产（稳定分支为 master/series-4.6）。部署与功能描述本身不受影响，引用时建议改用稳定分支文档。",
+    "scientific-data-management-system：research.json 将 ORNL/DataFed 的仓库元数据与许可证接口列为已抓取，并断言其许可为 NOASSERTION/UT-Battelle 自定义条款，但 REVIEW_SOURCES.json 没有对应快照，无法复核；DataFed 未被收录，不影响 MyTardis 条目的成立。",
+    "scientific-core-facility-management / github:1439473：README 仍链接 doc/instrument_pricing.md，而研究记录该路径 404 并改抓 doc/product_pricing.md；属文档陈旧或路径问题，预约、计费与价格组核心证据不受影响。",
+    "clinical-data-management / github:169558966：研究者与监查员手册证实 CRF 的 Completed/Locked 状态、SDV、查询闭环与签署，但未见研究级 database lock 的触发条件与门槛流程；条目已省略该断言，可考虑明示为 “CRF 级锁定”。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids 为空，而 research.json 与 batch.json 已给出 5 个案例；本次按后两者作为采集结果评审，此处仅作来源状态提示。"
+  ],
+  "leaf_checks": {
+    "research-animal-facility-management": {
+      "case_id": "github:741235791",
+      "verdict": "pass_with_limits",
+      "evidence": "README（be05828e…，303 行）记录了繁育笼/饲养笼仪表盘（bc_*、hc_*）、笼卡打印、小鼠品系与 IACUC 记录、任务/提醒、IoT 传感器监测，以及 LAMP 自托管安装；仓库元数据 id=741235791，LICENSE 为 7,518 字节的完整 LGPL-3.0 正文，与条目的 LGPL-3.0 一致。",
+      "gaps": "正文未证明个体动物标识、房间/笼架占用、到达—移动—处置的普查事件，或方案使用量核算；条目已将范围限定为笼/群体级 colony management，属定义所允许的轻量形态，但证据强度弱于完整 AFMS 核心。"
+    },
+    "scientific-core-facility-management": {
+      "case_id": "github:1439473",
+      "verdict": "pass",
+      "evidence": "README 与 HOWTO_reservations、product_pricing 证实：仪器作为可预约的 Product，具备 schedule rules、按分钟（预约/实际使用/超时）计费、内部/外部价格组及调整、取消费窗口、订单与拆分计费引擎、Sanger sequencing 服务模块；仓库 id=1439473，LICENSE 为 1,085 字节完整 MIT 文本。",
+      "gaps": "培训/资格门槛、补贴规则与发票/对账单未在已抓取正文中出现，条目未作声称；doc/instrument_pricing.md 的 404 已如实记录。"
+    },
+    "scientific-data-management-system": {
+      "case_id": "github:2824643",
+      "verdict": "pass",
+      "evidence": "README 证实仪器集成自动将数据从仪器转移到中央仓库、科研元数据管理、安全长期归档、Web/SFTP 访问，以及 Django/PostgreSQL/Elasticsearch/RabbitMQ/Kubernetes 部署；仓库 id=2824643，LICENSE 为 35,149 字节完整 GPL-3.0 文本。",
+      "gaps": "README 取自 develop 分支（项目声明不宜用于生产）；DataFed 候选无保存快照，仅留档说明，未纳入条目。"
+    },
+    "chromatography-data-system": {
+      "case_id": "github:202303561",
+      "verdict": "pass_with_limits",
+      "evidence": "README 明确这是不含厂商格式转换器与商业扩展的免费基础版；官方 wiki（Quantitation-ISTD）证实峰检测、积分与内标定量及结果查看；仓库 id=202303561，LICENSE 为 14,197 字节完整 EPL-2.0 文本，社区版边界与条目一致。",
+      "gaps": "方法版本化、原始信号可再处理存储、样品绑定结果记录、序列自动化与审计追踪无正文证据，条目未声称；官网首页为 SPA 外壳、无法用作核心证据，已如实记录。"
+    },
+    "clinical-data-management": {
+      "case_id": "github:169558966",
+      "verdict": "changes_required",
+      "evidence": "README 定位 EDC/CDM 并给出 Tomcat/PostgreSQL 部署；研究者手册证实 CRF 录入、必填/范围校验、四类 discrepancy、查询/注释解决、Mark CRF Complete、电子签名、完成 CRF 的变更原因；监查员手册证实 SDV、查询全生命周期、审计日志与 CRF 的 Completed/Locked 状态；仓库 id=169558966 一致。",
+      "gaps": "研究级 database lock 的门槛流程未直接证实，条目已省略；许可证标签与 LICENSE 正文冲突（见 findings），在修正前不能视为许可核对完成。"
+    }
+  },
+  "limits": "本次为只读初审：未运行或部署任何应用，未做 UI、价格、架构或运行时验证；未读取其他单元。全部结论基于本单元 REVIEW_SOURCES.json 所列快照及 batch/research/input。实时复核 LibreClinica 许可证接口返回 403，未获得补充证据。许可证正文来自 GitHub API 的 base64 快照，受单行显示截断限制，主要依据正文头部、文件大小与 API license 元数据判断，未逐字节解码全文；也未核对提交历史、分支差异、上游站点声明或社区版商业条款全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-219/ses_groveopencodegop219review1_1793029888.jsonl",
+  "batch_sha256": "ddaa9c89473ccf20419694bf4a9a9f3a967eec929215c369d45dcea30d4060ba",
+  "research_sha256": "f036252d875c871e8acde45ad97465e2cd742e34ed57c5665822a34bce8d9506",
+  "input_sha256": "5e9e375c25ae92bbb452432fd0a02215d50aaafb0d4bb8d6123b36035fb63eca"
+}

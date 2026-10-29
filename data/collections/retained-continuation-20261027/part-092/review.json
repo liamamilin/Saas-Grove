@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Tendenci 的整体产品身份仍是开源 AMS，分会管理是完整子模块；官方 chapter-management 正文覆盖多分会网络、总部集中控制与分会自治、分会专属权限/会员级别、分会活动与资源、集中报表和 Stripe Connect 分会账户，足以支持模块级案例。若目录要求严格按“产品中心重力”区分，建议在关系中标注 module-level，避免把 Tendenci 整体误标为纯分会平台。",
+    "Admidio 的 member-directory 依据主要是会员/联系人资料、自定义字段、成员列表与导出、角色可见性和消息能力；首页未明确出现 search/filter/public directory 字样，检索组织与目录发布证据偏薄。它可作为“会员管理系统内的名单/名录”简化实现接受；若要求独立可搜索目录，建议补充 Admidio 成员列表搜索/筛选文档，或将该关系降为候选。本叶核心另由 WildApricot 的 searchable/customizable directory 正文支撑。",
+    "WildApricot CommUnity 正文同时列出 members、donors、advocates、staff、friends、volunteers，research note 中“仅面向会员”的措辞略强；建议改为“以会员为主的专属社区”。商业基本类型匹配不受影响。",
+    "member-benefits-management 没有批次案例；research.json 对 Access Development 会员福利页、折扣平台页和 MemberDeals 首页的查询、抓取和缺口有完整记录。快照只显示会员折扣网络/私标福利/消费者入口，未显示组织侧权益记录、会员资格校验、兑换与参与管理，boundary_unresolved 的处理可接受。",
+    "input.json 的 progress 仍显示各叶 case_status 为 not_searched、application_ids 为空，与 batch.json/research.json 已建立的案例不一致；这是进度元数据同步问题，不影响本次内容核对，建议后续同步。",
+    "Tendenci 的 GitHub license API 可能将许可证归类为 Other；但 LICENSE 快照正文明确为 GNU GPL version 3 or any later version，README 也标注 GNU GPLv3+，batch 的 license_review 已说明，按 GPL-3.0-or-later 记录可接受。",
+    "商业 WildApricot 仅按官网营销页核对基本真实性和类型匹配；未核价格、架构、部署或运行时，符合本次范围。",
+    "MemberMatters 没有独立 homepage 快照，但 repository metadata、README 和 MIT LICENSE 足以支持 member-portal 核心；未运行支付流程或部署测试。",
+    "Tendenci、Admidio、MemberMatters 的 license/metadata/README 快照是 API 单行 JSON，读取工具会截断超长行；已结合可见的许可证开头与正文、文件大小、仓库 ID 和 README 内容核对，未发现许可证类型或仓库身份不符。",
+    "member-benefits 的三个候选快照位于 data/collections/sources，但未列入 REVIEW_SOURCES.json；本次按 research.json 记录的 sha256 文件名读取，未猜测路径或摘要。"
+  ],
+  "leaf_checks": {
+    "chapter-management-platform": {
+      "status": "pass",
+      "applications": [
+        "github:652386",
+        "commercial:wildapricot"
+      ],
+      "basis": "Tendenci 官方 chapter-management 正文明确多分会协会的分会网络、总部集中控制与分会自治、chapter-specific permissions 与会员级别、chapter leaders 管理本地活动/资源、集中报表、Stripe Connect 分会账户；同时核对 GitHub metadata id 652386、README 和 LICENSE（GPLv3+，完整 GPLv3 文本）。WildApricot 官方 chapters 页明确 All-In-One Chapter Management Software、centralized dashboard、跨分会会员/活动/沟通管理及财务/会员报表，满足商业基本类型匹配。",
+      "notes": "Tendenci 是 AMS 中的完整分会模块，建议在关系中保留 module-level 说明。"
+    },
+    "member-benefits-management": {
+      "status": "pass",
+      "case_status": "no_case_documented",
+      "applications": [],
+      "basis": "research.json 记录 assessment=boundary_unresolved，检索并抓取 Access Development 的 member-benefits-programs、discount-platform 页面和 MemberDeals 首页；快照可证明会员折扣计划、私标福利平台和消费者登录/使用入口，但未证明组织侧权益记录（条款、有效期、资格范围）、会员资格校验和兑换/参与管理。未建立批次关系，缺口记录完整，符合无案例但如实留档的要求。",
+      "notes": "不以无结果当作不存在；后续可继续寻找具备管理侧权益记录和兑换闭环的产品。"
+    },
+    "member-community-platform": {
+      "status": "pass",
+      "applications": [
+        "commercial:wildapricot"
+      ],
+      "basis": "WildApricot 官方 add-ons 页 CommUnity 段说明其为面向成员的 dedicated online space，包含 discussion boards、forums、special interest groups、member-to-member messaging、品牌定制、custom groups/sub-groups 和参与度报表；WildApricot 本身提供会员数据库和会员管理基础。商业基本类型匹配。",
+      "notes": "正文同时列出 donors/advocates/staff/friends/volunteers，建议按“以会员为主的专属社区”表述。"
+    },
+    "member-directory": {
+      "status": "pass",
+      "applications": [
+        "github:28809173",
+        "commercial:wildapricot"
+      ],
+      "basis": "WildApricot 官方 membership-management 页明确 searchable、customizable directories，展示 member profiles 和 contact information，可设为 public 或 members-only，并支持成员自助更新资料。Admidio 官网说明会员/联系人资料、自定义字段、自定义成员列表与导出、按角色控制查看/编辑权限，以及向个人、组或角色发消息；GitHub metadata id 28809173 与 GPL-2.0 完整许可证一致。",
+      "notes": "Admidio 的目录关系属于会员管理系统内的名单/名录实现，首页对 search/filter 的明示较弱，建议后续补文档。"
+    },
+    "member-portal": {
+      "status": "pass",
+      "applications": [
+        "github:236304218",
+        "commercial:wildapricot"
+      ],
+      "basis": "MemberMatters metadata 描述为 membership/access/payments portal，README 说明 member registration/login/profile、Stripe 周期会员费、self-service billing（取消会员或更新卡）、逾期自动停用门禁、管理后台；GitHub metadata id 236304218 与 MIT 完整许可证一致。WildApricot 官方 membership-management 页说明 branded member portal、members-only spaces、按会员级别定制的登录落地页、自动续费/发票、在线支付和资料自助更新。",
+      "notes": "未运行实际支付或部署测试；MemberMatters 的 README+metadata 足以支持门户核心。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 input.json、data/collections/batch.json、data/collections/research.json、REVIEW_SOURCES.json 及 data/collections/sources 下实际快照；未运行 shell、未写文件、未读取其他单元、未部署产品或执行支付流程，未核价格、架构或企业版边界。商业页面按官网营销正文做基本真实性和类型匹配；开源案例核对了仓库 ID、许可证正文、README 和社区版可用性线索。部分 API JSON 快照为超长单行，读取工具会截断，已结合可见正文、文件大小、仓库 ID 和许可证开头核对。member-benefits 的三个候选快照未列入 REVIEW_SOURCES.json，按 research.json 记录的 sha256 文件名读取；未重新抓取实时 URL。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-092/ses_groveopencodegop092review1_1792998255.jsonl",
+  "batch_sha256": "1952b11f28ca612f50c8d01b6b1898089e0572ae43506f1172cf1d324d0040f1",
+  "research_sha256": "4a0eec98e976d7d294bcf815d6675e49ff571a11c44f85238a96e1692008a8f0",
+  "input_sha256": "69233ea3e72458c164e3f22ce04dfd0e9767db9c1634ebb3e4cf5ebd495d1e3c"
+}

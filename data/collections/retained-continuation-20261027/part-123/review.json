@@ -1,0 +1,73 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍显示 not_searched / included_without_cases，而 batch.json 与 research.json 已记录 case_found；这是清单元数据滞后，不影响本次正文与来源核对，建议回写 application_ids、research_records 与 case_status。",
+    "frePPLe 的 technology_stack 仅列 C++；其功能文档同时说明后端为 Python/Django/PostgreSQL、前端为 HTML/jQuery/AngularJS，建议补全，但不影响类型与许可证判断。",
+    "frePPLe 的 license 字段写作 MIT，实际为社区版 MIT + 企业版商业授权的双许可；license_review.scope=community_core 已限定范围，建议将字段写成“MIT (Community Edition)”以避免下游误读。",
+    "Everstream 首页只展开到 Insights-to-Action 的系统集成，未展示缓解工单、处置跟踪等完整行动闭环；研究记录已如实注明，按商业类型匹配不阻断。",
+    "tlmNexus 页面说明业务案例/投资评估与审批工作流，但未展示 NPV/IRR 等价值指标计算，也未明确发起人字段；研究记录已注明，按商业类型匹配不阻断。",
+    "Descartes 的 freight payment 证据主要来自页面上的 G2 用户引述，invoice audit 有官方 FAQ 表述；官方模块卡未单列运费支付，建议后续补产品页佐证，但不影响 TMS 核心类型判断。",
+    "frePPLe 对运输/调拨计划（transfer/distribution）的细节展开有限，supply-planning 的买/造/移核心主要由生产计划、采购订单与 distribution orders 的提及支撑；研究记录已注明未扩写。",
+    "tlmNexus 快照是单行站点构建 JSON，正文以转义 HTML 嵌入；已通过关键词命中确认正文，并仅用官网当前页作补充解释。建议后续保存可读文本快照以便审计。",
+    "商业页面均为官方营销/产品概述页，未做运行时、价格或部署验证；任务不要求，故不构成缺口。"
+  ],
+  "leaf_checks": {
+    "supplier-risk-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:everstream-supplier-risk"
+      ],
+      "basis": "读取 data/collections/sources/fd1b2c8b24e1d79b643605fdb6c9954146535a739079b848048806be31788187.txt 首页正文；主视觉与五张能力卡（Network Mapping、Global Monitoring & Alerting、Risk Assessment、Sub-Tier Visibility、Insights-to-Action）均有正文表述，未以简介或导航代替。",
+      "core_match": "Risk Assessment 的供应商脆弱性自动评分卡、Network Mapping 的供应链数字孪生、Sub-Tier Visibility 的上游供应商映射，支撑以供应商群体为锚点的评估与持续监控；Insights-to-Action 将风险情报接入计划/采购/物流，支撑决策反馈。",
+      "service_form": "商业托管平台，页面有登录入口与 request demo，符合持续使用的软件服务形态。",
+      "gap": "首页未展开缓解任务、处置跟踪与合规证据留存；研究记录已如实记录，未据此扩写。"
+    },
+    "supply-chain-planning-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:12776324"
+      ],
+      "basis": "读取 GitHub API 元数据确认 id=12776324、full_name=frePPLe/frepple；读取 README.md 与 doc/features.rst；读取 COPYING。",
+      "core_match": "README 明确 demand forecasting + advanced planning and scheduling；features.rst 展示统计预测、分层预测审核/编辑分解、跨工厂/仓库/DC/供应商的供应网络模型、受约束/非受约束生产计划与排程、甘特图调整、经 Odoo 发布制造/采购订单，覆盖需求计划→供应计划→计划员审核→下达。",
+      "license": "COPYING 为双许可：社区版 MIT，企业版向 frePPLe bv 购买；MIT 许可文本含授予、条件与免责声明；README 区分 Community/Enterprise/Cloud。batch 的 license_review 将 MIT 限定 community_core，边界正确。",
+      "service_form": "开源社区版可 Docker/源码自部署，另有 Cloud Edition 托管服务；track=open_source 与条目身份一致。",
+      "gap": "运输/调拨计划细节有限；未做运行时验证。"
+    },
+    "supply-planning": {
+      "status": "pass",
+      "application_ids": [
+        "github:12776324"
+      ],
+      "basis": "复用 frePPLe 的 doc/features.rst，并复用 README/COPYING 的许可证与条目身份核对结果。",
+      "core_match": "features.rst 以需求为输入生成受约束/非受约束生产计划与排程，含多地点供应网络、采购/制造/分销订单的最小-最大-倍数约束、甘特图调整与 Odoo 发布 MO/PO；体现供应侧模型、前瞻需求、计划订单与审核下达。",
+      "gap": "运输/调拨细节未充分展开；已按来源保守记录。"
+    },
+    "transportation-management-system-tms": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:descartes-transportation-management"
+      ],
+      "basis": "读取 data/collections/sources/f7fb9a8695bbfd18f7d7dbacd6e25b1570f7746cc6443d7e66140a6d6e7b48c5.txt 主文章（约 4613-5260 行）及 FAQ，核对的是正文而非导航。",
+      "core_match": "页面明确面向 shippers/freight brokers/3PL 的 cloud native multimodal TMS；Carrier Connectivity 连接/费率/路线/跟踪；Bid/Spot Booking/Tendering 与 G2 引述的 quote/tender；实时可见性与异常告警；FAQ 的 invoice audit；G2 引述的 freight payment。覆盖货件、承运商/费率、招标、执行跟踪与运费结算主干。",
+      "service_form": "cloud native、模块化快速部署的商业平台；SaaS 形态成立。",
+      "gap": "运费支付仅有用户引述，官方模块卡未单列；未做运行时验证。"
+    },
+    "business-case-management-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:tlmnexus-capital-resource-budgeting"
+      ],
+      "basis": "读取 data/collections/sources/89e71e39435f0c63a028aab545bbccd4ebeed52d144d2a3140c18d3423fa9e99.txt（单行站点构建 JSON）；关键词命中 business case、investment appraisal、approval workflow、budget、post project evaluations、G-Cloud，且命中正文句“Supporting documents and justifications”“Automated business case and investment”；官网当前页仅作正文解释。",
+      "core_match": "页面自述为 business case and investment appraisals management system，端到端管理业务案例与投资评估，含 supporting documents/justifications、审批时间线/workflow、业务案例与预算/交付物关联、支出跟踪、post project evaluations；覆盖业务案例记录、投资评估与受控审批生命周期。",
+      "service_form": "G-Cloud 列示、request demo 的商业软件服务，类型匹配。",
+      "gap": "未展示 NPV/IRR 等价值指标计算与发起人字段；research 已记录未据此扩写。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何应用、未验证价格/架构/性能；仅读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其中 7 个快照，未读取其他单元。未重新计算 SHA-256。tlmNexus 快照是单行站点构建 JSON，读取工具按 2,000 字符截断，正文通过关键词命中确认，并用官网当前页补充解释；商业页面均为营销/产品概述，未提供可执行工作流或演示环境。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-123/ses_groveopencodegop123review1_1793006759.jsonl",
+  "batch_sha256": "b18d854d5c4e78dca4dd2b6f7ce4904dbbdd28b11bf76c42b3dcbc9387925f65",
+  "research_sha256": "fa4eca908b58a79242729d5971d59830c527147c0616027e439f917059835819",
+  "input_sha256": "d053b13e1f42bffd94d3192643b00963078cd273e1829fc0c82226141f31ee9f"
+}

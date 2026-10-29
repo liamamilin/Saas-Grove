@@ -1,0 +1,107 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前状态：五叶均写 case_status=not_searched、application_ids/research_records 为空，而 batch.json 与 research.json 已记录 case_found。若下游流程读取 progress，应同步更新；本次内容结论以 batch/research 和快照为准。",
+    "data/collections/sources/8618149b9fa831a3b5cfdad47e4ed5c498bc8a87c484bcc54b8e2a31ed601325.txt 存在，但未被 REVIEW_SOURCES.json 或 batch.json 引用；建议删除或补充其来源登记，避免快照目录与引用清单不一致。",
+    "farmOS：引用指南能证明动物资产（个体或 head count）、Group 畜群、Birth/Medical/Movement Logs 与库存调整，但未直接展示绩效报表、工作表或明确的 records→decisions 输出；建议补一条 reports/work-list 来源，或将匹配理由限定为“通用农场记录平台中的牲畜资产域”。",
+    "meez：引用页面能证明配方集中管理、按批量/份数缩放、预制执行、成本/库存/过敏原/营养、菜单工程与厨房培训；未证明生产计划或 prep list 派工/完成记录，也未证明 HACCP/温度检查清单。研究记录已明确不宣称食品安全，摘要中“生产执行”不宜写成完整生产工作流。",
+    "BrewLedger：README 使用 production-complete/milestones，未逐字列出 brew→ferment/condition→package 状态；批次摘要“包装完成流程”属略宽的转述，建议改为“生产完成/里程碑”或补充状态文档。",
+    "farmOS：摘要“库存随日志记录对账”强于引用指南中的“inventory features to track a head count over time with Logs”；若保留该表述，建议引用 farmOS inventory guide。",
+    "MTech Systems Swine：homepage 指向站点根，实际来源为深链猪业产品页；不影响真实性，建议 homepage 使用产品页或注明深链。",
+    "commercial-kitchen-management 的 input dc 仅有“Five structures make it up.”一句，未列出五个结构；本次核心核对只能依据 overview/rules，建议补全定义。",
+    "farmOS 的 Farmier 是可选付费托管，不构成功能受限的社区版；BrewLedger 明确区分 hosted 与 self-hosted OSS edition；Poultry Farm Tracker 未见独立商业版。三者的社区版边界未发现阻断问题。"
+  ],
+  "leaf_checks": {
+    "livestock-management": {
+      "application_ids": [
+        "github:16508135"
+      ],
+      "track": "open_source",
+      "source_snapshots": [
+        "data/collections/sources/bae6a7758c70366615865e997a77782fa937ef6ea20559be5984927a4ef703a3.txt",
+        "data/collections/sources/7c4f6b823a4b929b2660bf9ab55b1298532df259ba914ba9543312804284494a.txt",
+        "data/collections/sources/c2097cd86495dc9a6fca45989d8042b3f374844168c832cf0a5f62db6d9f5f25.txt",
+        "data/collections/sources/13c4570b668188ed936eab05347cb99c69f5e4a7f53885362ee547daf68b615c.txt"
+      ],
+      "id_check": "GitHub API 元数据 id=16508135、full_name=farmOS/farmOS，与 batch 的 github:16508135、repository_url 一致。",
+      "license_check": "LICENSE API 快照含完整 GNU GPL v2 文本（size=18092），README 标注 GPL 2.0，batch license=GPL-2.0；为完整开源许可证。",
+      "service_form": "自托管 Web 农场记录与计划平台（Drupal/PHP），README 同时提供 Farmier 付费托管选项；属于持续使用的软件服务形态。",
+      "core_check": "指南“Managing Assets”正文说明动物可作为 Animal Asset 按个体或 head count 记录，可用 Group 资产组织畜群，Birth/Medical/Movement Logs 与 inventory adjustments 绑定资产；覆盖种群记录与带日期事件流。该页未展示绩效报表、工作表或明确的 records→decisions 输出，决策环只能由记录与分组历史间接支持。",
+      "result": "pass",
+      "evidence_gaps": "通用农场平台的牲畜资产域，并非专用育种/畜牧系统；研究记录已标注该边界。若严格逐条核对定义，需补充 livestock reports/work lists 来源。"
+    },
+    "poultry-farm-management": {
+      "application_ids": [
+        "github:1211653818"
+      ],
+      "track": "open_source",
+      "source_snapshots": [
+        "data/collections/sources/179aa899fee0313d9bf48aa3b0d92ac4d082055d913201f6cffe5a09029a02d3.txt",
+        "data/collections/sources/8ff5566abe387d909fb4fd9c8180d839a7e121069cefd200babead7dac932e0d.txt",
+        "data/collections/sources/3e04799f48062623b021c4b417177c07e8df4409c5b0a0eadce420c61289f6be.txt"
+      ],
+      "id_check": "GitHub API 元数据 id=1211653818、full_name=tino1b2be/poultry-farm-tracker，与 batch 的 github:1211653818、repository_url 一致。",
+      "license_check": "LICENSE 快照为完整 Apache License 2.0 文本（size=11358），README 的 License 节亦明确 Apache 2.0；无独立商业版或功能受限社区版记录。",
+      "service_form": "移动优先、AWS serverless 的多角色 Web 应用（React/TypeScript、API Gateway、Lambda、DynamoDB、CDK），面向持续养殖记录与绩效管理。",
+      "core_check": "README 正文明确：broiler 以 batch 建模，覆盖 day-old chick placement 到 sell-off 全周期；layer 以 house 建模，记录 bird additions、hen-day production、molting；每日 feed/water/mortality/eggs 录入；FCR、cost/bird、projected revenue、56-day cycle alerts；monthly reports、multi-batch、roles。覆盖舍内禽群、周期绑定记录流与绩效/决策输出。",
+      "result": "pass",
+      "evidence_gaps": "未发现核心缺口；未做部署或运行验证。"
+    },
+    "swine-management": {
+      "application_ids": [
+        "commercial:mtech-systems-swine"
+      ],
+      "track": "commercial",
+      "source_snapshots": [
+        "data/collections/sources/bbb05616d1d8df0dd4c2f9dbd0e6a9f3404c17363acc95f2fac3ff7d6ee23b3b.txt"
+      ],
+      "id_check": "commercial:mtech-systems-swine 与 MTech Systems 官方猪业产品页对应，track=commercial；官方页面 canonical 为该深链产品页。",
+      "license_check": "商业产品，无开源许可证要求；未发现许可证或社区版边界问题。",
+      "service_form": "商业养猪生产管理套件，覆盖母猪场到育肥/上市的全供应链管理。",
+      "core_check": "官方产品页正文覆盖 sow farm、Breed to Wean、Wean to Harvest、Individual Lifetime Sow performance、Individual piglet tracking across herds、ADG/FCR/Mortality by Barn and Room、source-animal traceability、costing 与 packer/harvest 数据。同时支撑繁殖个体记录与生长批次记录，符合猪只管理的阶段化种群、事件流与绩效决策核心。",
+      "result": "pass",
+      "evidence_gaps": "商业页为营销正文，仅一个官方来源；按商业标准只做基本真实性与类型匹配，未验证实际工作流或部署。"
+    },
+    "brewery-management": {
+      "application_ids": [
+        "github:1294173298"
+      ],
+      "track": "open_source",
+      "source_snapshots": [
+        "data/collections/sources/bbed6d757b5fe2f8659509f1b41701006be57c5d57f9e1431b0b69cd406726e2.txt",
+        "data/collections/sources/bc731cec266127ba06558b22581c2597884e35332fe895ff4982148f6f505857.txt",
+        "data/collections/sources/d3f3eaeb4cbb836f88e20c2a5bb7aa21501dd9b3bbee86eee0264142f2469010.txt"
+      ],
+      "id_check": "GitHub API 元数据 id=1294173298、full_name=jackjusko/brewledger-oss，与 batch 的 github:1294173298、repository_url 一致。",
+      "license_check": "LICENSE 快照为完整 Apache License 2.0 文本（size=11340），README 的 License 节明确 Apache 2.0；README 说明 hosted 版在 getbrewledger.com，本仓库为 self-hosted open-source edition，社区版边界清楚。",
+      "service_form": "自托管 API 服务 + Vue 3 Web 控制台 + Capacitor 移动端，含离线优先同步，属于持续使用的酿酒厂运营平台。",
+      "core_check": "README 正文包含 Inventory ledger（receive/consume/transfer/count，append-only）、Batch tracking（recipes、vessels、readings、milestones、production-complete workflows）、Serving & taproom（tank occupancy、volume、removal）、TTB 5130.9 字段映射、离线多设备同步；覆盖配方→批次→过程读数/里程碑→生产完成与物料库存两侧。",
+      "result": "pass",
+      "evidence_gaps": "README 未逐字列出 brew→ferment/condition→package 状态名，“包装完成流程”是略宽的转述；建议补状态文档或调整措辞。"
+    },
+    "commercial-kitchen-management": {
+      "application_ids": [
+        "commercial:meez"
+      ],
+      "track": "commercial",
+      "source_snapshots": [
+        "data/collections/sources/15b04d1225a37b757023d8489cc3c7fc21bdc0eacbad03caaa1a44081bd570de.txt",
+        "data/collections/sources/0b63bd0a85db8dbbe6c1c6aad4ac062203bbb118e0bf702cc6c70785fcbc6182.txt",
+        "data/collections/sources/31ef31c1f291d9043631eda992e2e4c736f0d9e27540ef23efa4eae6d6bb7e93.txt"
+      ],
+      "id_check": "commercial:meez 与 meez 官方站点及 daily-production/scaling 页面对应，track=commercial；产品身份与官网一致。",
+      "license_check": "商业产品，无开源许可证要求；未发现许可证或社区版边界问题。",
+      "service_form": "面向餐厅与多门店厨房的云端 Web 应用，覆盖配方、成本、缩放、预制执行与培训。",
+      "core_check": "homepage、daily-production、scaling 正文证明：集中配方库、结构化原料/出成率/份量、按 batch/cover 一键缩放、prep execution、成本联动、库存/过敏原/营养、菜单工程、厨房培训、多门店配方一致性；属于 back-of-house 配方与预制执行软件，而非 POS/KDS/会计。未证明生产计划/prep list 派工与完成记录，也未证明 HACCP/温度检查清单。",
+      "result": "pass",
+      "evidence_gaps": "商业基本真实性与 back-of-house 类型匹配成立；但按叶定义完整核心，生产计划/任务完成与食品安全检查证据不足。研究记录已明确食品安全不列为已满足，摘要也未据此过度宣称。"
+    }
+  },
+  "limits": "只读审查；未运行或部署任何应用，未验证价格、架构、性能或全部工作流；仅使用本单元 REVIEW_SOURCES.json 所列快照、batch.json 与 research.json，未读取其他单元；未独立重算 sha256，仅核对文件名与记录一致性；部分 HTML 快照正文位于超长行，逐行可读性受限，核心判断以快照中可解析正文及同源官方页面正文为依据；商业产品仅做基本真实性与类型匹配；farmOS 的 records→decisions 环与 meez 的生产计划/食品安全证据缺口已在 leaf_checks 中如实记录，未当作已证实能力。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-194/ses_groveopencodegop194review1_1793024134.jsonl",
+  "batch_sha256": "71faac121642627b03607852d154e45120c1d30e35709534d23df714000648ce",
+  "research_sha256": "fc2729be52ce754d91fc276d19c68de5b1ff2f5043634fd67382a15df0130a19",
+  "input_sha256": "a8202357e19debefac5145841c66291de20db6eb8a5921d3dfef481ef5715b4c"
+}

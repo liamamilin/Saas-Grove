@@ -1,0 +1,36 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "professional-typesetting-application / github:16652218：features 中“支持实时协作、评论与项目历史”未按版本范围拆分。README 只直接证明“开源在线实时协作 LaTeX 编辑器”，首页快照把“Project history and version control”标为 Premium。建议改写为“实时协作（CE）”，评论/项目历史注明属托管付费计划或补 CE 文档，避免读者误判开源社区版功能边界。",
+    "professional-typesetting-application / github:16652218：deployment 同时列“Community Edition 自托管”与“官方托管服务 www.overleaf.com”，但 AGPL-3.0 仅覆盖仓库代码/CE；建议在条目内显式说明托管站点为商业服务、不受该仓库许可证覆盖，与 research.service_boundary 的表述保持一致。",
+    "professional-typesetting-application / github:16652218：technology_stack 中的“AGPL-3.0”是许可证而非技术栈，属字段归类小瑕疵。",
+    "professional-typesetting-application / github:16652218：leaf_matches.reason 把“编辑→编译→下载 PDF 工作循环”归于 README 与官方站点，实际最直接的正文证据是 Learn LaTeX 教程页（Recompile/Auto Compile、Downloading your finished document）；建议调整引用归属，便于后续复核。",
+    "input.json 中该叶仍为 case_status=boundary_unresolved、application_ids=[]，而 batch.json/research.json 已记录 github:16652218 并评估为 case_found；本条不阻断内容审查（新来源已补上此前“仅客户端/CLI/引擎”的缺口），但调用方需在入库时同步叶子状态与 application_ids，避免元数据与批次不一致。",
+    "首页快照 079c030c6378 以脚本、埋点和 meta 描述为主，正文营销文案信息量有限；定义性核心实际由 Learn LaTeX 教程正文承担，此点已在本叶 leaf_checks 中区分，后续引用时不宜把首页当作工作流证据。"
+  ],
+  "leaf_checks": {
+    "professional-typesetting-application": {
+      "slug": "professional-typesetting-application",
+      "name_zh": "专业排版软件",
+      "application_id": "github:16652218",
+      "name": "Overleaf (Community Edition / www.overleaf.com)",
+      "track_match": "通过。track=open_source，仓库 overleaf/overleaf（metadata id=16652218，fork=false，description \"A web-based collaborative LaTeX editor\"）为 AGPL-3.0 完整 Web 应用代码；官方托管站点为另一交付形态，已由 research.service_boundary 区分。",
+      "id_match": "通过。批次 id github:16652218 与快照 0f325505b0b4 中 \"id\":16652218、full_name overleaf/overleaf、html_url 一致；仓库元数据与 README 指向同一产品（README 链接 www.overleaf.com 与 Server Pro 企业页）。",
+      "definition_core": "通过（正文证据）。快照 28f8017b5479 第107行：LaTeX 文档是“plain text file interspersed with LaTeX commands”，经 TeX engine 处理“into a professionally typeset PDF file”，并对比 WYSIWYG；第118行：内容与样式分离、可用文件定义版式并作 template 复用；第146–147行：\\documentclass{article} 声明文档类，正文位于 \\begin{document}…\\end{document}，改稿后按 Recompile 查看生成的 typeset PDF；第1016–1017行：可下载“typeset PDF file”。第156–188行给出 preamble、documentclass 参数与 \\usepackage{graphicx} 宏包设计层；第390–428行给出 \\label/\\ref/\\pageref 等生成结构；第95行目录含 Downloading your finished document。四项定义性核心（标记纯文本源、可复用设计层、引擎组合、再生分页交付物）均有正文支撑，未见以简介/元数据/Loading 代替正文。",
+      "service_form": "通过。README 第24行：开源在线实时协作 LaTeX 编辑器，官方在 www.overleaf.com 托管，同时“you can also run your own local version”；第47–60行：server-ce 下 Dockerfile-base 与 Dockerfile 构建 sharelatex 镜像，镜像“adds the actual Overleaf code and services”；第39–41行指向 Overleaf Toolkit 安装说明。可证明其为持续可用的 Web 应用服务（自托管 + 官方托管），非仅 CLI/编译器。首页快照 079c030c6378 第1行标题与描述亦为在线 LaTeX 编辑器，ol-ExposedSettings 中 env=\"saas\"、siteUrl=www.overleaf.com，可作佐证。",
+      "type_boundary": "通过。产品属于“在排版引擎之上提供编辑与协作的托管/自托管应用”，与叶定义中“hosted products describe themselves as editors and collaboration platforms built over such engines”一致；未混淆为桌面出版/页面布局软件。",
+      "license": "通过。许可快照 dc6ea6d96fc2 为 GitHub license 接口返回，name=LICENSE、path=LICENSE、size=34520、encoding=base64，解码正文以“GNU AFFERO GENERAL PUBLIC LICENSE / Version 3, 19 November 2007”开头，为完整 AGPL-3.0 许可证全文（非仅有 SPDX 标签或摘要）；README 第78行亦声明“released under the GNU AFFERO GENERAL PUBLIC LICENSE, version 3”。许可为完整文本且与仓库身份绑定同一仓库。",
+      "community_edition_boundary": "基本通过。README 第22–33行明确 CE 定位与限制：CE 面向“all users are trusted”的环境，因无 Sandbox Compiles 不适合需要用户隔离的场景；企业版 Overleaf Server Pro 另含 SSO（LDAP/SAML）、管理与协作（如 tracked changes）功能。research.service_boundary 亦明确 Server Pro 的安全与管理功能不计入开源范围。批次 features 中“评论/项目历史”未按版本归属拆分，列入 non_blocking_notes，不影响许可证与 CE 边界的成立。",
+      "source_integrity": "通过（路径与内容层面）。REVIEW_SOURCES.json 所列 5 个 path 均按原样读取成功，内容与 kind 匹配（repository_metadata / readme / license / homepage / documentation）；batch.json 与 research.json 的 URL 集合与快照一一对应，snapshot_path 以 data/collections 为基准解析正确；未发现以摘要、导航或关键词冒充核心证据。",
+      "documented_gaps": "research.json 已如实记录：runtime_tested=false，未部署或运行该服务；历史 Typst 候选（github:210702427）作为未采纳候选保留并说明理由，未改写旧快照时间与 SHA。上述留档符合“已如实记录缺口可通过”的要求。",
+      "verification_limits": "本叶未能独立复算 SHA-256（只读环境不执行 shell）；仓库元数据与许可快照为单行 JSON，读取器按 2000 字符截断，archived/pushed_at 及 license 对象中的 spdx_id 字段未能在原始行内直接目视复核，已改用独立许可快照全文与 README 完成许可证核对。"
+    }
+  },
+  "limits": "本次为只读独立初审：未执行 shell，故未重新计算任何快照的 SHA-256，仅核对 REVIEW_SOURCES.json、batch.json 的 sha256 与快照文件名一致性；未做联网重抓，全部结论基于 data/collections 下指定快照。data/collections/sources/0f325505b0b4… 与 dc6ea6d96fc2… 为单行 JSON，读取工具按行截断至约 2000 字符，archived、pushed_at、license.spdx_id 等靠后字段无法直接目视全文，其中许可证以 dc6ea6d96fc2… 的 base64 全文（GNU AGPL v3 正文，size=34520）与 README 第78行交叉确认；首页快照 079c030c6378… 以脚本与 meta 为主，正文信息有限，核心工作流改由 28f8017b5479… 正文核对。未运行或部署 Overleaf（与 research.json 的 runtime_tested=false 一致），不对价格、架构与部署实施作判断；按要求未读取其他单元、未读取历史 Typst 快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-055/ses_groveopendesignp055review1_1793171624.jsonl",
+  "batch_sha256": "931a996cff5a3ebd8679ee5e6f64625398f4443fb17530f65a493e70d6142a70",
+  "research_sha256": "4b9f97edbd80b33c7888de290d4e1d1d57bc353eb38e8705ff7905bc2228628d",
+  "input_sha256": "d75ae047cc30e26759c90ab1b941d7fa5000072b9f13a5ed424aaacef54443bb"
+}

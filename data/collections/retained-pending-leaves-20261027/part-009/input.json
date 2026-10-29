@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 30,
+  "offset": 725,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "statistical-process-control-spc",
+        "name_zh": "统计过程控制 (SPC)",
+        "domain_id": "16",
+        "parent_id": "16.04",
+        "case_status": "incomplete",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-160/state.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": null
+          },
+          {
+            "record": "retained-go-followup-20261027/part-042/state.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": null
+          }
+        ],
+        "archived": false,
+        "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。"
+      },
+      "definition": {
+        "slug": "statistical-process-control-spc",
+        "name": "Statistical Process Control / SPC",
+        "name_zh": "统计过程控制 (SPC)",
+        "aliases_zh": [
+          "控制图分析",
+          "过程统计控制"
+        ],
+        "overview": "A **Statistical Process Control application** is the quality function's instrument for monitoring the statistical behavior of a manufacturing process over time. It accumulates observations of defined process characteristics, organizes them into time-ordered plotted points, computes **control limits from the process's own variation**, and applies statistical rules to those points to determine when the process has become statistically unpredictable — an **out-of-control** condition that warrants investigation and recorded response.\n\nThe problem it solves is specific: every process carries inherent, random variation (common cause), and occasionally something changes — a tool wears, a material lot differs, a setting drifts — producing variation the process does not normally exhibit (special cause). Specification limits and pass/fail inspection cannot see this difference; a part can pass inspection while the process behind it is quietly deteriorating, or fail while the process itself is behaving normally. SPC software exists to make that distinction visible and actionable, using control charts with limits derived from the process itself.\n\nIts boundary: SPC judges the **process**, not the part and not the machine. Judging part instances against nominal geometry is inspection territory; supervising and commanding equipment is automation territory. SPC consumes measurements and returns statistical judgment about process stability, plus the companion analysis of what the stable process can deliver (capability).",
+        "overview_zh": "一个**统计过程控制应用程序**是质量职能部门用于监控制造过程随时间推移的统计行为的工具。它收集对已定义过程特性的观测值，将其组织成按时间顺序排列的绘图点，**根据过程自身的变异计算控制限**，并对这些点应用统计规则，以确定过程何时变得统计上不可预测——这是一个**失控**状态，需要调查和记录应对。\n\n它解决的问题是特定的：每个过程都存在固有的、随机的变异（普通原因），偶尔某些因素会发生变化——工具磨损、材料批次不同、设定漂移——产生了过程通常不会表现出的变异（特殊原因）。规格限和合格/不合格检验无法察觉这种差异；一个零件可能通过了检验，但其背后的过程可能正在悄悄恶化；或者一个零件未通过检验，而过程本身却运行正常。SPC软件的存在就是通过使用源自过程本身的控制限图表，使这种区分变得可见并可操作。\n\n其边界：SPC评判的是**过程**，而非零件或机器。根据标称几何形状评判零件实例属于检验范畴；监控和指挥设备属于自动化范畴。SPC消耗测量数据，并返回关于过程稳定性的统计判断，以及关于该稳定过程所能达到的能力（制程能力）的配套分析。",
+        "dc": "```text\nDefined process characteristic\n  └── time-ordered observations, organized into plotted points\n      (subgroups of one or more readings)\n      └── control limits computed from the process's own variation\n          (center line + upper/lower control limits)\n          └── statistical rules evaluated against those limits\n              → out-of-control signals: the process needs attention\n```",
+        "dc_zh": "定义的过程特性\n  └── 时间顺序的观测值，组织成绘制的点\n      （一个或多个读数的子组）\n      └── 控制限从过程自身的变异计算得出\n          （中心线 + 上/下控制限）\n          └── 统计规则针对这些控制限进行评估\n              → 失控信号：过程需要关注",
+        "rules": "- **Control limits are not specification limits.** Control limits are computed from the process's collected data; specification limits come from engineering and the customer. Conflating them destroys the method — a chart drawn only against tolerances cannot detect special-cause variation at all. Mature products keep the two kinds of limits separate everywhere: computed limits for the statistical judgment, specs as reference and capability context.\n- **In-control does not mean in-spec.** A stable process can produce consistently out-of-spec output (a \"predictably bad\" process), and an unstable one can currently produce only good parts. The two judgments answer different questions and are reported independently.\n- **A signal is a process verdict, not a product verdict.** Flagging a point does not by itself reject parts or stop production; it demands investigation. Disposition of product remains an inspection/quality decision, and remediation remains a human activity — the software records it.\n- **Stability before capability.** Capability indices computed over an unstable process are invalid, because the described process will not persist. Mature products teach and enforce this sequence.\n- **Limits are owned, not automatic.** Recomputing limits after every signal would wash the evidence away; mature practice is to freeze or stage limits and change them deliberately when the process genuinely changes. Some products support fixed historical limits for judging future production against a known state.\n- **More rules, more false alarms.** Each added special-cause test increases sensitivity but also the chance of chasing noise. Rule sets are therefore a configuration decision, and products let engineers select and parameterize them.\n- **Data type determines the chart.** Measured variables and counted attributes follow different chart mathematics; a characteristic monitored with the wrong chart type produces meaningless signals. Products either enforce the choice or help the user make it.\n- **Every point carries its context.** The statistics are only as good as the grouping: readings taken under materially different conditions do not belong in one subgroup, and recorded context (lot, shift, machine, operator) is what lets a signal become an investigation. Products therefore attach traceability fields to subgroups alongside the numbers.",
+        "rules_zh": "- **控制限不等于规格限。** 控制限根据收集的过程数据计算得出；规格限来自工程部门和客户。混淆二者会破坏该方法——仅根据公差绘制的控制图根本无法检测特殊原因变异。成熟的产品在所有地方都区分这两种限值：计算出的限值用于统计判断，规格作为参考和制程能力背景。\n- **受控不等于合格。** 一个稳定的过程可能持续产出不合格品（一个“可预测地糟糕”的过程），而不稳定的过程目前可能只生产合格零件。这两种判断回答不同的问题，应独立报告。\n- **信号是过程的判定，而非产品的判定。** 标注一个点本身并不导致拒收零件或停止生产；它要求进行调查。产品的处置仍是检验/质量决策，而补救措施仍是人的活动——软件只是记录它。\n- **稳定性先于制程能力。** 在不稳定过程上计算的制程能力指数是无效的，因为所描述的过程将不会持续。成熟的产品会教授并执行这一顺序。\n- **控制限是所有者定义的，而非自动的。** 在每个信号后都重新计算控制限会洗掉证据；成熟的做法是冻结或分阶段设定控制限，并在过程发生真实变化时才刻意更改。有些产品支持固定的历史控制限，用于根据已知状态评判未来生产。\n- **规则越多，误报越多。** 每增加一项特殊原因检验都会提高敏感度，但也会增加追逐噪声的风险。因此，规则集是一个配置决策，产品允许工程师选择和设定其参数。\n- **数据类型决定控制图。** 测量型...",
+        "parent_id": "16.04",
+        "domain_id": "16"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 9,
+    "phase": "directory",
+    "parent": 42,
+    "source_run": "go-followup-20261027",
+    "input_status": "incomplete",
+    "slugs": [
+      "statistical-process-control-spc"
+    ],
+    "old_input_sha256": "9da5a689d1bfa43ffcf53d35ef6c633849d23545b0413031b46179230e54e504"
+  },
+  "previous_continuation": {
+    "unit": 42,
+    "phase": "complete",
+    "parent": 160,
+    "slugs": [
+      "inspection-metrology-software",
+      "manufacturing-qms",
+      "product-test-management",
+      "statistical-process-control-spc",
+      "supplier-quality-management"
+    ],
+    "old_input_sha256": "cab3e0dbca26f9bdfddfd4429c4e4cf9c6a3f3ab6935a735b099271ab7329802"
+  }
+}

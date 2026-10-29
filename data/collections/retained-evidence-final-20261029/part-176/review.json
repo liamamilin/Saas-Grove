@@ -1,0 +1,28 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "批次摘要与 leaf_matches.reason 把“院系就业分析看板”描述为对参与情况的回看，并称已形成完整机构互动闭环；快照中的分析看板主要是就业率与院系指标，活动 RSVP、导师申请、职位申请才是参与记录，文档没有明确说明分析结果会驱动下一轮定向外联。建议把措辞改为“具备登记、项目运营与参与记录，反馈外联为合理推断”，或在后续补充直接证据；这不影响本次类型判断。",
+    "FUNCTIONAL_REFERENCE 自己说明：注册审批在 views.py 中映射为 Mentor/Admin，而功能规范写的是 Coordinator/Admin；批次摘要概括为“导师或协调员审核”。建议统一表述为“导师/管理员审批（协调员权限待整合）”，避免读者把三种口径当成同一事实。",
+    "README 与 FUNCTIONAL_REFERENCE 显示部分功能带演示或模拟性质：AI 简历解析为模拟提取，聊天自动回复、输入提示、语音视频为 mock，后端离线时前端回退本地模拟数据。核心的注册审批、活动 RSVP、导师申请与职位流程有数据库 schema 和流程文档支撑，因此不阻断；但收录描述不宜把这些 mock 功能当作生产功能。",
+    "MIT LICENSE 正文完整，含授权、版权声明与免责声明，覆盖整个仓库，未发现社区版或模块拆分限制；但版权行仅有“Copyright (c) 2026”，没有权利人名称。这不构成许可证缺失，建议日后补全权利人。",
+    "input.json 仍标为 included_without_cases / boundary_unresolved，而 batch.json 与 research.json 已记录 case_found 和 github:1204742108；这属于流水线状态未同步，不影响内容审查，但建议后续统一状态字段。",
+    "未运行、未部署候选项目，runtime_tested=false；README 自述 Active Development，成熟度与文档、实现的一致性未经验证。"
+  ],
+  "leaf_checks": {
+    "alumni-management": {
+      "definition_core": "已核对三个结构。第一，校友登记册成立：users 表含 department_id、batch_year、role 和 pending/approved/rejected 状态；FUNCTIONAL_REFERENCE 规定注册时院系、毕业批次、学号为必填；PROCESS_FLOWS 说明新用户先待审，由院系导师或协调员批准后才可访问，属于机构性、经学术隶属验证的登记册。第二，每位校友的跟踪关系成立：alumni_profiles、user_experiences、user_social_links、mentorship_requests、event_attendees、job_applications、messages 等记录保存了联系资料、职业历史、导师关系、活动参与、职位申请和沟通历史。第三，机构运营的参与循环基本成立：协调员/管理员创建活动，各角色报名并由 event_attendees 记录注册时间；导师向所辖批次广播；协调员/管理员发布公告；院系分析看板提供就业率等指标。综合判断可作为校友管理案例；其中“衡量结果驱动再外联”的因果链为文档推断，已在 non_blocking_notes 说明。",
+      "service_form": "是持续使用的多用户自托管 Web 应用，而非客户端、组件或单纯静态页面：README 与 DATABASE_SCHEMA 显示 Django 5.2 + DRF 后端、PostgreSQL 19 张表、JWT 鉴权、Vanilla JS 多页前端，并提供 npm run setup:backend、db:migrate、dev 的自托管部署步骤。未做运行时验证，无法确认实际可用性。",
+      "identity_track": "application_id 为 github:1204742108；GitHub 仓库页快照的 octolytics repository_id 为 1204742108，repository_nwo 为 kulkarnishub377/Alumni_Management_portal，且 repository_public=true、repository_is_fork=false，与 batch.json 的 github_repository_id、repository_url、homepage 一致。track=open_source 与公开仓库、MIT 许可证相符；未发现同名重复或类型错配。",
+      "license": "已按 REVIEW_SOURCES.json 的 path 读取 LICENSE 快照：标准 MIT 全文，含授权、版权声明、免责声明，许可证位于仓库根目录，README 也标注 MIT。license_review 的 scope=repository 与“覆盖整个仓库、无社区版限制”的判断一致；版权行缺少权利人名称，但不影响 MIT 授权文本的完整性。",
+      "sources": "已原样读取 6 个快照：仓库页、LICENSE、README、DATABASE_SCHEMA、PROCESS_FLOWS、FUNCTIONAL_REFERENCE；路径均以 data/collections 为基准，与 batch.json 的 snapshot_path 和 REVIEW_SOURCES.json 的 path 一致，未发现缺失或摘要替代正文。README、数据库 schema 与流程文档提供了核心正文，未仅凭简介、元数据或 Loading 页面作结论。",
+      "residual_gaps": "没有查看 backend/api/models.py 等源码，无法验证文档描述与实现完全一致；没有克隆、部署或运行，无法确认活动创建、RSVP、批次广播、分析看板等在实际运行中的行为；未重新计算快照 SHA-256；前端存在 mock/模拟功能与回退机制，部分功能的生产可用性未验证；注册审批角色在文档内部存在 Mentor/Coordinator/Admin 的口径差异。上述缺口已由采集记录如实保留，未阻断本次初审。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 指定的 6 个快照；未运行 shell、未写文件、未访问其他单元、未抓取实时网页。未重新计算 SHA-256，也未克隆、部署或运行候选仓库，因此无法验证快照哈希、源码实现、运行时行为、实际数据模型、许可证在全部历史提交中的覆盖情况，以及 README/文档与后端代码的一致性；对“机构互动闭环”的判断部分依赖文档推断，已在 non_blocking_notes 标明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-176/ses_groveopencodegop176review1_1793254533.jsonl",
+  "batch_sha256": "8488ab74d0e2b1ffcab872bb2641bfa7c7031b49944e063ac71dc8e3ae0994e4",
+  "research_sha256": "3fcded61783a68335e1f5e8012593b5b43cfd961061368b00cf402f76b8bf7a7",
+  "input_sha256": "b2028f790b4cc49ac32e988397e1e33901d3229516fccfcbc446e28d9f3ede5c"
+}

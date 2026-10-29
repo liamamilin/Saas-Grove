@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "business-intelligence-platform / github:39464018：Superset README 已证明外部 SQL 数据源连接、图表与仪表板创作、安全角色与认证，但未展开消费者端共享/发布及内容级、行级权限；采集已如实记录该缺口，建议后续补官方 dashboard 分享与权限文档，当前不影响 BI 类型判定。",
+    "dashboard-platform / github:15111821：Grafana README 明确 AGPL-3.0-only，同时提示 Apache-2.0 exceptions 见 LICENSING.md；条目 license_review 的 scope=repository 可补充“主体 AGPL、部分文件 Apache-2.0 例外”。社区版与 Enterprise 的边界已由 roles 文档中的 Enterprise 标签及 data source permissions 小节支撑。",
+    "data-lineage-platform / github:139907613：Marquez README 支持血缘图与 job/dataset 依赖浏览，但未直接描述 impact-analysis 工作流；采集已限定不声称该能力，建议保持该边界。默认 HTTP API 无认证/授权，也不应把访问控制写成 OSS 既有能力。",
+    "data-observability-platform / commercial:dqops：核心证据来自官方 incident 文档（定期监控、issue 归并为 incident、Open/Acknowledged/Resolved、通知），首页为营销页且 CSS 占比较高。BSL 1.1 已由 sources/ 中额外 LICENSE 快照核对，按 commercial 记录合适，但条目 sources 未登记该许可来源，建议补记。",
+    "data-visualization-application / github:9496329：RAWGraphs README 明确表格/CSV/粘贴输入、基于 D3.js 的 SVG 输出与浏览器端处理，但未逐字描述字段到视觉通道的映射；建议补官方教程或界面截图加固，当前仍可识别为该类型。",
+    "input.json 的 progress 仍为 case_status=incomplete、application_ids=[]，与 batch/research 的 case_found 不一致；建议同步进度元数据，避免下游误判，但不影响本次内容核对结论。"
+  ],
+  "leaf_checks": {
+    "business-intelligence-platform": {
+      "result": "pass",
+      "application_id": "github:39464018",
+      "evidence": "已读取 Superset README、Apache-2.0 LICENSE 全文与 GitHub 仓库元数据；README 自称 enterprise-ready business intelligence web application，明确连接 SQL 数据源、无代码建图、SQL 编辑器、仪表板、可配置安全角色与认证；仓库 ID 39464018 与条目一致；LICENSE 为完整 Apache-2.0 文本。",
+      "notes": "快照未展开消费者端分发及内容级/行级权限，类型判定主要依据 business users、teams、security roles 与 dashboard 创作；采集已记录该缺口。"
+    },
+    "dashboard-platform": {
+      "result": "pass",
+      "application_id": "github:15111821",
+      "evidence": "Grafana README 明确 query/visualize/alert、混合多数据源、创建/探索/共享 dashboard；官方 Roles and permissions 文档正文列出 Organization 的 Viewer/Editor/Admin 及 dashboard/folder 权限；LICENSE 为完整 AGPL-3.0 文本，仓库 ID 15111821 与条目一致；go.mod 支撑 Go 技术栈。",
+      "notes": "roles 文档同时标注 Enterprise/Open source/Cloud，data source permissions 位于 Enterprise 特性小节，条目已把数据源级 RBAC 排除在 OSS 断言外；README 另提示 Apache-2.0 exceptions，条目未展开。"
+    },
+    "data-lineage-platform": {
+      "result": "pass",
+      "application_id": "github:139907613",
+      "evidence": "Marquez README 说明其为开源 metadata service，通过 OpenLineage 采集 dataset/job/run，维护数据生产与消费 provenance，并在 Web UI 血缘图中浏览 job/dataset 依赖；Apache-2.0 LICENSE 全文；仓库 ID 139907613 与条目一致。",
+      "notes": "README 未直接描述 impact-analysis 工作流，采集已限定不声称；默认 HTTP API 无认证/授权，条目未把访问控制列为 OSS 既有能力。"
+    },
+    "data-observability-platform": {
+      "result": "pass",
+      "application_id": "commercial:dqops",
+      "evidence": "DQOps 官方 incident 文档正文明确：平台按固定周期监控数据源，失败检查形成 issue，同类 issue 归并为 incident，状态 Open→Acknowledged→Resolved（另有 Muted），支持通知；官网首页为真实产品页并提供 Pricing；sources/ 中额外 LICENSE 快照为 BSL 1.1（非 OSI 开源），按 commercial 记录与类型匹配。",
+      "notes": "首页营销页 CSS 占比较高，核心工作流主要依据官方 docs；条目 sources 未登记仓库/LICENSE/README，建议补记但不影响商业真实性判定。"
+    },
+    "data-visualization-application": {
+      "result": "pass",
+      "application_id": "github:9496329",
+      "evidence": "RAWGraphs README 说明其为开放 Web 工具，接收表格/CSV/粘贴文本，基于 D3.js 创建自定义矢量可视化，输出可编辑 SVG 并可嵌入网页，数据仅在浏览器处理；Apache-2.0 LICENSE 全文；仓库 ID 9496329 与条目一致。",
+      "notes": "README 未逐字说明字段到视觉通道的映射与计算渲染细节，类型判定依据表格输入、D3/SVG 输出与自定义布局；建议补官方教程或截图加固。"
+    }
+  },
+  "limits": "本次为只读文档审查：未运行 shell、未部署或运行任何产品、未重新计算快照哈希；结论以 REVIEW_SOURCES.json 列出的路径及本单元 sources/ 中实际文件为准。Grafana roles 页与 DQOps 首页为 HTML 快照，正文可读性受页面结构影响；DQOps 的仓库元数据/README/LICENSE 不在 REVIEW_SOURCES 清单但在 sources/ 中存在，已用于 BSL 商业边界核对；research.json 引用的 Elementary 快照未在 sources/ 中找到，未复核，仅作为被否候选留档。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-040/ses_groveopencodegop040review1_1793083793.jsonl",
+  "batch_sha256": "d25cbd71b3e50e7d04f5f3b8668189af530b455a048c4a05192fd0e2df22d67a",
+  "research_sha256": "3824c523b0b9577f7b8fb3e38e460ce3a9e65eadfd0b9d68a80765836a908009",
+  "input_sha256": "8ebfa08d6a32930c2c56dca7281a3617d446cb090df1322779a4e904e38c3493"
+}

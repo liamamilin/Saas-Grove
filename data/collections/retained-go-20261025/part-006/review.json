@@ -1,0 +1,124 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "e-commerce-platform",
+      "issue": "核心工作流未被引文正文证明。entry 引用的 https://devdocs.bagisto.com/ 快照（061393c954ea）只是 VitePress 空壳：除 <title>Bagisto</title>、__VP_HASH_MAP__ 脚本外没有任何正文，因此 reason 里“开发者文档说明商品类型自带定价、库存与购物车行为”无法成立。README 快照（e74753b5）只能读到 open-source Laravel eCommerce / multi-vendor 定位、单命令 Docker 起店、POS 的 fast customer checkout、headless storefront，全文没有 cart、checkout-to-order、merchant order management 的正文表述。",
+      "required_fix": "改引一页有正文的官方文档（如 devdocs 的安装/架构/storefront/checkout 页，或 README 中能同时证明目录-店面-结账-订单同体的段落）；若拿不到，则把 reason 收敛到 README 已证内容，并在 research.note 明写“结账转订单同系统管理未获正文证据”，不要保留未证断言。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "ai-audio-generator",
+      "issue": "reason 引号内的英文原句 “Create Royalty-Free Sound Effects from a Text Prompt” 在 9d4513321a18 快照中检索不到，属于不可核对的引文。快照实际可证的是 “sound effect generator lets you create custom sound effects from scratch… generate, modify, and download your own sounds in MP3 format — all royalty-free” 与 “generate your own royalty-free sound effects from scratch”。",
+      "required_fix": "把引文替换为快照中真实存在的句子（或改为不引号的转述），必要时重抓该页；不要保留带引号但原文不存在的表述。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "ai-avatar-video-generator",
+      "issue": "reason 写 “官方首页列出 ‘AI Avatars — Lifelike avatars from a script’…130+ 语言配音”，与 7d8582129b3f 快照不符：页面实际写的是 “AI Video and Avatar platform for business… AI avatars and voiceovers in 140+ languages”“100s of avatars”“Translate your video library into 140+ languages, with lip sync and voice cloning”，代码片段里有 lipsyncEnabled: true；未出现 “Lifelike avatars from a script”，语言数是 140+ 而非 130+。",
+      "required_fix": "把数字改为 140+，删去快照中不存在的引号句，改用 “AI avatars and voiceovers in 140+ languages”“with lip sync and voice cloning” 等原文；核心（脚本/语音→数字人表演→渲染视频）本身证据成立。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "order-management-system-oms",
+      "issue": "reason 声称“支持门店发货、点击提货以及退货换货处理”，但在 d562081d 首页正文中只能核到 “AI-Native Order Management System”“Orchestrate every order across channels, stores and warehouses”“Order orchestration / inventory data / Deliver on every promise”；未见退货换货、ship-from-store、click-and-collect 的可读正文。更麻烦的是，这些可证内容偏“编排/寻源”（相邻的 distributed-order-management 与 order-orchestration-platform），而 OMS 定义性核心所需的“订单记录 + 已捕获后生命周期（批准/编辑/取消/退款）+ 发货与追踪关联”没有直接证据。",
+      "required_fix": "补引官方 OMS 子页（订单生命周期/状态机、取消退款、发货与 tracking 关联、退货流程），或把 reason 收敛为“自述 OMS + 跨渠道门店仓库编排”，并删去退货换货与门店发货细节；同时在 note 保留“生命周期状态门控未核”的缺口。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "online-store-builder",
+      "issue": "Shopify 快照（0c0c36ee7e93）是 React 单页外壳，可读内容只有 <title>Shopify: The All-in-One Commerce Platform for Businesses</title> 与 meta description 的 “Build or grow your business fast with AI. Get more than ecommerce software with tools to manage every part of your business.”。reason 中“主题或 AI 生成在线店铺、统一管理商品目录与库存、内置结账与支付、集中处理订单与履约”在该快照里没有正文支撑。",
+      "required_fix": "改引主题编辑器、checkout、orders/inventory 的官方页面（或帮助中心文档）作为正文证据；商业条目可保留基本真实性，但不得用首页关键词或 title 代替能力证明。",
+      "severity": "blocking"
+    },
+    {
+      "slug": "font-editor",
+      "issue": "license_review.rationale 写“LICENSE 页另说明整体按 GPLv3 或更新版本发布”，但 entry.sources 只收录了 COPYING.gplv3（8ceb4b9e），没有收录该 LICENSE 文件的快照；rationale 引用了不在本 entry 来源内的资料。另外 features 里的“复合字形与参考线、字距、OpenType 特性”超出 5 行 README 可证范围（README 仅 “free (libre) font editor… create, edit and convert fonts in OpenType, TrueType, UFO, CID-keyed, Multiple Master”）。",
+      "required_fix": "要么补上 LICENSE 文件快照并作为 license_review 的并列依据，要么删掉 rationale 中该句；features 收敛为 README 支持的 create/edit/convert 与字体编辑器定位（可保留格式清单，删去无出处的字形级细节）。",
+      "severity": "major"
+    },
+    {
+      "slug": "professional-typesetting-application",
+      "issue": "features 写“编译器把源文件编译为 PDF、图像与网页（预览）”，超出证据：README 只证 PDF 编译（typst compile → file.pdf）与增量编译；HTML 导出在 README 致谢里只作为 NLnet 资助的进行中工作出现（“Work on HTML export”），不是已交付能力。",
+      "required_fix": "改为“编译为 PDF（及图像导出）”，或注明 HTML 导出为规划/资助中；其余核心（标记源→set/show 设计层→compile→PDF、错误提示）证据充分，可保留。",
+      "severity": "major"
+    },
+    {
+      "slug": "marketplace-platform",
+      "issue": "research.note 写“其开源 Sharetribe Go 为旧版源码可用产品”，措辞自相矛盾：Sharetribe Go 采用 Sharetribe Community Public License（源码可用，非 OSI 认证开源）。另外 www.sharetribe.com 快照为单行 Next.js 输出，卖家档案/上架/抽成/托管等主张未能在可读窗口内逐句核对。",
+      "required_fix": "把“开源”改为“源码可用（非 OSI 开源）”，避免许可证边界错误；并保存可读正文或改引官方 product/pricing 页，支撑多卖家、卖家自管、抽成与托管四点。",
+      "severity": "major"
+    },
+    {
+      "slug": "product-information-management-pim",
+      "issue": "AtroPIM README 明确 “This repository contains the source code of the PIM module for the AtroCore Business Application Platform. AtroPIM is an instance of AtroCore with the PIM module installed on top of it.”，但 summary 与 research.service_boundary 都把它当成可直接自托管的完整 PIM，未写 AtroCore 依赖。",
+      "required_fix": "在 summary 或 service_boundary 补一句“需叠加 AtroCore 平台运行（同为 GPLv3 开源）”，避免把模块当成独立可跑应用；许可证与功能墙结论（GPLv3、核心无付费墙）可保留。",
+      "severity": "major"
+    },
+    {
+      "slug": "ai-video-generator",
+      "issue": "reason 写“支持从首尾帧生成运动与延伸片段”，但 pika.art/faq 快照（ebe46a4f2f9e）中检索不到 keyframe / first frame / last frame，仅能核到 credits 与 extend 相关词；“提示词→生成片段”的核心也主要依赖首页快照。",
+      "required_fix": "改引首页或帮助中心里真正出现首尾帧条件的段落作为 source_urls 依据，否则删去“首尾帧生成运动”，只保留快照可证的“提示词/素材→生成视频、模型与积分”。",
+      "severity": "major"
+    },
+    {
+      "slug": "ai-design-generator",
+      "issue": "Sivi 首页与 tour 页都是单行压缩 HTML，reason 中的 “Large Design Model”“逐层移动元素、改文案、换图”“导出 PNG/JPG/HTML/PDF” 无法在核验窗口内定位到可读段落（相关词在整行文本中存在，但段落不可核对）。核心“text prompt → layered editable designs”已能读到。",
+      "required_fix": "保存一份抽取正文后的快照或补一条可读官方页（features/export 页），使“可操作结果→交付”这一步有可引用段落；至少把 reason 中无法指位的细节删到可证范围。",
+      "severity": "minor"
+    },
+    {
+      "slug": "ai-image-editing-application",
+      "issue": "GitHub metadata 明确 archived=true（b18e9a4e 中 \"archived\":true），但结构化字段无处承载该状态，summary 与 service_boundary 都没有提示；只有 reason 与 research.note 提到“仓库已归档”。导入后读者容易把只读归档项目当成在用产品。",
+      "required_fix": "在 service_boundary（或 summary）明示“仓库已归档、只读，功能证据成立但不再维护”，无需改范围或换产品。",
+      "severity": "minor"
+    },
+    {
+      "slug": "distributed-order-management",
+      "issue": "第二个来源 https://www.linnworks.com/order-management/ 的 kind 标成了 homepage，但它是解决方案/订单管理子页，实际作用等同 documentation；同一 entry 出现两个 homepage 来源，语义不准确。",
+      "required_fix": "把该 source 的 kind 改为 documentation（不影响导入校验，但影响来源类型统计与复核语义）。",
+      "severity": "minor"
+    }
+  ],
+  "leaf_checks": {
+    "professional-typesetting-application": "Typst README 证标记源 + set/show 设计层 + compile 生成 PDF + 面向用户的错误提示，Apache-2.0 正文与仓库 id 210702427 已核；仅 features 的“图像/网页导出”超出证据，需收敛。",
+    "font-editor": "FontForge README 只证 free (libre) font editor 与 create/edit/convert 多格式，GPLv3 全文完整、仓库 id 5390156 经 GitHub HTML 页 octolytics 核对通过；license_review 引用了未收录的 LICENSE 文件，features 有超证细节。",
+    "typeface-design-application": "Glyphs 4 首页可证高精度矢量绘制、可视化 kerning 组、文本预览 OT 特性，以及 CFF/CFF2/TTF/WOFF/WOFF2 静态与可变字体导出；“持久字体项目”仅由插件文字中的“your Glyphs file”间接支撑。",
+    "storyboard-application": "Boords 两份官方文档证分镜帧 + 逐帧字幕字段、场景/镜头排序与 grid/shot list、Review 共享链接（无需账号、可加评论）、PDF/PPTX/animatic 导出；复用 commercial:boords 并在导入 merge 时保留原 previsualization 关联，成立。",
+    "ai-design-generator": "Sivi 首页/tour 可读片段证“Enter text prompts…create…visuals”与“Layered editable designs in any size and 72+ languages”，核心成立；导出与逐层编辑细节埋在单行压缩 HTML，属留档缺口。",
+    "ai-image-editing-application": "IOPaint README 证对已有图像执行 erase / replace object / outpainting、Web UI 编辑与输出目录保存，四属性齐；需补“仓库已归档只读”的边界说明。",
+    "ai-image-generator": "InvokeAI README 证提示生成、refine/iterate、Unified Canvas（in/out-painting）、工作流与模型清单，Apache-2.0 正文完整，开源核心与商业产品的关系 README 已自述。",
+    "ai-avatar-video-generator": "Synthesia 首页证 AI avatars + voiceovers、140+ 语言、dubbing 的 lip sync 与 voice cloning、lipsyncEnabled: true，核心成立；reason 的 130+ 与引号句需按快照订正。",
+    "ai-video-editing-application": "Descript 快照出现 transcript / filler words / text-based 等词，方向与“已有素材 + 文本驱动剪辑”一致；但页面为单行 Next.js 输出，去填充词、音频清理、导出的具体段落未能在窗口内逐句核对。",
+    "ai-video-generator": "Pika FAQ 快照有 credits 与 extend 相关词，未见 keyframe/first frame 表述；prompt→生成片段的核心仍需首页可读正文或改引具体帮助页。",
+    "ai-audio-generator": "ElevenLabs 音效页证 sound effect generator 可从零生成、modify、download 为 MP3 且 royalty-free，属音效/环境音范围（页面另链 /music 区分音乐）；reason 的引号标题在快照中不存在，需替换。",
+    "ai-music-generator": "Suno 首页证 “#1 AI music app”、Song Editor、vocal/instrument stems 分离、500 songs/月与商用权利分层，“规格→作曲→有界作品→导出”成立；“约一分钟”未见原文。",
+    "ai-voice-generator": "Murf TTS 页 meta/H1 证 text→voice、200+ voices、35+ 语言、mp3/wav/flac 下载与真人化声音；语速/音调/发音编辑未在该快照核到，属留档缺口。",
+    "e-commerce-platform": "Bagisto README 证开源 Laravel 电商/多卖家/单命令 Docker 建店，但引用的 devdocs 快照是空 VitePress 壳，购物车-结账-订单同体管理未被任何正文证明，需补证。",
+    "headless-commerce-platform": "Saleor README 明确 “GraphQL native, API-only”“APIs are the only way to interact, configure, or extend”，并列出 product management / orders / promotion engine / payment orchestration / cart，BSD-3-Clause 全文与 id 8162715 已核，三属性成立。",
+    "online-store-builder": "Shopify 快照只有 title 与 meta description（All-in-One Commerce Platform、tools to manage every part of your business），主题/AI 建店、结账、订单履约无正文可核，需改引具体官方页。",
+    "marketplace-platform": "Sharetribe 首页为单行 Next.js 输出，运营方场所、多卖家、卖家自管、抽成与托管未能读到可核对正文；且 note 把源码可用的 Sharetribe Go 误称“开源”。",
+    "digital-product-catalog": "Catalog Machine 首页证产品库/CSV/URL/图片→在线与 PDF 目录、模板排版、隐私分级与密码保护、可选产品订单表与收款，且“one product database and all the catalogs are automatically updated”支持“目录是产品视图”，成立。",
+    "product-catalog-management": "Shopware 产品文档目录列出 General information / Prices / Deliverability / Visibility & structure / Variants / 类目等，README 自述 “fully functional ecommerce platform” 与 “ready-to-use shopping cart system”，目录登记簿 + 可浏览组织 + 渠道可用性成立。",
+    "product-information-management-pim": "AtroPIM README 证集中产品数据、界面可配置属性/关系/分类/channels、渠道特定取值、类目树、product listings、REST API 与向下游店铺/市场/印刷目录/ERP/伙伴门户分发，GPLv3 且核心无付费墙；需补 AtroCore 依赖说明。",
+    "shopping-cart-platform": "Snipcart 首页证 “Add a shopping cart to any website”、checkout、merchant dashboard、折扣/弃购回收与 customer dashboard，符合独立购物车（不拥有目录/店面）形态；服务端价格重校验已按 note 留档未核。",
+    "distributed-order-management": "Linnworks 订单页证 “Every order routed automatically”、Rules Engine 按预设规则路由到 Amazon FBA / 3PL / dropship / 自有仓、拆分多行订单按不同地点履约、状态回传原渠道，订单记录 + 履约网络 + 规则化寻源 + 子记录追踪四结构齐备。",
+    "order-management-system-oms": "Fluent 首页自述 “AI-Native Order Management System” 并提跨渠道/门店/仓库编排，但可读正文集中在 order orchestration、inventory data、deliver on promise；退货换货、门店发货与生命周期状态门控无可核正文，OMS 核心证据不足。",
+    "order-orchestration-platform": "Pipe17 首页证 “Order Operations Platform… managed connectivity with intelligent order management… everything after the buy button”，菜单含 Inventory Visibility / Exception Resolution / Returns Management；成本-库存-承诺路由的具体正文需补引。",
+    "delivery-experience-platform": "parcelLab 首页证 “Order tracking, branded messages, returns, exchanges, refunds, fraud, checkout promise… all connected in one platform”、品牌化 tracking page 与 “Keep shoppers connected with timely, branded updates”、WISMO/R Agent，三结构成立。"
+  },
+  "limits": [
+    "初审会话与采集会话使用同一模型 open-design/deepseek-v4.1-flash，仅会话隔离，独立性弱于异模型复核；最终报告应保留该限制。",
+    "多个商业站点（Shopify、Sharetribe、Descript、Sivi、Pika、Synthesia、Pipe17、Fluent 文档门户、Bagisto devdocs）为单行压缩 HTML 或客户端渲染外壳，超出工具预览窗口的正文无法逐句核对；本报告对这些页面的判断基于可读片段与检索命中，不能替代全文复核。",
+    "本次为只读会话，未运行 scripts/collect_cases.py validate，batch.json 的字段集、snapshot sha256 与路径规则为按 server/case_collection.py 逐项人工比对，未做机器校验。",
+    "所有条目 runtime_tested 均为 false，未部署、未登录账号、未实际生成/导出任何产物，未验证生成质量。",
+    "未核验价格与套餐、语音克隆同意流程、订单状态机门控细节、承运商状态标准化模型等非定义性成熟度项；商业化产品的社区版/免费版边界除 AtroPIM（README 明示无核心功能墙）、Shopware（文档标注 AI 描述助手需 Rise 计划）外未逐项核对。",
+    "shared 目录未做任何修改；commercial:boords 的复用依赖导入时 _merge_leaf_matches 保留原 previsualization-application 关联，本批 batch 内不含该关联属预期行为。",
+    "GitHub 许可证判定依赖 /license 返回体中 base64 正文与 license 对象的人工阅读，未独立调用 API 比对 spdx 字段全量一致性；FontForge 例外（NOASSERTION，走 license_review 全文核对）。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-006/ses_groveopendesignp006review2_1792825528.jsonl",
+  "batch_sha256": "b0dfe35a5146a2db188f911c65876371c91076fb53493c55da7ef0c114aec617",
+  "research_sha256": "5f08b73933aedbeadfca09a9b84e94a63a9342b868c446501a9e17df167a7f8e",
+  "input_sha256": "ea298c4b6ec6121fc8174c0dad5dcf39dcc36d12b7a694d5aa603e28c682b75c"
+}

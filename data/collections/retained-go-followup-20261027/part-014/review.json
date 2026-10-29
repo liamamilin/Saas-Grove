@@ -1,0 +1,136 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "industrial-design-application",
+      "application_id": "commercial:rhino3d",
+      "note": "Rhino 是通用 NURBS 建模器，官网同时列出建筑、船舶、珠宝、影视等用途；本条按“精确自由形态几何、形式优先建模、面向制造的几何交换”三点匹配工业设计，而非按行业专属工作流匹配。建议保留这一边界说明，不影响条目成立。"
+    },
+    {
+      "slug": "mbse-platform",
+      "application_id": "github:232634051",
+      "note": "社区版边界目前由官网首页“manage requirements, collaboration, safety ... extensions”与“Open-Source and Commercial Add-Ons”支撑，未抓取 add-ons 页逐项区分开源与商业插件；如后续需要精确边界清单，可补该页快照。"
+    },
+    {
+      "slug": "mbse-platform",
+      "note": "research.json 还记录了 Gaphor、Open-MBEE 与 Capella wiki 的抓取；Gaphor/Open-MBEE 快照未登记在 REVIEW_SOURCES，sources/ 中另有一个未登记的 Capella wiki 快照。这些候选未进入 batch，其哈希与许可证细节本次无法独立复核，不影响本案。"
+    },
+    {
+      "slug": "mechanical-cad",
+      "application_id": "github:5736080",
+      "note": "图纸与制造交付物证据主要是 README 的“create high-quality production drawings from 3D models”一句，未抓取 TechDraw 关联图纸或 CAM 页面；参数化定义与 Assembly 装配证据已足够，建议后续补充图纸工作流快照。"
+    },
+    {
+      "slug": "pcb-design",
+      "application_id": "github:14849992",
+      "note": "仓库身份是 GitLab 官方开发库的 GitHub 活跃镜像，条目已如实写明；如需更规范的仓库身份，可在 repository_url 之外补 canonical GitLab URL。license 字段对应源代码 GPL-3.0，未覆盖元件库的单独许可。"
+    },
+    {
+      "slug": "semiconductor-design-platform",
+      "application_id": "github:218110222",
+      "note": "openroad.org 首页快照正文基本是样式与 SVG 数字，未用于核心证据，处理正确；README 已覆盖 RTL-GDSII、时序/DRC/LVS 与 tapeout。另 README 现称 Bazel 为受支持构建系统、CMake 已弃用（2026-11-01 移除），technology_stack 仍列 CMake，可在维护技术栈时更新。"
+    },
+    {
+      "slug": "semiconductor-design-platform",
+      "note": "README 覆盖数字实现与 signoff 检查，但未给出具体工艺节点、签核工具组合的逐项证据；本条按“表示转换 + 验证 + 可制造数据”三部分核心通过，细节留作后续补充。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "note": "五个叶子在 input.json 的 progress 中 application_ids 仍为空、case_status 仍为 review_pending；batch/research 已给出案例，定稿时应把 commercial:rhino3d、github:232634051、github:5736080、github:14849992、github:218110222 回填到对应叶子。"
+    },
+    {
+      "slug": "all",
+      "note": "本单元五个条目均为桌面/本地形态（商业永久许可或开源本地安装），没有多租户托管 SaaS 案例；各条 research.service_boundary 与 batch 部署信息已如实记录这一点，未虚构 SaaS 交付。若单元验收强制要求托管 SaaS，这属于覆盖范围缺口而非条目内容错误。"
+    }
+  ],
+  "leaf_checks": {
+    "industrial-design-application": {
+      "application_ids": [
+        "commercial:rhino3d"
+      ],
+      "track": "commercial",
+      "definition_core": "匹配。Rhino Features 正文说明可 create/edit/analyze/document/render/animate/translate NURBS curves, surfaces, solids 及 SubD、网格；强调 free-form 建模能力和 design/prototype/engineer/manufacture 所需精度；Digital Fabrication 段落说明设计需落到实物，ShrinkWrap 生成水密网格用于 3D 打印，网格可导出用于分析/渲染/原型/制造。三点核心（精确自由形态、形式优先、制造交换）均有正文支撑。",
+      "service_form": "商业桌面软件（Windows/macOS），官网价格页明确 Perpetual license、一次性购买，非多租户托管 SaaS；与 summary 及 research.service_boundary 一致。",
+      "identity_and_license": "commercial:rhino3d 为官方 rhino3d.com 商业产品，商业条目只核对基本真实性与类型匹配；不涉及开源许可证。",
+      "evidence": [
+        "data/collections/sources/9c898a1f24bfe72b0a087ee16818af34fc255af726f9d54f3d2293ffe5f029d2.txt",
+        "data/collections/sources/2528f976432b596d33cf7b003508d07a8f68c3f036e936138a06324b697a42f4.txt"
+      ],
+      "gaps": "未运行软件；未逐项核对具体版本导出格式清单；Features 页是功能清单式正文，未提供完整的草图→曲面/实体→细化迭代教程；IGES 主要为读取/修复、ShrinkWrap 为打印用水密网格，制造交换的格式细节有限。"
+    },
+    "mbse-platform": {
+      "application_ids": [
+        "github:232634051"
+      ],
+      "track": "open_source",
+      "definition_core": "匹配。官方 Features 页说明图表展示 Operational/Logical/Physical Architecture 等模型元素，内容按预选元素与预定义语义规则自动更新，支持图与模型同步/取消同步、语义浏览器、模型校验（完整性/设计/完备性/可追溯性）与 HTML 发布；Arcadia 页说明每个工程阶段建立 Capella 模型、模型间经转换与 justification links 关联并整体用于影响分析、采用 DSL、覆盖需求工程与 IVVQ；官方 Introduction 文档说明工作台提供 Arcadia DSL 与工具集、模型编辑/查看、模型到模型转换及系统到子系统过渡。系统模型、图表视图、语言约束、工程系统主题四点均有正文支撑。",
+      "service_form": "开源 Eclipse 建模工作台，本地安装使用，非多租户托管 SaaS；与 research.service_boundary 一致。",
+      "identity_and_license": "GitHub 仓库 eclipse-capella/capella，页面 octolytics repository_id 232634051 与条目一致；license API 返回完整 EPL-2.0 文本。社区核心按 EPL-2.0，记录需求、协作、安全等由独立插件或商业 add-ons 扩展，未把 add-ons 计入开源核心。",
+      "evidence": [
+        "data/collections/sources/918e87e88233fbc60146903bfa868f4fe924cc10d3dca0d47c88c0d5df252a4a.txt",
+        "data/collections/sources/58c4adf5ca2e30460322e1d67b18f8589617764f7ad37d1434ff73ead0a142f0.txt",
+        "data/collections/sources/1b92268e1e2a576257f1f84ceeb6a65e95d43d22a9dd6494100dbe0756bc51b7.txt",
+        "data/collections/sources/a9bd8627a4ef99ed7a5df0eef9273dde700435143b2d5582822ec2db5cef196a.txt",
+        "data/collections/sources/3364144550b59be84968f1d6c3a131922eb28c09266035e391e841a464ebb3dd.txt",
+        "data/collections/sources/c67c947f6f4efff69f983b454dffa619dd8225a81a410194bcb7d1da5942ef76.txt",
+        "data/collections/sources/2e1d1ef8c6486484b7adbde04f19a5676707551d42774a923f925fb6b84c6c30.txt"
+      ],
+      "gaps": "未运行工作台，未逐项验证全部视角、需求扩展与并发编辑机制；仓库 README 仅指向 Wiki，未作为核心工作流证据；社区/商业 add-ons 的精确分界未用 add-ons 页逐项核实。"
+    },
+    "mechanical-cad": {
+      "application_ids": [
+        "github:5736080"
+      ],
+      "track": "open_source",
+      "definition_core": "匹配。仓库 README 正文说明 FreeCAD 是开源参数化 3D 建模器，可通过修改模型历史中的参数修改设计；用约束草图构建对象、调整尺寸并从 3D 模型生成高质量生产图纸；官方 Assembly Workbench 文档说明 1.0 引入内置装配工作台，含装配容器、组件、Ground、固定/旋转/圆柱/滑块等关节与求解。工程模型、意图定义、装配产品结构、模型派生交付物四点有支撑。",
+      "service_form": "开源跨平台桌面应用，可本地离线安装运行，提供预编译包与源码构建；非托管 SaaS，与 research.service_boundary 一致。",
+      "identity_and_license": "GitHub 仓库 FreeCAD/FreeCAD，页面 octolytics repository_id 5736080 与条目一致；license API 返回完整 LGPL-2.1 文本。",
+      "evidence": [
+        "data/collections/sources/6bf6bd47f6f98958cf562030c36f09d7d671b554a66e54c9480d2a2f1dd38958.txt",
+        "data/collections/sources/7ca99b863576b3cc0077526d1898f4ff61a326e6bb74df2cfa9f4c77e1ee5e04.txt",
+        "data/collections/sources/75c7f87ac4c13dbd10bccc1faeaad71e4c0f6bc50809c85d7674e879cb395ef3.txt"
+      ],
+      "gaps": "未运行软件；未抓取 TechDraw/关联图纸专页，图纸证据限于 README 一句；未逐项核对制造数据输出（CAM/STEP 等）；装配子装配层级与约束状态显示的细节未逐页核实。"
+    },
+    "pcb-design": {
+      "application_ids": [
+        "github:14849992"
+      ],
+      "track": "open_source",
+      "definition_core": "匹配。KiCad PCB Editor 文档正文说明板级设计由 footprints（元件及焊盘）、nets（焊盘连接关系）、tracks、vias、filled zones 构成；支持从原理图 Update PCB 或导入 netlist；有 ratsnest 飞线显示、设计规则检查 DRC、脚本化自定义规则、交互式布线；制造输出含 Gerber、IPC-2581、ODB++、GenCAD 等及钻孔文件；文档还说明封装库编辑器与库管理。板、封装、网表/连接性、铜几何、制造输出核心均有正文支撑。",
+      "service_form": "开源跨平台桌面套件（Windows/macOS/Linux），项目保存在本地文件，可离线设计；非托管 SaaS，与 research.service_boundary 一致。",
+      "identity_and_license": "GitHub 仓库 KiCad/kicad-source-mirror，页面说明其为 GitLab 官方开发分支的活跃镜像，octolytics repository_id 14849992 与条目一致；license API 返回完整 GPL-3.0 文本。条目已如实写明镜像身份，未冒充 GitLab 主库。",
+      "evidence": [
+        "data/collections/sources/247f7811485b7bcc604790ef1e3c6b2259b1b3721e2f5b24874b423ca94c39bd.txt",
+        "data/collections/sources/1a13e310cb2bd7d6095750d1f0a4d25fac24c6f771987ca749ce7ff63b41ae7b.txt",
+        "data/collections/sources/14a1c8264d9e7e5eab056067a69671d8a8753a2bac5f405c0f619ec5c2766e3c.txt",
+        "data/collections/sources/b1491e6d831876cd95b5e50c677ad5499275c36fd47a6f3e6a44046b64b6d799.txt",
+        "data/collections/sources/b276ad018f2517431d545e88bad421be0276abd2ed36d19a74c66d183faecdf4.txt"
+      ],
+      "gaps": "未运行软件，未实际生成 Gerber/钻孔/装配文件；未逐项验证全部制造输出选项；源代码 GPL-3.0 已核，元件库的独立许可未取得快照。"
+    },
+    "semiconductor-design-platform": {
+      "application_ids": [
+        "github:218110222"
+      ],
+      "track": "open_source",
+      "definition_core": "匹配。README 正文说明 OpenROAD 是开源半导体数字设计基础应用，RTL-GDSII 流程经 synthesis、floorplan、placement、CTS、routing、finishing 到 GDSII；提供数据库、分析引擎与 Tcl/Python API，支持逐阶段人工干预；finishing 含寄生提取、最终时序验证、物理验证、DRC/LVS 与 GDS 签核，且已用于 600+ tapeout。芯片表示转换、验证、可制造数据三部分有正文支撑。",
+      "service_form": "开源本地/服务器环境运行的 RTL-GDSII 流程（含 GUI 与 CLI），非多租户托管 SaaS；与 research.service_boundary 一致。",
+      "identity_and_license": "GitHub 仓库 The-OpenROAD-Project/OpenROAD，页面 octolytics repository_id 218110222 与条目一致，仓库描述为 RTL-to-GDS 统一应用；license API 返回完整 BSD-3-Clause 文本。",
+      "evidence": [
+        "data/collections/sources/3c3af898196964c52af2b8a4402595fbda3049799cb88c6fdc0ee649e7810e74.txt",
+        "data/collections/sources/d8c8afd9851929e4382c846daf78dfffd0129dcbc68b6ec4660acd5abb189216.txt",
+        "data/collections/sources/7c7cac26bcbff80eb96b77799f8c7239335a5ebef1f3fc94aef0f6fb0cd45e25.txt",
+        "data/collections/sources/c4f18b511d438ced5b2211bea158eb8a5e785b81a9fe8cad48c33be38389890a.txt"
+      ],
+      "gaps": "未运行流程，未验证具体工艺节点、签核工具组合与全部制造数据输出；openroad.org 首页快照正文基本为样式/SVG 数字，未作为核心证据；README 提及 CMake 已弃用而 technology_stack 仍列 CMake，属技术栈维护问题。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行任何软件、未部署、未做联网检索或 shell 操作，也未重新计算快照 SHA-256；所有结论基于 2026-10-26/27 的已登记快照与其中可读正文。部分快照为完整 HTML，含样式、导航与脚本噪声，已按正文段落核对而非按关键词匹配；openroad.org 首页快照正文基本不可用，已按采集记录不作为核心证据。research.json 中的 Gaphor、Open-MBEE、Capella wiki 等候选抓取未在 REVIEW_SOURCES 全部登记（sources/ 中另有一个未登记的 Capella wiki 快照），本次无法独立复核其哈希与许可证细节，但这些候选均未进入 batch。五个叶子均无托管 SaaS 案例，条目与实际资料一致地记录为桌面/本地形态；如验收强制要求多租户 SaaS，则属于覆盖范围缺口而非条目内容错误。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-014/ses_groveopencodegop014review1_1793075430.jsonl",
+  "batch_sha256": "ad39f7019c1a2b5b4f38507348f74ac7578a6a202182aba3143a62677e628315",
+  "research_sha256": "08d6fd2bbf48040b6e601280a6e2869c6e14c226fd0657549b55073f9e4943b4",
+  "input_sha256": "b3bc6ae79157dab3736b4050066d9ca90b97bea52433679b685088e2280c2d74"
+}

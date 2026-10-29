@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "5 个条目均为商业（commercial）条目，未提交开源条目；因此不适用开源许可证、仓库身份和社区版边界的检查。研究记录中的 Incline、MiningPy、Proto Fleet、OpenMines 仅作为被排除的候选记录留档，未附仓库 URL 或许可证快照；如果未来将它们转为案例，需要补齐完整许可证与社区版边界证据。",
+    "Wenco 官方 FMS 页面能证明该系统管理设备车队、维持分配循环，并实时跟踪生产和 KPI，但未逐项列出每车装载的 operator、source、destination、material 字段；采集记录已如实记录这一缺口，按商业案例的基本类型匹配不构成阻断。",
+    "Datamine Production 是方案组合页面，其中包含 MineMarket、Reconcilor、Centric、Production Accounting 等产品，不是单一产品（SKU）；条目摘要已写明这是“软件组合”，建议对外名称继续保留“Production Solutions/组合”这类限定，避免被误读为单一产品。",
+    "Maptek Vulcan、Wenco FMS 与 Datamine 组合的公开页面未明确说明采用了纯 SaaS 订阅或云部署形态：Maptek 提供购买链接，Wenco 提到远程升级和车载硬件，Datamine 则是方案组合。叶定义允许桌面或本地部署的产品满足核心，因此不构成阻断；如果本单元只接受纯 SaaS，则需要另外核查部署形态。",
+    "所有来源的 kind 都标为 homepage，但实际是产品页、方案页或行业页；正文足以核对核心，建议后续把 kind 细分为 product、solution、industry。",
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids 为空，这与 batch、research 中的 5 个 case_found 不一致；如果下游依赖 progress 元数据，应当同步，但这不影响本次内容判断。"
+  ],
+  "leaf_checks": {
+    "mine-planning-application": {
+      "application_ids": [
+        "commercial:maptek-vulcan"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 Maptek 官方 Vulcan 产品页快照：标题与正文将该产品定位为 3D mine planning、modelling、mine design 与 scheduling；功能列表明确列出 'Create and manipulate block models'、'Reserving capabilities'、Open Pit Design、Underground Design，以及 Scheduling Suite（Vulcan Gantt Scheduler/Short Term Planner），覆盖“矿床模型→设计→储量→排程”这条链路。",
+      "gaps": "页面未展开储量分类、报告或具体排程算法；同时包含 Geology & Estimation 能力，与地质建模叶存在重叠，但规划、设计、储量、排程的核心明确，按商业案例的基本匹配通过。"
+    },
+    "mining-fleet-management": {
+      "application_ids": [
+        "commercial:wenco-fms"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 Wenco 官方 FMS 页快照：正文写有 'Manage your fleet of trucks, excavators, and auxiliary units with ... drag-and-drop interface'、'Switch assignments, sets locks and bars, examine production plans'，并写有 'Track production in real time ... availability, cycle times, payload compliance'；覆盖识别设备车队、班次分配循环、设备/循环级生产跟踪。",
+      "gaps": "页面未逐项列出每车装载的 operator、source、destination、material 字段；采集记录已记录该缺口，商业案例的基本类型匹配不构成阻断。"
+    },
+    "mining-operations-management": {
+      "application_ids": [
+        "commercial:datamine-production"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 Datamine Production 方案页快照：正文把 'material tracking, inventory management and blending'、'mine and material reconciliation with plan compliance'、'metals balancing and accounting' 串联成工作流；FAQ 明确生产数据包括 tonnes、grades、material movements、stockpiles、plant feed，并连接 geological models、mine plans、production activities、material movements、plant outcomes，覆盖“生产记录→物料平衡→对账”。",
+      "gaps": "该页是方案组合，包含 MineMarket、Reconcilor、Centric、Production Accounting 等产品，不是单一产品（SKU）；模块边界与部署形态未展开，按商业软件组合记录通过。"
+    },
+    "natural-resource-rights-management": {
+      "application_ids": [
+        "commercial:quorum-on-demand-land"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 Quorum On Demand Land 官方页快照：正文覆盖 leases、acquisitions、obligations、rights of way、tract-based surface/subsurface/mineral/working interests、'automated alerts and in-app calendars'、rentals/shut-in/continuous operations/expirations、'prospect to executed lease' 与 renewals，并明确说明是 modern SaaS/SOC 2 环境，覆盖权利对象、义务日历与生命周期。",
+      "gaps": "对象是上游油气土地权利，不是硬岩矿权；叶定义允许石油天然气租赁，类型匹配。"
+    },
+    "quarry-management": {
+      "application_ids": [
+        "commercial:smsturbo-fulcrum"
+      ],
+      "track": "commercial",
+      "status": "pass",
+      "basis": "读取 SMSTurbo Fulcrum 官方 rock quarry 页快照：正文写有 real-time scale ticketing/load verification、'digital, audit-ready scale tickets'、'accurate inventory counts for crushed rock, gravel, and bulk stone'、stockpile management，以及 invoices、load histories、customer self-service 和 multi-site，覆盖生产场地、票据化装载与场地物料账本。",
+      "gaps": "页面未展开产品目录以及从客户订单到发票的完整对象模型；核心场地、票据、库存/堆场闭环明确，按商业案例的基本匹配通过。"
+    }
+  },
+  "limits": "本次仅做只读静态初审：未部署或运行任何产品，未核价，未审合同或隐私条款，也未出具许可证法律意见；未读取未被引用的快照、其他单元或采集过程脚本。Wenco 快照正文是压缩的单行 HTML，读取工具按 2000 字符截断，关键短语已用 grep 在该快照内逐项确认，并用同一 URL 页面上的文本辅助理解；Datamine、Quorum、SMSTurbo 页面包含大量模板或脚本噪声，结论只取正文的功能描述，不取 meta、导航或摘要。input.json 的 progress 与 batch、research 存在时点差异，已在 non_blocking_notes 说明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-198/ses_groveopencodegop198review1_1793024663.jsonl",
+  "batch_sha256": "452637783c21af0ef25006186401c90ab7abfb5220555b738d632c9aa5c18524",
+  "research_sha256": "c21d92f43d6dc7c77de27ae1618be255ce0caed99275bbd92b441b1f42da35b5",
+  "input_sha256": "7c0b99c4d281b20d9b211a80536e7a58218e4cb26ac08782c928735ca424c027"
+}

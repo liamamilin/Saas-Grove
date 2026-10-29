@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "referral-marketing-platform / commercial:referralcandy：仅首页快照，奖励资格审核窗口、退款或取消后的奖励回收未覆盖；research note 已如实留档，不影响当前核心匹配。",
+    "contact-discovery-platform / commercial:apollo-prospect：页面叙事以 Apollo Data 的补全与编排为主，净新增/去重机制未展开；batch 已限定只取寻源与交付，建议补一条搜索工作流或去重说明。",
+    "contact-discovery-platform / commercial:apollo-prospect：batch 中的“保存搜索、维护目标列表”在快照可见文本中证据较弱，建议在 summary 中收窄或补来源。",
+    "lead-management-platform / github:24459441：EspoCRM 是完整 CRM，本案按 Lead 模块匹配；自动分配依赖 Advanced Pack，响应时间纪律与不合格回收未文档化，边界已在 research note 说明。",
+    "lead-management-platform / github:24459441：technology_stack 只列 MySQL/MariaDB，README 同时支持 PostgreSQL 15+，可补齐。",
+    "lead-management-platform / github:24459441：Advanced Pack 页只明确 official add-on 与 Extension License，未见价格/购买按钮正文；“需另行购买授权”建议补价格页或 checkout 证据。",
+    "outreach-sequencing-platform / commercial:reply-io：回复停止是默认 Mark as finished 行为，产品另有 Continue sending emails 选项；batch 可注明该可配置性，避免把默认行为写成绝对规则。",
+    "outreach-sequencing-platform / commercial:reply-io：条件分支配置细节未完整覆盖；batch leaf_match 的 source_urls 未列 reply.io/features（虽在 entry sources 中），可补齐来源列表。",
+    "sales-dialer / commercial:phoneburner：research note 称勿扰名单/录音同意未说明，但 power-dialer 快照 featureList 已列 DNC management and time zone restrictions；建议把缺口收窄为具体实现与单次通话报表。",
+    "sales-dialer / commercial:phoneburner：支持中心报告页因主机校验未采用，仅写在 query/note，未进入 fetch_outcomes；建议结构化记录该失败尝试。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch/research 的 case_found 不一致；若下游会读取 input.json，应同步状态。"
+  ],
+  "leaf_checks": {
+    "referral-marketing-platform": {
+      "status": "pass",
+      "basis": "按 REVIEW_SOURCES 读取 ReferralCandy 首页快照（sha 9f086c…）：可见 customer referral 定位、tracking links and codes、reward emails、fraud checks、payouts，以及 referral 与 affiliate 的区分；公开页面辅助核对专属推荐链接、好友首单优惠、推荐人奖励与归因示例。",
+      "gaps": "仅首页；奖励审核窗口、退款/取消后的 clawback 未覆盖；research note 已留档。"
+    },
+    "contact-discovery-platform": {
+      "status": "pass",
+      "basis": "读取 Apollo 产品页快照（sha 12d36a…）：JSON-LD/页面可见 240M+ contacts、65+ data attributes、build lists and filter；公开页面辅助核对 30M+ companies、邮箱/电话验证、REST API 与 CRM 同步，符合外部供给、条件检索、验证记录与交付的核心。",
+      "gaps": "快照可见正文以数据/补全/编排为主，净新增与去重机制未展开；保存搜索/目标列表证据偏弱；research note 已限定为寻源与交付。"
+    },
+    "lead-management-platform": {
+      "status": "pass",
+      "basis": "读取 EspoCRM 仓库元数据、license、README、Sales Management、Web-to-Lead 与 Advanced Pack 快照：repository id 24459441/espocrm、AGPL-3.0 完整许可证、Lead 记录与转化、目标列表/团队、Web-to-Lead 表单/API、商机阶段/概率/多管道；Advanced Pack 明确 Workflows/BPM 为 official add-on，社区版边界已说明。",
+      "gaps": "CRM Lead 模块而非独立 LMP；自动分配需 Advanced Pack；响应时间纪律与不合格回收未文档化；技术栈未列 PostgreSQL 15+。"
+    },
+    "outreach-sequencing-platform": {
+      "status": "pass",
+      "basis": "读取 Reply.io sequence-execution 与 sequence-stopping 快照：序列步骤+延迟、逐联系人 current step/状态、每日新增与发件上限、回复停止、退信/退订处理、六种 toggle 状态；features 页补充多渠道。",
+      "gaps": "条件分支配置细节未完整覆盖；回复停止为默认行为且可配置为 Continue sending emails；research note 已留档。"
+    },
+    "sales-dialer": {
+      "status": "pass",
+      "basis": "读取 PhoneBurner power-dialer 与 platform 快照：one agent/one contact at a time、联系人列表拨号、1-click disposition 回写 CRM、voicemail/email、录音/转录、自定义处置与通话记录，符合单代表记录驱动外呼与结果捕获。",
+      "gaps": "DNC/录音同意与单次通话报表的具体实现未完整覆盖；支持中心报告页抓取失败仅在 query/note 记录。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元；未做部署或运行时测试。所有快照按 REVIEW_SOURCES.json 的 path 从 data/collections 下原样读取，sha256 与文件名一致。部分快照为压缩单行 HTML，read 工具按行截断 2000 字符，Apollo 与 ReferralCandy 的中后段正文无法逐字复核，结论依据可见文本/JSON-LD 与公开页面的辅助核对；商业案例仅按基本真实性与类型匹配审查，未补充价格、架构或合规研究。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-042/ses_groveopencodegop042review2_1792988572.jsonl",
+  "batch_sha256": "f86f3cc68a6ecd941468a13e75df2be5ed666158273f8b4c64270b9c9c0aa53f",
+  "research_sha256": "78554b723ea4eb6a1a658cccdb1cef39c42fd72eee62c7c8d23ea9f64faf9ea7",
+  "input_sha256": "f724f71537b3d13b3836009a4ed7694b5b4ccfa4cd295f80cb540bf313db9c14"
+}

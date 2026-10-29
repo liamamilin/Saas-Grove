@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 41,
+  "offset": 1000,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "bed-capacity-management",
+        "name_zh": "床位与容量管理",
+        "domain_id": "22",
+        "parent_id": "22.01",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-041/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source bed capacity management application"
+          },
+          {
+            "record": "retained-continuation-20261027/part-211/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source bed capacity management application"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/92",
+            "result": "boundary_unresolved",
+            "note": "检索到最接近的开源候选 openmrs/openmrs-module-bedmanagement：README 说明其提供床位、住院地点与 IPD 病区管理的模型/服务/REST API，Bed 实体含 status 字段；BedPatientAssignment 资源仅提供床位-患者分配的读取端点，create/save/delete 明确抛 unsupported，未见写入或解除分配的完整接口；OWA 文档显示管理端可维护住院地点、增删床位与床位布局。但该模块未直接展示跨科室共享实时看板或清洁就绪流转，且 GitHub license API 将许可归类为 Other，仓库 LICENSE.txt 仅为 863 字节的 AGPL 简短声明（非完整条款），无法按本项目规则完成开源许可核验，因此本轮不导入条目，只保留候选与缺口。",
+            "query": "open source bed capacity management application"
+          }
+        ],
+        "archived": false,
+        "note": "检索到最接近的开源候选 openmrs/openmrs-module-bedmanagement：README 说明其提供床位、住院地点与 IPD 病区管理的模型/服务/REST API，Bed 实体含 status 字段；BedPatientAssignment 资源仅提供床位-患者分配的读取端点，create/save/delete 明确抛 unsupported，未见写入或解除分配的完整接口；OWA 文档显示管理端可维护住院地点、增删床位与床位布局。但该模块未直接展示跨科室共享实时看板或清洁就绪流转，且 GitHub license API 将许可归类为 Other，仓库 LICENSE.txt 仅为 863 字节的 AGPL 简短声明（非完整条款），无法按本项目规则完成开源许可核验，因此本轮不导入条目，只保留候选与缺口。"
+      },
+      "definition": {
+        "slug": "bed-capacity-management",
+        "name": "Bed & Capacity Management",
+        "name_zh": "床位与容量管理",
+        "aliases_zh": [
+          "病房管理",
+          "床位调度管理"
+        ],
+        "overview": "A **Bed & Capacity Management** application is hospital operations software that maintains a live picture of a facility's inpatient beds — which are occupied, which have just been vacated, which are being cleaned, and which are ready — and coordinates the placement of patients into those beds across departments, together with the planning view that compares incoming patient demand against available capacity.\n\nIts purpose is operational, not clinical: patients are admitted, discharged, and transferred continuously throughout the day, and every one of those events changes the usability of a physical bed. A bed is not usable the moment a patient leaves it; it must be cleaned, checked, and released back into the pool before the next patient can occupy it. This application makes that cycle visible and actionable, so that the moment a bed becomes ready, someone is waiting to fill it — and so that when demand rises, the hospital sees the constraint coming instead of discovering it at the emergency department door.\n\nThe defining core is deliberately small: a managed registry of beds, a live state on each bed, placement decisions binding patients to beds, and a shared real-time view that multiple departments work from. Everything else widely associated with the category — housekeeping task dispatch, transport, discharge prediction, forecasting, escalation protocols, staffing linkage — is mature capability layered on that core, not what makes the product this type.",
+        "overview_zh": "**床位与容量管理**应用程序是一种医院运营软件，用于维护医院住院床位的实时视图——哪些床位已被占用，哪些刚刚腾空，哪些正在清洁中，以及哪些已准备就绪——并跨科室协调将患者安置到这些床位中，同时提供比较患者流入需求与可用容量的规划视图。\n\n其目的是运营性的，而非临床性的：患者全天不断入院、出院和转院，而每一个此类事件都会改变一张实体床位的可用性。患者离开的那一刻，床位并不能立即使用；必须经过清洁、检查并重新放回可用池后，下一位患者才能占用。该应用程序使这一循环可见且可操作，从而在床位准备就绪的瞬间，就有人在等着将其填满——并且当需求上升时，医院能预见即将到来的瓶颈，而不是在急诊室门口才发现。\n\n其定义的核心功能刻意设计得很小：一个受管理的床位注册表、每个床位的实时状态、将患者与床位关联的安置决策，以及多个部门共同使用的实时共享视图。其他与该类别广泛关联的功能——如客房服务任务调度、转运、出院预测、需求预测、上报协议、人员配置联动——都是构建在此核心之上的成熟能力，并非使其成为该类型产品的本质特征。",
+        "dc": "```text\nManaged Bed Inventory\n└── Per-Bed Operational State  (occupied ↔ usable, advanced by care events)\n    └── Placement Decisions    (patient bound to a specific bed)\n        └── Shared Real-Time Operational View  (one picture for many departments)\n```\n\nFour elements. Each is required for the product to function as bed and capacity management:\n\n- **Managed bed inventory** — the facility's inpatient beds exist in the system as individually identified physical resources, organized into rooms and units. The bed, not the appointment and not the patient record, is the managed asset. Without the inventory there is nothing for this type to manage.\n- **Per-bed operational state** — each bed carries a live state that distinguishes occupied from available-for-use, and that changes as care events happen: a patient is admitted into it, leaves it at discharge, it is cleaned and readied, it may be held or blocked. State is driven by events in the care process, not by pre-booked time. Without live state the concept collapses into ordinary scheduling.\n- **Placement decisions** — the system records which patient is in, or will occupy, which bed: assignment at admission, movement at transfer, release at discharge. Placement is a decision made against demand and bed suitability, and it is the act that turns bed state into patient flow. All researched products expose this under one name or another (bed assignment, bed selection, placement prioritization).\n- **Shared real-time operational view** — one live picture of beds, states, and incoming demand that admissions, the ED, bed management, nursing units, EVS, and transport all work from. The shared view is what distinguishes a management application from an internal EHR field: the bed state exists to be seen and acted on collectively, in real time.",
+        "dc_zh": "托管床位清单\n└── 每张床位的操作状态（占用 ↔ 可用，由护理事件驱动更新）\n    └── 安置决策（患者与特定床位绑定）\n        └── 共享实时操作视图（跨部门统一视图）",
+        "rules": "### State advances with events, not time slots\n\nUnlike scheduling software, nothing here is pre-booked into the future in fixed slots. A bed's usability is determined by what has physically happened to it — occupied, vacated, cleaned, ready — and the application's job is to keep that state truthful in real time.\n\n### A vacated bed is not an available bed\n\nThe readiness cycle is the load-bearing rule of the type: discharge does not make a bed usable; cleaning and confirmation do. Systems that skip this distinction are census reports, not bed management.\n\n### Reservation is not occupancy\n\nBeds can be held or reserved for patients who have not yet arrived (including pre-arrival holds for transfers). The shared view must distinguish held beds from genuinely free ones, or the picture breaks trust with its users.\n\n### Placement is constrained\n\nPlacement decisions are not free choice: care requirements, unit functions, isolation status, and house rules constrain which patient may go in which bed. Mature products encode these constraints to varying degrees; public documentation of the rule engines is limited, so their exact mechanics vary by product.\n\n### One shared picture, many actors\n\nThe view is deliberately shared across departments that report to different leaders. Coordination failures (each department holding its own version of the truth) are precisely the problem the type exists to solve; products therefore treat the shared board as a single real-time source of truth for every department acting on beds.\n\n### Data flows in from the EHR\n\nAdmission, discharge, and transfer events originate in the hospital information system; the bed application reacts to them and feeds placement actions back. It supplements the EHR's operational layer rather than replacing clinical documentation.",
+        "rules_zh": "### 状态随事件推进，而非固定时段\n\n与日程安排软件不同，此处没有任何内容是预先按照固定时段预订的。床位的可用性由其物理状态决定——占用、腾空、清洁、准备就绪——应用程序的职责就是实时保持该状态的真实性。\n\n### 已腾空的床位并非可用的床位\n\n就绪循环是该类型的关键规则：出院并不使床位可用；清洁与确认才使其可用。跳过此区别的系统只是人口统计报告，而非床位管理。\n\n### 预留不等于占用\n\n可以为尚未到达的患者预留或锁定床位（包括为转院患者进行的预到院预留）。共享视图必须区分已锁定的床位与真正空闲的床位，否则视图将失去用户的信任。\n\n### 安置是受约束的\n\n安置决策并非自由选择：护理需求、病区功能、隔离状态以及医院规定约束着哪些患者可以进入哪张床位。成熟产品在不同程度上将这些约束编码；由于规则引擎的公开文档有限，其确切机制因产品而异。\n\n### 一个共享视图，多个参与者\n\n该视图被刻意设计为跨部门共享，这些部门向不同的管理者汇报。协调失败（每个部门掌握自己版本的“真相”）正是该类型旨在解决的问题；因此，产品将共享看板视为所有参与床位管理的部门的一个实时、唯一的事实来源。\n\n### 数据从 EHR 流入\n\n入院、出院和转院事件起源于医院信息系统；床位管理应用对此做出反应，并将安置操作反馈回去。它补充而非替代 EHR 的临床操作层。",
+        "parent_id": "22.01",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 160,
+    "phase": "directory",
+    "parent": 160,
+    "slugs": [
+      "bed-capacity-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "048328945a738dc4dd70bf7939b8d3c8e5a588873367d922117f53cdd4ea3769"
+  }
+}

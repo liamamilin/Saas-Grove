@@ -1,0 +1,53 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "SwitchFrame（github:1266672576）：条目已如实披露仓库归属未闭合，但建议把关键时间线写得更明确——快照显示仓库 created_at 2026-06-11、pushed_at 2026-06-16，而 commits 快照首条提交日期为 2026-06-10，且 author/committer 登录名均为 zsiec（Thomas Symborski），README 徽章与 git clone 地址指向已 404 的 zsiec/switchframe，元数据 fork=false。该组合更像“代码被上传/复制到另一账号”，建议在条目中并列记录这些日期与 fork=false 事实，避免“现行托管”被读作官方上游或持续维护中的项目。",
+    "SwitchFrame：README 的 Quick Start 仍给出 `git clone https://github.com/zsiec/switchframe.git`（已 404），部署说明虽已留档该失效地址，但面向使用者的部署段落最好直接给出可访问的克隆地址，避免读者按官方正文操作失败。",
+    "SwitchFrame：仅有仓库元数据/README/架构/部署/输出 API/管线/提交七类快照，没有 release、tag 或版本号证据；条目未声称版本与发布渠道，故不阻断，但若要表述“可持续使用的应用服务”，建议补一条发布/版本证据或明确标注未核对发布物。",
+    "Open Live（github:1203642171）：条目与 leaf_match 已明确“本仓库只是 API 服务，切换/混合/编码由 Strom 执行、控制面在 open-live-studio”，但 application_id 仅指向 API 仓库，建议在条目层显式写明套件级身份与三个组件 id（1203642171 / 1203623661 / 1096345941）的映射，避免把套件能力误读为单仓库能力。",
+    "Open Live：三个仓库的完整许可证正文均已留存（open-live MIT 1103 字节、open-live-studio MIT 1103 字节、Strom Apache-2.0 10841 字节 + LICENSE-MIT 全文，README 标注 MIT OR Apache-2.0），但该条目缺少与 SwitchFrame 同结构的 license_review 对象；建议补齐逐仓库许可证核对字段（含 Strom 双许可与组件边界），便于机器校验。",
+    "Open Live 托管/商业边界：README 与 open-live-studio README 明确存在 OSC 托管版（14 天试用、free plan、15 EUR/月自建 Strom、69 EUR/月共享 GPU）。条目的“官方未描述按功能分层的付费版、差别在 Strom/GPU 供给方式”与正文不矛盾，但建议直接写出免费计划与两档托管价格，使社区版/托管版边界更直观；这属于表述优化，不影响开源属性与类型匹配。",
+    "Open Live 图形能力：README 称“including OGraf templates”，而 docs/graphics.md 说明 Open Live 不做 OGraf 专用解析，只是用 Chromium 渲染所给 URL；条目的“支持 OGraf 模板 URL”措辞与正文一致，后续请勿升级为“原生 OGraf 集成”。",
+    "research.json 中“contributors 接口返回 zsiec 2987 次提交”“zsiec 名下 63 个公开仓库且无 switchframe”两项仅记为只读巡检，未保存快照（后续同一会话遇 HTTP 403）。这些只用于归属比对、未进入条目功能主张，故不阻断；若继续引用应补存快照，否则保持“未留存”标注。",
+    "OBS Studio（github:13233158）以桌面客户端形态被移出本叶、Open Live Studio 与 Strom 以组件身份不单列，均与研究记录、条目边界一致；两处判断属于形态/去重取舍，未对 SaaS 变体作否定结论，处理方式恰当。"
+  ],
+  "leaf_checks": {
+    "video-compositing-application": {
+      "slug": "video-compositing-application",
+      "result": "pass",
+      "definition_core": "定义要求：多个同时可用的实时视频源，在操作员控制下实时选择/切换并在帧内组合（分层、分屏、叠加、抠像），产出单一连续节目，并同时分发到一个或多个输出；排除离线时间轴合成与纯桌面客户端。两个候选均以官方正文（非元数据、非摘要、非导航页）满足该结构。",
+      "cases": [
+        {
+          "application_id": "github:1266672576",
+          "name": "SwitchFrame",
+          "id_track_check": "仓库元数据快照 id=1266672576、full_name=thiagopnts/switchframe、fork=false，与批次 id、homepage、repository_url 一致；track=open_source 与 MIT 许可一致；组件无混用。",
+          "definition_evidence": "README 明确“server handles all switching, mixing, encoding, and compositing. Browsers connect over WebTransport as control surfaces”，源为 Prism MoQ、SRT listener/caller、MXL，处理链含 upstream chroma/luma key、PIP/side-by-side/quad、8 层 DSK，转场含 cut/mix/dip-to-black/6 向 wipe/stinger/T-bar，节目经 program relay 扇出到录制、SRT/RTMP、MXL 与浏览器监看；docs/architecture.md 给出 source→decode→frame sync→switcher→pipeline→program relay/muxer/MXL 的连续节目路径；docs/concepts/pipeline.md 说明 always-decode 与原子换管道以保证切换不中断；docs/reference/api/output.md 给出录制、SRT caller/listener、RTMP 目的地端点。满足“实时多源混合 + 操作员控制 + 连续节目 + 独立并发输出”。",
+          "service_form": "docs/operations/deployment.md：单 Go 二进制内嵌 SvelteKit UI，生产运行于裸金属 Linux + systemd/Nomad，操作员从公网域名用浏览器登录，QUIC/HTTP3 提供控制与媒体，另可 Docker/Dockerfile.cuda。属于可持续运行的浏览器控制的服务端应用，不是纯桌面客户端，也未以离线渲染代替实时合成。",
+          "license_and_identity": "LICENSE 端点返回完整 MIT 正文（base64 解码为 1073 字节，含授权、版权声明保留与免责条款），非 SPDX 字段或摘要；仓库元数据 license.spdx_id=MIT。身份缺口已如实留档：README 徽章与 clone 地址指向已 404 的 zsiec/switchframe，LICENSE 署名与全部提交作者为 zsiec/Thomas Symborski，元数据 fork=false、parent=null，批次 summary/deployment/leaf_match/research note 均记录“代码作者=zsiec、托管方=thiagopnts、归属与发布主体未闭合”，未虚构 canonical 上游，也未据此把它降级为“他人镜像”。",
+          "community_boundary": "自托管开源（MIT），无按功能分层的商业版主张；条目未声称存在付费社区版/企业版，边界表述与快照一致。",
+          "gaps_recorded": "canonical 上游不可达（zsiec/switchframe 404）、归属未闭合、README quick start 克隆地址失效、无 release/tag 快照；均已留档，未影响“该 MIT 代码库确实实现了本类型”的结论。"
+        },
+        {
+          "application_id": "github:1203642171",
+          "name": "Open Live（open-live + open-live-studio + Strom）",
+          "id_track_check": "open-live 元数据快照 id=1203642171、full_name=Eyevinn/open-live、fork=false，与批次 id 一致；组件 id 1203623661（open-live-studio）与 1096345941（strom）与各自元数据快照及 research fetch_outcomes 一致；track=open_source 与三仓库开源许可一致。",
+          "definition_evidence": "open-live README 自述为浏览器实时制作套件（vision mixer、audio mixer、multiviewer），能力为 cuts、auto transitions、DSK layers、PiP、graphics overlays、fade-to-black，每制作最多 16 路源（srt/efp/whip/html/test1/test2），音频每通道推子 + EBU R128，multiviewer 亚 500ms，输出含 recording（含 ISO 输入录制）、SRT、WHEP；README 同时明确“Open Live drives Strom over REST/WebSocket and never touches media itself”，媒体混合、图形合成与节目/多画面编码由 Strom 执行，docs/graphics.md 说明 HTML/图片经 Chromium cefsrc 渲染并由 DSK 键控叠到节目输出；open-live-studio README 与元数据确认其为浏览器控制台（React/TS），缺之则“只有 API 没有控制面”。组合体满足实时多源混合、操作员实时控制、连续节目与并发输出。",
+          "service_form": "三仓库可自托管（CouchDB + Strom + 浏览器控制台，提供 Docker/docker-compose），并存在 OSC 托管实例 openlive.apps.osaas.io；操作员全程在浏览器内导播（REMI），媒体与编码在服务端 Strom 完成。属持续运行的软件服务形态，非桌面客户端、非离线时间轴合成。",
+          "license_and_identity": "逐仓库均有完整正文：open-live LICENSE 为 1103 字节完整 MIT（Copyright (c) 2026 Eyevinn Technology Open Source Software Center）；open-live-studio LICENSE 同为 1103 字节完整 MIT（同署名）；strom 元数据 license.spdx_id=Apache-2.0，LICENSE-APACHE 为 10841 字节完整 Apache-2.0 正文，LICENSE-MIT 为完整 MIT 正文（Copyright (c) 2025 Eyevinn Technology），README 标注 “MIT OR Apache-2.0”。三仓库 fork=false、archived=false，id/full_name 与 URL 一致；条目 summary 与 deployment 已写明“API 服务 / 浏览器控制台 / 媒体引擎”的组件边界，未把 API 仓库单独表述为完整媒体引擎。",
+          "community_boundary": "开源边界清楚：自托管三仓库全部开源（MIT / MIT / Apache-2.0 OR MIT），托管版代码同源，差异在 Strom/GPU 供给方式、OSC 参数存储与反向代理；README 明确 OSC 目录中的 eyevinn-strom 实例不被支持作为后端。条目未声称存在功能分层的付费闭源版。",
+          "gaps_recorded": "批次条目未提供 license_review 结构体（正文证据齐全）；application_id 指向 API 仓库而产品为三仓库套件（组件 id 已在 research 留档）；托管定价细节未在条目展开。均为可读的留档缺口/表述优化，不构成事实错误或类型不匹配。"
+        }
+      ],
+      "withheld_candidates_check": "OBS Studio（github:13233158）以 6 份官方快照只证明本机安装的桌面客户端形态，按“纯客户端不因联网而纳入”的单元边界移出本叶，并未断言其无 SaaS 变体；Open Live Studio 与 Strom 因与 API 服务同一产品身份、属控制面/引擎，仅作组件记录，未重复立目；onairlive（无许可证）、furMix（桌面端）、FreeMix（无许可证/OBS 壳）均有检索与形态理由留档。以上取舍与条目、研究记录一致。",
+      "source_integrity": "逐条按 REVIEW_SOURCES.json 的 path 原样读取 20 份快照（repository_metadata / readme / license / documentation），批次 sources 的 snapshot_path 均以 data/collections 为基准、与 REVIEW_SOURCES.json 和 research fetch_outcomes 的 url+sha256 一一对应；sha 值与文件名前缀一致。审查只读取，未修改、未运行任何脚本、未访问其他单元。",
+      "conclusion": "本叶两个案例均以官方 README/架构/部署/API/图形文档与完整许可证正文支撑定义性核心、服务形态、ID/track 与开源边界；归属未闭合、托管定价、license_review 缺失等均属已留档缺口或表述优化，无需退回修改。"
+    }
+  },
+  "limits": "只读审查：仅能读取本单元 input.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 列出的 20 份快照，未运行 shell、未写文件、未做运行时验证、未联网复核（因此 zsiec/switchframe 404、GitHub 搜索计数、contributors 2987 次提交、zsiec 63 个仓库与 403 限流等只能依据研究记录，未独立复验）。未重算快照 sha256，仅核对文件名/字段中的 sha 与内容一致性；单行 JSON 元数据快照在读取时被工具截断，部分字段（如 archived、created_at、parent）依赖 grep 命中与研究记录交叉确认。未核对 release/tag、镜像或 Helm 清单，未评估性能、价格与商业条款的完整性。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-032/ses_groveopendesignp032review2_1793165833.jsonl",
+  "batch_sha256": "3b169e1c7135419f8e470322d368562fb020119dbf0fb300e54332ed9cb51f4d",
+  "research_sha256": "d0debb25642abfeff83ac62f82c1dea33959f72068c36eb722501ee1bedc6131",
+  "input_sha256": "a0756f4a5af8f2cbc2145122e5d596e1883d5665cd9d2a4985c4910c3d0e2d65"
+}

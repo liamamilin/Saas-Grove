@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是采集前基线：五叶均标 case_status=not_searched、application_ids=[]，而 batch.json/research.json 已记录 case_found 和具体案例。本次以 batch/research 为准核对；若下游依赖 progress 字段，应同步更新。",
+    "policy-management 以 PowerDMS 这一公共安全垂直产品作商业案例；策略库、审批受控生命周期、向受管辖群体发布与确认等核心成立，但 accreditation、training 等扩展不应计入叶核心证据。",
+    "procedure-management 的 OpenQMS 主类型是 QMS，叶匹配依赖其文档控制模块；batch/research 已明确此边界，下游描述建议保持“QMS 的文档控制模块”，避免被读成专用 SOP 产品。",
+    "equipment-administration-platform 的 Snipe-IT 是 IT 资产管理实现，主要覆盖 IT/办公设备；若该叶需要覆盖相机、工具、医疗设备等更广设备池，应补充相应来源或明确适用范围。",
+    "office-operations-platform 仅有 OfficeSpace 官方首页快照；首页正文和功能块已覆盖工位/会议室预订、设施请求/工单、预防性维护、访客与资产维护，但专门功能页或帮助文档会更强。当前满足商业基本真实性和类型匹配。",
+    "corporate-travel-management-platform 的 Navan 页面是营销产品页；公司差旅项目、政策评估、审批、库存、仪表盘和虚拟卡支付均有正文或结构化内容支撑。“合规预订自动批准”的自动性措辞未在快照中单独确认，属于非核心细化。",
+    "research.json 记录了 CISO Assistant 的 reviewed_not_used 哈希，但 REVIEW_SOURCES.json 未列该快照；它未进入 batch，不影响本单元结论，若后续引用应补登来源。"
+  ],
+  "leaf_checks": {
+    "policy-management": {
+      "application_ids": [
+        "commercial:powerdms"
+      ],
+      "track": "commercial",
+      "service_form": "cloud SaaS",
+      "result": "pass",
+      "basis": "读取 PowerDMS Policy 产品页快照（a43baf...）；正文“What is Policy?”、管理员/主管/员工角色工作流区块及 FAQ/Product schema 说明集中策略、程序、SOP/SOG、指令库，自动版本控制，评审审批，按人员/组/组织单位分发与确认，旧版本归档、当前批准版本唯一、审计记录和角色权限。符合组织策略库、审批受控生命周期、向受管辖群体发布三部分核心。",
+      "gaps": "没有专门的开源策略库案例；research 已记录 2026-10-24 与 2026-10-26 检索、候选不匹配及 CISO Assistant 许可不明，属于有留档的缺口。"
+    },
+    "procedure-management": {
+      "application_ids": [
+        "github:495150380"
+      ],
+      "track": "open_source",
+      "service_form": "self-hosted ASP.NET Core web application",
+      "result": "pass",
+      "basis": "仓库元数据确认 C-realize/OpenQMS、GitHub ID 495150380；license API 与快照包含完整 AGPL-3.0 文本（SPDX AGPL-3.0，34660 bytes），README 说明 AGPL 与商业许可双轨；官方 docs 的“Managing policies, procedures and other documents”说明文档版本控制、管理员/经理凭据审批、批准版本不可编辑删除、新主版本使旧版本 obsolete，以及培训关联已批准策略并按角色分配和记录完成。符合程序/SOP 文档库、审批发布、当前版本与分发记录核心。",
+      "gaps": "OpenQMS 主类型为 QMS，叶匹配依赖其文档控制模块；batch/research 已说明该边界。README 未说明独立社区版功能限制，AGPL 版本即开源版本；未做运行时验证。"
+    },
+    "corporate-travel-management-platform": {
+      "application_ids": [
+        "commercial:navan"
+      ],
+      "track": "commercial",
+      "service_form": "cloud SaaS",
+      "result": "pass",
+      "basis": "Navan Business Travel 产品页快照的 hero、正文与结构化内容确认公司差旅项目、旅行库存、in-policy/out-of-policy 政策控制、审批、酒店/火车/租车等内容、实时可见性、仪表盘和虚拟卡支付。符合公司差旅项目、受政策评估的受控预订记录、公司侧审批与可见性三结构。",
+      "gaps": "没有开源差旅完整案例；research 已记录候选未取得完整证据以及 TravelPerk 抓取重定向失败。页面为营销产品页，“自动批准”的自动性措辞未单独确认，属非核心细化。"
+    },
+    "equipment-administration-platform": {
+      "application_ids": [
+        "github:14346979"
+      ],
+      "track": "open_source",
+      "service_form": "self-hosted PHP/Laravel web application",
+      "result": "pass",
+      "basis": "仓库元数据确认 grokability/snipe-it、GitHub ID 14346979；license API 与快照包含完整 AGPL-3.0 文本（SPDX AGPL-3.0，34519 bytes）；README 说明其为 FOSS、web-based、Laravel 12，并提供 Docker 镜像；官方产品页说明资产归属与物理位置、one-click checkin、checkout/checkin/maintenance 完整历史、expected checkin、audits、可选数字签名、requestable 资产与 QR 标签。符合单项设备台账、记录式保管交接和生命周期核心。",
+      "gaps": "Snipe-IT 是 IT 资产管理实现，覆盖 IT/办公设备；若外推到更广设备池需补来源。未发现独立社区版功能阉割说明；未做运行时验证。"
+    },
+    "office-operations-platform": {
+      "application_ids": [
+        "commercial:officespace-software"
+      ],
+      "track": "commercial",
+      "service_form": "cloud SaaS",
+      "result": "pass",
+      "basis": "OfficeSpace 官方首页快照正文/功能块包含空间管理、工位与会议室预订、实时与 check-in、facility requests、work orders、preventative maintenance、visitor 和 asset 维护；导航/页脚指向 Desk Booking、Room Booking、Facility Requests 及 Slack/Teams 集成。符合在册办公场所、员工预订界面、办公室团队服务循环三结构。",
+      "gaps": "仅有首页快照，没有单独的功能页或帮助文档作为更细证据；research 已记录开源候选缺少完整服务循环证据，属于有留档的缺口。"
+    }
+  },
+  "limits": "本次只读核对了本单元 5 个叶子和 REVIEW_SOURCES.json 列出的 11 个快照；未运行应用、未部署、未做运行时或 API 验证；未独立计算 sha256，按 REVIEW_SOURCES.json 的 path 原样读取并核对文件名、URL 与 sha 字段；商业叶子仅按官方页面做基本真实性和类型匹配，未核价、未核全部功能；部分页面为压缩 HTML、Wix 或 Next.js 输出，按正文、功能块和结构化数据交叉核对，未逐字审阅所有营销文案；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-127/ses_groveopencodegop127review1_1793007748.jsonl",
+  "batch_sha256": "fe78d60f3adc7049a00e4fbbfdaf59602215da80610407fbeb84d9d4ce025e04",
+  "research_sha256": "fbe8f2550ec0332d4865f5c14c7e11f6660634c42d956dd3e1056f18afe42acb",
+  "input_sha256": "33f8313364cfd17c3e01bed40a006eb404c16c350dd6d6a3861b1aefafb06d2f"
+}

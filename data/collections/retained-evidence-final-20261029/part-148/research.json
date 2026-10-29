@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "courier-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:540371158"
+      ],
+      "query": "open source courier management platform github complete application; courier management system; courier dispatch; open source courier dispatch proof of delivery self-hosted; Fleetbase open source logistics orders drivers POD license",
+      "source_urls": [
+        "https://api.github.com/repos/webbywonder/courierman",
+        "https://api.github.com/repos/webbywonder/courierman/license",
+        "https://raw.githubusercontent.com/webbywonder/courierman/main/README.md",
+        "https://raw.githubusercontent.com/webbywonder/courierman/main/routes/web.php",
+        "https://raw.githubusercontent.com/webbywonder/courierman/main/app/Model/CourierInfo.php",
+        "https://raw.githubusercontent.com/webbywonder/courierman/main/database/migrations/2019_01_05_104055_create_courier_infos_table.php",
+        "https://raw.githubusercontent.com/webbywonder/courierman/main/app/Http/Controllers/Staff/CourierInfoController.php",
+        "https://api.github.com/repos/fleetbase/fleetbase",
+        "https://api.github.com/repos/fleetbase/fleetbase/license",
+        "https://raw.githubusercontent.com/fleetbase/fleetbase/main/README.md",
+        "https://fleetbase.io/docs/community/licensing",
+        "https://fleetbase.io/docs/fleet-ops/operations/orders/overview",
+        "https://fleetbase.io/docs/fleet-ops/operations/orders/proof-of-delivery",
+        "https://fleetbase.io/docs/fleet-ops/operations/service-rates/overview",
+        "https://fleetbase.io/docs/ledger"
+      ],
+      "note": "历史复用（2026-10-25/27，非本轮新检索）：webbywonder/courierman（MPL-2.0，Laravel）经仓库文件树、courier_infos 迁移与 Staff/CourierInfoController 复核，仅有分支网络寄件/收件、分支交接、状态、费用与发票/收款；迁移只有 sender_branch_staff_id / receiver_branch_staff_id，无 driver/courier 绑定字段，路由无司机派单或未分配队列，receiveCourier 由登录员工直接把状态置为 Delivered，无签名/照片/条码/时间地点等现场 POD。旧结论保留为负例，不计入成立关系。\n\n本轮补采（2026-10-29）：Fleetbase（fleetbase/fleetbase，GitHub id 540371158，默认分支 main，未归档，AGPL-3.0）官方 Fleet-Ops 订单文档证明订单包含取件/送达地点、客户、货件实体、司机与车辆、条码/QR 追踪号及创建/已调度/已开始/已完成/已取消生命周期，订单可分配/改派司机并 dispatch 到 Navigator 司机端；POD 文档列出签名、照片、条码/QR 扫码、短信验证码四种交付点证据，并保留活动时间线与 POD 文件；Service Rates 文档按里程、固定距离、按点、多区距离、包裹或自定义算法计价，支持 COD、高峰与包裹尺寸附加费并生成 Service Quote；Ledger 文档说明订单加入 PurchaseRate 后自动生成草稿发票。官方 README 将 Courier & Parcel 列为适用行业，并说明 Docker 自托管、Navigator 司机端与 Ledger 开票。四项定义性核心——快递订单、分派给运营商自有司机、带现场交付证明的执行闭环、按费率开票——均有官方正文证据，故本轮新增成立关系。\n\n许可与服务形态：官方许可页明确核心 API、Console、Fleet-Ops/Storefront/Pallet/Ledger 等官方扩展与 Navigator/Storefront 移动端整体采用 AGPL-3.0；自托管用于自营配送业务免费，商业许可仅用于闭源修改、白标或对外提供修改版 SaaS。未运行第三方项目，未做部署实测（runtime_tested:false）。",
+      "service_boundary": "Fleetbase 是面向物流/配送运营商的模块化平台。本叶只采用 Fleet-Ops 的订单—司机分派—现场 POD 执行闭环，以及 Service Rates/Service Quotes 与 Ledger 的计价开票闭环；其车队维护、仓储、电商店面等能力不作为本叶依据。它不是零售商自配送的 last-mile 平台，也不是多承运商比价/聚合平台。历史候选 courierman 只能证明分支网络型快递/包裹门户，缺司机级派单与现场 POD，仍不纳入成立关系。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source courier management platform github complete application",
+          "outcome": "历史检索：命中 dmaman86/courier-app、PathumWijesekara、RexO77、webbywonder 等候选"
+        },
+        {
+          "tool": "github_search",
+          "query": "courier management system in:name,description sort:stars",
+          "outcome": "历史检索：核对 stars/license/描述，筛出 webbywonder/courierman（MPL-2.0）"
+        },
+        {
+          "tool": "github_search",
+          "query": "courier dispatch in:name,description sort:stars",
+          "outcome": "历史检索：platelet 为志愿紧急调度，其他多为集成/示例，未优于分支网络型完整应用"
+        },
+        {
+          "tool": "repository_inspection",
+          "query": "webbywonder/courierman git tree; database/migrations/2019_01_05_104055_create_courier_infos_table.php; app/Http/Controllers/Staff/CourierInfoController.php",
+          "outcome": "历史复核：文件树无 driver/courier 分配表；迁移无司机字段与 POD 字段；receiveCourier 仅写 receiver_branch_staff_id 并把状态置为 Delivered，无签名/照片/条码/时间地点捕获"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source courier management platform driver dispatch proof of delivery github self-hosted",
+          "outcome": "本轮检索：命中 Fleetbase 官方仓库/文档，以及 ownfleet、SynTrack、Track-POD、Onfleet 等商业产品；商业产品仅作背景，不纳入。Fleetbase 有完整官方文档与 AGPL 仓库，优先核对"
+        },
+        {
+          "tool": "websearch",
+          "query": "Fleetbase open source logistics orders dispatch drivers proof of delivery license",
+          "outcome": "本轮检索：官方 README、许可页与 Fleet-Ops/Ledger 文档确认 AGPL-3.0、订单/司机调度、Navigator POD、Service Rates 与自动开票；许可页进一步明确 Fleet-Ops 等官方扩展属于 AGPL-3.0 平台"
+        },
+        {
+          "tool": "repository_inspection",
+          "query": "fleetbase/fleetbase repository metadata/license/README; Fleet-Ops orders overview, proof-of-delivery, service-rates; Ledger overview",
+          "outcome": "本轮补采：取得 7 份官方快照；仓库 id=540371158、full_name=fleetbase/fleetbase、默认分支 main、未归档；订单/分派/POD/费率/发票正文均可读"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/webbywonder/courierman",
+          "kind": "repository_metadata",
+          "sha256": "a8379f00e2bd072276b9e6c152788740c04aa99eaeed925a8ea21ec6c10b89ae",
+          "result": "历史快照 saved; id=301974699, full_name=webbywonder/courierman"
+        },
+        {
+          "url": "https://api.github.com/repos/webbywonder/courierman/license",
+          "kind": "license",
+          "sha256": "0aeeb4f060a1502801b3cb6f1f16da384b5fc941a7c7bc18983df815fddd9553",
+          "result": "历史快照 saved; SPDX=MPL-2.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/webbywonder/courierman/main/README.md",
+          "kind": "readme",
+          "sha256": "06df516f835eb7e0216f4e82ea28082eb9d8e593cfc0bdb603602ac453aea73f",
+          "result": "历史快照 saved; Laravel 安装步骤与 unmaintained 标识"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/webbywonder/courierman/main/routes/web.php",
+          "kind": "documentation",
+          "sha256": "fa7654b4c9c784271047f073c66b6c770a0e8671df31380b3d5b8e7922ce6035",
+          "result": "历史快照 saved; courier resource、departure/upcoming、invoice、payment、deliver search 路由"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/webbywonder/courierman/main/app/Model/CourierInfo.php",
+          "kind": "documentation",
+          "sha256": "6ba91ab7124f572153d9ef500ba0c6adacda426e77d3ac50b56ab415111d1890",
+          "result": "历史快照 saved; 寄件/收件分支、包裹明细与收款关联"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/webbywonder/courierman/main/database/migrations/2019_01_05_104055_create_courier_infos_table.php",
+          "kind": "documentation",
+          "sha256": "17aa1a80964463dd7cda3889844846ae3434bb16b95110732a81db6f3bd194d7",
+          "result": "历史快照 saved; courier_infos 只有 sender/receiver_branch_id、sender/receiver_branch_staff_id、payment_* 与 Delivered/Received 状态，无 driver/courier 分配字段，无 POD 字段"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/webbywonder/courierman/main/app/Http/Controllers/Staff/CourierInfoController.php",
+          "kind": "documentation",
+          "sha256": "e4f788cecd7514b448aea1dd4978153ba3a1b3469b79116feef908357b12f3bc",
+          "result": "历史快照 saved; receiveCourier 仅写 receiver_branch_staff_id 并把 status 置为 Delivered；无签名/照片/条码扫描/时间地点捕获，也无司机派单动作"
+        },
+        {
+          "url": "https://api.github.com/repos/fleetbase/fleetbase",
+          "kind": "repository_metadata",
+          "sha256": "0c30c7341e0bdbd648df0360855b10051f77c91c84cdb9931501d2e8c2cbfcd8",
+          "result": "本轮 saved; id=540371158, full_name=fleetbase/fleetbase, default_branch=main, archived=false, stars=4417"
+        },
+        {
+          "url": "https://api.github.com/repos/fleetbase/fleetbase/license",
+          "kind": "license",
+          "sha256": "f25f3e8369f8fa5e1d671b795e7dcc23bfd83058124c1c0b4e3b7f75c72b8fc7",
+          "result": "本轮 saved; SPDX=AGPL-3.0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/fleetbase/fleetbase/main/README.md",
+          "kind": "readme",
+          "sha256": "f90c307471ecb43b2cf4f58f82bd0f8ef4f6c6a119ba92d471f3cad0f86bcf99",
+          "result": "本轮 saved; Courier & Parcel 行业、Fleet-Ops 订单/司机/POD、Ledger 开票、AGPL-3.0 与自托管说明"
+        },
+        {
+          "url": "https://fleetbase.io/docs/community/licensing",
+          "kind": "documentation",
+          "sha256": "b6d2813437ea2b4eb3cbd2a3fa8eb89e16a5b62ee47129e0aed4c2c496cc98ee",
+          "result": "本轮 saved; 核心 API、Console、Fleet-Ops 等官方扩展与移动端整体 AGPL-3.0；自托管自用免费，商业许可用于闭源/白标/SaaS"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/operations/orders/overview",
+          "kind": "documentation",
+          "sha256": "735987a3666871f273039f98badf1dd6a0f370a43003f8f088dc48b62bcf2eb1",
+          "result": "本轮 saved; 订单结构、分配/改派司机、dispatch、状态、活动时间线与 POD 文件"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/operations/orders/proof-of-delivery",
+          "kind": "documentation",
+          "sha256": "eeb97636096761c4fe7e19724220ed587a6f11a97b36b0a0b9bf67dd071b1f54",
+          "result": "本轮 saved; signature/photo/scan/sms 四种 POD 方法及按活动配置"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/operations/service-rates",
+          "kind": "documentation",
+          "sha256": null,
+          "result": "本轮 failed; HTTP 404 Not Found，未保存快照；改用官方 service-rates/overview"
+        },
+        {
+          "url": "https://fleetbase.io/docs/fleet-ops/operations/service-rates/overview",
+          "kind": "documentation",
+          "sha256": "a8fd0f2a16918d9e34ee0eb77fd10fc20019f6ca3242bb68791f64c778c26bb9",
+          "result": "本轮 saved; 六种费率计算、COD/高峰/包裹附加费与 Service Quote"
+        },
+        {
+          "url": "https://fleetbase.io/docs/ledger",
+          "kind": "documentation",
+          "sha256": "a161675005597250d22492991d867cda609716177b0cdc27b9ca817ff7e4ced5",
+          "result": "本轮 saved; 发票、复式记账、钱包、支付网关及订单 PurchaseRate 自动生成草稿发票"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

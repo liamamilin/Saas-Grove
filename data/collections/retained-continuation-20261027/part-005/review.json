@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍保留前置模板的 case_status=not_searched 与 phase=included_without_cases，与本批 batch.json/research.json 已记录 case_found 的实际状态不一致；建议写入时同步元数据，避免读者误读，但不影响本次内容结论。",
+    "Chatwoot 与 Onyx 都是复合许可证项目；条目已用 scope=community_core 和 summary 排除 enterprise/、ee/ 目录。建议在展示层写成“社区核心 MIT”，避免被理解为整仓库只有单一 MIT 许可。",
+    "Discord 与 Chatwoot 都按完整子工作流匹配：Discord 匹配视频通话子工作流，Chatwoot 匹配 Help Center 门户子工作流。leaf_matches 已明确限定，建议对外表述时保留该限定，不要写成“Discord 是视频优先产品”或“Chatwoot 仅是帮助中心”。",
+    "Onyx 的 license_review.rationale 使用英文，其他条目多为中文；不影响许可结论，建议统一语言风格。",
+    "GPT Researcher 的 README 快照取自 master，license/metadata 快照引用 main；当前内容一致，建议后续固定同一 ref 以增强可复现性。",
+    "Chatwoot 的 homepage 字段为 https://www.chatwoot.com/help-center，而 batch 中 kind=homepage 的来源为 https://www.chatwoot.com/features/shared-inbox；两者用途不同但都真实，建议统一 homepage 与来源语义。"
+  ],
+  "leaf_checks": {
+    "live-video-chat-application": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:discord"
+      ],
+      "basis": "已读 Discord 官方 Video Calls 与 Group Chat and Calls 快照正文。Video Calls 快照说明私信和服务器语音频道中的实时双向视频、摄像头与麦克风的个人开关、服务器视频通话人数上限及安全设置；Group Chat and Calls 快照说明 Group DM 从 Friends List 建立、可添加成员、查看成员资料和私信、置顶消息等。实时视频、用户选择对话对象、持久个人社交上下文三项均有正文依据。",
+      "limitations": "只匹配 Discord 的视频通话子工作流，不主张 Discord 是视频优先产品；未做运行时验证。"
+    },
+    "ai-research-assistant": {
+      "status": "pass",
+      "application_ids": [
+        "github:639835356"
+      ],
+      "basis": "GPT Researcher README 快照明确 planner/execution agents、crawler、逐来源总结与 source-track、聚合成带引用报告，并支持 web 与本地文档（PDF、Word、CSV、Markdown 等）；同时给出 FastAPI/Next.js 前端与服务端部署路径。LICENSE 快照为 Apache-2.0，repository metadata 的 id 639835356 与 github:639835356 一致。研究任务、已识别来源、AI 分析、来源归属四项成立。",
+      "limitations": "README 是官方产品说明，不是独立评测；未运行实际研究流程或逐条核验引用。"
+    },
+    "answer-engine": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:chatgpt"
+      ],
+      "basis": "OpenAI 帮助中心快照的标题、描述及内嵌 article 数据指向 “Searching the web with ChatGPT”；同一官方 URL 的当前正文明确 ChatGPT 可搜索网页来回答需要最新信息的问题，答案附相关来源链接，并可通过 Sources 查看引用。问题锚定、系统自主作答、提问时网页 grounding 三项成立。",
+      "limitations": "快照是客户端渲染页面，正文以嵌入 article payload 保存，未能逐段展开；已用同一官方 URL 的当前正文交叉核对关键行为。商业产品只核对基本真实性与类型匹配，未验证引用覆盖率或所有回答形态。"
+    },
+    "knowledge-question-answering-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:633262635"
+      ],
+      "basis": "Onyx README 快照说明其连接组织应用并索引 50+ 来源、提供 Agentic RAG 检索与问答，可在 Web、桌面、Slack、Discord 等入口提问；onyx.app 快照展示带 “6 passages · 3 sources · permission-aware” 的答案。LICENSE 快照明确 ee 目录适用独立企业许可、其余内容为 MIT Expat；README 说明 Community Edition 覆盖 RAG、AI Chat、Agents、Actions 等核心。所有者语料库、受众提问、系统生成带来源答案三项成立，本条仅计 MIT 社区核心。",
+      "limitations": "官网快照主要是产品展示；未部署验证连接器、索引与权限边界。"
+    },
+    "help-center": {
+      "status": "pass",
+      "application_ids": [
+        "github:202291859"
+      ],
+      "basis": "Chatwoot Help Center 快照正文含 “Create, organize, and publish help center articles so customers can find answers on their own”，并给出 New Portal、创建分类、New Article、Preview、Publish 的完整操作链，说明可创建面向客户的自助门户；README 也列出 Help center portal。代码快照显示 app/controllers/api/v1/accounts/portals_controller.rb 的门户 CRUD 位于 enterprise/ 之外；public_controller.rb 的 help_center 功能门禁仅在 ChatwootApp.chatwoot_cloud? 为真时生效；enterprise/ 覆盖文件仅新增 ssl_status。主 LICENSE 明确 enterprise/ 适用独立许可、其余为 MIT Expat，故仅计社区核心。组织撰写语料、读者自助站点、集成编写端三项成立。",
+      "limitations": "未运行门户或做端到端发布测试；未单独读取 enterprise/LICENSE，本次仅依据主 LICENSE 的 enterprise/ 排除条款主张社区核心 MIT。读者侧站点以官方用户指南与控制器路径交叉核对。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元，也未做部署或运行时测试。核对范围限于 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的快照，快照按 path 原样读取。ChatGPT 的帮助中心快照为客户端渲染页面，正文位于内嵌 article payload，未能逐段展开，另以同一官方 URL 的当前正文交叉核对关键行为；Chatwoot 仅按主 LICENSE 的 enterprise/ 排除条款核对社区核心，未单独读取 enterprise/LICENSE；商业产品只核对官方文档的基本真实性与类型匹配。input.json 的 progress 为前置模板状态，本次以 batch.json 与 research.json 的实际记录为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-005/ses_groveopencodegop005review1_1792938357.jsonl",
+  "batch_sha256": "1b368fd880ae1af4b184b4c37c8794e387c0be5bae1eb51a0067d53b1e936027",
+  "research_sha256": "14335bcdbe38b6bfbd3b29074d5198fb8dd1a54fc9bbeba7f010a37e030faf1f",
+  "input_sha256": "4eaa94c3cd5e627c35fe980010a329d2beaf595182370a9a4ede35b2ae25f13f"
+}

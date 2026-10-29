@@ -1,0 +1,40 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Open2DMeasure 的工程保存/载入只持久化图像、比例、原点、点/线/圆和实测值（Form1.cs 1321-1347；载入 1410-1463），没有保存 ValoreNominale、TolPiu、TolMeno。重载后再判定或导出时名义值与公差为 0，OK/KO 会失真。条目目前只写“保存和载入测量工程”，建议补充这一边界，或等产品修复后再用“完整工程保存”表述。",
+    "CSV 导出中的“Codice oggetto misurato”“Descrizione oggetto misurato”“Nome metrologo”只有标签、没有值（Form1.cs 1516-1518），只有日期被写入。batch 已用“表头”表述，并在 leaf_matches 中说明这些字段未由界面填充，因此不构成阻断；但零件级追溯性较弱，建议 summary 也明确说明。",
+    "CSV 只逐项输出名义值、公差、实测值、偏差和 OK/KO，没有零件级汇总判定；判定需要读者从各行状态自行汇总，属于轻量报告边界。",
+    "Open2DMeasure README 的许可证表述自相矛盾：开头写 GPL-3.0，技术规格和末尾写 MIT。仓库 LICENSE.txt 与 GitHub license API 均为完整 GPL-3.0，batch 采用 GPL-3.0 正确，research 也已留档该矛盾。research 对 GPL/MIT 出现位置的具体描述不够精确（GPL 实际只在开头出现），不影响结论。",
+    "Open2DMeasure 是本地离线 WinForms 桌面应用，无多租户、无托管服务形态；batch 的 deployment 已如实写明“自托管、离线使用”。若目录按严格 SaaS 形态筛选需另行确认口径；按本叶开源软件案例口径可接受。",
+    "Open2DMeasure 的名义参考是用户逐项手工输入的名义值与上下公差，不是从 CAD 或图纸导入的结构化特征定义；这是最小化 2D 图像计量实现，核心闭环成立但成熟度有限。",
+    "PolyWorks|Inspector 的首件检验报告/Excel 输出依赖 ReportLoop 附加产品；batch 将其列在 Inspector 能力下，未注明附加产品，属商业范围说明，不影响基本真实性和类型匹配。",
+    "OpenIndy 仅作为 boundary_unresolved 候选留档、未入 batch；其 Report Creator 为空壳的结论来自本单元未列出的旧快照，未在本次 REVIEW_SOURCES 中复核，不影响两条例子的核对。"
+  ],
+  "leaf_checks": {
+    "inspection-metrology-software": {
+      "status": "pass_with_non_blocking_notes",
+      "applications_checked": [
+        "github:1160427004",
+        "commercial:polyworks-inspector"
+      ],
+      "identity_and_track": "Open2DMeasure 的 GitHub 仓库 id=1160427004、full_name=Marcross91/Open2DMeasure，与 batch 的 github_repository_id 和 open_source track 一致；PolyWorks|Inspector 为 InnovMetric 的商业桌面产品，commercial:polyworks-inspector 的身份和 track 与官方产品页一致。",
+      "definition_core": "Open2DMeasure 用代码证据构成最小闭环：CaricaImmagine 导入零件图像，fattoreScala 按已知距离标定；Misura 支持距离、X/Y 距离、直径、半径、角度；tsmImpostaTolleranze 写入名义值和 Tol+/Tol-；CalcolaStato 按名义值±公差逐项返回 OK/KO；tscmdGeneraReport 导出逐特征结果 CSV，tscmdSalva/ApriFile 保存和载入工程。PolyWorks|Inspector 官方页确认从原生 CAD/QIF MBD 导入 GD&T 与名义定义，接入便携/扫描/CNC CMM/数字量具/视觉检查，提供基准或最佳拟合对齐、尺寸与 GD&T 公差评估、偏差色图，并以检验项目、动态报告和首件检验报告保留零件级结果。四结构在本叶均有可核对证据。",
+      "open_source_license_and_community": "Open2DMeasure 的 GitHub license API 返回 LICENSE.txt 的完整 GPL-3.0 文本（35,129 字节，base64 首段为 GNU GPL v3）；仓库非 fork、未归档。社区版即完整仓库，未见单独企业版边界。README 的 MIT 表述与 LICENSE 冲突，但 LICENSE.txt 和 API 一致为 GPL-3.0，batch 的 GPL-3.0 记录正确。",
+      "service_and_record_boundary": "Open2DMeasure 为本地离线桌面应用，不是托管多租户服务，batch 已如实写明；其 CSV 报告表头的零件代码、描述、计量员字段未填值，且没有零件级汇总判定，属于已披露的轻量记录边界。工程保存/载入未持久化名义值和公差，是额外需在条目中说明的限制。PolyWorks|Inspector 的商业页面足以核对基本真实性和类型匹配，未做独立部署测试。",
+      "source_basis": "已按 REVIEW_SOURCES.json 原样读取 7 个快照：仓库元数据、README、license API、源码树、Misura.cs、Form1.cs、PolyWorks 官方产品页；未用简介、元数据或加载页替代核心正文。",
+      "gaps": [
+        "Open2DMeasure 的工程保存未包含名义值/公差，重载后检验判定基准会丢失；条目需补充说明或产品修复。",
+        "CSV 的零件代码/描述/计量员仅表头未填值，零件级追溯性有限；batch 已披露。",
+        "无零件级汇总判定，报告为逐特征结果表。",
+        "OpenIndy 候选的旧快照不在本单元 REVIEW_SOURCES 中，未复核；候选未入 batch。"
+      ]
+    }
+  },
+  "limits": "本次仅做只读审查：未运行程序、未写文件、未执行 shell、未重新抓取网页；仅核对 REVIEW_SOURCES.json 列出的 7 个快照；未对 GPL-3.0 全文逐条比对，仅确认 license API 返回完整 GPL-3.0 文本及仓库许可证结论；PolyWorks 页面为官方营销页，未做独立部署或功能测试；OpenIndy 候选的旧快照不在本单元 REVIEW_SOURCES 中，未复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-006/ses_groveopencodegop006review1_1793090922.jsonl",
+  "batch_sha256": "2a2386b70d49ee8977245c30866c5cd6cd0f73851a1a29d4120e938e7e518780",
+  "research_sha256": "17c67beb0a33eeb7c28a965617ef2d899eda321aa19b0cf6142b5f826e68dee8",
+  "input_sha256": "b8bda3bcd62eebd4b45083bcb4492bc8ae7c16e1b81e4aba753bb3cebc816bd8"
+}

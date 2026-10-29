@@ -1,0 +1,63 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "organ-transplant-management",
+      "note": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已给出 case_found 与两个商业条目；建议上游同步该元数据，避免下游误读为无案例。本审查以 batch/research 与实际快照为准。"
+    },
+    {
+      "slug": "organ-transplant-management",
+      "application_id": "commercial:ottr",
+      "note": "条目 homepage 指向 CareDx 企业首页而非该产品页；被引来源 product/EMR 集成页本身有效，建议 homepage 换成产品页以便溯源。"
+    },
+    {
+      "slug": "organ-transplant-management",
+      "application_id": "commercial:editlife",
+      "note": "被引页面为产品营销页，却标为 kind=documentation；语义上更接近 product_page/homepage，属分类措辞问题，不影响核心核对。"
+    },
+    {
+      "slug": "organ-transplant-management",
+      "application_id": "commercial:ottr",
+      "note": "CareDx 快照为 Next.js 单行压缩 SSR HTML，正文虽在文件内（Ottr/TransChart/patient phase management/follow-up events/UNOS data submission/registry reporting 均可检索到），但可读性差；建议后续同时留存纯文本抽取版便于复核。"
+    },
+    {
+      "slug": "organ-transplant-management",
+      "application_id": "commercial:editlife",
+      "note": "页面覆盖器官供给数据的记录与等待名单接受准备度，但未逐项展开供给接受/拒绝决策流；按商业条目“基本真实性+类型匹配”标准不阻断，摘要措辞“器官供给与手术记录”未超出页面表述。"
+    }
+  ],
+  "leaf_checks": {
+    "organ-transplant-management": {
+      "status": "pass",
+      "definition_core": "定义核心为医院移植项目对候选人和受者的系统记录：转诊→评估/选择→等待名单（分配语境）→器官供给接受/拒绝→移植事件→移植物与受者终身随访，并明确排除全国分配平台与供体侧获取软件。两条商业条目均落在医院移植项目记录系统一侧，未越界到全国分配或 OPO 供体软件。",
+      "applications": [
+        {
+          "application_id": "commercial:editlife",
+          "track": "commercial",
+          "id_and_track_match": "batch/research/REVIEW_SOURCES 三处 ID 与 track 一致，leaf_matches 仅指向 organ-transplant-management。",
+          "service_form": "EDITLife Solid Organ Transplant 被页面表述为面向医院与移植中心的集成软件平台/模块（SOFTWARE、integrated platform、module、system），属持续使用的专业软件产品形态；页面提供 Request A Demo，符合商业软件交付形态。",
+          "core_evidence": "快照正文（d7f2f3e6...txt）可见：kidney/liver/heart/lung/pancreas 等移植项目；“from referral through long-term follow-up”；“candidate evaluations, waitlist status, surgical workflows, and post-transplant care”；“Selection Conference management, UNOS status tracking, Waitlist Review, and Graft Failure monitoring”；等待名单激活/转出与 MELD/PELD、LAS、EPTS 自动计算；记录 living/deceased donor、clinical assessments、labs、imaging、organ offers、surgical details、post-transplant outcomes；Graft Failure 专屏映射 UNOS 表单。覆盖定义核心的评估/列入、等待名单、移植事件、移植物随访与失败再列入环节。",
+          "source_check": "REVIEW_SOURCES 的 path 按原样读取为 data/collections/sources/d7f2f3e61af8afc9810f32be060983f93e9dfb1bad8c75dfd328f5929d834133.txt，内容为 editlife.msa.com/solid-organ-transplant/ 的完整产品页 HTML，非简介/元数据/加载页。"
+        },
+        {
+          "application_id": "commercial:ottr",
+          "track": "commercial",
+          "id_and_track_match": "batch/research/REVIEW_SOURCES 三处 ID 与 track 一致，leaf_matches 仅指向 organ-transplant-management。",
+          "service_form": "页面将 “Ottr® Organ & TransChart” 定位为 “Specialized EMR for organ transplant”，属面向移植项目的持续使用软件/EMR 形态，非一次性服务或组件。",
+          "core_evidence": "快照（27d961fd...txt）为 CareDx professionals/emr-integration 页 SSR HTML，可检索到 “Ottr® Organ & TransChart: Specialized EMR for organ transplant”“Standardized transplant data entry, structured workflows, and built‑in data validation”“patient phase management, scheduling, follow-up events, and UNOS data submission”“registry reporting”“Auto-population and submission of UNOS forms”“managed team model provides at-a-glance patient histories”。据此可支持其作为移植项目患者阶段、随访与 UNOS/注册报告记录系统的类型匹配；页面未逐项展开候选评估与供给接受/拒绝，按商业条目基本标准不延伸。",
+          "source_check": "REVIEW_SOURCES 的 path 原样读取为 data/collections/sources/27d961fdb01b14ed6e3ff83a133ec4b27b6587ae280794c0afd32d9c609615e2.txt；因文件为单行压缩 HTML，另以同一 URL 的在线页面核对措辞一致性，快照内关键短语均存在，未以在线页替代快照作为结论依据。"
+        }
+      ],
+      "open_source": "本单元未收录开源条目，故无完整许可证/仓库身份/社区版边界需核对。research.json 记录了开源检索路径（GitHub topics/transplant、topics/organ-transplant、waitlist/management/transplant center 仓库检索）与候选排除理由：OpenTransplant 为 Apache-2.0 但自述 reference implementation only 且定位 OPTN 全国分配网络（定义明确排除）；TransTrack 为 Electron 桌面端且许可证 NOASSERTION；OrganSync、OrganEase 为器官请求交换平台，缺候选评估/等待名单/移植后随访；KidneyCare 为课程微服务项目；iTransplant 为供给决策研究代码。该缺口留档充分，符合“如实记录检索与缺口即可通过”。",
+      "gaps": "开放缺口：未找到可验证的开源医院移植项目管理 Web 应用，已留档。旧 OTTR 域名 http://www.ottr.com 抓取失败（传输错误/SSL）已记录且未据此判定产品不存在，改用 CareDx 官方页取证。TransplantHUB 以捐赠与全国/区域分配网络为主、边界不清，标为 reviewed_no_snapshot 后未收录，属合理排除。",
+      "assessment": "商业两条目基本真实、类型匹配，来源为官方产品页正文；开源缺口有检索与抓取留档。本叶通过。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未访问其他单元。已读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的两个快照（按 path 原样读取）。EDITLife 快照为可直接阅读的 WordPress/Elementor HTML；CareDx 快照为单行压缩的 Next.js SSR HTML，read 工具按行截断，只能以关键词检索确认正文关键短语存在，并辅以同一 URL 的在线页面核对上下文，未对快照做文本重排或哈希复核。未进行部署/运行时测试，未补充价格、架构或安全研究；未重新抓取被排除候选（OpenTransplant、TransTrack、TransplantHUB、Transplant Connect/InVita）的一手页面，其结论依据 research.json 的留档。input.json 与 batch/research 的案例状态不一致处已列为非阻断说明。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-164/ses_groveopencodegop164review1_1793252731.jsonl",
+  "batch_sha256": "c208e9bd59f2bf11b2012ce2e140f26bed85bfc74c157708319609a82ebbcc12",
+  "research_sha256": "6ee83a86e2b5c5d0ffe2f988f730e87aa6a5b00596254ae0d4a984ee4b80285b",
+  "input_sha256": "f1d56197f608bf106137e63efd969eb75b3188612f57de3a47ed343d2fba9bb9"
+}

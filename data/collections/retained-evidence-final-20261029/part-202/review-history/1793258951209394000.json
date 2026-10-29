@@ -1,0 +1,48 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "government-transparency-portal",
+      "application_id": "github:71801692",
+      "issue": "batch.json 和 research.json 把“政府以自身名义发布”和“聚合问责发布”两项核心，建立在直接复核 https://gobiernoabierto.getafe.es/ 与 https://pressupost.santfeliu.cat/ 之上；但 REVIEW_SOURCES.json 只列了 GitHub 仓库页、README.md、README_EN.md、LICENSE-AGPLv3.txt 和商业站点 www.gobierto.es，没有收录这两个政府站点的快照。research.json 只留下 URL 与 sha256，未提供正文；batch 的说明也只写到“透明度/预算公开栏目”这类导航层信息。按任务要求，HTTP 成功、摘要和导航不能替代核心正文，因此目前无法从可读快照独立确认政府发布者与聚合问责发布核心。README 的“Quién lo usa”是项目方维护的用户列表，属于第三方陈述，不能单独替代政府站点自身的发布记录。",
+      "fix": "将 Getafe 与 Sant Feliu 政府站点的实际快照（含 path、sha256、fetched_at）补入 REVIEW_SOURCES.json 和 batch.json 的 sources，并引用具体已发布记录（预算条目、官员/议程、资产申报等），而不是只引用栏目名称；若无法补入，则删除“已复核政府页面”的表述，并将该叶退回 boundary_unresolved，除非另有可读的政府运营门户快照能证明三项核心。"
+    },
+    {
+      "slug": "government-transparency-portal",
+      "application_id": "github:71801692",
+      "issue": "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]，research_records 只记录 OpenSpending；batch.json 和 research.json 却记为 case_found 并建立 github:71801692。最终交付状态自相矛盾，无法判断本叶应以哪一份状态为准。",
+      "fix": "若保留 Gobierto，更新 input.json 的 case_status 为 case_found、application_ids 为 [\"github:71801692\"]，并补一条 Gobierto 研究记录；若不保留，则删除 batch 条目并维持 boundary_unresolved。"
+    }
+  ],
+  "non_blocking_notes": [
+    "README_EN.md 明显滞后：仍称项目刚起步、首个模块是预算可视化；README.md 才是当前完整说明（含多个政府用户、人员/议程、指标、政府计划等）。建议功能范围只依据 README.md，README_EN 仅用于许可证声明。",
+    "www.gobierto.es 快照现为商业产品 Gobierto Contratación（采购数据与 AI 服务），不是开源透明门户的核心正文；它只能作为 Populate 商业实施/托管边界的旁证，不应计入开源功能范围。",
+    "batch 的 features 中“预算与执行、按项目和经济分类”比 README 的“预算可视化/可跟踪”更具体；在未补政府站点快照前，建议把该表述收敛到 README 能支持的范围。",
+    "SPDX 标识 AGPL-3.0 是较旧的模糊写法；在确认项目声明后建议写 AGPL-3.0-only 或 AGPL-3.0-or-later。当前完整许可证文本和两个 README 的 Affero GPL v3 声明足以支持 AGPL 家族判断。",
+    "README_EN 明确说非公共机构也可使用 Gobierto；本叶的类型匹配应落在所列政府部署上，而不是把产品描述成政府专用。",
+    "research.json 的 GitHub 搜索条数、最新提交日期和 isArchived 来自过程记录，未附对应 API/搜索快照；这些不影响本叶核心判断，但若要作为维护状态依据应补快照。"
+  ],
+  "leaf_checks": {
+    "government-transparency-portal": {
+      "application_ids": [
+        "github:71801692"
+      ],
+      "name": "Gobierto",
+      "track": "open_source",
+      "id_check": "GitHub 仓库页元数据确认 repository id 71801692、PopulateTools/gobierto、public、非 fork，默认分支 master；batch 的 application id 与 track 一致。",
+      "definition_core": "README.md 描述了一个开源开放政府平台，含预算可视化、人员/议程与资产活动申报、统计指标、政府计划进展、参与模块等，产品功能层面与“聚合问责发布”相符。政府发布者核心仅有部分支持：README 的“Quién lo usa”列出 Getafe、Sant Feliu、Mataró、Sant Boi、Diputació de València 等政府用户及政府域名，但实际政府站点快照未进入 REVIEW_SOURCES；batch 所依赖的政府页面证据停留在栏目/导航层，不能独立证明政府以自身名义持续发布自身记录。",
+      "service_form": "自托管 Ruby on Rails Web 应用，仓库页树中可见 docker-compose.yml 与 Dockerfile；README 说明多机构独立站点，并提到商业 SaaS 模式。持续使用的软件服务形态基本成立，但未做运行时验证。",
+      "license": "LICENSE-AGPLv3.txt 为完整 GNU Affero GPL v3 文本，含标题、版本 3、完整条款及 END OF TERMS AND CONDITIONS/How to Apply；README.md 与 README_EN.md 均声明 Affero GPL v3。仓库级许可证核对通过，未发现附加限制。",
+      "community_boundary": "README 把 AGPL 代码与 Populate 的商业实施、托管及 SaaS 服务区分开，未描述独立的专有社区版；开源代码范围以仓库为准。www.gobierto.es 是商业 Gobierto Contratación 站点，不应视为开源社区版核心。",
+      "source_coverage": "已读 REVIEW_SOURCES.json 列出的 5 个快照：仓库页、README.md、README_EN.md、LICENSE-AGPLv3.txt、www.gobierto.es。research.json 中 Getafe/Sant Feliu 页面、OpenSpending 历史材料及 GitHub 搜索/提交记录未列入 REVIEW_SOURCES，未作为本叶核心判断依据。",
+      "input_consistency": "input.json 仍为 boundary_unresolved、application_ids 为空，且研究记录只覆盖 OpenSpending；batch.json/research.json 为 case_found 并建立 github:71801692。需在最终状态中统一。",
+      "verdict": "产品身份、track、完整许可证、社区版边界和一般功能匹配有据；政府发布者与聚合问责发布核心无法从可读快照完全复核，故 changes_required。"
+    }
+  },
+  "limits": "只读审查；结论仅基于 REVIEW_SOURCES.json 列出的 5 个 Gobierto 快照，未使用 research.json 中未列入的 Getafe/Sant Feliu 或 OpenSpending 材料作为判断依据。未运行 shell、未写文件、未做实时 HTTP 抓取或 SHA256 重算，也未部署运行 Gobierto。许可证为仓库级完整文本核对，未逐一审计子模块或第三方依赖；仓库页树在快照中截断显示，但 docker-compose.yml/Dockerfile 条目可见。GitHub 搜索条数、提交日期、archived 状态无独立 API 快照，未作为核心依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-202/ses_groveopencodegop202review1_1793258326.jsonl",
+  "batch_sha256": "20d933573770016c138c787d54c908bcced9c0053dee5450f7e8c6be0380b224",
+  "research_sha256": "302df415fd7741c9fb5873309253aeb283a8492da5387ebaec09d1349e0588b2",
+  "input_sha256": "5f1638721e8ae5e357d5ea9ed525e7b57f52d8a29b7d7d5acdd377a8854e4b6c"
+}

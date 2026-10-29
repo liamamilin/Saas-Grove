@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中该叶仍记为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 research.json 已按 case_found 记录 3 个案例、batch.json 已给出 3 条完整条目；这是采集前的种子状态未同步，不影响本次内容判断，但合并前应同步进度字段，避免最终库把该叶误留为无案例。",
+    "miniPaint 的部署说明写为“可按 README 中的构建说明自行构建”，但 README 实际只链接到 Wiki 的 Build instructions，正文未展开构建步骤；建议改为“README 指向 Wiki 构建说明”，不涉及产品成立。",
+    "JS Paint 的 Web 版保存路径是 File > Save / Save As 触发下载（README 另说明直接覆写文件的功能尚未启用），条目未声称覆写，表述可接受；若要更精确，可在摘要中注明“下载式保存”。",
+    "miniPaint 的 license_review 称 GitHub 许可证接口因文件命名标为 NOASSERTION；快照中可直接看到的是仓库元数据的 license.spdx_id=NOASSERTION，而 /license 快照本体是 contents 形态的文件载荷。完整 MIT 文本与 README 的 MIT 声明足以核定许可，措辞可再精确。",
+    "JS Paint 仅有 /license 文件载荷快照，未像 miniPaint 那样提供独立的 license_review 块；载荷内含完整 MIT 授权与免责段，许可结论成立，建议补齐审查字段以保持一致。",
+    "research.json 的 withheld_candidates 称 BitMappery README 为本轮实际抓取，但 fetch_outcomes 未列出该 README 的保存快照；由于该候选未被采纳，属已记录的留档缺口，不影响本叶成立，建议补记快照路径或明确标注未留存。",
+    "Photopea 首页快照主要展示营销文案与“Start using Photopea”入口，免费/付费层级未在快照中说明；商业条目仅需基本真实性与类型匹配，Learn 正文已足够支撑核心，无需补价格研究。",
+    "Pinta 以桌面安装形态被排除并保留历史快照，理由与快照内容一致；该处理不构成对“不存在 SaaS 变体”的判断，留档方式可接受。"
+  ],
+  "leaf_checks": {
+    "raster-image-editor": {
+      "definition_core": "四项定义性核心均有官方正文覆盖，而非仅靠标题、元数据或页面外壳。miniPaint 的 README 说明其在浏览器内直接操作图像，列出铅笔、画笔、橡皮、填充、克隆、选区等像素工具，以及 zoom、resize、rotate 等画布操作，并明确 save 为 PNG、JPG、BMP、WEBP、动画 GIF、TIFF、JSON（图层数据）；首页快照另有 canvas、工具容器、图层与颜色面板，可与正文互相印证。JS Paint 的 README 说明其为 MS Paint 的浏览器复刻、重建全部工具与菜单，含透明像素编辑、任意缩放、选区裁剪，并给出 File > Save / Save As 与 PNG、BMP、TIFF 的写入支持表；About 页写明 runs in the browser、可 open and save files。Photopea 的 Learn 正文说明 PNG/JPG 是单层矩形光栅图（a grid of pixels），Basic Tools 说明画笔在图层上绘制、铅笔产生硬边、橡皮擦除像素、克隆印章复制像素，Navigation 说明 Zoom/Hand 工具，Opening and Saving 说明 File - Open、以 PSD 保存结构并导出 JPG/PNG/SVG/PDF。像素网格文档、直接像素操作、可视画布、持久化为图像四项均成立。",
+      "saas_service_form": "三个条目均以浏览器内运行的完整应用为成立依据，不是桌面客户端、CLI、SDK 或仅引擎。miniPaint 由 GitHub Pages 托管并声明 operates directly in the browser，源码可自托管；JS Paint 在 jspaint.app 运行，README 与 About 均说明浏览器内使用，桌面 Electron/PWA 仅作为附加形态，未作为成立依据；Photopea 为无需安装、浏览器内使用的在线编辑器。符合本叶“可持续使用的浏览器 Web 应用或可自托管 Web 服务”边界。",
+      "product_identity_and_track": "miniPaint 的仓库元数据确认 id=11766620、full_name=viliusle/miniPaint、html_url 与条目一致，track=open_source；JS Paint 的元数据确认 id=16602433、full_name=1j01/jspaint，track=open_source；Photopea 使用 commercial:photopea，homepage 为官方 photopea.com，track=commercial 与产品形态匹配。三条 ID 与 track 未发现错配。",
+      "open_source_license": "miniPaint：MIT-LICENSE.txt 快照含完整 MIT 授权段、版权声明与 AS IS 免责段，README 亦声明 MIT；仓库元数据 license.spdx_id=NOASSERTION 可由文件命名解释，按仓库内完整文本核定为 MIT，覆盖仓库代码。JS Paint：LICENSE.txt 快照为完整 MIT 文本（含版权、授权、免责），README 与 About 页均声明 MIT。两项均为完整许可证，非仅 SPDX 标签或摘要。",
+      "community_edition_boundary": "未发现两个开源条目存在“社区版/商业版”切分：miniPaint 与 JS Paint 的仓库许可证覆盖整体代码，托管站点为官方演示或可用实例，未见专有云服务或许可证例外作为核心功能门槛；因此无需另行划定社区版功能边界。Photopea 为商业产品，不适用开源边界要求。",
+      "commercial_check": "Photopea 的官方网站真实存在且为浏览器内图像编辑器，官方 Learn 文档可支撑其光栅编辑核心；商业条目的基本真实性与类型匹配成立。未在快照中核验价格或订阅层级，按本次要求不作阻断。",
+      "documented_gaps": "Pinta 因桌面安装形态被排除，历史快照保留且说明未重新抓取；BitMappery 因缺“保存/导出”官方正文而未采纳，官网仅为 JS 应用外壳，/learn/open-and-save 的 404 也已记录并改用 opening-saving 章节。上述缺口均已如实留档，未以 HTTP 成功或摘要冒充核心正文。",
+      "conclusion": "通过。定义性核心、SaaS 形态、ID/track、开源完整许可与商业真实性均满足；无必须修复项。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 13 个快照，按给定 path 原样读取，未运行 shell、未写文件、未访问其他单元、未做实时抓取或部署/运行时测试。仓库元数据快照为单行 JSON，界面显示有截断，id、full_name、license 等关键字段通过定向检索确认，未做逐字段全量解析；未重新计算快照 SHA-256，仅核对文件名、清单与批次记录的一致性。未核验 Photopea 的价格与订阅层级，也未核验开源项目的社区版/商业版运营细节；这些不影响本叶核心结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-021/ses_groveopendesignp021review1_1793153555.jsonl",
+  "batch_sha256": "cbe119cc180dc60396286d29613c6efeb1d983b15e62abc0dbb638b8a67ad55e",
+  "research_sha256": "c8597b2563e72b8bca3a16937315ce29997ef80656ad702ab10a0a6c279486d7",
+  "input_sha256": "8660d9a981b0f66b649640c89a26170853b841abc9de7627b7836fe013403760"
+}

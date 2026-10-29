@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍显示 5 个叶子的 case_status=not_searched、application_ids 为空，而 batch.json/research.json 已登记 4 个应用；建议发布前同步 progress，避免下游把本单元误判为无案例。本次审查以 batch/research 为已完成采集记录。",
+    "ShipStation 的 /features/ 快照正文 canonical 指向 /fulfillment/，与 batch.source_urls 的标注不完全一致；首页快照已独立支持 200+ 承运商、费率比较、购买/打印标签与追踪/退货，故不阻断。建议引用最终 URL 或仅保留首页来源。",
+    "Detrack 摘要写“后台可按客户、地址、司机或日期检索”，但 ePOD 快照只明确 search ePODs / searchable list，未逐项列出这些检索维度；建议收窄为“可检索的 ePOD 档案”，或补充能证明这些维度的来源。",
+    "on-demand 叶的证据主要来自 Fleetbase README 的 Food & Grocery Delivery 场景行及 Storefront/Navigator 模块说明，未见独立的按需报价/请求匹配工作流页面；instant dispatch、live customer tracking、PoD 均有官方文档支撑，核心可成立。研究记录已限定不声称消费者聚合、动态报价或第三方运力网关。",
+    "Detrack 同时提供路线规划、实时追踪、车队管理等更广的配送管理能力，PoD 是其核心模块之一；按本叶“证据记录系统”核心可通过，但若要求单一类型纯度，应注明其产品重心更偏配送管理套件。",
+    "BetterRoute README 一方面写 single-tenant per installation，另一方面又写 multi-tenant/RBAC 数据隔离；batch 的“单租户自托管”采用前者。建议在部署说明中明确是单公司单实例还是单实例多公司，以免服务形态边界含糊。",
+    "Fleetbase 为 AGPL-3.0 与商业 FCL 双许可；开源核心许可完整，商业许可只是替代选项，不构成社区版功能删减。"
+  ],
+  "leaf_checks": {
+    "dispatch-management": {
+      "status": "pass",
+      "application_id": "github:540371158",
+      "application_name": "Fleetbase",
+      "track": "open_source",
+      "evidence": "Fleetbase README 的 Fleet-Ops 模块明确列出 orders、drivers、vehicles、live tracking；截图说明 Order Board、Live Operations（active/unassigned orders beside fleet on live map）、Orchestrator（allocate vehicles/drivers、assign orders in batches）；Navigator 司机端接收派单并采集 PoD。覆盖工作队列、资源花名册、分配动作和实时调度全景。",
+      "license": "GitHub repo id 540371158 与元数据一致；license endpoint 返回 AGPL-3.0 完整文本（LICENSE.md 34,353 字节）；README 说明 AGPL-3.0 可与商业 FCL 二选一，开源核心可自托管。",
+      "service_form": "完整自托管物流调度应用（Docker/自有云），非 SDK；Fleetbase Cloud 为可选托管。",
+      "notes": "README 未显式展开“司机可用性状态”字段，可用性由司机/车辆花名册与实时地图间接体现；不影响核心结构成立。"
+    },
+    "last-mile-delivery-platform": {
+      "status": "pass",
+      "application_id": "github:1134636602",
+      "application_name": "BetterRoute",
+      "track": "open_source",
+      "evidence": "BetterRoute README（西语）自述为路线优化与末端配送运营平台；含 VROOM+OSRM 路网优化、CSV/Excel 订单导入与状态机、手动/建议分配及停靠点改派、Flutter 司机端离线队列/导航/照片与 GPS 证据、公开 token 追踪页；覆盖订单流入→路线/分配→现场执行→送达确认→收件人追踪。",
+      "license": "GitHub repo id 1134636602 与元数据一致；license endpoint 返回完整 MIT 文本（1,081 字节）；README 亦标注 MIT。",
+      "service_form": "单租户自托管完整应用，Docker 运行 VROOM、OSRM、Centrifugo 等依赖；非单纯路线优化器或司机端组件。",
+      "notes": "面向最终客户的实时 ETA 仍在 roadmap；当前收件人层以公开追踪页为主，不影响末端配送核心。"
+    },
+    "on-demand-delivery-platform": {
+      "status": "pass",
+      "application_id": "github:540371158",
+      "application_name": "Fleetbase",
+      "track": "open_source",
+      "evidence": "Fleetbase README 行业场景明确写 Food & Grocery Delivery 的 on-demand delivery / instant dispatch / live customer tracking / automated notifications；Storefront 面向 on-demand business 并以 Fleet-Ops 原生配送；Storefront App 客户可实时跟随订单；Navigator 采集照片/签名/扫描 PoD。可支撑请求→即时匹配/派单→请求者实时追踪→送达证明的按需循环。",
+      "license": "同 Fleetbase：repo id 540371158 一致；AGPL-3.0 完整许可，另有商业 FCL 替代选项。",
+      "service_form": "完整自托管/云托管平台，非单点配送组件；Storefront + Fleet-Ops + Navigator 组合承载按需场景。",
+      "notes": "证据以 README 行业场景与模块说明为主，未见独立的按需报价/请求匹配工作流页面；研究记录已限定不声称消费者市场聚合、动态报价或第三方运力网关。"
+    },
+    "parcel-management-platform": {
+      "status": "pass",
+      "application_id": "commercial_shipstation",
+      "application_name": "ShipStation",
+      "track": "commercial",
+      "evidence": "ShipStation 首页写明自动费率比较覆盖 200+ parcel carriers 与 50+ LTL、可使用自有承运商账户或 ShipStation 费率、批量购买/打印标签、统一管理 shipping/inventory/warehouse/tracking/returns；/fulfillment/ 页进一步写 Rate Shopper 按成本或速度选优、自动化规则预设服务/标签。覆盖发件人侧包裹记录、承运商账户、费率/服务、购买标签、交接后追踪。",
+      "license": "商业 SaaS，无开源许可声明；官方页面可核。",
+      "service_form": "商业电商履约/包裹发货 SaaS，符合发件人侧包裹管理类型。",
+      "notes": "/features/ 快照正文 canonical 指向 /fulfillment/，与标注 URL 不完全一致；首页快照已独立支持核心主张，建议引用最终 URL。"
+    },
+    "proof-of-delivery-platform": {
+      "status": "pass",
+      "application_id": "commercial_detrack",
+      "application_name": "Detrack",
+      "track": "commercial",
+      "evidence": "Detrack ePOD 官方页明确每单最多 10 张照片、电子签名、GPS 验证与时间戳；可将照片/签名/收件人姓名设为必填，并用 milestone 锁定完成；ePOD 可安全存储和检索最长 5 年，页面展示可搜索的 ePOD 列表。覆盖交付事件记录、交付点证据采集、可检索档案。",
+      "license": "商业 SaaS，无开源许可声明；官方 ePOD 页可核。",
+      "service_form": "商业配送管理与 ePOD SaaS，PoD 为核心模块之一。",
+      "notes": "摘要中的“按客户、地址、司机或日期检索”比快照更具体；快照只确认通用 search/searchable list。Detrack 同时有路线/车队能力，产品重心偏配送管理套件，但 PoD 核心成立。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行产品，未重新计算快照 sha256，也未实时抓取 URL。已按 REVIEW_SOURCES.json 的 path 原样读取全部 10 个登记快照；另抽读 CoopCycle/Witylogix 许可与 Karrio 元数据以核对边界留档，未逐份复核 DeliverXY 等所有候选快照。research.json 对 Track-POD 404、DeliverXY 未见 PoD、Hikyaku 多仓、Karrio/Witylogix 许可证据不足等缺口有留档，本次未将未证实候选登记为案例。input.json 的 progress 仍为 not_searched/空 application_ids，本次以 batch.json 与 research.json 作为已完成采集记录；HTML 快照含大量模板/脚本，结论取自正文与 README 主体，未以 metadata 或 Loading 代替核心正文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-178/ses_groveopencodegop178review1_1793020177.jsonl",
+  "batch_sha256": "cb2e224ccacad7207cd8d4f7a42ad0ef8922fd17793aaf72d587bafdadeaa239",
+  "research_sha256": "63e0872ae58a98d3dae0fe0e4611d5e084589629f765a356aba6d47fbde37a2a",
+  "input_sha256": "ea6ab5a1af67918ebd9358bbdbeaad4e2923376ea2c0473f91bed2cf19ad2140"
+}

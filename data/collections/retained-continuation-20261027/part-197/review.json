@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "haccp-management / commercial:fooddocs：research.json 的 service_boundary 称不覆盖 traceability/recall，但官方 HACCP 页正文明确包含 traceability、batch traceability、recall-ready search 及 SOP/PRP。建议将该边界改为“以 HACCP 计划与 CCP 监控为核心，另有 PRP/溯源相邻模块”，避免与正文冲突。",
+    "winery-management / commercial:vintrace：页面确认 work orders、tank contents、barrel usage/analysis、fruit intake/crush、bottling、inventory、compliance/P&L reporting，但未明示品种/年份/产区百分比及 composition/cost 自动结转；现有摘要已回避这些断言，建议保持。",
+    "logging-operations-management / commercial:remsoft-operations：Operations 与 LOGR 是两个独立产品页，条目以 Operations 为 ID/主页但合并引用 LOGR。若要求“一应用一 ID”，建议拆分 LOGR 或明确标注为同一供应商的采运套件；当前研究边界已正确限定为“结算依据”而非产品内工资/财务结算。",
+    "forestry-management / commercial:remsoft-fms：FMS 页面将 Stratus、Planning & Optimization 等作为组合能力呈现，per-unit standing inventory 的字段与流程未逐项展开。按平台级产品收录可接受，但不宜把未展开细节写成已核实功能。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 research.json 为 case_found；对外发布前建议同步该元数据。",
+    "Nutritics 的 healthcare/food-service 页在 batch 中 kind 标为 documentation，实为行业营销页；不影响内容核对。"
+  ],
+  "leaf_checks": {
+    "haccp-management": {
+      "status": "pass",
+      "basis": "FoodDocs 官方 /haccp 正文可核：HACCP plan builder 含 automated hazard analysis、CCP identification、flow chart、SOP/PRP、downloadable documentation、editable；monitoring system 含 monitor CCPs、temperatures/cleaning checks、smart notifications、real-time dashboard、completed task verification；FAQ 明确列出 critical limits、monitoring procedures、corrective action plan、verification procedures、record-keeping，并说明 digital verification/audit trail 与 monitoring records CSV。属于持续使用的 SaaS HACCP 系统，非简介或导航替代。",
+      "gap": "页面还包含 PRP、traceability、recall-ready 等相邻能力；研究记录的 service_boundary 对 traceability/recall 的描述偏窄。"
+    },
+    "nutrition-analysis-application": {
+      "status": "pass",
+      "basis": "Nutritics 产品页说明以 over one million ingredients（dietitian-curated）自动计算 recipe 的 nutrition/allergen；food-service 页明确自动计算 nutrition、calorie、allergen 并发布合规标签；healthcare 页明确 over one million foods、258 nutrients、患者营养记录与 meal reports。被分析组合（配方/菜单/患者膳食）、营养参考基底、计算结果与报告/标签三结构齐全。",
+      "gap": "产品主标题为 recipe & menu management，营养分析是核心输出之一；未见独立 diet recall 工作流的细粒度说明，但不影响类型匹配。"
+    },
+    "winery-management": {
+      "status": "pass",
+      "basis": "vintrace 官方页正文可核：create/allocate work orders；track additions、contents of the tank、barrel usage and analysis；plan/schedule fruit intake and crush pad；bottling logistics、stock/inventory、dry goods lots；intelligent reporting 覆盖 compliance、P&L、PDF/Excel。产品明确为 winery/wine production software，SaaS。",
+      "gap": "页面未明示 wine lot 的 varietal/vintage/origin 身份及 composition/cost 自动结转；研究记录已避免该扩张断言。"
+    },
+    "forestry-management": {
+      "status": "pass",
+      "basis": "Remsoft FMS 官方页正文可核：Land & Forest Registry 集中 property data、environmental documentation、forest stand information；forest inventory/mobile field data；Integrated Forest Planning；Silviculture Management（planting、fertilization、pest control、maintenance）；Harvest & Operations；Operational Monitoring & Reporting；long-term strategy。覆盖地产/管理单元、森林资源、多年经营计划三类结构。",
+      "gap": "页面为平台级营销页，未逐项展示 per-unit standing inventory 的字段/流程；FMS 与 Stratus/Planning & Optimization 的产品边界较概括。"
+    },
+    "logging-operations-management": {
+      "status": "pass",
+      "basis": "Remsoft Operations 正文可核：harvest units、product levels、crew and fleet assignments、annual/crew/allocation/transportation scheduling、mill/yard inventory；LOGR 正文可核：每条 load 记录 species、grade、volume、origin、timestamps、confirmations，shared multiparty record，offline capture，weighbridge/mill/ERP integration，交付数据可供 accounting/reporting 使用。覆盖采伐作业、归集生产与结算依据。",
+      "gap": "Operations 与 LOGR 为两个独立产品页；页面未证明产品内完成工资/付款结算，研究边界已限定为结算依据。"
+    }
+  },
+  "limits": "只读审查，未运行任何应用、未做运行时验证，未重算快照 sha256，未读取本单元之外资料。除 vintrace 外，结论均直接来自 REVIEW_SOURCES.json 指定 path 的快照。vintrace 快照为压缩单行 HTML，read 工具按行截断，2,000 字符后的正文无法完整读取；为补足其核心正文，仅就该页额外只读抓取同一官方 URL，其余判断仍以快照为准。FMS/Operations/LOGR 为营销页，未提供逐功能文档；商业产品未测试价格、部署或客户案例。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-197/ses_groveopencodegop197review1_1793024770.jsonl",
+  "batch_sha256": "5dea11d38e9965b98e07ab4805a4fceb322d99ba20dc9f3f45c748b04832d51e",
+  "research_sha256": "3c3c42232ca8f0f33ab276d12b89063e1f0851c6767a3241f9af3610267c74cb",
+  "input_sha256": "6a321f9d6c325db8953ad344d406ff70fe2b9c061ca8b7e7f440b6bc919c0b65"
+}

@@ -1,0 +1,71 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "discussion-board",
+      "application_id": "github:7569578",
+      "issue": "Discourse 的 license 字段记为 GPL-2.0，但同一条目引用的官方 README 明确写 “GNU General Public License Version 2.0 (or later)”；LICENSE 快照是 GPLv2 全文，不能单独证明 or-later。仅记 GPL-2.0 会漏掉 README 声明的 or-later 授权，许可证记录不完整。该应用同时用于 private-community-platform，两个叶共用此字段。",
+      "fix": "将 license 改为 GPL-2.0-or-later；保留 LICENSE API 作为全文证据，并把 README 的 “or later” 作为补充依据。若目录坚持使用 LICENSE 文件的 SPDX 检测值，应在记录中注明该口径及 or-later 例外。"
+    }
+  ],
+  "non_blocking_notes": [
+    "batch.json 与 research.json 把 Discourse 界面文案引作 “Create new topic”，但所引 client.en.yml 实际为 “Create Topic”（line 3721）、“New topic draft”（line 899）和 “Select a New Topic”（line 1875）；建议改为原文，核心结论不受影响。",
+    "ORCID 的 track=commercial 与非营利注册机构的性质不完全对应；若 track 的语义是“商业产品”，建议改标为 nonprofit/service 或补充口径说明。其核心类型匹配不受影响。",
+    "batch.json 的 ORCID reason 称 iD 为“持久HTTPS URI”，所引支持页只写 persistent (enduring)，未出现 HTTPS URI；建议改为“持久标识”，或补充能证明 URI 形式的官方来源。",
+    "ORCID 摘要的“公开档案”略强于所引页面；页面强调用户控制 “whether and by whom this data may be viewed”，建议改为“可对外共享的档案”。",
+    "Jitsi 的 technology_stack 含 React，但已读 README/产品页未出现 React；仓库元数据单行 JSON 被截断，未能核对。建议以 package.json 或官方文档补证，或移除未证项。",
+    "Jitsi README 另述 8x8 JaaS 商业托管服务；条目只覆盖开源 repo，open_source/Apache-2.0 边界清楚，但可在描述中明确 JaaS 不属于该开源范围。",
+    "input.json 的 phase 为 included_without_cases，五叶 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，而 batch/research 已有 case_found；不影响内容结论，合并前应同步状态，避免下游按无案例处理。",
+    "research.json 的 discussion-board query 数组重复了同一条查询；不影响证据，建议清理。",
+    "Zoom 页面同时营销 Zoom Webinars 与 Zoom Events/虚拟活动；条目边界已限定 Webinars，引用时应避免把 Events 的能力混入 Webinar 证据。",
+    "private-community-platform 的证据是设置文案（login_required/invite_only）而非实际封闭社区实例；作为软件能力证据可接受，但描述不宜写成“已部署的私有社区”。"
+  ],
+  "leaf_checks": {
+    "virtual-meeting-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:15225670"
+      ],
+      "basis": "Jitsi Meet README 说明浏览器内使用 meet.jit.si、HD audio and video、Content sharing、Chat、移动端；jitsi.org/jitsi-meet 说明可通过简单自定义 URL 邀请参与者、为每场会议选择会议 URL、无需账户；仓库元数据 id=15225670 与 github:15225670 一致；license 快照为 Apache-2.0 全文。可寻址会议、实时音视频、多人共享三项均有正文依据。",
+      "gaps": "未展示排定会议/即时会议的界面，也未给出明确并发人数；多人属性由 “whole team”“video conferencing” 推断。未运行产品。README 另述 8x8 JaaS 商业托管，条目仅覆盖开源 repo，边界清楚。"
+    },
+    "webinar-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:zoom"
+      ],
+      "basis": "Zoom 官方 Webinars 产品页正文：hero 称 “Host any webinar, from simple to full broadcast”；FAQ 明确 webinar 是 one-to-many broadcast presentations，hosts/panelists 制作内容，attendees 主要聆听并通过 polls/Q&A/chat 受控互动；页面列出 branded registration pages、attendee capacity（500/100,000）、performance reports、recordings。受管理受众与角色非对称成立。",
+      "gaps": "support.zoom.com 的两次抓取只返回 “Loading...” 壳页，已记录为失败，未作为证据；官方产品页足以核对核心。未验证实际注册/报告界面，未运行产品。"
+    },
+    "social-profile-network": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:orcid"
+      ],
+      "basis": "ORCID 官方支持页：用户注册 iD 后可 “maintain and update your record”，iD 为 persistent (enduring)、跨职业/机构/姓名变化保持；可与 institutions、funders、publishers 互操作，可展示在机构主页、邮件签名和其他站点，并可控制谁可查看/添加数据。个人档案记录、共享命名空间、对外消费三项成立。",
+      "gaps": "所引页面未直接出现 “HTTPS URI” 或展示公开档案 UI；第二来源 “What is ORCID” 抓取因重定向失败，已记录。track=commercial 对非营利机构只是分类口径问题，不影响类型匹配。"
+    },
+    "discussion-board": {
+      "status": "pass_with_license_note",
+      "application_ids": [
+        "github:7569578"
+      ],
+      "basis": "Discourse README 将 “Create discussion topics” 列为用户可执行操作；features 页说明 “simple, flat forum, where replies flow down the page in a line”、可展开上下文、帖子修订历史、自动/自定义头像；client.en.yml 有 “Create Topic”“Posted by <a ...>%{user}</a>” 等文案。常驻空间、参与者开题、异步回复、持久线程、署名帖子五项均有依据。",
+      "gaps": "界面文案引文需精确到 “Create Topic”；license 字段 GPL-2.0 未反映 README 的 “(or later)”，已在 findings 中要求修正。未运行产品。"
+    },
+    "private-community-platform": {
+      "status": "pass_with_license_note",
+      "application_ids": [
+        "github:7569578"
+      ],
+      "basis": "server.en.yml 明确 login_required 为 “Require authentication to read content on this site, disallow anonymous access.”，invite_only 为 “All new users must be explicitly invited by trusted users or staff. Public registration is disabled.”；features 页列出 “Make your site invite-only”“Easily add private spaces”、论坛/主题/回复、moderation、post approval、trust levels。封闭场所、受管成员、成员参与空间、运营容器四项成立。",
+      "gaps": "证据是官方设置文案与功能页，不是已部署的封闭社区实例；成员暂停/移除的具体文案未直接引用；license 字段与 discussion-board 共用，同样需要修正 GPL-2.0-or-later。未运行产品。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何产品，也未额外抓取网页；仅核对 REVIEW_SOURCES.json 列出的 12 个快照。GitHub 仓库元数据与 license API 快照是单行 JSON，读取工具在 2000 字符处截断，未能直接读取仓库元数据中的 license/language 字段，许可证结论以 license 端点快照和 README 为准。Zoom、ORCID、Discourse 功能页为大型 HTML，仅读取与核心相关的正文段落；未验证价格、完整功能清单、商业版条款或运行时行为。input.json 的 progress 仍为 not_searched，与 batch/research 的 case_found 不一致，已在 non_blocking_notes 记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-004/ses_groveopencodegop004review1_1792933645.jsonl",
+  "batch_sha256": "8321fb8d5f613a85d577127d73a45c81b6ab2cbd3074bbf4c4734f61a4200746",
+  "research_sha256": "741fd64e77c920aae71207297e554de7d3561e483991dd77935c3e7664ac166b",
+  "input_sha256": "4aa65ce14fe32f5a16a52d86a759ae18dcaffb03fd46db947e1dc9e225f6ca0a"
+}

@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的摘要与 leaf_matches 使用了“年度计划/逐年计划”的表述；本次读取的官方页面只说明可定制的 Plans（用于 onboarding 与 college & career readiness）以及 Tasks/Forms，没有明确说明这些内容按年度或逐年组织。建议改为“可定制的任务/表单计划”，除非另有来源确认按年度组织的节奏。",
+    "本次读取的快照没有展示“对照毕业要求的选课计划”或“将课程请求回写到 SIS”这一子项；学生计划结构主要由职业兴趣评估、大学名单、升学目标与任务来支撑。如果该子项被视为本叶必须提供的定义性核心，则应补充来源或明确记为覆盖缺口。",
+    "input.json 的 progress 仍为 insufficient_evidence、application_ids 为空，并称 Scoir 未收录、未保存快照；而当前 research.json 与 batch.json 已记录 case_found 及 6 份 Scoir 官方快照。下游应以当前集合为准，或刷新 input 的状态，避免状态歧义。",
+    "开源检索的结果数量在 input（10 条）与 research（8 条）之间不一致，NorthJeep/GCSMS 的 metadata/README 快照也未列入 REVIEW_SOURCES。本轮没有收录开源案例，因此不影响商业案例匹配；但如果复用这条无案例记录，应统一记录。",
+    "家校沟通目前只有 High Schools 页的功能卡正文作为支撑，没有单独抓取 communication 功能页；这对于本叶的基本类型匹配已经足够，但若补充独立页面，证据会更强。",
+    "家庭可见性、咨询笔记和学区级汇总报告等规则未在本次读取的快照中展开说明；商业案例只做基本真实性与类型匹配，因此未据此阻断。"
+  ],
+  "leaf_checks": {
+    "school-counseling-management": {
+      "result": "pass",
+      "application_id": "commercial:scoir",
+      "track": "commercial",
+      "definition_core": {
+        "counselor_caseload": "Reporting 页正文提供“personal student load”、按 assigned counselor/group 过滤、以及按 class year 查看；SIS/SSO 页正文说明可从 Clever/ClassLink 夜间同步导入学生、家长/监护人和教师名册。可以确认学生按负责顾问组织，并有顾问负载视角。",
+        "student_postsecondary_plan": "Tasks/Forms/Plans 页正文说明可创建和分配任务、学生个人 Profile 中的 Assignments，以及 Scoir-Created Plans；其中 High School College & Career Readiness Plan 明确用于探索职业、建立大学名单、准备申请并跟踪 postsecondary goals。职业兴趣评估、大学名单和升学任务共同支撑“学生升学计划”这一结构；未看到对照毕业要求的选课计划。",
+        "program_operational_loop": "Send Documents 页正文覆盖成绩单、推荐信、fee waiver、ED contract、secondary school reports 的批量或逐个管理、缺失项跟踪、发送及按日期/院校跟踪送达；High Schools 页的 Communication 卡说明与学生、家庭、教师的直接消息和自动邮件；Reporting 页覆盖 outcomes、post-high school plans、按顾问/群体过滤及 CSV/PDF 导出。申请材料、沟通和报告闭环均有正文依据。"
+      },
+      "saas_service_form": "Scoir 是面向高中的商业 SaaS 平台，官方 High Schools 页与功能页描述持续在线使用的咨询管理、材料发送和报告服务；未运行或登录产品，batch.json 的 runtime_tested=false 与实际情况一致。",
+      "identity_and_track": "application_id 在 batch.json、research.json 和 REVIEW_SOURCES.json 中均为 commercial:scoir，track 为 commercial；官方域名为 scoir.com，产品身份与“高中大学与职业咨询管理平台”类型一致。",
+      "license_and_community_boundary": "本单元没有收录开源应用，因此不涉及完整开源许可证或社区版边界核对；research.json 对 GitHub 检索和 NorthJeep/GCSMS 的拒绝理由有记录，但相关 GitHub/NorthJeep 快照未列入 REVIEW_SOURCES，无法在本轮独立复核。",
+      "sources_read": [
+        "https://www.scoir.com/（data/collections/sources/1abf9fa6d7b3c2276ef4cab73404a2757b2fcbe9fde24bc378e48475aaead898.txt）",
+        "https://www.scoir.com/high-schools（data/collections/sources/aee6cfd3fcf846fc5a6e3a17fdbc7225d5c9fe5fc0cc0de8a809cc362e59ccc4.txt）",
+        "https://www.scoir.com/high-schools/feature-tasks-forms-plans（data/collections/sources/fcb963da08d87c288c0bf0c7177462258ef058f5fad0a49ff51a763977c9e07e.txt）",
+        "https://www.scoir.com/high-schools/feature-send-documents（data/collections/sources/24e05cc6e5569640d08ad5792d803c73a3c6073b7c437bd844147a449477348a.txt）",
+        "https://www.scoir.com/high-schools/feature-reporting（data/collections/sources/26d3e2d1c8f17e5a29ecf4867b5cb7a7b75b5963e2f8281eda8e1810d3408e2c.txt）",
+        "https://www.scoir.com/high-schools/feature-sis-sso-integrations（data/collections/sources/55b6b7886f9c480d54d3069f9fc894d6b4ce960741961452787d0cc49878b1e4.txt）"
+      ],
+      "evidence_quality": "六个路径均按 REVIEW_SOURCES.json 原样读取，batch.json 的 snapshot_path 按 data/collections 解析；正文包含产品功能说明、任务/表单/计划、材料发送与跟踪、报告和 SIS/SSO 同步内容，未以简介、元数据或 Loading 页面替代核心正文。",
+      "gaps": [
+        "未证据化“对照毕业要求的选课计划/课程请求回写 SIS”。",
+        "未证据化家庭对计划与进度的具体可见范围、咨询笔记可见性、学区级汇总报告。",
+        "Naviance 抓取受阻仅留档，未取得正文，未作为证据。",
+        "GitHub 检索与 NorthJeep/GCSMS 快照未纳入 REVIEW_SOURCES，开源无案例结论未能独立复核。",
+        "未运行、登录或部署 Scoir，无法验证后台实际工作流。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：未运行、登录或部署 Scoir，未做运行时验证；未使用 shell 计算快照哈希，仅核对 REVIEW_SOURCES.json 与 batch.json 中的 sha256 字段一致；未读取 REVIEW_SOURCES.json 之外的 GitHub/Naviance 快照；官方营销页不能证明所有后台功能或配置项；input.json 的 progress 早于本轮采集，未作为当前案例状态依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-190/ses_groveopencodegop190review1_1793256418.jsonl",
+  "batch_sha256": "40074d98c641f1cd683029d5c9e377da636a65ff36edced89d8b98020b94d25f",
+  "research_sha256": "40b858bcaca0c972a27a02430feb9198011b8dc2bacb6c2cb85a799107190df4",
+  "input_sha256": "598c4300508dbd6b03994b85e405fa6b878dcb436703bfb3ba4f1d2a52fa394d"
+}

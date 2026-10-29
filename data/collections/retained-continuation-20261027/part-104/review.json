@@ -1,0 +1,34 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "book-publishing-management",
+      "application_id": "commercial:familiar",
+      "issue": "本叶以 insufficient_evidence 留档，但 research.json 只评估了 OMP，未处理同单元已收录的 commercial:familiar。Familiar 官方首页正文明确以 “The All-in-One Platform for Modern Publishers and Authors” 定位，展示书名/版本记录（ISBN、硬/平/电子/音频格式、出版日期）、贡献者与合同条款（按格式费率、预付、退货准备金、签署方/代理）、从出版日期倒排的生产排期、ONIX/元数据及出版前 launch 生命周期；这些正是本叶 title record、contributors under recorded contract terms、pre-publication lifecycle 的核心。当前 no-case 结论与同单元证据不一致。",
+      "fix": "复核 Familiar 对本叶的类型关系：若确认其平台产品以书名/版本、合同贡献者和出版 lifecycle 为主轴，在 batch.json 的 commercial:familiar.leaf_matches 增加 book-publishing-management，并引用首页、contract、production/metadata 快照；若仍认为其重心是 royalty/author management 且出版模块不构成 system of record，则在 research.json 的本叶 note 中写明该排除理由及对应证据，不能只以 OMP 的缺口代表整叶结论。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Ko-fi 两份快照均以会员/打赏营销正文为主，未逐字给出按月/按年续费、取消后当前期权益保留、支付失败降级等状态机；作为商业基本类型匹配可接受，但若要完整证明定义核心，建议补 /memberships 或帮助中心正文。",
+    "943eb… 虽在 batch 中登记为 https://ko-fi.com/features，快照 canonical 指向 https://ko-fi.com/，正文也呈首页结构；batch 的 “homepage and features page” 措辞可改为 “official homepage/features snapshot”，或补抓真正的 features 页面。",
+    "Familiar 的 contract 快照显示按格式费率、预付、准备金、签署方/代理和 addendum，但已读正文未见 territory/duration 等完整权利范围字段；不影响作者管理基本类型匹配，可作为后续补证。",
+    "REVIEW_SOURCES.json 只列了 6 个 batch 快照；research.json 还引用 PubAssist、OMP、Abelujo 快照，这些文件实际存在于本单元 data/collections/sources，但未进入 manifest。建议让 manifest 覆盖所有被引快照，便于复核。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 已记录的 case_found / insufficient_evidence 不一致；若 progress 是下游权威字段，应同步更新。",
+    "Familiar 产品页在 batch 和 REVIEW_SOURCES 中的 kind 标为 homepage，建议改为 product 或 documentation；不影响内容判断。",
+    "book-publishing-management 的中文别名“图书发行管理”与 book-distribution-management 的名称重叠，容易造成类型混淆；建议在定义层区分“出版管理”与“发行管理”。",
+    "Abelujo 仅按书店零售类型排除，未核许可证；PubAssist 因 license=null 且 license 端点 404 正确排除；OMP 的 GPL-3.0 完整文本与 pkp/omp id=316598 已核。"
+  ],
+  "leaf_checks": {
+    "fan-membership-platform": "核对 commercial:ko-fi 的 batch/research 与两份官方快照（ae265… 首页、943ebb… features/首页）。正文含创作者页面、tips/memberships/shop/commissions 并列，明确 “Launch memberships with exclusive content”“Memberships tiers”及创作者自定价格与条款，足以支持以特定创作者为对手方的会员计划/等级与会员权益；商业基本真实性和类型匹配成立。续费周期与失效状态机未逐字出现，列为非阻断补证项。",
+    "paid-community-platform": "核对 commercial:circle 的 batch/research 与 circle.so 首页快照（e5b76bb…）。正文含社区场地（Discussions、Messaging、Courses、Events、Live streams、Directory）、品牌化 checkout、Pricing options、Access groups，并明确 “Support one-time purchases, memberships, or recurring subscriptions” 及购买后即时成员访问；付费场地、入场报价、支付状态访问和主办方变现管理均有正文依据，类型匹配成立。",
+    "author-management-platform": "核对 commercial:familiar 的 batch/research 与三份官方快照（首页 11a970…、royalty-tracking 3bd646…、contract-management 77b090…）。正文含书名/ISBN/格式，作者、合著者、插画师、译者及版税比例，阶梯费率、预付、按格式分成；合同模板含按格式费率、预付、退货准备金、签署方/代理与 addendum；导入 KDP、IngramSpark 等对账单，按合同与预付/扣减计算贡献者应得，生成并发送报表，作者/代理门户可查。四段核心成立。",
+    "book-distribution-management": "无案例留档。核对 research 与 Abelujo 官方快照（e75ac0…）：页面自述 “free software for bookshops”，功能为 POS、门店库存、补货、客户预订、押金、统计，属于书店零售，不是出版商/分销商向图书贸易的客户账户、销售订单、库存履约/发货与退货闭环。检索与抓取缺口已记录，按 insufficient_evidence 可接受；但仅一次 web search，未覆盖商业候选。",
+    "book-publishing-management": "无案例留档。核对 research 与 OMP 官方产品页、learning-omp production/catalog 文档、仓库元数据和许可证快照：OMP 有书名/摘要、贡献者与角色、生产阶段、出版格式/ISBN/出版日期、catalog/ONIX，但已抓正文未见结构化合同条款、权利授予、报酬/P&L/版税结算，且产品主线为 Submit→Review→Publish→Distribute，按 Publishing Editorial Workflow 排除尚可辩护；GPL-3.0 完整、pkp/omp id=316598 成立。问题在于同单元 commercial:familiar 的官方首页/合同/生产模块显示一体化出版管理，本叶未评估该候选，导致 no-case 结论不完整，详见 findings。"
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元；未部署或运行任何应用，未做支付、权限、结算或出版流程的端到端测试。商业条目只核对官方公开快照正文与基本类型关系，未核价格、架构、区域可用性或完整工作流。REVIEW_SOURCES.json 仅列 6 个 batch 快照；research.json 另引用的 PubAssist、OMP、Abelujo 快照已从本单元 data/collections/sources 读取。部分 HTML 单行过长，read 工具会截断，关键正文通过 grep 在快照内确认原文存在；为解析被截断的长行，另只读查看了同一官方 URL 的公开页面作为可读性辅助，结论仍以归档快照中可检索的原文为依据。未重新做大范围检索，接受 research.json 已记录的检索/抓取缺口；Abelujo 仅按类型排除，未补做许可证边界核查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-104/ses_groveopencodegop104review2_1793002070.jsonl",
+  "batch_sha256": "0632dab311dadb49fbfb3560f7a3d403c568e60c65916c385c09889f7f55b138",
+  "research_sha256": "955410b5a0b5232c5f9f3690f3e7dd2a6112efb441969a99923176813fe4102e",
+  "input_sha256": "0d192745e5d955b6fd4036225dad53579c55e1e3aa32fd6553484f0e6f4e9aca"
+}

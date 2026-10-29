@@ -1,0 +1,72 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids 为空，与 batch.json 和 research.json 已记录 5 个案例不一致；建议同步进度字段，避免下游误读。",
+    "EcoVadis 摘要中的“供应商完成问卷与证据提交”主要由引用页的 “invite suppliers to participate in comprehensive assessments” 和供应商 onboarding 支撑，问卷与证据上传细节未逐字展开；建议措辞改为“供应商参与评估”，或补充问卷/证据页作为来源。",
+    "Klir 页面证明 NPDES 许可参数与限值、采样结果、DMR 生成、预警和移动录入，但未证明负责官员认证签署及向监管机构提交的具体实现；research.json 已如实记录该缺口，商业类型匹配不受影响。",
+    "Watershed 页面以 Measure/Report/Act 组织，报告与披露色彩较强；其 Act 部分的目标设定、减排进展和供应商表现可支撑“计划”层，但与 ESG Reporting Platform 的边界较近，建议后续补充更明确的计划/举措证据。",
+    "AirCasting API 文档含 Phone Microphone/Sound Level 流，平台并非只处理空气污染物；但其固定/移动监测点、PM2.5 等污染物时间序列仍是主体，不影响 air-quality-monitoring 归类。",
+    "EcoVadis 引用 URL 为 /ratings/，快照 canonical 指向 /solutions/ratings/；建议登记 canonical URL 以减少重定向歧义。"
+  ],
+  "leaf_checks": {
+    "supplier-sustainability-management": {
+      "application_ids": [
+        "commercial:ecovadis"
+      ],
+      "status": "pass",
+      "identity_track": "commercial:ecovadis，track=commercial，homepage=https://ecovadis.com/；来源快照为 972a20e0dfa0192fd4ef22c0cfd1fb085b36fa27bb4641f026b3c2493205bf5f.txt，URL 为 https://ecovadis.com/ratings/，canonical 指向 /solutions/ratings/。",
+      "core_basis": "EcoVadis 官方 Ratings 正文明确覆盖：经分析师核验的供应商评估、覆盖环境/劳工与人权/道德/可持续采购的全球记分卡、供应商参与评估与 onboarding、可跟踪的纠正行动计划，以及评级在采购生命周期（准入、RFP 与授标、合同、订单、SRM）中的使用。可对应“供应商状态记录 + 跨组织收集 + 评估到行动”的定义性核心。",
+      "gaps": "页面未逐字描述问卷/证据上传和基于证据的纠正行动关闭流程；未验证价格、方法论细节或认证流程。research.json 已记录 /solutions/supplier-sustainability/ 返回活动页、/supplier-questionnaires/ 404 的抓取缺口。",
+      "finding": "none"
+    },
+    "sustainability-management-platform": {
+      "application_ids": [
+        "commercial:watershed"
+      ],
+      "status": "pass",
+      "identity_track": "commercial:watershed，track=commercial，homepage=https://watershed.com/；来源快照为 1db9da90024b9229838ac8e3fa653794d2c65773183cba2bdd29722c3c8483f5.txt，URL 为 https://watershed.com/platform。",
+      "core_basis": "Watershed 平台页以 Measure/Report/Act 组织：自动摄取并清洗多来源数据、覆盖全部范围和所需 ESG 指标、保留计算来源和审计轨迹；Act 部分支持设定目标、识别减排杠杆、推动供应商表现和跟踪进展；同一数据可复用于对外报告。可支撑组织 ESG 数据资产、收集与验证、计划跟踪三项核心。",
+      "gaps": "页面报告与披露功能较突出，具名贡献者数据请求/审批工作流未逐字展开；未验证部署、价格或具体核验流程，未运行产品。",
+      "finding": "none"
+    },
+    "sustainable-procurement-platform": {
+      "application_ids": [
+        "commercial:jaggaer"
+      ],
+      "status": "pass",
+      "identity_track": "commercial:jaggaer，track=commercial，homepage=https://www.jaggaer.com/；来源快照为 890d7ab65566211c6012bcf8653fb47108fc0e135d7726bf54da2af95675812c.txt，URL 为 https://www.jaggaer.com/solutions/esg-intelligence/。",
+      "core_basis": "JAGGAER ESG Intelligence 页面明确说明在 Source-to-Pay 中集中供应商排放、风险评分和证书数据，提供可配置 ESG 记分卡、供应商文件核验和自动化改进计划；RFx 工具可将碳价和可持续性指标直接计入评标与授标决策。可对应“可持续性标准与供应商信息在采购决策点相遇”的定义性核心，而非采购交易或电子寻源机制本身。",
+      "gaps": "这是采购套件中的 ESG 模块而非独立产品；页面未证明合同条款、完整采购交易或具体集成方式。research.json 已记录 sustainable-procurement 页面为网络研讨会页、未作为产品证据。",
+      "finding": "none"
+    },
+    "wastewater-compliance-management": {
+      "application_ids": [
+        "commercial:klir"
+      ],
+      "status": "pass",
+      "identity_track": "commercial:klir，track=commercial，homepage=https://www.klir.com/；来源快照为 4e70674dfb005823edb2d08c71002fdae20239aefc6b45cec86f6bd7b46db326.txt，URL 为 https://www.klir.com/klir-for-wastewater。",
+      "core_basis": "Klir 官方废水页及页面 FAQ 明确覆盖：集中管理 NPDES 许可证及其参数、监管要求和限值集合；采样结果与许可要求并列查看；监测污染物趋势并配置预警；从采样数据生成一次性或周期性 DMR；移动端现场采样录入和合规任务分派。可支撑许可排放参数/限值、监测数据资产、限值评估与监管报告三项核心。",
+      "gaps": "页面未明确证明负责官员认证签署、向监管机构提交的具体实现或超标事件的完整记录/解释流程；research.json 已如实记录该缺口。未验证监管接口、价格或部署。",
+      "finding": "none"
+    },
+    "air-quality-monitoring": {
+      "application_ids": [
+        "github:3199417"
+      ],
+      "status": "pass",
+      "identity_track": "github:3199417，track=open_source，repository=https://github.com/HabitatMap/AirCasting，github_repository_id=3199417；GitHub 元数据快照确认 id=3199417、full_name=HabitatMap/AirCasting、未归档、默认分支 master。",
+      "core_basis": "GitHub API 文档明确列出固定/移动监测 session、stream、measurements、averages、固定站点 active/dormant 状态和按时间范围查询；README/仓库说明平台用于环境数据的采集、可视化和共享。可支撑已识别监测点、污染物时间序列、当前状态与历史趋势查询三项核心。",
+      "license": "许可证接口快照 0ca149aca8719e24bcf538fd1fad4907d86e4c177e0c338252e85ca202a3846b.txt 显示 license.key=agpl-3.0、spdx_id=AGPL-3.0，COPYING 文件 size=34520，base64 内容以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头；属于完整 AGPL-3.0 许可证文本。",
+      "community_boundary": "仓库是 AirCasting 的完整 Web/API 应用，可自托管；未发现单独的社区版/商业版功能切分或 open-core 声明，按完整开源项目处理。",
+      "gaps": "未部署或运行；README/许可证快照为 GitHub API 的 base64 JSON，未逐行解码全部内容；API 文档还包含 sound level 流，但不改变以空气污染物监测为主体的归类。",
+      "finding": "none"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未读取其他单元。已按 REVIEW_SOURCES.json 的 path 原样读取全部 8 个快照，并核对文件名哈希与 batch.json/research.json 记录一致，但未重新计算 sha256。未部署或运行任何应用，未验证价格、架构、认证/提交接口或运行时行为。Watershed、Klir、EcoVadis 等快照为单行 HTML，工具预览会截断长行，另以官方页面只读文本辅助核对正文，未改变快照路径和引用结论。AirCasting 的 README 与许可证快照为 GitHub API 的 base64 JSON，核对了元数据、许可证标识、COPYING 大小和正文开头，未逐行解码全文。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-208/ses_groveopencodegop208review1_1793026933.jsonl",
+  "batch_sha256": "ac82e0cb2693fb53ec141b412479e1e3c97530144d22339d2238d149063cf25a",
+  "research_sha256": "d9777068ed0418393301a5a6c3cc62d733e01bfb1c1c2c1f5f8185cb84402b14",
+  "input_sha256": "03a399338c3a9a30eb51d23b02082ceda6d4e744932c39ea9da1f2e683af6692"
+}

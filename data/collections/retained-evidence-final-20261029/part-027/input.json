@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 4,
+  "offset": 75,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "raw-photo-editor",
+        "name_zh": "RAW 照片编辑器",
+        "domain_id": "04",
+        "parent_id": "04.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-004/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "raw photo editor | rapidraw raw image editor"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/87",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "raw photo editor | rapidraw raw image editor"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "raw-photo-editor",
+        "name": "RAW Photo Editor",
+        "name_zh": "RAW 照片编辑器",
+        "aliases_zh": [
+          "RAW 图像处理器",
+          "RAW 开发软件",
+          "RAW 编辑工具"
+        ],
+        "overview": "A **RAW Photo Editor** is an application for **developing camera RAW files**: it takes the unprocessed sensor data recorded by a camera, interprets it through the application's own processing engine, lets the photographer adjust that interpretation with a set of revisable parameters, and renders the result into standard delivered image formats.\n\nThe defining structure is small:\n\n```text\nRAW file (camera sensor data, per camera model)\n└── the application's own development engine\n    └── parametric develop loop (revisable recipe over the interpretation)\n        └── rendered output (JPEG/TIFF-class deliverable)\n```\n\nThree properties hold together. Remove the RAW input and the product is an ordinary photo editor working on already-rendered photographs. Remove the parametric develop loop and the product is a RAW file converter or viewer. Remove the rendering step and there is no deliverable — a RAW file cannot be \"saved\" as an edited RAW in place, so producing a finished image always means rendering the recipe out.\n\nEverything else commonly associated with these products — the photo library, tethered capture, AI-assisted processing, presets, local adjustments, batch export, printing — is standard capability that packages around the develop loop, not what makes the product a RAW editor. Older and simpler RAW converters, including the converters camera manufacturers bundle with their own cameras, satisfy the same core without any of those additions.",
+        "overview_zh": "一款 **RAW 照片编辑器** 是用于 **处理相机 RAW 文件** 的应用程序：它接收相机记录的未处理传感器数据，通过应用程序自身的处理引擎进行解读，允许摄影师通过一组可修改的参数调整该解读，并将结果渲染为标准交付图像格式。\n\n其定义性结构很小：\n\n```text\nRAW 文件（相机传感器数据，按相机型号区分）\n└── 应用程序自身的处理引擎\n     └── 参数化处理循环（对解读的可修改配方）\n         └── 渲染输出（JPEG/TIFF 类交付物）\n```\n\n三个属性共同构成整体。移除 RAW 输入，该产品就变成了一个在已渲染照片上工作的普通照片编辑器。移除参数化处理循环，该产品就变成了一个 RAW 文件转换器或查看器。移除渲染步骤，就没有交付物——RAW 文件无法作为编辑后的 RAW 文件就地“保存”，因此生成最终图像始终意味着将配方渲染输出。\n\n通常与这些产品相关联的其他所有内容——照片库、联机拍摄、AI 辅助处理、预设、局部调整、批量导出、打印——都是围绕处理循环包装的标准功能，而非使该产品成为 RAW 编辑器的本质。较旧且更简单的 RAW 转换器，包括相机制造商随其相机捆绑的转换器，在没有这些附加功能的情况下也能满足相同的核心需求。",
+        "dc": "**The RAW file.** The object of work is a camera-origin file containing sensor data — minimally processed, per camera model. RAW formats are vendor-specific (each major camera line has its own), and support for a given camera is something the product maintains explicitly: mature RAW editors publish per-camera support matrices, track which RAW sub-formats of each camera they support (compressed variants, new bit depths), and add newly released cameras in product updates. The application's own engine — not the camera's in-camera processing — performs the development: decoding the sensor data, demosaicing it into a full-color image, and establishing the initial color interpretation. This is why the same RAW file can look different in different RAW editors, and why a RAW editor's rendering of a file can change when its engine improves.\n\n**The develop recipe.** The user's work is a set of parameters — white balance, exposure, tonal ranges, color, sharpening and noise treatment, lens and geometry corrections — held as a revisable recipe over the RAW interpretation. The original RAW file is never overwritten. Every adjustment remains re-editable; the recipe, not baked pixels, is the edit. This is structurally forced by the format (a RAW file is not an image you can paint on and save back) and is the reason these products keep per-image settings in a database or sidecar files alongside the RAW.\n\n**The rendered output.** The deliverable is produced by rendering the recipe into a standard image format — typically JPEG- or TIFF-class files, with some products also exporting DNG (a standardized RAW container that can carry corrections as metadata rather than baked pixels). The exported image is a snapshot of the recipe at export time; the RAW and its recipe remain the working state, and the same recipe can be re-rendered differently at any time.",
+        "dc_zh": "**RAW 文件。** 工作对象是相机原始文件，包含传感器数据——按相机型号进行最少处理。RAW 格式是厂商特定的（每个主要相机系列都有自己的格式），并且产品会明确维护对特定相机的支持：成熟的 RAW 编辑器发布每台相机的支持矩阵，跟踪每台相机支持的 RAW 子格式（压缩变体、新位深度），并在产品更新中添加新发布的相机。应用程序自己的引擎——而非相机内的处理——执行开发：解码传感器数据，将其去马赛克为全彩色图像，并建立初始颜色解释。这就是为什么同一个 RAW 文件在不同的 RAW 编辑器中看起来不同，以及为什么 RAW 编辑器对文件的渲染在引擎改进时会发生变化。**开发配方。** 用户的工作是一组参数——白平衡、曝光、色调范围、颜色、锐化和降噪处理、镜头和几何校正——作为可修订的配方应用于 RAW 解释。原始 RAW 文件永远不会被覆盖。每个调整都保持可重新编辑；配方，而非烘焙像素，才是编辑本身。这是由格式结构强制的（RAW 文件不是可以绘画并保存回去的图像），也是这些产品将每张图像的设置存储在数据库或伴随文件中的原因。",
+        "rules": "### The original is never the deliverable\n\nThe RAW file is never overwritten by editing. The recipe lives beside it (database or sidecar); the deliverable exists only as rendered exports. Deleting the recipe loses the develop work; deleting the export loses only that rendering.\n\n### A default interpretation always exists\n\nOpening a RAW file always shows an interpretation — the engine's decode and demosaic, commonly with a default look applied. Even a \"no corrections\" state is processed output of the engine, not the untouched sensor data. This is why the same file opens differently in different products, and why engine updates can change existing images' appearance.\n\n### Camera support is versioned and granular\n\nSupport for a camera model is maintained by the vendor and arrives in product updates. Within one camera, specific RAW sub-formats may be unsupported (particular compression modes, burst formats), and some output options (such as DNG export) may be excluded for particular cameras. Whether a given file is supported is a per-camera-model, per-format question, not a blanket \"reads RAW\" property.\n\n### RAW and rendered inputs behave differently\n\nThe same tool acts differently on RAW and already-rendered input: highlight recovery can rebuild information from RAW channel data that a JPEG has permanently lost, because the RAW retains more than the rendered image shows. At least one sampled product documents this distinction inside its own tool guidance.\n\n### Order matters in pipeline-based products\n\nWhere the engine is organized as an ordered processing pipeline, the sequence of operations is part of the recipe and can be inspected and changed; the same parameters in a different order can produce a different result.\n\n### Export semantics vary by target\n\nRendering to JPEG/TIFF bakes the recipe into pixels. Exporting to DNG-class containers may instead carry corrections as metadata for later re-editing — a different contract, and one some products restrict for particular cameras.",
+        "rules_zh": "### 原始文件绝不是交付物\n\nRAW 文件永远不会被编辑覆盖。配方与其并存（数据库或旁挂文件）；交付物仅以渲染导出的形式存在。删除配方会丢失处理工作；删除导出仅丢失该渲染结果。\n\n### 始终存在默认解读\n\n打开 RAW 文件总是显示一种解读——引擎的解码和去马赛克，通常应用了默认外观。即使是“无校正”状态也是引擎的处理输出，而非未触及的传感器数据。这就是为什么同一文件在不同产品中打开效果不同，以及为什么引擎更新可能会改变现有图像的外观。\n\n### 相机支持是分版本且细粒度的\n\n对相机型号的支持由供应商维护，并通过产品更新提供。在同一相机内，特定的 RAW 子格式可能不受支持（特定的压缩模式、连拍格式），某些输出选项（如 DNG 导出）可能对特定相机被排除。某个文件是否受支持是一个按相机型号、按格式的问题，而非笼统的“读取 RAW”属性。\n\n### RAW 和已渲染输入的行为不同\n\n同一工具在 RAW 和已渲染输入上的行为不同：高光恢复可以从 RAW 通道数据中重建 JPEG 已永久丢失的信息，因为 RAW 保留的信息比渲染图像显示的更多。至少有一个抽样产品在其自身的工具指南中记录了这种区别。\n\n### 在基于管道的产品中顺序很重要\n\n当引擎被组织为有序处理管道时，操作序列是配方的一部分，可以检查和更改；相同参数以不同顺序可能产生不同结果。\n\n### 导出语义因目标而异\n\n渲染到 JPEG",
+        "parent_id": "04.04",
+        "domain_id": "04"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 27,
+    "phase": "directory",
+    "parent": 27,
+    "slugs": [
+      "raw-photo-editor"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "08123cad9664afce32cdce66da1af8d637e986bd4fa3b8ff2eedb78f05422395"
+  }
+}

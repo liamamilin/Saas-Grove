@@ -1,0 +1,120 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "distributed-tracing",
+      "application_id": "github:56342508",
+      "note": "README 与 UI 文档共同支撑 Span/Trace 存储、检索（Search 页、按 trace ID）、逐 span 检视（span details、trace graph、critical path）。但“trace context propagation”只在 OTLP 接入与 Collector/Query 架构中间接体现，未有独立正文测量其跨服务传播实现；不影响类型判定，后续可补一篇 tracing 架构/传播文档快照。"
+    },
+    {
+      "slug": "distributed-tracing",
+      "application_id": "github:56342508",
+      "note": "所引 UI 文档本质是 Frontend/UI 配置页，核心检索与检视工作流依赖其中对 Search Page/Trace Page/traceIdDisplayLength/Trace Graph 的描述，证据偏配置视角而非端到端教程；现有组合已足以核对，但建议补充 Getting Started 或 Query API 正文。"
+    },
+    {
+      "slug": "log-management",
+      "application_id": "github:129717717",
+      "note": "README 明确 Alloy→Loki→Grafana/LogCLI 的三段结构、标签索引与持久存储；“按时间范围搜索”属于 LogQL/查询接口的既有语义，未在所引快照中单独展开，属可接受的推断边界。查询展示主要由同厂商 Grafana 承担，Loki 自身经 LogCLI 提供查询，边界记录已如实说明。"
+    },
+    {
+      "slug": "network-monitoring",
+      "application_id": "github:13914116",
+      "note": "许可证字段写作 “GPL-3.0”（SPDX 已废弃且有 only/or-later 歧义），而 README 与仓库页明文为 “either version 3 of the License, or (at your option) any later version”。完整 GPLv3 文本、第三方链接例外与 community_core 范围均已核对；建议将 SPDX 精确记为 GPL-3.0-or-later，避免后续再分发口径歧义。"
+    },
+    {
+      "slug": "network-monitoring",
+      "application_id": "github:13914116",
+      "note": "接口/链路作为一等监控单元的证据来自 Ports API 文档的 ifOperStatus、ifInOctets/ifOutOctets、ifInErrors 等对象字段，而非“端口状态页”工作流正文；结合 Availability Map 与 Alerting 文档已能闭合三项结构，后续可补端口状态/流量视图正文。"
+    },
+    {
+      "slug": "infrastructure-monitoring",
+      "application_id": "github:17253775",
+      "note": "Zabbix 同样覆盖网络设备与拓扑，理论上也贴近 network-monitoring；本单元将其归入 infrastructure-monitoring、由 LibreNMS 承担 network-monitoring，按定义中“整体资产 vs 网络设备/接口”边界是可接受的单一归属选择。"
+    },
+    {
+      "note": "research.json 的 fetch_outcomes 未逐条登记 Jaeger/Zabbix/Loki/Prometheus 的 LICENSE 抓取，而 batch.json 的 sources 中均有对应 sha256 与 fetched_at；属留档冗余缺失，不影响许可结论，可补齐以增强可追溯性。"
+    },
+    {
+      "note": "Jaeger、Zabbix、Loki、Prometheus 的许可证快照均为未改写的基础许可证全文（Apache-2.0 或 AGPL-3.0 标准文本），未含项目版权行；作为“完整许可证文本”证据充分，但若后续需要版权归属证据，宜另存 README/LICENSE 中带版权声明的段落。"
+    },
+    {
+      "note": "docs.librenms.org/General/Ports/ 的 404 已在 research.json 记录并改用仓库 doc/API/Ports.md，属如实留档的查询缺口，可通过。"
+    },
+    {
+      "note": "所有 5 个条目 runtime_tested 均为 false，类型判定基于官方 README/仓库文档与许可证正文，不含部署验证；符合本次只读初审范围。"
+    }
+  ],
+  "leaf_checks": {
+    "distributed-tracing": {
+      "application_id": "github:56342508",
+      "name": "Jaeger",
+      "status": "core_matched",
+      "evidence": [
+        "README（sources/59c953e4…）：明确 “Jaeger - a Distributed Tracing System”，架构为 OpenTelemetry SDK → Collector → Storage，Query Service 读取存储，Jaeger UI 经 HTTP 访问 Query；Quick Start 说明 all-in-one 含 UI/collector/query/in-memory storage，OTLP gRPC 4317、HTTP 4318 接收 trace。",
+        "官方 UI 文档（sources/bc517e86…）：Search Page（service/start/end/limit/lookback 查询参数）、Trace Page（/trace/{id}）、traceIdDisplayLength、Trace Graph、criticalPathEnabled（按 span 标注关键路径）、topTagPrefixes（span details 标签排序），支持按 ID/条件检索并逐 span 检视。",
+        "仓库元数据（sources/aef995bb…）：repository_id 56342508、jaegertracing/jaeger，与 batch id 一致；track=open_source。",
+        "LICENSE（sources/c71d239d…）：Apache License 2.0 完整正文（含 END OF TERMS AND CONDITIONS 与 APPENDIX），与 SPDX Apache-2.0 一致。"
+      ],
+      "boundary": "自托管追踪后端 + Query/UI：接收、存储、检索与检视 trace；检测 SDK 与日志/指标平台职责不在范围内，research.service_boundary 记录一致。",
+      "gaps": "trace context propagation 未单独正文佐证，仅由 OTLP 接入与 Collector 架构间接成立；UI 文档为配置页而非检索教程。"
+    },
+    "infrastructure-monitoring": {
+      "application_id": "github:17253775",
+      "name": "Zabbix",
+      "status": "core_matched",
+      "evidence": [
+        "README（sources/bd281a08…）：定位为 “enterprise-class, open-source distributed monitoring solution”，监控 network devices、servers、services 及其他 IT 资源；列出 Resource discovery（发现网络实体/服务器资源与上下线设备）、Metric acquisition（agent 或 agent-less 采集）、real-time problem detection、Incidents/alerts/notifications、图表与 network topology maps。",
+        "仓库元数据（sources/db04f847…）：repository_id 17253775、zabbix/zabbix；页面 About 描述 “Real-time monitoring of IT components and services…”，并注明 “Zabbix is distributed under AGPL-3.0-only”。",
+        "COPYING（sources/0d96a4ff…）：GNU Affero GPL v3 完整正文，与 AGPL-3.0-only 一致；README 明文 AGPL-3.0-only。"
+      ],
+      "boundary": "受监控实体（主机/设备/服务）为组织单位，持续采集资源指标并评估为问题与告警；日志检索、单请求追踪与事件响应流程不在核心，research.service_boundary 记录一致。",
+      "gaps": "告警状态转换（soft/hard、维护静默）等细则未在所引 README 展开；不影响三项定义结构判定。"
+    },
+    "log-management": {
+      "application_id": "github:129717717",
+      "name": "Grafana Loki",
+      "status": "core_matched",
+      "evidence": [
+        "README（sources/af9e356b…）：多租户日志聚合系统；三段式栈 Alloy 采集 → Loki 存储并处理查询 → Grafana 查询展示；不建全文索引，仅对每个日志流的标签集建索引，压缩存储非结构化日志；LogCLI 提供命令行查询；单机无依赖运行与多租户运行方式均有说明。",
+        "仓库元数据（sources/a753a424…）：repository_id 129717717、grafana/loki，与 batch id 一致。",
+        "LICENSE（sources/0d96a4ff…，与 Zabbix COPYING 同哈希的 AGPL-3.0 完整文本）：README 声明 “distributed under AGPL-3.0-only，For Apache-2.0 exceptions, see LICENSING.md”；license_review 以 community_core 范围记录、不将全仓库统一为单一 SPDX，边界处理正确。"
+      ],
+      "boundary": "日志后端：采集接入、集中持久存储、按标签/时间查询；展示由 Grafana/LogCLI 承担，采集代理为 Alloy，属可自托管服务而非纯 SDK，research.service_boundary 记录一致。",
+      "gaps": "时间锚定检索与保留/分层策略未在所引 README 正文展开；查询展示依赖外部 Grafana 组件。"
+    },
+    "metrics-monitoring": {
+      "application_id": "github:6838921",
+      "name": "Prometheus",
+      "status": "core_matched",
+      "evidence": [
+        "README（sources/fb0d7613…）：CNCF “systems and service monitoring system”，按给定间隔从配置目标采集指标、评估规则表达式、展示结果并在指定条件出现时触发告警；多维数据模型（metric name + key/value dimensions）、PromQL、HTTP pull、单机自治存储、服务发现与多种图形/仪表板模式；并明确该仓库构建独立程序而非库。",
+        "仓库元数据（sources/b2519ad9…）：repository_id 6838921、prometheus/prometheus，与 batch id 一致。",
+        "LICENSE（sources/c71d239d…）：Apache License 2.0 完整正文；README 末尾 “Apache License 2.0, see LICENSE”。"
+      ],
+      "boundary": "持续抓取 → 序列存储 → 时间/维度查询绘图 → 规则持续评估触发告警；告警通知路由不在本次证据范围，research.service_boundary 已如实限定，未描述为完整事件管理平台。",
+      "gaps": "告警通知路由（Alertmanager）与保留/降采样细节未引证；不影响四项定义属性判定。"
+    },
+    "network-monitoring": {
+      "application_id": "github:13914116",
+      "name": "LibreNMS",
+      "status": "core_matched",
+      "evidence": [
+        "README（sources/83c5e62a…）： “auto-discovering PHP/MySQL/SNMP based network monitoring”，支持 Cisco、Linux、FreeBSD、Juniper、HP 等网络硬件与操作系统；含安装文档入口与 VM 镜像路径，属自托管持续服务。",
+        "Alerting 文档（sources/98498509…）：Alert Rules 定义触发条件 → Alert Operations 定义接收者与时机 → Alert Transports（email/Slack）投递 → Templates 格式化；Alerts→Faults 页面含 ACK/取消确认状态语义，覆盖告警与健康状态。",
+        "Availability Map 文档（sources/a3a1071a…）：单页展示全部设备、每设备以彩色方块表示状态，另有仪表板 widget，覆盖设备级状态汇总。",
+        "Ports API 文档（sources/8432a424…）：以 port_id 为一等对象，返回 ifName/ifOperStatus/ifAdminStatus、ifInOctets/ifOutOctets、ifInErrors/ifOutErrors 及 rate/delta 与 poll 周期，支撑接口/链路独立测量与状态。",
+        "仓库元数据（sources/44d398fa…）：repository_id 13914116、librenms/librenms；页面标题与描述为 “Community-based GPL-licensed network monitoring system”。",
+        "LICENSE.txt（sources/67c25547…）：项目声明 + 完整 GPLv3 正文，含对随附第三方软件附加链接例外；license_review 以 community_core 范围记录，未将例外第三方包并入统一 SPDX 断言。"
+      ],
+      "boundary": "以网络设备及其端口为受监控单元，持续采集状态与计数器并评估为健康/告警；网络配置变更、流量安全分析与事件响应不在范围，research.service_boundary 记录一致。",
+      "gaps": "许可证字段为废弃标识 “GPL-3.0”，与 README 的 or-later 表述不完全对齐（建议 GPL-3.0-or-later）；接口证据来自 API 文档字段而非端口视图正文；docs.librenms.org/General/Ports/ 404 已如实记录并以仓库文档替代。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未部署或运行任何应用。仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 所列快照（按 path 原样读取，sources 前缀相对于 data/collections）。未读取其他单元、TASK.md、notes/、scripts/、issues.json、prepared.json，也未做外部网络复核。未重新计算 sha256，仅核对路径可读、URL/kind/application 关联与正文内容一致性；GitHub 页面快照含大量导航/脚本片段，仅采用正文与元数据字段。类型判定基于各条目所引官方 README/仓库文档/API 文档中的定义性表述，无运行时验证；商业条目本单元不存在。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-067/ses_groveopencodegop067review1_1792992272.jsonl",
+  "batch_sha256": "0d5e8b3a05c01000147df1d29d9fd6454ec732c1b73d2ee717b634917974cab5",
+  "research_sha256": "f138c618685bc49c21993750ed05df9bd1b92757f6f9a01baba5a14d9a12f32d",
+  "input_sha256": "7d01ec0ba58125db7cd57d51acdb3544136af19a00a2ad747478e3896ac30831"
+}

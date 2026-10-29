@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "cycling-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ride-with-gps"
+      ],
+      "query": "官方站核对：ridewithgps.com 骑行路线规划、导航与骑行记录；同时核查开源骑行应用候选（OpenTracks、GitHub 仓库搜索）",
+      "source_urls": [
+        "https://ridewithgps.com/",
+        "https://api.github.com/repos/OpenTracksApp/OpenTracks"
+      ],
+      "note": "抓取 Ride with GPS 官方首页正文，明确以骑行者为中心提供路线规划、逐向导航、离线地图、传感器配对、Record rides 与训练进度。开源候选 OpenTracks 已归档并迁移 Codeberg，且为通用户外轨迹纯客户端，未列为成立案例。",
+      "service_boundary": "商业账号制云端/移动应用；只记录官方公开功能，未验证价格、架构、部署与账号内工作流。",
+      "search_attempts": 2,
+      "fetch_outcomes": [
+        {
+          "url": "https://ridewithgps.com/",
+          "kind": "homepage",
+          "status": "success",
+          "bytes": 171515,
+          "note": "官方首页正文含骑行路线与记录功能说明"
+        },
+        {
+          "url": "https://api.github.com/repos/OpenTracksApp/OpenTracks",
+          "kind": "repository_metadata",
+          "status": "success",
+          "bytes": 6743,
+          "note": "元数据显示 archived=true 且仓库迁移至 Codeberg；未作为案例"
+        },
+        {
+          "url": "https://api.github.com/search/repositories?q=cycling+android+app",
+          "kind": "repository_search",
+          "status": "error",
+          "note": "GitHub 搜索 API 返回 403 rate limit；未重复调用"
+        },
+        {
+          "url": "websearch:open source Android cycling app",
+          "kind": "websearch",
+          "status": "error",
+          "note": "返回 HTTP 401 认证失败；未重复调用"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "endurance-training-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:trainingpeaks"
+      ],
+      "query": "官方站核对：trainingpeaks.com 耐力训练计划、日历、完成训练与 fitness/fatigue 状态；补充核查开源 GoldenCheetah 边界",
+      "source_urls": [
+        "https://www.trainingpeaks.com/",
+        "https://api.github.com/repos/GoldenCheetah/GoldenCheetah"
+      ],
+      "note": "抓取 TrainingPeaks 官方首页正文，明确为完整耐力训练平台，覆盖训练计划、日历同步、跨运动训练与 fitness/fatigue 分数。GoldenCheetah 元数据仅用于确认其为桌面性能分析软件，未作为云端/自托管案例。",
+      "service_boundary": "商业账号制平台，服务运动员与教练；未验证价格、计划模板、设备同步明细或运行行为。",
+      "search_attempts": 2,
+      "fetch_outcomes": [
+        {
+          "url": "https://www.trainingpeaks.com/",
+          "kind": "homepage",
+          "status": "success",
+          "bytes": 108549,
+          "note": "官方首页正文含计划、训练同步与 fitness/fatigue 说明"
+        },
+        {
+          "url": "https://api.github.com/repos/GoldenCheetah/GoldenCheetah",
+          "kind": "repository_metadata",
+          "status": "success",
+          "bytes": 6952,
+          "note": "开源桌面性能分析候选；未列为成立案例"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "fitness-assessment-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fitnessgram"
+      ],
+      "query": "官方站核对：fitnessgram.net 体能评估、测试协议、健康区间标准与纵向报告；GitHub 搜索评估类开源候选",
+      "source_urls": [
+        "https://www.fitnessgram.net/software-overview"
+      ],
+      "note": "抓取 FitnessGram 官方 Software Overview 正文，明确跟踪学生体能评估分数与 Healthy Fitness Zones，采用五项研究定义评估并输出个人纵向报告。开源搜索结果多为姿态识别 SDK、论文代码或课程项目，不能构成评估方系统记录。",
+      "service_boundary": "商业学校/教育评估软件，评估方为教师或学校；未登录验证报告与再评估流程，未验证采购部署。",
+      "search_attempts": 3,
+      "fetch_outcomes": [
+        {
+          "url": "https://www.fitnessgram.net/",
+          "kind": "homepage",
+          "status": "error",
+          "note": "响应超过默认 1MB 上限，未保存"
+        },
+        {
+          "url": "https://www.fitnessgram.net/software-overview",
+          "kind": "documentation",
+          "status": "success",
+          "bytes": 1597757,
+          "note": "页面正文含评估跟踪、健康区间、五项评估与纵向报告说明"
+        },
+        {
+          "url": "https://github.com/search?q=fitness+assessment&type=repositories",
+          "kind": "repository_search",
+          "status": "success",
+          "note": "结果以论文代码、姿态识别 SDK、课程项目为主，无评估方系统记录候选"
+        },
+        {
+          "url": "websearch:open source fitness assessment app",
+          "kind": "websearch",
+          "status": "error",
+          "note": "返回 HTTP 401 认证失败；未重复调用"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "fitness-progress-tracker",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:7705569"
+      ],
+      "query": "官方仓库核对：wger-project/wger 自托管、体重与自定义测量记录、进度照片、AGPL 许可证",
+      "source_urls": [
+        "https://api.github.com/repos/wger-project/wger",
+        "https://raw.githubusercontent.com/wger-project/wger/master/README.md",
+        "https://raw.githubusercontent.com/wger-project/wger/master/LICENSE.txt",
+        "https://wger.de"
+      ],
+      "note": "抓取 wger GitHub 元数据、README 与完整 LICENSE.txt。README 明确记录体重和自定义身体测量、进度照片，并提供 Docker 自托管与官方实例；元数据确认 id 7705569、AGPL-3.0。wger.de 被 Anubis 校验页拦截，未把校验页当正文。",
+      "service_boundary": "开源可自托管的多用户健身管理器，进度追踪是其模块而非唯一产品；未登录实例验证趋势图，未运行部署。",
+      "search_attempts": 2,
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/wger-project/wger",
+          "kind": "repository_metadata",
+          "status": "success",
+          "bytes": 6424,
+          "note": "确认仓库 id、AGPL-3.0、homepage 与 Python 语言"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wger-project/wger/master/README.md",
+          "kind": "readme",
+          "status": "success",
+          "bytes": 5636,
+          "note": "含体重/自定义测量、进度照片、Docker 自托管与官方实例说明"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/wger-project/wger/master/LICENSE.txt",
+          "kind": "license",
+          "status": "success",
+          "bytes": 34520,
+          "note": "完整 AGPL-3.0 文本，含版本 3 条款与条件"
+        },
+        {
+          "url": "https://wger.de/en/software/features",
+          "kind": "documentation",
+          "status": "error",
+          "note": "返回 Anubis 机器人校验页，未作为正文证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "food-calorie-tracking-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:myfitnesspal"
+      ],
+      "query": "官方站核对：myfitnesspal.com 食物日志、营养数据库、卡路里/宏量营养素与个人每日目标；核查开源 OpenNutriTracker 服务边界",
+      "source_urls": [
+        "https://www.myfitnesspal.com/",
+        "https://api.github.com/repos/simonoppowa/OpenNutriTracker"
+      ],
+      "note": "抓取 MyFitnessPal 官方首页正文，明确营养/卡路里追踪、餐食记录、食物与餐厅营养数据、个人目标与营养反馈。开源 OpenNutriTracker 元数据确认为 Flutter 纯客户端应用，按本轮纯客户端边界未列为成立案例。",
+      "service_boundary": "商业账号制应用；未登录验证每日目标校准、剩余额度界面与数据导出，未验证价格。",
+      "search_attempts": 2,
+      "fetch_outcomes": [
+        {
+          "url": "https://www.myfitnesspal.com/",
+          "kind": "homepage",
+          "status": "success",
+          "bytes": 958619,
+          "note": "官方首页正文含餐食记录、卡路里/宏量营养素、食物数据库与目标反馈"
+        },
+        {
+          "url": "https://api.github.com/repos/simonoppowa/OpenNutriTracker",
+          "kind": "repository_metadata",
+          "status": "success",
+          "bytes": 6621,
+          "note": "GPL-3.0、Dart/Flutter 纯客户端；未列为成立案例"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

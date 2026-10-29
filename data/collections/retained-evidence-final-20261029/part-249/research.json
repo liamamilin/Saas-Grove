@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "sports-meet-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1198042797"
+      ],
+      "query": "本轮 GitHub repository search：'meet management' swimming / 'athletics meet' / meet-manager / swim-meet topic；直接读取 Aegir 的 README、LICENSE、docs/meet-configuration-migration.md 与 convex/schema.ts。历史：SCM swim meet manager 查询与仓库读取。",
+      "source_urls": [
+        "https://github.com/TonyRoyze/aegir",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/README.md",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/LICENSE",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/docs/meet-configuration-migration.md",
+        "https://raw.githubusercontent.com/TonyRoyze/aegir/main/convex/schema.ts"
+      ],
+      "note": "历史复用：上一轮 SCM_SwimClubMeet-R 的 README、仓库元数据与 GPL-3.0 许可证快照仍然真实有效，它确实是完整的 Windows 桌面比赛管理程序；但初审指出的服务形态问题成立——其核心是桌面客户端加本地 SQL Server，不能据此证明本叶所需的可持续 Web 应用服务。本轮将其从成立关系中移除并保留为 withheld_candidate，不推断该产品不存在，也不推断没有其他 SaaS 变体。本轮补采：找到 Aegir（MIT，Next.js + Convex），README 明确其为游泳比赛管理应用，convex/schema.ts 直接定义 meets、meetEvents、registrations（studentId + meetEventIds）、results（timing/rank/points）和 heatAssignments（heat/lane），docs 还记录了报名引用、成绩、公开排行榜与 PDF 的迁移/验证流程，覆盖运动会容器、项目、报名和逐项结果的核心闭环。未运行项目，也未验证生产部署或多租户能力。",
+      "service_boundary": "Aegir 是自托管的 Next.js Web 应用，后端依赖 Convex 部署（NEXT_PUBLIC_CONVEX_URL）；属于完整应用而非纯客户端、CLI、解析器或计时设备工具。未做安装/部署实测，未验证多租户、生产规模或长期运营。",
+      "search_attempts": [
+        {
+          "phase": "historical_reuse",
+          "tool": "websearch",
+          "query": "open source sports meet management track and field swim meet software github",
+          "outcome": "历史记录：HTTP 401，未重复调用"
+        },
+        {
+          "phase": "historical_reuse",
+          "tool": "github_api_search",
+          "query": "swim meet manager",
+          "outcome": "历史记录：命中 Artanemus/SCM_SwimClubMeet-R 等；当时选择有 GPL-3.0、README 和活跃提交的桌面应用"
+        },
+        {
+          "phase": "historical_reuse",
+          "tool": "github_api_search",
+          "query": "meet manager athletics；track meet manager",
+          "outcome": "历史记录：结果多为学生/小型项目，未仅凭名称入库"
+        },
+        {
+          "phase": "current_round",
+          "tool": "websearch",
+          "query": "open source track and field meet management web application github",
+          "outcome": "返回 Hy-Tek/AthleticLIVE 等商业产品、better-web-hytek 等结果展示工具；未找到完整的开源田径比赛管理 Web 应用"
+        },
+        {
+          "phase": "current_round",
+          "tool": "websearch",
+          "query": "open source swimming meet management software self-hosted web",
+          "outcome": "返回 SwimTopia、Swimcloud 等商业 SaaS 及泳池管理项目；未把商业页或泳池管理当成开源完整应用"
+        },
+        {
+          "phase": "current_round",
+          "tool": "github_api_search",
+          "query": "meet management swimming in:readme；athletics meet in:readme；swim-meet in:name；sports-carnival in:name,description",
+          "outcome": "命中 Aegir、SynchroScore、Halcyon、swimmeet-manager、SportsAdmin 等；逐一核对后仅 Aegir 同时满足完整 Web 应用形态、MIT 许可证与核心数据模型"
+        },
+        {
+          "phase": "current_round",
+          "tool": "github_topics",
+          "query": "topics/swim-meet；topics/meet-manager；topics/track-and-field",
+          "outcome": "游泳/田径 topic 多为计时、解析、展示、训练类工具或 SCM 桌面生态；未发现另一套完整开源 Web 管理应用"
+        },
+        {
+          "phase": "current_round",
+          "tool": "direct_fetch",
+          "query": "https://raw.githubusercontent.com/TonyRoyze/aegir/main/README.md；LICENSE；docs/meet-configuration-migration.md；convex/schema.ts",
+          "outcome": "HTTP 200，正文可读；仓库页面 HTML 含 id=1198042797 与 full_name=TonyRoyze/aegir"
+        },
+        {
+          "phase": "current_round",
+          "tool": "direct_fetch",
+          "query": "https://www.swimtopia.com/platform/meet；https://www.swimtopia.com/meet-maestro-meet-management/",
+          "outcome": "HTTP 403，Cloudflare challenge；未取得可留档正文，故未把 SwimTopia 作为商业案例"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "phase": "historical_reuse",
+          "url": "https://api.github.com/repos/Artanemus/SCM_SwimClubMeet-R",
+          "kind": "repository_metadata",
+          "http_status": 200,
+          "snapshot_path": "sources/38cea108f2b526911cda683431ffb86e0004bd238f83759b3891b3d5eb64147c.txt",
+          "outcome": "历史快照，原抓取时间与 SHA 保留；本轮仅核对，未重抓"
+        },
+        {
+          "phase": "historical_reuse",
+          "url": "https://api.github.com/repos/Artanemus/SCM_SwimClubMeet-R/license",
+          "kind": "license",
+          "http_status": 200,
+          "snapshot_path": "sources/411fb28d22c2b51eaa4ab513a81a3a9e7d7a54c724b52d5ce937ff05bbf7007b.txt",
+          "outcome": "历史快照，GPL-3.0；本轮仅核对，未重抓"
+        },
+        {
+          "phase": "historical_reuse",
+          "url": "https://raw.githubusercontent.com/Artanemus/SCM_SwimClubMeet-R/main/README.md",
+          "kind": "readme",
+          "http_status": 200,
+          "snapshot_path": "sources/dbb2b2e719303b51a1a330906afcf9f08e3355ec59f2610710a3c9f0e51b590f.txt",
+          "outcome": "历史快照，证明桌面客户端、sessions/events/nominations/heats/results 流程；本轮仅核对，未重抓"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://github.com/TonyRoyze/aegir",
+          "kind": "repository_metadata",
+          "http_status": 200,
+          "snapshot_path": "sources/1c073cf115906f9fc934007186508d41da4b7b4238805f80b7b8b4ea5e8abb96.txt",
+          "outcome": "HTML 含 octolytics repository_id=1198042797 与 nwo=TonyRoyze/aegir"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://raw.githubusercontent.com/TonyRoyze/aegir/main/README.md",
+          "kind": "readme",
+          "http_status": 200,
+          "snapshot_path": "sources/387bed0819bb2e008c3f0870a2cc770c3050752d594b08a93d7c1157a2f794a9.txt",
+          "outcome": "正文可读，明确 swimming meet management 与 meet teams/events、registrations、results、standings"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://raw.githubusercontent.com/TonyRoyze/aegir/main/LICENSE",
+          "kind": "license",
+          "http_status": 200,
+          "snapshot_path": "sources/a64c480cf02947f24b46237c767a329338fa25915f8e0a49e141020f9c5098ac.txt",
+          "outcome": "完整 MIT 文本，版权与免责声明可读"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://raw.githubusercontent.com/TonyRoyze/aegir/main/docs/meet-configuration-migration.md",
+          "kind": "documentation",
+          "http_status": 200,
+          "snapshot_path": "sources/b6cc3e986b0a0c8801467f70836538b244c1d9acf979a62a2c9488212207edbc.txt",
+          "outcome": "正文可读，描述 meetTeams/meetEvents、registration references、results、heats、公开排行榜与 PDF 的迁移和验证"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://raw.githubusercontent.com/TonyRoyze/aegir/main/convex/schema.ts",
+          "kind": "documentation",
+          "http_status": 200,
+          "snapshot_path": "sources/7bfa17e31c1625076b6b2c46ea9e8889f8e13501f947c331aeda7d222111aef0.txt",
+          "outcome": "正文可读，含 meets、meetTeams、meetEvents、registrations、results、heatAssignments 表定义"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://www.swimtopia.com/platform/meet",
+          "kind": "homepage",
+          "http_status": 403,
+          "snapshot_path": null,
+          "outcome": "Cloudflare challenge，未取得正文；未作为案例"
+        },
+        {
+          "phase": "current_round",
+          "url": "https://www.swimtopia.com/meet-maestro-meet-management/",
+          "kind": "documentation",
+          "http_status": 403,
+          "snapshot_path": null,
+          "outcome": "Cloudflare challenge，未取得正文；未作为案例"
+        }
+      ],
+      "archived": false,
+      "withheld_candidates": [
+        {
+          "id": "github:534519069",
+          "name": "SwimClubMeet (SCM)",
+          "reason": "历史来源真实且证明完整的桌面比赛管理流程，但形态是 Windows 桌面客户端 + 本地 SQL Server Express，不是本轮可确认的 Web 应用服务；初审的服务形态问题成立，故不保留为本叶成立关系。未运行安装，未推断产品不存在。",
+          "source_urls": [
+            "https://api.github.com/repos/Artanemus/SCM_SwimClubMeet-R",
+            "https://api.github.com/repos/Artanemus/SCM_SwimClubMeet-R/license",
+            "https://raw.githubusercontent.com/Artanemus/SCM_SwimClubMeet-R/main/README.md"
+          ]
+        }
+      ],
+      "excluded_candidates": [
+        {
+          "name": "Halcyon",
+          "reason": "README 明确声明为课程项目、完全假设性且不面向生产，不能证明可持续应用服务；未纳入。"
+        },
+        {
+          "name": "swimmeet-manager（mandresjacome）",
+          "reason": "纯静态 HTML/JS，数据仅存浏览器 localStorage，无后端或服务端形态；未纳入。"
+        },
+        {
+          "name": "SynchroScore",
+          "reason": "Java 桌面 GUI 应用，非 Web 应用服务；未纳入。"
+        },
+        {
+          "name": "SportsAdmin（ruddj）",
+          "reason": "Microsoft Access 桌面数据库，非 Web 应用服务；未纳入。"
+        },
+        {
+          "name": "SwimTopia Meet / Meet Maestro",
+          "reason": "官方页面表明是商业游泳比赛管理 SaaS，但两次抓取均被 Cloudflare 403 拦截，未取得可留档正文；商业仅基本记录也未强行补造来源。"
+        },
+        {
+          "name": "OpenTrack Competition Management",
+          "reason": "商业/托管比赛管理平台，官方页面描述核心流程；本轮未取得可保存的官方正文快照，故未纳入，也不据此断言开源或不存在。"
+        }
+      ]
+    }
+  ]
+}

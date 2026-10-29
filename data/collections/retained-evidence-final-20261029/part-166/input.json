@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "research-animal-facility-management",
+        "name_zh": "实验动物设施管理系统 (AFMS)",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source research animal facility management vivarium github"
+          },
+          {
+            "record": "retained-continuation-20261027/part-219/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source research animal facility management vivarium github"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/105",
+            "result": "insufficient_evidence",
+            "note": "复用旧草稿 MyVivarium（github:741235791，LGPL-3.0），补抓官方 database/schema.sql 复核初审缺口。schema 有 mice（mouse_id、genotype）、cages（cage_id、pi_name、quantity）、holding/breeding（dob、sex、male_id/female_id）、litters（pups_alive、pups_dead、litter_dob）以及 cage_iacuc 关联，可支持个体标识、笼级归属、出生与存活幼仔计数、IACUC 文件与笼的关联；但没有房间/笼架层级及容量/占用模型，没有到达/断奶/移动/死亡/转出等生命事件记录（无法按日期计算在栏数），iacuc 表仅存编号/标题/文件，无 approved/used/remaining 使用量核算。初审要求的四结构仍不完整，故撤销该叶 AFMS 案例关系，保留候选与证据缺口。补充检索另见 JCMS（README 声明 GPLv3，但 GitHub 许可证元数据无 SPDX 标识并声明停止开发）、BioManager（MIT，官网展示笼架/笼位与普查，但已读页面未展示 IACUC 方案用量）等候选；Vivocare 官网抓取 SSL 失败。均未达到四结构，不作案例。未运行项目。",
+            "query": "open source research animal facility management vivarium github"
+          }
+        ],
+        "archived": false,
+        "note": "复用旧草稿 MyVivarium（github:741235791，LGPL-3.0），补抓官方 database/schema.sql 复核初审缺口。schema 有 mice（mouse_id、genotype）、cages（cage_id、pi_name、quantity）、holding/breeding（dob、sex、male_id/female_id）、litters（pups_alive、pups_dead、litter_dob）以及 cage_iacuc 关联，可支持个体标识、笼级归属、出生与存活幼仔计数、IACUC 文件与笼的关联；但没有房间/笼架层级及容量/占用模型，没有到达/断奶/移动/死亡/转出等生命事件记录（无法按日期计算在栏数），iacuc 表仅存编号/标题/文件，无 approved/used/remaining 使用量核算。初审要求的四结构仍不完整，故撤销该叶 AFMS 案例关系，保留候选与证据缺口。补充检索另见 JCMS（README 声明 GPLv3，但 GitHub 许可证元数据无 SPDX 标识并声明停止开发）、BioManager（MIT，官网展示笼架/笼位与普查，但已读页面未展示 IACUC 方案用量）等候选；Vivocare 官网抓取 SSL 失败。均未达到四结构，不作案例。未运行项目。"
+      },
+      "definition": {
+        "slug": "research-animal-facility-management",
+        "name": "Research Animal Facility Management",
+        "name_zh": "实验动物设施管理系统 (AFMS)",
+        "aliases_zh": [
+          "实验动物管理系统",
+          "动物设施管理软件"
+        ],
+        "overview": "A **Research Animal Facility Management** application is the operational system of record for a facility that keeps laboratory animals for research — the vivarium and the colonies it hosts. Its job is to answer, at any moment and for any animal: *what is it* (species, strain or line, genotype), *where is it* (room, rack, cage or tank), *under which approved protocol does it live and get used*, *what has happened to it* (breeding, health, procedures, movements), and *what does keeping it cost*. It replaces paper cage cards, census books, breeding logs, and per-diem ledgers with a governed animal population that is continuously current.\n\nThe defining core is small:\n\n```text\nIdentified animals in the facility's care\n└── Housing locations with tracked occupancy (rooms / racks / cages / tanks)\n    └── Census-and-disposition loop\n        (arrive → house → move / breed / treat → use → disposition)\n        └── Research-use linkage\n            (animals held and used under approved protocols, with usage tracked)\n```\n\nEverything else commonly associated with this software — breeding and colony machinery, genotyping, cage-card printing, per-diem billing, health records, ordering, regulatory statistical reports — is standard capability that mature products add to make the facility operable. The same core also describes the lighter lab-level \"colony management\" tools used by individual research groups, which run the core with a smaller subset of that machinery.",
+        "overview_zh": "一个**研究动物设施管理**应用程序是用于饲养实验动物的研究设施——即动物房及其所容纳的动物群体——的运营记录系统。其工作是随时为任何动物回答：*它是什么*（物种、品系或品系线、基因型）、*它在哪里*（房间、笼架、笼具或水箱）、*它依据哪项获批方案生活和被使用*、*它经历了什么*（繁殖、健康、操作、移动）以及*饲养它的成本是多少*。它用一套受管控、持续更新的动物种群，取代了纸质的笼卡、普查记录本、繁殖日志和按日计费簿册。\n\n其定义性核心很小：\n\n```text\n设施照料下已识别的动物\n└── 带有跟踪占用情况的位置（房间 / 笼架 / 笼具 / 水箱）\n    └── 种群普查与处置循环\n        （到达 → 入住 → 移动 / 繁殖 / 处理 → 使用 → 处置）\n        └── 研究使用关联\n            （动物根据获批方案被饲养和使用，使用情况被跟踪）\n```\n\n与此软件通常关联的所有其他功能——繁殖和群体管理机制、基因分型、笼卡打印、按日计费、健康记录、订购、法规统计报告——都是成熟产品为使设施可运行而添加的标准功能。同样的核心也描述了单个研究团队使用的较轻量级的实验室级“群体管理”工具，它们使用核心功能，但仅运用上述机制中较小的一部分子集。",
+        "dc": "Four structures. Remove any one and the product stops being recognizable as this Type:\n\n- **The animal as the managed unit of care.** The central object is the individually identified animal (or colony unit) held in the facility's custody. It carries species, strain or line identity, genotype where relevant, ownership (the investigator or group responsible for it), and a life-stage state that advances with events — newborn, weaned, adult, in-breeding, ended. Exact state vocabularies vary by product; the pattern of an automatically advancing life-stage state is common.\n- **Housing location with tracked occupancy.** The facility's physical housing is modeled as a structure — rooms, racks, cages for terrestrial facilities; racks and tanks for aquatic ones — with capacities and occupancy. Every animal's current location is recorded, and the recorded location is expected to match physical reality. Facility-oriented products render this estate graphically (rack and tank displays with occupancy).\n- **The census-and-disposition loop.** The population is kept current through recorded life events: animals arrive (born into the colony, ordered from a vendor and received, transferred in), move between locations, breed, receive health events and procedures, and leave custody (euthanasia, transfer out, export, death). Because every event is recorded, counts — how many animals are alive on a given day, how many cages are active, how many were born, weaned, or ended — are computable for any date. This census is the facility's operating picture and the basis of its billing and reporting.\n- **Research-use linkage.** Animals are held and used under a governing research authorization — an approved animal-use protocol or study. The system tracks which animals belong to which protocol (assignment to animals or, in some products, to whole cages), and keeps usage accounts against the approved numbers: how many animals were approved, how many used, how many remain, with amendments raising the approved count. In some regimes the authorization is the regulated project license; in others the institutional protocol; in preclinical settings, the study. The common structure is that holding and using animals traces to a tracked authorization.",
+        "dc_zh": "四个核心结构，移除任一则产品不再被识别为此类：\n1.  **动物作为被管理的护理单元**。核心对象是设施内托管的个体识别动物（或群居单位）。它携带物种、品系或品系标识、相关时的基因型、所有权（负责的研究员或团体），以及随事件推进的生命阶段状态——新生、断奶、成年、繁殖中、终止。具体状态术语因产品而异；自动推进生命阶段状态的模式是通用的。\n2.  **带有占用跟踪的住房位置**。设施的物理住房被建模为一个结构——陆生设施的房间、架子、笼子；水生设施的架子和水箱——具有容量和占用情况。每只动物的当前位置都被记录，且记录的位置应与物理实际相符。面向设施的产品以图形方式（显示占用情况的架子和水箱显示）呈现此资产。\n3.  **普查与处置循环**。通过记录的生命事件保持种群数量的时效性：动物抵达（出生于种群、从供应商订购并接收、转入）、在位置间移动、繁殖、接受健康事件和程序，并离开托管（安乐死、转出、出口、死亡）。由于每个事件都被记录，计数——在任何给定时间有多少只动物存活——是持续和准确的。\n4.  **合规性与报告的基础**。所有记录的个体动物身份和事件历史是动物使用监管（如机构动物护理和使用委员会审查、兽医护理计划）、机构内审计以及关于动物种群和使用情况报告的基石。系统必须支持此报告义务。",
+        "rules": "- **Life-stage states advance with events.** An animal's state (newborn → weaned → adult → in-breeding → ended) changes automatically as husbandry events are recorded; only animals past weaning can enter breeding. Exact vocabularies and age thresholds are configurable and vary by product.\n- **Protocol usage is accounted, not assumed.** The system keeps a running account of animals used against the number approved on each protocol, with amendments recorded when the approved count changes. Whether over-assignment is blocked or merely surfaced varies by product; the accounting itself is the common structure.\n- **Location fidelity is the core discipline.** The recorded cage must match the physical cage; cage cards and scans exist to reconcile the two, and movements are recorded events.\n- **Ownership gates visibility.** Animals belong to owners (investigators or groups); other users see an owner's data only through granted permissions, and transfers of animals move ownership explicitly. Facilities shared between organizations run under separated authorization contexts.\n- **Capacity and density guard welfare.** Cage capacities and housing-density limits are modeled so overcrowding is surfaced or prevented; exact limits follow each facility's standards.\n- **Every change is attributed.** Because the record is the facility's compliance evidence, changes carry user and timestamp in an audit trail.\n- **Disposition is terminal but correctable.** Ending an animal or cage closes its custody; some products allow reversing an ended state to fix errors, with the correction itself recorded.\n- **Due dates drive the daily rhythm.** Weaning, plug checks, and breeder replacement generate alerts; missed husbandry events carry welfare and cost consequences (overdue weaning and extra cages are commonly cited cost drivers).",
+        "rules_zh": "- **生命阶段状态随事件推进。** 动物的状态（新生 → 已断奶 → 成年 → 繁殖中 → 已结束）随着日常管理事件的记录而自动变化；只有断奶后的动物才能进入繁殖。确切的术语和年龄阈值是可配置的，并因产品而异。\n- **方案使用是被核算的，而非被假定的。** 系统对实际使用的动物数量与各方案批准的数量进行实时核算，并在批准数量变更时记录修正案。是否阻止超额分配或仅将其显示出来因产品而异；核算本身是共同结构。\n- **位置保真度是核心准则。** 记录的笼具必须与实际笼具匹配；笼卡和扫描的存在是为了协调两者，移动是被记录的事件。\n- **所有权决定可见性。** 动物归属于所有者（研究者或团队）；其他用户只有通过授予的权限才能看到所有者的数据，动物转移会明确变更所有权。在组织间共享的设施在分离的授权上下文中运行。\n- **容量和密度守护福利。** 笼具容量和饲养密度限制被建模，以便发现或防止过度拥挤；具体限制遵循每个设施的标准。\n- **每项变更都被归因。** 因为记录是设施的合规证据，变更会携带用户和时间戳出现在审计跟踪中。\n- **处置是最终的但可纠正的。** 结束一只动物或笼具会关闭其监管状态；有些产品允许逆转已结束状态以修正错误，修正本身会被记录。\n- **到期日驱动日常节奏。** 断奶、交配检查和种公替换会产生警报；错过的日常管理事件会带来福利和成本后果（逾期断奶和额外笼具",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 166,
+    "phase": "directory",
+    "parent": 166,
+    "slugs": [
+      "research-animal-facility-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "911cc5c2b3aba1c30631d7c9b37f8cf2332eb84c7751b80d8158b230d6556524"
+  }
+}

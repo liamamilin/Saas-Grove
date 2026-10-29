@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "seed-production-management",
+      "application_id": "commercial:primetics-generation",
+      "issue": "该叶唯一来源快照 data/collections/sources/78a12589081c5814fde7fc0d05a5beae3055b2c0f3513f98d1a9d66256938a14.txt 只有页头/导航、H1“Generation Seed Management Software”、一句“seed business software”宣传语、“Benefits…”标题及博客标签；正文在 section 4 的图片锚点处中断并直接跳到 section 6/footer。快照中没有 batch.json 与 research.json 所述的 contract seed production、stock seed、field history/field inspection、sub lot/bin tracking、receipting/grower voucher、conditioning、lot traceability 等核心工作流正文。因而该叶的定义性核心与类型匹配实际只由简介/元数据支撑，不能视为已核实的种子生产案例；research.json 中“官方产品页正文明确覆盖……”的记载也与快照不符。",
+      "fix": "重新抓取 primeticsseed.com/generation/ 的完整正文，确认 section 4-5 未因 LiteSpeed/懒加载或抓取截断而丢失；或改引官方 Seed Production Management 页面、产品手册等包含合同生产、品种/批次身份、田间检查、接收、加工和批次追溯正文的来源。若无法取得，应删除这些未被快照支持的具体断言，将该叶改为如实记录“无可用案例/证据缺口”，并同步下调 verification_status，不能保留 official_sources_reviewed。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Croptracker 同时匹配 harvest-management 与 orchard-management 可以接受：两条 leaf_matches 分别指向收获作业记录/库存/交接与果园持久区块/周期作业/采收归集，来源页也不同，未发现 ID 或类型混用。",
+    "orchard-management 快照可核实喷雾记录及再入/采收间隔、修剪/疏果/割草等到 row 的生产实践、按 block 与 picker 关联的采收产量和季节表现；但未直接展示逐年绩效历史或树级完成状态，research.json 已如实不写这些细节，后续也不应在无新来源时补写。",
+    "nursery-management 快照可核实 plant batch、位置/规格/品种/质量/可用量、ATS、当前与未来可用量、生产与空间计划、移动操作及销售发货；批次拆分/合并、损耗事件和完整生长阶段流转未在页面出现，现有留档已回避，属可接受缺口。",
+    "nutrient-management 的公开实例 https://nmp.apps.nrs.gov.bc.ca/ 在 research.json 有抓取记录但未存快照；核心结论由仓库元数据、完整 Apache-2.0 LICENSE 与三份 BC 官方文档支撑，暂不影响通过，但若后续引用仅存在于该实例的行为，应补快照。",
+    "BC 计算器介绍页只单列“不支持 berry crops”，Support 页则明确不支持 tree fruit、wine grapes、nuts、berry crops；service_boundary 采用较宽的 Support 页口径是合理的，建议保持这一口径以免下游误用。",
+    "input.json 中各叶 application_ids 仍为空且 case_status 为 review_pending，而 batch.json/research.json 已挂案例；这是阶段元数据未同步，不影响本次内容判断，但批准后应由调用方同步叶级关联。",
+    "Croptracker 的 Harvest 页面偏营销/博客体，但含工作流表和具体模块正文（harvest events、bin tag、receipt/storage、estimates 等），可作为商业产品基本真实性与类型匹配依据；价格与部署未核实不影响本次结论。"
+  ],
+  "leaf_checks": {
+    "harvest-management": {
+      "status": "pass",
+      "basis": "读取 sources/5753c08cbe3990491aeacb5b57ea9748db7dce630c4612f8df03a56a99e94a19.txt 正文：以 harvest events 记录采摘，按 block/variety/row 实时汇总产量，bin tag（预印、现场打印、班末批量）转为关联 block/picker 的数字库存，lot code 贯穿 receiving/storage/shipping 与 dock handoff，Harvest Estimates 支持预期与实际对比；商业身份 commercial:croptracker 与页面一致，且页面含按用户/月计价的 SaaS 形态。",
+      "gaps": "页面未单独展示 season campaign 关账模块；research.json 已如实说明并只保留页面直接支持的记录、库存和交接断言。"
+    },
+    "nursery-management": {
+      "status": "pass",
+      "basis": "读取 sources/52c47116527c912bfeb7f46e92db19721d13fd282cd55caf07ffe355e40c9e1f.txt 正文：官方苗圃页明确 crop and batch management、Available-to-sell (ATS) inventory、production and space planning、mobile operations、integrated sales and shipping，并说明可按批次管理 locations/sizes/varieties/qualities/availability、提供当前与未来可用量；商业身份 commercial:mprise-agriware-nursery 与页面一致。",
+      "gaps": "批次拆分/合并、损耗事件及完整 propagation→growing→sale-ready 阶段流转未在页面正文出现；research.json 已如实不写，属可接受缺口。"
+    },
+    "nutrient-management": {
+      "status": "pass",
+      "basis": "读取 sources/c8b35cd34d293f6fccbfe50bf1a5888ee8908eef9d69e77b126de35f0b1ddef1.txt、sources/611dbad735631a7f7cf7c6d601cfcec7a1c541ef69bbb377c2dbcba7b9a846e6.txt、sources/9efa281529b20c652d147a5f0f35401a8282986af36b030785fa4aee7cd78392.txt：官方文档说明按田块输入 location/crop/soil test 计算作物养分需求，使用 nutrient balances 与 nutrient application tools 按来源及预期可用性确定施用速率，NAP 含 rate/timing/source/method 与 Field Summary 报告；Support 页补充 .nmp 保存/加载、自定义作物/投入及不支持作物范围。仓库 sources/35f2b980bb13d4b7820c0b7d96b2618d29bbae9fbd3031ad88f949770430e1e0.txt 显示 GitHub ID 97992523、full_name bcgov/agri-nmp、public 且非 fork；sources/3e734abb62df5f528be2bec09af11f5e088a11c5861457b8f4dcd0d3dfbfd338.txt 与 sources/b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1.txt 为完整 Apache License 2.0 文本，README 亦载 Apache-2.0 声明；.NET Core 7 + PostgreSQL 自托管说明与 batch 的 deployment/technology_stack 一致，未发现社区版/企业版功能边界争议。",
+      "gaps": "未操作计算器，未核实多年轮作、法规报告模板和顾问多客户权限；公开实例无快照，nmp.apps.nrs.gov.bc.ca 仅见 research.json 抓取记录。"
+    },
+    "orchard-management": {
+      "status": "pass",
+      "basis": "读取 sources/4cee217818b9441d74818c95906ca892e1a30947a2283acfe0bdd7002f4c6e81.txt 正文：官方果园页覆盖 spray record keeping（化学品/肥料施用、再入与采收前间隔）、harvest yield records（按 location/picker 关联库存、按季节与 block/commodity 看表现）、production practice tracking（pruning、mowing、thinning 等，可记到 row）、field mapping/replant 与 labor 记录，具备持久区块资产、多年周期养护作业和收获归集三条核心；商业身份 commercial:croptracker 与页面一致。",
+      "gaps": "未直接核实逐年绩效历史、树级完成状态和跨年报表；research.json 已明确不写这些细节，属可接受缺口。"
+    },
+    "seed-production-management": {
+      "status": "changes_required",
+      "basis": "读取 sources/78a12589081c5814fde7fc0d05a5beae3055b2c0f3513f98d1a9d66256938a14.txt：仅见 H1“Generation Seed Management Software”、seed business software 宣传语、“Benefits of Generation…”标题、导航中的 Seed Production Management 链接及 field-inspection-app/inventory-app 等博客标签；正文在 section 4 中断，未出现 batch.json/research.json 所述的合同生产、stock seed、田间历史/检查、sub lot/bin、receipting、grower voucher、conditioning、lot traceability 等核心内容。无其他来源可补证。",
+      "gaps": "核心正文缺失且快照疑似截断；需重抓完整页面或改引能支撑种子批次身份、扩繁/合同生产、质量检验与追溯的来源，否则该叶应改为无案例/证据缺口留档。"
+    }
+  },
+  "limits": "本次为只读独立初审：仅读取本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 列出的 10 个快照（均按 path 原样读取）；未运行 shell、未写文件、未抓取实时网页、未运行任何产品，也未读取采集者 TASK.md、历史过程脚本或其他单元。商业产品仅核对官方页面基本真实性、身份/类型与核心匹配，未研究价格、部署架构、客户规模和实施细节。primeticsseed.com/generation/ 快照正文疑似截断，无法判断是抓取遗漏还是页面本身懒加载，故该叶按快照可见证据判定。BC 公开实例 nmp.apps.nrs.gov.bc.ca 无快照，未核对其与仓库 master 的版本一致性；未操作计算器。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-016/ses_groveopencodegop016review1_1793075968.jsonl",
+  "batch_sha256": "d3c7f5323683ab0492f0078ee2ffbdd7b769268048c0f1f062ddca00be1da0ad",
+  "research_sha256": "2e3ec138e74d6c695bb5db7a69773e3b37c8407417d1f24ef80ae3e11724f068",
+  "input_sha256": "ea2a3e565f5c5e445a73924ff2fa928693db80970eea366ccda06f0ad80d7d2a"
+}

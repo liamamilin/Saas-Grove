@@ -1,0 +1,66 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "批次摘要写“操作面板可浏览历史运行与报告”，但 Features 文档说明测试历史默认关闭，且 CouchDB 默认只保留当前报告，历史留存需在 conftest.py 中配置 CouchdbLoader 等适配器。建议把摘要改为“可配置启用历史/报告留存”，避免被理解为开箱即用的完整历史归档。"
+    },
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "Features 快照中 test_history 段落存在自相矛盾：文字称“默认禁用”，示例却写 test_history = true。该快照不足以判定实际默认值，条目不宜依赖“默认开启”的表述；建议在后续采集时补充配置文档或源代码证据。"
+    },
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "HardPy 的仓库自述为“用于创建设备测试台的 Python 库”，其应用属性依赖随包提供的本地服务端、浏览器操作面板和 runstore。当前 service_boundary 已说明这一点，建议继续保持，避免把它描述成完整的测试用例/计划生命周期管理套件。"
+    },
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "“多套测试计划配置”在来源中是通过多个 pytest.ini 配置并在 hardpy.toml 中引用来实现，属于同一项目下的测试配置变体，而非独立的计划实体、周期或覆盖率管理。现有措辞可接受，但不宜进一步引申为计划进度/覆盖矩阵能力。"
+    },
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "核心定义要求运行记录绑定到具体测试项（单元、原型、构建或配置）。快照能证明按测试台执行、支持 device_id 等启动参数并记录测量/附件，但未明确展示 runstore 中测试项/单元字段。作为文档级初审不阻断，后续补充 runstore schema 或示例报告会更完整。"
+    },
+    {
+      "slug": "product-test-management",
+      "application_id": "github:771468183",
+      "note": "input.json 的 progress 仍为 case_status=incomplete、application_ids 为空，而 research.json 与 batch.json 已给出 case_found 和 github:771468183。此为上游进度记录与最终产物之间的簿记不一致，不影响本单元条目内容；建议调用方在合并时同步状态。"
+    }
+  ],
+  "leaf_checks": {
+    "product-test-management": {
+      "application_ids": [
+        "github:771468183"
+      ],
+      "definition_core": "通过。README 与 Features 文档显示：pytest 测试函数/模块构成持久、具名的测试定义，操作面板按 test folder/test file/function 层级展示；断言/测试逻辑构成验收基础；hardpy run/start/stop 针对测试台执行并产生 PASS/FAIL/STOP 判定、失败用例详情与测量值；setup/main/teardown 分组、多套测试计划配置、状态查询及测试历史/报告构成受管测试工作。未主张需求覆盖矩阵、电子签名或缺陷闭环，符合定义性核心的最小三结构。",
+      "service_form": "通过。交付形态为可自托管的测试执行与记录应用：本地 hardpy run 服务端、浏览器操作面板、CouchDB 或本地 JSON runstore，可连续用于设备测试台运行与结果留存；不是纯 SDK、设备驱动或一次性工具。StandCloud 为可选外部分析服务，不是运行依赖。",
+      "identity_track": "通过。仓库元数据快照确认 id=771468183、full_name=everypinio/hardpy、非 fork、archived=false；批次 id 为 github:771468183，track=open_source，与公开 GPL-3.0 仓库身份一致。",
+      "license": "通过。GitHub license API 快照返回 spdx_id=GPL-3.0，LICENSE 内容为 35149 字节的 GNU GPL v3 完整文本，许可证类型与批次标注一致。",
+      "community_boundary": "通过。仓库整体以 GPL-3.0 发布，未发现开放核心之外的功能门控；StandCloud 是独立可选的结果存储/分析服务，不构成对核心测试执行与记录功能的社区版限制。",
+      "evidence": [
+        "https://api.github.com/repos/everypinio/hardpy (sha256 78af52a2bc48627ac17750f5ca0528a42e47a0035e824eec0860758630f8b5a1)",
+        "https://api.github.com/repos/everypinio/hardpy/license (sha256 4b87be2e8a208a7ef7d5f7eadfe3ac7f58973876a53964078438489620b0ee81)",
+        "https://raw.githubusercontent.com/everypinio/hardpy/main/README.md (sha256 d9c649b4652b08a29274051db8f0ae941bf7409787819f6ab2bb4a7b87e8545f)",
+        "https://everypinio.github.io/hardpy/features/features/ (sha256 6bfc7880cdf6005bb5b0e17f865de26274066724a0cc093f3f19b4b00f6343f1)"
+      ],
+      "gaps": [
+        "未部署或运行 HardPy，runtime_tested=false；结论基于官方文档与仓库元数据。",
+        "未直接读取 runstore schema 或示例报告，运行记录中具体测试项/单元字段的绑定强度仅有文档级间接证据。",
+        "测试历史默认值在 Features 快照中表述矛盾，未以源代码或配置文档进一步确认。"
+      ],
+      "result": "pass"
+    }
+  },
+  "limits": "本次仅只读审查本单元 part-008 的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 所列 4 个快照；未运行 shell、未写文件、未访问其他单元。仓库元数据与许可证为单行 JSON，部分字段通过定向检索确认；Features 页面为渲染后的 HTML 快照，未执行页面脚本。未部署 HardPy、未运行测试、未做额外外部检索，因此对运行时行为、默认配置和 runstore 具体字段的判断限于已读文档证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-008/ses_groveopencodegop008review1_1793091155.jsonl",
+  "batch_sha256": "4b2adf81181f335a8fef1018dff8ca78470654b985d60eadb8263dd18debfc71",
+  "research_sha256": "99710d8d4118f14ba75474408275f08afa9aacc9f8bb4126216957da47f71716",
+  "input_sha256": "0233fe5a8148aad93b4f1b8d024389732fd105b9dca7dffcd8abe62890603c47"
+}

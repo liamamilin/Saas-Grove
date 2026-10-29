@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "ONLYOFFICE 两个电子表格叶子的 leaf_matches 中，“可在房间创建/编辑表格”与“评论”的子结论最好直接引用 data/collections/sources/3d80561fa7a7eb4d125c0b16d9e47b8346235c0305b9f2a3ee549e540531df59.txt（managing documents）；当前 source_urls 仅列安装页和表格设置页。该快照已在 batch/research 中，正文支持该结论，故不阻断。",
+    "ONLYOFFICE deployment 提到 Linux 安装方式，但本单元仅有 Windows 与 Docker 安装快照；建议补充 Linux 官方来源或收窄措辞。",
+    "ONLYOFFICE 的 document_editor 字体、页面设置、保存打印来源与两个 spreadsheet 叶的核心无关，建议只作为通用产品能力，不用于电子表格核心证据。",
+    "Grist 的 leaf_matches 同时引用 getgrist.com 商业首页；社区版边界应以 grist-core README 及其“Features not in grist-core”说明为准，首页仅作产品背景。",
+    "Grist README 对“多视图”的表述主要是 card views、widgets、duplicate widgets 与 filter bar，未逐项展开命名视图及独立排序/筛选；补官方 view 文档可增强证据，但不阻断。",
+    "input.json 的 progress 仍显示 case_status=not_searched、application_ids=[]、research_records=[]，与 batch/research 的 case_found 不一致；交付前建议同步，避免下游误读。",
+    "SilverBullet 的 docs.silverbullet.md 快照是前端应用壳，核心判断应以 README 的 Markdown 页面、wiki 式双向链接与导航说明为准；docs 快照不宜单独作为核心正文证据。"
+  ],
+  "leaf_checks": {
+    "personal-knowledge-management-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:459944886"
+      ],
+      "basis": "SilverBullet README 正文说明以 Markdown Pages（Space）为持久笔记单元，使用 wiki 式双向链接组织页面，可通过 Page Picker 或 Links 导航，并提供查询/数据库能力；这覆盖知识笔记、用户构建的链接网络与可导航/可检视网络三项核心。仓库元数据 id=459944886、名称 silverbulletmd/silverbullet 与条目一致；MIT 许可证 API 快照含完整 MIT 文本；产品为自托管浏览器服务，满足持续服务形态。",
+      "gaps": "research 的搜索记录为 legacy/unverified，但已如实说明本轮未重跑搜索；docs.silverbullet.md 快照为前端应用壳，未作为核心证据。"
+    },
+    "visual-note-taking-application": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:heptabase"
+      ],
+      "basis": "Heptabase 官方首页将产品定位为 visual knowledge base，并展示 whiteboards/cards、离线访问与可选实时协作；官方支持页正文说明可列出、读取、创建并放置 note cards、journals、PDF、image、video、audio、web cards 到 whiteboard，且 whiteboard 有层级结构。这覆盖持久二维画板、用户创作内容片段自由放置、空间排列组织与个人知识库姿态四项核心；商业条目类型匹配且产品真实。",
+      "gaps": "首页与帮助页快照是单行 Next.js HTML，只读工具按 2000 字符截断；核心判断结合同 URL 的公开页面正文补充核对，未对快照做逐字节全文比对，也未核验价格/版本细节。"
+    },
+    "collaborative-spreadsheet": {
+      "status": "pass",
+      "application_ids": [
+        "github:186647301"
+      ],
+      "basis": "ONLYOFFICE DocSpace README 说明 collaboration rooms 可邀请用户实时共同创作和编辑文档，public rooms 提供只读链接，custom rooms 可配置评论/审阅等权限；Spreadsheet Editor 的 AdvancedSettings 正文说明 Fast 协作模式默认让共同编辑者实时看到彼此改动，并提及评论；InsertFunction 正文说明单元格/区域引用、函数参数与自动重算；managing documents 正文说明可在房间创建新 spreadsheet、管理工作簿版本并按角色控制访问。共享持久工作簿、表格语法、多人访问与合并为同一当前版本四项核心均有正文依据。仓库 id=186647301、AGPL-3.0 完整许可证与 Community 安装说明一致。",
+      "gaps": "leaf_matches 的 source_urls 未列 managing documents 快照；Docker 社区版被官方限定为开发/测试用途，批次 deployment 已如实记录，未将其误称为生产部署。"
+    },
+    "spreadsheet-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:186647301"
+      ],
+      "basis": "ONLYOFFICE Spreadsheet Editor 的 AdvancedSettings 正文明确 A1/R1C1 单元格地址、公式栏左侧地址显示及相对引用；InsertFunction 正文说明单元格/区域引用可作为函数参数，默认在数据或参数变化时自动重算，并可用 Calculation 或 F9 强制重算。结合 DocSpace README 的 Spreadsheet Editor 集成与房间内 spreadsheet 文件管理，可寻址网格、公式引用和依赖重算三项核心成立；AGPL-3.0 许可证完整。",
+      "gaps": "leaf_matches 的 source_urls 未列 managing documents 快照来直接支撑“创建/编辑 spreadsheet”；文档编辑器字体/页面/打印来源与本叶核心无关。"
+    },
+    "structured-table-lightweight-database-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:266033395"
+      ],
+      "basis": "Grist grist-core README 正文说明列像数据库列一样有名称并只持有一种数据类型，支持公式列、引用/双向引用、附件、choice lists、records、card views/calendar widgets、summary tables、filter bar，并可复制 widget 形成同一记录集的不同视图；同时明确 grist-core 即 Community edition，且列出 full edition 中不在 grist-core 的功能。用户定义表、命名类型化字段、记录与多视图四项核心有正文依据；Apache-2.0 许可证完整，社区版边界明确。",
+      "gaps": "README 未逐项说明“命名视图 + 独立排序/筛选”的实现细节；多视图证据主要来自 card views/widgets/filter bar，未补官方 view 文档，但不阻断。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或登录产品；未核验价格、性能、架构或实际并发协作。未重新计算快照 sha256，仅核对 REVIEW_SOURCES.json 与 batch.json 中的路径和哈希值一致。部分 HTML 快照为单行 Next.js/HTML，只读工具按 2000 字符截断（Heptabase 首页/帮助页、ONLYOFFICE 帮助页），核心判断结合同 URL 的公开页面正文补充核对；SilverBullet docs 快照为前端应用壳，未作为核心正文。商业条目仅按基本真实性与类型匹配核对，未做深度功能验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-010/ses_groveopencodegop010review1_1792938626.jsonl",
+  "batch_sha256": "bb8b1cea8a66c2430968711b661db598995643925b2c6acfa1c86b0e830c5afa",
+  "research_sha256": "3505484cdc563b0ddab531ab252d03b36991069e7298c193aee9bcd6e5568500",
+  "input_sha256": "01e2306587831d0765c444d67890f06e06cf42e39f3cfe3c708433f06ccbac1a"
+}

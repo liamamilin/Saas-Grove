@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "nonprofit-management-platform：CiviCRM 的 homepage 在 batch 中为 civicrm.com，而 README 与社区站使用 civicrm.org；两者均为官方域名，建议统一 canonical homepage，ID 无需变更。",
+    "nonprofit-management-platform：CiviCRM 条目没有像 GiveWP 那样的 license_review 对象；AGPLv3 全文已在 LICENSE 快照中，建议补一条 license_review 以保持结构一致。",
+    "nonprofit-management-platform：CiviCRM 的 membership 支持仅在 contact/events 页被交叉提及，缺少独立 membership 功能页快照；不影响平台跨度结论，但补快照更利于复核。",
+    "online-donation-platform：GiveWP README 徽章仍标 GPL-2.0+ 且指向另一仓库，LICENSE API 与 readme.txt 均为 GPLv3；batch 已记录差异，建议保留该说明。",
+    "online-donation-platform：GiveWP readme 称 donation forms 与 campaigns 关联；「常设捐赠入口」由 single form page/shortcode 文本支撑，未做运行时验证，措辞不宜扩展到 settlement/payout 细节。",
+    "peer-to-peer-fundraising-platform：CiviCRM PCP 用户指南明确不支持 team management；batch 已避免团队断言，后续不要补写团队层级。",
+    "input.json 顶层 phase 仍标 included_without_cases，且 progress.application_ids 为空；batch/research 已有 CiviCRM/GiveWP 关系。若下游以 input 元数据判断收录，建议同步；本次按 batch/research 内容审查。"
+  ],
+  "leaf_checks": {
+    "nonprofit-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "CiviCRM 官方 contact/contribution/events/case 功能页正文与 README：contact 页说明 one record 及交易自动写入 contact record；events 页说明 event data 与 donor database 集成并列出 membership management；contribution 页说明 donation、membership、event fees 集中管理；case 页说明与 Contacts/Activities 集成。README 说明 standalone PHP app 及 Backdrop/Drupal/Joomla/WordPress 模块形态。仓库 id 8495499 与 API 元数据一致；LICENSE 快照为完整 AGPLv3 文本。",
+      "gap": "无阻断缺口；缺少独立 membership/volunteer 功能页快照，平台跨度由多页交叉支撑。"
+    },
+    "nonprofit-program-management": {
+      "result": "pass_with_documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记录了 GitHub-only 检索及候选核对。TolaData/TolaActivity 的 README 只显示 program performance、periodic indicator targets、IPTT 与 Results Framework，未显示持久 program record 下的 planned delivery 及按计划归因的 delivery records；TolaActivity 元数据无 license，Mercy Corps 仓库虽为 Apache-2.0 但已停止公开维护。因此未建立关系，留档边界未决。",
+      "gap": "无合格案例；检索仅覆盖 GitHub 公开仓库，未覆盖商业 SaaS；边界判断基于 README，未审阅完整代码与文档。"
+    },
+    "online-donation-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499",
+        "github:31054058"
+      ],
+      "basis": "CiviCRM contribution 页正文说明可创建定制 donation pages、支持 one-time/recurring、配置 payment processors、生成收据与报告并集中管理 donation/membership/event fees；GiveWP readme.txt 正文说明可创建定制 donation forms、捐赠层级与自定义金额、通过 block/shortcode/widget/single form page 展示、免费核心支持 Stripe/PayPal、查看捐赠者数据与报告并按日期/表单/支付方式筛选导出、生成 tax-deductible receipts；recurring、PDF receipts、P2P 等列为 premium add-ons。CiviCRM LICENSE 为完整 AGPLv3，GiveWP LICENSE 为完整 GPLv3；仓库 id 8495499/31054058 与元数据一致。",
+      "gap": "无阻断缺口；GiveWP 的 campaign 绑定与 payout 细节未运行时验证，CiviCRM 结算周期未展开。"
+    },
+    "peer-to-peer-fundraising-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:8495499"
+      ],
+      "basis": "CiviCRM P2P 功能页正文说明 supporters 可创建并个性化 fundraising pages、设定目标并向个人网络分享；官方 PCP 用户指南说明 PCP 必须挂在 contribution page 或 event，管理员可查看每个 PCP 筹得金额、用 CiviReport 汇总、录入 offline checks 并 credit 到 PCP，同时明确当前不支持 team management。支持者页面归因与组织侧汇总有正文依据。",
+      "gap": "无阻断缺口；来源未展开 settlement cycle 与税务细节；团队能力不支持，但叶定义将团队视为可选。"
+    },
+    "social-impact-measurement": {
+      "result": "pass_with_documented_gap",
+      "application_ids": [],
+      "basis": "research.json 记录了 GitHub-only 检索及候选核对。ImpactFlow README 显示 session capture、IPI/Outcomes Star/Live Reactions、Cohen's d/Wilcoxon/Bootstrap CI、SROI 与 donor portal；但测量框架为内置，未显示组织自定义指标框架或定性证据编码，三要件未齐；Apache-2.0 元数据与 LICENSE 快照存在，项目规模很小。因此未建立关系，留档边界未决。",
+      "gap": "无合格案例；检索仅覆盖 GitHub 公开仓库，未覆盖商业 SaaS；边界判断基于 README，未审阅完整代码与文档。"
+    }
+  },
+  "limits": "只读审查；未执行 shell、部署、运行时测试或线上重抓，未验证支付结算、收据、会员/团队模块的实际行为。结论基于本单元 batch/research 与 2026-10-25/27 快照。REVIEW_SOURCES.json 仅枚举 batch 来源；TolaData/TolaActivity/ImpactFlow 候选快照虽在 data/collections/sources/ 中，但未列入该清单，仅用于核对两个无案例叶的留档。CiviCRM 功能页为营销 HTML，无独立 membership 页快照；GiveWP 的 campaign 绑定、premium 边界与 payout 细节未运行时验证；两个无案例叶的边界判断基于 README，未审阅完整代码/文档。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-029/ses_groveopencodegop029review1_1793078714.jsonl",
+  "batch_sha256": "a661d05247f050ef4d78aa6395b8832e485489926cd83cb9bd4dc6ea4856c245",
+  "research_sha256": "1a6ea69ff4301f3f7ab87adee898f4760f927ff8416eed046d8121392b15080e",
+  "input_sha256": "a7341f3b189b761cd10936ddf84ebe3e2f8923bc55903c2b3570104687baff0e"
+}

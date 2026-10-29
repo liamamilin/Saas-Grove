@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "live-video-chat-application",
+      "note": "research.json 的 note/input.json note 中“当前匹配属于消费聊天/社交场所、公共身份目录或一次性临时邮箱”一句带有跨叶模板痕迹：本叶实际核对对象只有 Discord、Nextcloud Talk、Jami，“公共身份目录”“一次性临时邮箱”与这三者均无对应证据。结论不受影响，但建议改写为针对本叶的表述（例如 Discord 产品中心是聊天/社区服务器、视频通话为其附属能力），避免读者误以为存在未列出的候选。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "Discord 的排除理由偏重“未证明是供客户持续运营自身资料与工作流的完整应用服务”，而更贴合本叶定义的排除依据应是定义性核心中的“以实时双向视频对话为产品中心”：已读的两篇官方正文证明 DM/群组 DM 中可与好友发起视频通话、可自行开关摄像头、保留会话与置顶消息，但产品身份仍是文字聊天/社区服务器平台。建议在 service_boundary 中显式写出这一条，使排除逻辑与本叶定义逐项对应。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "sources/ 下有两份未被任何记录引用的 Discord 快照：a6ee6bdb…（Advanced Community Server Setup）与 b7b996ce…（Discord Roles and Permissions），既不在 source_urls 也不在 fetch_outcomes 中，缺少 URL、抓取时间与状态记录。二者未用于任何结论，不影响本轮判断，但建议在 fetch_outcomes 或 HISTORY 类文件中补齐或明确标注为历史遗留快照。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "REVIEW_SOURCES.json 的 sources 为空数组，而 research.json 引用了 9 个快照；本次按 research 中记录的 sha256 对应 data/collections/sources/<sha256>.txt 逐一核对，9 份引用的快照均存在且内容与引用描述一致。若下游工具依赖 REVIEW_SOURCES.json 做快照映射，空清单会造成取数失败，建议在 included_without_cases 阶段也输出快照清单。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "research.json 的 historical_reuse_note 与 review_resolution.preserved 指向 HISTORY.json、REUSED_SOURCES.json，但本单元 data/collections 下只有 batch.json、research.json 与 sources/，这两个文件未随单元提供，旧快照的原路径与 SHA 无法在本单元内复核。本轮结论不依赖旧快照，故不阻断；若留档要求可追溯，应随单元一并保留。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "许可证描述“快照为完整 AGPLv3 COPYING 文本（34520 字节）”略不精确：ce5db1f2… 实际是 GitHub contents/license 接口的 JSON，正文以 base64 存放在 content 字段，size=34520，解码开头为“GNU AFFERO GENERAL PUBLIC LICENSE Version 3”。许可证类型（AGPL-3.0）、完整性与仓库身份（nextcloud/spreed，id 67111446）均可核对，仅为表述精度问题。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "Jami 只取了官网首页一份正文，未读取其用户文档中的联系人/个人资料/会话历史页面，因此“未取得持久社交语境正文”是检索范围限制而非否定性证据。research.json 已如实写成“未采纳、不作不存在判断”，符合留档要求；如后续要复活该候选，应补充官方文档级证据而不是仅凭首页。"
+    },
+    {
+      "slug": "live-video-chat-application",
+      "note": "本轮仅执行 Jami 一组新查询，未再检索第三组替代方向，research.json 已在 review_resolution.not_addressed 中显式声明，未以“无结果”推断该类产品不存在，属可接受的检索边界。"
+    }
+  ],
+  "leaf_checks": {
+    "live-video-chat-application": {
+      "assessment_in_record": "boundary_unresolved；batch.json entries 为空，case_ids 为空，archived=false，无任何条目化应用，故不存在需要核对的应用 ID、track 或条目级许可证/社区版边界。",
+      "definitional_core_check": "已按定义逐项比对四项核心：①实时双向视频为中心；②小型共在、平等对等（无主播/观众）；③对话对象由用户自选；④持久个人社交语境（资料/关系/消息/历史）。候选逐一对照结果见下；三项候选均至少在①或④上不成立，未发现同时满足四项的对象，记录未据此断言该类不存在。",
+      "nextcloud_talk_withheld": "核对了 6 份官方快照：README.md 首句为“A video & audio conferencing app for Nextcloud”；nextcloud.com/talk 标题为“Calls, chat and video conferencing with Nextcloud Talk”，首屏正文为“communication platform for online collaboration through meetings, chat and webinars”，meta 描述面向 colleagues/customers/partners；conversations.html 证明私密一对一会话存在侧栏对方资料，但同时出现 out-of-office/替身（replacement person）等办公状态；call.html 证明可发起/加入通话并自行开关摄像头与麦克风。技术事实（双向视频、个人开关）成立，但产品身份是组织会议/协作平台，持久语境是工作区会话与组织用户目录，不满足①②④的社交型定位。从批次移除的判断与原文一致。",
+      "nextcloud_license_and_identity": "fc744c6a… 为 GitHub 仓库 API 正文，id=67111446、full_name=nextcloud/spreed、fork=false，与引用身份一致；ce5db1f2… 为 license 接口快照，size=34520，content 解码为完整 AGPLv3 文本，spdx_id 与记录一致。许可证与仓库身份本身无问题，移除原因仅为类型不匹配，记录表述准确。",
+      "jami_withheld": "已读 jami.net 首页快照正文：首屏自述“Jami is a free/libre, end-to-end encrypted, and private communication software”，功能列表并列 Instant messaging、Audio and video calls、Group chats、Video-conferences/Rendezvous points、录制的音视频消息、屏幕共享、SIP 客户端；另有“licensed under GNU GPLv3 or later”、多设备关联账号、无需个人信息建号、“Jami Web - First Preview”新闻卡片。首页把即时消息与通话并列定位为通用私密通信软件，未见“实时视频为中心”的表述，也未出现个人资料/关系/会话历史的产品叙述；GPLv3 与端到端加密为官网自述而非完整许可证文本，因未采纳故无需在此强制补齐。留档定性（已核对未采纳）与实际正文相符。",
+      "discord_withheld": "已读两份历史快照：Video Calls 一文说明可在 DM 或服务器语音频道发起视频通话，DM 场景为“start a video call with a friend”，可按按钮开启摄像头；Group Chat and Calls 一文说明无需服务器即可建群组 DM，任意成员可发起通话、成员可自由加入/退出，视频通话可随时开关摄像头，并有置顶消息、会话管理等。这证明实时双向视频、用户自选对象与持久会话痕迹存在，但产品身份是文字聊天/社区社交平台，视频通话是附着于聊天场景的能力，且记录未证明其在客户侧作为“持续运营自身资料与工作流”的应用服务被使用，故不写入批次；结论方向可接受，理由表述建议按 non_blocking_notes 调整。",
+      "source_and_traceability_check": "REVIEW_SOURCES.json 的 sources 为空；实际按 research.json 记录的 URL 与 sha256 原样读取 data/collections/sources/ 下对应文件，9 份被引用快照全部存在且可读，SHA 文件名与记录逐一对上。sources/ 中另有 2 份未被引用的 Discord 快照（a6ee6bdb…、b7b996ce…），未参与结论。fetch_outcomes 对每份引用快照给出状态、sha256 与说明，query 与 search_attempts 记录了 2026-10-23 历史查询、2026-10-28 Nextcloud 组与 Jami 组两组查询及各自结果，缺口（未运行第三方项目、未部署测试、未补第三组检索、Jami 仅首页）均显式写明，未把 HTTP 成功、摘要、导航或关键词当作核心工作流证据。",
+      "saa_service_form_check": "本叶无条目，故无条目级 SaaS 形态问题；Nextcloud Talk 为可自托管的 Nextcloud 应用（README 指向 App Store 安装与 TURN 部署），Jami 为分布式多平台客户端、Web 版仅 First Preview，二者的服务形态问题已在 service_boundary 中记录，未据未核实项写入案例。",
+      "conclusion": "属于“无案例但检索/抓取/缺口留档完整”的情形：批次为空与 boundary_unresolved 一致，候选排除均有已读正文支撑，未伪造成功状态或抓取时间，故本叶可通过；发现的均为表述精度、清单完整性与补充证据建议，非阻断。"
+    }
+  },
+  "limits": "仅使用只读工具，未运行 shell、未写文件、未访问其他单元；未调用外部网络获取新页面，全部判断基于本单元 data/collections 内的 batch.json、research.json 与 11 份本地快照（其中 9 份被 research.json 引用，2 份未引用）。REVIEW_SOURCES.json 的 sources 为空，因此快照定位改为依据 research.json 记录的 URL 与 sha256 文件名在 data/collections/sources/ 下原样读取，未做路径猜测或摘要转述。未部署或运行 Nextcloud Talk、Jami、Discord，未做账号实测与运行时验证；Jami 仅核对官网首页，未读其用户手册；Discord 仅有 4 份帮助中心快照，未核实商业定价、企业版边界或客户运营证据。历史引用文件 HISTORY.json、REUSED_SOURCES.json 未随单元提供，旧快照原路径与 SHA 无法在本单元内复核；input.json 指向的上游研究记录（retained-go-20261025/part-001、included-continuation-final-20261027）按任务边界未读取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-007/ses_groveopendesignp007review2_1793150529.jsonl",
+  "batch_sha256": "df1c2937ced429f2d780047b2313d39a0b53ba0da6f738002bed168429dacfe5",
+  "research_sha256": "125a27d0b3972c2270c25bc835adccc5ff022efed64656a4c5da6eb07cf97b2d",
+  "input_sha256": "f15a0bc6969bde9096e3ecd547c2d241605c3e0b53e3b0fc6c911a72dd9af6bc"
+}

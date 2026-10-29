@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "StrictDoc 的 LICENSE 快照是 609 字节的 Apache-2.0 标准声明（短式文本），并指向 apache.org 全文，不是完整 Apache 条款正文；README 明确写明 Apache License 2.0，GitHub license API 返回 NOASSERTION。许可身份可确认，但若要求仓库内完整条款正文，建议补充全文快照或注明短式声明。",
+    "StrictDoc 未在已读正文中证实内置基线冻结、电子签名或审批门禁；条目已将关系收窄为需求记录、规范结构、追溯与 diff/changelog，变更依赖文本文件版本控制。若目录要求四支柱完整（含基线/受控审批），应重新评估该叶匹配度。",
+    "DocDokuPLM 的 BOM、工程变更与工程文档均为 PLM 套件模块，不是独立单品；条目已明确说明模块关系，建议最终展示保留“模块”限定。",
+    "DocDokuPLM 仓库最近推送为 2021-05-10，未归档；功能证据可用，但版本较旧，且未做运行验证。",
+    "DocDokuPLM 的 deployment 中“官方另有 DocDokuPLM 云托管服务（docdokuplm.net）”未在所列快照正文中直接出现；建议补充来源或删去具体域名。官网首页仅见“Cloud Native”表述，未直接证明托管服务。",
+    "Modelon Impact 为商业产品，未核对价格与部署架构；系统仿真核心由官方产品页与帮助中心正文支持，商业条目按基本真实性与类型匹配审查。",
+    "OpenModelica、InvenTree、Mayan EDMS 等候选仅见于 research.json 的排除记录，不属于 batch 条目，也未列入 REVIEW_SOURCES；本次未将其作为收录案例复核，其排除理由已留档。",
+    "部分 GitHub API 快照为单行 JSON，read 工具按 2000 字符截断显示；仓库 id、archived=false、pushed_at、license spdx 等关键字段已用定向内容检查核对，README/许可证/用户指南正文按可读范围核对。"
+  ],
+  "leaf_checks": {
+    "system-simulation-platform": {
+      "application_ids": [
+        "commercial:modelon-impact"
+      ],
+      "status": "pass",
+      "basis": "Modelon Impact 官方产品页与帮助中心正文：面向工程系统的系统级建模、Modelica/FMI/Python、图形编辑器与可定制模型库、动态与稳态仿真求解器、结果导出与可视化；帮助中心明确提供 Modelon managed SaaS（impact.modelon.cloud，浏览器访问）与 self-managed（本地/私有云，浏览器访问）两种形态。",
+      "gaps": "未运行产品，未核对价格与架构；时间轨迹结果由 dynamic simulation 与结果分析能力间接支持，未逐页展开求解器数值细节。"
+    },
+    "bill-of-materials-management": {
+      "application_ids": [
+        "github:4630534"
+      ],
+      "status": "pass",
+      "basis": "DocDokuPLM README 明确列出 Product Structure、Product Configuration（effectivities/alternatives/substitutes）与 Bill of Materials；2.5 用户指南正文含产品结构树、部件/装配、配置（latest checked in/latest released）、Baseline 快照、part check-out/check-in 及 released/obsolete 状态，能够覆盖产品结构定义及其受控演变。仓库 id 4630534、AGPL-3.0 全文、archived=false、pushed_at=2021-05-10 已核对。",
+      "gaps": "BOM 行单位/数量校验未逐页核对；该能力是 PLM 套件中的 BOM 模块，不是独立 BOM 单品；未运行验证。"
+    },
+    "engineering-change-management": {
+      "application_ids": [
+        "github:4630534"
+      ],
+      "status": "pass",
+      "basis": "DocDokuPLM README 列 Change Management 与 Process Management；官方流程页说明文档、零件等对象可挂工作流；用户指南含 Workflow、Lifecycle state、Roles、Issues/Requests/Orders（含 Affected items）；REST API 提供 change requests/orders 接口及 affected-documents/affected-parts/affected-requests 绑定，支持变更记录绑定受影响工程对象并经受控流程。",
+      "gaps": "未证实变更单的 effectivity、电子签名等细节；该能力是 PLM 套件中的变更管理模块；未运行验证。"
+    },
+    "engineering-document-management": {
+      "application_ids": [
+        "github:4630534"
+      ],
+      "status": "pass",
+      "basis": "DocDokuPLM 2.5 用户指南 Document Management 正文：master/revision/iteration 版本谱系、check-out/check-in、ACL、文档模板、公开/私有发布、状态与迭代变更通知、Workflow/Lifecycle state/Tasks；README 列 Document Management: version control、workflows、templates、links，覆盖注册文档、修订谱系、受控状态与发布。",
+      "gaps": "未核对 transmittal/分发包等具体发布形态；该能力是 PLM/DMS 套件中的工程文档管理模块；未运行验证。"
+    },
+    "engineering-requirements-management": {
+      "application_ids": [
+        "github:263988764"
+      ],
+      "status": "pass",
+      "basis": "StrictDoc README 与官方用户指南正文：需求以稳定 UID 的 SDoc/Markdown 记录保存，组织为文档树/规范结构，支持 Parent/Child/File 关系及需求与源代码双向追溯，提供 Diff/Changelog、Web UI 编辑、本地 Web 服务器与静态 HTML/PDF 导出；README 明示 Apache License 2.0，LICENSE 为 Apache-2.0 标准声明并指向 apache.org 全文。",
+      "gaps": "未证实内置基线冻结、电子签名与审批门禁；变更依赖文本文件版本控制与内置 diff/changelog。条目已收窄关系，未写入这些未证实能力。"
+    }
+  },
+  "limits": "本次为只读独立初审，仅审查本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 所列快照；未运行 shell、未写入文件、未部署或运行任何产品，未核对商业价格与详细架构。部分 GitHub API 快照为单行 JSON，read 工具按 2000 字符截断显示，关键元数据通过定向内容检查核对；README、许可证与用户指南正文按可读范围核对。OpenModelica、InvenTree、Mayan EDMS 等排除候选未作为 batch 案例完整复核。StrictDoc 的基线/审批能力未在已读来源中找到，故按采集者已收窄并留档的核心范围评估。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-156/ses_groveopencodegop156review1_1793014929.jsonl",
+  "batch_sha256": "c7bca32008e50b4163263474ab5abd16ef0a24014c2a3fe8daa2c9f5e7faa344",
+  "research_sha256": "511f1ecd14e829d64daa3b1be13f843b3925adfae54f9cc7c5ecd29d38eef4bf",
+  "input_sha256": "bf00c0a796bdb41207903b2054b101adb4dddcd62637e3bd9124624df901bf87"
+}

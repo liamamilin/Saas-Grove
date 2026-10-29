@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 29,
+  "offset": 700,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "vulnerability-management",
+        "name_zh": "漏洞管理",
+        "domain_id": "15",
+        "parent_id": "15.07",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-152/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source vulnerability management platform self-hosted GitHub DefectDojo"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "vulnerability-management",
+        "name": "Vulnerability Management",
+        "name_zh": "漏洞管理",
+        "aliases_zh": [
+          "安全漏洞管理",
+          "漏洞修复管理"
+        ],
+        "overview": "A **Vulnerability Management application** is the security team's system of record for known software weaknesses across the organization's IT estate. It maintains a standing register of **vulnerability findings** — each a known weakness matched from a maintained vulnerability-knowledge catalog to an identified asset of the organization — keeps that register current through recurring assessment, and drives each finding through a risk-ordered resolution loop until it is fixed (and the fix is confirmed by re-assessment) or formally accepted as a risk.\n\nThe defining structure is small:\n\n```text\nVulnerability knowledge (CVE-class catalog, maintained over time)\n  └── Finding: known weakness × identified affected asset (with severity)\n      └── Standing register of findings over the whole estate\n          └── Risk-ordered resolution loop\n              (prioritize → mobilize → re-assess → close or accept)\n```\n\nEverything else commonly associated with these products — the scan engines and agents, CVSS scores, dashboards, ticketing integrations, patch-deployment hooks — is implementation or mature added capability, not the definition. A product that only scans and reports, with no register and no resolution loop, is a vulnerability assessment tool, not a vulnerability management system. Conversely, the register survives even when the evidence comes from other tools rather than the product's own scanners.",
+        "overview_zh": "一个**漏洞管理应用程序**是安全团队用于记录组织IT资产中已知软件弱点的系统化档案。它维护一份**漏洞发现**的持续登记册——每一条记录都是已知弱点与组织已识别资产的匹配结果（来自持续维护的漏洞知识库）——通过定期评估使该登记册保持最新，并驱动每条发现经历一个按风险排序的解决循环，直至其被修复（并通过重新评估确认修复有效）或被正式接受为风险。\n\n其核心结构简洁：\n\n```text\n漏洞知识（CVE级目录，持续维护）\n  └── 发现：已知弱点 × 已识别受影响资产（含严重性等级）\n      └── 针对全资产的发现持续登记册\n          └── 风险排序解决循环\n              （优先排序 → 调动资源 → 重新评估 → 关闭或接受）\n```\n\n与此类产品通常关联的其他一切——扫描引擎和代理、CVSS评分、仪表板、工单集成、补丁部署接口——都是实现细节或成熟的附加功能，并非定义本身。一个仅扫描和报告、没有登记册和解决循环的产品，是漏洞评估工具，而非漏洞管理系统。反之，即使证据来自其他工具而非产品自身的扫描器，登记册依然存在。",
+        "dc": "Three structures, held jointly:\n\n**1. The vulnerability finding register.** The unit of record is the **finding**: a specific known weakness on a specific asset. A finding carries the weakness identity from a maintained catalog (CVE-class — the weakness is a *known* weakness, disclosed and catalogued, not an invented one), the affected asset it was observed on, a severity, and detection context (how it was confirmed, what version was found). The register accumulates these findings across the entire estate and persists them. Without it, the product is a scanner that produces disposable reports.\n\n**2. The continuously refreshed assessment substrate.** The register only means something while it is current. Two currents feed it: recurring **evidence acquisition** over the estate — the system's own scanning machinery (network scanners, authenticated agents, cloud connectors) and/or **ingestion of results from other security tools** — and the **vulnerability knowledge layer** itself, refreshed from external feeds as new weaknesses are disclosed, new checks are published, and severity knowledge evolves. Without it, the register is a decaying snapshot.\n\n**3. The risk-ordered resolution loop.** Findings are not a pile; they are an ordered backlog. The system combines weakness severity with asset criticality and context — and in mature products with exploit-availability signals — to rank what matters most. Each finding is then mobilized: assigned to an owner, pushed into tickets or remediation projects, tracked toward a fix — or formally **risk-accepted / excepted**, a recorded, attributed decision, not silence. A finding closes on evidence: a re-assessment showing the weakness is gone, or the recorded acceptance. Without it, the system is a passive findings feed.",
+        "dc_zh": "三个结构，共同保持：\n\n**1. 漏洞发现登记表。** 记录单元是**发现**：特定资产上的特定已知弱点。一个发现携带了来自维护目录的弱点身份（CVE类——弱点是*已知*弱点，已披露并编目，而非虚构）、受影响的资产、严重程度和检测上下文（如何确认、发现的版本）。登记表在整个资产范围内累积这些发现并持久化它们。没有它，产品就是一个生成一次性报告的扫描器。\n\n**2. 持续刷新的评估基底。** 登记表只有在当前时才有意义。两个流向为其提供动力：定期的**证据获取**（通过资产——系统自己的扫描机制（网络扫描器、认证代理、云连接器）和/或**其他安全工具的结果摄入**）——以及**漏洞知识层**本身，随着新弱点被披露、新检查被发布和严重程度知识的演进，从外部馈送刷新。没有它，登记表就是一个衰减的快照。\n\n**3. 风险排序的解决循环。** 发现不是一堆；它们是一个有序的待办事项。系统结合弱点严重程度、资产关键性和上下文——在成熟产品中还包括漏洞利用可用性信号——来排序",
+        "rules": "**Findings are derived, not invented.** A finding's identity comes from matching maintained weakness knowledge against observed evidence. Nothing is a \"vulnerability\" in the register merely because a person typed it in; the knowledge catalog and the assessment evidence are what make a record a vulnerability finding.\n\n**The register is evidence-based and self-correcting.** A fixed weakness disappears from the register when the next assessment confirms it is gone — and re-appears if the weakness returns. Closure is not a promise; it is a re-assessment outcome. This is why the loop must keep running: an unassessed estate decays silently.\n\n**Severity is plural and contextual.** Industry scores, product risk scores, asset criticality, and exploit-availability signals all participate; products differ in which scales they expose and how they combine. Overrides and exceptions exist precisely because raw severity is never the final word.\n\n**Exceptions are formal acts.** Accepting a risk or marking a false positive is a recorded, attributable, reviewable decision with its own lifecycle — not a deleted finding. The distinction between \"fixed\" and \"accepted\" is preserved in the data.\n\n**Authenticated visibility is a structural asymmetry.** Logged-in (credentialed) assessment sees weaknesses a network probe cannot — which is why credential management and privileged accounts are a core operational concern, and why scan safety (blackouts, restricted scopes, careful timing) is built into the products.\n\n**Coverage is a first-class concern.** A register only protects the estate it actually assesses. Products invest heavily in discovery/correlation (cloud connectors, agent correlation, even non-persistent machine correlation) because an unassessed asset is an invisible finding.\n\n**The system mobilizes; it does not remediate.** Applying fixes belongs to patch and configuration systems; the VM system orders, assigns, tracks, and confirms. Handoff to patch tooling is a documented pattern; execution itself is outside the Type.",
+        "rules_zh": "**发现是推导而来，而非凭空创造。** 发现的身份源于将维护的弱点知识与观察到的证据进行匹配。登记册中的任何记录都不会仅仅因为有人手动输入就成为“漏洞”；是知识目录和评估证据共同使一条记录成为漏洞发现。\n\n**登记册基于证据并具备自我纠正能力。** 一个已修复的弱点在下一次评估确认其消失后，会从登记册中移除——如果弱点重现，则会重新出现。关闭不是一个承诺；它是一个重新评估的结果。这就是为什么循环必须持续运行：未经评估的资产会无声地腐化。\n\n**严重性是多维且依赖上下文的。** 行业评分、产品风险评分、资产关键性和漏洞利用可用性信号都参与其中；不同产品在呈现和组合这些评分标准上各不相同。覆盖和例外的存在恰恰因为原始严重性从来不是最终定论。\n\n**例外是正式行为。** 接受风险或标记误报是一个被记录、可归因、可审查的决策，拥有自身的生命周期——而非被删除的发现。“已修复”与“已接受”之间的区别在数据中得以保留。\n\n**认证可见性是一种结构性的不对称。** 登录（凭证）评估能看到网络探测无法发现的弱点——这就是为什么凭证管理和特权账户是核心运营关注点，以及为什么扫描安全性（禁运期、受限范围、谨慎的时机安排）被内置于产品中。\n\n**覆盖率是一等关注事项。** 登记册只保护其实际评估的资产。产品在发现/关联方面投入巨大（云连接器、代理关联、甚至非持久性机器关联），因为一个未经评估的资产就是一个不可见的发现。\n\n**该系统……",
+        "parent_id": "15.07",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "attack-surface-management",
+        "name_zh": "攻击面管理 (ASM)",
+        "domain_id": "15",
+        "parent_id": "15.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-152/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source attack surface management self-hosted GitHub OASM"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "attack-surface-management",
+        "name": "Attack Surface Management",
+        "name_zh": "攻击面管理 (ASM)",
+        "aliases_zh": [
+          "外部攻击面管理",
+          "EASM"
+        ],
+        "overview": "An **Attack Surface Management** application continuously discovers and maintains an inventory of an organization's internet-facing digital assets — seen from the outside, the way an attacker would see them — and attaches the exposures it observes to those assets.\n\nThe defining core is small:\n\n```text\nOrganization scope (seeds / root assets / scan scope)\n  ↓ outside-in discovery\nExternal asset inventory (persistent, organization-scoped)\n  ├── asset records with observed attributes\n  ├── exposures/issues attached to assets\n  └── ongoing monitoring of change\n```\n\nFour properties make the Type what it is:\n\n- **Organization-scoped external asset inventory** — the system maintains persistent records of the organization's own internet-reachable assets: domains, hosts, certificates, web services, cloud-exposed resources. Without the inventory, there is no \"management.\"\n- **Outside-in discovery** — assets are found by observing the internet from outside the organization, starting from a few known identifiers and expanding through observed relationships. No internal agents, network access, or pre-existing complete asset lists are required. This is what makes the Type distinct: it finds assets the organization does not know it has.\n- **Observations and exposures attached to assets** — each asset record carries what the system observed about it (services, certificates, technologies, context) and the issues or exposures detected on it.\n- **Ongoing maintenance** — discovery and observation recur, so the inventory tracks a moving target: new assets appear, exposures change, assets disappear.\n\nEverything else the market expects from a modern ASM product — risk scoring, dashboards, ticketing integrations, cloud connectors, policy engines — is standard capability layered on this core, not the definition of it.",
+        "overview_zh": "一个**攻击面管理**应用会持续发现并维护一个组织面向互联网的数字资产清单——从外部观察，就像攻击者会看到的那样——并将观察到的暴露情况附加到这些资产上。\n\n其定义性核心是精简的：\n\n```text\n组织范围（种子 / 根资产 / 扫描范围）\n  ↓ 自外向内的发现\n外部资产清单（持久性，组织范围）\n  ├── 带有观察属性的资产记录\n  ├── 附加到资产的暴露/问题\n  └── 持续变更监控\n```\n\n四个属性使其成为该类型：\n\n- **组织范围的外部资产清单** —— 该系统维护着组织自身互联网可达资产的持久记录：域名、主机、证书、Web服务、云暴露资源。没有清单，就没有“管理”。\n- **自外向内的发现** —— 资产是通过从组织外部观察互联网来发现的，从一些已知标识符开始，并通过观察到的关系进行扩展。无需内部代理、网络访问或预先存在的完整资产清单。这正是该类型的独特之处：它发现了组织自己都不知道其存在的资产。\n- **观察与暴露附加到资产** —— 每条资产记录都携带系统观察到的关于它的信息（服务、证书、技术、上下文）以及检测到的问题或暴露情况。\n- **持续维护** —— 发现和观察是循环进行的，因此清单跟踪的是一个动态变化的目标：新资产出现，暴露情况变化，资产消失。\n\n市场对现代ASM产品的其他一切期望——风险评分、仪表板、工单集成、云连接器、策略引擎——都是在此核心之上的标准能力层，而非其定义本身。",
+        "dc": "The central object is the **asset**: a record of one externally reachable thing the organization is responsible for (or connected to). Across mature products, assets fall into recurring kinds:",
+        "dc_zh": "中心对象是**资产**：一条记录，代表组织负责（或与之相连的）一个外部可达的事物。在成熟的产品中，资产可分为几类重复出现的类型：",
+        "rules": "### Attribution is probabilistic and review-bound\n\nDiscovery from the outside cannot be certain. Mature products therefore separate confirmed assets from candidates and route the latter to human review. A candidate that is actually owned must be promoted manually; the system does not silently absorb weakly-connected assets into the owned inventory. This is a structural rule, not a UI convenience.\n\n### Findings carry verifiable evidence\n\nBecause the system observes from outside, its claims can be wrong (a fingerprint mismatch, a shared hosting neighbor). Findings therefore link to the observation that produced them, and analysts are expected to verify before remediating. A finding without inspectable evidence would not fit the Type's contract with its users.\n\n### Accepted risk is a recorded state\n\nTeams can accept a finding — deliberately tolerating it — and the acceptance is recorded (often with a reason), reversible, and excluded from active counts while preserved for audit. Acceptance is distinct from closure: closure happens when the system stops detecting the issue.\n\n### Scope defines everything\n\nThe inventory only contains what the scope can reach. An unregistered domain, an unknown subsidiary's cloud account, or an IP range never provided as a seed will not appear until something links it to a seed. Expanding scope is a normal operational activity, not a one-time setup.\n\n### Ownership verification before active testing\n\nProducts that actively probe assets typically require the customer to verify control of the domains in scope first (for example, via a DNS record). This keeps the product from being used to test infrastructure the customer does not own — a boundary imposed by both ethics and law.\n\n### Rescan validates remediation\n\nFix verification is done by observing again, not by trusting a ticket status. A rescan either confirms the exposure is gone (finding closes) or shows it persists (finding stays active).\n\n### Assets age; they do not simply vanish\n\nAssets no longer observed are marked historic or offline and remain queryable. The inventory is a longitudinal record of the surface, which is what makes trend views and \"what did we have at this address last quarter?\" questions answerable.",
+        "rules_zh": "### 归因是概率性的，且需人工审查\n\n自外向内的发现无法做到完全确定。因此，成熟的产品会将已确认资产与候选资产区分开来，并将后者送交人工审查。一个实际为组织所有的候选资产必须手动提升；系统不会将弱关联的资产悄悄吸收进自有资产清单。这是一个结构性规则，而非UI便利性设计。\n\n### 发现结果携带可验证的证据\n\n由于系统是从外部观察，其断言可能出错（例如，指纹不匹配、共享托管邻居）。因此，发现结果会链接到产生它们的观察结果，分析师应在修复之前进行验证。没有可检查证据的发现不符合该类型对其用户的承诺。\n\n### 接受的风险是记录的状态\n\n团队可以接受某个发现——有意容忍它——并且接受会被记录（通常附有原因）、可撤销，并在保留以供审计的同时从活跃计数中排除。接受不同于关闭：关闭发生在系统停止检测到该问题时。\n\n### 范围定义一切\n\n清单只包含范围所能触及的内容。未注册的域名、未知子公司的云账户，或者从未作为种子提供的IP范围，都不会出现，直到某样东西将其与种子链接起来。扩展范围是正常的运营活动，而非一次性设置。\n\n### 主动测试前验证所有权\n\n主动探测资产的产品通常要求客户首先验证其对范围内域名的控制权（例如，通过DNS记录）。这可以防止产品被用于测试客户不拥有的基础设施——这是由伦理和法律共同施加的边界。\n\n### 重新扫描以验证修复\n\n修复验证是通过观察完成的。",
+        "parent_id": "15.08",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "cyber-asset-management",
+        "name_zh": "网络安全资产管理（Cyber Asset Management）",
+        "domain_id": "15",
+        "parent_id": "15.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-152/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source cyber asset management CAASM inventory GitHub self-hosted"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "cyber-asset-management",
+        "name": "Cyber Asset Management",
+        "name_zh": "网络安全资产管理（Cyber Asset Management）",
+        "aliases_zh": [
+          "网络资产安全管理系统",
+          "网络安全资产监控"
+        ],
+        "overview": "A **Cyber Asset Management** application maintains a continuously refreshed, deduplicated inventory of an organization's technology assets — devices, cloud resources, identities, software, services, certificates — and turns that population into answers for security decisions: what exists, what is exposed, what is unprotected, and what matters most.\n\nIts defining core is small:\n\n```text\nCyber-asset population (one record per real asset)\n└── assembled automatically from the environment\n    └── kept continuously current\n        └── shaped for security decisions\n```\n\nEverything else commonly associated with the category — adapter catalogs, discovery sensors, risk scoring, relationship graphs, compliance mappings, ticketing flows — is widespread in mature products but is not what makes the product a Cyber Asset Management application. Older, simpler network-inventory scanners satisfy the same core without any of those specifics.\n\nThe category answers a question no other security tool asks about itself: *can we even see everything we are responsible for protecting?* When the population is reduced to internet-facing exposure only, the product drifts toward Attack Surface Management; when findings rather than assets become the primary object, it drifts toward Vulnerability Management; when the orientation becomes financial lifecycle rather than security, it becomes IT Asset Management.",
+        "overview_zh": "一个 **Cyber Asset Management** 应用程序维护一个持续刷新、去重的组织技术资产清单——设备、云资源、身份、软件、服务、证书——并将这些群体转化为安全决策的答案：存在什么、暴露什么、未保护什么以及什么最重要。\n\n其定义核心很小：\n\n```text\nCyber-asset population（每个真实资产一个记录）\n└── 从环境中自动组装\n    └── 保持持续最新\n        └── 为安全决策而塑造\n```\n\n该类别通常与之相关的所有其他内容——适配器目录、发现传感器、风险评分、关系图、合规映射、工单流程——在成熟产品中普遍存在，但不是使产品成为 Cyber Asset Management 应用程序的因素。更旧、更简单的网络清单扫描仪满足相同的核心，而没有任何这些具体功能。\n\n该类别回答了一个其他安全工具不会自问的问题：*我们是否能看到我们负责保护的所有内容？* 当群体仅缩减为互联网暴露时，产品转向 Attack Surface Management；当发现而不是资产成为主要对象时，它转向 Vulnerability Management；当方向变为财务生命周期而不是安全时，它成为 IT Asset Management。",
+        "dc": "Four properties. If any one is removed, the product is no longer recognizable as Cyber Asset Management:\n\n- **A standing cyber-asset population** — a persistent set of records, one per identified asset of the organization's estate, spanning more than one asset class. A single list of laptops is an inventory; the type is defined by breadth across the technology estate.\n- **Environment-derived assembly** — records are created and refreshed automatically from data observed in or ingested from the environment (network observation, API connections, endpoint agents). The system, not a person, keeps the population current. A hand-maintained register is not this application.\n- **Asset identity resolution** — multiple observations and multiple sources converge on one record per real asset. The same server seen by a network scan, a cloud API, and an endpoint agent is one asset, not three.\n- **Security-decision orientation** — the population and its attribute vocabulary exist to answer security questions and feed security workflows: coverage gaps, exposure, criticality, ownership, response, compliance evidence.",
+        "dc_zh": "四个属性。如果移除任何一个，产品将不再被视为网络安全资产管理：\n1. 持久的网络资产集合 — 一个持久的记录集合，每个记录对应组织资产中的一个已识别资产，跨越多个资产类别。单一笔记本电脑列表是库存；该类型由技术资产的广度定义。\n2. 环境驱动的组装 — 记录从环境中观察或摄取的数据自动创建和刷新。系统，而非人员，保持集合的最新状态。手动维护的寄存器不属于此应用。\n3. 资产身份解析 — 多个观察和多个来源收敛到每个实际资产的一个记录。同一服务器通过网络扫描、云API和端点代理看到的是一个资产，而不是三个。\n4. 安全决策导向 — 集合及其属性词汇用于回答安全问题和驱动安全工作流：覆盖差距、暴露、关键性、所有权、响应、合规证据。",
+        "rules": "### One record per real asset, keyed on stable identity\n\nThe inventory's correctness rests on identity resolution. Merge keys are stable identifiers — hardware addresses, serial numbers, hostnames — rather than volatile ones such as IP addresses, which change. A device that moves or changes address must remain the same record. Products differ in strictness: some scope correlation to a site or segment, treating the same physical system seen from different scopes as separate records by design.\n\n### Absence is a state, not a deletion\n\nAn asset not seen again is typically marked offline / inactive rather than deleted, retaining its history; reappearance restores it. Substantial identity change (new network adapter, reimaged system) may legitimately produce a new record, with the old one left offline; products expect some manual cleanup and provide it.\n\n### Risk is inferred; criticality is assigned\n\nA recurring pattern: **risk** is computed from evidence attached to the asset (vulnerabilities, risky configurations), while **criticality** is a human judgment about the asset's importance to the organization. The two are deliberately separate — a low-risk asset can be business-critical, and a high-risk asset may be disposable. Automation can apply criticality by rule, but the value originates in human intent.\n\n### Sources are preserved, not silently merged\n\nWhen multiple tools report on the same asset, the record keeps every contributing source and when it reported. Conflicting values are a first-class display concern, because \"which tool is right?\" is itself a security question.\n\n### Coverage honesty is a feature\n\nThe application reports what it has *not* seen: address ranges with no visibility, assets with no agent from any security tool, segments outside scan scope. An inventory that only lists what it found, without measuring its own blind spots, fails the type's core promise.\n\n### Suppression exists for known noise\n\nRepeatedly observed but understood artifacts (known lab devices, expected duplicates) can be suppressed from views and alerts without deleting the underlying record.\n\n### The population is the organizing quantity\n\nThe asset population is the number the whole product is organized around: commercial plans are typically sized to the environment rather than to seats, and retention policies and query performance are sized against population scale.",
+        "rules_zh": "### 每个真实资产一个记录，基于稳定身份\n\n清单的正确性依赖于身份解析。合并键是稳定标识符——硬件地址、序列号、主机名——而不是易变的 IP 地址等。移动或更改地址的设备必须保持为同一记录。产品在严格性上有所不同：一些将关联范围限定到站点或段，将从不同范围看到的相同物理系统设计为单独记录。\n\n### 缺失是一种状态，而非删除\n\n未再次看到的资产通常标记为离线/不活跃，而不是删除，保留其历史记录；重新出现则恢复它。重大身份更改（新网络适配器、重新映像系统）可能合法地产生新记录，旧记录保持离线；产品预期一些手动清理并提供它。\n\n### 风险是推断的；关键性是分配的\n\n一个反复出现的模式：**风险**从附加到资产的证据（漏洞、风险配置）计算，而**关键性**是关于资产对组织重要性的人为判断。两者故意分离——低风险资产可以是业务关键的，高风险资产可能是可丢弃的。自动化可以按规则应用关键性，但价值源于人类意图。\n\n### 源被保留，而非静默合并\n\n当多个工具报告同一资产时，记录保留每个贡献源及其报告时间。冲突值是一等显示关注点，因为“哪个工具正确？”本身就是一个安全问题。\n\n### 覆盖率诚实是一项功能\n\n应用程序报告它*未*看到的内容：无可见性的地址范围、无任何安全工具代理的资产、扫描范围外的段。一个清单",
+        "parent_id": "15.08",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "cyber-risk-quantification",
+        "name_zh": "网络风险量化(CRQ)",
+        "domain_id": "15",
+        "parent_id": "15.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-152/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source cyber risk quantification FAIR Monte Carlo GitHub"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "cyber-risk-quantification",
+        "name": "Cyber Risk Quantification",
+        "name_zh": "网络风险量化(CRQ)",
+        "aliases_zh": [
+          "网络风险评估",
+          "风险量化分析"
+        ],
+        "overview": "A **Cyber Risk Quantification** application is a security risk analysis application that expresses an organization's exposure to cyber loss in probabilistic, monetary terms. It analyzes explicitly defined cyber risk scenarios, combines an estimate of how often each kind of loss event is likely to occur with an estimate of how much such an event would cost, and turns that combination into financial risk figures — expected annual loss, worst-case (tail) loss at stated exceedance levels, and event likelihood — that decision-makers can act on.\n\nIts defining core is small:\n\n```text\nCyber risk scenario (scope × threat event type × loss effect)\n└── Loss event frequency (how often this kind of event happens)\n    └── Loss magnitude (what one event costs, by loss category)\n        └── Probability-weighted financial exposure\n            (expected annual loss · tail/exceedance loss · event likelihood)\n```\n\nEverything else commonly associated with modern CRQ — Monte Carlo simulation engines, loss exceedance curves, peer benchmarking, insurance analytics, continuous telemetry ingestion, AI assistance — is widespread in current products but is not what makes the product a CRQ application. An expert analysis built on a spreadsheet with calibrated estimates and a simulation satisfies the same core; older and simpler realizations of the Type are recognizable under this definition.\n\nThe Type exists because qualitative risk ratings (high/medium/low heat maps) and external security scores cannot answer the questions executives, boards, regulators, and insurers actually ask: *how much money is at risk, how likely is the worst case, and which investment reduces it most?*",
+        "overview_zh": "一款**网络安全风险量化**应用是一种安全风险分析应用，它以概率和货币形式表达组织面临的网络损失风险。该应用分析明确界定的网络安全风险场景，将每种损失事件可能发生的频率估算与该事件可能造成的成本估算相结合，并将这种组合转化为财务风险数据——包括预期年损失、在规定超越概率下的最坏情况（尾部）损失，以及事件可能性——供决策者采取行动。\n\n其定义性核心很简单：\n\n```text\n网络安全风险场景（范围 × 威胁事件类型 × 损失影响）\n└── 损失事件频率（此类事件发生的频率）\n    └── 损失幅度（单次事件成本，按损失类别划分）\n        └── 概率加权财务风险敞口\n            （预期年损失 · 尾部/超越损失 · 事件可能性）\n```\n\n与现代CRQ通常相关的所有其他内容——蒙特卡洛模拟引擎、损失超越曲线、同行基准比较、保险分析、持续遥测数据接收、AI辅助——在当前产品中都很普遍，但它们并非构成CRQ应用的核心。基于电子表格构建的专家分析，使用校准过的估算和模拟，同样满足这个核心要求；该类型更早期、更简单的实现方式在此定义下也易于识别。\n\n该类型之所以存在，是因为定性风险评级（高/中/低热力图）和外部安全评分无法回答高管、董事会、监管机构和保险公司实际提出的问题：*有多大金额处于风险之中？最坏情况发生的可能性有多大？哪项投资能最大程度降低风险？*",
+        "dc": "**Risk scenario.** The unit of analysis. A scenario binds three things: a scope (a part of the organization, an asset group, a service, or a third party), a threat event type (for example ransomware, data breach, credential theft, business interruption caused by a supplier outage), and the loss effect of that event. A scenario is a question stated precisely enough to be answered with numbers. Scenario definition discipline matters: an ambiguous scope or event type makes the analysis unusable, so mature products offer pre-defined scenario catalogs and structured authoring to control for this.\n\n**Loss event frequency.** An estimate of how often the scenario's loss event occurs per unit of time (typically per year), expressed probabilistically — as a range or distribution, not a single number.\n\n**Loss magnitude.** An estimate of what one occurrence of the event costs, also expressed as a distribution and usually decomposed into loss categories — for example incident response and recovery, replacement, lost revenue and business interruption, regulatory fines and legal costs, and reputational impact. One product aligns its loss categories explicitly with standard insurance coverage categories; the underlying idea — a structured taxonomy of damage types — is common.\n\n**Probability-weighted financial exposure.** The combination of frequency and magnitude into distributional outputs. The signature figures are:\n\n- **Expected / average annual loss** — the probability-weighted yearly cost of the scenario.\n- **Tail loss** — the loss that would be exceeded only at a stated low probability (a \"1-in-100 year\" style figure; the exact recurrence conventions vary by product).\n- **Event likelihood** — the probability of one or more loss events in a period.\n- **Loss exceedance curve** — the full curve relating loss size to the probability of exceeding it, which lets readers see the whole distribution rather than a single point.\n\nThese are distributions, not certainties. The application's job is to make the uncertainty explicit and the numbers defensible — traceable to inputs, assumptions, and model versions.",
+        "dc_zh": "**风险场景。** 分析单位。场景绑定三件事：范围（组织的一部分、资产组、服务或第三方）、威胁事件类型（例如勒索软件、数据泄露、凭证盗窃、因供应商中断导致的业务中断）以及该事件的损失影响。场景是一个表述足够精确、可以用数字来回答的问题。场景定义的规范性很重要：模糊的范围或事件类型会使分析无法使用，因此成熟的产品会提供预定义的场景库和结构化的创建工具来控制这一点。\n\n**损失事件频率。** 对场景损失事件发生频率的估计（通常按年计），以概率形式表达——表现为一个范围或分布，而非单一数字。\n\n**损失幅度。** 对单次事件成本的估计，同样以分布形式表达，通常分解为不同的损失类别——例如事件响应与恢复、替换、收入损失与业务中断、监管罚款与法律成本、以及声誉影响。某款产品明确将其损失类别与标准保险承保类别对齐；其底层理念——结构化的损害类型分类法——是共通的。\n\n**概率加权财务敞口。** 将频率与幅度结合，形成分布性的输出结果。",
+        "rules": "### Outputs are distributions, and they must stay explainable\n\nEvery figure is a probability-weighted estimate tied to inputs, assumptions, and a model version. Mature products log each quantification run with the reason the numbers moved (model update, posture change, profile change). This traceability is a structural expectation: the outputs are used in board, regulator, and insurer conversations where an unexplainable number is worthless.\n\n### Scenario discipline governs validity\n\nThe analysis is only as good as the scenario's scope. A scenario that fails to state what is at risk, which threat, and which kind of event cannot be quantified meaningfully. Products mitigate this with pre-defined scenario catalogs and structured authoring, and methodology guidance treats mis-scoped scenarios as the primary failure mode.\n\n### Control state drives the numbers\n\nSecurity-control posture is a model input, so when posture changes — a control is upgraded, degraded, or newly monitored — the financial outputs change. In continuous products this recalculation is automatic; in periodic products it happens at re-run. Either way, the same control change that security tools report as technical state appears here as a change in monetary exposure.\n\n### Two complementary modes, one register\n\nTop-down and bottom-up approaches are not competing products but two depths of the same program: quick organization-level exposure from minimal inputs, and the detailed custom scenario inventory. Mature implementations keep both in one register so the quick view and the deep view reconcile.\n\n### Qualification for regulatory language\n\nWhen products support disclosure workflows, they translate distributions into quantified materiality thresholds — a financial-loss, record-compromise, or outage-duration figure against which an incident's significance can be judged. The application supports the judgment; it does not make the disclosure decision.",
+        "rules_zh": "### 输出是分布数据，且必须保持可解释性\n\n每个数据点都是与输入、假设和模型版本相关的概率加权估算。成熟的产品记录每次量化运行，并说明数据变动的原因（模型更新、态势变化、概况变化）。这种可追溯性是一种结构性预期：输出数据将用于与董事会、监管机构和保险公司的对话中，无法解释的数据毫无价值。\n\n### 场景规范性决定有效性\n\n分析的质量仅取决于场景的范围。一个未明确界定风险对象、威胁类型和事件类型的场景，无法进行有意义的量化。产品通过预定义的场景目录和结构化创建流程来缓解此问题，方法论指导将范围界定错误的场景视为主要的失效模式。\n\n### 控制状态驱动数据变化\n\n安全控制态势是模型的一项输入，因此当态势发生变化——控制措施被升级、降级或开始被监控时——财务输出也会随之改变。在持续量化产品中，这种重新计算是自动的；在周期性产品中，则在重新运行时发生。无论哪种方式，安全工具报告的技术状态变化，在此处都体现为货币风险敞口的变化。\n\n### 两种互补模式，一个登记册\n\n自上而下和自下而上的方法并非相互竞争的产品，而是同一计划的两个不同深度：基于最少输入的快速组织级风险敞口，以及详细的定制化场景清单。成熟的实现方式将两者保存在同一登记册中，以便快速视图和深度视图能够相互印证。\n\n### 符合监管语言的资格\n\n当产品支持披露工作流时，它们将分布数据转化为量化的重大性阈值——关于财务损失、记录泄露或中断持续时间",
+        "parent_id": "15.08",
+        "domain_id": "15"
+      }
+    },
+    {
+      "progress": {
+        "slug": "dark-web-monitoring",
+        "name_zh": "暗网监控",
+        "domain_id": "15",
+        "parent_id": "15.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-152/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source dark web monitoring leak analysis framework GitHub AIL"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "dark-web-monitoring",
+        "name": "Dark Web Monitoring",
+        "name_zh": "暗网监控",
+        "aliases_zh": [
+          "暗网监测",
+          "暗网巡查"
+        ],
+        "overview": "A **Dark Web Monitoring** application keeps a standing watch over hidden and illicit online sources — Tor-hidden sites, underground forums and marketplaces, and in current implementations closed chat channels where stolen data is traded — together with leaked-data and breach datasets, and matches everything that surfaces there against a defined subject's watchlist of exposure identifiers: credentials and email addresses, corporate domains, brand terms, key people, technical assets. Every match is recorded as an exposure finding — what was found, where, and when — and delivered as an alert to the party responsible for that subject.\n\nThe problem it solves is asymmetry of discovery: when an organization's or a person's data is stolen, the first place it usually appears is a criminal marketplace or forum, not the victim's own systems. A monitoring application of this type moves discovery of that exposure from \"when the damage happens\" to \"when the data goes up for sale.\"\n\nThe boundary is the combination of two things: a **subject-bound watchlist** and a **watch over illicit/underground source economies**. Remove the subject binding and the product becomes an underground data feed or search service; remove the underground-source scope and it becomes breach notification or clear-web brand monitoring.",
+        "overview_zh": "一款**暗网监控**应用程序持续监视隐秘和非法的在线来源——Tor隐藏站点、地下论坛和市场，以及当前实现中进行被盗数据交易的封闭聊天频道——同时收集泄露数据和违规数据集，并将所有在这些地方出现的匹配项与预先定义的监控对象暴露标识符监视列表进行比对：这些标识符包括凭据和电子邮件地址、企业域名、品牌术语、关键人员、技术资产。每一次匹配都作为一个暴露发现被记录下来——发现了什么、在哪里发现、何时发现——并作为警报发送给负责该监控对象的一方。\n\n它解决的问题是发现的不对称性：当一个组织或个人的数据被盗时，通常第一个出现的地方是犯罪市场或论坛，而不是受害者自己的系统。此类监控应用程序将这种暴露的发现时机从“损害发生时”转移到“数据被出售时”。\n\n其边界由两方面组合决定：一个**与监控对象绑定的监视列表**，以及一个**对非法/地下来源经济体的监视**。移除与监控对象的绑定，该产品就变成了一个地下数据推送或搜索服务；移除对地下来源范围的监视，它就变成了违规通知或公开网络的品牌监控。",
+        "dc": "```text\nMonitored subject + identifier watchlist\n│   (the exposures worth watching: credentials/emails, domains,\n│    brand terms, key people, technical assets)\n└── Standing watch over hidden / illicit source economies\n    │   (dark web sites, underground forums & marketplaces, chat channels;\n    │    commonly complemented by breach and leak datasets)\n    └── Exposure finding\n    │   (a matched hit: what surfaced, where, when — source-bound and subject-bound)\n    └── Alert to the responsible party\n        (delivered so the subject can act)\n```\n\nFour properties. If any one is removed, the product stops being this type of application:\n\n- **Monitored subject and watchlist** — monitoring is always monitoring *for someone*. The watchlist is the translation of a subject (a company, an agency's case, a person) into matchable identifiers: corporate and subsidiary domains, employee or executive email addresses, brand names, API keys and other machine identities, or, for consumers, personal contact and account identifiers. The list is typically seeded from the subject's primary identifiers and then tuned over time.\n- **Standing watch over hidden/illicit sources** — collection is continuous, not on demand. The monitored space is the hidden and criminal side of the internet: sites requiring special anonymity software, underground forums and marketplaces, and — increasingly in current products — closed chat and messaging channels where trading has migrated. Leak and breach datasets are a standard complement to the live watch.\n- **Exposure finding** — the unit of work. A finding is a recorded match between a watchlist identifier and a specific piece of source content, carrying provenance: what data appeared, on which source, at what time. Findings persist and accumulate into the subject's exposure history.\n- **Alert** — the finding must reach a party who can act: an analyst console, an email or push notification, a downstream security system, or a service desk. An unalerted watch produces no value.",
+        "dc_zh": "监控对象 + 标识符监视列表\n│   （需要监控的暴露信息：凭证/电子邮件、域名、品牌术语、关键人物、技术资产）\n└── 持续监视隐藏/非法来源经济\n    │   （暗网站点、地下论坛与市场、聊天频道；通常辅以泄露和泄漏数据集）\n    └── 暴露发现\n    │   （匹配的命中：什么浮出水面、在哪里、何时——受来源和对象约束）\n    └── 向责任方发送警报\n        （以便对象可以采取行动）",
+        "rules": "- **Exposure is a historic fact.** A finding records something that happened in a place the subject does not control. Even after the password is changed or the data is removed, the record that the exposure occurred stands. Monitoring surfaces history; it cannot un-write it.\n- **Underground data can be false.** Claims that \"we have your data\" may be unverified, recycled from other incidents, or fabricated. Mature products therefore verify before asserting: legitimacy checks on the data, cross-referencing across sources, and — for credentials — validation against the subject's actual account systems. The distinction between \"claimed\" and \"confirmed live\" is a structural concern of this application type, not an afterthought.\n- **Noise reduction is structural.** Raw underground volume makes unfiltered alerting useless; scoring, deduplication, and relevance filtering are built into the finding pipeline rather than left to the user.\n- **Watchlists are authorization-bounded.** Legitimate products monitor only identifiers the customer is entitled to watch. Domain-based watchlists are established through control of the domain; consumer products verify the person's own identity before monitoring personal data. Watching a third party's identifiers without authorization is not a supported use.\n- **Observation, not participation.** The collection posture of legitimate services is to observe and collect from illicit sources without engaging in the criminal activity taking place there.\n- **Finding classes evolve; the structure persists.** What counts as an exposure has shifted over time — from leaked passwords to session cookies, tokens, and machine identities. The watch–finding–alert structure absorbs each new class without changing shape, which is why the type is defined by the structure rather than by any specific data type.\n- **Alerting obligates action but does not perform it** (unless the product offers execution). The application's output is verified knowledge with provenance; the response — resets, blocks, takedowns, incident escalation — happens in the subject's own systems or through optional execution services.",
+        "rules_zh": "- **暴露是一个既成事实。** 一个发现记录的是发生在监控对象无法控制的地方的事情。即使密码已更改或数据已删除，暴露事件发生的记录依然存在。监控呈现的是历史；它无法抹去历史。\n- **地下数据可能是虚假的。** 声称“我们拥有你的数据”的说法可能未经证实、来自其他事件的循环使用，或是捏造的。因此，成熟的产品在断言前会进行验证：对数据进行合法性检查、跨来源交叉验证——对于凭据类数据，还会对照监控对象的实际账户系统进行验证。“声称拥有”和“确认存活”之间的区别，是此应用程序类型的结构性考量，而非事后补充。\n- **降噪是结构化的。** 原始的地下数据量使得未经筛选的警报毫无用处；评分、去重和相关性过滤被内置于发现生成流程中，而不是留给用户处理。\n- **监视列表受授权范围约束。** 正规产品仅监控客户有权监视的标识符。基于域名的监视列表通过控制该域名来建立；消费类产品在监控个人数据前，会先验证此人是否为标识符的所有者。未经授权监控第三方的标识符不被支持。\n- **观察，而非参与。** 正规服务的收集姿态是从非法来源进行观察和收集，而不参与那里进行的犯罪活动。\n- **发现类别不断演进；结构保持不变。** 什么算作暴露，其定义随时间演变——从泄露的密码到会话Cookie、令牌和机器身份。监视–发现–警报的结构在不改变形态的情况下吸收了每一类新发现，这就是该类型由结构所定义的原因",
+        "parent_id": "15.08",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 13,
+    "phase": "repair",
+    "parent": 152,
+    "slugs": [
+      "vulnerability-management",
+      "attack-surface-management",
+      "cyber-asset-management",
+      "cyber-risk-quantification",
+      "dark-web-monitoring"
+    ],
+    "old_input_sha256": "4b83f28f0e46064bb0e5ae47adc824792f044682489c757bd32668847122de38"
+  },
+  "previous_continuation": {
+    "unit": 152,
+    "phase": "complete",
+    "parent": 29,
+    "slugs": [
+      "vulnerability-management",
+      "attack-surface-management",
+      "cyber-asset-management",
+      "cyber-risk-quantification",
+      "dark-web-monitoring"
+    ]
+  }
+}

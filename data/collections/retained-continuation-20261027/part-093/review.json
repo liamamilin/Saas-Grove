@@ -1,0 +1,78 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "membership-billing：WildApricot 首页只把自动续费、循环付款、发票和收款跟踪作为会员管理套件中的能力，未直接展示独立会费账单、退款/贷项，也未直接说明欠费会导致会员资格降级、暂停或失效；research note 中的“资格”覆盖应视为推断，若要更强证据可补充官方计费功能页。",
+    "membership-management-system：CiviCRM 是面向非营利的广泛 CRM，会员管理是其模块而非全部产品；但其官方用户指南确实覆盖会员类型、状态规则、续费提醒、自动/在线续费和 contribution 关联，核心匹配成立，未阻断。",
+    "advocacy-platform：请愿工具页证明组织选定倡导目标、撰写请愿、支持者签署、邮件或纸质递送以及签署者/流量来源报告；按支持者地址自动匹配官员未直接证明，但定义允许组织固定目标集，故不阻断。",
+    "religious-volunteer-management：People 页证明背景调查下单、完成/到期监控和“报名志愿服务后创建背景调查任务”的流程，Services 页证明团队、职位、排班、blockout、开放报名、提醒和自动排班；但未明确说明背景调查未完成或过期会阻止排班，服务小时/服务历史也仅由 ministry activity 与 attendance 间接支持，建议后续补证或收紧表述。",
+    "volunteer-management-system：Shift 首页的 capacity 证据主要来自图片 alt 文本；排班、自助报名、工时/考勤和报告正文证据充分。CASA 与 OpenVolunteer 的未采用理由已如实留档，不应据此表述为“不存在开源志愿者管理系统”。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致；若下游读取 progress，应同步更新。research.json 的 source_urls 还保留了 Admidio、CASA、OpenVolunteer 等未采用候选 URL，它们不在 REVIEW_SOURCES/batch 中，建议移入 rejected_candidates 字段以免被误读为支持来源。"
+  ],
+  "leaf_checks": {
+    "membership-billing": {
+      "result": "pass",
+      "applications": [
+        "commercial:wildapricot"
+      ],
+      "basis": "按 REVIEW_SOURCES.json 原样读取 sources/e69520b5…txt（WildApricot 官方首页）。正文含集中会员数据库、简化会员申请、自动续费与循环付款、在线/现场收款与发票、跟踪付款，并定位为云会员管理软件，覆盖“会员账户—会费/续费—收款”结构。",
+      "gaps": [
+        "首页未直接说明欠费导致会员资格降级/暂停/失效的 standing 联动，也未展示独立会费账单状态及退款/贷项记录。",
+        "该案例与 membership-management-system 共用同一首页，计费证据属于会员管理套件中的模块，而非独立计费产品。"
+      ]
+    },
+    "membership-management-system": {
+      "result": "pass",
+      "applications": [
+        "commercial:wildapricot",
+        "github:8495499"
+      ],
+      "basis": "WildApricot 首页正文覆盖会员数据库、会员申请、会员目录、自动续费与循环付款。CiviCRM 官方用户指南 sources/29ee8634…txt 说明会员类型、期限/周期、auto-renew、按 join/start/end 日期定义的状态规则（Pending/New/Current/Grace/Expired/Cancelled）及状态自动更新；sources/37fb1993…txt 说明续费提醒、自动续费、在线续费、人工续费及 contribution 关联。sources/d94ddb7d…txt 确认仓库 id 8495499、fork=false、archived=false、SPDX AGPL-3.0；sources/1925789d…txt 为完整 AGPL-3.0 许可证文本。",
+      "gaps": [
+        "CiviCRM 是广泛的非营利 CRM，会员管理为其中一个深度模块；不影响本叶核心匹配。",
+        "未验证部署、价格层级或运行时。"
+      ]
+    },
+    "advocacy-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:action-network"
+      ],
+      "basis": "Action Network 官方请愿工具页 sources/b271bab4…txt 正文含“Choose your advocacy target”、请愿编辑器、通过邮件或纸质递送、查看签署者与流量来源并下载名单；官方首页 sources/d7cbbe61…txt 将其定位为面向倡导组织、政治运动并“Mobilize Supporters”的工具。覆盖组织活动—支持者—政策目标行动—参与记录核心。",
+      "gaps": [
+        "未直接证明按支持者地址/邮编自动解析目标官员；现有证据更接近组织选定固定目标集，但该模式在定义规则内被允许。",
+        "未验证定价、部署或运行时。"
+      ]
+    },
+    "religious-volunteer-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:planning-center"
+      ],
+      "basis": "Planning Center People 官方页 sources/891010fc…txt 正文含教会会员数据库、ministry activity（attendance、giving、volunteering）、背景调查下单与完成/到期监控、面向成为会员或参与事工的 follow-up workflows、报名志愿服务后自动创建背景调查任务、可自定义字段（含 spiritual gifts）；Services 官方页 sources/32b310b6…txt 正文含 volunteer teams、positions、排班、blockout dates、开放 signup sheets、提醒邮件、按上次排班/偏好/blockout 自动排班；首页 sources/70f6eb65…txt 确认教会场景。覆盖会众人员记录—服务机会—资格/流程—服务安排。",
+      "gaps": [
+        "未明确说明背景调查未完成或过期会阻止排班（eligibility gate）；仅证明监控、提醒和工作流。",
+        "未直接证明服务小时/服务历史累计到个人；People 的 ministry activity 与 attendance 只提供间接支持。",
+        "未验证价格、教派合规或运行时。"
+      ]
+    },
+    "volunteer-management-system": {
+      "result": "pass",
+      "applications": [
+        "commercial:shift-volunteer"
+      ],
+      "basis": "Shift 官方首页 sources/620cbb17…txt 正文含 volunteer database、集中发布 volunteer shifts/opportunities、志愿者通过链接回应并自助排班、日程显示每班已报名人数与剩余 positions、hours logging 与 attendance tools、可下载报告，以及 FAQ 中的 promote open shifts、allow volunteers to self-schedule、track volunteer hours。覆盖志愿者记录—机会—接收/排班—服务记录/报告核心。",
+      "gaps": [
+        "未证明 readiness/screening 门槛会阻止排班；核心证据以排班、工时与报告为主。",
+        "capacity 证据主要来自图片 alt 文本，正文证据较弱。",
+        "未保留可确认许可证的开源 VMS 案例；CASA（缺机会结构与接收→安置）和 OpenVolunteer（仓库无许可证元数据、license API 404、README 仅 Laravel MIT 声明）的未采用理由已留档。"
+      ]
+    }
+  },
+  "limits": "本次为只读、单单元初审；未运行部署、运行时、价格、权限或数据安全测试，也未检查其他单元。快照均按 REVIEW_SOURCES.json 的 path 原样读取。CiviCRM 许可证快照为 GitHub API 返回的 base64 全文（34,524 字节），已核对 SPDX 标识及仓库元数据。Planning Center 与 Shift 的页面为 Next.js/HubSpot 单行长 HTML，read 工具对单行截断，因此结合快照内关键词存在性核对，并对 Planning Center People/Services 同 URL 官方页做了补充文本读取；未读取未列出的历史版本或其他页面。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-093/ses_groveopencodegop093review1_1792998709.jsonl",
+  "batch_sha256": "58929d592449fba4f4fa82a32bc769f6f9760381ba2cc6f88313e7db65ff688b",
+  "research_sha256": "4ddb5c6ec14684887e0ac8f857d6118b6a4fd77bf49be552448977857b149f09",
+  "input_sha256": "543412b5880c63f5c06c2e8645899fd92bb423e493e96af73b604a718744dd61"
+}

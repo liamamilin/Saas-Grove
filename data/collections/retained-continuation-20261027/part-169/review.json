@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍标为 not_searched，application_ids 和 research_records 为空，与 batch.json/research.json 的已采集状态不一致；本次以 batch/research 及实际快照为准，建议下游同步该元数据。",
+    "Bentley OpenBuildings Designer 与 OpenRoads Designer 是桌面端产品并配合云服务，不是纯浏览器 SaaS；按商业条目“基本真实性和类型匹配”标准不阻断。",
+    "Bentley OpenBuildings 快照支持 BIM 建模、IFC/COBie、协调图纸/明细表，但未逐字出现“single source of truth/修订自动更新二维”的表述；采集理由中的该措辞略强于正文，属非阻断措辞问题。",
+    "SkyCiv 的 structural-software 快照偏产品归档/列表页，实质功能证据主要来自 S3D 页面；两页合并足以核对核心。",
+    "openMAINT 的 repository_url 指向 Pat-srl/cmdbuild（CMDBuild 平台仓库），README 明确 openmaint.war 对应 openMAINT；不是独立的 openMAINT 仓库，但发行版身份和许可证可核。",
+    "openMAINT 首页明确 Self-Service Portal、Mobile APP 等属于商业订阅附加；本次未将其计入开源核心，社区版边界按核心 Web/CMMS 功能理解。",
+    "openMAINT 官方正文未明确 expected useful life/replacement year，仅以 condition/status、维护成本、折旧、维护覆盖支持生命周期视图；research.json 已留档该缺口，未主张自动寿命预测。",
+    "research.json 中部分被拒绝候选的说明（如 Procore、SourceForge、Bonsai/FreeCAD、Code_Aster 等）未附对应快照；本审查未将其作为本单元应用证据。"
+  ],
+  "leaf_checks": {
+    "subcontractor-management": {
+      "status": "pass",
+      "application_id": "commercial:hammertech",
+      "basis": "读取 data/collections/sources/0f3c2424122e20beae2490c5595002837e822380d75fb5aee3c405cda95e4ee2.txt（HammerTech 官方 Subcontractor Management 页）。正文/FAQ 明确：Employers 标签添加分包商，档案含名称、地址、活跃项目、保险信息、可配置预审问题；自助门户允许分包商上传保险/安全文件并维护工人信息；系统跟踪文件到期并突出合规缺口；仪表板可按项目查看保险、安全文件和审批状态。覆盖公司群体、适任状态、项目关联三段核心；商业 SaaS，类型匹配。",
+      "notes": []
+    },
+    "bim-authoring": {
+      "status": "pass",
+      "application_id": "commercial:bentley-openbuildings-designer",
+      "basis": "读取 data/collections/sources/b0dcdd5561ea57d854f3df2cbc7524c5bdeb8eef4cb475c5ff57772c82c0792a.txt（Bentley OpenBuildings Designer 官方页）。页面称其为多专业 BIM 软件，支持三维建模、墙/门窗/结构/机电参数化构件、图纸与明细表生成、IFC/COBie/RealDWG/RFA 交换、iTwin 协作；功能列表含 produce drawings and schedules、Automate coordinated drawings。足以核对对象模型、结构化信息、模型作为项目记录、派生交付四段核心；商业桌面加云，类型匹配。",
+      "notes": [
+        "正文未逐字使用 single source of truth/修订自动更新二维；模型作为项目记录由 BIM 软件定位、协调图纸/明细表和 IFC/COBie 支持，属措辞强度问题。"
+      ]
+    },
+    "civil-site-design": {
+      "status": "pass",
+      "application_id": "commercial:bentley-openroads-designer",
+      "basis": "读取 data/collections/sources/64769ca010c0e4d68d38ee35c4843e2748cab9b5018a86d64a04b45e913094b2.txt（OpenRoads Designer 官方页）。功能表明确：导入点云/LiDAR/DEM/LandXML 等建立地形；水平/竖向几何、廊道、超高、场地平整；三角网/平均断面土方与土方报告；平面/纵断面/横断面出图；排水/雨水/污水水力分析；同步 Bentley Infrastructure Cloud。覆盖实测地形、拟建线性/场地对象、土方评估、设计驱动文档。",
+      "notes": []
+    },
+    "structural-engineering-design": {
+      "status": "pass",
+      "application_id": "commercial:skyciv-structural-3d",
+      "basis": "读取 data/collections/sources/570b93ea0adf20cfd786f79eef349ef46cde84b6e82f18c9532234186b821349.txt（SkyCiv 产品页/归档页）与 cc465b795617caa12f0be2bae71a2a3c598bb824a5970e90885cd92658166275.txt（S3D 页面）。S3D 页明确浏览器访问、三维建模、节点/构件/荷载/组合、线性/p-delta/屈曲/索/板/频率/反应谱分析；钢/混凝土/木/冷弯/连接按 AISC、AS、CSA、BS、EN、IS、NZS、ACI 等规范设计；所有设计模块提供详细计算报告，正文称公式/规范引用完整显示。覆盖结构模型、荷载、响应、规范验算四段核心。",
+      "notes": []
+    },
+    "building-asset-management": {
+      "status": "pass",
+      "application_id": "github:1418976622",
+      "basis": "读取 data/collections/sources/3748277c8e268c17577a0a19e922be04f0a9eb9a4ba8cb6a7431c9c1feb8663c.txt（openMAINT 首页）、10a9584aa83cde7aac2e06782b5f4e8d12c565d700baa933aa9de6d59cc267b7.txt（Space & Asset Inventory）、d8f60c68b69db40a037470024ce26b89122fa123182a379050c590a15bf2517b.txt（Facility Maintenance）、41bb4eb860265af576eaf8555cd1b30e87f047888ca99fafeede10d5fe3c75a2.txt（README）、2a3c7fa154a2ac42eca590e30c66613be1d8c4edc80f9b3e9d71b8878f08ae1c.txt（COPYING）、3a44c7b82c88354383edd9a4adf9d23690dc3c5820ffb56c2389e081d60361db.txt（GitHub 仓库元数据）。资产页明确按园区/建筑/楼层/房间、装置、技术资产、家具、外部基础设施建卡，记录 ID/技术（状况、状态）/功能/行政（维护成本、折旧、维护覆盖）/文档档案；维护页明确预防性/纠正性维修、维护手册、工单、检查表和干预报告；README 明确 openmaint.war 与 AGPL-3.0-only，license 快照为完整 AGPL COPYING；仓库 id=1418976622 与 batch 一致。",
+      "notes": [
+        "官方正文未明确 expected useful life/replacement year；lifecycle outlook 主要由 condition/status、维护成本、折旧、维护覆盖支持；research.json 已如实记录该缺口，未主张自动寿命预测。",
+        "Self-Service Portal、Mobile APP 属商业订阅附加，未计入开源核心；社区版核心以 Web 资产清单和 CMMS 维护功能为准。"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行或部署任何应用，未做运行时、价格或架构验证；依据 2026-10-26 抓取的官方页面快照与 GitHub API 快照，并严格按 REVIEW_SOURCES.json 的 path 从 data/collections/sources 读取；GitHub API 在 openMAINT 查询后触发限流；部分候选站点（Autodesk、Graphisoft、SubCompliant）抓取失败，相关结论仅基于已保存快照和 research.json 的留档；openMAINT 的 expected life/replacement 字段未在官方正文确认；未对商业产品做第三方交叉验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-169/ses_groveopencodegop169review1_1793017891.jsonl",
+  "batch_sha256": "25dfe005ced1be5c33aad70716a2e5035e88ef6ba45aaf3a0c644d91cfa0a78f",
+  "research_sha256": "4bee812df0091cb05a1acc928550defd881a9e1f1f0e14cd0b7696edfd72e0e9",
+  "input_sha256": "10991adfd1955e4eac3d3a9f0dc426ec25b2fe2b914a8e75ea271c664a0a683e"
+}

@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Restaurant365 匹配理由中的“工时”与 MarketMan 匹配理由中的“调拨”属于支持性措辞；可见快照分别明确排班/薪资、库存/采购收货/浪费/盘点与 AVT，但未单独突出工时考勤或调拨记录。建议后续补一条直接来源，或将措辞收窄为快照可直接支持的范围。",
+    "三款商业产品均只引用官方首页。作为商业条目的基本真实性与核心类型匹配已足够，且 runtime_tested=false 记录如实；价格、部署方式与完整功能清单未核验，不属于本次阻断项。",
+    "TastyIgniter 的菜单管理证据来自平台内嵌后台（Restaurant > Menu Items）及 Cart 文档，并非独立菜单编辑器。research.json 的 service_boundary 已说明这一点，建议在 leaf_matches 中也保持“平台内嵌目录”措辞，避免被理解为独立菜单管理产品。",
+    "research.json 中多条 search_attempts 标注“沿用旧记录”，菜单叶新增了检索并记录了 /docs/menus 的 HTTP 404 缺口。现有官方来源已充分，按任务可通过；后续可补充新的检索留档。",
+    "三款商业产品均具备相邻类型能力（R365 含库存/食谱，MarketMan 含 AVT，MarginEdge 含盘点），当前按“重心 + service_boundary”归属，边界说明清楚，未发现跨叶重复收录的阻断问题。",
+    "TastyIgniter 首页定价区明确“Free core £0”“Essential extensions are included at no cost. Paid extensions are optional extras”，与 batch 中“community core is free, with optional paid marketplace extensions”一致；开源社区版边界证据充分。"
+  ],
+  "leaf_checks": {
+    "restaurant-food-cost-management": {
+      "application_id": "commercial:marginedge",
+      "status": "pass",
+      "basis": "MarginEdge 官方首页正文明确：自动化发票处理并实时跟踪食品成本；“Recipe costing”说明 “Plate costs update as prices change”；库存盘点与 “see what you used against what you sold”；Ask Tom 解释食品成本变化。该组合覆盖成本化食谱、实际食品成本记录、理论/实际差异循环三个定义性核心。官方首页将其定位为餐厅后台/食品成本控制产品，与餐饮食品成本管理类型匹配；库存与采购仅作为支撑能力，未扩展为其他叶子。",
+      "gaps": "仅核验官方首页快照，未运行产品，未核验价格、部署或全部报表细节。"
+    },
+    "restaurant-inventory-management": {
+      "application_id": "commercial:marketman",
+      "status": "pass",
+      "basis": "MarketMan 官方首页标题与正文定位为 Restaurant Inventory Management Software；功能列表包含 Inventory Management、Purchasing and Receiving、Waste Management、Actual vs Theoretical (AVT) Reporting、Web & Mobile App；正文出现库存盘点（counts）语义，并与 POS/会计/供应商集成。以库存记录、库存事件和盘点对账为中心，符合餐厅库存管理类型；食谱成本与 AVT 作为支撑，未据 AVT 扩展为食品成本管理类型。",
+      "gaps": "首页未逐项展示库位、调拨、盘点覆盖的完整流程；“transfers/调拨”在可见正文中不突出，属于支持性措辞层面的不足；未运行产品。"
+    },
+    "restaurant-management-system": {
+      "application_id": "commercial:restaurant365",
+      "status": "pass",
+      "basis": "Restaurant365 官方首页标题为 Restaurant Management Software，页面导航与正文覆盖会计、库存与采购、AI Dashboards、Scheduling、Payroll & HR、Multi-Location Groups；正文称 R365 AI 将每笔交易连到 P&L、在期末前揭示差异，并整合 recipes、purchasing、inventory counts 以发现浪费和成本差异；案例内容提到 food and labor prime costs 的跨店比较。符合跨运营域管理层与计划—实际—差异控制循环，且不是 POS/点餐交易面。",
+      "gaps": "未核验具体预算/排班计划与实际对比界面，仅基于官方首页；未核验价格与部署。"
+    },
+    "restaurant-menu-management": {
+      "application_id": "github:16455664",
+      "status": "pass",
+      "basis": "TastyIgniter 官方帮助中心 Menu items management 显示后台 Restaurant > Menu Items 可维护 Name、Price、Priority、Category、Ingredients/Allergens、Mealtime、Location、Minimum Quantity、Stock Quantity、Order Restriction、Description、Image、Status，并支持分类、选项、配料/过敏原与特价；Status 控制网站显示，库存为 0 且开启跟踪时不可下单。Cart 文档进一步说明 Cart 以 Menu 模型为可购买项，菜单目录由点餐/结账界面消费，满足“结构化目录 + 维护循环 + 运营发布”。仓库元数据 id=16455664、full_name=tastyigniter/TastyIgniter；LICENSE.md 为完整 MIT 文本；首页定价明确 free core 与免费 essential extensions、付费扩展可选，社区版边界清楚。",
+      "gaps": "未运行后台；未逐项验证所有渠道同步/发布行为；菜单管理为平台内嵌能力，不是独立菜单编辑器。"
+    },
+    "restaurant-online-ordering": {
+      "application_id": "github:16455664",
+      "status": "pass",
+      "basis": "TastyIgniter 官网正文写明 “Free & open-source · Zero commission · Self-hosted”“A fully branded ordering experience”“Customers order on your page”；README 说明面向顾客的在线点餐与订座；仓库描述为 open-source online ordering, table reservation and management system。Cart 文档给出购物车、结账、guest order、支付网关、配送/自取、lead time、advance order、ASAP/时段及订单状态工作流（accepted/processing/completed 等），符合顾客自助组合提交、订单记录与履约条款进入餐厅运营的核心；不是外卖聚合市场或配送履约系统。MIT 许可证与仓库身份已核。",
+      "gaps": "Cart 文档偏开发者 API，未直接展示顾客前端页面；未运行下单流程，未核验支付/配送实际集成。"
+    }
+  },
+  "limits": "只读审查，仅使用本单元提供的 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 9 个快照；未联网、未运行 shell、未做部署或运行测试。快照为原始 HTML，单行很长且含大量导航/CSS，阅读器对超长行有显示截断，部分正文结论通过定向文本匹配与可见段落交叉核对，未做完整浏览器渲染。商业条目只核验基本真实性与核心类型匹配，未核验价格、架构、完整功能或客户评价。开源条目核验了 GitHub 仓库 id/全名、根 LICENSE.md 的 MIT 全文及官网 free core/paid add-ons 边界，未逐个检查 composer 扩展包的许可证或源代码。未独立复核快照抓取时间之后的线上变化；商业快照时间为 2026-10-25，TastyIgniter 快照为 2026-10-26。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-101/ses_groveopencodegop101review1_1793000429.jsonl",
+  "batch_sha256": "8de43303909dba528b11983e9a4a9108ac181e78e94c45165bc414b2e0c0d074",
+  "research_sha256": "0313f0fb60eca6e8d684c28c972a5af33d545cd1211a529e69e31e4dd1ea7da3",
+  "input_sha256": "25a4f98b8e5ccc37eb12fef66c815893696e4736e86f479f20cebe34b985b656"
+}

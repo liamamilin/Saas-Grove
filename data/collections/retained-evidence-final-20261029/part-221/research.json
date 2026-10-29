@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "nonprofit-grant-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1365010357"
+      ],
+      "query": "github search repositories q=\"grant management\" nonprofit; grant tracking self-hosted nonprofit; 复用 github search repositories q=nonprofit grant management 与 open source grant management system github nonprofit recipient",
+      "source_urls": [
+        "https://api.github.com/repos/sekacorn/CivicOps",
+        "https://raw.githubusercontent.com/sekacorn/CivicOps/master/README.md",
+        "https://api.github.com/repos/sekacorn/CivicOps/license",
+        "https://api.github.com/repos/sekacorn/CivicOps/git/trees/master?recursive=1",
+        "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grants/grant/Grant.java",
+        "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grants/expense/GrantExpenseService.java",
+        "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grantreporting/report/GrantReportService.java"
+      ],
+      "note": "历史复用与本轮补证已区分。历史两轮检索记录了 sekacorn/CivicOps，但因“0.1.0 release candidate、多模块平台、成熟度未证明”未收；本轮按定义核对后确认其 grants 与 grantreporting 是接收方侧的完整业务子模块，而非仅平台附属功能，故建立关系。实际核对：Grant.java 记录 organization、grantorName、awardAmount、grantNumber、申请/提交/授予日期、startDate/endDate、reportingDeadline、restricted/restrictionDescription，并以 PROSPECT→APPLICATION_IN_PROGRESS→SUBMITTED→AWARDED→ACTIVE→CLOSED（含 REJECTED/WITHDRAWN）受控迁移，Closed 后拒绝编辑；GrantExpenseService.java 仅允许 ACTIVE 赠款登记支出，锁定赠款行并拒绝累计支出超过 awardAmount；GrantReportService.java 提供按赠款创建报告、模板章节、冻结证据快照、必需章节批准校验与 finalize 定稿。README 另证明自托管 Docker Compose、Angular grants 路由、组织隔离与 GRANT_MANAGER 角色。许可证已单独核对：LICENSE 文件为完整 Apache License 2.0（11359 字节，GitHub license API spdx_id=Apache-2.0）；README 末尾“no license is declared yet”为过时表述，与 LICENSE 文件冲突，故不据此否定许可，已在 notes 留档。历史快照与本次抓取 SHA 相同（README 1fc2…、仓库元数据 bb65…），说明内容未变；旧记录未保存 fetched_at，本次批次使用本轮真实抓取时间，未补造旧时间。仍未收：mike-marcacci/gandhi 为 alpha 且仅展示申请/资助方视角，未证明接收方赠款生命周期、义务与按赠款预算；本轮 GitHub 检索命中的 zite/grant-management 属资助方申请/评审/决策，akashpatil6294/grant-management-system、grantautomation/grantautomation、Tuiimyali/Grant-Flow 无许可证，MuseDeploy/NonprofitCloud 为 Salesforce 安装器，Awesome 列表与 Notion 模板不是软件服务，均未纳入。两次定向查询仅覆盖 GitHub 关键词结果，不据此断言其他产品不存在。",
+      "service_boundary": "本类型只收接收组织侧：组织作为受赠方，围绕每笔赠款记录资助方、金额、期限、用途与条款，并管理报告义务和按赠款预算的支出。CivicOps 的 grants 记录归属于组织自身（organization_id），grantorName 为外部资助方，属接收方侧；其资助报告模块服务于受赠方报告义务。Navari Grants Management 等资助方定义计划、征集申请、评审与拨付的平台属 grantmaking-platform，不复用于本叶；gandhi 亦未证明接收方侧完整生命周期。平台同时含志愿者、捐赠、活动等模块不影响本叶判断，因其 grants+grantreporting 子模块自身已覆盖记录、义务与资金纪律三项核心。",
+      "search_attempts": [
+        {
+          "query": "github search repositories q=\"grant management\" nonprofit",
+          "candidates": [
+            "sekacorn/CivicOps",
+            "zite/grant-management",
+            "akashpatil6294/grant-management-system",
+            "grantautomation/grantautomation",
+            "Tuiimyali/Grant-Flow",
+            "MuseDeploy/NonprofitCloud",
+            "ishandutta2007/Awesome-Nonprofit-Grant-Management"
+          ],
+          "outcome": "total_count=15。CivicOps 为唯一具备完整许可证、自托管应用形态且覆盖接收方赠款记录/生命周期/支出/报告的候选；zite/grant-management 面向资助方申请与评审决策；akashpatil6294、grantautomation、Tuiimyali 无许可证；MuseDeploy 为 Salesforce 安装器；Awesome 列表与 Notion 模板不是应用服务。"
+        },
+        {
+          "query": "grant tracking self-hosted nonprofit",
+          "candidates": [],
+          "outcome": "GitHub 仓库检索 total_count=0，无新增候选；仅记录该查询结果，不据此断言此类产品不存在。"
+        },
+        {
+          "query": "复用历史：github search repositories q=nonprofit grant management",
+          "candidates": [],
+          "outcome": "历史记录未找到符合定义核心的完整应用；本轮未重复该原始查询，仅复用其结论作为背景。"
+        },
+        {
+          "query": "复用历史：open source grant management system github nonprofit recipient",
+          "candidates": [
+            "sekacorn/CivicOps",
+            "mike-marcacci/gandhi",
+            "microsoft/Nonprofits/GrantManagement"
+          ],
+          "outcome": "历史轮次已定位 CivicOps 与 gandhi；本轮重新核对 CivicOps 的代码与许可证后收其 grants 子模块。gandhi 仍为 alpha 且未证明接收方赠款生命周期/义务/按赠款预算；Microsoft 模板依赖 Power Platform，非独立开源自托管应用。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/sekacorn/CivicOps",
+          "status": "success",
+          "note": "本轮抓取仓库元数据，保存为 sources/bb65a2c58454ebbb807eb24e3a88cd2319197b74a0a6312c95aef575f27ed6f6.txt；id=1365010357、full_name=sekacorn/CivicOps、license.spdx_id=Apache-2.0、created_at=2026-09-10、pushed_at=2026-09-22、archived=false。SHA 与历史快照一致，内容未变。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sekacorn/CivicOps/master/README.md",
+          "status": "success",
+          "note": "本轮抓取 README，保存为 sources/1fc2ffffae0aecdc44d694ec252ba0c42398895baae9906a20358a392a0bbc80.txt；含受控赠款生命周期、按赠款支出、报告截止、Grant Reporting Assistant、Docker Compose 自托管与 Angular grants 路由。末尾“no license is declared yet”与 LICENSE 文件冲突，按许可证文件与 GitHub API 判定，属 README 过时表述。SHA 与历史快照一致。"
+        },
+        {
+          "url": "https://api.github.com/repos/sekacorn/CivicOps/license",
+          "status": "success",
+          "note": "本轮抓取许可证，保存为 sources/10cd0dd58726858f0908ea87db1c0eb22dea4bb433a5bda0c1484a5139dbfe55.txt；spdx_id=Apache-2.0，path=LICENSE，size=11359，完整 Apache License 2.0 正文，非截断。"
+        },
+        {
+          "url": "https://api.github.com/repos/sekacorn/CivicOps/git/trees/master?recursive=1",
+          "status": "success",
+          "note": "本轮抓取仓库树，保存为 sources/b8cf43adc7c33b3221c4884fb58b470df6af5ddc71b2330fe4234a3d8c969948.txt；确认 grants/grant、grants/expense、grants/reporting 与 grantreporting 的实体、控制器、服务及前端/迁移文件实际存在。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grants/grant/Grant.java",
+          "status": "success",
+          "note": "本轮抓取赠款实体，保存为 sources/6684426e43e5bafccda47b64946e4b4bc1d6d4dcde1ba4b27090b28b07fe050a.txt；字段与受控状态迁移、Closed 不可编辑规则可核对。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grants/expense/GrantExpenseService.java",
+          "status": "success",
+          "note": "本轮抓取支出服务，保存为 sources/eae67cf087b4932564d98583a7a1c3da5f67da5de233b65bd19dc18f8400c83f.txt；仅 ACTIVE 可支出、行锁与超支拒绝逻辑可核对。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/sekacorn/CivicOps/master/src/main/java/org/civicops/grantreporting/report/GrantReportService.java",
+          "status": "success",
+          "note": "本轮抓取资助报告服务，保存为 sources/f441eb9b8c74040b030d8959df9e8d195039aadd60828443287a04e1b9ae8bd0.txt；报告创建、证据快照、必需章节批准校验与定稿逻辑可核对。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mike-marcacci/gandhi/main/readme.md",
+          "status": "success",
+          "note": "历史复用快照 sources/978449d7e5c880a9a8e20a36d5eec7c59c85f0834983b015718e9aacfac3fe18.txt（本轮未重抓）；仅说明 alpha 与安装方式，未展示接收方赠款生命周期、义务与按赠款预算，未纳入。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

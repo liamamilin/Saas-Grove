@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 15,
+  "offset": 350,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "underwriting-workbench",
+        "name_zh": "承保工作台",
+        "domain_id": "08",
+        "parent_id": "08.06",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "included-go-final-20261025-research.json#/leaf_cases/0",
+            "result": "boundary_unresolved",
+            "note": "未找到可核验的开源承保工作台：GitHub 搜索结果多为 AWS/AI 演示仓库、模型或规则库，缺少完整应用与可核验许可证；openkoda 的仓库已重定向到无许可证元数据的新仓库，未按开源收录。改用商业产品 Kalepa 记录。官方页面证明提交摄取、清分、按偏好分诊、风险分析与报价承保在同一承保界面，但未明确写出 accept/decline/refer 决策记录及向保单管理移交，故保留为边界待确认，不用产品常识补成已验证。",
+            "query": "open source underwriting workbench insurance github; open source insurance underwriting system github; openkoda underwriting dashboard"
+          }
+        ],
+        "archived": false,
+        "note": "未找到可核验的开源承保工作台：GitHub 搜索结果多为 AWS/AI 演示仓库、模型或规则库，缺少完整应用与可核验许可证；openkoda 的仓库已重定向到无许可证元数据的新仓库，未按开源收录。改用商业产品 Kalepa 记录。官方页面证明提交摄取、清分、按偏好分诊、风险分析与报价承保在同一承保界面，但未明确写出 accept/decline/refer 决策记录及向保单管理移交，故保留为边界待确认，不用产品常识补成已验证。"
+      },
+      "definition": {
+        "slug": "underwriting-workbench",
+        "name": "Underwriting Workbench",
+        "name_zh": "承保工作台",
+        "aliases_zh": [
+          "承保平台",
+          "核保工作台"
+        ],
+        "overview": "An **Underwriting Workbench** is the software an insurance operation gives its underwriters to decide which risks to accept. Incoming risk submissions are captured as cases, triaged against the operation's appetite, evaluated with assembled data and under configured rules plus human judgment, and resolved into a recorded underwriting decision — accept, decline, or refer — together with the terms under which the risk would be written. That recorded decision is the gate the insurer's policy issuance then executes on.\n\nThe defining structure is small:\n\n```text\nRisk submission (identified subject + exposures + requested terms)\n└── Evaluation against the operation's appetite\n    └── Recorded underwriting decision (accept / decline / refer, with terms)\n        └── Handoff into issuance and the policy record\n```\n\nThe *workbench* is the underwriter-facing surface of that structure: a single working environment per risk where triage, assembled documents and data, appetite guidance, and the decision itself come together. The market sells this same product family under two names — *underwriting workbench* names the decision surface, *underwriting platform* names the same product seen across the full lifecycle from intake to post-bind. They are one product population; this document describes it from the underwriter's seat.\n\nEverything else commonly bundled with modern workbenches — AI submission scoring, straight-through processing, document extraction, portfolio dashboards — is widespread in current products but is not what makes a workbench a workbench. The pre-digital underwriting office (submission slips, rate manuals, referral to a senior underwriter, cover notes) ran the same core by hand, and small operations running on email and spreadsheets still do.",
+        "overview_zh": "An **Underwriting Workbench** 是保险运营提供给其核保人员用来决定接受哪些风险的软件。传入的风险提交被捕获为案件，根据运营的偏好进行分诊，使用汇编的数据和配置的规则加上人工判断进行评估，并解决为记录的核保决定——接受、拒绝或转介——连同风险将被承保的条款。该记录的决定是保险公司的保单签发随后执行的门户。\n\n定义结构很小：\n\n```text\n风险提交（已识别主体 + 敞口 + 请求条款）\n└── 根据运营的偏好进行评估\n    └── 记录的核保决定（接受 / 拒绝 / 转介，附条款）\n        └── 交接给签发和保单记录\n```\n\n*工作台* 是该结构面向核保人员的界面：每个风险的单一工作环境，其中分诊、汇编的文件和数据、偏好指导以及决定本身汇聚在一起。市场以两个名称销售这一相同产品家族——*核保工作台* 命名决策界面，*核保平台* 命名从接收到承保后全生命周期看到的相同产品。它们是一个产品群体；本文档从核保人员的角度描述它。\n\n现代工作台通常捆绑的所有其他内容——AI提交评分、直通处理、文件提取、投资组合仪表板——在当前产品中很普遍，但不是使工作台成为工作台的关键。前数字时代的核保办公室（提交单、费率手册、转介给高级核保人员、承保通知）手工运行相同的核心，而使用电子邮件和电子表格的小型运营仍然如此。",
+        "dc": "```text\nRisk submission\n  └── Evaluation against appetite\n      └── Recorded underwriting decision\n          └── Downstream handoff (issuance / policy administration)\n```\n\nThree structures, jointly held:\n\n- **The risk submission as the unit of work.** A persistent, individually identified case capturing an opportunity to insure: the identified subject (business, property, person, program), its exposures, and the requested coverage and terms. All work — documents, data, notes, referrals, quotes, decisions — attaches to the case. Without it there is nothing to underwrite.\n- **Evaluation against the operation's appetite.** Risk information is assembled from the submission, its documents (extracted and structured), and third-party data, then assessed against the operation's underwriting appetite — expressed as configured rules, referral criteria, and human judgment. Rules handle what is mechanical; underwriters handle what needs judgment. The appetite, thresholds, and decision framework belong to the insurance operation, not the vendor.\n- **The recorded decision as the gate.** An explicit, attributed outcome on the case — accept, decline, or refer (escalate to a higher authority) — with terms: coverages, limits, deductibles, conditions, pricing inputs. The decision, its basis, and its maker are recorded. The workbench decides but does not issue: approved business hands off to policy administration or, in delegated business, to downstream processing. This division — decisions here, contract records there — is the product's most important structural boundary.\n\nAround the core sits the surface that gives the Type its name: a **risk-centered workspace** presenting, for one case at a time, the submission data, the extracted documents, the third-party evidence, the appetite fit, the recommendations with their reasons, the collaboration trail, and the decision action.",
+        "dc_zh": "风险提交\n  └── 基于承保偏好的评估\n      └── 记录承保决策\n          └── 下游移交（出单/保单管理）",
+        "rules": "### The operation owns the decision framework\n\nThe appetite, eligibility rules, referral criteria, and straight-through thresholds configured into the workbench are the insurance operation's own, not the vendor's. The machinery is configurable; the risk appetite is not.\n\n### The workbench decides; it does not issue\n\nApproved business leaves for policy administration. The workbench holds the risk decision record, not the master policy record — the seam with policy administration systems.\n\n### Human authority over AI output\n\nRecommendations, scores, and drafted quotes support the decision; the underwriter reviews and approves before anything takes effect. Full automation applies only where the operation has configured cases as eligible for straight-through handling. Products expose why a case was routed and what informed each recommendation — explainability is a structural requirement of the genre, not a cosmetic layer.\n\n### Referral is a first-class path\n\nAccept and decline are not the only outcomes. Cases beyond an underwriter's authority or confidence route upward with their context, and the referral trail is recorded. Decision authority is commonly structured — who may decide what is part of the configuration.\n\n### Every decision is attributed and auditable\n\nThe recorded decision carries its basis: which rules applied, what evidence and data informed it, who decided, and where human judgment entered. This is what makes the recorded decision executable by issuance and defensible in audit.\n\n### Case history persists\n\nCases accumulate their full record — communications, evidence, versions, decisions — and feed renewal work on the same subject in the next period.",
+        "rules_zh": "### 运营拥有决策框架\n\n配置在工作台中的偏好、资格规则、转介标准和直通阈值是保险运营自身的，而不是供应商的。机制是可配置的；风险偏好不是。\n\n### 工作台决定；它不签发\n\n批准的业务离开进入保单管理。工作台持有风险决策记录，而不是主保单记录——与保单管理系统的接缝。\n\n### 人工权限高于AI输出\n\n建议、评分和起草的报价支持决定；核保人员在任何内容生效之前审查和批准。完全自动化仅适用于运营配置为有资格直通处理的案件。产品暴露案件为何被路由以及什么信息告知了每个建议——可解释性是该类型的结构性要求，而不是装饰层。\n\n### 转介是一等路径\n\n接受和拒绝不是唯一的结果。超出核保人员权限或信心的案件带着其上下文向上路由，转介轨迹被记录。决策权限通常是结构化的——谁可以决定什么是配置的一部分。\n\n### 每个决定都有归属且可审计\n\n记录的决定携带其依据：哪些规则适用，什么证据和数据告知了它，谁决定的，以及人工判断在哪里介入。这使得记录的决定可被签发执行并在审计中站得住脚。\n\n### 案件历史持久化\n\n案件累积其完整记录——通信、证据、版本、决定——并在下一个周期为同一主体的续保工作提供信息。",
+        "parent_id": "08.06",
+        "domain_id": "08"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 63,
+    "phase": "directory",
+    "parent": 63,
+    "slugs": [
+      "underwriting-workbench"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "5412563a481dac6ffc921c4bf4cec8e70ba71b15b26ccdb15ac8f91bee6960eb"
+  }
+}

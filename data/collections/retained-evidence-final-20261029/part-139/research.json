@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "engineering-requirements-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:263988764"
+      ],
+      "query": "历史复用：GitHub API strictdoc-project/strictdoc metadata/readme/license + 官方用户指南 requirements/UID/traceability；本轮补采：仓库 raw LICENSE/NOTICE、Apache-2.0 规范全文，并做一次开源 Web 需求管理替代品检索",
+      "source_urls": [
+        "https://api.github.com/repos/strictdoc-project/strictdoc",
+        "https://api.github.com/repos/strictdoc-project/strictdoc/license",
+        "https://api.github.com/repos/strictdoc-project/strictdoc/readme",
+        "https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_01_user_guide.html",
+        "https://raw.githubusercontent.com/strictdoc-project/strictdoc/main/LICENSE",
+        "https://raw.githubusercontent.com/strictdoc-project/strictdoc/main/NOTICE",
+        "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      ],
+      "note": "历史复用：仓库元数据、README、license API 与用户指南快照沿用 2026-10-26 的原抓取，URL/SHA/抓取时间均未改动。历史采集草稿曾因“LICENSE 仅为 Apache 适用声明和链接、未取得完整条款正文”被 withheld，本轮据此补采：仓库 raw LICENSE 正文（Copyright 2020-2026，明确 Licensed under the Apache License, Version 2.0 并指向规范全文）、仓库 NOTICE（再次写明 Apache License 2.0）以及 apache.org 的 Apache-2.0 完整条款正文（sha256 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30）。因此许可证身份按 Apache-2.0 记录，未发现附加限制；仓库自带的 LICENSE 是 Apache 标准声明而非全文，这一点如实留档。本轮新检索只取得并保存来源，未运行任何第三方项目。核心匹配仍按已读正文收窄：需求记录（稳定 UID）、文档树/规范结构、需求层级与需求到源代码追溯（源代码追溯为实验性）、Web 查看/编辑及 diff/changelog 成立；基线冻结、电子签名、审批门禁未在正文中证实，不写入关系。",
+      "service_boundary": "可本地安装/自托管的 Python 需求与规范文档应用（Web UI + 静态导出），面向单机或受控内网使用；文档与需求写回 SDoc/Markdown 文件，变更与提交依赖 Git 等外部版本控制，产品自身未证实基线冻结与电子签名审批，不扩展为共享多用户服务器或完整 MBSE/PLM。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "repos/strictdoc-project/strictdoc metadata/readme/license",
+          "outcome": "历史复用：确认仓库身份（id 263988764）、README 需求管理说明与 Apache-2.0 声明"
+        },
+        {
+          "tool": "fetch",
+          "query": "strictdoc.readthedocs.io 用户指南",
+          "outcome": "历史复用：读取需求 UID、文档树、Requirements Traceability/Documentation Coverage、source code traceability、Web 编辑、diff/changelog 与 Web 服务器局限等正文"
+        },
+        {
+          "tool": "fetch",
+          "query": "raw.githubusercontent.com/strictdoc-project/strictdoc/main/LICENSE 与 NOTICE",
+          "outcome": "本轮补采成功：取得仓库 LICENSE 标准 Apache-2.0 声明全文和 NOTICE 许可说明"
+        },
+        {
+          "tool": "fetch",
+          "query": "www.apache.org/licenses/LICENSE-2.0.txt",
+          "outcome": "本轮补采成功：取得 Apache-2.0 完整条款正文，用于补足仓库 LICENSE 仅为声明和链接的缺口"
+        },
+        {
+          "tool": "github_api",
+          "query": "repos/strictdoc-project/strictdoc/git/trees/main?recursive=1 查找仓库内许可证全文文件",
+          "outcome": "GitHub API 返回 403 rate limit，未取得目录树；改用 raw.githubusercontent.com 核对常见许可证路径，确认仓库仅有 LICENSE（声明）与 NOTICE，无独立 Apache 全文文件"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source requirements management web application self-hosted GitHub traceability",
+          "outcome": "本轮一次替代品检索：出现 OSRMT（Java/Tomcat Web）、ReqDB、Doorstop、rmtoo、OpenFastTrace 等线索；StrictDoc 已是完整可自托管 Web 应用，未再展开未核实线索，也未据此断言其他产品不存在"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc",
+          "kind": "repository_metadata",
+          "status": "ok",
+          "sha256": "d30d50eeb34f11d8aeb63c07c49fe523704a063076e78959ce52c9249d0326de"
+        },
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc/license",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "3e071d7bea4ea7851cdc023b525df5a8c8bd4647826db65674cd551dc7959471"
+        },
+        {
+          "url": "https://api.github.com/repos/strictdoc-project/strictdoc/readme",
+          "kind": "readme",
+          "status": "ok",
+          "sha256": "bb8853bf7e3398f01642f0eb125f8f3dad6c714499ef931b17bde7c93e5883d7"
+        },
+        {
+          "url": "https://strictdoc.readthedocs.io/en/stable/stable/docs/strictdoc_01_user_guide.html",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "0323e94adfa6581cb2119178089ef952793c8c7fe3d234fbacccda03e2c35f7e"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/strictdoc-project/strictdoc/main/LICENSE",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "3392558ba768e0454ed2340433d5b9daf1ef32860368b9bf82b87a441fcd0438"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/strictdoc-project/strictdoc/main/NOTICE",
+          "kind": "documentation",
+          "status": "ok",
+          "sha256": "d929e44291248fbf463a8d22201bf958162dbbc2634c1d1eb230f41b6cf3b968"
+        },
+        {
+          "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+          "kind": "license",
+          "status": "ok",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

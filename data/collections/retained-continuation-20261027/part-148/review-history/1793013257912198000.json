@@ -1,0 +1,47 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "software-composition-analysis-sca",
+      "application_id": "commercial:snyk",
+      "issue": "唯一引用快照 docs.snyk.io/scan-with-snyk/snyk-open-source 是 GitBook 客户端渲染壳：仅有目录标题（Find and fix vulnerabilities、Find and fix license issues）和页脚，缺少 SCA 定义、依赖清单、直接/间接依赖、许可证匹配和修复建议等正文。research.json 的 fetch_outcomes 却称“正文含 'software composition analysis (SCA)' 与依赖/许可证扫描说明”，batch summary 也写入“直接与间接依赖”和“修复建议”，属于以导航/元数据替代核心正文。",
+      "fix": "重新抓取该页的可读正文（官方 Markdown/打印版，或另一可服务端渲染的官方文档），或如实记录渲染缺口；取得正文前，把 summary/leaf reason 收窄到快照可证内容（Snyk Open Source 的漏洞与许可证扫描），删除未经快照支持的“直接与间接依赖”“修复建议”表述。"
+    },
+    {
+      "slug": "sast",
+      "application_id": "github:1222504",
+      "issue": "docs.sonarsource.com 的 analyzing-source-code/overview 快照同样是客户端渲染壳，只有页内目录标题，没有“静态分析/安全漏洞”正文；research.json 却记录“正文含静态分析与安全漏洞说明”“40+ 语言、安全规则”，与快照实际内容不符。该叶核心目前实际只由 README 支撑。",
+      "fix": "修正该条 fetch_outcome，或改抓可读正文快照；leaf 结论继续以 README（自有代码静态分析、安全漏洞/安全热点、修复指引）为依据，不要把该文档快照列为正文证据。"
+    },
+    {
+      "slug": "sast",
+      "application_id": "github:1222504",
+      "issue": "features 写“分析结果可接入 IDE、拉取请求与 CI 流水线”，但 README 在 Commercial editions 中明确“Branch analysis and pull request decoration”属于商业版；Community Build 不具备分支分析/PR 装饰，当前表述越过社区版边界。",
+      "fix": "改为“可在 CI/IDE 中使用分析结果；分支分析与 PR 装饰为商业版能力”，或在 features 中明确标注商业版边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空、phase=included_without_cases，与本单元 batch/research 中 5 个 case_found 不一致；建议同步元数据，避免下游误判。",
+    "sbom-management 的 research 已如实记录 dependencytrack.github.io 文档抓取及主机不被来源规则接受；若能在可引用的官方页面补到“项目/版本绑定、保留与再分析”的正文，可减少对首页正文的依赖。",
+    "Dependency-Track 首页快照为压缩 HTML，且读取时单行截断，项目/版本绑定、组合聚合等细节只能依据已记录正文；不影响本次类型判断，但复核时宜使用可读快照。",
+    "Prowler 的 CSPM 证据覆盖连接云账户、资源清单、检查与发现；发现的 triage/assign/accept 生命周期未见正文，建议不要使用“发现管理”这类超出证据的措辞。",
+    "Prowler 的 CLI 与 Local Server 是并列入口，features 中“Local Server 提供 Web 界面、API 与 CLI”宜改为“Local Server 提供 Web 界面与 API；CLI 为独立入口”。",
+    "SonarQube Community Build 的安全分析是规则驱动；深度污点 SAST、SCA、秘密检测、IaC 等为商业版能力，leaf reason 已收窄，摘要可再明确。",
+    "Snyk 为商业条目，当前无 features/deployment/许可证字段，符合最低要求；若补充官方定价或许可信息，注意不要把商业能力写成开源。",
+    "Chainloop 的 README 也覆盖 AI 会话治理等扩展；本叶只主张签名证明、完整性/来源可信与 CI/CD 强制执行，边界记录清楚，保持即可。",
+    "Dependency-Track 同时挂 sbom-management 与 software-composition-analysis-sca 两叶，按定义中“SBOM-centric platforms 也符合 SCA”可以接受；若后续去重，应保留其 SBOM 记录/版本绑定这一主特征。"
+  ],
+  "leaf_checks": {
+    "sast": "已核对 SonarQube Community Build（github:1222504）：仓库元数据 id=1222504，README 显示其以符号执行、数据/控制流分析对自有代码做静态分析，报告安全漏洞与安全热点并给出修复指引，符合“不执行代码、安全规则驱动、可定位发现”的核心；LICENSE.txt 完整文本为 LGPL-3.0；README 明确 SCA、深度污点分析（SAST）、分支/PR 装饰等为商业版，社区版边界基本正确。核心证据来自 README；docs.sonarsource.com 快照为客户端渲染壳，未作为核心正文，且 research 对该页正文的描述与实际不符（见 findings）。features 中 PR 接入表述越界（见 findings）。",
+    "sbom-management": "已核对 OWASP Dependency-Track（github:11457947）：仓库元数据 id=11457947、默认分支 main、LICENSE 为 Apache-2.0 完整文本；README 自称基于 SBOM 的组件分析平台，提供 Docker Compose/Helm 入口；官网标题与 meta 明确 SBOM Analysis、组件盘点、漏洞发现与策略执行。SBOM 记录、项目/版本绑定、保留与再分析等细节在 research 中有记录，官网快照受压缩/截断影响无法逐字复核；docs.github.io 抓取缺口已如实留档但主机不被接受。整体核心与产品身份成立，建议补可引用的可读官方页面以减少对首页正文的依赖。",
+    "software-composition-analysis-sca": "Dependency-Track 一侧成立：README 与官网显示其对项目/版本下的组件清单做漏洞与策略分析，风险绑定到具体组件与版本，符合 SCA 的“已解析第三方组件清单 + 持续组件知识匹配 + 每组件发现”。Snyk 一侧仅有一个 GitBook 客户端渲染壳快照，页面身份（Snyk Open Source）与目录标题可支持基本类型方向，但直接/间接依赖、许可证匹配、修复建议等具体主张没有正文证据，research 却称正文已载明，需修正或补抓（见 findings）。本叶至少有一个证据充分的案例。",
+    "software-supply-chain-security": "已核对 Chainloop（github:610316941）：仓库元数据 id=610316941、LICENSE.md 为 Apache-2.0 完整文本；README 证明其收集并签名 in-toto 证明（SBOM、扫描、测试、SLSA 来源），用 Rego/WASM 策略在 CI/CD 边界阻断不合规发布，证明可存 OCI/S3/Azure Blob，Helm 可自托管，并明确 OSS 与 Platform 的边界。策略文档正文进一步说明策略对材料/证明求值、违规记录为 not compliant、内置制品签名与 SBOM 检查。恶意包行为检测未被主张，完整性/来源可信与强制执行足以支撑本类型；关系成立。",
+    "cloud-security-posture-management-cspm": "已核对 Prowler（github:66474729）：仓库元数据 id=66474729、LICENSE 为 Apache-2.0 完整文本；README 显示数千项云安全检查、合规框架及 Prowler Local Server 自托管 Web 应用；安装文档正文证明 Docker Compose 自托管；云教程正文证明添加云 provider 凭据、测试连接、发起扫描、每 24 小时自动扫描，以及 Overview/Findings/Resources/Compliance 视图，其中 Resources 汇总所有扫描发现的资源。连接云环境、资源清单、策略检查与配置错误发现四项核心基本成立；triage/assign/accept 生命周期未见正文，batch 未据此主张，Attack Paths 等扩展未被用于核心。"
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未联网补充抓取、未做部署或运行时测试，仅使用本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 所列快照。快照均按 path 原样读取；HTML 快照多为压缩单行，读取工具对每行截断 2000 字符，部分正文无法逐字核对；SonarQube 与 Snyk 的文档页为客户端渲染壳，正文缺失；Dependency-Track 官网正文亦受单行截断影响。未读取其他单元或采集过程文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-148/ses_groveopencodegop148review1_1793012708.jsonl",
+  "batch_sha256": "fc46d579881b3ebbd86ab1451681573e5bf87a3a65353bb7139ad1e1c2813a26",
+  "research_sha256": "e37171f515839b2ed09779c19dd4fe078475dd48f3e500a74ea941942d2dc32e",
+  "input_sha256": "f2c5ad099474bbe490bb5fd9ad3e52df5a17456619f98abadf37a9111464453c"
+}

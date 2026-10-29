@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "code-quality-platform",
+        "name_zh": "代码质量平台",
+        "domain_id": "12",
+        "parent_id": "12.02",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "SonarQube official Code Quality Platform"
+            ]
+          },
+          {
+            "record": "retained-continuation-20261027/part-059/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "产物缺失或结构/研究记录不完整；保留实际候选与证据，不作找不到案例判断。",
+            "query": [
+              "SonarQube official Code Quality Platform"
+            ]
+          },
+          {
+            "record": "retained-go-followup-20261027/part-039/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": [
+              "SonarQube official Code Quality Platform"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "code-quality-platform",
+        "name": "Code Quality Platform",
+        "name_zh": "代码质量平台",
+        "aliases_zh": [
+          "代码质量分析平台",
+          "代码质量检查平台"
+        ],
+        "overview": "A **Code Quality Platform** is the system of record for the health of a codebase. It continuously analyzes a project's source code, keeps the resulting findings and measurements as persistent platform-side state over time, holds a configurable definition of what \"good code\" means for that project, and reports a pass/fail verdict on every change into the team's merge and release workflow.\n\nIts reason to exist is a structural gap: code analyzers (linters, bug detectors, complexity and duplication tools) produce findings for a single run, but nothing that runs once can answer \"is this codebase getting better or worse?\" or \"may this change be merged?\". The platform sits between the analysis engines and the delivery workflow: it accumulates analysis results into a durable quality picture — issues, metrics, ratings, trends — and turns them into a go/no-go signal attached to each pull request and branch.\n\nThe defining core is deliberately small:\n\n```text\nManaged project (bound to a repository)\n└── Recorded analysis runs (on onboarding and on every change)\n    └── Persistent quality state (issues + metrics + history)\n        └── Configurable quality standard (rules and/or thresholds)\n            └── Quality verdict surfaced in the delivery workflow\n```\n\nEverything else commonly associated with these products — coverage tracking, letter grades, pull-request comments, portfolios, self-hosted servers, AI fix suggestions — is standard market capability or optional, not part of the definition.",
+        "overview_zh": "一个 **代码质量平台** 是代码库健康状态的记录系统。它持续分析项目的源代码，将产生的发现和测量结果作为平台端持久化状态保存一段时间，并持有该项目“良好代码”的可配置定义，然后在每次变更进入团队的合并和发布工作流时报告通过/失败的判定结果。\n\n其存在的理由源于一个结构性缺口：代码分析器（静态检查工具、错误检测工具、复杂度和重复度工具）只能为单次运行产生发现结果，但任何一次性的运行都无法回答“这个代码库是在变好还是变坏？”或“这次变更是否可以合并？”。该平台位于分析引擎和交付工作流之间：它将分析结果累积成一个持久的质量全景图——问题、度量指标、评级、趋势——并将它们转化为附加在每个拉取请求和分支上的“放行/禁止”信号。\n\n其核心定义是有意设计得非常精简：\n\n```text\n受管项目（绑定到代码仓库）\n└── 记录的分析运行（在接入时和每次变更时执行）\n    └── 持久的质量状态（问题 + 度量指标 + 历史记录）\n        └── 可配置的质量标准（规则 和/或 阈值）\n            └── 在交付工作流中呈现的质量判定结果\n```\n\n其他通常与这些产品相关的一切功能——覆盖率追踪、字母等级评定、拉取请求评论、项目组合视图、自托管服务器、AI修复建议——属于市场标准能力或可选功能，并非该定义的一部分。",
+        "dc": "**Managed project.** The unit of management is a project bound to a source repository (or a defined part of one). Projects live inside an organization that usually mirrors the structure of the connected Git provider. Branches and pull requests of the project are first-class analysis subjects.\n\n**Recorded analysis runs.** Each time code changes — and once when the project is first added — an analysis run executes (from the platform's own engines, from third-party analyzers the platform wraps, or both) and its results are recorded. The run, not the tool invocation, is the unit of history: platforms display a timeline of analyses and how measures evolved between them.\n\n**Persistent quality state.** Findings and measurements are stored and maintained by the platform over time:\n\n- **Issues** — individual findings bound to precise code locations, each raised because a rule was violated: bugs, code smells, complexity and duplication findings, security findings, lint results from wrapped tools.\n- **Metrics** — measures computed for the project, branch, directory, or file: issue counts by severity, duplicated-code density, complexity, size (lines of code), test coverage, and remediation-effort estimates often expressed as technical debt.\n- **History and trends** — the state survives across runs, which is what makes deterioration visible and improvement measurable.\n\n**Configurable quality standard.** A maintained definition of \"good\" for this code, with two faces:\n\n- a **rule set** — which checks apply (a per-language profile of rules, a pattern configuration, a set of enabled analyzers, or a committed configuration file in the repository);\n- **thresholds and conditions** — what the measured values must satisfy for a change to be acceptable (no new high-severity issues, complexity below X, duplication below Y, coverage not decreased).\n\n**Quality verdict.** The evaluation of an analysis run's results against the standard, reported as a visible pass/fail status attached to the change — a commit status, a pull-request check, or a gate badge — and used in merge/release decisions. Whether the verdict merely reports or actively blocks the merge is a wiring decision; the verdict itself is the invariant.",
+        "dc_zh": "**托管项目。** 管理单元是绑定到源代码仓库（或其明确定义部分）的项目。项目存在于组织内，该组织通常反映所连接Git提供商的结构。项目的分支和拉取请求是一等分析主体。\n\n**录制分析运行。** 每次代码变更时——以及项目首次添加时——平台会执行一次分析运行（来自平台自身的引擎、平台封装的第三方分析器，或两者兼有），并记录其结果。历史记录的单元是运行而非工具调用：平台展示分析时间线以及各度量指标在运行间的变化。\n\n**持久质量状态。** 发现结果和测量值由平台随时间存储和维护：\n- **问题** — 绑定到精确代码位置的单个发现，每条都因违反规则而产生：缺陷、代码异味、复杂度与重复代码发现、安全发现、封装工具的 lint 结果。\n- **度量指标** — 为项目、分支、目录或文件计算的测量值：按严重级别统计的问题数、重复代码密度、复杂度、规模（代码行数）、测试覆盖率，以及通常以技术债务形式表示的修复工作量估算。\n- **历史与趋势** — 状态在多次运行中持续存在，这使得质量恶化变得可见，改进得以衡量。\n\n**可配置的质量...",
+        "rules": "- **The verdict is attached to the change, and enforcement is a choice.** The gate status always exists as a visible signal; whether it blocks merging or fails the pipeline depends on how the team wires the Git provider's branch protection and CI. Products document both postures; blocking is never forced by the platform alone.\n- **Findings belong to code locations and persist until resolved.** An issue remains associated with its line(s) across analyses; when the code changes such that the finding disappears, it closes; dispositions (false positive, accepted) are remembered and reapplied on later runs rather than re-raised.\n- **New-issue focus shapes what a review reports.** In the dominant modern mode, a pull-request analysis reports what the change introduced — not the pre-existing debt of untouched code. Pre-existing findings remain browsable in the platform. Consequence: a first analysis after onboarding may surface old-code findings that per-change reviews never showed.\n- **Baselines gate the gate.** Before a baseline or a new-code definition exists, the verdict may be \"not computed\" rather than pass or fail.\n- **The platform consumes coverage; it does not produce it.** Coverage conditions depend on the team uploading reports from their test tooling; missing reports are a first-class failure mode (gaps, stale data).\n- **Organizational standards can override repository settings.** An org-level policy typically auto-applies to newly added repositories; removing it can restore the repository's previous settings. Built-in default policies are commonly protected from edit/delete.\n- **The standard is code too, somewhere.** The rule set lives either platform-side (profiles/patterns edited in the console) or repository-side (committed configuration files), with committed files usually required to be on the default branch to take effect.\n- **Assignment targets authors.** New findings are typically assigned to the committer/author of the offending line when the person can be matched to a platform user; reassignment is always possible.",
+        "rules_zh": "- **判定结果附属于变更，执行与否取决于选择。** 门禁状态始终作为一个可见信号存在；它是否阻止合并或导致流水线失败，取决于团队如何配置 Git 提供商的分支保护规则和 CI。产品会记录这两种姿态；阻止操作永不会由平台单方面强制执行。\n- **发现结果属于代码位置，并在解决前一直存在。** 一个问题在多次分析中都与其所在的代码行关联；当代码变更导致该发现消失时，它会被关闭；处置方式（误报、已接受）会被记住，并在后续运行中重新应用，而不是重新提出。\n- **关注新问题的模式塑造了评审报告的内容。** 在主流的现代模式下，拉取请求分析报告的是该变更引入了什么——而不是未触及代码的既有技术债。既有的发现结果在平台中仍可浏览。结果是：接入后的首次分析可能会暴露之前每次变更评审都未显示的旧代码问题。\n- **基线决定门禁的有效性。** 在存在基线或新代码定义之前，判定结果可能是“未计算”而非通过或失败。\n- **平台使用覆盖率，但不产生覆盖率。** 覆盖率条件取决于团队上传其测试工具的报告；缺少报告是一种一级失败模式（数据缺口、过时数据）。\n- **组织标准可以覆盖仓库设置。** 组织级策略通常会自动应用于新添加的仓库；移除该策略可以恢复仓库之前的设置。内置的默认策略通常受到保护，不可编辑/删除。\n- **标准本身也是代码，位于某处。** 规则集要么存在于平台侧（在控制台编辑的配置文件/模式），要么存在于代码仓库侧（提交的配置文件），提交的配",
+        "parent_id": "12.02",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 5,
+    "phase": "directory",
+    "parent": 39,
+    "source_run": "go-followup-20261027",
+    "input_status": "review_pending",
+    "slugs": [
+      "code-quality-platform"
+    ],
+    "old_input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+  },
+  "previous_continuation": {
+    "unit": 39,
+    "phase": "complete",
+    "parent": 59,
+    "slugs": [
+      "project-scaffolding-code-generator",
+      "sql-client",
+      "web-development-ide",
+      "browser-compatibility-testing-platform",
+      "code-quality-platform"
+    ],
+    "old_input_sha256": "4f4388a1ed964ed00e89029169aed08a93af25f9a79766fe0976f0fea5ab129b"
+  }
+}

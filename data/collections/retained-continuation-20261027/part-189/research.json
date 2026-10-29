@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "telecom-oss",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:netcracker-e2e-service-orchestration"
+      ],
+      "query": "Nokia Digital Operations Center OSS assurance fulfillment official; site:netcracker.com Digital OSS service orchestration assurance inventory; Amdocs OSS service orchestration assurance inventory",
+      "source_urls": [
+        "https://www.netcracker.com/portfolio/solutions/intelligent-operations-automation/e2e-service-orchestration"
+      ],
+      "note": "Nokia 官网返回 403 未取得正文；Amdocs 页面正文为 JS 壳。改用 Netcracker E2E Service Orchestration 官方产品页，正文明确包含服务/切片目录、服务库存、服务编排、服务质量与保障组件，并说明其位于 BSS 与域编排之间。按套件级 OSS 关系记录；未运行产品，未核实价格、架构和部署细节。 快照未单列独立资源库存/发现模块，故不主张其覆盖完整资源库存；关系限定为服务库存、服务编排与服务保障的组合。",
+      "service_boundary": "商业 OSS 产品；仅记录其电信网络运营支撑关系，不涉及具体部署、价格或运行验证。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "Nokia Digital Operations Center OSS assurance fulfillment official",
+          "outcome": "找到 Nokia 官方产品页，但抓取返回 403"
+        },
+        {
+          "tool": "websearch",
+          "query": "site:netcracker.com Digital OSS service orchestration assurance inventory",
+          "outcome": "找到 Netcracker E2E Service Orchestration 官方产品页"
+        },
+        {
+          "tool": "websearch",
+          "query": "Amdocs OSS service orchestration assurance inventory official page",
+          "outcome": "Amdocs 页面可访问但正文由脚本加载，未作为证据"
+        },
+        {
+          "tool": "github_api",
+          "query": "oss telecom (repositories, sorted by stars)",
+          "outcome": "找到 cablelabs/os-provisioning（Apache-2.0，偏网络开通）与 gufolabs/noc（NOASSERTION，项目不成熟）；均未覆盖 fulfillment+assurance 共享记录的完整 OSS 套件，未作为案例"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.nokia.com/autonomous-networks/digital-operations-center",
+          "kind": "documentation",
+          "result": "HTTP 403，未取得正文",
+          "sha256": null
+        },
+        {
+          "url": "https://www.netcracker.com/portfolio/solutions/intelligent-operations-automation/e2e-service-orchestration",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "e89559de161c88420b460639ce3432d957fc76d966cf591efd4f0ddc7097ff71"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-product-catalog",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:cerillion-enterprise-product-catalogue"
+      ],
+      "query": "telecom product catalog software official Netcracker product catalog; Cerillion product catalogue telecom official product page; GitHub search telecom product catalog",
+      "source_urls": [
+        "https://www.cerillion.com/products/bssoss-suite/enterprise-product-catalogue/",
+        "https://www.cerillion.com/products/bssoss-suite/service-catalogue/"
+      ],
+      "note": "GitHub 搜索得到的电信产品目录仓库多为个人项目或空壳，未见成熟完整应用。选用 Cerillion Enterprise Product Catalogue 官方页，并用同站 Service Catalogue 页补齐产品到服务/资源映射与开通逻辑；两页均说明发布到下游系统。仅记录商业基本关系，不深入价格、架构或部署。",
+      "service_boundary": "商业 BSS/OSS 产品目录模块；仅记录报价定义、实现绑定和受控发布关系，不涉及具体部署或运行验证。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "telecom product catalog (repositories, sorted by stars)",
+          "outcome": "结果为个人项目、低星或未成熟仓库，未作为案例"
+        },
+        {
+          "tool": "websearch",
+          "query": "Cerillion product catalogue telecom official product page",
+          "outcome": "找到 Enterprise Product Catalogue 与 Service Catalogue 官方页"
+        },
+        {
+          "tool": "github_api",
+          "query": "telecom product catalog (repositories)",
+          "outcome": "结果包括 telecom-offer-validator、0 星产品目录引擎等，未发现成熟完整的开源产品目录应用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.cerillion.com/products/bssoss-suite/enterprise-product-catalogue/",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "6e0bb6c578d85cfa070d38c65460a59d3599ca822621886421cbb57641438b35"
+        },
+        {
+          "url": "https://www.cerillion.com/products/bssoss-suite/service-catalogue/",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "624b7f523d30cba9b1e83f55ae27a6d525365a43667424243ca2992f2e016653"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "telecom-service-assurance",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:9377198"
+      ],
+      "query": "OpenNMS network monitoring service assurance GitHub; GitHub repos OpenNMS/opennms",
+      "source_urls": [
+        "https://github.com/OpenNMS/opennms",
+        "https://raw.githubusercontent.com/OpenNMS/opennms/develop/COPYING",
+        "https://raw.githubusercontent.com/OpenNMS/opennms/develop/README.md"
+      ],
+      "note": "核对 GitHub 仓库 ID 9377198、仓库完整名 OpenNMS/opennms 与 README；根目录 COPYING 为完整 AGPL-3.0 文本，按社区核心记录。README 支持故障/性能/流量监控、告警、分层拓扑和服务问题管理工作流；未在快照中确认电信专用服务影响计算，故关系收窄为监控与故障管理核心。商业 Meridian 不在本条目范围。",
+      "service_boundary": "开源社区核心可自托管；商业 Meridian 版本和托管服务不在记录范围，未做部署测试。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "OpenNMS/opennms repository metadata and license",
+          "outcome": "确认仓库 ID 9377198；license API 返回 NOASSERTION，改查根目录 COPYING"
+        },
+        {
+          "tool": "github_raw",
+          "query": "OpenNMS/opennms README.md 与 COPYING",
+          "outcome": "取得 README 与完整 AGPL-3.0 许可证文本"
+        },
+        {
+          "tool": "fetch",
+          "query": "GitHub 仓库 HTML 元数据",
+          "outcome": "HTML 含 octolytics repository_id/nwo，满足仓库身份核对"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/OpenNMS/opennms",
+          "kind": "repository_metadata",
+          "result": "HTTP 403 rate limit exceeded，改用 GitHub 仓库 HTML 元数据",
+          "sha256": null
+        },
+        {
+          "url": "https://github.com/OpenNMS/opennms",
+          "kind": "repository_metadata",
+          "result": "saved",
+          "sha256": "57ba2aeacec0e74c32e64c622be07aee24cb4bdf61c89ceab64d0da9707732a0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OpenNMS/opennms/develop/COPYING",
+          "kind": "license",
+          "result": "saved",
+          "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/OpenNMS/opennms/develop/README.md",
+          "kind": "readme",
+          "result": "saved",
+          "sha256": "6e27782ffec09ca39d266b1eab64e9f82c26a2dc688c940bf9ede3622946936d"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "carrier-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:vcom-solutions"
+      ],
+      "query": "carrier management telecom expense management Tangoe carrier services official; \"carrier management\" software telecom contracts circuits orders official site",
+      "source_urls": [
+        "https://www.vcomsolutions.com/"
+      ],
+      "note": "Tangoe 被 Cloudflare 阻断，Calero 首页正文由脚本加载不可用。改用 vCom Solutions 官方首页，正文覆盖运营商/供应商合同、网络与移动资产及订单、发票管理审计、MACD 变更和按运营商/服务/位置归集成本。vCom 同时提供托管服务，摘要与边界已注明，不把托管服务单独当作软件产品。",
+      "service_boundary": "平台与托管服务混合；仅记录运营商管理软件关系，不涉及托管服务交付细节、价格或运行验证。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "carrier management telecom expense management Tangoe carrier services official",
+          "outcome": "找到 Tangoe 官方页，但抓取被 Cloudflare 阻断"
+        },
+        {
+          "tool": "websearch",
+          "query": "\"carrier management\" software telecom contracts circuits orders official site",
+          "outcome": "找到 Calero、vCom 等候选；Calero 正文为 JS 壳"
+        },
+        {
+          "tool": "fetch",
+          "query": "vCom Solutions 官方首页正文",
+          "outcome": "取得供应商、合同、订单、资产、发票与 MACD 相关内容"
+        },
+        {
+          "tool": "github_api",
+          "query": "telecom expense management (repositories, sorted by stars)",
+          "outcome": "结果多为个人计算器、报表或单点工具，未见覆盖承运商、合同、订单与发票的成熟完整开源应用"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.tangoe.com/telecom-expense-management/",
+          "kind": "documentation",
+          "result": "Cloudflare 阻断，未取得正文",
+          "sha256": null
+        },
+        {
+          "url": "https://www.calero.com/telecom-management",
+          "kind": "documentation",
+          "result": "HTTP 200 但正文由脚本加载，未作为证据",
+          "sha256": null
+        },
+        {
+          "url": "https://www.vcomsolutions.com/",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "104a55f39dafa4d334780f8e5575cb0de98ae261f40b61269a28ceddc17b8ce6"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ev-charging-billing-roaming",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ampeco"
+      ],
+      "query": "Open e-Mobility open source EV charging management billing roaming GitHub; AMPECO EV charging billing roaming settlement official platform",
+      "source_urls": [
+        "https://www.ampeco.com/ev-charging-platform/payments-and-billing/",
+        "https://www.ampeco.com/ev-charging-platform/ev-roaming/"
+      ],
+      "note": "检索到 Open e-Mobility 的 ev-server 开源候选，但仓库已归档（最后推送 2024-08），未作为活跃产品入选；改用 AMPECO 官方计费页与漫游页。两页分别覆盖按会话/用量计费、驾驶员发票、站点宿主与伙伴结算、OCPI 漫游合同/费率与伙伴间结算报告。未运行产品，未核实充电站运维、支付处理或具体部署形态。",
+      "service_boundary": "商业 EV 充电管理平台；仅记录计费、结算与漫游关系，不涉及充电站运维（属于充电网络管理）或支付处理。",
+      "search_attempts": [
+        {
+          "tool": "github_api",
+          "query": "open e-mobility / ev-server",
+          "outcome": "找到 sap-labs-france/ev-server，Apache-2.0，但仓库 archived=true"
+        },
+        {
+          "tool": "websearch",
+          "query": "AMPECO EV charging billing roaming settlement official platform",
+          "outcome": "找到 Payments and Billing 与 EV Roaming 官方页"
+        },
+        {
+          "tool": "fetch",
+          "query": "AMPECO 计费与漫游官方页",
+          "outcome": "两页均取得正文与具体工作流"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ampeco.com/ev-charging-platform/payments-and-billing/",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "b6e6c24980c1ee8efd796b50a077b06b92e5ab6fc52a32ad4037c8ad5014811f"
+        },
+        {
+          "url": "https://www.ampeco.com/ev-charging-platform/ev-roaming/",
+          "kind": "documentation",
+          "result": "saved",
+          "sha256": "38739be66d6a86f6364a3c5eba24bfbbbfb96ffb92a0748a5c62193f3715fdf0"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

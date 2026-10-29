@@ -1,0 +1,35 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Locust 的主来源 README 正文确实描述了自带 Web UI（实时进度、运行中调整负载）与多机分布式加压，但该 UI 是随一次测试运行启动的本地 Web 服务，默认无多租户/账号体系；条目按“自托管完整应用”定位可接受，建议在条目或叶子说明中保留“非托管 SaaS、locust.cloud 不计入开源能力”这一边界表述，避免读者误读为持续在线服务。",
+    "nGrinder 仓库元数据 archived=true、pushed_at=2024-10-10，batch 的 summary 与 deployment 已如实标注“仓库已归档”，未把归档写成活跃维护；建议后续如引用其版本号，以 release 页为准，不要沿用 README 顶部的 3.5.9 提示。",
+    "nGrinder deployment 字段引用 README 启动命令时写作 `java -jar ngrinder-controller-{version}.war`，README 原文为 `java -Djava.io.tmpdir=${NGRINDER_HOME}/lib -jar ngrinder-controller-{version}.war`（官网首页为简写形式）；属引用简化，不影响可部署性判断。",
+    "BlazeMeter 条目 summary 使用“托管平台”，首页快照可证的是“描述用户旅程/环境/性能目标后自动生成并执行测试”“CI/CD 性能门禁”与 signup 入口，托管/SaaS 属性属常识性补充而非该页明写；商业条目按“基本真实性 + 类型匹配”已达标。",
+    "Tricentis NeoLoad 页面同时宣传 AI、APM/可观测与流水线集成等相邻能力，条目已把范围收敛在负载测试设计、峰值负载生成、SLA/趋势分析，未把 APM 或合成监控能力算作本叶核心，边界处理正确。",
+    "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而本单元 research.json 已为 case_found 并给出 4 个 case_ids；本次以 batch.json/research.json 为准核对，建议上游同步刷新 input 状态元数据以免下游误读。",
+    "Locust 站点快照、k6 三份历史快照与 Hyperfoil 快照存在于 sources 目录但未被条目引用；本次仅按 REVIEW_SOURCES.json 列出的 9 个 path 原样读取并核对，未把未引用快照当作证据。"
+  ],
+  "leaf_checks": {
+    "performance-testing-application": {
+      "status": "passed",
+      "definitional_core": "定义性核心为“记录的负载场景 + 受控模拟群体 + 针对目标的测量执行 → 可比较的结果集”。四条候选均以正文而非标题/元数据证明该结构：Locust README 以 HttpUser/task 定义用户行为、Web UI/CLI 启停并在运行中改变负载、实时输出吞吐/响应时间/错误；nGrinder README 与官网说明 controller 创建脚本并配置运行、agent 作为虚拟用户生成器、Web 端做监控与结果/报告管理；BlazeMeter 首页说明按用户旅程/环境/性能目标自动生成并执行测试并提供 CI/CD 性能门禁；NeoLoad 产品页说明无代码/YAML/CLI 设计测试、Dynamic Infrastructure 在全球位置拉起峰值负载、跨版本趋势与 SLA 分析。",
+      "service_form": "Locust 与 nGrinder 为自托管、浏览器可访问的完整应用（前者 Web UI 随测试运行，后者为常驻 controller Web 应用 + agent），不是纯 CLI/引擎；与 k6 仅 CLI/CI/K8s + 桌面 k6 Studio 的形态有实质区别，故本叶不再沿用此前 boundary_unresolved 的结论。locust.cloud、Azure Load Testing 等托管服务未被计入开源能力断言。",
+      "id_track": "github:1377867 对应仓库元数据 id=1377867、full_name=locustio/locust、archived=false；github:4709330 对应 id=4709330、full_name=naver/ngrinder、archived=true；两者 track=open_source 与 GitHub 仓库身份一致。commercial:blazemeter、commercial:tricentis-neoload 为商业条目，无伪造仓库 ID，track=commercial 与官网/产品页身份一致。",
+      "license": "Locust 许可证快照为 MIT 全文（约 1110 字节，含完整许可授予与免责声明），与 README 的 MIT 声明、仓库元数据 spdx_id=MIT 一致；nGrinder 许可证快照为 Apache-2.0 全文（11350 字节，含完整条款），与 README/官网的 Apache-2.0 声明、元数据 spdx_id=Apache-2.0 一致；两者均未见 open-core 或“社区版功能阉割”表述，nGrinder 另以 NOTICE 目录说明捆绑依赖许可，边界清晰。",
+      "candidates": {
+        "github:1377867": "通过：README 全文（Python 场景示例、Web-based UI 章节、分布式章节、MIT 声明）+ 仓库元数据 + MIT 全文快照，构成性能/负载测试应用核心与自托管 Web 应用形态；未部署运行。",
+        "github:4709330": "通过：README 与官网正文同时给出 controller(Web)/agent 两组件与 Web 端脚本、监控、结果、报告管理，Apache-2.0 全文快照可核；仓库已归档已如实记录，属可自部署但停止维护，非阻断。",
+        "commercial:blazemeter": "通过（基本真实性 + 类型匹配）：官方首页正文含性能测试定位、旅程/目标驱动的测试自动生成与执行、CI/CD 性能门禁；未评估价格与架构。",
+        "commercial:tricentis-neoload": "通过（基本真实性 + 类型匹配）：官方产品页正文含负载测试设计、峰值负载按全球位置动态生成、SLA 与跨版本趋势分析；未评估价格与架构。"
+      },
+      "gaps": "四条均无部署/运行实测（runtime_tested=false），商业两条仅有单一官方首页/产品页快照；Locust 的 Web UI 为本地随测试启动的界面，是否满足“持续在线服务”取决于上层目录口径，本次按叶定义（性能测试学科工具、完整应用形态）判为满足，并已在 non_blocking_notes 记录边界。未推断不存在其他 SaaS 变体，亦未补采替代品。"
+    }
+  },
+  "limits": "仅使用只读工具（read/grep）核对本单元 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及 REVIEW_SOURCES.json 中列出的 9 个 path（相对 data/collections 原样读取）。未运行 shell、未写文件、未读取其他单元。未部署或运行任何被测项目，未做价格、架构、性能或账号体系实测；两个 HTML 快照为大体量页面，依赖分段读取与关键词检索定位正文，正文判断限于已读片段。GitHub 元数据/许可证快照仅一行 JSON，长字段经检索命中确认。未使用未列入 REVIEW_SOURCES.json 的额外快照（locust.io 站点、k6 历史快照、Hyperfoil 快照）作为证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-098/ses_groveopendesignp098review1_1793199527.jsonl",
+  "batch_sha256": "c79df5464c8c88836b463d8df5157db60df112ca6328f992bdeb969a0b6ff0e3",
+  "research_sha256": "6171c7e1f7c74061f26f63aa1c6cc9146546093507559ec79878dc7d2936ca97",
+  "input_sha256": "c02dc0dc296f86cb01f1d74613a30ae1a93cdd86c5299f956e9fde5fa6ef6d1b"
+}

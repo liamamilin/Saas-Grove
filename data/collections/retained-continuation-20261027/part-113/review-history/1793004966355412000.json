@@ -1,0 +1,59 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "remote-customer-support-platform",
+      "application_id": "github:299354207",
+      "issue": "RustDesk 的仓库元数据、README、官网和文档一致将其定位为通用远程桌面/远程控制产品（remote desktop、remote control、TeamViewer 替代），现有证据只覆盖屏幕采集、键盘鼠标控制、文件传输和自托管；没有覆盖本叶定义中的支持交付关系（客户加入/同意、技师支持会话、支持流程），也没有覆盖 dc 所述的角色/权限与客户连接品牌化。条目理由称“官网将自托管方案列为 Self-Hosted Remote Support”，但已读首页快照中没有该表述，属于对来源的过度解读。仅凭通用远程访问工具不能稳定归入 Remote Customer Support Platform，也容易与个人远程访问类型混淆。",
+      "fix": "将本叶案例替换为明确定位为远程支持、且有 attended session/客户同意加入/技师控制台/支持流程正文证据的产品；若保留 RustDesk，则补充其官方支持场景和 attended support 文档，删除未在快照中出现的“Self-Hosted Remote Support”表述，并明确 OSS 客户端/Server OSS 与付费 Server Pro 的边界，不把 Pro 的角色/权限、品牌化能力计入开源案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 中五个叶子的 progress 仍为 case_status=not_searched、application_ids=[]，phase=included_without_cases，与 research.json 的 case_found 和 batch.json 的条目不一致；建议同步元数据，避免下游误判本单元无案例。",
+    "MikoPBX 是 PBX-first 产品，IVR 是其模块；当前 README 的 IVR menus、custom call-flow programming 足以支持本叶核心，但下游不宜把它当作专用 IVR 产品；分机、队列、坐席管理未计入本叶。",
+    "MikoPBX README 的许可证措辞为 GPLv3 或任何更新版本，条目字段写作 GPL-3.0；同时 README 提到 marketplace 含付费与免费扩展。建议在许可证/社区版说明中写清 GPL-3.0-or-later 的措辞及付费扩展不属于核心仓库。",
+    "Chatwoot 的 license 字段写作 MIT，但许可证快照显示 enterprise/ 目录另有独立许可证、第三方组件按原许可；条目已用 license_review.scope=community_core 说明边界。建议下游引用时始终带 community_core 限定，并注意 README 末尾“Released under the MIT License”是概括性表述。Chatwoot 的 homepage 字段指向 help-center 而非主站，属轻微元数据问题。",
+    "Chatwoot README 能证明统一 inbox、跨渠道集中和联系人互动历史，但没有逐字证明“客户换渠道后仍连接同一对话记录”；当前按产品自述的 Omnichannel Support Desk 接受，若需严格证明同会话连续性，建议补充对应文档。",
+    "RustDesk 的 AGPL-3.0 适用于 rustdesk/rustdesk 客户端仓库；docs 明确 Server Pro 为需购买的完整版。条目虽提到 OSS/Pro 两条部署路径，但未标明 Pro 为独立商业产品，建议补充该边界说明。",
+    "CallMiner 的 source_url 为 /platform/，快照 canonical 指向 /products/eureka；内容为官方产品页，建议记录 canonical URL，避免来源身份歧义。摘要中的“跨会话检索”比页面正文的 natural-language discovery/trend/drill-down 更具体，属措辞层面。",
+    "research.json 中部分检索记录引用 notes/previous 和候选快照（如 comcent），这些不在 REVIEW_SOURCES.json 的本次核对范围内；已采用的五个案例均有本单元快照支撑，未采用候选不影响结论。"
+  ],
+  "leaf_checks": {
+    "ivr-platform": {
+      "application_id": "github:190705676",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "MikoPBX 仓库元数据 id=190705676 与条目一致；README 正文明确 IVR menus、inbound/outbound call rules、holidays/night-time call switcher、custom call-flow programming，并由 Asterisk 22 执行呼叫；GPL-3.0 许可证快照为 GNU GPL v3。可作为 PBX 内含 IVR 构建能力的案例；分机、队列、坐席管理未计入本叶。"
+    },
+    "omnichannel-customer-service-platform": {
+      "application_id": "github:202291859",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "Chatwoot 仓库元数据 id=202291859 与条目一致；README 的 Omnichannel Support Desk 正文明确将网站聊天、邮件、Facebook、Instagram、Twitter、WhatsApp、Telegram、Line、SMS 汇入统一 inbox，并有联系人资料/互动历史、团队与自动分配；许可证快照确认 enterprise/ 之外为 MIT Expat、enterprise/ 另有独立许可证，条目已按 community_core 记录。"
+    },
+    "remote-customer-support-platform": {
+      "application_id": "github:299354207",
+      "track": "open_source",
+      "status": "fail",
+      "basis": "RustDesk 仓库元数据 id=299354207 与条目一致；README 与 docs 证明自托管 rendezvous/relay、屏幕采集（libs/scrap）、键盘鼠标控制（libs/enigo）、文件传输和 AGPL-3.0，属于通用远程桌面/远程控制。已读首页快照没有“Self-Hosted Remote Support”表述，也没有客户加入/同意、技师支持会话、支持队列等支持交付流程；无法仅凭通用远程访问工具稳定归入本叶。"
+    },
+    "self-service-support-portal": {
+      "application_id": "github:12063996",
+      "track": "open_source",
+      "status": "pass",
+      "basis": "osTicket 仓库元数据 id=12063996 与条目一致；features 页 Customer Portal 正文说明所有请求与回复对最终用户在线存档，用户可用邮箱加工单号或注册账户查看关联工单，并可建立知识库自助；README 说明网站、邮件、电话创建工单；GPL-2.0 许可证快照为 GNU GPL v2。门户作为 help desk 的客户侧组件，符合本叶允许的形态。"
+    },
+    "support-conversation-analytics": {
+      "application_id": "commercial:callminer",
+      "track": "commercial",
+      "status": "pass",
+      "basis": "CallMiner 官方 platform 页正文明确分析 100% omnichannel 互动、转录并标注 sentiment/emotion、预置 topics、根因分析、omnichannel journey mapping、回放与 drill-down；属于商业产品的基本真实性和类型匹配，未把 quality/coaching 评分并入本叶核心。"
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未独立计算或复核 sha256，也未访问实时网页；仅依据本单元 REVIEW_SOURCES.json 列出的快照以及 batch.json、research.json 核对。未读取其他单元、notes/previous 或未列入 REVIEW_SOURCES 的候选快照；未做部署、运行时或登录后动态页面验证。对 CallMiner 仅按商业产品的基本真实性和核心类型匹配核对，未核价、未核架构。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-113/ses_groveopencodegop113review1_1793004527.jsonl",
+  "batch_sha256": "22f28663217a3cac964b3c3abdcf934ebdd780cf2d008fc1e61bb114849def68",
+  "research_sha256": "ae8d2a18d8c65e2f863938870e10fef5cb32dcfc3f6a30394bfcbf8611dc7b8a",
+  "input_sha256": "a19d9ae8c52e549e266a0e0ab902f5273efd6dc7b399c901b1ebed49f8e29f50"
+}

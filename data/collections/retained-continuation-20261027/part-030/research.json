@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "shopping-cart-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:snipcart"
+      ],
+      "query": "官网直达：snipcart.com 首页（附加到任意网站的购物车与商户后台）",
+      "source_urls": [
+        "https://snipcart.com"
+      ],
+      "note": "Snipcart 首页证明其独立购物车形态：站点声明商品、平台托管购物车与结账、商户后台订单。未核验服务端价格重校验细节。",
+      "service_boundary": "独立购物车服务；不拥有目录或店面，位于商家站点与支付/订单系统之间。",
+      "search_attempts": [
+        "官网核对：snipcart.com 首页（附加到任意现有网站的购物车、商户后台、结账、库存与折扣）",
+        "候选比较：Snipcart / Ecwid / Shopify Buy Button；Snipcart 明确定位独立购物车服务而非整站平台",
+        "未核验服务端价格重校验与签名参数实现"
+      ],
+      "fetch_outcomes": [
+        "https://snipcart.com → 抓取成功，快照 ab217f2abef9"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "distributed-order-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:linnworks"
+      ],
+      "query": "官网直达：linnworks.com 首页与 /order-management/（多渠道订单、按规则路由到仓/3PL/直发）",
+      "source_urls": [
+        "https://www.linnworks.com",
+        "https://www.linnworks.com/order-management/"
+      ],
+      "note": "Linnworks 首页与订单管理页证明多渠道订单集中与按规则路由到自有仓/3PL/直发，并回传跟踪；寻源决策证据来自官方营销页，未核验规则引擎细节。",
+      "service_boundary": "履约网络寻源与订单协调系统；不执行仓内作业，也不替代销售渠道的订单捕获。",
+      "search_attempts": [
+        "官网核对：linnworks.com 首页（多渠道订单、按规则路由到自有仓/3PL/直发）",
+        "订单页核对：linnworks.com/order-management/（按产品类型/目的地/渠道/库存/自定义逻辑路由，回传跟踪）",
+        "候选比较：Linnworks / Brightpearl / Kibo；Linnworks 与 Brightpearl 均覆盖，取路由规则描述更具体的 Linnworks"
+      ],
+      "fetch_outcomes": [
+        "https://www.linnworks.com → 抓取成功，快照 4e7747620506",
+        "https://www.linnworks.com/order-management/ → 抓取成功，快照 8c20a6f33238",
+        "https://orderhive.com → 主机重定向失败，未采用"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "order-management-system-oms",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fluent-commerce"
+      ],
+      "query": "官网直达：fluentcommerce.com 首页与 /order-management-system/（OMS 定位、订单生命周期、退货换货、门店发货/点击提货）",
+      "source_urls": [
+        "https://fluentcommerce.com",
+        "https://fluentcommerce.com/order-management-system/"
+      ],
+      "note": "Fluent Commerce 首页自述 OMS 并称跨渠道/门店/仓库编排；补充抓取的官方 OMS 子页核到 “Command the full order lifecycle”、退货换货、门店发货/点击提货与订单工作流。曾尝试抓取官方文档门户 docs.fluentcommerce.com，但快照仅 30 行 Next.js 客户端壳，无文档正文或条目；该来源及相关“工作流状态/退货订单条目”断言已移除，缺口如实留档。仍未核到订单编辑/取消/退款的状态门控及发货 tracking 字段；商业条目按基本类型匹配记录。",
+      "service_boundary": "售后订单记录与生命周期管理系统；履约执行在仓库/承运商，寻源决策属相邻的分布式订单管理。",
+      "search_attempts": [
+        "官网核对：fluentcommerce.com 首页（AI-Native OMS、跨渠道/门店/仓库编排、交付承诺）",
+        "补充核对：fluentcommerce.com/order-management-system/ 官方 OMS 子页（完整订单生命周期、退货换货、门店发货/点击提货、订单工作流）",
+        "官方文档尝试：docs.fluentcommerce.com 门户返回客户端壳（30 行，无正文），未能核对工作流/退货订单条目；引用已移除",
+        "候选比较：Fluent / Brightpearl / Kibo；Fluent 以 OMS 为中心定位，避免与寻源/编排叶重复；Brightpearl 订单页仅作补充比较",
+        "未核验订单编辑/取消/退款在具体状态机上的门控细节及发货 tracking 字段"
+      ],
+      "fetch_outcomes": [
+        "https://fluentcommerce.com → 抓取成功，快照 d562081dff41",
+        "https://docs.fluentcommerce.com/ → HTTP 抓取成功但仅为 Next.js 客户端壳（30 行），无可读文档正文；引用与相关断言已移除",
+        "https://fluentcommerce.com/order-management-system/ → 抓取成功，快照 0a6ddcf55672"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "order-orchestration-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:pipe17"
+      ],
+      "query": "官网直达：pipe17.com 首页与 /order-management/（订单捕获、规则化路由、异常与状态回传）",
+      "source_urls": [
+        "https://pipe17.com",
+        "https://pipe17.com/order-management/"
+      ],
+      "note": "Pipe17 首页仅提供 “Order Operations Platform ... automate everything after the buy button” 的定位；补充抓取的官方 Order Management 页提供实质正文：从 storefront、marketplace、ERP、EDI 等捕获订单，路由引擎按 priority rules and filters、库存门控（inventory-gated location selection）与成本/距离/交付承诺排名决定履约地点，候选池覆盖 warehouses、3PLs、stores，支持拆分与订单合并，执行交由 StoreOps/WMS 并通过 connectors 回传状态，异常进入 Exception Resolution，Automation Engine 以无代码规则处理重路由、挂起与退货触发。仍未核验具体策略配置界面的操作细节与连接器清单。",
+      "service_boundary": "购后订单编排层；继承已捕获订单，驱动外部系统执行，不自建交易或仓储作业；与 OMS（订单记录与生命周期）和 DOM（寻源决策）边界相邻，本条按“跨系统编排/异常/状态回传”归入编排叶。",
+      "search_attempts": [
+        "官网核对：pipe17.com 首页（Order Operations 定位、连接器网络、导航中的 Order Management/Exception Resolution/Returns Management/Order Promising）",
+        "补充核对：pipe17.com/order-management/ 官方子页（订单捕获、规则与库存门控路由、成本/距离/承诺排名、仓库/3PL/门店候选池、拆分合并、异常与自动化、状态回传）",
+        "候选比较：Pipe17 / Kibo / Fluent；Kibo 已有分布式订单描述，Pipe17 更强调连接器驱动的编排与异常",
+        "未核验策略配置界面的操作细节、连接器清单与状态回传渠道的具体实现"
+      ],
+      "fetch_outcomes": [
+        "https://pipe17.com → 抓取成功，快照 8cc7e88c9c23；正文仅有 hero、导航与 logo，未支撑路由/异常等细节",
+        "https://pipe17.com/order-management/ → 抓取成功，快照 aa26d7491a2a，服务端可读正文，路由/库存门控/异常/状态回传均有实质表述"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "delivery-experience-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:parcellab"
+      ],
+      "query": "官网直达：parcellab.com 首页（订单跟踪、品牌化消息、WISMO 代理）",
+      "source_urls": [
+        "https://parcellab.com"
+      ],
+      "note": "parcelLab 首页证明订单跟踪、品牌化消息、退货与 WISMO 客服代理；以订单跟踪呈现客户可见配送状态。品牌化跟踪页与承运商状态标准化细节仅在营销层可见，未核验状态模型。",
+      "service_boundary": "品牌侧配送体验层；只记录、通知与升级，不调度承运商或执行发货。",
+      "search_attempts": [
+        "官网核对：parcellab.com 首页（订单跟踪、品牌化消息、退货换货退款、WISMO 客服代理）",
+        "候选比较：parcelLab / Narvar / Malomo；Narvar 重定向失败、Malomo 证书失败，parcelLab 抓取成功",
+        "未核验承运商状态标准化模型、品牌化跟踪页与通知同意管理细节"
+      ],
+      "fetch_outcomes": [
+        "https://parcellab.com → 抓取成功，快照 2362923140a8",
+        "https://www.narvar.com → 主机重定向失败，改用 parcellab.com"
+      ],
+      "archived": false
+    }
+  ]
+}

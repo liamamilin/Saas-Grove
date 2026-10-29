@@ -1,0 +1,26 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "NUcore 的 README 仍链接 doc/instrument_pricing.md，而本次实际保留的快照来自抓取该路径返回 404 后改用的 doc/product_pricing.md；后者确实记录了仪器按分钟计费与价格组规则，建议在来源注记中保留这次路径替换的说明。",
+    "MyTardis 的 master README 与 develop README 使用同一 sha256 和同一快照文件，REVIEW_SOURCES 未单列 master URL；两份内容一致，不影响功能结论，来源清单可去重或注明复用关系。",
+    "OpenChrom 的官方 wiki 未标明该流程所属 edition，也未展开原始数据持久化、方法版本化和按样品结果记录；条目已按单机分析型 CDS 收窄，且未对这些点作断言，补充用户手册可进一步增强可复核性。",
+    "LibreClinica 仅有 CRF 级 completed/locked 证据，研究级 database lock 的门槛及锁定后只读未展示；条目已明确避免该断言，若目录要求完整四结构 CDM 证明，可补管理员或研究锁定文档。",
+    "AFMS 的 MyVivarium/DataFed 候选快照未列入 REVIEW_SOURCES，候选负面判断只能依据 research.json 的记录采信；该叶未收录应用，故不改变无案例结论。",
+    "input.json 中 progress.application_ids 为空且 phase 为 included_without_cases，与 batch/research 的 case_found 不一致，疑似上游进度字段未回填，不影响本次应用内容核对。",
+    "AFMS 定义 dc_zh 第 4 项写成“合规性与报告的基础”，与英文 dc 的 research-use linkage/方案用量核算不完全对应，建议校对译文；本次无案例，不影响结论。"
+  ],
+  "leaf_checks": {
+    "research-animal-facility-management": "无应用条目。research.json 的 assessment=insufficient_evidence、case_ids=[]；记录 open source research animal facility management vivarium github 等查询及 MyVivarium/JCMS/BioManager/Vivocare 抓取结果；MyVivarium schema 仅有 mice/cages/holding/breeding/litters/cage_iacuc，缺房间/笼架占用、到达/断奶/移动/死亡/转出生命事件和 approved/used/remaining 方案核算，故撤销 AFMS 案例关系。留档缺口：MyVivarium/DataFed 快照不在 REVIEW_SOURCES，无法独立重读候选负面细节。",
+    "scientific-core-facility-management": "NUcore Open（github:1439473，track=open_source）：metadata 确认仓库 id 1439473；MIT license 快照正文为 MIT；README 确认 Rails 自托管/Docker 与设施角色；HOWTO_reservations 确认仪器排期、预约冲突与订单创建；product_pricing 确认按分钟计费、预约/实际使用/超时计费、internal/external price groups、拆分账户与取消费。共享仪器目录、实名预约、使用计费闭环基本成立；培训/资格门槛与补贴未证实，条目未作这些断言。",
+    "scientific-data-management-system": "MyTardis（github:2824643，track=open_source）：metadata 确认仓库 id 2824643、描述为 private lab/facility data management；GPL-3.0 license 快照为 GPLv3 全文；README 明确 central repository、instrument integration 自动把数据从仪器转移到仓库、associated metadata、secure archival、web/SFTP 按权限访问，以及 Django/PostgreSQL/Elasticsearch/RabbitMQ 部署。四个 SDMS 属性均有 README 级依据；审计/保留策略细节未展开，条目未过度断言；master 引用与 develop 同 sha，快照复用。",
+    "chromatography-data-system": "OpenChrom（github:202303561，track=open_source）：metadata 确认仓库 id 202303561、描述为 chromatographic/mass spectrometric data visualization and analysis；EPL-2.0 license 快照为 EPL-2.0 全文；README 确认 free base version 不含 vendor converters/commercial extensions，桌面 Windows/macOS/Linux；官方 wiki Quantitation-ISTD 记录 peak detection/integration、定义 ISTD、运行定量、复核结果。峰积分与 ISTD 校准定量成立，按单机简化 CDS 收窄；原始信号持久化/再处理、命名/版本化方法、按样品结果记录未在已读来源展开且未断言。",
+    "clinical-data-management": "LibreClinica（github:169558966，track=open_source）：metadata 确认仓库 id 169558966、描述为 EDC/CDM；GitHub license 元数据为 LGPL-3.0，COPYING.LESSER 快照为 LGPLv3 additional permissions 全文，LICENSE 为 GPLv3 基础文本，二者合并支持 LGPL-3.0；README 确认 Java/Tomcat/PostgreSQL；investigator manual 记录 CRF 录入、必填/范围校验、discrepancy/query/annotation/reason-for-change、CRF 完成与签署；monitor manual 记录 SDV、query 关闭、Study Audit Log、completed/locked 状态。受管研究记录、验证差异、解决循环、审计与签署成立；研究级 database lock 未直接证实，条目仅声明 CRF 级锁定。"
+  },
+  "limits": "仅做只读快照与条目核对，未运行 shell、未部署或运行应用、未抓取额外网页、未读取其他单元或采集者过程脚本；未验证运行时行为、价格/架构细节或未提供的文档。MyVivarium/DataFed 及 MyTardis master 的独立快照不在 REVIEW_SOURCES，相关候选或分支结论只能按记录采信。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-020/ses_groveopencodegop020review1_1793076819.jsonl",
+  "batch_sha256": "e9fa0f7138da64a3bec39fd585755dba07bf4814ba636b743ee394c440e5799e",
+  "research_sha256": "3d0563a5ad835b28e6ac6a252fbabd43c572a858af3a6b81e915bd42d7ad6fe2",
+  "input_sha256": "74575f37d2f17acf55fdbfba74a5da1a90989afae2c0ad0d136ab2a5f09495cb"
+}

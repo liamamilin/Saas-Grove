@@ -1,0 +1,32 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 insufficient_evidence 且 application_ids 为空，而 research.json/batch.json 已记录 case_found 与 commercial:enfos；这是种子状态未刷新，不影响本次结论，但建议同步以免下游误读。",
+    "research.json 的 source_urls 含 https://enfos.com/plan，fetch_outcomes 记为 HTTP 200，但 REVIEW_SOURCES.json 与 batch.json 未保留该页快照；研究记录明确其仅用于边界核对、未作为关系主证据，故不阻断，建议保留快照或从 source_urls 移除。",
+    "batch.json 的 homepage 指向公司首页而非 ERO 产品页；产品身份仍可由 ERO 页与名称确认，建议将 homepage 设为 https://enfos.com/environmental-remediation-obligation 或补充 product_url。",
+    "较早的官方博客称 ENFOS 是仅面向环境修复的项目管理软件，当前官网平台还覆盖 ARO/更广义的环境义务；该差异不影响本叶的修复类型匹配，但不宜把 ONLY 表述当作当前产品边界。",
+    "ROI 白皮书由 ENFOS 委托 Hobson & Company 完成并含客户引语，232% ROI 等数字属于营销材料；本叶未将其作为核心类型证据，建议保持这一区分。",
+    "官方博客把采购订单、工单、变更单、实验室数据列为修复项目常见沟通事项，并未逐项声明均为 ENFOS 内置功能；PO/变更单能力主要由 ROI 白皮书的平台描述支持，引用时应避免把博客的通用清单当成功能清单。",
+    "本叶未证明逐任务/逐里程碑的现场执行、逐次采样管理或 LIMS 导入；batch 已如实限定，建议继续保持该边界，不要在未来改写为已证实能力。"
+  ],
+  "leaf_checks": {
+    "environmental-remediation-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:enfos"
+      ],
+      "definition_core": "ENFOS ERO 官方页把污染场地/资产作为持续记录单元，明确 ASC 410-30 法律义务、多年长尾生命周期、Remediation Strategy、Cleanup Phasing and Work Breakdown Structure、closure criteria、progress 与 spend，并称其为覆盖修复运营与会计的 ERO system of record；ROI 白皮书补充按项目/供应商跟踪授权支出、PO 承诺、实际花费及变更单控制未授权工作，三项结构均有正文依据。",
+      "saas_form": "官网与 ERO 页页脚均称 purpose-built SaaS platform / system of record，Web 应用形态明确，非仅是咨询或表格模板。",
+      "identity_track": "batch.json 使用 commercial:enfos、track=commercial，名称与 ERO 产品页一致；research.json 的 case_ids 与之一致。",
+      "license_community": "本叶未收录开源应用；研究记录对 GitHub 候选仓库因无 LICENSE、仅为 Clarity 智能合约原型而未收录，故无开源完整许可证或社区版边界可核。",
+      "evidence_gaps": "未做运行时测试；未证明任务级现场执行、逐次采样/LIMS；/plan 页未留快照且未作为主证据；这些缺口已在 research.json 中如实记录，不改变商业基本类型匹配结论。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未读取其他单元；未做产品运行时测试、未复核文件哈希、未评估价格/架构/部署；主要依据本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 4 个保留快照；对快照中压缩的 HTML 正文做了只读页面交叉核对以确认未被截断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-155/ses_groveopencodegop155review1_1793251094.jsonl",
+  "batch_sha256": "c29d66f4b991a9db8c90b3b90ffb47001056c54d8d0923c61cbd12c8b8a9b217",
+  "research_sha256": "3a1f4d15e59232af1a57cec7c42a53d1a697c5f27a9da8f004eee8affb87a4f2",
+  "input_sha256": "086da9a7269264212550c237703c46f0c6b1b8f7642cc0f64971ff5eb7635d74"
+}

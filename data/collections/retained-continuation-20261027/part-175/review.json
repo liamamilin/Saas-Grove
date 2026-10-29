@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为研究前状态（case_status=not_searched、application_ids=[]、research_records=[]），与 batch.json/research.json 的 5 个案例不一致；本次以 batch/research 为准，若下游依赖 progress，入库时需同步更新。",
+    "ChargePilot 的公开页更偏充电站/场地能源管理，未直接展示车队登记册、电池容量和任务分配等逐车记录；但按出发时间/SoC 排优先级与远程启停充电点已有官方正文和 FAQ 佐证，类型匹配可成立，建议后续补充 loadmanagement-charginglogic 页面以强化“车队为管理主体”的证据。",
+    "Fleetbase 的匹配依赖 Fleet-Ops 子模块；README 仅给出车辆、司机、实时跟踪、路线优化与维护的功能表，未展开车辆状态、停用/恢复、逐车成本等监督闭环细节，建议补充 Fleet-Ops 文档作为更强证据。",
+    "Trenova 的“FSL-1.1-ALv2、非 OSI 开源”声明没有对应的 license 快照；当前按 commercial 轨道记录不受影响，但建议补源或弱化该句。",
+    "Open TMS README 明确仍在 active development、尚无 release version；本次未运行部署，属成熟度风险而非类型或许可问题。",
+    "Traccar 的许可证快照覆盖 traccar/traccar 服务端仓库，web app/manager 为独立仓库；若需要平台级许可结论，应补充其许可证。",
+    "商业案例未记录价格、架构或部署细节，符合本次只做基本真实性与核心类型匹配的范围。"
+  ],
+  "leaf_checks": {
+    "ev-fleet-charging-management": {
+      "application_id": "commercial:chargepilot",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "ChargePilot 官方产品页：Controller 按车辆优先级、当地发电/消耗和公用事业信号分配功率；商业车队页：从单一平台管理车队充电、设置负载阈值并远程启停/重启充电桩，现场控制器执行负载管理；官方 FAQ：可按出发时间和 SoC 对单个充电点/RFID 排优先级，并在门户启停单个充电点。",
+      "notes": "核心控制与任务导向的充电优先级成立；但页面以充电站/场地为操作对象，未直接展示车队登记册、电池容量和任务分配，属证据深度而非类型错误。"
+    },
+    "fleet-management-system": {
+      "application_id": "github:540371158",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "Fleetbase README：Fleet-Ops 模块为“Fleet management and dispatch: orders, drivers, vehicles, live tracking, route optimization, configurable workflows, and maintenance”；支持 Docker 自托管与 Fleetbase Cloud；许可证快照为完整 AGPL-3.0 文本，仓库 ID 540371158，README 说明 AGPL-3.0 与商业许可双轨。",
+      "notes": "按完整子模块匹配；整体是物流运营 OS，Fleet-Ops 以订单/调度为强项，逐车运营记录与停用/恢复闭环的细节在 README 中不够展开，建议补充模块文档。"
+    },
+    "transportation-exception-management": {
+      "application_id": "github:1060011355",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "Open TMS README：Issue 为持久记录，生命周期含 create/assign/escalate/snooze/resolve/close/reopen；确定性 Issue Engine 从 cutoff-at-risk、ETA delay、mis-ship、temperature excursion、tamper 等货运异常信号建单，同一货运同一类型升级而非重复；Triage Centre 提供队列、SLA、MTTR 与关闭报告；许可证快照为完整 MIT 文本，仓库 ID 1060011355。",
+      "notes": "按完整子模块匹配，异常项绑定 shipment 且关闭/重开机制明确；README 明确尚无 release version，未运行部署。"
+    },
+    "trucking-management-system": {
+      "application_id": "commercial:trenova",
+      "track": "commercial",
+      "result": "pass",
+      "evidence": "Trenova 官网：carrier TMS、tender 到 cash；tms-software 页：dispatch、billing、compliance、documents、accounting 统一在一条 shipment 记录上，含 dispatch board、billing queue 与 GL 过账；features 页：Settlement & Driver Pay 从 shipment 记录派生司机工资/结算，FAQ 明确面向 trucking carriers、private fleets 与 over-the-road operations，支持 Cloud 或自托管。",
+      "notes": "自有运力承运商与客户计费/司机结算双向资金核心成立；“资产型/自有卡车”未逐字出现，但 carrier TMS、private fleets、driver pay 足以支持商业类型匹配。"
+    },
+    "vehicle-telematics-platform": {
+      "application_id": "github:4038949",
+      "track": "open_source",
+      "result": "pass",
+      "evidence": "Traccar README：Java 后端，支持 200+ GPS 协议与 2000+ 设备型号，提供实时 GPS 跟踪、驾驶行为监控、详细/汇总报告、地理围栏、报警、账户/设备管理与 REST API；官网：实时地图、传感器读数、报警、行程/历史/报告，支持自托管或托管；许可证快照为完整 Apache-2.0 文本，仓库 ID 4038949。",
+      "notes": "设备自动上报、集中实时画面/历史、组织侧暴露四项核心齐全；许可证快照覆盖服务端仓库，web app/manager 为独立仓库。"
+    }
+  },
+  "limits": "只读审查；未运行或部署任何产品，未接入真实设备，未补充价格或架构研究；快照为 HTML/JSON，部分超长单行仅能读取前 2,000 字符，ChargePilot FAQ 与 GitHub 仓库元数据另用对应官方 URL 交叉确认；未读取其他单元；input.json 的 progress 为研究前状态，不作为案例有无的依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-175/ses_groveopencodegop175review1_1793019484.jsonl",
+  "batch_sha256": "f63382b12d63ce68d674393a6a8756ab82baf2f5aed4d26a742fd6aca8ff491a",
+  "research_sha256": "9551b3e8918608e739c5a2412a790581de8228384477fb531b2479d52043636d",
+  "input_sha256": "7c7cbf9668bc4a4811a29ed8c0c91fe300913af333b546f75ee3b389395208d6"
+}

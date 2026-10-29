@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "dast-iast",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:invicti",
+        "commercial:contrast-assess"
+      ],
+      "query": "开源与商业对照核查：复用 ZAP 历史证据并复核服务形态；筛查 ArcherySec/Arachni/OWTF/Faraday/w3af 等开源候选；补采 Invicti DAST 与 Contrast Assess 官方正文",
+      "source_urls": [
+        "https://api.github.com/repos/zaproxy/zaproxy",
+        "https://api.github.com/repos/zaproxy/zaproxy/license",
+        "https://raw.githubusercontent.com/zaproxy/zaproxy/main/README.md",
+        "https://www.zaproxy.org/docs/",
+        "https://www.zaproxy.org/getting-started/",
+        "https://www.invicti.com/product/dast",
+        "https://www.contrastsecurity.com/contrast-assess"
+      ],
+      "note": "历史复用（2026-10-26 快照，非本轮检索）：ZAP 的仓库元数据、许可证、README、docs 与 Getting Started 原样沿用。主会话复核认定这些正文只证明桌面客户端、守护进程/Docker 与 API/HUD，未证明其为完整的持续应用服务；本轮据此移除 ZAP 的成立关系，保留其来源与未收录理由（withheld_candidates），不改写历史结论。本轮补采：Invicti 官方 /product/dast 与 Contrast Assess 官方页面均 HTTP 200，正文分别证明对运行中 Web 应用/API 的主动 DAST（利用验证并展示证据）和 agent 插桩运行应用的 IAST 观测，故按商业基本记录成立。开源筛查未取得可用完整应用服务：ArcherySec 官网自述为 ASOC 编排与关联工具，动态扫描结果来自集成的 ZAP/Burp/Arachni 等（archerysec/archery 旧路径 404，现仓库为 archerysec/archerysec，GPL-3.0），按定义属漏洞管理/编排而非 DAST 本体；Arachni 仓库归档且许可证为 Arachni Public Source License（非 OSI）；OWTF、Faraday 为框架/漏洞管理；w3af 无许可证标识且为 CLI。以上为筛查记录，不据此断言完整开源 Web 应用不存在。未运行任何第三方项目，runtime_tested:false。",
+      "service_boundary": "成立的商业服务：Invicti（DAST，SaaS/本地/混合，扫描运行中应用与 API 并以利用证据确认发现）；Contrast Assess（IAST，agent 插桩运行中应用，持续观测代码执行与数据流）。开源侧：ZAP 为桌面/守护进程/Docker 扫描器，未按完整应用服务收录；ArcherySec 为编排与关联平台；Arachni 非 OSI 许可证且归档；三者均不作为本叶成立关系。",
+      "search_attempts": [
+        "历史复用：核对工作区已复制的 ZAP 5 份快照（仓库元数据、许可证、README、docs、Getting Started），未重新抓取、未补造时间或状态",
+        "本轮 GitHub API 核对候选身份/许可证/归档状态：Arachni/arachni（archived=true，NOASSERTION→正文为 Arachni Public Source License）、owtf/owtf（BSD-3-Clause，框架）、infobyte/faraday（GPL-3.0，漏洞管理）、archerysec/archery（404，已改名为 archerysec/archerysec，GPL-3.0）、w3af（无许可证标识）",
+        "本轮 GitHub 搜索限定 DAST/Web 漏洞扫描关键词，未见可确认的完整开源 Web 应用服务；仅记录检索，不推断不存在",
+        "本轮官方正文抓取：https://www.invicti.com/product/dast HTTP 200；https://www.contrastsecurity.com/contrast-assess HTTP 200",
+        "失败并改用官方来源：https://www.invicti.com/products/invicti-dast/ 返回 404，改用同站 /product/dast；https://archerysec.com/ 与 https://docs.archerysec.com/ 仅用于判断产品定位，未作为批次来源"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/zaproxy/zaproxy",
+          "kind": "repository_metadata",
+          "result": "success",
+          "sha256": "198e17037bbfc00dd5a0559179622be136c98282f08ce1d5f8a105f059a3f721"
+        },
+        {
+          "url": "https://api.github.com/repos/zaproxy/zaproxy/license",
+          "kind": "license",
+          "result": "success",
+          "sha256": "b2b05d822c860884b528ed0981283e7d4ec4011c8683f72a7e3b2c9972182006"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/zaproxy/zaproxy/main/README.md",
+          "kind": "readme",
+          "result": "success",
+          "sha256": "f87d291f30f22568f85b69f6bb4e4d28de77cf8053d7cd7813f2d27318e00891"
+        },
+        {
+          "url": "https://www.zaproxy.org/docs/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "c7c8216672e20ddcbd359a65ceb7786f5a728574195cd1b89adefda3f7f185fa"
+        },
+        {
+          "url": "https://www.zaproxy.org/getting-started/",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "d9961595a108162d6d89de3743b2419bbc4fc97fc14e28f9abe3e4dffa254f28"
+        },
+        {
+          "url": "https://www.invicti.com/product/dast",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "735fc9e781c9d5b06b6ee23fe96ba202c5bb4dd3b350f6e116a116f46e2d46bd"
+        },
+        {
+          "url": "https://www.contrastsecurity.com/contrast-assess",
+          "kind": "documentation",
+          "result": "success",
+          "sha256": "6268b7b6439b844abc190b6cff5b8fd354b5479f04a1fb103fc370421598a505"
+        }
+      ],
+      "provenance": {
+        "historical_reused": [
+          "ZAP 5 份 2026-10-26 快照及其原 source 记录（REUSED_SOURCES.json）"
+        ],
+        "current_round": [
+          "https://www.invicti.com/product/dast",
+          "https://www.contrastsecurity.com/contrast-assess"
+        ],
+        "not_retrieved": [
+          "Arachni、OWTF、Faraday、ArcherySec、w3af 仅作仓库/官网定位筛查，未作为本叶成立案例保存正文"
+        ]
+      },
+      "withheld_candidates": [
+        {
+          "id": "github:36817565",
+          "reason": "所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

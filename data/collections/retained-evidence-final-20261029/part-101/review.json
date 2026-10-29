@@ -1,0 +1,49 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "api-documentation-platform",
+      "application_id": "github:843437350",
+      "note": "batch.json 的 deployment 列举了 Vercel、Netlify、Cloudflare Pages、GitHub Pages 等托管目标，而 deployment 快照正文只明确出现“deploy to your own server, or a hosted service of your choice”与 Vercel（以及指向其他托管商的链接）。静态产物可托管属合理推断，但这些具体厂商名未被本单元快照直接覆盖，建议收窄为“自有服务器或自选静态托管（文档示例含 Vercel）”以免超出证据。"
+    },
+    {
+      "slug": "api-documentation-platform",
+      "application_id": "github:53501749",
+      "note": "DapperDox 的“随 API 变更保持最新”只能从 README 的启动方式（-spec-dir 指向规范目录后构建并常驻 3123 端口）间接推得，未见仓库同步、重新生成或校验机制的说明；同时 README 仅声明 OpenAPI 2.0（Swagger），发行版标记为 v1.1.1，属维护活跃度偏低的产品。这不影响其作为文档服务器/生成器的类型成立，但如需强调“持续维护”属性宜补来源或弱化措辞。"
+    },
+    {
+      "slug": "api-documentation-platform",
+      "application_id": "github:45250726",
+      "note": "研究记录以“仅为渲染/生成组件”为由不纳入 Redoc，但叶定义明确把“自托管单页参考渲染器”列为同一类型的一端。排除结论本身可成立（Redoc 交付形态是 React 组件/CLI 产物，而非可独立部署运行的文档站点），建议把理由表述为“库/组件形态、缺少独立发布与运维面”而非“仅渲染”，以免与定义自相矛盾。"
+    },
+    {
+      "slug": "api-documentation-platform",
+      "application_id": null,
+      "note": "input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 research.json 已为 case_found 并列明两个案例；两者不一致属阶段快照差异，下游引用时以 research.json 与 batch.json 为准，并注意同步元数据。"
+    },
+    {
+      "slug": "api-documentation-platform",
+      "application_id": "github:843437350",
+      "note": "Zudoku 的快速上手与部署两页快照为客户端渲染 HTML，正文段落（create-zudoku 流程、npm run build 产物、静态部署与 Markdown 内容协商）确实可读，但未捕获任何渲染后的端点参考页示例；叶核对依据主要来自 README 的功能声明与部署正文，属可接受但不最强的证据组合。"
+    }
+  ],
+  "leaf_checks": {
+    "api-documentation-platform": {
+      "slug": "api-documentation-platform",
+      "definition_core": "定义性核心（接口参考为中心产物、绑定结构化 API 定义、面向消费者发布、随变更保持最新）在本单元有两个可核对承载：Zudoku README 明确“open-source, highly customizable API documentation framework”“Generate documentation from a single or multiple OpenAPI schema”“OpenAPI powered API references”，并以 MDX 页面补充指南；DapperDox README 明确“Themed documentation generator, server and API explorer for OpenAPI (Swagger) Specifications”“builds integrated, browsable reference documentation and guides”，并说明从 -spec-dir 下的 swagger.json 构建参考文档。两者均为“从规范生成可浏览接口参考”，符合核心而非仅简介/元数据。",
+      "service_form": "Zudoku 以 npm create zudoku@latest 建站、npm run build 产出静态站点并部署到自有服务器或托管服务（quickstart 与 deployment 快照正文均含实际步骤与产物说明），属可发布、可反复构建更新的文档站点形态；README 另说明可作为独立文档站点、开发者门户或内部文档使用。DapperDox 以 Go 二进制常驻运行，默认在 3123 端口对所有接口提供文档服务，属持续运行的文档服务器形态。二者均非仅嵌入式渲染片段。",
+      "identity_and_track": "github:843437350 与仓库元数据 id=843437350、full_name=zuplo/zudoku、html_url 一致，track=open_source 与 MIT 许可一致；github:53501749 与仓库元数据 id=53501749、full_name=DapperDox/dapperdox 一致，track=open_source 与 GPL-3.0 许可一致。两个 id 均为 GitHub repository id，非组织或用户 id。",
+      "license_and_community_boundary": "Zudoku：license API 快照指向 LICENSE.md（sha dd21af81…，size 1073），base64 正文解码为完整 MIT 文本（含授权、版权声明保留、免责声明），仓库元数据 license.spdx_id=MIT，README“Zudoku is licensed under MIT”一致。DapperDox：license API 快照指向 LICENSE（sha 0781a58d…，size 35134），base64 正文以“GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007”开头，为完整 GPL-3.0 文本。二者社区版即完整核心功能（OpenAPI 参考生成、指南叠加、内置浏览器/调试、部署），未见开源版被削减核心或需商业授权解锁的表述；Zudoku 背后的 Zuplo 商业网关与本文档框架分离，README 亦声明将始终开源免费。",
+      "source_and_gap_record": "REVIEW_SOURCES.json 所列 8 个快照均按 path 原样读取，sha256/文件名与 batch.json 的 snapshot_path 一一对应，未出现根目录 sources/ 误读；research.json 如实记录 zudoku.dev/docs/openapi 抓取 404 并说明改用 README 与 quickstart/deployment，属已披露缺口。旧 Redoc 候选与历史快照保留但不作为通过依据，处理方式已说明。",
+      "result": "pass",
+      "gaps": "未做部署实测（两案例 runtime_tested=false）；Zudoku 无渲染后端到端参考页截图，OpenAPI 绑定与发布仅由 README/文档正文支撑；DapperDox 仅覆盖 OpenAPI 2.0，且“保持最新”机制无专门文档，维护活跃度偏低；本次未运行校验命令，快照哈希未独立复算。"
+    }
+  },
+  "limits": "本次为只读初审，未使用 shell、未写文件、未读取其他单元；仅依据 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 个快照（sources 前缀相对 data/collections）。快照哈希未独立复算，仅核对了文件名与 batch.json 的 sha256/path 一致性。Zudoku 官方文档快照为客户端渲染 HTML，仅能读取其中已内联的正文段落，未执行 JS，因此无法核对页面内动态加载的端点示例或导航内容；两案例均未部署运行，服务形态与许可证结论基于官方 README、部署/快速上手正文及 GitHub 仓库元数据、许可证正文。task 中提及的数据/collections 之外无其他合规来源可用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-101/ses_groveopendesignp101review1_1793199816.jsonl",
+  "batch_sha256": "7fe7b13f0b5309a3fd67f6df7e84695a67ba6d4f83fe9707bb569f1d9a4d4e49",
+  "research_sha256": "ecf4ea1c6bcc6e185a2bb6834e8242c5b98a8e72f555b87ce26230cb064bd55a",
+  "input_sha256": "6a7a029901f9079fd146223b760a82061a1793d6f9783865759554177bd37fd4"
+}

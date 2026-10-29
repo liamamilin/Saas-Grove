@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "reporting-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:40549369"
+      ],
+      "query": "reporting-platform：核对参数化、分页文档报表、调度投递、多格式导出和文件夹/角色权限；候选按官方仓库许可证与核心工作流筛选",
+      "source_urls": [
+        "https://api.github.com/repos/ariacom/Seal-Report",
+        "https://api.github.com/repos/ariacom/Seal-Report/license",
+        "https://raw.githubusercontent.com/ariacom/Seal-Report/master/README.md",
+        "https://raw.githubusercontent.com/ariacom/Seal-Report/master/Projects/SealDocumentation/Pages/Server.cshtml"
+      ],
+      "note": "采用 Seal Report（MIT，GitHub id 40549369）。README 与官方 Server 文档证明其以 SQL/NoSQL 查询、参数和 restriction 定义报表，由 Web Report Server 发布，安全组控制仓库文件夹/报表权限，计划任务将 PDF、Excel、CSV 等结果投递到文件夹、FTP/SFTP、SharePoint 或邮件。JasperReports Server 无同名官方 GitHub 仓库（404），社区版不能按开源仓库身份落库；infofabrik/reportserver 许可证被 GitHub 识别为 NOASSERTION，未取得完整许可证证据，未采用。未运行项目，分页/锁定版式细节可能随模板而异。",
+      "service_boundary": "自托管 .NET 报表服务器：核心是固定布局文档报表的定义、渲染、发布与订阅投递；不是交互式 BI 探索、仪表盘或 ETL 平台。",
+      "search_attempts": [
+        "读取 input.json 中该叶的 definition/dc/rules，核对文档型报表与订阅交付边界",
+        "GitHub API 查询 TIBCOSoftware/jasperreports-server，返回 404",
+        "GitHub 仓库搜索 jasperreports-server，结果无官方社区版仓库，仅客户端/第三方镜像",
+        "GitHub 仓库搜索 reportserver in:name，发现 infofabrik/reportserver；许可证 API 识别为 NOASSERTION",
+        "GitHub API 读取 ariacom/Seal-Report 元数据、README、license 及 Server 文档"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/TIBCOSoftware/jasperreports-server",
+          "http_status": 404,
+          "note": "无该官方仓库，未使用"
+        },
+        {
+          "url": "https://api.github.com/search/repositories?q=reportserver+in:name",
+          "http_status": 200,
+          "note": "检索到 infofabrik/reportserver；许可证未识别，未采用"
+        },
+        {
+          "url": "https://api.github.com/repos/ariacom/Seal-Report",
+          "http_status": 200,
+          "note": "id 40549369，MIT，README 默认分支 master"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ariacom/Seal-Report/master/README.md",
+          "http_status": 200,
+          "note": "确认报表、调度、输出格式与 Web 服务器"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ariacom/Seal-Report/master/Projects/SealDocumentation/Pages/Server.cshtml",
+          "http_status": 200,
+          "note": "确认安全组、文件夹权限、审计与计划投递"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ai-cost-finops-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ai-spendops"
+      ],
+      "query": "AI 成本/FinOps：核对 AI 消耗计量、成本分配、团队/应用归因和支出可见性；先查开源候选，再按商业基本记录补足",
+      "source_urls": [
+        "https://www.aispendops.com/",
+        "https://api.github.com/repos/Helicone/helicone",
+        "https://raw.githubusercontent.com/Helicone/helicone/main/README.md",
+        "https://api.github.com/repos/openmeterio/openmeter",
+        "https://raw.githubusercontent.com/openmeterio/openmeter/main/README.md",
+        "https://api.github.com/repos/axebelk/TokenTrail",
+        "https://api.github.com/repos/AIMasterLabs/tokenbudget",
+        "https://api.github.com/repos/AIMasterLabs/tokenbudget/license"
+      ],
+      "note": "采用商业基本记录 AI SpendOps：官网正文明确跟踪 16+ LLM 提供商 token 成本，按团队/功能/环境/客户归因，提供支出仪表盘、预算阈值、预测和网关策略执行，四项定义核心均成立。开源候选均有边界或证据缺口，未建立关系：Helicone 自述为 AI Gateway & LLM Observability Platform，成本只是可观测性指标之一；OpenMeter README 明确 “not a bundled operator UI”，属计量/计费基础设施；TokenTrail 已重命名为 TokenLedger、许可证为 NOASSERTION 且 ee/ 为商业目录；TokenBudget 许可证同为 NOASSERTION 的短 Apache 声明。未运行任何项目。",
+      "service_boundary": "买方侧 AI 支出管理应用：计量模型/服务消耗、把用量映射为成本、按组织维度归因并呈现支出；不是通用云 FinOps、LLM 可观测性或单纯 AI 网关。",
+      "search_attempts": [
+        "读取 input.json 中该叶的 definition/dc/rules，确认四项核心与相邻类型边界",
+        "Web 检索 open source AI cost management / AI spend attribution 候选",
+        "GitHub API 与 README 核对 Helicone、OpenMeter 的定位与许可证",
+        "GitHub API 核对 TokenTrail（重定向 TokenLedger）与 TokenBudget 的许可证证据",
+        "抓取 AI SpendOps 官方首页并读取正文的能力描述"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/Helicone/helicone/main/README.md",
+          "http_status": 200,
+          "note": "自述为 AI Gateway & LLM Observability Platform，未采用"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openmeterio/openmeter/main/README.md",
+          "http_status": 200,
+          "note": "明确无捆绑运营 UI，未采用"
+        },
+        {
+          "url": "https://api.github.com/repos/axebelk/TokenTrail",
+          "http_status": 200,
+          "note": "重定向为 axebelk/TokenLedger，license NOASSERTION，未采用"
+        },
+        {
+          "url": "https://api.github.com/repos/AIMasterLabs/tokenbudget/license",
+          "http_status": 200,
+          "note": "许可证 API 为 NOASSERTION，未采用"
+        },
+        {
+          "url": "https://www.aispendops.com/",
+          "http_status": 200,
+          "note": "正文确认成本归因、预算、预测与仪表盘"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "ai-governance-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:credo-ai"
+      ],
+      "query": "AI 治理平台：核对集中 AI 系统注册、风险评估、控制/政策、生命周期审批与审计证据",
+      "source_urls": [
+        "https://www.credo.ai/product",
+        "https://api.github.com/repos/aiverify-foundation/aiverify"
+      ],
+      "note": "采用商业基本记录 Credo AI。官方产品页正文明确 AI Registry（含代理、模型、应用与影子 AI 发现）、风险评估与代理风险库、政策包/合规映射、带审批门控的治理工作流、证据生成与审计记录，覆盖注册→评估→控制→门控→治理记录。另核对 AI Verify 开源仓库，其定位为测试/评估工具包，缺少集中登记与审批记录工作流，未建立关系。未运行任何项目。",
+      "service_boundary": "组织级 AI 治理控制面：清点、评估、决策并留存证据；不是模型训练/部署流水线、模型制品库或纯运行时内容过滤器。",
+      "search_attempts": [
+        "读取 input.json 中该叶的 definition/dc/rules，确认治理对象与生命周期门控",
+        "Web 检索官方 AI governance platform 产品页",
+        "读取 Credo AI 官方产品页正文",
+        "GitHub API 核对 AI Verify 开源仓库定位"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.credo.ai/product",
+          "http_status": 200,
+          "note": "正文确认注册表、风险评估、政策引擎、审批与证据"
+        },
+        {
+          "url": "https://api.github.com/repos/aiverify-foundation/aiverify",
+          "http_status": 200,
+          "note": "测试/评估工具包，非治理平台，未采用"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "enterprise-ai-assistant",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:600596928"
+      ],
+      "query": "企业 AI 助手：核对组织自托管、面向员工、多用户权限与模型生成对话协助",
+      "source_urls": [
+        "https://api.github.com/repos/LibreChat-AI/LibreChat",
+        "https://api.github.com/repos/LibreChat-AI/LibreChat/license",
+        "https://raw.githubusercontent.com/LibreChat-AI/LibreChat/main/README.md"
+      ],
+      "note": "采用 LibreChat（MIT，GitHub id 600596928）。README 自述为 self-hosted AI chat platform，支持 OAuth2/LDAP/邮箱多用户认证、管理员面板管理用户/组/角色与权限、Docker Compose 自托管，并提供模型生成对话、Agents、MCP、文件搜索和代码解释器。组织可自行部署管理、服务自身员工，满足三项定义核心；客服机器人、消费者聊天不是其中心。Agents 等扩展未作为类型核心条件。未运行项目。",
+      "service_boundary": "组织自托管的企业对话助手：面向员工工作场景、由组织管理身份与权限；不是面向客户的客服机器人，也不是脚本化 FAQ。",
+      "search_attempts": [
+        "读取 input.json 中该叶的 definition/dc/rules，确认组织运营、面向员工、AI 对话三项核心",
+        "GitHub API 读取 LibreChat 元数据与许可证",
+        "读取 README，核对多用户认证、管理员面板、自托管部署与对话能力"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/LibreChat-AI/LibreChat",
+          "http_status": 200,
+          "note": "id 600596928，MIT；原 danny-avila 路径重定向至该规范仓库"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/LibreChat-AI/LibreChat/main/README.md",
+          "http_status": 200,
+          "note": "确认自托管、多用户权限与对话能力"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "enterprise-knowledge-assistant",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:649170660"
+      ],
+      "query": "企业知识助手：核对组织自有知识语料、员工自然语言提问、合成答案与来源引用",
+      "source_urls": [
+        "https://api.github.com/repos/Mintplex-Labs/anything-llm",
+        "https://api.github.com/repos/Mintplex-Labs/anything-llm/license",
+        "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/README.md",
+        "https://api.github.com/repos/infiniflow/ragflow",
+        "https://api.github.com/repos/onyx-dot-app/onyx"
+      ],
+      "note": "采用 AnythingLLM（MIT，GitHub id 649170660）。README 明确 “Chat with your docs”、文档摄取（PDF/TXT/DOCX 等）、聊天回答附来源引用、Docker 版多用户实例与按用户权限，可本地或云自托管。组织以自有文档为语料，员工自然语言提问获得合成答案，符合 EKA 核心。RAGFlow 为 RAG 引擎/context layer，中心偏基础设施；Onyx 许可证为 NOASSERTION，均未采用。未运行项目。",
+      "service_boundary": "组织自托管、面向员工的知识问答助手：交付物是基于自有语料合成、通常带引用的答案；不是企业搜索结果列表，也不是通用办公代理。",
+      "search_attempts": [
+        "读取 input.json 中该叶的 definition/dc/rules，确认语料、合成答案与搜索边界",
+        "GitHub API 核对 RAGFlow 与 Onyx 的定位/许可证",
+        "GitHub API 读取 AnythingLLM 元数据与许可证",
+        "读取 README，核对文档问答、引用、多用户权限与自托管"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/infiniflow/ragflow",
+          "http_status": 200,
+          "note": "Apache-2.0，但定位 RAG 引擎/context layer，未采用"
+        },
+        {
+          "url": "https://api.github.com/repos/onyx-dot-app/onyx",
+          "http_status": 200,
+          "note": "license NOASSERTION，未采用"
+        },
+        {
+          "url": "https://api.github.com/repos/Mintplex-Labs/anything-llm",
+          "http_status": 200,
+          "note": "id 649170660，MIT"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/README.md",
+          "http_status": 200,
+          "note": "确认文档问答、引用、多用户与自托管"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

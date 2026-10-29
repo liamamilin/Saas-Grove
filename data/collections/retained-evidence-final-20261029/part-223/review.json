@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "PMM 是 Salesforce 平台上的 managed package，需要 Salesforce org，安装时会自动带入闭源 SFDO Base；BSD-3-Clause 仅覆盖 PMM 包本身。批次 summary/deployment 与研究记录已披露这一边界，但目录展示时应避免把“open source”理解为可独立自托管的完整替代品。",
+    "内置报表 Services Delivered (Year to Date) 按 Program 汇总实际 Service Delivery 数量，能证明项目级绩效汇总；但快照未直接展示“计划 vs 实际”或 on-track/off-track 视图。若对定义第四项作更严格解读，建议补充 planned-vs-actual 报表/仪表盘来源，或在描述中明确该对比由 Service Schedule/Service Session 与交付记录的结构支持。",
+    "features 中的“Program Engagement 阶段”“服务提供者”“在 Service Session 上使用 Track Attendance 批量生成交付记录”等具体说法未在本次引用的快照正文/字段元数据中直接出现；不影响四要件判断，建议补来源或弱化措辞。",
+    "license 快照包含完整 BSD-3 文本和 spdx 元数据；batch 的 license_evidence_url 指向 /license，快照内 url 字段显示 contents 路径。许可结论不受影响，若需严格 provenance 可统一 URL/kind。",
+    "官方产品页把 PMM 定位为 “our original framework”，并建议新客户使用 Salesforce Nonprofit Cloud；PMM 仍开源、未归档且近期有推送。这属于产品定位/生命周期信息，不影响本次类型匹配，但目录描述可注明其非新客户主推路径。",
+    "研究记录中 TolaData 旧候选的 Apache-2.0/id/license-null 结论未随本单元 REVIEW_SOURCES 提供快照，无法在本单元独立复核；该候选未用于建立 github:212690136 的关系，故不影响本叶结论。",
+    "help.salesforce.com 三篇文章仅取得通用页面壳，研究记录已如实标注且未作为证据，符合留档缺口处理要求。"
+  ],
+  "leaf_checks": {
+    "nonprofit-program-management": {
+      "application_ids": [
+        "github:212690136"
+      ],
+      "definitional_core": "通过。Trailhead PMM 正文（dcf003a...）明确 Programs 是最高层对象并串联其余对象；Program 的 Status/StartDate/EndDate 字段元数据（3ee877.../02dcac.../c0b5e4...）给出持久项目记录、周期与状态；Service Schedule 被描述为 planned services（单次或周期），Service Session 是其实例并用于考勤；Service Delivery 记录单次服务的日期与数量，ServiceDelivery.ServiceSession 为指向 Service Session 的 Lookup（1891bb...），实现交付记录对计划要素的归因；Services Delivered (Year to Date) 报表按 FK_$Service__c.Program__c 分组汇总 ServiceDelivery.Quantity（88db70...），形成项目级绩效汇总。四要件均有正文/字段/报表证据。",
+      "service_form": "通过（带边界）。PMM 是 Salesforce managed package，需 Salesforce org 运行，安装时自动带入闭源 SFDO Base；不是独立自托管服务器应用。批次 summary/deployment 与研究记录已明确披露，属于持续使用的软件服务形态而非一次性脚本或纯库。",
+      "id_track": "通过。仓库元数据（10ddd7...）返回 id=212690136、full_name=SalesforceFoundation/PMM、fork=false、description=Program Management Module (PMM)、archived=false；批次 id github:212690136 与 track open_source 一致。",
+      "license": "通过。license 快照（08133f...）含完整 BSD-3 文本（Copyright (c) 2020 Salesforce.com, Inc.；三条款及免责声明）及 spdx_id=BSD-3-Clause；README（3dae81...）亦明确 BSD-3 Clause。",
+      "community_boundary": "通过。README 明确安装 PMM 时自动安装闭源 SFDO Base（proprietary limited use license）；批次与研究记录均说明 BSD-3-Clause 仅覆盖 PMM 包，产品依赖 Salesforce 平台与闭源 Base。",
+      "gaps": "未部署/未运行；help.salesforce.com 正文抓取失败已记录且未作证据；TolaData 旧候选快照未在本单元来源集中；部分长单行 JSON 快照被读取工具截断，关键字段通过内容与命中核对。",
+      "status": "pass"
+    }
+  },
+  "limits": "本次为只读初审，未部署或运行 PMM，未覆盖商业 SaaS 价格/架构；仅使用本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 所列快照。部分 API JSON 快照为单行且被读取工具截断，repo metadata 的 pushed_at 等尾部字段未逐字读取；license 快照的 URL 字段与 /license 端点存在路径表述差异，但完整 BSD-3 文本与 spdx 命中可核。TolaData 旧候选的相关快照不在本单元 REVIEW_SOURCES 中，未独立复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-223/ses_groveopencodegop223review1_1793261282.jsonl",
+  "batch_sha256": "abe4b902a54050e44ca0bda1635bc79009a0fe8d8ff3cd47ee13ce26de2e2d1f",
+  "research_sha256": "4140b560d313fa5861f16a58cb5f8ad99cac2acdd336e1b7c9fd0339f4f34a3b",
+  "input_sha256": "c85f802af0ca6a2863e59afe9a0d731bc8b8356927e3454e67920ecbb61457c7"
+}

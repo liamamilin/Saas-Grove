@@ -1,0 +1,45 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CareCode 官网 carecode.lk 多处标称 MIT（含 hero 徽标、About、Why CareCode 与页脚），README 历史段落也提到 2012 年以 MIT 开源；而仓库 LICENSE 为完整 GPL-3.0、README 当前 License 段亦写 GPL-3.0。批次已如实留档并以仓库许可证文本为准，license 字段取 GPL-3.0 可接受，但对外描述宜注明官网声明已过时。",
+    "药师环节在快照中主要体现为对病区领药请求的审核、缺货替代与发药（Inpatient-Pharmaceutical-Management 的 Request-Based Workflow 与 Substitution 段），未见逐条医嘱的临床核验/双人核对细节；定义允许执行机制因产品而异，故不阻断，但摘要中“药师审核发药”宜避免让读者理解为已证明完整临床核验。",
+    "两份 wiki 快照未展示管控药物专项台账、废弃（waste）记录与库存差异调查流程；定义的三部分核心不以该专项单独设门槛，但若类别强调管控药物问责，现有证据仍偏薄，可在描述中注明未覆盖。",
+    "给药与库存扣减为两阶段设计：先记录给药（已给/未给/部分给予/拒绝），再批量扣减病区库存，扣减后不可撤销；与“给药即扣减”的直观预期略有差别，批次功能描述基本一致，无需修改。",
+    "产品整体为 HMIS/EHR 嵌入式药房模块，以自托管开源加商业支持交付，并非独立单点 SaaS；定义明确允许该包装形态，leaf_matches 也已按此记录，但展示时不宜称其为独立药品管理 SaaS。",
+    "仓库身份核对依赖 GitHub 仓库页 HTML 快照（repository id 21764480、is_fork=false、public、development 分支），而非 REST API JSON；研究记录已留档匿名 API 限流，属可接受的抓取缺口。"
+  ],
+  "leaf_checks": {
+    "medication-management-platform": {
+      "application_id": "github:21764480",
+      "application_name": "CareCode HMIS",
+      "track": "open_source",
+      "result": "passed",
+      "definition_core": "两份官方 wiki 正文快照覆盖三部分核心：其一，库存体系分账为药房库存、转运在途（porter in-transit）、病区库存与已给药库存，库存变动有 stock history 审计链并跟踪批次/有效期；其二，病区医生开具住院用药后由病区向药房领药，药师审核请求、缺货替代并发放，病区收货后退药闭环，另支持药房直接向住院患者（BHT）发药；其三，护士按患者记录给药事件（已给/未给/部分给予/拒绝），选择批次并按 FEFO 排序、拒绝过期批次、校验批次可用数量，随后批量扣减病区库存。给药记录与库存扣减均带记录人、时间、患者/BHT 与批次，且药房与病区共享同一住院档案与库存主线，符合定义中的 EHR 嵌入式药房模块形态，而非仅综合 HIS 品牌、仅供应链库存或个人服药提醒。",
+      "service_form": "持续使用的医院信息系统软件服务：README 与官网显示自 2004 年持续开发、40+ 机构在用，Java EE + MySQL/MariaDB 自托管，官网说明云、本地或混合部署并提供培训与商业支持；属于长期运行的组织级软件，不是一次性代码示例或单纯库。",
+      "identity_and_track": "GitHub 仓库页快照显示 full_name hmislk/hmis、repository id 21764480、public、is_fork=false，与批次 application id github:21764480 及 github_repository_id 21764480 一致；README 标题为 CareCode Open Hospital Management Information System，官网与批次名称 CareCode HMIS 一致。track=open_source 与仓库公开源码、GPL-3.0 许可证相符。",
+      "license_and_boundary": "LICENSE 快照为完整 GNU GPL v3 文本（含条款 0–17 与 How to Apply These Terms），README 当前 License 段亦声明 GPL-3.0，license_evidence_url 指向该文件；仓库为完整公开仓库，未见独立商业版/社区版功能切分或闭源附加模块声明，商业支持在 README 中另述。官网与 README 历史段的 MIT 表述属已留档的官方声明不一致，不改变以仓库 LICENSE 为准的 GPL-3.0 结论。",
+      "evidence": [
+        "data/collections/sources/efece01c5bb445d88c2107efb623626a668fd9067b7a552c9a63a0ea8109dfd4.txt（GitHub 仓库页 HTML：repository:21764480、hmislk/hmis、public、is_fork=false、development 分支、README 概述与 Pharmacy 模块）",
+        "data/collections/sources/3e569c6a99d4a202dcb20c96e2611fad12f503461a05e5c9869a7420b448567a.txt（README：HMIS 定位、Pharmacy & Laboratory Information Management、Java EE/MySQL/MariaDB、GPL-3.0、商业支持）",
+        "data/collections/sources/3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986.txt（完整 GNU GPL v3 文本）",
+        "data/collections/sources/ce5e12c2a70c4aa30463d4a29d07fb0afae76008d672f56d53be096f4868250d.txt（住院药房正文：处方→领药→药师审核/替代发药→病区收货→护士给药→扣减/退药；三级库存与 stock history 审计链；Direct Issue to BHT）",
+        "data/collections/sources/e3c6cb6add5e6293b2e09acf402460f3eb5a00499f1a113255f73bb310d440eb.txt（病区给药与扣减正文：给药状态四态、批次 FEFO、过期批次拒绝、批量扣减病区库存、记录人与时间、扣减不可撤销）",
+        "data/collections/sources/16de19ddd38de0684dedf3f442027373d1772edcc2986686b687c56ed7ccbebb.txt（官网：CareCode HMIS 身份、Pharmacy 模块 FEFO/批次、云/本地/混合部署与商业支持；同时存在 MIT 声明）"
+      ],
+      "gaps": [
+        "未做运行时部署或界面操作验证，核心工作流证据来自官方 wiki 正文而非实际执行。",
+        "未从快照取得管控药物专项台账、废弃（waste）与差异调查的实现细节。",
+        "药师临床核验与处方复核的具体机制未在快照中细化，仅有请求审核与替代发药的流程证据。",
+        "GitHub REST API 元数据因匿名限流未取得，仓库身份依据仓库页 HTML 字段核对。",
+        "官网与 README 历史段的 MIT 声明和仓库 GPL-3.0 不一致，只读审查仅能留档，无法裁定法律效力或修复官网文案。"
+      ]
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未部署或运行系统，也未读取本单元之外的其他单元；仅依据 input.json、data/collections/batch.json、data/collections/research.json 以及 REVIEW_SOURCES.json 列出的 6 份本地快照（按 path 原样读取，快照前缀相对于 data/collections），未在线复核实时页面。GitHub REST API 匿名限流的研究记录已留档，仓库身份依赖仓库页 HTML；核心工作流证据来自 README、完整 LICENSE 与两份官方 wiki 正文，未审阅源代码；给药/库存扣减与许可声明冲突均未做运行时或法律层面的进一步验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-172/ses_groveopencodegop172review1_1793253734.jsonl",
+  "batch_sha256": "6c464b06fa761eede7a11b777d8e3c5650d740556cdf43bade58e12891a890aa",
+  "research_sha256": "3152f5619039db89e1b42d4b4d56be79576bff78bc53b4971a9fad963766ad50",
+  "input_sha256": "baaaa03b656d8a063cc21e1b0d43c8024df25a0df5a03e6eac5a17d5d8c3e2b5"
+}

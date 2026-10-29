@@ -1,0 +1,38 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "database-ide",
+      "application_id": "github:254426396",
+      "issue": "社区版边界表述错误：条目把 ER Diagram 当作 CloudBeaver Community 的能力。但所引 Database-Object-Editor 快照中 ER Diagram 标签带有 commercial 图标并标注 \"Available only in PRO\"，属于商业版功能。该错误同时出现在 batch summary（\"对象属性/DDL 与 ER 图查看\"）、features（\"Properties、Data 与 ER Diagram 标签\"）、leaf_matches.reason（\"Properties/Data/ER Diagram 标签\"）以及 research.json 的 note 中，构成对开源社区版能力范围的失实归因。",
+      "fix": "从 summary、features 与 leaf_matches.reason 的社区版能力清单中删除 ER Diagram，或明确标注其为 PRO 专属、不计入 Community 能力；research.json 对应说明同步修正。Community 侧保留 Properties、Data、DDL 内容查看、Generate SQL 等已由快照正文支持的能力即可，定义核心证据不受影响。"
+    }
+  ],
+  "non_blocking_notes": [
+    "slug=database-ide：summary 与 features 称复杂查询结果\"不可编辑\"，Data-Editor 快照原文为复杂查询（如多表 join）时\"部分按钮可能被禁用\"，措辞可收窄为\"部分编辑操作被禁用\"，不影响结论。",
+    "slug=database-ide：条目 homepage 使用 https://dbeaver.com/（厂商站点），而产品入口为 cloudbeaver.io/README 中的 demo.cloudbeaver.io；可考虑补注产品页或 demo 链接，便于定位，不影响真实性。",
+    "slug=database-ide：建议在 deployment 或 features 中显式声明 AI Assistant、Chart/JSON 视图、Session Manager 等 PRO 专属项不在本 Community 条目范围内，使社区版边界更清晰。",
+    "slug=database-ide：research.json 已如实记录搜索引擎配额耗尽、license API 403、cloudbeaver.io 跨主机重定向与 dbeaver.com/cloudbeaver 404，并以 raw LICENSE 与仓库元数据双重核验替代，属于合规留档，不构成缺口。",
+    "slug=database-ide：对象侧的\"开发\"证据主要为数据网格编辑、Generate SQL（含 DDL）、重命名/删除与属性/DDL 查看，未直接展示 CREATE/ALTER 对象向导；结合 SQL Editor 可执行语句与脚本，定义核心仍成立，仅作后续补充建议。"
+  ],
+  "leaf_checks": {
+    "database-ide": {
+      "application_id": "github:254426396",
+      "name": "CloudBeaver Community",
+      "track": "open_source",
+      "definition_core": "通过。连接外部数据库（Database-Navigator 快照：Connections 树含数据库连接与表/视图/索引等对象）；模式目录（同一快照的分层对象树、过滤、Generate SQL）；SQL 编写→执行→结果检查（SQL-Editor 快照：脚本面板、Execute SQL statement/script、结果与 Statistics 标签、执行计划、SQL Assist 对象名补全、切换 Active datasource 与 catalog/schema）；对象与数据开发（Data-Editor 快照：新增/复制/删除行、内联编辑、Save/Cancel、预览变更脚本；Metadata editor 的 Properties/DDL 内容与 Generate SQL DDL）；持久工作环境（Resource-Manager 快照：脚本保存在服务端 Private/Shared 项目、绑定连接后可复用并自动保存；连接以树结构持久管理）。五项核心均有正文证据，未使用简介或元数据替代。",
+      "service_form": "通过。README 明确 CloudBeaver 是 web server，服务端为 Java 应用、前端为 TypeScript/React，浏览器界面；官方提供 Docker 镜像与在线 demo 服务器，属于可持续使用的自托管 Web 应用形态，符合 open_source 轨道。",
+      "identity_and_track": "通过。仓库元数据快照可见 id=254426396、full_name=dbeaver/cloudbeaver、description=Cloud Database Manager、fork=false；与条目 github:254426396 及 repository_url 一致。track=open_source 与 README 的 Community Edition / Apache 2 定位一致。",
+      "license": "通过。devel 分支 LICENSE 快照为完整 Apache License 2.0 全文（含 Sections 1–9、END OF TERMS AND CONDITIONS、APPENDIX 与 limitations under the License），README 亦声明 Apache 2；与条目 license=Apache-2.0、scope=repository 一致。",
+      "community_boundary": "不通过（见 findings）。ER Diagram 在 Database-Object-Editor 快照中明确标注 \"Available only in PRO\"，却被写入 summary、features 与 leaf_matches.reason 的社区版能力；此外快照中 AI assistant、Explain query with ai、Chart/JSON 视图、Sub Collections 等均标注 PRO，条目正文未将其误列，但边界声明缺失。需修正 ER Diagram 归属并补充边界说明。",
+      "commercial_check": "不适用（本叶仅收录开源条目）；条目未记录任何付费版本的功能、价格或部署细节，符合要求。",
+      "evidence_hygiene": "通过。所有引用的 8 个快照均按 REVIEW_SOURCES.json 的 path 原样读取，sha256 与 batch.json 一致；wiki 快照为 HTML 正文，已核对 markdown-body 内实际内容而非标题或导航。"
+    }
+  },
+  "limits": "本次为只读初审：未运行软件、未部署 CloudBeaver、未做运行时功能验证；未使用 shell，故未重新计算快照 SHA-256，仅比对 batch.json/REVIEW_SOURCES.json 记录的哈希与文件路径。仓库元数据快照为单行 JSON，读取工具按行截断至 2000 字符，因此 license.spdx_id、archived、default_branch、homepage 等后段字段未能逐字目视核对，仅确认了前缀可见的 id=254426396、full_name=dbeaver/cloudbeaver、description、fork=false；许可结论主要依据完整 LICENSE 全文与 README 声明。wiki 快照含懒加载 fragment 与 PRO 标记图片，PRO 归属依据正文中的 commercial 图标与 title=\"Available only in PRO\" 文字判断，未抓取付费版页面核对具体差异；未审查 DBeaver 桌面版历史快照正文（仅见于 research 的 withheld 记录）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-094/ses_groveopendesignp094review2_1793198594.jsonl",
+  "batch_sha256": "d124a8d34386367eb9b24058452baf6d1905b31fa6acae810dc2030ca2a14ea5",
+  "research_sha256": "f4a207c7832db21ee77d8d355e52cf31efb63fd79cb219260726fecf506c23ab",
+  "input_sha256": "f9c2538fbe851b4249b55f1d14a0d2bf91f8303ebb33a6f59cb2586faf3aa1e1"
+}

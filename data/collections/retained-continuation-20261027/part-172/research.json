@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "building-commissioning-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:cxalloy"
+      ],
+      "query": "GitHub API repository search: commissioning+building; commissioning+pre-functional / \"functional performance test\"; commissioning+HVAC+checklist; 直接抓取 CxAlloy 官网与资产功能页",
+      "source_urls": [
+        "https://www.cxalloy.com/",
+        "https://www.cxalloy.com/asset-management/"
+      ],
+      "note": "CxAlloy 官网与资产功能页正文显示：资产按建筑/空间/系统/设备组织，设备带制造商/型号/序列号/条码；检查表、测试、问题日志和报告关联到资产，问题可指派并跟踪解决，现场支持离线执行与自动同步。核心匹配成立。",
+      "service_boundary": "商业 Cx 平台；本叶只记录基本产品身份与类型关系，不深入价格、架构或部署。",
+      "search_attempts": [
+        "websearch: 'open source building commissioning software CxAlloy alternative GitHub' -> HTTP 401，未重复调用",
+        "GitHub API search: commissioning+building; commissioning+pre-functional OR functional performance test; commissioning+HVAC+checklist",
+        "直接抓取并读取 CxAlloy 官网首页与 /asset-management/ 正文"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.cxalloy.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，保存正文快照",
+          "sha256": "092fd97393fd940de0b1ff4865d6642ba965687a528d93d48cf6dcaf94282ec6"
+        },
+        {
+          "url": "https://www.cxalloy.com/asset-management/",
+          "kind": "documentation",
+          "result": "HTTP 200，保存正文快照",
+          "sha256": "a5c0da082ec8a826818feb70a70ae16085c1fb289d6656955b3518cb915f6f91"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "daily-log-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1269449119"
+      ],
+      "query": "GitHub API repository search: \"daily log\"+construction; \"site diary\" OR \"daily report\"+construction; 直接读取 Massing daily_report 模块定义与平台文档",
+      "source_urls": [
+        "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/daily_report/module.json",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/README.md",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md"
+      ],
+      "note": "Massing 的 daily_report 模块按项目和日期记录天气、温度、天气影响、人力、按工种的公司/人数/工时、已完成工作、到货、设备、延误、访客、安全观察和照片，工作流为 draft→submitted，属平台内完整日报子模块。未将签名/不可变日锁定写成事实。",
+      "service_boundary": "开源自托管 AEC 平台中的日报子模块，不是独立日报 SaaS；作者归属依赖平台通用账号/审计，未验证移动离线日报。",
+      "search_attempts": [
+        "websearch: 'open source construction daily log app self-hosted GitHub' -> HTTP 401，未重复调用",
+        "GitHub API search: \"daily log\"+construction; \"site diary\" OR \"daily report\"+construction",
+        "直接抓取 Massing daily_report/module.json、README 与 docs/gc-portal.md"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/daily_report/module.json",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块定义快照",
+          "sha256": "5825aec49f2ef50bbea09138591ba2e02d77e8dae082655ae0e28d2258f8ea2f"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，保存 README 快照",
+          "sha256": "dae45285485a16591713707f19cfa44af2f937a3340dd31495d7f352b7abf733"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块引擎文档快照",
+          "sha256": "42012f66a27879ecde8d88bb2581742f501510ad564d8adbb833af4d8141bff8"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "package-mailroom-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:hellopackage"
+      ],
+      "query": "GitHub API repository search: mailroom+package; 检查 xiaoyunyang/mailroom-management-server、shrey1216/Mailroom-Manager、tighe-ecc/mailroom、MikeTech509/HandOff-Package-Tracker; 直接抓取 HelloPackage 官网",
+      "source_urls": [
+        "https://hellopackage.com/",
+        "https://hellopackage.com/what-is-hellopackage/",
+        "https://hellopackage.com/faqs/"
+      ],
+      "note": "HelloPackage 官网与 FAQ 正文显示：司机到包裹房签到并扫码交付，包裹自动登记；包裹与住户档案匹配（住户姓名/邮箱/电话来自物业管理系统，支持别名/昵称，未匹配会进入 unmatched 状态）；记录后即时通过 email/text/app 通知；住户用个人取件码或一次性 code 取件。到件记录→收件人匹配/通知→记录释放的核心成立。开源候选要么缺许可证（HandOff）、要么只是脚手架/无包裹接口（xiaoyunyang）或控制台模拟（shrey1216），未用作案例。",
+      "service_boundary": "商业包裹房软硬件系统，属于收件方、静置状态的到件管理；依赖现场货架/包裹房与司机扫码，不是运输中包裹跟踪或纯通知服务。",
+      "search_attempts": [
+        "websearch: 'open source mailroom package tracking software GitHub' -> HTTP 401，未重复调用",
+        "GitHub API search: mailroom+package",
+        "下载并只读检查 4 个开源 mailroom 仓库的 README/LICENSE/目录与源码，未运行任何项目",
+        "直接抓取 HelloPackage 官网、Luxer One 包裹房页与 Postal Solutions 页面作边界比较"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://hellopackage.com/",
+          "kind": "homepage",
+          "result": "HTTP 200，保存正文快照",
+          "sha256": "ef34d851235aee9ece46f09f9a880f103c8dea33e013c72d7b873b969501ab4c"
+        },
+        {
+          "url": "https://hellopackage.com/what-is-hellopackage/",
+          "kind": "documentation",
+          "result": "HTTP 200，保存系统说明快照",
+          "sha256": "bf60f129e1fb81ce1de514a453dcefdfd620b18d023a2e1c1809db036ea1f116"
+        },
+        {
+          "url": "https://hellopackage.com/faqs/",
+          "kind": "documentation",
+          "result": "HTTP 200，保存 FAQ 快照（含匹配/别名/取件码）",
+          "sha256": "f6c0c3cea48870668ff3f44ce3e9d292c1a4de5120cddb0fe0b2a64021fdb08d"
+        },
+        {
+          "url": "https://notifarr.com/",
+          "kind": "homepage",
+          "result": "连接失败（DNS/000），未作为来源"
+        },
+        {
+          "url": "https://www.luxerone.com/automated-package-room/",
+          "kind": "homepage",
+          "result": "HTTP 200，读取用于边界比较，未写入批次"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "punch-list-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1269449119"
+      ],
+      "query": "GitHub API repository search: \"punch list\"+construction; 直接读取 Massing punchlist 模块定义与模块引擎文档",
+      "source_urls": [
+        "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/punchlist/module.json",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/README.md"
+      ],
+      "note": "Massing 的 punchlist 模块含缺陷描述、位置、工种、来源观察、责任方/联系人、截止日、费用、验证人和照片；工作流 open→ready→verified，ready 仅 GC 验证、可拒绝退回，verified 关闭要求附件。工作流把整改报完成与 GC 验证关闭分开，但只按角色限制验证，未强制验证人与责任方不同。",
+      "service_boundary": "开源自托管 AEC 平台中的完整 Punchlist 子模块，不是独立 punch-list SaaS；未运行验证权限与附件强制行为；GC 若同时是责任方，同一方可能执行验证。",
+      "search_attempts": [
+        "websearch: 'open source punch list snag list construction defect tracking GitHub' -> HTTP 401，未重复调用",
+        "GitHub API search: \"punch list\"+construction",
+        "直接抓取 Massing punchlist/module.json、docs/gc-portal.md 与 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/punchlist/module.json",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块定义快照",
+          "sha256": "cabff3dbe6fe5bdfb5dded07dc1ff5298f82ee163e4df383d19a085033e2935a"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块引擎文档快照",
+          "sha256": "42012f66a27879ecde8d88bb2581742f501510ad564d8adbb833af4d8141bff8"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，保存 README 快照",
+          "sha256": "dae45285485a16591713707f19cfa44af2f937a3340dd31495d7f352b7abf733"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "rfi-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1269449119"
+      ],
+      "query": "GitHub API repository search: RFI+construction; 直接读取 Massing rfi 模块定义与模块引擎文档",
+      "source_urls": [
+        "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/rfi/module.json",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md",
+        "https://raw.githubusercontent.com/ibuilder/massing/main/README.md"
+      ],
+      "note": "Massing 的 rfi 模块以 ref_prefix RFI 生成编号，含正式问题、规范/图纸/位置引用、提问人、RFI 负责人/联系人、截止日、答复、影响与分发；工作流 draft→open→answered（答复必填）→closed（GC 接受）/reopen，另有 void。问题→答复→GC 接受/重开闭环成立；未声称提问人与 GC 必然是不同主体。",
+      "service_boundary": "开源自托管 AEC 平台中的完整 RFI 子模块，不是独立 RFI SaaS；未运行验证邮件分发、附件与权限；模块未强制提问者与关闭者为不同主体。",
+      "search_attempts": [
+        "websearch: 'open source RFI management construction requests for information GitHub' -> HTTP 401，未重复调用",
+        "GitHub API search: RFI+construction",
+        "直接抓取 Massing rfi/module.json、docs/gc-portal.md 与 README"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/services/api/modules/rfi/module.json",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块定义快照",
+          "sha256": "4c73f3ed209e81e726fbdbfdd02ce773b0ee27555bfd28300edf9880ee645766"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/docs/gc-portal.md",
+          "kind": "documentation",
+          "result": "HTTP 200，保存模块引擎文档快照",
+          "sha256": "42012f66a27879ecde8d88bb2581742f501510ad564d8adbb833af4d8141bff8"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/ibuilder/massing/main/README.md",
+          "kind": "readme",
+          "result": "HTTP 200，保存 README 快照",
+          "sha256": "dae45285485a16591713707f19cfa44af2f937a3340dd31495d7f352b7abf733"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

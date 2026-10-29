@@ -1,0 +1,77 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "illustration-application",
+      "application_id": "github:1398097510",
+      "issue": "VectorCraft 的开源许可证记录不完整。README 的 License and credits 明确写明 dual-licensed under MIT or Apache-2.0, at your option，仓库同时提供 LICENSE-MIT 与 LICENSE-APACHE；但 batch.json 仅记录 license: Apache-2.0，许可证快照也只抓取了 LICENSE-APACHE，未体现 MIT 选项。按开源完整许可证核对，这会把双许可误记为单一许可证。",
+      "fix": "将 license 改为 MIT OR Apache-2.0（或目录约定的双许可表达），补充 LICENSE-MIT 的快照/证据，并在 leaf_matches.reason 与 research.json 的 note 中说明双许可及被许可方可任选其一；不要仅以 GitHub /license 返回的 Apache-2.0 作为唯一许可证结论。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Pinta：README 说明原始 Pinta 代码与 Paint.Net 代码为 MIT，但图标使用 CC BY 3.0；entry 的 license 字段只写 MIT。若该字段表示整个发行包的许可，建议补充资产例外；若只表示代码许可，可在说明中明确。",
+    "PhotoX：entry 的 Apache-2.0 对应应用代码；README 另列 bundled LibRaw（LGPL 2.1）与 exiftool（Artistic 1.0），并指向 NOTICE/THIRD_PARTY_LICENSES。建议在 license 说明中注明第三方组件，避免把发行包理解为纯 Apache-2.0。",
+    "SVG-Edit：FAQ 页首自标 may contain or reference outdated content，保存说明针对 2.5.1 的服务器扩展；当前 V7 README/Editor.md 未直接展示保存流程。现有证据可支持基本持久化，但补一条 V7 保存/下载文档或 UI 证据会更稳。",
+    "VectorCraft：README 标注 status: in active development，并自评约 65% ready for real work；batch 摘要未体现成熟度。类型匹配不受影响，但建议在条目中保留 alpha/自评信息，避免读者误判生产可用性。",
+    "Pixelorama：batch 功能列表中的铅笔、橡皮、填充、形状、选区等具体工具未在 README 快照逐项出现（README 只写 wide range of tools、pixel-perfect、indexed mode 等）。可改为引用官方文档或使用更概括的表述；不影响像素画编辑器核心。",
+    "input.json 的 progress 仍为 case_status: not_searched、application_ids: []、research_records: []，与 batch/research 的 case_found 不一致；如果 input.json 不作为最终发布状态可不处理，否则应同步。"
+  ],
+  "leaf_checks": {
+    "pixel-art-editor": {
+      "status": "pass",
+      "application_id": "github:202983854",
+      "core": "README 正文明确为开源像素艺术多功能工具，面向 sprite、tile、动画；功能段列出像素完美线条、索引模式、像素专用旋转/缩放、图层/帧时间轴、洋葱皮、帧标签、平铺/等距网格，以及 PNG、动画 PNG、精灵表、GIF、视频的导入导出。受限低分辨率画布与逐像素构图由像素艺术定位、像素完美线条、索引模式和像素专用算法共同支持；标准图像/动画交付由导出列表直接支持。",
+      "service_form": "桌面（Windows/Linux/macOS）与 Web 版像素画/精灵动画应用，也提供命令行导出；不是库、插件或仅元数据项目。",
+      "id_track": "repository id 202983854、full_name Orama-Interactive/Pixelorama 与 github:202983854 一致；track 为 open_source。",
+      "license": "MIT；license 快照包含完整 MIT 文本，README 亦声明 MIT。",
+      "community_boundary": "完整开源；Steam/itch.io 为分发渠道，未显示功能阉割或闭源社区版边界。",
+      "gaps": "README 未逐项列出铅笔、橡皮、填充、形状、选区等具体工具，batch 的该条功能列表略超出快照正文；不影响定义性核心。"
+    },
+    "raster-image-editor": {
+      "status": "pass",
+      "application_id": "github:2358713",
+      "core": "README 称 Pinta 为 Paint.Net 3.0 的 GTK 克隆，支持 Linux、Windows、macOS，是绘图与图像编辑程序；官网说明其可创建、增强、处理图像，提供选择、裁剪、旋转、缩放、克隆、重新着色、魔棒、效果/调整实时预览与无限撤销；用户指南 General Overview 列出 Open/Save 命令及画笔、1 像素铅笔、橡皮、填充、选区、缩放/平移等画布工具；Save Project 页列出 Save/Save As 及 PNG、BMP、ICO、JPEG、TIFF、TGA、分层 OpenRaster 导出。像素网格直接编辑、可视画布与持久化图像四项均有官方正文。",
+      "service_form": "桌面绘图与图像编辑应用，提供 Flatpak、Snap 与安装包；不是仅组件或转换工具。",
+      "id_track": "repository id 2358713、full_name PintaProject/Pinta 与 github:2358713 一致；track 为 open_source。",
+      "license": "MIT；license-mit.txt 全文快照；README 另说明图标为 CC BY 3.0 的资产例外。",
+      "community_boundary": "完整开源桌面应用，未显示付费版或闭源社区版功能限制。",
+      "gaps": "README 同时说明图标使用 CC BY 3.0、Paint.Net 代码为 MIT；entry 的 license 字段只写 MIT，若该字段要覆盖整个发行包，应补充资产例外说明（非核心阻断）。"
+    },
+    "illustration-application": {
+      "status": "changes_required",
+      "application_id": "github:1398097510",
+      "core": "README 自称 Vector illustration; an open-source, modern vector art application，并说明钢笔/直接选择工具、真实贝塞尔锚点与控制柄、路径查找器、渐变网格、封套变形、透视网格、图层与实时混合、原生 .vectorcraft(JSON) 文档、SVG/PDF 导入导出与 PNG/JPEG/WebP 导出；示例由自身渲染器输出。离散矢量对象、对象级可编辑、持久文档与成品输出均有正文。",
+      "service_form": "原生 macOS/Windows/Linux/FreeBSD 桌面应用，并有 WebAssembly 浏览器版与 MCP/CLI 自动化；是可独立使用的矢量插画应用，不是仅 SDK。",
+      "id_track": "repository id 1398097510、full_name storytold/vectorcraft 与 github:1398097510 一致；track 为 open_source。",
+      "license": "README 为 MIT OR Apache-2.0 双许可；batch 仅记 Apache-2.0，且只抓取 LICENSE-APACHE，记录不完整（见 findings）。",
+      "community_boundary": "完整免费开源应用；ArtCraft 商业 AI 工作室为不同产品，未发现对 VectorCraft 开源版的功能限制；品牌/logo 为商标例外。",
+      "gaps": "许可证记录需修复；README 同时标注 alpha/active development，batch 摘要未体现成熟度，但不影响类型匹配。"
+    },
+    "vector-graphics-editor": {
+      "status": "pass_with_notes",
+      "application_id": "github:21611548",
+      "core": "README 与官网称 SVGEdit 为浏览器内 JavaScript 驱动的 SVG 绘图编辑器；Editor.md 说明路径工具创建路径、选择后可独立调整路径节点并旋转/缩放；FAQ 说明默认 open/save 行为及服务器保存扩展/filesave.php；ConfigOptions 说明可预载既有 SVG、并讨论用户本地保存。矢量对象模型、直接绘制/几何编辑、持久文档与标准 SVG 输出均有官方正文支持。",
+      "service_form": "纯浏览器运行的 SVG 编辑器，可自托管或从 npm/托管构建使用；编辑器是完整应用，svgcanvas 是其底层组件。",
+      "id_track": "repository id 21611548、full_name SVG-Edit/svgedit 与 github:21611548 一致；track 为 open_source。",
+      "license": "MIT；LICENSE-MIT.txt 全文快照。",
+      "community_boundary": "完整开源；浏览器托管、自托管与 npm 分发均不构成社区版功能边界。",
+      "gaps": "FAQ 页首明确标注可能过时，且保存说明针对 2.5.1 的服务器扩展；当前 V7 README/Editor.md 未直接展示保存流程。证据足以支持基本持久化，但补充 V7 保存/下载文档会更稳。"
+    },
+    "photo-culling-application": {
+      "status": "pass",
+      "application_id": "github:1241807594",
+      "core": "README 将 PhotoX 定位为 macOS 拍摄后逐帧决定保留/淘汰的 culling viewer；可直接打开文件夹或 CFExpress/SD 卡，无需导入或目录数据库；星级、色标、拒绝标记与保留/拒绝决定写入 <stem>.xmp 边车，明确不修改原始 RAW/HEIF 与内嵌 EXIF，并与 Lightroom/Photomator 的 XMP 兼容；支持按评分/拒绝过滤、GPU 加速浏览、5,000 张约 30 秒索引。拍摄批次、逐张决策、可过滤/可交接选集三项均有正文。",
+      "service_form": "macOS 15+ 桌面应用，从 GitHub Releases 安装；是单用途筛选应用，不是通用修图器或终身目录库。",
+      "id_track": "repository id 1241807594、full_name Frostman/photo-x 与 github:1241807594 一致；track 为 open_source。",
+      "license": "Apache-2.0；LICENSE 全文快照；第三方 LibRaw/exiftool 许可见 README/NOTICE。",
+      "community_boundary": "完整免费开源 macOS 应用，未显示付费版或闭源社区版功能限制。",
+      "gaps": "entry 的 Apache-2.0 是应用代码许可；README 另列 bundled LibRaw（LGPL 2.1）与 exiftool（Artistic 1.0），若 license 字段覆盖整个发行包应加注（非核心阻断）。"
+    }
+  },
+  "limits": "本次为只读初审，未运行应用、未做部署或 UI 实测，未运行 shell、未写文件、未读取其他单元，也未使用外部网络补充抓取；结论基于 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 所列快照。GitHub repository_metadata 快照为单行 JSON，read 工具按 2,000 字符截断，archived、license 对象、default_branch 等位于截断后的字段未能直接读取；仓库身份由可见的 id/full_name/description 核对，许可证由独立 license 快照核对，archived:false 采信 research.json 的采集记录。Pinta/VectorCraft 页面为静态 HTML，SVG-Edit FAQ 自标可能过时；未对动态页面或当前线上 UI 做交互验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-018/ses_groveopencodegop018review1_1792940784.jsonl",
+  "batch_sha256": "492c67e20ca3adf831168d7d0f84c1397bd6e9d55440bf82416ad572612c4ba8",
+  "research_sha256": "e796c3ba1159a70dec0cede58c2ddd67ee34e9c14c808d754f1f661033746409",
+  "input_sha256": "54168aa36848de53e773cbaf3f08ce9a52cdab5bffed79211dfbd8e8477e0391"
+}

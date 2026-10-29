@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "all",
+      "application_id": "multiple",
+      "note": "input.json 的 progress 仍全部为 case_status=not_searched、application_ids=[]、research_records=[]，且 phase=included_without_cases；research.json 已记录 5 叶 case_found，batch.json 已有 4 个应用。内容核对不受影响，但建议在合并或下游使用前同步 progress/phase，避免把本单元误判为无案例。"
+    },
+    {
+      "slug": "utilization-management",
+      "application_id": "commercial:mhk",
+      "note": "research.json 的 fetch_outcomes 记录了 MCG Payer & TPA 页面（sha 37f7…）的抓取，但该快照未列入 REVIEW_SOURCES.json/sources，无法独立复核其被排除的具体正文；该候选未作为案例保留，故不阻断。"
+    },
+    {
+      "slug": "value-based-care-platform",
+      "application_id": "commercial:innovaccer",
+      "note": "research.json 的 service_boundary 使用“归因/财务结算”概括，快照可见正文主要支持合同财务建模、绩效跟踪、情景分析、共享节省/下行风险与质量指标；归因算法和结算/对账细节未直接呈现，建议把措辞收窄为“合同财务建模与绩效跟踪”，或在后续补充归因/结算页。"
+    },
+    {
+      "slug": "electronic-prescribing",
+      "application_id": "github:679584",
+      "note": "OpenEMR 是完整 EHR/诊所管理应用，电子处方是其模块而非独立专用产品；官方 Features 页和首页已覆盖处方创建、E-Prescribe 发送与处方跟踪，核心类型可成立。若分类要求“专用电子处方应用”，建议另补专用产品，但当前不作为阻断。"
+    },
+    {
+      "slug": "durable-medical-equipment-management|home-infusion-management",
+      "application_id": "commercial:brightree",
+      "note": "同一 Brightree 条目覆盖 DME 与 home infusion 两叶，依据是 HME/DME 与 Home Infusion Pharmacy 两个独立官方产品页；内容匹配成立，但若下游统计要求一叶一应用，建议拆分为两个产品条目。"
+    }
+  ],
+  "leaf_checks": {
+    "utilization-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:mhk"
+      ],
+      "basis": "MHK CareProminence Utilization Management 官方产品页正文：医疗必要性审查覆盖 prior authorization、concurrent inpatient、post-service；可见 case volumes/inventory/handle times/throughput/turnaround 看板、配置化 service types/workflows/categories、automatic approval logic 与 case routing、MCG/InterQual/CMS 标准、合规告警与 CMS 报告、Provider Portal 的提交/状态/文档上传/申诉。符合计划方 UM 常设审查程序的核心。",
+      "gaps": "未验证与理赔裁决的自动核对、委托审查路由、审计追踪细节及部署形态；research.json 已记录上述边界；未运行产品。"
+    },
+    "value-based-care-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:innovaccer"
+      ],
+      "basis": "Innovaccer 官方 Value Based Care 页：cloud solution 定位；Contract management 正文明确 financial modeling、performance tracking、scenario analysis、shared savings/downside risk；Quality Management 正文覆盖质量指标测量、报告与标准化提交；页面另有 Risk adjustment、population health analytics 与 claims/pharmacy/EMR/SDoH 多源数据区块。符合 VBC 合同、绩效与财务结果的核心。",
+      "gaps": "归因算法、结算/对账细节、部署形态未直接验证；Risk adjustment 区块正文未完整展开；research.json 已记录归因与部署缺口。"
+    },
+    "durable-medical-equipment-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:brightree"
+      ],
+      "basis": "Brightree HME (DME) 官方产品页：cloud-based HME software，正文覆盖 referral/intake、DME billing/reimbursement、patient engagement、analytics；首页 HME (DME) 卡片正文明确 documentation、inventory、delivery、resupply。符合供应商侧订单、库存、计费与文档核心。",
+      "gaps": "租赁 recurring billing、付款方授权过期跟踪、单机序列号/保管链未直接验证；research.json 已记录租赁计费与授权过期边界；未运行产品。"
+    },
+    "electronic-prescribing": {
+      "status": "pass",
+      "application_ids": [
+        "github:679584"
+      ],
+      "basis": "OpenEMR 官方 Features 页 Prescriptions 节：online drug search、track patient prescriptions and medications、create/send prescriptions（E-Prescribe/Print/Fax/Email）、DEA/NPI/state license 字段、in-house pharmacy；首页 e-Prescribing 卡片说明处方录入 encounter 后电子发送。GitHub 元数据 id=679584、full_name=openemr/openemr；license API 快照为 GPLv3 全文（35,147 字节），batch 的 GPL-3.0 与仓库身份一致。",
+      "gaps": "具体药房网络、结构化 coded fields、续配/取消回流、EPCS 未直接验证；research.json 已记录上述缺口。OpenEMR 是完整 EHR，e-prescribing 为模块而非专用产品；许可证为完整 GPL-3.0 仓库，未发现社区版功能删减。"
+    },
+    "home-infusion-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:brightree"
+      ],
+      "basis": "Brightree Home Infusion Pharmacy 官方页：referral-to-revenue 定位；正文覆盖 clinical oversight（临床决策支持、多学科 care plan、outcomes tracking）、compounding support（dispense infusion therapy/TPN prescriptions、打印 labels）、billing and compliance documentation；页面视频 transcript 进一步描述 intake/referral capture、pharmacist workflows、automated claim submission。符合 home infusion 药房治疗记录、配药、配送协调与计费核心。",
+      "gaps": "护理派送、EVV、具体部署形态未直接验证；research.json 已记录护理派送与 EVV 边界；未运行产品。"
+    }
+  },
+  "limits": "只读审查；未运行产品、未登录、未做浏览器渲染或网络复核。长压缩 HTML 行在读取工具中被截断到约 2,000 字符，个别正文（如 Innovaccer risk adjustment 段落、OpenEMR 首页 e-prescribing 句子）通过同页可见区块或官方 Features 页交叉核对，未把截断当作缺失。OpenEMR 许可证快照按 GitHub contents 响应读取，确认 GPLv3 全文头部、35,147 字节大小与仓库身份，未逐字解码全文。未读取采集者 TASK.md、其他单元或历史脚本；未写文件、未运行 shell。商业价格、部署形态和完整架构未核实。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-075/ses_groveopencodegop075review1_1792993960.jsonl",
+  "batch_sha256": "b00e8d62df67c6f2d71df7cb770a6f1cd2558f400df48294311a54e199421d09",
+  "research_sha256": "b348e8797dd48020abcd776104a62cd672d0eacc1c38e245ba25db8787579fd2",
+  "input_sha256": "c526108fd1074cfe4e8c2016dfc03907f921e9f53780d0013a128f8244da7b90"
+}

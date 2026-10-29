@@ -1,0 +1,77 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ediscovery-platform",
+      "application_id": "github:1405454",
+      "issue": "FreeEed 被作为 ediscovery-platform 的案例收录，但已读的 README 与官网正文只证明数据处理、OCR、全文检索、文档审阅和 PDF 成像；其中没有可按 matter/case 组织的语料容器，也没有 Bates 编号、redaction、production 标记或 privilege log 等 production 交付证据。所引 freeeed.org/documents-2 快照只是一个文档站外壳，document-content 为空，只有分类导航。该叶定义性核心的「production」一段未获证据，当前实际只覆盖语料处理与审阅两个子环节。",
+      "fix": "补充能证明 matter 级语料与 production 能力的官方来源（README、wiki 或实际文档正文，含编号/redaction/privilege log）；若无法补充，不要把 FreeEed 作为该叶完整案例，应改为部分匹配/证据不足记录，明确其只覆盖处理与审阅，避免以「子模块」冒充平台。"
+    },
+    {
+      "slug": "corporate-investigation-management",
+      "application_id": "github:1024847928",
+      "issue": "Tazama 的 README 可证明案件、分诊、任务、证据、审计与报告模块，以及自托管部署，但没有明确证明该叶要求的「recorded determination」（finding、处置结果、结案）和按案件/角色限制的保密性；同时 README 的 Alert Management、risk scoring、typology analysis 表明其更偏向金融交易告警分诊，而非通用的内部不当行为调查。现有匹配只覆盖案件生命周期与事实记录的一部分。",
+      "fix": "补充用户手册或 README 中关于结案判定、处置结果、案件访问限制的证据，并说明其适用调查类型（告警/欺诈案件管理还是通用内部调查）；若补不到，应将该条目改标为部分匹配并说明边界，不作为 corporate-investigation-management 的完整案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "FreeEed 的 documents-2 快照是只有分类菜单的空文档壳，不能作为文档证据；核心证据实际来自 README 与官网首页，建议后续换成有正文的文档页或从来源列表移除该条。",
+    "FreeEed README 要求首次启动注册并获取免费激活码，官网存在 Pricing/Buy support 入口；仓库许可证本身是完整 Apache-2.0，但社区版与付费支持/发行包的功能边界未在快照中说明，建议补一条边界说明。",
+    "International SOS 快照是服务营销页，Quantum Platform 仅以能力卡片出现；在途人员记录、受影响人员匹配、确认/求助闭环等平台细节没有展开，建议补平台或 Monitoring & Location Tracking 子页。",
+    "OfficeSpace 仅用一个首页同时支撑 space-management-platform 与 workplace-management-platform；交付/收发室、请求按规则路由与结案等具体表述只到营销或页脚链接层，建议补 request-management、visitor 等功能页快照。",
+    "Tazama README 的 alert/typology/risk scoring 指向金融交易告警分诊；若保留在 corporate-investigation-management，建议在条目中直接写明适用调查类型，避免被读成通用 HR/道德调查。",
+    "research.json 对 Workplacify、Roomer、Seatsurfing、breakroom、magemanaged、Kanvas、FreeDiscovery 的排除说明没有对应快照或哈希，排除依据不可复核；建议把关键 README 快照一并留档。",
+    "input.json 的 progress 仍是 not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 不一致，建议同步元数据，避免下游误判。",
+    "input.json 中 workplace-management-platform 的 dc 只保留第 3 段，overview 与 rules 也有截断；本次按 overview 与 rules 核对，建议确认定义文件完整性。"
+  ],
+  "leaf_checks": {
+    "space-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:officespace-software"
+      ],
+      "basis": "读取 OfficeSpace 官网快照主内容区，可见 Space Management、Block & Stack Planning、Moves, Adds & Changes、floor plan、occupancy/portfolio 等表述；条目将其定位为占用方组织的空间库存与变更记录，未涉及业主租赁财务或纯预订，商业类型匹配成立。",
+      "gaps": "仅有首页一个快照，未取 stack-plans 与 move-management 子页；开源源检索只返回工位/房间预订候选，GitHub API rate limit 已记录，未作不存在断言。"
+    },
+    "travel-risk-duty-of-care-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:international-sos"
+      ],
+      "basis": "官方 Travel Risk Management 服务页正文写明将核实情报接入 itineraries、提供实时指导与 24/7 支持；Monitoring & Location Tracking 明确 location tracking、live journey information、two-way communication 和 targeted alerts，并列出 Quantum Platform，构成在途人员、目的地风险监控、保护性通信三结构的基本证据，且不承担预订/支付。",
+      "gaps": "页面是服务营销页，未展开人员记录、受影响人员匹配、确认/求助闭环的产品细节；websearch 401 已如实留档；未找到开源案例但未作不存在断言。"
+    },
+    "workplace-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:officespace-software"
+      ],
+      "basis": "同一 OfficeSpace 首页正文/页脚出现 desk booking、room booking、check-in、facility requests、work order、visitor management；可支撑员工侧预订界面与工作场所团队运营请求闭环，且预订与底层空间库存分层。",
+      "gaps": "交付/收发室、请求按规则路由到指定响应者并结案等细节只到营销或导航层；input.json 中该叶 dc 仅保留第 3 段，核对依赖 overview 与 rules。"
+    },
+    "corporate-investigation-management": {
+      "result": "pass_with_finding",
+      "application_ids": [
+        "commercial:case-iq",
+        "github:1024847928"
+      ],
+      "basis": "Case IQ 首页正文可见 intake 捕获、configurable workflows、full audit trails、role-based access、one-click investigation reports 与 outcomes，商业基本类型匹配；Tazama README 可见 case、case_history、triage、task、evidence、audit、report 模块，Flowable BPMN、Keycloak 自托管部署，仓库 ID 1024847928 与 Apache-2.0 完整许可文本均与条目一致。",
+      "gaps": "Tazama 未明确结案判定/处置结果与按案件保密；alert/typology/risk scoring 显示告警分诊取向，已列 finding。"
+    },
+    "ediscovery-platform": {
+      "result": "changes_required",
+      "application_ids": [
+        "commercial:relativity",
+        "github:1405454"
+      ],
+      "basis": "Relativity 首页与 /platform/ediscovery 正文覆盖 collect、process、review、produce、intake to production、legal hold、privilege review、PII/PHI redaction、production，商业案例核心完整；FreeEed 仓库 ID 1405454、Apache-2.0 完整许可、README 证明 1,400+ 文件类型处理、OCR、检索、文档审阅与 PDF 成像。",
+      "gaps": "FreeEed 未证明 matter 容器及 Bates/redaction/privilege log 的 production，documents-2 快照正文为空；已列 finding，需补证或降级为部分匹配。"
+    }
+  },
+  "limits": "本次为只读审查，未运行应用、未做部署或运行时验证；未重算 sha256，仅核对 REVIEW_SOURCES.json 的 path 与实际读取文件一致。已读取全部 13 个被引快照，但多数为单行超长 HTML，read 工具按行截断，正文中段只能以关键词命中确认，未逐句复核；Relativity 首页未逐行通读，核心依据取自其 e-Discovery 页。未额外访问价格页、社区版说明、FreeEed wiki 或其他外部网页；input.json 中部分定义文本被截断，workplace 叶 dc 仅见第 3 段。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-128/ses_groveopencodegop128review1_1793007739.jsonl",
+  "batch_sha256": "7ca2d143838f76881214f46d7a62c4e54c4c9db453ea26ba76cee8da7634cbf9",
+  "research_sha256": "a4ac707521999fa45451894a07a2e9f9fd0ae315c8a8278ab3d39025cf397dda",
+  "input_sha256": "2d17985d8294a1d1b98f9b2989ed7ed4cf3e3a13a1f4580f82486cfee6c395e4"
+}

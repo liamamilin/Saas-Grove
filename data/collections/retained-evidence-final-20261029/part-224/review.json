@@ -1,0 +1,38 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Socialsuite 的 /impact 页面正文较薄，且理论变革（theory of change）被描述为由合作 Impact Coach 协助开发，而非明确由组织在软件内自行定义；批次摘要中的“组织自身”“三要件覆盖”强于页面逐字表述。商业初审按基本真实性和类型匹配可通过，但建议将摘要措辞收窄为“以理论变革为起点、由教练协助落地”。",
+    "Socialsuite 首页快照已以 ESG/可持续发展合规平台为主，Social Impact Measurement 只是其中一个产品卡片；/impact 页也带有“Ready to modernize your sustainability operations?”的通用 CTA。产品身份仍可成立，但不宜把 Socialsuite 整体表述为纯社会影响测量厂商。",
+    "Sopact 的 application id 是平台级（commercial:sopact），而本叶实际匹配的是其 Impact & ESG Portfolio 解决方案；平台同时销售 case management、grants、training 等。建议在条目中明确“叶匹配针对该解决方案”，避免把整个平台都视为社会影响测量。",
+    "input.json 仍记录 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已记录 case_found 及两个商业 ID；建议在发布前同步 progress/application_ids，避免下游按“无案例”处理。该问题属于状态元数据不一致，不影响本次来源内容判断。",
+    "research.json 的 leaf note 仍主要复述 ImpactFlow 的排除理由，未提及本轮新增的 Socialsuite、Sopact 两个商业匹配；建议补充一句商业侧结论，保持留档与 batch 一致。",
+    "商业侧仅为官方营销页/解决方案页层面的基本核对，未做价格、架构、部署或运行测试；这符合本次初审范围，但不应被解读为已核验完整产品能力。"
+  ],
+  "leaf_checks": {
+    "social-impact-measurement": {
+      "status": "pass",
+      "applications_reviewed": [
+        "commercial:socialsuite",
+        "commercial:sopact"
+      ],
+      "definition_core": "本叶要求同时具备：组织自定义（或资助方定义）的影响框架、定量与定性证据基础、面向资助者/董事会/公众的沟通闭环。Socialsuite 的 /impact 正文以 Step 1 理论变革、Step 2 平台跟踪 outcomes、Step 3 以可视化输出呈现长期影响为主线；首页 Social Impact Measurement 产品卡补充 measure/track/communicate 及 qualitative outcomes 转为可比较数据。Sopact 的 portfolio 页正文明确从尽职调查材料起草 theory of change 与候选指标、与受赠方双边约定指标和收集节奏、按季度将结果附着到指标并保留来源，最终形成可回溯到提交记录的 donor/portfolio 报告；首页补充 forms/files/feedback、response summaries 与 shareable reports。两者在商业基本匹配层面均覆盖框架—证据—沟通三要件。",
+      "service_form": "两者均为持续交付的 Web/SaaS 软件服务：Socialsuite 为软件平台并含 Salesforce 集成与 Impact Coach 服务；Sopact 为 Sopact Sense Web 工作区。均非一次性咨询或静态原型。",
+      "identity_track": "ID 分别为 commercial:socialsuite、commercial:sopact，track 均为 commercial，名称与 homepage 和官方站点一致。Socialsuite 是较广的 ESG/可持续发展厂商，本叶对应其 Social Impact Measurement 模块；Sopact 是较广的数据平台，本叶对应其 Impact & ESG Portfolio 解决方案。",
+      "open_source_license": "batch 未纳入开源应用，因此无开源条目的许可证或社区版边界问题。对研究引用的候选已核对：ImpactFlow 为 Apache-2.0，GitHub 仓库 id 1273624660，许可证快照为完整 Apache License 2.0 正文；但后端模型与 main.py 显示固定四维 IPI（academic/cognitive/social/integration）及硬编码权重 0.35/0.25/0.25/0.15，未提供组织自定义指标框架，故维持 boundary_unresolved 不纳入。TolaActivity API license=null，README 未出现许可证，TolaWork/TolaTables 的 GPL 不能替代主应用许可。其余候选缺少许可证或仅覆盖 ToC/尽调/原型，未发现同时满足三要件与完整许可的完整 Web 应用。",
+      "sources_checked": [
+        "data/collections/sources/ad645958e7adb88537ea6a8b0377c9d61fbd74cd3bc86b33a02d66b21f956287.txt",
+        "data/collections/sources/143b84ec15b3f750ac24ea213cd6d7cad89c317e2e866e3874672f4d2eb46fd1.txt",
+        "data/collections/sources/c67cf7f99d11144e3b6de9c363a529caf95ac738e6b68417ceb62dd7c89e412b.txt",
+        "data/collections/sources/84de6081fbe69a36ceb9c8d472c5d8cd6de4489039326897734ae921fa4ad93d.txt"
+      ],
+      "gaps": "Socialsuite 的 /impact 快照正文较短，未展示调查/表单/导入等证据采集机制，也未展示可配置指标对象；“组织自身框架”由教练服务承接，证据强度低于 Sopact。Sopact 的 portfolio 页明确标注为 illustrative workflow / synthetic grantee data，属营销演示而非生产数据。两者均未做运行时验证。"
+    }
+  },
+  "limits": "本次为只读初审：以 REVIEW_SOURCES.json 列出的四个快照为主，并辅以 research.json 引用且同单元存在的 GitHub 快照（ImpactFlow 元数据/README/许可证/后端模型、TolaActivity 元数据/README）；未运行 shell、未写文件、未读取其他单元。快照 HTML 多为压缩单行，部分正文按渲染文本阅读，未把 HTTP 成功、摘要或导航当作核心工作流证据。商业侧仅核对基本真实性、官方来源与类型匹配，未做价格、架构、部署或运行测试；开源侧仅核对被排除候选的仓库身份、许可证完整性与排除理由。input.json 与 batch.json/research.json 的状态不一致已记录，但不作为本次内容不通过的理由。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-224/ses_groveopencodegop224review1_1793261572.jsonl",
+  "batch_sha256": "df3b044c6a60b67c530f71f5b1e13d182ee277c51da72e4afe3bdf353c5a52e0",
+  "research_sha256": "29ddd79cbf33f5739ec287914b9298986f2f73f00ac786b74b822c27e08d9626",
+  "input_sha256": "abe30056d291826a65d175f7781c33acf9a1b1950cb4940e3139b824199defb0"
+}

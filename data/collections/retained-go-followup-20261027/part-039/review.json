@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "web-development-ide",
+      "application_id": "github:172953845",
+      "issue": "已读快照不能证明该叶定义性核心的第二项和第三项。docs/README.md 只说明“Run VS Code on any machine anywhere and access it in the browser”；FAQ 只覆盖配置、工作区/文件夹打开、扩展安装（如 FAQ#how-does-code-server-decide-what-workspace-or-folder-to-open、#how-do-i-install-an-extension）；guide 的 Accessing web services 章节说明的是把用户自行用 create-react-app/vue-cli/ng serve/svelte 启动的 dev server 通过 /absproxy/<port> 或子域暴露出来。全文没有说明 HTML/CSS/JS 语义的集成编辑辅助，也没有说明环境内部完成“build/serve → 浏览器渲染预览 → 保存即刷新”的闭环；恰恰要求用户自己在终端启动框架 CLI，再手工访问代理路径。采集理由把“VS Code 编辑环境”直接当作 Web 技术栈集成编辑，属于快照之外的推断；同时 code-server 是覆盖任意语言的通用 IDE（“Code on any device”“Use cloud servers”），与“面向 Web 交付物的专用开发环境”之间还存在类型范围偏宽的问题（同类先例中 CloudBeaver 因范围更宽被排除）。",
+      "fix": "补充能直接证明以下两点的官方正文后再保留该关系：(1) Web 技术栈集成编辑，例如 VS Code 官方 HTML/CSS/JavaScript/TypeScript 语言功能文档，并能对应到 code-server 环境；(2) 编辑器侧闭环预览，例如端口面板/预览在保存后自动刷新的官方说明。若无法取得，应改用面向 Web 开发的托管或自托管 IDE 作为案例，或在 research 与 batch 中如实降级为“通用远程 IDE，Web 栈编辑与预览闭环未验证”的缺口记录。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 中五个叶均仍为 case_status=incomplete、application_ids=[]，note 重复“产物缺失或结构/研究记录不完整”，但 data/collections/batch.json 与 research.json 已有对应条目与官方快照。这属于输入清单的旧状态未同步，不影响本次内容核对，但下游若以 input.json 判断有无案例会误判，建议同步。",
+    "code-quality-platform：README 只逐字给出静态分析、新代码 Quality Gate、自托管构建与商业版边界，未逐字证明“项目绑定仓库”“持久 issue/metric 历史与趋势”；research.json 的 note 已如实记录该缺口并收窄断言，属于可接受的留档缺口，但 batch features/summary 不应再扩展为完整历史与每次 PR 装饰。",
+    "sql-client：pgweb README 的 Features 以“Execute and analyze custom SQL queries”“Query history”“Table and query data export”支撑 SQL 主界面与结果可检查，但正文未描述结果网格/错误反馈的交互，证据略薄；建议补一句 Usage 或界面说明，非阻断。",
+    "browser-compatibility-testing-platform：快照是单行大段 HTML，read 工具每行截断使正文无法逐段通读；已按页标题（“Most Reliable App & Cross Browser Testing Platform”“Automated Website Testing on Real Devices”）及正文关键词存在性（Selenium Grid、parallel、real devices、desktop browsers、Local Testing/firewall）核对基本真实性与类型匹配。reason 里的“3000+”措辞应与页面实际数字一致，避免引用不确定的规模数字。",
+    "code-server 的 readme 来源取的是 docs/README.md（较短），仓库根 README 可能包含更多使用说明；补充根 README 或产品文档可减少证据不足的争议。",
+    "project-scaffolding-code-generator、sql-client、code-quality-platform 三个开源条目的许可证字段分别与 Apache-2.0、MIT、LGPL-3.0 的完整许可证正文一致，仓库 ID 与 metadata 快照一致，未发现许可证或仓库身份问题。"
+  ],
+  "leaf_checks": {
+    "project-scaffolding-code-generator": {
+      "result": "pass",
+      "application_id": "github:10553586",
+      "basis": "README.adoc 第 8–28 行给出可扩展生成 API、语言/构建系统抽象与钩子，元数据模型配置依赖、支持的 JVM 与平台版本，web endpoints 生成实际项目；第 70–76 行说明 initializr-web 基于 Spring Boot 可部署、initializr-service-sample 展示自定义实例；第 24–28、66 行给出 start.spring.io 生产实例。三项核心（可复用起点定义、参数化生成、输出起始项目）与托管/自托管 Web 服务形态成立。metadata 快照 id=10553586、archived=false，与 github:10553586 匹配；license 快照正文为 Apache License Version 2.0 全文，Apache-2.0 字段正确，无社区版/商业版混写。",
+      "gap": "README 未逐字写“生成结果落盘为 zip/目录”，但“generate an actual project”与 CLI/IDE 消费方式足以支撑输出起始项目；未运行或部署产品。"
+    },
+    "sql-client": {
+      "result": "pass",
+      "application_id": "github:24968828",
+      "basis": "README 第 13–30 行说明 web-based PostgreSQL database explorer、单二进制、PostgreSQL 9.6+、SSH 隧道、多数据库会话、执行并分析自定义 SQL、查询历史、表/查询数据导出；第 45–76 行说明启动 HTTP 服务与 host/user/db、postgres:// URL 连接方式。Usage 列出 --url/--host/--db/--listen（默认 8081）等，确认自托管 Web 服务而非本地终端 REPL。连接外部数据库、SQL 为主接口、结果可检查（查询与导出）可成立。metadata id=24968828、archived=false；license 快照为 MIT 全文，MIT 字段正确。",
+      "gap": "结果集与错误反馈的具体界面只由 Features 推断，正文未展开；未运行产品。"
+    },
+    "web-development-ide": {
+      "result": "fail",
+      "application_id": "github:172953845",
+      "basis": "docs/README.md 第 5–6 行只说明在任意机器运行 VS Code 并在浏览器访问，安装/部署方式列于第 27–56 行；guide 第 516–626 行说明将 React/Vue/Angular/Svelte 开发服务器经 /proxy/<port> 或 /absproxy/<port> 暴露，示例需用户先执行 yarn start / ng serve；FAQ 第 390–397 行说明工作区/文件夹选择，第 335–345、346–358 行说明扩展安装，第 303–330 行说明扩展市场边界。可证：浏览器访问的 VS Code、自托管服务形态、Web 项目可打开、开发服务器可经代理在浏览器访问。不可证：HTML/CSS/JS 语义的 Web 技术栈集成编辑（定义第二项），以及环境内部完整的 build/serve→渲染预览→保存即刷新闭环（定义第三项）；且产品定位为任意语言通用 IDE，类型范围偏宽。metadata id=172953845、archived=false，license 快照为 MIT 全文，许可证与仓库身份无误。",
+      "gap": "第二项核心无任何引用正文支撑，第三项仅有对外部 dev server 的代理可达性，采集理由存在快照外推断；按“不能用简介/元数据替代核心正文”不能通过。"
+    },
+    "browser-compatibility-testing-platform": {
+      "result": "pass_with_recorded_gap",
+      "application_id": "commercial:browserstack",
+      "basis": "首页快照 title 为“Most Reliable App & Cross Browser Testing Platform | BrowserStack”，Automated Website Testing 页 title 为“Automated Website Testing on Real Devices | BrowserStack”；正文中可检出 Selenium Grid、parallel、real devices、desktop browsers、Local Testing/firewall 等表述，首页产品导航含 Live/Automate/App Live 等，支持“按需选择浏览器/设备环境运行团队自身测试”的类型匹配与基本真实性。commercial track 与 commercial:browserstack 标识一致，未记录价格/架构等超出范围内容。",
+      "gap": "快照为单行大段 HTML，read 工具每行 2000 字符截断，环境目录、并发、隧道等只能做关键词存在性核对，无法逐段引用；商业条目按低门槛通过。"
+    },
+    "code-quality-platform": {
+      "result": "pass_with_recorded_gap",
+      "application_id": "github:1222504",
+      "basis": "README 第 21–23 行明确本仓库是 SonarQube Community Build 源码、自由开源版本，第 29–36 行给出静态分析发现缺陷/漏洞/可维护性问题及 40+ 语言子集，第 40–54 行把分支分析、PR decoration、SCA、IaC 等明确划为商业版，第 69–71 行给出新代码 Quality Gate 的 pass/fail，第 127–150 行给出自托管构建与服务启动。社区版核心与商业能力边界清晰。metadata id=1222504、archived=false；license 快照为 GNU Lesser GPL v3 全文，LGPL-3.0 字段正确。",
+      "gap": "README 未逐字证明项目绑定仓库、持久 issue/metric 历史与趋势；research.json note 已如实记录并按 CI 门禁理解，未越界断言。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未发起网络检索或抓取，未部署或运行任何产品，只读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 17 个快照。GitHub API 元数据与许可证快照为单行 JSON，read 工具每行截断 2000 字符，故 id/archived/许可证类型通过文件名 sha256 字段、行首元数据与许可证正文关键段核对，未做全文比对；BrowserStack 两个快照为单行大段 HTML，正文无法逐段通读，只能依据页标题与正文关键词存在性核对；无法在无 shell 环境下计算快照哈希，未验证 REVIEW_SOURCES.json 的 sha256 与实际内容一致。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-039/ses_groveopencodegop039review2_1793084514.jsonl",
+  "batch_sha256": "1cc18439cbaee81a8ecfc21b3bb4270b9c05527eaf38820c3a7e3162de5e45e3",
+  "research_sha256": "8d84be112cf0dc88b37ea47b8af38ac7099d78134f5dc62bdc5fe971d22aabfe",
+  "input_sha256": "34ceb248235741454c6c2343078cb1abe1e8787f540c83c5d873e6fb79c4a027"
+}

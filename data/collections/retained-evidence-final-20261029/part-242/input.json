@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 53,
+  "offset": 1300,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "book-distribution-management",
+        "name_zh": "图书发行管理系统",
+        "domain_id": "27",
+        "parent_id": "27.02",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-053/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "book distribution management"
+          },
+          {
+            "record": "retained-continuation-20261027/part-104/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "open source book distribution management software publisher catalog orders stock"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/173",
+            "result": "insufficient_evidence",
+            "note": "实际检索后核对 Abelujo：官方页面明确面向书店零售（POS、门店库存、补货、客户预订、押金），不是出版商或分销商向图书贸易销售的系统记录；未找到同时具备书目标题目录、贸易客户账户、销售订单、库存履约/发货与退货闭环的完整开源应用，故留档 insufficient_evidence，未把相邻的零售库存系统当作成立案例。",
+            "query": "open source book distribution management software publisher catalog orders stock"
+          }
+        ],
+        "archived": false,
+        "note": "实际检索后核对 Abelujo：官方页面明确面向书店零售（POS、门店库存、补货、客户预订、押金），不是出版商或分销商向图书贸易销售的系统记录；未找到同时具备书目标题目录、贸易客户账户、销售订单、库存履约/发货与退货闭环的完整开源应用，故留档 insufficient_evidence，未把相邻的零售库存系统当作成立案例。"
+      },
+      "definition": {
+        "slug": "book-distribution-management",
+        "name": "Book Distribution Management",
+        "name_zh": "图书发行管理系统",
+        "aliases_zh": [
+          "图书分销管理系统",
+          "出版物发行系统",
+          "图书渠道管理系统"
+        ],
+        "overview": "A **Book Distribution Management** application is the operator-side system of record for running the distribution of published books into the book trade. It holds the publisher's or distributor's catalog of titles as sellable products, keeps trade customer accounts together with their commercial terms, takes and processes sales orders against stock, records dispatch and returns, and closes the operation into per-title, per-customer sales records that feed reporting, accounting, and royalties.\n\nThe defining core is small:\n\n```text\nBibliographic title catalog (editions as identified, priced,\npublication-stamped sellable products)\n└── Trade customer accounts (book-trade buyers with commercial terms)\n    └── Sales order binding titles × account × quantities\n        └── Stock position per title that orders are fulfilled against\n            └── Fulfillment / dispatch recorded as sales\n               (title × account × quantity × value)\n```\n\nEverything else commonly associated with the category — ONIX metadata feeds to trading partners, EDI order exchange, returns and credit processing, sales analysis, print-on-demand linkage, digital channel distribution — is standard machinery of the book trade layered on that core, not what makes the system a distribution management system.\n\nTwo boundaries follow from this. The system is not the editorial/production side of publishing (acquisition, editing, production, contracts) — that is Book Publishing Management, although in the market the two frequently ship as modules of one publishing suite. And \"distribution\" here means the commercial and physical operation of selling and moving titles through the trade; the preparation and delivery of bibliographic *metadata* itself is a distinct concern (Publishing Metadata Management), even though metadata feeds are one of the standard capabilities of a distribution system.",
+        "overview_zh": "一个**图书分销管理**应用是出版商或分销商用于管理已出版图书进入图书贸易流通的操作端系统记录。它存储出版商或分销商的书目目录作为可售产品，维护贸易客户账户及其商业条款，接收和处理基于库存的销售订单，记录发货与退货，并将运营数据汇总为按书目、按客户的销售记录，用于报告、会计和版税计算。\n\n其核心定义结构十分精简：\n\n```text\n书目标题目录（已标识版本、定价、带有出版日期的可售产品）\n└── 贸易客户账户（带有商业条款的图书贸易买家）\n    └── 销售订单（绑定书目 × 账户 × 数量）\n        └── 按书目区分的库存状况（用于履行订单）\n            └── 履行/发货记录为销售\n               （书目 × 账户 × 数量 × 价值）\n```\n\n通常与该类别相关的其他所有功能——向贸易伙伴提供ONIX元数据、EDI订单交换、退货和信用处理、销售分析、按需印刷对接、数字渠道分发——都是建立在这一核心之上的图书行业标准机制，并非使该系统成为分销管理系统的核心要素。\n\n由此可界定两个边界。该系统并非出版流程中的编辑/制作环节（选题、编辑、制作、合同）——那属于**图书出版管理**，尽管市场上两者常作为同一出版套件的模块一同交付。此处的“分销”指的是通过贸易渠道销售和流转图书的商业与物理操作；书目*元数据*本身的准备和交付则是一个独立的关切点（**出版元数据管理**），尽管元数据推送是分销系统的一项标准能力。",
+        "dc": "**Title / edition.** The central object is the bibliographic product: a specific edition of a work in a specific format, carrying its identifier (in practice an ISBN), format (print, e-book, audiobook), list price, publication date, and availability state. Editions of the same work are commonly grouped so that data shared across formats is maintained once. Every other object in the system refers back to titles; the catalog is what the trade buys.\n\n**Trade customer account.** The buyers are accounts, not anonymous consumers: wholesalers, chains, independent bookstores, online retailers, library suppliers, and — for a distributor — the publishers whose titles it handles. An account carries its commercial standing: the discount structure applied against list price, the territories or markets it may buy for, payment terms, and contact details.\n\n**Sales order.** An order binds specific titles to a specific account in quantities, at terms-derived prices. Orders arrive through trade channels — commonly EDI messages, account portals, or direct entry by staff — and are frequently processed in high volume. The order is the unit that drives the operational loop.\n\n**Stock position.** Distribution means fulfilling orders from a stock position: physical stock in the operator's (or its fulfillment partner's) warehouse, and, increasingly, digital stock — e-book and audiobook entitlements delivered to platforms — plus print-on-demand as a supply mode that manufactures on order instead of holding stock. The stock position is what makes an order fulfillable or not.\n\n**Fulfillment / dispatch and the sales record.** An accepted order is allocated against stock, dispatched (picked, packed, shipped — or triggered to a print-on-demand line, or delivered digitally), invoiced, and recorded as a sale: title × account × quantity × value. These sales records are the system's output to the rest of the business — sales analysis, royalty computation, and accounting all consume them.",
+        "dc_zh": "**标题/版本。** 核心对象是书目产品：作品的特定版本（以特定形式呈现），承载其标识符（实践中为ISBN）、格式（印刷版、电子书、有声书）、定价、出版日期和可获得状态。同一作品的不同版本通常分组管理，以维护跨格式共享的数据。系统中的所有其他对象均指向标题；书目目录是行业交易的对象。\n\n**贸易客户账户。** 买家是账户，而非匿名消费者：包括批发商、连锁书店、独立书店、在线零售商、图书馆供应商，以及对于发行商而言——其代理的出版商。账户包含其商业资质：基于定价的折扣结构、可采购的地区或市场、付款条款和联系方式。\n\n**销售订单。** 订单将特定标题与特定账户按数量绑定，并根据条款确定价格。订单通过行业渠道（通常是EDI消息、客户门户或员工直接录入）抵达，且常以高容量处理。订单是驱动运营循环的单元。\n\n**库存状态。** 发行意味着根据库存状态履行订单：包括运营商（或其履约合作伙伴）仓库中的实体库存，以及日益重要的数字库存——电子书和有声书的数字授权。",
+        "rules": "**Publication date and availability gate the trade.** A title is not sold or shipped ahead of its publication state; availability data flows to the trade through the metadata feeds, and order fulfillment respects it. Where products combine formats, availability can differ per component.\n\n**Price is list price minus terms.** The catalog carries list prices; what an account pays derives from its discount structure and territory. Terms changes propagate to order pricing; bulk price updates across the catalog are a standard operation.\n\n**Orders are fulfilled against stock, not promises.** Allocation checks the actual stock position; unfulfillable demand becomes tracked backorders rather than silent promises. Fulfillment paths can mix warehouse stock, print-on-demand, and digital delivery.\n\n**The trade runs on returnable stock.** Because much trade stock is sold on a returnable basis, every sale carries a potential reverse movement; returns reduce sales via credits and must reconcile against the original invoices. This makes the returns-and-credit cycle a first-class part of the operation, not an afterthought.\n\n**Metadata quality is a gate, not a cleanup.** Trading partners consume title data automatically; systems therefore check completeness and validity before releasing feeds, and monitor feed delivery per destination.\n\n**Sales records are attributed and reused.** Every recorded sale carries title, account, channel, period, and value — the substrate for sales analysis, royalty computation, and accounting. Attribution and audit trails matter because the same records settle money with authors and the trade.\n\n**Access is role-governed.** Order entry, terms changes, price updates, and credit issuance are staff actions under permission control, with user attribution on financial records.",
+        "rules_zh": "**出版日期与可用性决定贸易。** 书目不会在出版状态之前销售或发货；可用性数据通过元数据推送到贸易端，订单履行需遵守该状态。当产品组合多种格式时，可用性可能因组件而异。\n\n**价格是定价减去条款。** 目录承载标价；账户支付价格源自其折扣结构和区域。条款变更会传播到订单定价；跨目录的批量价格更新是标准操作。\n\n**订单基于库存而非承诺履行。** 分配检查实际库存状况；无法履行的需求成为可追踪的未交付订单，而非无声承诺。履行路径可混合使用仓库库存、按需印刷和数字交付。\n\n**贸易基于可退货库存运行。** 由于大部分贸易库存按可退货方式销售，每笔销售都包含潜在的逆向流转；退货通过信用单减少销售，且必须与原始发票对账。这使得退货与信用循环成为运营的一等公民，而非事后补充。\n\n**元数据质量是关口，而非事后清理。** 贸易伙伴自动消费书目数据；因此系统在推送前检查完整性和有效性，并按目的地监控推送交付情况。\n\n**销售记录具有归属并可重用。** 每条销售记录都包含书目、账户、渠道、期间和价值——这是销售分析、版税计算和会计核算的基础。归属和审计跟踪至关重要，因为相同的记录用于与作者和贸易结算资金。\n\n**访问受角色管控。** 订单录入、条款变更、价格更新和信用发放都是在权限控制下的工作人员操作，财务操作带有用户归属信息。",
+        "parent_id": "27.02",
+        "domain_id": "27"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 242,
+    "phase": "directory",
+    "parent": 242,
+    "slugs": [
+      "book-distribution-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "2186d4f287d1ef9c2269fa3cb8d5a4f546ea8c14b1d14db4deabf5740bd2f677"
+  }
+}

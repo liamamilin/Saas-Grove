@@ -1,0 +1,52 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "dark-web-monitoring",
+      "application_id": "github:257208943",
+      "issue": "AIL 的官方 README 正文说明它是通用泄露采集/分析框架：只提供全局用户 tracker（word/regex/YARA/typo-squatting）和 webhook/email/MISP 通知，缺少按监控对象（subject）建立、受授权约束的 watchlist，也没有 subject 对象或按主体路由告警。该叶定义以“subject-bound watchlist”和“对非法/地下来源的持续监视”共同构成边界；缺少前者时，产品更接近通用泄露情报/搜索框架，不能作为该叶的核心案例。",
+      "fix": "更换为具备 subject-scoped watchlist、按主体标识匹配和授权校验的暗网监控产品；或补充能证明 AIL 的 tracker 被组织为 subject watchlist 并执行授权边界的一等对象来源。若无法补充，应将 AIL 从该叶移除或降级为通用泄露分析框架，并按“无合适案例+检索/抓取缺口”留档。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 仍为 phase=included_without_cases，五个 leaf 的 progress 均为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 已记录的 5 个案例不一致；建议合并时同步这些字段，避免下游以 input 为准时丢失案例。",
+    "research.json 对 runZero 的 service_boundary 称其“提供 SaaS 与自托管选项”，但两份快照只支持商业平台、部署便捷和 SaaS 试用，未直接证明自托管；建议补部署页来源或改为“商业平台（以 SaaS 为主）”。REVIEW_SOURCES 将产品页标为 documentation，也建议改为 homepage/product_page。",
+    "DefectDojo 的 README 概述能证明漏洞登记、去重、修复跟踪与报表，但未细述 CVE 知识库的自动刷新、风险排序和风险接受生命周期；研究已如实记录该缺口，且定义允许从其他工具摄入发现，故不阻断。",
+    "OASM 的 README 未细述候选资产人工提升和域名所有权校验；研究已如实记录，属于 ASM 规则层缺口而非外部清单/持续复扫核心缺失，故不阻断。",
+    "FAIR Risk Analysis Dashboard 的 README clone 示例使用占位 yourusername，属于文档瑕疵；metadata id=1097076620、仓库全名与 /license 快照一致，研究已记录，故不阻断。",
+    "runZero 首页存在免费 Community Edition（<100 assets），但该条目为商业产品记录，track=commercial 仍正确；无需按开源条目处理。"
+  ],
+  "leaf_checks": {
+    "vulnerability-management": {
+      "result": "pass",
+      "basis": "DefectDojo README 正文明确其为开源漏洞管理/ASPM 工具，编排漏洞跟踪、去重、修复与报表；/license 快照为完整 BSD-3-Clause，README 的 License 段与 Pro/Community 边界一致；metadata id=31028375、fork=false，open_source track 匹配。",
+      "limitations": "README 未细述 CVE 知识库自动刷新与风险接受生命周期；研究已如实记录，不阻断。"
+    },
+    "attack-surface-management": {
+      "result": "pass",
+      "basis": "OASM README 正文明确自托管开源 ASM：维护域名/IP/端口/服务/技术/URL/TLS 证书清单，支持分布式 worker、可插拔连接器、资产分组、cron 定时和按需复扫；/license 快照为完整 GPL-3.0；metadata id=1002710587、fork=false，open_source track 匹配。",
+      "limitations": "README 未细述候选资产人工提升与域名所有权校验；研究已记录，属于规则层缺口。"
+    },
+    "cyber-asset-management": {
+      "result": "pass",
+      "basis": "runZero 首页与 Total Attack Surface Visibility 产品页正文（非仅 meta/Loading）显示商业平台，结合 active scanning、passive discovery、API integrations 和 fingerprinting，跨 IT/OT/IoT/cloud/mobile 形成 comprehensive asset inventory 与 single source of truth，并覆盖盲区/未知资产；商业身份与 CAASM 类型匹配。",
+      "limitations": "仅有厂商营销页，未读产品文档/价格/部署；research 的“自托管选项”未被快照直接支持，已列入非阻断备注。"
+    },
+    "cyber-risk-quantification": {
+      "result": "pass",
+      "basis": "FAIR Risk Analysis Dashboard README 正文明确其以 FAIR 风险场景、LEF/LM、Monte Carlo 1,000–50,000 次模拟输出分布、超越曲线、百分位、ROSI/保险建议和 JSON/CSV/文本导出；/license 快照为完整 MIT；metadata id=1097076620、fork=false，open_source track 匹配。",
+      "limitations": "README 的 clone 示例为占位 yourusername；研究已记录，身份由 metadata 与 /license 交叉确认。"
+    },
+    "dark-web-monitoring": {
+      "result": "fail",
+      "basis": "AIL README 正文证明其持续采集 clear web/Tor/I2P/chats/feeds，支持 word/regex/YARA/typo-squatting tracker、webhook/email/MISP 告警，并能提取凭据/邮箱/密钥；/license 快照为完整 AGPL-3.0，metadata id=257208943、fork=false，open_source track 匹配。",
+      "gap": "README 无 subject/watchlist/customer/authorization 概念，tracker 是全局用户规则而非按监控对象建立、受授权约束的一等 watchlist；按该叶边界，缺少 subject 绑定使其只能算通用泄露采集/分析框架，不能作为 dark-web-monitoring 核心案例。"
+    }
+  },
+  "limits": "只读审查；未运行任何应用或部署测试；开源许可证通过 GitHub /license 快照中的完整文本核对（API JSON 的 content/size 与 README 声明一致），未解码全部 base64 正文；商业 runZero 仅依据两份厂商营销页，未读产品文档、价格或部署细节；未执行 shell、未写文件、未读取其他单元；input.json 的 progress 为预采集状态，与 batch/research 不一致；AIL 的 subject-bound watchlist 边界是本次主要未通过项。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-152/ses_groveopencodegop152review2_1793014211.jsonl",
+  "batch_sha256": "34abeac0c7c300ccb4614369f1721c75b4afd6a18274c7423821668ef3ff37bb",
+  "research_sha256": "63b757cd99c8858137cc026b928e557dd9aa8a1a02d26f24f414dd037397b9cb",
+  "input_sha256": "4b83f28f0e46064bb0e5ae47adc824792f044682489c757bd32668847122de38"
+}

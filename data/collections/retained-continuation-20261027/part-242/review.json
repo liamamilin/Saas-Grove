@@ -1,0 +1,70 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "artwork-consignment-management / commercial:art-galleria：匹配依据是官方 Features 页在 Inventory & Collections 下把 consignments 列为可管理实体，属于模块级类型匹配；逐件寄售条款、sold/returned 处置状态、佣金结算与艺术家共享记录没有来源支持，条目已明确限定，建议下游不要把这些扩展写成已核实能力。",
+    "Art Galleria 的 Features 快照是单行 Next.js HTML，直接读取只能展开首部；“For Artists 一节亦列出 consignments”这一次要表述未能在渲染文本中单独复核，主要证据仍是 Inventory & Collections 的 consignments 列表。建议删除或降级该句，以免把导航性文字当成独立证据。",
+    "digital-collection-portal / github:12057192：README 与官网足以证明发布层、条目/媒体/元数据池和多站点发布，但公共检索/浏览控件、字段级发布控制、条目地址稳定性没有在来源中直接说明；条目已避免断言，建议保持这种限定。",
+    "media-asset-management-mam / github:146662901：README 证明 EBU Core 目录、检索、低分辨率预览、子片段与转码；归档分层、按需恢复、字段级权限与状态驱动文件移动未核实，条目已避免断言，不影响当前 MAM 类型判断。",
+    "museum-accession-cataloging / github:4337337：来源证明编目后端、复杂 accession number 检索、位置/来源历史、媒体与报告；正式入藏的产权凭证、自动编号、防篡改审计与退编流程未直接说明，条目已限定在编目后端范围。",
+    "Nebula README 的许可文字为 GPLv3 “or any later version”，条目记为 GPL-3.0；不影响完整许可文本与开源身份，但若下游需要精确 SPDX 标识，建议标为 GPL-3.0-or-later。"
+  ],
+  "leaf_checks": {
+    "artwork-consignment-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:art-galleria"
+      ],
+      "basis": "读取 batch.json 条目 commercial:art-galleria 及其 Features 快照（95b5fd04…，canonical 为 https://www.artgalleria.com/features）。快照标题为 Features — Art Galleria，正文含 Inventory & Collections 与 consignments；同 URL 公开页可见 “Manage artworks, artists, editions, locations, consignments, collections and exhibitions in one flexible system”。",
+      "core_check": "Art Galleria 是面向画廊、艺术家、收藏家等角色的商业 SaaS 艺术品管理平台，把 consignments 作为库存/收藏模块的实体之一，符合本叶所述“寄售管理通常作为画廊操作系统模块交付”的包装边界。consignor/consignee 关系、逐件寄售条款、sold/returned 处置状态未由来源证明；条目已明确限定为“consignments 被列为库存实体”的基本类型记录。",
+      "gaps": "未核实逐件寄售作品记录、佣金/结算、艺术家与画廊共享记录；未部署或运行。",
+      "conclusion": "按商业条目“基本真实性 + 类型匹配”标准通过，范围限于模块级 consignments 实体。"
+    },
+    "cultural-heritage-asset-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:49451058"
+      ],
+      "basis": "Arches README（1bedb381…）明确其为 web-based, geospatial information system for cultural heritage inventory and management，purpose-built 记录 archaeological sites、buildings and other historic structures、landscapes、heritage ensembles or districts；仓库元数据为 id 49451058、full_name archesproject/arches；license API 快照为 GNU Affero General Public License v3 完整文本；官网首页称其为面向文化遗产等用途的 open source data management platform。",
+      "core_check": "常设遗产资产清单、遗产领域类型描述、地理空间位置锚定三项均有直接文本支持。README 的 immovable heritage/inventory 定位不涉及入藏、存储位置或借出，符合本类型“无保管”的结构边界。",
+      "gaps": "未直接核实受控术语、分级访问、规划咨询、状况监测等扩展能力；未部署运行。",
+      "conclusion": "定义性核心与无保管边界均匹配；AGPL-3.0 完整许可文本可核，社区版/自托管边界清楚。"
+    },
+    "digital-collection-portal": {
+      "status": "pass",
+      "application_ids": [
+        "github:12057192"
+      ],
+      "basis": "Omeka S README（66bebea…）称其为面向 universities、galleries、libraries、archives、museums 的 web publication system，由多个独立策展站点共享 items、media 及其 metadata 池；官网（91604ff…）称其为连接 digital cultural heritage collections 的 web publishing platform，支持多站点、发布 items 与 linked open data；仓库元数据为 id 12057192；license API 为 GPL v3 完整文本；README 给出 LAMP 自托管安装步骤。",
+      "core_check": "已发布条目语料、条目/媒体/元数据池、面向外部受众的发布层成立，符合门户作为发布层的身份；未发现其被记录为单纯的内部编目系统。",
+      "gaps": "公共检索/浏览控件、字段级发布控制、条目地址稳定性未在来源中直接说明；条目未对这些点作断言。",
+      "conclusion": "发布层类型匹配；GPL-3.0 完整许可文本可核，未发现社区版功能切分。"
+    },
+    "media-asset-management-mam": {
+      "status": "pass",
+      "application_ids": [
+        "github:146662901"
+      ],
+      "basis": "Nebula README（952f840…）明确其为 open source broadcast automation and media asset management system；媒体目录基于 EBU Core，含 genre、rights、relations、technical metadata；提供快速检索、低分辨率预览、trim/子片段与音视频转码；仓库含 Dockerfile；仓库元数据为 id 146662901；license API 为 GPL v3 完整文本；官网称其为 open source broadcast automation and media asset management。",
+      "core_check": "资产记录、结构化元数据层、全库检索/预览、媒体处理与交付链路均有直接文本支持；广播自动化属于附加能力，不改变 MAM 类型。",
+      "gaps": "归档分层、按需恢复、字段级权限、状态驱动文件移动未核实；条目已避免断言。",
+      "conclusion": "MAM 核心匹配；GPL-3.0 完整许可文本可核，商业支持与服务另计，未见社区版限制。"
+    },
+    "museum-accession-cataloging": {
+      "status": "pass",
+      "application_ids": [
+        "github:4337337"
+      ],
+      "basis": "Providence README（692c034…）说明其是 CollectiveAccess 的后端编目组件，面向 museum、archival、research collections，支持多种元数据标准、复杂 accession numbers、位置历史与 provenance 跟踪、媒体、报告、GraphQL 及批量导入导出；要求 PHP 8.2/8.3 并用 Composer 安装；仓库元数据为 id 4337337；license API 为 GPL v3 完整文本；官网称其为 free, open-source software for cataloguing and publishing museum and archival collections。",
+      "core_check": "对象目录记录、入藏编号检索、持续编目与历史跟踪成立；Pawtucket2 为可选发布前端，条目只取 Providence 编目后端，类型边界正确。",
+      "gaps": "正式入藏的产权凭证、自动编号、防篡改审计、退编流程未直接核实；条目已限定在编目后端范围。",
+      "conclusion": "博物馆入藏/编目类型匹配；GPL-3.0 完整许可文本可核，社区版边界清楚。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或运行任何应用，未做运行时、价格或架构验证。未重新计算 sha256，仅核对 REVIEW_SOURCES.json 所列 17 个路径均存在且可读，文件名与哈希一致，并按 data/collections 基点原样读取。Art Galleria、Arches 首页、Nebula 首页等 HTML 快照为超长单行，read 工具按行截断，正文主要依据 README、Features 页可见部分及同 URL 公开页面对 Art Galleria 主句的辅助确认；未读取其他单元。CollectionSpace 与 ResourceSpace 仅作为排除候选留档，其许可判断所依据的 API 响应不在本单元快照清单中，不影响已入库条目。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-242/ses_groveopencodegop242review2_1793036238.jsonl",
+  "batch_sha256": "e987d94098cd58b2d10e74b3acab1f32886889353a4c75c48438d113a0938b38",
+  "research_sha256": "b1a71c0b4c3b6a1969f386de6d7caf699eb4103239876deba79bd2b9fb65816f",
+  "input_sha256": "d6a40c77bb219641ec09289968d3de01ce80b00cdf74c0a9595c29d816235eaf"
+}

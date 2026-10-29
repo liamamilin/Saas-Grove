@@ -1,0 +1,79 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "fire-department-records-operations-system",
+      "application_id": "github:677857659",
+      "issue": "Emberstone 被列为 Fire RMS 匹配，但现有证据只支持事件 CRUD：README 仅说明消防/急救事件的创建、读取、更新、删除；PersonnelModule_A 与 ApparatusModule_A 两份快照字段完全相同，均为 state/fdid/incident_date/station/incident_number/exposure 的事件级字段，没有人员/装备主记录，也没有事件到人员/装备的关联字段，无法证明定义性核心中的“响应归属”。此外，仓库页面明确显示 2025-11-14 已被所有者归档、现为只读，batch/research 未记录；README 还提示 NFIRS 将于 2026-01-31 日落，应用仍以 NFIRS 为主而未见 NERIS。research 虽已自认归属未证明并收窄条目，但 batch 仍将其列为该叶匹配。",
+      "fix": "将该条从完整 Fire RMS 匹配中移除，或明确标注为 archived/部分匹配（仅事件记录示例），不计入定义性核心；若保留，补充能证明事件-人员/装备归属、常驻资源记录及 NERIS 支持的代码或文档，并在 leaf_matches 中收窄表述。"
+    },
+    {
+      "slug": "311-citizen-service-request-platform",
+      "application_id": "github:487492",
+      "issue": "research 断言 FixMyStreet 覆盖“生命周期与状态反馈”，但所读 README 与官网首页只说明按位置和类型确定负责机构、通过邮件/Open311 转办、报告公开及居民可补充更新；没有出现 open/closed/fixed/resolved 状态、请求者状态回传，或政府服务目录/类别的明确描述。定义性核心中的 tracked lifecycle、status feedback 与 service catalog 证据不足。",
+      "fix": "补充官方文档、代码或可核对页面中状态流转、请求者状态反馈、类别/服务目录的证据；若无法补充，在 leaf_match 中收窄为“报告定位与路由平台”，并如实记录生命周期/目录证据缺口，不要声称已覆盖完整 311 核心。"
+    },
+    {
+      "slug": "311-citizen-service-request-platform",
+      "application_id": "github:487492",
+      "issue": "LICENSE.txt 明确许可为 GNU AGPL v3 “or (at your option) any later version”，并声明“unless otherwise stated in particular files or directories”；batch/research 将其标为 AGPL-3.0，SPDX 标识不完整。",
+      "fix": "将 license 与 license_review.spdx_id 更新为 AGPL-3.0-or-later，并在 rationale 中保留“特定文件/目录另有说明”的边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 batch/research 的 case_found 和 phase=complete 不一致；不影响本次内容判断，但建议同步，以免下游状态统计失真。",
+    "FixMyStreet 的 technology_stack 含 PostgreSQL，但所读 README、官网和 cpanfile 未直接证明数据库；属次要元数据，建议补证或删除。",
+    "FixMyStreet 是公民/机构可自托管的平台，并非政府直接运营；条目已避免该主张，建议在摘要中注明部署主体，避免被误读为政府运营的 311 热线。",
+    "Tyler Fire & EMS 页面证明事件报告、NFIRS/NERIS 提交与人员/日常活动记录，但未逐句展示事件到单位/人员的响应归属；作为商业基本类型匹配可接受，若要用于核心结构说明建议补充。",
+    "Axon 快照为单行 HTML，read 工具仅显示前 2000 字符；本次用定向字符串检查确认正文含 records management、cloud-native、CAD-agnostic、audit trail、Axon Evidence 等词，未发现缺失，但建议保存可读文本快照以便复核。"
+  ],
+  "leaf_checks": {
+    "fire-department-records-operations-system": {
+      "status": "changes_required",
+      "applications": [
+        "github:677857659",
+        "commercial:tyler-fire-ems-reporting"
+      ],
+      "evidence": "Tyler 官方正文可核对消防/EMS 事件报告、NFIRS/NERIS 提交、人员/日常活动记录和 cloud-native 行政模块；README 可核对 Emberstone 的 NFIRS/NEMSIS 事件 CRUD、Docker Compose 与 GPL-3.0 全文。",
+      "gaps": "Emberstone 的 PersonnelModule_A/ApparatusModule_A 字段完全相同且为事件级字段，未证明人员/装备主数据或响应归属；仓库 2025-11-14 已归档只读，README 提示 NFIRS 2026-01-31 日落而未见 NERIS。Tyler 作为商业案例可支撑本叶类型，但 Emberstone 不应作为完整核心匹配。"
+    },
+    "police-records-management-system": {
+      "status": "passed",
+      "applications": [
+        "commercial:axon-records"
+      ],
+      "evidence": "Axon 官方页正文（单行 HTML）可检索到 records management、cloud-native、CAD-agnostic、audit trail、Axon Evidence 等表述，符合执法 RMS 的报告/证据/审计/主体关联核心；商业只要求基本真实性和类型匹配。",
+      "gaps": "无开源案例；research 已记录 GitHub 结果多为学生 CRUD、Mark43 403 等检索/抓取缺口，未据此断言不存在。"
+    },
+    "probation-parole-management": {
+      "status": "passed",
+      "applications": [
+        "commercial:tyler-enterprise-supervision"
+      ],
+      "evidence": "Tyler 官方正文明确 pretrial、adult/juvenile probation、parole，web-based SaaS/cloud-hosted，覆盖 case plans、compliance alerts、risk/needs assessments、caseload、mobile field access、electronic monitoring 集成；符合社区监督核心。",
+      "gaps": "页面同时含 juvenile detention 等羁押功能；research 已明确只建立社区监督关系，不把羁押结构混入本类型。violation/revocation 细节未逐项展开，属商业基本匹配可接受范围。"
+    },
+    "public-health-surveillance-platform": {
+      "status": "passed",
+      "applications": [
+        "github:58730569"
+      ],
+      "evidence": "SORMAS README 与官网 overview/features 可核对传染病监测、病例/接触者管理、暴发响应、实时仪表板、流行病曲线、地理分布、任务协调、实验室/API 集成、离线 Android；README/LICENSE 与仓库元数据确认 GPL-3.0 全文及仓库身份 58730569。",
+      "gaps": "无阻断缺口；辖区级上报/国际通报的细节未逐项展开，但病例/事件记录与分析-行动循环核心已具备。"
+    },
+    "311-citizen-service-request-platform": {
+      "status": "changes_required",
+      "applications": [
+        "github:487492"
+      ],
+      "evidence": "FixMyStreet README 可核对地址/地图定位、按位置与类型确定负责机构、邮件或 Open311 转办、报告公开与居民补充更新、邮件/RSS 订阅；官网可核对自托管、品牌化与城市/国家部署；LICENSE.txt 为完整 AGPL v3 文本。",
+      "gaps": "README/官网未明确展示 open/closed/fixed/resolved 生命周期、请求者状态回传或政府服务目录/类别；research 却断言已覆盖生命周期与状态反馈，属证据不足。许可证为 AGPL-3.0-or-later，条目写 AGPL-3.0。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、部署测试或写文件；只读取本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES 列出的快照，未读取采集者 TASK.md、脚本或其他单元。Axon 快照为单行 HTML，read 工具按 2000 字符截断显示，已用定向字符串检查确认关键正文词，但未能逐句阅读全文；Tyler/SORMAS 页面较大，正文通过 grep 定位后核对。未核实价格、架构细节或运行时行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-228/ses_groveopencodegop228review2_1793032982.jsonl",
+  "batch_sha256": "9d6efcc0347c83a6ab75417b4a324f01b7aabdcb3e4a3d1e59680ed45eea9d60",
+  "research_sha256": "64974d128c71a5ac1ff6055910a71b5c6c3aa680ccec693bd04fe879a2df407a",
+  "input_sha256": "7a52f1b7e2c6387fa2d1710da7a8fe54b88b53ebafaa0c4a000c2a93215b8af8"
+}

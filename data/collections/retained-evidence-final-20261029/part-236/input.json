@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 52,
+  "offset": 1275,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "travel-agency-management-system",
+        "name_zh": "旅行社管理系统（Travel Agency Management System）",
+        "domain_id": "26",
+        "parent_id": "26.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-052/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "travel agency management system client booking file"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/429",
+            "result": "insufficient_evidence",
+            "note": "本轮核查候选：moizkamran/ExcursioX 的 GitHub API metadata 返回许可证 null/NOASSERTION（搜索摘要称 MIT，未取得 LICENSE 正文），定位为 Travel CRM 加票务/酒店预订，未见旅行社双端资金正文；projectworldsofficial/Tours-and-travels-in-php 许可证 null/NOASSERTION，2017 年后未更新，属学生项目式在线旅游管理系统；Tern 为商业旅行社 front/back office 与佣金结算平台，仅有搜索摘要。未找到可核验的完整开源旅行社管理系统。",
+            "query": "open source travel agency management system client booking commission software github"
+          }
+        ],
+        "archived": false,
+        "note": "本轮核查候选：moizkamran/ExcursioX 的 GitHub API metadata 返回许可证 null/NOASSERTION（搜索摘要称 MIT，未取得 LICENSE 正文），定位为 Travel CRM 加票务/酒店预订，未见旅行社双端资金正文；projectworldsofficial/Tours-and-travels-in-php 许可证 null/NOASSERTION，2017 年后未更新，属学生项目式在线旅游管理系统；Tern 为商业旅行社 front/back office 与佣金结算平台，仅有搜索摘要。未找到可核验的完整开源旅行社管理系统。"
+      },
+      "definition": {
+        "slug": "travel-agency-management-system",
+        "name": "Travel Agency Management System",
+        "name_zh": "旅行社管理系统（Travel Agency Management System）",
+        "aliases_zh": [
+          "旅行社业务系统",
+          "旅行代理管理系统"
+        ],
+        "overview": "A **Travel Agency Management System** is the business system of record a travel agency runs on: it holds the agency's client relationships, keeps one booking file per client trip that assembles travel services supplied by other businesses, and carries the agency's two-sided money record — amounts collected from clients (service prices plus the agency's own fees) and amounts settled with suppliers (commissions and payables).\n\nThe agency is an intermediary. It sells travel supplied by airlines, hotels, ground operators, cruise lines, tour companies, and insurers, but it does not operate that travel and does not own a product catalog with its own departures. Its revenue comes from commissions paid by suppliers and from service fees charged to clients, and its defining work is the per-client booking file plus the reconciliation of both money flows.\n\nThe defining core is deliberately small:\n\n```text\nAgency client records\n└── Client-bound booking/trip file\n    └── Aggregates third-party travel services as per-supplier segments\n        └── Two-sided money record\n            ├── client side: invoices, payments, service fees\n            └── supplier side: commissions receivable, payables, settlement\n```\n\nEverything else commonly associated with agency software — GDS booking capture, integrated payment rails, branded itinerary documents, traveler portals, policy compliance for corporate clients — is widespread in current products but is not what makes the system an agency management system. A paper-era agency's client cards, manila trip files, and commission reconciliations fit the same structure without any of it.",
+        "overview_zh": "一个**旅行社管理系统**是旅行社所依据运行的业务记录系统：它保存着旅行社的客户关系，为每次客户行程保存一个预订文件，该文件整合了由其他企业提供的旅行服务，并记录着旅行社的双向资金往来——从客户处收取的款项（服务价格加上旅行社自身的费用）以及与供应商结算的款项（佣金和应付账款）。\n\n旅行社是中介。它销售由航空公司、酒店、地面运营商、邮轮公司、旅游公司和保险公司提供的旅行服务，但它不运营这些旅行，也没有一个包含其自身出发日期的自有产品目录。它的收入来自供应商支付的佣金和向客户收取的服务费，其标志性工作就是每个客户的预订文件以及对两种资金流的核对。\n\n其定义性核心刻意保持精简：\n\n```text\n旅行社客户记录\n└── 面向客户的预订/行程文件\n    └── 按供应商段聚合第三方旅行服务\n        └── 双向资金记录\n            ├── 客户端：发票、付款、服务费\n            └── 供应商端：应收佣金、应付账款、结算\n```\n\n与旅行社软件通常相关的其他所有功能——GDS预订捕获、集成支付通道、品牌化行程文件、旅行者门户、企业客户的合规策略——在当前产品中普遍存在，但它们并非使该系统成为旅行社管理系统的本质特征。一个纸质时代的旅行社，其客户卡片、牛皮纸行程文件和佣金核对工作，同样符合这个结构，即使没有任何上述功能。",
+        "dc": "Three structures, jointly held. If one is removed, what remains is a different kind of software — a CRM, a trip planner, or plain accounting.\n\n**1. Agency client records.** Persistent identified clients of the agency: individual travelers and corporate accounts with their travelers. Records carry contact details, communication history, travel history, and commercial standing. Corporate accounts commonly carry standing terms — billing arrangements, credit limits — that shape how later bookings are invoiced. The client record is the anchor: every booking file attaches to one, because the agency's business is repeat relationships.\n\n**2. The client-bound booking/trip file.** The unit of work. One file per client trip, created and maintained by agency staff, that assembles the trip's travel services as individually tracked segments — a flight from one supplier, lodging from another, a transfer, a tour, insurance from further suppliers. Each segment carries its supplier, dates, service details, price, status, and documents. The file is the agency's memory of what was promised, by whom, for whom, and at what price — the agency's substitute for operating the travel itself. Files move through a working life: inquiry or request, quotation, confirmed bookings, amendments, documents issued, travel completed or cancelled. Changes are recorded on the file so its history remains auditable.\n\n**3. The two-sided money record.** The agency's economy, held on the file and consolidated for the business:\n\n- *Client side* — the services' prices plus the agency's own service fees, invoiced to the client, paid (cards, transfers, on-account), receipted, and — where unpaid — chased with reminders. Invoices may be per booking or consolidated across a period; in some products a single file's services can even be billed to different recipients (for example, a company and its traveler).\n- *Supplier side* — commissions the agency expects to receive on bookings, supplier invoices it must pay, and the reconciliation work that matches confirmations and statements against the file. Where bookings are settled through industry settlement systems or consolidators, the system reconciles those periodic statements against agency records. The result is handed onward to the agency's accounting, with depth varying from a full native accounting layer to a touchless export.\n\nRemoving either side breaks the Type: without client-side collection there is no agency business record; without supplier-side commission and payable tracking there is no intermediary economy — just a sales ledger.",
+        "dc_zh": "三大核心结构，共同支撑。移除任一结构，剩余部分将转变为另一种软件——客户关系管理（CRM）系统、行程规划工具，或单纯的记账软件。\n\n1. 旅行社客户档案。 旅行社的长期识别客户，包括个人旅客及其企业客户账户。档案包含联系信息、沟通记录、旅行历史及商业信用状况。企业客户通常附带固定条款——如付款安排、信用额度等，这些会影响后续预订的开票方式。客户档案是核心：每份行程文件都需关联到一个客户档案，因为旅行社的业务基于长期客户关系。\n\n2. 绑定客户的行程/预订文件。 这是旅行社的工作单元。每个客户旅程对应一份文件，由旅行社工作人员创建和维护。文件将该次旅行的各项服务拆解为独立跟踪的段落——如从某个供应商订购的机票、另一家供应商的住宿、接送、游览以及保险等。每个段落记录其供应商、日期、服务详情、价格、状态及单据。这份文件是旅行社对承诺内容的记录：由谁提供、为谁服务、价格多少——相当于旅行社代替客户运营旅行的记忆载体。文件经历其工作生命周期：咨询或请求、报价、已确认的预订、修改、单据发出、旅行完成或取消。所有变更均记录在文件中，确保其历史可审计。",
+        "rules": "### Fulfillment responsibility sits with suppliers\n\nThe agency's file records promises made by suppliers; it does not itself deliver the travel. Consequently, supplier-side events (schedule changes, cancellations, overbooks) enter the agency's world as operational exceptions to be worked on the file — not as product failures of the agency's own catalog.\n\n### The money legs are asynchronous\n\nClient collection and supplier settlement follow different timelines. A file can be fully paid while its commissions are unreceived, or a supplier invoice can arrive against a partially paid file. Reconciliation against bookings — not against a simple cash view — is the system's standing discipline.\n\n### Service fees are agency-own revenue\n\nFees charged to clients are distinct from supplier prices and are typically configured and tracked separately, appearing on client documents and in revenue statistics as the agency's own income line.\n\n### Amendments re-open documents and money\n\nChanging a confirmed booking re-prices the file and re-issues affected documents; the prior states remain in the file's history. Cancellations trigger two legs — a refund to the client (minus applicable fees) and a payable or penalty to the supplier.\n\n### Commercial standing gates service\n\nCorporate clients can carry credit limits and account-blocking (for example, for payment arrears) that the agency checks before servicing; on-account billing and consolidated periodic invoicing are common in that segment.\n\n### The file binds everything\n\nPassengers, services, suppliers, documents, payments, commissions, and tasks all attach to the booking file. Work performed outside a file (a payment, a supplier communication) is the exception, not the norm.",
+        "rules_zh": "### 履行责任在于供应商\n\n旅行社的记录文件记录的是供应商作出的承诺；它本身并不提供旅行服务。因此，供应商端的事件（时刻表变更、取消、超额预订）作为操作例外情况进入旅行社的工作范畴，在文件上处理——而非旅行社自有产品目录的产品失败。\n\n### 资金环节是异步的\n\n客户收款与供应商结算遵循不同的时间线。一个文件可能已全额付款但其佣金尚未收到，或者一份供应商发票可能对应一个部分付款的文件。基于预订（而非简单的现金视图）进行核对，是该系统的常规准则。\n\n### 服务费是旅行社自身的收入\n\n向客户收取的服务费不同于供应商价格，通常被单独配置和跟踪，出现在客户单据和收入统计中，作为旅行社自身的收入项目。\n\n### 修改会重新开启单据与资金\n\n更改已确认的预订会重新计算文件价格并重新开具受影响的单据；先前的状态保留在文件历史中。取消会触发两个环节——向客户退款（减去适用费用）以及向供应商支付应付账款或罚金。\n\n### 商业信誉决定服务准入\n\n公司客户可能有信用额度和账户冻结（例如，因拖欠付款），旅行社在提供服务前会检查这些；该客户群中通常存在赊账开票和汇总定期开票。\n\n### 文件绑定一切\n\n乘客、服务、供应商、单据、付款、佣金和任务都附加到预订文件上。在文件之外进行的工作（如一笔付款、一次供应商沟通）是例外情况，而非常规。",
+        "parent_id": "26.03",
+        "domain_id": "26"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 236,
+    "phase": "directory",
+    "parent": 236,
+    "slugs": [
+      "travel-agency-management-system"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "1f4efd8db23a18078a27c11df2d2ae29618307f1a41be52374ed5a613d25b9d0"
+  }
+}

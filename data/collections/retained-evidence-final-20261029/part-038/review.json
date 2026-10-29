@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Auphonic 是广义自动音频后期 Web 服务，修复（降噪/去混响/去交流声/去削波/带宽扩展）只是其功能板块之一，另有响度归一化、自动剪切、转录、发布与视频；官方正文未描述频谱图诊断或手动框选问题区域的流程，修复循环主要由自动分类驱动。作为商业例证可接受，但条目不宜暗示其具备频谱诊断或手动修复工作流。",
+    "Auphonic 的「修复前后试听」是 features 页的官方示例音频入口（Listen to ... Audio Examples / Play examples），不是产品内 bypass 或 A-B 对比；batch 用「试听示例」表述准确。示例音频通过 hx-get 模态加载，留存快照未包含音频 payload，故该点只证明页面提供试听入口，不证明示例音频内容。",
+    "Auphonic 的「交流声检测」主要由 Classic Denoiser 明确说明（50/60 Hz 及谐波），Static/Dynamic Denoiser 的摘要宜区分；「上传」在留存正文中更多以 productions、输入文件、输出文件与 API 表述，引用时以这些原文为准。",
+    "HarmonyRestorer 实际是单一降噪服务（OpGAN/UVR），没有独立的去咔哒、去交流声、去混响或去削波处理器，也没有损伤诊断/分类界面；「音频修复」的命名比其能力宽。batch 的 features 已限定为去噪，建议 leaf_matches 的「选择去噪引擎」改为「部署时可切换引擎（DENOISER_ENGINE）」，避免暗示终端用户在 UI 中选择。",
+    "HarmonyRestorer README 明确所有输出固定为 16 kHz 单声道，且原基准结果因训练/评估集在源录音层面不 disjoint 已撤回，替代基准尚未发布；条目未引用基准数字，处理得当，但不应把「AI 修复」表述为已验证的修复质量。",
+    "harmonyrestorer.online 快照只是 SPA 壳（仅 title/meta/asset 引用），在线实例的可访问性由 README 的 Live at 与首页 meta 佐证；research 已如实记录「仅作在线实例佐证」，非阻断。后续如需要更强的服务形态证据，可补一次可渲染页面或 API 健康检查快照。",
+    "GitHub API 403 rate limit 缺口已如实记录；许可证改用仓库页与 raw LICENSE 核对，可接受。MIT 覆盖仓库代码，但模型 checkpoint 与第三方 UVR/audio-separator 依赖的单独许可未在快照中说明，社区版边界因此只能表述为「单仓库 MIT、未发现独立商业版」。",
+    "iZotope RX 的排除理由与快照正文一致（standalone editor + 20+ DAW/NLE 插件），边界处理正确；该历史快照未列入 REVIEW_SOURCES.json，但按 research.json 给出的路径读取存在且内容一致。若未来单元范围允许桌面/插件形态，应重新评估 RX，而不是视为不存在。",
+    "input.json 的 progress 仍为 boundary_unresolved、application_ids 为空，与本单元 batch/research 已收录 commercial:auphonic 与 github:1001427463 不一致；这是输入快照与新一轮研究的元数据不同步，不影响本次内容结论，但下游合并前应同步。",
+    "两个条目都缺少频谱图或频谱编辑证据，因此该叶的「诊断型修复」分支只由自动分类/自动去噪代表；这不是类型排除条件（定义中的 DC 明确说缺少部分标准能力仍可识别），但叶级覆盖面说明应保留这一点。"
+  ],
+  "leaf_checks": {
+    "audio-restoration-application": {
+      "status": "passed",
+      "definition_core": "两案均以既有受损录音为处理对象，并输出修复后的音频。Auphonic 的官方算法文档（singletrack.html）明确称其包含 Audio Restoration Algorithms，描述分析后按语音/音乐/噪声/静音分类、Static/Dynamic/Classic Denoiser、Speech Isolation、Classic Denoiser 的 noise print 与 50/60 Hz 交流声及谐波检测、Remove Noise/Reverb/Breaths 调节，以及先不 leveling、不 gate、不压缩以保住噪声指纹的使用纪律；features 页提供降噪/滤波示例与自动音频后期 Web 服务定位。HarmonyRestorer 的 README 给出完整流程：上传 WAV/MP3/FLAC/OGG/M4A/AAC，OpGAN 或 UVR 去噪，状态/波形/A-B 交叉淡化对比，下载修复结果，Docker 自托管；训练噪声含磁带嘶声、黑胶噼啪、交流声、HF rolloff、磁带饱和。",
+      "service_form": "Auphonic 为托管 Web 服务（账号、pricing、API、watch folders、productions），符合持续使用的服务形态；HarmonyRestorer 为 FastAPI+React 的完整 Web 应用，提供公开在线实例并可用 Docker Compose 自托管，符合 Web 应用/服务形态。",
+      "identity_track": "commercial:auphonic / track=commercial / homepage=https://auphonic.com，来源为官方 features 与 help 文档；github:1001427463 / track=open_source / repository_url=https://github.com/jacob7choi-xyz/harmonyrestorer-v1，仓库页 meta 的 repository_id=1001427463、nwo=jacob7choi-xyz/harmonyrestorer-v1，与条目一致。",
+      "open_source_license": "完整读取 raw LICENSE（21 行）：标题 MIT License、Copyright (c) 2025 Jacob J. Choi、标准授权/版权声明条件/免责声明；仓库页 License 段显示 MIT；license_review 的 spdx_id=MIT、scope=repository 与原文一致，未发现附加限制。",
+      "community_edition_boundary": "仓库为单一 MIT 项目，未发现 open-core/企业版/社区版分拆；harmonyrestorer.online 是同一代码的托管实例，托管条款/隐私政策未在留存材料中说明。由于没有独立商业版，社区版边界可表述为「整个仓库 MIT，无额外限制」；模型 checkpoint 与第三方依赖的单独许可未核对。",
+      "excluded_candidates": "iZotope RX 依据其官方页正文「50+ specialized modules in the standalone editor and 20+ plugins ... DAW or NLE」排除，理由成立；Impulsive-Noise-Removal（仅去咔哒的课程项目）与 RestoraX（视频修复为主）仅在 research 中记录 URL/理由，无本单元快照，未独立复核。",
+      "gaps": "HarmonyRestorer 首页快照为 SPA 壳；GitHub API 403；未运行/部署；基准已撤回；输出固定 16 kHz 单声道；两个条目均无频谱图/频谱编辑证据。上述缺口已在 research/batch 中如实记录或由条目限定，不阻断本次初审。",
+      "applications": [
+        {
+          "id": "commercial:auphonic",
+          "result": "accepted",
+          "basis": "官方 features 页确认其为自动音频后期 Web 服务并主打 Noise & Reverb Reduction；singletrack 官方算法文档提供损伤分类、四类降噪器、交流声检测、移除量调节与使用纪律等核心正文，满足修复循环的最低定义。"
+        },
+        {
+          "id": "github:1001427463",
+          "result": "accepted",
+          "basis": "README 为完整第一方技术文档，描述上传去噪、引擎、状态、波形、A/B 对比、下载与 Docker 自托管；仓库身份与 GitHub meta 一致，LICENSE 为完整 MIT 原文，无社区版/商业版分拆。"
+        }
+      ]
+    }
+  },
+  "limits": "仅做只读文件核对，未运行或部署任何应用，未重新抓取网页，未计算快照 SHA-256（仅核对文件名与声明哈希一致）；features 页与 GitHub 仓库页为长 HTML，按相关段落和 grep 核对，未逐行通读全部模板与脚本；iZotope 历史快照不在 REVIEW_SOURCES.json 中，但按 research.json 路径读取并核对关键表述；withheld 候选 Impulsive-Noise-Removal 与 RestoraX 无本单元快照，未独立复核；未验证 harmonyrestorer.online 的实际交互，也未单独核对模型 checkpoint 与第三方依赖的许可。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-038/ses_groveopendesignp038review1_1793166476.jsonl",
+  "batch_sha256": "df8ed411b327126459212b7ab74a0c45b2f6554d83785d152007c8a0a1581a23",
+  "research_sha256": "2a583f2c2326abac424e583b6657b6fbfec3367f5cf01a2b1d42adfdcca643ec",
+  "input_sha256": "9ff28a75e0c423f0ef4cb02093a0e322c55e7e07de183f8e1c5251f496db6d86"
+}

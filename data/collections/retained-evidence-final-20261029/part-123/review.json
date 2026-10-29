@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "batch.features 第 5 条把 VMware 列为服务类型，但所引 rest.yaml 快照全文没有出现“VMware”字样，只有 VC 前缀的 vCenter 相关 schema（VCFixedMachinesService / VCFullCloneService / VCLinkedCloneService / VCloudVapp 等）。这属于外围功能枚举的措辞精度问题，不影响类型判定；建议改为“vCenter（VC* 服务类型）”或补一条明确给出 VMware 的官方正文，再保留原名。"
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "leaf_matches.reason 把 PublicationItem 与“命名且持久的服务发布”并列，但 rest.yaml 中 PublicationItem 位于 /servicespools/{uuid}/publications 下，字段为 publish_date/revision/state/reason，更接近基础镜像/服务的发布状态（配合 ServiceInfo.needs_publication），不是资源目录命名实体。“命名资源”的证据实际来自 ServicePoolItem（name/short_name/tags/thumb/visible/state）与父级 ServiceItem。建议把该句收紧为“PublicationItem 记录服务池发布状态”，避免把两类实体混为一谈。"
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "deployment 里的“Python 3.11 运行环境”和“master 分支”与实际正文略有出入：README 说 v4.0 需要 Python 3.11，quickstart 写 Python 3.10 或更新；README 明确 master 处于重度开发、不建议使用、应使用稳定分支 v4.0，而 quickstart 默认 clone master 且声明面向开发/实验/PoC、不是生产部署指南。建议把部署基线表述为“稳定分支 v4.0（Python 3.10+/3.11）”，并标注 quickstart 的适用范围。"
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "input.json 的 progress 仍记录 case_status=insufficient_evidence、application_ids=[]，note 也写着“已移除 batch 关系”；本轮 batch/research 已依据新快照恢复关系。不影响条目内容，但上游状态元数据与该结论不一致，建议在采纳后同步 progress/case_status，避免后续单元再次按“无案例”处理。"
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "license_review 的 scope 写的是 repository，证据是 VirtualCable/openuds 根 LICENSE（完整 BSD-3-Clause，2022-2024 Virtualcable S.L.U.）；而核心正文 rest.yaml/README/quickstart 来自其 server 子模块 VirtualCable/broker。根仓库许可证与 README 的“Open Source”叙述足以支撑开源判定，但若要严格证明子模块同许可，建议补抓 broker 仓库 LICENSE 作为附证。"
+    },
+    {
+      "slug": "desktop-application-delivery",
+      "application_id": "github:21491087",
+      "note": "研究记录如实保留了官网抓取缺口（openuds.org / www.openuds.org TLS 主机名不匹配，docs.openuds.org TLS 连接失败），并把 GitHub Pages 占位页、docs.openuds.ru 社区文档、admin/user 薄文档标记为不引用，处理得当。社区版/商业版边界没有专门正文，仅能确认仓库为 BSD-3-Clause 全量开源、未见功能阉割或付费墙描述；如后续需要强化，可补一条官方对 OpenUDS 与商业产品关系的说明。"
+    }
+  ],
+  "leaf_checks": {
+    "desktop-application-delivery": {
+      "leaf": "desktop-application-delivery",
+      "assessment": "case_supported",
+      "application_id": "github:21491087",
+      "name": "OpenUDS",
+      "track": "open_source",
+      "id_and_track": "batch 的 id=github:21491087 与仓库页快照 a7e5cc30… 中的 repository:21491087、octolytics-dimension-repository_id=21491087、repository_nwo=VirtualCable/openuds、repository_is_fork=false、network_root_id=21491087 一致；homepage/repository_url 同为该 GitHub 仓库；track=open_source 与 BSD-3-Clause 许可、README“Open Source project”叙述一致。",
+      "license": "LICENSE 快照 2fc0a0ca… 为完整 BSD 3-Clause 文本（含源码/二进制再分发条款、名称使用限制、免责声明，Copyright 2022-2024 Virtualcable S.L.U.），与 batch.license=BSD-3-Clause、license_evidence_url 及 license_review.rationale 一致，非摘要、非 SPDX 标识占位。",
+      "service_form": "quickstart 快照 4c0e509f… 正文给出自托管部署流程：Ubuntu 上安装依赖、创建 venv、migrate/createcachetable、runserver 0.0.0.0:8000、访问 Web 界面并用默认 root 账号登录、注册 tunnel 后 tunnel 在 Web 界面显示 connected、可创建 providers 与 services。属于持续运维的软件服务平台（自托管 Web 管理门户 + REST API），不是库/SDK/一次性脚本。",
+      "core_centrally_hosted_execution": "rest.yaml 快照 37f72a28… 显示服务类型均在集中主机/虚拟化后端执行：RemoteAppService.application_path（远程应用全路径）、exclude_servers 限定 RDS 服务器、RemoteSessionService 面向 RDS 服务器、provider_id 关联 provider，以及 AWSFixedService/AzureFixedService/OpenStackFixedService/ProxmoxFixedService/XenFixedService/XenLinkedService/HyperVFixedService/oVirtLinkedService 等机器服务类型；README 亦说明 VDI（Windows/Linux 虚拟桌面管理部署）、应用虚拟化、桌面服务整合。",
+      "core_published_resources": "ServicePoolItem 提供 name/short_name/tags/thumb/visible/state 等命名与可见性配置，ServicePoolGroupItem 提供 name/comments/priority/thumb 与 pool_group_id 归组；/servicespools 为目录式集合端点，POST /servicespools/{uuid}/services 说明服务池可被实例化；资源为持久配置（在任何用户连接前存在）。",
+      "core_entitlement": "/servicespools/{uuid}/groups 提供按组关联；/authenticators/{uuid}/groups/servicesPools 正文“Retrieve all service pools that this group has access to”；/authenticators/{uuid}/users/servicesPools 正文“Retrieve all service pools in which this user has active assignments”；ServicePoolItem.permission 为枚举权限位（0/32/64/96）。用户/组授权四层中的授权层正文充分。",
+      "core_remote_session": "RemoteAppService 定义 application_path/params/start_on_folder（无缝应用），RemoteSessionService 面向 RDS 服务器（完整桌面会话）；TransportItem/TransportItemInstance 列出 RDPTransport、HTML5RDPTransport、SPICETransport、RDSTransport、X2GOTransport 等传输并带重定向策略字段（如 allow_drives、enable_audio、best_experience）；UserServiceItem 含 state/in_use/in_use_date/source_host/source_ip/ip/actor_version，对应会话运行实例与所在主机，POST /servicespools/{uuid}/services 创建该实例。",
+      "core_managed_fleet": "/servers/groups（Retrieve a list of all ServerGroup items）、/servers/groups/{uuid}/servers（成员服务器增删查、importcsv、maintenance、stats、forecast）构成受管主机群；ServicePoolItem.initial_srvs/max_srvs 描述服务池主机数量区间，配合 provider_id 与多种虚拟化服务类型，支持池化/持久两种主机姿态的机群管理。",
+      "source_quality": "所引六份快照均按 REVIEW_SOURCES.json 的 path 原样读取，均为正文而非摘要/元数据/Loading：rest.yaml 是生成自实际 REST 派发树、model serializer 与 GUI 字段描述的完整 OpenAPI 规范（doc/api/README.md 佐证生成方式），quickstart 是官方仓库内的安装指南，README 与 LICENSE 为仓库正文。research.json 对上述快照的转述（servicesPools 端点语义、initial_srvs/max_srvs、RemoteAppService/RemoteSessionService、TransportItem、/servers/groups、doc/api/README 的生成说明、quickstart 的 Web 界面管理）与实际正文逐条吻合，未发现夸大或错引。",
+      "gaps": "官方站点与手册仍不可得（openuds.org / www.openuds.org TLS 主机名不匹配，docs.openuds.org TLS 连接失败），成功抓取的 admin/user 薄文档只覆盖默认凭据与登录，GitHub Pages 为占位页，docs.openuds.ru 为社区文档，均未被引用为核心证据，研究记录已如实留档；未做运行/部署验证，未覆盖会话超时、断连保持、打印/USB 重定向、高可用与扩展性等规则层内容，也未取得商业支持/价格信息，这些均未写入条目断言。上述缺口属可接受的留档型缺口，不影响定义性核心四层与开源许可的判定。",
+      "conclusion": "定义性核心（集中托管执行、命名持久资源、按用户/组授权、远程交互会话、资源背后的受管主机群）均有官方仓库正文支撑；产品身份、ID、track 与完整 BSD-3-Clause 许可核对一致；服务形态为自托管 Web 门户 + REST API 的持续运行平台。判定通过，附带若干非阻断措辞与元数据同步建议。"
+    }
+  },
+  "limits": "本次为只读初审：未运行任何 shell 命令，无法重新计算快照 sha256，仅核对文件名哈希与 batch/research/REVIEW_SOURCES 三处的哈希、URL、路径一致性；未部署或运行 OpenUDS，所有结论基于快照文本。仅审查本单元唯一叶子 desktop-application-delivery 与 REVIEW_SOURCES.json 列出的 6 份快照（仓库页、README、LICENSE、doc/api/rest.yaml、doc/api/README.md、quickstart.rst），未读取未列入的来源（d800cea4…、cf003e45…、9bbc3809…、774ad354… 等）及其他单元或采集脚本；未访问外网复核官网现状，官方站点 TLS 失败与社区文档排除仅依据 research.json 的留档。definition 的 dc 字段在 input.json 中被截断，仅按 overview/overview_zh/rules 与四层核心图核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-123/ses_groveopencodegop123review1_1793246667.jsonl",
+  "batch_sha256": "47e16fbfda58d678f9f44f44cb7055057a9ca59cf07a47ac18a083a39cae4eb0",
+  "research_sha256": "263602572b0b40da454616161e3b30fa9701068524c3f75d9f537b30f6ae6206",
+  "input_sha256": "aeac9dd205495d7147e938e5679c4d79c41d8c1944ca1452d9184fde84eb739d"
+}

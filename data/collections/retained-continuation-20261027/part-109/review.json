@@ -1,0 +1,96 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CoSchedule 的首页 title/meta 仍以 Social Media Management 定位，社交发布与互动属于相邻能力；本叶只依据其内容规划面取证，未把社交收件箱或社交分析计入内容规划核心。若下游要求单一产品类型标签，应保留这一边界说明。",
+    "Aprimo Plan 页面重点在活动/内容计划、简报、日历、任务与审批，未直接展示发布执行；按定义允许通过 handoff 交由执行工具，但活动与资产的直接关联主要从 campaign frameworks/calendar 推断，证据强度一般。",
+    "Sixpack 是较早期、极简的 A/B 框架，README 要求 Python >=2.7、Redis >=2.6，仓库最近推送为 2022-08-21；未做部署验证。仓库本身即完整开源版本，未发现独立付费版/社区版分界，sixpack-web 只是可选组件。",
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids 为空，与 batch.json/research.json 的 case_found 和五个 application 不一致；这是元数据同步问题，建议下游合并前更新，不影响本次内容判断。",
+    "Contently 页面含厂商自报的 ROI/绩效数字，Bannerflow 仅提供首页快照；这些内容未被用作类型匹配的唯一依据，也未独立核验。"
+  ],
+  "leaf_checks": {
+    "content-marketing-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:contently"
+      ],
+      "track": "commercial",
+      "source_urls": [
+        "https://contently.com/platform/",
+        "https://contently.com/"
+      ],
+      "core_evidence": "平台页正文可读到 'A piece of content moves through five stages'，并分述 Plan（跨渠道容量日历、brief intake 路由到团队/审阅者/辖区）、Create（brief to publish、审阅、电子签署审批、向 CMS/社交/CRM/邮件一键分发）、Optimize（按内容单元的 Content Value 与 CRM pipeline attribution）、Integrations（32+ CMS/CRM/自动化/社交连接器）。首页确认其为面向受监管行业的内容平台，并存在登录入口。",
+      "service_form": "商业 SaaS 平台，模块化产品；并非仅提供内容服务或代理。",
+      "boundary": "内容单元作为同一记录贯穿计划—制作—审批—发布—衡量；编辑计划层与生产/发布循环均在正文出现，发布通过 CMS/社交/CRM/邮件集成完成，符合内容营销平台而非单纯 CMS 或社交工具。",
+      "gaps": "未做登录/运行验证；厂商自报的 ROI/绩效数字未独立核验。"
+    },
+    "content-planning-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:coschedule"
+      ],
+      "track": "commercial",
+      "source_urls": [
+        "https://coschedule.com/marketing-calendar",
+        "https://coschedule.com/",
+        "https://coschedule.com/content-marketing-help"
+      ],
+      "core_evidence": "marketing-calendar 正文出现 'One Marketing Calendar for Social, Content, Email and Events' 及 Social/Content/Email/Events/Podcasting 板块、拖拽改期；content-marketing-help 正文出现 'Simplify content planning, get visibility across channels'，并含 Multiple Calendars、Kanban、content projects、roles、deadline、deliverables、progress、feedback/revisions/approvals、blogs/email/Landing Page 与 publish。",
+      "service_form": "商业 SaaS 营销日历/内容规划服务，持续维护的共享计划形态。",
+      "boundary": "共享的、按时间组织的计划，计划项具备负责人、截止日期、交付物与进度状态，并以审批/发布状态形成协调生命周期；首页仍以 Social Media Management 定位，本叶只取内容规划面，社交发布与互动作为相邻能力。",
+      "gaps": "两个快照为 Next.js 压缩单行 HTML，正文证据以完整短语与页面结构核对，未能逐段引用完整上下文；research.json 已记录 help.coschedule.com 的 404/308 抓取缺口。"
+    },
+    "creative-management-platform-cmp": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:bannerflow"
+      ],
+      "track": "commercial",
+      "source_urls": [
+        "https://www.bannerflow.com/"
+      ],
+      "core_evidence": "首页正文写明 'Scale one master creative into every format and version automatically'、'Publishing & Scheduling'（Publish and schedule campaigns automatically across channels and markets）、'Real-Time campaigns Management'（updates to live campaigns without rebuilding or republishing）、'100+ advertising platforms' 与 'without re-trafficking'；另有 Collaboration 的 version control，以及 feeds 驱动下 'keep every version updated'。",
+      "service_form": "商业 SaaS 创意自动化/创意管理平台。",
+      "boundary": "覆盖版本化广告创意、主创意到多格式/多版本的系统化生产，以及标签/集成/发布排期等交付链就绪输出；页面也含 DCO 与创意智能，但其主要界面仍是创意生产与管理，不是展示时决策、预算或受众规划工具。",
+      "gaps": "仅有首页快照，未读取独立功能页；未做运行验证。"
+    },
+    "marketing-campaign-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:aprimo-plan"
+      ],
+      "track": "commercial",
+      "source_urls": [
+        "https://www.aprimo.com/platform/plan",
+        "https://www.aprimo.com/"
+      ],
+      "core_evidence": "Plan 页正文以 'AI-powered campaign planning' 定位，展示 'Align strategic goals with programs and campaign plans across business units and global teams'、Intelligent Content Brief、Marketing Calendar、Regional & Channel Briefs、Program and Objective Management、Campaign Frameworks、Activity & Campaign Insights；FAQ 还写明 tasks/owners/due dates/dependencies 与 objective-based planning and approval workflows。",
+      "service_form": "商业 SaaS 营销计划/活动管理平台，以活动、项目、日历和简报为组织单位。",
+      "boundary": "活动/项目容器、目标与时间窗口、简报和渠道组合、任务/审批协调与活动洞察均成立；页面定位为计划与协调层，未展示按联系人发送的营销自动化或付费广告投放优化，激活由相邻执行工具承担。",
+      "gaps": "页面未直接展示发布执行，活动与资产的直接关联需从 campaign frameworks/calendar 推断；未做运行验证。"
+    },
+    "a-b-testing-platform": {
+      "result": "pass",
+      "application_ids": [
+        "github:6697085"
+      ],
+      "track": "open_source",
+      "source_urls": [
+        "https://api.github.com/repos/sixpack/sixpack",
+        "https://api.github.com/repos/sixpack/sixpack/license",
+        "https://raw.githubusercontent.com/sixpack/sixpack/master/README.rst"
+      ],
+      "core_evidence": "README 说明 Sixpack-server 提供 participate/convert API，以 client_id 将同一用户粘性分配到一个 alternative（'All subsequent requests ... same alternative'），convert 按 experiment/KPI 记录转化，traffic_fraction 可限定流量，算法为 PlanOut 派生的确定性分配；可选 Sixpack-web 仪表盘比较各 alternative 并选择 winners。仓库元数据为 id 6697085、full_name sixpack/sixpack、public、fork=false、archived=false。",
+      "license_check": "LICENSE.txt 完整正文为 BSD-2-Clause（Copyright 2015 SeatGeek, Inc.，两条再分发条件加免责声明），license API 返回 key=bsd-2-clause、spdx_id=BSD-2-Clause；README 的 License 段亦写明 BSD 2-Clause License。",
+      "service_form": "开源自托管 A/B 测试服务（Python/Redis），server 加可选 dashboard，可作为持续运行的实验服务。",
+      "boundary": "实验/alternative、真实用户随机且粘性的分配、按 KPI 记录转化、仪表盘选胜者均具备，满足最小 A/B 测试平台核心；未发现独立付费版/社区版分界，完整仓库即开源版本，sixpack-web 只是可选组件。",
+      "gaps": "未部署或运行测试；仓库较旧（Python >=2.7、Redis >=2.6，最近推送 2022-08-21）；首页未单独核验。"
+    }
+  },
+  "limits": "只读审查本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 11 个快照；未运行 shell、未写文件、未读取其他单元。未做部署/运行验证，未重新抓取网页，未计算哈希（按 sha256 文件名与引用路径核对）。CoSchedule 的 marketing-calendar 与 content-marketing-help 快照为 Next.js 压缩单行 HTML，正文证据以完整短语和页面结构核对，未能逐段引用完整上下文；Contently/Bannerflow 的厂商绩效数字未独立核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-109/ses_groveopencodegop109review2_1793003582.jsonl",
+  "batch_sha256": "7c691b241795e230c4bc2bcbfdae94ba41d1f0443a65efa63a13ff5845e06d5f",
+  "research_sha256": "df4df45384975e555338964f64fc26f4c230b664080417177d78096702510350",
+  "input_sha256": "ef510cbe795d720c4b05688d56a5e1d60b279dd60957ad59cfed21a5c5a68fb2"
+}

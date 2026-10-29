@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 仍显示 phase=included_without_cases、各叶 case_status=not_searched、application_ids 为空，而 batch.json/research.json 已记录 5 个 case_found；这属于单元进度元数据未同步，不影响本次内容核对，但建议下游统一更新。",
+    "Coolify 的 README 同时提供服务器管理、容器终端和数据库托管，和容器管理的边界有重叠；batch 的 service_boundary 已限定只按应用部署、发布回滚、应用级配置/路由/日志等应用粒度能力匹配，建议保留该限定，不要用服务器编排能力作为本叶核心依据。",
+    "Coolify 的 release history 和“失败部署保持旧版本运行”主要从“retained application images / roll back”推断，README 未逐条展开；建议在 leaf note 中保留这一证据层级说明。",
+    "Logto 的预置 Account Center 未列出账户删除；删除、停用、恢复通过 Management API 或开发者自定义自助端点实现。CIAM 的“自助删除”只部分满足，现有 summary/service_boundary 已作限定，建议继续保留。",
+    "Logto LICENSE 末尾含 Exhibit B “Incompatible With Secondary Licenses”，更精确的 SPDX 可标为 MPL-2.0-no-copyleft-exception；license_review 已说明这一点，license 字段保留 MPL-2.0 可接受，但建议在展示层统一口径。",
+    "Varonis Data Access Governance 是 Varonis 数据安全平台中的访问治理模块/产品页，不是独立部署产品；商业基本类型匹配可接受，建议在 summary 中继续明确模块边界。",
+    "Zylo 与 Varonis 的官方产品页被标为 kind=documentation；建议改为 product_page 或 marketing_page，以便区分营销/产品页与正式文档。",
+    "OpenXPKI 首页区分 Community Edition 与 Enterprise Edition；本次 features 未列入 Enterprise 专属的多租户、外部 CA 适配器、ITSM 集成等能力，建议在 summary 或 service_boundary 中明确该社区版边界，避免误读为全部开源。"
+  ],
+  "leaf_checks": {
+    "paas-management-console": {
+      "application_ids": [
+        "github:332880689"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/a7890c5b6bc262c999ce83fc6c1e124299c1b80f51396c3b5de59278ab0ad2c2.txt（repo ID 332880689）、9ddd86aae945aa2a6ddb91f32f047ff311772e8a2b0700bd8689f3f6ad8d3cf0.txt（README）、1a3e7d8a466b117e9c26062db5fd6a59bb03caf617517d1f57a4bc7f29dc9d24.txt（Apache-2.0 全文）。README 明确从 Git/Dockerfile 构建部署、保留应用镜像并回滚、环境变量/密钥、域名/自动 HTTPS、部署与运行日志，以及 dashboard/API/CLI/团队权限；LICENSE 为完整 Apache-2.0。",
+      "caveats": "服务器管理、容器终端和数据库托管带来容器管理边界重叠；batch 已限定只按应用部署/回滚等应用粒度能力匹配。未运行项目，部署与回滚行为仅据 README。"
+    },
+    "pki-management": {
+      "application_ids": [
+        "github:2316088"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/2631556a4b6d98b6a9a0f48deade9f30d325315f43434d3da651bf0da85a41f4.txt（repo ID 2316088）、3c7a78d58fe07ea274d8e9d8dda9226b6a4021fed88fd2429d08f5ca8dbdcc4b.txt（README）、b2bd58d42da85de61dd702a9bd5b410f76c8230665db74fd402a1b6964539393.txt（Apache-2.0 全文）、6b5ac7f489a1a2b6dc57bdcf576bc589736ed9c7b7277a80e9b832d58d51da60.txt（官网）。官网/README 明确 WebUI、多 CA/PKI Realm、CA 代际自动滚动、工作流驱动的证书请求/续期/吊销、CRL 与报告、SCEP/EST/SimpleCMC/ACME、HSM 支持；Community Edition 为完整开源代码，Enterprise Edition 增加商业扩展。",
+      "caveats": "Enterprise Edition 另有商业功能；本次只按 Community Edition 核心能力匹配。未部署或测试签发/吊销。"
+    },
+    "saas-management": {
+      "application_ids": [
+        "commercial:zylo"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/92fcdfb07f207edd72a73ff5a49207f3fc24cef08504c81189a30cdd32b60d82.txt（首页）与 956c98664a53e7362fa00eedb60c58955e944bccec0570bd4e2cf59d3ce7695d.txt（/product）。页面正文明确持续更新的 SaaS/AI 支出系统记录、应用/合同/许可证/使用/续订信息、回收未使用和低使用席位、自动去配置流程、按节省潜力排序续订、识别重复应用，以及可辩护的审计记录；JSON-LD FAQ 与可见正文一致。",
+      "caveats": "商业营销页证据；未核价格、架构、部署，也未实际测试自动回收/去配置流程。"
+    },
+    "customer-identity-ciam": {
+      "application_ids": [
+        "github:378310716"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/4c0bb642010bd5f742b92d0182eb61bb323ebbfc9f9272f7590c0af9b5454b82.txt（repo ID 378310716）、6386fb6b534aee11852488647cf0ae27984b1ce53daa4c1f096aad9c18725d04.txt（README）、1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5.txt（MPL-2.0 全文含 Exhibit B），以及注册、注册确认、密码找回、账户设置、OIDC 登录和 logto-oss 边界快照。正文支持终端用户自助注册/确认、密码找回、资料与凭证管理、OIDC 委托登录、Console 组织侧管理；logto-oss 明确 OSS 与 Cloud/自托管许可边界，SAML 应用 OSS 上限为 3。",
+      "caveats": "预置 Account Center 不含账户删除；删除/停用/恢复走 Management API 或开发者自定义自助端点，故“自助删除”只部分满足。未部署或跑通登录。"
+    },
+    "data-access-governance": {
+      "application_ids": [
+        "commercial:varonis-data-access-governance"
+      ],
+      "status": "pass",
+      "basis": "读取 data/collections/sources/45adbf020e132d66b79de23c07c3f4adc3ea5a561057f750f1e9a0cbf814d8b1.txt（Varonis Data Access Governance 产品页）。正文明确敏感数据访问可视化、嵌套组/权限/继承解析、双向访问视图、持续权限监控、entitlement reviews、访问请求、批量撤销/自动修复，以及向最小权限收窄。",
+      "caveats": "Varonis DAG 是数据安全平台中的模块，不是独立产品；仅一份官方产品页，未核价格、架构、部署。"
+    }
+  },
+  "limits": "本次为只读初审；未运行 shell、未写文件、未读取其他单元。未部署或运行任何产品，所有案例 runtime_tested=false。大型 HTML 快照（尤其 Zylo 首页与 /product）为单行长 HTML，正文通过定向 grep 命中与实时页交叉核对，未逐字读取全部导航/脚本；未重新计算 sha256。商业产品仅核官方页面，未核价格、架构、部署或合同。input.json 的 phase/progress 与 batch/research 不一致，未据此修改任何文件。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-142/ses_groveopencodegop142review2_1793011986.jsonl",
+  "batch_sha256": "93fe3faa4dabf78e73b8d2a03b344f7933bd4739638d5aa9cdcc60cd2fefb7c6",
+  "research_sha256": "8a59333486285adf071b09a66205b91a185a1231f0228861cedb51ffdf5f6644",
+  "input_sha256": "d2acf38210eb287edb20e3b856ce3871dd3ffe0bf865fa93006439090372d995"
+}

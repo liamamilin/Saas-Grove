@@ -1,0 +1,118 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": null,
+      "application_id": null,
+      "note": "input.json 的 phase 仍为 included_without_cases，五个叶子的 progress.case_status 仍为 not_searched 且 application_ids 为空；batch.json 与 research.json 已记录五个 case_found。该不一致不影响本次依据 batch/research/快照作出的内容判断，但建议同步，避免下游读取 progress 时误判为无案例。"
+    },
+    {
+      "slug": "flooring-contractor-management",
+      "application_id": "github:1112392243",
+      "note": "Subfloor 的 README 正文能证明地板作业、材料/库存、样品和安装排程，但没有给出由房间/区域测量推导数量、按量计价、开票收款或安装人员薪酬的流程；leaf_match 已把关系限定在已证实范围。建议保留下述限定，不要在摘要或下游描述中把 measured-area 或完整计费链条写成已证实。"
+    },
+    {
+      "slug": "handyman-business-management",
+      "application_id": "github:1281884618",
+      "note": "OpenFieldPro 的 README 自述为通用 field service management，未出现 handyman 专属字段或品牌；『小型、多技能、小件维修』是从类型结构做的适配性判断，不是 README 原文。README 同时标注 release-candidate hardening，生产就绪性未证实；作为开源案例可保留，但不宜表述为成熟的杂工垂直产品。"
+    },
+    {
+      "slug": "home-improvement-contractor-management",
+      "application_id": "commercial:improveit-360",
+      "note": "Improveit 360 首页以 remodeler/home improvement CRM 为主叙事，项目管理和模板任务、job costs、付款/融资均有正文；但生产步骤的 expected/actual 日期、工地地址与账单地址分离、定金/进度款结构没有直接展开。leaf_match 已注明未核对定金/进度款；商业初审按基本类型匹配可通过，后续不要把这些细节写成已核实。"
+    },
+    {
+      "slug": "fire-protection-service-management",
+      "application_id": "commercial:ember-software",
+      "note": "本叶只有 Ember Software 一个商业来源；官方首页正文覆盖检查表、资产、排程、缺陷转提案、开票和 AHJ 提交。Inspect Point 的 HTTP 429 已留档并改用替代官方来源；未核价格、部署或缺陷跨周期持久化的具体实现。"
+    },
+    {
+      "slug": "flooring-contractor-management",
+      "application_id": "github:1112392243",
+      "note": "Subfloor README 自述无官方支持、作者可能随时停止开发，并提示生产使用可能数据丢失；这不影响 MIT 许可和类型判断，但作为可长期使用的开源案例，成熟度与维护风险应在下游注明。"
+    }
+  ],
+  "leaf_checks": {
+    "fire-protection-service-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:ember-software"
+      ],
+      "core_check": "Ember 官方首页正文明确面向 fire protection/fire inspection 承包商，列出数字消防检查表、资产清单、集中客户/作业信息、排程与团队协调、缺陷转提案、开票/收款和 AHJ 提交，并提到 recurring inspections。定期检查→缺陷→纠正工作→计费的主链有正文支撑；缺陷跨检查周期持久化的具体机制未逐项展开。",
+      "service_form": "商业 SaaS，Web/iOS/Android，提供 demo 预约；track=commercial。",
+      "id_track": "commercial:ember-software；homepage https://www.embersoftware.com/ 与名称、用途一致；商业 ID 无开源仓库数字 ID。",
+      "license_boundary": "商业产品，无开源许可证或社区版边界核对项。",
+      "basis": [
+        "data/collections/sources/b3c97bc2ce44a35fa05a3b5bbd4e42bfa35893f42593b501484371ac152e4ac7.txt"
+      ],
+      "gaps": "仅一个商业来源；Inspect Point 的 429 已留档；未核价格、架构、部署和缺陷持久化的实现细节。"
+    },
+    "flooring-contractor-management": {
+      "result": "pass_with_documented_scope_limit",
+      "applications": [
+        "github:1112392243"
+      ],
+      "core_check": "README 正文证明这是面向地板安装/地板店的自托管管理套件：客户与线索、地板作业状态 New→Quoting→Scheduled→Completed、报价/变更单/PO、按 Color/Size/Finish 与 Cartons/SF 的库存、样品借出/QR、安装/测量/个人预约统一日历、客户邮件和安装人员清单。没有正文证明房间/区域测量、面积算量、按量计价、开票收款或安装人员薪酬；因此只按已证实的作业、材料与排程关系核对。",
+      "service_form": "自托管全栈 Web 应用，Docker Compose + PostgreSQL，预构建 ghcr.io 镜像，Capacitor 移动端包装；track=open_source。",
+      "id_track": "github:1112392243；仓库元数据 repository:1112392243、public、非 fork；仓库 nwo=adampdxdotcom/subfloor，README/LICENSE 同仓库。",
+      "license_boundary": "MIT 完整许可证文本，Copyright (c) 2026 Adam Michaels；README 声明 MIT；无额外社区版/商业版限制。",
+      "basis": [
+        "data/collections/sources/ba14d58da085f5237d0ea7b9b6c3e5dcb1595df48ab5112015b2e8fdafb5afc0.txt",
+        "data/collections/sources/f24c07992c1f02c76c121e0953f2486b088a3cb1ed7601ac8dbb987c5b65dd1f.txt",
+        "data/collections/sources/29def9c479e605631a7754a63f09fbb1ba66e9ff84fbc0f16d5afdfbee52bea9.txt"
+      ],
+      "gaps": "measured-area/按量计价、完整计费与安装人员薪酬未文档化；未运行部署。"
+    },
+    "garage-door-service-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:team-garage-door"
+      ],
+      "core_check": "Team Garage Door 官方首页正文明确面向 garage door service companies，列出派工排程（drag-and-drop、holding areas、recurring/multi-day jobs）、作业状态、估价审批/签名、估价转发票、在线收款、零件目录、工时/作业成本、客户门户和技师移动端。客户地点→工作生命周期→技师→计费的主链有正文支撑；门/开门器安装与多访问建模未逐项展开。",
+      "service_form": "商业 SaaS，Web/iOS/Android，$49.99/user/month；track=commercial。",
+      "id_track": "commercial:team-garage-door；homepage https://teamgaragedoor.com/ 与名称、用途一致；商业 ID 无开源仓库数字 ID。",
+      "license_boundary": "商业产品，无开源许可证或社区版边界核对项。",
+      "basis": [
+        "data/collections/sources/49fcb094ddbe9183b8a8265e7d2aef2bcf1f4a5d9773f91b47d4dbf57378661c.txt"
+      ],
+      "gaps": "仅官方首页；未核部署、架构和更细的安装/多访问流程。"
+    },
+    "handyman-business-management": {
+      "result": "pass_with_type_inference",
+      "applications": [
+        "github:1281884618"
+      ],
+      "core_check": "README 正文证明客户/物业、设备历史、工单受理、排程/派工、执行/回访、价格表/估价/审批/发票/付款、服务计划、技师移动端与离线基础、报表和自托管。与 handyman 的客户地点→小件工单→报价→完工开票结构兼容；但产品自述为通用 field service management，没有 handyman 专属字段/品牌，『小型、多技能、小件』是适配性判断。",
+      "service_form": "自托管 FSM，Podman/Docker Compose + Caddy，Next.js 15 + Fastify 5 + Expo；track=open_source；README 标注 release-candidate hardening。",
+      "id_track": "github:1281884618；仓库元数据 repository:1281884618、public、非 fork；默认分支 ofp-monorepo，README/LICENSE 同仓库。",
+      "license_boundary": "AGPL-3.0-only 完整文本；LICENSE 首行与 SPDX-License-Identifier 均标 only。README 明确 AGPL 核心可免费自托管，不受用户/技师/客户/工单/发票/地点限制；可选 signed entitlements/付费插件不得禁用或限制核心；托管修改版须遵守 LICENSE。",
+      "basis": [
+        "data/collections/sources/d547c5599e62003bc1caac8ced9b427c10a0dcbff5741d752535fa8d11075007.txt",
+        "data/collections/sources/ff58b2a3c68892c321de1fadb26af5174acf16865605a2ae3b39c5518d35e787.txt",
+        "data/collections/sources/ef849b34b3959c520fe61f32ec92c0e39c21f7d4ca1764aecc5faf04d21ce4c7.txt"
+      ],
+      "gaps": "非杂工垂直；RC 状态，生产就绪未证实；未运行。"
+    },
+    "home-improvement-contractor-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:improveit-360"
+      ],
+      "core_check": "Improveit 360 官方首页正文明确面向 remodeler/home improvement 承包商，列出 CRM/线索、预约排程、报价与销售、项目管理、模板任务与活动、可追踪 job costs、付款/融资和报表。销售→住宅项目→多步骤生产→付款的结构基本匹配；生产步骤的 expected/actual 日期、工地/账单地址分离、定金/进度款细节未直接展开。",
+      "service_form": "商业 SaaS/企业 CRM；track=commercial。",
+      "id_track": "commercial:improveit-360；homepage https://www.improveit360.com/ 与名称、用途一致；商业 ID 无开源仓库数字 ID。",
+      "license_boundary": "商业产品，无开源许可证或社区版边界核对项。",
+      "basis": [
+        "data/collections/sources/7433ac57abd9d7cac5b23e2db169fedd42b1b3c8b5df422d7468c57134b6f160.txt"
+      ],
+      "gaps": "首页 CRM 导向；定金/进度款、生产排程细节未核实；未核价格、部署。"
+    }
+  },
+  "limits": "本次仅只读核对了本单元的 input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的 8 个快照；未运行 shell、未部署、未访问实时网页、未写文件，也未读取其他单元或历史脚本。商业产品仅按官方首页做基本真实性和类型匹配；开源仅依据仓库元数据、README 与许可证文本。定义字段的长行在读取工具中按显示上限截断，已核对可见的定义主体和来源正文；未验证价格、架构、运行状态、生产就绪性、未文档化功能或缺陷/测量等实现细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-269/ses_groveopencodegop269review1_1793041322.jsonl",
+  "batch_sha256": "f0642a3d60799cb9c688254ab6f9cccb163c1ce29c4e0cbafde0c1b33bfcf29b",
+  "research_sha256": "92d3d5c47206df5d946e3a1ae9293e6dc03c0752c8137b282af3002ab2192dd4",
+  "input_sha256": "9b7964195f7689bf6ed979169e8fadeb26426def588d78ee95a335776c285231"
+}

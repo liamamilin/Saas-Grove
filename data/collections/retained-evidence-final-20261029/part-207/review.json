@@ -1,0 +1,29 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "批次的 deployment/technology_stack 写有 PHP 8.3+ 和 PostgreSQL/MySQL/SQLite，但 README 的 Requirements 写的是 PHP 8.1+、PostgreSQL 12+/MySQL 8.0+，未列出 SQLite；建议以 appinfo/info.xml 为准统一口径，避免部署门槛失真。",
+    "archiving.md 以 Archiefwet 1995 和 selectielijsten 作为法定保留处置依据，可支撑“外部法定计划”要素；但文中的销毁审批链是机构内档案员审批、管理者可选会签，未显式写出 selectielijst 由外部档案主管机关批准。若需更严格证据，可补一条关于 selectielijst 批准主体的官方说明；当前不构成阻断。",
+    "OpenRegister 的仓库描述与 README 主定位是 schema 驱动的对象注册/数据底座，归档记录管理是 docs/features 下的完整功能模块，未出现在 README 功能清单；按“完整业务子模块”纳入可接受，公开文案宜明确这是模块能力而非产品唯一主业。",
+    "批次 features 的“双人复核”略强于文档的“管理者会签（可选、可配置）”，建议改为“可配置的管理者会签/复核”。",
+    "research.json 提到已核对 appinfo/routes.php 与 DestructionService、MdtoXmlGenerator 等实现，但这些文件未纳入快照；后续可保留代码片段快照，以独立确认文档所述工作流已随版本发布。",
+    "input.json 种子仍为 insufficient_evidence 且 application_ids 为空，与 batch/research 已纳入 github:846854082 不一致，属种子快照滞后，不影响本单元结论。",
+    "research 对较早 archival-destruction.md 的“routes not yet registered”按过时文档处理且未用作正向证据，处理方式恰当。"
+  ],
+  "leaf_checks": {
+    "government-records-management": {
+      "application_ids": [
+        "github:846854082"
+      ],
+      "verdict": "pass",
+      "basis": "实际读取 data/collections/sources 下四份快照。README 确认 OpenRegister 为 Nextcloud 自托管应用（App Store/源码安装，PHP 8.1+，PostgreSQL/MySQL），EUPL-1.2；作为持续使用的软件应用形态，其开源轨道以自托管交付，符合服务形态要求。docs/features/archiving.md 为核心正文：以 Archiefwet 1995 为法定依据，按 selectielijsten 类别与 MDTO 字段（archiefnominatie、bewaartermijn、archiefactiedatum、classificatie）管理保留；DestructionCheckJob 到期生成销毁清单，档案员审查批准、管理者可选会签后执行销毁并生成含审批链的销毁证书；法律保留排除销毁；永久保存对象生成 MDTO XML 并打包 SIP 移交 Nationaal Archief 或 OAIS e-Depot，覆盖销毁与移交两种结局，且记录受审计轨迹与对象锁定约束。仓库元数据 id=846854082、full_name=ConductionNL/openregister、archived=false、default_branch=main，与 github:846854082/open_source 一致；license 快照 spdx_id=EUPL-1.2、size=13792，含完整 EUPL 正文，属 OSI 认可许可证；未见社区版/付费版功能切分，归档模块在开源仓库文档中完整可见。",
+      "gaps": "未部署运行；未保留 routes.php、DestructionService 等代码快照，实现状态依据官方文档与 research 的交叉核对记录；外部档案机关对 selectielijst 的批准关系由 Archiefwet/selectielijsten 推定而非文档显式陈述；检索未穷尽。"
+    }
+  },
+  "limits": "只读审查；仅使用本单元 input.json、batch.json、research.json 与 REVIEW_SOURCES.json 列出的 4 份快照（license 为 base64，未逐字解码全文，依据 GitHub license API 的 spdx_id=EUPL-1.2、size=13792 与开头正文判断完整性）；未运行 shell、未部署或运行被测应用、未做独立法律判断；GitHub 搜索是否穷尽无法复核；research 引用的 routes.php/服务类未在快照中，无法独立验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-207/ses_groveopencodegop207review1_1793259127.jsonl",
+  "batch_sha256": "ad3397818ef5bd251dba2792560538e54c03e38e6a831a1dcc57b697f3ff9697",
+  "research_sha256": "689af556501f0bbd6a0df8c00c5bff3174224dc36052cc468b04bf496804c4d0",
+  "input_sha256": "6c200c8ccbfe7ec848dde3cc73a66a7c6bbb2a4dd1717831b6fc6dfa9993d8d6"
+}

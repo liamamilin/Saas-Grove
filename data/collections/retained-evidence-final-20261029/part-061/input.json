@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 14,
+  "offset": 325,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "professional-trading-terminal",
+        "name_zh": "专业交易终端",
+        "domain_id": "08",
+        "parent_id": "08.04",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-014/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "professional trading terminal real-time market data order entry position P&L official"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/236",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": "professional trading terminal real-time market data order entry position P&L official"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "professional-trading-terminal",
+        "name": "Professional Trading Terminal",
+        "name_zh": "专业交易终端",
+        "aliases_zh": [
+          "交易终端",
+          "专业交易平台",
+          "交易系统"
+        ],
+        "overview": "A **Professional Trading Terminal** is a trader-facing workstation application in which a professional trader monitors live market state across many instruments and executes and manages orders directly against execution venues or broker backends, with positions and profit/loss updating in real time.\n\nThe defining structure is small:\n\n```text\nLive market state for multiple instruments (user-arranged workspace)\n└── Direct order construction & routing (place / amend / cancel)\n    └── Real-time position & P&L for the trader's own trading\n        └── Human decision at trade time\n```\n\nEverything else commonly associated with these products — depth-of-market ladders, chart trading, hotkeys, alerts, simulated trading, entitlement-gated data, risk controls, spread engines, algo hosting — is widespread in mature products but is not what makes the product a trading terminal. Remove order routing and the product becomes a market-data terminal; remove the human decision loop and it becomes an algorithmic trading platform; remove the live trading loop entirely and only the brokerage account relationship remains.",
+        "overview_zh": "一个**专业交易终端**是面向交易员的工作站应用程序，专业交易员在其中监控跨多个品种的实时市场状态，并直接向执行场所或经纪商后台执行和管理订单，头寸和盈亏实时更新。\n\n其定义结构很简单：\n\n```text\n多个品种的实时市场状态（用户安排的工作空间）\n└── 直接订单构建与路由（下单 / 改单 / 撤单）\n    └── 交易员自身交易的实时头寸与盈亏\n        └── 交易时的人工决策\n```\n\n通常与这些产品相关的其他一切——市场深度梯形图、图表交易、快捷键、警报、模拟交易、权限控制的数据、风险控制、价差引擎、算法托管——在成熟产品中很常见，但并非构成交易终端的核心。移除订单路由，产品就变成市场数据终端；移除人工决策循环，它就变成算法交易平台；完全移除实时交易循环，则只剩下经纪账户关系。",
+        "dc": "Four properties, present together in every product of this Type:\n\n- **Live multi-instrument market state in a user-arranged workspace.** The trader watches real-time quotes — and, in practice, market depth and trade prints — for many instruments at once, laid out in windows, grids, and pages that the trader personally arranges, saves, and reuses. The workspace persists across sessions; it is the trader's configured desk.\n- **Direct order construction and routing.** Orders are composed in the same surface that shows the market and sent to an execution venue or broker backend. The trader places, amends, and cancels orders continuously while the market moves.\n- **Real-time position and P&L state.** Fills update the trader's position per instrument, average price, and unrealized/realized profit and loss, marked against live prices. The loop closes: what the trader did is visible against what the market is doing, continuously.\n- **Human decision at trade time.** The terminal amplifies a human trader's judgment — it does not replace it. Conditional order types automate order *management* (a stop that fires, a bracket that protects), but the decision to be in the market, at what size, at what moment, is the trader's.",
+        "dc_zh": "四个属性，在这种类型的每个产品中同时存在：1. **用户自定义工作区中的实时多工具市场状态。** 交易者同时查看许多工具的实时报价——实际上还包括市场深度和交易记录——这些报价被布置在交易者个人安排、保存和重用的窗口、网格和页面中。工作区跨会话持久化；它是交易者配置好的桌面。2. **直接订单构建与路由。** 订单在显示市场的同一界面上构建，并发送到执行场所或经纪商后端。交易者在市场波动时持续下单、修改和取消订单。3. **实时仓位与损益状态。** 成交更新交易者的每个工具的仓位、平均价和未实现/实现损益，与实时价格对标。闭环形成：交易者的行动与市场行为持续可见。4. **交易时的人工决策。** 终端放大人类交易者的判断力——它不替代它。条件订单类型自动化订单*管理*（触发止损、保护性括号），但决定进入市场、以何种规模、在何时，是交易者的。",
+        "rules": "- **The order state machine governs everything.** What the trader may do to an order depends on its state: working orders can be amended or cancelled; filled orders cannot; rejected orders surface a reason. The terminal's job is to make this state visible and actionable instantly.\n- **Positions come from fills, not intentions.** The position view is a consequence of executions. Reconciliation against the broker/clearing record is a standing task in institutional use (start-of-day positions, manual fills).\n- **P&L is marked live.** Unrealized P&L moves with the market every tick; this is what makes the terminal a pressure instrument, and why loss-limit and flatten controls exist.\n- **Data is entitled, not universal.** What a user sees depends on granted permissions per exchange/feed/feature. The same terminal can show different markets to different users; missing entitlements are a routine cause of \"missing\" data.\n- **Orders rest at the backend.** Working orders live at the venue/broker side; the terminal displays and manages them. Disruption of the trader's view does not by itself cancel the orders — which is why cancel-all, flatten, and kill-switch affordances are treated as safety equipment, sometimes permission-gated and confirmation-guarded.\n- **Risk checks can refuse an order.** Pre-trade limits (size, price, buying power, loss limits, throttles) may reject an order before it reaches the market; the rejection is surfaced in the terminal.\n- **High-impact actions are guarded.** Modes that can sweep the book or liquidate everything are typically opt-in and forced through confirmation, because a mis-click at ladder speed is expensive.\n- **Speed is a design constraint, not a feature.** Hotkeys, one-click ladders, and linked windows exist because the loop above runs many times per minute; every surface is optimized for fewer, faster, more precise inputs.",
+        "rules_zh": "- **订单状态机掌控一切。** 交易员对订单可以进行的操作取决于其状态：挂单可以修改或撤销；已成交订单不能；被拒绝订单会显示原因。终端的工作是让这个状态即时可见并可操作。\n- **头寸来自成交，而非意图。** 头寸视图是执行的结果。在机构使用中，与经纪商/清算记录的对账是一项常规任务（日初头寸、手动成交）。\n- **盈亏实时计价。** 未实现盈亏随市场每一跳而变动；这是使终端成为一个压力工具的原因，也是亏损限额和平仓控制存在的原因。\n- **数据具有权限，并非通用。** 用户看到的内容取决于在每个交易所/数据源/功能上被授予的权限。同一个终端可以向不同用户显示不同的市场；缺少权限是“数据缺失”的常见原因。\n- **订单存在于后台。** 挂单存在于场所/经纪商端；终端负责显示和管理它们。交易员视图的中断本身并不会取消订单——这就是为什么全撤、全平和紧急断开功能被视为安全设备，有时需要权限控制和确认保护。\n- **风险检查可以拒绝订单。** 盘前限额（规模、价格、购买力、亏损限额、限速）可能在订单到达市场之前就将其拒绝；拒绝信息会在终端中显示。\n- **高影响力操作受到保护。** 那些可能扫清订单簿或清算全部头寸的模式，通常需要可选启用并强制确认，因为在梯形图速度下误点击的代价很高。\n- **速度是一个设计约束，而非功能。** 快捷键、一键式梯形图以及链接窗口之所以存在，是因为上述循环在短时间内运行多次",
+        "parent_id": "08.04",
+        "domain_id": "08"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 61,
+    "phase": "directory",
+    "parent": 61,
+    "slugs": [
+      "professional-trading-terminal"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "7ffb481e3513ec7dfe3b0088fdc252dca150e83adfc7f208d98da6fb64514c2c"
+  }
+}

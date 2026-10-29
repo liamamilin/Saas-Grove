@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "nonprofit-fund-accounting",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1324163874"
+      ],
+      "query": "github search repositories q=nonprofit fund accounting; github search repositories q=\"fund accounting\" in:name,description; github search repositories q=nonprofit accounting in:name,description; open source nonprofit fund accounting software self-hosted web application funds donor restrictions functional expenses; 官方仓库 engine/src/nonprofit 源码与集成测试核对",
+      "source_urls": [
+        "https://api.github.com/repos/braedonsaunders/openbooks",
+        "https://api.github.com/repos/braedonsaunders/openbooks/license",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/README.md",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/docs/operations/industry-demo-companies.md",
+        "https://api.github.com/repos/braedonsaunders/openbooks/contents/engine/src/nonprofit",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/funds.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-posting.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-balancing.integration.test.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/releases.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/functional.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/statements.ts",
+        "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/feature-fence.integration.test.ts"
+      ],
+      "note": "历史复用：Steward 与 Nonprofit Ledger 的 README 快照来自既有研究（sources/e90d73...txt、sources/056bfe...txt），本轮未重新抓取；前者自述 Early development，后者自述 Phase 1/7、Not yet usable for real books，均不能作为完整应用收录；MeghaRajviBB/fundflow 仍仅有历史 POC 记录。OpenBooks 的元数据、许可证、README 与行业示例文档为上一轮采集并保留，本轮未重新抓取；本轮补采其官方非营利模块源码与集成测试共 7 个文件及 1 个目录清单。代码证据闭合了初审指出的核心缺口：funds.ts 定义 operating/restricted/endowment/plant/board_designated 五类基金，并确认 fund 段 is_balancing；fund-posting.ts 按 extra_dims.fund 入账，无基金的非零残差以 fund_missing 拒绝，按基金汇总并用已配置 due-from/due-to 生成基金间平衡腿；fund-balancing.integration.test.ts 断言每基金合计为零，覆盖无配对拒绝、配对后平衡和默认基金回填；releases.ts 实现限制解除的类别对、余额、期间与留本董事会拨款校验及 posted_entry_id 过账；functional.ts 固定 program/management_general/fundraising 三类；statements.ts 支持 fundId 过滤并输出财务状况、活动、功能费用和现金流调节。产品身份按初审修正：OpenBooks 是通用 business suite，非营利是同一 AGPL 仓库内通过 Company Settings → Features 开启的可选功能组（nonprofit/fundAccounting/functionalExpenses 等），不是独立 SKU/edition，也没有单独付费版边界；本叶按“通用套件内可选非营利模块”收录，不主张独立非营利产品。README 第 136 行明确 alpha、未完成独立会计/安全认证，第 190 行明确能力清单描述代码现状、并非可直接采用的承诺。许可证：GitHub license API 返回 spdx AGPL-3.0，README 第 22/274 行标 AGPL-3.0-or-later，本条目沿用 API 口径 AGPL-3.0；许可证全文快照完整。homepage 取自仓库元数据字段，README 未复述该域名。input.json 的 progress 是采集前状态，不代表当前 batch/research 的叶状态。筛选阶段曾查看 mikevan/cares 与 kuali/kfs，但本单元未保留其快照，故仅记为未纳入，不对其能力下事实定论；未运行第三方项目，runtime_tested:false。",
+      "service_boundary": "基金会计的核心是基金作为账簿分区、限制性/非限制性净资产区分，以及基金级问责报表。OpenBooks 以通用自托管 business suite 的可选 feature-fenced 非营利模块提供这些能力：基金为平衡维度、逐笔基金入账、基金间配对平衡、限制解除过账、功能费用三类与基金过滤报表均有保留的源码/集成测试证据。它同时服务商业账簿与多个行业示例，非营利模块在同一 AGPL 仓库内、无独立 SKU/付费版，故按“通用套件内可选模块”纳入，不按独立非营利产品/SKU 主张；alpha、未认证、未做运行时验证的边界保留。",
+      "search_attempts": [
+        {
+          "query": "github search repositories q=nonprofit fund accounting",
+          "candidates": [
+            "NLSM-JeremiahOBrien/nonprofit-ledger",
+            "MeghaRajviBB/fundflow",
+            "tmhastings-org/steward"
+          ],
+          "outcome": "历史候选仍不完整：Nonprofit Ledger 明确 Phase 1/7 且不可用于真实账簿；Steward 自述 Early development；fundflow 为 POC。保留其历史快照，不纳入批次。"
+        },
+        {
+          "query": "github search repositories q=\"fund accounting\" in:name,description; github search repositories q=nonprofit accounting in:name,description",
+          "candidates": [
+            "braedonsaunders/openbooks",
+            "mikevan/cares",
+            "kuali/kfs",
+            "Chingon-Legacy/cuentalibre",
+            "jaklabs/nonprofit-books"
+          ],
+          "outcome": "OpenBooks 是同时具备完整 Web 应用与非营利基金会计实现的候选，纳入。CARES 与 Kuali 在筛选阶段查看过，但本单元未保留快照，故仅记未纳入、不作能力定论；CuentaLibre 为桌面小企业会计；nonprofit-books 为库而非应用。"
+        },
+        {
+          "query": "open source nonprofit fund accounting software self-hosted web application funds donor restrictions functional expenses",
+          "candidates": [
+            "braedonsaunders/openbooks",
+            "lineledger/lineledger",
+            "SlowBooks Pro",
+            "Kuali Financial System"
+          ],
+          "outcome": "OpenBooks 官方正文与仓库实现匹配核心；LineLedger 为通用复式记账，SlowBooks 为 source-available 桌面应用；未发现可替代 OpenBooks 的完整开源 Web 候选。"
+        },
+        {
+          "query": "官方仓库 engine/src/nonprofit 源码与集成测试核对（funds/fund-posting/fund-balancing/releases/functional/statements/feature-fence）",
+          "candidates": [
+            "braedonsaunders/openbooks/engine/src/nonprofit"
+          ],
+          "outcome": "本轮读取并保留 7 个源码/测试快照与 1 个目录清单，确认基金模型、逐笔基金入账、基金间平衡腿、限制解除过账、功能费用分类、基金过滤报表与可选功能开关均有对应实现或断言；不再依赖无快照的“代码检查”说法。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "",
+          "status": "historical_no_fetch",
+          "note": "历史记录：早期检索未找到可证明定义性核心的官方来源；本轮保留该轨迹，不视为产品不存在。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/tmhastings-org/steward/main/README.md",
+          "status": "success",
+          "note": "历史快照复用（sources/e90d73ac9b4eb41d5a0dd99ee7e8ab8a0ee3ec381cfc6817136760e500aee098.txt），本轮未重新抓取；自述 Early development，Web 层/导入/报表仍在建设，不纳入。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/NLSM-JeremiahOBrien/nonprofit-ledger/main/README.md",
+          "status": "success",
+          "note": "历史快照复用（sources/056bfe128c34fe72f5eab266a48a1d950de6a9c68f6d5614638318356f715db2.txt），本轮未重新抓取；Phase 1/7，明确 Not yet usable for real books，不纳入。"
+        },
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks",
+          "status": "success",
+          "note": "上一轮抓取并保存仓库元数据快照（sources/7be1a8db97b308f700723a7f15e7e1869d69843a12792c08e6c2c5dc851ef13b.txt），证明 id 1324163874、full_name、homepage 与 archived:false。"
+        },
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks/license",
+          "status": "success",
+          "note": "上一轮抓取并保存许可证快照（sources/436e9103637a55eb32559ff16c3463ce95280fab9cdd092d2c0841b5dd7a8293.txt），GitHub license API 返回 SPDX AGPL-3.0，许可证全文 34,523 bytes 完整。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/README.md",
+          "status": "success",
+          "note": "上一轮抓取并保存 README 快照（sources/d2d3ecdd5438515e34022766c7c2c8ac000a612e88ebe9eb1886a0a3aabc8add.txt）；正文列非营利基金、捐赠者限制与解除、功能费用报告及 Docker 自托管，并标注 alpha、未认证。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/docs/operations/industry-demo-companies.md",
+          "status": "success",
+          "note": "上一轮抓取并保存官方文档快照（sources/bf8eeb972e0a155a834787d634fc4ecb9986127eaba969e21e074489f1fa4865.txt）；非营利示例说明运营/限制基金、条件性奖励、承诺、留置和功能报告。"
+        },
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks/git/trees/main?recursive=1",
+          "status": "failed_max_bytes",
+          "note": "本轮尝试用递归树定位源码，响应超过 2,000,000 bytes 上限未保存；改用 contents API 获取 engine/src/nonprofit 目录清单。"
+        },
+        {
+          "url": "https://api.github.com/repos/braedonsaunders/openbooks/contents/engine/src/nonprofit",
+          "status": "success",
+          "note": "本轮抓取并保存目录清单（sources/90603abce90397fb475dda060fb80abe9ac8452d6e29126358e19eea4a900a83.txt），用于定位 funds、fund-posting、fund-balancing、releases、functional、statements、feature-fence 等实现文件。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/funds.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/da799b28ba42baf6f07b8c214138f70b95495edde6354b3d36ad1cb189284614.txt）；FundKind 五类、createFund 的 is_balancing 要求、restriction_class 与预算控制、setFundPair 配对配置。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-posting.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/c42f56ffb2efee34ee53581925e75b6ac531f40a9eb14687ce76bcebba87ed79.txt）；extra_dims.fund 入账、fund_missing 拒绝、按基金汇总、interfundLegs 与 due-from/due-to 平衡腿。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/fund-balancing.integration.test.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/9ea3cf1000102818cfe22fb35d4cfd7c22b2ca339a04c9ccdd0cfdb92858026e.txt）；断言每基金合计为零、无配对拒绝、配对后平衡、默认基金回填与基金段历史校验。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/releases.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/d4f970e0891a6a1686da935d14caa693408697f3bd724dac0161da348a3b1081.txt）；限制解除状态、类别对、可用余额、期间与留本拨款校验、postRelease 写 posted_entry_id。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/functional.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/b8677a2f2fdd4ce741f7fc1922ceb4eaeef1e8029501d6089929837caedc8054.txt）；FUNCTIONAL_CATEGORIES 固定 program/management_general/fundraising，缺映射拒绝出表。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/statements.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/b25fb4d9b6ffd38caa043c017a0cb39f3d14418e26d1344df7e842a2c833459a.txt）；NonprofitStatementInput.fundId 过滤、netAssetsByClass、活动/功能费用/现金流报表与基金覆盖 tie-out。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/braedonsaunders/openbooks/main/engine/src/nonprofit/feature-fence.integration.test.ts",
+          "status": "success",
+          "note": "本轮抓取并保存（sources/16fb3dd2874939f216d733e5dc14223585d6b1d701a50aa17e556326c0e931f8.txt）；nonprofit/fundAccounting/functionalExpenses 等为 Company Settings → Features 开关，关闭后拒绝记账并隐藏内置报表。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mikevan/cares/main/README.md",
+          "status": "screened_not_retained",
+          "note": "筛选阶段查看过，但本单元未保留快照；仅记为未纳入，不对其基金能力作事实定论。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kuali/kfs/master/README.md",
+          "status": "screened_not_retained",
+          "note": "筛选阶段查看过，但本单元未保留快照；仅记为未纳入，不对其完整产品能力作事实定论。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

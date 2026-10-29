@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "batch.json 的 license_review 理由提到“enterprise 目录另附源可用许可”，但 REVIEW_SOURCES.json 未保留 LICENSE.enterprise 或 enterprise 目录快照，本单元无法直接复核该句；该句只用于收窄范围，条目已把许可范围限定为 AGPL 社区核心，不影响开源许可结论。建议后续保留该快照以便完整核对社区版边界。",
+    "research.json 引用了 loft-sh/devpod 的 README、LICENSE 与仓库元数据（含 sha256），但相应快照不在本单元 REVIEW_SOURCES.json 中；这些只作为未采纳候选的上下文，未参与 Coder 案例判断，故不阻断。",
+    "batch.json 的 feature “以模板版本为真源更新工作区：运行中的工作区先停止、重建、再启动”与 workspace-management 文档原文“stops it, updates it, then starts the workspace again”略有措辞差异（“重建”为对 Terraform 更新流程的概括）；属非关键表述，可选择性对齐。",
+    "当前 README 已把产品定位扩展为“Self-Hosted Cloud Development Environments and AI Agents”，batch 摘要与 feature 未提及 AI Agents 部分；不影响本叶“环境是产品、编辑器不是”的核心匹配，仅属信息取舍。",
+    "Dev Containers 集成文档明确该集成暂不支持 Windows/macOS 工作区；batch 未作相反陈述，无需修改，但若补充平台限制说明会更精确。",
+    "条目未做部署或运行时验证（runtime_tested=false）；按本次任务要求不构成缺口。"
+  ],
+  "leaf_checks": {
+    "dev-container-workspace-platform": {
+      "status": "pass",
+      "application_id": "github:440752086",
+      "track": "open_source",
+      "identity_check": "GitHub 仓库元数据快照 id=440752086、full_name=coder/coder、html_url=https://github.com/coder/coder、homepage=https://coder.com、archived=false、default_branch=main，与 batch 的 github_repository_id、repository_url、homepage 一致；非 fork，身份与 ID 核对通过。",
+      "definitional_core": "README 正文自述为 self-hosted platform for cloud development environments；工作区用 Terraform 定义，可落在 EC2 VM、Kubernetes Pod、Docker 容器等基础设施上，空闲自动关机。templates 文档说明模板以 Terraform 描述工作区底层基础设施；workspace-lifecycle 文档说明工作区经控制面用 Terraform 配置、创建、停止（销毁临时资源）与删除（terraform destroy 全部资源），并存在 Failed/Unhealthy 等可诊断状态；workspace-management 文档说明从共享模板创建工作区、团队环境配置与资源一致、按模板版本更新（停止→更新→再启动）、可计划启停与删除。符合“定义是版本化真源、环境可运行可丢弃、停止/重建/删除语义区分”的本叶定义性核心。",
+      "dev_container_evidence": "Dev Containers 集成文档正文给出两种模式：用 coder_devcontainer 资源显式启动，或自动发现仓库中的 devcontainer.json；并给出 devcontainers-cli 安装模块、2.24.0 起默认启用、项目发现与自动启动开关等具体配置，属核心工作流正文而非导航或简介。",
+      "service_form": "Coder 社区版是可持续使用的完整自托管应用服务：coder server 控制面 + Web 控制台/CLI + 基础设施上的工作区；README Quickstart 给出 install script、coder server、localhost:3000 首用户与 Docker 模板创建流程，生产可配 PostgreSQL 13+ 与外部访问 URL。不是仅客户端/CLI 工具，满足本叶对应用服务形态的要求。",
+      "editor_boundary": "编辑面在环境之外：README 仅以 VS Code Extension、JetBrains Toolbox Plugin、SSH/终端等方式接入；workspace-lifecycle 亦写明经 SSH、terminal、JetBrains/VSCode 连接。符合“环境是产品、编辑器不是”以及不与 Cloud IDE 混淆的边界。",
+      "license_check": "仓库根 LICENSE 快照为完整 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 全文（含第 13 条 Remote Network Interaction 及 END OF TERMS AND CONDITIONS）；api.github.com/repos/coder/coder/license 快照为 LICENSE 内容响应，含 spdx_id=AGPL-3.0 与 base64 编码的完整 AGPL 正文（size 34523），与根 LICENSE 一致。batch 的 license=AGPL-3.0、license_evidence_url 与该 API 快照对应，许可结论成立。",
+      "community_boundary": "license_review 将范围限定为 community_core，摘要自述为“开源核心”，未把企业功能声称为免费能力；生命周期文档中配额、休眠删除等企业能力也被标注为 enterprise。整体边界表述保守，未发现越界声明。",
+      "source_quality": "batch 的 8 个 source_urls 均在 REVIEW_SOURCES.json 中列明，path 与 sha256 一一对应且按原样读取；5 份 coder.com 文档均为页面正文（.md），未使用 HTML 外壳或摘要替代核心正文。research.json 也如实记录了两次搜索无结果、HTML 外壳抓取失败、enterprise/LICENSE 404 等缺口，未把 HTTP 成功当作核心证据。",
+      "gaps": [
+        "LICENSE.enterprise 未随本单元留档，企业许可细节无法独立复核（不影响 AGPL 社区核心结论）。",
+        "未做部署/运行时验证，所有结论基于官方正文快照。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审：仅读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 8 份快照，未运行 shell、未写入文件、未访问其他单元或联网。Coder 的 enterprise/LICENSE.enterprise 与 DevPod 相关快照未在本单元留存，企业许可细节与旧候选仅能依据 research.json 的记录核对；未做部署、运行时、价格或架构验证；本单元仅一个叶子。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-109/ses_groveopendesignp109review1_1793201804.jsonl",
+  "batch_sha256": "996a00581e800ff6cd1ff218f72f1f9a7f6119e3e82fd0d2a152a9b438aea28b",
+  "research_sha256": "fc9c6a2f9bab733e4a1788a61c63d8799f07453a8211b7158b50a8d6be71129d",
+  "input_sha256": "72b456b558f9dd840c8088ee8e734d036402f986608f0adf2aab81feebe334e6"
+}

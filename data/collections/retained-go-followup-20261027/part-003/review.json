@@ -1,0 +1,109 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "note": "Tiledesk 条目级 license 字段为 \"MIT\"，但实际完整核到的是部署编排仓库 Tiledesk/tiledesk 的 LICENSE；license_review.scope 与 summary/deployment 已明确说明不覆盖全部社区组件（移动坐席应用 AGPL-3.0，Server 源仓库 404、组织仓库列表未列出）。建议后续增加 license_scope/license_notes 之类的字段，避免下游把 \"MIT\" 直接读成整产品许可。"
+    },
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "note": "research.json 的 fetch_outcomes 把 README 描述为“含……转人工”，但 README 正文只有 \"chatbots that easily work side-by-side with humans\"；转人工证据实际来自 widget-app-prechat-form 与 architecture/schema 文档。属措辞不精确，不影响结论，建议校正快照描述。"
+    },
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "note": "leaf_matches 理由中的 “Dashboard Monitor” 并非快照中的产品名；快照支撑的是 Dashboard 管理会话/坐席、移动应用 take over 与 conversation panel 接管。建议改用快照原文用语。"
+    },
+    {
+      "slug": "customer-service-chatbot-platform",
+      "application_id": "github:278604441",
+      "note": "Tiledesk 同时具备自有 widget、人工坐席实时会话与坐席分配，按定义也可落到 customer-support-chat；当前只建 customer-service-chatbot-platform 一条关系可以接受，但关系集偏最小。"
+    },
+    {
+      "slug": "help-desk",
+      "application_id": "github:419635982",
+      "note": "Frappe Helpdesk 的 README 正文覆盖工单管理、客服/客户双门户、自动分配、SLA、知识库与预置回复，但未明写“请求者通信线程”和 open→resolved→closed 状态流转；类型识别清楚，建议补引官方文档正文以坐实通信与生命周期两项。"
+    },
+    {
+      "slug": "help-desk",
+      "application_id": "github:12063996",
+      "note": "osTicket README 的三步流程覆盖建单-分配-坐席解决，但未明写状态生命周期与内部备注层；可按需补引文档，当前不阻断。"
+    },
+    {
+      "slug": "conversation-intelligence-platform",
+      "application_id": "commercial:gong",
+      "note": "唯一来源为 help.gong.io 的 getting-started 概览页（正文含录制转写 calls/emails/meetings、AI 模式与关键时刻、经理/领导层使用、CRM 集成），能满足商业案例基本真实性与类型匹配，但未记录会话记录对象、转录留存与角色权限等实现细节；“组织级访问”依据的是角色使用场景而非权限文档。"
+    },
+    {
+      "slug": "contact-center-quality-management",
+      "application_id": "commercial:evaluagent",
+      "note": "评估-坐席-交互绑定与评估者归属由 scorecard、申诉分数变更追踪、Evaluator Performance/Calibration 报告间接推出，页面未描述评估记录对象本身；商业初审可接受。"
+    },
+    {
+      "slug": "customer-support-chat",
+      "application_id": "github:7068587",
+      "note": "technology_stack 中的 MySQL 未见于 README（README 仅说明 PHP 8.2+ 与 composer 安装）；属技术栈旁证不足，建议改引安装文档或删除。"
+    },
+    {
+      "slug": "customer-support-chat",
+      "application_id": "github:7068587",
+      "note": "README 中 Telegram/WhatsApp/AI/语音视频等均以扩展或第三方集成形式出现，服务边界已把第三方 AI、语音视频排除在核心外，记录一致；建议在 features 中也避免让读者误读为内置核心。"
+    },
+    {
+      "slug": "help-desk",
+      "note": "input.json 的 progress 仍为 included_without_cases 且 application_ids 为空，而 research.json 五个叶均为 case_found；这是上游进度元数据与本次采集结果的差异，建议在归档时同步，不影响本次内容结论。"
+    }
+  ],
+  "leaf_checks": {
+    "contact-center-quality-management": {
+      "status": "pass",
+      "applications_checked": [
+        "commercial:evaluagent"
+      ],
+      "basis": "读取快照 data/collections/sources/a94e649a2836dd9a3acd9e0b09c2c6bcb3df579a4d901430c1a9696f02280e02.txt（官方 Quality Assurance 页正文）：多通道自定义评分卡与权重、评分界面内置 Call Player/Ticket Viewer、合规 Auto-Fails、Check-the-Checker 盲评校准、坐席申诉与分数变更追踪、Monitor Agents/Monitor Evaluators、按坐席的 KPI 与 line-item 报告。可覆盖“被评估坐席群体—可回放交互记录—运营自定义评分表—绑定坐席/交互/评估者的评分记录—坐席质量档案”的核心，且为持续使用的商业软件服务形态。",
+      "gaps": "无开源案例；QMTool 因 license 为 null、license/README 端点 404 被合理排除，检索与抓取结果已留档；未做运行验证。"
+    },
+    "conversation-intelligence-platform": {
+      "status": "pass",
+      "applications_checked": [
+        "commercial:gong"
+      ],
+      "basis": "读取快照 data/collections/sources/a9e85bff8a353b2aa00b3e2be17654518e355829af7f356836b4849d2fbacf97.txt（Gong Help Center 的 Markdown 正文，非壳页）：自动录制并转写 calls、emails、meetings，AI 持续分析客户交互识别影响成交的模式与关键时刻，销售代表/经理/领导层/RevOps 的组织级使用，以及与 CRM 集成。满足捕获对话—机器转录—衍生信号—组织级访问的核心，商业类型匹配，服务边界已排除销售参与/交易健康/预测扩展。",
+      "gaps": "无开源案例；CallLens/OpenTranscribe/backchannel 未纳入的理由和检索记录完整；仅有 getting-started 概览页，未覆盖记录对象、留存与权限细节；未做运行验证。"
+    },
+    "customer-service-chatbot-platform": {
+      "status": "pass",
+      "applications_checked": [
+        "github:278604441"
+      ],
+      "basis": "核对仓库身份 id=278604441/full_name=Tiledesk/tiledesk，MIT 完整许可文本（1074 字节，Copyright 2020 Tiledesk）。正文证据：README 定位开源 Live Chat + 集成 Chatbots、多渠道与可视化脚本、Docker/Helm 自托管；widget-app-prechat-form 教程描述机器人 agent_handoff 后由人工坐席在 conversation panel 读取用户数据并接管同一会话；architecture/schema 描述 Automation Designer 的 human handoff 规则、Dashboard/Agent Web Chat 与 iOS/Android 应用 take over、MongoDB 保存会话历史；requests API 给出 transcript、participatingAgents/Bots、hasBot、status、assigned_at/closed_at/notes；transcript-on-close 与 custom-assignment 证明会话记录导出与部门 round-robin/pooled 分配。三要素（企业运营机器人、会话为工作单元、受管 bot↔人工接口）齐备。",
+      "gaps": "许可证仅完整核到部署编排仓库，Server 源仓库 404 且不在组织仓库列表内，移动坐席应用 AGPL-3.0 与官方 components 文档标注 MIT 存在冲突——均已在 batch/research 明确披露并收窄范围；Enterprise 私有镜像不计入；未做运行验证。"
+    },
+    "customer-support-chat": {
+      "status": "pass",
+      "applications_checked": [
+        "github:7068587"
+      ],
+      "basis": "核对仓库身份 id=7068587/full_name=LiveHelperChat/livehelperchat，Apache-2.0 完整许可文本（11357 字节）。README 正文：为网站提供免费开源实时支持、每天 1 万+ 聊天与数十坐席生产使用、站点 widget 与嵌入模式、多坐席/多会话并发、部门与转接、坐席在线离线、访客分配、聊天归档/搜索、transcript 打印与邮件、XML/JSON 导出、输入状态与离线行为。覆盖自有对话入口—实时人工会话作为记录—坐席端实时操作三要素。",
+      "gaps": "仅 README 与仓库元数据，未运行部署；第三方 AI、语音视频、消息渠道按扩展处理，未计入核心；查询记录完整。"
+    },
+    "help-desk": {
+      "status": "pass",
+      "applications_checked": [
+        "github:419635982",
+        "github:12063996"
+      ],
+      "basis": "Frappe Helpdesk：id=419635982/full_name=frappe/helpdesk，AGPL-3.0 完整文本（34523 字节）；README 正文为 100% 开源 Ticket Management 工具，客服/客户双门户、按优先级/类型/负载自动分配、可配置 SLA、知识库与预置回复，用于解决客户查询。osTicket：id=12063996/full_name=osTicket/osTicket，GPL-2.0 完整文本（15220 字节）；README 正文明确网站/邮件/电话建单、工单保存并分配给坐席、坐席回复解决，另有自托管部署要求。两者覆盖请求者—工单—坐席队列—回复解决的核心，许可证完整、仓库身份一致。",
+      "gaps": "README 未逐项展开状态生命周期与内部备注层（Frappe 更依赖功能条目推断通信与生命周期）；Zammad 仅留候选且理由已记录；未做运行验证。"
+    }
+  },
+  "limits": "只读审查：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json，以及按 REVIEW_SOURCES.json 的 path 原样读取被引用的快照（sources 前缀相对 data/collections）；未运行 shell、未写文件、未访问其他单元、未做任何在线抓取或部署验证。组织仓库列表与单仓库元数据快照为单行大 JSON，预览时被截断，故对 tiledesk-server 缺席、design-studio/tiledesk-android/tiledesk-ios-app 存在、AGPL 出现等事实采用定向匹配确认，未逐字段通读；许可证以快照内完整文本首段与字节量为据，未逐条比对 SPDX 元数据。商业案例只核对公开页面正文的基本真实性与类型匹配，未研究价格、架构、部署。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-003/ses_groveopencodegop003review1_1793073596.jsonl",
+  "batch_sha256": "1026dc0343bff41d8a21f1a8d6d863e78ed2b76822856e1279b85cacdde64ebf",
+  "research_sha256": "da8e7f6e140be3fe4d63d40714b758d58bbbceaded46aeec317dce4e1a5e7c01",
+  "input_sha256": "43ea05fc37fc8140e3debb84c1f907777106be2e8f150846d777500886b39f45"
+}

@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "ChurchCRM 本身是完整的教会管理系统（人员/家庭、小组、活动出席、奉献、志愿者等），奉献只是其中一个模块。本叶仅依据其已文档化的家庭级 Payment、Donation Funds、Deposit Slip、Tax Statement/Giving Report 工作流进行匹配；若目录要求单一主导类型，建议维护者确认是否需与教会管理类型交叉标注。就本叶定义性奉献核心而言，官方 Finances 文档已足够，故不阻断。",
+    "ChurchCRM 的奉献归属粒度是家庭（Family），文档中的 Payment 与 Tax Statement 均以家庭为捐赠者单位；叶定义以个人 giver 为基准并允许联合捐赠，家庭级归属属于可接受的实现差异，但建议后续在条目中明确“家庭级归属”而非笼统写“捐赠者归属”。",
+    "ChurchCRM 文档未展示在线奉献/短信/自助终端等数字化收取渠道，仅展示现金、支票、信用卡、银行汇票的录入与批次管理；按叶定义中“信封式线下记录亦可满足核心”的历史校验，这不构成阻断。",
+    "Changemakers README 的 License 行写作 “APGL-3.0”，属笔误；GitHub license API 与实际 LICENSE 全文均为 AGPL-3.0，条目采用 AGPL-3.0 正确。",
+    "Changemakers README 描述了 Food Distribution Record、Shelter Home Admission/Exit 等服务记录，但未逐项展示其日期字段；这些是 Frappe DocType 记录，核心工作流可辨，建议后续补充用户手册时再确认日期与参与状态字段。",
+    "certification-management 的 research.json service_boundary 写成“个人/组织的认证状态与续期”，而叶定义明确只管理个人；本次无案例，不影响结论，但后续检索说明宜与叶边界保持一致。",
+    "accreditation-management 与 certification-management 的中文名同为“认证管理”，属输入定义层面的命名重叠；两者英文名与人群边界不同，不影响本单元条目核对。",
+    "三片无案例叶（accreditation-management、certification-management、continuing-education-management）记录了查询词、候选与未抓取原因，但未记录检索时间或结果总数；按现有留档规则可通过，后续可补充更完整的检索日志。",
+    "ChurchCRM 官方 HTML 文档抓取因正文含 NUL 失败，已改用官方文档仓库 Markdown 并留档；该缺口处理合规，不阻断。"
+  ],
+  "leaf_checks": {
+    "accreditation-management": {
+      "status": "insufficient_evidence",
+      "application_ids": [],
+      "evidence": "research.json 记录了对 GitHub 的 accreditation management、accreditation、self-study accreditation 检索，候选包括 getnamingo/registrar、naimuropu-cell/BAC-Accreditation-Management-System、CareLab-UTDallas/COMETS-Accreditation-Documents、google/stellar-engine 等；均被识别为域名注册、机构侧自评/证据文档、云合规或无关项目，未出现同时具备发布标准、组织申请与证据提交、同行评审、记录决策及持续状态的认证机构运营方应用。",
+      "gap": "本叶无案例；未抓取候选正文，已明确记录无合适候选且不断言该类应用不存在。",
+      "verdict": "pass"
+    },
+    "beneficiary-management": {
+      "status": "case_found",
+      "application_ids": [
+        "github:549936212"
+      ],
+      "evidence": "Frappe Changemakers 官方 README 明确以 Beneficiary DocType 为中心，Cases（Food、Shelter 等类型）承载需求识别与分派，Food Distribution Record、Entitlement Request、Shelter Home Admission/Exit 记录服务交付与入住/退出状态，并有 Organisation、Shelter Home 等主数据；仓库元数据确认 id 549936212、default_branch develop、archived false；license API 与 LICENSE 全文均为 AGPL-3.0；README 说明通过 Frappe bench 自托管，PWA/移动端为 Alpha。",
+      "gap": "README 未逐项展示服务记录的日期字段；未运行应用验证。",
+      "verdict": "pass"
+    },
+    "certification-management": {
+      "status": "insufficient_evidence",
+      "application_ids": [],
+      "evidence": "research.json 记录了对 GitHub 的 certification management、professional certification、certification tracking、credentialing 检索，候选包括 smallstep/certificates、allinssl/allinssl、chris2511/xca、webprofusion/certify 等，均为 TLS/SSL 证书生命周期工具、备考资料或安全凭证工具；未出现由认证机构运营、面向个人并包含资格门槛、考试/审核结果、记录授证与续期状态的完整应用。",
+      "gap": "本叶无案例；未抓取候选正文，已记录无合适候选且不断言该类应用不存在。",
+      "verdict": "pass"
+    },
+    "church-giving-platform": {
+      "status": "case_found",
+      "application_ids": [
+        "github:30856851"
+      ],
+      "evidence": "ChurchCRM 官方 Finances 文档明确：在 Family 记录下 Add Payment 录入日期、金额、基金与方式（Cash/Check/Credit Card/Bank Draft），提供 Donation Funds 管理、Deposit Slip 批次及 Closed 状态、Giving Report/Tax Statement 年度报告与 Finance 权限控制；官方 README 列出 Giving & financial tracking，并说明自托管部署；仓库元数据确认 id 30856851、default_branch master、archived false；LICENSE 全文为 MIT。",
+      "gap": "未展示在线奉献渠道；官方 HTML 文档抓取失败，已改用官方文档仓库 Markdown；未运行应用验证。",
+      "verdict": "pass"
+    },
+    "continuing-education-management": {
+      "status": "insufficient_evidence",
+      "application_ids": [],
+      "evidence": "research.json 记录了对 GitHub 的 continuing education management、continuing education credits、CE credit 检索，候选包括 CLE-Blockchain/prototype（原型）、devJennyy/cce-wmsu（继续教育中心活动管理）、ucdev/ce-platform（描述涉及 CME 学分管理但无许可证且正文不足以证明需求框架与合规状态）；均未达到完整应用与开源许可证门槛。",
+      "gap": "本叶无案例；未抓取候选正文，已记录无合适候选且不断言该类应用不存在。",
+      "verdict": "pass"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元、未访问网络。REVIEW_SOURCES.json 所列 7 个快照均按 path 原样读取，未猜测或缩写摘要。快照中的 GitHub API JSON 为单行文本，读取器仅显示前 2000 字符，故 ID、default_branch、archived、license 对象等字段通过定向 grep 模式确认，未重新计算 SHA-256。未部署或运行 ChurchCRM、Frappe Changemakers，未核验快照之外的主页、价格、社区版差异或用户手册正文；本单元无商业条目。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-087/ses_groveopencodegop087review1_1792996777.jsonl",
+  "batch_sha256": "c23365d7767c8da535c4b100a19a2f1769edf32585db0fb06c427268c304719b",
+  "research_sha256": "1ddff5dd658c0f1f709a51590204bae38ada6e20f4182ff371f63a1745f6df5b",
+  "input_sha256": "83e38e14523e76fe737541104c413fca7e46f0a17b9284d91618e715f2a915a9"
+}

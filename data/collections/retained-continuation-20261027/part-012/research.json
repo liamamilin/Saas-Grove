@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "kanban-task-board",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:16238673"
+      ],
+      "query": "Kanboard official docs board columns task status drag drop self-hosted",
+      "source_urls": [
+        "https://kanboard.org/",
+        "https://docs.kanboard.org/v1/user/boards/",
+        "https://docs.kanboard.org/v1/user/tasks/",
+        "https://docs.kanboard.org/v1/user/projects/",
+        "https://raw.githubusercontent.com/kanboard/kanboard/main/README.md",
+        "https://api.github.com/repos/kanboard/kanboard",
+        "https://api.github.com/repos/kanboard/kanboard/license",
+        "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/tasks.md",
+        "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/projects.md",
+        "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/boards.md"
+      ],
+      "note": "修复本轮初审 finding（Kanboard Tasks/Projects 快照不完整）：复核时解析已存 HTML 的正文区，确认原快照实际包含 Creating Tasks、Task Transitions、Custom Project Roles 等段落；为避免单行 HTML 在复核工具中显示截断，本轮补抓官方文档源 Markdown（kanboard/documentation 的 tasks.md、projects.md、boards.md），正文可直接读取。可证：首页定义免费开源看板、列可增删改名、任务跨列拖放、WIP 上限、自托管；Boards 文档说明 Board 视图列间拖动与列任务上限变红；Tasks.md 的 Creating Tasks 说明新建任务选择 Column，Task Transitions 明确每次跨列移动记录 Date、Source column、Destination column、Executor、Time spent in origin column；Projects.md 的 Custom Project Roles 与 Available Restrictions 明确可按列限制创建/关闭任务及“Moving tasks only between specified columns”。任务表单无并行阶段字段，只有 open/closed 关闭标记，故列归属即状态、移动卡片即状态变更。README 说明维护模式，仍为完整可自托管应用。Plane 仍不在本叶。",
+      "service_boundary": "Kanboard MIT 许可完整社区版，自托管；未运行/未部署；维护模式按 README 如实记录。",
+      "proposed_scope": "included",
+      "open_source_search": "优先开源；本轮已找到合格案例，停止继续搜索",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Plane docs kanban board columns move work items community edition",
+          "result": "旧检索：找到官方 Layouts 文档与同仓库 kanban 组件源码（本轮认定 Plane 类型边界不成立，已移除）"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Plane board drag drop column state_id source official repo",
+          "result": "旧检索：抓取并核验；该证据显示 state_id 为独立字段，反而支持移除 Plane"
+        },
+        {
+          "date": "2026-10-25",
+          "query": "Kanboard official docs board columns task status drag drop self-hosted",
+          "result": "找到官方首页、Boards/Tasks/Projects 文档与 GitHub 仓库；正文核验后以 Kanboard 替换 Plane"
+        },
+        {
+          "date": "2026-10-25",
+          "query": "（复核，无新增检索）Kanboard 完整 Tasks/Projects 正文与列级角色限制",
+          "result": "重读已存 HTML 全文并补抓 kanboard/documentation 的 tasks.md、projects.md、boards.md；上述断言均由 Markdown 正文逐句支持"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.plane.so/core-concepts/issues/layouts",
+          "result": "旧证据（Plane 已从本叶移除）：Board 是 list/spreadsheet/gantt/calendar 之外的一种 layout"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/makeplane/plane/master/apps/web/core/components/issues/issue-layouts/kanban/kanban-group.tsx",
+          "result": "旧证据（Plane 已从本叶移除）：drag drop 回写独立 state_id，证明状态字段与板布局分离"
+        },
+        {
+          "url": "https://docs.plane.so/core-concepts/issues/states",
+          "result": "旧证据（Plane 已从本叶移除）：项目自建状态与状态组，状态独立于 Board"
+        },
+        {
+          "url": "https://kanboard.org/",
+          "result": "HTTP success; 正文含 free and open source Kanban、board 是了解当前状态的直观方式、列可增删改名、拖放任务跨列、WIP 上限、Self-hosted"
+        },
+        {
+          "url": "https://docs.kanboard.org/v1/user/boards/",
+          "result": "HTTP success; 正文含 Board 视图按纵向列展示任务、拖动任务跨列、列达到任务上限时背景变红"
+        },
+        {
+          "url": "https://docs.kanboard.org/v1/user/tasks/",
+          "result": "HTTP success; 正文含新建任务选择 Column、每次跨列移动记录来源列/目标列/执行人/停留时间、关闭任务 open/closed"
+        },
+        {
+          "url": "https://docs.kanboard.org/v1/user/projects/",
+          "result": "HTTP success; 正文含自定义角色按列限制改变任务状态与仅在指定列间移动任务"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kanboard/kanboard/main/README.md",
+          "result": "HTTP success; 正文含 Kanban methodology、维护模式说明、MIT 与安装/Docker 文档入口"
+        },
+        {
+          "url": "https://api.github.com/repos/kanboard/kanboard",
+          "result": "HTTP success; id 16238673、full_name kanboard/kanboard、license MIT、archived false、homepage kanboard.org"
+        },
+        {
+          "url": "https://api.github.com/repos/kanboard/kanboard/license",
+          "result": "HTTP success; GitHub license API 返回 MIT（含 LICENSE 全文 base64）"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/tasks.md",
+          "result": "HTTP success; Markdown 正文含 Creating Tasks（Column 字段）、Closing Tasks、Task Transitions（Date/Source column/Destination column/Executor/Time spent in origin column）、Time Spent in Each Column"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/projects.md",
+          "result": "HTTP success; Markdown 正文含 Custom Project Roles 与 Available Restrictions（Moving tasks only between specified columns；按列允许/阻止创建或关闭任务）"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/kanboard/documentation/main/content/en/v1/user/boards.md",
+          "result": "HTTP success; Markdown 正文含 Board/List/Calendar/Gantt 视图、列间拖放任务、列达到任务上限时背景变红"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "task-management-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:asana"
+      ],
+      "query": "Asana tasks owners due dates views My Tasks official",
+      "source_urls": [
+        "https://asana.com/features",
+        "https://asana.com/features/project-management"
+      ],
+      "note": "Asana 官方正文说明任务是带负责人和截止日期的记录，项目提供 list、calendar、timeline、Gantt、board 多种执行视图，My Tasks 汇总指派给个人的工作项，Inbox 汇总指派、截止日期变更与更新；项目作为共享容器，任务更新同步到其所属全部项目。Plane 工作项是项目自定义多阶段状态与布局，属 issue tracker 语法，已从本叶及 research 移除。 Asana 同时匹配本单元 work-management-platform 与 project-portfolio-management-application；如下游要求单一主类型，以 work-management-platform 为主，本叶为次级匹配。",
+      "service_boundary": "完整团队任务应用；两态完成语义按任务记录与完成视图理解，未把多阶段工作流产品计入。",
+      "proposed_scope": "included",
+      "open_source_search": "优先开源；本轮已找到合格案例，停止继续搜索",
+      "search_attempts": [
+        {
+          "date": "2026-10-23",
+          "query": "Asana tasks owners due dates views My Tasks official",
+          "result": "找到官方产品/功能资料"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Asana task management owners due dates completion views",
+          "result": "复核正文；保留 Asana，移除 Plane 关联"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://asana.com/features",
+          "result": "HTTP success; 正文含 My Tasks 汇总个人指派、list/calendar/timeline/Gantt/Kanban 视图、forms/rules/workflows/portfolios 入口"
+        },
+        {
+          "url": "https://asana.com/features/project-management",
+          "result": "HTTP success; 正文含 tasks with clear owners and due dates、视图类型、任务可属多个项目且更新同步、Starter 起含 rules/forms、Advanced/Enterprise 含 portfolios/budget/resource planning"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "to-do-list-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11512043"
+      ],
+      "query": "Tasks.org official lists completion reminders recurrence filters",
+      "source_urls": [
+        "https://tasks.org/",
+        "https://tasks.org/docs/",
+        "https://tasks.org/docs/filters/",
+        "https://tasks.org/docs/notifications/",
+        "https://tasks.org/docs/recurrence/"
+      ],
+      "note": "修复初审 major：原 reason 以 docs/manual_sort_mode 证明“显示已完成开关”，但该页原文明确写 Astrid 手动排序模式下 Show hidden 与 Show completed toggles are not supported，属引证反转。已删除该断言及 features 中对应表述；manual_sort_mode 仅保留为手动排序来源并更正 fetch_outcome。现有证据：首页说明 Open-source To-Do Lists & Reminders，并列出 filters/tags/lists/无限层级子任务/手动排序；filters 文档说明可按 due dates、priorities、titles、tags、lists 建条件；notifications 文档说明任务未完成时按间隔重复提醒直到完成；recurrence 文档说明任务可配置为“完成后第 X 次结束”并以下一次完成日期计算下次到期。由此支持命名列表承载条目、提醒与完成后再生成，但“列表为主工作面”和“显示已完成开关”不再作确定断言；完成状态为文档间接表述，证据偏薄，保留待主会话复核。",
+      "service_boundary": "记录开源待办应用本身；Android 为主、桌面版 alpha，本地或 CalDAV/EteSync/DecSync 存储，不宣称托管多租户服务。",
+      "proposed_scope": "included",
+      "open_source_search": "优先开源；本轮已找到合格案例，停止继续搜索",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Tasks.org open source to-do list lists reminders complete official",
+          "result": "旧检索：找到 tasks.org 官方站点、文档与 GitHub 仓库"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Tasks.org docs filters notifications recurrence manual sorting",
+          "result": "旧检索：抓取并核验列表、提醒、完成状态与过滤器正文；其中 manual_sort_mode 被误读"
+        },
+        {
+          "date": "2026-10-25",
+          "query": "（复核，无新增搜索）Tasks.org lists completion reminders recurrence filters",
+          "result": "重读已存 tasks.org 首页与 docs/filters、docs/notifications、docs/recurrence、docs/manual_sort_mode 快照；删除引证反转断言"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://tasks.org/",
+          "result": "HTTP success; 首页含 Open-source To-Do Lists & Reminders、filters/tags/lists/子任务/手动排序、同步选项"
+        },
+        {
+          "url": "https://tasks.org/docs/",
+          "result": "HTTP success; 正文含 free and open-source task management app、CalDAV、recurring tasks、notifications、custom filters"
+        },
+        {
+          "url": "https://tasks.org/docs/filters/",
+          "result": "HTTP success; 正文含按 due dates/priorities/titles/tags/lists 建立自定义过滤器"
+        },
+        {
+          "url": "https://tasks.org/docs/notifications/",
+          "result": "HTTP success; 正文含未完成任务按间隔重复提醒，直到任务完成"
+        },
+        {
+          "url": "https://tasks.org/docs/recurrence/",
+          "result": "HTTP success; 正文含任务可设完成后第 X 次结束、以下一次完成日期计算下次到期"
+        },
+        {
+          "url": "https://tasks.org/docs/manual_sort_mode/",
+          "result": "HTTP success; 正文含任务列表内手动排序与列表类型；并明确 Astrid 手动排序模式不支持 Show hidden / Show completed，故不再用于证明“显示已完成开关”"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "project-portfolio-management-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:asana"
+      ],
+      "query": "Asana project intake selection funding portfolio budget resource governance official",
+      "source_urls": [
+        "https://asana.com/uses/project-intake",
+        "https://asana.com/features/goals-reporting/portfolios",
+        "https://asana.com/features/resource-management/timesheets-budgets"
+      ],
+      "note": "修复初审 minor：删除“按优先级评审/批准并据产能排期”“预算审批”等未逐句核到的确定表述。intake 页正文可支持：统一表单与 Slack/Microsoft 365/Google Workspace 集成收集请求，标签/规则辅助优先级，自动分配、排期和跟进；页内 FAQ 把 reviewed/scored/approved/scheduled 作为 intake 流程的一般说明，未证明 Asana 内对应配置，故不再写成产品已证能力。portfolios 页可支持：一键加入项目、按 priority/type 打标签、指派 owner、查看 on-track、汇总各项目 time spent/available budget、自定义 dashboard 与 workload 重排。timesheets-budgets 页可支持：按项目 user rate、实际工时/成本对比估算、forecast 预算、timesheet approvals 与预算可见性限制。以上仅按商业条目的基本类型匹配记录，不挂到开源产品；组合/预算/资源能力的具体套餐归属见页面方案说明与 FAQ，未在正文逐句核验，故不作确定断言。Asana 同时匹配本单元 work-management-platform 与 task-management-application；如下游要求单一主类型，以 work-management-platform 为主，本叶为次级匹配。",
+      "service_boundary": "商业组合监控、预算与资源视图（具体套餐归属未逐句核验）；未挂到开源产品。",
+      "proposed_scope": "included",
+      "open_source_search": "优先开源；本轮已找到合格案例，停止继续搜索",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Asana portfolios help budget funding resource allocation capacity planning official",
+          "result": "旧检索：找到官方 portfolios、project intake、timesheets-budgets 页；capacity-planning 帮助页返回 JS Loading 空壳，不作证据"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Asana project intake selection approval budget portfolio official",
+          "result": "旧检索：抓取并核验 intake/portfolios/timesheets-budgets 正文；初审指出批准/产能措辞过度"
+        },
+        {
+          "date": "2026-10-25",
+          "query": "（复核，无新增搜索）Asana PPM intake portfolio budget claims boundary",
+          "result": "重读已存三页正文，将批准/产能/预算审批降级为页面可支持范围，并标注一般流程说明"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://asana.com/uses/project-intake",
+          "result": "HTTP success; 正文含统一收集请求、Slack/Microsoft 365/Google Workspace 集成、标签/规则辅助优先级、自动分配/排期/跟进；FAQ 仅一般性提及 reviewed/scored/approved/scheduled，未证明产品内批准链或按团队产能排期"
+        },
+        {
+          "url": "https://asana.com/features/goals-reporting/portfolios",
+          "result": "HTTP success; 正文含一键加入项目、按 priority/type 标签、指派 owner、on-track 状态、汇总各项目 time spent/available budget、自定义 dashboard 与 workload 重排"
+        },
+        {
+          "url": "https://asana.com/features/resource-management/timesheets-budgets",
+          "result": "HTTP success; 正文含 user rate、实际 vs 估算工时/成本、forecast 项目预算、timesheet approvals、预算可见性限制（原“预算审批”已降级）"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "work-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:asana",
+        "github:568098118"
+      ],
+      "query": "Plane community work item states intake automations cross-project Your Work official",
+      "source_urls": [
+        "https://asana.com/features",
+        "https://asana.com/features/project-management",
+        "https://docs.plane.so/core-concepts/issues/states",
+        "https://docs.plane.so/your-work",
+        "https://raw.githubusercontent.com/makeplane/plane/preview/README.md",
+        "https://docs.plane.so/automations/overview",
+        "https://docs.plane.so/intake/overview",
+        "https://docs.plane.so/intake/intake-forms",
+        "https://docs.plane.so/core-concepts/issues/states.md",
+        "https://docs.plane.so/your-work.md",
+        "https://docs.plane.so/automations/overview.md",
+        "https://docs.plane.so/intake/overview.md",
+        "https://docs.plane.so/intake/intake-forms.md",
+        "https://developers.plane.so/self-hosting/overview.md"
+      ],
+      "note": "修复本轮初审 finding（Plane 文档快照被指为客户端空壳）：复核解析已存 HTML 的 main/article 区，确认 states、your-work、automations、intake、intake-forms、self-hosting 快照实际均含服务端渲染正文；为消除单行长 HTML 造成的核对困难，本轮补抓 docs.plane.so 对应 .md 文档源及 developers.plane.so self-hosting .md（站点声明每页可用 .md 获取），正文可直接读取。可证：Work Item States 说明项目默认自建状态与 Backlog/Unstarted/Started/Completed/Cancelled 五组，状态组驱动完成度、周期/模块进度与自动归档；Your Work 说明跨项目汇总指派/创建/订阅工作项及按状态/优先级分布；Automations 说明每项目内置自动归档与自动关闭；Intake 说明项目级 Intake 三渠道（应用内/公开表单/邮件）与 Triage 接受/拒绝；README 说明自托管及 Work Items/Cycles/Modules/Views/Pages。套餐边界仅保留正文明确标注为 Business 的三项：due date reminders、Intake responsibility、Intake Forms；删除未逐句核实的“Custom automations 按 Business/Enterprise Grid 区分”和“Workflows and Approvals 属 Enterprise”等表述。Asana 侧表单请求、规则/工作流与多视图正文仍支持商业侧匹配。",
+      "service_boundary": "Plane：自托管开源版工作项、项目默认状态与五组、Your Work、项目级 Intake（应用内/邮件；公开表单与 Intake responsibility 属 Business）、内置自动归档/自动关闭（到期提醒 Business）。自定义自动化、审批/Workflows and Approvals 的套餐边界未核实，不计入；Asana 仅按商业方案记录。",
+      "proposed_scope": "included",
+      "open_source_search": "优先开源；本轮已找到合格案例，停止继续搜索",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Plane work item states workflow groups official",
+          "result": "找到官方 Work Item States 与 Your Work 文档"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "Plane intake forms automations community edition official",
+          "result": "补抓 Intake Overview/Intake Forms/Automations 正文；reason 区分社区已证与 Business/Enterprise 未证"
+        },
+        {
+          "date": "2026-10-25",
+          "query": "（复核，无新增检索）Plane 文档正文可读性与 Business/Enterprise 边界",
+          "result": "重读已存 HTML 正文并补抓 docs.plane.so/developers.plane.so 的 .md 文档源；仅保留正文明确标注的 Business 项，删除未证套餐边界表述"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.plane.so/core-concepts/issues/states",
+          "result": "HTTP success; 正文含项目自建状态与 Backlog/Unstarted/Started/Completed/Cancelled 五组及完成度/归档规则"
+        },
+        {
+          "url": "https://docs.plane.so/your-work",
+          "result": "HTTP success; 正文含跨项目指派/创建/订阅工作项、按状态与优先级分布"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/makeplane/plane/preview/README.md",
+          "result": "HTTP success; 正文含 self-host 与 work items/cycles/modules/views/pages"
+        },
+        {
+          "url": "https://docs.plane.so/automations/overview",
+          "result": "HTTP success; 正文含默认自动化内置于每个项目（自动归档、自动关闭），due date reminders 标 Business，Custom automations 按 Business/Enterprise Grid 分"
+        },
+        {
+          "url": "https://docs.plane.so/intake/overview",
+          "result": "HTTP success; 正文含项目级 Intake（应用内/公开表单/邮件）、管理员开启、Triage 状态；Intake responsibility 标 Business"
+        },
+        {
+          "url": "https://docs.plane.so/intake/intake-forms",
+          "result": "HTTP success; 正文含公开表单链接、自定义表单按工作项类型、提交进入 Intake 后接受/拒绝"
+        },
+        {
+          "url": "https://asana.com/features",
+          "result": "HTTP success; 正文含 My Tasks 汇总个人指派、list/calendar/timeline/Gantt/Kanban 视图、forms/rules/workflows/portfolios 入口"
+        },
+        {
+          "url": "https://asana.com/features/project-management",
+          "result": "HTTP success; 正文含 tasks with clear owners and due dates、视图类型、任务可属多个项目且更新同步、Starter 起含 rules/forms、Advanced/Enterprise 含 portfolios/budget/resource planning"
+        },
+        {
+          "url": "https://docs.plane.so/core-concepts/issues/states.md",
+          "result": "HTTP success; Markdown 正文含项目默认自建状态、五状态组及对完成度/进度/归档的驱动，Enterprise Grid 下为工作区共享状态"
+        },
+        {
+          "url": "https://docs.plane.so/your-work.md",
+          "result": "HTTP success; Markdown 正文含跨项目汇总指派/创建/订阅工作项、按状态/优先级分布与近期活动"
+        },
+        {
+          "url": "https://docs.plane.so/automations/overview.md",
+          "result": "HTTP success; Markdown 正文含每项目内置自动归档与自动关闭；due date reminders 标注 Business"
+        },
+        {
+          "url": "https://docs.plane.so/intake/overview.md",
+          "result": "HTTP success; Markdown 正文含项目级 Intake 的应用内/公开表单/邮件三渠道、Triage 状态、接受/拒绝；Intake responsibility 标注 Business"
+        },
+        {
+          "url": "https://docs.plane.so/intake/intake-forms.md",
+          "result": "HTTP success; Markdown 正文含公开表单链接、提交进入 Intake、接受/拒绝；标题标注 Business"
+        },
+        {
+          "url": "https://developers.plane.so/self-hosting/overview.md",
+          "result": "HTTP success; Markdown 正文含 Docker Compose/Kubernetes 等自托管部署方式与数据控制说明"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

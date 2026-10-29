@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "timber-supply-chain-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:remsoft"
+      ],
+      "query": "websearch 401；GitHub API 检索 timber in:name、forestry in:name、woodflow in:name、wood supply chain、timber supply chain in:description；另查 Remsoft 与 Trimble Forestry 官方产品页。",
+      "source_urls": [
+        "https://remsoft.com/"
+      ],
+      "note": "采用 Remsoft（商业）作为核心匹配案例。官网同时展示 Woodstock 的采伐、道路与木材流动整合规划，以及 Logistics & Timber Delivery 的多方装载记录、调度与称重验证；明确支持分配计划与装载/交付执行，并以 forest owners、contractors、mills 共享的装载记录提供森林到工厂的可见性。但首页快照未明确展示 roadside/rolling/yard/mill 的节点级库存画面，故不把链上库存写成已完整覆盖。未研究价格、架构或部署。",
+      "service_boundary": "商业林业软件平台，官网为产品套件页；已核对的公开快照支持木材流动规划与多方装载执行，节点级链上库存、具体模块订阅、部署与运行形态未验证。",
+      "search_attempts": [
+        "websearch：open source timber supply chain management software wood flow allocation log delivery（HTTP 401，未重复调用）",
+        "GitHub API：timber in:name（6924 条，前列为日志库/主题/音乐播放器，无供应链应用）",
+        "GitHub API：forestry in:name（6470 条，前列为 Minecraft 模组/CMS/工具箱，无木材供应链）",
+        "GitHub API：woodflow in:name（24 条，均为小型电商/木工库存项目）",
+        "GitHub API：wood supply chain（19 条，多为区块链追溯/研究模型）",
+        "GitHub API：timber supply chain in:description（10 条，均为演示/追溯/数据可视化，未发现完整执行系统）",
+        "官方候选页：https://www.remsoft.com/ 与 https://forestry.trimble.com/"
+      ],
+      "fetch_outcomes": [
+        "https://www.remsoft.com/：fetch_source 因 www 到裸域重定向被拒；改抓 https://remsoft.com/，HTTP 200，389552 字节，已保存快照。",
+        "https://forestry.trimble.com/：重定向到不同主机；最终页约 1.4MB，超过 1MB 抓取上限，未采用。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "agribusiness-erp",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "websearch 401；GitHub API 检索 agribusiness erp、agriculture erp、farm erp、erpnext agriculture；核对 frappe/agriculture 的仓库元数据、README 与许可证。复核时另查 agribusiness accounting inventory in:description、agriculture ERP grower in:readme，并读取唯一候选 KeyRys/agris-ERP 的元数据与 README。",
+      "source_urls": [
+        "https://api.github.com/repos/frappe/agriculture",
+        "https://api.github.com/repos/frappe/agriculture/readme",
+        "https://api.github.com/repos/frappe/agriculture/license",
+        "https://api.github.com/repos/KeyRys/agris-ERP",
+        "https://api.github.com/repos/KeyRys/agris-ERP/readme"
+      ],
+      "note": "初审指出 frappe/agriculture 只是 ERPNext 的农业领域模块：README 仅覆盖作物/土地、植物/土壤/水分/天气分析及病害/肥料，安装以已装 ERPNext 站点为前提，快照没有会计、库存、采购、销售、种植者合同、接收质检、结算或生产事件过账的证据，依赖宿主的农艺模块不构成本叶“单一集成后台 + 农产品商品流”的核心。已移除该叶匹配，按无案例留档。补充检索仅见 KeyRys/agris-ERP（0 star、无许可证、README 自述 Status: Initialization phase、仅后端模型），不满足开源许可与完整应用要求；awesome 列表与 AI 原型不计为案例。",
+      "service_boundary": "无成立案例。frappe/agriculture 是依赖 ERPNext 宿主的农艺领域模块，不提供本叶所需的单一集成后台与农产品商品流；KeyRys/agris-ERP 无许可证且处于初始化阶段，不能作为开源完整农业 ERP。",
+      "search_attempts": [
+        "websearch：open source agribusiness ERP crop cycle field accounting inventory github（HTTP 401，未重复调用）",
+        "GitHub API：agribusiness erp in:name,description,readme（107 条，前列为 SQL 脚本/作品集/开发中项目）",
+        "GitHub API：agriculture erp in:description（60 条，多为原型、无许可证或开发中）",
+        "GitHub API：farm erp in:description（93 条，多为小型/无许可证项目）",
+        "GitHub API：erpnext agriculture（12 条，frappe/agriculture 为官方组织仓库，108 stars，GPL-3.0）",
+        "GitHub API：agribusiness accounting inventory in:description（1 条：KeyRys/agris-ERP，0 star、无许可证、仅后端初始化项目）",
+        "GitHub API：agriculture ERP grower in:readme（36 条，前列为 awesome 列表、AI/供应计划原型与无关项目，未见成熟完整农业 ERP）"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/frappe/agriculture：HTTP 200，仓库 id 441383353，full_name frappe/agriculture，license GPL-3.0。",
+        "https://api.github.com/repos/frappe/agriculture/readme：HTTP 200，README 可读，含安装依赖 ERPNext 的说明。",
+        "https://api.github.com/repos/frappe/agriculture/license：HTTP 200，GitHub license API 返回 SPDX GPL-3.0 与完整许可证文本。",
+        "https://api.github.com/repos/KeyRys/agris-ERP：HTTP 200，id 1118743081，stargazers_count 0，license null，description 自述 backend-ERP；README《AgroLogix ERP》自述 Status: Initialization phase，未采用。",
+        "https://api.github.com/repos/KeyRys/agris-ERP/readme：HTTP 200，README 可读，确认仅 production/inventory/logistics/accounting 后端模型与初始化状态，无 UI 或完整业务流证据。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "agricultural-gis",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ag-leader-sms"
+      ],
+      "query": "websearch 401；GitHub API 检索 agricultural gis、agrigis、agri-gis、farm-gis、geofarm、agro-gis；另查 Ag Leader SMS、Fieldmargin、AgriWebb、OneSoil 官方页。",
+      "source_urls": [
+        "https://www.agleader.com/sms-software/"
+      ],
+      "note": "采用 Ag Leader SMS（商业）作为农业 GIS 案例。官网展示田块边界、土壤调查/航拍/道路底图、多层查询、多年度比较、管理分区、NDVI 分析、3D 地形和可变速率处方，覆盖土地基础、农艺图层、地图分析与农艺输出。开源检索仅见课程/仪表盘/边界提取工具，未硬凑。",
+      "service_boundary": "商业田间数据/农艺 GIS 软件，以桌面端为主并配合 AgFiniti 云同步；非纯 Web SaaS，部署与运行未验证。",
+      "search_attempts": [
+        "websearch：open source agricultural GIS field boundaries map layers management zones github（HTTP 401，未重复调用）",
+        "GitHub API：agricultural gis in:name,description,readme（7889 条，前列多为通用 GIS/遥感列表/库）",
+        "GitHub API：agrigis in:name（27 条，多为个人项目/空仓库）",
+        "GitHub API：agri-gis in:name（68 条，多为课程/仪表盘/适宜性分析）",
+        "GitHub API：farm-gis in:name（45 条，多为太阳能选址/小型 WebGIS）",
+        "GitHub API：agro-gis in:name（29 条，少量多租户原型，未见成熟完整应用）",
+        "官方候选页：https://www.agleader.com/sms-software/、https://www.fieldmargin.com/、https://www.agriwebb.com/、https://onesoil.ai/"
+      ],
+      "fetch_outcomes": [
+        "https://www.agleader.com/products/sms-software/：fetch_source 两次返回 HTTP 502；换最终 URL https://www.agleader.com/sms-software/ 仍 502。",
+        "https://www.agleader.com/sms-software/：改用浏览器 UA 的 curl 取得 HTTP 200，326051 字节，页面含 SMS Advanced/management zones/soil survey/NDVI analysis，已按实际抓取时间保存快照。",
+        "https://www.fieldmargin.com/：HTTP 200，但重心是农场记录/任务/放牧，GIS 空间分析证据不足，未采用。",
+        "https://www.agriwebb.com/：HTTP 200，但重心是畜牧管理/农场记录，未采用。",
+        "https://onesoil.ai/：HTTP 200，但重心偏卫星精准农业/可变速率 执行，未采用为 GIS。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "agricultural-iot-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1150674441"
+      ],
+      "query": "websearch 401；GitHub API 检索 agricultural iot platform、agriculture iot platform、farm monitoring iot、smart farming platform、soil sensor monitoring platform、greenhouse monitoring platform、agricultural sensor network；核对 FarmInsight 元数据、README、许可证。",
+      "source_urls": [
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight",
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight/readme",
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight/license"
+      ],
+      "note": "采用 ETCE-LAB/FarmInsight（AGPL-3.0）。README 明确 HTTP/MQTT 传感器接入、10+ 传感器型号、实时看板与历史趋势、按设施阈值警报、通知、基于触发的自动控制、多租户与角色；构成设备集群、遥测、监控界面和警报闭环。",
+      "service_boundary": "开源自托管农业 IoT 平台，面向温室/垂直农场等食品生产设施；大学项目，未做生产验证。",
+      "search_attempts": [
+        "websearch：open source agricultural IoT platform sensor monitoring alerts github（HTTP 401，未重复调用）",
+        "GitHub API：agricultural iot platform in:name,description,readme（13753 条，前列为通用列表/平台，噪音大）",
+        "GitHub API：agriculture iot platform in:description（395 条，含 ldzandsmile/Agriculture、AgriTwin、Frog 等）",
+        "GitHub API：farm monitoring iot in:description（369 条，多为小型/无许可证项目）",
+        "GitHub API：smart farming platform in:description（1367 条，多为 AI 原型/无许可证）",
+        "GitHub API：soil sensor monitoring platform in:description（108 条，多为单片机/单传感器演示）",
+        "GitHub API：greenhouse monitoring platform in:description（62 条，greenscale 已归档且声明未就绪）",
+        "GitHub API：agricultural sensor network in:description（97 条，FarmInsight 为完整看板/管理平台）"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight：HTTP 200，仓库 id 1150674441，license AGPL-3.0。",
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight/readme：HTTP 200，README 可读，含传感器接入、警报、自动控制、部署步骤。",
+        "https://api.github.com/repos/ETCE-LAB/FarmInsight/license：HTTP 200，GitHub license API 返回 SPDX AGPL-3.0 与完整许可证文本。",
+        "ldzandsmile/Agriculture：元数据 HTTP 200，但 README 缺失；monitor.jsp/warning.jsp 实际调用 api.ziotc.com，仓库不含后端，按纯客户端排除。",
+        "dvcorreia/greenscale：元数据 HTTP 200，README 明确“not ready for production / will not be supported”，排除。"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "crop-remote-sensing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1158459932"
+      ],
+      "query": "websearch 401；GitHub API 检索 crop remote sensing platform、crop monitoring satellite、sen2agri、crop intelligence platform、precision agriculture platform；核对 OpenFarm 元数据、README、许可证。",
+      "source_urls": [
+        "https://api.github.com/repos/superzero11/OpenFarm",
+        "https://api.github.com/repos/superzero11/OpenFarm/readme",
+        "https://api.github.com/repos/superzero11/OpenFarm/license"
+      ],
+      "note": "采用 superzero11/OpenFarm（BSD-3-Clause）。README 明确田块边界绘制/GeoJSON/KML 导入、Sentinel-2 NDVI/EVI/SAVI 与 24 个月历史回填、异常/阈值警报、巡查、采样分区、地图与分享报告；覆盖田块锚点、遥感指标、田内变异和作物管理交付。项目较新且尚无测试，未运行。",
+      "service_boundary": "开源自托管作物遥感/田间情报平台；支持 Docker/PostGIS/TiTiler 部署，未做运行验证。",
+      "search_attempts": [
+        "websearch：open source crop remote sensing platform satellite NDVI field monitoring github（HTTP 401，未重复调用）",
+        "GitHub API：crop remote sensing platform in:name,description,readme（3825 条，前列为通用列表/无关项目）",
+        "GitHub API：crop monitoring satellite in:description（285 条，含 OpenFarm、eo-crops、演示看板）",
+        "GitHub API：sen2agri（14 条，Sen2Agri-System 为 ESA 处理系统）",
+        "GitHub API：crop intelligence platform in:description（529 条，多为 AI 原型/无许可证）",
+        "GitHub API：precision agriculture platform in:description（428 条，多为小型/无许可证项目）"
+      ],
+      "fetch_outcomes": [
+        "https://api.github.com/repos/superzero11/OpenFarm：HTTP 200，仓库 id 1158459932，license BSD-3-Clause。",
+        "https://api.github.com/repos/superzero11/OpenFarm/readme：HTTP 200，README 可读，含 NDVI/EVI/SAVI、警报、巡查、分区、部署。",
+        "https://api.github.com/repos/superzero11/OpenFarm/license：HTTP 200，GitHub license API 返回 SPDX BSD-3-Clause 与完整许可证文本。",
+        "https://api.github.com/repos/Sen2Agri/Sen2Agri-System/license：HTTP 200，但 SPDX 为 NOASSERTION，许可证文件是 Sen4CAP 复合文本；且以处理链为主，未采用。"
+      ],
+      "archived": false
+    }
+  ]
+}

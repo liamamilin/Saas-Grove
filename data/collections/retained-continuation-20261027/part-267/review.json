@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的五个叶子仍为 case_status=not_searched、application_ids 为空，而 batch.json 与 research.json 已记录 case_found；建议同步进度元数据，避免下游误判本单元无案例。",
+    "Furlo 的代码许可证为完整 MIT，但 README 明确提示仓库内 Noto Sans 字体缺少许可证/署名文件，需在再分发前确认 SIL OFL；license_review 中“README 未标注其他许可限制”的表述偏强，建议注明第三方资产许可待确认。",
+    "MoeGo 的 /pet-grooming-software 快照达到约 3MB 抓取上限，预约限制、服务菜单等核心文案位于 FAQ/正文较后位置；建议后续保存渲染后的正文或按章节留档，减少对全文检索的依赖。",
+    "Lemonade 的 /claims 是通用理赔页，结构化描述甚至写作 renters/homeowners；宠物理赔细节主要来自 /pet 的 FAQ，且引用页未展示登录后的保单文档或理赔状态页。对商业案例的基本类型匹配足够，但证据范围应注明。",
+    "OpenVPM 的 README 同时描述付费 OpenVPM Cloud 与商业许可；建议在条目摘要和边界说明中显式区分“自托管社区版”与“托管/商业版”，避免读者把云服务价格误读为开源社区版条件。",
+    "Gingr 是美容、寄养、日托、训练多业态平台，训练页只是其中一个模块；research 已记录该边界，展示时建议继续保留“仅取训练模块”的限定。",
+    "Furlo 自述面向 1–3 只宠物的家庭护理记录，不含多用户照护或诊所病历；这不影响其作为宠物健康应用的类型核心，但不宜外推为机构级多宠物系统。"
+  ],
+  "leaf_checks": {
+    "pet-grooming-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:moego"
+      ],
+      "basis": "读取 commercial:moego 的 batch 条目及两份快照：a747...(/pet-grooming-software) 的 FAQ/正文明确可按 time slot 设预约、限制每时段/每日宠物数、按品种/体型/服务设预约规则，日历显示实时可用性并提示冲突；服务菜单可按品种、体型、体重、被毛类型及附加项建立价格模板；客户档案可含无限宠物、被毛状况、上次美容日期及疫苗/用药/过敏提醒；并有 deposits、saved cards、integrated POS、prepayments 与 grooming reports。b6bb...(/grooming-software-staff-management) 进一步说明按 groomer 产能与节奏排班、multi-pet bookings、breed-aware profiles 和 grooming reports。覆盖“宠物×服务×美容师时段→按预约收款”的定义核心；商业 SaaS，边界限定美容沙龙/移动美容。",
+      "gaps": "首份快照为 3MB 上限 HTML，部分核心文案在 FAQ/正文后段，已通过快照全文检索与同 URL 页面文本复核；未登录运行产品，未独立验证厂商营销声明。"
+    },
+    "pet-health-application": {
+      "status": "pass",
+      "application_ids": [
+        "github:1297966006"
+      ],
+      "basis": "读取 github:1297966006 的 batch、research、仓库元数据、README 与 LICENSE。仓库 id 1297966006 与 repository metadata 一致；LICENSE 为完整 MIT。README 的 Implemented 段落列出账户与 Cloud Firestore 云同步、宠物档案（物种/品种/出生日期/照片）、疫苗到期状态与接种时间线、健康记录（体检/用药/疾病/手术/化验）、体重记录与趋势、喂食计划提醒、兽医联系人、下次就诊及 PDF 护理摘要导出；Firestore 集合位于 users/{uid}/ 下。构成照料者持有的纵向健康记录与到期护理循环；开源 Flutter 客户端 + Firebase 服务，不是诊所病历系统。",
+      "gaps": "未运行应用，Firestore 规则部署未验证。README 提示捆绑的 Noto Sans 字体缺少许可证/署名文件，属第三方资产许可缺口，不影响代码 MIT 的完整性，但应在展示时注明。"
+    },
+    "pet-insurance-customer-app": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:lemonade-pet"
+      ],
+      "basis": "读取 commercial:lemonade-pet 的 /pet 与 /claims 快照。/pet 页面说明宠物保险的保障范围、等待期、既往症、免赔额/共付比例、按报销制理赔、在 Lemonade app 内提交理赔并将赔款支付到银行账户；/claims 页面说明在 Lemonade app 内点击 File a Claim、由 AI/人工审核并在通过后快速付款。三者构成“保单/保障→兽医账单理赔→资金结果”的客户应用类型匹配；商业保险客户应用，边界限于 Lemonade 宠物保险。",
+      "gaps": "引用材料为营销页与通用理赔页，未展示登录后的保单文档/账户页；/claims 的结构化描述写作 renters/homeowners，宠物理赔细节主要来自 /pet FAQ。对商业案例仅需基本真实性与类型匹配，故不阻断；未登录或运行 App。"
+    },
+    "pet-training-management": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:gingr"
+      ],
+      "basis": "读取 commercial:gingr 的 batch、research、训练页快照与首页快照。训练页正文明确“built for classes and private lessons”，并列出 group classes、group enrollments、instructor scheduling、payments、progress notes、online enrollment、deposits、waitlists；正文还说明 group class 是带预设日期的系列课程，客户一次报名即锁定全部日期，满班可进 waitlist。首页确认 Gingr 覆盖 training 业务。覆盖“客户账户/犬只→已排期课程→注册→学费”的定义核心；商业 SaaS，边界仅取训练模块，不扩展到寄养/日托/美容。",
+      "gaps": "未登录运行产品；训练页属厂商营销内容，容量、押金和 waitlist 行为未做独立验证。Gingr 为多业态平台，训练只是模块，研究记录已注明边界。"
+    },
+    "veterinary-practice-management": {
+      "status": "pass",
+      "application_ids": [
+        "github:1185503465"
+      ],
+      "basis": "读取 github:1185503465 的 batch、research、仓库元数据、README 与 LICENSE。仓库 id 1185503465 与 repository metadata 一致；LICENSE 为完整 GNU Affero General Public License v3 文本（含 Version 3 与 TERMS AND CONDITIONS），README 标注 AGPLv3，未见“or later”声明，按 AGPL-3.0-only 记录合理。README 的 Implemented 段落列出客户/患者档案、按医生与诊室排班的预约及冲突检测、SOAP 电子病历、疫苗/化验/处方、服务与产品目录、估价转发票、付款与账户余额、客户门户，以及 Docker Compose 自托管；覆盖临床记录与客户账户计费整合的兽医 PIMS 核心。README 同时说明自托管免费且功能完整，另有付费 OpenVPM Cloud 与商业许可，社区版边界已由 research 的 service_boundary 记录。",
+      "gaps": "未部署或运行，README 自述有 clinic pilot readiness 与生产化边界；托管云与商业许可条款不在本开源条目范围内，建议在摘要中更显式区分。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元。按 REVIEW_SOURCES.json 的 path 原样读取了本单元全部 12 个快照（data/collections/sources/...），并核对 batch.json、research.json 与 input.json。未重算快照 sha256，未做部署或运行时测试，未登录商业产品，未独立核实厂商营销声明。MoeGo 的 /pet-grooming-software 快照约 3MB 上限，正文存在截断风险，核心文案通过快照全文检索及同 URL 当前页面文本复核；Lemonade 的引用页为营销/通用理赔页，未展示登录后的保单或理赔状态界面。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-267/ses_groveopencodegop267review2_1793041581.jsonl",
+  "batch_sha256": "5a60ba07a4e64b4495d990e81557cb00283a1a67a52017d8b21386d475fc50c8",
+  "research_sha256": "6acb6d88b45748eeae0d7441462a59d7e9bda2065ceec805ae3af666f4c8097e",
+  "input_sha256": "f9ccc9f3a47e0fa6b43c7dd06f1f1de72c54673449f07d927c78bc9226ac8bea"
+}

@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "manufacturing-erp：ERPNext 的 README 与 Work Order 正文足以支撑集成后台、BOM/工序/工作中心和生产订单核心；但快照未单列“生产成本过账至总账/差异”的会计过账示例，当前判断依赖同一系统内 Accounting 与 Manufacturing 的官方功能并列，属于来源粒度限制而非阻断性事实错误。",
+    "manufacturing-execution-system-mes：Carbon 的 MES 文档已覆盖已发布工单、工作中心排程、工序路由 DAG、报工、领料、工时、良品/报废/返工与检验；批次/序列单元级谱系主要由同产品 Traceability 文档补强，MES 单页未完整展开该层，建议后续补一条 MES 内的单元/批次产出记录证据。",
+    "manufacturing-supplier-collaboration：SupplyOn 官方页面覆盖采购订单数字化交换、结构化供应商确认、PO Deviation Cockpit 的数量/日期偏差处理、发货可见性与收货信号，以及共享需求/产能/交付日期和 JIT/JIS/VMI/Kanban；页面属于官方 solution 页而非技术文档，版本化记录等细节未展开，商业基本类型匹配不受影响。",
+    "manufacturing-traceability：该叶以 insufficient_evidence 留档且无案例，符合“无案例但如实记录检索与缺口”的通过条件；Carbon Traceability 快照可证明单元标识、活动输入输出和双向 genealogy，但其产品身份是 Carbon ERP/MES/QMS 套件内 Inventory 下的模块，未计为独立案例是合理的。byteFACTORY、Trace-X、TraceLink、TraceFlo 等候选未在本单元留存快照，后续复核需补存。",
+    "oee-management-platform：TEEPTRAK 官方产品页覆盖按机器/产线/车间/工厂计算 TRS/OEE、停机/微停/速度/报废、Pareto、目标指示、管理委员会/绩效审查报告和改进前后收益衡量；批次摘要中的“趋势”在页面上更多体现为基准、周期审查和前后对比，属可收窄的措辞问题。",
+    "input.json 的 progress 仍显示 phase=included_without_cases、所有 application_ids 为空、case_status=review_pending，而 research.json/batch.json 已有 4 个成立案例；若下游流程依赖 progress 元数据，应与本单元实际研究结果同步。",
+    "ERPNext 的 license 快照内容是 license.txt 的 contents API 响应，而条目 license_evidence_url 指向 /license 端点；两者均为官方来源且完整 GPLv3 文本已核对，但来源元数据可进一步对齐。",
+    "Carbon 的 README 还说明 API keys 与 MCP 在自托管场景需商业许可；当前 license_review 已正确覆盖 packages/ee 与 .ee. 企业文件边界，但未涵盖该功能级社区版边界，若目录区分功能级授权可补充说明。",
+    "SupplyOn 与 TEEPTRAK 的批条目未填写 features/deployment 字段，商业化服务形态主要记录在 research.service_boundary；不影响基本真实性与类型匹配，但条目结构完整度可补齐。"
+  ],
+  "leaf_checks": {
+    "manufacturing-erp": {
+      "result": "passed",
+      "application_ids": [
+        "github:1864233"
+      ],
+      "core_evidence": "ERPNext 官方 README 将 Accounting、Order Management（含库存、销售订单、供应商、发货与履约）和 Manufacturing 列在同一 ERP 中；官方 Work Order 正文说明工单由 BOM、Operation、Workstation 支撑，包含原材料、WIP、成品与报废仓库，Stock Entry 驱动领料/生产/入库，Job Card 记录工序和工时，并展示计划/实际工序成本、工单状态及停止/重开流程。",
+      "service_form": "Web 应用；README 说明可自托管（Frappe/MariaDB）或使用 Frappe Cloud 托管，生产、库存和会计记录在同一系统。",
+      "identity_license": "github:1864233 与 frappe/erpnext 仓库元数据一致；license 快照为完整 GNU GPL v3 文本，条目标注 GPL-3.0；该仓库为完整开源项目，无企业版/社区版拆分。",
+      "notes": "核心结构成立；总账过账与成本差异未在 Work Order 单页正文中单列，作为来源粒度限制记录，不作阻断。"
+    },
+    "manufacturing-execution-system-mes": {
+      "result": "passed",
+      "application_ids": [
+        "github:809730532"
+      ],
+      "core_evidence": "Carbon 官方 MES 文档说明已发布工单进入 Schedule 看板、按工作中心分列并显示工序队列；作业以 routing DAG 展示前后道关系；操作员可开始/暂停生产事件、记录 Setup/Labor/Machine 时间、报告良品/报废/返工数量、按序列号或批次扫描领料、执行检验步骤；文档明确 MES 不重排计划、所有写操作需联网。README 确认 ERP/MRP/MES/QMS 共用同一 Postgres 数据核心。",
+      "service_form": "Carbon MES 为面向车间平板/工作站的 Web 应用，依附同一产品的 ERP 订单与计划；README 说明可自托管（VPC/本地/隔离网络）或使用 Carbon Cloud。",
+      "identity_license": "github:809730532 与 crbnos/carbon 仓库元数据一致；LICENSE 完整文本明确 AGPL-3.0-only，packages/ee 及文件名含 .ee. 的企业文件另按 Carbon Commercial License；批条目已披露开源核心与企业文件边界。",
+      "notes": "MES 单页足以支撑执行层核心；单元/批次谱系细节由同产品 Traceability 文档补强，未发现身份、许可或社区版边界错误。"
+    },
+    "manufacturing-supplier-collaboration": {
+      "result": "passed",
+      "application_ids": [
+        "commercial:supplyon"
+      ],
+      "core_evidence": "SupplyOn 官方 Purchase Order & Confirmation 页面说明买卖双方结构化交换采购订单、供应商确认进入结构化工作流、PO Deviation Cockpit 识别数量/日期等变更、异常工作流、提醒以及发货可见性和收货信号；Supply Chain Collaboration 页面补充共享需求/产能/交付数量/交付日期、JIT/JIS/VMI/Kanban，以及订单、确认、发货和收货状态的实时跟踪。",
+      "service_form": "SupplyOn 运营的多企业供应商协同网络，买方和供应商按交易关系接入；研究记录明确为商业托管服务，非自托管产品。",
+      "identity_license": "commercial:supplyon；官方 SupplyOn 首页与 solution 页面可核对身份和直接物料供应链定位；商业案例不适用开源许可证。",
+      "notes": "共享需求记录、供应商响应闭环和信号到收货闭环均有官方正文支撑；版本化记录等细节未展开，不影响商业基本真实性和类型匹配。"
+    },
+    "manufacturing-traceability": {
+      "result": "passed_no_case",
+      "application_ids": [],
+      "core_evidence": "本叶无成立案例。已读取 Carbon Traceability 快照：tracked entity 以序列号/批次为单位，activity 记录 consume/produce/split/ship 的输入输出，genealogy 图可向前追溯祖先、向后追溯后代，并覆盖保质期/FEFO；但该能力位于 Carbon ERP 的 Inventory → Traceability 之下，属于 ERP/MES/QMS 套件模块，不能作为独立可追溯性应用。研究记录另评估 byteFACTORY（MES 套件模块）、Trace-X（供应链零件追溯）、TraceLink 原型项目、TraceFlo（SPA 空壳）并逐一排除。",
+      "service_form": "无案例；以 insufficient_evidence 留档，记录了两组检索、候选核对和 TraceFlo 抓取失败等缺口。",
+      "identity_license": "不适用；未接受任何开源可追溯性案例，Carbon 的 AGPL-3.0-only 许可仅在其 MES 关系中核对。",
+      "notes": "无案例留档符合任务允许的缺口记录方式；Carbon 模块排除理由与定义中的“重心在 MES/ERP 时不是独立可追溯性应用”一致。候选页未留存快照是后续复核限制，不是本轮阻断项。"
+    },
+    "oee-management-platform": {
+      "result": "passed",
+      "application_ids": [
+        "commercial:teeptrak"
+      ],
+      "core_evidence": "TEEPTRAK 官方产品页说明按机器/产线/车间/工厂自动计算 TRS/OEE，实时监测停机、微停、速度与报废，提供 OEE 仪表板、损失 Pareto、目标指示、管理委员会与绩效审查报告，以及改进项目前后收益衡量和收益跟踪；首页与结构化数据确认其为面向制造业的实时 OEE/TRS 软件，支持 Web/iOS/Android。",
+      "service_form": "商业托管 OEE/TRS 软件，提供 90 天引导式试点；研究记录明确为面向制造业多站点的商业服务，本轮未注册、登录或部署。",
+      "identity_license": "commercial:teeptrak；官方 TEEPTRAK 首页和产品页可核对身份、用途与类型；商业案例不适用开源许可证。",
+      "notes": "衡量的生产单元、时间/产出核算、OEE 分数、损失归因和有效性管理均有正文支撑；“趋势”更多由基准、周期审查和前后对比体现，属非阻断措辞问题。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行、部署或登录任何产品，未做价格、架构或运行测试；快照严格按 REVIEW_SOURCES.json 的 path 原样读取，HTML 页面正文受导航、脚本和单行截断影响，但已定位并核对核心段落；未读取其他单元、采集者历史脚本或 TASK.md；traceability 与 OEEForge 等补充候选未在本单元留存快照，无法独立复核其页面正文；商业产品仅核对官方页面基本真实性和核心类型匹配。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-015/ses_groveopencodegop015review1_1793076081.jsonl",
+  "batch_sha256": "6307eb09e142cecb784c6a6a4cf25b163abe8ad239f76a816ad3e1d56dc71db7",
+  "research_sha256": "091073c7aaa88c211f0db408516c7d6828ee4c6cc0a2845eccbe9150ef068b65",
+  "input_sha256": "f62e9cdfdfeea5c34245b1b7ea961881fcbfc2f7f12bfcf5a70be3872389f727"
+}

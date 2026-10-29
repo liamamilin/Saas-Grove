@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 21,
+  "offset": 500,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "load-testing-platform",
+        "name_zh": "负载测试平台",
+        "domain_id": "12",
+        "parent_id": "12.02",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-021/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "k6 official Load Testing Platform"
+            ]
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/277",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": [
+              "k6 official Load Testing Platform",
+              "复核已有官方快照（2026-10-26）"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "load-testing-platform",
+        "name": "Load Testing Platform",
+        "name_zh": "负载测试平台",
+        "aliases_zh": [
+          "性能测试平台",
+          "压力测试平台"
+        ],
+        "overview": "A **Load Testing Platform** is the system a software team uses to learn how its own system behaves under controlled, simulated demand. Teams define what simulated users do (a re-runnable scenario of requests and actions), control how many of them act against the target at once and for how long (the load profile), execute that scenario and profile against the target system, and measure how the target performs under the load — throughput, response time, and error rate — as results that can be analyzed, compared across runs, and judged against performance expectations.\n\nThe defining core is small:\n\n```text\nLoad scenario of record        (what each simulated user does — persistent, re-runnable)\n└── Controlled simulated population   (how many users or what request rate,\n│                                      shaped over time, sustained for a duration)\n    └── Execution against the target system\n        └── Performance measurements of the target under load\n            └── Retained result set (throughput / response time / errors)\n```\n\nRemove the simulated population and the product becomes single-user testing (functional or end-to-end); remove the measurement and it becomes a bare traffic generator; remove the scenario and it becomes a patternless request flood. Everything else commonly associated with the category — cloud load engines, pass/fail performance thresholds, geographic distribution, recorders, CI gates, percentile dashboards — is widespread in current products but is not what makes the product a load testing platform. Older thread-based desktop tools satisfy the definition with none of that machinery.",
+        "overview_zh": "一个**负载测试平台**是软件团队用来了解其自身系统在受控模拟需求下行为表现的系统。团队定义模拟用户执行的操作（一个可重复运行的请求和操作场景），控制同时针对目标系统执行这些操作的用户数量及持续时间（负载配置文件），针对目标系统执行该场景和配置文件，并测量目标在负载下的性能表现——吞吐量、响应时间和错误率——这些结果可供分析、跨次运行比较以及依据性能预期进行判断。\n\n其定义的核心要素很简单：\n\n```text\n记录在案的负载场景        （每个模拟用户执行的操作——可持久保存、可重复运行）\n└── 受控的模拟用户群     （用户数量或请求速率，\n│                                      随时间变化，持续一定时长）\n    └── 针对目标系统执行\n        └── 负载下目标系统的性能测量\n            └── 保留的结果集（吞吐量 / 响应时间 / 错误）\n```\n\n移除模拟用户群，该产品就变成单用户测试（功能或端到端测试）；移除测量，它就变成一个纯粹的流量生成器；移除场景，它就变成无模式的请求洪泛。通常与该类别相关的其他所有内容——云负载引擎、通过/失败性能阈值、地理分布、记录器、CI门控、百分位仪表盘——在当前产品中广泛存在，但并非使其成为负载测试平台的核心要素。较早的基于线程的桌面工具即使没有这些机制，也满足该定义。",
+        "dc": "Three structures, held together:\n\n**1. The load scenario of record.** A persistent, named, re-runnable definition of what each simulated user does: a sequence of requests and actions against the target — fetch pages, call APIs, submit data, log in — organized into flows, with per-user session state, parameterized inputs, and data drawn from test data sets. The scenario is a managed asset like application code or a test suite: it is stored, reviewed, edited, and re-run. It is authored in whatever form the product offers — a desktop GUI tree, a script in a general-purpose language, a recorded capture, or a declarative configuration — but the asset itself is the same kind of thing.\n\n**2. The controlled simulated population.** The platform's distinguishing object: a definition of *how much* simulated demand is applied. Its recurring knobs:\n\n```text\nLoad profile\n├── Population size        how many simulated users act concurrently,\n│                          or what rate of requests/iterations per time\n├── Shaping over time      ramp-up to full load, sustain, ramp-down;\n│                          step patterns, spikes, steady states\n└── Duration / volume      how long the load runs, or how much work is done\n```\n\nTwo equivalent framings exist across products: a **closed** population of simulated users who loop through the scenario (concurrency is the controlled quantity), and an **open** model where the controlled quantity is the arrival rate of iterations and simulated users are created as needed. Either way, the platform deliberately scales the simulated population — that is the \"load\" in load testing, and it is what separates this Type from testing one user's journey.\n\n**3. Execution and performance measurement.** The platform runs the scenario × profile against the target system — locally, on self-managed injector machines, or on vendor-hosted load engines — and measures the target's behavior while under load: throughput (requests or hits per second), response time (aggregated as averages, medians, and in modern products percentiles), and errors (failed requests, and more broadly the functional failures that simulated users encounter). The measurements accumulate as a retained **result set for the run** — the unit the team inspects, reports on, and compares against earlier runs and expectations.",
+        "dc_zh": "三个结构，共同构成：\n\n**1. 负载场景记录。** 一个持久的、命名的、可重新运行的定义，描述每个模拟用户执行的操作：一系列针对目标的请求和动作——获取页面、调用API、提交数据、登录——组织成流程，具有每个用户会话状态、参数化输入和从测试数据集中提取的数据。该场景是一个受管理的资产，类似于应用程序代码或测试套件：它被存储、审查、编辑和重新运行。它根据产品提供的任何形式创作——桌面GUI树、通用语言脚本、录制捕获或声明式配置——但资产本身是同类事物。\n\n**2. 受控模拟群体。** 平台的区分对象：定义应用多少模拟需求。其反复出现的调节旋钮：\n\n负载配置文件\n├── 群体规模        多少模拟用户并发执行，\n│                    或每时间多少请求/迭代的速率\n├── 随时间塑形      逐步增加到满负载、维持、逐步减少；\n│                    阶梯模式、峰值、稳态\n└── 持续时间/工作量  负载运行多长时间，或完成多少工作量\n\n在不同产品中存在两种等效的框架：一个**封闭**群体，模拟用户循环执行场景（并发量是受控量），和一个**ope",
+        "rules": "### The load generator itself can invalidate the test\n\nThe platform is itself a system under strain: if the generating machine, engine, or agent is undersized or fails mid-run, the target never receives the intended pressure and the results are wrong. Products document this directly — generator sizing is a first-class preparation step, generator health is visible during runs, and at least one product names the failure mode (\"partial load\") as a reason to invalidate a run. Checking that the load actually delivered is structural to the practice.\n\n### Authoring and execution are deliberately separated\n\nThe interactive authoring surface is not the execution surface. Real runs are executed headlessly (CLI or cloud) because the authoring machinery — rendering, UI event handling — would distort the very measurements the tool exists to take. This separation is explicit in the tools' own guidance, not a UI preference.\n\n### Errors are a measurement, not just a verdict\n\nA simulated request can fail at two levels: transport/HTTP failure, or functional failure (the response arrived but is wrong). Functional checks inside the scenario determine what counts as an error, and error rate is read as a performance signal — rising errors under load are a degradation symptom as important as rising latency.\n\n### Each simulated user must be an independent session\n\nSimulated users that share cookies, session state, or stale dynamic values measure the wrong thing. State handling is per-user by construction, and preparing realistic per-user state (login, data) is part of authoring.\n\n### Load tests are potentially destructive and planned as such\n\nDeliberately heavy load can degrade or crash the target — the products' own documentation treats this as expected. Hence the recurring practices: validate at small scale first, ramp up rather than instant-onset, run in windows where degradation is acceptable, and in modern products abort automatically when a threshold is breached.\n\n### The result set is statistical\n\nThe unit of record is the run's aggregated measurements — totals, rates, distributions, percentiles — not a per-user verdict. A single simulated user's individual latency is data; the decision objects are the aggregates and their comparison across runs.\n\n### Definition is separated from environment\n\nThe same scenario and profile run against different targets (local dev, staging, per-branch deployments) through configuration — target host, environment variables, data sets — so changing where you test does not mean rewriting the scenario.",
+        "rules_zh": "### 负载生成器本身可能使测试失效\n\n平台自身也是一个承压系统：如果生成机器、引擎或代理规模不足或在运行中失败，目标系统将永远收不到预期的压力，结果就是错误的。产品直接记录了这一点——生成器规模规划是首要的准备步骤，生成器健康状态在运行期间可见，并且至少有一个产品将失败模式（“部分负载”）命名为使运行无效的原因。检查负载是否实际送达是该实践的结构性组成部分。\n\n### 编写和执行是刻意分离的\n\n交互式编写界面并非执行界面。实际的运行以无头模式执行（CLI或云端），因为编写机制——渲染、UI事件处理——会扭曲工具旨在进行的测量本身。这种分离在工具自身的指南中是明确的，并非UI偏好。\n\n### 错误是一种测量，而不仅是裁决\n\n一个模拟请求可能在两个层级失败：传输/HTTP失败，或功能失败（响应到达但内容错误）。场景内的功能检查决定了什么算作错误，而错误率被解读为一个性能信号——负载下错误增加是与延迟增加同样重要的性能下降症状。\n\n### 每个模拟用户必须是一个独立会话\n\n共享cookie、会话状态或过时动态值的模拟用户测量的是错误的东西。状态处理在构造上是每用户独立的，准备真实的每用户状态（登录、数据）是编写工作的一部分。\n\n### 负载测试具有潜在破坏性，因此需要预先规划\n\n刻意施加重负载可能降级或使目标系统崩溃——产品自身的文档将此视为预期行为。因此，常见实践包括：验证",
+        "parent_id": "12.02",
+        "domain_id": "12"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 97,
+    "phase": "directory",
+    "parent": 97,
+    "slugs": [
+      "load-testing-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "b8689fdb5c94581bb54b04322772634d18c35418ff6438f520d7f9fa9593d22a"
+  }
+}

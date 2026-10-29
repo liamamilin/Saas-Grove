@@ -1,0 +1,58 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "mortgage-servicing-platform",
+      "application_id": "commercial:sagent-dara",
+      "issue": "唯一引用来源是 Sagent 首页。正文只给出“one platform powering the entire servicing lifecycle”的口号、导航项（Loan Administration、Escrow、Investor Management、Collections、Loss Mitigation）和规模数字，没有描述 serviced mortgage account of record、payment application/escrow/accrual、statements/investor reporting、delinquency/loss-mitigation 的具体机制。batch 的 leaf_matches 却据此写成已覆盖“服务账户、周期性服务循环与贷后管理”，并把导航项当作核心工作流证据；其中“Escrow Money Management”在快照中并不存在（只有“Escrow”）。",
+      "fix": "补充并引用 Dara 的产品页正文（例如 sagent.com/dara/establish-manage/ 的 Loan Administration/Escrow，sagent.com/dara/engage-assist/ 的 Collections/Loss Mitigation），用正文说明 payment application、escrow、investor reporting、delinquency/loss mitigation 等；若无法取得，则把 leaf_match 收缩到首页能支持的范围，并在 research 中明确记录核心缺口，不要以导航/口号替代核心正文。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是 included_without_cases/not_searched、application_ids 为空，与 batch/research 的 5 个 case 不一致；这是 repair 输入的旧状态，建议同步，避免下游把本单元当成无案例。",
+    "MeridianLink 的 batch source_url 与快照 canonical 不一致：/loan-origination-software/（以及 research 的 /loan-origination-system/）实际落到 /solutions/loan-origination-software/；建议改用 canonical 并记录重定向。",
+    "ICE Encompass 快照是完整的抵押贷款 LOS 产品页，但未直接出现 appraisal/title/collateral/property 等词；property-anchored 证据偏弱，类型判断不受影响。",
+    "Collect! 的 research service_boundary 写“委托方分账”，快照只支持 client-scoped portal 与 client/portfolio organization，未直接展示 remittance/commission；建议改为更保守表述或补源。",
+    "Sagent research note 称“官方Dara页”，实际引用的是 sagent.com 首页；在补充 Dara 产品页前，来源标签应写“Sagent 首页”。",
+    "ICE research fetch_outcomes 对同一 /products/encompass/ URL 记录了两次不同 hash（41967… 与 140fa…）；batch 使用可读的 140fa… 快照，建议清理重复抓取记录。",
+    "五个叶子均为 commercial，不涉及开源许可证/社区版边界；未做运行时、价格或架构验证。"
+  ],
+  "leaf_checks": {
+    "debt-collection-management": {
+      "application_id": "commercial:collect-comtech",
+      "result": "supported_with_note",
+      "basis": "读取 Collect! 首页与 Solutions 页：首页定位 collection agencies/receivables management，展示 client/consumer 两个门户、按 client/portfolio 组织账户、可配置 work queues、支付与分期、信件/短信/拨号器、信用局报送、judgment/legal records 与 compliance/audit；Solutions 页补充按客户范围的状态/余额/进展、消费者自助支付、action plans/work queues、CFPB Reg F 与审计轨迹。产品身份、商业软件形态与 debt-collection-management 类型匹配。",
+      "gap": "来源未直接描述向客户 remit/commission 结算的机制；research 的“委托方分账”表述强于快照证据，建议软化或补源。"
+    },
+    "loan-management-system": {
+      "application_id": "commercial:loanpro",
+      "result": "supported",
+      "basis": "读取 LoanPro Servicing Suite 页：API-first、real-time ledger、post-origination account activity，覆盖 payments、interest accrual、customer support/collections、可配置 servicing workflows，以及 commercial/consumer/auto/lease/line-of-credit 等产品。符合 lender-side funded-loan account、可计算条款、周期性服务循环与生命周期管理的核心，且为 web-based 商业服务。",
+      "gap": "无实质性缺口。"
+    },
+    "loan-origination-system": {
+      "application_id": "commercial:meridianlink",
+      "result": "supported_with_note",
+      "basis": "读取 MeridianLink LOS 页面快照：官方页面身份为 Loan Origination Software/System (LOS)，正文覆盖 consumer、mortgage、business、indirect lending，连接 application、decision、workflow、funding，并提供 configurable automation、underwriting/decisioning 与 cloud-based 说明。符合 application case、lender-side pipeline、credit evaluation、recorded decision to funding 的类型核心。",
+      "gap": "batch 的 source_url 使用 /loan-origination-software/，但快照 canonical 为 /solutions/loan-origination-software/；建议更新来源 URL。快照为压缩 HTML，正文逐字核对受只读工具截断限制。"
+    },
+    "mortgage-origination-platform": {
+      "application_id": "commercial:ice-encompass",
+      "result": "supported_with_note",
+      "basis": "读取 ICE Encompass 产品页：明确为 mortgage loan origination software/system of record，正文包含 loan manufacturing、configurable workflows、document collection/data verification、pricing engine、settlement/closing、eClose、secondary marketing 与 correspondent lending。产品身份与 mortgage-origination-platform 类型匹配。",
+      "gap": "页面未直接描述 property-anchored case 或 appraisal/title/collateral 证据；抵押贷款类型清楚，但 property 这一区分性核心主要靠“mortgage”语境推定，证据深度一般。"
+    },
+    "mortgage-servicing-platform": {
+      "application_id": "commercial:sagent-dara",
+      "result": "evidence_gap",
+      "basis": "读取 Sagent 首页：标题与正文表明 Dara 是 mortgage loan servicing software，称“one platform powering the entire servicing lifecycle”，展示 16M+ active loans serviced、$1.4B+ monthly payments processed，并有 Loan Administration、Escrow、Investor Management、Collections、Loss Mitigation 导航项。",
+      "gap": "核心工作流证据不足：没有 serviced account record、payment application/escrow/accrual、statements/investor reporting、delinquency/loss-mitigation 的正文描述；batch 理由把导航项与“one platform”口号当作已覆盖核心，且“Escrow Money Management”在快照中不存在（仅“Escrow”）。需补 Dara 产品页或按缺口留档。"
+    }
+  },
+  "limits": "本次为只读初审：未登录、部署或运行任何产品，未核对价格、架构、实际工作流或运行时行为；仅使用本单元 input.json、data/collections/batch.json、research.json 与 REVIEW_SOURCES.json 指定的快照（逐个按 path 原样读取）。部分快照是压缩 HTML（如 MeridianLink 正文在超长单行中），read 工具会截断超长行，无法逐字通读全部正文；对这些叶子以可见标题、canonical、正文片段和官方页面身份为依据，并已在 leaf_checks 标注证据深度限制。Sagent 仅有首页快照，核心工作流缺口已在 findings 中列出。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-050/ses_groveopencodegop050review1_1792988968.jsonl",
+  "batch_sha256": "92e0ba15bb2ac3873d74ce5ee53345a35097ac4302d24353a9c90fa1b9e995bd",
+  "research_sha256": "a3c7b068d79b76e8009170f397523cdfb6f3e0f89a2370d77865d8b769c3e3f0",
+  "input_sha256": "ed791385d2848f0a055b25fcfd59822d7285b90edfb0d1d1ea771eaa11255c1b"
+}

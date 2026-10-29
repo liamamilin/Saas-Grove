@@ -1,0 +1,57 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "CiviCRM 活动叶的已读快照可直接支撑活动记录、在线报名、票务/定价、出席跟踪、现场签到、活动复制和活动捐款；拍卖、举牌认捐、赞助套餐、退款及余额结算等具体机制未在 events 页直接出现，收据/致谢自动化来自 contribution-pages 页对 event fees 的通用说明。建议保持现有关系理由的粒度，不要扩展为这些具体机制均已核实。",
+    "CiviCRM mailings 页写明“For pro subscribers, Spark ships with CiviMail”，只说明 Spark 付费订阅包含 CiviMail，未细分 AGPL 社区核心与付费 Spark 的功能边界。批次已把 Spark 付费订阅与社区核心区分开，但不宜进一步断言所有批量邮件能力均属社区核心独有。",
+    "GivStack README 的 clone URL 仍写作 givstack/givstack，与当前仓库 gabihorn/givstack 不一致；仓库身份、ID 和核心判断不受影响，但按 README 快速开始会失败，建议后续修正文档。",
+    "GivStack 为 2026-05 创建、当前单活动部署的项目，成熟度有限；批次和 research.json 已如实披露，未作更强断言，属于可接受的非阻断保留。",
+    "CivicOps 的仓库元数据快照显示 Apache-2.0，但其 README 末尾写“Add a license before the first public release; no license is declared yet”。该候选未纳入批次，不影响本单元结论；若后续复用该候选，应先核实许可证状态。",
+    "nonprofit-fund-accounting 的 note 使用“未找到可证明定义性核心的官方来源”略宽：Steward 和 Nonprofit Ledger 的 README 实际描述了基金会计核心，但两者分别自述早期开发和 Phase 1/7、不可用于真实账簿。建议区分“核心描述存在”与“完整可用应用不存在”。",
+    "input.json 的 progress 仍为 not_searched、application_ids/research_records 为空，而 research.json 已有检索与抓取记录；属于进度元数据滞后，不影响正文审查。"
+  ],
+  "leaf_checks": {
+    "nonprofit-crm": {
+      "assessment": "verified",
+      "applications": [
+        "github:8495499"
+      ],
+      "basis": "CiviCRM 仓库元数据 id=8495499、full_name=civicrm/civicrm-core；license 快照为完整 AGPL-3.0 文本。contact-management 正文明确其为面向非营利的开源 CRM，强调 one unified record、捐献/活动/会员/沟通记录自动累积到联系人、relationships/groups/tags、细分沟通和 communication preferences；mailings 正文补充批量邮件、分组细分、个性化与统计。四项定义性核心——成员记录、累积关系历史、由记录驱动的关系工作、使命支持语义——均有正文依据；未见商业 deal pipeline 叙事。",
+      "gaps": "已读快照未直接展示重复检测/合并的具体工作流，也未直接展示致谢作为被跟踪义务；这两点属于规则层能力，不影响四项核心成立。Spark 付费订阅与 AGPL 社区核心的边界已在 summary 中区分，但 mailings 页对 CiviMail 的付费/社区归属表述不够细。"
+    },
+    "nonprofit-crowdfunding-platform": {
+      "assessment": "verified",
+      "applications": [
+        "github:1241862435"
+      ],
+      "basis": "GivStack 仓库元数据 id=1241862435、full_name=gabihorn/givstack、fork=false、archived=false、创建于 2026-05；LICENSE 快照为完整 MIT 文本。README 明确其为面向 communities、synagogues、nonprofits 的开源自托管众筹平台：campaign page 含 progress bar、donor wall、countdown；支持 manual donation entry（cash/check/bank transfer）、Nedarim Plus iframe+webhook、CSV export、campaign updates、ambassador 分享链接和 live donation notifications。公开活动容器、绑定活动的公众捐赠捕获、公开进展与传播机制三项核心均有正文依据；Nedarim Plus 机构账户（MOSAD_ID）对应资金流向组织。",
+      "gaps": "README 未展示捐赠者匿名/展示控制的具体实现；当前为单活动部署，且项目较新，成熟度有限，批次已披露。README 的 clone URL 与当前仓库 owner 不一致，属于文档问题而非身份问题。"
+    },
+    "nonprofit-event-management": {
+      "assessment": "verified",
+      "applications": [
+        "github:8495499"
+      ],
+      "basis": "CiviCRM events 正文提供 event pages、online registration forms、ticketing and pricing structures、tracking sign-ups/cancellations/attendance、on-site participant check-in、event templates/copy，并明确活动数据与 donor database 集成、可 collect donations。contribution-pages 正文补充 CiviContribute 可管理 event fees、自动化 receipts/acknowledgments/thank-you messages 以及贡献报告。活动记录、报名/入场、活动关联捐赠、结算与致谢四项结构均有正文依据；票务收入与捐赠在 CiviContribute/贡献报告语境下可区分。",
+      "gaps": "已读快照未直接展示拍卖、举牌认捐、赞助套餐、退款、拆分支付或未付余额催收等具体机制；活动场景下的收据/致谢是从 contribution-pages 的通用贡献页能力与 event fees 说明合并推断，证据粒度足以支持类型核心，但不宜扩展为所有这些机制均已核实。"
+    },
+    "nonprofit-fund-accounting": {
+      "assessment": "documented_no_case",
+      "applications": [],
+      "basis": "research.json 记录了 GitHub/公开网页检索及候选核查：Steward README 自述 Early development，ledger schema/validation plugin/template 可用，但 web layer、importers、report suite 仍在建设；Nonprofit Ledger README 明确 Phase 1/7、Not yet usable for real books；fundflow 为 POC；GnuCash 等通用会计不满足基金分区、限制性净资产和功能费用报表核心。未发现可收录的完整基金会计应用，缺口记录与已读候选快照一致。",
+      "gaps": "两个候选 README 已描述基金/限制性净资产/功能费用等核心概念，但均未达到完整可用应用门槛；本轮没有可核验的完整产品正文。research.json 的“未找到可证明定义性核心的官方来源”措辞略宽，宜改为“未找到完整可用应用”。"
+    },
+    "nonprofit-grant-management": {
+      "assessment": "documented_no_case",
+      "applications": [],
+      "basis": "research.json 记录了检索及候选核查：CivicOps 为 0.1.0 release candidate 的多模块平台，README 的 grants 模块确有生命周期、active-grant expenses、overspending protection、reporting deadlines 和 portfolio reporting，但整体成熟度与生产可用性未证明，且并非专门的接收方赠款管理应用；gandhi README 自述 alpha，正文未展示接收方赠款生命周期、义务或按赠款预算的证据；Microsoft 模板依赖 Power Platform，未作为独立应用收录。未发现达到收录门槛的完整接收方赠款管理应用，缺口记录成立。",
+      "gaps": "CivicOps 的 grants 模块已接近本叶核心，排除理由主要是成熟度/多模块定位而非核心完全缺失；若后续放宽成熟度门槛，应重新评估。CivicOps 元数据标 Apache-2.0 与 README“no license is declared yet”存在表述冲突，未收录状态下不影响本单元，但复用前应核实。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未部署或运行任何应用，未重新计算快照 sha256。已按 REVIEW_SOURCES.json 的 path 原样读取两个收录应用的 11 个快照；两个无案例叶子在 research.json 中引用的候选 README/元数据快照虽按路径直接读取，但不在 REVIEW_SOURCES.json 中，未做哈希核对。GitHub 元数据快照为单行 JSON，读取预览在 2,000 字符处截断，字段值通过定向匹配核对（id、license、archived、created_at 等），未逐字节检查完整元数据。未进行实时网页抓取、商业定价、部署测试或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-089/ses_groveopencodegop089review2_1792998270.jsonl",
+  "batch_sha256": "ee8c2ff7a2d28762f639830c43cfe5c7f567c9fcd2f8360def299f3996031448",
+  "research_sha256": "34d0440cc914f5b1ef611b6be1a235b4680cfd9bb433a227055480ebc0bb6a14",
+  "input_sha256": "b00e1cd1bc7f784c92ec5cec520023cf17fcf63bea3d866bb04c812ff0266881"
+}

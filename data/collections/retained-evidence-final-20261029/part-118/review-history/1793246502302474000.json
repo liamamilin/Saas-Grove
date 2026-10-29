@@ -1,0 +1,45 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "service-mesh-management",
+      "application_id": null,
+      "issue": "research.json 的 fetch_outcomes/note 声称本地抓取在 DNS 阶段失败、未保存任何可复核快照、Meshery 仓库 numeric ID 无法核实；但本单元 data/collections/sources/ 下实际存在 Meshery 仓库元数据（full_name=meshery/meshery，id=157554479）、Meshery LICENSE 全文（Apache License Version 2.0）、Meshery README、meshery.io 首页、docs.meshery.io/concepts/architecture 快照，以及 Kiali（id=120181748）与 Istio（id=74175805）的同类快照。留档对已保留证据的陈述与目录事实相反，属于来源/事实问题，且直接影响该叶的判定依据是否成立。",
+      "fix": "二选一并保持一致：若这些文件确为本叶采集产物，则在 research.json 中如实登记其 url、sha256、fetched_at、kind，删除“DNS 失败/未保存快照/numeric ID 无法核实”的错误陈述，并据实重写 assessment 与 service_boundary；若不属于本叶，则移出本单元并注明来源，不得在目录留存同时声称无快照。"
+    },
+    {
+      "slug": "service-mesh-management",
+      "application_id": null,
+      "issue": "REVIEW_SOURCES.json 的 sources 为空数组，batch.json 的 entries 为空，但 data/collections/sources/ 下有 19 个快照文件（Meshery 7 个、Kiali 8 个、Istio 4 个）。这些快照既未进入批次条目来源记录，也未进入 REVIEW_SOURCES 或 REUSED_SOURCES（后者仅登记 4 个 Istio 文件），形成无索引的孤立证据，审查端无法按声明路径核对，也无法确认哪些文件属于本叶。",
+      "fix": "为每个保留快照补齐来源记录（path 相对 data/collections、sha256、url、fetched_at、kind），据此重建 REVIEW_SOURCES.json 与批次来源；或将未被引用的文件清理并留下说明，保证目录、批次与 REVIEW_SOURCES 三者一致。"
+    },
+    {
+      "slug": "service-mesh-management",
+      "application_id": null,
+      "issue": "叶级判定理由与实际核对对象不符：input.json 与 research.json 的保留理由写成“只证明客户端、CLI、引擎/基础设施或设备控制”，但实际考察的是 Istio（控制平面基础设施）、Meshery（对其它网格做生命周期与配置下发的管理平面/UI）、Kiali（官方 README 自述为 Istio service mesh 的管理控制台），三者均非客户端/CLI 类证据；同时未逐候选说明其为何不满足“作为持续使用的软件服务（SaaS）形态”，也未说明 Meshery Cloud 等托管形态是否被排除。",
+      "fix": "按候选分别写明证据与缺口：Istio 为自托管控制平面/基础设施；Meshery 为自托管管理平台（Apache-2.0，可部署网格、下发 VirtualService/DestinationRule 等，但控制平面仍是 Istio，且未核实托管 SaaS 形态）；Kiali 为集群内部署的管理控制台。据此重写 service_boundary 与 note，再决定保留 boundary_unresolved。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 research_records.query（Istio repository and traffic management documentation）与 research.json 的 query（Meshery management plane 与 Istio adapter）不一致，建议统一以便追溯本轮实际检索主题。",
+    "notes/meshery-web-research.txt 是官方页面的文字摘录，不是逐字节 HTTP 快照；其关于 Istio adapter 页面（可经 UI 安装 Istio、应用 sidecar 注入与 mTLS 策略、下发 VirtualService/DestinationRule）的说法目前没有对应快照，保留快照中只有 docs.meshery.io/concepts/architecture，建议补留该 adapter 页面或降级为未核实线索。",
+    "保留理由使用了跨叶通用模板措辞，即使结论成立也建议改为本叶专属表述，避免下游误读为仅有 CLI/引擎证据。",
+    "本叶定义的核心（网格作为被管理系统、带身份的服务图、声明式东西向策略）在 Istio 快照中可获支持，但 Istio 属于基础设施软件而非应用服务，因此不构成 SaaS 应用案例；此点无需在 findings 中另行修复，只需在留档中写清。"
+  ],
+  "leaf_checks": {
+    "service-mesh-management": {
+      "definition_core": "已读 input.json 定义：核心为被管理的网格系统、携带身份的服务图、由数据平面执行的声明式服务到服务策略；东西向流量为中心，入口网关/多集群等属变体。核对 Istio 快照（traffic management、security、about/service-mesh）与该核心一致。",
+      "saas_service_form": "未建立。Istio 为自托管控制平面基础设施；Meshery 为自托管云原生管理平台；Kiali 为部署于集群内的 Istio 管理控制台。均无证据表明是以账户持续使用的托管 SaaS 服务，Meshery Cloud 等托管形态未核实，故不支持 case_found。",
+      "application_id_track": "本叶 application_ids 为空，batch.json entries 为空，无已接受应用条目可核对 ID/track；仅有候选仓库 numeric ID（Meshery 157554479、Kiali 120181748、Istio 74175805）出现在未索引快照中。",
+      "license_and_community_boundary": "无已接受开源案例，故未做完整许可证与社区版边界结论；就保留快照而言，Meshery 与 Kiali 的 LICENSE 为 Apache License Version 2.0 全文，但缺少来源登记与版本/社区版边界说明，不能据此认定通过。",
+      "source_basis": "REVIEW_SOURCES.json 的 sources 为空，batch.json 无条目，research.json 仅引用 notes/meshery-web-research.txt；实际目录另有 19 个未登记快照，与 research.json 的抓取失败/无快照陈述冲突。",
+      "result": "不通过。缺口的文字留档本身存在，但其对保留证据的陈述不实，且快照未进入审查来源索引，需修正后重审。"
+    }
+  },
+  "limits": "只读审查，未运行 shell、未写文件、未访问其它单元；REVIEW_SOURCES.json 的 sources 为空，未提供声明式快照路径，故按目录列举方式核对了 data/collections/sources 下的 19 个文件，但其中 Meshery/Kiali 快照缺少 url、sha256、fetched_at、kind 来源记录，无法确认采集时间与归属；未进行任何联网补采、部署测试或价格/架构研究；input.json 中 rules 字段存在截断，未据截断内容下结论。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-118/ses_groveopencodegop118review1_1793246010.jsonl",
+  "batch_sha256": "7a55bc5a4098d5c0117913de211450a0653715889166590173b9d346aad6e060",
+  "research_sha256": "d2381ec216b460db9a313b651ecc257217be117aad1ed5757c92e8568310e30e",
+  "input_sha256": "c4adb3a7ee1f566d3430307c74e73202a7a39478730b9add2382e39761f48078"
+}

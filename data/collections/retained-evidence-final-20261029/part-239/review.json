@@ -1,0 +1,71 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "README 快照（66d55be2…）在 project structure 一节末尾（第 174 行）截断，目录中列出的 Booking statuses、API overview、License 等后续小节不在快照内；但这几项结论另有 LICENSE 与代码快照独立支撑，不影响判定，建议后续补全该快照或在 fetch_outcomes 中注明截断。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "冲突判定为“同厅 + 同一 UTC 日历日 + ACTIVE_STATUSES(pending/accepted/confirmed)”（bookingController.js 的 getDayRange/findConflict），eventTime 仅存储不参与时间区间比较，同日不同时段也会被判冲突。与 pricePerDay 的按日租赁模型一致，属保守实现，不构成类型不符。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "共享面是业主端“Booking Requests”登记列表（按 hotelId 汇总该酒店全部厅的预订并支持 accept/reject/confirm/cancel、安排看场）加公共页按厅不可用日期列表，不是图形化日历网格；definition 允许 function diary/event book 形态，research 的 service_boundary 已如实披露这一边界，措辞可再明确为“事件簿式共享面”。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "状态机止于 confirmed（另有 cancelled/rejected），没有执行的开展/closed/settled 阶段；definition 说明标签因产品而异，故不阻断，但作为“预订组合运营”的成熟度证据较弱。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "应用显示名“HallHub”取自 README 标题（H1）与前端 hh- 前缀，GitHub 仓库名为 Venue-Booking-Management-System；homepage/repository_url 指向仓库，身份可追溯，建议在条目中注明“HallHub（仓库名 Venue-Booking-Management-System）”。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "leaf_matches.reason 文本写的是 frontend/src/pages/public website/VenueDetails.jsx（空格），而 source_urls 与快照 URL 使用 %20；仅叙述笔误，非来源错误。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "快照中未见发票生成代码，README 仅称“押金确认后可下载预订发票”；summary 的“并生成发票”略强于现有证据，建议改为“押金确认后可下载预订发票”。此项非核心机制，不阻断。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "仓库为小型学生项目（元数据 stargazers=3，无在线演示），runtime_tested=false；条目未据此夸大生产可用性，属可接受的范围声明。"
+    },
+    {
+      "slug": "venue-management-system",
+      "application_id": "github:1327933966",
+      "note": "input.json 的 seed 状态仍为 insufficient_evidence 且 application_ids 为空，与 batch/research 已收录 github:1327933966 的状态不一致；建议在正式入库时同步 seed 进度字段，避免溯源混淆（不影响内容结论）。"
+    }
+  ],
+  "leaf_checks": {
+    "venue-management-system": {
+      "application_ids": [
+        "github:1327933966"
+      ],
+      "track": "open_source",
+      "definition_core": "通过。Hall.js 将厅堂建模为 hotelId/hallName/capacity/pricePerDay/amenities/images/videoUrl/isAvailable 的持久可预订单元（空间库存）；Booking.js 将预订绑定 customerId/hallId/hotelId/eventDate/eventTime/guestCount 并给出 pending/accepted/confirmed/cancelled/rejected 状态与 depositAmount/bookingAmount/agreementNotes（空间×时间承诺 + 状态生命周期）；bookingController.js 的 findConflict 按 hallId + 同一日历日 + ACTIVE_STATUSES 查冲突，createBooking 返回 409，acceptBooking 再次校验，getUnavailableDates 输出按厅不可用日期；OwnerBookings.jsx 提供业主侧跨厅预订登记与 accept/reject/confirm/cancel、看场安排，VenueDetails.jsx 在公共页展示不可用日期并阻止冲突日期提交。三项定义性核心均以代码正文而非简介/元数据佐证。",
+      "service_form": "通过。README 与代码显示为可自托管的全栈 MERN 平台（顾客、酒店业主、平台管理员三角色，JWT 鉴权、MongoDB 持久化、业主/平台报表），属持续运营使用的软件服务形态，非组件、SDK 或纯客户端演示。",
+      "identity_and_track": "通过。快照元数据 id=1327933966、full_name=NaimaMuse/Venue-Booking-Management-System、default_branch=main、非 fork，与 batch id/application_id、homepage、repository_url、source_urls 及 REVIEW_SOURCES 的 applications 完全对应；显示名 HallHub 与 README H1 一致。track=open_source 与 MIT 许可证相符。",
+      "license_and_community_boundary": "通过。LICENSE 端点快照显示 LICENSE 文件（size=1067，sha a63cf973…），base64 正文可辨为完整 MIT 文本（MIT License / Copyright (c) 2026 Naima Muse / 授权与条件条款 / AS IS 免责声明），与 batch 的 license=MIT、license_evidence_url 一致；仓库为整体 MIT 单许可，未见 open-core 拆分、功能阉割的社区版或付费墙边界，条目也未主张存在企业版。",
+      "gaps": "README 快照在 project structure 处截断，未含 Booking statuses/API/License 小节（结论不依赖）；未部署运行（runtime_tested=false）；无图形化日历网格，共享面为业主预订登记 + 按厅不可用日期；冲突为按日粒度，不细分 eventTime；无 executed/closed 阶段；发票仅有 README 描述，无对应代码快照。上述缺口均已在 research/service_boundary 或本报告注明，不影响核心判定。",
+      "verdict": "定义性核心、服务形态、身份/轨道、完整 MIT 许可证与无社区版分割边界均可由实际快照核实，通过。"
+    }
+  },
+  "limits": "本次为只读桌面审查：仅使用 read/grep，未运行 shell、未写文件、未部署或运行被测项目，未访问 REVIEW_SOURCES.json 之外的其他单元或采集过程脚本。仓库元数据与 LICENSE 端点快照为单行长文本，读取显示按行截断（元数据约前 2000 字符、LICENSE base64 尾部被显示截断），故 metadata 中的 license 字段与 LICENSE 文本末尾数句未逐字看到，MIT 判定依据为 LICENSE 端点返回的文件名、size=1067 及可解码的 MIT 正文主体，二者互相印证。README 快照在 project structure 处结束，无法核对目录所列后续小节。引用快照仅覆盖所列 8 个 URL，未额外抓取 Hotel/User 模型、invoice/report 控制器或前端路由清单，故多物业、报表、发票相关表述以 README 与现有代码为限。未做价格、架构、部署或运行时验证。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-239/ses_groveopencodegop239review1_1793263769.jsonl",
+  "batch_sha256": "fa1d69131fd4005f81ae7f17275faf840a72d1e83c5ce55d4aa6e36e98f2c93a",
+  "research_sha256": "b995cd6525a0cd482a9802001989ee62409cd9bde6723048735e96d0b9999400",
+  "input_sha256": "9cf3cb809d364d36f52719c1110127a118bbedbe2af467889d905eb50d9d3b8b"
+}

@@ -1,0 +1,42 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空，但 research.json 引用了 5 个 GitHub source_urls，且 data/collections/sources/ 下存在与 fetch_outcomes 中 sha256 前缀对应的快照文件；本次通过哈希文件名核对，结论未受影响，建议后续补全显式 path 映射以便追溯。",
+    "KeyCard.Web 目录树中未见 CheckIn/CheckOut 命名的宾客页面，README 中的 guest self-check-in 更可能落在 Booking/Details/Rooms 等流程内；研究记录依赖 README 功能清单和页面目录名，未读取页面正文，因此对该能力切片的描述宜保持保守，但这不影响“未达到旅程级平台核心”的结论。",
+    "递归树中的 Shared/SurveyPrompt.razor 是 Blazor 模板自带的调查提示组件，不应视为酒店离店后调研触点；研究记录未把它当作产品能力是正确的。",
+    "检索以 GitHub 开源仓库为主，商业 SaaS 厂商覆盖有限；research.json 已记录通用网页查询无结果及搜索缺口，按“无案例但真实留档”标准可通过，后续可补充商业厂商检索。",
+    "未部署或运行 KeyCard.NET，runtime_tested=false；本次只做只读资料核对，不要求运行测试。"
+  ],
+  "leaf_checks": {
+    "hotel-guest-experience-platform": {
+      "name": "酒店宾客体验平台 / Hotel Guest Experience Platform",
+      "definition_core": "定义要求三个同时成立的核心：酒店运营并品牌化的宾客直接操作界面；交互锚定具体预订/在住记录并产生运营效果；以抵店前至离店后的完整旅程为组织框架，且可由酒店配置触点。定义文本完整，parent_id=26.04、domain_id=26，叶级身份与类型关系一致。",
+      "application_status": "本叶无 application_ids，batch.json entries 为空，research.json assessment=insufficient_evidence，未建立任何应用关系，与 input.json 的 included_without_cases / case_status=insufficient_evidence 一致。",
+      "service_form": "唯一实质候选 NimaShafie/keycard.net 是自托管 .NET 酒店管理系统，含员工桌面端、宾客 Web/kiosk 与后端；属于可自行部署的开源系统，未见托管多租户 SaaS 服务形态。即便按开源案例口径，其宾客侧也只覆盖预订/查询、付款、自助入住与二维码钥匙等抵店/离店事务，未证明在住沟通、服务请求、升级/附加服务购买、离店后触点，亦未见按阶段配置旅程或白标品牌化，属于能力切片而非旅程级平台。",
+      "identity_track": "无 application_id、case_id 或 track 记录可核对；batch.json 与 research.json 均未产生应用条目，不存在 ID/track 冲突。KeyCard.NET 仅作为检索候选记录，未被纳入应用库，因此不涉及条目身份一致性核对。",
+      "license_boundary": "NimaShafie/keycard.net 的 license 快照为完整 MIT 文本（1068 bytes，含版权与许可声明），仓库元数据快照显示 id=1061484721、full_name=NimaShafie/keycard.net，与 research 记录一致；未发现额外商业版或社区版分层，社区版边界问题不适用。该许可核对仅用于排除候选，不构成应用入库依据。",
+      "evidence_read": [
+        "REVIEW_TASK.md",
+        "input.json",
+        "REVIEW_SOURCES.json（sources 为空）",
+        "data/collections/batch.json（entries 为空）",
+        "data/collections/research.json",
+        "data/collections/sources/46efe95a...txt（LICENSE，MIT 全文）",
+        "data/collections/sources/547b5f6d...txt（KeyCard.Web 目录列表）",
+        "data/collections/sources/c7215d55...txt（GitHub 仓库元数据）",
+        "data/collections/sources/a7117d28...txt（README 全文 212 行）",
+        "data/collections/sources/c75cbb19...txt（递归目录树）"
+      ],
+      "verification_notes": "README 的功能清单把员工端、宾客门户与后端功能混列，不能据此把 check-in/check-out、PDF invoices 等系统级能力直接归为宾客门户能力；递归树中未发现宾客侧 Message/Request/Upgrade/Offer/Chat/Feedback/Concierge/Service/Stay 类页面，也未发现 Brand/Theme/Journey 类配置实现；仅 Shared/SurveyPrompt.razor 名称含 Survey，但属 Blazor 模板组件。因而“现有证据不足以建立旅程级平台关系”的结论成立。",
+      "gap": "未读取任何宾客页面正文（.razor 内容），仅依据 README 与目录/页面名称；商业 SaaS 厂商检索覆盖不足；未运行项目。上述缺口已在 research.json 的 search_attempts/fetch_outcomes 中如实记录，未把 HTTP 成功、摘要或导航当作核心工作流证据。",
+      "conclusion": "维持 insufficient_evidence，不建立应用关系；本叶留档可通过。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未部署或运行 KeyCard.NET、未访问网络复核实时 GitHub 内容；仅使用本单元 input.json、batch.json、research.json 及 data/collections/sources 下实际存在的快照。部分快照为单行 JSON，读取显示在 2000 字符处截断，递归目录树无法逐项完整展开，页面清单核对依赖 research.json 记录与定向路径匹配；REVIEW_SOURCES.json 未提供显式 sources 映射；未审查其他单元，也未采用采集者 TASK.md 或历史过程脚本作为审查依据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-237/ses_groveopencodegop237review2_1793264075.jsonl",
+  "batch_sha256": "7477356c3e5e4ac2de3316e23de468d4b00717797a6f2a7df571df4f7c6cdc09",
+  "research_sha256": "90772504ad3822ddb99db8019c3bc6af967ac1bff343597caea5b9b6950b4b51",
+  "input_sha256": "984afab9425d14417ea90e31a34df152ebdddf0bfb3d662c632084589870301a"
+}

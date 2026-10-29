@@ -1,0 +1,110 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "security-validation-platform",
+      "application_id": "github:1150018630",
+      "note": "OpenCTEM 的 Validation 以传感器 safe checks 复验和“按发现项自身工具复测”为主，属于单项安全检查/复测，不是完整杀伤链或 BAS 式利用模拟。叶定义允许“对控制措施安全执行单项攻击技术”，且该平台跟踪对象是暴露及其修复状态，因此类型匹配可成立；但这是本单元最靠近类型边界的一条，建议在 taxonomy 备注中说明其 CTEM/暴露管理套件属性。"
+    },
+    {
+      "slug": "security-validation-platform",
+      "application_id": "github:1150018630",
+      "note": "leaf_matches 理由把“自托管/云部署说明”归给 README；README 实际覆盖 Compose、all-in-one、Helm 自托管，官方云在首页/定价页。引用归属可更精确，不影响结论。"
+    },
+    {
+      "slug": "siem",
+      "application_id": "github:40556106",
+      "note": "Wazuh README 能证明组织级日志数据平面、规则检测与告警、Indexer/Dashboard 告警浏览与分析；原生 triage、处置、关闭记录未在 README 展开，调查闭环证据偏薄。叶定义明确允许没有一等案件对象的开源 SIEM，故不阻断，建议后续补官方文档快照。"
+    },
+    {
+      "slug": "siem",
+      "application_id": "github:40556106",
+      "note": "许可证按社区核心记 GPL-2.0；LICENSE 快照含完整 GPL-2.0 正文并声明 engine 为 AGPL-3.0-or-later、共享模块双许可，但 src/engine/LICENSE-engine 未随快照归档。该缺口已在 research 与 license_review 如实记录，建议后续补归档。"
+    },
+    {
+      "slug": "soar",
+      "application_id": "github:262044260",
+      "note": "README 证明工作流编辑器、预制安全工具应用、OpenAPI 应用创建、组织/子组织控制、自托管/云以及 Orborus/Worker 执行组件；逐次运行审计与触发器语义未在 README 明写，research 已避免作审计断言。建议补官方 docs 快照增强核心证据。"
+    },
+    {
+      "slug": "soar",
+      "application_id": "github:262044260",
+      "note": "README 说明后端 AGPLv3，而 apps/workflows/docs 为 MIT；batch 的 license 字段按 Shuffle 后端记 AGPL-3.0，建议在 license 说明中补一句模块级 MIT 边界。"
+    },
+    {
+      "slug": "soc-platform",
+      "application_id": "commercial:cortex-xsiam",
+      "note": "仅单张 Palo Alto 官方营销页；商业条目只要求基本真实性与类型匹配。页面明确自称 SOC platform、统一数据层、SIEM/SOAR/EDR/NDR/TIP、优先案件、自动化分诊与统一调查，类型匹配成立；未核价、未部署。"
+    },
+    {
+      "slug": "threat-intelligence-platform",
+      "application_id": "github:8077402",
+      "note": "MISP 的 README/官网证明 IOC/威胁事件知识库、自动关联、共享组、实例同步、STIX/IDS 导出、sightings、REST/OpenAPI，以及本地/云/SaaS 部署；去重与老化（decay）机制未在快照中明写，生命周期策管证据主要靠关联、warning lists、sightings。"
+    },
+    {
+      "slug": "threat-intelligence-platform",
+      "application_id": "github:162200234",
+      "note": "OpenCTI 的 CE/EE 边界与 Apache-2.0 已在 LICENSE 正文核实；README 证明 STIX2 知识模式、来源/置信度/首末次观测、导入导出与连接器。去重/老化机制未在 README 明写，建议补 docs 快照。"
+    },
+    {
+      "slug": "unit",
+      "application_id": null,
+      "note": "research 还引用 Pentera、Cymulate、Security Onion 的抓取结果，但这些快照未列入 REVIEW_SOURCES.json（sources 目录中存在未列入清单的文件），本次未读取；Security Onion 的 ELv2 排除结论无法在本单元清单内复核，且不影响入批条目。"
+    },
+    {
+      "slug": "unit",
+      "application_id": null,
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空、phase=included_without_cases，与 batch/research 中 6 个条目、5 个 case_found 不一致。若下游依赖 input.progress，需要同步；否则仅是元数据陈旧，不影响本次内容结论。"
+    }
+  ],
+  "leaf_checks": {
+    "security-validation-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:1150018630"
+      ],
+      "basis": "OpenCTEM：仓库元数据 id=1150018630、full_name=openctemio/openctem 与条目一致，GPL-3.0 LICENSE 全文快照存在。首页给出 scoping→discovery→prioritization→validation→mobilization 五阶段 CTEM 闭环与 verified close；产品页 Validation 段明确传感器以 safe checks 复验发现项、retest 以发现项自身工具对其端点重跑、可附加 HTTP assertion/Nuclei template、修复仅在复测自身证据成立时由有 verify rights 的人关闭、发现项回归则重开；Mobilization 段有修复任务/负责人/SLA/Jira/GitHub 同步；README 给出 Go API + Next.js、Compose/all-in-one/Helm 自托管；首页给出 OpenCTEM Cloud。核心结构 exposure→validation→remediation→retest 成立，验证机制为单项安全检查而非完整杀伤链，符合叶定义允许的单项技术安全执行。",
+      "gaps": "完整 exploit-chain/BAS 式利用验证未证；未运行；云端条款与价格未核；README 不含云部署说明，云证据来自首页/定价页。"
+    },
+    "siem": {
+      "status": "pass",
+      "application_ids": [
+        "github:40556106"
+      ],
+      "basis": "Wazuh：仓库元数据 id=40556106、full_name=wazuh/wazuh 与条目一致，description 明写“Unified XDR and SIEM protection for endpoints and cloud workloads”。README 说明 agent 采集 OS/应用日志并转发 manager，manager 以规则/正则分析日志并产生告警，Indexer/Dashboard 用于安全告警浏览与分析；支持 syslog 与云集成；Docker/Kubernetes/Ansible 等自托管。数据平面、持续检测、分析控制台三层成立。",
+      "gaps": "README 未展示原生 triage/处置/关闭记录，调查闭环证据以告警浏览与分析为主；未部署；engine 的 AGPL 全文未随快照归档（已在 license_review 记录）。"
+    },
+    "soar": {
+      "status": "pass",
+      "application_ids": [
+        "github:262044260"
+      ],
+      "basis": "Shuffle：仓库元数据 id=262044260、full_name=Shuffle/Shuffle 与条目一致，AGPL-3.0 LICENSE 全文快照存在。README 自述开源安全自动化平台，含 workflow editor、premade security tool apps、OpenAPI app 创建、组织/子组织控制、自托管/云；架构含 Orborus 分发执行位置、Worker 运行工作流，并有 webhook 集成示例图。连接外部安全工具→编写工作流→触发执行的核心成立。",
+      "gaps": "README 未明写逐次运行审计与完整触发器语义；未运行工作流；apps/workflows 的 MIT 边界未在 batch 许可证说明中展开。"
+    },
+    "soc-platform": {
+      "status": "pass",
+      "application_ids": [
+        "commercial:cortex-xsiam"
+      ],
+      "basis": "Palo Alto Cortex XSIAM：官方页面明确自称“The most advanced SOC platform”“Every SOC capability on one platform”，列出 Cortex XDL 统一数据层及 SIEM、SOAR、EDR、NDR、CDR、TIP 能力；说明 AI 将数千告警转为少量优先案件，提供自动化分诊、统一调查与引导式处置，一个平台/一个控制台。原生数据与检测、案件层、响应自动化的统一工作流与 soc-platform 定义匹配。",
+      "gaps": "仅单张官方营销页，属商业基本核对；未核价、未部署、未实际验证案件与自动化工作流。"
+    },
+    "threat-intelligence-platform": {
+      "status": "pass",
+      "application_ids": [
+        "github:8077402",
+        "github:162200234"
+      ],
+      "basis": "MISP：仓库元数据 id=8077402、full_name=MISP/MISP 与条目一致，AGPL-3.0 LICENSE 全文快照存在；README 与官网证明其收集/存储/分发/共享 IOC 与威胁事件，具备自动关联、共享组、实例同步、STIX/IDS 导出、sightings、REST/OpenAPI，可按 on-prem/cloud/SaaS 部署。OpenCTI：仓库元数据 id=162200234、full_name=OpenCTI-Platform/opencti 与条目一致；LICENSE 正文完整，明确 CE 为 Apache-2.0、EE 为单独 Enterprise Edition License；README 证明 STIX2 知识模式、指标/行为体/恶意软件/关系、来源/置信度/首末次观测、导入导出与连接器、GraphQL。多源知识库与受控分发核心成立。",
+      "gaps": "MISP/OpenCTI 的 dedup/aging/decay 生命周期机制未在 README 明写；未部署；MISP/OpenCTI 的托管或企业版服务未核。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行 shell、未写文件、未读取其他单元；仅使用本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 清单内 17 个快照，并按清单 path 原样读取，未重新计算 sha256。部分快照为单行压缩 HTML，read 工具按 2000 字符截断，故对 OpenCTEM 产品页与 Cortex 页先用内容检索确认关键短语（safe checks、retest、verify rights、reopens as a regression、Pentest campaigns、SOC platform、prioritized cases 等），并在同日用只读 webfetch 读取同一 URL 的渲染文本辅助核对语义；结论以快照中可检索到的关键短语和清单内 README/许可证文本为依据。未做部署、运行、价格、架构或安全测试。research 引用的 Pentera、Cymulate、Security Onion 快照不在 REVIEW_SOURCES.json 清单内，未读取；Security Onion 的 ELv2 排除结论未在本单元清单内复核。input.json 的 progress 元数据与 batch/research 不一致，已在 non_blocking_notes 记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-151/ses_groveopencodegop151review2_1793014305.jsonl",
+  "batch_sha256": "58e01962f20b41eda01a347b99907bb769f2c20d92be67c80fa8e44b9b3b8670",
+  "research_sha256": "d23b2d832c9714bfa0ab1279ed1c7b39ad0845745754b1da587ecc32701b153a",
+  "input_sha256": "5dd5aa56723f3782e0bc2847393f07a3ed81731de812b05254ea08d0d6c90ece"
+}

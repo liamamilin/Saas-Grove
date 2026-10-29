@@ -1,0 +1,66 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "定义性核心的第三根支柱“计划输出安排”未被证实。现有正文只支持“单条内容可设定发布时间 + 已配置的订阅者/目的地集合”，批次摘要也明确不主张按平台/版本编排的日期化版面表，也不主张广播节目的定时 rundown。编辑工具与状态文档能证明 Scheduled 状态表示“到点发布”，发布定义文档能证明一个实例可向网站、移动应用等多个目的地投递，但这些都不等于把全部条目放入跨平台/版本的 slot 计划，或放入某节目的有序定时蓝图；也未见任何 slot 网格、edition plan、rundown 排序及改单传播的正文。",
+      "fix": "补充可直接读取的官方正文，证明日期化 slot 表/edition plan 或具体节目的 timed rundown（含排序、重排和变更传播），并把它与逐条发布时间区分开；若无法取得，应撤下该 case，按无案例留档并保留已记录的 Broadcasting 404 与 sitemap 缺口，不能用逐条 publish time 加目的地列表替代该支柱。"
+    },
+    {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "任务/派工与排期的绑定关系不符合定义中的核心规则。叶定义要求任务截止时间从条目的计划运行时间反推，排期是紧迫性的来源；但 Planning 文档显示 coverage due date 是在派工时另行选择/填写的字段，Planning Date 又被明确说明为文章预期创建日期，均未显示由发布排期推导。现有证据只证明“有派工和截止字段”，没有证明“截止由排期派生”。",
+      "fix": "取得能显示 coverage/assignment 截止时间与条目计划发布时间存在派生或联动关系的正文；若产品实际是手工设定截止，应在条目中承认这一规则不成立，并重新判断该产品是否满足本叶的定义性核心，而不是仅以“有 due date 字段”作为匹配依据。"
+    },
+    {
+      "slug": "newsroom-management-system",
+      "application_id": "github:23570030",
+      "issue": "产品身份与叶边界存在未解决的冲突。主仓库自述为端到端的新闻创建、生产、策展、分发和发布平台，正文还包含 Published、Corrected、Killed、Recalled、Unpublish 以及 Legal Archive 等公共记录生命周期；叶定义明确把发布、更正、移除和公共记录划给 News Publishing Platform，并要求本系统止于公共记录。批次一方面用 Scheduled/发布目的地文档支撑“输出安排”，另一方面声明不主张发布生命周期，证据来源与边界声明不一致，类型关系没有说清。",
+      "fix": "若保留该 case，需明确论证其 newsroom-management 核心独立于发布生命周期，并改用不依赖 publish 机制的排期证据；同时在条目中把“仅借用 Scheduled 的时间语义、不主张发布/更正/策展”写成可核对的范围说明。否则应按 news-publishing-platform 处理或撤下该 case，不能把订阅者/目的地投递当作版面排期。"
+    }
+  ],
+  "non_blocking_notes": [
+    "匹配范围依赖可选 Planning 模块，但 Planning 仓库只有 package.json 的 AGPL-3.0 和 setup.py 的 AGPLv3 声明，未取得独立 LICENSE 全文，GitHub 元数据也未识别许可证。主仓库的完整 AGPL-3.0 文本已核实，建议补一份 Planning 的 LICENSE 快照，或在条目中明确“完整许可证文本仅覆盖主仓库，Planning 仅为元数据声明”，避免把插件许可证写成已核实全文。",
+    "条目未说明社区版边界。建议补一句：所引用的核心与 Planning 功能均在 AGPL 仓库中，Superdesk Publisher 等附加产品未纳入匹配，以明确不存在把付费版功能当作社区版证据的问题。",
+    "编辑工具文档说明 Send To/Publish 菜单可“set a publishing schedule”，状态表把 Scheduled 定义为“will be published at a set time”；两者之间的直接对应关系是合理推断，但正文没有一句话把二者显式绑定。可作为措辞层面的补强，不影响本次核心结论。",
+    "部署形态是自托管软件（Python 后端、Node.js 前端、Docker Compose），不是厂商运营的 SaaS。对 open_source track 这属于可接受的软件服务形态，但若本单元对“SaaS 服务形态”另有运营方要求，应在条目中说明自托管部署与 SaaS 的差别。",
+    "安装文档同时指向 superdesk-core、superdesk-client-core 和 superdesk-planning 等仓库，而条目只登记主仓库 id 23570030。当前 ID 与主仓库元数据一致，但产品身份跨多个仓库，建议在来源说明中写清主仓库与可选模块仓库的关系。",
+    "Broadcasting 详情页 404 已被如实记录且未据此主张 rundown，这一留档方式本身可接受；本次问题不是抓取失败，而是已有的 per-item 发布证据不足以替代定义中的输出排期。"
+  ],
+  "leaf_checks": {
+    "newsroom-management-system": {
+      "application_ids": [
+        "github:23570030"
+      ],
+      "track": "open_source",
+      "definitional_core": "部分成立。工作项层面证据充分：Superdesk 以文章为持久条目，具有状态、版本、GUID/历史，按 desk/stage/role 组织；Planning 提供 Events/Planning Items、按 Desk 或用户派工、Desk Assignments 与 My Assignments 视图、reassign/priority，符合“人员绑定到工作”的机制。缺口在“计划输出安排”：只证明逐条内容可设发布时间并投递到多个目的地，未证明跨平台/版本的日期化 slot 计划或某节目的有序定时 rundown；coverage due date 也未证明由排期反推。",
+      "service_form": "自托管软件产品：Python 后端、Node.js 前端，支持开发模式与生产 Docker Compose 部署，符合 open_source track 下持续使用的软件形态；不是厂商运营的 SaaS。",
+      "identity_track": "一致。application_id github:23570030 对应仓库元数据 id 23570030、full_name superdesk/superdesk、html_url https://github.com/superdesk/superdesk；track 为 open_source，与 AGPL-3.0 许可证相符。",
+      "license": "主仓库 superdesk/superdesk 有完整 AGPL-3.0 许可证快照（LICENSE，34520 bytes，base64 内容以 GNU AFFERO GENERAL PUBLIC LICENSE Version 3 开头）。匹配所依赖的可选 Planning 仓库 superdesk/superdesk-planning（id 69333814）只在 package.json 声明 AGPL-3.0、setup.py 声明 AGPLv3，未见独立 LICENSE 全文，GitHub 元数据未识别许可证；该缺口已在研究记录中如实说明。",
+      "community_boundary": "条目未明确写出社区版边界。已引用的核心与 Planning 功能均来自 AGPL 仓库，Planning 是可选 AGPL 插件；未使用 Superdesk Publisher 等附加产品。建议补充说明，但不作为阻断项。",
+      "evidence_read": [
+        "data/collections/sources/33b494c60f75dba7a03c621a643aebe1e9ae31b993c162314ec57e91dd903f8d.txt（superdesk/superdesk 仓库元数据）",
+        "data/collections/sources/022cf920c4ec163a72b43a4f718cd80b015c293444da711735f0a0da2e8cc4cd.txt（superdesk/superdesk LICENSE）",
+        "data/collections/sources/271d64ff88b421f46313352ba0a193db74d4dffe3e8b6889ff2113a059cec2ca.txt（What is Superdesk）",
+        "data/collections/sources/5e9873c2ef5238fc9e32080db516019d5d384fc99ad956a0591e2b0d5ab7c2fb.txt（Planning Component）",
+        "data/collections/sources/6a171a2467d5ed91f79df67f6faf5ff0eaf6fdae1e384ef25723ad836fc2f1ca.txt（Install and deploy）",
+        "data/collections/sources/4f6ba2aa65dec1223908799c90a71052443aee45cf8b697049c19e73b54f8a2b.txt（Editor Workflow Tools）",
+        "data/collections/sources/b1faf121a5d61f1ec171182fa023d7d9c9f10c4427985005e790bc40aa0d15bd.txt（Defining Publishing）",
+        "data/collections/sources/5b224023f0b08e8bba30946127b4c332cd3fd91c8c879f4019f3c7a64b5a6e88.txt（Icons and User Experience/Item states）",
+        "data/collections/sources/fbcf2b08b044161dfbf8bcbaa4e1ef380b88fd0e0b41ce013207562951fa8202.txt（superdesk-planning 仓库元数据）",
+        "data/collections/sources/a8628417f93f3f1efa3dbc659cca636822624de966d3c2244bac14998d7fde4d.txt（superdesk-planning README）",
+        "data/collections/sources/f03a4e6496f2ff0af84a0c941bda210dc1dffd5330d89a16311cc295c3d6ae3c.txt（superdesk-planning package.json）",
+        "data/collections/sources/04d138442d5da6cb11a5ee899febf9303f388b7b786b4fbc00898ada97880293.txt（superdesk-planning setup.py）"
+      ],
+      "gap": "缺少能证明日期化 slot/edition 计划或 timed rundown 的官方正文；Broadcasting 详情页与 raw 文档均 404，sitemap 也未列出。缺少截止时间由排期派生的证据；缺少 Planning 仓库独立 LICENSE 全文。",
+      "result": "blocked_pending_core_schedule_and_boundary"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell，未做 SHA-256 重新计算或 base64 全量解码校验，未访问外网、未部署或运行产品，也未读取本单元之外的资料。仓库元数据与 Planning 仓库元数据快照为单行 JSON，读取显示在 2000 字符处截断，故 license/archived/default_branch 等字段只能依据可见片段和研究记录核对；Planning 的 LICENSE 404 与 GitHub 未识别许可证属于已记录但无法在本单元内复核的抓取缺口。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-015/ses_groveopencodegop015review1_1793091903.jsonl",
+  "batch_sha256": "f255944e9b3cc59cc4233bc54f5ffb9c397e02f91d2fa5973d0f5551e033ffe2",
+  "research_sha256": "1fc9a91f3af07dcef73399adafd022bca55f5ecdd4dec23892522c8d61aec699",
+  "input_sha256": "f64b51a48f8a62515ea50b779c988ca96342c105bf1e83dd2e944c3aca263194"
+}

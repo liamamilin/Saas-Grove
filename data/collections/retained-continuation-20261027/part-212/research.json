@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "chronic-care-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ecaremd-ccm"
+      ],
+      "query": "chronic care management software care plan monthly time tracking consent enrollment official product",
+      "source_urls": [
+        "https://www.ecaremd.com/chronic-care-management-software.html",
+        "https://friska.ai/ccm/"
+      ],
+      "note": "eCareMD 官方产品页明确其端到端运行 Medicare CCM：核验 2+ 慢病资格、数字同意登记、20+ 条件化护理计划模板、自动记录月度服务时间并生成 CPT 计费文档，作为商业基本记录纳入。另抓取 Friska CCM 页面作候选，其公开页强调资格与数字同意，但未明确条件化护理计划，故不列关系。开源检索未发现可由仓库元数据、许可证与 README/文档证明完整 CCM 核心的应用。",
+      "service_boundary": "商业基本记录：匹配 CCM 的资格筛选、同意注册、条件化护理计划、月度时间记录与计费文档；未据此认定其部署形态或多租户能力。",
+      "search_attempts": [
+        {
+          "query": "open source chronic care management software CCM github complete application",
+          "status": "searched",
+          "result": "candidates_only_no_complete_open_source"
+        },
+        {
+          "query": "GitHub API repositories q=chronic care management",
+          "status": "searched",
+          "result": "candidates_only"
+        },
+        {
+          "query": "chronic care management software care plan monthly time tracking consent enrollment official product",
+          "status": "searched",
+          "result": "official_vendor_pages_found"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ecaremd.com/chronic-care-management-software.html",
+          "status": "fetched",
+          "kind": "homepage"
+        },
+        {
+          "url": "https://friska.ai/ccm/",
+          "status": "fetched_candidate",
+          "kind": "homepage"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cpoe-clinical-order-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:679584"
+      ],
+      "query": "OpenEMR CPOE order entry user guide official documentation",
+      "source_urls": [
+        "https://api.github.com/repos/openemr/openemr",
+        "https://api.github.com/repos/openemr/openemr/license",
+        "https://raw.githubusercontent.com/openemr/openemr/master/README.md",
+        "https://raw.githubusercontent.com/openemr/openemr/master/Documentation/help_files/procedure_provider_help.php",
+        "https://www.open-emr.org/wiki/index.php/Procedure_configuration_%26_order_process",
+        "https://raw.githubusercontent.com/openemr/openemr/master/Documentation/help_files/configure_orders_help.php"
+      ],
+      "note": "复用 OpenEMR 仓库身份、GPL-3.0 许可证、README 与既有 Procedures 帮助/wiki 快照。复核发现所引 procedure_provider_help.php 与 configure_orders_help.php 中的 Canceled 属于 Procedure Report Statuses / Procedure Result Statuses，是报告/结果状态，不是医嘱取消或停用；wiki 只证明保存/传输、pending review、状态更新与签署后结果回写患者和 encounter。故删除“取消状态”的医嘱生命周期表述，将关系收窄为检查、影像与操作类医嘱的创建、传输、审阅与签署后结果回链；不主张 order revision/renew/discontinue 或 ordering clinician attribution。",
+      "service_boundary": "OpenEMR 的 CPOE 关系限定于检查、影像与操作类医嘱模块的创建、传输、审阅与签署后结果回链；Canceled 仅为报告/结果取消状态，不据此主张医嘱停用；药物医嘱修订/续开/停用生命周期与开嘱医生归属未由所引文档证实。",
+      "search_attempts": [
+        {
+          "query": "OpenEMR CPOE order entry user guide official documentation",
+          "status": "searched",
+          "result": "official_help_and_wiki_found"
+        },
+        {
+          "query": "GitHub API repositories q=CPOE",
+          "status": "searched",
+          "result": "candidates_only_no_complete_application"
+        },
+        {
+          "query": "OpenMRS order entry documentation orders discontinue order type official wiki",
+          "status": "searched",
+          "result": "candidate_license_unclear"
+        },
+        {
+          "query": "recheck Canceled labels in procedure_provider_help.php and configure_orders_help.php prior snapshots",
+          "status": "reviewed_existing_snapshots",
+          "result": "canceled_is_procedure_report_result_status"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openemr/openemr",
+          "status": "fetched_reused",
+          "kind": "repository_metadata"
+        },
+        {
+          "url": "https://api.github.com/repos/openemr/openemr/license",
+          "status": "fetched_reused",
+          "kind": "license"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openemr/openemr/master/README.md",
+          "status": "fetched_reused",
+          "kind": "readme"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openemr/openemr/master/Documentation/help_files/procedure_provider_help.php",
+          "status": "fetched",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/Procedure_configuration_%26_order_process",
+          "status": "fetched",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openemr/openemr/master/Documentation/help_files/configure_orders_help.php",
+          "status": "fetched",
+          "kind": "documentation"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "dialysis-center-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:fresenius-tdms"
+      ],
+      "query": "dialysis center management software official product treatment session documentation",
+      "source_urls": [
+        "https://freseniusmedicalcare.com/en/healthcare-professionals/digital-solutions/therapy-data-management-system-tdms"
+      ],
+      "note": "Fresenius Medical Care TDMS 官方产品页明确其服务于透析中心与医院，支持治疗处方与设备预设置、透析前/后体重记录、治疗过程及治疗中检验/用药记录、治疗与用药排程、临床数据管理和报告，作为商业基本记录纳入；页面未明确患者名册的admission→active→discharge 生命周期或持久纵向治疗史，关系保持为透析临床数据管理。开源检索到的候选多为排班、监测或学生项目（如 Dialysis-Scheduler、MedCab-Backend），未验证完整处方—治疗会话—纵向记录核心，故不列开源案例。",
+      "service_boundary": "Fresenius TDMS 作为透析中心临床数据管理记录；不主张其覆盖独立中心全部计费、库存或排班运营。",
+      "search_attempts": [
+        {
+          "query": "open source hemodialysis center management software github",
+          "status": "searched",
+          "result": "candidates_only"
+        },
+        {
+          "query": "GitHub API repositories q=dialysis management in:name,description",
+          "status": "searched",
+          "result": "candidates_only"
+        },
+        {
+          "query": "dialysis center management software official product treatment session documentation",
+          "status": "searched",
+          "result": "official_vendor_pages_found"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://freseniusmedicalcare.com/en/healthcare-professionals/digital-solutions/therapy-data-management-system-tdms",
+          "status": "fetched",
+          "kind": "homepage"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "electronic-health-record-ehr",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:679584"
+      ],
+      "query": "open source electronic health record EHR github; OpenEMR official user guide patient chart issues medications encounters access controls",
+      "source_urls": [
+        "https://api.github.com/repos/openemr/openemr",
+        "https://api.github.com/repos/openemr/openemr/license",
+        "https://raw.githubusercontent.com/openemr/openemr/master/README.md",
+        "https://www.open-emr.org/wiki/index.php/OpenEMR_Features",
+        "https://www.open-emr.org/wiki/index.php/Issues_%26_Immunizations_4.1",
+        "https://www.open-emr.org/wiki/index.php/New_Encounters_%26_Coding_4.1",
+        "https://www.open-emr.org/wiki/index.php/Patient_Notes_%26_Transactions_4.1"
+      ],
+      "note": "针对初审指出的“仅以仓库简介替代 EHR 核心”问题，本轮补充 OpenEMR 官方 Features 页与用户指南快照：Features 页列出患者人口学、Encounters、Medical Issues、Medications、Forms and clinical notes（含 SOAP note）、基于角色菜单与细粒度逐用户访问控制；Issues & Immunizations 指南明确 issue 涵盖 medical problem、allergy、medication 等，并可在 Patient Summary 查看、与 encounter 关联；New Encounters & Coding 指南记录以 provider 身份登录、Patient Summary、Past Encounters、SOAP 表单及 encounter 关联 provider；Patient Notes & Transactions 指南记录需登录，未授权用户无法查看问题、免疫与处方。据此保留 EHR 关系，并将 features 收窄到上述文档可核对的范围。所引材料未单独展示每条临床笔记的作者署名、时间戳或修订审计细节，故不主张作者署名/审计链。",
+      "service_boundary": "匹配 OpenEMR 的 EHR 核心（已识别患者图表、问题/诊断、药物、临床笔记、encounter 组织与登录/角色访问控制）；实践管理、预约与计费作为集成子模块记录，不等同于独立的医院管理或计费系统；未验证部署形态、多租户或当前版本动态 UI。",
+      "search_attempts": [
+        {
+          "query": "open source electronic health record EHR github",
+          "status": "searched",
+          "candidate": "openemr/openemr"
+        },
+        {
+          "query": "OpenEMR user guide patient chart clinical notes author encounter official wiki",
+          "status": "searched",
+          "result": "official_wiki_pages_found"
+        },
+        {
+          "query": "OpenEMR wiki API search patient chart",
+          "status": "searched",
+          "result": "no_search_hits"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openemr/openemr",
+          "status": "fetched_reused",
+          "kind": "repository_metadata"
+        },
+        {
+          "url": "https://api.github.com/repos/openemr/openemr/license",
+          "status": "fetched_reused",
+          "kind": "license"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openemr/openemr/master/README.md",
+          "status": "fetched_reused",
+          "kind": "readme"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/OpenEMR_User_Guide",
+          "status": "fetch_failed_http_404",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/OpenEMR_7_User_Guide",
+          "status": "fetch_failed_http_404",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/Patient_Summary",
+          "status": "fetch_failed_http_404",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/OpenEMR_Features",
+          "status": "fetched",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/Issues_%26_Immunizations_4.1",
+          "status": "fetched",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/New_Encounters_%26_Coding_4.1",
+          "status": "fetched",
+          "kind": "documentation"
+        },
+        {
+          "url": "https://www.open-emr.org/wiki/index.php/Patient_Notes_%26_Transactions_4.1",
+          "status": "fetched",
+          "kind": "documentation"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "emergency-department-information-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:wellsoft-edis"
+      ],
+      "query": "Wellsoft EDIS emergency department information system official features",
+      "source_urls": [
+        "https://www.medsphere.com/solutions/emergency-department-edis"
+      ],
+      "note": "Wellsoft EDIS 官方产品页明确其为急诊科专用 ED EHR/EDIS，提供 pre-arrival 到 disposition 的实时患者跟踪、triage 与 fast-track 部门视图、CPOE 医嘱及结果回传、出院计划，作为商业基本记录纳入。开源检索仅见 VA EDIS 公开技术手册及学生/分析项目，未找到带仓库身份与完整许可证、可核对核心工作流的开源 EDIS。",
+      "service_boundary": "Wellsoft EDIS 为急诊科范围记录系统；不主张其替代医院纵向 EHR 或全院患者流转。",
+      "search_attempts": [
+        {
+          "query": "open source emergency department information system EDIS github",
+          "status": "searched",
+          "result": "no_verifiable_open_source_repo"
+        },
+        {
+          "query": "GitHub API repositories q=emergency department information system",
+          "status": "searched",
+          "result": "student_projects_only"
+        },
+        {
+          "query": "GitHub API repositories q=emergency department patient health",
+          "status": "searched",
+          "result": "analytics_or_monitoring_only"
+        },
+        {
+          "query": "Wellsoft EDIS emergency department information system official features",
+          "status": "searched",
+          "result": "official_vendor_page_found"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.medsphere.com/solutions/emergency-department-edis",
+          "status": "fetched",
+          "kind": "homepage"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

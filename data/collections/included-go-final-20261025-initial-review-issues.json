@@ -1,0 +1,978 @@
+[
+  {
+    "part": 1,
+    "index": 0,
+    "finding": {
+      "leaf": "help-center",
+      "application_id": "github:202291859",
+      "severity": "blocking",
+      "issue": "help-center 以 Chatwoot 匹配并标注「仅计 MIT 社区核心」，但所引来源没有证明 Help Center portal 的 edition 边界：README 是产品宣传并同时推广付费 Captain；帮助中心文档分类还列出 Enterprise Edition 与 Purchasing a Paid Self-Hosted Chatwoot License；entry 的 license_review 只说明 enterprise/ 目录另有许可，不能推出该功能在社区核心。",
+      "required_fix": "补一份能证明 edition 边界的官方来源（如官方版本/功能对比页明确 Help Center 在 Community/MIT 版、官方文档明确社区版可用，或代码路径在 enterprise/ 之外），并把 URL 加入 leaf_match.source_urls、同步 reason/note；若无法证明，则从 Chatwoot 的 leaf_matches 移除 help-center，research 该叶 assessment 改为 boundary_unresolved（或 insufficient_evidence）、case_ids 置空，保留候选、查询、URL、fetch_outcomes 与 archived:false，不改 included 范围和其他叶子。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 2,
+    "index": 0,
+    "finding": {
+      "leaf": "pdf-document-reader",
+      "severity": "blocking",
+      "issue": "batch 中 DocSpace 的 reason 及 research 的 service_boundary 声称覆盖“固定版式PDF查看（缩放、翻页、下载/打印）”，但引用的 README、Windows 社区版安装页、房间文档管理页只说明可创建/编辑/预览 PDF、Preview 会打开“corresponding ONLYOFFICE Viewer”。正文没有描述 PDF 的固定版式渲染、翻页/跳页、缩放/适应页面。按“来源正文须证明核心工作流”的标准，现有证据只证明格式支持与预览入口，未证明 PDF/Document Reader 的第三项核心（在分页文档中移动）。",
+      "fix": "二选一：(a) 补抓 ONLYOFFICE 官方 PDF Viewer/Editor 用户指南中明确写到打开 PDF、按页翻页/跳页、缩放/适应页面的正文，加入 entry sources 与 leaf_match.source_urls，并据此改写 reason 与 service_boundary；(b) 将 pdf-document-reader 改为 insufficient_evidence，从 batch 移除该 leaf_match，并删除“缩放、翻页”表述。不得保留无正文支撑的边界描述。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 2,
+    "index": 1,
+    "finding": {
+      "leaf": "content-curation-platform",
+      "severity": "major",
+      "issue": "Raindrop 的 homepage 快照 13e5... 只有 Next.js 空壳（标题与元数据，无正文），但 batch reason 写“官方产品页展示网页收集与集合组织”。实际可核验正文只有官方博客：公开页、嵌套集合、标签过滤、公开 profile、嵌入；保存/捕获动作仅由“bookmarks”和相关文章卡片间接体现，reason 对 homepage 的表述超出快照正文。",
+      "fix": "把 reason 收窄为只引用博客可证内容（公开策展页、集合与嵌套集合、标签、公开 profile、嵌入），并明确 homepage 快照无正文、capture 仅有间接证据；若要在 reason 中主张“保存网页”，可补一条 raindrop.io 同主机官方帮助页（如 help.raindrop.io 的保存/扩展说明），但不作为阻塞，不追加商业深调。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 2,
+    "index": 2,
+    "finding": {
+      "leaf": "content-management-system-cms",
+      "severity": "minor",
+      "issue": "WordPress 的 leaf_match.reason 大部分篇幅解释仓库 license API 为 NOASSERTION、完整 GPL 文本人工核对，对定义性核心只说“描述站点内容创建、编辑、发布及管理”；没有点出 features 页可证的结构化内容类型（Custom Content Types）、耦合呈现层（Theme System）和发布生命周期（Drafts/Schedule/Revisions）。",
+      "fix": "改写 reason，引用 wordpress.org/about/features/ 的 Publish with Ease、Publishing Tools、Theme System、Custom Content Types 与安装文档，逐项对应结构化内容/编辑后台/耦合呈现/发布生命周期；license 说明留在 license_review 与 research.note，不占用 reason。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 2,
+    "index": 3,
+    "finding": {
+      "leaf": "collaborative-document-editor",
+      "severity": "minor",
+      "issue": "Etherpad 的 features 写“支持导入导出文档”，但引用的 README 只明确“Full data export is built in”，未提导入；该功能主张缺少正文。",
+      "fix": "将 feature 改为“内置完整数据导出”并引用 README；若保留“导入”，补官方插件或文档来源，否则删除“导入”表述。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 0,
+    "finding": {
+      "leaf": "polling-application",
+      "severity": "blocking",
+      "problem": "唯一候选 Slido 的已存档来源 sources/3e37556b1e8bd3e478834327455534ebd6c36deb2a73ca2172b106d3ac378c24.txt 只有 2 行：一行 head/meta（关键词堆砌含 polls/quiz/live polls）与一段 New Relic 引导脚本，正文未落盘。对 multiple choice、word cloud、rating、ranking、QR code、实时结果、Excel/PDF/Google Sheets 导出逐词检索均无正文命中，仅 meta 命中。research 的 fetch_outcomes 与 batch reason 却写成“正文列出…”，属于以 HTTP 成功+元数据/关键词代替正文证据，正是契约禁止的做法。",
+      "fix": "重新抓取并保存 Slido 官方正文（可改用官方帮助中心/产品文档的静态页），确认确实存在“问题+预设选项→参与者投票→聚合结果”的定义性核心后再保留 case_found；若仍抓不到正文，则 assessment 改 insufficient_evidence、case_ids 置空、batch 中移除该 leaf_match 与 commercial:slido 条目（该条目无其他叶子），并在 fetch_outcomes 如实记录“仅壳页/meta，正文未取得”。不得保留现有“正文含…”表述。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 1,
+    "finding": {
+      "leaf": "group-availability-scheduling-application",
+      "severity": "blocking",
+      "problem": "Calendly 两个来源的正文同样未落盘：help/how-to-set-up-a-meeting-poll 快照中检索 vote、candidate、40、Book Meeting、Meeting polls 均无正文命中，只有 meta description 的“create a poll, share it, and book the best time”。因此“组织者选最多 40 个候选时间→受邀者投票→查看结果→Book Meeting→发送日历邀请”这套关键流程无来源正文支撑；research 的 fetch_outcomes 却声称“内嵌正文含…”。",
+      "fix": "本叶核心可由 Nextcloud Calendar Proposals 独立支撑（已读到正文：候选时段、Yes/No/Maybe 矩阵、各时段票数、选定最受欢迎时段并创建事件、邮件通知），建议直接删除 Calendly 关联；若保留 Calendly，必须先补存含投票流程的官方正文并把 fetch_outcomes 改成实际结果。删除关联时同步修改 batch leaf_matches、research case_ids 与 Calendly 条目的 leaf 列表。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 2,
+    "finding": {
+      "leaf": "meeting-scheduling-application",
+      "severity": "blocking",
+      "problem": "Calendly about-scheduling 快照检索 event type、reusable booking page、one-on-one、round robin、collective、available hours、booking page 均无正文命中，页面仅 meta 与导航/脚本；batch reason 却列出“四类 event type、可用时间与已连日历决定候选时段、自动写入日历”等细节。现有证据不足以证明主持可用时间定义候选时段、访客自助预约、生成会议记录三项。",
+      "fix": "同叶已有 Nextcloud Calendar Appointments 正文（时长/增量/每周可用时间/缓冲/每日上限、公开或秘密链接、未登录访客填姓名邮箱预约、写入指定日历），可单独成立。建议移除 Calendly 关联并按实际抓取结果改写 fetch_outcomes；若保留 Calendly，需补存含 event type/可用时间/写入日历的官方正文。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 3,
+    "finding": {
+      "leaf": "kanban-task-board",
+      "severity": "blocking",
+      "problem": "Plane 的类型边界不成立。本叶 dc 明示“看板是首要工作界面和记录模型——不是在其他任务数据库之上的一种视图”，且规则要求“位置即状态、没有第二个状态字段需要协调”。采集者自己引用的 kanban-group.tsx 恰好证明：列拖放会把 state_id 回写到工作项，状态是独立字段，Board 只是 list/spreadsheet/gantt/calendar 之外的一种 layout；docs Layouts 也把它描述为布局。这与 task-management 叶里“看板是视图而非记录”的判别标准直接冲突，属于类型误配，而非“完整子模块”可豁免的问题。",
+      "fix": "改用 board-first 的开源产品（如 Kanboard、Wekan、Focalboard 等）重新取证：要求来源正文能证明板是主要工作面、列即状态、移动卡片即状态变更且无并行状态字段需要同步。若坚持保留 Plane，则需明确论证其 Board 布局本身构成可独立成立的完整子模块，并说明为何不落入“视图而非记录”的排除项；否则应把该 leaf 改为证据不足/边界未决并移除 Plane 在此叶的关联（Plane 仍可保留在 work-management-platform）。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 4,
+    "finding": {
+      "leaf": "collaborative-presentation-editor",
+      "severity": "major",
+      "problem": "四项核心中“有界幻灯片画布+元素自由放置（文本/形状/图像/媒体）”没有被已存来源正文证明。ManageSlides 只覆盖新建/复制/移动/隐藏幻灯片与按版式插入；PreviewPresentation 只覆盖放映、演讲者备注、隐藏页；README 与安装页只到“演示文稿编辑器/实时共同编辑”。batch reason 与 research note 未声明这一项为未证。",
+      "fix": "补抓 ONLYOFFICE Presentation Editor 官方帮助中关于插入/编辑文本框、形状、图片、表格/图表以及幻灯片尺寸/母版版式的页面并存入 sources；若抓不到，则在该叶 reason 明确写出“元素级自由布局未由已存正文证明”，并考虑把 assessment 降为 boundary_unresolved，而不是继续以完整四项核心通过。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 5,
+    "finding": {
+      "leaf": "presentation-application",
+      "severity": "major",
+      "problem": "batch reason 声称“母版统一版式”和“可导出 PDF/PPTX/ODP”，但所引 ManageSlides 快照对 master/母版与 PPTX/ODP 导出均无正文命中（仅出现版式选择与键盘快捷键提示）；research note 也重复了导出与母版说法。属于超出快照的具体能力断言。",
+      "fix": "补存证明母版/主题与导出格式的官方帮助页，或删除这两项断言，只保留“按版式新建幻灯片、复制/移动排序、隐藏、全屏放映、演讲者模式备注”等已证内容；同时修正 research note 与 fetch_outcomes，避免把未读到的能力写成已核验。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 6,
+    "finding": {
+      "leaf": "to-do-list-application",
+      "severity": "major",
+      "problem": "reason 以 docs/manual_sort_mode 证明“界面提供‘显示已完成’开关”，但该快照原文明确写“Show hidden 和 Show completed toggles are not supported”（在 Astrid 手动排序模式下）。引用与原文相反，属于引证错误；而“列表为归属地/主工作面”在该页也未获正面描述。",
+      "fix": "改用真正描述列表与完成状态/显示已完成开关的官方文档页（如 Lists、Task completion 相关页）重新取证；若找不到，删去该具体断言，仅保留首页与 docs 能支持的“命名列表、提醒、重复、过滤器”，并在 note 中如实标注完成状态证据薄弱。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 7,
+    "finding": {
+      "leaf": "diagramming-application",
+      "severity": "minor",
+      "problem": "来源正文足以支撑形状库、固定/浮动连接线、重路由、多页、图层；但 README 明确写“本仓库是用于评估/试用的 test version，生产部署需付费版本”。当前 batch 仅在 deployment 里提到，reason 未设社区版边界，存在把付费生产形态与开源仓库混同的风险。",
+      "fix": "在 reason/service_boundary 明确：所引核心能力来自 Apache-2.0 仓库中的客户端编辑器，未把付费生产发行版或 Atlassian 市场相关限制算作开源能力；保留 README 的 test-version 说明，不改许可结论。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 8,
+    "finding": {
+      "leaf": "project-portfolio-management-application",
+      "severity": "minor",
+      "problem": "商业条目基本类型匹配（组合汇总、预算预测、intake 入口均有官方页面），但“按优先级评审/批准”“按团队产能排期”“预算审批”等细粒度措辞在已读正文片段中未能逐句确认，页面多为 JS 渲染。按契约商业只要求基本真实性与类型匹配，故不作阻断，但不应把未逐句核到的审批语义写成确定事实。",
+      "fix": "将 reason 中“批准/审批”类措辞降级为页面可支持的范围（收集候选、优先级评审、组合预算与实际成本对比、仪表盘跟踪），或在 notes 标注该细节未逐句核验；无需追加深入调研。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 3,
+    "index": 9,
+    "finding": {
+      "leaf": "meeting-action-item-management",
+      "severity": "info",
+      "problem": "以“缺应用内到期日证据”判 boundary_unresolved 且 archived:false，符合“证据不足留档、不改范围”；但同叶 meeting-notes 判 insufficient_evidence，两者失败原因不同却都无 case，建议最终复核时统一说明二者区别，避免被读成同一缺口。",
+      "fix": "无需改数据；在最终报告中保留“行动项：主体成立、仅日期维度未证”与“会议纪要：议程/结论结构未证”的区分即可。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 0,
+    "finding": {
+      "leaf": "personal-dashboard",
+      "entry_id": "github:792861139",
+      "severity": "high",
+      "issue": "摘要称“服务端定时刷新数据”、reason 称“服务端持续抓取外部数据”，但 Glance README 的 FAQ 明确写道：不会后台周期性请求，信息只在页面加载时抓取并缓存，必须手动刷新页面（README 第 311-317 行）。这直接与定义核心“at-a-glance currency（自动刷新或同步）”冲突，且 research.note 把“刷新周期”写成“未核实项”，与已读正文相反。",
+      "required_fix": "改写摘要与 leaf reason 为“按页面加载抓取并按 widget 缓存，需手动刷新”，删除“定时/持续抓取”表述；在 note/service_boundary 记录该时效性限制。若最终复核认定自动刷新是硬性条件，应将 assessment 改为 boundary_unresolved（archived 仍为 false），不得以错误描述保留 case_found。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 1,
+    "finding": {
+      "leaf": "graphic-design-application",
+      "entry_id": "github:258967860",
+      "severity": "medium",
+      "issue": "batch 的 deployment 写“提供桌面应用下载”，但官方 features 页与 README 只说明当前 alpha 可在 editor.graphite.art 使用；桌面应用发布仍在 roadmap（Alpha 5“Desktop app release and 1.0 launch”）。这是无来源支持的部署声明。",
+      "required_fix": "删除“提供桌面应用下载”，仅保留网页版入口；或在取得官方桌面版发布页后补充来源。features 中“按任意尺寸导出图像”有官方正文支持，可保留。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 2,
+    "finding": {
+      "leaf": "video-compositing-application",
+      "entry_id": "github:13233158",
+      "severity": "medium",
+      "issue": "features 列“虚拟摄像头等输出方式”，但所引 README、官网首页与 Sources Guide 快照均未出现 virtual camera；该输出方式无本批来源支持。另“并发输出”在官网只表述为推流或录制，未明确同时进行。",
+      "required_fix": "删除“虚拟摄像头”或补充官方来源；将“并发输出”改为来源可证的“推流或录制输出”，除非补充同时多路输出的官方说明。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 3,
+    "finding": {
+      "leaf": "raster-image-editor",
+      "entry_id": "github:2358713",
+      "severity": "medium",
+      "issue": "reason 与 features 声称“保存为常见图像格式/打开并保存常见位图格式”，但本批 Pinta README 与官网首页快照只证明绘图、图像编辑、效果/调整与无限撤销，未出现保存/导出格式或持久化说明。定义核心“Persist as image”缺少正文证据。",
+      "required_fix": "补充官方文档/发布页中关于打开与保存/导出图像格式的正文，或把 reason 缩小到已证内容并在 note 记录持久化缺口；若仍无法证明，assessment 应为 boundary_unresolved。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 4,
+    "finding": {
+      "leaf": "vector-graphics-editor",
+      "entry_id": "github:21611548",
+      "severity": "medium",
+      "issue": "reason 称“以标准 SVG 文档存取”，但 README、官网首页与 Editor.md 快照只证明浏览器内 SVG 绘制、路径工具与节点独立编辑；未出现打开/保存标准 SVG 的正文。定义核心“persistent document + standard output”证据不足。",
+      "required_fix": "补充官方保存/导出 SVG 的文档或 FAQ 正文；否则缩小 reason 并记录缺口，或将 assessment 改为 boundary_unresolved。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 5,
+    "finding": {
+      "leaf": "personal-cloud-drive",
+      "entry_id": "github:120156076",
+      "severity": "medium",
+      "issue": "Cloudreve 官方文档明确存在 Pro 版（启动需 --license-key、proupgrade），而 batch/reason 未说明条目对应社区/GPL 仓库、所列能力属于社区版；另 reason 称“通过 Web、WebDAV 与客户端在多设备上传下载”，但所引 README 只明确 WebDAV 与浏览器端，桌面客户端仅出现在文档目录索引，未在已读正文证明。",
+      "required_fix": "在摘要或 reason 中写明：条目为 Cloudreve 社区版（GPL-3.0 仓库），Pro 为另行授权的版本，所列功能均来自社区 README；删除或补证“客户端”可达性（例如引用桌面客户端文档正文）。Nextcloud 侧证据充分，无需改动。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 6,
+    "finding": {
+      "leaf": "time-blocking-application",
+      "entry_id": "github:78243781",
+      "severity": "medium",
+      "issue": "reason 引用 Schedule Planner 页面解释“设定时限、选定结果、回看完成情况”，并称任务可完成/重新安排；README 只明确 planner/schedule 时间轴、timeboxing 与时间追踪，未直接写重新安排/结转。所存 use-case 快照是单行 Astro HTML，正文引用无法在可读片段中确认。",
+      "required_fix": "重新抓取并保存含正文的官方页面，逐句引用“拖入时间槽、重新安排、未完成任务结转”等；若无法取得，缩小 reason 为 README 可证的“任务排入 schedule 时间轴 + timeboxing/时间追踪”，不要声称完成/结转循环已证。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 7,
+    "finding": {
+      "leaf": "motion-graphics-application",
+      "entry_id": "github:1691967",
+      "severity": "low",
+      "issue": "reason 称“可交付动画成品”，但 README 与官网首页快照只证明矢量/位图图层、关键位置补间、50+ 图层、骨骼与表达式；未直接出现渲染/导出格式或成片输出说明。定义核心“Delivery as a rendered moving image”证据偏弱。",
+      "required_fix": "补充官方渲染/导出文档（帧渲染、视频/图像序列输出），或把“可交付”限定为“用于制作 2D 动画”，并在 note 保留输出格式未核实。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 4,
+    "index": 8,
+    "finding": {
+      "leaf": "personal-workflow-automation-platform",
+      "entry_id": "github:8681349",
+      "severity": "low",
+      "issue": "定义 dc 含“Run history（每次执行记录状态）”，reason 只笼统称服务端执行；README 展示的是 Events 浏览与 Agent 图，未明确逐次运行历史/状态面板。自托管与“托管执行”的边界也仅靠任务约定成立。",
+      "required_fix": "在 reason 中明确记录载体是 Agent/Event 日志，不称“逐次运行历史面板”；同时保留“自托管运行、按任务约定视为完整应用”的边界说明。若坚持 Run history 为硬性条件，assessment 应为 boundary_unresolved。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 0,
+    "finding": {
+      "leaf": "ux-prototyping-application",
+      "entry_id": "commercial:axure-rp",
+      "severity": "high",
+      "problem": "batch 把 https://www.axure.com/features 与首页保存成同一个 sha256（966831...），快照只有 Nuxt 壳和 meta 描述；正文没有事件触发器、条件逻辑、动态面板或运行模式。leaf_match 却把这些当作已证能力，属于用 HTTP 200 和摘要代替正文。",
+      "fix": "重新抓取 Axure 官方可读的功能/教程页并单独存快照；若拿不到，只保留官方标题/描述能证明的“一体化原型、规格与流程图工具”类型匹配，删除触发器/条件/动态面板表述，并在 note 与 fetch_outcomes 记录正文缺口；同时删掉重复 source。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 1,
+    "finding": {
+      "leaf": "digital-sculpting-application",
+      "entry_id": "commercial:nomad-sculpt",
+      "severity": "high",
+      "problem": "manual/tools 与 manual/files 快照都是 VitePress 壳，只有 title、modulepreload 和 hash map，没有 Clay/Smooth/Inflate/Crease 笔刷、半径/强度/压感，也没有工程保存或模型导入导出正文；官网只有“A sculpting and painting application”副标题。leaf_match 的笔刷与导出细节无来源支撑。",
+      "fix": "补一个服务端可读的官方手册或文档页面证明笔刷变形与模型导出；若拿不到，把 reason 收窄为官网副标题可证明的类型匹配，并在 note 明确核心工作流证据不足，不得列具体笔刷名、参数或导出格式。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 2,
+    "finding": {
+      "leaf": "digital-audio-workstation-daw",
+      "entry_id": "github:15778896",
+      "severity": "high",
+      "problem": "docs.lmms.io/user-manual/production/exporting 快照是 GitBook 客户端壳，正文只有侧栏“Exporting a Song / File Format / Sample Rate”；README 只证明 Song Editor、Mixer 与 MIDI 导入导出，未证明音频渲染。research 的 DAW note 还说 README 列“导出”，且 source_urls 未列 LMMS README 或 export 页，note 与来源不一致。",
+      "fix": "改用可读的 LMMS 官方导出页，或让 Ardour 单独承担 DAW 的音频交付证据；在拿到正文前删除 LMMS“音频导出”表述，并把 research.source_urls 与 note 对齐。music-production-application 叶同样不要把 LMMS 当导出证据。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 3,
+    "finding": {
+      "leaf": "sheet-music-reader",
+      "entry_id": "github:373495382",
+      "severity": "medium",
+      "problem": "research note 称“官方 FAQ 说明移动端支持尚未完成”，但 FAQ 快照只有 How can I help 与 What if I don't have a home server，没有该陈述；README 说已有 Web 与 iPad/Android 平板客户端（独立仓库），docs 说浏览器/移动可用，roadmap 才把跨设备同步列为未来。另 SheetAble 正文只证明曲库、上传、标签与账号，未证明翻页/缩放/阅读状态控制；该叶的阅读核心目前由 forScore 承担。",
+      "fix": "改写 note，区分“Web 曲库已交付、平板客户端为独立仓库、跨设备同步在 roadmap”；补阅读界面正文，或明确标注 SheetAble 只证明曲库/上传/标签，不把多端阅读当已证核心。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 4,
+    "finding": {
+      "leaf": "rendering-management-application",
+      "entry_id": "github:133735379",
+      "severity": "medium",
+      "problem": "OpenCue README 证明作业拆分、可配置队列、中央渲染机群、proc/标签/多设施，但没有明确状态跟踪、日志、失败重试或重新排队、完成关闭；leaf_match 的“跟踪作业状态并回传完成帧”超出正文，dispatch-and-track 闭环只证到派发侧。",
+      "fix": "补官方 docs 的 dispatch/track/failure 页面，或把 reason 收窄为已证的队列/拆分/容量/派发，并在 note 记录闭环缺口；若两者都做不到，assessment 改 insufficient_evidence 或 boundary_unresolved，archived 仍为 false。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 5,
+    "finding": {
+      "leaf": "podcast-editing-application",
+      "entry_id": "commercial:hindenburg-pro",
+      "severity": "medium",
+      "problem": "官方页证明口播/播客定位和 record-transcribe-edit-montage-mix-publish 标语，但没有明确“单集”是持久工作单元，也没有发布上下文（标题/简介/show notes/章节）。leaf_match 的“以单集节目为产出”是推断，不是正文。",
+      "fix": "补官方单集/项目管理或发布文档；否则把 reason 收窄为“面向记者/播客的口播音频编辑与发布流程”，service_boundary 不要写单集资产状态。商业基本类型匹配可保留。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 6,
+    "finding": {
+      "leaf": "character-animation-application",
+      "entry_id": "github:314383297",
+      "severity": "medium",
+      "problem": "README 与文档证明绑定、参数驱动形变、视频导出与运行时 puppet；但“导入分层 PSD 原画”只在 FAQ 目录出现标题，“网格变形”原文是 deforming textures，时间轴关键帧也没有直接正文。features 与 reason 把这些写成了已证事实。",
+      "fix": "补 PSD FAQ 答案或动画/时间轴文档；否则把 reason 改为“导入分层二维素材、参数绑定驱动、视频/运行时交付”，删去未证的 PSD、网格与时间轴细节。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 7,
+    "finding": {
+      "leaf": "texture-material-authoring-application",
+      "entry_id": "github:141905920",
+      "severity": "low",
+      "problem": "features 写“200+ 节点”，但 README 与官网快照只说节点式编辑和社区库“hundreds of materials/nodes/brushes”，没有 200+ 这个数字。",
+      "fix": "删掉“200+”，或补明确写该数字的官方来源；节点/PBR 导出与资产交付的其余证据成立。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 8,
+    "finding": {
+      "leaf": "ux-prototyping-application; digital-sculpting-application; digital-audio-workstation-daw",
+      "entry_id": "commercial:axure-rp; commercial:nomad-sculpt; github:15778896",
+      "severity": "medium",
+      "problem": "fetch_outcomes 把 Axure /features、Nomad manual/tools 与 manual/files、LMMS exporting 记为 200 成功，但这些快照是 JS 壳，正文不可用。把 HTTP 成功写成抓取成功，会让后续把壳页当证据。",
+      "fix": "在 fetch_outcomes 增加“200 但正文为 JS 壳/仅侧栏”的状态，重新抓静态可读页；采用来源前先检查正文可读性，不以 HTTP 状态码代替。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 5,
+    "index": 9,
+    "finding": {
+      "leaf": "podcast-editing-application",
+      "entry_id": "commercial:hindenburg-pro",
+      "severity": "low",
+      "problem": "research.source_urls 把未入选的 audapolis README 与 Hindenburg 并列，但 batch 没有 audapolis 条目，note 又说仅候选；来源列表与 case_ids 不一致。",
+      "fix": "把 audapolis 移到 search_attempts 或 note 并标注 candidate，source_urls 只保留支撑已选 case 的来源。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 0,
+    "finding": {
+      "slug": "e-commerce-platform",
+      "issue": "核心工作流未被引文正文证明。entry 引用的 https://devdocs.bagisto.com/ 快照（061393c954ea）只是 VitePress 空壳：除 <title>Bagisto</title>、__VP_HASH_MAP__ 脚本外没有任何正文，因此 reason 里“开发者文档说明商品类型自带定价、库存与购物车行为”无法成立。README 快照（e74753b5）只能读到 open-source Laravel eCommerce / multi-vendor 定位、单命令 Docker 起店、POS 的 fast customer checkout、headless storefront，全文没有 cart、checkout-to-order、merchant order management 的正文表述。",
+      "required_fix": "改引一页有正文的官方文档（如 devdocs 的安装/架构/storefront/checkout 页，或 README 中能同时证明目录-店面-结账-订单同体的段落）；若拿不到，则把 reason 收敛到 README 已证内容，并在 research.note 明写“结账转订单同系统管理未获正文证据”，不要保留未证断言。",
+      "severity": "blocking"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 1,
+    "finding": {
+      "slug": "ai-audio-generator",
+      "issue": "reason 引号内的英文原句 “Create Royalty-Free Sound Effects from a Text Prompt” 在 9d4513321a18 快照中检索不到，属于不可核对的引文。快照实际可证的是 “sound effect generator lets you create custom sound effects from scratch… generate, modify, and download your own sounds in MP3 format — all royalty-free” 与 “generate your own royalty-free sound effects from scratch”。",
+      "required_fix": "把引文替换为快照中真实存在的句子（或改为不引号的转述），必要时重抓该页；不要保留带引号但原文不存在的表述。",
+      "severity": "blocking"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 2,
+    "finding": {
+      "slug": "ai-avatar-video-generator",
+      "issue": "reason 写 “官方首页列出 ‘AI Avatars — Lifelike avatars from a script’…130+ 语言配音”，与 7d8582129b3f 快照不符：页面实际写的是 “AI Video and Avatar platform for business… AI avatars and voiceovers in 140+ languages”“100s of avatars”“Translate your video library into 140+ languages, with lip sync and voice cloning”，代码片段里有 lipsyncEnabled: true；未出现 “Lifelike avatars from a script”，语言数是 140+ 而非 130+。",
+      "required_fix": "把数字改为 140+，删去快照中不存在的引号句，改用 “AI avatars and voiceovers in 140+ languages”“with lip sync and voice cloning” 等原文；核心（脚本/语音→数字人表演→渲染视频）本身证据成立。",
+      "severity": "blocking"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 3,
+    "finding": {
+      "slug": "order-management-system-oms",
+      "issue": "reason 声称“支持门店发货、点击提货以及退货换货处理”，但在 d562081d 首页正文中只能核到 “AI-Native Order Management System”“Orchestrate every order across channels, stores and warehouses”“Order orchestration / inventory data / Deliver on every promise”；未见退货换货、ship-from-store、click-and-collect 的可读正文。更麻烦的是，这些可证内容偏“编排/寻源”（相邻的 distributed-order-management 与 order-orchestration-platform），而 OMS 定义性核心所需的“订单记录 + 已捕获后生命周期（批准/编辑/取消/退款）+ 发货与追踪关联”没有直接证据。",
+      "required_fix": "补引官方 OMS 子页（订单生命周期/状态机、取消退款、发货与 tracking 关联、退货流程），或把 reason 收敛为“自述 OMS + 跨渠道门店仓库编排”，并删去退货换货与门店发货细节；同时在 note 保留“生命周期状态门控未核”的缺口。",
+      "severity": "blocking"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 4,
+    "finding": {
+      "slug": "online-store-builder",
+      "issue": "Shopify 快照（0c0c36ee7e93）是 React 单页外壳，可读内容只有 <title>Shopify: The All-in-One Commerce Platform for Businesses</title> 与 meta description 的 “Build or grow your business fast with AI. Get more than ecommerce software with tools to manage every part of your business.”。reason 中“主题或 AI 生成在线店铺、统一管理商品目录与库存、内置结账与支付、集中处理订单与履约”在该快照里没有正文支撑。",
+      "required_fix": "改引主题编辑器、checkout、orders/inventory 的官方页面（或帮助中心文档）作为正文证据；商业条目可保留基本真实性，但不得用首页关键词或 title 代替能力证明。",
+      "severity": "blocking"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 5,
+    "finding": {
+      "slug": "font-editor",
+      "issue": "license_review.rationale 写“LICENSE 页另说明整体按 GPLv3 或更新版本发布”，但 entry.sources 只收录了 COPYING.gplv3（8ceb4b9e），没有收录该 LICENSE 文件的快照；rationale 引用了不在本 entry 来源内的资料。另外 features 里的“复合字形与参考线、字距、OpenType 特性”超出 5 行 README 可证范围（README 仅 “free (libre) font editor… create, edit and convert fonts in OpenType, TrueType, UFO, CID-keyed, Multiple Master”）。",
+      "required_fix": "要么补上 LICENSE 文件快照并作为 license_review 的并列依据，要么删掉 rationale 中该句；features 收敛为 README 支持的 create/edit/convert 与字体编辑器定位（可保留格式清单，删去无出处的字形级细节）。",
+      "severity": "major"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 6,
+    "finding": {
+      "slug": "professional-typesetting-application",
+      "issue": "features 写“编译器把源文件编译为 PDF、图像与网页（预览）”，超出证据：README 只证 PDF 编译（typst compile → file.pdf）与增量编译；HTML 导出在 README 致谢里只作为 NLnet 资助的进行中工作出现（“Work on HTML export”），不是已交付能力。",
+      "required_fix": "改为“编译为 PDF（及图像导出）”，或注明 HTML 导出为规划/资助中；其余核心（标记源→set/show 设计层→compile→PDF、错误提示）证据充分，可保留。",
+      "severity": "major"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 7,
+    "finding": {
+      "slug": "marketplace-platform",
+      "issue": "research.note 写“其开源 Sharetribe Go 为旧版源码可用产品”，措辞自相矛盾：Sharetribe Go 采用 Sharetribe Community Public License（源码可用，非 OSI 认证开源）。另外 www.sharetribe.com 快照为单行 Next.js 输出，卖家档案/上架/抽成/托管等主张未能在可读窗口内逐句核对。",
+      "required_fix": "把“开源”改为“源码可用（非 OSI 开源）”，避免许可证边界错误；并保存可读正文或改引官方 product/pricing 页，支撑多卖家、卖家自管、抽成与托管四点。",
+      "severity": "major"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 8,
+    "finding": {
+      "slug": "product-information-management-pim",
+      "issue": "AtroPIM README 明确 “This repository contains the source code of the PIM module for the AtroCore Business Application Platform. AtroPIM is an instance of AtroCore with the PIM module installed on top of it.”，但 summary 与 research.service_boundary 都把它当成可直接自托管的完整 PIM，未写 AtroCore 依赖。",
+      "required_fix": "在 summary 或 service_boundary 补一句“需叠加 AtroCore 平台运行（同为 GPLv3 开源）”，避免把模块当成独立可跑应用；许可证与功能墙结论（GPLv3、核心无付费墙）可保留。",
+      "severity": "major"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 9,
+    "finding": {
+      "slug": "ai-video-generator",
+      "issue": "reason 写“支持从首尾帧生成运动与延伸片段”，但 pika.art/faq 快照（ebe46a4f2f9e）中检索不到 keyframe / first frame / last frame，仅能核到 credits 与 extend 相关词；“提示词→生成片段”的核心也主要依赖首页快照。",
+      "required_fix": "改引首页或帮助中心里真正出现首尾帧条件的段落作为 source_urls 依据，否则删去“首尾帧生成运动”，只保留快照可证的“提示词/素材→生成视频、模型与积分”。",
+      "severity": "major"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 10,
+    "finding": {
+      "slug": "ai-design-generator",
+      "issue": "Sivi 首页与 tour 页都是单行压缩 HTML，reason 中的 “Large Design Model”“逐层移动元素、改文案、换图”“导出 PNG/JPG/HTML/PDF” 无法在核验窗口内定位到可读段落（相关词在整行文本中存在，但段落不可核对）。核心“text prompt → layered editable designs”已能读到。",
+      "required_fix": "保存一份抽取正文后的快照或补一条可读官方页（features/export 页），使“可操作结果→交付”这一步有可引用段落；至少把 reason 中无法指位的细节删到可证范围。",
+      "severity": "minor"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 11,
+    "finding": {
+      "slug": "ai-image-editing-application",
+      "issue": "GitHub metadata 明确 archived=true（b18e9a4e 中 \"archived\":true），但结构化字段无处承载该状态，summary 与 service_boundary 都没有提示；只有 reason 与 research.note 提到“仓库已归档”。导入后读者容易把只读归档项目当成在用产品。",
+      "required_fix": "在 service_boundary（或 summary）明示“仓库已归档、只读，功能证据成立但不再维护”，无需改范围或换产品。",
+      "severity": "minor"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 6,
+    "index": 12,
+    "finding": {
+      "slug": "distributed-order-management",
+      "issue": "第二个来源 https://www.linnworks.com/order-management/ 的 kind 标成了 homepage，但它是解决方案/订单管理子页，实际作用等同 documentation；同一 entry 出现两个 homepage 来源，语义不准确。",
+      "required_fix": "把该 source 的 kind 改为 documentation（不影响导入校验，但影响来源类型统计与复核语义）。",
+      "severity": "minor"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 0,
+    "finding": {
+      "leaf": "category-management-application",
+      "problem": "来源不能支撑 reason。retail-cpg 快照可读正文基本只有 schema.org 服务清单与 meta 描述；glossary/category-management 快照正文区为空（只有标题、meta 片段、导航与页脚脚本），检索不到 reason 所引的 “Category Performance & AI Assistants”，也检索不到“品类作为战略业务单元”、品类绩效记录、战略目标或管理循环的任何原文。属于引用不存在的内容，而非普通证据缺口。",
+      "fix": "重抓可读的官方正文（例如 glossary 的正文渲染版，或 SymphonyAI 明确写品类绩效/品类策略的官方页），使“品类为管理单元 + 绩效记录 + 战略与目标 + 管理循环”至少三项有原文；若仍取不到，将该叶 assessment 改为 insufficient_evidence（archived 仍为 false），并把 reason 改为如实描述已证内容，不得保留未出现的措辞。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 1,
+    "finding": {
+      "leaf": "returns-exchange-portal",
+      "problem": "唯一来源 loopreturns.com/returns/ 是单行压缩的 Next.js 快照，正文无法有效抽取；“self-service returns portal”“按政策自动判定”“exchange / store credit / instant refund”“按地区/仓库/商品的退货规则”等 reason 关键措辞均未能在可读正文中确认。目前只能证明这是 Loop 的一个退货相关页面。",
+      "fix": "重新抓取并保存可读正文，或改引 Loop 官方首页/产品页中明确写自助门户、政策判定与解决方案选择的段落；确认后在 reason 中逐项对应，未确认的措辞删除。若仍无正文，按证据不足留档，不改叶子范围。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 2,
+    "finding": {
+      "leaf": "retail-store-management-system",
+      "problem": "reason 称“为员工设置具体访问权限与培训”“门店间调拨库存、为任一门店订货”，但在两份 Lightspeed 快照中检索不到 transfer 或 permission/role 相关原文。可证的是多门店集中库存、报表/CRM、实时销售与库存看板。而该类型定义明确要求“用户、角色、权限”的治理面，该支柱目前无证据。",
+      "fix": "补一份官方页（如 Lightspeed 零售功能/员工权限/库存调拨页）证明角色权限与跨店调拨；否则把 reason 缩到“门店范围记录 + 业绩回看”，并在 note 明确治理面证据缺口，不要以推断代替原文。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 3,
+    "finding": {
+      "leaf": "omnichannel-pos",
+      "problem": "reason 中“buy online pickup in store”“buy in store ship home”在两份 Shopify POS 快照中检索不到（pickup/local pickup/BOPIS/ship from store 均无可读命中）。已证的是库存线上线下同步、客户档案与订单历史、员工权限、售出/退货/换货/调拨更新库存、以及“Bring in-store and online sales together”。",
+      "fix": "删除或补源 BOPIS 与店内下单发货表述；保留“统一目录/库存/客户状态 + 柜台跨渠道退换货”的已证表述，并把未证的跨渠道履约流程写入 note 作为缺口。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 4,
+    "finding": {
+      "leaf": "promotion-management",
+      "problem": "reason 称“提供上线前审批与变更追踪……以及 ROI 分析”，但 Voucherify 快照中可确认的是机制库（BOGO、multi-buy、bundles、免邮、类目/SKU）、按 segments/products/channels/dates 定向、预算与兑换上限、叠加/排他规则、webhook；未检索到审批工作流或 ROI 分析的原文。治理生命周期与效果衡量是该类型的定义性结构，不能靠推断补足。",
+      "fix": "补一份官方文档证明审批/变更记录与效果衡量（或 ROI 报表）；否则从 reason 删除该两项，只保留已证的机制+范围+有效期+预算+叠加规则，并在 note 标注生命周期证据缺口。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 5,
+    "finding": {
+      "leaf": "recurring-commerce-management",
+      "problem": "note 自认“每周期扣款→建单→履约交接的逐步执行证据未在页面展开”，而这是该类型的定义性结构之一（per-cycle execution）。同时 Skio 快照为压缩的 Framer 页面，跳过/换品/暂停/挽留等核心原文在可读片段中未能确认。当前只证明了“这是一个 Shopify 订阅产品”这一层。",
+      "fix": "补官方页/文档证明订阅承诺记录与周期执行（扣款、生成续订订单、移交履约）；取不到则把该叶改为 insufficient_evidence 并如实记录缺口，不得以产品类别常识替代来源正文。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 6,
+    "finding": {
+      "leaf": "assortment-planning-application",
+      "problem": "定义的四项属性中“周期绑定”collector 已承认未明示，“以单位和金额规划的深度”也未在正文出现；可证的是按门店集群本地化（Cluster/Range Modelling）与面向本地购物者的组合。四项缺两项，尚不足以称 case_found。",
+      "fix": "补官方页证明计划窗口（季节/季度/组合周期）与按 SKU/地点的单位与金额深度；否则将该叶降为 boundary_unresolved 或 insufficient_evidence，保留候选与 URL，archived 仍为 false。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 7,
+    "finding": {
+      "leaf": "e-commerce-fulfillment-management",
+      "problem": "reason 写“支持 200+ 零售渠道与 50+ 集成”，但快照中 50+ 指履约中心（50+ fulfillment centers），另有 integrations/warehouse management 条目但无“50+ 集成”这一数字；“同步商品”亦非原文。属可修正的事实性夸大，不动产品与类型判断。",
+      "fix": "把该句改为快照可证的“200+ 零售渠道、50+ 履约中心、可连接电商平台/销售渠道/ERP 等工具”，删除 50+ 集成与同步商品的措辞。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 8,
+    "finding": {
+      "leaf": "retail-pricing-management",
+      "problem": "条目 homepage 为 https://oracle.com/retail/merchandising/，指向 Oracle 商品管理而非零售定价产品；来源与 reason 本身正确（价格变更文档），但 homepage 与产品错配，会让类型关联与去重判断产生歧义。",
+      "fix": "把 homepage 改为 Oracle Retail Pricing（或 Pricing Cloud）官方产品页；若产品页确已下线，则保留文档来源并在 note 说明 homepage 的实际落点，避免指向另一产品。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 7,
+    "index": 9,
+    "finding": {
+      "leaf": "store-task-management",
+      "problem": "reason 写“按 store、role、user、schedule、due time 指派”，其中“role/user/班表”在可读正文中未逐项确认；已证的是按门店派发周期清单、截止时间、照片/评论/时间戳证据、逾期与重复遗漏升级、跨门店完成/待办/逾期看板。",
+      "fix": "把 reason 收敛到已证的“按门店与截止时间派发、证据门槛、逾期升级、跨店看板”，或补一句原文证明 role/user/班表定向。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 8,
+    "index": 0,
+    "finding": {
+      "leaf": "retail-shrink-management",
+      "severity": "blocking",
+      "problem": "所引 Sensormatic Shrink Analyzer / Shrink Visibility 正文只能证明“按时间、地点、单品分析损失事件并定位 ORC 相关盗窃”，属于损失事件分析；没有证明定义性核心中的“估值化损耗视图”（账面应有与实际盘存的金额缺口、按销售比、按 estate→location→category→item 追踪）和按原因分类（盗窃/内部欺诈/流程错误/损坏/变质）的成因归因。leaf_match 的 reason 写“分析损失事件及其价值”“按高失窃品类、出口与区域归因”“与盘点/防损数据结合”，均超出来源正文，属于以关键词替代核心证据。",
+      "fix_required": "二选一：①补抓同一官方站点上能直接证明金额化损耗与原因/维度归因的正文（如 Category Level Shrink Insights 或 Shrink Visibility 正文中关于库存准确率、账面-实物差异、按品类/区域归因的段落），并在 reason 中逐点对应；②若补不到，将 research.json 该叶 assessment 改为 boundary_unresolved 或 insufficient_evidence（archived 仍为 false），并把 reason 改写为仅“按时间/地点/单品分析损失事件并关联 ORC”，不得出现“价值”“高失窃品类”“与盘点结合”等未证内容。不得改范围。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 8,
+    "index": 1,
+    "finding": {
+      "leaf": "international-commerce-management",
+      "severity": "blocking（来源记录真实性）",
+      "problem": "batch.json 与 research.json 把 Shopify 来源记为 https://www.shopify.com/（homepage），但该 sha256 快照的 canonical 与正文是 https://www.shopify.com/markets，notes/fetches.json 中实际抓取键也是 /markets。来源 URL 与快照内容不一致，会让后续复核误以为读过首页。另：所读页面只覆盖货币、语言、商品、域名、税费与配送，未证明关税/进口费；batch reason 已诚实留档，这点可保留为缺口，不要求补研。",
+      "fix_required": "把 batch.json 该 source.url 与 leaf_match.source_urls、research.json source_urls 中的 https://www.shopify.com/ 统一改为 https://www.shopify.com/markets（sha256 与 fetched_at 不变）；保留“关税代收未作为本例证据”的边界说明。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 8,
+    "index": 2,
+    "finding": {
+      "leaf": "dynamic-creative-optimization-platform、multi-marketplace-seller-platform、media-buying-platform、supply-side-platform-ssp",
+      "severity": "minor（同一修复轮一并处理，不需要新增调研）",
+      "problem": "四条商业 reason 含所引正文未直接支持的细节：Celtra 写“跨 100+ 媒体平台投放”“按实时数据更新”，而 DPA 页只列 Meta/TikTok/Snapchat/Pinterest/X，目录为每小时刷新；Linnworks 写“按渠道设置标题与价格”，首页只证明中央目录/渠道 listing/库存同步；Bionic 写“客户授权后签发插入订单”，所读首页与对账页未直接描述授权关卡；Magnite 写“按库存与格式报告收入”，Sellers 页只证明收益优化、预测与绩效监控。",
+      "fix_required": "按已读正文收紧措辞：Celtra 改为已列平台与“目录按小时刷新/按折扣与库存生成版式变体”；Linnworks 删除“按渠道设置标题与价格”或改为“从中央目录维护各渠道 listing”；Bionic 改为“以订单/投放/账单数据对账并移交应付”，不写授权细节；Magnite 改为“提供底价建议、交易类型与收益/绩效报告”。核心类型匹配不受影响。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 0,
+    "finding": {
+      "leaf": "public-relations-management-platform",
+      "entry": "commercial:prowly",
+      "issue": "summary、leaf_match.reason 与 research.note 把首页写成四板块并声称记者档案/媒体名单、按收件人行为跟进、媒体监测、报道回链与竞品声量，且称其为 Semrush AI PR Toolkit；这些均无快照正文支持。",
+      "evidence": "快照 57bfcd05…（https://prowly.com/）中可检索到的实质文案只有 meta description：find media contacts, create press releases, pitch effectively … report on brand performance；未检出 media lists、follow-up、Media Monitoring、share of voice、AI PR Toolkit 或四个板块字符串。research.json 的 search_attempts 四板块 result 与快照不一致。",
+      "required_change": "把 summary、reason、note 和 search_attempts 收窄到快照可证的媒体联系人、新闻稿、推介与品牌表现报告，删除名单/跟进/报道回链/竞品声量/Toolkit 断言；若要保留报道捕获与回链这一核心环节，须补抓官方监测页，否则 assessment 不应维持无留档的 case_found。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 1,
+    "finding": {
+      "leaf": "social-media-management-platform",
+      "entry": "commercial:sprout-social",
+      "issue": "summary/reason 写多个社交 profile、受众互动回复、AI 辅助回复、social customer care tickets 与统一收件箱；search_attempts 也写 social customer care tickets。",
+      "evidence": "快照 52b0cb54…（https://sproutsocial.com/）可证的只有 title/meta “publishing and engagement to analytics and influencer marketing”、“Own every social media touchpoint” 和发布日历图；未检出 reply、inbox、tickets、多 profile 或 AI-assisted reply 文案。",
+      "required_change": "删除未证实的 reply/tickets/多 profile 断言；补抓能证明同一控制台入站回复的官方页面，或把“发布+互动+分析”与“入站回复”分开留档，后者标 boundary_unresolved，不能以 engagement 关键词代替正文证明核心。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 2,
+    "finding": {
+      "leaf": "brand-reputation-management",
+      "entry": "commercial:birdeye",
+      "issue": "leaf_match.reason 引用了 Responding on-brand to every review、Marketing your best reviews everywhere、Real outcomes at every location 等页面标题。",
+      "evidence": "快照 76a00d8a…（https://birdeye.com/reviews/）未检出这些字符串；实际可证的是 meta/JSON-LD 的 “Automate review generation, replies, and reporting” 与 multi-location。",
+      "required_change": "改用快照中真实存在的 meta/JSON-LD 文案重写 reason，删除未出现的标题引用；评论征集、回复、报告与多门店的类型匹配可由现有证据保留。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 3,
+    "finding": {
+      "leaf": "marketing-analytics-platform",
+      "entry": "commercial:supermetrics",
+      "issue": "summary/reason/note/search_attempts 写连接广告/分析/CRM、Clean/blend/structure、AI-built dashboards that stay live。",
+      "evidence": "快照 87f7b350…（https://supermetrics.com/）只有 Organization JSON-LD “connect, manage, analyze, and activate their marketing data” 和 meta “Supermetrics Studio, your AI chat, or the reporting tool you already use”；未找到可读的 CRM 连接器、数据清洗混合或持续更新仪表盘说明，blend 字样来自 CSS mix-blend-mode，不能当能力证据。",
+      "required_change": "收窄到已证的数据连接/分析/Studio/报告；删除 CRM、混合、实时仪表盘断言，或补抓 connectors 或 Studio 官方页面。若无法补证多源整合，该叶子应降为 boundary_unresolved 并留档。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 4,
+    "finding": {
+      "leaf": "brand-asset-guideline-platform",
+      "entry": "commercial:frontify",
+      "issue": "reason 引用 One home for your brand guidelines 与 Find, manage, and share brand assets；note/search_attempts 写首页三块能力齐全。",
+      "evidence": "快照 9d0441ef…（https://www.frontify.com/）未检出这些字符串；实际可证的是 meta “guidelines, assets, and brand knowledge live” 与页脚 Guidelines、Digital asset management、Templates 链接，未证明对内外部使用者的自助分发、下载或共享。",
+      "required_change": "删除失实引文；补抓能证明 consumption/distribution 的官方页面，否则只能证明资产库+指南，BAGP 的第三段应留档为缺口，assessment 相应调整。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 5,
+    "finding": {
+      "leaf": "conversion-rate-optimization-platform",
+      "entry": "commercial:lucky-orange",
+      "issue": "reason 与 search_attempts 写定价页列出 Conversion Funnels 与 Page & Form Analytics。",
+      "evidence": "快照 477ff741…（https://www.luckyorange.com/pricing）只有 meta “heatmaps, session recordings, funnels, surveys”，未检出页面/表单分析或该标题。",
+      "required_change": "删除“页面/表单分析”与定价页逐项列表的断言，改用快照实际文案；首页快照 0ab4721b 已足以证明热图、录制、漏斗与流失定位，核心可保留。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 9,
+    "index": 6,
+    "finding": {
+      "leaf": "customer-advocacy-platform",
+      "entry": "commercial:influitive",
+      "issue": "leaf_match.reason 写“参与审核记录闭环”。",
+      "evidence": "快照 e60cea79…（https://influitive.com/）只证倡导者动员、references/reviews/referrals、gamification/rewards 与 ROI，未检出完成证明提交、审核/批准或记录门控的文案。",
+      "required_change": "删除“审核”或补抓能证明 ask→proof→review/approve→record 的官方页面；否则该核心环节应留档为缺口。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 10,
+    "index": 0,
+    "finding": {
+      "slug": "sales-call-coaching-platform",
+      "case_id": "commercial:avoma",
+      "kind": "事实与来源不符",
+      "detail": "batch.leaf_matches.reason 与 research.note 均写“按 playbook 自动为每通电话评分”。所引 https://www.avoma.com/use-case/sales-coaching 正文明确为 “Avoma scores your calls against your scorecards”“find coaching gaps by rep and skill”，全文只在导航资源区出现 “Playbooks”，并非评分机制。",
+      "required_fix": "把两处“playbook”改为“scorecard/评分表（scorecards）”，其余表述可保留；不要据此新增“playbook 评分”能力。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 10,
+    "index": 1,
+    "finding": {
+      "slug": "quota-management",
+      "case_id": "commercial:xactly",
+      "kind": "核心要素证据不足",
+      "detail": "reason 称“并明确把配额达成纳入同一条数据链”，但保留快照 https://www.xactlycorp.com/platform 的正文只支持覆盖模型、区域潜力、配额分配，以及 territories/people/opportunities/credits/quotas 的单一事实源；未检索到 attainment/配额达成 的正文表述。该叶定义核心为“配额对象 + 分配机制 + 达成衡量”，第三项目前无直接正文。",
+      "required_fix": "补抓能证明配额达成/绩效跟踪的官方页面并引用，或将 reason 收窄为已证实的对象与分配机制，并在 research.note/assessment 中如实记录达成衡量的证据缺口；不得以“单一事实源”替代达成衡量。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 12,
+    "index": 0,
+    "finding": {
+      "application_id": "github:6325420",
+      "leaf_slug": "billing-platform",
+      "severity": "blocking",
+      "category": "license/community_boundary",
+      "issue": "Kill Bill 条目把“用量计量（metering）”和“税费（tax）”作为 Apache-2.0 社区版能力写入 summary、features 和 research.note；但官方 Aviate 文档把 Metering、advanced tax、custom invoice sequencing 等列为 Premium/enterprise extension。README 的笼统表述与 Aviate 页存在冲突，当前写法有把付费独占功能挂到开源社区版的风险。",
+      "evidence": "README（876ccc55...）称 core handles usage metering、tax；https://docs.killbill.io/latest/what_is_aviate.html 的 Premium 区明确列 Metering、wallet、coupons、advanced tax 为 Aviate enterprise extension。",
+      "required_fix": "从开源条目 summary、features、research.note 删除或收窄“用量计量”和“税费”；若确为社区版基础能力，须补社区版官方文档明确边界并区分 Aviate 专属能力，同时补 Aviate 官方来源快照。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 12,
+    "index": 1,
+    "finding": {
+      "application_id": "commercial:abrigo-commercial-lending",
+      "leaf_slug": "commercial-loan-origination",
+      "severity": "blocking",
+      "category": "core_workflow_evidence",
+      "issue": "Abrigo 的 summary 声称覆盖到“放款”，leaf_match.reason 也声称“从申请到放款”“放款交接”，但唯一引用页只证明申请受理、数据收集、工作流路由、信贷备忘录、审批跟踪、政策校验和文档管理，没有 closing、funding、disbursement 或 booking handoff 的正文证据。",
+      "evidence": "快照 2b7b389b... 全页检索无 funding/disbursement/closing/booking 段落；仅有 approval tracking、workflow、credit memo、credit policy、document upload。",
+      "required_fix": "补 Abrigo 官方 closing/funding/booking 来源；否则删除“放款/放款交接”，将 summary 和 reason 收窄为申请→评估→审批/文档，并把该叶 assessment 改为 boundary_unresolved，不应继续标 case_found。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 12,
+    "index": 2,
+    "finding": {
+      "application_id": "commercial:medallia-experience-management",
+      "leaf_slug": "voice-of-customer-platform",
+      "severity": "blocking",
+      "category": "factual_boundary",
+      "issue": "Medallia 的 research.service_boundary 写“不含公共言论抓取（社交聆听）”，但同一官方平台页明确说统一 surveys、voice、chat、web behavior、social、employee feedback，并写“Move beyond surveys”。该边界陈述被来源正文直接反证。",
+      "evidence": "快照 eb49212f... 行 3672、3698-3699、3831-3832：social、every signal、alerts and case management。",
+      "required_fix": "删除“不含社交聆听”的绝对表述，改为承认多信号/社交聆听重叠，并说明本条匹配的是以主动征询调研为核心的 VoC 能力；若坚持纯征询边界，需换来源或改 boundary_unresolved。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 12,
+    "index": 3,
+    "finding": {
+      "application_id": "commercial:oracle-banking-payments",
+      "leaf_slug": "banking-back-office-platform",
+      "severity": "blocking",
+      "category": "factual_evidence",
+      "issue": "Oracle Banking Payments 的 summary 称“支付交易录入”，research.note 称“审计”，但三条引用只覆盖 Repair Queue、Exception & Investigation Queues、Repair Action；transaction input 页面为 404，来源也未证明 persistent audit trail。",
+      "evidence": "快照 3e1c2a05... 为 Repair Queue；99722e41... 为 Exception & Investigation Queues；7b81cab8... 为 Repair Action；fetch log 对 payment-transaction-input.html 记录 404。",
+      "required_fix": "删除“交易录入”和“审计”或补官方来源；保留已证明的异常队列、修复、重新提交。若审计是核心必备，需补审计/日志来源后再标 case_found。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 14,
+    "index": 0,
+    "finding": {
+      "slug": "portfolio-management-system",
+      "entry_id": "commercial:simcorp-one",
+      "issue": "batch.leaf_matches[0].reason 与 research.note 均称“实时IBOR”，但所引 SimCorp Portfolio Management 快照仅证明单一组合数据源、实时头寸/分析、组合构建、订单生成与交易前合规检查，未出现 IBOR 或 investment book of record 的表述。",
+      "required_fix": "删除“IBOR”，改为快照可支持的“实时组合头寸与现金数据的单一来源/组合记录”，或补充能证明 IBOR 的官方来源与快照；research.note 同步收窄。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 14,
+    "index": 1,
+    "finding": {
+      "slug": "tax-compliance-platform",
+      "entry_id": "commercial:vertex",
+      "issue": "batch.summary 称“申报表生成与报送”，但快照仅证明生成 signature-ready / e-file format returns 及申报与审计报告，未证明由 Vertex 实际向税务机关传输或提交。",
+      "required_fix": "将 summary 收窄为“申报表及电子申报格式生成”，或补充官方来源证明实际报送/提交能力；不要仅凭 returns and reporting 推断传输。"
+    },
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 21,
+    "index": 0,
+    "finding": "case-law-research-platform / CourtListener: the captured repository metadata and README establish a searchable archive of court opinions, but they do not establish citation relationships between decisions (the precedent graph), one of the three defining structures; add an official source documenting citation/reception links or narrow the match to opinion retrieval/search.",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 23,
+    "index": 0,
+    "finding": "reverse-etl-platform：Hightouch 官网首页快照（sources/20da8ec...txt）标题为 Customer Data & AI Platform，正文/导航中未出现 Reverse ETL、Sync data 入口或 warehouse-sync、sync binding、record matching key、field mapping、activation contract 证据，但 batch.json 将 Hightouch 记为该叶子 case_found，leaf_matches reason 与 research.json fetch_outcomes/note 声称“导航包含 Reverse ETL / Sync data 产品入口”。该确定事实无来源正文支持，应删除或收窄：将 reverse-etl-platform 改为 insufficient_evidence 或 boundary_unresolved，case_ids 清空，从 batch 中移除无叶子匹配的 Hightouch 条目，或补充可证明反向 ETL 的官方文档/产品页快照。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 26,
+    "index": 0,
+    "finding": "Bareos 的 license_review.scope 为 repository，但许可证快照正文显示 Files: * 为 AGPL-3.0-only，core/* 等代码为带 Bareos 例外的 AGPL；全仓库范围的 SPDX 断言不被正文支持，应收窄 scope 或补充例外说明。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 26,
+    "index": 1,
+    "finding": "ManageEngine OpManager 的官网快照定位为网络/服务器监控软件，未证明 ITOM 定义所需的全 IT 资产范围、跨域统一运营视图与响应循环；将其标为 it-operations-management-itom 的 case_found 过强，应更换候选或降为 boundary_unresolved/insufficient_evidence。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 43,
+    "index": 0,
+    "finding": "healthcare-revenue-cycle-management: commercial:waystar cites only https://www.waystar.com/, but the saved snapshot is a client-rendered HTML/CSS shell with no readable title, meta description, or product/category/workflow text. It does not substantiate that Waystar is a healthcare revenue cycle management platform. Replace it with an official source whose body proves the product type, or remove the leaf match/entry and record insufficient_evidence with the candidate, URL, query, and gap.",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 45,
+    "index": 0,
+    "finding": "Moodle (github:439861) 的 batch/research reason 声称 README 证明课程、活动、测验与评分等 LMS 定义性核心，但保存的 README 快照仅描述其为开源学习平台与个性化学习环境，未包含课程容器、教学交付或成绩记录等具体工作流；必须收窄 reason 或补充官方文档来源。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 45,
+    "index": 1,
+    "finding": "Open Journal Systems (github:375152) 的 batch/research reason 声称 README 覆盖投稿、评审与出版，但保存的 README 快照仅说明其是用于管理学术期刊的开源软件，未证明投稿、同行评审、编辑或出版流程；必须收窄 reason 或补充官方文档来源。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 45,
+    "index": 2,
+    "finding": "Adapt Authoring Tool (github:13562581) 的 batch/research reason 声称 README 证明学习者交互核心，但保存的 README 快照主要证明课程创建、编辑与 SCORM/网页发布，未明确证明学习者可见的交互元素（问题、反馈、评分、分支等）；必须收窄 reason 或补充官方文档来源。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 46,
+    "index": 0,
+    "finding": "research-funding-discovery-platform / commercial:clarivate-pivot-rp: the snapshot saved for https://exlibrisgroup.com/products/pivot-funding-opportunities-and-profiles/ (sha256 b36d0104545ecc6086265ac89f236b993d304f29248805db7c281cfa9556e749) is the Ex Libris corporate homepage and contains no mention of Pivot, Pivot-RP, funding opportunities, or discovery; the official source therefore does not substantiate the product or its type. The entry must be supported by a correct product-page snapshot or removed/narrowed; the current case_found assertion is unsupported.",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 49,
+    "index": 0,
+    "finding": "Catarse 仅凭仓库描述“crowdfunding platform for creative projects”标注 nonprofit-crowdfunding-platform，未提供 README 或功能说明证明项目发起、筹资与支持者等定义性核心，来源正文不足以支撑 case_found，应补充官方 README/文档或改为 insufficient_evidence。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 49,
+    "index": 1,
+    "finding": "ChurchCRM 仅凭仓库描述中的“giving”模块标注 church-giving-platform，未证明奉献记录、基金指定、捐赠者归属与教会端管理等定义性核心，应补充官方文档或改为 insufficient_evidence。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 49,
+    "index": 2,
+    "finding": "CiviCRM 条目的 summary/features 列出“邮件营销”和“倡导活动”，但已抓取官方来源未证明这些能力，应删除相关断言或补充官方来源。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 50,
+    "index": 0,
+    "finding": "CASA Volunteer Tracking（github:248407953）仅保留了 GitHub 仓库元数据，其描述为 “Volunteer management system for nonprofit CASA”，没有 README、部署说明或核心工作流正文，不足以证明志愿者管理系统定义性核心（志愿者记录、机会、接收→准备→安置、服务记录与报告）；其 leaf-match reason 还额外写入了来源未证明的 “volunteer records and service tracking”。请补充官方核心文档，或收窄/移除该匹配并重新评估 volunteer-management-system。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 50,
+    "index": 1,
+    "finding": "Admidio（github:28809173）被匹配到 membership-management-system，但保留的官方来源只证明会员管理、会员列表、事件与在线注册，未证明该类型定义性核心所需的会员类型/期限/状态与周期性会费续期循环；请收窄匹配理由或移除该映射（member-directory 匹配有来源支持）。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 50,
+    "index": 2,
+    "finding": "CiviCRM（github:8495499）被匹配到 association-event-management，但保留来源只描述 CRM、会员与事件注册/参与者管理，未证明“活动访问与价格由会员身份状态决定，且参与情况写回会员记录”这一定义性核心；请收窄匹配理由或移除该映射。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 52,
+    "index": 0,
+    "finding": "pretix 许可证快照为 GNU AGPLv3 加附加条款（限制以服务方式提供给第三方、SaaS 及商业用途），但 batch.json 记录为 AGPL-3.0，且 license_review 称其为纯 AGPL v3，许可证名称与证据不准确，需要修正。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 52,
+    "index": 1,
+    "finding": "pretix 的仓库元数据与 README 仅描述票务商店/预售，未证明票务库存管理的定义性核心（入场库存、受控批次、实时核对）；ticket-inventory-management 的 leaf match 与 reason 需收窄或删除，除非补充官方正文证据。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 52,
+    "index": 2,
+    "finding": "QloApps 的仓库元数据与 README 仅声明提供 PMS，未证明酒店物业管理系统的定义性核心（可预订客房库存、预订、入住生命周期、账单）；hotel-property-management-system-pms 的 leaf match 需收窄或删除，除非补充官方正文证据。",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 53,
+    "index": 0,
+    "finding": "commercial:grin is presented on its official homepage as 'Creator marketing for brands' and runs gifting, affiliate, and paid programs for brands; it is brand-side influencer marketing, not the creator-side sponsorship management system required by creator-sponsorship-management.",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  },
+  {
+    "part": 53,
+    "index": 1,
+    "finding": "commercial:greenfly is presented on its official homepage as high-performance content operations for sports/entertainment; its center of gravity is content capture, organization, distribution, and measurement, not persistent fan profiles plus organization-run engagement activities with participation captured back into fan records as required by fan-engagement-platform.",
+    "disposition": "未关闭；原批次不导入，保留问题和来源待修复复核。"
+  }
+]

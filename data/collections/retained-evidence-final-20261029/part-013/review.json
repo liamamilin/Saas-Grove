@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:2057515",
+      "note": "batch.json 的 technology_stack 含 SQLite/MySQL，但四个已留存快照（GitHub 元数据、license API、README、官网首页）均未出现数据库相关正文；不影响核心/许可判断，建议补官方安装文档来源，或从 technology_stack 删除该两项。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "note": "input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 batch.json/research.json 已建立 github:2057515 的成立关系。属交接元数据滞后而非内容错误；建议在入库前把 progress 与 batch 的 entries 对齐，避免下游按“无案例”处理本叶。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:2057515",
+      "note": "README 快照仅 37 行，末段停在贡献说明处，疑似截断；其内容（About、License: See COPYING、Hosted services 指向）足以支撑现有引用，但不宜再引其后续章节作为证据。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "note": "research.json 的 withheld_candidates（Vikunja、Nextcloud Tasks）与 historical_reuse（tasks.org 9 个历史快照）所述证据不在本单元 data/collections/sources 中，REUSED_SOURCES.json 亦未随附。因这些对象均未收录，不影响本叶入选结论；但“剔除/未收”的原始依据无法在本地逐条复核，建议随档保留这些快照或在记录中标注其存放位置。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:2057515",
+      "note": "措辞一致性：summary 写“GPLv2”，license 字段写 “GPL-2.0”。二者指向同一许可证且已由 license API（spdx_id GPL-2.0）与 COPYING（size 18092）印证；建议统一为 SPDX 写法。"
+    },
+    {
+      "slug": "to-do-list-application",
+      "application_id": "github:2057515",
+      "note": "Tracks 官网自述 GTD 方法论并含统计页，属本叶与 Task Management 的边界特征。batch 的 leaf_matches 已明确只以容器归属、可检索完成与派生紧急度立论、不计 GTD 与统计，处理得当；建议 summary 也按同样口径表述，避免读者把 GTD 当作类型依据。"
+    }
+  ],
+  "leaf_checks": {
+    "to-do-list-application": {
+      "slug": "to-do-list-application",
+      "application_id": "github:2057515",
+      "application_name": "Tracks",
+      "result": "pass",
+      "definitional_core": "已用官网首页正文核实（非简介/元数据/Loading）：主页面按 context 汇总展示全部 action，也可只显示单个 context 或单个 project，context/project 可拖拽排序并新增，构成“具名列表作为容器与主要工作表面”；action 可添加到任一 context 或 project，条目归属明确；完成状态可检索（‘You can show a configurable number of completed items at the bottom of the main page, but you can see all your completed items on the completed page’），对应 open→done 的最小记录语法；紧急度为派生而非分阶段（到期日可选，今日/逾期红、明日深橙、7 天内橙、其余绿；tickler 仅把 action 推迟到未来日期重新出现在首页，未引入工作流阶段）；项目级 active/hidden/completed 属容器状态，不构成条目上的用户定义阶段。",
+      "service_form": "官网正文明确 ‘Tracks is a web-based application…built using Ruby on Rails, and comes with a built-in webserver’，可长期自托管运行（官方推荐 Docker 安装），并有移动端轻量 Web 界面与 API；符合开源自托管 Web 服务的持续使用形态。社区 hosted 实例（wiki Hosted-Tracks、README 中 taskitin.fi 赞助链接）未被用作收录依据，边界处理正确。",
+      "identity_track_license": "track=open_source；id github:2057515 与仓库元数据 id 2057515、full_name TracksApp/tracks、fork=false、archived=false 一致；license 字段 GPL-2.0 与 license API 的 spdx_id GPL-2.0 一致，license API 的 path=COPYING、size=18092 且 base64 内容开头解码为 GPLv2 正文（GNU GENERAL PUBLIC LICENSE Version 2, June 1991），构成完整许可证依据；README ‘License: See COPYING’ 与之一致。首页 GPL 徽章指向 creativecommons.org 的非标准链接，batch 仅以 COPYING/license API 为据，规避得当。",
+      "community_edition_boundary": "无商业版/企业版分层；GPLv2 覆盖完整社区版（自托管），README/首页所列 hosted 服务为第三方或维护者赞助的独立托管，已明确排除在收录依据之外。",
+      "source_gaps": "已阅读 4 个引用快照（均按 REVIEW_SOURCES.json 的 path 原样读取，sha256 与文件名一致）；快照间无相互矛盾。缺口：technology_stack 的 SQLite/MySQL 无快照支撑；README 快照似被截断；research 中 Vikunja/Nextcloud/tasks.org 的排除依据快照未随本单元留存（不影响收录结论）。完成状态是否可反勾选（取消完成）在快照中无正文，batch 已明确不作可逆完成断言，属如实留档。",
+      "runtime_tested": false
+    }
+  },
+  "limits": "只读初审：仅使用 read/grep 读取本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 4 个快照文件；未运行 shell、未写文件、未访问其他单元或网络，未做部署/运行验证（runtime_tested=false）。快照路径按 REVIEW_SOURCES.json 原样读取，sha256 与文件名一致，未猜测或缩写摘要路径。快照文件均为单行 JSON 或较长 HTML，读取工具对超长行有截断（2000 字符），因此许可证正文仅能核验其头部（GPLv2 起始段落）、COPYING 的 size=18092 与 GitHub license API 的 spdx_id=GPL-2.0，未逐字节核对至文件结尾；基于 GitHub license API 返回完整内容的性质与标准 GPLv2 全文长度（18092 字节）判定为完整许可证。未收录候选（Vikunja、Nextcloud Tasks、Tasks.org）的原始快照不在本单元留存，其排除理由无法在本地复核，仅按 research.json 记录的抓取结果理解。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-013/ses_groveopendesignp013review2_1793152585.jsonl",
+  "batch_sha256": "b60b95bc2fc8a903a2bdccdd729b98e82f5ad39fe0a854dca638c29e108905de",
+  "research_sha256": "31a78d2a6dde895b37c58224ff1287bb6677e0e2f3059287d6f6a8a8c5a5f67f",
+  "input_sha256": "40434198770164f447a3734cb0463a7b37a5fe8406a63789a5482a5f808daefa"
+}

@@ -1,0 +1,38 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中 progress 仍为 boundary_unresolved、application_ids 为空，且只叙述 Fireflies 的缺口；research.json 与 batch.json 已把 4Minitz 记为 case_found 并加入 github:32413820。这是任务派发时快照与本轮成果的状态差，不构成内容错误，但建议下游合并时以 research.json 重新生成 progress，避免同一叶出现两种状态。",
+    "用户手册未直接展示新建/编辑行动项时的日期输入控件，截止日期主要由行动项背景色语义（今日/逾期/未来）、My Action Items 按 due date 排序及 FAQ 的 WHO-WHAT-WHEN 间接证明；现有正文足以支持日期属性存在，若后续能补充创建对话框或字段级文档，证据会更直接。",
+    "4Minitz 的主体身份是会议纪要应用，行动项是议题下的子记录；按本叶收录行动项跟踪能力可以成立，但建议在边界说明中保留‘纪要/议程能力归其他叶，行动项依附议题’的限定，避免被读成纯行动项产品。",
+    "手册使用 responsible(s) 复数表述，可能允许一个行动项存在多个责任人，与本类型‘单一责任人’的惯例存在措辞差异；这不影响基本类型匹配，但不宜据此声称其严格实行单一责任人。",
+    "batch 摘要‘未完成项自动结转到下次会议’可补一句‘随父议题’，因为手册与 FAQ 均以父议题也被结转、行动项未勾选 done 为前提，避免被理解为无条件结转。",
+    "homepage 指向 4Minitz 演示服务器而非独立产品官网；作为身份辅助信息可接受，引用产品身份时以 GitHub 仓库元数据为主更稳妥。",
+    "README 的开发环境段落明确说明不是生产部署，生产部署依据在 admin guide；batch 的部署条目与此一致，无阻断问题。"
+  ],
+  "leaf_checks": {
+    "meeting-action-item-management": {
+      "slug": "meeting-action-item-management",
+      "name": "Meeting Action-item Management",
+      "applications_in_batch": [
+        "github:32413820"
+      ],
+      "case_status_observed": "research.json 记为 case_found，batch.json 收入 1 条开源关系；input.json 的 progress 仍为派发时的 boundary_unresolved，属状态同步差异。",
+      "definition_core": "通过。用户手册把行动项定义为议题的子记录，并说明其随父议题结转到下次会议、勾选 done 后停止结转（a2c4b94… L190、L214-217）；FAQ 明确行动项记录 WHO-WHAT-WHEN（8f8e5af… L26），责任人可填外部邮箱（L108-110）；截止日期驱动背景色（a2c4b94… L219-223；8f8e5af… L140-144），并在 My Action Items 中按 due date 排序（a2c4b94… L411-418）；Items 过滤器支持 is:action/is:open/is:closed，Show Topic 可回溯父议题（L402-408、L422）；README 说明跨会议跟踪未完成行动项（821c586… L20）。事项、责任人、日期、开放到完成状态及会议来源均有正文证据，未以简介、元数据或导航替代核心工作流。",
+      "service_form": "通过。README 与 admin guide 证明其为自托管 Web 应用：Meteor + MongoDB，Docker/docker-compose 快速启动，源码构建用于生产部署，并有生产服务器、备份与权限管理章节（821c586… L51-116；4c2b79f… L9-31）。runtime_tested 为 false，本次未做运行或部署验证。",
+      "identity_and_track": "通过。仓库元数据快照显示 id 32413820、full_name 4minitz/4minitz、fork false、archived false、default_branch develop、homepage https://www.4minitz.com、license spdx_id MIT（9623826… 第 1 行）；batch 的 id github:32413820、track open_source、repository_url 与之一致，research 的引用 ID 正确。",
+      "license": "通过。GitHub license API 快照显示许可证文件为 LICENSE.md（ref=develop，size 1084），base64 正文解码后为完整 MIT 文本，含版权声明、许可授权及免责声明全文，spdx_id 为 MIT（1a38716… 第 1 行）。research 记录了根路径 LICENSE 返回 404 并改用 license API 取证的失败与替代过程，属如实留档；未发现许可证不完整或与仓库身份不符的问题。",
+      "community_edition_boundary": "通过（未发现边界问题）。README 与 admin guide 未见企业版、付费版、功能裁剪或 open-core 说明；仓库整体以 MIT 发布，CLA 仅涉及贡献者授权，不改变使用许可。该产品没有需要单独界定的商业社区版。",
+      "commercial_check": "不适用。本单元 batch 无商业条目；Fireflies 作为历史商业候选，其排除理由（缺自有到期日字段证据、只有外部工具集成页的 due date）在 research 与留档快照中记录一致，未把简介或集成页当作核心证据。",
+      "gaps": "未运行或部署应用；截止日期的新建/编辑控件未在正文直接描述，仅有日期驱动的颜色、排序与 WHO-WHAT-WHEN 证据；Fireflies 商业页未在本轮重新抓取，沿用历史留档；未重算快照 sha256。",
+      "source_evidence": "实际读取了 REVIEW_SOURCES.json 列出的 6 个 4Minitz 快照（仓库元数据、许可证、README、用户手册、FAQ、管理指南），并与 batch.json、research.json 的条目、引用 URL 和路径逐一对照；sources 前缀按 data/collections 为基准解析，未猜测或缩写路径。",
+      "conclusion": "pass"
+    }
+  },
+  "limits": "本次为只读初审：未使用 shell、未写文件、未重算 sha256、未部署或运行应用、未访问实时站点；仅核对 data/collections 下 REVIEW_SOURCES.json 列出的 6 个 4Minitz 快照及 batch.json、research.json 记录，另对 sources 目录中留档的 Fireflies 历史快照作关键词抽查（未列入正式引用核对）；商业条目的价格、套餐与实时可用性不在本次范围内，本单元亦无商业条目入账；无法验证运行状态或界面实际操作路径。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-014/ses_groveopendesignp014review1_1793151507.jsonl",
+  "batch_sha256": "8584ff144dac5dc8e4dd474921e4be0aab0fef4251f788f8db0cb50c2893fe71",
+  "research_sha256": "71c61dcc4071b3c1025830dc8239123aa0de3c1105f0d0fb57a7ad8ee3b6ed54",
+  "input_sha256": "604feacf7f93ffec616bcdf7df7e036503b9482e07f0353e261228e1c65e365d"
+}

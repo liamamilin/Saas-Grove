@@ -1,0 +1,100 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "tower-management-platform",
+      "note": "Sitetracker 官方 Tower 页正文明确覆盖站点组合、站点容量、资产、租户/共置、租约（主协议、关键日期、付款计划、条款）和维护工作流，但未展示地面租赁/土地租金（资金支出）方向及容量预留的正式对象。研究记录已如实收窄为商业基本类型匹配，非阻断。"
+    },
+    {
+      "slug": "crop-protection-management",
+      "note": "Croptracker Spray 正文以化学品清单、施用历史、PHI/REI、化学品标签和 USDA/GAP 审计报告支撑受管产品层与合规输出，但未明确展示登记号、登记作物/靶标及允许用量校验。批次已记录该缺口，按商业基本类型匹配可通过。"
+    },
+    {
+      "slug": "crop-management",
+      "note": "farmOS 没有独立的作物季一等对象，作物季由 Plant 资产（crop/variety、年度/批次命名）与日志近似承载。批次和研究均明确说明这一点，未把作物季写成独立对象，非阻断。"
+    },
+    {
+      "slug": "field-management",
+      "note": "farmOS 文档仅称 Land 资产可映射并层级组织，未展示边界编辑、面积计算或按季几何版本化；地块范围（extent）证据停留在可映射/位置层面。已如实记录，非阻断。"
+    },
+    {
+      "slug": "crop-management",
+      "note": "快照 sources/13c4570b... 的 canonical/og:url 为 https://farmos.org/guide/assets/（Managing Assets），而引用 URL 为 /guide/assets/plantings；正文同时包含 Land 与 Plants 段落，支持当前引用内容，属 URL/规范页差异而非事实错误。"
+    },
+    {
+      "slug": "crop-management",
+      "note": "farmOS 首页快照实际为 /donate/ 页面（og:url 指向 /donate/），研究记录已注明其未用于核心叶证据；该页仍含产品定位与 GPL 描述，非阻断。"
+    },
+    {
+      "slug": "crop-management",
+      "note": "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids 为空，与 research.json/batch.json 的 case_found 不一致；内容审查以 research/batch 为准，该元数据状态建议流水线后续同步。"
+    },
+    {
+      "slug": "crop-protection-management",
+      "note": "research.json 提到 Agrivi 交叉核对快照 d323632d... 与 41d2856a...，以及 Agworld 正文抽取 helper note，均未列入 REVIEW_SOURCES.json，也未用于批次关系；本次无法核验这些辅助材料，但不影响已引用官方快照的条目。"
+    },
+    {
+      "slug": "crop-management",
+      "note": "farmOS README 说明可自托管，Farmier 提供付费托管，未展示社区版/企业版功能切分；结合 GPL-2.0 全量代码，可将 Farmier 理解为托管服务而非功能受限商业版。建议措辞上避免暗示存在未披露的版本切分。"
+    }
+  ],
+  "leaf_checks": {
+    "tower-management-platform": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:sitetracker"
+      ],
+      "track": "commercial",
+      "core_check": "官方 Tower Operations 正文把站点组合、站点容量、资产、租户/共置申请、租约管理（主协议、关键日期、付款计划、条款）及维护工作流放在同一平台，符合铁塔被动基础设施租赁运营核心。",
+      "service_check": "商业 SaaS；页面提供登录入口（cloudforce）、Demo 和单平台运营表述，持续服务形态明确。",
+      "recorded_gaps": "未展示地面租赁/土地租金（资金支出）方向和容量预留的正式对象；研究记录已如实收窄，商业基本类型匹配可通过。"
+    },
+    "agronomy-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:agworld"
+      ],
+      "track": "commercial",
+      "core_check": "官方 agronomists 正文快照可匹配到 crop plans、逐田块 products/rates/timing 建议、scouting notes/field observations、建议转 spray records、planned inputs 与 actual applications 对比、complete field histories 等原文，建议/作物计划这一核心工件明确。",
+      "service_check": "商业协作式农艺 SaaS；页面有 subscription、account start 与 growers 协作表述。",
+      "recorded_gaps": "未明确展示客户/种植者登记表、土壤/组织检测数据层、算法推荐或审批角色配置；批次未把这些写成已证明。"
+    },
+    "crop-management": {
+      "result": "pass",
+      "application_ids": [
+        "github:16508135"
+      ],
+      "track": "open_source",
+      "core_check": "Plant 资产按 crop/variety 建立种植批次，seeding、transplanting、input、observation、harvest 日志挂接；pending/done/abandoned 区分计划与实际；收获后可归档 Plant，归档记录可检索；由 Plant 资产与日志承载作物季，覆盖计划、记录、收获闭环和历史留存。",
+      "service_check": "GPL-2.0 自托管 Web 应用；README 与官网提供安装指南，README 有官方 Docker 镜像徽章，Farmier 提供付费托管。",
+      "recorded_gaps": "作物季不是独立一等对象，由 Plant 资产、年度/批次命名与日志近似承载；未展示独立季关闭工作流。已如实记录，非阻断。"
+    },
+    "crop-protection-management": {
+      "result": "pass",
+      "application_ids": [
+        "commercial:croptracker"
+      ],
+      "track": "commercial",
+      "core_check": "Spray 模块正文覆盖施药日期/时间/地点/天气、化学品清单与施用历史、PHI/REI、工单/处理模板、化学品清单与标签、USDA/GAP 审计报告；处理记录与合规输出明确。",
+      "service_check": "商业云 SaaS；正文称 cloud based records 可随时访问，页面有 app 登录、Pricing、Start Now。",
+      "recorded_gaps": "未明确展示登记号、登记作物/靶标与允许用量校验；受管产品层主要以化学品清单、标签、PHI/REI 证据体现。批次已收窄，商业基本类型匹配可通过。"
+    },
+    "field-management": {
+      "result": "pass",
+      "application_ids": [
+        "github:16508135"
+      ],
+      "track": "open_source",
+      "core_check": "Land 资产代表 fields/properties/beds/paddocks，可映射并层级组织；Logs 可引用 Land 记录事件、活动、投入、观察；土壤检测作为 Lab test 日志挂接；资产可归档并可通过 Filters 检索，覆盖持久地块登记与地块历史。",
+      "service_check": "GPL-2.0 自托管 Web 应用；README 与官网提供安装指南，README 有官方 Docker 镜像徽章，Farmier 提供付费托管。",
+      "recorded_gaps": "页面只称 Land 可映射，未展示边界编辑、面积计算或按季几何版本化；extent 证据为可映射/位置层面。已如实记录，非阻断。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未部署或运行任何应用，未重新计算快照 sha256，未访问 REVIEW_SOURCES.json 之外的网络来源，也未读取其他单元。核对范围限于 input.json、batch.json、research.json 和 REVIEW_SOURCES.json 列出的 10 个快照。商业案例各仅有一个官方页面，未验证价格、部署架构、区域合规差异；farmOS 未做运行时测试。部分 HTML 快照为压缩长行，read 工具按 2000 字符截断，Agworld 等页面通过精确短语匹配确认正文存在，但未能逐段展开上下文。research.json 提到的 Agrivi 交叉快照和 Agworld helper note 未包含在 REVIEW_SOURCES.json 中，未作为本次证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-191/ses_groveopencodegop191review2_1793023935.jsonl",
+  "batch_sha256": "74327f1b673f010cc751f77108dc598867914c3a1bdf52c3b1eff74cf5279180",
+  "research_sha256": "6ab72e403404c6df0078c7103ed80cf34c930fab75ee4d46c5be0ada80ec2423",
+  "input_sha256": "d7516a2146ab2be1c3e041e00f2b8910883d387bc8367d6fe2300c68f3c6c53e"
+}

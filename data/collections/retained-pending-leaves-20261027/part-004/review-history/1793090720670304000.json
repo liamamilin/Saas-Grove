@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "batch.json 的 leaf_matches[0].reason 与 research.json 的 note 把 /automated-website-testing 快照描述为包含“3000+ 桌面浏览器与真实移动设备的云 Selenium Grid、并行测试运行、CI/框架集成、防火墙后测试环境”；但实际快照 8b254f... 只有文档头、标题/描述、导航配置和页头，正文没有 h1/main 内容，全文检索不到 Selenium、parallel、3000/3,000、tunnel、firewall、localhost、CI/CD。该快照最多支持“BrowserStack 云基础设施上运行自动化网站测试”的标题/描述层面，不能支撑上述核心工作流与规模数字。",
+      "fix": "补抓或替换为包含正文的产品/文档快照，确保能逐字看到环境目录、并行、CI/框架集成、隧道等描述，并据此改写 leaf_matches 与 research note；若无法取得正文，则删除这些无据的具体能力和数量，只保留快照可支持的表述，并在 research 中如实记录正文缺失。"
+    },
+    {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "research.json 的 fetch_outcomes 将 8b254f... 标为 fetched_and_read，并写“用于类型匹配与许可证核验”；但该快照实际只有页头、元数据和脚本，没有正文。留档未记录“正文缺失/页面为脚本壳”的抓取缺口，等于把抓取成功当作正文已读，后续复核会误判证据充分。",
+      "fix": "将该状态改为 fetched_but_body_missing（或 partial），在 note 中说明仅取得 head/header；补抓正文后再标 fetched_and_read。商业条目也无需写“许可证核验”，可改为“类型匹配”。"
+    },
+    {
+      "slug": "browser-compatibility-testing-platform",
+      "application_id": "commercial:browserstack",
+      "issue": "条目 id 为 commercial:browserstack、首页也是 BrowserStack 平台，但 name 写成 BrowserStack Automate；summary 同时纳入 Live 手动跨浏览器测试，leaf_matches 又分别引用 /automated-website-testing 和首页 /live 导航。一个条目同时指向平台、Automate 和 Live，产品身份与边界不一致。",
+      "fix": "统一产品身份：要么把 name 改为平台级 BrowserStack，并在 summary/leaf_matches 中明确 Automate 与 Live 是同平台的两个入口；要么把条目限定为 Automate，并移除 Live 的条目标识与核心描述。"
+    }
+  ],
+  "non_blocking_notes": [
+    "commercial 条目不涉及开源许可证或社区版边界；research.fetch_outcomes 中“许可证核验”的措辞对商业条目多余，可改为“类型匹配”。",
+    "kind=documentation 指向的是营销产品页而非产品文档，建议将 kind 标为 product_page 或 landing_page，避免误导后续引用。",
+    "定义中的并发上限、会话清理、隧道等属于类型级规则，当前快照未逐条验证；作为类型说明可以保留，但不应写成该应用的已核实事实。",
+    "首页 JSON-LD 写 3,500+，meta 写 3500+，只是格式差异，不影响真实性。",
+    "检索/抓取留档明确说明复用已有快照、未新增网络检索，这一点符合“已有来源充分即可”的要求；问题在于所引快照正文缺失，而非缺少检索记录。",
+    "input.phase 为 included_without_cases，而 research assessment=case_found 且 batch 有 commercial 条目；若 phase 表示案例状态应同步，若只表示目录纳入阶段则可忽略。"
+  ],
+  "leaf_checks": {
+    "browser-compatibility-testing-platform": {
+      "slug": "browser-compatibility-testing-platform",
+      "application_ids": [
+        "commercial:browserstack"
+      ],
+      "definition_core": "类型定义完整：以可选浏览器/版本/操作系统（及设备、分辨率）环境目录为核心，运行团队自己的 Web 应用，支持手动会话、脚本执行和批量截图；边界排除测试用例管理、监控和消费级浏览器。定义本身未发现阻断问题。",
+      "saas_form": "商业托管测试云形态成立：BrowserStack 官网为商业 SaaS 厂商，提供 Free Trial、Sign up、Pricing；不是开源项目，无需核对仓库、完整许可证或社区版边界。",
+      "identity_track": "id=commercial:browserstack、track=commercial 一致；但 name=BrowserStack Automate 与平台级首页/id 不完全一致，见 findings。",
+      "open_source_license": "not applicable（commercial track）；未声明仓库、开源许可证或社区版，故无许可证完整性/边界可核。",
+      "commercial_basic_truth": "BrowserStack 为真实商业厂商，官方域名与产品页基本真实性成立；类型上属于跨浏览器/兼容性测试平台，方向匹配。",
+      "core_evidence": "首页快照标题为“Most Reliable App & Cross Browser Testing Platform | BrowserStack”，meta/JSON-LD 写 3500+/3,500+ browsers and real iOS/Android devices，导航含 Cross Browser Testing(/live) 与 Automate(/automate)；这些能证明平台身份和大致类型。文档快照 8b254f... 只有 head/标题/描述/页头，正文缺失，不能证明 Selenium Grid、3000+、并行、CI/框架集成或防火墙后测试。",
+      "verdict": "changes_required",
+      "gaps": [
+        "缺少可读的正文证据来证明“选择具体浏览器/OS 版本并运行团队自身应用/测试”的核心工作流。",
+        "文档快照正文缺失，batch/research 中关于 Selenium Grid、3000+ 桌面浏览器、并行、CI/框架集成、隧道/防火墙的具体断言无快照依据。",
+        "首页对 Live 手动跨浏览器测试只出现在导航/JSON-LD 链接，未见正文工作流描述。"
+      ]
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未访问其他单元；仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 指定的两个快照。快照为压缩 HTML，read 工具按行截断到 2000 字符，无法逐字展开超长正文行；已用全文检索确认关键词缺席。未独立重算 sha256，未做网络复核或运行时测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-004/ses_groveopencodegop004review1_1793090350.jsonl",
+  "batch_sha256": "490169b23735327b0c7622dcf46e76ccddf7ad6afe7c731532b615d058b627de",
+  "research_sha256": "8bbc3700e106e8d555ea49b9402f1e515dccf88041324ed215ce593d561426c2",
+  "input_sha256": "f24b318e6d97040cf2a89a3f26bfd6ff91e339c58493c5e38bca421e9ee92605"
+}

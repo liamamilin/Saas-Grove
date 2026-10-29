@@ -1,0 +1,53 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "talent-agency-management",
+      "application_id": "commercial:inentertainment",
+      "issue": "批次 summary 与 leaf_match.reason 把 inEntertainment 首页当作已证明“客户名册、预订日程、Film/TV/Commercial projects、incoming/outgoing submissions、client trust account 会计、booking/commission/income 报告”的依据。实际读取唯一快照 data/collections/sources/19dd04ed75c6915cbc43b4d517d4254736e819ce6f114855c9b65dff7aaaf016.txt 后，正文只有面向 agents/managers/producers 的定位、客户 logo、一条提到 client schedules、work records、new project tracking、reports 的 testimonial、导航中的 Modules/accounting 链接和 accounting 截图文件名；没有 commission、trust account、submission、booking、roster 等模块说明。该快照不足以证明“名册—机会管道—佣金/信托结算”三项定义性核心，reason 中的具体模块属于超出证据的表述；research.json 的 note 称功能卡片可按关键词确认相关术语，也与实际快照不符。",
+      "fix": "补充并保存 inEntertainment 的 Modules/Accounting 或产品功能页快照，需能显示客户名册、项目/提交管道、trust/commission 结算或收入报告；据此改写 summary 和 leaf_match.reason。若无法取得，删去未证实的模块，只保留首页可证的“面向经纪/管理公司的客户日程、工作记录、项目跟踪、会计/报表软件”，并在 research 中明确记录佣金/信托结算核心未核实，必要时撤回该 leaf_match 或降为仅基本类型匹配。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，而 batch.json/research.json 已记录 5 个 case_found；建议交付前同步进度元数据，避免下游把本单元误读为无案例。",
+    "performing-arts-organization-management：PatronManager 首页是 Ticketure 合并说明页，能证明 ticketing、fundraising、marketing 同平台且 patron 数据居中，但未展示 box office 与在线渠道共享库存、联系偏好执行、换退票、重复记录合并；按商业基本匹配可通过，深度工作流未证。",
+    "audition-management：核心证据来自 app.castittalent.com/CITFunctions.aspx（页脚 2010），首页快照仅为登录页；状态流转（in consideration→callback→cast）是由 lists、selects/approvals、cast lists 推定，页面未给明确状态标签。研究已记录版本时效缺口，建议补当前产品页。",
+    "performing-rights-management：WIPO Connect 页面把 Local 描述为可本地安装或云托管、Shared 为云；track=commercial 作为非开源专有软件可成立，但若本单元要求多租户 SaaS，应注明其部署形态。页面未给商业定价，仅链接 terms PDF。",
+    "artist-booking-platform：Gigwell 同时含 contacts/reporting 等经纪管理功能，但没有佣金/信托结算，仍按 booking 而非 talent agency management 处理；本叶证据充分。",
+    "audition-management：Cast It 同时有公开 open call/breakdown 功能；本叶匹配依赖 Cast It Pro 的项目内选角工作区，建议在 summary 中明确产品边界，避免与 Casting Platform 混淆。",
+    "research.json 保留了 Music Reports、Rightmos、BMAT 的 fetch_outcomes 与 sha256，但 REVIEW_SOURCES.json 未列这些快照，本次无法复核；若作为排除候选留档，建议标注 out-of-scope 或补入来源清单。"
+  ],
+  "leaf_checks": {
+    "artist-booking-platform": {
+      "status": "pass",
+      "basis": "读取 Gigwell 首页与 /productivity 快照：为每位艺人提供 booking page/EPK，talent buyer 可提交 booking request；含合同模板、电子签名、FlexPay 押金/在线付款、实时报告、offer 查看、日历冲突与 block dates。可对应可预订艺人档案、有日期演出、带商业条款的 booking/offer，以及 request→contract→payment→performance 的确认生命周期。",
+      "gaps": "未展示完整的 negotiation/hold 状态机或结算单；商业基本匹配足够。"
+    },
+    "audition-management": {
+      "status": "pass_with_recorded_gap",
+      "basis": "读取 Cast It CITFunctions 快照：casting office 在 project 内创建 role lists、把 actor 加入角色、上传 auditions/reels，维护 lists、scheduling、breakdowns、submissions、notes、availabilities，支持 comments/feedback、multiple access levels、selects/approvals、cast lists 与 project archive。可对应选择上下文、角色、按角色候选、试镜材料、多人评估和选角结果留存。",
+      "gaps": "首页快照只是登录页；CITFunctions 页页脚为 2010 年，未验证与当前版本一致；页面未给 in consideration→callback→cast 的明确状态标签，分阶段决定由 lists、selects/approvals、cast lists 推定。研究已记录此缺口。"
+    },
+    "performing-arts-organization-management": {
+      "status": "pass",
+      "basis": "读取 PatronManager 首页快照：面向 symphony orchestras、theaters 等演出机构，明确 ticketing、fundraising、marketing 在一个 connected platform，所有数据在单一系统，patron data 居中；orchestra 卡片提到 subscriptions、donor relationships、concert activity，theater 卡片提到 performances/donations/engagement 的完整 patron 视图。可对应统一 patron 记录、机构自有演出票务、筹款/会员/营销关系循环。",
+      "gaps": "首页为 Ticketure 合并说明页，未展示 box office/online 共享库存、联系偏好执行、换退票、重复记录合并等工作流；商业基本匹配足够。"
+    },
+    "performing-rights-management": {
+      "status": "pass",
+      "basis": "读取 WIPO Connect 快照：面向 CMO 的 collective management；登记 right holders；管理 works、performances、sound recordings 文档及 identifiers、names、titles、shares、sub-publishing/licensing agreements；识别与匹配被使用作品并提供 usage reports/data capture；按 usage、documentation、local parameters 生成向 right holders 分配的 royalty distribution reports；含 Local/Shared 部署。可对应代表曲库（含份额）、使用→权利人归属链、许可与分配循环。",
+      "gaps": "页面未显式写“收取 licence fees”的收费步骤，也未给价格/许可文本；作为商业非开源软件的基本类型匹配可通过。"
+    },
+    "talent-agency-management": {
+      "status": "changes_required",
+      "basis": "读取 inEntertainment 首页快照：定位 agents/managers/producers 等娱乐业用户，含客户 logo、一条提到 client schedules、work records、new project tracking、reports 的 testimonial、导航中的 Modules/accounting 链接及 accounting 截图文件名；但没有正文说明客户名册、opportunity/submission 管道、client trust account、commission/income 报告或结算流程。",
+      "gaps": "唯一快照不足以证明该叶的名册—机会管道—佣金/信托结算三项核心；批次 summary 与 leaf_match.reason 的具体模块表述超出快照。需补产品/模块页或收窄表述并记录缺口。"
+    }
+  },
+  "limits": "本次仅只读读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的 7 份快照；未运行任何应用、未做部署/价格/架构测试，未独立计算文件哈希（仅核对快照文件名与 batch/REVIEW_SOURCES 的 sha256 字段一致），未读取其他单元，也未另行抓取网页。Cast It CITFunctions 页年份较旧、PatronManager 首页为过渡说明页、inEntertainment 仅有首页快照，均限制了对当前版本和完整工作流的验证；research.json 中未列入 REVIEW_SOURCES.json 的排除候选快照无法复核。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-246/ses_groveopencodegop246review2_1793037065.jsonl",
+  "batch_sha256": "c69f2f115ba6acd4d83cbeb01033ad001ec2fcf6d06a2b87877689a69be594e4",
+  "research_sha256": "4686d6ee3b75467bca5c2ebe613543df2dec1a72ee0ab32cd28d26c9a23c99fc",
+  "input_sha256": "26c247640e16c87b20236c7a534573c49a9df79ca5d16509734a45ee571724e8"
+}

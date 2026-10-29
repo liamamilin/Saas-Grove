@@ -1,0 +1,57 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "desktop-publishing-application",
+      "affected_slugs": [
+        "desktop-publishing-application",
+        "page-layout-application"
+      ],
+      "application_id": "github:35333738",
+      "issue": "Scribus 的许可证记录与所引 COPYING 不一致：COPYING 写明主程序为 GPL 'version 2 ... or any later version'，并附 Qt 链接例外；同时声明部分代码采用 LGPL-2.0/2.1、BSD-3-Clause、MIT、双重许可或公有领域，文档、模板、色板等资源另有许可（部分条件严格）。batch.json 却记录 license='GPL-2.0'、license_review.scope='repository'，复核理由还称“未发现额外限制”，把混合许可仓库简化成单一 GPL-2.0；该条目同时支撑 desktop-publishing-application 与 page-layout-application 两叶。",
+      "fix": "将主程序许可证改为 GPL-2.0-or-later；把 license_review.scope 限定为根 COPYING 覆盖的主程序，并在许可证说明中列明 Qt 链接例外、LGPL-2.0/2.1、BSD-3-Clause、MIT、双重许可、公有领域组件以及资源单独许可，删除“未发现额外限制”的结论；若数据模型只能填单一 SPDX，可保留 GPL-2.0-or-later 并在 notes 记录混合许可，或暂记 NOASSERTION 并附逐文件复核说明。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Webflow 的 Interactions 快照正文明确写出“Target any element and define how it responds with flexible triggers like scroll, hover, and click”和“Design unique, expressive interactions visually ... right within Webflow”，核心行为编排有正文支撑；其 canonical 指向 /feature/interactions-animations，若采集 URL 实际未重定向，建议把来源 URL 更新为 canonical 地址。",
+    "Unbounce 两个快照可支撑 landing page builder 的拖拽搭建、模板、上线与 A/B 测试；摘要中的“发布到自有域名/客户域名”比快照正文更具体，正文主要使用 launch/publish 表述，建议补充域名相关来源或弱化为“发布到线上地址”。",
+    "Webflow 与 Unbounce 的 source kind 标为 documentation，但快照实际是官方功能页/产品页；内容有实质正文，不影响类型核对，仅元数据可更精确。",
+    "Scribus 的 GitHub 仓库自述为官方 SVN 的社区镜像（community mirror），并非官方主开发仓库；仓库身份与项目主页、wiki 一致，但建议在条目中注明镜像身份及可能的代码/许可证滞后。",
+    "desktop-publishing-application 与 page-layout-application 按定义是同一类桌面软件，不应因“非托管 SaaS”而否定；其持续维护形态以官方安装包、源码和 2026 年版本页为据。",
+    "Scribus 的 batch features 提到“母版页”，所引 Textframes 手册未直接展开该能力；它不影响 DTP 定义核心，但该功能点最好另引官网或手册页面。",
+    "QuarkXPress 页面同时宣传 flex websites/digital publishing 与附加组件，但仍以 desktop publishing/page layout 为主，类型匹配成立。"
+  ],
+  "leaf_checks": {
+    "interactive-web-design-application": {
+      "result": "pass",
+      "basis": "Webflow 官方首页与 Interactions 功能页正文：首页说明可视化建站、托管与发布；Interactions 页说明可在 Webflow 内可视化设计交互动效，并可为任意元素设置 scroll、hover、click 等触发器。可视画布、作者定义行为、线上发布三项核心均有官方正文支撑，且为商业 SaaS，类型匹配。",
+      "gaps": "未做运行时交互测试；未核验导出/代码控制细节；Interactions 快照 canonical 为 /feature/interactions-animations。"
+    },
+    "landing-page-builder": {
+      "result": "pass",
+      "basis": "Unbounce 官方产品页正文：可快速上线高转化 landing pages，使用 drag-and-drop elements、100+ professionally-designed templates、no-code A/B testing，并围绕 campaign/conversion 组织页面；首页同样定位 landing page platform。单页营销页、可视化无代码搭建、上线发布与转化目标均有支撑，商业类型匹配。",
+      "gaps": "快照未直接出现 custom domain 字样，摘要中的“自有域名”为更具体说法；未做发布和运行时测试。"
+    },
+    "visual-website-builder": {
+      "result": "pass",
+      "basis": "Webflow 首页 Schema/正文列出 Visual website builder with full CSS control、浏览器内设计、Publish at scale 与 managed hosting；Silex README 自述 free/libre visual website builder，支持可视设计、导出 clean HTML/CSS、host anywhere，官网说明 visual editor、CMS integration、hosting included 以及 publish/host。整站为单位、可视组装、线上发布三项核心均有支撑；Silex 许可证 API 为 AGPL-3.0，README 写明 AGPL、全部功能免费且无 premium tier，社区版边界清楚。",
+      "gaps": "未做运行时发布测试；Silex 桌面版仍为 alpha，在线版依赖 GitLab 账户，属于部署形态限制而非类型问题。"
+    },
+    "desktop-publishing-application": {
+      "result": "pass_with_license_fix",
+      "basis": "Scribus 官方 wiki Textframes 正文说明 Scribus 使用 frames 环境、不能在页面上直接输入文字、文本框可链接成跨页续排故事，并说明多页文档的文本链接；官网正文说明 PDF/X-1a、PDF/X-3、PDF/X-4 输出。QuarkXPress 官方产品页标题与正文为 Desktop Publishing and Page Layout Software，列出 Page Layout、Typography & Styles、master pages、ImageGrid、print/digital 等能力。页面组装、跨框文字流、分页出版物输出均有正文支撑。",
+      "gaps": "Scribus 许可证记录需修正（见 findings）；未做运行时/打印输出测试；Scribus GitHub 为官方 SVN 的社区镜像，母版页能力未由所引 Textframes 手册直接展开。"
+    },
+    "page-layout-application": {
+      "result": "pass_with_license_fix",
+      "basis": "本叶与 desktop-publishing-application 为同一指代；QuarkXPress 官方产品页同时使用 Desktop Publishing Software & Page Layout Software 标签，并列出 Page Layout、Typography & Styles、master pages、print/digital；Scribus 官方 wiki 与官网提供同指代的开源例证（frames、跨页文本、PDF/X 输出）。类型关系成立。",
+      "gaps": "与 DTP 共用 Scribus 许可证问题；未要求独立产品区分，也未做运行时测试。"
+    }
+  },
+  "limits": "本次初审只读取本单元的 input.json、batch.json、research.json、REVIEW_SOURCES.json 及 REVIEW_SOURCES 列出的 14 个实际快照；未运行任何应用、未做发布/打印/交互运行时测试，未做逐文件许可证扫描，商业条目未核价格、架构或完整功能。Silex 的许可证快照是 GitHub API 的 base64 响应，本次读取确认其 AGPL-3.0 头部与 34,523 字节文件大小，并与 README 交叉核对，未逐行解码全文；Scribus 则按根目录 COPYING 原文核对。未读取其他单元或采集脚本。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-025/ses_groveopencodegop025review1_1792941696.jsonl",
+  "batch_sha256": "0b2844277c4f8f6d7de6790d00c910b6dae84bf44dcf3868101ea4f0425b47bf",
+  "research_sha256": "224b5a8ad5ab0964d8283aaba0d006fd4eb720d440351546afd536e2e3086067",
+  "input_sha256": "7b45e2b09b245d8ef57487052086b3d22ab7562140025b9fa3c848cb72e53df4"
+}

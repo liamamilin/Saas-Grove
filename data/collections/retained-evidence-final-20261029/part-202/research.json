@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "government-transparency-portal",
+      "assessment": "boundary_unresolved",
+      "case_ids": [],
+      "query": "GitHub repository search: \"transparency portal\" in:name；transparency portal government in:description；复核 OpenSpending 发布者归属；核对 Gobierto 仓库、README、AGPL-3.0 许可证与 Getafe/Sant Feliu 政府部署页正文；初审后核对政府站点快照能否进入可复核来源集",
+      "source_urls": [
+        "https://github.com/PopulateTools/gobierto",
+        "https://raw.githubusercontent.com/PopulateTools/gobierto/master/README.md",
+        "https://raw.githubusercontent.com/PopulateTools/gobierto/master/README_EN.md",
+        "https://raw.githubusercontent.com/PopulateTools/gobierto/master/LICENSE-AGPLv3.txt",
+        "https://www.gobierto.es/",
+        "https://gobierto.org/",
+        "https://gobiernoabierto.getafe.es/",
+        "https://gobiernoabierto.getafe.es/presupuestos/resumen/2026",
+        "https://pressupost.santfeliu.cat/",
+        "https://api.github.com/repos/openspending/openspending",
+        "https://api.github.com/repos/openspending/openspending/license",
+        "https://raw.githubusercontent.com/openspending/openspending/master/README.md",
+        "https://openspending.org/"
+      ],
+      "note": "历史复用：OpenSpending（github:2334160）的仓库元数据、许可证与 README 快照为上一轮真实抓取，本轮仅重读核对；README 自述项目起源于英国财政可视化“Where does my money go”，主要用途是 openspending.org 这一全球政府财政追踪站点，确认其为第三方财政数据平台，没有证据表明某政府以自身名义部署并以政府名义发布自身行为记录。历史 openspending.org 首页抓取返回 308，本轮未重试，故保留为“未取得正文”，不据此断言站点不存在，也不把旧候选当作本轮通过。\n\n本轮补采与候选：GitHub 仓库检索（\"transparency portal\" in:name 63 条；transparency portal government in:description 53 条）所得多为演示、学生作业、单一机构前端、投诉/服务门户或区块链原型；Open Government Platform 一类项目定位偏向开放数据/政府网站平台，未证明以聚合问责发布为核心。定向核对候选 Gobierto：GitHub repository id 71801692、full_name PopulateTools/gobierto、isArchived:false，commits atom 最新提交 2026-10-21；根目录 LICENSE-AGPLv3.txt 为完整 GNU Affero GPL v3 文本，README 与 README_EN 均声明 AFFERO GPL v3；README.md 说明其为面向公共行政机构及其他组织的开放政府平台，含预算可视化与跟踪、人员/议程与资产活动申报、统计指标、政府计划进展、参与模块等，并列出 Getafe、Sant Feliu de Llobregat、Diputació de València、Generalitat de Catalunya、Mataró、Sant Boi de Llobregat 等部署。\n\n政府站点正文（前次抓取，本轮重读并补抓一页）：Getafe 开放政府门户首页（sha256 5a68e03bf209f4545a3e977649534896ac218718761db3c1cd94b0c29d5dc158）以政府域名运行 Gobierto，含 Portal de Transparencia、Presupuestos、Altos cargos y Agendas、Declaraciones、Proveedores y Facturas、Indicadores 等入口；本轮补抓的 Getafe 2026 预算页（sha256 bead2226adccd07da06283909bcf713925d1b108bde9a677e35252e6bccba612，fetched_at 2026-10-29T15:25:02.118447+08:00）正文标注“Datos actualizados: 14 julio 2026”，列出预算总额 244.28 M€（初始 189.3 M€）、执行 50.2 M€（20%）、人均预算 1,264.15 €、人口 193,238；Sant Feliu de Llobregat 2026 预算页（sha256 7e62ec7d1c6cc70efdbdfe7124b92e43404c74f4fd9fedafc1204951c2f09325）正文标注“Última actualització: 27 octubre 2026”，列出总支出 57.28 M€、执行 45.25 M€（78%）、人均支出 1,224.32 €、债务 13.53 M€。两页均为政府域名下由政府机构署名、持续更新的自身预算与执行记录，另有官员/议程、资产申报等栏目入口。\n\n为何仍记 boundary_unresolved：初审要求把 Getafe 与 Sant Feliu 政府站点快照正式列入 REVIEW_SOURCES.json 并进入 batch.json 的 sources，且引用具体已发布记录，否则删除“已复核政府页面”的表述并退回本状态。实际核对发现：REVIEW_SOURCES.json 是只读审查输入，采集端无写权限；batch 校验器（server/case_collection.py 的 _official_host）要求每个 source 的 URL 必须位于 entry.homepage 或 GitHub 仓库主机，政府域名不属于 www.gobierto.es 或 github.com，强行加入会使批次校验失败。因此无法按初审要求把这两类政府快照登记进可复核来源集。按初审给出的替代处理，本轮删除 Gobierto 的成立关系与 batch 条目，保留其候选、正文快照、URL/SHA 与上述具体记录；这不是断言 Gobierto 不存在或政府未发布，而是本单元的可复核来源集无法承载“政府发布者”核心证据。若后续流程允许登记政府站点快照或放宽 official-host 约束，可据本记录恢复 github:71801692 关系。\n\n未取得正文/限制：gobierto.org 本轮 TLS 连接失败（curl 35），改用官方 www.gobierto.es；该站现以 Gobierto Contratación 等商业服务为主，只作商业实施/托管边界说明，不并入开源功能。README_EN 内容滞后，功能范围只依据 README.md。未运行第三方项目，runtime_tested:false；许可证为仓库级完整文本核对，未逐一审计子模块或第三方依赖。",
+      "service_boundary": "Gobierto 是供公共行政机构及其他组织部署的开源开放政府平台候选：政府可在自身域名下主动发布预算与执行、人员/议程与资产活动申报、统计指标、政府计划进展等自身问责记录，公众无需账户即可浏览；产品另含参与模块，Populate 提供商业实施/托管服务。它区别于第三方财政数据汇集平台（如 OpenSpending）、以数据集为组织单元的通用开放数据门户，以及依申请公开的记录请求平台。本轮因政府站点快照无法登记进 REVIEW_SOURCES/batch.sources 而未建立类型关系，但保留候选与正文证据，不把该产品当作不存在。",
+      "search_attempts": [
+        {
+          "engine": "GitHub repository search",
+          "query": "\"transparency portal\" in:name",
+          "outcome": "63 条结果，多为演示、学生作业、单一机构前端、活动/慈善/医疗等非政府透明门户或区块链原型；未发现本轮可直接以可复核来源集证明由政府以自身名义运营的完整开源应用。",
+          "origin": "this_round"
+        },
+        {
+          "engine": "GitHub repository search",
+          "query": "transparency portal government in:description",
+          "outcome": "53 条结果，多为市民项目、投诉/服务门户、院校或地方原型；Open Government Platform 一类项目更接近开放数据/政府网站平台，未证明以聚合问责发布为核心，与本类型边界不同。",
+          "origin": "this_round"
+        },
+        {
+          "engine": "GitHub API / README review",
+          "query": "openspending/openspending metadata, license, README",
+          "outcome": "历史复用：确认仓库身份与 AGPL-3.0，但项目为第三方政府财政数据汇集/追踪平台，非政府自身发布者，不建立本类型关系。",
+          "origin": "historical_reused"
+        },
+        {
+          "engine": "GitHub repository / README / license review",
+          "query": "PopulateTools/gobierto repository identity, README, README_EN, LICENSE-AGPLv3, commits",
+          "outcome": "确认 id 71801692、未归档、最新提交 2026-10-21；完整 AGPL-3.0 文本与项目级声明一致；README 说明其为公共行政透明与参与平台并列出多个政府部署。",
+          "origin": "this_round"
+        },
+        {
+          "engine": "Government deployment page review",
+          "query": "gobiernoabierto.getafe.es; gobiernoabierto.getafe.es/presupuestos/resumen/2026; pressupost.santfeliu.cat",
+          "outcome": "三份快照正文均可读且含具体记录：Getafe 2026 预算总额/执行额/人均预算并标注 2026-07-14 更新；Sant Feliu 2026 总支出/执行额/人均支出/债务并标注 2026-10-27 更新；Getafe 门户有官员/议程、资产申报、供应商与发票等入口。但这些政府域名快照无法写入只读的 REVIEW_SOURCES，也不满足 batch 的 official-host 校验，故本轮不据此建立关系。",
+          "origin": "this_round"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/openspending/openspending",
+          "kind": "repository_metadata",
+          "status": "succeeded",
+          "sha256": "01037a9fbcf3ddeb6da4d58fa6bef60e6a0f35834df9f6520a8113e05a6d591c",
+          "origin": "historical_reused"
+        },
+        {
+          "url": "https://api.github.com/repos/openspending/openspending/license",
+          "kind": "license",
+          "status": "succeeded",
+          "sha256": "ff9910f021940d430cc1254a8a4438c5d6cf6df044344cb3318b12960e4220a4",
+          "origin": "historical_reused"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openspending/openspending/master/README.md",
+          "kind": "readme",
+          "status": "succeeded",
+          "sha256": "0f0a3b15ad011726d33b86a0a2c4d639114fba75c794883920d37e7e19491853",
+          "origin": "historical_reused"
+        },
+        {
+          "url": "https://openspending.org/",
+          "kind": "homepage",
+          "status": "failed",
+          "error": "HTTP 308 Permanent Redirect",
+          "origin": "historical_reused"
+        },
+        {
+          "url": "https://github.com/PopulateTools/gobierto",
+          "kind": "repository_metadata",
+          "status": "succeeded",
+          "sha256": "bd83ed9d4785cf21b1327267baac7ade0189295628c1a93ec1c0059c04fc131b",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/PopulateTools/gobierto/master/README.md",
+          "kind": "readme",
+          "status": "succeeded",
+          "sha256": "5d55c071eec289b1625c2d6022f240f0e26a34297ce341079bb5e5f22c1283a3",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/PopulateTools/gobierto/master/README_EN.md",
+          "kind": "readme",
+          "status": "succeeded",
+          "sha256": "34a73a53d2c0119033f87bbd2c9aa5d7f7e9858595301fc29388e1655c40446b",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/PopulateTools/gobierto/master/LICENSE-AGPLv3.txt",
+          "kind": "license",
+          "status": "succeeded",
+          "sha256": "29b0325e4f69903bea7d02e4e9731ae228a0e9530d50cb27698531e56900a159",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://www.gobierto.es/",
+          "kind": "homepage",
+          "status": "succeeded",
+          "sha256": "4dc647d33e03378297a431a0711256963c36b8c9e857e4ee9e341c24f9029c73",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://gobierto.org/",
+          "kind": "homepage",
+          "status": "failed",
+          "error": "TLS connection failed (curl 35)",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://gobiernoabierto.getafe.es/",
+          "kind": "homepage",
+          "status": "succeeded",
+          "sha256": "5a68e03bf209f4545a3e977649534896ac218718761db3c1cd94b0c29d5dc158",
+          "snapshot_path": "sources/5a68e03bf209f4545a3e977649534896ac218718761db3c1cd94b0c29d5dc158.txt",
+          "fetched_at": "2026-10-29T15:16:15+08:00",
+          "fetched_at_source": "snapshot file mtime; original fetch receipt not separately preserved",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://gobiernoabierto.getafe.es/presupuestos/resumen/2026",
+          "kind": "homepage",
+          "status": "succeeded",
+          "sha256": "bead2226adccd07da06283909bcf713925d1b108bde9a677e35252e6bccba612",
+          "snapshot_path": "sources/bead2226adccd07da06283909bcf713925d1b108bde9a677e35252e6bccba612.txt",
+          "fetched_at": "2026-10-29T15:25:02.118447+08:00",
+          "origin": "this_round"
+        },
+        {
+          "url": "https://pressupost.santfeliu.cat/",
+          "kind": "homepage",
+          "status": "succeeded",
+          "sha256": "7e62ec7d1c6cc70efdbdfe7124b92e43404c74f4fd9fedafc1204951c2f09325",
+          "snapshot_path": "sources/7e62ec7d1c6cc70efdbdfe7124b92e43404c74f4fd9fedafc1204951c2f09325.txt",
+          "fetched_at": "2026-10-29T15:16:15+08:00",
+          "fetched_at_source": "snapshot file mtime; original fetch receipt not separately preserved",
+          "origin": "this_round"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

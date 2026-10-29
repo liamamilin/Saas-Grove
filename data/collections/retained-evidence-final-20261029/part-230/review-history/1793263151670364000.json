@@ -1,0 +1,50 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "convention-exhibition-management",
+      "application_id": "github:1385556982",
+      "issue": "The only case is the WordPress/WooCommerce plugin Booth Booking. The README proves floor-plan upload, identified booths, one product per booth with stock 1, roughly 10-minute cart holds, checkout, admin manual booking, and exhibitor name/email capture. It does not prove a show/edition entity (named, dated, venue-bound, recurring), an exhibitor population/management layer, or contract/commitment gating beyond the WooCommerce order. The batch's claim that it 'directly covers the defining core' is therefore overstated: it covers the sellable-floor/allocation/payment slice but not the show → exhibitor population → floor → allocation coupling. The batch itself calls it a 'complete booth sales business submodule', which is a component, not the application type.",
+      "fix": "Either cite sources showing a product that manages shows/editions and an exhibitor population in addition to sellable floor inventory and allocation, or keep the leaf as boundary_unresolved/included_without_cases and do not assert a leaf match. If submodules are intentionally in scope, document that scope at the leaf/type level and rewrite the leaf_match reason to state the partial coverage rather than claiming the full defining core."
+    },
+    {
+      "slug": "convention-exhibition-management",
+      "application_id": "github:1385556982",
+      "issue": "The batch records the license SPDX as 'GPL-2.0', but the README and repository page state 'GPLv2 or later'. The complete LICENSE file is the standard GPLv2 text, but the project's stated grant is or-later; 'GPL-2.0' conventionally denotes GPL-2.0-only and is inconsistent with the source.",
+      "fix": "Change the license and license_review.spdx_id to 'GPL-2.0-or-later' and update the rationale, or provide a source that establishes GPL-2.0-only. Keep the full LICENSE snapshot as evidence."
+    }
+  ],
+  "non_blocking_notes": [
+    "research.json 如实记录了 GitHub API 403 rate limit，并说明改用仓库 HTML 与 raw LICENSE 全文核对；该抓取缺口留档可通过。",
+    "README 的 WordPress.org 安装路径与 research 中发现的 'Expo Booth Booking' by brandjaws 不一致；batch 未将该目录条目作为身份来源，部署记录使用 GitHub clone，故不阻断，但建议删除或限定 WordPress.org 安装表述。",
+    "eventyay-exhibition 的排除理由（dev 文件树无 floorplan/space inventory，仅有 booth_number/booth_name 字段）及 floorplan-studio/spot-mapper 的静态工具排除记录在 research.json，但本单元未提供这些 URL 的快照；作为负面检索留档可接受，不能作为正向核心证据。",
+    "research note 提到工作区原有 4 个该仓库快照，而 batch/REVIEW_SOURCES 只引用 3 个；未发现缺失的 claim-critical 来源，建议统一计数。",
+    "runtime_tested: false；README 功能为文档声明，未做代码级或运行级验证；本审查不要求部署测试，故不阻断。",
+    "ExpoPlatform 首页仅作商业对照且未写入案例，符合不以营销页替代核心正文的要求。"
+  ],
+  "leaf_checks": {
+    "convention-exhibition-management": {
+      "slug": "convention-exhibition-management",
+      "application_ids": [
+        "github:1385556982"
+      ],
+      "sources_read": [
+        "data/collections/sources/30457067fade85ffef2786e3a37c799849f2b71690d7aa640c31bc6416036c90.txt: GitHub repository HTML; confirms hasnatahmad095/booth-booking, repository_id 1385556982, public, not a fork; contains README and license text.",
+        "data/collections/sources/b7bab5655b9f1bb4bab38a435718472e6c0b766af378f994512bdb6d7318bb31.txt: full README; floor-plan upload, booth placement, one WooCommerce product per booth, stock 1, ~10-minute cart hold, admin manual booking, exhibitor name/email at checkout, WordPress 5.8+/WooCommerce requirements.",
+        "data/collections/sources/f4491c8ef71122a6a5057efdfa4348570c074cc2c2e6e61e27de2eba99cb3c6e.txt: complete GPLv2 LICENSE text through 'END OF TERMS AND CONDITIONS'."
+      ],
+      "id_track_check": "Application ID github:1385556982 matches repository_id 1385556982; track open_source; repository is public and not a fork. No identity mismatch in the GitHub sources.",
+      "service_form_check": "Self-hosted WordPress plugin requiring WooCommerce; a persistent server-side booth-booking module, not a static/client-only tool. It is a business submodule, not a full convention/exhibition management suite.",
+      "definition_core_check": "Evidence covers sellable floor inventory (uploaded plan, identified booths, product per booth, stock 1, temporary hold) and allocation/payment (map selection, cart/checkout, admin manual booking). It does not establish a show/edition entity (named, dated, venue-bound, recurring), an exhibitor population/management layer, or contract/commitment gating beyond the WooCommerce order. The batch's 'directly covers the defining core' claim is overstated; the show → exhibitor population → floor → allocation coupling is only partially evidenced.",
+      "license_check": "Complete GPLv2 text is present. README and repository page say 'GPLv2 or later'; batch SPDX is GPL-2.0, which conventionally means GPL-2.0-only. Should be GPL-2.0-or-later or otherwise justified.",
+      "community_boundary_check": "No open-core/paid edition split found; the repository contains the full plugin under GPL.",
+      "result": "changes_required: the only case is a booth-booking submodule and does not establish the full defining core; the license SPDX also needs correction."
+    }
+  },
+  "limits": "只读核对本单元提供的 input.json、data/collections/batch.json、data/collections/research.json 和 REVIEW_SOURCES.json 列出的 3 个快照；未运行代码、未部署 WordPress/WooCommerce、未访问 GitHub API（研究记录中的 403 已留档）、未核验 WordPress.org 目录条目的作者身份、未读取其他单元。对 eventyay-exhibition 和 ExpoPlatform 的结论仅依据 research.json 的记录，未见其快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-230/ses_groveopencodegop230review1_1793262755.jsonl",
+  "batch_sha256": "f1af576a94072672ac8c5e2f186762aacc4b7b2d2b4fef517c9e03c52b68e8d1",
+  "research_sha256": "16f063e288fce17588df10930a58e68e59e77352003593108b94bf544c0931df",
+  "input_sha256": "cbb19620b4e73513b5f1135f5a92798a8941576fb2dacd08c9e39ee643571931"
+}

@@ -1,0 +1,46 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "YunParking 的 README 同时写着“开源功能及完整度非常高”和“此开源部分为7年前第一个版本的部分代码，现在商业版本是重构后的第三个大版本”；条目已按旧版部分代码收窄，建议在公开摘要中始终保留这一限定，避免让读者误以为它与当前商业重构版等价。",
+    "YunParking 的 README 功能清单明确列有路内/路外停车、收费规则、支付聚合、月卡/余额支付、巡查 PAD 执法和设备管理等，但没有逐字出现“对账”；research.json 中“收费对账核心”的表述可以改为“收费规则、支付聚合与月卡/余额支付”，或补充对账模块的代码或文档出处。",
+    "bess-ems 的证据集中在单系统/后端层面的市场调度、实时量测、状态机、约束与安全限幅、审计和协议适配；多站资产组合、结算、所有权人报告未在 README 中验证。当前把它收窄为“后端服务案例”是合适的；若后续要主张车队级 BESS 管理，应补充组合、结算和报告方面的来源。",
+    "Honk 首页正文可以核到道路救援请求→HONK 调度算法→服务商到场、Real-Time Management Portal/Advanced network controls、事故管理、车辆物流与报销；但服务商准入、覆盖区域治理、保障判定等更细的签约网络治理未在首页展开，条目措辞保持首页可证范围即可。",
+    "Towbook 目前只引用首页，且页面为客户端渲染；派单/任务进度、车辆库存、直接向汽车俱乐部开票、佣金与应收等表述可在快照正文长行中核到，但后续若能补充产品功能页快照，证据链会更稳。",
+    "CargoWise 海洋页明确覆盖船期查询、运价与报价转订舱、电子订舱、订舱至提单、承运人 EDI（含货运指示与提单数据）及集装箱节点；提单签发/修改、免箱期/滞期费等细节未在该页展开，不影响商业基本类型判断。",
+    "Honk/HONK、Towbook/TOWBOOK 等品牌大小写不统一，属于风格问题，不影响身份或类型判断。"
+  ],
+  "leaf_checks": {
+    "ocean-freight-management": {
+      "basis": "CargoWise 官方海洋货运页快照（26766d...，正文约 1469-1793 行）明确写到：搜索比较船期、检索并应用海洋运价、报价转确认订舱、与承运人直接电子订舱并“从订舱到提单”全程可见、承运人/NVOCC 连接、集装箱节点跟踪，以及 EDI 交换船期/订舱/跟踪/VGM/货运指示/提单数据；可覆盖“海运货物记录 + 订舱→货运指示→提单 + 航程集装箱节点”的定义核心。商业条目类型为国际货运代理/报关行物流执行平台，海洋模块身份匹配。",
+      "gaps": "首页快照以导航和营销卡片为主；海洋页未展开提单签发/修改/放货、免箱期与滞期费等细节。",
+      "result": "pass"
+    },
+    "parking-management-platform": {
+      "basis": "YunParking 仓库快照 id=521139207，README（base64 正文）自述为城市级智慧停车项目，功能包括路内停车、路外室内停车、共享车位、车位预约、收费规则、支付聚合、设备管理、巡查 PAD 执法、会员/等级、月卡充值/支付、余额支付、区域/车场/车主管理等；覆盖停车库存、临时停留/长期许可、费率与收费支付核心。LICENSE 快照为 GPL-3.0 完整文本；README 明确开源部分为 7 年前第一版的部分代码，当前商业版为重构后的第三个大版本，社区版边界已如实记录。",
+      "gaps": "README 未逐字给出“对账”证据；开源部分为旧版部分代码，完整度与成熟度有限，未部署运行。",
+      "result": "pass"
+    },
+    "roadside-assistance-platform": {
+      "basis": "Honk 官方首页快照正文展示：用户在应用中请求救援→HONK 调度算法→道路救援快速到场并解决问题；另有 Real-Time Management Portal/Advanced network controls、事故管理、车辆物流与报销流程、面向保险/车队租赁/汽车厂商/碰撞维修的行业方案及数字集成。可支持道路救援事件、服务目录、调度跟踪与资金/报销中介的基本类型匹配；商业条目仅需基本真实性与类型匹配。",
+      "gaps": "首页未展开服务商准入、覆盖区域治理、保障判定与平台向服务商结算的具体机制；仅一个首页来源。",
+      "result": "pass"
+    },
+    "towing-dispatch-platform": {
+      "basis": "Towbook 官方首页快照（标题/描述及正文长行）明确面向拖车运营商，正文含接受呼叫、分配呼叫、跟踪任务进度、管理车辆库存、直接向汽车俱乐部开票、QuickBooks 集成、生成佣金、管理应收，以及 impound/storage/accounting 定位；覆盖运营商侧呼叫→派单→任务跟踪→按呼叫来源开票/佣金/应收的核心。商业类型匹配。",
+      "gaps": "仅首页一个来源，页面为客户端渲染且快照长行被截断，正文按关键词核对；未展开轮值规则、能力匹配和存储保管的完整工作流。",
+      "result": "pass"
+    },
+    "battery-energy-storage-management": {
+      "basis": "bess-ems 仓库快照 id=1229669818，README（base64 正文）自述为 BESS 能量管理系统：计划、监控和控制电池储能，考虑市场机制、实时量测、技术限制与安全要求；核心链路为 Measurements→Validation→Snapshot→State Machine→Market/schedule resolution→Ancillary-services prioritisation→Constraint Limiter→Ramp Limiter→Command→Protocol Adapter，并强调市场优化与技术控制严格分离。可覆盖受控充放电、约束/安全边界、状态机与审计的 BESS 运营核心。LICENSE 快照为 MIT 完整文本，仓库身份与许可证匹配。",
+      "gaps": "多站资产组合、结算、所有权人报告未验证；README 只支持后端/单系统 EMS 边界，未证明完整车队级系统记录。",
+      "result": "pass"
+    }
+  },
+  "limits": "本次为只读桌面初审：未部署运行、未做价格/架构/性能核验，未读取其他单元。已按 REVIEW_SOURCES.json 的 path 原样读取 10 个快照；GitHub API 快照为单行 JSON，read 工具对超长行截断，README/许可证正文为 base64，仅能核对可见片段与关键词，未逐字通读全文。Towbook 首页为客户端渲染页面，快照正文长行被截断，相关派单/库存/佣金/应收表述按快照内关键词并结合同一公开页面文本交叉确认。未能独立复核 research.json 中未纳入快照的失败候选（如 agilasoft/logistics、hajk1/shipping-line-api、OpenEMS 等）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-182/ses_groveopencodegop182review1_1793020892.jsonl",
+  "batch_sha256": "b2ae0d9f25e76eb47d0f4a17eda4f9679027f956c59eebeb93cdcb0813b1aeb4",
+  "research_sha256": "40073260cbcb193c6654423c7e46df1c42ebb4089be8397458604a0f65e4b68d",
+  "input_sha256": "f77e5cc0e4ad587b48832e3f58d53f10be66389859fa0fafb4fb22a1d32976c5"
+}

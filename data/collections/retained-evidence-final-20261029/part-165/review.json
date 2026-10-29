@@ -1,0 +1,43 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 leaf.progress 仍记录 case_status=insufficient_evidence、application_ids=[]，与本单元 batch.json、research.json 已收录 github:1283596730 不一致；建议下游同步叶状态，避免同一叶出现两套结论。",
+    "research.json 声称核对过“完整目录树”并抽查 surgical_case、surgical_specimen、surgical_diagnosis、surgical_report 等模型，但 REVIEW_SOURCES.json 未保留对应快照；核心判定不依赖这些额外证据，README 与工作流文档已足够，建议补充快照或将措辞降为过程记录。",
+    "batch.json 功能项“修订/补充报告”比快照中明确可见的“签署后不可变报告快照、累积报告、Report Archive”更强；若无单独修订流程证据，建议改为“报告快照/归档与累积报告”等更保守表述。",
+    "README 引用了 TERMS_OF_USE.md 与 SECURITY_CHECKLIST.md，但未抓取；其描述为责任范围与支持政策，未显示额外许可限制，不影响 MIT 判定，可选补充。",
+    "本单元无商业条目，商业真实性与类型匹配检查不适用。",
+    "工作流文档为泰文页面，关键步骤与状态值已按其正文核对，下游展示时建议保留原文出处以便复核。"
+  ],
+  "leaf_checks": {
+    "pathology-information-system": {
+      "status": "passed",
+      "application_ids": [
+        "github:1283596730"
+      ],
+      "definition_core": "README 明确覆盖外科病理、妇科细胞学和非妇科细胞学的病例登记与统一 accession、大体检查与大体图像、组织处理/包埋/切片/染色、组织块与玻片管理/分发/存储、结构化诊断、多病理医师签署、PDF 报告与报告归档；工作流文档以八步主流程说明从登记接收、Grossing、组织处理、包埋、切片、H&E 染色、玻片分发到诊断签署，并说明签署后生成不可变报告快照、PDF 和归档。三项定义性核心均有正文证据：病例记录（患者、申请上下文、accession）、标本到载玻片的制备流程（大体描述—组织块—切片/染色及条码/存储追踪）、病理医师诊断撰写与签署。",
+      "service_form": "自托管 Web 应用，React 18 + Vite + Ant Design 5、Python 3.11 + FastAPI、PostgreSQL 15、WeasyPrint + Jinja2，支持 Docker Compose、医院内网或 HTTPS 反向代理部署；属于持续使用的科室软件服务，不是脚本、库或单纯数据工具。",
+      "identity_track": "application_id 为 github:1283596730，仓库元数据快照显示 id=1283596730、full_name=korawit-t/Pathology-LIS、fork=false；批次 track=open_source，与仓库定位“open-source anatomical pathology LIS”一致。",
+      "license": "许可证快照为 GitHub license API 返回的 LICENSE.md，size=1075，content 为完整 MIT 文本，含版权声明、许可授予、条件与免责声明；批次标注 MIT 与快照一致。",
+      "community_edition": "未发现单独的社区版/企业版边界声明；README 仅另列 TERMS_OF_USE.md（责任范围与支持政策）和 SECURITY_CHECKLIST.md，不构成对 MIT 许可的额外限制。",
+      "evidence": [
+        "data/collections/sources/df9cbc698cee67f081e095eefe022447393783d11b7ab6cc511d2885d2c5f965.txt（仓库元数据，id/name/full_name/fork 可见）",
+        "data/collections/sources/b571865fb579144ac18189435a377f24cfeab4bbd17fe549cea2a0a9f9d57a8e.txt（README 正文）",
+        "data/collections/sources/253d6f60643dc249c6bd221c6687ba4d3b37a76bdfa836c84e279c7b1c0435be.txt（LICENSE.md 完整 MIT 文本）",
+        "data/collections/sources/b11cd4dba821fc87bd7e2057af259368d983eb7940e3a43ae7277a10c093537f.txt（官方工作流文档，八步流程与签署/归档说明）"
+      ],
+      "gaps": [
+        "未运行项目、未部署、未做临床验证；runtime_tested=false 与批次记录一致。",
+        "历史候选 Starling 与 OpenAPLIS 无本轮快照，research.json 已如实标记 historical_record_reused，未作为通过依据。",
+        "仓库元数据 JSON 在读取工具中按单行截断，未能直接查看 archived、default_branch、created_at、pushed_at 等尾部字段；已可见字段与批次 ID、仓库身份、fork 状态一致。",
+        "research.json 所述目录树与模型抽查无对应保留快照，但核心判定已由 README 与工作流文档正文支撑。"
+      ]
+    }
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、batch.json、research.json、REVIEW_SOURCES.json 及其列出的四个快照；未运行 shell、未写文件、未部署或运行项目、未做临床验证、未重新计算快照 SHA-256。仓库元数据 JSON 为单行且读取时按 2000 字符截断，未能直接核对 archived/default_branch/created_at/pushed_at 等尾部字段；未重新抓取 Starling、OpenAPLIS 或其他外部页面。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-165/ses_groveopencodegop165review1_1793252699.jsonl",
+  "batch_sha256": "db57f554fb6c384fbbccf90cedfd907c0a44ebe411a78b99e4a522d29d14d26d",
+  "research_sha256": "ffb2452121e749701b914be8833885844b3de3178c17a0223654bbf7c3e7465b",
+  "input_sha256": "3e238a210f23d95f5bdf3f4550775e00049ac627ca351e5994d9b4fbf33ed171"
+}

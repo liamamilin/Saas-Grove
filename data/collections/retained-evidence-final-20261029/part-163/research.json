@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "blood-bank-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:13254298"
+      ],
+      "query": "GitHub repository search: blood bank management in:name,description (stars desc); GitHub repository search: blood transfusion in:name,description (stars desc); official review of jembi/bsis (Jembi project page, GitHub metadata/license/README, component-status, inventory, order and transfusion code)",
+      "source_urls": [
+        "https://www.jembi.org/Project/blood-safety-strengthening-programme-(bssp)",
+        "https://api.github.com/repos/jembi/bsis",
+        "https://api.github.com/repos/jembi/bsis/license",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/README.md",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/ComponentStatusCalculator.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/component/ComponentStatus.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/component/Component.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/InventoryCRUDService.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/OrderFormCRUDService.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/order/OrderForm.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/transfusion/Transfusion.java",
+        "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/ComponentCRUDService.java"
+      ],
+      "note": "本轮针对原缺口补证，未把旧候选当作通过案例。旧候选 suraj-savle/blood-bank-management-system（MIT）、Devzstudio/BloodBank 与 techinfo-youtube/Blood-Bank-Mern-Stack-Project（均无可见许可证）仍只记录献血者/医院请求/库存 CRUD，未重新计为成立关系；历史研究轨迹保留在 HISTORY.json。新的定向检索在 GitHub“blood transfusion”结果中发现 jembi/bsis（BSD-3-Clause，仓库 id 13254298，未归档，默认分支 develop，最后推送 2022-12-16）。Jembi 官方项目页称 BSIS 为开源系统，管理从献血登记、采集、检测、成分制备/贴签、储存到向医院/诊所分发的信息，并已在莱索托、加纳、赞比亚、喀麦隆、埃塞俄比亚运行；README 说明其为浏览器可本地部署的血液安全信息系统。代码核验：Component 具 DIN、成分代码、有效期、状态、库存状态和状态变更集合；ComponentStatus 含隔离/可用/过期/发放/输血/不安全/废弃/处理；ComponentStatusCalculator 将 AVAILABLE 门控为放行、血型确认与 TTI SAFE，并处理过期和不安全；InventoryCRUDService 支持按地点、成分类型、血型、到期日查询在库单位；OrderForm 有患者、订单项和单位列表，DISPATCHED 时按 ISSUE/PATIENT_REQUEST 发放或按 TRANSFER 调拨；ComponentCRUDService 发放时校验使用点并移出库存、退回时恢复为 AVAILABLE/IN_STOCK；Transfusion 关联患者与单位；ComponentStatusChange 记录变更时间、操作者与原因，形成从献血到最终处置的追溯链。据此满足定义核心。未运行第三方项目，部署和运行未实测，runtime_tested:false。",
+      "service_boundary": "以单独标识的血液单位为核心：DIN、成分代码、血型、有效期；状态门控（隔离、放行、过期、不安全、废弃）；单位库存查询；患者/机构请求驱动发放或调拨；献血→单位→患者或最终处置的追溯链。献血者招募、采集活动与成分制备只是周边功能，不作为纳入依据；通用库存或实验室信息系统的能力不计入。",
+      "search_attempts": [
+        "GitHub repository search: blood bank management in:name,description, sorted by stars (2026-10-29)",
+        "GitHub repository search: blood transfusion in:name,description, sorted by stars (2026-10-29)",
+        "Official source review: Jembi BSSP page, jembi/bsis GitHub metadata/license/README and component, inventory, order, transfusion source files"
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.jembi.org/Project/blood-safety-strengthening-programme-(bssp)",
+          "kind": "homepage",
+          "status": "fetched",
+          "note": "Jembi 官方 BSSP 项目页；正文说明 BSIS 为开源系统，覆盖献血登记、采集、检测、成分制备/贴签、储存和向医院/诊所分发，并列明莱索托、加纳、赞比亚、喀麦隆、埃塞俄比亚的运行使用。"
+        },
+        {
+          "url": "https://api.github.com/repos/jembi/bsis",
+          "kind": "repository_metadata",
+          "status": "fetched",
+          "note": "GitHub API 元数据：id 13254298，full_name jembi/bsis，public，archived false，default_branch develop，license BSD-3-Clause。"
+        },
+        {
+          "url": "https://api.github.com/repos/jembi/bsis/license",
+          "kind": "license",
+          "status": "fetched",
+          "note": "GitHub license API 返回 BSD-3-Clause 及完整 LICENSE 文本（Jembi Health Systems NPC，2015）。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/README.md",
+          "kind": "readme",
+          "status": "fetched",
+          "note": "README：血液相关信息系统，覆盖献血到检测、储存及医院/诊所使用；浏览器可本地部署；Jembi 维护。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/ComponentStatusCalculator.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "ComponentStatusCalculator：AVAILABLE 需 donation released、血型检测完成/确认、TTI SAFE；过期覆盖为 EXPIRED；不合格献血、TTI 不安全或未确认血型置 UNSAFE；终态不再更新。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/component/ComponentStatus.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "ComponentStatus：QUARANTINED/AVAILABLE/EXPIRED/ISSUED/TRANSFUSED/UNSAFE/DISCARDED/PROCESSED，定义终态。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/component/Component.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "Component 实体：关联 Donation，含 componentCode、expiresOn、status、inventoryStatus、statusChanges、issuedOn/discardedOn/processedOn 等单位级字段。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/InventoryCRUDService.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "InventoryCRUDService：按 DIN+成分代码，或地点、成分类型、到期日、血型查询在库单位。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/OrderFormCRUDService.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "OrderFormCRUDService：订单状态 DISPATCHED 时，ISSUE/PATIENT_REQUEST 调用 issueComponent，TRANSFER 调用 transferComponent。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/order/OrderForm.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "OrderForm 实体：订单项、单位列表、患者、发出/接收地点及 CREATED/DISPATCHED 状态。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/model/transfusion/Transfusion.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "Transfusion 实体：以患者和 Component 为必填关联，记录输血日期、来源地点、结果与反应类型。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/jembi/bsis/develop/src/main/java/org/jembi/bsis/service/ComponentCRUDService.java",
+          "kind": "documentation",
+          "status": "fetched",
+          "note": "ComponentCRUDService：初始单位创建为 QUARANTINED 并计算有效期；issueComponent 校验使用点后置 ISSUED、移出库存并记录状态变更；returnComponent 将退回单位置回 AVAILABLE/IN_STOCK。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 56,
+  "offset": 1375,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "sports-club-management",
+        "name_zh": "体育俱乐部管理",
+        "domain_id": "28",
+        "parent_id": "28.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-255/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "sports club management in:name,description（GitHub 仓库搜索）"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/191",
+            "result": "insufficient_evidence",
+            "note": "初审指出 Sportyweb 仅证明俱乐部/部门、联系人与会员、费用与财务，未证明俱乐部管理定义中作为组织单元的球队/队伍名册，也未证明赛季/注册续期周期，且项目自述处于早期开发、尚不适合生产。本轮复核 development 分支完整仓库树（448 个路径），仍只有 club/department/group/contact/membership/fee/contract/finance 等模块，未见 team/squad/season/roster 建模，无法补足两项核心。因此移除该叶关系，改为证据不足留档；这不表示该类型不存在，原有检索与抓取记录均保留。",
+            "query": "sports club management in:name,description（GitHub 仓库搜索）；复核 sportyweb development 分支仓库树"
+          }
+        ],
+        "archived": false,
+        "note": "初审指出 Sportyweb 仅证明俱乐部/部门、联系人与会员、费用与财务，未证明俱乐部管理定义中作为组织单元的球队/队伍名册，也未证明赛季/注册续期周期，且项目自述处于早期开发、尚不适合生产。本轮复核 development 分支完整仓库树（448 个路径），仍只有 club/department/group/contact/membership/fee/contract/finance 等模块，未见 team/squad/season/roster 建模，无法补足两项核心。因此移除该叶关系，改为证据不足留档；这不表示该类型不存在，原有检索与抓取记录均保留。"
+      },
+      "definition": {
+        "slug": "sports-club-management",
+        "name": "Sports Club Management",
+        "name_zh": "体育俱乐部管理",
+        "aliases_zh": [
+          "俱乐部管理系统",
+          "体育社团管理",
+          "Sports Club Management 软件"
+        ],
+        "overview": "A **Sports Club Management** application is the operator-side system of record for a sports club — a member organization that fields teams. It holds the club's members as persistent records (with their membership standing, and guardian links where the club trains minors), organizes that population into teams and squads, runs the club's recurring season-and-registration cycle, and carries the club's money relationship with its members: membership dues, registration fees, and team fees raised against members and settled, with arrears tracked and actionable.\n\nThe defining core is small:\n\n```text\nThe club (the member organization of record)\n├── Members — the club's population of record\n├── Teams / squads — the club's organizing units\n├── The season / registration cycle\n└── The member money loop\n```\n\nEverything else commonly associated with these products — club-wide and team-level messaging, mobile apps, websites, online payment rails, fundraising and sponsorship, safeguarding checks, facility booking, federation integrations — is widespread in current products but is not part of what makes the software a club management system. A club run on paper (membership secretary's register, treasurer's dues ledger, annual team selection sheets, fixture lists received from the league) satisfies the same structure.\n\nWhen the product's center shifts to selling and delivering training programs (classes, lessons, camps) to enrolled athletes, it is drifting toward Sports Academy Management. When it shifts to running a competition between sides (fixtures, results, computed standings), it is drifting toward League Management Platform. When it centers on bookable playing capacity or rentable space, it belongs to the facility Types.",
+        "overview_zh": "一个**体育俱乐部管理**应用是体育俱乐部的运营侧系统记录——即组建运动队的会员组织。它以持久记录的形式保存俱乐部的会员信息（包含其会员资格状态，以及俱乐部在培训未成年人时建立的监护人关联），将这些人员组织成球队和队伍，管理俱乐部循环往复的赛季与注册周期，并承载俱乐部与会员之间的财务关系：向会员收取会员费、注册费和球队费用，进行结算，并跟踪可追讨的欠款。\n\n其定义性的核心是精简的：\n\n```text\n俱乐部（记录在案的会员组织）\n├── 会员——俱乐部记录在案的人员\n├── 球队/队伍——俱乐部的组织单元\n├── 赛季/注册周期\n└── 会员资金循环\n```\n\n其他通常与此类产品相关联的功能——全俱乐部和球队层面的消息传递、移动应用、网站、在线支付渠道、筹款与赞助、安全审查、设施预订、体育联合会集成——在当前产品中很普遍，但它们并非构成俱乐部管理软件的核心要素。一个依靠纸质化运营（会员秘书的登记簿、财务的会费账本、年度球队选拔表、从联赛收到的赛程表）的俱乐部，也满足相同的结构。\n\n当产品的中心转向向注册运动员销售和提供培训课程（班级、课程、训练营）时，它就逐渐偏向体育学院管理。当它转向组织球队之间的竞赛（赛程、结果、计算排名）时，它就逐渐偏向联赛管理平台。当它以可预订的比赛能力或可租赁空间为中心时，它就属于设施类型。",
+        "dc": "Four structures, held jointly. Remove any one and the product stops being recognizable as sports club management:\n\n- **The club's member population of record** — every member is a persistent, identified record that accumulates the person's history with the club across seasons: membership type or category, lifecycle state (newly signed up, pending review, active, deactivated), contact details, and — for youth clubs — links to guardians, with one guardian commonly designated as the payment contact. Members are the club's constituency, not its customers: they belong to the club, and the belonging is what the record expresses. Without this, the product is a contact database.\n- **Teams / squads as the club's organizing units** — the club fields teams: age-grade sides, adult and veteran squads, and in many products comparable non-playing groups (boards, volunteer crews, coach groups). Each team holds a roster drawn from the membership, has coaches or team managers assigned, and is the unit that trains, plays, and communicates. Day-to-day team management is delegated to team-level admins under club oversight. Without this, the product is a generic membership management system.\n- **The season / registration cycle** — the club's year is structured as recurring seasons or registration periods. Members register or renew into the season's teams and programs; rosters are (re)built each cycle; seasons are archived or copied forward; and the club — its member records and their history — persists from cycle to cycle. The cycle is what makes the club a standing organization rather than a one-off event. Without this, the product is a static registry with team lists.\n- **The member money loop** — the club's recurring money relationship with its members: membership dues, registration fees, match or training fees, kit and trip charges, raised as payment requests or collections against members (or their guardian payment contacts) and settled by payment — online, in instalments, or recorded offline (cash, check, bank transfer). Outstanding payments are tracked and actionable: reminders, and in some products an approval that is held until payment is made. Without this, the product is a roster and messaging app; the club stops being run as an organization in the system.\n\n```text\nClub (the organization of record)\n├── Members — population of record\n│     (membership type, lifecycle state, guardians + payment contact for youth)\n├── Teams / squads — rosters, coaches, delegated management\n├── Season cycle — registration → rosters → season → archive → renew\n└── Member money loop — dues & fees → payment requests → settlement → arrears\n```\n\nThe four legs are jointly held: a member database without teams is membership software; teams without a member organization are a team app; a registration cycle without members is a sign-up form; money without the club relationship is a collections tool.",
+        "dc_zh": "四个结构，共同持有。移除任何一个，产品就不再是可识别的体育俱乐部管理：1. 俱乐部的记录会员群体——每个会员是一个持久的、已识别的记录，积累会员在俱乐部跨赛季的历史：会员类型或类别、生命周期状态（新注册、待审核、活跃、已停用）、联系方式，以及——对于青少年俱乐部——与监护人的联系，通常指定一个监护人为付款联系人。会员是俱乐部的成员，而不是客户：他们属于俱乐部，归属感是记录所表达的。没有这个，产品就是一个联系数据库。2. 团队/小队作为俱乐部的组织单位——俱乐部组建团队：年龄组队伍、成人组和老将组，以及许多产品中的可比非游戏群体（委员会、志愿者团队、教练组）。每个团队拥有一个从会员中选出的名册，分配教练或团队经理，是训练、比赛和沟通的单位。日常团队管理委托给团队级管理员在俱乐部监督下进行。没有这个，产品就是一个通用的会员管理系统。3. 赛季/注册周期——俱乐部的年份被结构化为重复的赛季或注册周期。会员注册或续期进入赛季的团队和计划；名册每个周期（重新）构建。",
+        "rules": "### Membership standing has a lifecycle\n\nA member is not just a contact: they hold a membership type or category and a state — newly signed up, pending approval, active, deactivated — and the state is renewed each cycle. Falling out of the cycle (not renewing) is a normal, tracked outcome, and re-entry happens through a later registration or renewal.\n\n### Renewal updates the record; it does not duplicate it\n\nThe renewal flow is designed to link back to the existing member record — carrying forward the person's history and updating consents — rather than create a fresh registration. Products actively guard the failure mode where a member uses the public sign-up form instead of their personal renewal link and a duplicate appears.\n\n### The money state reaches participation decisions\n\nCollecting money is not a separate ledger: payment status is visible against the member, reminders are systematic, and some products let an administrator hold a registration approval until payment is made. The treasurer's question — who has and has not paid — is answerable in the same system that holds the rosters.\n\n### Team management is delegated, club oversight is not\n\nTeam-level admins get real power over their own team (roster, events, communication) but scoped: they do not see or touch other teams, and club-level structures — member database, money, club-wide communication — stay with club administrators. In implementations with club bank accounts, team admins can even be restricted to their own team's account.\n\n### The club consumes the competition; it does not run it\n\nFixtures that the club's teams play in are generated by the league or association, and the club system imports or records them. A club management product that began generating fixtures, results, and standings for sides beyond the club's own would be drifting into league-management territory.\n\n### Youth clubs are guardian-mediated\n\nWhere the club trains minors, the child is a member but the guardians are the contacts, the respondents, and commonly the payment contact; consent (terms, photo permissions) is collected and refreshed through the guardian. Privacy around minors' data is a designed concern, and vetting of coaches and volunteers appears as safeguarding machinery.\n\n### Offline money is a first-class case\n\nDespite online payment rails, cash, check, and bank-transfer payments remain ordinary: products provide explicit recording of offline payments so the treasurer's ledger lives in the system rather than beside it.\n\n### Seasons end; the club persists\n\nArchiving a season closes its rosters and events but preserves the record; the next cycle is built by copying structure and renewing members. The member's history with the club — seasons played, payments made — accumulates across cycles. This persistence is what makes the system a system of record rather than a season tool.",
+        "rules_zh": "### 会员状态拥有生命周期\n\n会员不仅仅是一个联系人：他们持有一种会员类型或类别，以及一种状态——新注册、待批准、活跃、停用——该状态在每个周期都会更新。退出周期（不续费）是一个正常的、被跟踪的结果，重新加入则通过后续的注册或续费实现。\n\n### 续费更新记录，而非复制它\n\n续费流程旨在链接回现有的会员记录——承继该人的历史并更新同意书——而非创建一个全新的注册。产品会主动防范会员使用公共注册表单而非其个人续费链接，从而导致出现重复记录的故障模式。\n\n### 资金状态影响参与决策\n\n收款不是一个独立的账本：支付状态在会员记录中可见，提醒是系统化的，部分产品允许管理员在支付完成前暂扣注册审批。财务的问题——谁已付、谁未付——在同一个保存名册的系统中就能得到解答。\n\n### 球队管理被委托，俱乐部监督不委托\n\n球队级管理员对其所在球队（名册、活动、沟通）拥有实际权力，但权限范围受限：他们无法查看或操作其他球队，而俱乐部级结构——会员数据库、资金、全俱乐部沟通——仍由俱乐部管理员掌控。在使用俱乐部银行账户的实践中，球队管理员甚至可能被限制仅操作其自己球队的账户。\n\n### 俱乐部使用竞赛日历，而非运营它\n\n俱乐部球队参加的赛程由联赛或协会生成，俱乐部系统导入或记录这些赛程。一个开始为各方生成赛程、结果和排名的俱乐部管理产品",
+        "parent_id": "28.03",
+        "domain_id": "28"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 247,
+    "phase": "directory",
+    "parent": 247,
+    "slugs": [
+      "sports-club-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "ad80c9ad7263f9892c6207599d33196959a7a1364e265a7bdee78d91df525b12"
+  }
+}

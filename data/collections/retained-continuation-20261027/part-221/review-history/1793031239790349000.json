@@ -1,0 +1,54 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "pharmacy-management-system",
+      "application_id": "github:133311194",
+      "issue": "RxSolution 的核心类型匹配主要依赖 GitHub 仓库简介（元数据）和 eManual Chapters 目录中的文件名（导航），README 只有资助声明、免责声明和 Delphi 构建说明；快照中没有手册正文，无法证明定义性核心中的处方接收→药剂师审核→调配/贴标→配发→患者用药档案这一受控调剂流程，尤其缺少“药剂师审核关卡”和配发后写入患者用药档案的证据。research.json 也自述“手册为 PDF，未逐章读取正文”。在此证据基础上将 verification_status 标为 official_sources_reviewed 偏高；按“不能用简介/元数据/导航替代核心正文”的审查要求，本条尚不足以认定为已核实的药房管理系统案例。",
+      "fix": "补充并快照至少 Chapter 15 Prescriber、Chapter 16 Dispensers、Chapter 17 Patient、Chapter 19 Regimen、Chapter 21 Prescription、Chapter 25 Reports 的正文（或等效官方功能页），在 leaf_matches.reason 中引用能证明处方、药品目录、患者用药档案和受控调剂流程的具体段落；若正文仍不能证明药剂师审核与配发记录，应将本条改为 boundary_unresolved/不纳入，并将 verification_status 降级，而不是保留 case_found。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids=[]、research_records=[]，且顶层 phase 为 included_without_cases；这与 batch.json 中 2 个条目、research.json 中 2 个 case_found 不一致。若下游读取 progress，应回填 github:658815259 与 github:133311194 及对应 research_records；本次审查以 batch.json 和 research.json 为准。",
+    "OpenRIMS-PV 的周期性汇总报告（periodic aggregate reports）没有在 wiki 第1章或项目页中被逐项展示；现有证据已覆盖不良事件报告、因果关系评估、严重性/信号和 E2B 个案报告导出，类型匹配成立，但补充汇总报告/定期报告证据会更完整。",
+    "OpenRIMS-PV 的 wiki 第1章正文以 PViMS 框架为叙述对象，仓库 README 说明 OpenPV 基于 PViMS 2.0；产品身份可对应，但直接针对 OpenRIMS-PV 的功能文档会比继承框架手册更稳妥。",
+    "两个仓库的 GitHub 元数据快照是未登录 HTML，许可证侧栏未渲染；许可证结论依据的是 raw LICENSE 快照（两份均为完整 GPLv3 文本，含 END OF TERMS AND CONDITIONS 与 How to Apply），不是元数据页本身。",
+    "batch 的 license 字段写作 GPL-3.0；若仓库未明确声明“or later”，更精确的 SPDX 标识是 GPL-3.0-only。属元数据精度问题，不影响本次许可证成立。",
+    "RxSolution README 说明源码依赖 Delphi 7 与已不可获取的 QuantumGrid v3.22，存在构建/依赖风险；这不改变 GPL-3.0 许可证结论，但“开源可复现构建”应谨慎表述。",
+    "两条开源案例均未发现社区版/商业版功能切分或开放核心限制；若产品另有托管/商业版本，当前资料未记录其边界。",
+    "medication-management-platform、academic-advising-platform、admissions-management 的检索记录引用了 HospitalRun、MSU、BOA、OpenEduCat、Fedena 等 URL，但这些 URL 不在 REVIEW_SOURCES.json 的快照清单中；本次只能核对 research.json 的留档叙述，无法独立复核其页面正文。"
+  ],
+  "leaf_checks": {
+    "medication-management-platform": {
+      "status": "no_case_archived",
+      "evidence": "batch.json 无对应 application；research.json assessment=insufficient_evidence，记录了 websearch/GitHub 搜索与 HospitalRun README 抓取，并说明 HIS/药店进销存/服药提醒均不能证明“组织药品库存—患者有效用药方案—已核验给药事件”三部分核心。",
+      "gap": "HospitalRun README 等引用页面没有本单元快照，无法独立复核；但检索与缺口已如实留档，按无案例留档可通过。input.json progress 仍标 not_searched，属元数据未回填。"
+    },
+    "pharmacovigilance-platform": {
+      "status": "case_verified",
+      "evidence": "github:658815259（OpenRIMS-PV/OpenPV），track=open_source；仓库元数据快照显示 repository_id=658815259；LICENSE 快照为完整 GNU GPL v3 文本（含第621行 END OF TERMS AND CONDITIONS、第623行 How to Apply）；wiki 第1章正文（第50-55行）显示不良事件报告、必填字段/检查表、MedDRA/WHO/Naranjo 等因果关系评估、严重性与信号生成、E2B 个案安全数据导出与 HL7；homepage 第732行进一步说明覆盖数据收集、分析和报告流程及自发报告。可对应安全案例、医学评估与监管报告循环。",
+      "gap": "周期性汇总报告未逐项展示；wiki 正文以 PViMS 框架叙述。未发现社区版/商业版切分。"
+    },
+    "pharmacy-management-system": {
+      "status": "core_evidence_insufficient",
+      "evidence": "github:133311194（RxSolution），track=open_source；仓库元数据 repository_id=133311194（第240行）；LICENSE 快照为完整 GNU GPL v3 文本（含 END OF TERMS AND CONDITIONS 与 How to Apply）；仓库简介（第157/205行）说明 inventory/purchase/issue/dispense；eManual Chapters 快照（第500行）仅列出 Products、Stock Take、Prescriber、Dispensers、Patient、Regimen、Prescription、Reports 等文件名。",
+      "gap": "没有手册正文或功能页正文，无法证明处方→药剂师审核→调配/贴标→配发→患者用药档案的受控流程；README 仅为免责声明和构建说明。该缺口是 changes_required 的原因。"
+    },
+    "academic-advising-platform": {
+      "status": "no_case_boundary_unresolved",
+      "evidence": "batch.json 无对应 application；research.json assessment=boundary_unresolved，记录 MSU Student Advising Portal README 仅为预约门户骨架、未见学术记录/咨询历史，BOA 的 GitHub 许可证为 Other，不能标开源。",
+      "gap": "MSU/BOA 页面无本单元快照，无法独立复核；检索、抓取与边界判断已留档，按无案例留档可通过。"
+    },
+    "admissions-management": {
+      "status": "no_case_boundary_unresolved",
+      "evidence": "batch.json 无对应 application；research.json assessment=boundary_unresolved，记录 OpenEduCat 官方招生页覆盖申请/材料/审核/录取，但 GitHub license=NOASSERTION 且无许可证文本；Fedena 为 Apache-2.0，但 schema 仅见 admission_no/admission_date，未证明审核与决定流程。",
+      "gap": "OpenEduCat/Fedena 页面无本单元快照，无法独立复核；检索、抓取与许可证缺口已留档，按无案例留档可通过。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未读取其他单元；未重算快照 sha256，未构建或运行任何应用；GitHub 元数据快照为未登录 HTML，许可证侧栏不可见，许可证以 raw LICENSE 快照为准；RxSolution 手册为 PDF，快照仅含章节目录，未读取 PDF 正文；无案例三叶引用的 HospitalRun/MSU/BOA/OpenEduCat/Fedena 页面未提供快照，只能依据 research.json 留档；为核对快照中被单行截断的 RxSolution 章节文件名，另行只读访问了同一 GitHub 目录页，未将其用于补充核心正文；未评估商业定价、架构或部署测试。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-221/ses_groveopencodegop221review1_1793030524.jsonl",
+  "batch_sha256": "96861378385bdccd31d97a6868f53919b8e115833a29300faa1ef0ad06be95a6",
+  "research_sha256": "9c1f627379f4abb4e9d6bec9e6bb0846295c3c527c8985441022debdd726e7fa",
+  "input_sha256": "f1c474ed9429c26b40ab4d3d48d75fd6a1c945a9de1caaff1939130e3c2fd748"
+}

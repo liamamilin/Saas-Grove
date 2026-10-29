@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "auto-repair-shop-management",
+      "application_id": "github:1411572157",
+      "note": "README 与 Prisma schema 能证明客户、车辆、预约/工单、PART/LABOR 估价、客户审批、库存采购、角色与审计日志；但 schema 没有 Payment 模型，README 只有 printable invoice/job sheet，Booking 也没有逐次进厂里程字段。leaf 的 invoiced→paid 与「每次访问记录里程」没有被完整覆盖。batch 的 leaf_match 已把范围限定到开票，并未声称已支付或存在独立发票实体；如果 taxonomy 把支付或逐次里程视为硬性核心，应补充证据或换例。"
+    },
+    {
+      "slug": "sports-scouting-platform",
+      "application_id": "commercial:wyscout",
+      "note": "Wyscout 页面正文能证明赛事视频/数据库、搜索与筛选、球员名单、shadow teams 短名单、视频评估以及供应商数据/指标报告；但页面没有明确展示球探自撰评估报告、评级框架或独立 Scouting Area 正文。research 已如实记录并按数据/指标报告收窄，属于已留档的页面证据缺口。"
+    },
+    {
+      "slug": "sports-video-analysis",
+      "application_id": "commercial:hudl-sportscode",
+      "note": "Sportscode 页面正文能证明 coding/scripting、MacOS 离线编码、timeline/video、live capture、与视频关联的 interactive player reports、跨设备共享，以及经 Studio 集成的 telestration/graphics；但页面未明确展示持久赛季素材库或归档。research 已记录该缺口并收窄为 coding/报告/共享，未把它写成完整素材库闭环。"
+    },
+    {
+      "slug": "tactical-analysis-platform",
+      "application_id": "commercial:hudl-statsbomb",
+      "note": "Statsbomb 页面正文能证明 300+ 赛事、每场 3,400+ 事件、球员位置数据、xG/OBV 等模型、可定制可视化、整合视频，以及 tactical analysis / recruitment / performance evaluation 用途；页面也出现过 opposition analysis 的客户引述。但页面没有明确展示教练组备赛报告/演示交付，batch 已明确限定为数据/分析平台，不声称完整备赛闭环，属于已记录的边界。"
+    },
+    {
+      "slug": "sports-scheduling-platform",
+      "application_id": "commercial:aktivate-scheduling",
+      "note": "About 页还列出 division standings 与「schedule games and tournaments」；本叶只把赛程创建、冲突检查、总排期和公开日历作为中心，standings/锦标赛为附属能力。记录没有把它扩展成赛事结果、对阵图或锦标赛管理产品，边界合理。"
+    },
+    {
+      "slug": "sports-scheduling-platform",
+      "application_id": "commercial:aktivate-scheduling",
+      "note": "research.json 对四个 sports 叶写有「本次修复轮复核 review.json：该叶上一轮初审已通过」，而 input.json 的 progress 写「独立初审未通过或调用受阻」。历史状态表述不一致；本次按当前快照独立核对，未以该表述作为通过依据。"
+    },
+    {
+      "slug": "auto-repair-shop-management",
+      "application_id": "github:1411572157",
+      "note": "GitHub metadata 的 description 仍写 FastAPI，而 README、schema 与 batch 的 technology_stack 均为 Next.js、React、TypeScript、Prisma、PostgreSQL；batch 采用 README/schema 口径，未列入 FastAPI，属于元数据描述滞后而非实质冲突。"
+    },
+    {
+      "slug": "sports-video-analysis",
+      "application_id": "commercial:hudl-sportscode",
+      "note": "batch summary 的「比赛/训练视频」与「剪辑」是对页面 coding/scripting、timeline/video 及训练场景案例的概括；页面逐字证据更偏向 coding、timeline、player reports，训练视频与剪辑不是独立明示功能，措辞可再收紧但不影响类型匹配。"
+    }
+  ],
+  "leaf_checks": {
+    "sports-scheduling-platform": {
+      "status": "pass",
+      "basis": "核对 batch 的 commercial:aktivate-scheduling 及两份快照。About 页正文（sources/9deb5b... 第 370-383 行）明确产品为 Aktivate Scheduling（formerly ScheduleGalaxy）：创建含日期、时间、地点、交通信息的赛程，跟踪赛程/地点冲突，通过 master scheduling 为整个联盟/学区安排比赛和锦标赛，提供家长/球迷日历订阅、变更自动通知、巴士与交通信息、报告、division standings 及公开可分享/嵌入的日历。首页（sources/913fdd... 第 409-420 行）提供 Find by School 与 Find by Team 入口，直达球队最新赛程。属于持续运营的商业 SaaS 排期产品；ID 与 track 正确；赛程生产、维护、发布三段核心均在正文有依据。",
+      "gap": "division standings 与 tournament scheduling 是页面明示的附属能力；本叶未把它们当作中心，未声称赛事结果或对阵图管理，因此不构成核心偏移。"
+    },
+    "sports-scouting-platform": {
+      "status": "pass_with_documented_gap",
+      "basis": "核对 batch 的 commercial:wyscout 及 Hudl Wyscout 快照（sources/2c8a0d...）。正文（第 2509-2521、2563-2570、2597-2600、2614-2634 行）说明其拥有 1,000+ 赛事的足球视频与数据，可先通过视频 flag/evaluate 潜在目标，提供 advanced search、player lists、shadow teams 短名单，以及覆盖赛事/比赛/球队/球员的 Wyscout Reports 和 stats/metrics，并可把整场、playlist、clip 送入 Hudl。运动员处于被检索、被评估的记录对象位置，页面未显示运动员自建账户或双向联系。商业 SaaS 形态、ID/track 正确，球探平台类型匹配成立。",
+      "gap": "页面没有明确展示球探自撰报告、评级量表或俱乐部评估框架，也没有抓取 /products/wyscout/scouting-area 正文；research 已如实记录并将报告措辞收窄为供应商数据/指标报告。该缺口属于已留档的页面证据范围，不阻断本叶类型匹配。"
+    },
+    "sports-video-analysis": {
+      "status": "pass_with_documented_gap",
+      "basis": "核对 batch 的 commercial:hudl-sportscode 及 Sportscode 快照（sources/b3c744...）。正文（第 2491-2493、2553-2559、2585-2592 行）说明其提供 fully customizable performance analysis、customizable coding/scripting、MacOS 离线 coding 工具、timeline/video、live capture、与视频直接关联的 interactive player reports、任意设备可访问/共享的分析，以及 telestration/graphics Studio 集成。页面案例也明确用于分析上一场比赛、准备下一对手和训练。商业产品形态、ID/track 正确，体育视频分解/标注/教练回看类型匹配成立。",
+      "gap": "页面未明确展示持久赛季素材库或归档，telestration/graphics 通过 Studio 集成而非页面明示的 Sportscode 原生功能；research 已记录该缺口并收窄为 coding/报告/共享，未写成完整素材库闭环。"
+    },
+    "tactical-analysis-platform": {
+      "status": "pass_with_documented_gap",
+      "basis": "核对 batch 的 commercial:hudl-statsbomb 及 Statsbomb 快照（sources/f85f557...）。正文（第 2224-2231、2237-2249、2285-2292、2301-2303、2381-2387 行）说明其提供 300+ 赛事、每场 3,400+ 事件、40+ 联赛球员位置数据，xG/OBV/HOPS/phases of play/defensive responsibility/xPass 等模型，可定制数据可视化并整合视频，且明确把 tactical analysis 与 player recruitment、performance evaluation 并列为用途；第 2502 行客户引述还提到 opposition analysis。事件语料与战术分析用途有正文依据；商业数据/分析平台形态、ID/track 正确。",
+      "gap": "页面没有明确展示教练组备赛报告、演示文稿或完整 preparation loop；batch 已明确限定为数据/分析平台，不声称完整教练备赛应用，属于已记录的边界。"
+    },
+    "auto-repair-shop-management": {
+      "status": "pass_with_documented_scope_limit",
+      "basis": "核对 batch 的 github:1411572157 及四个快照。metadata（sources/f8be322... 第 1 行）给出仓库 id 1411572157、full_name ZohaibCodez/bayflow-auto-repair-shop-management、multi-tenant auto repair shop management 描述；LICENSE（sources/010f78... 第 1-21 行）是完整 MIT 文本，含版权声明、授权段、条件和免责声明。README（sources/905482... 第 98-105、343-352、422-430 行）说明客户预约、服务顾问/技师/零件员/质检/店主角色、17 状态/21 动作工单状态机、客户批准/拒绝估价、库存预留/采购/分配、审计日志、可打印发票/工单和按车牌服务历史。schema（sources/9d4388... 第 25-56、194-209、215-252、278-310、316-404 行）确认 BookingStatus 17 个状态、Vehicle plate/make/model/year/mileage、EstimateItemKind PART/LABOR、Estimate 版本化、BookingEvent 审计、InventoryItem/PurchaseOrder/PartAllocation/StockMovement。客户→车辆→店内工单→人工/零件→前台与技师分工的核心成立；MIT 覆盖整个仓库，没有单独的社区版/企业版边界需要拆开核验。",
+      "gap": "schema 无 Payment 模型，README 只有 printable invoice/job sheet；Booking 无逐次进厂里程字段。leaf 的 invoiced→paid 与每次访问记录 odometer 只有部分对应。batch 的 leaf_match 已把范围限定到开票，未声称已支付或独立发票实体，属于已记录的范围限制；若 taxonomy 要求完整支付闭环，应补证或换例。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未计算或复核 sha256、未部署或运行任何产品，也未访问登录后 UI。仅使用 REVIEW_SOURCES.json 列出的 9 个快照和 input.json、batch.json、research.json；未读取其他单元、采集者 TASK.md 或历史 review.json。Wyscout Scouting Area、Statsbomb platform、Sportscode tiers、Aktivate tour 等子页未单独抓取；商业产品页均为营销正文，未验证价格、架构或运行时。GitHub metadata 快照是单行 JSON，读取器按 2000 字符截断；repo id/description 可见并与 LICENSE/README/schema、research 交叉核对，fork/archived 仅据 research 记录。BayFlow 未验证支付、逐次里程、VIN、工时费率、会计总账或运行时行为。research 提到 OpenLeague、wangonya/auto-repair-saas、CarLog、ChanMeng666 等旧候选或备选，但其快照未在 REVIEW_SOURCES 列出，本次未读取，也未用其结论替代当前快照核对。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-037/ses_groveopencodegop037review1_1793082334.jsonl",
+  "batch_sha256": "dda009b36afeb6ddf5347810a48d45c606443b2ca769ad88900f11143bce2bce",
+  "research_sha256": "995bba48771b78f3acb35b617096820769e3498fca40605d28c00c52f1512609",
+  "input_sha256": "a2992ed8a2ce7fb1d0bbdd2333fc54740c95e7e91c7913758109d54e60aadff4"
+}

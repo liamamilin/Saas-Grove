@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "petition-public-comment-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4434819"
+      ],
+      "query": "历史复用：GitHub repository search: petition platform / online petition，核对 Pytition README 与 EngagementHQ 请愿模块页；本轮补证：GitHub repository search: petition in:name，核对 alphagov/e-petitions 仓库、MIT 许可证、英国议会请愿官方帮助页与已回应请愿实例页",
+      "source_urls": [
+        "https://api.github.com/repos/pytition/Pytition",
+        "https://raw.githubusercontent.com/pytition/Pytition/master/README.md",
+        "https://go.engagementhq.com/petitions",
+        "https://github.com/alphagov/e-petitions",
+        "https://raw.githubusercontent.com/alphagov/e-petitions/master/README.md",
+        "https://raw.githubusercontent.com/alphagov/e-petitions/master/LICENCE.txt",
+        "https://petition.parliament.uk/help",
+        "https://petition.parliament.uk/petitions/700143"
+      ],
+      "note": "本轮针对原缺口（机构处理并公开处置）做了定向补证：GitHub 仓库搜索命中 alphagov/e-petitions，仓库元数据与 README 确认其为英国政府与议会请愿服务的完整 Rails 应用，MIT 许可、未归档、可用 Docker 自托管；官方帮助页明确请愿发布后开放 6 个月收集署名、10,000 署名由政府回应且回应显示在请愿页、100,000 署名考虑议会辩论；已回应实例 700143 的活动页公开呈现发布→政府回应→议会辩论→关闭的时间线及回应正文。据此建立 github:4434819 与本叶关系。历史复用部分：Pytition 仍只显示请愿创建/发布/署名/CSV 导出，未显示机构处置闭环，继续不建立关系；EngagementHQ 演示页仍无机构回应正文在活动页留存的直接证据，不据此建立关系；Decidim、Consul Democracy 属多机制公民参与平台，按叶边界不纳入。历史检索与抓取记录原样保留，本轮新增抓取见 fetch_outcomes 后六项；未检索到的产品不断言为不存在。",
+      "service_boundary": "以公开请愿活动为记录单位，面向英国政府/议会：署名在活动页累积，达到阈值后政府公开回应与议会辩论处置回到同一请愿页。Pytition 仅有收集与导出、无公开处置，不纳入；Decidim/Consul Democracy 属组合式多机制公民参与平台，按边界不纳入；311、规则制定议程与调查工具亦不属本类型。",
+      "search_attempts": [
+        {
+          "engine": "GitHub repository search",
+          "query": "petition platform; online petition",
+          "outcome": "Pytition 为聚焦请愿的开源应用，但 README 仅见请愿创建/发布/署名/导出，未见机构处置闭环；Decidim/Consul 为多机制参与平台。"
+        },
+        {
+          "engine": "Official product page review",
+          "query": "EngagementHQ petitions module",
+          "outcome": "官方请愿演示页展示发起、审核、署名上限及阈值后的回应/辩论流程，但未展示机构回应正文在活动页留存的证据。"
+        },
+        {
+          "engine": "GitHub repository search API",
+          "query": "petition in:name（按 star 排序）",
+          "outcome": "本轮命中 alphagov/e-petitions（UK Government and Parliament e-petitions 代码库）与 WhiteHouse/petitions 等；优先核对仍在维护、采用 MIT 许可的 alphagov/e-petitions。"
+        },
+        {
+          "engine": "Official service documentation and live record review",
+          "query": "petition.parliament.uk/help；petition.parliament.uk/petitions/700143",
+          "outcome": "帮助页明确 10,000 署名政府回应并显示在请愿页、100,000 署名考虑议会辩论、6 个月署名窗口；实例页展示发布、政府回应、议会辩论与关闭的公开时间线，补齐处置闭环。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/pytition/Pytition",
+          "kind": "repository_metadata",
+          "status": "succeeded",
+          "sha256": "8a09669e05f9f812b3e875e9bf0f5c63320eeb257dde138d9621086a46957878"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/pytition/Pytition/master/README.md",
+          "kind": "readme",
+          "status": "succeeded",
+          "sha256": "d563a3d813fbb36f02728e942a22bf96a309af3cb505ffcb5e281663cf8624ea"
+        },
+        {
+          "url": "https://go.engagementhq.com/petitions",
+          "kind": "documentation",
+          "status": "succeeded",
+          "sha256": "eeaaecdadd01fa24239737d5a18dcf8df8d5a8fbca4e6776bc028812bea8389d"
+        },
+        {
+          "url": "https://api.github.com/repos/alphagov/e-petitions",
+          "kind": "repository_metadata",
+          "status": "failed",
+          "error": "HTTP 403 GitHub API rate limit exceeded，未保存快照；改用 GitHub 仓库页 HTML 核对仓库身份。"
+        },
+        {
+          "url": "https://github.com/alphagov/e-petitions",
+          "kind": "repository_metadata",
+          "status": "succeeded",
+          "sha256": "3caf73669c8d6e7e61aece9a93c8e48a0f68fa7c58f6e208e2c4235ddbaf146c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/alphagov/e-petitions/master/README.md",
+          "kind": "readme",
+          "status": "succeeded",
+          "sha256": "7a31a8ebe0a75feac66994fc11e052eb1d7cd2e393d5f309f79873012f9ebbde"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/alphagov/e-petitions/master/LICENCE.txt",
+          "kind": "license",
+          "status": "succeeded",
+          "sha256": "aca7eecd9c98e3b4e432b842f4443bd45ce45f85e712fb9d0c0d2f27142e5d44"
+        },
+        {
+          "url": "https://petition.parliament.uk/help",
+          "kind": "documentation",
+          "status": "succeeded",
+          "sha256": "77114a73bd33a8c2d9a9fadc45f3a7ad74f96d9cbeb8bcb0de75ea21a188bbb9"
+        },
+        {
+          "url": "https://petition.parliament.uk/petitions/700143",
+          "kind": "documentation",
+          "status": "succeeded",
+          "sha256": "8fe43eeba3d429b8c26cdf654f8d85edd48d733ba46cac0670a1df9119a7c7e6"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

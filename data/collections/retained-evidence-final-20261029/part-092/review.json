@@ -1,0 +1,61 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "批次中 README 来源仍标为 https://raw.githubusercontent.com/coder/code-server/main/README.md，而 research.json 记录该 URL 本轮返回 404、实际正文位于 docs/README.md，且两处 SHA 完全一致。这是已如实记录的抓取缺口，不影响本次核对；建议后续把批次 source URL 改为 docs/README.md，避免 URL 与快照长期不一致。"
+    },
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "homepage 填的是公司站 https://coder.com，不是 code-server 项目页或文档首页。建议改为 https://github.com/coder/code-server 或 https://coder.com/docs/code-server，便于溯源。"
+    },
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "已读正文没有逐字出现“编辑并保存文件”的操作描述；核心编辑能力主要由 README“Run VS Code on any machine anywhere and access it in the browser”以及 FAQ 中工作区/文件夹选择、按行列打开文件、workbench 加载、配置与扩展落盘等正文推断。结论成立，但后续如能补一段直接的编辑/保存工作流正文会更硬。"
+    },
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "FAQ 明确 Microsoft 市场及部分闭源扩展不在开源范围，code-server 使用 Open-VSX/自有市场；批次条目只写了仓库 MIT，建议在条目内也保留这条社区版边界说明（research.json 的 service_boundary 已有）。"
+    },
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "该应用同时被登记为 cloud-ide 案例。本条目只声明自托管浏览器交付形态，并明确不声称厂商托管云 IDE、多租户或 Coder 商业平台，边界表述克制；建议批次条目内也保留这一双重归类说明。"
+    },
+    {
+      "slug": "code-editor",
+      "application_id": "github:172953845",
+      "note": "批次 technology_stack 写 TypeScript、license_review 引用仓库元数据 language 字段，但仓库元数据快照为单行 JSON，读取工具在 2000 字符处截断，未能在本次读取中直接看到 language/license 字段；MIT 结论由独立 license 端点快照支撑，不影响判定。"
+    }
+  ],
+  "leaf_checks": {
+    "code-editor": {
+      "slug": "code-editor",
+      "name_zh": "代码编辑器",
+      "conclusion": "pass",
+      "definition_core": "满足定义的三项核心。纯文本缓冲区编辑与代码结构化能力由产品身份“VS Code in the browser”（README 第 5-6 行）以及 FAQ 中“Start the editor”、workbench 加载、扩展安装、键盘快捷键等正文支撑；文件系统持久化与工作集由 FAQ“How does code-server decide what workspace or folder to open?”（workspace/folder 查询参数、命令行目录、上次打开目录）与“Can I open a file at a specific line from a URL?”（payload/openFile 绝对路径、gotoLineMode 行列定位）以及配置/扩展存储于 ~/.local/share/code-server 支撑。FAQ 还说明其是 VS Code 的补丁分支、复用 VS Code 配置与扩展，符合“文件系统即项目、编辑不依赖语义层、扩展为附加层”的规则。",
+      "service_form": "自托管常驻 Web 服务形态成立：FAQ 给出启动即生成 ~/.config/code-server/config.yaml，默认 bind-addr 127.0.0.1:8080、auth: password、/healthz 健康检查、heartbeat 文件、--reconnection-grace-time 默认 10800 秒、systemd 服务/套接字激活、多实例与端口代理等正文；README 说明在任意机器运行并从浏览器访问、重任务在服务器执行。它不是厂商托管的多租户 SaaS，FAQ“Is multi-tenancy possible?”明确建议每用户一台 VM；research.json 的 service_boundary 已如实限定为自托管形态，未夸大为托管云 IDE。",
+      "id_track": "ID 与 track 匹配。仓库元数据快照可见 \"id\":172953845、\"full_name\":\"coder/code-server\"、\"private\":false、\"fork\":false、\"description\":\"VS Code in the browser\"，与条目 id github:172953845、repository_url https://github.com/coder/code-server、track open_source 一致，非 fork 冒充。",
+      "license": "完整 MIT 许可证成立。license 端点快照为 LICENSE 文件内容，base64 解码后是完整标准 MIT 文本（The MIT License / Copyright (c) 2019 Coder Technologies Inc. / 授予使用、复制、修改、合并、发布、分发、再许可、销售及再许可条件与免责声明），非摘要或许可证标识占位；GitHub license API 元数据 spdx_id=MIT，与批次 license=MIT、license_evidence_url 一致，scope=repository 的写法与证据相符。",
+      "community_boundary": "边界说明充分。FAQ 明确 code-server 取 VS Code 开源核心，但 Microsoft 市场及许多 Microsoft 发布扩展为闭源且禁止非 Microsoft 产品访问，改用 Open-VSX/自有市场，Live Share、Remote Extensions 等闭源扩展不可用；research.json 的 service_boundary 进一步排除 Coder 商业平台、Microsoft 官方 VS Code 分发版及其闭源扩展，并声明不声称多租户。批次条目本身可再补一句边界说明（见 non_blocking_notes）。",
+      "evidence_read": [
+        "data/collections/sources/d00ef74b97f84fb0dd90506a0c3c9027c5c4b87743f792f5b5399f25f733d439.txt（仓库元数据，可见 id/full_name/description/fork/private）",
+        "data/collections/sources/39e085e6b980b9b15e2c48127e59328870d11bc64864089ab1fa6cd3b8395114.txt（LICENSE 完整 MIT 文本，base64）",
+        "data/collections/sources/34ea118681ed7212d8b1e3e1be602d09e8829838e5f2b0e3e0b184b00109ab78.txt（README 全文，含浏览器访问与服务端重任务说明）",
+        "data/collections/sources/30239287dd0869c9fceb0bf9fbb24cac14cf13e18766980eec88bb5d0b8b8dfb.txt（官方 FAQ 正文：配置/认证/healthz/重连/工作区与文件定位/扩展市场/多租户）"
+      ],
+      "gaps": "未部署运行，未在浏览器实际编辑并保存文件；README 根路径 URL 现已 404，实际正文与 docs/README.md 同 SHA，已由 research.json 如实记录；仓库元数据快照为单行 JSON，读取时被截断，未能直接看到 language/license 字段，仅以可见字段与 license 端点交叉核对。以上缺口均有留档，不影响本次通过。"
+    }
+  },
+  "limits": "本次仅做只读静态初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的四个快照，未运行 shell、未计算快照 SHA、未写文件、未读取其他单元或采集者过程脚本。未部署或运行 code-server，未在浏览器实际执行打开、编辑、保存文件等操作，核心工作流判断基于官方 README/FAQ 正文与产品身份。仓库元数据快照为单行 JSON，读取工具在 2000 字符处截断，未能直接核对 language/license 等后段字段；README 根 URL 本轮 404 的说法未由我重新抓取复核，仅采信 research.json 的失败记录与 docs/README.md 同 SHA 记录。未复核 FAQ 之外的官方文档页面（guide、requirements、install 等），也未核查 FAQ 页面中引用的第三方链接。商业侧不适用（本单元无商业条目）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-092/ses_groveopendesignp092review1_1793197738.jsonl",
+  "batch_sha256": "aeda3a74b77ee63744114453456af2d477ecdb74c4c1f6af4b69df6ead36b900",
+  "research_sha256": "dcc0b1e86c9fb70b94680ba08546e1cfccb6479c31204c100fda2d10ba3e8b3a",
+  "input_sha256": "8d5b969871348ebae625a74f98d77599e0e0cb6bb7ab99591ac6a48484d8ae43"
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 23,
+  "offset": 550,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "llm-evaluation-platform",
+        "name_zh": "LLM评估平台",
+        "domain_id": "13",
+        "parent_id": "13.03",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-023/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": [
+              "Promptfoo LLM evaluation official github"
+            ]
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/294",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。",
+            "query": [
+              "Promptfoo LLM evaluation official github",
+              "复核 Promptfoo README 与许可证快照"
+            ]
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：当前来源只证明客户端、CLI、引擎/基础设施或设备控制，尚未证明本条目对应可持续使用的应用服务；保留候选，不改变叶子范围，也不推断不存在SaaS变体。 原采集说明保留为未采纳草稿，不表示已确认该候选符合本叶；未补采替代品，不作不存在判断。"
+      },
+      "definition": {
+        "slug": "llm-evaluation-platform",
+        "name": "LLM Evaluation Platform",
+        "name_zh": "LLM评估平台",
+        "aliases_zh": [
+          "大模型评测平台",
+          "LLM评测平台"
+        ],
+        "overview": "An **LLM Evaluation Platform** is a managed system for measuring how well an LLM application behaves: it runs the application's prompts and workflows — or captures its outputs from a live deployment — against curated test cases, scores the results against defined quality criteria using automated checks or human judgment, and stores each evaluation as a comparable record attributed to a specific version of the application.\n\nIts purpose is to replace subjective spot-checking of non-deterministic software with repeatable measurement. The same input can produce different outputs, there is rarely a single correct answer, and a change that improves one quality dimension can silently degrade another. An evaluation platform makes \"is this version actually better?\" answerable with data — before a change ships and after.\n\nThe defining core is small:\n\n```text\nLLM application under test (prompts, model calls, workflows — reached\nby running them or capturing their outputs)\n└── Test-case dataset (inputs + expected outputs or grading criteria)\n    └── Scoring (automated or human, applied per case)\n        └── Persisted, comparable evaluation runs\n            (attributed to a prompt/model/application version)\n```\n\nEverything else commonly associated with these products — LLM-as-judge graders, production traffic scoring, CI/CD regression gates, playgrounds, annotation queues — is standard capability of mature products, not what makes the product an evaluation platform. Remove the own-application subject and the product becomes a model benchmark; remove scoring against criteria and it becomes observability; remove persisted comparable runs and it becomes a script.",
+        "overview_zh": "一个**LLM评估平台**是一个托管系统，用于衡量LLM应用程序的行为表现：它通过运行应用程序的提示词和工作流——或从实际部署中捕获其输出——来对精心策划的测试用例集进行评估，根据定义的质量标准使用自动化检查或人工判断对结果进行评分，并将每次评估存储为归属于应用程序特定版本的可比较记录。\n\n其目的是用可重复的测量来替代对非确定性软件的主观抽查。相同的输入可能产生不同的输出，很少有单一的正确答案，并且一个改进某一质量维度的变更可能悄然损害另一个维度。评估平台使得“这个版本实际上更好吗？”这个问题能够用数据来回答——在变更发布之前和之后。\n\n其定义性核心很小：\n\n```text\n正在被测试的LLM应用程序（提示词、模型调用、工作流——通过运行它们或捕获其输出来访问）\n└── 测试用例数据集（输入 + 预期输出或评分标准）\n    └── 评分（自动化或人工，应用于每个用例）\n        └── 持久化、可比较的评估运行记录\n            （归属于提示词/模型/应用程序版本）\n```\n\n与这些产品通常相关的所有其他内容——LLM作为评判的评分器、生产流量评分、CI/CD回归关卡、演练场、标注队列——是成熟产品的标准功能，而不是使该产品成为评估平台的核心要素。移除自有应用程序主题，该产品就变成了模型基准测试；移除根据标准进行的评分，它就变成了可观测性；移除持久化的可比较运行记录，它就变成了一个脚本。",
+        "dc": "**3. Scoring mechanism.** Defined scorers — automated or human — are applied to each case's result and produce feedback: a numeric score, a categorical label, or free-text commentary. Three scorer families recur across products:\n\n- *code scorers* — deterministic checks (exact match, output is valid structure, required content present)\n- *LLM-as-judge scorers* — an LLM grades the output against criteria written into a grading prompt, either comparing to a reference answer or judging reference-free qualities such as helpfulness, tone, or factual grounding\n- *human scoring* — reviewers rate outputs, usually organized in review queues with rubrics, often comparing two variants side-by-side when judging \"which is better\" is easier than assigning an absolute score\n\n**4. Persisted, comparable evaluation runs.** A run (commonly called an *experiment*) is the durable record of evaluating one version of the application on one dataset: per-case inputs, outputs, and every scorer's feedback. Runs are recorded as first-class objects and are comparable — the platform's comparison surfaces line up multiple runs over the same dataset so quality differences between prompt versions, model choices, or code changes are directly visible.",
+        "dc_zh": "**3. 评分机制。** 定义的评分器——自动化或人类——应用于每个案例的结果并产生反馈：数值分数、分类标签或自由文本评论。三种评分器类型在产品中反复出现：\n\n- *代码评分器*——确定性检查（精确匹配、输出是有效结构、必需内容存在）\n\n- *LLM作为评判者的评分器*——一个LLM根据写入评分提示中的标准对输出进行评分，要么与参考答案进行比较，要么判断无参考的质量，如实用性、语气或事实依据\n\n- *人类评分*——审查者对输出进行评分，通常组织在带有评分标准的审查队列中，当判断“哪个更好”比分配绝对分数更容易时，经常并排比较两个变体\n\n**4. 持久化、可比较的评估运行。** 一个运行（通常称为*实验*）是在一个数据集上评估应用程序一个版本的持久记录：每个案例的输入、输出和每个评分器的反馈。运行被记录为一等对象并且可比较——平台的比较界面将多个运行在相同数据集上对齐，因此提示版本、模型选择或代码更改之间的质量差异直接可见。",
+        "rules": "### Evaluation measures; it does not assert\n\nThe platform's scores are graded and comparative — \"better than the baseline\", \"score dropped on this metric\" — not binary pass/fail verdicts on deterministic behavior. Teams often convert evaluation metrics into regression assertions (the new version must not underperform the baseline), which is the bridge toward classical testing, but the underlying records remain graded feedback.\n\n### Reference availability determines what can be checked\n\nAny check that needs an expected answer (correctness, factual accuracy, exact match) requires a dataset with reference outputs and therefore only works offline. Live-traffic scoring has no ground truth, so it is restricted to reference-free criteria. Products in the sample are explicit and consistent about this split.\n\n### Runs are durable; playgrounds are not\n\nOnce an evaluation run is recorded it does not change — later comparisons depend on that. Iteration happens in mutable surfaces where reruns overwrite results. This separation keeps fast iteration from corrupting the historical record.\n\n### Results are attributed to versions\n\nEvery run is bound to a specific configuration of the application (prompt, model, workflow) and often to a dataset version. Without this attribution comparison would be meaningless; dataset changes are therefore tracked so CI runs can target a known dataset state.\n\n### Human judgment flows back into data\n\nReviewer judgments are stored as scores and commonly promoted into datasets, making human evaluation both a measurement mechanism and a dataset-building mechanism.\n\n### Non-determinism shapes interpretation\n\nBecause identical inputs can produce different outputs, single-case results are weak evidence; platform behavior (aggregate scores, side-by-side comparison, baselines) is built around comparing distributions of behavior rather than individual outcomes.",
+        "rules_zh": "### 评估衡量；它不作断言\n\n平台的评分是分级且可比较的——“比基线更好”、“此指标分数下降了”——而不是对确定性行为的二元通过/失败判决。团队经常将评估指标转换为回归断言（新版本不得表现差于基线），这是通往经典测试的桥梁，但底层记录仍然是分级反馈。\n\n### 参考可用性决定了可以检查什么\n\n任何需要预期答案的检查（正确性、事实准确性、精确匹配）都需要带有参考输出的数据集，因此仅在离线时有效。实时流量评分没有真实答案，因此仅限于无参考标准。样本中的产品对此分工是明确且一致的。\n\n### 运行记录是持久的；演练场不是\n\n一旦评估运行被记录，它就不会改变——后续的比较依赖于此。迭代发生在可变的界面中，重新运行会覆盖结果。这种分离使得快速迭代不会破坏历史记录。\n\n### 结果归属于版本\n\n每次运行都绑定到应用程序的特定配置（提示词、模型、工作流），并且通常绑定到一个数据集版本。没有这种归属，比较将毫无意义；因此，数据集变更会被跟踪，以便CI运行可以针对已知的数据集状态。\n\n### 人工判断流回数据\n\n审核员的判断被存储为分数，并通常被提升到数据集中，使得人工评估既是测量机制也是数据集构建机制。\n\n### 非确定性塑造了解读\n\n因为相同的输入可能产生不同的输出，单个用例的结果是弱证据；平台行为（综合分数、并排比较）提供了更强的证据。",
+        "parent_id": "13.03",
+        "domain_id": "13"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 111,
+    "phase": "directory",
+    "parent": 111,
+    "slugs": [
+      "llm-evaluation-platform"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "75cd592df2170b8ea29dd5f4ddfa07702b28c1e707536c0643d6b684978a1d84"
+  }
+}

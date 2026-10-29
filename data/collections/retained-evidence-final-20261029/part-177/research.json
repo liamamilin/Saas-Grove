@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "campus-card-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1432012861"
+      ],
+      "query": "open source campus card management software github；校园卡管理系统 / 一卡通管理 / campus card management system",
+      "source_urls": [
+        "https://github.com/kartikeyy12/campus-tap",
+        "https://raw.githubusercontent.com/kartikeyy12/campus-tap/main/README.md",
+        "https://raw.githubusercontent.com/kartikeyy12/campus-tap/main/LICENSE",
+        "https://raw.githubusercontent.com/kartikeyy12/campus-tap/main/docs/architecture.md",
+        "https://api.github.com/search/repositories?q=%E6%A0%A1%E5%9B%AD%E5%8D%A1%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F&sort=stars&order=desc&per_page=20",
+        "https://api.github.com/search/repositories?q=%E4%B8%80%E5%8D%A1%E9%80%9A%E7%AE%A1%E7%90%86&sort=stars&order=desc&per_page=20",
+        "https://api.github.com/search/repositories?q=campus+card+management+system&sort=stars&order=desc&per_page=20"
+      ],
+      "note": "历史记录复用：此前多轮仅以原查询和 GitHub 关键词搜索得出 insufficient_evidence，指出 CCIMS、BeliefRC/campus-card、nature924/No94campus-card、YuLin-Coder/No22CampusCardManagementSystem 等无许可证，NeuCardReader/hit-campus-card-api 为读卡或查询工具，MyCampusCard 为 AGPL 客户端；这些历史候选与结论保留，不作为本轮通过依据。本轮针对“形态不符则换完整开源 Web 应用服务”的缺口，补充了校园卡/一卡通/meal card/ecard/campus card 等中英文仓库检索并核对许可证过滤结果，发现 kartikeyy12/campus-tap（MIT，GitHub id 1432012861）：README 与仓库页面证明其为一卡一学生、按学号绑定的 NFC 校园卡 Web 应用，服务端处理考勤、食堂餐次与商户支付并保存台账，管理员可发卡、停用/恢复与充值，覆盖凭证绑定、权限逐次评估、服务点使用记录和集中生命周期管理（docs/architecture.md 另确认每生仅一张在用卡、停用立即生效、恢复需 PIN，台账追加且拒绝重复/回放刷卡）。另核对 liuweiky/CCIMS（GPL-3.0）为 Qt 桌面刷卡记录课程项目、JackWei1996/SCS（Apache-2.0）为 Java Swing/Access 桌面原型、SeaEpoch/Student-Campus-Card-Management-System 为 C++ 课程项目，均非完整机构端 Web 应用服务；AllisonZw/CampusCard 仅是后台模板，TyranoT/CampusCard 无可用说明，未纳入。未运行任何第三方项目，未做部署或硬件实测。",
+      "service_boundary": "成立的是机构端完整 Web 应用服务形态：FastAPI 服务 + SQLite 台账 + 管理员/学生/商户页面；机构发卡并将卡绑定学号，服务端在每次刷卡时按卡状态、余额和限额判定权限并记录考勤/餐次/消费，管理员集中发卡、停用、恢复和调账。可选的 ESP32/PN532 读卡器固件只是接入端，不作为纳入依据；未做部署或硬件实测，runtime_tested:false。",
+      "search_attempts": [
+        "复用历史查询：open source campus card management software github",
+        "GitHub API search：校园卡管理系统（114 条，取前 20）",
+        "GitHub API search：一卡通管理（310 条，取前 20）",
+        "GitHub API search：campus card management system（33 条，取前 20）",
+        "GitHub API search：campus card in:name,description license:mit（47 条，取前 15）",
+        "GitHub API search：campus card in:name,description license:gpl-3.0（3 条）",
+        "GitHub API search：campus one card in:name,description（18 条）",
+        "GitHub API search：smart card campus in:name,description（41 条）",
+        "GitHub API search：student id card management in:name,description（88 条）",
+        "GitHub API search：一卡通系统 in:name,description（438 条）",
+        "GitHub API search：校园卡 in:name,description（611 条）",
+        "GitHub API search：ecard campus / meal card management / campus card management（4/27/47 条）",
+        "GitHub API search：校园卡管理系统 license:mit（本轮受限未取得结果）"
+      ],
+      "fetch_outcomes": [
+        "fetched: https://github.com/kartikeyy12/campus-tap 仓库页面，确认 octolytics repository id 1432012861、full_name kartikeyy12/campus-tap 与公开非 fork 状态",
+        "fetched: 仓库 README，确认一学生一卡、服务端签名刷卡判定、考勤/餐次/商户支付台账、管理员停用/恢复与充值、FastAPI+SQLite 及 admin/student/vendor 页面",
+        "fetched: 仓库根 LICENSE 全文，MIT 授权与免责声明完整，README 亦标注代码 MIT",
+        "fetched: docs/architecture.md，确认每次刷卡在单事务内验证设备与卡、按模式规则写 tap 与台账；每生仅一张在用卡、停用立即生效、恢复需 PIN，台账只追加，重复/回放刷卡被拒绝",
+        "reviewed: liuweiky/CCIMS（GPL-3.0）为 Qt 桌面刷卡记录课程作业，无完整机构端 Web 服务与凭证生命周期",
+        "reviewed: JackWei1996/SCS（Apache-2.0）为 Java Swing + Access 的桌面自助服务原型；SeaEpoch/Student-Campus-Card-Management-System 为 C++ 课程项目",
+        "reviewed: 历史候选 IITII/CampusCard、BeliefRC/campus-card、nature924/No94campus-card、YuLin-Coder/No22CampusCardManagementSystem 许可证为空；NeuCardReader、hit-campus-card-api 为读卡/查询工具；MyCampusCard 为 AGPL 客户端应用",
+        "not used: AllisonZw/CampusCard 实为 Vue Naive Admin 后台模板；TyranoT/CampusCard 无可核验说明；其余无许可证毕业设计未用于断言核心工作流",
+        "failed: 后续 GitHub API 匿名配额耗尽（60/小时），改用官方 HTML 仓库页与 raw 文件完成身份、README 与许可证核对",
+        "not fetched: 未运行第三方项目，未执行部署或硬件刷卡测试；未取得可证明生产运维的社区/发布资料"
+      ],
+      "archived": false
+    }
+  ]
+}

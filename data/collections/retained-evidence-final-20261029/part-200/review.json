@@ -1,0 +1,39 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空；6 个研究快照只能通过 research.json 的 source_urls 与文件内容对应（文件名为哈希）。建议后续在来源索引中登记 URL、相对路径、抓取时间与 SHA-256，便于逐条复核。",
+    "GeoNode 的 LICENSE 抬头写 GPL-2.0-or-later、正文为 GPLv3 全文，仓库页内嵌 README 又写 GPLv3-or-later；当前不新增 SPDX 断言是稳妥的。若未来收录 GeoNode，应先把这一不一致作为条目许可字段的前置问题解决，而不是任选一个版本。",
+    "SOLA 仓库树中存在 licenses/ 目录，pom.xml 指向 ./licenses/BSD3-lic.txt；本轮未抓取该文件，故研究记录中的“未见完整仓库许可证”只应理解为已取文件范围内未见。后续若需许可结论，应读取该目录或仓库根许可证。",
+    "研究记录称 GitHub API 的 license 字段为空；该快照是单行 JSON，读取显示在 2000 字符处截断，本次未能逐字复核 license/archived 等尾部字段。建议保留字段级摘要或格式化副本。",
+    "研究记录用“SDI 组件”概括 GeoNode，抓取到的 README 原文是 geospatial content management system；这是概括而非原文，引用时宜区分，避免把未抓取的历史表述当成当前正文。",
+    "定义把文件型桌面时代的政府 GIS 也纳入类型核心，而本目录的应用收录还要满足持续软件服务形态；后续判断应把“类型是否成立”与“服务形态是否成立”分开，避免用桌面形态直接否定类型，也避免把桌面产品误收为案例。SOLA 的 Desktop/Admin 加 EJB 架构可作为服务形态不符的明确理由写入边界说明。",
+    "GeoMoose、Mapbender、NextGIS、QGIS、GeoServer、Esri 只出现在检索记录且未抓取，记录已明确不作为证据；若后续补证，这些是政府部署 Web GIS 的优先候选，建议下一轮直接抓取官方正文而非沿用搜索结果。"
+  ],
+  "leaf_checks": {
+    "government-gis": {
+      "status": "pass",
+      "definition_core": "定义的五项核心（权威辖区地理记录、地理参考图层、地图画布、空间操作、政府运营者的持久记录保管）彼此一致，并明确把通用 GIS、商业选址、农业地块和公用事业网络排除在外；与父类 24.01、域 24 的层级相符。",
+      "id_track": "slug=government-gis，name=Government GIS，name_zh/aliases 与 input.json 一致；parent_id=24.01，domain_id=24；本单元无 application_id，故不存在条目 ID/track 冲突。",
+      "applications": "batch.json 的 entries 为空，research.json 的 case_ids 为空；没有可核对的应用条目，因此不存在以简介、元数据或 Loading 代替核心正文的条目级问题。",
+      "service_form": "无应用条目可检验 SaaS 形态。研究记录没有把 GeoNode 或 SOLA 收为案例：GeoNode 是自托管 Web 地理空间内容管理/发布平台，SOLA 记录为 Desktop/Admin 客户端加 EJB 服务；未据此宣称任何持续托管的政府 GIS 服务。",
+      "open_source_license": "GeoNode LICENSE 快照抬头为 GPL-2.0-or-later，正文却是 GPLv3 全文；同一仓库页内嵌 README 写 GPLv3-or-later。研究记录如实指出不一致，未新增 SPDX 断言，处理稳妥。SOLA 的 API 快照 license 字段据记录为空，pom.xml 只在构建配置引用 ./licenses/BSD3-lic.txt 头，未取得完整许可证；研究记录因此只列候选、不作许可断言。",
+      "sources_read": [
+        "data/collections/sources/32c69cd058574eec83b6c29d90705fe3761d4a7d0afdcd5bf078ca485e233e8a.txt：GeoNode/geonode 仓库页，标题、描述与 README 正文（geospatial content management system；上传图层、创建地图）",
+        "data/collections/sources/90ef058cd188d1fbf4a2337f4e2bf4671236aa5eaf435432d7c40b498f032edf.txt：GeoNode LICENSE 全文（GPL-2.0-or-later 抬头加 GPLv3 正文）",
+        "data/collections/sources/f8d47f6026d3c29f1412d0ba62c4cc9e1c6bcef3e0704132c154f355c86f9982.txt：SOLA-FAO/code 仓库页，README 正文（地籍与登记；Desktop/Admin 与 EJB services）",
+        "data/collections/sources/5a732aef21ff0e30b2162627545c021be53d6f20d6e7cb8d201629178eff0ea6.txt：SOLA README.txt 正文",
+        "data/collections/sources/bafda31050a3bd0302b63b6c2f581b58ae2222ac754fc1a8e373d7f954ba9370.txt：SOLA pom.xml（licenses/BSD3-lic.txt 头引用）",
+        "data/collections/sources/ce1398db154e80d17bf5a477428861ea09e8ccaa64b40df7b364ab56f80446da.txt：SOLA GitHub API 仓库元数据"
+      ],
+      "gap_handling": "research.json 记录 6 次检索、SOLA README.md 抓取 404（实际文件名为 README.txt）、GeoMoose/Mapbender/NextGIS/QGIS/GeoServer/Esri 仅搜索结果未抓取且明确不作为证据；边界结论 boundary_unresolved 与 entries/case_ids 为空一致，属于如实留档的缺口，不是把 HTTP 成功或关键词当核心证据。",
+      "conclusion": "GeoNode 仅证明通用平台，未证明政府运营者托管辖区官方地理记录，移除其与 government-gis 的关系有依据；SOLA 虽涉及地籍/登记，但已取正文未显示图层、地图画布、空间操作或完整 Web 应用，且许可不完整，列为候选合理。按本任务对无案例留档的规则，可通过。"
+    }
+  },
+  "limits": "仅使用本单元只读文件；未运行 shell、未联网、未重抓、未读取其他单元。REVIEW_SOURCES.json 的 sources 为空，6 个研究快照通过 research.json 的 source_urls 与文件内容匹配识别，无法独立核对抓取时间、HTTP 状态、SHA 或原始 URL 元数据；GitHub API 快照为单行 JSON，读取显示在 2000 字符处截断，license/archived 等尾部字段未能逐字复核；历史批次记录仅见 input.json/research.json 的摘要，未打开原件。以上限制不改变对无应用留档的边界判断。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-200/ses_groveopencodegop200review1_1793257756.jsonl",
+  "batch_sha256": "e5c4005cf3275a3692bfd0a1f20036cc790d34bb0b6e7ff6a41424344e83bfd8",
+  "research_sha256": "6abeb03185c696dd3112fe7d110dfca7972cb56dc121da8a223362636bc1a9ed",
+  "input_sha256": "be21eeda5fd856f2b47f220dfc63dab6501807f56de5f33eec4a1c9ab8a7551a"
+}

@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "manufacturing-erp",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1864233"
+      ],
+      "query": "制造业ERP：ERPNext 官方资料是否同时覆盖业务后台、BOM/工艺路线与工单生产",
+      "source_urls": [
+        "https://raw.githubusercontent.com/frappe/erpnext/develop/README.md",
+        "https://docs.frappe.io/erpnext/user/manual/en/manufacturing/work-order",
+        "https://api.github.com/repos/frappe/erpnext",
+        "https://api.github.com/repos/frappe/erpnext/license"
+      ],
+      "note": "复用共享 application-index/applications 中的 ERPNext 身份与 GPL-3.0 许可来源。官方 README 明确列出 Accounting、Inventory、Manufacturing；Work Order 文档说明工单由 BOM、Operation、Workstation 生成，并连接原材料、WIP、成品仓库事务，足以支撑集成后台+生产定义+生产订单的结构。初审该叶通过；本轮仅按 non-blocking 意见把会计能力措辞收窄为“会计与财务报表”，不据此扩写应收应付、成本差异或 MRP 细节。",
+      "service_boundary": "服务端 Web 应用，可自托管（Frappe/MariaDB）或使用 Frappe Cloud；生产、库存和会计记录在同一系统。未做部署或运行测试。",
+      "search_attempts": [
+        {
+          "action": "reuse_metadata",
+          "detail": "读取共享 application-index 与 applications/github_1864233.json，复用既有 ERPNext 身份、GPL-3.0 许可来源和 README 快照。",
+          "outcome": "confirmed"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/manufacturing/work-order",
+          "outcome": "HTTP 200；正文包含 Work Order 由 BOM/Operation/Workstation 生成、原材料/WIP/成品仓库与 Stock Entry 关系。"
+        },
+        {
+          "action": "fetch_failed",
+          "url": "https://frappe.io/erpnext/manufacturing",
+          "outcome": "返回 404 页面，未作为证据。"
+        },
+        {
+          "action": "fetch_failed",
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/manufacturing",
+          "outcome": "超过默认 1MB 抓取上限，未保存；改用同站 Work Order 单页。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/frappe/erpnext/develop/README.md",
+          "status": "existing_snapshot",
+          "outcome": "README 正文确认 Accounting、Inventory、Manufacturing 同属 ERPNext。"
+        },
+        {
+          "url": "https://docs.frappe.io/erpnext/user/manual/en/manufacturing/work-order",
+          "status": "200",
+          "outcome": "Work Order 单页正文已读取，支撑生产订单与 BOM/工序/仓库关系。"
+        },
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext",
+          "status": "existing_snapshot",
+          "outcome": "仓库元数据证明 github id 1864233 与 frappe/erpnext。"
+        },
+        {
+          "url": "https://api.github.com/repos/frappe/erpnext/license",
+          "status": "existing_snapshot",
+          "outcome": "GitHub license API 快照证明 GPL-3.0。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "manufacturing-execution-system-mes",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:809730532"
+      ],
+      "query": "MES：Carbon 官方仓库与 MES 文档是否覆盖已执行生产订单、定义工艺与车间记录",
+      "source_urls": [
+        "https://docs.carbon.ms/docs/reference/mes",
+        "https://raw.githubusercontent.com/crbnos/carbon/main/README.md",
+        "https://raw.githubusercontent.com/crbnos/carbon/main/LICENSE",
+        "https://github.com/crbnos/carbon"
+      ],
+      "note": "Carbon 官方 MES 文档明确区分 ERP 计划与车间执行：计划员在 ERP 下达/排程，操作员在 MES 平板或工作站执行工序、报工、领料、记录工时，工序路由以 DAG 显示，支持报废/返工原因。初审该叶通过。本轮按 non-blocking 意见把许可精确为 AGPL-3.0-only：LICENSE 正文写“GNU Affero General Public License, version 3 only”，packages/ee 及 .ee. 企业文件另按商业许可。文档也说明所有写操作需联网、无离线模式，MES 不重排计划。",
+      "service_boundary": "自托管或 Carbon Cloud 的车间执行界面，依附于同产品 ERP 的订单与计划；MES 本身无离线执行能力。开源范围仅 AGPL-3.0-only 核心，企业文件不在开源许可内。未做部署或运行测试。",
+      "search_attempts": [
+        {
+          "action": "fetch_repository_metadata",
+          "url": "https://github.com/crbnos/carbon",
+          "outcome": "HTTP 200；页面元数据确认 repository id 809730532、nwo crbnos/carbon。"
+        },
+        {
+          "action": "fetch_readme",
+          "url": "https://raw.githubusercontent.com/crbnos/carbon/main/README.md",
+          "outcome": "HTTP 200；README 说明 Carbon 合并 ERP、MRP、MES、QMS，并提供 MES 功能行。"
+        },
+        {
+          "action": "fetch_license",
+          "url": "https://raw.githubusercontent.com/crbnos/carbon/main/LICENSE",
+          "outcome": "HTTP 200；完整许可文本区分 AGPLv3 与商业企业文件。"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://docs.carbon.ms/docs/reference/mes",
+          "outcome": "HTTP 200；正文说明车间执行、报工、领料、工时、工作中心与路由 DAG。"
+        },
+        {
+          "action": "fetch_failed",
+          "url": "https://api.github.com/repos/crbnos/carbon",
+          "outcome": "HTTP 403 rate limit；未重复调用，改用官方 GitHub 页面快照。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/crbnos/carbon",
+          "status": "200",
+          "outcome": "仓库身份与 README 入口已核对。"
+        },
+        {
+          "url": "https://docs.carbon.ms/docs/reference/mes",
+          "status": "200",
+          "outcome": "MES 核心工作流已读取，含无离线模式与计划归属边界。"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/crbnos/carbon/main/LICENSE",
+          "status": "200",
+          "outcome": "AGPLv3 全文及企业文件例外已读取。"
+        },
+        {
+          "url": "https://api.github.com/repos/crbnos/carbon",
+          "status": "403",
+          "outcome": "GitHub API 限流，未取得新 JSON；不使用该结果推断仓库不存在。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "manufacturing-supplier-collaboration",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:supplyon"
+      ],
+      "query": "制造业供应商协同：SupplyOn 官方页面是否覆盖共享采购需求、供应商确认/偏差与收货闭环",
+      "source_urls": [
+        "https://www.supplyon.com/en/",
+        "https://www.supplyon.com/en/solutions/logistics-supply-chain/purchase-order-confirmation/",
+        "https://www.supplyon.com/en/solutions/supply-chain-collaboration/"
+      ],
+      "note": "SupplyOn 官方 Purchase Order & Confirmation 页面说明买卖双方结构化交换采购订单、供应商确认、PO Deviation Cockpit 处理数量/日期等偏差，并与发货可见性和收货信号连接；Supply Chain Collaboration 页面补充共享需求/产能/交付日期、JIT/JIS、VMI、Kanban 与订单/确认/发货/收货状态跟踪。初审该叶通过。本轮仅按 non-blocking 意见把两个 solution/product 页面的来源 kind 从 homepage 修正为 documentation，未改 URL、快照或 fetched_at。",
+      "service_boundary": "SupplyOn 运营的供应商协同网络，买方和供应商按交易关系接入；属于商业托管服务，不是自托管产品。未做注册、登录或运行测试。",
+      "search_attempts": [
+        {
+          "action": "fetch_homepage",
+          "url": "https://www.supplyon.com/en/",
+          "outcome": "HTTP 200；确认官方站点与直接物料供应链定位。"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://www.supplyon.com/en/solutions/logistics-supply-chain/purchase-order-confirmation/",
+          "outcome": "HTTP 200；正文包含订单确认、偏差处理、发货可见性、收货信号。"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://www.supplyon.com/en/solutions/supply-chain-collaboration/",
+          "outcome": "HTTP 200；正文包含共享需求/产能/交付计划与订单到收货跟踪。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.supplyon.com/en/",
+          "status": "200",
+          "outcome": "官方首页已读取，确认 SupplyOn 直接物料供应链网络。"
+        },
+        {
+          "url": "https://www.supplyon.com/en/solutions/logistics-supply-chain/purchase-order-confirmation/",
+          "status": "200",
+          "outcome": "采购订单与确认协同正文已读取。"
+        },
+        {
+          "url": "https://www.supplyon.com/en/solutions/supply-chain-collaboration/",
+          "status": "200",
+          "outcome": "供应链协同正文已读取。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "manufacturing-traceability",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "query": "制造可追溯性：是否存在以追溯为首要产品身份、具备独立产品/服务形态，且覆盖单元标识、单元绑定生产记录与前后向追溯闭环的应用",
+      "source_urls": [
+        "https://docs.carbon.ms/docs/reference/traceability",
+        "https://docs.carbon.ms/docs/reference/mes",
+        "https://bytefactory.ai/traceability-genealogy",
+        "https://github.com/eclipse-tractusx/traceability-foss",
+        "https://github.com/KrishnaNaicker/TraceLink",
+        "https://www.traceflo.io/"
+      ],
+      "note": "初审指出 Carbon Traceability 是 Carbon ERP/MES/QMS 套件内模块（Traceability 页面位于 ERP 的 Inventory 之下），按本叶定义不能作为独立可追溯性案例；本轮已移除该关系，Carbon 仅保留 MES 关系。补充核对：byteFACTORY 的 Traceability & Genealogy 页能证明序列号/批次、BOM 父子关系、过程/质量/物流记录和双向追溯，但其首页把 traceability 列为 AI-native MES 平台的产品模块，仍属套件模块；Eclipse Tractus-X Trace-X（Apache-2.0）是开放零件追溯应用，但 README 定位为沿供应链跟踪零件、基于 BoM AsBuilt/AsPlanned 与 SerialPart/Batch，未见按生产订单/工序捕获单元级生产事件，属供应链零件追溯边界；TraceLink（MIT）有 lot→batch→QC→dispatch 与污染批次影响范围，但仓库自述为 ideathon 的单 HTML PWA/演示数据项目，未采用；TraceFlo 首页为 SPA 空壳，抓取快照只有脚本入口，按规则不能以 JS Loading/脚本内容替代定义性核心正文。故本叶以 insufficient_evidence 留档，case_ids 为空；这是“本轮未找到可成立的独立可追溯性应用”，不是断言不存在。",
+      "service_boundary": "Carbon 的追溯能力依附同一 ERP/MES 数据核心与工单执行，属于套件内模块而非独立可追溯性应用；本轮未把任何套件模块或供应链零件追溯网络计为成立案例。未做部署或运行测试。",
+      "search_attempts": [
+        {
+          "action": "reuse_documentation",
+          "url": "https://docs.carbon.ms/docs/reference/traceability",
+          "outcome": "HTTP 200；能证明 tracked entity、activity、genealogy，但产品身份是 Carbon ERP/MES/QMS 套件内追溯模块，按定义不成立。"
+        },
+        {
+          "action": "websearch",
+          "detail": "两组有区别的补充查询：① open source manufacturing traceability software lot serial genealogy github；② standalone app / 独立产品身份复核（site:github.com manufacturing traceability lot genealogy standalone app -MES -ERP）。",
+          "outcome": "找到 Carbon、TraceFlo、byteFACTORY、Trace-X、TraceLink 等候选，逐一核对产品身份与核心工作流。"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://bytefactory.ai/traceability-genealogy",
+          "outcome": "HTTP 200；页面覆盖单元标识、BOM 父子关系、过程/质量/物流记录与双向追溯，但站点将其列为 AI-native MES 的产品模块，不采用为独立案例。"
+        },
+        {
+          "action": "fetch_repository_metadata",
+          "url": "https://github.com/eclipse-tractusx/traceability-foss",
+          "outcome": "HTTP 200；README 定位为沿供应链的零件追溯（BoM AsBuilt/AsPlanned、SerialPart/Batch），未见单元级生产事件记录，属于供应链追溯边界。"
+        },
+        {
+          "action": "fetch_readme",
+          "url": "https://github.com/KrishnaNaicker/TraceLink",
+          "outcome": "HTTP 200；MIT，lot→batch→QC→dispatch 与污染批次影响范围，但自述为 ideathon 单 HTML PWA/演示数据项目，未采用。"
+        },
+        {
+          "action": "fetch_failed",
+          "url": "https://www.traceflo.io/",
+          "outcome": "HTTP 200 但仅返回 SPA 空壳（div#root + JS 入口），无可读正文；未把脚本内容当作核心证据。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://docs.carbon.ms/docs/reference/traceability",
+          "status": "existing_snapshot",
+          "outcome": "追溯实体、事件记录与双向 genealogy 正文已读取；产品身份为套件模块。"
+        },
+        {
+          "url": "https://docs.carbon.ms/docs/reference/mes",
+          "status": "existing_snapshot",
+          "outcome": "确认追溯事件来自工单执行的消耗与生产，进一步说明其依附 MES/ERP。"
+        },
+        {
+          "url": "https://bytefactory.ai/traceability-genealogy",
+          "status": "200",
+          "outcome": "追溯能力正文已读取；首页产品导航同时列出 MES、Planning、Production/OEE、Quality、Traceability，判定为 MES 套件模块。"
+        },
+        {
+          "url": "https://github.com/eclipse-tractusx/traceability-foss",
+          "status": "200",
+          "outcome": "仓库与 README 已读取；定位为供应链零件追溯，不采用。"
+        },
+        {
+          "url": "https://github.com/KrishnaNaicker/TraceLink",
+          "status": "200",
+          "outcome": "仓库与 README 已读取；原型项目，不采用。"
+        },
+        {
+          "url": "https://www.traceflo.io/",
+          "status": "200",
+          "outcome": "仅 SPA 空壳，无可读核心正文；未作为证据。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "oee-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:teeptrak"
+      ],
+      "query": "OEE管理平台：是否有官方资料同时覆盖设备时间/产出核算、OEE 分数、损失归因，以及目标、趋势/周期审查和改进跟踪",
+      "source_urls": [
+        "https://teeptrak.com/en/real-time-oee-trs-software-to-drive-your-production-lines",
+        "https://teeptrak.com/en/",
+        "https://raw.githubusercontent.com/jkp-parker/OEEForge/main/README.md",
+        "https://github.com/jkp-parker/OEEForge/wiki/OEE-Calculations"
+      ],
+      "note": "初审指出 OEEForge 只能证明 OEE 监测/计算与损失归因，README 自述“OEE monitoring platform”，未证明目标、趋势/周期审查、经验证改进等有效性管理层。本轮已移除 OEEForge 与本叶的成立关系，保留其为监测/计算近似候选。补充核对 TEEPTRAK 官方产品页：正文说明按机器/产线/车间自动计算 TRS/OEE，监测停机、微停、速度与报废，提供 OEE 仪表板、损失 Pareto、目标指示（Clear indication of targets and real-time performance）、管理委员会/绩效审查报告（Automated reports for management committees and performance reviews），以及改进项目前后收益衡量（Before / after measurement of gains, with objectified TRS; Tracking of gains achieved through improvement projects and digitalization），足以覆盖有效性管理层。检索到的开源候选（OEEForge、Point85 等）已读资料未同时覆盖目标、周期审查与改进验证；因此按“开源优先、商业基本记录”的例外采用 TEEPTRAK 作为商业案例，仅记录基本身份、用途与类型关系。",
+      "service_boundary": "TEEPTRAK 为商业托管 OEE/TRS 软件，面向制造业多站点；本轮未注册、登录或运行，不展开价格、架构或部署细节。OEEForge 仍可自托管，但其定位仅为 OEE 监测/计算，未计入本叶成立案例。",
+      "search_attempts": [
+        {
+          "action": "reuse_documentation",
+          "url": "https://raw.githubusercontent.com/jkp-parker/OEEForge/main/README.md",
+          "outcome": "既有 README 与 OEE-Calculations Wiki 能证明时间/产出核算、A/P/Q 分数、损失类别与 reason_code，但自述为 monitoring platform，未证明有效性管理层。"
+        },
+        {
+          "action": "websearch",
+          "detail": "两组有区别的补充查询：① open source OEE software targets trend improvement tracking github；② OEE software targets trend production improvement official site。",
+          "outcome": "找到 OEEForge、Point85、Evocon、TEEPTRAK、Vorne、oee.ai 等候选；优先核对能直接展示目标/趋势/审查/改进验证的官方产品页。"
+        },
+        {
+          "action": "fetch_documentation",
+          "url": "https://teeptrak.com/en/real-time-oee-trs-software-to-drive-your-production-lines",
+          "outcome": "HTTP 200；正文包含实时 TRS/OEE、停机/微停/速度/报废、损失 Pareto、目标指示、管理审查报告与改进前后收益衡量。"
+        },
+        {
+          "action": "fetch_homepage",
+          "url": "https://teeptrak.com/en/",
+          "outcome": "HTTP 200；确认 TEEPTRAK 官方站点与实时 OEE 软件定位。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/jkp-parker/OEEForge/main/README.md",
+          "status": "existing_snapshot",
+          "outcome": "监测/计算能力已核对；不满足有效性管理层，未计入本叶。"
+        },
+        {
+          "url": "https://github.com/jkp-parker/OEEForge/wiki/OEE-Calculations",
+          "status": "existing_snapshot",
+          "outcome": "公式、损失类别与原因编码已核对；不满足有效性管理层，未计入本叶。"
+        },
+        {
+          "url": "https://teeptrak.com/en/real-time-oee-trs-software-to-drive-your-production-lines",
+          "status": "200",
+          "outcome": "目标、趋势/审查、改进收益验证正文已读取。"
+        },
+        {
+          "url": "https://teeptrak.com/en/",
+          "status": "200",
+          "outcome": "官方站点与产品定位已读取。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

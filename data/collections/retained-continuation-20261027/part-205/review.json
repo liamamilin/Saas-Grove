@@ -1,0 +1,67 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "carbon-credit-management：Abatable 的匹配依据主要来自厂商官网与产品页的营销文案；官网写明其覆盖采购、尽职调查、交付节点跟踪，以及从首次购买到注销的组合管理，但没有展示登记处引用、注销记录或证书等证据链细节。按商业案例“基本真实性 + 类型匹配”标准可通过，后续可补充更接近产品文档或演示的来源。",
+    "carbon-credit-management：UNDP National Carbon Registry 属登记机构侧实现，而非单一企业买方的组合管理系统；其 README 已明确覆盖签发、序列号、组织间转让、余额、注销/取消、账本与审计时间线，类型边界可接受，但建议在条目中保留“登记处侧”限定，避免读者误解为企业侧投资组合产品。",
+    "circular-economy-platform：MatXchange README 页脚称该基础设施为“proprietary infrastructure”，同时代码以 MIT 发布；许可证正文完整，商标与名称保留条款不等于许可证限制。建议在条目中说明“代码 MIT、名称/商标保留”，以免“proprietary”措辞引起开源边界歧义。",
+    "circular-economy-platform：MatXchange 的 license.txt 是 MIT 模板，版权行仍为“[year] [fullname]”占位；不影响 MIT 完整性与有效性，但建议上游或条目注记版权人信息。",
+    "decarbonization-planning-platform：ClimateView 产品页快照为单行压缩 HTML，read 工具按 2000 字符截断，无法逐段渲染全文；已通过字面检索确认 “Manage inventories”“Define strategies”“Assess interventions”“Transition Monitoring”“Action Editor” 等关键段落确实存在于快照，并另用同日在线产品页作辅助对照。",
+    "decarbonization-planning-platform：ClimateView 的 Open Source 页面是 Transition Element Framework 知识框架，不是可运行应用；research.json 未将其当作开源案例，处理正确。",
+    "energy-carbon-management：IBM Envizi 是较宽的 ESG/能源/碳套件，条目已把匹配范围收敛到 Utility Bill Analytics、Interval Meter Analytics、Target Setting + Tracking、Scope 1/2 GHG Accounting + Reporting 与 ESG Data Management；建议避免让读者把整套 ESG 能力都视为本叶核心。",
+    "greenhouse-gas-accounting：唯一案例 Hyperledger Blockchain Carbon Accounting 的仓库元数据为 archived=true，且 User Guide 主要证明“活动量 × 排放因子 → 审计排放代币 → 总足迹”，对报告期关账、多气体分项、方法选择记录等定义性细节展示不足；本轮按“核心循环已具备 + 已如实留档”通过，后续如提高案例质量可补充一个仍在维护、能展示期间化清单与多气体汇总的案例。",
+    "greenhouse-gas-accounting：该叶定义正文自己指出它与 carbon-accounting-platform 是同一应用类型的两个名称，并建议合并叶节点；这是分类体系层面的编辑问题，不影响本单元案例核对，但建议交由分类维护方处理。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与 batch.json/research.json 中已找到案例的状态不一致；若下游读取 progress，建议同步更新，避免把本单元误判为无案例。",
+    "research.json 中 greenhouse-gas-accounting 的叶级 archived=false 与 note 中“仓库 archived=true”并存；若 archived 字段表示仓库状态则应修正，若表示叶级归档标记则建议注明语义。",
+    "UNDP National Carbon Registry 的 README 内部徽章与部分文档链接仍指向 undp/carbon-registry，而条目仓库为 undp/undp-national-carbon-registry；仓库元数据 id、许可证与 README 标题均能确认条目身份，属历史命名残留，不影响本次核对。"
+  ],
+  "leaf_checks": {
+    "carbon-credit-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:abatable",
+        "github:507142361"
+      ],
+      "basis": "Abatable：首页与平台页正文确认环境资产采购、尽职调查、组合监控，以及“从首次购买到注销”的组合管理；首页正文另确认 RFP 与交付节点跟踪。UNDP：README 正文确认信用签发、序列号、组织间转让、余额更新、自愿/跨境注销、账本、审计时间线与 AEF 报告；许可证快照解码为完整 GNU AGPL v3 文本，仓库元数据 id=507142361 与条目一致，track=open_source 正确，未发现社区版/商业版切分。",
+      "gaps": "Abatable 为商业营销来源，未展示登记处引用与注销记录的具体界面；UNDP 为登记处侧而非企业买方侧，且未运行部署。"
+    },
+    "circular-economy-platform": {
+      "result": "pass",
+      "applications": [
+        "github:1144303732"
+      ],
+      "basis": "MatXchange：README 正文确认其连接拾荒者、收集者、回收商与生产商，记录废料交易与保管链，按 1 kg = 1 RECO 铸造可审计凭证，并提供 EPR 合规证明、国家分流数据、USSD 与 M-Pesa 接口；许可证快照为完整 MIT 文本，仓库元数据 id=1144303732 与条目一致，track=open_source 正确；未见社区版与商业版功能切分。",
+      "gaps": "未抓取 README 所称线上站点；README 未逐项展示 impact_record/epr_certificate 等代码级 doctype，相关细节来自采集记录而非本次快照；页脚“proprietary”措辞与 MIT 并存，需注意表述。"
+    },
+    "decarbonization-planning-platform": {
+      "result": "pass",
+      "applications": [
+        "commercial:climateview"
+      ],
+      "basis": "ClimateView：产品页快照中确认“Manage inventories”“Define strategies / set measurable targets”“Assess interventions / create, evaluate and monitor”“Share dashboards”“Transition Monitoring”“Action Editor”等正文段落，并以活动清单作为 CO2 平衡与参考情景基线；符合“排放证据锚定—持久计划—离散干预—实施进展跟踪”的核心，且市政/地区形态与本叶说明一致。商业产品真实性可确认。",
+      "gaps": "快照为单行压缩 HTML，read 仅显示前 2000 字符，正文上下文依赖字面检索与在线页面辅助对照；未登录、未验证租户/部署形态。"
+    },
+    "energy-carbon-management": {
+      "result": "pass",
+      "applications": [
+        "commercial:ibm-envizi"
+      ],
+      "basis": "IBM Envizi：首页正文确认 Utility Bill Analytics（整合并分析全部公用事业账单、识别异常、降低成本与消耗）、Interval Meter Analytics（自动采集分析间隔计量）、Target Setting + Tracking（消耗/能源/排放目标）、Scope 1/2 GHG Accounting + Reporting（基于 GHG Protocol 的计算引擎）；ESG Data Management 页确认单一权威记录系统、数据归一化、层级、质量检查与审计历史。覆盖全组织能源数据记录、同一数据基础上的碳核算与绩效闭环。",
+      "gaps": "Envizi 为宽 ESG 套件，本叶仅按能源/账单与碳模块匹配；来源为厂商产品页，未运行、未试用，未核价格/架构/部署。"
+    },
+    "greenhouse-gas-accounting": {
+      "result": "pass",
+      "applications": [
+        "github:287392516"
+      ],
+      "basis": "Hyperledger Blockchain Carbon Accounting：User Guide 正文确认按活动量与排放因子计算排放（示例 200 kWh × 0.2 kgCO2e/kWh = 40 kgCO2e），由审计员签发 audited emissions，并计算用户总排放足迹；README 进一步确认面向个人、企业与供应链的排放计算及审计/流转记录；许可证快照解码为完整 Apache License 2.0 文本，仓库元数据 id=287392516 与条目一致，track=open_source 正确，未发现社区版/商业版切分。",
+      "gaps": "仓库 archived=true；文档未明确展示报告期关账、多气体分项与方法选择记录；演示环境为 BSC 测试网，未运行项目。"
+    }
+  },
+  "limits": "本次为只读初审：未运行 shell、未写文件、未读取其他单元，也未部署或登录任何应用。已按 REVIEW_SOURCES.json 的 path 原样读取全部 17 个快照，并按 batch.json 的 snapshot_path 相对 data/collections 核对；快照文件名与 sha256 一致，GitHub 仓库 id、许可证文本与条目字段可相互印证。限制包括：ClimateView 两个快照及三个 GitHub metadata/license 快照为单行压缩内容，read 工具按 2000 字符截断，无法逐段渲染全文，关键段落通过字面检索确认存在；为辅助确认 ClimateView 产品页结构，额外读取了一次同日在线页面，但结论以快照字面证据为主。未做运行时验证、租户验证、价格/架构研究或代码级功能审计；商业案例仅按基本真实性与类型匹配核对，未独立验证厂商客户案例或登记处对接细节。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-205/ses_groveopencodegop205review1_1793026476.jsonl",
+  "batch_sha256": "a08d7934c4c6b305ebe2e507590be9f71cfcc3b4faf7b2af3cda92f442a5f9b7",
+  "research_sha256": "14ece7af199ba7866f69a39eaed300dd6724694182258d73fd9cfbe79bfd5b88",
+  "input_sha256": "8a296dcb52531c6cba3c71c74779e259f1d50f28a6d22d288dd3141382f9a64b"
+}

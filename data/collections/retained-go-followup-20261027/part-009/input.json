@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 24,
+  "offset": 575,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "data-integration-platform",
+        "name_zh": "数据集成平台",
+        "domain_id": "13",
+        "parent_id": "13.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-134/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "apache nifi data integration platform official repository documentation"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "data-integration-platform",
+        "name": "Data Integration Platform",
+        "name_zh": "数据集成平台",
+        "aliases_zh": [
+          "数据整合平台",
+          "数据集成系统"
+        ],
+        "overview": "A **Data Integration Platform** is an application for building, running, and managing **data pipelines**: persistent, configured flows that move data from source systems to destination systems. The platform connects to systems whose data it does not own — operational databases, SaaS business applications, files, event systems on one side; data warehouses, data lakes, databases, and other operational systems on the other — and carries data between them on an ongoing basis, applying whatever selection, mapping, and transformation the pipeline defines.\n\nThe problem it exists to solve is structural: organizations run many systems that each create data, and the systems that need that data (analytics stores, other operational systems) cannot fetch it themselves in a reliable, repeatable way. Hand-built point-to-point scripts handle one pair of systems and break when systems, schemas, or priorities change. An integration platform turns each such flow into a managed object — a pipeline that is configured once, runs unattended, survives failures, and is visible to the people responsible for it.\n\nThe defining structure is small:\n\n```text\nConnections to external data systems the platform does not own\n  └── Pipeline: a persistent configured unit of data movement\n      (what data, how selected and mapped, where it lands)\n        └── Managed execution with run visibility\n            (runs on schedule or trigger; status, history, logs)\n```\n\nEverything else commonly associated with the category — huge connector catalogs, visual design canvases, ELT-style transformation in the destination, change-data-capture sync, schema-drift automation, AI-assisted design — is standard capability or variant, not what makes the product an integration platform. Older, platform-embedded, designer-era ETL products satisfy the same core without any of the modern additions; fully managed modern products satisfy it without a design canvas.\n\nThe boundary sentence: **the platform owns the movement, not the data.** Data at rest belongs to the source and destination systems; the platform is the custodian of everything that happens between them. When a product instead offers a unified logical view without copying data, it is data virtualization; when it holds the estate's storage and compute itself, it is a data warehouse or lakehouse.",
+        "overview_zh": "**数据集成平台**是一种用于构建、运行和管理**数据管道**的应用程序：这些持久、配置好的流程将数据从源系统移动到目标系统。该平台连接到它并不拥有其数据的系统——一边是操作型数据库、SaaS 业务应用程序、文件、事件系统；另一边是数据仓库、数据湖、数据库以及其他操作型系统——并持续地在它们之间传输数据，应用管道所定义的任何选择、映射和转换。\n\n它旨在解决的问题是结构性的：组织运行着许多各自产生数据的系统，而需要这些数据的系统（分析存储、其他操作型系统）无法以可靠、可重复的方式自行获取。手工构建的点对点脚本处理一对系统，并在系统、模式或优先级发生变化时失效。集成平台将每个这样的流程转变为一个受管对象——一个管道，配置一次，无人值守地运行，能从故障中恢复，并且对负责它的人员可见。\n\n其定义性结构很简单：\n\n```text\n连接至平台并不拥有的外部数据系统\n  └── 管道：一个持久、配置好的数据移动单元\n      （什么数据，如何选择和映射，数据落地何处）\n        └── 受管执行与运行可见性\n            （按计划或触发器运行；状态、历史、日志）\n```\n\n通常与该类别相关的其他一切——庞大的连接器目录、可视化设计画布、在目标端的 ELT 式转换、变更数据捕获同步、模式漂移自动化、AI 辅助设计——都是标准功能或变体，而非构成产品成为集成平台的要素。较旧的、平台内嵌的、设计器时代的 ETL 产品在没有任何现代附加功能的情况下满足了相同的核心；完全托管的现代产品在没有设计画布的情况下也满足了核心要求。\n\n边界陈述：**平台拥有移动过程，而非数据本身。** 处于静态的数据属于源和目标系统；平台是它们之间发生的一切的监护人。当一个产品提供统一的逻辑视图而不复制数据时，它是数据虚拟化；当它自身持有整个环境的存储和计算时，它就是数据仓库或数据湖仓。",
+        "dc": "Three structures. Remove any one and the product stops being an integration platform:\n\n- **Connections.** Named configuration objects that reach external systems: endpoint plus credentials plus settings, testable before use, kept and reused across pipelines. The platform holds a **connector** for each kind of system it can talk to — the reusable machinery that knows the system's protocol, authentication, and how to read or write its data. Sources and destinations are usually two faces of the same connector idea. The connector catalog is the platform's reach; without connections the product is a transformation engine or an SDK, not an integration platform.\n\n- **The pipeline.** The central managed object: a persistent, named, editable unit of data movement that binds source(s) to destination(s) and specifies what travels between them — which tables, streams, files, or objects; how they are selected, filtered, renamed, and typed; where they land (namespace, schema, naming convention); and how movement behaves (full reload vs incremental, and the write behavior on the destination side). Pipelines are kept objects: they persist, can be re-run, edited, versioned, and deleted — never one-shot. The pipeline's content is data *moving between systems*; a product whose answer is a unified logical view over data that never moves is a different Type.\n\n- **Managed execution and run visibility.** The platform runs pipelines — on schedules (intervals or CRON-style), on demand, on events, or continuously — and records what happened: run instances with status, start/end, volume, and logs or equivalent diagnostics. An operator can see at a glance which pipelines succeeded, which failed, and why. Without execution and visibility, the product is a design tool; without persistence of runs, failures cannot be diagnosed or audited.\n\nProducts name these objects differently — a \"connection\" in configuration-driven products, a \"job\" or \"flow\" in canvas products, a \"package\" in designer-era products — but the trio of connection + persistent pipeline + managed execution with visibility is present in all of them.",
+        "dc_zh": "三个结构。移除任何一个，产品就不再是集成平台：\n\n- **连接。** 命名的配置对象，用于访问外部系统：端点加凭据加设置，可在使用前测试，在管道中保存和重用。平台为每种能与之通信的系统持有一个**连接器**——可重用的机制，知道系统的协议、认证以及如何读写其数据。源和目标通常是同一连接器概念的两个方面。连接器目录是平台的覆盖范围；没有连接，产品就是转换引擎或SDK，而不是集成平台。\n\n- **管道。** 中央管理对象：持久的、命名的、可编辑的数据移动单元，将源绑定到目标，并指定它们之间传输的内容——哪些表、流、文件或对象；如何选择、过滤、重命名和定型；它们落在哪里（命名空间、模式、命名约定）；以及移动行为如何（全量重载 vs 增量，以及目标端的写入行为）。管道是保存的对象：它们持久存在，可以重新运行、编辑、版本控制和删除——绝不是一次性的。管道的内容是*在系统之间移动的数据*；如果产品提供的是从未移动的数据的统一逻辑视图，则属于不同类型。\n\n- **受控执行和运行可见性。** 平台管理管道的执行，提供监控、日志、错误处理和性能跟踪，确保数据移动的可靠性和可观察性。",
+        "rules": "### Pipelines run unattended; monitoring is the norm\n\nThe built pipeline is expected to run indefinitely without a person present. The product's reliability machinery (checkpoints, retries, alerts) exists precisely because nobody is watching each run; the operator's job is the exception queue, not the run itself.\n\n### Incremental state is the correctness anchor\n\nAn incremental pipeline's cursor/checkpoint is the record of what has already been delivered. Breaking or losing it does not merely pause the pipeline — it makes \"what has the destination already received?\" unanswerable, which is why mature products pair incremental sync with an explicit, disruptive re-sync fallback.\n\n### The destination schema is a contract\n\nThe pipeline defines where data lands and in what shape (namespace, table names, column names and types). Ongoing syncs depend on that shape staying stable, so products define how source-side changes reconcile with it: automatic promotion (widening types, adding columns), flagged review, or deliberate failure. Silent reshaping is the failure mode these policies exist to prevent.\n\n### The platform is a mover, not a system of record\n\nData at rest belongs to the source and destination systems. The platform may stage data briefly in flight, but deleting the platform does not delete the estate's data; deleting a destination table's source pipeline leaves that table frozen, not deleted. This is also why source-side load is treated with care: pipelines read from production systems, and the read burden is a real operational cost the platform makes visible and tunable.\n\n### Credentials are first-class objects\n\nPipelines authenticate as configured identities with read access to sources and write access to destinations. Credential storage, rotation, and permissioning are core administration, not an afterthought; in enterprise products, pipeline-level access control and audit trails follow.\n\n### Movement is physical\n\nData is copied from source to destination. This is the line against logical-access alternatives: if answering a question requires leaving the platform and querying the source system directly, the platform is not doing integration in this sense — it is describing or federating data.",
+        "rules_zh": "### 管道无人值守运行；监控是常态\n\n构建好的管道预期在没有人员在场的情况下无限期运行。产品的可靠性机制（检查点、重试、警报）之所以存在，正是因为无人监控每次运行；操作员的工作是处理异常队列，而非运行本身。\n\n### 增量状态是正确性锚点\n\n增量管道的游标/检查点是已交付内容的记录。破坏或丢失它不仅仅是暂停管道——它使得“目标已经收到了什么？”变得无法回答，这就是为什么成熟的产品将增量同步与显式的、破坏性的重新同步回退机制配对。\n\n### 目标模式是一种契约\n\n管道定义了数据落地的位置和形状（命名空间、表名、列名和类型）。持续同步依赖于该形状保持稳定，因此产品定义了源端更改如何与其协调：自动提升（拓宽类型、添加列）、标记审查或故意失败。静默重塑是这些策略旨在防止的故障模式。\n\n### 平台是搬运工，而非记录系统\n\n处于静态的数据属于源和目标系统。平台可能会在传输过程中暂存数据，但删除平台并不会删除整个环境的数据；删除目标表的源管道会使该表保持冻结状态，而不是被删除。这也是为什么对源端加载需谨慎处理：管道从生产系统读取，读取负担是平台使其可见和可调节的真实操作成本。\n\n### 凭据是一等对象\n\n管道以配置好的身份进行身份验证，拥有对源的读取权限和对目标的写入权限。凭据存储、轮换和权限设置",
+        "parent_id": "13.08",
+        "domain_id": "13"
+      }
+    },
+    {
+      "progress": {
+        "slug": "data-lake-platform",
+        "name_zh": "数据湖平台",
+        "domain_id": "13",
+        "parent_id": "13.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-134/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "databricks lakehouse storage unity catalog official product documentation"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "data-lake-platform",
+        "name": "Data Lake Platform",
+        "name_zh": "数据湖平台",
+        "aliases_zh": [
+          "数据湖解决方案",
+          "数据湖存储平台"
+        ],
+        "overview": "A **Data Lake Platform** is the management layer over a centralized store of raw analytical data. It holds an organization's analytical data as files or objects in open or native formats at original fidelity — data is stored first and interpreted when read, not conformed to a predefined schema when written — and it wraps that store in the machinery that makes it usable as a shared organizational resource: a persistent metadata catalog that organizes the files into structured, addressable objects, platform-enforced access governance, and a serving layer through which multiple processing engines and consumers read and process the same stored data.\n\nThe problem it exists to solve is the economics and the risk of analytical data at scale. Organizations accumulate far more data than they can model up front — logs, event streams, sensor output, application exports, documents, third-party files — and modeling all of it at ingest (the data-warehouse discipline) is expensive and premature. The data lake inverts this: keep everything, cheaply, in its original form, and decide later what it means. What turns that inversion from a liability (\"a swamp of unfindable files\") into an asset is the platform layer: without a catalog the store is unfindable, without governance it is unsafe, and without a serving layer it is inert.\n\nThe defining structure is small:\n\n```text\nThe lake store\n  (centralized files/objects in open or native formats, original fidelity, schema-on-read)\n  └── The catalog / organization layer\n      (persistent metadata: databases, tables, hierarchies over the files)\n      └── Governed multi-engine access\n          (platform-enforced permissions; many engines, one store)\n```\n\nEverything else commonly associated with the category — ingestion pipelines, tag-based policy at scale, lineage, data sharing, transactional table formats, AI-era governance — is standard capability or variant, not what makes the product a data lake platform. Older, non-cloud, self-managed lake stacks satisfy the same core with none of the modern additions.\n\nThe boundary sentence: **the platform holds the data at rest and governs it; it does not model the data at write, and it does not own the engines that process it.** A product that models data into a predefined schema in its own managed store is a data warehouse; a product that only moves data between systems is a data integration platform; a product that only describes data living elsewhere is a data catalog.",
+        "overview_zh": "一个 **数据湖平台** 是位于集中式原始分析数据存储之上的管理层。它将组织的分析数据以文件或对象的形式，按照开放或原生格式，以原始保真度存储——数据先存储，在读取时再解释，而不是在写入时就强制符合预定义的模式——并且它将该存储包装在使其能够作为共享组织资源可用的机制中：一个持久化的元数据目录，用于将文件组织成结构化的、可寻址的对象；一个由平台强制执行的访问治理机制；以及一个服务层，多个处理引擎和使用者可以通过该层读取和处理相同的存储数据。\n\n它需要解决的问题是大规模分析数据的经济学和风险。组织积累的数据远远超过他们能够预先建模的数据量——日志、事件流、传感器输出、应用程序导出、文档、第三方文件——在数据摄入时就对所有数据建模（数据仓库的规范）成本高昂且为时过早。数据湖颠覆了这一点：以廉价的方式，将其原始形式全部保存下来，日后决定其含义。将这种颠覆从一种负债（“一个无法找到文件的沼泽”）转变为一种资产的关键是平台层：没有目录，存储就无法查找；没有治理，它就不安全；没有服务层，它就是惰性的。\n\n核心结构如下：\n\n```text\n湖存储\n  （以开放或原生格式存储的集中式文件/对象，原始保真度，读时模式）\n  └── 目录/组织层\n      （持久化元数据：数据库、表、对文件的分层组织）\n      └── 受治理的多引擎访问\n          （平台强制执行的权限；多个引擎，一个存储）\n```\n\n通常与此类别相关的其他所有内容——摄入管道、基于标签的规模化策略、数据血缘、数据共享、事务性表格式、AI时代的治理——都是标准功能或变体，并非使该产品成为数据湖平台的核心要素。较旧的、非云的、自管理的湖堆栈在没有这些现代附加功能的情况下，也能满足相同的核心功能。\n\n界定性表述：**平台在数据静止时持有它并治理它；它不在写入时建模数据，也不拥有处理这些数据的引擎。** 一个在自身托管存储中将数据建模为预定义模式的产品是数据仓库；一个仅在系统间移动数据的产品是数据集成平台；一个仅描述位于别处的数据的产品是数据目录。",
+        "dc": "- **The catalog / organization layer.** A persistent metadata layer that organizes the stored files into structured, addressable objects — databases, tables, schemas, partitions, or equivalent hierarchies — each carrying schema information and location information pointing into the store. The catalog is what makes a pile of files into an estate: it is how engines and users address data as *data* (\"this table in this database\") rather than as paths. It is also the anchor for discovery: users search and browse the catalog to find what exists. Without this layer the product is object storage with a console.\n\n- **Governed multi-engine access.** The platform controls who can access which stored data, and it serves the store to multiple processing engines and consumers through that access layer. Permissions are enforced at the platform level — in mature products with fine granularity (down to columns, rows, or individual files/directories) and with policy mechanisms that scale across thousands of objects — and access is auditable. The same stored data is readable by several different engines and tools; no single engine owns the store. Without governance the store is an ungoverned swamp; without engine openness it is a single-engine appliance — either way, no longer this Type.",
+        "dc_zh": "**目录/组织层。** 一个持久的元数据层，将存储的文件组织成结构化的、可寻址的对象——数据库、表、模式、分区或等效层次结构——每个对象携带模式信息和指向存储的位置信息。目录是将一堆文件变成资产的关键：它是引擎和用户将数据视为*数据*（\"这个数据库中的这个表\"）而不是路径的方式。它也是发现的锚点：用户搜索和浏览目录以找到存在的内容。没有这个层，产品就是带有控制台的对象存储。\n\n**受控的多引擎访问。** 平台控制谁可以访问哪些存储的数据，并通过该访问层将存储提供给多个处理引擎和消费者。权限在平台级别强制执行——在成熟产品中具有细粒度（精确到列、行或单个文件/目录）和可扩展到数千个对象的策略机制——并且访问是可审计的。相同的存储数据可被多个不同的引擎和工具读取；没有单个引擎拥有存储。没有治理，存储就是一个不受控制的沼泽；没有引擎开放性，它就是单引擎设备——无论哪种方式，都不再是这种类型。",
+        "rules": "### The catalog describes; the files remain\n\nThe catalog's table definitions are descriptions of data that lives independently in the store. If files change underneath — new layouts, new partitions, removed objects — the catalog's description drifts out of truth until it is refreshed. Registration and re-crawling are therefore standing maintenance, not one-time setup.\n\n### Permissions attach to catalog objects, and reach the store\n\nThe permission model's power comes from its position: users are granted (or denied) *data objects*, and the platform translates that into access to the underlying files only at the moment an authorized engine needs them — typically by issuing short-lived, scoped access rather than permanent credentials. This is why the platform, not the storage layer's native policy, is the authority: in mature deployments the storage-level permission machinery is subordinated to (or replaced by) the platform's model.\n\n### Raw fidelity is preserved\n\nThe lake keeps the original landing of ingested data. Cleaning, joining, and reshaping produce *new* data in the same store; they do not overwrite the source of record. Re-processing from raw is always possible, which is precisely the lake's value proposition — and the reason its storage bill is the price of that option.\n\n### The platform is a system of rest, not of movement\n\nData lives here. Unlike integration platforms — custodians of data in transit — the lake platform is the custodian of the estate itself: deleting the platform or a registered location deletes (or orphans) the data. Conversely, the lake is the typical *destination* of integration pipelines and the typical *source* for warehouses, marts, and ML systems.\n\n### No engine owns the store\n\nThe store's openness is structural: formats are open or native, and access paths are shared. An engine that could only read the lake through its own proprietary runtime would contradict the Type. In practice this is what allows engines to be added, replaced, and run side by side as the organization's tooling evolves.\n\n### Governance scales by abstraction\n\nFine-grained per-object permissions do not survive thousands of tables. Mature products therefore add a second, coarser policy mechanism — tags or attributes attached to objects, with rules expressed against the tags — so that policy can be written once and applied across the estate. The two mechanisms coexist: explicit grants for exceptions, attribute policy for breadth.",
+        "rules_zh": "### 目录描述；文件保持不变\n\n目录的表定义是存在于存储中的数据的描述。如果底层文件发生变化——新的布局、新的分区、删除的对象——目录的描述会偏离事实，直到被刷新。因此，注册和重新爬取是常规维护，而非一次性设置。\n\n### 权限附加到目录对象，并作用于存储\n\n权限模型的力量源于其位置：用户被授予（或拒绝）*数据对象*，平台仅在授权引擎需要时，才将其转换为对底层文件的访问——通常是通过颁发短期的、有范围的访问权限，而非永久凭证。这就是为什么平台是权威，而非存储层的原生策略：在成熟部署中，存储级权限机制会服从于（或被替换为）平台的模型。\n\n### 原始保真度得以保留\n\n湖保存摄入数据的原始落地产物。清洗、连接和重塑产生同一存储中的*新*数据；它们不会覆盖记录来源。始终可以重新处理原始数据，这正是湖的价值主张——也是其存储成本是为该选项付出代价的原因。\n\n### 平台是静止的系统，而非移动的系统\n\n数据居住于此。与集成平台——传输中数据的保管者——不同，湖平台是资产本身的保管者：删除平台或已注册的位置会删除（或孤立）数据。相反，湖是集成管道的典型*目的地*，也是数据仓库、数据集市和机器学习系统的典型*来源*。\n\n### 没有引擎拥有存储\n\n存储的开放性是结构性的：格式是开放的或原生的",
+        "parent_id": "13.08",
+        "domain_id": "13"
+      }
+    },
+    {
+      "progress": {
+        "slug": "data-quality-platform",
+        "name_zh": "数据质量平台",
+        "domain_id": "13",
+        "parent_id": "13.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-134/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "WeBank Qualitis data quality platform official repository documentation"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "data-quality-platform",
+        "name": "Data Quality Platform",
+        "name_zh": "数据质量平台",
+        "aliases_zh": [
+          "数据质量管理平台",
+          "数据质量解决方案"
+        ],
+        "overview": "A **Data Quality Platform** is software that defines, executes, and manages **quality rules against an organization's data** — recorded checks that state what the data should satisfy (complete, valid, unique, consistent, accurate, fresh) — and turns every execution into **recorded pass/fail results** that teams review, communicate, and act on.\n\nThe problem it solves: data in warehouses, databases, files, and business applications silently degrades — values go missing, formats drift, duplicates appear, pipelines load partial data — and the people downstream of that data discover the damage only when a report or model breaks. A data quality platform makes the expectations about data **explicit and testable**, evaluates them **continuously and at scale**, and keeps the **evidence** (what failed, when, which records) so problems can be triaged and fixed.\n\nThe defining core is deliberately small:\n\n```text\nDefined quality rules (the primary object)\n└── executed against the organization's data\n    └── producing recorded pass/fail results\n        └── attributed to data and rule, retained as history\n```\n\nEverything else commonly associated with the category — quality-dimension taxonomies, profiling, scorecards, alerting, incident tracking, remediation, machine-learning anomaly detection — is standard capability that mature products add, not what makes the product a data quality platform. The platform evaluates data; it is **not the system of record** for that data. When a product starts owning and mastering the data itself, it has drifted toward Master Data Management; when its center shifts from authored rules to ambient anomaly watching, it has drifted toward Data Observability.",
+        "overview_zh": "一个**数据质量平台**是用于定义、执行和管理**针对组织数据的质量规则**的软件——这些记录下来的检查说明了数据应满足什么条件（完整性、有效性、唯一性、一致性、准确性、新鲜度）——并将每次执行转化为**记录下来的通过/失败结果**，供团队审阅、沟通并采取行动。\n\n它解决的问题是：仓库、数据库、文件和业务应用程序中的数据会悄然退化——数值缺失、格式漂移、出现重复、管道加载部分数据——而下游的数据使用者直到报告或模型中断时才发现损害。数据质量平台使数据的期望变得**明确且可测试**，对其进行**持续且大规模地评估**，并保留**证据**（什么失败了、何时失败、哪些记录），以便问题可以被分类和修复。\n\n其定义性核心故意保持精简：\n\n```text\n定义的质量规则（首要对象）\n└── 针对组织的数据执行\n    └── 产生记录的通过/失败结果\n        └── 归因于数据和规则，作为历史记录保留\n```\n\n该类别通常关联的所有其他事物——质量维度分类法、数据剖析、评分卡、告警、事件跟踪、修复、机器学习异常检测——都是成熟产品会添加的标准能力，而非构成数据质量平台的要素。平台评估数据；它**不是**数据本身的**记录系统**。当一个产品开始拥有并主导数据本身时，它已偏向主数据管理；当其中心从作者编写的规则转移到环境异常监视时，它已偏向数据可观测性。",
+        "dc": "### One Structure, Many Implementations\n\nThe core model is conceptual; products realize each piece differently:\n\n```text\nConcept:  Quality rule\nForms:    code-defined checks in a DSL or Python · visual rule builders ·\n          pattern/indicator libraries · rules attached to business terms\n\nConcept:  Data under evaluation\nForms:    direct queries against warehouses/databases · staged processing copies ·\n          pushdown into the warehouse engine · in-memory frames in CI\n\nConcept:  Result record\nForms:    check results with failed-row samples · validation documents ·\n          quality percentages per record set · analysis reports with history\n```",
+        "dc_zh": "### 一个结构，多种实现\n\n核心模型是概念性的；产品以不同方式实现每个部分：\n\n```\n概念：质量规则\n形式：在DSL或Python中定义的代码检查 · 可视化规则构建器 ·\n          模式/指标库 · 附加到业务术语的规则\n\n概念：被评估的数据\n形式：直接查询仓库/数据库 · 暂存处理副本 ·\n          下推到仓库引擎 · CI中的内存帧\n\n概念：结果记录\n形式：带有失败行样本的检查结果 · 验证文档 ·\n          每个记录集的质量百分比 · 带有历史的分析报告\n```",
+        "rules": "- **The platform evaluates; it does not own.** The data of record stays in the organization's systems. Results, rules, and metadata live in the platform; corrections, where supported, are written back or staged — the platform does not become the master copy.\n- **A rule failure is evidence, not auto-correction.** By default the platform records and reports the failure; fixing the data happens at source, through remediation workflows where the product offers them, or through pipeline logic. Silent self-healing is not the defining behavior.\n- **Results are comparable over time.** The value of a result comes from its history — a failing check matters differently on its first failure than after a hundred clean runs. Mature products retain result history and trend it.\n- **How results roll up is product-specific.** Some products compute an overall quality percentage from record-level pass/fail outcomes (with explicit handling for rules that do not apply to every record); others report per-check states without a single score. No universal scoring formula exists.\n- **Rule changes are governed at platform depth.** Editing a rule changes what \"good\" means for the data it covers; mature products version rules and route changes through review or publish workflows, with audit trails.\n- **Enforcement is a dial.** The same rule set can run watch-only (alert on failure) or enforcing (fail the pipeline, block the deploy, gate the warehouse write). Products support different points on this dial.\n- **Sensitivity of results matters.** Failed-record samples contain real data; products provide controls over what is sampled, stored, and displayed, and where samples are routed.",
+        "rules_zh": "- **平台负责评估；它不拥有数据。** 记录的数据仍保留在组织的系统中。结果、规则和元数据存储在平台中；支持的修正操作会被写回或分阶段——平台不会成为主副本。\n- **规则失败是证据，而非自动修正。** 默认情况下，平台记录并报告失败；修复数据在源头进行，通过产品提供的修复工作流，或通过管道逻辑。静默的自我修复不是其定义性行为。\n- **结果可随时间比较。** 一个结果的价值来自其历史——一个失败的检查在首次失败与经过一百次干净运行后的意义不同。成熟产品保留结果历史并追踪其趋势。\n- **结果如何聚合取决于具体产品。** 有些产品根据记录级的通过/失败结果计算整体质量百分比（明确处理不适用于每条记录的规则）；其他产品报告每个检查的状态，不提供单一分数。不存在通用的评分公式。\n- **规则变更在平台层面受治理。** 编辑一条规则会改变其覆盖数据的“良好”标准；成熟产品对规则进行版本控制，并通过评审或发布工作流路由变更，带有审计跟踪。\n- **强制性是一个可调节的档位。** 同一套规则可以仅运行监控（失败时告警）或强制执行（使管道失败、阻止部署、控制仓库写入）。产品支持在此档位的不同点。\n- **结果的敏感性很重要。** 失败记录样本包含真实数据；产品提供控制措施，用于管理采样、存储和显示的内容，以及样本的路由位置。",
+        "parent_id": "13.08",
+        "domain_id": "13"
+      }
+    },
+    {
+      "progress": {
+        "slug": "data-virtualization-platform",
+        "name_zh": "数据虚拟化平台",
+        "domain_id": "13",
+        "parent_id": "13.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-134/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "Dremio data virtualization virtual datasets official documentation"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "data-virtualization-platform",
+        "name": "Data Virtualization Platform",
+        "name_zh": "数据虚拟化平台",
+        "aliases_zh": [
+          "数据虚拟化",
+          "虚拟数据平台"
+        ],
+        "overview": "A **Data Virtualization Platform** is a server-side data-access layer that connects to an organization's heterogeneous data sources in place, defines a persistent logical data model over them, and executes queries against that model on demand — reaching into the sources at query time and combining the results, without ever holding the data of record in a store of its own.\n\nThe defining core is small:\n\n```text\nConnections to data sources the platform does not own\n└── Persistent logical data model over those sources (virtual views)\n    └── On-demand query execution reaching into the sources at query time\n```\n\nEverything commonly associated with the category — connector catalogs, query optimization, caching and materialized acceleration, data APIs, catalogs, governance and lineage tooling — is widespread in mature products but is not what makes the platform a data virtualization platform. A product that copies data into a store it owns and queries that copy is a data warehouse, lakehouse, or replication platform; a product that only describes data without serving queries is a data catalog. The virtualization platform is the layer in between: it serves queries over data it never takes custody of.",
+        "overview_zh": "一个**数据虚拟化平台**是一个服务器端数据访问层，它连接到组织的异构数据源（就地连接），在其上定义一个持久化的逻辑数据模型，并按需针对该模型执行查询——在查询时深入数据源并组合结果，而从不将记录数据存储在自己的存储中。\n\n定义性核心很小：\n\n```text\n连接到平台不拥有的数据源\n└── 基于这些源的持久化逻辑数据模型（虚拟视图）\n    └── 按需查询执行，在查询时深入数据源\n```\n\n与该类别通常相关的一切——连接器目录、查询优化、缓存和物化加速、数据 API、目录、治理和血缘工具——在成熟产品中很普遍，但不是使该平台成为数据虚拟化平台的关键。一个将数据复制到其拥有的存储中并查询该副本的产品是数据仓库、湖仓或复制平台；一个只描述数据而不提供查询的数据目录。虚拟化平台是介于两者之间的层：它提供对从未接管的数据的查询服务。",
+        "dc": "```text\nData source connections\n└── Base views (source-shaped logical tables)\n    └── Derived views (joined / unioned / filtered / transformed)\n        └── The virtual model (persistent, named, reusable)\n            └── Query execution at request time\n                └── Results returned to the consumer\n```\n\n- **Data source connections** — configured access to external systems the platform does not own: relational databases, warehouses, data lakes and object stores, files, SaaS applications, web services. Each connection carries the connector type, address, and credentials. The platform is a custodian of access, never the system of record.\n- **Base views** — for each connected source, the platform introspects its structure and represents it as logical tables shaped like the source. A base view is a standing definition of \"what this source looks like here,\" not a copy of its data.\n- **Derived views** — the heart of the model. Users compose base views and other derived views into new logical tables using relational operations: joins across sources, unions of similar tables, selections, projections, aggregations, and reshaping of nested or semi-structured data. A derived view is defined once, kept as a named object, and can itself be used to build further views — layer by layer, until a consumer-facing view exists.\n- **The virtual model** — the whole collection of base and derived views, organized (by databases/schemas, folders, or spaces depending on the product) and persistently stored as the platform's managed metadata. This model is what users edit, version, promote between environments, and govern.\n- **Query execution** — when a consumer queries any view, the platform decomposes the request into sub-queries sent to the involved sources in real time, combines the returned data, and streams the result back. The view's definition — not a stored copy of its data — determines what is computed.",
+        "dc_zh": "数据源连接\n└── 基础视图（源形状的逻辑表）\n    └── 派生视图（连接 / 联合 / 过滤 / 转换）\n        └── 虚拟模型（持久化、命名、可重用）\n            └── 请求时查询执行\n                └── 结果返回给消费者\n\n- **数据源连接** — 配置访问外部系统，平台不拥有：关系数据库、数据仓库、数据湖和对象存储、文件、SaaS应用、Web服务。每个连接包含连接器类型、地址和凭据。平台是访问的保管者，而非记录系统。\n- **基础视图** — 对于每个连接的源，平台内省其结构，并将其表示为类似源的逻辑表。基础视图是\"此源在此处的样子\"的持续定义，而非其数据的副本。\n- **派生视图** — 模型的核心。用户使用关系操作将基础视图和其他派生视图组合成新的逻辑表：跨源连接、类似表的联合、选择、投影、聚合，以及嵌套或半结构化数据的重塑。派生视图定义一次，作为命名对象保留，本身可用于构建更多视图——层层叠加，直到存在面向消费者的视图。\n- **虚拟模型** — 整个基础视图和派生视图的集合。",
+        "rules": "### The platform never holds the data of record\n\nSources remain authoritative. Caches and materialized copies are acceleration: they can be invalidated or dropped without breaking the model, and a query can always fall back to the sources. If a product's store becomes the system of record, the product has stopped being a virtualization platform.\n\n### Security applies at the logical layer\n\nPolicies (privileges, row/column rules, masking) attach to views, so they hold no matter which source serves the data and no matter which interface (SQL, API) the consumer uses. Conversely, source-side credentials are typically held by the platform — via vaults or delegated/pass-through login — so consumers never touch sources directly.\n\n### Query performance depends on the sources\n\nBecause execution happens at query time across the network, latency and load characteristics follow the slowest involved source. This is the structural trade the Type makes against copying: no pipeline to build and keep fresh, but every query pays the federation cost unless acceleration is configured.\n\n### Pushdown has limits\n\nSources differ in query capability. The planner pushes down what each source can handle and performs the remaining operations itself; some sources only accept restricted queries. Execution traces exist precisely because plans vary.\n\n### The model is metadata, and it is versionable\n\nViews are definitions, so the whole model can be exported, imported, version-controlled, and promoted between environments like code. Lineage is derivable from the definitions themselves.\n\n### Write-back is conditional\n\nSome products can update sources through the virtual layer, but only where the underlying source supports transactions. Read-mostly is the typical posture; write-back is a product-dependent capability, not a defining property.",
+        "rules_zh": "### 平台从不持有记录数据\n\n源保持权威性。缓存和物化副本是加速：它们可以被使失效或丢弃而不破坏模型，查询总可以回退到源。如果产品的存储成为记录系统，该产品就不再是虚拟化平台。\n\n### 安全在逻辑层应用\n\n策略（权限、行/列规则、掩码）附加到视图，因此无论哪个源提供数据，无论消费者使用哪个接口（SQL、API），策略都有效。相反，源端的凭证通常由平台持有——通过库或委托/传递登录——因此消费者从不直接接触源。\n\n### 查询性能取决于源\n\n因为执行发生在查询时跨网络进行，延迟和负载特性遵循最慢的参与源。这是该类型与复制之间的结构性权衡：无需构建和保持新鲜的管道，但每个查询都支付联合成本，除非配置了加速。\n\n### 下推有限制\n\n源在查询能力上有所不同。规划器下推每个源能处理的部分，并自行执行剩余操作；有些源只接受受限查询。执行跟踪之所以存在，正是因为计划各异。\n\n### 模型是元数据，并且可版本化\n\n视图是定义，因此整个模型可以像代码一样导出、导入、版本控制和在环境间推广。血缘可以从定义本身推导出来。\n\n### 回写是有条件的\n\n一些产品可以通过虚拟层更新源，但仅限于底层源支持事务。通常以读为主；回写是产品依赖的",
+        "parent_id": "13.08",
+        "domain_id": "13"
+      }
+    },
+    {
+      "progress": {
+        "slug": "database-management-console",
+        "name_zh": "数据库管理控制台",
+        "domain_id": "13",
+        "parent_id": "13.08",
+        "case_status": "review_pending",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-134/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "phpMyAdmin MySQL administration web official documentation"
+          }
+        ],
+        "archived": false,
+        "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。"
+      },
+      "definition": {
+        "slug": "database-management-console",
+        "name": "Database Management Console",
+        "name_zh": "数据库管理控制台",
+        "aliases_zh": [
+          "数据库控制台",
+          "DB管理控制台"
+        ],
+        "overview": "A **Database Management Console** is the operator-facing administrative control surface over running database deployments. It is where the people responsible for a database see the condition of their instances, servers, or clusters, and perform the work of operating them: creating and modifying the deployment, changing how it runs, protecting its data, and controlling who may reach it.\n\nThe defining core is small:\n\n```text\nThe running database deployment as the managed object of record\n└── Administrative operations that act on the live deployment\n    └── The deployment's operational state surfaced for administration\n```\n\nEverything else commonly associated with these consoles — metrics dashboards, backup policies, user administration, alerting, even embedded query editors — is standard capability that mature consoles add around this core, not what makes the product a management console.\n\nWhen the center of work shifts to queries, schema objects, or data, the product has drifted toward the query and development family (SQL Client, Database IDE, Analytical Query Editor). When the managed object becomes generic compute and network infrastructure rather than database deployments, it has drifted toward cloud and server management.",
+        "overview_zh": "**数据库管理控制台**是面向操作员的管理控制面，用于管理正在运行的数据库部署。负责数据库的人员通过它查看其实例、服务器或集群的状态，并执行运维操作：创建和修改部署、更改运行方式、保护数据以及控制访问权限。\n\n其定义性核心非常精简：\n\n```text\n作为记录在案的被管理对象的运行中数据库部署\n└── 作用于实时部署的管理操作\n    └── 面向管理展现的部署运行状态\n```\n\n与此类控制台通常关联的所有其他功能——指标仪表盘、备份策略、用户管理、告警，乃至内置的查询编辑器——都是成熟控制台围绕此核心增加的标准能力，而非构成管理控制台的本质。\n\n当工作中心转向查询、模式对象或数据时，该产品已偏向查询与开发家族（SQL客户端、数据库IDE、分析查询编辑器）。当被管理对象变为通用计算和网络基础设施，而非数据库部署时，则已偏向云和服务器管理。",
+        "dc": "- **State-aware operation.** The console surfaces the deployment's operational state — at minimum its existence and running state, and in mature products its health, metrics, sessions, and background jobs — and administration is relative to that state: some operations require the deployment to be in a particular state, others change it. A configuration form with no reflection of the deployment's condition would not be a console in any recognizable sense.",
+        "dc_zh": "- **状态感知操作。** 控制台显示部署的操作状态——至少包括其存在和运行状态，在成熟产品中还包括健康状况、指标、会话和后台作业——而管理操作相对于该状态：一些操作要求部署处于特定状态，其他操作则改变状态。一个没有反映部署状况的配置表单，在任何可识别的意义上都不会是控制台。",
+        "rules": "### The console administers through the database's own semantics\n\nThe console is a front-end over the engine's or service's own administration machinery. Documented products show this explicitly: administration tools pass account management through to the database's own user system, console areas map to the engine's privileges, and administrative dialogs can display or generate the equivalent engine operation (SQL statement or API call). The console does not create a parallel authority alongside the database — the database's own privilege system remains the real gatekeeper.\n\n### Changes are consequential and often scheduled\n\nModifying a running deployment is treated as a consequential act: consoles summarize pending changes before applying them, warn about restarts or downtime, and commonly offer a choice between applying immediately and deferring to a defined maintenance window. Some changes require a restart to take effect. This scheduled-change discipline is a structural behavior of the Type, not a nicety.\n\n### State gates operations\n\nAdministration is relative to the deployment's state. Backups may require the deployment to be in a runnable state; deleting a deployment raises protection choices such as a final snapshot or retained backups; restart and stop apply to running systems. The console's status surfacing is therefore load-bearing, not decorative.\n\n### Access is bounded by the database's privilege system\n\nWhat a user can see and do inside the console follows their database or service privileges. Some console areas are gated by specific engine privileges; administrative operations require server-level roles. Tools with their own convenience features (such as interface simplification for groups of users) explicitly do not treat those features as security — the engine's privileges remain the enforcement point.\n\n### Capabilities follow the engine\n\nEvery sampled console is bound to one engine family or one managed service, and feature availability varies with engine version and service region. A database management console is not engine-agnostic tooling; its administrative vocabulary (parameters, backup semantics, high-availability options) is the engine's own.",
+        "rules_zh": "### 控制台通过数据库自身的语义进行管理\n\n控制台是引擎或服务自身管理机制的前端。有文档的产品明确展示了这一点：管理工具将账户管理传递给数据库自身的用户系统，控制台区域映射到引擎的权限，管理对话框可以显示或生成等效的引擎操作（SQL语句或API调用）。控制台并未在数据库旁边创建一个并行的权限体系——数据库自身的权限系统仍然是真正的守门人。\n\n### 变更影响重大且通常需计划\n\n修改运行中的部署被视为一项影响重大的操作：控制台在应用待处理变更前会进行摘要说明，警告重启或停机，并通常提供立即应用还是推迟到指定维护窗口的选择。某些变更需要重启才能生效。这种计划变更纪律是该类型的结构性行为，而非可有可无的附加功能。\n\n### 状态制约操作\n\n管理操作相对于部署状态而言。备份可能要求部署处于可运行状态；删除部署会引发保护选项，如最终快照或保留备份；重启和停止适用于运行中的系统。因此，控制台的状态展现是承载功能的，而非装饰性的。\n\n### 访问受数据库权限系统约束\n\n用户在控制台内部可见和可操作的内容遵循其数据库或服务权限。某些控制台区域由特定引擎权限控制；管理操作需要服务器级角色。具有自身便捷功能（例如为用户组简化界面）的工具明确不将这些功能视为安全措施——安全措施",
+        "parent_id": "13.08",
+        "domain_id": "13"
+      }
+    }
+  ],
+  "continuation": {
+    "unit": 9,
+    "phase": "repair",
+    "parent": 134,
+    "slugs": [
+      "data-integration-platform",
+      "data-lake-platform",
+      "data-quality-platform",
+      "data-virtualization-platform",
+      "database-management-console"
+    ],
+    "old_input_sha256": "e4a5d7d37b1d4903136f01cb10da7fca3b97f506141f2ab9125c57f83b0344d7"
+  },
+  "previous_continuation": {
+    "unit": 134,
+    "phase": "complete",
+    "parent": 24,
+    "slugs": [
+      "data-integration-platform",
+      "data-lake-platform",
+      "data-quality-platform",
+      "data-virtualization-platform",
+      "database-management-console"
+    ]
+  }
+}

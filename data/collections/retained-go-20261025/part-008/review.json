@@ -1,0 +1,63 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "leaf": "retail-shrink-management",
+      "severity": "blocking",
+      "problem": "所引 Sensormatic Shrink Analyzer / Shrink Visibility 正文只能证明“按时间、地点、单品分析损失事件并定位 ORC 相关盗窃”，属于损失事件分析；没有证明定义性核心中的“估值化损耗视图”（账面应有与实际盘存的金额缺口、按销售比、按 estate→location→category→item 追踪）和按原因分类（盗窃/内部欺诈/流程错误/损坏/变质）的成因归因。leaf_match 的 reason 写“分析损失事件及其价值”“按高失窃品类、出口与区域归因”“与盘点/防损数据结合”，均超出来源正文，属于以关键词替代核心证据。",
+      "fix_required": "二选一：①补抓同一官方站点上能直接证明金额化损耗与原因/维度归因的正文（如 Category Level Shrink Insights 或 Shrink Visibility 正文中关于库存准确率、账面-实物差异、按品类/区域归因的段落），并在 reason 中逐点对应；②若补不到，将 research.json 该叶 assessment 改为 boundary_unresolved 或 insufficient_evidence（archived 仍为 false），并把 reason 改写为仅“按时间/地点/单品分析损失事件并关联 ORC”，不得出现“价值”“高失窃品类”“与盘点结合”等未证内容。不得改范围。"
+    },
+    {
+      "leaf": "international-commerce-management",
+      "severity": "blocking（来源记录真实性）",
+      "problem": "batch.json 与 research.json 把 Shopify 来源记为 https://www.shopify.com/（homepage），但该 sha256 快照的 canonical 与正文是 https://www.shopify.com/markets，notes/fetches.json 中实际抓取键也是 /markets。来源 URL 与快照内容不一致，会让后续复核误以为读过首页。另：所读页面只覆盖货币、语言、商品、域名、税费与配送，未证明关税/进口费；batch reason 已诚实留档，这点可保留为缺口，不要求补研。",
+      "fix_required": "把 batch.json 该 source.url 与 leaf_match.source_urls、research.json source_urls 中的 https://www.shopify.com/ 统一改为 https://www.shopify.com/markets（sha256 与 fetched_at 不变）；保留“关税代收未作为本例证据”的边界说明。"
+    },
+    {
+      "leaf": "dynamic-creative-optimization-platform、multi-marketplace-seller-platform、media-buying-platform、supply-side-platform-ssp",
+      "severity": "minor（同一修复轮一并处理，不需要新增调研）",
+      "problem": "四条商业 reason 含所引正文未直接支持的细节：Celtra 写“跨 100+ 媒体平台投放”“按实时数据更新”，而 DPA 页只列 Meta/TikTok/Snapchat/Pinterest/X，目录为每小时刷新；Linnworks 写“按渠道设置标题与价格”，首页只证明中央目录/渠道 listing/库存同步；Bionic 写“客户授权后签发插入订单”，所读首页与对账页未直接描述授权关卡；Magnite 写“按库存与格式报告收入”，Sellers 页只证明收益优化、预测与绩效监控。",
+      "fix_required": "按已读正文收紧措辞：Celtra 改为已列平台与“目录按小时刷新/按折扣与库存生成版式变体”；Linnworks 删除“按渠道设置标题与价格”或改为“从中央目录维护各渠道 listing”；Bionic 改为“以订单/投放/账单数据对账并移交应付”，不写授权细节；Magnite 改为“提供底价建议、交易类型与收益/绩效报告”。核心类型匹配不受影响。"
+    }
+  ],
+  "leaf_checks": {
+    "dealer-distributor-commerce-portal": "Orderwerks 经销商门户页与 B2B 门户页正文明确每经销商独立账号、专属目录与合同/阶梯价、下单后卖方审核再推 QuickBooks，三结构齐备；仅快照 kind 标为 homepage（实为 solutions 页），不影响核心。",
+    "wholesale-commerce-platform": "Spree README 的 B2B & Wholesale 用例含 price lists/数量阶梯、customer groups、companies（地点/联系人/免税）、按细分 catalogs 与仅批准买家可入的 storefront，配合仓库订单/支付/履约，受控企业账户与 B2B 生命周期成立；BSD-3-Clause 与许可证 API 一致。",
+    "auction-management-system": "Selloff 功能页覆盖委托收货、拍品编目与估价/保留价、场次与出价、成交结果、买家发票、委托人结算与运输，运营端主干完整，且明确是拍卖行内部系统。",
+    "consignment-management-platform": "SimpleConsign 功能页有寄售人余额、按寄售人/品类 split、逐件商品与寄售期、POS 归属销售、批量/自动 ACH 支付与寄售人门户，四结构均被正文支撑。",
+    "recommerce-platform": "Trove 页证明品牌转售站点、门店/线上以旧换新、按状况分级路由、实时定价决策与礼品卡返还，单件供应→可售转化→品牌转售→价值闭环成立；托管运营形态在定义允许范围内。",
+    "dropshipping-platform": "DSers 官方 AliExpress 集成文档证明商品导入与变体映射、批量向供应商下单、供应商直发终端客户、状态与运单回写店铺，卖方仍为记录卖方，三结构成立。",
+    "digital-download-commerce-platform": "EDD readme 证明任意文件商品、购买后自动生成限时/限次安全下载链接、客户账户取回与退款报表；订阅与软件许可标为 Pro 未计入。许可证为 GPL-2.0，readme 写 GPLv2 or later，建议最终复核确认 SPDX 口径。",
+    "marketplace-seller-management": "Mercur README 与官方功能页证明运营方 Admin 的卖家目录、自助/邀请入驻、pending_approval/open/suspended/terminated 状态与按卖家佣金/payout，且这些在页面标为 Open Source，Enterprise 模块未计入。",
+    "multi-marketplace-seller-platform": "Linnworks 首页证明 100+ 渠道连接、中央库存与订单、跨渠道库存同步、listing 管理与订单集中路由；reason 的“按渠道设置标题与价格”未被所读页直接证明，需收紧。",
+    "cross-border-commerce-platform": "Global-e 平台页证明本地货币浏览/支付、含关税税费的保证最终价、本地支付方式、国际配送与 MoR 合规责任，市场条件化体验与订单边境义务成立；MoR 形态已在 service_boundary 注明。",
+    "international-commerce-management": "Shopify 帮助页证明市场是按位置/客户群/零售地点/渠道定义的配置对象，可按市场覆盖货币、语言、商品、域名、税费与配送并由后台集中管理；所读页未证明关税/进口费（已留档），来源 URL 与实际 /markets 快照不符须更正。",
+    "retail-loss-prevention-platform": "Auror Core 页证明结构化事件上报、跨店/跨零售商关联嫌疑人与车辆、案件调查与证据共享执法、网络级热点/高危对象洞察，类型化事件、受管响应与资产级聚合成立。",
+    "retail-shrink-management": "Sensormatic 页只证明按时间/地点/单品分析损失事件并关联 ORC，未证明估值化损耗缺口与按原因/维度的归因，reason 超出正文，须补证或降级；该叶不能按当前 case_found 通过。",
+    "advertising-campaign-management": "Amazon Sponsored Products 页证明活动命名、起止日期、每日预算、出价与定向、上线投放、预算上限约束及活动级报表，活动对象、真实投放、支出控制与归因反馈成立。",
+    "data-management-platform-dmp": "Lotame Spherical 页证明多源/第一方数据接入、受众创建建模与丰富、身份解析、向 DSP/广告服务器/社交等激活，且不买媒体不投放广告，多源→受管细分→对外交付成立。",
+    "demand-side-platform-dsp": "The Trade Desk DSP 页证明买方平台、开放互联网跨渠道库存、数据/受众定向、AI 辅助逐次展示决策与成效测量，并明确不拥有不运营媒体，买方+外部供给+竞价优化+回报成立。",
+    "dynamic-creative-optimization-platform": "Celtra DPA 页证明模板+目录数据规则生成全目录变体、集中审阅后以 catalog URL 投放 Meta/TikTok/Snapchat/Pinterest/X 并按小时刷新目录；reason 的“100+ 平台/实时”需按正文收紧。",
+    "media-buying-platform": "Bionic 首页与对账页证明媒体计划、订单/投放/KPI/账单/付款数据集中，计算最大可结金额、对账供应商账单并推会计系统，计划记录+承诺购买+花费交付问责成立；“客户授权”细节在所读页未证，宜软化。",
+    "supply-side-platform-ssp": "Magnite Sellers 页证明媒体所有者以 SSP/header bidding 变现展示、视频、音频、CTV/DOOH 与 in-app，连接代理商/品牌/DSP，提供底价建议与 PMP/PG 等交易；“按库存与格式报告收入”宜改为收益/绩效报告表述。",
+    "keyword-research-application": "Semrush KB 证明种子词扩展、匹配类型与 Questions、月搜索量/KD/意图/CPC、筛选与导出，关键词记录+查询空间发现+可达成性评估成立；复用既有 commercial:semrush，合并后应保留原 seo-platform 关联。",
+    "search-engine-marketing-management-platform": "Optmyzr 首页证明跨 Google/Microsoft/Amazon 账户集中管理、规则引擎、预算节奏与告警、出价/预算保护及报告，属引擎之上的第三方管理层，类型边界成立。",
+    "seo-site-audit-application": "SEOnaut README 证明自建爬虫全站扫描并按 critical/high/low 报告断链、重定向/循环、缺失或重复 meta、标题层级，页面群发现→规则评估→问题报告成立；MIT 与许可证 API 一致。",
+    "email-marketing-platform": "phpList README 证明订阅者/列表与属性、campaign 编排排期与队列节流、退信处理、打开点击与退订统计，批量活动核心成立；AGPL-3.0 与许可证快照一致。",
+    "media-relations-platform": "Prowly 页证明 AI-cited 媒体库与记者档案、带受众/流量数据的定向媒体列表、平台内发送 pitch 并跟踪互动、按行为安排跟进，联系记录+媒体列表+可追踪发送成立。",
+    "newsletter-marketing-platform": "listmonk README 与 Concepts 证明邮箱标识订阅者及 unconfirmed/confirmed/unsubscribed、单/双确认列表、campaign 向列表投递、退订与打开点击统计；AGPL-3.0 一致。"
+  },
+  "limits": [
+    "初审为完全只读会话：未运行 validate/import，未写任何文件，未注册、登录或部署任何产品；所有条目仍只能按 runtime_tested:false 采信。",
+    "快照多为单行压缩 HTML（Orderwerks、Trove、Prowly、DSers 等），关键词可达但上下文有限；复核时仅以只读方式打开部分官方页面作对照，未新增抓取、未替换快照。",
+    "商业条目只做基本真实性与类型匹配，未核价、未验证功能可用性、未追加深入调研；对超出所读正文的细节只要求改文案或补已有官方页，不扩大调研范围。",
+    "本批初审与采集同为 open-design/deepseek-v4.1-flash，独立性弱于异模型复核；最终入库仍需主会话核对结构、许可证、类型匹配与重复产品。",
+    "仅确认 commercial:semrush 为共享库既有产品并复用其 ID；未逐一比对共享库中可能以别名存在的其他同产品，重复判断留待最终复核。",
+    "Shopify 帮助页早期记录过一次 403，但 batch 引用的 07a9… 快照为后续成功抓取；其正文可用，问题仅在来源 URL 记录与实际页面不一致。"
+  ],
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/opencode-go/part-008/ses_groveopendesignp008review2_1792827713.jsonl",
+  "batch_sha256": "81e7978f867f9f16672179ce9f8be9f707699b0b542dd8a2de18312d857a953e",
+  "research_sha256": "90c8ac25c4d33b969dfbb5b1f626317826bb5c39dc8dd5c3f5699429ae2c1f56",
+  "input_sha256": "1f38a658d8413d69c58b28336559d33817d66e8eed6b3b6821dffb9881c98803"
+}

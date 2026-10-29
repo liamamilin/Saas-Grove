@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "github:1274406965",
+      "note": "批次 feature 写“泄露/暗网、负面舆情、被动数字足迹，均有离线演示模式”，与 README 的对照表不完全一致：README 仅说明泄露/暗网（HIBP）与负面舆情（NewsAPI）有 Demo Mode，数字足迹在无密钥但有网络时直接走 Live。属外围功能描述精度问题，不影响 TPRM 定义性核心，建议改写为“泄露与舆情提供离线演示模式，数字足迹可直连实时采集”。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "github:1274406965",
+      "note": "MIT 许可证正文完整（含授权、版权声明保留与免责条款），但版权行署名为“LearnTPRM.com — VendorAssess 360”，与仓库/产品名 LT-VRM 不同。属品牌沿革痕迹，不构成许可缺陷；如需对外展示可加一句名称说明。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "github:1286096557",
+      "note": "summary 用“开源核心”表述，容易暗示存在未开源的商业版或社区版切分；留存证据显示 AGPL-3.0 覆盖整个仓库，README 亦未提及付费版本。建议改为“完整开源应用”，或在取得商业版证据后再保留“开源核心”限定。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "github:1286096557",
+      "note": "deployment 提到“Prisma 迁移与种子数据”，README 与 schema.prisma 快照可证迁移（prisma migrate deploy），“种子数据”未见直接表述，属轻微超出来源，可删或补证。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "note": "research.json 引用了 OpenGRC 的 LICENSE.txt 与 README 作为排除理由（Elastic License 2.0、非 OSI），但本单元 REVIEW_SOURCES.json 未保留这两个快照，排除依据在留档内不可复核。该候选未被收录，不影响任何入库条目的结论；如后续要复用该排除理由，建议补存许可证快照。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "commercial:processunity",
+      "note": "2026-10-24 的首页快照主要是 WordPress 模板与导航外壳，仅能佐证厂商与产品身份；核心工作流均以 2026-10-28 的官方 TPRM 平台页正文为准，首页不宜单独作为证据继续复用。"
+    },
+    {
+      "slug": "third-party-risk-management",
+      "application_id": "github:1274406965",
+      "note": "该仓库 README 带有较多营销与关键词表述（如“全球最全面”），本次未将其作为能力证据，能力判断落在 database/schema.sql 的表结构与 README 的功能表中相互印证的部分；仓库成熟度（发布版本、实际使用）无留档，属已知低置信项，不阻断。"
+    }
+  ],
+  "leaf_checks": {
+    "third-party-risk-management": {
+      "status": "passed",
+      "definition_core": "三点均已由一手材料交叉印证。（1）关系清单：LT-VRM 的 vendors 表为每个外部关系持久化记录，带 tier、lifecycle(onboarding/active/under_review/offboarding/terminated)、inherent_risk、risk_score、owner_user_id、next_review_date；Mitch-Risk 的 Vendor 模型带 tier、dataSensitivity、contractValue、geographicRisk、ownerId、contractRenewalDate；ProcessUnity 专题页明确“centralizes vendor information”“one vendor record, one workflow, one source of truth”。（2）逐关系风险评估：LT-VRM 有 assessment_templates/template_questions/assessments/assessment_answers 及评分字段；Mitch-Risk 有 Template/Section/Question/Assessment/Response 与加权评分、框架控制映射；ProcessUnity 的分级、尽职调查、Risk Index 评分在正文中均有表述。（3）决策与响应闭环：LT-VRM 的 issues（owner、sla_due、status 含 accepted/overdue）+ risk_register（treatment 含 accept、owner）+ offboarding_tasks + audit_log；Mitch-Risk 的 Finding（OPEN/REMEDIATED/RISK_ACCEPTED、resolvedBy、resolutionNote）+ AnswerReview + 跨供应商风险登记册；ProcessUnity 的审批、可配置工作流与整改叙述。未把监控情报、门户、框架库等成熟附加能力误当作定义核心。",
+      "saas_service_form": "三者在形态上都是持续运行的应用服务，而非组件、模板、CLI 或一次性工件。LT-VRM 为 PHP 8.1+/MySQL 的完整 Web 应用，含用户与角色、审计日志、安装器；Mitch-Risk 为 Next.js + PostgreSQL 的完整 Web 应用，含角色权限、门户、REST API、Webhook、定时任务；ProcessUnity 为商业 TPRM 平台。两者开源条目均为自托管部署形态，符合本类目对“应用服务”的判定口径。",
+      "identity_and_track": "ID 与 track 一致且无冲突：github:1274406965 对应 learntprm-design/lt-vrm（仓库元数据 id 一致、fork=false、archived=false、默认分支 main），track=open_source；github:1286096557 对应 mitchelljfranklin/mitch-risk（id 一致、默认分支 master），track=open_source；commercial:processunity 为商业条目。LT-VRM 的 homepage 指向 LearnTPRM.com（README 自述为该社区项目的出品方），Mitch-Risk 的 homepage 为其文档站 risk.mitchforge.com，均可由仓库/README 对应，未见身份错配。",
+      "license_and_community_boundary": "LT-VRM：GitHub license API 快照返回 MIT，正文为完整 MIT 许可（授权范围、版权声明保留义务、免责条款齐全），README 亦声明 MIT 且“无追加销售”，可视为整仓库开源、无隐藏社区版切分。Mitch-Risk：license API 快照为 AGPL-3.0，正文为完整 GNU AGPL v3 文本，覆盖整仓库，README 未见付费版或功能阉割说明；条目中“开源核心”的措辞仅有暗示性，未见实质证据，已列入非阻断建议。",
+      "source_checks": "按 REVIEW_SOURCES.json 的 path 逐份读取了 10 份快照（两份仓库元数据、两份 README、两份 license API、两份数据库/数据模型文件、ProcessUnity 首页与 TPRM 专题页），快照存在且内容与条目引用一致：schema.sql 与 prisma/schema.prisma 支撑表/模型层面的核心结构，README 支撑功能、部署与许可声明，license 快照支撑许可结论，ProcessUnity 专题页正文（而非仅标题或结构化数据）支撑关系清单、分级评估、生命周期编排与整改工作流。未以 HTTP 成功、摘要或导航文本替代核心正文。",
+      "commercial_basics": "ProcessUnity 的厂商身份、产品身份（TPRM 平台）与类型匹配成立：官方域名的 TPRM 平台页标题与正文一致描述第三方风险管理平台，覆盖供应商信息集中、分级、评估、评分、审批、整改与 intake 至 offboarding 的生命周期编排；仅需基本真实性与类型匹配，未核价、未核架构，符合要求。",
+      "gaps": "本次为只读文档核对，未部署或运行任何项目（runtime_tested=false 属实）；LT-VRM 的仓库成熟度与运行可用性无留档；OpenGRC 的排除依据未随单元保留快照；未核验快照哈希计算的正确性（仅按文件名/清单对应读取）。这些缺口不影响本叶通过。"
+    }
+  },
+  "limits": "仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 10 份快照做只读核对；未运行 shell、未写文件、未读取其他单元、未部署或运行任何被收录项目，也未做实时联网复核；快照 sha256 仅按清单与文件名对应采信，未独立重算；ProcessUnity 的首页快照为 2026-10-24 复用件且以模板外壳为主，商业结论主要依赖 2026-10-28 的官方 TPRM 专题页；未评估价格、架构、性能与实际客户使用情况。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-087/ses_groveopendesignp087review1_1793196799.jsonl",
+  "batch_sha256": "11ff66ec789c221c664ce6a6b48aede97f9190891fe2b4b63ac34c0791ffd21c",
+  "research_sha256": "ee92fdf54ce720d8c1c56fb324a0abd227305818513736fb3ee8d6f1c29e94ff",
+  "input_sha256": "245c1253329bb5da61a6416993efc554ce6b2f134531949091c2f7396ed65199"
+}

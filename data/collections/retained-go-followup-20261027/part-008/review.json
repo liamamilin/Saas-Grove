@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "data-catalog：DataHub OSS 的目录核心主要依据官方 README 的 OSS/Discovery 段落（元数据图、全资产搜索、schema/统计/所有权/使用情况）；未取得专门的目录搜索/浏览 UI 文档，research.json 已如实记录该证据缺口，故不阻断，但建议后续补充官方目录文档。",
+    "time-series-database-workbench：Chronograf 的核心依据是 README 的 Data Explorer 段落（InfluxQL 查询编辑器、查询模板、表格结果与可视化）；官方 InfluxData 查询文档 404/非 UTF-8，research.json 已留档。README 对“选定时间范围”的表述不如批次摘要明确，且产品整体定位为监控/可视化 UI，Data Explorer 是合格的工作台表面。",
+    "sql-workbench：DBeaver Community Edition 是功能完整的通用数据库工具，含 schema/data editor、ER 图等对象开发界面；其 SQL Editor 与结果面板足以覆盖 SQL 工作台三项核心，但“SQL Workbench 还是 Database IDE”的分类边界建议在 taxonomy 复核时确认。",
+    "data-governance-platform：OpenMetadata 与共享应用 github:391740664 的正式关系为 metadata-management-platform；本条新增 data-governance-platform 属于多类型关系，research.json 已披露，建议确认 application-index 是否允许多叶关系。",
+    "data-governance-platform：批次摘要把 policies 与术语表/标签/领域并列为“关联数据资产”的受管对象；文档中 policies 主要通过资源规则与角色生效，术语表/标签/领域才是直接挂到资产的对象，措辞可再精确，但不影响治理核心成立。",
+    "OpenMetadata 的 research.json 还记录了对 docs.open-metadata.org/llms.txt 与 _llms/v2-0-x.txt 的抓取，但 REVIEW_SOURCES.json 未收录这两个快照；它们只用于定位官方文档，未作为批次核心证据，故不阻断。",
+    "RDF4J、DBeaver、OpenMetadata 的 HTML/JSON 快照存在超长单行，读取时被截断；关键 Query/SQL Editor/治理段落通过可读片段与定向检索交叉确认。"
+  ],
+  "leaf_checks": {
+    "rdf-sparql-workbench": {
+      "application_id": "github:49670957",
+      "result": "pass",
+      "basis": "读取 repository_metadata（id 49670957, full_name eclipse-rdf4j/rdf4j）、LICENSE（BSD-3-Clause 三条款正文）、README 与官方 server-workbench 文档。文档明确 Workbench 是连接 RDF4J Server/仓库或其他 SPARQL 端点的 Web 客户端 UI，提供 Query/Update 页面、SPARQL 编写与执行、结果分页/下载、Explore/Contexts/Namespaces/Export；对应实时 RDF 数据集、SPARQL 编写-执行循环、数据保留型结果三项核心。服务形态为 WAR 部署于 Tomcat/Jetty 或 Docker Compose 自托管，访问受所连 Server 的只读/读写/管理角色约束。",
+      "gaps": "未运行产品；快照为官方页面但单行截断，Query 页的 Cancel/Load more/Export 细节通过定向关键词与可读片段确认，未逐字复核全部段落。"
+    },
+    "sql-workbench": {
+      "application_id": "github:44662669",
+      "result": "pass",
+      "basis": "读取 repository_metadata（id 44662669, dbeaver/dbeaver）、Apache-2.0 LICENSE.md 完整正文、README 与 SQL Editor Wiki。README 自述 free universal database tool and SQL client，社区版驱动清单以 JDBC 为主、ODBC 列在 PRO versions；Wiki 明确在单一数据库连接下编写/执行多个 SQL 脚本、保存复用脚本、在 Results Panel 查看结果并显示错误。覆盖外部数据库连接、SQL 主界面、可检查结果三项核心；社区版边界（ODBC 属 PRO）已正确限定。",
+      "gaps": "未运行产品；DBeaver 同时具备 schema editor、data editor、ER 图等对象开发界面，属于 SQL Workbench/Database IDE 边界的分类判断，建议 taxonomy 复核；快照为当前 Wiki，未验证历史版本。"
+    },
+    "time-series-database-workbench": {
+      "application_id": "github:66506962",
+      "result": "pass",
+      "basis": "读取 repository_metadata（id 66506962, influxdata/chronograf）、完整 AGPL-3.0-or-later LICENSE 正文（前言明确 version 3 or any later version）、README。README 的 Data Explorer 明确提供 InfluxQL 查询编辑器、查询模板、表格结果与可视化；Chronograf 是 Go/React 的 TICK 栈 Web 应用，连接 InfluxDB，Reader 角色查询为只读；部署含 Debian/RPM、Docker 与源码构建。覆盖实时 TSDB、时序数据对象、引擎查询语言编写-执行循环与时间序结果四项结构。",
+      "gaps": "官方 InfluxData 查询文档 404/非 UTF-8，核心依据为 README 的 Data Explorer 功能段落；README 未逐字说明“选定时间范围”，且产品整体定位偏监控/可视化，Data Explorer 是合格工作台表面；research.json 已留档这些缺口。未运行产品。"
+    },
+    "data-catalog": {
+      "application_id": "github:46398090",
+      "result": "pass",
+      "basis": "读取 repository_metadata（id 46398090, datahub-project/datahub）、Apache-2.0 LICENSE 完整正文、README。README 的 DataHub OSS 段落明确自托管、Apache 2.0、元数据图、150+ 集成、列级血缘、治理与发现；Discovery 段落明确全资产自然语言搜索、列级血缘、schema/统计/所有权/使用情况分析，并链接“Search the catalog”。对应外部资产、目录条目结构+描述性上下文、搜索发现三项核心；OSS 与 DataHub Cloud 边界已区分，商业 Cloud 能力未计入。",
+      "gaps": "未取得专门的目录搜索/浏览 UI 文档，核心依据为 README 的 OSS/Discovery 段落；“browse”未被逐字描述；research.json 已如实记录目录 UI 文档缺口，未据此推断关系不成立；未运行产品。"
+    },
+    "data-governance-platform": {
+      "application_id": "github:391740664",
+      "result": "pass",
+      "basis": "读取 repository_metadata（id 391740664, open-metadata/OpenMetadata）、Apache-2.0 LICENSE 完整正文、README 及官方 v2.0.x 文档。data-governance 页将 Business Glossary、Classification、Roles/Policies 作为治理机制；glossary approval 页明确指定 Reviewers、Draft/Approved/Rejected 状态、Task 审阅与讨论；data-ownership 页明确团队/多用户所有者、组织层级传播；roles-policies 页明确 Organization/BusinessUnit/Division/Department/Group 层级、RBAC+ABAC、Tags/Glossary Terms/Domain 等治理资源；domains 页明确 Domain 所有权、子域、资产归属与 Activity Feeds & Tasks；quick-start 与 architecture 页支撑 Docker/Kubernetes 自托管及 Dropwizard/Jetty、MySQL 8.x、Elasticsearch 7.x。覆盖治理规则受管记录、问责结构、受治理流程三项核心；README 区分开源基础与商业 Collate。",
+      "gaps": "data-governance 页本身较短，主要细节来自 glossary approval/ownership/roles-policies/domains 页；未写入版本历史（文档未见正文）；共享应用 github:391740664 的正式关系为 metadata-management-platform，本条为新增多类型关系，需确认 application-index 策略；未运行产品。"
+    }
+  },
+  "limits": "只读审查；按 REVIEW_SOURCES.json 的 path 原样读取了本单元全部 23 个快照，未重算 sha256/fetched_at，未运行任何产品，未访问 application-index.json、其他单元或采集脚本；部分 HTML/JSON 快照单行超过读取上限而被截断，关键段落通过可读片段与定向检索交叉确认；未使用搜索引擎，也未补抓新的官方页面；input.json 指向的 retained-continuation 旧记录未读取，本报告以本单元 data/collections/batch.json 与 research.json 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-008/ses_groveopencodegop008review1_1793074533.jsonl",
+  "batch_sha256": "0b4f9ba3a77619f615381b54258ea1f0f331f7a3f6cc42ed358c782bd3b66ff7",
+  "research_sha256": "68e4a2bcd9857da7e070a06dd0c72d5b0d0d2b24c1ecfa7612696e0850caacb1",
+  "input_sha256": "f41dad0ffe496fddb32e749b70544e9e81f11f4b0abd1d709e25cf8b436213bd"
+}

@@ -1,0 +1,20 @@
+{
+  "phase": "repair",
+  "findings": [
+    {
+      "leaf": "personal-dashboard",
+      "entry_id": "github:792861139",
+      "severity": "high",
+      "issue": "摘要称“服务端定时刷新数据”、reason 称“服务端持续抓取外部数据”，但 Glance README 的 FAQ 明确写道：不会后台周期性请求，信息只在页面加载时抓取并缓存，必须手动刷新页面（README 第 311-317 行）。这直接与定义核心“at-a-glance currency（自动刷新或同步）”冲突，且 research.note 把“刷新周期”写成“未核实项”，与已读正文相反。",
+      "required_fix": "改写摘要与 leaf reason 为“按页面加载抓取并按 widget 缓存，需手动刷新”，删除“定时/持续抓取”表述；在 note/service_boundary 记录该时效性限制。若最终复核认定自动刷新是硬性条件，应将 assessment 改为 boundary_unresolved（archived 仍为 false），不得以错误描述保留 case_found。"
+    },
+    {
+      "leaf": "time-blocking-application",
+      "entry_id": "github:78243781",
+      "severity": "medium",
+      "issue": "reason 引用 Schedule Planner 页面解释“设定时限、选定结果、回看完成情况”，并称任务可完成/重新安排；README 只明确 planner/schedule 时间轴、timeboxing 与时间追踪，未直接写重新安排/结转。所存 use-case 快照是单行 Astro HTML，正文引用无法在可读片段中确认。",
+      "required_fix": "重新抓取并保存含正文的官方页面，逐句引用“拖入时间槽、重新安排、未完成任务结转”等；若无法取得，缩小 reason 为 README 可证的“任务排入 schedule 时间轴 + timeboxing/时间追踪”，不要声称完成/结转循环已证。"
+    }
+  ],
+  "previous_review_path": "var/collection/opencode-go/part-004/project/review.json"
+}

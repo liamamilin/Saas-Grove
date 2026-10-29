@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 28,
+  "offset": 675,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "dast-iast",
+        "name_zh": "DAST (动态应用安全测试) / IAST (交互式应用安全测试)",
+        "domain_id": "15",
+        "parent_id": "15.05",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-147/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "GitHub 仓库与官网文档核对：zaproxy/zaproxy（README + Getting Started + Docs）"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/69",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "GitHub 仓库与官网文档核对：zaproxy/zaproxy（README + Getting Started + Docs）"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "dast-iast",
+        "name": "DAST / IAST",
+        "name_zh": "DAST (动态应用安全测试) / IAST (交互式应用安全测试)",
+        "aliases_zh": [
+          "动态安全测试",
+          "交互式安全测试",
+          "黑盒安全测试",
+          "灰盒安全测试"
+        ],
+        "overview": "A **DAST / IAST application** is a security testing application for running software. It places a specific, identified running application under security test, deliberately exercises that application, detects vulnerabilities from the application's actual runtime behavior, and records the results as evidenced vulnerability findings that drive remediation.\n\nThe defining core is small:\n\n```text\nRunning target application under test\n└── Exercise-and-observe test act\n    │   ├── from outside — generated test requests, analyzed against the\n    │   │   application's responses (dynamic / black-box mode, \"DAST\")\n    │   └── from inside — an instrumentation agent observing exercised\n    │       traffic as it flows through the running code (interactive mode, \"IAST\")\n    └── Findings with runtime evidence\n        (what weakness, where, proof, severity, remediation guidance)\n```\n\nThe two abbreviations in the Type name mark the two observation vantages: testing a running application **from outside** (dynamic application security testing) and testing it **from within** an instrumented application (interactive application security testing). They are one family: both require a running target, both rely on deliberate exercise of the application, and both produce findings whose proof is the application's real behavior rather than an abstraction of its source code.\n\nEverything else commonly associated with the category — crawlers, login automation, check libraries, CI/CD integration, dashboards, team features — is standard capability that mature products add. A tool that analyzes source code without running it is a static analyzer; a tool that blocks traffic in production is a firewall; a tool that only aggregates other tools' findings is a vulnerability management system. The running-application test act with runtime evidence is the boundary.",
+        "overview_zh": "**DAST / IAST 应用**是一种用于运行软件的软件安全测试应用。它将特定的、已识别的运行中的应用置于安全测试之下，故意对该应用进行练习，从应用的实际运行行为中检测漏洞，并将结果记录为作为证据的漏洞发现，以驱动修复。\n\n其核心定义要素较少：\n\n```text\n被测的运行中的目标应用\n└── 练习与观察的测试行为\n    │   ├── 从外部 — 生成测试请求，根据应用的\n    │   │   响应进行分析（动态/黑盒模式，\"DAST\"）\n    │   └── 从内部 — 一个插桩代理观察流经运行代码的\n    │       被练习流量（交互模式，\"IAST\"）\n    └── 带有运行时证据的发现\n        （什么弱点、在哪里、证据、严重性、修复指导）\n```\n\n类型名称中的两个缩写标记了两种观察视角：**从外部**测试运行中的应用（动态应用安全测试）以及**从内部**（在一个插桩的应用中）测试它（交互式应用安全测试）。它们属于同一家族：两者都需要一个运行中的目标，都依赖于对应用的故意练习，并且两者产生的发现，其证据都是应用的真实行为，而非其源代码的抽象。\n\n该类别通常关联的其他所有内容——爬虫、登录自动化、检查库、CI/CD集成、仪表板、团队功能——都是成熟产品添加的标准能力。分析源代码而不运行它的工具是静态分析器；在生产环境中阻止流量的工具是防火墙；仅聚合其他工具发现的工具是漏洞管理系统。带有运行时证据的运行应用测试行为是其边界。",
+        "dc": "- *Outside (dynamic mode).* The tool discovers the application's surface (crawling links and forms, driving a browser for script-heavy apps, or importing API definitions), then sends test traffic: passively observing normal traffic, and/or actively sending modified or malicious requests to see how the application handles unexpected input. Active probing is graded from mild to attack-grade.\n- *Inside (instrumented mode).* An agent embedded in the application's runtime observes how exercised requests flow through the code — where untrusted input travels, where it reaches dangerous operations — while the application is used normally by QA tests, by a scanner, or by a human tester. The agent does not need its own attack engine; the exercise comes from the application's ordinary use.\n\n**Findings.** The output is a structured vulnerability record, not a log line. A finding states what weakness class was detected, where it lives (the URL and request that triggered it, or the route and code location inside the instrumented application), the evidence that proves it (the request/response pair, the data-flow trace), a severity or risk rating, and remediation guidance. Findings are managed objects: triaged, assigned to owners, verified, and retested after fixes.",
+        "dc_zh": "*外部（动态模式）。* 工具发现应用程序的表面（爬取链接和表单，为脚本密集型应用驱动浏览器，或导入 API 定义），然后发送测试流量：被动观察正常流量，和/或主动发送修改或恶意请求，以查看应用程序如何处理意外输入。主动探测从温和到攻击级别分级。\n\n*内部（插桩模式）。* 一个嵌入应用程序运行时的代理观察被操作的请求如何在代码中流动——不受信任的输入流向何处，它何时到达危险操作——同时应用程序由 QA 测试、扫描器或人工测试员正常使用。代理不需要自己的攻击引擎；操作来自应用程序的普通使用。\n\n**发现。** 输出是结构化的漏洞记录，而不是日志行。发现陈述了检测到的弱点类别、它存在的位置（触发它的 URL 和请求，或在插桩应用程序内的路由和代码位置）、证明它的证据（请求/响应对、数据流跟踪）、严重性或风险评级，以及修复指导。发现是受管理对象：分类、分配给所有者、验证，并在修复后重新测试。",
+        "rules": "- **Active testing is treated as a real attack.** Products gate attack-grade testing with authorization warnings, safe modes, and intensity tiers, and recommend staging/test environments. Sending malicious input can damage data or availability, and the tools say so explicitly.\n- **Observation is safe; probing is not.** The passive/active distinction is structural: passive analysis of observed traffic does not alter the application, while active checks inject input and carry risk. Products keep the two separable.\n- **Evidence quality is explicit.** Findings confirmed by observing actual exploit behavior carry higher confidence than findings inferred from static suspicion alone; products encode this in confidence ratings or verification passes rather than pretending all findings are equal.\n- **Findings belong to a specific target and location.** Every finding anchors to the tested application and the precise request, route, or code location involved; identical issues across many locations are consolidated rather than duplicated endlessly.\n- **Authenticated testing is a first-class mechanism.** Credentialed coverage requires machinery for logins and session upkeep (recorded login sequences, token handling), because most of an application's attack surface sits behind authentication.\n- **Fixes are verified at runtime.** A finding closes not on assertion but on re-test: the same exercise that surfaced the vulnerability is repeated, and the issue closes only when it no longer reproduces.\n- **Runs are engineered for failure.** Long test runs meet timeouts, outages, and defensive controls; products track errors granularly, skip or retry failed actions, and can pause or abort rather than report misleading results.",
+        "rules_zh": "- **主动测试被视为真实攻击。** 产品通过授权警告、安全模式和强度分级来控制攻击级别的测试，并建议使用预发布/测试环境。发送恶意输入可能损害数据或可用性，工具会明确说明这一点。\n- **观察是安全的；探测则不然。** 被动/主动的区别是结构性的：对观察到的流量进行被动分析不会改变应用，而主动检查会注入输入并带来风险。产品保持这两者可分离。\n- **证据质量是明确的。** 通过观察实际利用行为确认的发现，比仅从静态怀疑推断出的发现具有更高的置信度；产品将此编码在置信度评级或验证通过中，而不是假装所有发现都等同。\n- **发现属于特定目标和位置。** 每个发现都锚定在被测应用和所涉及的精确请求、路由或代码位置上；跨多个位置的相同问题会被合并，而不是无限重复。\n- **经认证的测试是一等机制。** 需要凭证的覆盖需要登录和会话维护机制（记录的登录序列、令牌处理），因为应用的大部分攻击面位于认证之后。\n- **修复在运行时进行验证。** 一个发现不是基于断言关闭，而是基于重新测试：重现该漏洞的相同练习被重复，只有当问题不再重现时才会关闭。\n- **运行被设计为可应对故障。** 长时间的测试运行会遇到超时、中断和防御性控制；产品会精细地跟踪错误，跳过或重试失败的操作，并可以暂停或中止，而不是报告误导性结果。",
+        "parent_id": "15.05",
+        "domain_id": "15"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 128,
+    "phase": "directory",
+    "parent": 128,
+    "slugs": [
+      "dast-iast"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "200a9b31f187175827bbfa06feadb9b8fb63bbf5257c590a87e153ddf4ef2b39"
+  }
+}

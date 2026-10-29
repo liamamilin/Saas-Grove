@@ -1,0 +1,33 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "slug=chromatography-data-system / application_id=github:768180287：README 末尾明确写道“the current implementation is not suitable for having multiple clients - file cache needs to be changed”。这说明本应用实际是单实例、单客户端、通过 localhost 访问的 Web 应用，并非多租户 SaaS；这与本类型定义允许的“单工作站/简化形态”一致，条目也未声称企业多用户或审计追踪，因此可以接受。建议在 summary 或 service_boundary 中保留这一单客户端限制，以免“self-hosted web application”被读成多人共享服务。",
+    "slug=chromatography-data-system / application_id=github:768180287：基线校正、自适应峰检测、纯度检查/解卷积等算法实际来自 README 所描述的 MOCCA2 Python 包（该 Web App 是它的 GUI）。条目 technology_stack 已列出 MOCCA2，方向正确；如能一句话说明“前端负责页面、campaign 持久化与结果展示，算法来自 MOCCA2 依赖”，可减少读者对实现归属的误解。",
+    "slug=chromatography-data-system / application_id=github:768180287：README 另有 pyinstaller 打包为单可执行文件的章节，deployment 字段只写“served on localhost”。两种用法都成立，补充打包方式属可选完善，不阻断。",
+    "slug=chromatography-data-system / application_id=github:768180287：定义中的“method”在本应用中体现为 Process 页可下载/上传并随 campaign 保存的处理设置，没有命名、版本化方法库；核心流程（原始信号→积分→校准定量→按样品结果记录）完整，方法版本化属成熟产品能力，不阻断。",
+    "slug=chromatography-data-system：research.json 保留的 OpenChrom（github:202303561，EPL-2.0）与 JuHPLC（github:136422600，license API 404）在本单元没有对应快照，仅以研究记录与 withheld 理由留档；这是如实记录的检索/抓取留档，不构成证据缺口，但其中“历史复用旧快照”“JuHPLC 无 LICENSE”等结论无法在本单元独立复核。",
+    "slug=chromatography-data-system：MOCCA2 后端仓库（Bayer-Group/mocca）的元数据与许可证按 research 记录为 MIT，但未纳入 REVIEW_SOURCES 快照；条目许可证结论以本仓库 LICENSE.txt 为准，已足以成立，依赖许可证可另行留档。"
+  ],
+  "leaf_checks": {
+    "chromatography-data-system": {
+      "slug": "chromatography-data-system",
+      "application_ids": [
+        "github:768180287"
+      ],
+      "definition_core": "通过。README 正文（data/collections/sources/4922b420...425b.txt）逐项对应定义性核心：原始色谱信号以 Agilent/Shimadzu/Waters 原始文件导入并按 Sample Name 归属，campaign（.mocca2）保存全部色谱图与处理设置并可 Load Campaign 恢复，因此信号可再处理；Process 页执行基线校正与自适应峰检测（Min/Max Retention Time、Min Relative Peak Height、Min Peak Purity 等设置，Process Single Sample / Process All）；Data 页录入校准品浓度与 ISTD 名称/浓度，Results 页给出峰面积与“calibrated concentrations”；处理设置可下载/上传并随 campaign 持久化，近似覆盖“方法”；结果按样品绑定并可复制导出。未把简介、导航或关键词当作核心证据。",
+      "service_form": "通过（有非阻断限制）。这是 `python app.py` 启动、浏览器访问 localhost:8050 的 Dash Web 应用，含 Data/Process/Results 独立页面、服务端 flask 缓存与后台线程任务，是完整应用而非裸库或 CLI；README 明确其不支持多客户端，属单实例单工作站形态，与本类型允许的简化形态一致，条目也未夸大为企业/多租户服务。",
+      "identity_track": "通过。仓库元数据快照 e84cdd7c...c1444.txt 显示 id=768180287、full_name=Bayer-Group/MOCCA-frontend、fork=false、private=false、archived=false、default_branch=main，与 batch.json 的 github_repository_id、repository_url、homepage 及 README 抓取分支一致；track=open_source 与公开 GitHub 仓库、MIT 许可相符；名称“MOCCA2 Web App”与 README 标题“Web App for MOCCA2”一致。",
+      "license": "通过。许可证快照 337bf2ba...8db7.txt 为 GitHub contents API 返回的 LICENSE.txt（size 1076，encoding base64），解码正文以“The MIT License (MIT) / Copyright (c) 2024 Jan Oboril”开头，包含完整的授予、保留版权声明条件与“AS IS”免责条款，并以“...DEALINGS IN THE SOFTWARE.”结束，即完整 MIT 全文，非摘要；元数据快照亦含 \"spdx_id\":\"MIT\"，与 batch.json 的 license=MIT、license_evidence_url 一致。",
+      "community_boundary": "通过。仓库为单一 MIT 许可，README 未见开源版/商业版功能切分或专有模块声明，条目也未声称存在商业扩展；未发现许可证与功能范围矛盾。",
+      "evidence_sufficiency": "通过。三条来源（repository_metadata、license、readme）均按 REVIEW_SOURCES.json 的 path 原样读取，sha256 前缀与文件名一致；核心结论均出自 README 正文的工作流描述，而非仓库描述（description 为 null）。",
+      "gaps": "本单元无阻断缺口。局限：未运行应用；MOCCA2 依赖仓库与 OpenChrom/JuHPLC 的历史快照不在本单元；README 未提及审计追踪、电子签名、仪器控制，条目亦未声称。"
+    }
+  },
+  "limits": "只读初审，未运行任何 shell、未写入文件、未做部署或功能实测，因此无法重算三个快照的 sha256，只能依赖 REVIEW_SOURCES.json 记录的哈希、文件名前缀、文件 size 字段与正文内容一致性判断。repository_metadata 与 license 快照为单行大 JSON，read 输出在 2000 字符处截断，故通过定向文本匹配确认 id/full_name/fork/private/archived/default_branch/spdx_id 及许可证正文结尾，未逐字节通读整份元数据。data/collections/sources 下另有 8 个未被 REVIEW_SOURCES.json 或 batch.json 引用的快照文件，按“不猜测路径、不读取其他单元”的要求未读取，亦未将其视为本单元缺口。research.json 中 OpenChrom、JuHPLC、Bayer-Group/mocca 相关抓取与 404 结论仅以研究记录形式存在，本单元无对应快照可独立复核。未查阅采集者 TASK.md、历史脚本或其他单元资料。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-167/ses_groveopencodegop167review1_1793252847.jsonl",
+  "batch_sha256": "eac0992efbef4620f095977ba93e921ef70e6946b3c588812ab39edebd038a48",
+  "research_sha256": "b6d5dd5fc9398a1b62c1799e6198644acb2f9c23cee9c3f23a9f72aaa8bef255",
+  "input_sha256": "5570349f3e7ddaa7dd2569a2b8ab83775139a35aacac0572e7dd5f68f33a7c36"
+}

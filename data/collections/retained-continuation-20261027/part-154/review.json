@@ -1,0 +1,114 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "note": "CISO Assistant 是通用 GRC 平台中的 TPRM 模块，不是独立专用平台。batch 已如实标注为“模块级匹配”，建议下游沿用该口径，勿在展示层写成专用第三方风险平台。"
+    },
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "note": "external ratings 是人工录入第三方评级机构读数（SecurityScorecard/Bitsight 等）并做 scale_max 归一化，并非平台自身扫描评级；对外描述不宜暗示自带外部扫描引擎。"
+    },
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "note": "action-plans.md 的“Where it appears”表只列审计/风险评估/量化研究/发现/ EBIOS，未直接列 entity assessment；整改闭环是通过 entity assessment 关联的 audit/compliance_assessment 推导的。建议补一条直接证据或把“行动计划跟踪”表述收窄为“经关联审计的行动计划”。"
+    },
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "note": "社区版边界只按“backend/tprm 不在 enterprise 下 + README/LICENSE 声明”核对；external_ratings 与 auditee_mode 均以 feature flag 形式出现，建议补 settings/feature-flags 文档或代码确认其未被商业版门控。另 sources 目录存在未登记快照 06f656…（LICENSE.md），其内容正好载明 enterprise/AGPL/MIT 边界，可补入 sources 与 license 证据。"
+    },
+    {
+      "slug": "cae-engineering-simulation",
+      "application_id": "github:27826728",
+      "note": "核心证据来自 README.org 与官网正文（“calculates fluid motion and forces, heat transfer…as an alternative to experiments”），未见网格/边界条件/结果场的工作流文档；建议补一页求解器或用户指南来源，使“离散化数值求解”这一核心有直接正文支撑。openfoam.org/features 的 301 跨主机跳转拒抓已在 research.json 留档，可接受。官网快照为大量 HTML/JS 样板，后续优先用文档页。"
+    },
+    {
+      "slug": "cnc-programming-application",
+      "application_id": "github:5736080",
+      "note": "FreeCAD 整体是参数化 CAD，CNC 编程由 CAM 工作台承担；batch 与 research 已按子模块收窄表述。另 batch 该条缺 license_review 块（其余四个开源条目均有），建议补记 LGPL-2.1 全文核对与第三方组件许可说明，保持格式一致。"
+    },
+    {
+      "slug": "ecad-eda",
+      "application_id": "github:14849992",
+      "note": "summary 中的“制造文件生成”未被所引快照直接覆盖：README 只列 pcbnew/gerbview 目录，eeschema 文档覆盖符号库、标注、连接语义、网表与 BOM。事实本身成立，建议补 PCB/制造输出文档或把措辞收窄为“网表/BOM 等派生交付物”。另 kicad-source-mirror 是 GitLab 官方开发库的活跃镜像（描述已自述），身份可用但宜注明。"
+    },
+    {
+      "slug": "electrical-design-application",
+      "application_id": "github:195001833",
+      "note": "README 覆盖符号库(8200+)、导线连接、交叉引用、导体自动编号、导线编号 CSV 与部件信息 CSV、nomenclature/summary，足以支撑电气极核心；但端子排/端子方案、控制柜与线束生产数据未被证据覆盖，且 README 明示不含仿真与计算功能。建议保持现有收窄口径，勿外推端子与面板制造能力。"
+    },
+    {
+      "slug": "ecad-eda",
+      "application_id": "github:14849992",
+      "note": "与 electrical-design-application 的定义性重叠（共享设备/元件库—原理图—连通性—派生交付物结构）已在两侧定义文本与 research.service_boundary 中显式留档，未静默合并；本单元用 KiCad 只落电子极、QElectroTech 只落电气极，无同一应用跨叶复用。"
+    },
+    {
+      "slug": "third-party-cyber-risk-platform",
+      "application_id": "github:694266896",
+      "note": "input.json 的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，与 research.json 的 case_found 不一致；应以 research.json/batch.json 为准，建议后续同步 progress 元数据（不影响本单元内容结论）。"
+    }
+  ],
+  "leaf_checks": {
+    "third-party-cyber-risk-platform": {
+      "application_id": "github:694266896",
+      "application": "CISO Assistant",
+      "track_license": "open_source / AGPL-3.0",
+      "core_match": "三点定义核心均有实际快照正文支撑。(1) 常驻第三方人群：guides/tprm.md 展示 Entities/Representatives/Solutions/Contracts 台账与逐实体评估流程；concepts/third-party-risk.md 给出 Entity—Solution—Contract—Representative 对象图与 register/last assessment。(2) 逐供应商评估产出可比地位：EntityAssessment 可绑定问卷或审计（tprm.md 第16–23步“Create audit/Link framework/Send questionnaire”），models.py 中 EntityAssessment 含 conclusion/expiry_date/evidence/compliance_assessment；EntityScore 以 provider/score/scale_max/as_of 累积历史并派生 normalized_score(0–100)，实现跨评级机构可比；Tier/Tier history 提供分级。(3) 决策与解决闭环：评估结论 + 有效期 + 证据 + 接受残余风险记录，另有 action-plans 文档说明按评估汇总 applied controls 的状态/优先级/负责人/预算并导出。整体为 GRC 平台内的 TPRM 模块级匹配，batch 已如实标注。",
+      "service_form": "可自托管社区版（Docker Compose，前后端分离，SQLite/PostgreSQL），README 另有官方云实例试用；属持续运行的软件服务形态。",
+      "license_boundary": "LICENSE-AGPL.txt 为完整 AGPLv3 正文（至 line 619 END OF TERMS AND CONDITIONS）；README License 节明确 enterprise 目录为 intuitem 商业许可、其外文件为 AGPLv3；被引 TPRM 代码路径 backend/tprm/models.py 位于顶级 enterprise 之外。research 与 license_review 已如实记录“未逐项核对商业版是否另有 TPRM 扩展”。",
+      "id_check": "仓库元数据快照 id=694266896、full_name=intuitem/ciso-assistant-community、private=false、fork=false，与 batch 的 github_repository_id/repository_url/ID 一致。",
+      "gaps": "未部署运行；未核对各 TPRM feature flag 是否被商业版门控；sources 中存在未登记的 LICENSE.md 快照。"
+    },
+    "cae-engineering-simulation": {
+      "application_id": "github:27826728",
+      "application": "OpenFOAM (OpenFOAM-dev)",
+      "track_license": "open_source / GPL-3.0-or-later",
+      "core_match": "README.org 明确其为开源 CFD 软件包，可求解含化学反应的复杂流体、湍流与传热、固体动力学与电磁问题；官网正文（accordion 段）说明 CFD 软件用于设计/优化/安全计算，并“calculates fluid motion and forces, heat transfer, thermodynamics and chemistry in fluids and solids — as an alternative to experiments”，与 CAE“物理场景计算模型 + 物理规范 + 数值求解 + 物理结果”的核心一致，且属求解器而非仅可视化。快照未直接展开网格/边界条件/结果场流程，故只按求解范围与物理场结果表述，未外推网格生成或后处理。",
+      "service_form": "开源软件包，按官方源码说明自行编译部署（C++），属持续使用的工程仿真软件形态。",
+      "license_boundary": "COPYING 为完整 GPLv3 正文（至 line 632 END OF TERMS AND CONDITIONS），并声明可按 GPLv3 或更高版本使用；README 同述。GitHub 许可证 API 返回 NOASSERTION 的缺口已在 license_review 与 research.note 中如实记录并用完整文本核对，符合留档要求。",
+      "id_check": "仓库元数据快照 id=27826728、full_name=OpenFOAM/OpenFOAM-dev、description=“OpenFOAM Foundation development repository”、fork=false，与 batch 一致。",
+      "gaps": "未编译或运行算例；openfoam.org/features 因 301 跨主机跳转被拒，已留档未使用。"
+    },
+    "cnc-programming-application": {
+      "application_id": "github:5736080",
+      "application": "FreeCAD (CAM Workbench)",
+      "track_license": "open_source / LGPL-2.1",
+      "core_match": "官方 CAM_Workbench 文档正文（line 883–899）完整覆盖三结构：几何输入为 FreeCAD 3D 模型；创建 CAM Job（含 Stock 毛坯、刀具库与加工指令），用 Contour/Pocket 等操作由软件计算铣削刀具路径（内部 G-code 方言，与机床无关）；再经 post processing 选择后处理器，导出匹配目标 CNC 控制器的 G-code。另提供 Tool Manager、G-code Inspection、CAM Simulator 与 post-processor 定制，符合“程序面向特定机床/控制”的规则。README 说明其为参数化 3D 建模器，故按 CAM 子模块收窄匹配。",
+      "service_form": "开源桌面 CAD/CAM 应用，Windows/macOS/Linux 本地安装使用。",
+      "license_boundary": "license API 快照 (7ca99b…) 返回 LICENSE 全文（size 27030，内容为 GNU Lesser General Public License Version 2.1 完整正文），与 batch 的 LGPL-2.1 一致；CAM 工作台位于该仓库内，无社区版/商业版拆分问题。batch 该条缺 license_review 块，但证据快照本身完整可核。",
+      "id_check": "仓库元数据快照 id=5736080、full_name=FreeCAD/FreeCAD、description=“Official source code of FreeCAD…”、fork=false，与 batch 一致。",
+      "gaps": "未运行 CAM 或生成实际机床程序；FreeCAD 主体为 CAD，CNC 能力限于工作台粒度。"
+    },
+    "ecad-eda": {
+      "application_id": "github:14849992",
+      "application": "KiCad",
+      "track_license": "open_source / GPL-3.0",
+      "core_match": "docs.kicad.org 9.0 eeschema 文档正文覆盖四结构：符号库与符号库表、自动标注/reference designators；原理图捕获与多页层次结构；连通性语义（local label 同页、global label 同名即连接、跨页层次标签、junction/no-connect、网络标签）；派生交付物（netlist 导出、BOM 生成、自定义 netlist/BOM 格式），并有 forward/back annotation 与 PCB 同步。README 列出 eeschema、pcbnew、cvpcb、gerbview 等源码目录，支撑电子极 ECAD/EDA 整体形态。",
+      "service_form": "开源桌面 EDA 套件，Windows/macOS/Linux 安装使用。",
+      "license_boundary": "license API 快照 (14a1c8…) 为 LICENSE 全文（size 35149，GNU GPL Version 3, 29 June 2007 完整正文），与 batch 的 GPL-3.0 一致；仓库无社区版/商业版拆分。",
+      "id_check": "仓库元数据快照 id=14849992、full_name=KiCad/kicad-source-mirror、fork=false，描述自述为 GitLab 官方开发分支的活跃镜像，与 batch 记录一致。",
+      "gaps": "“PCB 制造输出/制造文件”未被所引快照直接证明（仅有 pcbnew/gerbview 目录与 eeschema 的 PCB 同步）；未运行或生成制造文件；仓库为镜像而非 GitLab 主库。"
+    },
+    "electrical-design-application": {
+      "application_id": "github:195001833",
+      "application": "QElectroTech",
+      "track_license": "open_source / GPL-2.0",
+      "core_match": "README 正文覆盖四结构：内置 8200+ 电气/逻辑/气动/液压/流体符号库与自建元件编辑器（设备/符号库）；面向电气文档的原理图/接线图绘制，含 folio 页、标题栏与多项目管理（接线原理图为设计记录）；元件按对齐或点对点拉导线自动连接、多种交叉引用并自动更新、可定义导体/符号/folio 自动编号（连接性作为电气数据）；派生交付物包括元件信息导出 CSV（可生成部件清单/BOM）、导线编号 CSV 导出（满足线号打印数量）、nomenclature/summary 报表及 PDF/SVG 导出。README 明示不含仿真与计算，符合该类型为设计应用而非分析工具。",
+      "service_form": "开源桌面应用，Windows/GNU-Linux/macOS/BSD 本地安装。",
+      "license_boundary": "license API 快照 (a7b97d…) 为 LICENSE 全文（size 18010，GNU GPL Version 2, June 1991 完整正文），README 亦写明 GNU/GPL v2，与 batch 的 GPL-2.0 一致；无社区版/商业版拆分。",
+      "id_check": "仓库元数据快照 id=195001833、full_name=qelectrotech/qelectrotech-source-mirror、description=“Main QET repository”、fork=false，与 batch 一致。",
+      "gaps": "未运行或生成实际图纸；端子排/端子方案、控制柜与线束生产数据无快照证据，已由 research.service_boundary 如实限制；与 ecad-eda 的共享定义结构已显式留档。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用 read/grep/glob 读取本单元的 input.json、REVIEW_TASK.md、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 22 个快照（路径按原样、以 data/collections 为基准），未运行 shell、未写文件、未访问其他单元、未做部署或运行验证、未另行联网抓取。GitHub 元数据与 /license 快照为单行 JSON，读取器按 2000 字符截断，故仓库 id/name/full_name/private/fork/description 已核对，但文件后部的 archived、license.spdx_id 等字段无法逐字读取；许可证结论改由完整许可证正文（行数/终止条款/文件大小与开头条文）交叉核对，sha256 未重算（文件名与 REVIEW_SOURCES/batch/research 中记录的哈希一一对应，仅作一致性比对）。sources 目录另有未列入 REVIEW_SOURCES.json 的快照 06f656…（CISO Assistant LICENSE.md），仅作旁证读取，未纳入正式来源清单。结论不含价格、架构与真实客户案例核验；未覆盖商业条目的定价/合同真实性，本单元也不含商业条目。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-154/ses_groveopencodegop154review2_1793014503.jsonl",
+  "batch_sha256": "35f9f83ae4d02126a4dfd1958d9a6925f6381d2974f1ac35086ecc576be9f761",
+  "research_sha256": "ce360f174323dba4e72da0a57cb7e115169345e5e0be70ca559c598bbde9bcef",
+  "input_sha256": "19431ea6894e237ab992b2f27616738a5212032468f6d532ee80d3a990bf2185"
+}

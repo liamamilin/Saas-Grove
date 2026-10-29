@@ -1,0 +1,62 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "dataops-platform / github:216628419: Flyte 的 dev→prod 主要依靠 Domain 切换和不可变版本登记来完成，合并、审批通常由外部 Git/CI 承担；domains.rst 只说明资源隔离与在开发、预发布域禁用 launch plan/schedule，未证明开发运行会写入隔离数据层。三要素仍成立，但“受控且可审查的推广”证据偏薄，建议在条目中说明审批由外部承担。",
+    "dataops-platform / github:216628419: 条目按 Flyte 1.x 记录，而 main 分支 README 已是 Flyte 2（且 Flyte 2 开源分布式后端仍标注 coming soon）；建议在名称或摘要中更醒目地区分版本，避免读者把 Flyte 2 的能力套到 Flyte 1.x 条目上。",
+    "etl-elt-platform / github:210579021: Hop 首页与 README 能证明可视化 pipeline/workflow 设计、受管转换、项目/环境切换和多运行时执行，但未直接给出运行历史、失败告警或调度监控的正文证据；“由平台执行并监控”中的监控一环宜补一条运行/监控文档。",
+    "master-data-management / commercial:semarchy-data-platform: design 索引标题覆盖 match/merge、golden record 认证、MDM Web 应用与数据管理工作流，但未展开 survivorship 规则和向下游发布/同步的具体机制；leaf_matches 中“构成完整的 MDM 核心”措辞略强，建议改为“覆盖 MDM 主要环节”。",
+    "metadata-management-platform / github:391740664: README 在 Discovery 能力中列出 sample data，与定义中“平台从不持有数据”存在轻微张力；建议在摘要中说明平台只保存样例/剖析结果而非业务数据副本。",
+    "metadata-management-platform / github:391740664: 仓库元数据快照为旧版本，research 已如实记录重取后动态字段变化，且 id/full_name 仍为 391740664 / open-metadata/OpenMetadata，不影响身份判断；归档时建议保留该说明。",
+    "synthetic-data-platform / commercial:mostly-ai: 官网当前标注“powered by Syntho”，产品归属/品牌关系建议在条目名称或摘要中持续保留说明；Synthetic Data SDK 为 Apache-2.0 不等于平台开源，条目已正确按商业产品记录。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，与本单元 batch/research 已找到案例不一致；建议调用方归档时同步 progress 字段，避免下游误判为无案例。"
+  ],
+  "leaf_checks": {
+    "dataops-platform": {
+      "application_id": "github:216628419",
+      "verdict": "pass",
+      "core": "官方文档覆盖三要素：versioning.rst 说明整个 workflow 被版本化、task/entity 不可变，旧版本执行不受新版本激活影响；domains.rst 以 development/staging/production 域隔离资源并可在开发/预发布域禁用 launch plan 与 schedule；projects.rst 提供项目级资源限制、报告和仪表盘；README 说明调度、通知、时间线视图以及“Dev to prod: 切换 domain 即可”。",
+      "identity_and_license": "仓库元数据开头确认 id=216628419、full_name=flyteorg/flyte；LICENSE API 返回完整 Apache License 2.0 文本（11341 字节），README 亦标注 Apache-2.0。",
+      "community_boundary": "开源核心为 Flyte 1.x 自托管平台；README 明确 Flyte 2 的开源分布式后端仍为 coming soon，企业级后端由 Union.ai 提供，条目已按 1.x 记录并披露该边界。",
+      "gaps": "审批/合并由外部 Git/CI 承担，平台未提供内置审批证据；Domain 只隔离资源与调度配置，未证明开发运行的数据写入隔离。"
+    },
+    "etl-elt-platform": {
+      "application_id": "github:210579021",
+      "verdict": "pass",
+      "core": "hop.apache.org 首页正文将 Hop 定义为开源数据集成与编排平台：在画布上设计 pipeline/workflow，同一 pipeline 可运行于本地引擎、远程 Hop Server、Spark，或经 Apache Beam 运行于 Flink/Dataflow；首页列出 250+ pipeline transforms、80+ workflow actions、40+ database dialects，并以 Projects/Environments 从开发切换到生产且凭据不写入 pipeline。README 亦确认 Hop 覆盖 data 与 metadata orchestration。",
+      "identity_and_license": "仓库元数据开头确认 id=210579021、full_name=apache/hop；LICENSE API 返回完整 Apache License 2.0 文本（12067 字节），README 头部含 ASF Apache-2.0 许可声明。",
+      "community_boundary": "ASF 顶级项目，代码与发布均按 Apache-2.0；无 open-core 分裂证据，条目按开源平台记录。",
+      "gaps": "运行历史、失败告警、调度监控未在快照正文中直接展开；快照为单行超长 HTML，首页正文通过官方页面只读文本交叉核对（与摘要一致）。"
+    },
+    "master-data-management": {
+      "application_id": "commercial:semarchy-data-platform",
+      "verdict": "pass",
+      "core": "docs.semarchy.com concepts 页把 Master data management 列为平台核心能力（创建并维护准确、一致、受治理的主数据），并说明平台以 SaaS 为主、也支持 self-hosted；designer guides 索引覆盖逻辑数据模型、数据认证（enrichment/validation）、match and merge、golden records、MDM Web 应用、数据管理工作流，以及 data product 的 build/deploy；首页标题与结构化数据均以 MDM 定位。",
+      "identity_and_license": "商业条目，无仓库许可证要求；产品身份为 Semarchy Data Platform（文档亦称 Semarchy xDM 模型），官网 semarchy.com 与 docs.semarchy.com 一致。",
+      "community_boundary": "不适用；商业 SaaS/自托管产品。research 已记录旧跳转快照返回 404、仅 547 字节且未用作证据。",
+      "gaps": "survivorship 规则与向下游发布/同步的具体机制未在快照正文展开；商业条目仅按基本真实性与类型匹配核对。"
+    },
+    "metadata-management-platform": {
+      "application_id": "github:391740664",
+      "verdict": "pass",
+      "core": "README 明确 OpenMetadata 将 technical metadata、quality、lineage、ownership、usage、glossary、classification、metrics、domains、contracts 等汇聚为统一 metadata knowledge graph；以 130+ connectors、ingestion APIs/events 采集，经 API、SDK、MCP server、语义搜索提供给人和机器，符合中央元数据记录、采集机制与对外服务三层核心。",
+      "identity_and_license": "仓库元数据开头确认 id=391740664、full_name=open-metadata/OpenMetadata；LICENSE API 返回完整 Apache License 2.0 文本（11356 字节），README 末尾亦声明 Apache-2.0。",
+      "community_boundary": "README 将开源核心与 Collate 商业托管/企业能力分节说明，Collate 作为商业邻接未混入开源核心；条目按开源平台记录。",
+      "gaps": "README 的 Discovery 能力提到 sample data，与“平台从不持有数据”存在轻微张力；仓库元数据为旧快照，research 已如实记录重取后动态字段变化。"
+    },
+    "synthetic-data-platform": {
+      "application_id": "commercial:mostly-ai",
+      "verdict": "pass",
+      "core": "synthetic-data-basics 正文说明生成式模型在真实数据上学习 patterns、correlations、statistical properties，再生成全新人工记录，并强调无 PII、无一一对应关系；页面还说明每个 Generator 附带 Model Insight Report 质量评估。SDK 页把 Generators、Synthetic Datasets、Connectors 列为平台核心资源，说明 Generator 可训练、导出并导入平台复用。首页确认其为生成高保真、隐私安全合成数据的 Data Intelligence Platform。",
+      "identity_and_license": "商业条目，无仓库许可证要求；官网 mostly.ai 与标题“MOSTLY AI powered by Syntho”一致，条目已注明该关系。",
+      "community_boundary": "Synthetic Data SDK 为 Apache-2.0 开源客户端/本地工具，平台本身按商业产品记录，未误标为开源。",
+      "gaps": "“高保真/隐私安全/完全匿名”类表述属厂商声明，条目未作强断言；未核查价格、部署拓扑，未运行。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未做运行时/部署测试，未重新计算快照 SHA-256（仅按 REVIEW_SOURCES.json 的 path 与文件名/记录比对）。多个官网快照为单行超长 HTML，读取工具在每行 2000 字符处截断：Hop 首页正文另以只读方式访问官方页面文本交叉核对（内容与条目摘要一致）；Semarchy 首页与 OpenMetadata 首页主要通过标题、结构化数据、可检索正文片段与配套文档/README 互证；MOSTLY AI 两页通过可定位的正文段落核对。GitHub 仓库元数据快照的 archived/license 字段位于截断段之后未直接读取，仓库身份以开头 id/full_name 为准，许可证以 LICENSE API 全文为准。商业条目未核查价格、部署拓扑与企业版功能边界；未验证各产品实际运行行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-135/ses_groveopencodegop135review2_1793009635.jsonl",
+  "batch_sha256": "058d75a636dd1b1c918166ab70df21b30f463482ab0c6374e8aabda1a6abf3c8",
+  "research_sha256": "5fe9c030fc7c34fad534476217de2d486dc9737640680886af0508154be03e6e",
+  "input_sha256": "38c8291ddf4fc205101abf5788c77c48e4c2fbd9abe63327a8d2dfe3e146b1f4"
+}

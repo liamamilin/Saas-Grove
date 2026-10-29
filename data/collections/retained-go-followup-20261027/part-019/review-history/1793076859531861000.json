@@ -1,0 +1,75 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "population-health-management",
+      "application_id": "commercial:innovaccer",
+      "issue": "research.json 的 note 称快照正文有「A care coordinator on a 150 to 200 patient panel actively manages the top 5%」以及「Worklist refreshed / Action status tracked」；按 REVIEW_SOURCES 指定的 sources/6e9d199354215fc403122105cc9f9c1cd7fdab685d51385d3decaee9307a2c00.txt 逐字检索不到这些句子。该快照可见的正文是 reads every value-based contract、assigns a value to every action、Agents work the routine steps、Your team owns the exceptions，以及 34% average gap closure 等统计；batch.leaf_matches.reason 仍写「正文列出…工作清单刷新/行动状态跟踪」，属于把产品预览或推断当作正文。快照也未明确给出 defined/attributed population 或 person-level registry，Innovaccer 作为 PHM 案例的核心证据不足。",
+      "fix": "删除未核到的引文和「工作清单刷新」等表述，只保留可逐字核到的合同—行动优先级、代理执行常规步骤、团队处理例外、gap-closure/outreach 统计；若要保留 Innovaccer 为 PHM 案例，补充能证明 attributed/empaneled population 与 person-level registry 的官方页面并加入 REVIEW_SOURCES，否则将其从 leaf_matches 移除，由 Azara 支撑该叶。"
+    },
+    {
+      "slug": "clinical-documentation-platform",
+      "application_id": "commercial:suki",
+      "issue": "batch.leaf_matches.reason 与 research.note 引用帮助文章快照中的「Choose Review Note」「You can edit content and add ICD-10 codes」「When the EHR is back online, send the note」；但 sources/24648dab0d28c369b5f6c4f213b681e4bc4eb41556f89c39366a8a0389e8f962.txt 只有 73 行，正文是空的 Next.js/Intercom 壳，只有 title、meta 和结构化数据，未包含这些句子。该快照不能作为审阅—编辑—发送闭环的正文证据。",
+      "fix": "重新抓取并保存能加载正文的帮助文章，或改引 Suki Solutions 快照中可核到的 structured notes / syncing to the EHR 段落，并从 reason/note 删除无法在快照中核到的引文；Suki 案例可保留，但证据链须以实际快照为准。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍是 case_status=not_searched、application_ids/research_records 为空，而 batch/research 已是 case_found 并含 9 个 commercial 条目；这是单元元数据未同步，不影响本次内容判断，但下游导入前应更新，否则会丢失案例关联。",
+    "health-information-exchange-hie 的 research.source_urls 含 OpenHIM 的 GitHub API、license、README，但这三个快照未列入 REVIEW_SOURCES.json；note 已说明 OpenHIM 是中间件候选、未计为完整 HIE，属于已记录缺口。若后续要做开源许可证与社区版边界审查，应把这三个快照纳入正式来源并核验 MPL-2.0 与仓库身份。",
+    "MatrixCare 的快照只把 census 作为报告维度，未明确 census 为计费驱动或核心记录；batch 已收窄措辞，PointClickCare 提供更强的 SNF 核心证据，保持当前谨慎表述即可。",
+    "各商业条目的价格、部署架构、安全认证均未验证，runtime_tested 为 false；本次只读页面核对，不构成运行或采购验证。"
+  ],
+  "leaf_checks": {
+    "population-health-management": {
+      "status": "partial",
+      "applications": [
+        "commercial:innovaccer",
+        "commercial:azara-healthcare"
+      ],
+      "basis": "Azara 证据较强：DRVS 快照含 clinical/claims/practice management/ADT 聚合、Risk Stratification、care gaps、Registry Reports、质量指标；Patient Visit Planning 快照含按医生日程的患者级工作清单、care gap alerts、risk score；Patient Outreach 快照含 targeted outreach、track responses、measure improvement。Innovaccer 快照含 reads value-based contracts、assigns value to every action、agents work routine steps、team owns exceptions、gap-closure/outreach 统计。",
+      "gap": "Innovaccer 快照未核到 150–200 patient panel、Worklist refreshed 等引文，也未明确 defined/attributed population 与 person-level registry；见 finding。"
+    },
+    "skilled-nursing-facility-management": {
+      "status": "passed",
+      "applications": [
+        "commercial:pointclickcare",
+        "commercial:matrixcare"
+      ],
+      "basis": "PointClickCare 云端 SNF 平台正文含 resident status 跟踪、insurance coverage validation、MDS 自动提交 iQIES、billing/accounts receivable/collections/claims、trust fund、care plans；Increase Occupancy 快照含 census-mix、occupancy、admission decisions。MatrixCare 快照含 SNF 软件、billing/RCM、census 与 financial accounts receivable 报告、MDS assessments。",
+      "gap": "MatrixCare 的 census 仅见报告维度，未明确 census-driven billing；batch 已收窄，不阻断。"
+    },
+    "clinical-communication-platform": {
+      "status": "passed",
+      "applications": [
+        "commercial:perfectserve",
+        "commercial:spok"
+      ],
+      "basis": "PerfectServe 快照含 Dynamic Intelligent Routing 使用 real-time schedules、roles、coverage、clinical context；Message escalation 与 unanswered messages climb the chain；audit trail 记录 every message、delivery event、sign-in；Connect 页含 patient context、attachments、delivery tracking、read receipts。Spok 快照含 provider directory、EHR、on-call schedules 集成，按 people/groups/roles 查找，confirmed delivery、intelligent escalation、audit-ready records。",
+      "gap": "无。"
+    },
+    "clinical-documentation-platform": {
+      "status": "partial",
+      "applications": [
+        "commercial:abridge",
+        "commercial:suki"
+      ],
+      "basis": "Abridge 快照含 structured specialty-specific note ready for review、editing tools/time-to-sign、finalized notes ready for review/billing/follow-up、EHR workflows。Suki Solutions 快照含 ambient capture、structured notes、edit before EHR sync 等正文。",
+      "gap": "Suki 帮助文章快照仅含页面壳，所引 Review Note、ICD-10 编辑、重新上线后发送等句子无法从快照核到；见 finding。"
+    },
+    "health-information-exchange-hie": {
+      "status": "passed",
+      "applications": [
+        "commercial:oracle-health-hie"
+      ],
+      "basis": "Oracle 互操作页明确 Oracle Health HIE 为 vendor-agnostic point-of-care HIE，可 aggregate clinical data from many connected sources、提供 intelligent patient matching 与 record locating、 longitudinal history；QHIN 页说明其 Designated QHIN、跨组织 participants、TEFCA exchange purposes、single point of connectivity。",
+      "gap": "OpenHIM 候选未纳入案例，其许可证与社区版边界未独立复核；见 non_blocking_notes。"
+    }
+  },
+  "limits": "只读审查；未运行、登录、部署或测试任何应用，未验证价格、架构、安全认证；HTML 快照多为压缩长行，部分正文只能按精确短语核验；未计算文件 sha256；Suki 帮助文章快照未保存正文；Innovaccer 页面含动态产品预览，部分标签难以区分正文与预览；未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-215/ses_groveopencodegop215review2_1793030019.jsonl",
+  "batch_sha256": "fbb6edb25fdce5e19b277d4a988806395cd422748f871e4ed8d5257a863a201f",
+  "research_sha256": "0a70427161594096e4ee237fd9f38e14c15501cf76ab5176af38fcd89c980b83",
+  "input_sha256": "13df5be3634b6f718c6fcbed331bf6cf2dadf3332e9650f3479e00b3c4b10348"
+}

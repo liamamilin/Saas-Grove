@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "news-publishing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:36218357"
+      ],
+      "query": "Superdesk Publisher manual content lists front page curation",
+      "source_urls": [
+        "https://api.github.com/repos/superdesk/web-publisher",
+        "https://api.github.com/repos/superdesk/web-publisher/license",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/README.md",
+        "https://www.superdesk.org/publishing/publisher",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/docs/manual/editorial_tools/content_lists.rst",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/docs/manual/admin_interface/content_lists.rst",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/docs/manual/admin_interface/output_control.rst",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/docs/manual/admin_interface/website_management.rst",
+        "https://raw.githubusercontent.com/superdesk/web-publisher/develop/docs/manual/templates_system/articles.rst",
+        "https://ghost.org/help/posts/",
+        "https://ghost.org/tutorials/change-post-order/"
+      ],
+      "note": "初审问题针对旧候选 Ghost：其官方 posts 帮助页明确文章默认按时间倒序，官方 change-post-order 教程只能通过 routes.yaml 的 order 按 published_at/title 等字段排序，没有人工拖拽排序头版/栏目的能力；因此 Ghost 不覆盖叶核心第三层“编辑策展并排序的展示面”，本轮将 Ghost 关系从批次移除并保留为候选缺口，不把 featured 状态或 tag/filter 集合当作编辑排序。为不把“无结果”当“不存在”，补充检索后改用同一领域的开源产品 Superdesk Publisher（仓库 superdesk/web-publisher，GitHub id 36218357）：已核对同一仓库身份、AGPL-3.0 完整许可证与仓库元数据（archived=false）。官方 README 称其为面向记者和新闻编辑室的下一代发布平台；官方手册 output_control 写明 incoming 文章“not yet visible online”，须分配到 tenant 和 route 才发布，published 列表可改 route、unpublish、发布到更多 tenant；website_management 记录 publish/unpublish/update 事件；articles 手册说明 original_url 在 slug/route 变更后仍返回文章首个 URL；editorial_tools/content_lists 与 admin_interface/content_lists 写明首页 teaser 由编辑用 Content lists 策展，manual 列表通过拖拽已发布故事排序，且“列表顺序即头版出现顺序”，可随新闻到达增删更新。故事记录、受控可修订发布、人工策展展示面三层均成立。所读仓库 README 与产品页未声明社区版/商业版代码拆分，本次仅以该 AGPL 仓库整体为开源产品身份，不扩展商业版或托管服务能力；手册与文档取自 develop 分支，未做运行时验证。排期/禁运、单独命名的更正流程、新闻室计划派工与 rundown 不在本叶主张。旧 Ghost 仓库/许可/帮助快照与旧 notes 原样保留，未覆盖。",
+      "service_boundary": "Superdesk Publisher 是 Superdesk 套件中的新闻发布/交付平台：文章作为持久记录保存，先进入不可见的 incoming 列表，编辑分配到站点/租户与 route 后才上线；已发布文章可改 route、追加发布到其他 tenant 或下线，更新/下线事件可由 webhook 通知。展示面由编辑用 manual content list 拖拽排序，列表顺序即头版顺序，也可用 route/作者/日期/元数据规则自动填充。编辑创作与工作流可由 Superdesk 或既有后台提供；本叶不主张排期/禁运、新闻室计划派工、rundown 或独立的更正工作流。",
+      "search_attempts": [
+        "reused prior candidate and query: Ghost publishing platform, with old repository metadata, MIT license and help-page snapshots retained",
+        "web search: Ghost CMS manually order posts on homepage curated collection drag and drop official docs",
+        "web search: open source news publishing platform manual front page curation editorial ordering self-hosted GitHub",
+        "web search: Superdesk Publisher documentation article lists manual ordering front page sections",
+        "checked shared application-index: no existing Superdesk Publisher or Newscoop entry; used repository id github:36218357"
+      ],
+      "fetch_outcomes": [
+        "fetched official Ghost tutorial change-post-order: confirms routes.yaml order only supports field-based ordering (published_at, title, etc.) and does not provide manual post ordering; used to remove the Ghost relation",
+        "fetched Superdesk Publisher repository metadata and AGPL-3.0 license evidence from the GitHub API",
+        "fetched official README and superdesk.org product page",
+        "fetched official manual pages from the repository: editorial_tools/content_lists, admin_interface/content_lists, admin_interface/output_control, admin_interface/website_management, templates_system/articles",
+        "rendered readthedocs copies of the content-list, output-control, website-management and articles pages were also read to confirm the same text; the batch cites the repository .rst sources",
+        "no runtime test performed; no third-party project executed"
+      ],
+      "archived": false
+    }
+  ]
+}

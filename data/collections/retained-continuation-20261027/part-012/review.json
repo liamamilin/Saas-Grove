@@ -1,0 +1,65 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中每个叶子的 progress 仍为 case_status=not_searched、application_ids=[]，与 batch.json、research.json 已记录 4 个应用、5 个叶子的状态不一致；本次以 batch/research 为准核对，建议同步 progress，避免下游误判本单元无案例。",
+    "Asana 同时匹配 task-management-application、project-portfolio-management-application、work-management-platform 三个叶子；research 已注明以 work-management-platform 为主类型。若下游要求单一主类型，应保留 WMP 为主，另两叶标为次级匹配，避免把同一产品当成三个独立案例。",
+    "Asana 的 PPM 证据主要是组合监控与汇总形态：嵌套组合、一键加入项目、预算/工时/负载汇总、on-track 状态和重排；未见到组合层面正式的候选选择、资助审批或决策记录。作为商业条目的基本类型匹配可以接受，但不宜表述为完整治理型 PPM。",
+    "Asana Portfolios 属 Advanced/Enterprise，Timesheets and Budgets 页面明确标注为按用户计费的 ADD-ON；batch 仅笼统说明套餐归属未逐句核验，若用于套餐或价格比较，应把该商业边界写清。",
+    "Tasks.org 首页快照是 Docusaurus 客户端渲染壳，列表、标签、子任务、手动排序等文案只能从正文片段和 docs 间接核对；filters、notifications、recurrence、manual_sort_mode 能支撑列表容器、提醒、完成与重复，但“列表为主工作面”的证据仍偏间接，建议补一条直接说明列表工作流的官方文档。",
+    "Tasks.org 的 features 写“用标签与位置组织”；已读文档中位置主要用于地点提醒，不是列表或标签式的组织维度，建议改为“标签与位置提醒”，或补充位置分组证据。",
+    "Plane 的 WMP 证据以 workspace > projects 为主，cycles、modules、views 更像分组或视图，未证明 spaces/folders 或多容器类型层级；作为项目型 WMP 变体可以接受，但不要宣称完整的空间/文件夹容器层级。",
+    "Plane 的审批链、自定义自动化以及 Workflows and Approvals 的套餐边界未从现有快照核实，research 已如实留档；下游引用社区版或商业版能力时应保留该缺口。",
+    "Kanboard README 明确处于维护模式（仅小修复、社区发版），不影响其作为完整 MIT 自托管看板案例，但不宜描述为高速迭代产品。",
+    "本次为只读审查，未重算 sha256、未部署运行、未做价格或套餐核验；许可结论基于 MIT/GPL-3.0/AGPL-3.0 全文与仓库元数据。"
+  ],
+  "leaf_checks": {
+    "kanban-task-board": {
+      "applications": [
+        "github:16238673"
+      ],
+      "result": "pass",
+      "basis": "按 data/collections/sources 读取 kanboard.org 首页、README、Boards/Tasks/Projects 的 HTML 与官方 .md、MIT LICENSE、仓库元数据。首页明确 free and open source Kanban、board 是了解项目当前状态的方式、列可增删改名、任务跨列拖放、WIP 上限、self-hosted；boards.md 明确 Board 视图列间拖放及列任务上限变红；tasks.md 明确新建任务选择 Column、每次跨列移动记录 Date/Source column/Destination column/Executor/Time spent in origin column、关闭为 open/closed；projects.md 明确 Custom Project Roles 的列级限制与仅在指定列间移动。仓库元数据确认 id=16238673、full_name=kanboard/kanboard，MIT 全文完整，社区版无单独商业功能分层的迹象。",
+      "gaps": "README 记录维护模式；未运行部署；未独立审计所有分发渠道是否存在商业版本。"
+    },
+    "task-management-application": {
+      "applications": [
+        "commercial:asana"
+      ],
+      "result": "pass",
+      "basis": "读取 Asana features、project-management 快照，并用同页官方 Markdown 版本辅助核对压缩 HTML 正文。features 页显示 tasks 是带 owners/due dates 的工作单元，My Tasks 汇总个人指派，项目视图含 list/calendar/timeline/Gantt/Kanban；project-management 页显示 tasks 有 clear owners and due dates，五种项目视图是同一批任务的不同读取，任务可属于最多 20 个项目且 assignee/due date/comments 更新同步到所有项目，Inbox 汇总指派与更新，Rules/Forms 提供流程自动化。记录语法以完成/未完成为主，紧急性由日期和属性驱动，符合本叶核心；商业条目基本真实。",
+      "gaps": "Asana 同时是 WMP/PPM，本叶为次级匹配；未运行验证；未逐条核验所有套餐。"
+    },
+    "to-do-list-application": {
+      "applications": [
+        "github:11512043"
+      ],
+      "result": "pass",
+      "basis": "读取 tasks.org 首页、docs、filters、notifications、recurrence、manual_sort_mode、GPL-3.0 LICENSE、仓库元数据。首页 meta 与正文片段说明 open-source to-do lists & reminders；docs 说明 free/open-source task app、CalDAV、recurring tasks、notifications、custom filters；filters 按 due dates/priorities/titles/tags/lists 建立条件；notifications 说明未完成任务按间隔重复提醒直到完成；recurrence 说明任务可配置完成后第 X 次结束、按完成日计算下次到期；manual_sort 说明按 task list 手动排序、拖动可变成 subtask。GPL-3.0 全文完整，repo id=11512043。",
+      "gaps": "首页是客户端渲染壳，列表为主工作面与无限层级子任务只能间接核对；完成状态证据来自提醒与重复文档；未运行；未逐项核验付费 Tasks.org Cloud 与 GPL 应用的边界。"
+    },
+    "project-portfolio-management-application": {
+      "applications": [
+        "commercial:asana"
+      ],
+      "result": "pass",
+      "basis": "读取 Asana portfolios、project-intake、timesheets-budgets 快照，并用同页官方 Markdown 版本辅助核对。portfolios 页显示组合是项目集合，可嵌套组合、一键加入项目、按 priority/type 标签、指派 owner、查看 on-track/at-risk、汇总 time spent/available budget，并提供 custom dashboards 与 workload 视图重排；intake 页显示统一表单收集请求、Slack/Microsoft 365/Google Workspace 集成、标签/规则辅助优先级、自动分配/排期/跟进；timesheets-budgets 页显示按项目设置 user rate、比较估算与实际工时/成本、forecast 项目预算、timesheet approvals 与预算可见性限制。组合级汇总与商业基本真实性成立。",
+      "gaps": "未见组合层面的正式选择/资助审批记录，组合更像监控与汇总层；Portfolios 与 Timesheets/Budgets 的付费套餐/ADD-ON 边界需明示；未运行。"
+    },
+    "work-management-platform": {
+      "applications": [
+        "commercial:asana",
+        "github:568098118"
+      ],
+      "result": "pass",
+      "basis": "Asana：features/project-management 快照显示 tasks/projects/goals/forms/rules 与多视图为同一批记录的不同读取，My Tasks/Inbox 提供跨项目个人协调，portfolios 提供跨项目汇总，商业真实性可核。Plane：states.md 说明每项目自建状态并归入 Backlog/Unstarted/Started/Completed/Cancelled 五组，状态组驱动完成度、cycle/module 进度与自动归档；your-work.md 说明工作区级 Your Work 汇总 assigned/created/subscribed 工作项并按状态/优先级分布；automations.md 说明每项目内置自动归档与自动关闭，due date reminders 标 Business；intake overview/forms 说明项目级 Intake 三渠道、Triage 接受/拒绝，Intake responsibility 与 Intake Forms 标 Business；README 说明 self-host 与 Work Items/Cycles/Modules/Views/Pages；AGPL-3.0 全文与 repo id=568098118 已核。",
+      "gaps": "Plane 容器层级以 workspace > projects 为主，spaces/folders 与多容器类型未证；审批链、自定义自动化及 Workflows and Approvals 套餐边界未核；Asana 为宽平台，本叶为主类型；未运行。"
+    }
+  },
+  "limits": "只读审查；未运行 shell、未写文件、未部署或执行产品；未重算快照 sha256；Asana 快照为高度压缩 HTML，正文以同页官方 Markdown 版本辅助核对并做行级关键词确认；Tasks.org 首页为 Docusaurus 客户端壳，正文不完整；未单独核验所有套餐、价格或运行时行为；input.json 的 progress 与 batch/research 状态不一致，本次以 batch/research 为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-012/ses_groveopencodegop012review2_1792939634.jsonl",
+  "batch_sha256": "7a15aa7070a2eecdf0eeb4497d0accba8da78cafa0fe1f27c01bfcb10232f5a2",
+  "research_sha256": "861afd5959706a685286ccbd3aae32a7f0d22d0231703cd1b66cb1ce65e85b8d",
+  "input_sha256": "b4d40cae6b1c7fa4cbe5fe0e0487e6aaebeb0d3c0384251848fd1c7fa434ac82"
+}

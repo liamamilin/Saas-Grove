@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 49,
+  "offset": 1200,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "nonprofit-fund-accounting",
+        "name_zh": "非营利基金会计",
+        "domain_id": "25",
+        "parent_id": "25.01",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-049/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+            "query": "github search repositories q=nonprofit fund accounting"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/398",
+            "result": "insufficient_evidence",
+            "note": "复用原检索并补充 GitHub/公开网页检索。候选 tmhastings-org/steward（AGPL-3.0）README 状态为 Early development：账本模式/校验插件/模板可用，Web 层、导入器与报表套件仍在建设；NLSM-JeremiahOBrien/nonprofit-ledger（AGPL-3.0）README 明确 Phase 1/7、Not yet usable for real books；MeghaRajviBB/fundflow 为 POC。均不是完整可用应用；GnuCash 等通用会计不满足基金/限制性净资产/功能费用报表核心。本轮已补存 Steward 与 Nonprofit Ledger 的 README 快照，保留缺口。",
+            "query": "github search repositories q=nonprofit fund accounting; open source nonprofit fund accounting software github"
+          }
+        ],
+        "archived": false,
+        "note": "复用原检索并补充 GitHub/公开网页检索。候选 tmhastings-org/steward（AGPL-3.0）README 状态为 Early development：账本模式/校验插件/模板可用，Web 层、导入器与报表套件仍在建设；NLSM-JeremiahOBrien/nonprofit-ledger（AGPL-3.0）README 明确 Phase 1/7、Not yet usable for real books；MeghaRajviBB/fundflow 为 POC。均不是完整可用应用；GnuCash 等通用会计不满足基金/限制性净资产/功能费用报表核心。本轮已补存 Steward 与 Nonprofit Ledger 的 README 快照，保留缺口。"
+      },
+      "definition": {
+        "slug": "nonprofit-fund-accounting",
+        "name": "Nonprofit Fund Accounting",
+        "name_zh": "非营利基金会计",
+        "aliases_zh": [
+          "非营利会计软件",
+          "基金会计系统",
+          "慈善基金会计"
+        ],
+        "overview": "A **Nonprofit Fund Accounting** application is a nonprofit organization's official books: a double-entry ledger organized around **funds** rather than a single profit-measuring bottom line.\n\nEvery dollar the organization holds sits in a fund — the general operating fund, a donor-restricted gift, a grant, an endowment, a building project. Each fund is carried through the books as a separately reportable accounting entity, the books distinguish resources the organization may use freely from resources bound by donor restrictions, and the system's outputs are accountability reports — fund-level financial statements, statements of functional expenses, budget-versus-actual by fund, audit-ready trails — produced for boards, funders, auditors, and regulators rather than for owners.\n\nThe market draws this Type's boundary explicitly against commercial accounting software: commercial books measure profit for owners in a single pool; fund accounting segregates resources by purpose and demonstrates that restricted money was spent only on its purpose. Vendors sell the two as different products — some under the same roof as separate SKUs.",
+        "overview_zh": "一个**非营利基金会计**应用程序是非营利组织的正式账簿：一个围绕**基金**而非单一利润衡量底线组织的复式记账分类账。\n\n组织持有的每一美元都存放在基金中——一般运营基金、捐赠者限制礼物、赠款、捐赠基金、建设项目。每个基金在账簿中作为单独可报告的会计实体进行记录，账簿区分组织可以自由使用的资源和受捐赠者限制约束的资源，系统的输出是问责报告——基金级财务报表、功能性费用报表、按基金的预算与实际对比、审计就绪痕迹——为董事会、资助者、审计员和监管机构而非所有者制作。\n\n市场明确将此类型的边界与商业会计软件区分开来：商业账簿在单一池中为所有者衡量利润；基金会计按目的隔离资源，并证明受限资金仅用于其目的。供应商将两者作为不同产品销售——有些在同一屋檐下作为单独的SKU。",
+        "dc": "Three structures define the Type. Each is load-bearing; remove one and what remains is a different kind of system.\n\n```text\nOrganization's books\n└── Fund (pool of resources bound to a purpose or restriction)\n    └── separately reportable accounting entity\n        └── Transactions recorded into funds\n            └── Net assets: unrestricted vs donor-restricted\n                └── Stewardship reports (statements, budgets, audit trails)\n```\n\n**1. Funds as the organizing partition of the books.** A fund is a pool of resources bound to a purpose or restriction — general operations, a specific program, a grant, an endowment, a capital campaign. The chart of accounts is built with the fund as a structural dimension (alongside program, grant, department, location in most products), and each fund's resources, activity, and balance are carried and reported separately. In classic implementations each fund is a self-balancing set of accounts with its own trial balance and statements — inter-fund transactions generate explicit fund-balancing entries so every fund always balances; other implementations realize the same separability through segmented account structures or subfund records inside one ledger.\n\n**2. Donor-restriction-aware net assets.** The books distinguish **unrestricted** net assets (usable for any mission purpose) from **donor-restricted** net assets (usable only per the donor's conditions — for a purpose, after a time, or in perpetuity as endowment). Restriction is an accounting semantic, not a note: restricted revenue is recorded into its fund, spent against its rules, and released to unrestricted when the condition is satisfied, with the release visible in the books. This is why the Type exists — tracking which money may be spent on what is the core problem these products solve.\n\n**3. Stewardship reporting.** The deliverable of the system is the accountability record:\n\n- **Statement of Financial Position** (the nonprofit balance sheet) by fund and class of net assets\n- **Statement of Activities** (revenue, expenses, and changes in net assets), showing restriction movement\n- **Statement of Functional Expenses**, classifying expenses by natural type (salaries, rent, supplies) and by function (program services vs management & general vs fundraising)\n- **Budget-versus-actual by fund**, program, and grant\n- **Audit trail and audit-ready packages**, plus data supporting regulatory filings such as the US IRS Form 990\n\nThe audience is non-owner stakeholders: boards, funders, donors, grantor agencies, auditors, and regulators.",
+        "dc_zh": "三种结构定义了该类型。每个都是承重的；移除一个，剩下的就是不同的系统。\n\n**1. 基金作为账簿的组织分区。** 基金是绑定到目的或限制的资源池——一般运营、特定项目、赠款、捐赠基金、资本活动。会计科目表以基金作为结构维度构建（在大多数产品中与项目、赠款、部门、地点并列），每个基金的资源、活动和余额单独携带和报告。在经典实现中，每个基金是一套自平衡的会计账户，有自己的试算平衡表和报表——基金间交易生成显式的基金平衡分录，因此每个基金始终平衡；其他实现通过分段账户结构或在一个总账中的子基金记录来实现同样的可分性。\n\n**2. 捐赠者限制意识净资产。** 账簿区分**非限制**净资产（可用于任何使命目的）和**捐赠者限制**净资产（仅根据捐赠者的限制使用）。",
+        "rules": "- **Every transaction must land in a fund.** The fund tag is not optional metadata; the statements and balances are computed from it.\n- **Funds balance.** The books must balance as a whole and, in classic implementations, within each fund; inter-fund activity generates explicit balancing entries that remain visible in the audit trail.\n- **Restricted money follows its restriction.** Donor-restricted funds are recorded as restricted net assets and released only when their condition is met; spending controls in mature products warn or block over-spending a fund's available balance.\n- **The books close and freeze.** Periods close; after a permanent close, posting stops; completed, linked, or cleared transactions generally cannot be edited or deleted — corrections go through visible adjusting entries. This is what makes the record audit-ready.\n- **Audit trail is total.** Entries, edits, deletions, and the user behind them are logged; auditors and boards typically get read-only access rather than live data.\n- **The intent-to-money handoff is a seam.** Gift intent and donor relationships live in donor/fundraising systems; the books hold the money. Contributions flow in as fund-tagged revenue (directly via integration or via summary exports with ledger codes); the accounting system, not the CRM, is the authority for what the organization actually holds and owes.",
+        "rules_zh": "- **每笔交易必须落入基金。** 基金标签不是可选元数据；报表和余额从中计算。\n- **基金平衡。** 账簿必须整体平衡，在经典实现中，每个基金内平衡；基金间活动生成明确的平衡条目，在审计痕迹中保持可见。\n- **限制性资金遵循其限制。** 捐赠者限制基金记录为限制性净资产，只有在其条件满足时才释放；成熟产品中的支出控制警告或阻止超支基金的可用余额。\n- **账簿关闭和冻结。** 期间关闭；永久关闭后，过账停止；完成、链接或清算的交易通常不能编辑或删除——更正通过可见的调整条目进行。这就是为什么记录审计就绪。\n- **审计痕迹是全面的。** 条目、编辑、删除及其背后的用户被记录；审计员和董事会通常获得只读访问而非实时数据。\n- **意图到资金的交接是一个环节。** 礼物意图和捐赠者关系存在于捐赠者/筹款系统中；账簿持有资金。捐款作为基金标记的收入流入（直接通过集成或通过带有分类账代码的摘要导出）；会计系统，而非CRM，是组织实际持有和欠款的权威。",
+        "parent_id": "25.01",
+        "domain_id": "25"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 220,
+    "phase": "directory",
+    "parent": 220,
+    "slugs": [
+      "nonprofit-fund-accounting"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "ae547524d8a7de105f77a6e8d87a15beab19583e395ccd3a62535a48fbb0b908"
+  }
+}

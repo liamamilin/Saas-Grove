@@ -1,0 +1,51 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "digital-audio-workstation-daw / github:934715082：定义核心第四项“渲染交付物”在留档中属于间接但可接受的证据——Sink 页正文写明 “For stem exports the Sink is always active, the sunk signal lands in the bus stem”，tech-stack 页正文写明引擎在 Web Worker 中离线渲染用于 “exports, freeze”。这足以证明存在分轨音频导出路径，但缺少导出页正文（格式选择、整混 bounce 操作流程）。采集已如实记录 /manuals/export 等 6 个 URL 均只返回手册壳页、未把空壳页当证据，属可放行的留档缺口；若后续能取得导出页正文，建议补入以直接支撑“成品混音导出”。",
+    "digital-audio-workstation-daw / github:934715082：许可记为 AGPL-3.0-or-later，依据是仓库根目录 LICENSE 为 AGPLv3 完整条款（含第 13 条与 END OF TERMS AND CONDITIONS），加上 README 的 Open-Source 与 License 两节明确写 “AGPL v3 (or later)”。LICENSE 文本本身未写 “or later”，两处表述略有差异，建议在 license_review 中保留“or later 来自 README 声明”的说明（现有 rationale 已提及，可再明确一句）。",
+    "digital-audio-workstation-daw / github:934715082：社区版边界判断正确——双许可中的商业许可仅针对闭源再分发，AGPL 下完整源码可用；README 的 “Ported Plugins (Excluded in commercial license)”（CTAGDRC 压缩器）只影响商业许可，不构成 AGPL 社区版删减。但 README 另列 WebCLAP 云插件（Signalsmith、OB-Xf、Pro54 等）与 ported 设备，这些第三方组件可能有各自许可；batch 的 license_review scope 已写为 “repository”，未过度外扩，建议在条目描述中避免让读者以为全部随附插件均为 AGPL。",
+    "digital-audio-workstation-daw / github:934715082：README 第 230 行把 opendaw.studio 标为 “(prototype)”，而 batch 与 research 以该站点作为托管服务形态的依据。手册与 tech-stack 页（“app-studio (the studio at opendaw.studio)”）确实证明该 Web 应用已部署在官方域名，服务形态成立；仅建议措辞上不要表述为“正式商用服务”，避免与 “prototype” 自述冲突。",
+    "digital-audio-workstation-daw / github:934715082：服务形态为浏览器交付的 Web 应用，工程与素材存于用户浏览器 OPFS、无厂商侧账号存储，协作依赖 Live Room 链接、云备份走用户自有 Google Drive/Dropbox/Nextcloud（OAuth）。这属于可自行持续使用的应用服务，但不是典型多租户账号型 SaaS；建议在 service_boundary 中继续明确“无组织级账号与厂商侧工程托管”，以免与账号型 SaaS 混淆。",
+    "digital-audio-workstation-daw / github:934715082：research.json 的 fetch_outcomes 提到 /manuals/freeze-audiounit 返回 200 并作为旁证，但该页未列入 REVIEW_SOURCES 快照；因未作为核心依据使用，不阻断。同类情况还有 GridSound 仓库页/README 与 opendaw.org 的核对记录，均只有文字记录无快照，已在 fetch_outcomes 中如实标为未采用。",
+    "digital-audio-workstation-daw：input.json 的 progress 仍为 case_status=boundary_unresolved、application_ids=[]、phase=included_without_cases，而 research.json 为 assessment=case_found、case_ids=[github:934715082]，batch.json 也已收录该条目。三份材料中实际内容以 batch/research 为准且彼此一致，但 input.json 的进度元数据明显滞后，建议在入库时同步更新，避免下游按 input.json 读取时误判本叶无案例。",
+    "digital-audio-workstation-daw / github:934715082：homepage 快照仅含 schema.org meta 与加载壳，batch 明确未将其作为功能正文，处理正确；manuals 索引页的 Features 表属官方正文但偏功能清单，采集只把它当作总览，四项核心分别落到 recording、mixer、project-management、sink、tech-stack 正文，证据分层合理。"
+  ],
+  "leaf_checks": {
+    "digital-audio-workstation-daw": {
+      "slug": "digital-audio-workstation-daw",
+      "result": "pass",
+      "definition_core": {
+        "persistent_multitrack_project": "通过。project-management 正文：工程、采样与 soundfont 存于浏览器私有文件系统（OPFS），Ctrl/Cmd+S 保存，Projects 列表可重新打开、重命名、删除，另有 Save As 与 Save as Template；recording 正文写明可 Shift 点击同时 arm 多条轨道，证明共享时间轴上的并行轨道。",
+        "tracks_with_user_created_material": "通过。recording 正文：arm 轨道后可 Capture Audio / Capture MIDI，选择音频输入设备、MIDI 设备/通道或软件键盘，含 Input monitoring（Off/Direct/Effects）、count-in、Allow takes、Step Recording，均属在应用内创建素材。",
+        "mixing": "通过。mixer 正文：每条通道条含 Sends、Output、Pan、Volume、Fader、Level Meter、Mute/Solo，Signal Flow 明确 Fader→Pan→Sends→Output→Main Output 求和；audio-bus 正文补充 FX Bus（Send）与 Output Bus（Direct Routing）及总线效果处理。",
+        "rendered_deliverable": "通过（间接证据）。Sink 正文：“For stem exports the Sink is always active, the sunk signal lands in the bus stem”；tech-stack 正文：Rust/WASM 引擎在 Web Worker 中进行离线渲染用于 “exports, freeze”。分轨音频渲染成立；导出页正文缺失已在 research.fetch_outcomes 如实记录，未以空壳页或 URL 存在充数。"
+      },
+      "service_form": "通过。manuals 索引正文：“openDAW is a full music studio that runs entirely in your browser. There is nothing to install and no account to create.”；tech-stack 正文列 “app-studio (the studio at opendaw.studio)”，证明该 Web 工作室部署于官方域名并持续发布（首页资源路径含 release UUID）；project-management 正文另证明 Live Room 实时协作与自有云备份。属浏览器交付、可自行持续使用的应用服务，非仅客户端/CLI/引擎。",
+      "identity_and_track": "通过。GitHub 仓库页快照的 octolytics 元数据给出 repository_id=934715082、nwo=andremichelle/openDAW、public=true、is_fork=false、network_root_id=934715082，与 application_id github:934715082、repository_url、github_repository_id 一致；README 与手册均自述 web-based DAW；track=open_source 与 AGPL 许可一致。",
+      "license": "通过。LICENSE 快照为 GNU Affero GPL v3 完整条款（Version 3, 19 November 2007、TERMS AND CONDITIONS、第 13 条 Remote Network Interaction、END OF TERMS AND CONDITIONS、How to Apply），无附加限制；README 两处写 “AGPL v3 (or later)”，故 AGPL-3.0-or-later 有据。",
+      "community_edition_boundary": "通过。README 的双许可表明确商业许可仅面向闭源/许可不兼容再分发，AGPL 分支须提供完整对应源码；未发现社区版功能删减。第三方 WebCLAP 插件与 ported 设备许可各自独立，license_review 的 scope 仅声明为 repository，未越界。",
+      "type_match": "通过。产品重心为多轨工程内的录制/编写、混音与音频渲染交付，与定义的 DAW 一致；不属于音频编辑器、节拍制作、播客编辑或 DJ 软件的边界情形。",
+      "gaps": "未做任何运行验证；导出页（/manuals/export 等 6 个 URL）仅得手册壳页，整混导出格式与操作流程无正文；/manuals/freeze-audiounit、GridSound、opendaw.org 未留快照（已记录且未作核心依据）；input.json 进度元数据滞后于 batch/research。",
+      "snapshots_read": [
+        "data/collections/sources/db4666be7a9ab8a8d837f2bf0013b2ac7b85cb1d433002c96555618dd18c2c33.txt",
+        "data/collections/sources/0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0.txt",
+        "data/collections/sources/541c5cdbf7d4f5b87cd1c1b3ba7dfc4b68942c89ec48970810e58191c2695ebc.txt",
+        "data/collections/sources/a2642f371840a026a256ddf57c3a11a37293459e866c510f372856089e78b62a.txt",
+        "data/collections/sources/1d7df96ce5c2a33be2a76a1a637779b990ac269cc4247c2af29b9eff288d5b3f.txt",
+        "data/collections/sources/2f952f2be8fedac5bf20fca8e4d8a5c5cf5d5044f51abd63b3d7df27586a95e2.txt",
+        "data/collections/sources/3a313751cfd571e8512794a05ff93001f4dab676527654af3f9b646f827c17b2.txt",
+        "data/collections/sources/f70e17aa257f773e541700e250ae6b76ebac1bf0d6c729d94132b5f5f368dac2.txt",
+        "data/collections/sources/9d87284e36128ef91237f0be049eedee721147c62bfa814fc67917196eac8534.txt",
+        "data/collections/sources/bce7eae22db18c1f8d1c49c4fb31f76f0c0e59e41db100088f7baf1194f8eed9.txt",
+        "data/collections/sources/7f418f9ab907111060232722fd2119a49c3c441c725b74bc350bbd3403fc3c15.txt"
+      ]
+    }
+  },
+  "limits": "只读初审：未运行 shell、未写入文件、未访问其他单元；按 REVIEW_SOURCES.json 的 path 原样读取了全部 11 个快照（base 为 data/collections），未做任何外部抓取或运行验证，因此无法确认 opendaw.studio 当前线上行为、导出格式与整混 bounce 的实际可用性，也无法核实未留快照的 /manuals/export、/manuals/freeze-audiounit、opendaw.org、GridSound 与 GitHub REST API 的状态；对 input.json 的 phase/case_status 与 batch/research 的不一致只做记录，未推断应以哪份为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-039/ses_groveopendesignp039review2_1793167048.jsonl",
+  "batch_sha256": "7d0aa87761be6f86c8848c2a64a2e6fcd360df5dfc7e95d33d0c129c32bfe4f1",
+  "research_sha256": "e4ee8e78e38426418f0d20ba32a4b34538f93012379196e2067f3208f16612af",
+  "input_sha256": "a4192dea2db6767b478e1e9994fd0f932850c9012a5b7dc3222a2b7fd8d38432"
+}

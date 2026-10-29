@@ -1,0 +1,81 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 的 progress/phase 仍为 not_searched / included_without_cases，与本单元 research.json 的 case_found 及 batch.json 的 5 条 commercial 记录不一致；若该文件用于下游状态汇总，建议同步更新，否则属记录陈旧。",
+    "commercial:loanpro 的批次摘要写有“费用与状态维护”，快照正文可核到 real-time ledger、post-origination account activity、payments、interest accrual、configuration-first loan logic，但未明确出现 fee、statement、payment waterfall 等字样；建议将摘要措辞收敛到已证范围，或在后续补充相应来源。",
+    "commercial:collect-comtech 的快照可证明按客户/资产组合分区、客户门户按客户范围展示、消费者自助支付、工作队列、信函、征信局报送、短信/拨号器、合规审计；未直接展示向委托方汇款或佣金结算，research.json 已如实留档，不影响第三方催收类型判断。",
+    "commercial:sagent-dara 的快照覆盖 Transfer & Boarding、Loan Administration、Money Management、Escrow、Investor Management、Collections、Loss Mitigation，但未明确写利息计提、对账单生成与分配瀑布；research.json 已留档该缺口。",
+    "commercial:ice-encompass 快照是抵押贷款 LOS 的宽平台页，含 system of record、loan origination/manufacturing、closing/eClose、TPO、PPE 等；未直接写 appraisal、title、房产估值，房产锚定主要依 mortgage 语境与 closing/recording 推断。",
+    "commercial:meridianlink 条目以公司名命名，叶匹配依据是其 LOS 产品页；建议在名称或摘要中明确具体产品（如 MeridianLink Consumer/LOS），避免与同公司 Mortgage、Collect 产品混淆。",
+    "research.json 中 loanpro 首页、meridianlink 的 /loan-origination-system/ 与 /loan-origination-software/、ice 的 /products/encompass 与 /products/encompass/ 等抓取结果未全部列入 REVIEW_SOURCES；这些未作为本叶判断依据，但会让来源清单与抓取记录不完全对应。",
+    "Collect! 提供云托管与本地部署两种形态；本叶按云托管版本满足 SaaS 服务形态，若分类要求纯多租户 SaaS，需要在摘要中注明。"
+  ],
+  "leaf_checks": {
+    "debt-collection-management": {
+      "status": "pass",
+      "application_id": "commercial:collect-comtech",
+      "track": "commercial",
+      "sources_checked": [
+        "https://www.collect.org/solutions/ (snapshot 70d8f43b...)",
+        "https://www.collect.org/ (snapshot 5a63d657...)"
+      ],
+      "core_check": "官方 Solutions 页与首页正文显示：面向 collection agencies 的可配置工作队列/action plans、100+ 报表与信函模板、批量信函/邮件、客户门户按客户范围展示余额与进展、消费者自助支付与分期、征信局 Metro 2 报送、短信/拨号器/skip tracing、Reg F/审计轨迹；首页另列 Client Organization（按 client/portfolio/department 分层）与 first-party/third-party/legal collections。per-client 账户与客户门户可支持“代客持有账户”的第三方催收形态。",
+      "saas_check": "Solutions 页明确 cloud hosted editions（Entrepreneur/Professional/Corporate），premise 可按需；属于持续服务的商业软件服务。",
+      "gaps": "未直接展示向委托方 remit/佣金结算；产品同时覆盖 first-party，需靠 client 组织与客户门户区分第三方场景。"
+    },
+    "loan-management-system": {
+      "status": "pass",
+      "application_id": "commercial:loanpro",
+      "track": "commercial",
+      "sources_checked": [
+        "https://www.loanpro.io/platform/servicing-suite (snapshot 8c0428c5...)"
+      ],
+      "core_check": "页面正文与 FAQ 显示 Servicing Suite 是 API-first、web-based、real-time ledger 的贷后服务平台，管理 post-origination account activity，含 payments、interest accrual、customer support、collections；configuration-first servicing workflows/loan logic、payment orchestration；支持 commercial/auto/consumer/installment/leases/LOC 等 2,000+ credit programs，服务 600+ lenders、30M+ accounts。可覆盖贷款账户、可计算条款、周期性服务循环与生命周期管理的基本形态。",
+      "saas_check": "web based / API-first 的贷款服务软件，属 SaaS 形态。",
+      "gaps": "未明确出现 fee、billing/statement、payment waterfall、payoff/close 细节；批次摘要的“费用与状态维护”略超正文。"
+    },
+    "loan-origination-system": {
+      "status": "pass",
+      "application_id": "commercial:meridianlink",
+      "track": "commercial",
+      "sources_checked": [
+        "https://www.meridianlink.com/solutions/loan-origination-software/ (snapshot 0fbcbe66...)",
+        "https://www.meridianlink.com/products/ (snapshot e163a2c6...)"
+      ],
+      "core_check": "LOS 页以 loan origination software/system 为主题，面向 banks/lenders，强调 streamline approvals；正文含 application、underwriting、decision、funding 等词，覆盖消费/抵押/商业/间接贷款的申请—评估—决策—放款；Products 页列出 MeridianLink Mortgage、Consumer、Opening、Collect，说明其产品组合与后续 collections 能力。",
+      "saas_check": "digital lending platform，属持续使用的商业 SaaS。",
+      "gaps": "快照正文为压缩单行，工具只能按关键词/片段核对；未逐段核到具体 pipeline 阶段、决策审计与 booking handoff 细节。"
+    },
+    "mortgage-origination-platform": {
+      "status": "pass",
+      "application_id": "commercial:ice-encompass",
+      "track": "commercial",
+      "sources_checked": [
+        "https://mortgagetech.ice.com/products/encompass/ (snapshot 140fa622...)"
+      ],
+      "core_check": "Encompass 页自称 mortgage loan origination software / industry's system of record，正文覆盖 workflow、loan origination and manufacturing、document collection、loan data verification、settlement and closing、eClose、TPO Connect、PPE、secondary marketing、correspondent lending，能对应贷款申请案件、贷款方发起管线、评估/决策与交割放款；页面同时列 MSP servicing，说明其平台边界跨发起与服务。",
+      "saas_check": "以平台/系统记录形态提供，属商业 SaaS/企业软件服务。",
+      "gaps": "未直接出现 appraisal、title、property valuation 等房产抵押证据；property-anchored 主要依 mortgage 语境、closing/recording 与抵押贷款产品身份判断。"
+    },
+    "mortgage-servicing-platform": {
+      "status": "pass",
+      "application_id": "commercial:sagent-dara",
+      "track": "commercial",
+      "sources_checked": [
+        "https://sagent.com/ (snapshot e29ce7e6...)",
+        "https://sagent.com/dara/establish-manage/ (snapshot daccac3f...)",
+        "https://sagent.com/dara/engage-assist/ (snapshot d1b27413...)"
+      ],
+      "core_check": "Dara 的 Establish & Manage 页覆盖 Transfer & Boarding（贷款转入/校验/工作流）、Loan Administration（loan-level 属性/规则/运营控制）、Money Management（实时 payment processing、corporate advances、transaction management）、Escrow（analyses/shortages/calculations）、Investor Management（服务协议/报告/托管）；Engage & Assist 覆盖 Borrower Engagement、Collections（逾期监控/外联）、Loss Mitigation（困难援助工作流/决策）；首页给出 16M+ active loans、$1.4B+ monthly payments、1.7M self-serve logins。可对应服务账户、循环服务与贷后管理。",
+      "saas_check": "面向 servicers 的统一平台，属商业 SaaS。",
+      "gaps": "未明确写 interest accrual、statement generation、payment allocation waterfall；research.json 已如实留档。"
+    }
+  },
+  "limits": "本次为只读独立初审：未运行产品、未做部署或运行时验证；未重新计算快照 sha256，仅按 REVIEW_SOURCES.json 的 path 原样读取 data/collections/sources 下 9 个快照；部分页面为压缩后的超长单行 HTML，工具对单行显示有截断，核心判断依据为可检索的正文片段、标题/导航及结构化描述；未补充价格、架构或路线图研究；本单元 5 叶均为 commercial，不涉及开源完整许可证或社区版边界核查，相关项不适用。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-050/ses_groveopencodegop050review2_1792989576.jsonl",
+  "batch_sha256": "0d2770a4d8d40cf3d9cc84aa4e6611952866aa6003cd34e26b66e1c9f1a43767",
+  "research_sha256": "0a7d54ceb4f7a12e13fd28be64d972385ee1996b3569415565d5e6b518c439c8",
+  "input_sha256": "ed791385d2848f0a055b25fcfd59822d7285b90edfb0d1d1ea771eaa11255c1b"
+}

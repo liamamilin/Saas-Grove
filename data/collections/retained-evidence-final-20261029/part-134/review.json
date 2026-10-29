@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "industrial-design-application",
+      "application_id": "github:584016836",
+      "note": "真实尺度证据偏间接：README 有长度/角度测量与长度、面积、体积求和，且导出 STEP/IGES 这类带单位的标准格式，但未写出单位设置或文档比例选项。定义中“真实世界尺度几何”目前靠 OCCT B-rep + 测量 + 制造交换格式支撑，属可接受的合理推断，但建议后续补一条明确的单位/精度文档，勿把“单位可配置”写成已证实事实。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "application_id": "github:584016836",
+      "note": "产品命名与通用定位为“browser-based 3D CAD”，非工业设计专用。类型成立依赖能力结构（Bézier 草图、放样/扫掠、偏移曲面与加厚、倒角/圆角/缝合、直接子形状编辑、无约束优先/无参数时间轴主入口）而非名称；建议在 leaf_matches 中保持这一“按能力而非按名称”的表述方式。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "application_id": "github:584016836",
+      "note": "官网快照仅为单页应用外壳（HTML head + meta description + script 引用），本身不含核心工作流正文；汇总资料仅用它佐证“浏览器直接运行/在线访问”，核心证据来自 README，用法正确。后续引用官网时应避免将 meta/关键词当作功能证据。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "application_id": "github:584016836",
+      "note": "batch.summary 写“AGPL-3.0”，README 同时说明 cpp/ 下 WASM 模块为 LGPL-3.0。当前 license 字段表示仓库主体无歧义，但下游若做许可聚合，建议在摘要或 license_review 中显式并列该子目录例外，避免被读成整仓单一许可。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "note": "input.json 仍为 phase=included_without_cases、case_status=boundary_unresolved、application_ids=[]，而 research.json 已判定 case_found 并进入 batch。这属于上游输入快照滞后而非采集错误，建议下游在合并时以 research/batch 为准并同步状态，避免同一叶出现“无案例/有案例”两套记录。"
+    },
+    {
+      "slug": "industrial-design-application",
+      "note": "Rhino 的 rhino3d.com/en/ 与 /features/ 快照不在本单元 REVIEW_SOURCES.json 中，本次无法独立复核其正文；该候选已被正确列入 withheld_candidates 且未进入 batch 的 leaf_matches，故不影响本叶结论。"
+    }
+  ],
+  "leaf_checks": {
+    "industrial-design-application": {
+      "verdict": "pass",
+      "case_ids": [
+        "github:584016836"
+      ],
+      "definition_core": "满足。README 正文（data/collections/sources/5a94b678...d67.txt）证明其为 OCCT 8.0.0 编译为 WebAssembly 的 B-rep 精确建模应用：Bézier 曲线等 2D 草图、扫掠与放样、偏移曲面与加厚、布尔、倒角/圆角/修剪/缝合/简化、子形状编辑，构成“草图→曲面与实体→直接细化”的形态优先循环；STEP/IGES/BREP/STL 导入导出与长度/角度/面积/体积测量构成面向制造的几何交换。README 未把约束或参数化时间轴列为主入口，符合“淡化约束优先”的类型规则。",
+      "service_form": "满足。README 说明无需本地安装、可在 chili3d.com 与 chili3d.pages.dev 在线使用，并提供 docker compose up -d（默认 8080）自托管；是完整浏览器端应用（含 UI ribbon、装配层级、文档管理与撤销重做、插件系统），非 SDK、内核、CLI 或扫描引擎。",
+      "identity_track": "满足。github:584016836 与仓库元数据快照一致：id 584016836、full_name xiangechen/chili3d、private=false、archived=false、default_branch=main、homepage=https://chili3d.com；track=open_source 与 AGPL-3.0 一致。",
+      "license": "满足。LICENSE 快照为完整 AGPL-3.0 文本：标题 'GNU AFFERO GENERAL PUBLIC LICENSE'、'Version 3, 19 November 2007'、'TERMS AND CONDITIONS'（第 59 行）至 'END OF TERMS AND CONDITIONS'（第 619 行）及 'How to Apply These Terms to Your New Programs'；仓库元数据 spdx_id=AGPL-3.0 与 README 声明一致。",
+      "community_edition_boundary": "满足。README 明确整仓 AGPL-3.0、cpp/ 下 C++ WASM 模块 LGPL-3.0，商业许可为“可选联系”而非社区版功能阉割；公开仓库即社区版范围，边界表述清楚。",
+      "gaps": "未明确文档单位/比例设置（仅有测量与标准格式交换作间接支撑）；未运行或部署，未核验导出选项细节；官网快照只是 SPA 外壳。上述缺口已在 research.json 如实记录，未把推断写成已证实事实，属可接受的留档缺口。",
+      "evidence_read": [
+        "data/collections/sources/5a94b6782dfa18d0339bd3c89f7524451e776a81b05cdd1c48d77264aca15d67.txt",
+        "data/collections/sources/8029b71bffde77b7f06a0d0e45a206312987aa43509dc80635322da6d173cd54.txt",
+        "data/collections/sources/b9da6e38f69956343a883400e30cad1a66bc7d2d68903565937768f5aeb3c9a4.txt",
+        "data/collections/sources/8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef.txt"
+      ]
+    }
+  },
+  "limits": "本次为只读初审，未运行、部署或登录 Chili3D，未做功能实测，也未补充抓取任何新页面或价格/架构研究；许可、单位与导出选项仅以四项已保存快照为据。GitHub 仓库元数据快照为单行 JSON，读取工具按 2000 字符截断，故对 license.spdx_id、default_branch、homepage、archived 等关键字段采用逐项检索确认存在，未做整份字段级逐条通读。Rhino 的两个历史快照不在本单元 REVIEW_SOURCES.json 内，未能独立复核，仅确认其被正确 withheld 且未进入批次。未读取采集者 TASK.md、历史脚本或其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-134/ses_groveopencodegop134review1_1793248232.jsonl",
+  "batch_sha256": "d4519b68e8d38b02d7fcfbd107d09ccbbed2a2a24be182ccd2526ee860771911",
+  "research_sha256": "69d2670f0102ea3049bcecee85e33ebd044c5e479483c8747263a1622fe73664",
+  "input_sha256": "05832e244e7b080f1455d4b93f3b12942f33abd544329fcefaac8f0eade913c9"
+}

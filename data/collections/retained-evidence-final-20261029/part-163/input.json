@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 42,
+  "offset": 1025,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "blood-bank-management",
+        "name_zh": "血库管理系统",
+        "domain_id": "22",
+        "parent_id": "22.03",
+        "case_status": "insufficient_evidence",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-go-20261025/part-042/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "本批产物缺失或结构不完整；保存已有候选与过程记录，不声称已完成核验。",
+            "query": "open source blood bank management system github"
+          },
+          {
+            "record": "included-continuation-final-20261027-research.json#/leaf_cases/917",
+            "result": "insufficient_evidence",
+            "note": "复核后仍无足够证据。实际查到的开源候选：suraj-savle/blood-bank-management-system（MIT）README 仅描述献血者、医院请求与实时库存；Devzstudio/BloodBank 无可见许可证；techinfo-youtube/Blood-Bank-Mern-Stack-Project 无许可证。均未见单位级血制品标识、检测/隔离/放行状态门控、过期或废弃处置、以及从献血到患者的追溯链，不能仅因名称或库存 CRUD 标为本类型。未抓取候选快照，因核心不匹配且部分无许可证；保留查询、候选与缺口，不将‘未找到’写成不存在。",
+            "query": "open source blood bank management system github; GitHub search: blood bank in:name,description sorted by stars"
+          }
+        ],
+        "archived": false,
+        "note": "复核后仍无足够证据。实际查到的开源候选：suraj-savle/blood-bank-management-system（MIT）README 仅描述献血者、医院请求与实时库存；Devzstudio/BloodBank 无可见许可证；techinfo-youtube/Blood-Bank-Mern-Stack-Project 无许可证。均未见单位级血制品标识、检测/隔离/放行状态门控、过期或废弃处置、以及从献血到患者的追溯链，不能仅因名称或库存 CRUD 标为本类型。未抓取候选快照，因核心不匹配且部分无许可证；保留查询、候选与缺口，不将‘未找到’写成不存在。"
+      },
+      "definition": {
+        "slug": "blood-bank-management",
+        "name": "Blood Bank Management",
+        "name_zh": "血库管理系统",
+        "aliases_zh": [
+          "献血管理系统",
+          "血液中心管理系统"
+        ],
+        "overview": "A **Blood Bank Management** application is the regulated operational system of record for blood products. It tracks individually identified blood units — each carrying a product code, blood group, and expiration — through a status-gated lifecycle that runs from collection or receipt, through testing, quarantine, and release, into storage, and out again through a compatibility-checked issue to a patient (or a distribution shipment to a care facility), ending in a recorded final disposition. Every step is captured in a traceability chain that can connect a donation to the patient who received it.\n\nThe defining core is deliberately small:\n\n```text\nIndividually identified blood product unit\n  (unique unit identity + product code + blood group + expiration)\n└── Status-gated lifecycle\n    (units are held in states; safety gates control movement\n     to available and issued status; quarantine, expired,\n     and discarded states exist)\n└── Unit inventory\n    (queryable stock by product type, blood group, status, expiry)\n└── Request-driven allocation and issue\n    (units are matched, reserved, and issued against a specific\n     request, with a recorded handoff)\n└── Traceability chain\n    (donation or source → every state change → final disposition)\n```\n\nEverything commonly associated with blood banking — donor recruitment, eligibility and deferral, collection drives, infectious-disease testing, component manufacturing and labeling, crossmatching, bedside transfusion confirmation, analytics — is standard in mature products but is not what makes the software a blood bank system. Hospital transfusion services, which collect nothing and manufacture nothing (they receive units from donor centers), are unambiguously blood bank software; therefore donor management, collection, and manufacturing sit outside the defining core.\n\nWhen the managed object stops being a donor-derived blood unit — becoming a patient specimen (Laboratory Information System), a research sample (Biobank Management), or a generic stocked item (Inventory Management) — the product has drifted into a different Application Type.",
+        "overview_zh": "一款**血液银行管理**应用是受监管的血液产品操作记录系统。它跟踪单个标识的血液单位——每个单位带有产品代码、血型和有效期——通过一个状态门控的生命周期，该生命周期从采集或接收开始，经过检测、隔离和放行，进入储存，再次通过相容性检查后发放给患者（或分配运输至护理机构），最终以记录的最终处置结束。每个步骤都记录在一条可追溯性链中，该链可以将一次献血与其接收的患者连接起来。\n\n其定义的核心结构特意保持简洁：\n\n```text\n单独标识的血液产品单位\n  （唯一单位标识 + 产品代码 + 血型 + 有效期）\n└── 状态门控生命周期\n    （单位被置于不同状态中；安全门控制向可用状态和已发放状态的流转；存在隔离、过期和废弃状态）\n└── 单位库存\n    （可按产品类型、血型、状态、有效期查询的库存）\n└── 请求驱动的分配与发放\n    （单位针对特定请求进行匹配、预留和发放，并记录交接）\n└── 可追溯性链\n    （献血或来源 → 每一次状态变更 → 最终处置）\n```\n\n通常与血液银行相关的所有功能——献血者招募、资格与延期、采集活动、传染病检测、成分制备与标签、交叉配血、床旁输血确认、分析报告——在成熟产品中都是标准功能，但它们并非使该软件成为血液银行系统的核心要素。医院输血服务机构，它们不采集任何东西也不制备任何东西（它们从献血中心接收血液单位），毫无疑问是血液银行软件；因此，献血者管理、采集和制备都位于定义的核心之外。\n\n当被管理对象不再是源自献血者的血液单位——转变为患者标本（实验室信息系统）、研究样本（生物样本库管理）或通用库存物品（库存管理）时，该产品就已偏移到不同的应用类型。",
+        "dc": "- **Donor registry** — donor identity, contact and demographic data, donation history, eligibility status, and communications in one record. Eligibility is computed dynamically from donation history and screening results; deferrals are tracked with defined durations and communicated back to the donor.\n- **Donor screening intake** — a structured health-history questionnaire (increasingly self-administered by the donor online or on a tablet before arrival), physical findings, and consent, with a physician review step; eligibility is verified from the answers.\n- **Collection recording** — the donation event itself, including mobile blood drives with scheduling of donors, vehicles, equipment, and staff, and per-drive productivity reporting.\n- **Testing integration** — infectious-disease and serology results from testing laboratories or instruments attach to the unit and gate its release.\n- **Component manufacturing and labeling** — separation of whole blood into components and labeling under controlled procedures, with automated safety checks in the labeling process; some products also capture pathogen-reduction processing data.\n- **Patient-side immunohematology** — ABO/Rh typing and antibody screening for patients, and compatibility testing between patient and unit (serologic or electronic crossmatch).\n- **Reservation and issue controls** — units reserved for specific patients; issue-time safety checks; an emergency-issue path that speeds delivery to departments while keeping the safety checks in force.\n- **Bedside transfusion support** — confirmation of the transfusion against the right patient and unit, surveillance documentation, incident entry, and returns of untransfused units.\n- **Expiry management** — outdate tracking, wastage reporting, expiry-range views; some products support test-based extension of platelet expiry when bacterial testing results allow it.\n- **Reporting and analytics** — inventory, utilization, patient history, and traceability reports; dashboards for daily operations.\n- **Integration** — exchange of orders and results with EHRs and laboratory systems, instrument interfaces, billing, remote storage monitoring, and communication with external donor centers or care facilities.\n- **Multi-site operation** — enterprise blood centers operating across sites and time zones, with affiliate sites retaining independent operations.\n- **Quality and compliance tooling** — controlled documents, deviation and accreditation workflows, often as a companion module.",
+        "dc_zh": "- **献血者登记** —— 将献血者身份、联系方式、人口统计数据、献血历史、资格状态以及沟通记录整合在一个档案中。资格根据献血历史和筛查结果动态计算；暂缓献血需追踪其明确持续时间并反馈给献血者。\n- **献血者筛查与录入** —— 结构化的健康史问卷（献血者越来越多地在到达前通过在线或平板电脑自行填写）、体检发现和知情同意，并包含医师审核步骤；根据问卷答案验证资格。\n- **采集记录** —— 记录献血活动本身，包括安排献血者、车辆、设备和人员的流动献血车活动，以及每次献血活动的效率报告。\n- **检测整合** —— 来自检测实验室或仪器的传染病和血清学检测结果与血袋单元关联，并作为放行的门控条件。\n- **成分制备与贴签** —— 在受控程序下将全血分离成血液成分并进行贴签，贴签过程包含自动安全检查；部分产品还需采集病原体灭活处理数据。\n- **患者侧免疫血液学** —— 为患者进行ABO/Rh血型鉴定和抗体筛查，并进行患者与血液单元之间的相容性检测（血清学交叉配血或电子交叉配血）。\n- **预约与发放控制** —— 将血液单元为特定患者预留；限制",
+        "rules": "### Units do not enter usable inventory automatically\n\nA unit becomes available only after its gates pass. Products in this class explicitly check, at the moment a unit is packed for distribution, that the status of the donor or product has not changed since labeling; only then does the unit move into inventory. The same philosophy applies at every gate: testing results, labeling checks, physician review.\n\n### Safety checks cluster at critical moments\n\nVendors in this market advertise large numbers of built-in automated safety checks applied at critical points in the process — during labeling, at packing, and at the moment of transfusion. The exact counts are vendor-specific figures; the structural fact is that checks are concentrated where an error would reach a patient.\n\n### Expiry governs usability\n\nA unit's expiration date is a first-class field that drives views, reservations, and discards. Outdates and wastage are managed flows, not afterthoughts. Some products allow a platelet's expiry to be extended when bacterial testing results permit, updating the unit's expiration and product code in the database.\n\n### Emergency issue preserves checks while removing delay\n\nEmergency delivery paths exist on both poles (hospital emergency issue; emergency-relay depots). Their defining behavior is that they expedite movement to departments while maintaining the critical safety measures — the checks are re-sequenced, not skipped.\n\n### Donor deferral is a tracked, communicated state\n\nA deferred donor is not merely flagged; the deferral has a defined basis and duration, is computed into future eligibility, and is communicated back to the donor.\n\n### Returns are a managed flow\n\nUntransfused units come back. Both poles treat returns as a tracked movement with its own checks rather than as a cancellation.\n\n### The patient record and the unit record are linked but distinct\n\nThe patient's transfusion record (history of what was received, including products used before the current encounter) is maintained alongside — and linked to — the unit's lifecycle record. Some products actively flag duplicate patient identities, because a fragmented patient history is a transfusion-safety risk.\n\n### Labeling follows a global standard\n\nUnit identification, product codes, and label data structures follow an international standard (ISBT 128) carried by barcode, data matrix, or RFID. Software implements the standard's identification and check-character rules so that units can move between establishments and across borders unambiguously.\n\n### Regulated-device posture\n\nProducts in this Type are operated as regulated medical devices in major markets (cleared by the FDA in the US sample) and run under good-manufacturing-practice-style controls. This is why configurable safety checks, controlled labeling, and complete traceability are structural rather than optional.",
+        "rules_zh": "### 单位不会自动进入可用库存\n\n只有通过所有安全门后，单位才会变为可用。此类产品在将单位打包用于分发时会明确检查，自贴标签以来，献血者或产品的状态是否未发生变化；只有通过检查，单位才会进入库存。同样的理念适用于每一个安全门：检测结果、标签检查、医生审阅。\n\n### 安全检查集中于关键时刻\n\n该市场的供应商宣传其在流程关键点应用了大量内置自动化安全检查——在贴标签时、包装时以及输血时。具体数量是供应商特定的数据；结构性事实是，检查集中在错误可能到达患者的环节。\n\n### 有效期决定可用性\n\n单位的有效期是一个一等字段，驱动着视图、预留和废弃。过期和浪费是受管理的流程，而非事后补救。某些产品允许在细菌检测结果允许的情况下延长血小板的有效期，并在数据库中更新该单位的有效期和产品代码。\n\n### 紧急发放在保持检查的同时消除延迟\n\n紧急运输路径存在于两个极（医院紧急发放；紧急中转库）。其定义行为是加速单位向部门的流转，同时保持关键安全措施——检查被重新排序，而非跳过。\n\n### 献血者延期是一种受追踪、被通知的状态\n\n被延期的献血者不仅仅是被标记；延期具有明确的依据和期限，会被计算进未来的资格中，并反馈给献血者。\n\n### 退回是受管理的流程\n\n未使用的单位会被退回。两个极都将退回视为带有自身检查的受追踪流转，而",
+        "parent_id": "22.03",
+        "domain_id": "22"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 163,
+    "phase": "directory",
+    "parent": 163,
+    "slugs": [
+      "blood-bank-management"
+    ],
+    "input_status": "insufficient_evidence",
+    "seed_row_sha256": "9a3a607aac75f70cac1204403c285287052a89e24bf9cc0e16ca6386cd167c79"
+  }
+}

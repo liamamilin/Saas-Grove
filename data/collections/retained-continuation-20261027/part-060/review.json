@@ -1,0 +1,99 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "OpenSTF 的许可证快照（d548c4b2…）是仓库 LICENSE 的 626 字节短式声明：明确写有 “Licensed under the Apache License, Version 2.0”，但正文按引用指向 apache.org，并非 Apache-2.0 全文；GitHub /license 端点返回 NOASSERTION。batch.json 的 license_review 称“已核对仓库 LICENSE 完整文本为 Apache License 2.0”，措辞不准确，建议改为“仓库 LICENSE 声明 Apache-2.0（短式声明，正文按引用）”。许可证身份本身与 README/batch 的 Apache-2.0 一致，故不阻断。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 为空，而 research.json 已记录 5 个叶子均为 case_found 并给出 case_ids；建议同步进度元数据，避免下游按 input.json 误判为无案例。本次审查以 batch.json 与 research.json 为准。",
+    "device-testing-platform 仅按交互式远程会话匹配（README 未展示自动化测试编排），摘要与关系已如实收窄，符合定义中“交互式会话和/或自动化执行”的择一结构；但“维护中的设备目录、新机型及时上线”的广度由用户自建设备群决定，展示时宜保留“自托管/自有设备”限定。",
+    "OpenSTF 上游社区版已停止活跃开发（README 顶部警告，开发迁至 DeviceFarmer，DockerHub 最后版本 3.4.2），且 README 内 “Status” 段与顶部警告存在“仍在活跃开发”的表述冲突；batch/research 采用了顶部警告，属较新且更具体的事实，建议展示层保留成熟度说明。",
+    "Playwright 与 k6 均为开源自托管工具（本地/CI/自管集群），不是厂商托管服务；research.json 的 service_boundary 已明确限定，建议对外文本避免把 “Platform” 读作托管测试云。",
+    "k6 同时映射 load-testing-platform 与 performance-testing-application 两个兄弟叶子。定义本身说明这两个名称是同一产品类别的“学科名/方法名”，复用同一开源条目有据且研究记录透明；建议在汇总统计时避免同一 application 被重复计为两个独立案例。",
+    "Playwright README 中“逐项通过/失败判定”主要以失败时 trace/截图/视频与并行运行体现，未出现 reporter/verdict 专段；作为 full-featured test runner 属可接受证据强度，若后续需更强证据可补官方 reporter 文档（非阻断）。",
+    "k6 的“结果集留存/跨运行比较”在 README 正文由 “Flexible metrics storage and visualization … summary statistics or granular metrics, exported” 及 results-output 链接支撑，正文证据略薄但可用。"
+  ],
+  "leaf_checks": {
+    "device-testing-platform": {
+      "application_ids": [
+        "github:37834277"
+      ],
+      "sources_read": [
+        "sources/8041ed39…（openstf/stf README）",
+        "sources/676e2b86…（openstf/stf 仓库元数据，前段含 id=37834277、full_name=openstf/stf）",
+        "sources/d548c4b2…（openstf/stf LICENSE）"
+      ],
+      "core_check": "README 正文同时给出定义性两结构：①设备目录——Monitor your device inventory，可按型号/Android 版本/运营商/产品名/分组等搜索，含分组、Booking & Partitioning、在线/离线状态与硬件规格；②按需可观察执行——浏览器内实时屏幕（30–40 FPS）、键盘输入、多点触控、拖放安装并启动 .apk、设备日志、shell、adb connect、文件浏览器。设备覆盖目的（在真实硬件上复现/调试应用问题）由 “web application for debugging smartphones, smartwatches and other gadgets remotely” 支撑。",
+      "service_form": "自托管 Web 应用，持续运行于团队设备实验室，管理自有 Android 设备；research.json 已明确非厂商托管设备云、未声称自动化编排；定义允许“客户自有设备由平台操作”的形态。",
+      "identity_track": "track=open_source；仓库 id 37834277 与 REVIEW_SOURCES applications 一致；homepage openstf.io 与 README 一致。",
+      "license_check": "LICENSE 快照为 Apache-2.0 短式声明（626B，见 non_blocking_notes），README “See LICENSE” 一致；许可证身份可核。",
+      "gap": "无自动化测试执行/并行矩阵证据（已如实收窄，不阻断）；设备目录广度依赖自建硬件；上游社区版停止活跃开发已记录。"
+    },
+    "end-to-end-testing-platform": {
+      "application_ids": [
+        "github:221981891"
+      ],
+      "sources_read": [
+        "sources/99cadec3…（microsoft/playwright README）",
+        "sources/18f2154c…（playwright 仓库元数据前段，id=221981891）",
+        "sources/aa5f49d6…（playwright LICENSE，完整 Apache-2.0 正文 11601B）"
+      ],
+      "core_check": "README 正文给出真实工作流：以 @playwright/test 的 test()/expect() 编写持久化脚本（导航、点击、断言），`npx playwright test` 在 Chromium/Firefox/WebKit 上并行、默认 headless 执行，每测试独立 browser context（隔离）、auto-wait 与 web-first assertions；失败时按配置捕获 trace、截图、视频，并由 Trace Viewer 检视动作/DOM/网络/控制台。对应“整体应用经真实界面执行 + 持久测试资产 + 逐项结果与故障证据”。",
+      "service_form": "开源测试运行器/框架，本地或 CI 自托管持续使用；非托管测试云，research.json service_boundary 已限定（README 示例为本地安装浏览器）。",
+      "identity_track": "track=open_source；仓库 id 221981891 与 REVIEW_SOURCES 一致；homepage playwright.dev 与 README 文档链接一致。",
+      "license_check": "LICENSE 快照为 Apache License 2.0 全文（base64 解码首部即 “Apache License Version 2.0, January 2004”），与 batch license=Apache-2.0 一致。",
+      "gap": "“逐项 pass/fail 判定”在 README 中以失败证据与运行结果隐含呈现，无 reporter 专段（见 non_blocking_notes）。"
+    },
+    "load-testing-platform": {
+      "application_ids": [
+        "github:54400687"
+      ],
+      "sources_read": [
+        "sources/54f111f4…（grafana/k6 README）",
+        "sources/a67efd20…（k6 仓库元数据前段，id=54400687、description “A modern load testing tool, using Go and JavaScript”）",
+        "sources/03d9b93a…（k6 LICENSE，完整 AGPL-3.0 正文 34280B）"
+      ],
+      "core_check": "README 示例脚本给出完整三结构：默认函数定义模拟用户对目标的请求序列（http.get 到 quickpizza.grafana.com）与 check 断言（场景记录，tests as code、可版本化复用）；options.stages 定义 VU 0→15→15→0 的升/稳/降负载曲线（受控模拟群体）；CLI/CI/Kubernetes 执行后由 thresholds（http_req_duration p(99)<3000ms）与 metrics storage/visualization、results-output 提供负载下测量与结果留存。",
+      "service_form": "开源负载测试 CLI/工具，脚本与执行在用户本地、CI 或自管 Kubernetes；Grafana Cloud 仅 README 所述可选商业 SaaS，未纳入本条目能力断言。",
+      "identity_track": "track=open_source；仓库 id 54400687 与 REVIEW_SOURCES 一致；homepage grafana.com/oss/k6 与 README 链接一致。",
+      "license_check": "LICENSE 快照为 GNU AGPL v3 全文（34280B），README 亦写明 AGPL-3.0，与 batch 一致；社区版边界（OSS vs Grafana Cloud）已在 research.json 明确。",
+      "gap": "结果留存/跨运行比较的正文表述偏薄（主要靠结果输出链接），但核心场景—负载—测量链完整。"
+    },
+    "performance-testing-application": {
+      "application_ids": [
+        "github:54400687"
+      ],
+      "sources_read": [
+        "sources/54f111f4…（k6 README，复用核对）",
+        "sources/a67efd20…（k6 元数据）",
+        "sources/03d9b93a…（k6 AGPL-3.0 LICENSE）"
+      ],
+      "core_check": "同一 k6 正文以 “Like unit testing, for performance” 定位性能测试，并给出 stages（负载/压力/峰值等种群塑形）、thresholds（SLA 判定）、scenarios（open/closed、constant RPS、fixed iterations）与结果指标；足以覆盖本叶“场景 + 受控模拟群体 + 对目标的度量执行 = 可比较的性能结果集”的定义；与 load-testing-platform 的复用与定义中“两名称同属一个产品类别”一致。",
+      "service_form": "开源性能/负载测试 CLI，自托管于本地、CI 或自管集群；商业托管不纳入断言（research.json 已记）。",
+      "identity_track": "track=open_source；case_id 与 k6 条目 id 54400687 一致；未另造产品。",
+      "license_check": "同上，AGPL-3.0 全文快照与 batch 一致。",
+      "gap": "本叶未提供独立于 load-testing-platform 的来源，属有意的同产品复用；测试类型（soak/breakpoint 等）具体形态主要由 README 链接与词汇覆盖，正文直接证据有限，但定义只要求同一底层结构的性能测试工具。"
+    },
+    "software-test-management": {
+      "application_ids": [
+        "github:92381207"
+      ],
+      "sources_read": [
+        "sources/19c2f074…（kiwitcms/Kiwi README）",
+        "sources/5c3ef711…（官方指南 testcase.rst）",
+        "sources/bf45e65d…（官方指南 testrun.rst）",
+        "sources/1d243ee6…（Kiwi 元数据前段，id=92381207）",
+        "sources/4f9e4523…（Kiwi LICENSE，完整 GPL-2.0 正文 18092B）"
+      ],
+      "core_check": "正文证据完整：testcase.rst 说明测试用例需清晰 setup、动作与可测量预期结果、前置条件，用例与 Test Plan 关联、可克隆、可评审，且仅 CONFIRMED 用例可加入测试运行；testrun.rst 说明 Test Run 含选定用例针对特定产品 Build 的执行结果，按 Test Plan 创建、指定 Manager/Default Tester 并邮件通知、逐项展开步骤后填写 Comment 并选择 Status、可克隆/编辑、Running→Finished 状态锁定；README 补充 bug tracker 集成、搜索、访问控制、自动化框架插件、可视化报表与 API，支撑“受管测试工作/汇总报告”层。",
+      "service_form": "开源自托管测试管理系统（Docker 部署），另有公共租户；商业支持/托管未作为核心能力断言，社区版边界清楚。",
+      "identity_track": "track=open_source；仓库 id 92381207 与 REVIEW_SOURCES 一致；homepage kiwitcms.org 与 README 一致。",
+      "license_check": "LICENSE 快照为 GNU GPL v2 全文（18092B，base64 解码首部为 “GNU GENERAL PUBLIC LICENSE Version 2, June 1991”），与 batch 的 GPL-2.0 一致。",
+      "gap": "覆盖率/进度聚合的细粒度机制主要靠 README 的 “visual reports” 与套件/计划结构支撑，未读到专章；不影响三结构成立。"
+    }
+  },
+  "limits": "只读初审：未运行 shell、未写文件、未部署或执行任何应用，未做额外网络检索；仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 按 path 原样读取的 14 个快照（全部存在，sha256 文件名与声明一致，但未重新计算哈希）。GitHub 元数据快照为单行 JSON，读取时在 2000 字符处截断，故 archived/pushed_at 及 /license 响应尾部的 license 对象（spdx_id）无法直接目视核对；仓库身份依前段 id/full_name/description 与 license 快照交叉确认。未核验快照抓取时刻之后的仓库状态变化，也未验证 OpenSTF 的 “最后 push 2023-05-31” 等仅见于元数据尾部的字段。未覆盖本单元以外的叶子。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-060/ses_groveopencodegop060review1_1792991156.jsonl",
+  "batch_sha256": "7d9bacdc91d10ee9864678b57dc54a83890b93dc86312bd83764dee92cf2def2",
+  "research_sha256": "bf6446d466b8b5b74983c877ccaefe2b0da9ec51827e6073e194a8b191e5c9da",
+  "input_sha256": "94cc4914056f2109c01ff91f53bc37a15ae491f7f34e9d085fcda166afcdc4c7"
+}

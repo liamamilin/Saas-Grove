@@ -1,0 +1,54 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    {
+      "slug": "restaurant-pos",
+      "application_id": "github:1006743050",
+      "issue": "批次条目把 license 字段记为 Apache-2.0，而 README/用户指南表述为 MIT OR Apache-2.0（徽章指向 LICENSE-MIT，GitHub license API 解析到 LICENSE-APACHE）。summary 已如实提到两处表述，属于双许可而共享同一功能完整代码库，不影响开源判定。",
+      "fix": "可选：把 license 写为 \"MIT OR Apache-2.0\" 或在源处标注双许可，并让 license_evidence_url 同时覆盖 LICENSE-MIT 与 LICENSE-APACHE。"
+    },
+    {
+      "slug": "restaurant-pos",
+      "application_id": "github:1006743050",
+      "issue": "批次 deployment 中的“单一发布二进制、Linux/macOS amd64/arm64”等细节，在本次可完整读取的 docs/user-guide.md 正文中没有直接对应语句，需依赖 README 内容；属非核心实现细节。",
+      "fix": "可选：在 summary/deployment 中限定“据 README 自述”，或将部署形态简化为文档可证的自托管 Go/React + 自管 PostgreSQL。"
+    },
+    {
+      "slug": "restaurant-pos",
+      "issue": "input.json 的 progress 仍为 case_status=insufficient_evidence、application_ids=[]、phase=included_without_cases，与本轮 batch/research 的 case_found + github:1006743050 不一致，疑为上一轮留档的种子状态未同步。",
+      "fix": "可选：在正式入库时把 input.json 的 progress 与 research.json/batch.json 对齐（application_ids 与 case_status），避免下游读到互相矛盾的状态；本次审查以 batch/research 及来源正文为准。"
+    },
+    {
+      "slug": "restaurant-pos",
+      "issue": "research.json 引用了 satisfecho/pos 的历史来源 URL，本单元 REVIEW_SOURCES.json 未提供其快照；该候选已明确撤回且未进入 batch，不构成本叶证据。",
+      "fix": "可选：在 research 中注明这些为跨单元历史快照引用，便于后续审计追溯。"
+    }
+  ],
+  "leaf_checks": {
+    "restaurant-pos": {
+      "slug": "restaurant-pos",
+      "application_id": "github:1006743050",
+      "status": "verified",
+      "identity": "仓库元数据快照显示 id=1006743050、full_name=vul-os/beepbite、private=false、html_url=https://github.com/vul-os/beepbite、homepage vulos.org/projects/beepbite，与 batch 的 id/名称/URL 一致；track=open_source 与仓库性质相符。",
+      "definitional_core": "docs/user-guide.md 正文支持三要素：①员工在 /pos/login 的 POS Workspace 开台/开 walk-in 单，从按类别分组、可搜索的菜单网格加菜，修改器在 Customise 弹窗中选择，课程按行指定，菜单/修改器/课程/配方在 Menu & Recipes、Categories、Menu → Courses 配置（构成“配置菜单的员工建单”，且菜单维护在独立管理界面）；②订单以 open tab 形式跨服务时段挂账，ticket 分“已送厨/未送出”两段，账面可继续编辑；Split Check by Seat 把已送厨 check 按座位分配（含未分配 Left 列）拆成各座位小计并各自 Tender，仅当每个座位付清桌台才清台，另有 Assign/move table；③Charge 打开支付，现金/卡机/转账/券等 tender 记账，Split Tender 多腿支付由实时“remaining”余额门控 Confirm Payment，退款/作废/赠送/折扣/改价走原因码，原因码触发经理 PIN 审批并写入审计日志，构成支付后的受控关闭与权限门控异常。",
+      "saas_form": "自托管 Go API + React 前端，运行在运营方自有 PostgreSQL 上，文档描述的是持续经营中逐屏使用的在役 POS（开台、送厨、收款、钱箱交接、日结报表），不是一次性工具或纯演示；符合软件服务形态。",
+      "license": "license API 快照返回 LICENSE-APACHE（size=11358，正文以“Apache License Version 2.0, January 2004”开头，长度与 Apache-2.0 完整许可文本一致），仓库元数据 spdx_id=Apache-2.0；README 同时标注 MIT OR Apache-2.0 并链接 LICENSE-MIT。完整许可、非仅声明或 NOASSERTION，双许可均已如实披露。",
+      "community_boundary": "用户指南明确“MIT OR Apache-2.0，无按单费、无订阅、无付费解锁功能层级，每一份拷贝都含全部功能”，并称无 BeepBite 云、无公司账单；无社区版/企业版功能切分。文档单列的商业/托管缺口（无托管服务、在线刷卡默认不启用）是产品能力边界，不是开源核心的功能阉割。",
+      "type_boundary": "指南第 5 节明确 /q 快速 POS 为无登录、无挂账、无分账、无 void/comp 的自助/快速柜台模式，batch 未以其作为本叶证据；公开 store 页面与 WhatsApp 点单被限定为外部点单渠道，与员工端 POS 核心区分清楚，未与餐厅在线/自助点单类型混淆。",
+      "evidence_used": [
+        "data/collections/sources/31ae5a0f89beace5291bf78b4b61ff23dd23d349f2e86262190f247183cbd82f.txt（repository_metadata）",
+        "data/collections/sources/97c8bafaaa8cb0259254978b48483f78b40297d0c48c161c01129c522a0f0439.txt（license）",
+        "data/collections/sources/1b2ed1274a401caeaa81cc8187996990ebd54fa16f54641334a11714588f1f9f.txt（readme，JSON base64）",
+        "data/collections/sources/71479633c87fa60fcd267d67972231798409ce8c1988739d4eb93ab1408a474a.txt（docs/user-guide.md 全文）"
+      ],
+      "gaps": "未运行部署或实机验证（runtime_tested=false，按任务不要求）；用户指南显示报表页仅有部分图表落地、库存/工时等视图仅有数据库视图，batch 的“sales reporting views”表述偏宽但在可接受范围；README 正文以单行 JSON base64 存放且读取被截断，其正文细节未逐字复核，核心判定改以可完整读取的官方用户指南为准。"
+    }
+  },
+  "limits": "只读审查：使用 read/grep 读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES.json 列出的四个快照；未运行 shell、未写文件、未访问其他单元。GitHub 内容 API 快照（repository_metadata、readme、license）为单行 JSON 且 read 对单行截断在约 2000 字符，故对 README 与 license 的 base64 正文只能读取开头片段并借助针对性检索确认字段（如 spdx_id=Apache-2.0），未能逐字通读；核心工作流证据完全取自可完整读取的 docs/user-guide.md 正文。未做部署测试、未补查价格/架构/在线支付，也未核实 Odoo、URY、Floreant、satisfecho 等未纳入候选（本单元未提供其快照，均不在 batch 中）。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-240/ses_groveopencodegop240review1_1793264351.jsonl",
+  "batch_sha256": "4e490ae9580dc0565dd5ff155eae326857d5e25a94016ceb2717d09652ac968f",
+  "research_sha256": "f7a2cdb5a21521152d2c87276e35ef5418943283a624d2faa2cf077f39d98200",
+  "input_sha256": "99e21be9fd28c2d1bacd09841ab09256ba1948a82bb475f0f63f2f9454949f16"
+}

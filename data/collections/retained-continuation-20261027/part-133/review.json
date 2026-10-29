@@ -1,0 +1,68 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "sql-workbench",
+      "application_id": "github:44662669",
+      "issue": "条目名称是 DBeaver Community Edition，但 summary 写“通过 JDBC/ODBC 连接”，features 写“any JDBC/ODBC database”，technology_stack 也列“JDBC/ODBC”。所引 README 的 Community version 驱动清单不含 ODBC，ODBC 明确列在 PRO versions；这会把 PRO 能力误记为社区版能力，社区版边界不准确。",
+      "fix": "将 Community Edition 的连接方式改为 JDBC，或写成“JDBC；ODBC 需 PRO”；从社区版 features/technology_stack 中移除或限定 ODBC；如保留 ODBC 描述，注明其属于 DBeaver PRO 并另引 PRO 来源。"
+    }
+  ],
+  "non_blocking_notes": [
+    "rdf-sparql-workbench：summary 中的 cancel、分页等具体交互未在 server-workbench 快照正文中逐一直接出现；官方文档已明确 Workbench 提供 querying/updating/exploring，并出现 query/update 菜单、查询超时和结果下载限制，核心匹配不受影响，建议后续补证或弱化这些细节措辞。",
+    "time-series-database-workbench：Chronograf 官方定位偏 monitoring/visualization UI，Host List、Dashboard Templates、Dashboards 占比较高；Data Explorer 的 InfluxQL 编辑器、表格结果和可视化足以支撑工作台核心，但摘要宜明确以 Data Explorer 为工作台核心，避免被读成纯仪表板产品。",
+    "time-series-database-workbench：LICENSE 正文写明 AGPL version 3 or later，条目 license 记为 AGPL-3.0；建议在 license_review 中注明 or-later，或使用 AGPL-3.0-or-later，以免 SPDX 标识过窄。",
+    "data-governance-platform：summary 中的“版本”和“审计日志”在引用文档里证据较弱；roles-policies 只出现 AuditLogs 权限和 audit trails 的提法，版本历史未见正文。治理规则、责任结构、术语表审批流程均有充分正文支撑，建议补证或弱化这两个外围措辞。",
+    "data-catalog：DataHub README 以 Context Platform/AI 为主叙事，目录核心主要依据 Discovery 章节；当前摘要已限定 OSS，未混入 Cloud 能力，建议后续补一条 Discovery 或目录 UI 文档快照，增强核心正文证据。",
+    "input.json：progress 仍是 not_searched、application_ids 为空，与 batch/research 已收录 5 个案例不一致；建议同步进度元数据，避免下游误读。"
+  ],
+  "leaf_checks": {
+    "rdf-sparql-workbench": {
+      "application_id": "github:49670957",
+      "track": "open_source",
+      "core_evidence": "REVIEW_SOURCES 快照 6e7a258e... 的官方文档正文明确 RDF4J Workbench 是连接 RDF4J Server 仓库/SPARQL 端点的 Web UI，用于 querying、updating 和 exploring；同页还出现 query/update 菜单、查询超时、结果下载限制等配置。d127af3e... README 也把 Workbench 指向该文档。核心的实时 RDF 数据集、SPARQL 编写执行循环和数据保留型结果均有正文依据。",
+      "license": "b09fec43... 为完整 BSD-3-Clause 正文，994f2898... 仓库元数据 spdx_id=BSD-3-Clause，repo 未归档。",
+      "boundary": "Workbench 与 RDF4J Server 同仓库、自托管 WAR/Docker，无商业社区版拆分；未发现许可证或身份问题。",
+      "result": "核心匹配通过；仅部分交互细节证据偏弱，见 non_blocking_notes。"
+    },
+    "sql-workbench": {
+      "application_id": "github:44662669",
+      "track": "open_source",
+      "core_evidence": "ea03cc7b... README 自述 free universal database tool and SQL client，并列出 SQL editor、schema editor、result/data editor 等；f4b1b698... Wiki SQL Editor 正文明确可在单一数据库连接下编写并执行多个 SQL 脚本、保存脚本，并在 Result panel 查看结果。连接外部数据库、SQL 编写执行、可检查结果三项核心均有正文依据。",
+      "license": "3097f7e3... 为完整 Apache-2.0 正文，00603280... 仓库元数据 spdx_id=Apache-2.0，repo 未归档。",
+      "boundary": "README 明确 Community version 与 PRO versions；CE 驱动清单不含 ODBC，PRO 清单含 ODBC。条目把 JDBC/ODBC 都写成社区版能力，边界不准确，已列入 findings。",
+      "result": "核心匹配通过；社区版 ODBC 表述必须修正。"
+    },
+    "time-series-database-workbench": {
+      "application_id": "github:66506962",
+      "track": "open_source",
+      "core_evidence": "480ba3af... README 的 Data Explorer 正文写明可用 query editor 生成/编辑 InfluxQL 语句、用 query templates 探索数据、以表格查看 query results 并创建可视化；产品是连接 InfluxDB/TICK 的自托管 Web 应用。实时 InfluxDB 上下文、时序数据对象、查询执行与时间序结果三项核心有正文依据。",
+      "license": "098b7a67... 为完整 AGPL 正文，明确 version 3 or later；4b180be2... 仓库元数据 spdx_id=NOASSERTION，license_review 已按完整正文认定为 AGPL-3.0，repo 未归档。",
+      "boundary": "自托管 Go/React Web 应用，Reader 的 InfluxQL 仅 SELECT/SHOW，写/管理操作由服务端拒绝；未把 Enterprise 能力计入。",
+      "gap": "官方 query-data 文档返回 404、guides 返回非 UTF-8，research.json 已如实留档；核心依据为官方 README。",
+      "result": "核心匹配通过；产品偏 dashboard/monitoring 的定位和 AGPL or-later 表述见 non_blocking_notes。"
+    },
+    "data-catalog": {
+      "application_id": "github:46398090",
+      "track": "open_source",
+      "core_evidence": "9711dc90... README 的 DataHub OSS 与 Discovery 正文写明可自托管、150+ integrations 汇入统一 metadata graph，并提供 Universal search、column-level lineage、schema/statistics/ownership/usage；Governance 段还列出 business glossary 与 ownership/stewardship。目录条目引用外部资产、结构元数据加描述性上下文、搜索发现三项核心有正文依据。",
+      "license": "c66fcbab... 为完整 Apache-2.0 正文，dd6c6cb3... 仓库元数据 spdx_id=Apache-2.0，repo 未归档。",
+      "boundary": "README 明确 DataHub OSS（自托管）与 DataHub Cloud（托管）的边界，条目只取 OSS，未把 Cloud 能力计入。",
+      "result": "核心匹配通过。"
+    },
+    "data-governance-platform": {
+      "application_id": "github:391740664",
+      "track": "open_source",
+      "core_evidence": "599b02f0... 治理指南把 Business Glossary、Classification 和 Domains & Data Products 作为治理机制；f340caa7... 术语表审批正文明确指定 Reviewers、新术语为 Draft、只有被指派 Reviewers 可通过/拒绝、流程通过 Task 分派并保留 Approved/Rejected 状态；13164e3d... 所有权正文明确 team/user owner、层级传播和团队所有权；82f4a9a0... 正文明确 Organization/BusinessUnit/Division/Department/Group 层级及 roles/policies；e75024c7... Domains 正文明确 domain 按业务边界组织资产、定义 ownership，并有 Activity Feeds & Tasks。治理规则、责任结构、受治理流程三项核心均有正文依据。",
+      "license": "69d6a1c5... 为完整 Apache-2.0 正文，f7bd41e4... 仓库元数据 spdx_id=Apache-2.0，repo 未归档。",
+      "boundary": "可自托管 Web 应用，quick-start 与 architecture 快照支撑 Docker/Kubernetes 部署；治理对象是元数据、术语、分类、策略和流程记录，不持有底层业务数据。",
+      "result": "核心匹配通过；版本/审计日志措辞证据偏弱，见 non_blocking_notes。"
+    }
+  },
+  "limits": "仅基于本单元提供的公开资料做只读初审：读取了 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 及 REVIEW_SOURCES 列出的快照；未运行产品、未重新抓取网页、未重新计算 sha256。部分 HTML 快照单行很长，读取工具按 2000 字符截断，因此 RDF4J 文档和 DBeaver Wiki 的核对依赖可见正文与关键词匹配；Chronograf 官方 query-data 文档 404、guides 非 UTF-8，已按 research.json 留档处理。未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-133/ses_groveopencodegop133review2_1793009269.jsonl",
+  "batch_sha256": "eccb15cfacb7eaa48b04f9ef5312613ffc0fcb9f4a9475ed3b0d8ba33a86d1f5",
+  "research_sha256": "cdace94083d66ad062d3b85f115ea95a33175984692beea1a719a7364de8f525",
+  "input_sha256": "c091e488a58472a162088dfa3276bfa4fabec272608d31f8b992b8e4a6aecaa7"
+}

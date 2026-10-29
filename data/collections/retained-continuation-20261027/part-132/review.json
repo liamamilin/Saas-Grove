@@ -1,0 +1,60 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中各叶的 progress 仍为 case_status=not_searched、application_ids/research_records 为空，而 research.json 与 batch.json 已记录 case_found 及具体案例；建议发布前同步该元数据。本次结论以 batch.json、research.json 和快照正文为准，不受该不一致影响。",
+    "ad-hoc-query-application 的核心证据主要来自 Redash 官方 README 的功能列表；建议补充一份查询编辑器运行与重跑的用户指南快照，以更直接覆盖“立即执行”和“就地细化”两项定义属性。",
+    "graph-database-explorer 的核心操作证据来自当前 Neo4j Browser 手册，而条目许可指向经典 GPL 仓库；建议补充经典版文档，或在条目中明确手册覆盖的是当前发行版，避免读者把闭源新版误认为 GPL 资产。",
+    "Langfuse 顶层 license 字段写作 MIT，实际为 MIT 核心加 ee/ 商业目录；边界已在摘要和 license_review 中说明，建议下游展示时保留“核心/ee”限定，避免被读成整仓 MIT。",
+    "analytical-query-editor 实际匹配的是 Druid Web Console 的 Query 视图；摘要已限定范围，建议下游展示继续保留“Query 视图”限定，避免把整个控制台的 ingestion、datasource、运维视图归入本叶。",
+    "Neo4j 经典 Browser 已不再随服务器捆绑且维护有限，建议在使用场景或时效性字段中保留该说明；另 research.json 的 graph-database-explorer 检索记录提到核对 ArangoDB、OrientDB，但 fetch_outcomes 未逐项列出，建议补齐排除记录以便复核。"
+  ],
+  "leaf_checks": {
+    "agent-observability-platform": {
+      "application_id": "github:642497346",
+      "product": "Langfuse",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=642497346、full_name=langfuse/langfuse；README 第 64-88、175-227 行说明以 SDK/@observe 插桩采集应用，ingest traces，覆盖 LLM calls、retrieval、embedding、agent actions，并可 inspect/debug sessions；Observability 文档第 9-55 行说明 trace 是结构化请求记录、含嵌套 observations/inputs/outputs/timing、可在 UI 检视、异步排队批量上报，并覆盖 token/cost、dashboard、alerts。定义核心“插桩捕获→嵌套执行 trace→持久化存储与检视”成立；自托管 Docker/Helm/Terraform 与 Cloud 形态均有来源。",
+      "license": "LICENSE 快照含完整 MIT Expat 正文，同时明确 ee/、web/src/ee/、worker/src/ee/、packages/shared/src/server/ee/ 目录另按 ee/LICENSE 商业许可；GitHub license API 的 spdx_id 为 NOASSERTION。条目按 community_core 记录并注明边界，仓库身份与社区版边界清楚。",
+      "gaps": "未发现阻断性缺口；持久化存储的具体查询接口未单独展开，但 README 的 ClickHouse 依赖与 traces ingest/检视流程足以支持类型判断。"
+    },
+    "ad-hoc-query-application": {
+      "application_id": "github:13926404",
+      "product": "Redash",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=13926404、full_name=getredash/redash；README 第 8-20 行明确浏览器端产品、SQL/NoSQL query editor（schema browser、auto-complete）、35+ 数据源、结果可视化与仪表板、共享、定时刷新、告警和 REST API。可查询数据源、用户当场组合查询、会话内执行、表格/图表结果呈现及继续调整，与即席查询应用的五项属性对应；仪表板与定时刷新属于围绕查询的延伸能力，摘要已如此定位。",
+      "license": "LICENSE 快照含完整 BSD-2-Clause 正文，GitHub license API 的 spdx_id 为 BSD-2-Clause；仓库 README 第 118-120 行也标注 BSD-2-Clause，许可证与仓库身份一致。",
+      "gaps": "仅有 README 快照，未附独立用户指南；“立即执行/就地重跑”的具体操作细节依赖查询编辑器这一产品形态推断，建议补用户文档快照，但不构成阻断。"
+    },
+    "analytical-query-editor": {
+      "application_id": "github:6358188",
+      "product": "Apache Druid Web Console Query 视图",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=6358188、full_name=apache/druid；Web Console 文档第 42-82 行说明 Query 视图是多标签、可编辑并运行 SQL 的界面，含 Run、Preview、结果查看、Recent query tasks、查询历史、EXPLAIN、schema/datasource/columns 面板、取消与实时进度；README 第 50-77 行说明 Druid 是分析数据库并提供内置 query workbench。查询针对 Druid 自身 datasource，属于平台绑定而非跨库通用 SQL 客户端，符合“绑定分析平台 + SQL 编辑 + 即时执行 + 结果网格 + 就地重跑”。",
+      "license": "LICENSE 快照含完整 Apache License 2.0 正文，GitHub license API 的 spdx_id 为 Apache-2.0；仓库 README 第 114-116 行同样标注 Apache-2.0。",
+      "gaps": "条目匹配的是 Druid 平台的 Query 视图，而非独立产品；摘要已限定范围，未发现身份或类型阻断问题。"
+    },
+    "data-science-workbench": {
+      "application_id": "github:60374819",
+      "product": "JupyterLab",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=60374819、full_name=jupyterlab/jupyterlab；README 第 24-30 行说明其为可扩展的交互式计算环境，提供 notebook、terminal、text editor、file browser、rich outputs；文档索引第 481-491 行说明 JupyterLab 是 notebook authoring/editing environment，notebook 结合代码、叙述、数据与可视化并用于探索和可视化数据；Notebooks 文档第 905-986 行说明创建 notebook 时选择 kernel、代码可运行、运行 cell、kernel state/history、导入 CSV 与绘图。交互式有状态代码会话、数据作为工作材料、探索性分析/建模三项成立；自托管 pip/conda 与 JupyterHub 形态有来源。",
+      "license": "LICENSE 快照含完整 BSD-3-Clause 正文，GitHub license API 的 spdx_id 为 BSD-3-Clause；README 第 127-130 行说明代码按 revised BSD license 授权。",
+      "gaps": "“增量执行”主要由 notebook cell 运行与 kernel 状态文档支持，文档未用该措辞逐步展开；不影响类型判断。"
+    },
+    "graph-database-explorer": {
+      "application_id": "github:45993608",
+      "product": "Neo4j Browser（经典版仓库）",
+      "status": "pass",
+      "basis": "仓库元数据快照确认 id=45993608、full_name=neo4j/neo4j-browser；README 第 1-15 行说明该仓库是经典 Neo4j Browser、用于连接 Neo4j 实例进行 query/visualize/administer/monitor，并明确当前新版 Browser 由闭源构件构建、经典版不再随服务器捆绑且维护有限；Browser 文档第 535-574 行说明通过 Cypher 查询、图可视化、读写事务；Result frames 文档第 538-620 行说明 Cypher 编辑器、Graph/Table/RAW/Plan 结果帧、节点属性查看、expand/collapse、双击展开，以及可编辑并重跑查询。运行中图数据库、存储图数据、Cypher 访问、保留元素的结果四项成立；部署运维明确不是该产品核心。",
+      "license": "LICENSE 快照含完整 GNU GPL v3 正文，GitHub license API 的 spdx_id 为 GPL-3.0；摘要已如实区分经典 GPL 仓库与当前闭源新版 Browser，社区版边界清楚。",
+      "gaps": "核心工作流文档描述的是当前 Browser 手册，与经典仓库存在版本对应关系上的留档缺口；README 已确认经典仓库身份和闭源新版边界，未构成阻断。"
+    }
+  },
+  "limits": "仅依据本单元 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 21 个快照做只读核对；未运行 shell、未写文件、未部署或运行产品、未访问实时站点、未重新计算 sha256、未做额外网络检索，也未读取其他单元或采集者过程文件。GitHub API 快照为单行 JSON，读取器对长行有截断，spdx_id、archived 等字段通过针对字段的存在性检索核对；HTML 文档快照含导航与模板内容，结论只取正文段落。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-132/ses_groveopencodegop132review2_1793009526.jsonl",
+  "batch_sha256": "bf10e297dfa8edb78716201236420de28d5acbebb231d6ec75578bfef77f2b69",
+  "research_sha256": "120ffd9ae7ee3ca2f1523d1db48de9748a30d09062d8c6af4f0b93c2be146d02",
+  "input_sha256": "1156e21b1eb30d139cc8e6dfe3eaa930327732e52b315cdb3bdf8eaa3a060962"
+}

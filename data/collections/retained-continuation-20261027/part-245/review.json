@@ -1,0 +1,79 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "input.json 中五叶的 progress 仍为 case_status=not_searched、application_ids=[]，与 research.json 的 case_found 及 batch.json 的实际条目不一致；建议流水线同步 progress 元数据，但不影响本次内容结论。",
+    "Ghost 的受众范围是单一出版物站点；research 已如实限定为“出版物网站内”，但未证明跨品牌身份图谱、行为跟踪统一或企业级身份解析。建议摘要与理由继续保持该限定，避免暗示超出已取证范围。",
+    "Ghost 已取正文证明免费/付费成员分组、labels 字段及通讯分组发送，但未直接证明可按 labels 构建可复用细分并据此群发；建议将“按标签/成员类型细分”表述为“按成员类型分组、以 labels 标注”，或补充 Ghost segments 文档。",
+    "Piano 来源实际是产品页而非站点首页，REVIEW_SOURCES 的 kind 标为 homepage；商业基本核对足够，建议后续补 management-billing、identity-management 子页以增强续订与访问控制证据。",
+    "TuneCore 首页未展开逐店上线时序、元数据锁定、下架/重新发行流程；leaf_match 已如实留档，后续可补 Release Tracker 或帮助中心文档。",
+    "SubmitHub 首页未展示提交费用、策展人回复义务、退款/保证条款，/help、/promotion、/packages 仅返回 SPA 壳；research 已留档且未把这些条款写成已证实关系，后续可补 terms/FAQ。",
+    "LibreTime 代码为 AGPLv3、文档站声明 docs 为 GPLv2；当前 license 字段指代码许可证是正确的，建议在条目中显式区分文档许可，避免读者误解为整站单一许可。",
+    "只读环境无法重算 SHA-256；本次仅核对 REVIEW_SOURCES 路径存在、batch 与 REVIEW_SOURCES 的 sha256 一致、快照文件名与登记哈希一致。"
+  ],
+  "leaf_checks": {
+    "media-audience-management": {
+      "application_id": "github:9852918",
+      "track": "open_source",
+      "sources_checked": [
+        "data/collections/sources/00d591ab73d4dc0f60917ee289eb0c312024b48c800efddcfd4a79f67d62d0f6.txt",
+        "data/collections/sources/136a3704f0748edbb93f250dee1705f380633d0b11fb7fb845d87ac6430ba850.txt",
+        "data/collections/sources/8c8ab5173564bf5c397711bff1219d047790a560bac537332c07da12b345a411.txt",
+        "data/collections/sources/11f9f7fadb1b94d812abbe72af964939334542f3d9d31091c29334d98675780b.txt",
+        "data/collections/sources/63a665bf00a9e8925022a44ad9ec8a5e77237ffccab8b7d966c9ba3b0be3a71e.txt"
+      ],
+      "core_evidence": "Ghost Members 文档正文：成员是已订阅并点击邮件链接确认的人；记录含 email/name/note/subscribed_to_emails/stripe_customer_id/status(free/paid/complimentary)/labels，支持 CSV/Zapier/API 导入；访问层级为 Public/Members/Paid/Specific tiers。Newsletters 正文：通讯可发送给全部免费/付费成员或其中一段。仓库 API 证明 id=9852918、fork=false；LICENSE API 的 base64 正文为 MIT；README 说明 Ghost-CLI 自托管与 Ghost(Pro) 托管。",
+      "boundary_or_gap": "仅覆盖单一出版物站点内的受众；未证明跨品牌身份统一、行为跟踪、按标签构建可复用细分。research 的 service_boundary 已如实限定为出版物网站内，未把广告主受众或 DMP 能力写入。",
+      "result": "pass"
+    },
+    "media-subscription-management": {
+      "application_id": "commercial:piano-subscriptions",
+      "track": "commercial",
+      "sources_checked": [
+        "data/collections/sources/7b1970d1bfa792534cc5e60e8a042dde1e86092176a6a4b7ddf18fb841ecb4fe.txt"
+      ],
+      "core_evidence": "Piano Subscriptions 产品页正文：连接 user identity、audience segmentation、real-time personalization、billing and payments；覆盖 acquisition 到 renewal 的 subscriber lifecycle；native Stripe Billing 为核心；页面列出 Subscription Management、Identity Management、Print Subscriptions；Industries 含 Media，客户案例含 El Mundo、Blick/Ringier Media、Fortune Media。",
+      "boundary_or_gap": "仅取得产品营销页，未取订阅管理/计费文档；商业案例只做基本真实性与类型匹配，未核价、架构或运行时。媒体/出版属性由 Media 行业与媒体客户案例支持，而非页面逐字“publisher”表述。",
+      "result": "pass"
+    },
+    "music-distribution-platform": {
+      "application_id": "commercial:tunecore",
+      "track": "commercial",
+      "sources_checked": [
+        "data/collections/sources/cbdbe153f934e2723612d72ba1a9d294c5cb5b5a20bc32a65d249165c8fc8822.txt"
+      ],
+      "core_evidence": "TuneCore 首页正文：unlimited singles/EPs/albums；150+ stores（Spotify、Apple Music、YouTube、TikTok 等）；earnings reliably every month；keep 100% music ownership，TuneCore never claims ownership；catalog transfer 保留 play counts/playlist placements/release dates；Release Tracker 从 submission 到 going live in stores。",
+      "boundary_or_gap": "首页未细述逐店上线时序、元数据锁定、下架与重新发行流程；research 已如实留档，未把这些关系写成已证实内容。未做运行/定价核对。",
+      "result": "pass"
+    },
+    "music-promotion-platform": {
+      "application_id": "commercial:submithub",
+      "track": "commercial",
+      "sources_checked": [
+        "data/collections/sources/433247670c27cae79f3f3f2763a6e224f946f9c6095cea365407e07757ab057d.txt"
+      ],
+      "core_evidence": "SubmitHub 首页正文：Get your music reviewed and promoted by 1,700+ quality-checked Spotify playlisters, music bloggers, and influencers；超过一百万 artists/publicists/labels 使用；侧栏有 Choose curators、Packages、List of curators、Apply to be a curator 等入口。",
+      "boundary_or_gap": "未取得提交费用、策展人回复义务、退款/保证条款；/help、/promotion、/packages 仅 SPA 壳，research 已留档且未把保证关系写成已证实内容。商业基本类型匹配成立。",
+      "result": "pass"
+    },
+    "radio-station-management": {
+      "application_id": "github:82463450",
+      "track": "open_source",
+      "sources_checked": [
+        "data/collections/sources/cf4eed4a6b1b88ce64388e64567b9e24b5dfd29b470fab0042f5178d379190e6.txt",
+        "data/collections/sources/fe37a56e2b9b5a9ba257fad4f4b9a02d8eda8631d50c9f6e13dc9f5223f418b1.txt",
+        "data/collections/sources/ba3a095b9debfab70b2fb6ceefe3468fd1e4d0b74f90b0e959f2d2545d32cbd2.txt",
+        "data/collections/sources/a1dfa32d8d4b2b71096419d2ecedc554189fe1f10de4c5d3bf4d03eb074fdb58.txt"
+      ],
+      "core_evidence": "LibreTime 首页正文：Powerful Library Management—Import music、sweepers、full-length programs，shows 与 podcasts 自动排程；AM/FM & Web—audio playout 到 broadcasting console 或 transmitter，或从云端启动 internet radio；仓库描述为 Radio Broadcast & Automation Platform；README 说明可运行 online 或 terrestrial station、是社区维护的 Airtime fork；LICENSE API 返回完整 AGPLv3 正文。",
+      "boundary_or_gap": "首页未展开 traffic/billing 商业广告位集成；代码 AGPLv3，文档站声明 docs GPLv2，条目 license 指代码许可证。未做运行测试。",
+      "result": "pass"
+    }
+  },
+  "limits": "只读审查，未运行部署、未做运行时/价格/架构测试；未执行 shell，因而未重算快照 SHA-256，只核对路径、文件名与登记哈希的一致性。部分快照为单行压缩 HTML，正文核对采用快照内关键词命中与页面文本定位，未逐字审阅全部脚本和样式。input.json 中 media-subscription-management 的 dc、music-distribution-platform 的 rules、music-promotion-platform 的 dc 文本被截断，核心判断以 overview/rules 与实际来源为准。商业案例仅按基本真实性与类型匹配审查。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-245/ses_groveopencodegop245review1_1793036591.jsonl",
+  "batch_sha256": "827821e43204a1ff196a69d7625cc6a16c42f79c56121a939e4aa2cdfef7a528",
+  "research_sha256": "8e7923055fcf9299adb742a18e240c8187bb6b46e369144fd156e8c3de0bdfee",
+  "input_sha256": "e5bfec0cb5bcb406bdd217f765c38279543e7b78694772b35a4515fc7d154de7"
+}

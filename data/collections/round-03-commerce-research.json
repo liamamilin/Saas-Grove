@@ -1,0 +1,661 @@
+{
+  "schema_version": 1,
+  "round_id": "round-03-20261023",
+  "directory_ids": [
+    "05",
+    "06"
+  ],
+  "selection_note": "按冻结未搜索队列的05/06目录逐项核验；资料记录不代表部署实测；商业仅基本索引。",
+  "conditional_cases": [
+    {
+      "slug": "checkout-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:stripe-checkout"
+      ],
+      "note": "官方Checkout及fulfillment文档覆盖带商品价格的会话、买家支付页面和checkout.session.completed事件回传；记录对象是商家使用的结账软件，不将支付处理轨道本身泛化为应用。",
+      "query": "open source hosted checkout platform merchant checkout sessions Stripe Kill Bill Hyperswitch",
+      "source_urls": [
+        "https://docs.stripe.com/payments/checkout",
+        "https://docs.stripe.com/checkout/fulfillment"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录接收已有购买意图、拥有专用买家完成界面并保存会话与完成回传的结账应用；单独支付网关或支付轨道不纳入。",
+      "open_source_search": "Kill Bill官方说明其为支付编排/网关接口，不能仅凭接入Stripe证明自有购买完成界面；本批先保留该区别。"
+    },
+    {
+      "slug": "classifieds-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1340406884"
+      ],
+      "note": "官方README说明独立站点自托管、类别与地点、用户发布和审核；Listings文档明确广告到期/续期及联系发布者表单，核心支付/交易扩展属可选，不把公开交易目的地等同于客户软件。",
+      "query": "open source classifieds software Yclas Osclass github license self hosted; site.docs.osclass-classifieds.com expiration listings contact seller",
+      "source_urls": [
+        "https://raw.githubusercontent.com/osclass-classifieds/Osclass/main/README.md",
+        "https://docs.osclass-classifieds.com/listings-i10",
+        "https://osclass-classifieds.com/features"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户拥有站点规则、用户和分类广告记录的可部署运营软件；供应商自营的买卖信息网站不自动纳入。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    },
+    {
+      "slug": "mobile-commerce-application",
+      "assessment": "insufficient_evidence",
+      "case_ids": [],
+      "note": "Shopney官方页面说明从Shopify商店生成并管理移动应用，属于构建器侧软件；叶子定义核心却是购物者设备上的前台界面。本批不能仅用构建器证明该前台本身为独立SaaS，继续留档。",
+      "query": "open source mobile commerce app builder supplier network print on demand platform seller portal; site.shopney.co mobile app builder Shopify app",
+      "source_urls": [
+        "https://shopney.co/"
+      ],
+      "proposed_scope": "conditional",
+      "service_boundary": "本批证据未建立独立SaaS应用边界，保留候选与来源继续核验，不将客户端/制造履约替代软件交付。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    },
+    {
+      "slug": "print-on-demand-commerce-platform",
+      "assessment": "case_found_boundary_unresolved",
+      "case_ids": [],
+      "note": "Printful官方材料完整证明设计、订单后制造和直接发货，但交付含不可剥离的实物生产履约；本批未取得独立软件产品管理多生产方履约且覆盖全部定义核心的证据，不能因在线工作台就确认。",
+      "query": "open source mobile commerce app builder supplier network print on demand platform seller portal; site.printful.com how it works print on demand products fulfillment",
+      "source_urls": [
+        "https://www.printful.com/print-on-demand"
+      ],
+      "proposed_scope": "conditional",
+      "service_boundary": "本批证据未建立独立SaaS应用边界，保留候选与来源继续核验，不将客户端/制造履约替代软件交付。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    },
+    {
+      "slug": "seller-portal",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:mirakl-marketplace-seller-portal"
+      ],
+      "note": "官方平台页明确self-service seller portals、运营者规则、订单路由跟踪和佣金；公开开发文档区分seller与operator角色。门户由客户市场运营商提供，非卖家自有网店后台。",
+      "query": "open source mobile commerce app builder supplier network print on demand platform seller portal; site.mirakl.com seller portal manage offers orders marketplace",
+      "source_urls": [
+        "https://www.mirakl.com/products/marketplace-platform/",
+        "https://developer.mirakl.com/content/product/mmp"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录市场客户可配置自身规则并交给外部卖家的门户软件；卖家自有网店后台和供应商自营市场的入口不因名称相近纳入。",
+      "open_source_search": "本批开源搜索未取得同时具备运营方关系、卖家报价及订单循环且许可证可核实的独立门户；不把商家后台强配此叶。"
+    },
+    {
+      "slug": "supplier-commerce-network",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:syncee"
+      ],
+      "note": "官方FAQ及Help说明客户用自己的店铺转售，供应商独立参与，软件同步商品/订单/跟踪；Syncee自述是双方桥梁且不参与其交易，支持客户管理连接和路由的软件边界。",
+      "query": "open source mobile commerce app builder supplier network print on demand platform seller portal; site.syncee.com dropshipping suppliers orders retailers automated",
+      "source_urls": [
+        "https://www.syncee.com/",
+        "https://help.syncee.com/en/articles/8890545-what-is-syncee"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "仅确认客户运营自身店铺、管理供应关系和订单同步的软件层；商品供给、制造或运输履约服务本身不纳入。",
+      "open_source_search": "本批开源检索未获得多供应商关系和独立零售店铺履约路由完整的官方可部署案例。"
+    },
+    {
+      "slug": "ad-delivery-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11461564"
+      ],
+      "note": "官方产品页说明按每次请求选择广告、维护广告主/活动/区域、配置投放规则并统计展示点击转化；README和安装向导证实它有完整客户管理界面及可自托管服务。",
+      "query": "open source ad server Revive Adserver campaign delivery statistics install",
+      "source_urls": [
+        "https://raw.githubusercontent.com/revive-adserver/revive-adserver/master/README.md",
+        "https://www.revive-adserver.com/",
+        "https://www.revive-adserver.com/how-to/install/"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录同时包含客户广告活动/区域/规则管理和投放效果记录的完整广告运营应用；裸决策API、单独广告渲染脚本不据此纳入。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    },
+    {
+      "slug": "ad-server",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:11461564"
+      ],
+      "note": "官方产品页说明按每次请求选择广告、维护广告主/活动/区域、配置投放规则并统计展示点击转化；README和安装向导证实它有完整客户管理界面及可自托管服务。",
+      "query": "open source ad server Revive Adserver campaign delivery statistics install",
+      "source_urls": [
+        "https://raw.githubusercontent.com/revive-adserver/revive-adserver/master/README.md",
+        "https://www.revive-adserver.com/",
+        "https://www.revive-adserver.com/how-to/install/"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录同时包含客户广告活动/区域/规则管理和投放效果记录的完整广告运营应用；裸决策API、单独广告渲染脚本不据此纳入。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    },
+    {
+      "slug": "consumer-research-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:attest"
+      ],
+      "note": "官方Getting started说明客户创建并启动问卷、选择Attest消费者面板；结果文档说明交叉比较、图表和Key Findings。是客户自行运行研究的工作台，而非只有面板采购或代执行咨询。",
+      "query": "open source consumer research platform LimeSurvey audience panel survey; site.askattest.com platform consumer research surveys audience dashboard",
+      "source_urls": [
+        "https://help.askattest.com/en/articles/3494059-getting-started-with-your-first-survey",
+        "https://help.askattest.com/en/articles/3648246-how-to-find-the-insights-in-your-survey-results"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户管理研究对象、结构化投放并分析结果的在线工作台；单独受众样本销售或研究咨询不纳入。",
+      "open_source_search": "LimeSurvey官方资料证明问卷/外部panel集成，但本批未证明其开源软件自身提供定义要求的消费者受众访问；不强配该叶。"
+    },
+    {
+      "slug": "customer-data-platform-cdp",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:twilio-segment"
+      ],
+      "note": "官方Unify文档说明跨渠道身份合并、持久档案及Profile explorer；Engage受众和Profile API提供下游激活，确认完整客户数据工作台。Unify/Engage属组合产品，不声称所有套餐都具备全部能力。",
+      "query": "open source customer data platform Apache Unomi profile identity segments web console; site.twilio.com/docs/segment/unify identity resolution profile audiences",
+      "source_urls": [
+        "https://www.twilio.com/docs/segment/unify",
+        "https://www.twilio.com/docs/segment/unify/identity-resolution",
+        "https://www.twilio.com/docs/segment/unify/profile-api",
+        "https://www.twilio.com/docs/segment/engage/audiences"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户可管理统一档案、身份规则、受众与下游激活的完整工作台；纯事件管道或仅暴露底层CDP引擎不据此纳入。",
+      "open_source_search": "优先核对Unomi（API-first引擎，完整客户工作台证据不足）和Tracardi；后者原文为MIT+Commons Clause，不能按纯MIT开源入库。"
+    },
+    {
+      "slug": "marketing-personalization-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:optimizely-personalization"
+      ],
+      "note": "官方Personalization概述同时说明访客行为/受众定向、体验变体和Campaign Results指标；确认的是逐访客体验与效果管理应用，非仅随机A/B分流。",
+      "query": "site.docs.mautic.org dynamic web content filter statistics personalization; site.optimizely.com web personalization audiences results targeting",
+      "source_urls": [
+        "https://docs.optimizely.com/personalization/docs"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户维护受众和体验变体、执行逐访客分配并衡量结果的营销应用；仅CMS渲染、裸特征判断或随机测试不纳入。",
+      "open_source_search": "Mautic动态内容有受众条件和变体，统计材料本批只明确展示/发送记录，尚不足独立确认变体效果衡量；GrowthBook本批资料多聚焦实验，未把随机分流等同个性化。"
+    },
+    {
+      "slug": "mobile-marketing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:appsflyer"
+      ],
+      "note": "官方移动归因页及My Dashboards说明以客户移动应用为单位查看安装、应用内事件、渠道和留存/SKAN等指标，客户持续管理其应用用户群的增长效果。",
+      "query": "site.github.com/Countly/countly-server community edition push notifications license; site.appsflyer.com mobile marketing platform attribution engagement dashboard",
+      "source_urls": [
+        "https://www.appsflyer.com/products/measurement/mobile-attribution/",
+        "https://support.appsflyer.com/hc/en-us/articles/23461861877009-My-Dashboards"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户围绕自有移动应用及其用户群持续运营/衡量营销的软件；移动广告库存、单独SDK或通知传输通道不据此纳入。",
+      "open_source_search": "优先搜索Countly，当前LICENSE.md存在AGPL附加品牌修改限制，本批不将其简化为标准AGPL开源记录；仅做许可证待核候选。"
+    },
+    {
+      "slug": "programmatic-advertising-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:adkernel-rtb-suite"
+      ],
+      "note": "官方RTB Suite说明客户掌控buyers/sellers、私有交易、拍卖路径和定价；主页说明自有品牌控制台及逐笔拍卖/竞价/费用记录。完整客户运营产品与供应商自营广告库存交易区分。",
+      "query": "site.github.com/rtbkit/rtbkit open source real time bidding web dashboard; site.adkernel.com white label exchange floor auction publisher advertiser reporting",
+      "source_urls": [
+        "https://adkernel.com/",
+        "https://adkernel.com/rtb-suite/"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "收录客户控制供需参与者、交易规则和竞价记录的白标运营软件；仅RTB竞价开发包或供应商代投广告服务不纳入。",
+      "open_source_search": "RTBkit README是开发实时竞价器的软件包，未证明同时具备双侧业务运营工作台；不把组件直接认作完整平台。"
+    },
+    {
+      "slug": "recommendation-personalization-engine",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:144708327"
+      ],
+      "note": "README说明用户/物品/行为数据输入、训练和REST排序输出；Dashboard文档还证明用户物品记录管理、反馈与推荐查看、导入导出和任务监控，超出仅算法库或无运营层的排名端点。",
+      "query": "site.github.com/gorse-io/gorse dashboard user items recommendation license",
+      "source_urls": [
+        "https://raw.githubusercontent.com/gorse-io/gorse/master/README.md",
+        "https://gorse.io/docs/dashboard/overview",
+        "https://gorse.io/docs/concepts/data-source"
+      ],
+      "proposed_scope": "included",
+      "service_boundary": "仅纳入具有客户用户/目录/反馈记录、推荐交付和可运营管理台的完整服务；算法库或裸排名函数继续区分。",
+      "open_source_search": "已先搜索开源实现；本批只记录取得直接官方依据的匹配，不声称穷尽。"
+    }
+  ],
+  "request_history": [
+    {
+      "url": "https://api.github.com/repos/revive-adserver/revive-adserver",
+      "sha256": "2c6a516cdb20d981c9c9be704bbc57bd9e33ef130461536b45a9fee42c4ced9c",
+      "snapshot_path": "sources/2c6a516cdb20d981c9c9be704bbc57bd9e33ef130461536b45a9fee42c4ced9c.txt",
+      "fetched_at": "2026-10-23T17:46:45.989705+08:00",
+      "kind": "repository_metadata"
+    },
+    {
+      "url": "https://api.github.com/repos/revive-adserver/revive-adserver/license",
+      "sha256": "a2b2a792520bd8d11a58e8ef938674d352fa1b0bda5d0d6bf9462e3abc1b0e0e",
+      "snapshot_path": "sources/a2b2a792520bd8d11a58e8ef938674d352fa1b0bda5d0d6bf9462e3abc1b0e0e.txt",
+      "fetched_at": "2026-10-23T17:46:45.997811+08:00",
+      "kind": "license"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/revive-adserver/revive-adserver/master/README.md",
+      "sha256": "240ee15eb82c2922190931a0abab593f6045f10be4ef5e212c80b2d581715426",
+      "snapshot_path": "sources/240ee15eb82c2922190931a0abab593f6045f10be4ef5e212c80b2d581715426.txt",
+      "fetched_at": "2026-10-23T17:46:45.549673+08:00",
+      "kind": "readme"
+    },
+    {
+      "url": "https://www.revive-adserver.com/",
+      "sha256": "b6791c81f9839eced0fc1a2c56199bb14560d01d8f7112fb016debeda1a32673",
+      "snapshot_path": "sources/b6791c81f9839eced0fc1a2c56199bb14560d01d8f7112fb016debeda1a32673.txt",
+      "fetched_at": "2026-10-23T17:46:46.579914+08:00",
+      "kind": "homepage"
+    },
+    {
+      "url": "https://www.revive-adserver.com/how-to/install/",
+      "sha256": "69b769e103f9a8fcdf4eff778136c64d4a81f7718bba8dd4b7ce937b05be3c63",
+      "snapshot_path": "sources/69b769e103f9a8fcdf4eff778136c64d4a81f7718bba8dd4b7ce937b05be3c63.txt",
+      "fetched_at": "2026-10-23T17:46:46.369189+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://api.github.com/repos/osclass-classifieds/osclass",
+      "sha256": "3e4cc5fb6295f34474b5f4e25797e088921b2130d358fe54ada120a2af9ef9c1",
+      "snapshot_path": "sources/3e4cc5fb6295f34474b5f4e25797e088921b2130d358fe54ada120a2af9ef9c1.txt",
+      "fetched_at": "2026-10-23T17:46:45.812082+08:00",
+      "kind": "repository_metadata"
+    },
+    {
+      "url": "https://api.github.com/repos/osclass-classifieds/osclass/license",
+      "sha256": "a890a490123c23afabbbaa45b40f26a20f20e390ffd6323954d20b361effd73a",
+      "snapshot_path": "sources/a890a490123c23afabbbaa45b40f26a20f20e390ffd6323954d20b361effd73a.txt",
+      "fetched_at": "2026-10-23T17:46:47.147501+08:00",
+      "kind": "license"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/osclass-classifieds/osclass/master/README.md",
+      "sha256": "4db58a27e56b6015f65c44a96259067b6e88539f92fc5440632a6b55e127a97c",
+      "snapshot_path": "sources/4db58a27e56b6015f65c44a96259067b6e88539f92fc5440632a6b55e127a97c.txt",
+      "fetched_at": "2026-10-23T17:46:47.354909+08:00",
+      "kind": "readme"
+    },
+    {
+      "url": "https://api.github.com/repos/gorse-io/gorse",
+      "sha256": "eba7bb8abfc266153a7a32459c998c94e48d92933b85029350d0a7cc0d6bf8cb",
+      "snapshot_path": "sources/eba7bb8abfc266153a7a32459c998c94e48d92933b85029350d0a7cc0d6bf8cb.txt",
+      "fetched_at": "2026-10-23T17:46:47.576337+08:00",
+      "kind": "repository_metadata"
+    },
+    {
+      "url": "https://api.github.com/repos/gorse-io/gorse/license",
+      "sha256": "6e9a8ee61e7be6d1e7a962dcdb7da671a37e73d0fa1bb3ce8955c2c73122c0b5",
+      "snapshot_path": "sources/6e9a8ee61e7be6d1e7a962dcdb7da671a37e73d0fa1bb3ce8955c2c73122c0b5.txt",
+      "fetched_at": "2026-10-23T17:46:47.669037+08:00",
+      "kind": "license"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/gorse-io/gorse/master/README.md",
+      "sha256": "8605362fa09a5be2befc4cae95a5599374a0490e649d22227a49da954e2226dd",
+      "snapshot_path": "sources/8605362fa09a5be2befc4cae95a5599374a0490e649d22227a49da954e2226dd.txt",
+      "fetched_at": "2026-10-23T17:46:47.544621+08:00",
+      "kind": "readme"
+    },
+    {
+      "url": "https://gorse.io/docs/dashboard/overview",
+      "sha256": "601260c1357d4384a36ede5d9c0b93d767908c0ac0b497bd5724060afafc4182",
+      "snapshot_path": "sources/601260c1357d4384a36ede5d9c0b93d767908c0ac0b497bd5724060afafc4182.txt",
+      "fetched_at": "2026-10-23T17:46:47.811757+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://gorse.io/docs/concepts/data-source",
+      "sha256": "6863d90458a9b145cfe66595c0617902c0dd5e644a6ec5c8b2fcd10ffe4a631c",
+      "snapshot_path": "sources/6863d90458a9b145cfe66595c0617902c0dd5e644a6ec5c8b2fcd10ffe4a631c.txt",
+      "fetched_at": "2026-10-23T17:46:48.691309+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.stripe.com/payments/checkout",
+      "sha256": "67181afa0e0f7e2701986e5a3b4f7f49eef5c5db6c99e50d889c4496a772b85b",
+      "snapshot_path": "sources/67181afa0e0f7e2701986e5a3b4f7f49eef5c5db6c99e50d889c4496a772b85b.txt",
+      "fetched_at": "2026-10-23T17:46:49.993016+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.stripe.com/checkout/fulfillment",
+      "sha256": "424d990a8e7e3fc00f1977bd28ff1282184ad70d736359f37b2c4a4bf35538f8",
+      "snapshot_path": "sources/424d990a8e7e3fc00f1977bd28ff1282184ad70d736359f37b2c4a4bf35538f8.txt",
+      "fetched_at": "2026-10-23T17:46:50.531100+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.mirakl.com/products/marketplace-platform/",
+      "sha256": "fb98cd76ccc6d5c8382ca051f73e15023d74a62109d4b4f0b55dbd123d761647",
+      "snapshot_path": "sources/fb98cd76ccc6d5c8382ca051f73e15023d74a62109d4b4f0b55dbd123d761647.txt",
+      "fetched_at": "2026-10-23T17:46:53.967291+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://developer.mirakl.com/content/product/mmp",
+      "sha256": "1547f8e26631e09a7446ce66654ab37f63034a43d6fe772ba416b0543aa813cb",
+      "snapshot_path": "sources/1547f8e26631e09a7446ce66654ab37f63034a43d6fe772ba416b0543aa813cb.txt",
+      "fetched_at": "2026-10-23T17:46:49.882866+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.syncee.com/",
+      "sha256": "6d98caf28c65cec5fb333997bd6b59469c4b7aa3e5cdbceda3d0edd891a993f8",
+      "snapshot_path": "sources/6d98caf28c65cec5fb333997bd6b59469c4b7aa3e5cdbceda3d0edd891a993f8.txt",
+      "fetched_at": "2026-10-23T17:46:51.950178+08:00",
+      "kind": "homepage"
+    },
+    {
+      "url": "https://help.syncee.com/en/articles/8890545-what-is-syncee",
+      "sha256": "eccd29c256afe209f9c9ee518bc5a92693955bb38c8e52332e03a67fd17f0db9",
+      "snapshot_path": "sources/eccd29c256afe209f9c9ee518bc5a92693955bb38c8e52332e03a67fd17f0db9.txt",
+      "fetched_at": "2026-10-23T17:46:51.489427+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://help.askattest.com/en/articles/3494059-getting-started-with-your-first-survey",
+      "sha256": "fc78e1a726166d4dbe61cfbfed7aeb04ebf16f1bd9afa71d255e4a57767f39ef",
+      "snapshot_path": "sources/fc78e1a726166d4dbe61cfbfed7aeb04ebf16f1bd9afa71d255e4a57767f39ef.txt",
+      "fetched_at": "2026-10-23T17:46:51.962035+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://help.askattest.com/en/articles/3648246-how-to-find-the-insights-in-your-survey-results",
+      "sha256": "e84fc798444cd12622313568fdb90e929c2bd7cc312dda2e35d32cae45c11bda",
+      "snapshot_path": "sources/e84fc798444cd12622313568fdb90e929c2bd7cc312dda2e35d32cae45c11bda.txt",
+      "fetched_at": "2026-10-23T17:46:51.946205+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://segment.com/docs/unify/identity-resolution/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://segment.com/docs/engage/audiences/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.appsflyer.com/products/measurement/mobile-attribution/",
+      "sha256": "a153c4601a8899cb235bc204c6b596b9ee17be7314c27cbde9aaf1bae299c49d",
+      "snapshot_path": "sources/a153c4601a8899cb235bc204c6b596b9ee17be7314c27cbde9aaf1bae299c49d.txt",
+      "fetched_at": "2026-10-23T17:46:53.623816+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://support.appsflyer.com/hc/en-us/articles/23461861877009-My-Dashboards",
+      "sha256": "c49fd8804327c9904acc8b6f567de38a95e14b9d4f31f89819dd3a847e06dc6d",
+      "snapshot_path": "sources/c49fd8804327c9904acc8b6f567de38a95e14b9d4f31f89819dd3a847e06dc6d.txt",
+      "fetched_at": "2026-10-23T17:46:53.835024+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.mautic.org/en/6.0/components/dynamic_web_content.html",
+      "sha256": "a364142a70bc5721d6f2e14bc7d639a918c11a2833073aef5af2cd22896070ca",
+      "snapshot_path": "sources/a364142a70bc5721d6f2e14bc7d639a918c11a2833073aef5af2cd22896070ca.txt",
+      "fetched_at": "2026-10-23T17:46:53.437270+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.mautic.org/en/5.2/utm_tags/utm_tags_dynamic_web_content.html",
+      "sha256": "7855c7b1d78dfabe75cfda512738404c32c8951850745a8b638cc47aed9d75af",
+      "snapshot_path": "sources/7855c7b1d78dfabe75cfda512738404c32c8951850745a8b638cc47aed9d75af.txt",
+      "fetched_at": "2026-10-23T17:46:53.285535+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://devdocs.mautic.org/en/7.0/rest_api/stats.html",
+      "sha256": "b311336f123fe437f7f126ff4c545ba5c24e266edf582e8e91e8f0680a4cc4ff",
+      "snapshot_path": "sources/b311336f123fe437f7f126ff4c545ba5c24e266edf582e8e91e8f0680a4cc4ff.txt",
+      "fetched_at": "2026-10-23T17:46:54.902764+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Tracardi/tracardi/1.1.x/LICENSE.md",
+      "sha256": "bc9deb386fd126108937f7192fe3c29354c2e9a58d2d6c99a702f9efd03312f2",
+      "snapshot_path": "sources/bc9deb386fd126108937f7192fe3c29354c2e9a58d2d6c99a702f9efd03312f2.txt",
+      "fetched_at": "2026-10-23T17:46:54.438135+08:00",
+      "kind": "license"
+    },
+    {
+      "url": "https://unomi.apache.org/get-started.html",
+      "sha256": "7ec3fe930b37be18467b1a2558ea68d233b59e6df018b7a330f5bdda593f0080",
+      "snapshot_path": "sources/7ec3fe930b37be18467b1a2558ea68d233b59e6df018b7a330f5bdda593f0080.txt",
+      "fetched_at": "2026-10-23T17:46:54.704119+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rtbkit/rtbkit/master/README.md",
+      "sha256": "ffcc87096ad151815da3ccc6e0f69169bf19b2fb2b349ab280dc863a3f5928f1",
+      "snapshot_path": "sources/ffcc87096ad151815da3ccc6e0f69169bf19b2fb2b349ab280dc863a3f5928f1.txt",
+      "fetched_at": "2026-10-23T17:46:54.898291+08:00",
+      "kind": "readme"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/osclass-classifieds/Osclass/main/README.md",
+      "sha256": "4db58a27e56b6015f65c44a96259067b6e88539f92fc5440632a6b55e127a97c",
+      "snapshot_path": "sources/4db58a27e56b6015f65c44a96259067b6e88539f92fc5440632a6b55e127a97c.txt",
+      "fetched_at": "2026-10-23T17:47:31.352250+08:00",
+      "kind": "readme"
+    },
+    {
+      "url": "https://docs.osclass-classifieds.com/",
+      "sha256": "cf769cb75c679eeb2179b064add796a2005ec17a0044925e98feb88e07a18f3c",
+      "snapshot_path": "sources/cf769cb75c679eeb2179b064add796a2005ec17a0044925e98feb88e07a18f3c.txt",
+      "fetched_at": "2026-10-23T17:47:31.731711+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://segment.com/blog/profiles-sync-reverse-etl-ga/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://segment.com/blog/single-customer-view/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://docs.optimizely.com/personalization/docs",
+      "sha256": "3767c78842ac3ef054fec596f9b1c991aa41f5c0ceb19d330df29cfd6655c0da",
+      "snapshot_path": "sources/3767c78842ac3ef054fec596f9b1c991aa41f5c0ceb19d330df29cfd6655c0da.txt",
+      "fetched_at": "2026-10-23T17:47:31.849061+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://adkernel.com/",
+      "sha256": "9d7afce5abdd668abab15d281bc7c9b5f3941aedcb64b9811c7443bb01514a07",
+      "snapshot_path": "sources/9d7afce5abdd668abab15d281bc7c9b5f3941aedcb64b9811c7443bb01514a07.txt",
+      "fetched_at": "2026-10-23T17:47:32.860018+08:00",
+      "kind": "homepage"
+    },
+    {
+      "url": "https://adkernel.com/solutions/agency-white-label-dsp/",
+      "sha256": "e7fc71b27dcbaf71bad24d224a8a27bd42db035afa9771e2a4e91b7082f547c6",
+      "snapshot_path": "sources/e7fc71b27dcbaf71bad24d224a8a27bd42db035afa9771e2a4e91b7082f547c6.txt",
+      "fetched_at": "2026-10-23T17:47:33.815721+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.printful.com/print-on-demand",
+      "sha256": "4b267e00a35f2e126eb54fa9f1603f189b6d3263e90826a93c4ed87901b819d0",
+      "snapshot_path": "sources/4b267e00a35f2e126eb54fa9f1603f189b6d3263e90826a93c4ed87901b819d0.txt",
+      "fetched_at": "2026-10-23T17:47:34.128371+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://shopney.co/",
+      "sha256": "537296c0e0ae16589cf07f77360480ecaa25221aeb943480b4fc89c3e076d7f3",
+      "snapshot_path": "sources/537296c0e0ae16589cf07f77360480ecaa25221aeb943480b4fc89c3e076d7f3.txt",
+      "fetched_at": "2026-10-23T17:47:33.970241+08:00",
+      "kind": "homepage"
+    },
+    {
+      "url": "https://segment.com/docs/unify/identity-resolution/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://segment.com/docs/engage/audiences/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://adkernel.com/rtb-suite/",
+      "sha256": "caad96224f49ae590b725c8c9e78f32841f9a1964391341216c3a9b4bcecbbc0",
+      "snapshot_path": "sources/caad96224f49ae590b725c8c9e78f32841f9a1964391341216c3a9b4bcecbbc0.txt",
+      "fetched_at": "2026-10-23T17:48:31.022396+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.twilio.com/en-us/segment/unify",
+      "kind": "documentation",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.twilio.com/docs/segment/unify/identity-resolution",
+      "sha256": "6ec60d173dd0e0be47c6afe2f53b84e91f3790461fd7ccc1eb913e2830d7f97a",
+      "snapshot_path": "sources/6ec60d173dd0e0be47c6afe2f53b84e91f3790461fd7ccc1eb913e2830d7f97a.txt",
+      "fetched_at": "2026-10-23T17:48:31.537452+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://osclass-classifieds.com/features",
+      "sha256": "e47026e6937ddef1ae97eb1af4cfaa2e50195cbd1cd7458c3aa7071b307af699",
+      "snapshot_path": "sources/e47026e6937ddef1ae97eb1af4cfaa2e50195cbd1cd7458c3aa7071b307af699.txt",
+      "fetched_at": "2026-10-23T17:48:31.641819+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://segment.com/blog/profiles-sync-reverse-etl-ga/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://segment.com/blog/single-customer-view/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://segment.com/docs/unify/identity-resolution/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://segment.com/docs/engage/audiences/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.twilio.com/docs/segment/unify",
+      "sha256": "c0a48ebb4508c58a3ba359b6a17a96a278f1be6745b31187b43f5f842f652aaf",
+      "snapshot_path": "sources/c0a48ebb4508c58a3ba359b6a17a96a278f1be6745b31187b43f5f842f652aaf.txt",
+      "fetched_at": "2026-10-23T17:49:03.090652+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.twilio.com/docs/segment/unify/profile-api",
+      "sha256": "c06ac9f2f518d495f19031513eaf23282a96fd49c0c393ced53dd0fc6465a6fd",
+      "snapshot_path": "sources/c06ac9f2f518d495f19031513eaf23282a96fd49c0c393ced53dd0fc6465a6fd.txt",
+      "fetched_at": "2026-10-23T17:49:03.448365+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.twilio.com/docs/segment/engage/audiences",
+      "sha256": "2d30c124db619f0bc8a1ee6916a7169ef2fb5fa165a2ea68dc121f27f814515f",
+      "snapshot_path": "sources/2d30c124db619f0bc8a1ee6916a7169ef2fb5fa165a2ea68dc121f27f814515f.txt",
+      "fetched_at": "2026-10-23T17:49:03.876660+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.osclass-classifieds.com/listings-i10",
+      "sha256": "9217366193d47e727c98ffb290690300755259eb12365618282a01072e9b3dbc",
+      "snapshot_path": "sources/9217366193d47e727c98ffb290690300755259eb12365618282a01072e9b3dbc.txt",
+      "fetched_at": "2026-10-23T17:49:02.814855+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://www.twilio.com/en-us/segment/unify",
+      "kind": "documentation",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://segment.com/blog/profiles-sync-reverse-etl-ga/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://segment.com/blog/single-customer-view/",
+      "kind": "documentation",
+      "error": "source request redirected to a different host"
+    },
+    {
+      "url": "https://segment.com/docs/unify/identity-resolution/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://segment.com/docs/engage/audiences/",
+      "kind": "documentation",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "additional_candidate_sources": [
+    {
+      "url": "https://docs.mautic.org/en/6.0/components/dynamic_web_content.html",
+      "sha256": "a364142a70bc5721d6f2e14bc7d639a918c11a2833073aef5af2cd22896070ca",
+      "snapshot_path": "sources/a364142a70bc5721d6f2e14bc7d639a918c11a2833073aef5af2cd22896070ca.txt",
+      "fetched_at": "2026-10-23T17:46:53.437270+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://docs.mautic.org/en/5.2/utm_tags/utm_tags_dynamic_web_content.html",
+      "sha256": "7855c7b1d78dfabe75cfda512738404c32c8951850745a8b638cc47aed9d75af",
+      "snapshot_path": "sources/7855c7b1d78dfabe75cfda512738404c32c8951850745a8b638cc47aed9d75af.txt",
+      "fetched_at": "2026-10-23T17:46:53.285535+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://devdocs.mautic.org/en/7.0/rest_api/stats.html",
+      "sha256": "b311336f123fe437f7f126ff4c545ba5c24e266edf582e8e91e8f0680a4cc4ff",
+      "snapshot_path": "sources/b311336f123fe437f7f126ff4c545ba5c24e266edf582e8e91e8f0680a4cc4ff.txt",
+      "fetched_at": "2026-10-23T17:46:54.902764+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Tracardi/tracardi/1.1.x/LICENSE.md",
+      "sha256": "bc9deb386fd126108937f7192fe3c29354c2e9a58d2d6c99a702f9efd03312f2",
+      "snapshot_path": "sources/bc9deb386fd126108937f7192fe3c29354c2e9a58d2d6c99a702f9efd03312f2.txt",
+      "fetched_at": "2026-10-23T17:46:54.438135+08:00",
+      "kind": "license"
+    },
+    {
+      "url": "https://unomi.apache.org/get-started.html",
+      "sha256": "7ec3fe930b37be18467b1a2558ea68d233b59e6df018b7a330f5bdda593f0080",
+      "snapshot_path": "sources/7ec3fe930b37be18467b1a2558ea68d233b59e6df018b7a330f5bdda593f0080.txt",
+      "fetched_at": "2026-10-23T17:46:54.704119+08:00",
+      "kind": "documentation"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/rtbkit/rtbkit/master/README.md",
+      "sha256": "ffcc87096ad151815da3ccc6e0f69169bf19b2fb2b349ab280dc863a3f5928f1",
+      "snapshot_path": "sources/ffcc87096ad151815da3ccc6e0f69169bf19b2fb2b349ab280dc863a3f5928f1.txt",
+      "fetched_at": "2026-10-23T17:46:54.898291+08:00",
+      "kind": "readme"
+    }
+  ]
+}

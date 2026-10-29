@@ -1,0 +1,58 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "loyalty-program-management：batch.json 的 leaf_matches.reason 列出“免运费”作为兑换选项，但 loyaltylion.com 首页与 /platform 快照中均未检出“free shipping”字样；同句的“社交关注”也只能由页面中的 social 相关文字间接支持。建议删去未在快照中出现的那一项，或补充直接来源，以免把示例写成已核实事实。",
+    "loyalty-program-management：现有两份来源都是官方营销/产品页（首页与平台页），不是帮助中心文档；会员积分余额页、余额流水、过期与退货回收积分的规则均未在正文中出现。research.json 已如实记录这些缺口，因此不阻断；但不宜再据此外推账本或政策细节。",
+    "来源 kind 标注偏宽：LoyaltyLion /platform 与两个 woocommerce.com 产品页均被标为 documentation，实际是产品/营销页。建议改为 product_page 或 marketing，避免在后续汇总时被当作正式文档加权。",
+    "store-credit-stored-value-platform：产品页正文能证明客户余额、礼品卡/管理员邮件发放/退款转积分/善意补偿、跨订单部分消费、超额由其他方式补足、过期与适用范围；但“分类型余额变动流水”和“未偿负债报表”只有“已用额度进入 WooCommerce REST API 订单数据”这一间接表述。research 与 batch 已注明该缺口，建议后续补官方文档以覆盖第四项核心属性。",
+    "recurring-commerce-management：Skio 的 Auto-Merge Billing 文档 frontmatter 标记 stale: true（2025-12-02），且页面未展示多月未来订单队列/预测；两点 research.json 均已留档。核心承诺记录、下次扣款、周期订单与 Shopify 移交、生命周期操作由 2026-09-24 更新的 Subscription Management 正文支撑，不影响本次通过。",
+    "subscription-commerce-platform：WooCommerce Subscriptions 快照能证明周期扣款、续订失败重试、账单日对齐、同一续订合并为单笔订单/单笔付款、后台改期改品改额、订阅者自助暂停/取消/升降级/改地址；但“未来订单队列/预测”和缺货、固定期限到期的处理未展开，research 只记录了后两项。建议像 Skio 一样把队列缺口显式写入 note。",
+    "两个 WooCommerce 条目都是自托管付费扩展（快照内 isSaaSProduct=false），不是托管型 SaaS；若本单元对“SaaS 服务形态”有字面要求，应在条目中说明交付形态，或改选托管服务。按商业条目的基本真实性与类型匹配标准，本次不阻断。",
+    "b2b-e-commerce-platform：README 取自 raw.githubusercontent.com/.../master/README.md，而 license API 返回的文件 html_url 指向 3.0 分支，说明默认分支可能为 3.0；建议 README 与 LICENSE 使用同一 ref，避免跨分支拼接。另 MIT 是本 B2B 套件仓库的许可，底层 Bagisto 平台是独立依赖，其许可与社区版/商业版边界未在本单元来源中说明。",
+    "input.json 中各叶 progress 仍为 case_status=not_searched、application_ids=[]、research_records=[]，与本单元 batch.json/research.json 已收录 5 个案例不一致；若该清单会进入下游，应同步为已检索/已关联状态。"
+  ],
+  "leaf_checks": {
+    "loyalty-program-management": {
+      "application_id": "commercial:loyaltylion",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": "读取了 loyaltylion.com 首页与 /platform 两份官方快照。首页正文列出 Core platform features：Flexible rewards（购买、订阅、推荐、评价等行为给积分/奖励）、Referral program、VIP tiers、Advanced analytics；平台页正文有“Ways to earn rewards”，逐项列出 Account creation、Birthday、Purchase、Referral、Write a review，并可检出 redeem、discount、VIP、social 等词，说明品牌可配置赚取行为与兑换/等级权益。会员账户与积分累积由账户创建、积分/奖励及 loyalty account page 文案支持。",
+      "gaps": "两份均为营销/产品页；未展示会员积分余额页、积分流水、过期策略、退货回收积分、兑换阈值校验等细节。research.json 已记录“退货回收与过期未展开、未单列余额页”。商业条目按基本真实性与类型匹配通过；batch reason 中的“免运费”未在快照中找到，见 non_blocking_notes。"
+    },
+    "store-credit-stored-value-platform": {
+      "application_id": "commercial:woocommerce-store-credit",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": "读取了 woocommerce.com/products/store-credit/ 官方产品页正文。正文明确：每位客户有一个可在本店消费的余额；来源包括客户购买礼品卡、管理员邮件发放（可发给无账户顾客，作为奖励、善意补偿或替代现金退款）、退款留在店内；一个余额可跨多笔订单使用直至用完或过期；购物车、结账（含区块结账）与 My Account 的 Store credit 页显示可用余额；可限制适用商品/分类、是否覆盖运费、是否与其他优惠券叠加；可设过期；订单金额超出余额时以其他支付方式补差；已用额度进入 WooCommerce REST API 订单数据。客户余额、商户主导且分来源的发放、作为支付手段的部分兑换、闭环范围均成立。",
+      "gaps": "第四项核心属性“余额变动流水/可审计账本”只有 REST 订单数据这一间接证据，页面未展示按类型记录的独立流水，也未展示未偿负债报表；batch.json 的 reason 与 research.json 的 note 均已如实注明该缺口，按“已记录缺口可通过”处理。来源 kind 标为 documentation，实际是产品页。"
+    },
+    "recurring-commerce-management": {
+      "application_id": "commercial:skio",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": "读取了 skio.com 首页及 help.skio.com 的 Subscription Management、Orders、Auto-Merge Billing 三份 Markdown 正文。Subscription Management（2026-09-24 更新）说明订阅卡显示下次扣款日、状态、频率与已完成订单数、商品/数量/价格、时间线与订单历史、客户邮箱/姓名/收货地址，表格视图含订阅 ID、状态、频率、下次扣款日与运费；可执行 Cancel、Skip、Pause、Get now、Set date、Merge、Split、单品跳过、改频、改量、折扣、支付方式与备用支付方式；Get now 立即处理下一订单，View order 在 Shopify 打开关联订单。Orders 文档区分首单与 Recurring order，订单详情含商品、金额、运费、税、收货地址、关联订阅与活动日志。Auto-Merge 文档说明同客户多笔订阅订单在发送 Shopify 前合并、按合并日计费并写审计日志。订阅承诺、下次扣款/订单历史、逐周期订单与 Shopify 移交、生命周期管理四项均有正文。",
+      "gaps": "未展示多月未来订单队列或预测订单数据；Auto-Merge 文档标记 stale（2025-12-02）。两点均已在 research.json 留档。未部署验证。"
+    },
+    "subscription-commerce-platform": {
+      "application_id": "commercial:woocommerce-subscriptions",
+      "track": "commercial",
+      "verdict": "pass",
+      "evidence": "读取了 woocommerce.com/products/woocommerce-subscriptions/ 官方产品页正文。正文说明可按周/月/年订阅、自动续订扣款、25+ 支付网关、续订失败自动重试并邮件提醒客户更新支付方式；账单日对齐与首期付款方式（全额/下个账单日/按比例）；同一交易的多笔订阅按账单计划分组，未来续订作为单笔订单、单笔付款处理；后台可加删商品、改日期、改续订总额、改状态；订阅者可在 My Account 切换方案、暂停、取消、更新收货地址与支付方式；可按发货日安排续订并在结账时收取运费；正文明确面向 subscription box/repeat-shipment，并为续订、失败重试、取消、到期、切换发送邮件。订阅承诺、续订日期/账单计划、周期订单与扣款、生命周期管理均有支撑。",
+      "gaps": "快照未展示“即将到来的订单队列/预测”界面，也未展开缺货与固定期限到期处理；research.json 记录了后两项，队列缺口建议补记。该产品同时支持服务类订阅，范围比本叶的“重复货物商务”更宽，但货物订阅（含运费与发货日）证据充分，不阻断。自托管付费扩展，非托管 SaaS。"
+    },
+    "b2b-e-commerce-platform": {
+      "application_id": "github:1067194123",
+      "track": "open_source",
+      "verdict": "pass",
+      "evidence": "读取了 GitHub 仓库元数据、license API 与 README。仓库为 bagisto/b2b-ecommerce（full_name、id 1067194123、public、非 fork，描述 Open source B2B ecommerce Platform），与 batch 的 repository_url/github_repository_id 一致。license 快照的 base64 内容解码为完整 MIT 文本（Copyright (c) 2025 Webkul，含授予、条件、免责声明全部段落），README 第 4 节也写明 MIT。README 正文说明：公司可注册组织并提交管理员审批，管理多用户、邀请既有客户、角色与细粒度权限；管理员可按公司配置 Company Catalogs 的商品/分类可见性与固定、百分比、阶梯定价；Company Credit 含每公司信用额度、审计台账、还款与 Pay By Credit 结账；支持采购订单、RFQ/报价谈判、快速下单、请购清单、销售代表、公司属性；要求 Bagisto v2.5.x、PHP 8.4+，提供 b2b-suite:install 与预构建主题。组织账户层、账户中介的目录/定价、账户内购物车→结账→订单三点齐备。",
+      "gaps": "订单级公司归属、多地点/免税、履约深度未在 README 展开；runtime_tested=false。README 取自 master，而 license 的 html_url 指向 3.0 分支，存在跨 ref 引用风险。MIT 仅覆盖该 B2B 套件仓库，底层 Bagisto 平台的许可与社区版边界未在本单元来源中说明。"
+    }
+  },
+  "limits": "本次为只读初审：仅读取 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、batch.json、research.json 与 REVIEW_SOURCES 列出的 11 个快照（严格使用 data/collections/sources/... 路径），未运行 shell、未计算/比对 sha256、未部署或运行任何产品、未访问外部网络。多个网页快照为单行压缩 HTML，read/grep 预览在 2000 字符处截断，LoyaltyLion 平台页后半段与 WooCommerce 产品页描述尾部无法逐字通读；已用分项关键词命中确认 redeem/VIP/discount/social 等词存在，但也因此无法完全排除未截断部分含更多或更少细节。Skio 帮助中心的 HTML 壳、llms.txt 与分类索引未列入 REVIEW_SOURCES，未作为证据读取，仅依据 research.json 的 shell_only 记录判断缺口留档。Bagisto 默认分支与 README ref 的一致性无法在只读条件下进一步核验。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-035/ses_groveopencodegop035review2_1792944347.jsonl",
+  "batch_sha256": "5e85cc7bea28c7721230ecb6aed79f9bc11034fe50e8ddf4265c678affc2d2b4",
+  "research_sha256": "668a3c1e37f7b23ab7a0705130f41b16da602dcb43eade64c6ad067ea10c86c1",
+  "input_sha256": "3010e4db8fa1afdc88ce89a4322f3a497413ec9a8fbdf6bcc0d7b9328a7eb8b4"
+}

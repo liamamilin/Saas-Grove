@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "conference-calling-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:freeconference-com"
+      ],
+      "query": [
+        "site:zoom.com teleconference services dial-in access code official",
+        "direct: https://www.freeconference.com/",
+        "direct: FreeConference official feature pages (free-conference-calls, conference-call-recording)"
+      ],
+      "source_urls": [
+        "https://www.freeconference.com/feature/free-conference-calls/",
+        "https://www.freeconference.com/feature/conference-call-recording/",
+        "https://www.freeconference.com/"
+      ],
+      "note": "FreeConference.com 官方会议功能页说明 15 个以上国际拨入号码、账户配套拨入号码与访问码、预约邀请、最多 100 人及 In-Call/Video Conference Moderator Controls；录音功能页说明 RECORD 按钮与电话 *9 录制。托管音频桥、可加入地址与组织者控制成立。",
+      "service_boundary": "托管音频桥 + 拨入号码/访问码 + 组织者控制；产品也提供视频，但本匹配只取电话会议核心。",
+      "search_attempts": [
+        {
+          "date": "2026-10-23",
+          "query": "site:zoom.com teleconference services dial-in access code official",
+          "status": "searched",
+          "result_urls": [
+            "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059185"
+          ],
+          "result_note": "搜索指向 Zoom PAC 官方页，但抓取仅返回 Loading 壳页，未作为证据。"
+        },
+        {
+          "date": "2026-10-23",
+          "query": "direct: https://www.freeconference.com/",
+          "status": "direct_official_fetch",
+          "result_urls": [
+            "https://www.freeconference.com/"
+          ],
+          "result_note": "改用 FreeConference.com 官方首页并抓取正文，含拨入号码、访问码、主持人与录音说明。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "direct: FreeConference official feature pages (free-conference-calls, conference-call-recording)",
+          "status": "direct_official_fetch",
+          "result_urls": [
+            "https://www.freeconference.com/feature/free-conference-calls/",
+            "https://www.freeconference.com/feature/conference-call-recording/"
+          ],
+          "result_note": "按初审要求补抓官方功能页；正文明确 Moderator Controls、访问码与录音方式，未使用第三方来源。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.freeconference.com/",
+          "status": "fetched_and_read",
+          "sha256": "450deedd00933cef36bddc5ae12b8e1caa92372d3ae8d61aae5111055d146937",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0059185",
+          "status": "fetch_failed",
+          "error": "抓取仅返回 “Loading...” 壳页，正文为空，不能证明 Zoom Phone 会议能力。"
+        },
+        {
+          "url": "https://www.freeconferencecall.com/",
+          "status": "fetch_failed",
+          "error": "抓取仅返回 “You need to enable JavaScript to run this app.”，未作为证据。"
+        },
+        {
+          "url": "https://www.freeconference.com/feature/free-conference-calls/",
+          "status": "fetched_and_read",
+          "sha256": "f31ddc9634ed2d9ea679094ebe1cd30d825f3999efad57d38bcbfc4864c5a1bf",
+          "note": "官方功能页快照已保存；正文含 15+ 国际拨入号码、账户拨入号码/访问码与 Moderator Controls，用于补强会议桥与组织者控制证据。"
+        },
+        {
+          "url": "https://www.freeconference.com/feature/conference-call-recording/",
+          "status": "fetched_and_read",
+          "sha256": "22e978c91f7eacab06cb24701cafcf2ca90d7602dc7a470a1616f99a917a1751",
+          "note": "官方录音功能页快照已保存；正文含 RECORD 按钮与电话 *9 录音，用于补强录音表述。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "internet-calling-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:signal"
+      ],
+      "query": [
+        "site:support.discord.com direct message voice call ringing answer hang up",
+        "site:support.signal.org one-to-one voice call ring answer decline end call",
+        "site:faq.whatsapp.com voice call ringing answer end call"
+      ],
+      "source_urls": [
+        "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+        "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+      ],
+      "note": "补充 Signal 官方帮助文档后取得完整生命周期证据：从联系人列表选择联系人发起 1:1 语音通话，屏幕显示 Calling/Connecting → Ringing → 接通后计时，未接通显示 No Answer 并挂断；桌面快捷键提供接听、拒接与结束通话。个人身份、指定联系人、状态化实时语音与互联网传输成立。原 Discord Group DM 候选仅证明持续群组语音，保留其失败/边界记录。",
+      "service_boundary": "以 Signal 的 1:1 互联网语音通话子工作流计入（呼叫生命周期 + 实时双向音频）；不把群组语音房或 PSTN 电话线路计入。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "site:support.discord.com direct message voice call ringing answer hang up",
+          "status": "searched_no_official_lifecycle_doc",
+          "result_urls": [
+            "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+            "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls"
+          ],
+          "result_note": "沿用前序会话抓取的 Discord 官方文档快照复核；结果仍只指向 Group DM 文章，正文写持续群组语音与自由加入/离开，未描述 1:1 拨出/响铃/接听/挂断。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:support.signal.org one-to-one voice call ring answer decline end call",
+          "status": "searched_found_official_lifecycle",
+          "result_urls": [
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+          ],
+          "result_note": "按初审要求改查其他厂商官方来源；Signal 帮助中心三篇文档给出 1:1 呼叫的拨出、响铃、接听、拒接、未接与结束证据。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:faq.whatsapp.com voice call ringing answer end call",
+          "status": "searched_shell_page_unusable",
+          "result_urls": [
+            "https://faq.whatsapp.com/1153602608602452"
+          ],
+          "result_note": "摘要含 Accept/Decline/End call，但抓取正文为 JavaScript 壳页，无可读步骤，未作为证据。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+          "status": "fetched_and_read",
+          "sha256": "ed465272ba2e9ce63f6cf3af28e1ff78a34103e99fcaca089aae94323c2aa5a1",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+          "status": "fetched_and_read",
+          "sha256": "4fa324212f2dd2d030662f6bd6af5053840b130228d732ad071a2a5fd3380393",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "ed465272ba2e9ce63f6cf3af28e1ff78a34103e99fcaca089aae94323c2aa5a1",
+          "note": "2026-10-24 初审修复时复核：正文只写 Group DM 通话可持续且成员自由加入/离开，未含拨出/响铃/接听/拒接/挂断的个人呼叫生命周期。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+          "status": "fetched_and_read",
+          "sha256": "d53eaa617006c666f280112c0c97b91a3d8176c6dbeac5050771713a3d8347bc",
+          "note": "Signal 官方帮助文档：1:1 语音/视频通话的联系人选择、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+          "status": "fetched_and_read",
+          "sha256": "b884db12b57d9fa0ea699a8008e2ba07a99f3c2fd51e116e4528d2731dc03f52",
+          "note": "Signal 官方帮助文档：1:1 语音/视频通话的联系人选择、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json",
+          "status": "fetched_and_read",
+          "sha256": "488b4f946ef0e4869bbaa4a56246a53004f93c971801d20a3dfc82b702a167fa",
+          "note": "Signal 官方帮助文档：1:1 语音/视频通话的联系人选择、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://faq.whatsapp.com/1153602608602452",
+          "status": "fetch_failed",
+          "error": "抓取成功但正文为 JavaScript 加载壳（约 1.08MB，无可读通话步骤），不能作为 1:1 语音呼叫生命周期证据。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "push-to-talk-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:zello-work"
+      ],
+      "query": [
+        "site:zello.com Zello Work push to talk official channels app"
+      ],
+      "source_urls": [
+        "https://support.zello.com/zw/getting-started-guide-zello-work-ios",
+        "https://support.zello.com/zw/using-the-ptt-button"
+      ],
+      "note": "Zello Work 官方指南说明成员在管理员配置的频道内按住 PTT 键即时通话，无需拨号/接听，覆盖一对一和一对多；固定通话组、按住传输与被动接收成立。",
+      "service_boundary": "固定通话组 + 按住说话 + 即时被动接收；Zello Work 为商业服务，未运行。",
+      "search_attempts": [
+        {
+          "date": "2026-10-23",
+          "query": "site:zello.com Zello Work push to talk official channels app",
+          "status": "prior_session_recorded",
+          "result_urls": [
+            "https://support.zello.com/zw/getting-started-guide-zello-work-ios",
+            "https://support.zello.com/zw/using-the-ptt-button"
+          ],
+          "result_note": "本批前序会话记录的查询与抓取；本轮仅复核快照正文，未重复采集。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://support.zello.com/zw/getting-started-guide-zello-work-ios",
+          "status": "fetched_and_read",
+          "sha256": "f03b2778529dee8431e0047ca62c289b185c7a3613fae80355988bb51a0e8f2b",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://support.zello.com/zw/using-the-ptt-button",
+          "status": "fetched_and_read",
+          "sha256": "ef7c875125a946ebd7b183940e1e267d0cffb49f178d8296a1f87341ba8508c3",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "video-calling-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:signal"
+      ],
+      "query": [
+        "Discord support article incoming call ring direct message voice call how to answer",
+        "site:support.signal.org video call answer decline end call",
+        "site:support.apple.com FaceTime make receive call decline end call"
+      ],
+      "source_urls": [
+        "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+        "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+        "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+      ],
+      "note": "同一组 Signal 官方文档给出 1:1 视频通话生命周期：在联系人会话中点击摄像头图标发起视频通话，对方接听后互见，通话中可开关本侧视频；状态经历 Calling/Connecting、Ringing 与接通计时，快捷键提供带视频接听、拒接与结束通话。个人定向视频呼叫与有界会话成立；原 Discord DM 视频候选保留为补充记录。",
+      "service_boundary": "以 Signal 的 1:1 视频通话子工作流计入（定向呼叫 + 实时音视频 + 有界生命周期）；不把会议房间或群组视频聊天计入。",
+      "search_attempts": [
+        {
+          "date": "2026-10-24",
+          "query": "Discord support article incoming call ring direct message voice call how to answer",
+          "status": "searched_no_official_lifecycle_doc",
+          "result_urls": [
+            "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+            "https://support.discord.com/hc/en-us/articles/223657667-Group-Chat-and-Calls"
+          ],
+          "result_note": "前序会话已抓取 Discord Video Calls 快照；本轮复核并补查响铃/接听/挂断，结果仍只写 DM 内 Start Video Call 与摄像头开关，未证明个人呼叫生命周期。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:support.signal.org video call answer decline end call",
+          "status": "searched_found_official_lifecycle",
+          "result_urls": [
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+            "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json"
+          ],
+          "result_note": "按初审要求改查其他厂商官方来源；Signal 文档给出 1:1 视频呼叫的发起、响铃、接通、拒接与结束证据。"
+        },
+        {
+          "date": "2026-10-24",
+          "query": "site:support.apple.com FaceTime make receive call decline end call",
+          "status": "searched_official_page_but_fetch_failed",
+          "result_urls": [
+            "https://support.apple.com/guide/facetime/fctm35828/5.0/mac/14.0"
+          ],
+          "result_note": "摘要显示 FaceTime 的 Accept/Decline/Leave Call，但抓取该页返回 404，未取得可保存正文，未作为证据。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+          "status": "fetched_and_read",
+          "sha256": "4fa324212f2dd2d030662f6bd6af5053840b130228d732ad071a2a5fd3380393",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://support.discord.com/hc/en-us/articles/360041721052-Video-Calls",
+          "status": "reviewed_existing_snapshot",
+          "sha256": "4fa324212f2dd2d030662f6bd6af5053840b130228d732ad071a2a5fd3380393",
+          "note": "2026-10-24 初审修复时复核：正文只写 DM 中 Start Video Call 与摄像头开关，未说明响铃、接听/拒接或挂断。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060492.json",
+          "status": "fetched_and_read",
+          "sha256": "d53eaa617006c666f280112c0c97b91a3d8176c6dbeac5050771713a3d8347bc",
+          "note": "Signal 官方帮助文档：1:1 视频呼叫的发起与摄像头开关、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360007060672.json",
+          "status": "fetched_and_read",
+          "sha256": "b884db12b57d9fa0ea699a8008e2ba07a99f3c2fd51e116e4528d2731dc03f52",
+          "note": "Signal 官方帮助文档：1:1 视频呼叫的发起与摄像头开关、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://support.signal.org/api/v2/help_center/en-us/articles/360036517511.json",
+          "status": "fetched_and_read",
+          "sha256": "488b4f946ef0e4869bbaa4a56246a53004f93c971801d20a3dfc82b702a167fa",
+          "note": "Signal 官方帮助文档：1:1 视频呼叫的发起与摄像头开关、Calling/Ringing/接通状态，以及接听、拒接、结束通话。"
+        },
+        {
+          "url": "https://faq.whatsapp.com/1862285217468140",
+          "status": "fetch_failed",
+          "error": "抓取成功但正文为 JavaScript 加载壳（约 1.08MB，无可读通话步骤），不能作为 1:1 视频呼叫生命周期证据。"
+        },
+        {
+          "url": "https://support.apple.com/guide/facetime/fctm35828/5.0/mac/14.0",
+          "status": "fetch_failed",
+          "error": "HTTP 404，未取得正文。"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "video-conferencing-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:15225670"
+      ],
+      "query": [
+        "site:github.com/jitsi/jitsi-meet Jitsi Meet open source video conferencing Apache license official"
+      ],
+      "source_urls": [
+        "https://raw.githubusercontent.com/jitsi/jitsi-meet/master/README.md",
+        "https://jitsi.org/jitsi-meet/"
+      ],
+      "note": "Jitsi Meet README 与官网说明可创建/加入房间链接进行多人实时音视频与内容共享；可寻址会议、实时会话与多方共享三项成立。",
+      "service_boundary": "会议地址 + 实时音视频 + 多方共享；不把仅音频桥计入。",
+      "search_attempts": [
+        {
+          "date": "2026-10-23",
+          "query": "site:github.com/jitsi/jitsi-meet Jitsi Meet open source video conferencing Apache license official",
+          "status": "prior_session_recorded",
+          "result_urls": [
+            "https://raw.githubusercontent.com/jitsi/jitsi-meet/master/README.md",
+            "https://jitsi.org/jitsi-meet/"
+          ],
+          "result_note": "本批前序会话记录的查询与抓取；本轮仅复核快照正文，未重复采集。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/jitsi/jitsi-meet/master/README.md",
+          "status": "fetched_and_read",
+          "sha256": "cd50b8ddb4e1fe4569dd36c8cd4f94da91e584a228ee7330d9498a2eccbe769f",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        },
+        {
+          "url": "https://jitsi.org/jitsi-meet/",
+          "status": "fetched_and_read",
+          "sha256": "99779c470b486d14c4718c9b079b04d5ba6e023d267a70f382490e90b7ecbfa4",
+          "note": "官方快照已保存；本轮核对正文用于类型匹配。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

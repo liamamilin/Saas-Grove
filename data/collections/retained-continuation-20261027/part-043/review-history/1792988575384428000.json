@@ -1,0 +1,73 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "opportunity-management",
+      "application_id": "github:24459441",
+      "issue": "开源与商业边界表述越界：EspoCRM 条目以 AGPLv3 开源核心申报商机管理，但 leaf_match 依据把“收入预测”列为该开源案例的能力；保留的官方 sales-management.md 明确 revenue forecast 需 Reports from Advanced Pack（付费扩展），且 research.json 的 service_boundary 也把预测列为下游、模块外。这会把付费扩展能力混入开源社区版。",
+      "fix": "从 opportunity-management 的开源 leaf_match 依据中删除“收入预测”，或明确标注其为 Advanced Pack 付费扩展/下游报表；开源核心改用文档已证的 Opportunity 记录、买方/Account 关联、金额与 Close Date、可配置阶段与概率、Closed Won/Lost、多管道和销售仪表盘。同步修正 research note 与 service_boundary 的表述，明确社区版边界。"
+    }
+  ],
+  "non_blocking_notes": [
+    "EspoCRM deployment 的“另有官方托管服务”未在保留的 README、repository metadata 或 license 快照中直接出现；建议补充官方托管页快照或删除该表述。",
+    "EspoCRM sales-management.md 未显式展示商机 owner 与输单原因字段；金额、关闭日期、买方关联、阶段与 Closed Won/Lost 已支持核心结构，建议补证或标注为文档缺口。",
+    "Salesloft 帮助中心文章返回客户端渲染空壳、platform/cadence 404 已在 research.json 记录；保留快照以营销页与开发者 Cadence 导入参数为主，退订/取消订阅移出规则未留存，属于已记录缺口。",
+    "Channeltivity 的 lead-distribution 子页未抓取，改用渠道销售总览页段落；该页为压缩 HTML，正文核对受单行截断限制。",
+    "Xactly 的配额变更审批/审计留痕与期间锁定未在快照中展开；核心配额对象、分配与达成衡量已由 Xactly Manage 页支持。",
+    "HubSpot Quotes 属于 Revenue Hub/CPQ 套件中的报价模块；模板、数据组装、审批与电子签名/点击接受均有官方正文支持，类型匹配成立。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，与 batch/research 的 case_found 记录不一致；建议回填管线状态。"
+  ],
+  "leaf_checks": {
+    "sales-document-automation": {
+      "status": "pass_with_recorded_gaps",
+      "application_ids": [
+        "commercial:hubspot-quotes"
+      ],
+      "core_match": true,
+      "evidence": "HubSpot 官方知识库 create-quote-templates 与 create-and-send-quotes 正文：模板与报价文档分离、模块可显示/隐藏/锁定、交易与产品数据组装（含分层/阶梯/斜坡定价）、到期日、审批请求与批准、电子签名/点击接受/打印签署、查看与收款。SaaS 模块形态明确。",
+      "gaps": "审批条件的具体阈值字段未在两页展开（research 已记录）。"
+    },
+    "sales-engagement-platform": {
+      "status": "pass_with_recorded_gaps",
+      "application_ids": [
+        "commercial:salesloft"
+      ],
+      "core_match": true,
+      "evidence": "Salesloft 官方 Cadence 销售互动页与 platform-overview，以及 developer Cadence Imports settings/automated-settings 正文：Cadence 跨渠道执行、target_daily_people、remove_replied、remove_bounced、reschedule_from_pause_enabled、added/bounced stage settings、发送时间/联系人时区/周末开关。SaaS 形态明确。",
+      "gaps": "帮助中心空壳/404 与退订规则缺口已记录；端到端步骤编排的用户界面正文未完整留存，核心由官方页面与开发者参数支持。"
+    },
+    "channel-sales-management": {
+      "status": "pass_with_recorded_gaps",
+      "application_ids": [
+        "commercial:channeltivity"
+      ],
+      "core_match": true,
+      "evidence": "Channeltivity 渠道销售、Deal Registration、Referrals & Commissions 官方页正文：伙伴门户提交商机、厂商按 ICP/最低金额/目标客户评估、重复商机检查、有期限独家保护、审批历史/到期提醒、线索路由/接受/转化、推荐接受/转派/拒绝、成交后佣金计算、CRM 同步。",
+      "gaps": "lead-distribution 子页未抓取；注册保护期长度、字段权限与佣金税率处理未展开（research 已记录）。"
+    },
+    "opportunity-management": {
+      "status": "changes_required",
+      "application_ids": [
+        "github:24459441"
+      ],
+      "core_match": true,
+      "evidence": "EspoCRM 官方 sales-management.md 与 README/license 正文：Opportunity 为潜在或已成交交易，默认阶段含 Closed Won/Closed Lost，阶段与概率可配置、多管道、Account 关联 Opportunities、金额与 Close Date 用于销售分析/加权预测；README 与 license API 证明 AGPLv3 开源仓库身份。",
+      "gaps": "leaf_match 的“收入预测”依赖 Advanced Pack 付费扩展，与开源核心及 research 的 service_boundary 冲突；owner 与输单原因未显式展示。社区版边界需修正。"
+    },
+    "quota-management": {
+      "status": "pass_with_recorded_gaps",
+      "application_ids": [
+        "commercial:xactly"
+      ],
+      "core_match": true,
+      "evidence": "Xactly Manage 官方页 Quota Management/People Management/Quota Fairness Monitoring 正文：为二级/覆盖团队派生配额、配额变更影响预览、实时与历史销售绩效/进展跟踪、团队配额达成模式监控；platform-overview 的 Plan/Manage 与单一事实源补充。",
+      "gaps": "配额变更审批/审计留痕与期间锁定未展开（research 已记录）。"
+    }
+  },
+  "limits": "仅只读核对 REVIEW_SOURCES.json 列出的 17 个快照及 input/batch/research；未部署、未运行应用、未计算哈希。部分 HTML 快照为压缩单行，read 工具按行截断，Salesloft/Channeltivity 等页面的正文只能结合可见片段与官方页面核对；Salesloft 帮助中心空壳/404、Channeltivity lead-distribution 子页未抓取、EspoCRM Advanced Pack 边界等已在报告中标注。input.json 的 progress 仍为 not_searched/空 application_ids，与 batch/research 的 case_found 不一致，本次以 batch/research 与实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-043/ses_groveopencodegop043review1_1792988118.jsonl",
+  "batch_sha256": "589fbdee5f9217a370e961f55a3ce0e54d008457b18edd71c152f279bcca02bb",
+  "research_sha256": "643a2d2ed6649dee9afce903ef309a1724b3769ab0022f0a57c6154031143e64",
+  "input_sha256": "601fa064956b3162206a7a50d308725ae77cb460ab3ffd3829605a694d5a47b6"
+}

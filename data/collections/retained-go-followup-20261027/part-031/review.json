@@ -1,0 +1,50 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "BlueCart 的 homepage 快照是供应商侧批发软件（Sell to restaurants / wholesale），本条关系只应引用买方侧 /restaurant-procurement-software；后续不要把 homepage 当作采购核心证据。",
+    "Resy 的 homepage 快照是消费者端 SPA 壳，只有 /join/reservations/ 能支撑运营端预订簿；homepage 可保留为背景来源，但不应进入关系依据。",
+    "Awin 记录的来源 URL 是 /us/publishers，页面实际落到 content-creator-influencer 页面（canonical 为 /us/publishers/content-creator-influencer）；建议补记 canonical URL，并把 kind 标为 product/landing page 而非 homepage。",
+    "Resy 的 leaf_match 中 “table pacing and table reconfiguration” 是对原文 “Optimize table combinations, turn times, and party sizes” 的概括，建议与原文措辞对齐，避免被读成已证实独立的桌台重排功能。",
+    "input.json 的 progress 仍显示四个有案例叶子的 application_ids 为空、case_status=review_pending；batch.json/research.json 已建立 4 个关系，若下游以 input.progress 为准需同步。这不属于本次内容真实性缺陷。",
+    "四个商业条目的能力描述均为厂商官方页面自述，未做运行时、价格或架构核验；这符合商业条目只要求基本真实性和类型匹配的口径。"
+  ],
+  "leaf_checks": {
+    "restaurant-pos": {
+      "status": "no_retained_case_documented_gap",
+      "application_id": null,
+      "basis": "definition 核心为员工从配置菜单建单、账单作为可累积结算容器（开放状态下可拆分/并账/转台）、支付后受控关闭。research.json 记录 assessment=insufficient_evidence、case_ids=[]，并记载了 web search（restaurant POS software；open source restaurant POS self-hosted）、GitHub API 搜索 HTTP 403、satisfecho/pos 的 README/license/metadata 抓取与重读，以及 Floreant POS license=NOASSERTION 不入库。记录的重读结论是 POS2 只证明顾客扫码点单、员工管理订单状态并收款、厨房屏和报表，没有证明员工从配置菜单新建订单、check 累积及拆分/并账/转台、关闭权限；batch 中已无该关系。",
+      "notes": "本叶本轮没有商业或开源案例入库，但检索、抓取、403 限流、许可证未确认和候选撤回均有留档；这是缺口记录，不应据此推断整个叶子不存在产品。未保留任何开源条目，因此没有需要核对的完整许可证或社区版边界主张。"
+    },
+    "restaurant-procurement-platform": {
+      "status": "case_matched",
+      "application_id": "commercial:bluecart",
+      "basis": "batch 只引用买方侧 https://www.bluecart.com/restaurant-procurement-software。该快照正文可见 “Features of BlueCart's Restaurant Procurement Software”，并含 Digital PO Creation、Supplier Catalog Access、Mobile Ordering and Receiving、Invoice Matching 等卡片文案；页面正文还明确支持从供应商目录自动生成并发送数字采购订单、查看实时价格与可供性、移动收货，以及将供应商发票与采购订单逐行匹配并在付款前标记价格/数量/商品差异。符合“供应商记录 + 受管理采购订单 + 交付/发票闭环”的定义核心，商业 track 与 commercial:bluecart ID 一致。",
+      "notes": "homepage 快照为供应商侧批发软件，未被用作关系证据；摘要未主张价格回写或具体架构。"
+    },
+    "restaurant-reservation-platform": {
+      "status": "case_matched",
+      "application_id": "commercial:resy",
+      "basis": "batch 只引用 https://resy.com/join/reservations/。快照正文/feature 文案包含 Reservations & experiences、Availability planning（控制哪些库存可预订）、Smart optimization（table combinations、turn times、party sizes）、Notify 与 walk-in waitlist、Credit card holds、Deposits & prepayment、Guest intel（notes、tags、visit history、spend），并有 Reserve with Google 相关表述；可支撑“预订作为记录单位 + 容量约束的可用性 + 顾客预订路径”的核心。research 明确不主张自动防超订算法，batch 也未作此断言。",
+      "notes": "resy.com homepage 快照是消费者端 SPA 壳，未作为关系依据；Resy 的发现网络属性未混入运营端预订簿关系。"
+    },
+    "self-service-restaurant-ordering": {
+      "status": "case_matched",
+      "application_id": "commercial:grubbrr",
+      "basis": "https://grubbrr.com/products/self-ordering-kiosk-machine/ 的官方正文说明顾客可在场所安装的自助机上 customize orders、verify choices，并指定取餐地点（car、stadium seat 等），订单直接进入厨房；页面还写明与现有 POS、loyalty、payment 系统集成，支持非接触支付和自动追加销售。符合“场所菜单作为顾客可点目录 + 顾客在场所提供并控制的界面自助组合 + 订单进入运营现场履约”的核心。",
+      "notes": "batch 明确把匹配限定在顾客自助组合与厨房交接，没有主张独立的 order progress board 或 kitchen display 行为。"
+    },
+    "creator-affiliate-dashboard": {
+      "status": "case_matched",
+      "application_id": "commercial:awin",
+      "basis": "https://www.awin.com/us/publishers 的快照页面为 Content Creator or Influencer 内容，正文说明创作者可 partner with brands、创建并分享 unique affiliate links（覆盖 blogs、social posts、videos、newsletters）、按成交 earn commission、查看 progress/sales/top-performing partnerships，并通过 publisher account/Awin app 收款。符合“创作者联盟身份 + 绑定身份的可追踪链接 + 佣金记录/收益界面”的创作者侧核心。",
+      "notes": "未主张 pending/confirmed/paid 账本状态或具体支付门槛；Awin 的网络/品牌侧业务未混入本关系。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未写文件、未运行任何第三方项目，也未做价格、架构或部署核验。未重新计算 sha256；仅依据 REVIEW_SOURCES.json 与 batch 的 path/sha 一致性及文件实际存在性核对。所引快照多为压缩成单行的 HTML，读取工具对单行超过 2000 字符的部分会截断，因此正文核对以可读片段和命中短语为主，并对四个在库商业页做了只读在线复核；这不等于逐段全文审阅。已撤回的 POS2 与未入库的 Floreant 快照不在 REVIEW_SOURCES 中，相关结论依据 research.json 的记录，本轮未重读那些快照。商业页面均为厂商自述，未独立验证其实际运行行为。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/go-followup-20261027/part-031/ses_groveopencodegop031review1_1793078632.jsonl",
+  "batch_sha256": "f78c4dd50df98f4f65b3d42b732b0833a1661bd57d80a6959f3f169e39e4269a",
+  "research_sha256": "3a8cf4b72149e170d972a76a6f1ea691266c94d384f60d692965e5b66b10a1b2",
+  "input_sha256": "6069e0e99884adffeba4a078ba3ff002df3afefb1be2c883e9fe7e4c481477b1"
+}

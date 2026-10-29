@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "harvest-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:croptracker"
+      ],
+      "query": "orchard management software / Croptracker Harvest Management",
+      "source_urls": [
+        "https://www.croptracker.com/product/harvest-management-software.html"
+      ],
+      "note": "官方产品页正文可核对：以 harvest events 为单位按 block、variety、row 记录产量；bin tag 可预印、现场打印或班末批量录入并转为数字库存；覆盖采摘者计件、field packing、bin QC 与 dock handoff 的 lot code 追溯。页面没有单独展示 season campaign 关账模块，故只保留页面直接支持的收获记录、库存和可核对交接断言。",
+      "service_boundary": "商业 SaaS，收获管理模块；未研究价格、部署架构和客户规模，未运行产品。",
+      "search_attempts": [
+        {
+          "tool": "brave",
+          "query": "orchard management software",
+          "outcome": "发现 Croptracker 的 orchard/harvest 产品页"
+        },
+        {
+          "tool": "direct_fetch",
+          "url": "https://www.croptracker.com/product/harvest-management-software.html",
+          "outcome": "HTTP 200，读取产品正文与工作流表"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.croptracker.com/product/harvest-management-software.html",
+          "http_status": 200,
+          "kind": "documentation",
+          "result": "正文含 harvest events、yield by block、bin tagging、dock handoff 与 traceability"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nursery-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:mprise-agriware-nursery"
+      ],
+      "query": "plant nursery management software",
+      "source_urls": [
+        "https://www.mprise-agriware.com/plant-nursery-software"
+      ],
+      "note": "官方苗圃页面明确列出 crop and batch management、available-to-sell inventory、production and space planning、按批次管理 locations/sizes/varieties/qualities/availability，以及当前与未来可用量对销售和生产共享。未展示批次拆分/合并和损耗事件细节，因此不写这些未核对的行为。",
+      "service_boundary": "商业苗圃管理系统；价格、实施与部署细节未研究，未运行产品。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "nursery management",
+          "outcome": "结果多为电商/课程项目，不满足活体批次核心，未采用"
+        },
+        {
+          "tool": "brave",
+          "query": "plant nursery management software",
+          "outcome": "发现 Mprise Agriware 等苗圃专用产品"
+        },
+        {
+          "tool": "direct_fetch",
+          "url": "https://www.mprise-agriware.com/plant-nursery-software",
+          "outcome": "HTTP 200，读取批次/ATS/空间计划正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.mprise-agriware.com/plant-nursery-software",
+          "http_status": 200,
+          "kind": "documentation",
+          "result": "正文含 crop/batch management、ATS、space planning、当前与未来可用量"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "nutrient-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:97992523"
+      ],
+      "query": "nutrient management in:name,description / BC Ministry of Agriculture Nutrient Management Program NMP",
+      "source_urls": [
+        "https://github.com/bcgov/agri-nmp",
+        "https://raw.githubusercontent.com/bcgov/agri-nmp/master/Readme.md",
+        "https://raw.githubusercontent.com/bcgov/agri-nmp/master/LICENSE",
+        "https://nmp.apps.nrs.gov.bc.ca/"
+      ],
+      "note": "仓库页与 README 证明 bcgov/agri-nmp 是 BC 农业部养分管理项目，LICENSE 快照为 Apache-2.0 全文；公开实例首页标题为 Nutrient Management Calculator，正文写明利用粪肥和肥料、选择作物施用速率并减少养分流失，可加载 .nmp 文件。核心匹配成立，但公开页只显示计算器入口，未核实完整法规计划文档和顾问多客户流程。",
+      "service_boundary": "开源自托管，另有官方公开 Web 实例；当前证据覆盖养分来源/施用速率计算与 .nmp 计划文件，未核实多年轮作、法规报告和多客户权限。",
+      "search_attempts": [
+        {
+          "tool": "github_search",
+          "query": "nutrient management in:name,description",
+          "outcome": "发现 bcgov/agri-nmp（Apache-2.0）"
+        },
+        {
+          "tool": "brave",
+          "query": "BC Ministry of Agriculture Nutrient Management Program NMP web application",
+          "outcome": "确认公开部署 nmp.apps.nrs.gov.bc.ca"
+        },
+        {
+          "tool": "direct_fetch",
+          "url": "https://github.com/bcgov/agri-nmp",
+          "outcome": "HTTP 200，读取仓库元数据、README 与 LICENSE"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://github.com/bcgov/agri-nmp",
+          "http_status": 200,
+          "kind": "repository_metadata",
+          "result": "GitHub ID 97992523，full_name bcgov/agri-nmp"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bcgov/agri-nmp/master/Readme.md",
+          "http_status": 200,
+          "kind": "readme",
+          "result": "项目为 BC Ministry of Agriculture Nutrition Management Program，.NET Core 7 + PostgreSQL"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bcgov/agri-nmp/master/LICENSE",
+          "http_status": 200,
+          "kind": "license",
+          "result": "Apache License 2.0 完整文本"
+        },
+        {
+          "url": "https://nmp.apps.nrs.gov.bc.ca/",
+          "http_status": 200,
+          "kind": "documentation",
+          "result": "Nutrient Management Calculator 入口，含粪肥/肥料与养分流失文案"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "orchard-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:croptracker"
+      ],
+      "query": "orchard management software",
+      "source_urls": [
+        "https://www.croptracker.com/product/orchard-management-software.html"
+      ],
+      "note": "Croptracker 果园页正文明确覆盖 spray record keeping（化学品/肥料施用、再入与采收前间隔）、harvest yield records（按 location/picker 关联库存、按季节与 block 看表现）和 production practice tracking（pruning、mowing、thinning 等，可到 row），并有计件/计时人工记录。与果园管理的持久块、周期养护作业和收获归集核心匹配；树级完成状态、跨年逐年图表未在页面核实，故不写入。",
+      "service_boundary": "商业模块化农场管理软件，果园管理为其一模块；价格、部署架构、树级状态与跨年报表细节未核实，未运行产品。",
+      "search_attempts": [
+        {
+          "tool": "brave",
+          "query": "orchard management software",
+          "outcome": "发现 Croptracker orchard 页、Hectre 等候选"
+        },
+        {
+          "tool": "direct_fetch",
+          "url": "https://www.croptracker.com/product/orchard-management-software.html",
+          "outcome": "HTTP 200，读取果园生产实践/喷雾/采收正文"
+        },
+        {
+          "tool": "comparison",
+          "query": "Croptracker vs Hectre orchard",
+          "outcome": "Hectre 页面偏采收/工资/品质，Croptracker 正文含 pruning/thinning/spray，故选 Croptracker"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.croptracker.com/product/orchard-management-software.html",
+          "http_status": 200,
+          "kind": "documentation",
+          "result": "正文含 spray record、harvest yield by block、pruning/thinning 等 production practice"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "seed-production-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:primetics-generation"
+      ],
+      "query": "seed production management software lot generation grower contracts / open source seed production management system github",
+      "source_urls": [
+        "https://primeticsseed.com/generation/"
+      ],
+      "note": "Primetics Generation 官方产品页正文明确覆盖 contract seed production（生产合同、stock seed、field history、field inspection、sub lot 与 bin tracking、seed quality）、receipting and calculation（收获接收、实际产量与库存更新、grower voucher）、seed processing and conditioning（清洗/处理/包装、混合与分级）以及 lot traceability and quality（生产、接收、加工、库存各阶段的样品与分析）。这些直接支持种子生产端围绕批次身份、田间检查与质量结果、加工和接收追溯的核心。页面未明确展示代数等级、隔离距离/前茬规划约束和认证放行规则，故不写入这些细节。",
+      "service_boundary": "商业种子生产与加工管理软件，官方页面覆盖生产合同、田间检查、批次质量、接收、加工和批次追溯；未研究价格、部署架构、代数/隔离规则与认证机构集成，未运行产品。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "seed production management software lot generation grower contracts",
+          "outcome": "发现 Primetics Generation、Mprise Agriware Seed Production、ERP for Seed、Culmara、SEEDBOS 等种子专用产品"
+        },
+        {
+          "tool": "websearch",
+          "query": "open source seed production management system github",
+          "outcome": "结果主要为建筑能效 SEED 平台、Rust Seed 框架、种子库等无关项目，未发现符合种子生产核心的开源应用"
+        },
+        {
+          "tool": "direct_fetch",
+          "url": "https://primeticsseed.com/generation/",
+          "outcome": "HTTP 200，读取合同生产、田间检查、批次质量、接收和追溯正文"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://primeticsseed.com/generation/",
+          "http_status": 200,
+          "kind": "documentation",
+          "result": "正文含 contract seed production、stock seed、field inspection、sub lot/bin tracking、lot traceability and quality、receipting"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

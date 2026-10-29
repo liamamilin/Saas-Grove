@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "artwork-consignment-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:art-galleria"
+      ],
+      "query": "websearch: open source artwork consignment management software gallery GitHub；GitHub API 仓库检索 artwork consignment gallery / art consignment / gallery consignment；官方页核对 Art Galleria features",
+      "source_urls": [
+        "https://www.artgalleria.com/features"
+      ],
+      "note": "开源侧未找到可入库的完整寄售管理应用：GitHub 检索结果多为 0–37 星的学生级画廊项目、无许可证小项目或仅展示型站点，无法从官方 README/仓库证明“逐件寄售作品—条款—处置状态”的核心工作流，故未纳入。商业侧 Art Galleria 官方功能页在 Inventory & Collections 下明确列出 artworks、artists、locations、consignments，For Artists 一节亦列出 consignments；据此仅记录官方把 consignments 列为库存与收藏模块实体这一层面的基本类型关系。页面未说明逐件寄售作品记录、寄售条款、sold/returned 处置状态、佣金/结算、艺术家与画廊共享记录或部署架构，均未核实。",
+      "service_boundary": "商业闭源 Web/SaaS 平台，按官方功能页作基本类型记录；未部署、未验证数据导出或自托管能力。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source artwork consignment management software gallery GitHub",
+          "outcome": "HTTP 401，未获得搜索结果；未重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "artwork consignment gallery",
+          "outcome": "结果多为低星学生项目或无许可证项目，未发现成熟独立寄售产品"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "art consignment",
+          "outcome": "返回 8 个结果，多为智能合约示例、作品展示站点或无许可证小项目"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "gallery consignment",
+          "outcome": "结果含学生画廊项目、监控脚本与无许可证项目，未达到入库标准"
+        },
+        {
+          "tool": "official_fetch",
+          "query": "https://www.artgalleria.com/features",
+          "outcome": "HTTP 200，页面含 Inventory & Collections 与 consignments 列表项；快照中未检索到 terms attached 或共享记录说明，已保存快照"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.artgalleria.com/features",
+          "kind": "documentation",
+          "outcome": "HTTP 200，UTF-8 文本快照已保存（sha256 95b5fd04…）"
+        },
+        {
+          "url": "https://artcld.com/",
+          "kind": "homepage",
+          "outcome": "HTTP 200 但首页文本未出现 consignment，未作为证据"
+        },
+        {
+          "url": "https://www.artworkarchive.com/",
+          "kind": "homepage",
+          "outcome": "返回反爬/占位页面，未作为证据"
+        },
+        {
+          "url": "https://www.artgalleria.com/",
+          "kind": "homepage",
+          "outcome": "HTTP 200 但首页文本未出现 consignment，改用官方 features 页"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "cultural-heritage-asset-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:49451058"
+      ],
+      "query": "GitHub 官方仓库定向核对 archesproject/arches；README、license API、repository metadata 与 archesproject.org 首页",
+      "source_urls": [
+        "https://api.github.com/repos/archesproject/arches",
+        "https://api.github.com/repos/archesproject/arches/license",
+        "https://raw.githubusercontent.com/archesproject/arches/dev/8.2.x/README.md",
+        "https://www.archesproject.org/"
+      ],
+      "note": "Arches 仓库 id 49451058、默认分支 dev/8.2.x，许可证 API 为 AGPL-3.0 且完整文本快照可核。README 明确其为面向文化遗产清单与管理的 web-based geospatial information system，purpose-built 记录考古遗址、建筑、历史结构、景观、遗产群/街区；与本类型的常设资产清单、遗产领域描述和地理锚定直接对应，且不涉及入藏/存储位置/借出，边界成立。未把受控术语、权限分级、规划咨询、状况监测等扩展写成已核实能力。",
+      "service_boundary": "开源可自托管 Web 应用（AGPL-3.0）；本单元仅核对官方 README、仓库元数据与许可证，未部署运行。",
+      "search_attempts": [
+        {
+          "tool": "github_api_repository",
+          "query": "archesproject/arches",
+          "outcome": "HTTP 200，id 49451058，默认分支 dev/8.2.x"
+        },
+        {
+          "tool": "github_api_license",
+          "query": "archesproject/arches/license",
+          "outcome": "HTTP 200，SPDX AGPL-3.0，完整许可文本已保存"
+        },
+        {
+          "tool": "official_fetch",
+          "query": "raw README + archesproject.org",
+          "outcome": "HTTP 200，两份快照已保存"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/archesproject/arches",
+          "kind": "repository_metadata",
+          "outcome": "HTTP 200，id 49451058 / full_name archesproject/arches"
+        },
+        {
+          "url": "https://api.github.com/repos/archesproject/arches/license",
+          "kind": "license",
+          "outcome": "HTTP 200，SPDX AGPL-3.0，完整文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/archesproject/arches/dev/8.2.x/README.md",
+          "kind": "readme",
+          "outcome": "HTTP 200，README 快照已保存"
+        },
+        {
+          "url": "https://www.archesproject.org/",
+          "kind": "homepage",
+          "outcome": "HTTP 200，首页快照已保存"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "digital-collection-portal",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:12057192"
+      ],
+      "query": "GitHub 官方仓库定向核对 omeka/omeka-s；README、license API、repository metadata 与 omeka.org/s 首页",
+      "source_urls": [
+        "https://api.github.com/repos/omeka/omeka-s",
+        "https://api.github.com/repos/omeka/omeka-s/license",
+        "https://raw.githubusercontent.com/omeka/omeka-s/develop/README.md",
+        "https://omeka.org/s/"
+      ],
+      "note": "Omeka S 仓库 id 12057192、默认分支 develop，许可证 API 为 GPL-3.0 且完整文本快照可核。README 称其为面向大学、画廊、图书馆、档案馆、博物馆的 web publication system，由多个独立策展站点共享条目、媒体与元数据池；官网说明其发布 items、关联开放数据并连接数字文化遗产收藏，且明确为 LAMP 自托管应用。与门户的已发布条目语料和面向外部受众的发布层对应；未核实公共检索/浏览控件、字段级发布控制、条目地址稳定性或部署级访问限制。",
+      "service_boundary": "开源可自托管 LAMP Web 应用（GPL-3.0）；未部署，未验证具体站点权限或托管服务。",
+      "search_attempts": [
+        {
+          "tool": "github_api_repository",
+          "query": "omeka/omeka-s",
+          "outcome": "HTTP 200，id 12057192，默认分支 develop"
+        },
+        {
+          "tool": "github_api_license",
+          "query": "omeka/omeka-s/license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整许可文本已保存"
+        },
+        {
+          "tool": "official_fetch",
+          "query": "raw README + omeka.org/s",
+          "outcome": "HTTP 200，两份快照已保存"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/omeka/omeka-s",
+          "kind": "repository_metadata",
+          "outcome": "HTTP 200，id 12057192 / full_name omeka/omeka-s"
+        },
+        {
+          "url": "https://api.github.com/repos/omeka/omeka-s/license",
+          "kind": "license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/omeka/omeka-s/develop/README.md",
+          "kind": "readme",
+          "outcome": "HTTP 200，README 快照已保存"
+        },
+        {
+          "url": "https://omeka.org/s/",
+          "kind": "homepage",
+          "outcome": "HTTP 200，首页快照已保存"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "media-asset-management-mam",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:146662901"
+      ],
+      "query": "GitHub API 仓库检索 media asset management / digital asset management；官方仓库定向核对 nebulabroadcast/nebula",
+      "source_urls": [
+        "https://api.github.com/repos/nebulabroadcast/nebula",
+        "https://api.github.com/repos/nebulabroadcast/nebula/license",
+        "https://raw.githubusercontent.com/nebulabroadcast/nebula/develop/README.md",
+        "https://nebulabroadcast.com/",
+        "https://raw.githubusercontent.com/resourcespace/resourcespace/master/documentation/licenses/resourcespace.txt"
+      ],
+      "note": "Nebula 仓库 id 146662901、默认分支 develop，许可证 API 为 GPL-3.0 且完整文本快照可核。README 明确其为开源广播自动化与 MAM，媒体目录基于 EBU Core，含 genre、rights、relations、technical metadata，并提供快速检索、低分辨率预览、trim/子片段与转码；官网称其可在本地或共享环境 24/7 运行。与资产记录、元数据层、全库检索/预览和媒体处理核心对应。未把归档分层/按需恢复、字段级权限或状态驱动文件移动写成已核实能力。ResourceSpace 功能匹配但许可证 API 为 NOASSERTION，主许可文本为 BSD 三条款加商标限制，未在本次无歧义归入标准 OSI SPDX，故只留档不入库。",
+      "service_boundary": "开源可自托管/Docker 部署的 MAM（GPL-3.0）；商业集成与培训服务另计，本单元未运行。",
+      "search_attempts": [
+        {
+          "tool": "github_api_search",
+          "query": "media asset management in:description",
+          "outcome": "结果含 nebulabroadcast/nebula（GPL-3.0，330 星）等；选取 Nebula 定向核对"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "digital asset management in:name,description",
+          "outcome": "结果含 ResourceSpace、GalleryServer 等；ResourceSpace 许可为 NOASSERTION，GalleryServer 体量与 MAM 核心不足"
+        },
+        {
+          "tool": "github_api_repository",
+          "query": "nebulabroadcast/nebula",
+          "outcome": "HTTP 200，id 146662901，默认分支 develop"
+        },
+        {
+          "tool": "github_api_license",
+          "query": "nebulabroadcast/nebula/license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整许可文本已保存"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/nebulabroadcast/nebula",
+          "kind": "repository_metadata",
+          "outcome": "HTTP 200，id 146662901 / full_name nebulabroadcast/nebula"
+        },
+        {
+          "url": "https://api.github.com/repos/nebulabroadcast/nebula/license",
+          "kind": "license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/nebulabroadcast/nebula/develop/README.md",
+          "kind": "readme",
+          "outcome": "HTTP 200，README 快照已保存"
+        },
+        {
+          "url": "https://nebulabroadcast.com/",
+          "kind": "homepage",
+          "outcome": "HTTP 200，首页快照已保存"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/resourcespace/resourcespace/master/documentation/licenses/resourcespace.txt",
+          "kind": "license",
+          "outcome": "HTTP 200，文本为 BSD 三条款加商标限制；未作为开源入库证据"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "museum-accession-cataloging",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:4337337"
+      ],
+      "query": "websearch: open source museum collection management system GitHub CollectionSpace CollectiveAccess license；GitHub API 检索 collectionspace in:name；官方仓库定向核对 collectiveaccess/providence",
+      "source_urls": [
+        "https://api.github.com/repos/collectiveaccess/providence",
+        "https://api.github.com/repos/collectiveaccess/providence/license",
+        "https://raw.githubusercontent.com/collectiveaccess/providence/master/README.md",
+        "https://collectiveaccess.org/",
+        "https://api.github.com/repos/collectionspace/application",
+        "https://api.github.com/repos/collectionspace/application/license"
+      ],
+      "note": "CollectiveAccess Providence 仓库 id 4337337、默认分支 master，许可证 API 为 GPL-3.0 且完整文本快照可核。README 说明 Providence 是 CollectiveAccess 的后端编目组件，面向博物馆、档案与研究收藏，支持多种元数据标准、复杂 accession numbers、位置历史与 provenance 跟踪、媒体与报告；官网称其为博物馆/档案收藏的开源编目软件。与入藏编号、对象目录记录和持续编目/历史跟踪核心对应。CollectionSpace application 仓库核心功能匹配，但许可证 API 为 NOASSERTION（实际 ECL-2.0），本次验证器无法用现有标记完成许可证明，故仅留档候选、不入库。未断言自动编号、防篡改审计或退编流程。",
+      "service_boundary": "开源可自托管 PHP Web 应用（GPL-3.0）；Pawtucket2 为可选发布前端，本单元只核对 Providence 编目后端，未部署。",
+      "search_attempts": [
+        {
+          "tool": "websearch",
+          "query": "open source museum collection management system GitHub CollectionSpace CollectiveAccess license",
+          "outcome": "HTTP 401，未获得搜索结果；未重复调用"
+        },
+        {
+          "tool": "github_api_search",
+          "query": "collectionspace in:name",
+          "outcome": "命中 collectionspace/application（id 3263026），但许可 API 为 NOASSERTION"
+        },
+        {
+          "tool": "github_api_repository",
+          "query": "collectiveaccess/providence",
+          "outcome": "HTTP 200，id 4337337，默认分支 master"
+        },
+        {
+          "tool": "github_api_license",
+          "query": "collectiveaccess/providence/license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整许可文本已保存"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/collectiveaccess/providence",
+          "kind": "repository_metadata",
+          "outcome": "HTTP 200，id 4337337 / full_name collectiveaccess/providence"
+        },
+        {
+          "url": "https://api.github.com/repos/collectiveaccess/providence/license",
+          "kind": "license",
+          "outcome": "HTTP 200，SPDX GPL-3.0，完整文本"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/collectiveaccess/providence/master/README.md",
+          "kind": "readme",
+          "outcome": "HTTP 200，README 快照已保存"
+        },
+        {
+          "url": "https://collectiveaccess.org/",
+          "kind": "homepage",
+          "outcome": "HTTP 200，首页快照已保存"
+        },
+        {
+          "url": "https://api.github.com/repos/collectionspace/application",
+          "kind": "repository_metadata",
+          "outcome": "HTTP 200，id 3263026，默认分支 main"
+        },
+        {
+          "url": "https://api.github.com/repos/collectionspace/application/license",
+          "kind": "license",
+          "outcome": "HTTP 200，SPDX NOASSERTION；文本声明 ECL-2.0，验证器无对应标记，未入库"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

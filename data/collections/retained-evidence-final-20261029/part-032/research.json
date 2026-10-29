@@ -1,0 +1,417 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "video-compositing-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1266672576",
+        "github:1203642171"
+      ],
+      "query": "live video switcher web | browser based live video switcher | web based vision mixer | live compositing web app scenes | self-hosted live video production switcher | vmix alternative | (修正轮) switchframe | zsiec/switchframe 身份核对 | open-live-studio / strom 许可证核对",
+      "source_urls": [
+        "https://github.com/thiagopnts/switchframe",
+        "https://raw.githubusercontent.com/thiagopnts/switchframe/main/README.md",
+        "https://api.github.com/repos/thiagopnts/switchframe/license",
+        "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/architecture.md",
+        "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/operations/deployment.md",
+        "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/reference/api/output.md",
+        "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/concepts/pipeline.md",
+        "https://api.github.com/repos/thiagopnts/switchframe/commits?per_page=30",
+        "https://github.com/Eyevinn/open-live",
+        "https://raw.githubusercontent.com/Eyevinn/open-live/main/README.md",
+        "https://api.github.com/repos/Eyevinn/open-live/license",
+        "https://raw.githubusercontent.com/Eyevinn/open-live/main/docs/decisions/ADR-004-rtmp-multi-destination.md",
+        "https://raw.githubusercontent.com/Eyevinn/open-live/main/docs/graphics.md",
+        "https://github.com/Eyevinn/open-live-studio",
+        "https://api.github.com/repos/Eyevinn/open-live-studio",
+        "https://api.github.com/repos/Eyevinn/open-live-studio/license",
+        "https://raw.githubusercontent.com/Eyevinn/open-live-studio/main/README.md",
+        "https://github.com/Eyevinn/strom",
+        "https://api.github.com/repos/Eyevinn/strom",
+        "https://api.github.com/repos/Eyevinn/strom/license",
+        "https://raw.githubusercontent.com/Eyevinn/strom/main/LICENSE-MIT",
+        "https://raw.githubusercontent.com/Eyevinn/strom/main/README.md",
+        "https://github.com/obsproject/obs-studio",
+        "https://raw.githubusercontent.com/obsproject/obs-studio/master/README.rst",
+        "https://api.github.com/repos/obsproject/obs-studio/license",
+        "https://obsproject.com/",
+        "https://obsproject.com/kb/sources-guide",
+        "https://obsproject.com/kb/virtual-camera-guide"
+      ],
+      "note": "本轮为独立初审后的唯一一次修正轮：保留两条成立关系，仅修复初审指出的两项实际问题，未新增叶子关系。\n\n【修正 1：SwitchFrame 仓库身份】初审指出 README 徽章/克隆地址指向 zsiec/switchframe、LICENSE 署名为 Thomas Symborski，与 cited owner thiagopnts 不一致。本轮核对结果（2026-10-28）：(a) github.com/zsiec/switchframe 与 api.github.com/repos/zsiec/switchframe 均返回 404，无法访问所谓 canonical 上游，故不存在可改引的 canonical 仓库；(b) 仓库搜索 q=switchframe 仅返回 thiagopnts/switchframe（id 1266672576）及三个同名无关项目，未发现第二份同名代码库；(c) thiagopnts/switchframe 元数据 fork=false、parent=null、source=null、mirror_url=null、created_at 2026-06-11、pushed_at 2026-06-16，GitHub 未记录其为 fork；(d) 提交记录快照（30 条，sha 0110f71…）显示 author 与 committer 的 GitHub 登录名全部为 zsiec，提交者姓名 Thomas Symborski <thomas.symborski@gmail.com>，contributors 接口返回 zsiec 2987 次提交，即代码作者为 zsiec 而非仓库当前 owner；(e) zsiec 是个人账号（id 495628，name=Thomas Symborski），拥有 zsiec/prism、zsiec/srtgo、zsiec/ccx 等 README 直接引用的依赖仓库；而 thiagopnts 名下确有 zsiec/prism、zsiec/ccx、zsiec/quic-go 的 fork（parent/source 均指向 zsiec），说明该 owner 有镜像 zsiec 仓库的既有行为。结论：材料只能证明“代码由 zsiec/Thomas Symborski 编写、以 id 1266672576 托管在 thiagopnts/switchframe、MIT 全文署名 Thomas Symborski”，无法判定这是项目转移/改名还是他人镜像；zsiec/switchframe 已不可达，因此没有可替换的上游。本轮按初审允许的第二种方式处理：在条目 summary、deployment、leaf_match 与本节明确记录该归属关系、核对日期与依据，不虚构 canonical 仓库、不据徽章文字另立条目，也不把该仓库判定为“他人项目镜像”从而否定案例——因为 commit 作者即为许可证署名者，位于同一代码脉络。归属/发布主体仍标注为未闭合，未作“已澄清”表述。\n\n【修正 2：Open Live 三件套许可证】初审指出仅 open-live 有仓库元数据与许可证，open-live-studio 与 Strom 的许可证主张无证据。本轮补采四个官方快照：open-live-studio 元数据（id 1203623661，fork=false，archived=false，MIT）与 LICENSE 全文（1103 字符，Copyright (c) 2026 Eyevinn Technology Open Source Software Center）；strom 元数据（id 1096345941，fork=false，archived=false，license.spdx_id=Apache-2.0）与 LICENSE-APACHE 全文（10841 字符）及 LICENSE-MIT 全文（Copyright (c) 2025 Eyevinn Technology），README 标注 “MIT OR Apache-2.0”。据此把原先笼统的“三者均开源”改为逐仓库列明许可证（MIT / MIT / Apache-2.0，Strom 另有 MIT 双许可文本），并在 deployment 中写明组件边界：本仓库仅提供 REST API 与 WebSocket 控制器通道，缺 studio 则无控制面、缺 Strom 则无切换/混合/编码。托管版边界按官方正文记录：openlive.apps.osaas.io 为 OSC 托管实例，官方未描述按功能分层的付费版，托管与自托管的差别在 Strom/GPU 供给方式与 OSC 参数存储/反向代理，代码同源；OSC 目录中的 eyevinn-strom 实例不被支持作为后端。\n\n【证据类型更正】上一版称许可证“由 GitHub license API 证明 SPDX=MIT”被初审认为不准确。本轮核对快照结构：该快照即 GET /repos/{owner}/{repo}/license 的响应体，同时含 license.spdx_id=\"MIT\" 与 base64 编码的完整许可证正文（1073/1103/10841 字符），两种证据形式都存在；因此结论不变，证据描述改为“SPDX 字段 + 完整正文并存”。校验器亦按 license_proved 路径通过。\n\n【保留的旧轨迹】OBS Studio（github:13233158）的历史复用快照与旧草稿原样保留在 fetch_outcomes 与 collector_note_unapproved；其与本叶关系仍按形态判定移除（纯桌面客户端），列于 withheld_candidates，不推断其不存在 SaaS 变体。Open Live Studio 与 Strom 现已有元数据+许可证，仍不单列为案例：二者与 open-live 属同一产品身份的不同组件，单列会重复计数。\n\n【收窄与未作断言】不作 RTMP 多目的地可用性断言（ADR-004 仍标注 strom#840 为 v1 阻塞项，仅作设计证据）；不作并发输出数量、并发源路数实测、部署实测断言，runtime_tested=false；不作 Strom 与 open-live 版本兼容性断言。\n\n【进度元数据】input.json 的 progress 仍写 case_status=boundary_unresolved、application_ids=[]、note 为“只证明客户端/CLI/引擎或设备控制”。该字段是分派种子，本轮未改写（写入范围限于 data/collections 与 notes）；以本文件 assessment=case_found、case_ids 两条及 batch.json 两条 leaf_match 为准。",
+      "service_boundary": "操作员控制的实时多源合成与节目输出（服务端/浏览器控制形态）；非离线时间轴合成，也非纯桌面客户端。\nSwitchFrame：服务端 Go 单进程完成解码、切换、合成、编码，浏览器仅作 WebTransport 控制面并接收预览/节目流，输出经 program relay 扇出至录制、SRT/RTMP 目的地、MXL 与监看。代码归属、许可证署名与仓库托管方不一致的情况已在 note 中留档。\nOpen Live：本条目仓库只是 API/控制器服务，切换、混合、图形合成与节目/多画面编码由 Strom（Apache-2.0）执行，浏览器控制面为 open-live-studio（MIT），三者缺一不可；不得把本仓库单独表述为完整媒体引擎或完整制作套件。",
+      "search_attempts": [
+        {
+          "query": "live video switcher web",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=live%20video%20switcher%20web&sort=stars&order=desc&per_page=10",
+          "outcome": "returned 17 results",
+          "top_candidates": [
+            "starrtc/starrtc-android-demo",
+            "applest/live-controller",
+            "gak4u/onairlive"
+          ],
+          "assessment": "多为 ATEM 控制面板或单人 Electron 草稿（onairlive 无许可证），未采用。"
+        },
+        {
+          "query": "browser based live video switcher",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=browser%20based%20live%20video%20switcher&sort=stars&order=desc&per_page=8",
+          "outcome": "returned 6 results",
+          "top_candidates": [
+            "thiagopnts/switchframe",
+            "axelboberg/switcher-js",
+            "jabez4jc/Overlay"
+          ],
+          "assessment": "命中 SwitchFrame（MIT，服务端切换/合成），转入官方正文核对；其余为 Chrome 扩展式切换器或叠加控制，未采用。"
+        },
+        {
+          "query": "web based vision mixer",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=web%20based%20vision%20mixer&sort=stars&order=desc&per_page=8",
+          "outcome": "returned 1 results",
+          "top_candidates": [
+            "axelboberg/switcher-js"
+          ],
+          "assessment": "Chrome 内切换器，无持续节目与服务端输出形态，未采用。"
+        },
+        {
+          "query": "live compositing web app scenes",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=live%20compositing%20web%20app%20scenes&sort=stars&order=desc&per_page=8",
+          "outcome": "returned 1 results",
+          "top_candidates": [
+            "gak4u/onairlive"
+          ],
+          "assessment": "无许可证，仓库仅 1 star，不能作为完整开源应用，未采用。"
+        },
+        {
+          "query": "topic:vision-mixer",
+          "engine": "GitHub topic search API",
+          "url": "https://api.github.com/search/repositories?q=topic%3Avision-mixer&sort=stars&order=desc&per_page=10",
+          "outcome": "returned 6 results",
+          "top_candidates": [
+            "Eyevinn/strom",
+            "lucas-romanenko/webatem",
+            "Eyevinn/open-live"
+          ],
+          "assessment": "命中 Open Live（MIT，浏览器实时制作套件）；strom 为媒体引擎、webatem 为 ATEM 控制器，未单独采用。"
+        },
+        {
+          "query": "topic:live-production",
+          "engine": "GitHub topic search API",
+          "url": "https://api.github.com/search/repositories?q=topic%3Alive-production&sort=stars&order=desc&per_page=10",
+          "outcome": "returned 93 results",
+          "top_candidates": [
+            "Eyevinn/strom",
+            "Eyevinn/intercom-frontend",
+            "Utopian-Academy/Deckboy",
+            "Eyevinn/open-live"
+          ],
+          "assessment": "进一步确认 Open Live 生态（API + studio + strom）；Deckboy 为提示播放器，不具备实时多源混合，未采用。"
+        },
+        {
+          "query": "vmix alternative",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=vmix%20alternative&sort=stars&order=desc&per_page=6",
+          "outcome": "returned 4 results",
+          "top_candidates": [
+            "WinWins-YT/furMix",
+            "gak4u/onairlive",
+            "eddysangalli/FreeMix"
+          ],
+          "assessment": "furMix 为 Windows 桌面程序，onairlive 无许可证，FreeMix 无许可证且描述为 OBS 壳，均不满足服务端应用形态，未采用。"
+        },
+        {
+          "query": "self-hosted live video production switcher",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=self-hosted%20live%20video%20production%20switcher&sort=stars&order=desc&per_page=8",
+          "outcome": "returned 0 results",
+          "assessment": "无结果，不据此推断不存在；改以 topic 与产品名检索补足。"
+        },
+        {
+          "query": "video mixer server web ui",
+          "engine": "GitHub repository search API",
+          "url": "https://api.github.com/search/repositories?q=video%20mixer%20server%20web%20ui&sort=stars&order=desc&per_page=8",
+          "outcome": "returned 0 results",
+          "assessment": "无结果，不作否定判断。"
+        },
+        {
+          "query": "switchframe",
+          "engine": "GitHub repository search API（修正轮：定位 canonical 上游）",
+          "url": "https://api.github.com/search/repositories?q=switchframe&sort=updated&order=desc&per_page=20",
+          "outcome": "returned 4 results",
+          "top_candidates": [
+            "thiagopnts/switchframe",
+            "geerkenk/switchframe-infographic",
+            "sterlingwes/switchframe",
+            "niteeshpunna/switchFrames"
+          ],
+          "assessment": "未出现 zsiec/switchframe；除 thiagopnts/switchframe（id 1266672576，MIT）外其余为无关同名项目（无许可证）。说明不存在可改引的第二份同名上游代码库。"
+        },
+        {
+          "query": "direct lookup: zsiec/switchframe",
+          "engine": "GitHub HTML + REST（修正轮：核对 README/徽章所述上游是否存在）",
+          "url": "https://api.github.com/repos/zsiec/switchframe",
+          "outcome": "HTTP 404（HTML 页面同样 404）",
+          "assessment": "README 第 12/66 行所述的 zsiec/switchframe 不可访问，故无法改引该地址作为 canonical 仓库，也无法据其元数据补齐 id/full_name。仅作为“徽章地址已失效”的事实记录，不据此推断该仓库从未存在或已被删除。"
+        },
+        {
+          "query": "user repos: zsiec",
+          "engine": "GitHub REST（修正轮：核对作者账号与依赖仓库）",
+          "url": "https://api.github.com/users/zsiec/repos?per_page=100&sort=updated",
+          "outcome": "returned 63 public repos; no switchframe entry",
+          "top_candidates": [
+            "zsiec/prism",
+            "zsiec/srtgo",
+            "zsiec/ccx"
+          ],
+          "assessment": "zsiec 为个人账号（id 495628，name=Thomas Symborski），名下无 switchframe，但有 SwitchFrame README 直接引用的 prism/srtgo/ccx。该结果仅用于归属比对，未保存快照（只读巡检），不作为本叶功能或形态证据。后续同一会话再次抓取该列表时遇 API 速率限制（HTTP 403），未重试。"
+        },
+        {
+          "query": "repo provenance: thiagopnts/switchframe commits + contributors",
+          "engine": "GitHub REST（修正轮：提交作者与 fork 关系）",
+          "url": "https://api.github.com/repos/thiagopnts/switchframe/commits?per_page=30",
+          "outcome": "30 commits, author/committer login all zsiec",
+          "assessment": "提交者姓名 Thomas Symborski <thomas.symborski@gmail.com>，与 LICENSE 署名一致；contributors 接口显示 zsiec 2987 次提交、dependabot 6 次。仓库元数据 fork=false/parent=null/source=null。据此记录“代码作者=zsiec、托管方=thiagopnts”，不判定为镜像或转移。"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "case_id": "github:1266672576",
+          "url": "https://api.github.com/repos/thiagopnts/switchframe",
+          "kind": "repository_metadata",
+          "sha256": "f357131cf9e6476b3140b21f9ef4ee1a443d5c0ae3d11a4e0e444576bbb78537",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://raw.githubusercontent.com/thiagopnts/switchframe/main/README.md",
+          "kind": "readme",
+          "sha256": "b29aeb323161037ce4f656cb3981166c72b0b69db0a71898c0e9fe57dde5b335",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://api.github.com/repos/thiagopnts/switchframe/license",
+          "kind": "license",
+          "sha256": "6365c8743cdb0c4a0a77405a7f87541d57ada118966868d5ea97531c43c7f320",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/architecture.md",
+          "kind": "documentation",
+          "sha256": "6de9e95b0821056b821a83f6f3e64a33aa85e08fb4d36ec0a80606c143b45b34",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/operations/deployment.md",
+          "kind": "documentation",
+          "sha256": "ac52648665a997f07cc1ec26000927114bd353916f48f2389aac99f030885d6b",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/reference/api/output.md",
+          "kind": "documentation",
+          "sha256": "90b440962a47eb65b2fb088f62197b69bee94ff3f4b04f4f3df82ac77f10dd63",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://raw.githubusercontent.com/thiagopnts/switchframe/main/docs/concepts/pipeline.md",
+          "kind": "documentation",
+          "sha256": "b3368edbc31780e4bd356a1a2fe8d3267c3bf41d85f15f458cd701667908670a",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1266672576",
+          "url": "https://api.github.com/repos/thiagopnts/switchframe/commits?per_page=30",
+          "kind": "documentation",
+          "sha256": "0110f71f2a7b99cd6aea1a4e9ad4d9fca52f4efe3d01522687244e35c7e9a7e4",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "修正轮新增：提交元数据，用于仓库归属核对，不作为功能证据。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "url": "https://api.github.com/repos/Eyevinn/open-live",
+          "kind": "repository_metadata",
+          "sha256": "8bf40cddc5fd19222a7734102a15bd703bff482f558d70a35ed6a1202d8d8255",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1203642171",
+          "url": "https://raw.githubusercontent.com/Eyevinn/open-live/main/README.md",
+          "kind": "readme",
+          "sha256": "4d334e9027609531b3d01a5abd61da861a3dc510a6a2160ea78d31bbd4c5c611",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1203642171",
+          "url": "https://api.github.com/repos/Eyevinn/open-live/license",
+          "kind": "license",
+          "sha256": "aa2fd6cfa7a3a387127c728ae581b57f58e6c5de8f20fe6a75937a6de210d2e0",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1203642171",
+          "url": "https://raw.githubusercontent.com/Eyevinn/open-live/main/docs/decisions/ADR-004-rtmp-multi-destination.md",
+          "kind": "documentation",
+          "sha256": "f52fc86333250146d4d1ded286ea0b2987a147be623288b03fb6d14b93fd0be8",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1203642171",
+          "url": "https://raw.githubusercontent.com/Eyevinn/open-live/main/docs/graphics.md",
+          "kind": "documentation",
+          "sha256": "13e820501599a0a1b6d9f3ad8e6a13204de8ecf180f8ce806615364d17ccefba",
+          "outcome": "saved_snapshot"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "open-live-studio",
+          "component_id": "github:1203623661",
+          "url": "https://api.github.com/repos/Eyevinn/open-live-studio",
+          "kind": "repository_metadata",
+          "sha256": "827c11f33ab922e9383c4dc507c9512711979a8ced9fdba74791352dbd9723c6",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "id=1203623661, full_name=Eyevinn/open-live-studio, fork=false, archived=false, license.spdx_id=MIT。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "open-live-studio",
+          "component_id": "github:1203623661",
+          "url": "https://api.github.com/repos/Eyevinn/open-live-studio/license",
+          "kind": "license",
+          "sha256": "3b28ae148e299a135ec400a5c5ae44cd6929c58987b5145e5b28241ed28f69c4",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "完整 MIT 正文（1103 字符），Copyright (c) 2026 Eyevinn Technology Open Source Software Center。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "open-live-studio",
+          "component_id": "github:1203623661",
+          "url": "https://raw.githubusercontent.com/Eyevinn/open-live-studio/main/README.md",
+          "kind": "readme",
+          "sha256": "9d515709c911e48cf90e6b3d86d7ed49dc08dd8e0143944b6d876e9cd0063f6d",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "自述为 Open Live 的浏览器制作控制器（React），需 open-live 后端；含 OSC 托管套餐价格，未在条目中展开。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "strom",
+          "component_id": "github:1096345941",
+          "url": "https://api.github.com/repos/Eyevinn/strom",
+          "kind": "repository_metadata",
+          "sha256": "52a64a374417fc9dc47040e8a6dbe3689a483a571d491ad3fcf1ee6ac15ef2e6",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "id=1096345941, full_name=Eyevinn/strom, fork=false, archived=false, license.spdx_id=Apache-2.0。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "strom",
+          "component_id": "github:1096345941",
+          "url": "https://api.github.com/repos/Eyevinn/strom/license",
+          "kind": "license",
+          "sha256": "a839eb741c6a0a8595ae7499cbc4614eca1dcfb955b81dea4f07f66f5307ae3c",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "API 返回 LICENSE-APACHE，完整 Apache-2.0 正文（10841 字符）。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "strom",
+          "component_id": "github:1096345941",
+          "url": "https://raw.githubusercontent.com/Eyevinn/strom/main/LICENSE-MIT",
+          "kind": "license",
+          "sha256": "fec3c80e37396c760e68c742cc83816cc7558a5fd314088e50d35cacc847facf",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "仓库另含 MIT 文本（Copyright (c) 2025 Eyevinn Technology），README 标注 MIT OR Apache-2.0，双许可。"
+        },
+        {
+          "case_id": "github:1203642171",
+          "component": "strom",
+          "component_id": "github:1096345941",
+          "url": "https://raw.githubusercontent.com/Eyevinn/strom/main/README.md",
+          "kind": "readme",
+          "sha256": "829f447ebd5e05a36d7858f5859e09ff4d658c5043980fcb8bbf3b7899a5a571",
+          "outcome": "saved_snapshot_correction_round",
+          "note": "自述为 GStreamer 媒体管线引擎（含视觉切换台/音频调音台/WebRTC/SRT/RTMP 等 block），由 Open Live 通过 REST/WebSocket 驱动。"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://github.com/obsproject/obs-studio",
+          "kind": "repository_metadata",
+          "sha256": "2f3c49b6d83aa4e2db8bace10188477aa80c2f79f99ff3e978ae879f93e5b75b",
+          "outcome": "historical_reused_snapshot"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://raw.githubusercontent.com/obsproject/obs-studio/master/README.rst",
+          "kind": "readme",
+          "sha256": "be2dff0124620dcd9d8d83ef9084b12d1e61e896d3295232501cb3ebd3f6a318",
+          "outcome": "historical_reused_snapshot"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://api.github.com/repos/obsproject/obs-studio/license",
+          "kind": "license",
+          "sha256": "9913ecd53e458b2b9b84b165cdeb5577f3c875c35ae44d0fd7d9953190bfd785",
+          "outcome": "historical_reused_snapshot"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://obsproject.com/",
+          "kind": "homepage",
+          "sha256": "578b8fa40c4af2799654e085d96d573e7df4dd800a0af602e3c006f1ebffc9e8",
+          "outcome": "historical_reused_snapshot"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://obsproject.com/kb/sources-guide",
+          "kind": "documentation",
+          "sha256": "94a16edca0198c8da2b30fb064fb43a812f05be4d8dca1b52a1e51f3b70594ac",
+          "outcome": "historical_reused_snapshot"
+        },
+        {
+          "case_id": "github:13233158",
+          "url": "https://obsproject.com/kb/virtual-camera-guide",
+          "kind": "documentation",
+          "sha256": "7a1091b928868ef1bc54037ee40c4262afbaf5dea0b9ba180615feecd79b033f",
+          "outcome": "historical_reused_snapshot"
+        }
+      ],
+      "archived": false,
+      "collector_note_unapproved": "历史草稿（未采纳，非本轮结论）：采用 OBS Studio（github:13233158）。README 定义其为采集、合成、编码、录制与直播视频内容的软件；官方站点说明以多来源构成场景、无限场景与转场切换、每源音频混合并输出直播或录制，知识库 Sources Guide 详述来源的添加、排序、隐藏与定位；Virtual Camera Guide 说明可将 OBS 场景作为虚拟摄像头输出供其他应用使用。",
+      "withheld_candidates": [
+        {
+          "id": "github:13233158",
+          "name": "OBS Studio",
+          "reason": "历史候选复核：6 份官方快照只证明本机安装的桌面客户端（Windows/macOS/Linux 安装包、桌面 UI 操作），没有服务端或浏览器控制形态，不满足本单元“纯客户端不因联网而纳入”的边界，故移除其与本叶的关系。此为形态判定，不断言其不存在 SaaS 变体，也不删除旧研究轨迹。"
+        },
+        {
+          "id": "github:1203623661",
+          "name": "Open Live Studio",
+          "reason": "Open Live 的浏览器前端控制器（React/TypeScript，MIT，id 1203623661，fork=false，archived=false）。本轮已补采其仓库元数据与完整许可证，足以支撑套件许可证边界，但单列为案例会与其 API 服务重复同一产品身份，故仍只在 Open Live 条目中以组件身份记录。"
+        },
+        {
+          "id": "github:1096345941",
+          "name": "Strom",
+          "reason": "GStreamer 媒体管线引擎（基础设施；Apache-2.0，另含 MIT 文本，id 1096345941，fork=false，archived=false）。本轮已补采其元数据与两份许可证，用以支撑套件许可证边界；作为纯引擎不单独作为应用服务案例，只在 Open Live 条目中以组成部件记录。"
+        },
+        {
+          "id": null,
+          "name": "gak4u/onairlive",
+          "reason": "检索命中的 Electron 草稿，仓库无许可证，无法核对完整许可证与社区版边界，未采用。"
+        },
+        {
+          "id": null,
+          "name": "WinWins-YT/furMix",
+          "reason": "Windows 桌面程序（GPL-3.0），形态为本地客户端而非可持续使用的应用服务，未采用。"
+        }
+      ]
+    }
+  ]
+}

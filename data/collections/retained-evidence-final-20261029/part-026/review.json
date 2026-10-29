@@ -1,0 +1,37 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "photo-workflow-catalog-application / github:119160553：research.json 的证据链措辞写作“带有效期、密码的分享链接”，而 share 快照明确写“optional password protection ... planned”，实际可设的是 secret 与 expiry date（911534...txt 第8816、8824、8851行）。batch.json 的 summary/features 与 leaf_matches 已正确写为“密钥与有效期”并注明密码保护为 planned，因此公开条目无误；建议同步修正研究记录措辞，避免下游误读为已具备密码保护。",
+    "technology_stack 中的“Vue.js 前端”在本次 12 个非仓库页快照内没有直接证据；可核到的只有 Golang/SQLite/MariaDB 相关导航与 frontend 目录（28ae513...txt 第1522、1550、8202行；56b43a...txt 仓库树含 frontend）。建议补一处前端技术来源或改为不指明框架。",
+    "deployment 末句“另有成员版/商业托管选项”表述略宽：快照可证的只有 members/Plus 附加功能、团队商业许可，以及 PikaPods、DigitalOcean 等第三方托管部署方式（e97ed7...txt 第46-53、84行；28ae513...txt 第8818-8830行），未见厂商自营托管 SaaS 的说明。建议改为“会员版/团队商业许可，另有第三方托管部署方式”。",
+    "input.json 仍保留 case_status=boundary_unresolved、application_ids=[] 及“尚未证明可持续使用的应用服务”的旧注，而 batch.json 与 research.json 已按 case_found 收录 github:119160553。内容本身有来源支撑，但发布时应同步叶子状态与 application_ids，避免目录与批次记录不一致。",
+    "本叶 dc/rules 提到“edit recipes、derived versions”，而 PhotoPrism 快照可证的“编辑”限于元数据（标题/日期/地点/说明/版权/标签）、JPG/PNG 旋转与堆叠主文件切换，未见 RAW 开发或“交给外部编辑器”的正文说明（e46a33...txt 第8859-8913行；ac4f19...txt 第8726-8735行）。叶定义已明确 RAW 开发非本质，故不阻断，但 summary 中“编辑”不应被读作图像调整能力，建议在 features 里补一句“无 RAW 显影/调整”。",
+    "LICENSE 为 AGPL-3.0 正文外加第 18 节商标/品牌资产附加条款（f703a5...txt 第619-646行）。该附加条款属 AGPL 第 7 节允许的商标权保留，license=AGPL-3.0 可接受；若追求字面精确，可在 license 或 license_review 中标为“AGPL-3.0（含商标附加条款）”。",
+    "仓库页快照为整页 GitHub HTML（含大量脚本/导航），可用于身份核对（octolytics repository_id=119160553、nwo=photoprism/photoprism、is_fork=false，第239行），但不宜作为功能证据；本单元未如此使用。",
+    "docs 的 user-guide 快照 <title> 为“Installation”，正文 h1 才是“User Guide”（28ae513...txt 第36、8813行），属站点标题瑕疵，不影响内容判定。"
+  ],
+  "leaf_checks": {
+    "photo-workflow-catalog-application": {
+      "leaf_name_zh": "照片管理软件",
+      "application_id": "github:119160553",
+      "application_name": "PhotoPrism",
+      "definitional_core": "满足。记录层与生产周期两个半边同时成立：索引/数据库保存每张照片的持久记录并可选择生成 YAML/JSON 元数据边车，文件在 originals 内移动后索引器自动更新路径（d7aa94...txt 第8905-8935行）；流程覆盖导入/索引（edadb8...txt 第8927-8976行、d7aa94...第8936-8963行）、质量审核批准（aac71f...txt 第8793-8806行）、元数据编辑/旋转/堆叠（e46a33...第8859-8913行、ac4f19...第8726-8735行、2f4a21...第8925-8944行）、跨全库组织检索（e97ed7...README 第25-28行、c397f7...第8903-8963行）与下载/分享交付（69cab9...第8726-8767行、911534...第8815-8870行）。",
+      "library_of_record": "有。originals 目录 + 应用索引（数据库，支持 SQLite/MariaDB）与可选 JSON/YAML 边车；索引不改动原文件与目录结构，记录与文件路径可分离并自动重映射（d7aa94...txt 第8914-8935行）。属叶定义允许的“引用式/受管容器”两种姿态之一。",
+      "organization_retrieval": "有。全库搜索可按标签、地点、分辨率、颜色、色度、质量过滤；相册、标签、人物、地点、时刻、文件夹构成组织层（e97ed7...第25-28行；28ae51...第3424-3956行导航；c397f7...相册操作正文）。",
+      "production_cycle": "成立但“编辑”为轻量：导入→审核筛选→元数据/旋转/堆叠→下载与分享链接。未提供 RAW 显影或外部编辑器交接正文；叶定义明确 RAW 开发、星级、人脸等非本质，故不构成类型不成立，仅建议措辞收敛。",
+      "service_form": "满足“可持续使用的应用服务形态”：官方社区版以 Docker 自托管、仅需浏览器/PWA 访问，服务端常驻并跨会话保存库与索引（e97ed7...第37-40行；28ae51...第8813-8821行；README 第11行“self-hosted or in the cloud”）。属自托管 Web 应用服务，非桌面客户端；与旧候选 darktable（桌面应用，已withheld）形态不同。",
+      "id_and_track": "一致。REVIEW_SOURCES 与 batch 的 id 均为 github:119160553；仓库页 octolytics 显示 repository_id=119160553、nwo=photoprism/photoprism、public=true、is_fork=false（56b43a...txt 第239行）；track=open_source 与公开 AGPL 仓库相符。",
+      "license": "通过。LICENSE 快照含 AGPL-3.0 完整条款（§0-17、第619行起 ADDITIONAL TERMS、第646行 END OF TERMS AND CONDITIONS），第18节仅保留 PhotoPrism 商标/品牌资产权利，属 AGPL §7 允许的商标权保留，不改变软件本体的 AGPL-3.0 范围；README 第4行许可证徽标与第111行文档 CC BY-NC-SA 4.0 已区分，未混作软件许可。",
+      "community_edition_boundary": "已写明。summary 标“社区版”，deployment 注明“另有成员版/商业托管选项；本条目按社区版自托管应用记录”；README/用户指南可证 Community Edition 免费自托管、members/Plus 附加功能与团队商业许可（e97ed7...第37、46-53、84行；28ae51...第8822-8830行）。所列功能未见被误标为 Plus 专属。",
+      "sources_verified": "按 REVIEW_SOURCES.json 的 path 原样读取 13 个快照（仓库页、README、LICENSE、user-guide、library、import、review、edit、albums、share、download、rotate、stacks），路径均存在于 data/collections/sources/，文件名与 batch.sources.sha256、REVIEW_SOURCES.sha256 一致；核心工作流证据取自各页正文 h1/article 区，未以简介、元数据或导航替代。",
+      "gaps": "未部署运行（runtime_tested=false），未核对会员版具体功能清单与价格；未独立重算 SHA-256（只读环境无 shell，仅核对声明摘要与文件名/清单一致性）；Immich 等替代品未补抓，文献中已如实记录未完成方向，未据此断言本叶无其他案例。"
+    }
+  },
+  "limits": "只读初审：仅使用本单元的 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 13 个快照；未运行 shell、未写入文件、未访问其他单元或外部网络，因此无法重算快照 SHA-256、无法部署验证、无法核对会员版/Plus 功能清单与价格。部分快照为整页 HTML（文档页含大量导航），核心结论基于正文标题区与实际段落行，未把导航、关键词、HTTP 成功或页面 <title> 当作工作流证据。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/retained-evidence-20261028/part-026/ses_groveopendesignp026review1_1793154704.jsonl",
+  "batch_sha256": "5576724b79cec240a4ed89cb8644262a1046712a9b49f6cea5c61acda78d5eea",
+  "research_sha256": "a34d88d2cc92bd3ab2a639f73e60aa61f8608604327f97cbe5ed57db874f8ca3",
+  "input_sha256": "c53ce1268a39da007dac5f7f127d04d78e7fcd6148c000ec4f7e63da418b43ee"
+}

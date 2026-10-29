@@ -1,0 +1,75 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "production-accounting-platform",
+      "application_id": "github:1305973292",
+      "issue": "现有官方 README 只能证明 SBS 的预算编制（Topsheet→科目→分类→明细行）、预算场景/对比和现金流（预测/承诺/已付），没有提供实际成本交易按预算科目编码、制作总账或预算与实际/EFC 成本报告循环的证据。批次把匹配范围收窄为“预算执行”，但叶子核心明确包含实际成本入账、总账和成本报告循环，故 SBS 目前更接近制作预算工具，尚不足以作为制作会计平台案例。",
+      "fix": "补充能证明实际成本交易编码、制作总账和预算与实际/EFC 成本报告的官方文档或产品截图；若无法补充，应将 SBS 从 production-accounting-platform 移除，或仅按“制作预算工具”归档，不计入本叶案例。"
+    },
+    {
+      "slug": "royalty-management-platform",
+      "application_id": "github:141884906",
+      "issue": "DMP 的 Features 文档只证明其保存合同份额和出版商费用、摄入 CSV 版税报表并导出供分配的 CSV 数据；文档同时明确实际对外报表须在 Excel 中用透视表制作，未提供余额/预付款/预留、支付或付款文件、期间关闭的证据。它覆盖版税计算与报表环节，但不足以证明叶子定义的完整结算循环（计算→余额→报表→支付→期间关闭）。",
+      "fix": "补充官方文档证明余额、报表、支付/付款文件和期间关闭，或换用完整版税管理平台；若保留 DMP，应明确标注其为版税计算/报表工具，不能作为完整 royalty-management-platform 案例。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids=[]、phase=included_without_cases，与 research.json 的 case_found 和 batch.json 的实际条目不一致；不影响本次内容核对，但应更新单元进度元数据。",
+    "SBS 标注 public beta，README 提示生产数据使用前需审查部署、备份和安全；这不影响 AGPL-3.0 许可和开源身份判断，但摘要保留该状态是合适的。",
+    "DMP 文档将“That Green Thing”作为需要更多功能时的 SaaS 推荐，并列出 DMP 的限制；MIT 开源主体与商业 SaaS 边界有披露，但批次摘要未提及该 SaaS 姊妹产品，建议补充边界说明。",
+    "GreenSlate 的产品页证明应付账款、剧组支出、采购订单和薪资过账总账；周成本报告与对账主要来自服务页而非软件功能页。商业基本真实性和类型匹配足够，但若要求严格证明软件内成本报告循环，最好再补产品文档。",
+    "StudioBinder 只有 call-sheet 功能页快照；正文证明通告单由项目信息自动填充、短信/邮件分发及发送/查看/确认跟踪，剧本分解和拍摄日程主要出现在套件导航中。按商业条目“基本真实性和类型匹配”标准可通过，但若要求证明“场景→拍摄日程→通告单”完整链路，建议补充 shooting schedule 或 script breakdown 的正文来源。",
+    "Filmgrail 首页同时销售在线票务、忠诚度和分析，但排片页明确说明与票务/后台系统集成而非替代 POS；排片模块定位与叶子边界一致。",
+    "Vista 快照为压缩单行 HTML，正文读取受工具长行截断影响；已通过快照中可检索的正文关键词确认销售、库存、票房、现金流、报表、验票、卖品、Cinema Manager、Film Manager 等核心内容，未把导航当作正文证据。"
+  ],
+  "leaf_checks": {
+    "production-accounting-platform": {
+      "status": "partial",
+      "applications": [
+        "github:1305973292",
+        "commercial:greenslate-production-accounting"
+      ],
+      "basis": "GreenSlate 产品页正文列出应付账款、剧组支出、采购订单和薪资过账总账，服务页补充周成本报告与对账；SBS README 证明层级预算、预算场景/对比及预测/承诺/已付现金流；SBS 仓库 id=1305973292、AGPL-3.0 完整许可证已核对。",
+      "gaps": "SBS 缺少实际成本交易编码、制作总账和预算与实际/EFC 成本报告循环的证据；批次已承认来源未说明总账或 EFC，但仍将其作为本叶案例，需修复。"
+    },
+    "royalty-management-platform": {
+      "status": "partial",
+      "applications": [
+        "github:141884906"
+      ],
+      "basis": "DMP 仓库 id=141884906、MIT 完整许可证已核对；Features 文档证明作品元数据、出版合同份额、出版商费用、CSV 版税报表摄入及分配数据导出，README 也明确其包含 royalty management。",
+      "gaps": "文档明确实际对外报表需在 Excel 中制作，未证明余额/预付款/预留、支付/付款文件或期间关闭；仅覆盖版税计算和报表环节，未达到完整结算循环。"
+    },
+    "cinema-management-system": {
+      "status": "pass",
+      "applications": [
+        "commercial:vista-cinema"
+      ],
+      "basis": "Vista operational 页正文覆盖 Head Office/on-site 运营、销售、库存、票房、现金流、报表、票务验票、数字标识，以及 Cinema Manager、POS、卖品和 Film Manager 排片/排片优化；商业基本真实性和影院管理类型匹配成立。",
+      "gaps": "页面未逐项展开场次/影厅对象模型，但作为商业条目的基本类型匹配已足够，无阻断性缺口。"
+    },
+    "cinema-scheduling-application": {
+      "status": "pass",
+      "applications": [
+        "commercial:filmgrail-planning-tool"
+      ],
+      "basis": "Filmgrail planning 页正文明确按影厅/屏幕铺排每周节目、自动导入和更新影片、将完成的排期发布到网站/应用/榜单，并说明与票务/后台系统集成而非替代 POS；排片模块定位与叶子边界一致。",
+      "gaps": "无阻断性缺口；该产品是更广泛影院平台中的排片模块，符合叶子对“排片作为编排支柱”的说明。"
+    },
+    "film-production-management": {
+      "status": "pass",
+      "applications": [
+        "commercial:studiobinder"
+      ],
+      "basis": "StudioBinder call-sheet 页正文证明通告单由项目信息自动填充（天气、场地、停车、地图、日程、联系人），可通过短信/邮件分发并跟踪发送、查看、确认、无法投递状态；套件导航列出 Script Breakdowns、Shooting Schedules、Script Sides 等。商业基本真实性和影视制作管理类型匹配成立。",
+      "gaps": "正文证据偏通告单环节，剧本分解/拍摄日程主要来自导航；按商业条目基本标准可通过，但完整场景→日程→通告单链路的正文证据不足，已在 non_blocking_notes 记录。"
+    }
+  },
+  "limits": "只读审查：按 REVIEW_SOURCES.json 的 path 读取了全部 14 个快照，未运行 shell、未写文件、未读取其他单元、未部署或运行应用；未独立重算 SHA256。Vista 快照为压缩单行 HTML，读取工具会截断长行，核心结论依据快照中可检索的正文关键词与同页段落。商业条目只做公开页面的基本真实性和类型匹配，未验证价格、架构或实际运行行为。input.json 的 progress 元数据与 research/batch 不同步，本次以 batch.json、research.json 和实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-248/ses_groveopencodegop248review1_1793037241.jsonl",
+  "batch_sha256": "b29ce13b935f5b2df9ea38332e40e3088fc59b2184c905e2795cb9f5f413fe24",
+  "research_sha256": "b4e242f2005b6bc5cacf908cdd8b7702c9248168888954a50fd889722d45312e",
+  "input_sha256": "18da4f931116a35fbee168fcb7613ef7e41a304c2775c82bd863fb8f26438b66"
+}

@@ -1,0 +1,39 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "saas-management",
+      "application_id": "commercial:zylo",
+      "issue": "保存的 zylo.com 快照实际只有 head、导航、页脚和 consent 脚本，没有产品正文；batch 摘要与 research 中所述“统一 SaaS 资产记录、回收未使用许可证、续订优化、重复应用治理、审计留痕”在该快照中找不到对应文本，research 却记录为“saved snapshot and read; SaaS system of record and optimization loop evidence”。因此该商业条目只有 title/meta 的“SaaS spend management platform”和导航中的“SaaS Management”可支持基本类型判断，具体能力与基本真实性无法按快照核对。",
+      "fix": "重新抓取可服务端渲染的产品正文页（如 /product 或 /product/saas-management）并保存完整正文；或将摘要收缩到 title/meta 可支持的范围，并在 research/fetch_outcomes 中如实记录正文缺失。若仍只能取得导航壳，应按来源不足留档，不主张资产记录、许可证回收和续订闭环已被核对。"
+    },
+    {
+      "slug": "customer-identity-ciam",
+      "application_id": "github:378310716",
+      "issue": "docs.logto.io/introduction 快照是功能索引/导航页，仅出现 Sign-up and sign-in、User management、Organizations、Logto Console 等链接标签，没有 batch 所称的“账户设置”，也没有 profile 编辑、凭证找回、账户删除等自助身份生命周期正文。README 能证明其面向 SaaS/AI 应用的认证基础设施、预置登录流程、OIDC/OAuth/SAML、多租户、RBAC 与 SDK，但不足以完整核验 CIAM 定义中的自助生命周期。另，README/docs 未明确区分 Logto OSS 与 Cloud/Pro/Enterprise 的功能边界，摘要却把多租户、SAML、RBAC 等一并归为开源产品能力，社区版边界尚未核清。",
+      "fix": "补充官方 end-user flows（注册确认、账户设置、密码找回、删除账户）以及 Logto OSS 功能/版本边界的正文快照；据此修正摘要，明确哪些能力属于 OSS、哪些属于 Cloud/Enterprise。若无法补证，应将自助生命周期和社区版边界标注为待核，不主张已完整匹配 CIAM 核心。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Coolify 的 README 将 servers、containers、terminals 作为一等操作对象，按 PaaS 叶规则存在向 Container Management 漂移的风险；该条目已明确仅以应用粒度部署/回滚能力匹配，并在 service_boundary 中披露服务器与容器终端的重叠，初审接受这一边界说明，但后续不宜据此宣称运行时完全由平台自有并运营。",
+    "Logto 的 LICENSE 为完整 MPL-2.0 文本，但末尾 Exhibit B 声明“Incompatible With Secondary Licenses”；license 字段写 MPL-2.0 可接受，严谨 SPDX 可标为 MPL-2.0-no-copyleft-exception，建议在 license_review 中注明该限制。",
+    "OpenXPKI 官网顶部有 2026 年安全公告（3.32.2 及更高版本在 Apache 后运行需配置变更）；不影响类型与许可核对，但属于运营状态信息，建议留档。",
+    "OpenXPKI 官网已明示 Community Edition 与 Enterprise Edition 的边界：社区版功能完整、Apache 许可、Debian 包；企业版提供 RHEL/SLES/Ubuntu 包、多租户、外部 CA 适配器、ITSM、GDPR 保留等扩展。batch 未把企业版扩展误当作社区版核心，边界处理正确。",
+    "Zylo 的 www.zylo.com 跳转失败并改抓 zylo.com 已在 research 中如实记录；本次问题不是重定向，而是保存到的正文未渲染。",
+    "input.json 仍标记 phase=included_without_cases，五个 leaf 的 progress 均为 not_searched、application_ids 与 research_records 为空，与 batch/research 的 case_found 状态不一致；建议同步输入元数据，避免后续流程把本单元误判为无案例。",
+    "Varonis 的引用页是产品页而非独立技术文档；对商业条目只要求基本真实性和类型匹配，现有正文已足够支持 Data Access Governance 类型，不构成阻断。"
+  ],
+  "leaf_checks": {
+    "paas-management-console": "已核对 Coolify（github:332880689）：仓库元数据快照确认 repository id 与 full_name 为 coollabsio/coolify；LICENSE 为完整 Apache-2.0；README 正文覆盖从 Git/Dockerfile/Compose 构建部署、保留应用镜像回滚、环境变量与密钥、域名/自动 HTTPS、部署与运行日志、团队访问控制，以及 dashboard/API/CLI/MCP 并存。应用作为记录单元、构建发布循环和应用级操作面有据；平台自有运行时这一项因自托管且服务器/容器终端为一等对象而偏弱，已按边界注记处理，不阻断本次匹配。未运行部署，runtime_tested=false。",
+    "pki-management": "已核对 OpenXPKI（github:2316088）：仓库元数据快照确认 repository id 与 full_name 为 openxpki/openxpki；LICENSE 为完整 Apache-2.0；官网正文核对到持久化多 CA/PKI Realm、CA 代际自动滚动、证书请求/续期/吊销工作流、SCEP/EST/SimpleCMC/ACME 注册、HSM/PKCS#11、CRL 与报告告警；Community Edition 与 Enterprise Edition 边界在官网明确区分。CA 生命周期、策略治理签发和信任状态服务三项核心均有正文依据，通过。",
+    "saas-management": "已核对 Zylo（commercial:zylo）：商业身份、域名和 title/meta 的“enterprise SaaS spend management platform”以及导航中的“SaaS Management”可支持基本类型对应；但保存的快照只有 head、导航、页脚和 consent 脚本，没有产品正文，无法核对 SaaS 资产记录、席位/使用证据、续订与许可证回收闭环。research 对正文已读的描述超出快照实际内容，需补证后再通过。",
+    "customer-identity-ciam": "已核对 Logto（github:378310716）：仓库元数据快照确认 repository id 与 full_name 为 logto-io/logto；LICENSE 为完整 MPL-2.0（含 Exhibit B）；README 正文覆盖面向 SaaS/AI 的 open-source auth infrastructure、预置登录流程、OIDC/OAuth 2.1/SAML、多租户、RBAC 和 30+ SDK；docs introduction 只能确认 Sign-up and sign-in、User management、Organizations、Logto Console 等入口，缺少账户设置、凭证找回、账户删除等自助生命周期正文，且 OSS 与 Cloud/Enterprise 功能边界未区分。核心部分成立但证据不完整，待补。",
+    "data-access-governance": "已核对 Varonis Data Access Governance（commercial:varonis-data-access-governance）：官方产品页正文覆盖 effective permissions analysis（解析嵌套组、权限与继承，跨文件、站点、邮箱、S3、数据库归一化）、双向访问视图、持续权限监控、entitlement reviews、自助访问请求、权限清理/自动修复和审计留痕。有效访问映射与治理决策闭环均有正文依据，商业类型匹配，通过。"
+  },
+  "limits": "本次为只读初审，仅使用本单元 input.json、data/collections/batch.json、data/collections/research.json 与 REVIEW_SOURCES.json 所列本地快照；未运行任何部署、签发、登录或权限变更，未访问实时网站补充正文，未做价格、架构或运行时验证。Zylo 快照为前端壳，Logto docs 为索引页；Coolify/OpenXPKI/Logto 的 GitHub API 403 仅见 research 记录，未重新请求。审查范围限于本单元 5 个 slug 及其引用快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-142/ses_groveopencodegop142review1_1793011482.jsonl",
+  "batch_sha256": "6337bff1a4dc7b5dd2a5f2c2e4781b50cbd96e4117ca4f0e5ff5a1b53e31070c",
+  "research_sha256": "0eeffa24fa7e7c48d9b7bcabd3e76e8b20e8c61320eb5c9b7c4771db36394a9b",
+  "input_sha256": "d2acf38210eb287edb20e3b856ce3871dd3ffe0bf865fa93006439090372d995"
+}

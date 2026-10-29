@@ -1,0 +1,52 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "Dolibarr README 明示 GPL-3+（GPL-3.0-or-later），batch.license 写为 GPL-3.0；若目录区分 only/or-later，建议改为 GPL-3.0-or-later 或在备注中说明。",
+    "input.json 的 progress 仍为 not_searched 且 application_ids 为空，而 batch.json/research.json 已记录 case_found；下游若读取 input 进度需同步，不影响本次内容判断。",
+    "Concord 的 leaf_match 理由写“自助 intake”，快照可核实 intake、deadline、redlining、version control、e-signature，但未检索到 self-serve 的明确措辞；不影响合同管理核心匹配。",
+    "Concord 首页同时出现“A new Concord is coming”候补提示；research 已如实记录，未据此推断停服或版本状态。",
+    "BoardEffect 快照为压缩的客户端渲染 HTML，board books、agendas、minutes、committees、approvals、follow-ups 等关键词可检索，但“committee workspaces”不是原文整句；不影响董事会平台核心匹配。",
+    "Snipe-IT features 快照内嵌的 schema.org 价格（39.99 USD，priceValidUntil 2021）已过期，batch 未使用价格，故不作为内容依据。",
+    "sources 目录存在未被 REVIEW_SOURCES.json 或 batch.json 引用的 Snipe-IT 首页快照 e518...，不影响引用链，但可清理。",
+    "REVIEW_SOURCES.json 将 Snipe-IT features 页标为 homepage、将 Kissflow workflow 产品页标为 documentation；kind 标签偏宽泛，不影响正文核对。"
+  ],
+  "leaf_checks": {
+    "workflow-management-platform": {
+      "application_id": "commercial:kissflow-workflow",
+      "status": "pass",
+      "evidence": "读取 kissflow.com/workflow 快照正文：明确 workflow management and automation platform，build/automate/govern any process，design/execute/automate repetitive processes，dynamic task routing、approvals、integrations；首页快照另有 Forms 等模块。商业 SaaS 形态、ID/track 与工作流定义—任务路由—规则触发核心匹配。",
+      "gaps": "未运行产品；未核实价格、租户模式或部署架构。"
+    },
+    "board-corporate-governance-platform": {
+      "application_id": "commercial:boardeffect-governance",
+      "status": "pass",
+      "evidence": "读取 boardeffect.com 快照：board management software、board books、AI agendas/agenda、minutes、committees、approvals、follow-ups 等原文关键词均可检索，指向董事会/委员会的会议、材料包与治理记录核心。商业 SaaS 形态与 ID/track 一致。",
+      "gaps": "快照为压缩的 Next.js 客户端渲染 HTML，未能逐段展开上下文；未运行；未核实价格、部署或租户模式。"
+    },
+    "business-contract-administration": {
+      "application_id": "commercial:concord-contract",
+      "status": "pass",
+      "evidence": "读取 concord.app 快照：合同管理/CLM 定位，正文含 intake to renewal、deadline、redlining、version control、e-signature，匹配合同受管记录、生命周期与时间型管理核心。商业 SaaS 形态与 ID/track 一致。",
+      "gaps": "页面有新版候补提示；未运行；未核实价格、部署或租户模式；“自助”措辞未在快照中明确。"
+    },
+    "business-management-suite": {
+      "application_id": "github:1957456",
+      "status": "pass",
+      "evidence": "读取 Dolibarr GitHub 元数据（id=1957456，track=open_source）、完整 GPLv3 COPYING 与 README 正文：单一开源 ERP/CRM 软件包，模块覆盖 contacts/suppliers、quotes/orders/invoices/payments、stock/warehouse、projects & tasks、accounting/bank，匹配一产品多应用、共享核心与全业务跨度。",
+      "gaps": "未运行；DoliStore 第三方/商业扩展的边界未逐一核对；license 字段为 GPL-3.0，README 明示 GPL-3+。"
+    },
+    "enterprise-asset-registry": {
+      "application_id": "github:14346979",
+      "status": "pass",
+      "evidence": "读取 Snipe-IT GitHub 元数据（id=14346979，track=open_source）、完整 AGPLv3 LICENSE、README 与 features 正文：按件登记 IT 资产、分配人员与物理位置、one-click checkin、complete history、asset auditing、QR/barcode labels、licenses，README 还提到 Asset Tag 与采购/折旧，匹配逐项记录、组织标识/标签、保管状态与历史核心。",
+      "gaps": "未运行；features 快照未直接出现“asset tag”整句，但 README 的导入说明提到 Asset Tag，且有 QR/条码标签；CMMS/财务深度未评估。"
+    }
+  },
+  "limits": "本次仅做只读初审：读取了 REVIEW_SOURCES.json 列出的 11 个快照以及 batch.json、research.json，未运行任何应用、未登录、未做部署/价格/租户测试，也未重算 sha256。BoardEffect 与 Concord 快照为压缩/客户端渲染 HTML，部分正文只能以原文关键词核对，未能逐段展开；未提供法律意见或完整许可证解释。商业条目只核对基本真实性与核心类型匹配。input.json 的 progress 与 batch/research 不一致，已作为非阻断记录。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-125/ses_groveopencodegop125review1_1793007183.jsonl",
+  "batch_sha256": "3ca1ea9f7ba0e3f1e235fc9c073e1bf4449a05b1dce9c39e33619e862c71cada",
+  "research_sha256": "9792350f5d09ac9428b3356f394a5562d225654a44859ba83db45e646aaac98f",
+  "input_sha256": "5e2139f36a445ecbb0665cd245d6c4dd7f59a5952f5afeb6bf694ad6cd1023a9"
+}

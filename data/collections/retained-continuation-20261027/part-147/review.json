@@ -1,0 +1,51 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "ai-security-platform",
+      "application_id": "commercial:hiddenlayer",
+      "issue": "HiddenLayer 条目把官方平台页的页脚/导航模块名及 HTML meta/schema 描述当作正文能力证据，声称已核对 AI Discovery（含 shadow AI）、AI Supply Chain Security、AI Attack Simulation、AI Runtime Security 及完整响应闭环；但实际可读正文主要只支持“Discover every model”、Model Scanning（模型恶意软件/漏洞/后门/未知组件）和泛化的 AI 攻击防护，未提供 AI 资产清单、AI 专项评估发现、分诊修复/响应闭环的具体工作流，也未出现 shadow AI 表述。该单页不足以完整支撑该叶的定义性核心。",
+      "fix": "补充 HiddenLayer 对应模块的官方正文或文档快照，至少覆盖 AI 资产发现、AI 专项评估/攻击模拟、运行时检测、发现与响应闭环；若无法补齐，应删除 summary、research 与 leaf_matches 中未被正文支持的 shadow AI 等能力表述，并将该案例降级或记录为证据不足。不要把页脚链接、HTML meta/schema 或产品名当作核心工作流证据。"
+    }
+  ],
+  "non_blocking_notes": [
+    "input.json 的 progress 仍为 not_searched，application_ids 与 research_records 为空，而 data/collections 的 batch.json、research.json 已为 case_found；若该文件还会被流水线使用，建议同步状态，避免后续误判。",
+    "ZAP 仅覆盖 DAST，未主张 IAST；按该叶将 DAST/IAST 视为同一应用类型家族的定义，当前证据可接受。若要求同时验证 IAST，需要另补 IAST 案例。",
+    "Cymulate 旧 security-validation 快照存在 canonical 指向首页的问题，research.json 已如实留档并弃用，当前引用的是 canonical 正确的 exposure-validation 页面，不阻断。",
+    "Salt Security 页面以 Agentic Security 为主要叙事，但正文仍展示 API/MCP 资产、风险评分、态势缺口、敏感数据与运行时阻断，API 安全平台核心成立。",
+    "DefectDojo 的 Pro 版功能未计入开源核心；README 明确区分 Community Edition 与 Pro，社区版边界清楚。"
+  ],
+  "leaf_checks": {
+    "ai-security-platform": {
+      "status": "changes_required",
+      "basis": "已读 data/collections/sources/90385f199fcb62a05fbe8bac97ca4a0a54ec608fd571afa37839bf899dfa2f2c.txt（https://www.hiddenlayer.com/platform）。正文可确认其为 AI security platform，并出现“Discover every model”、Model Scanning（模型恶意软件、漏洞、后门、未知组件）及泛化的 AI 威胁防护；身份与 commercial track 无冲突。",
+      "gap": "正文未给出 AI Discovery 的资产清单、shadow AI、AI Attack Simulation、Runtime 检测响应或 findings/response 闭环；这些能力主要来自页脚链接、导航或 schema/meta，不能作为定义性核心正文证据。"
+    },
+    "api-security-platform": {
+      "status": "passed",
+      "basis": "已读 data/collections/sources/ed1e60164466976b12672e239b3522907079b7d4e2cfadd7ba47f88f2493effb.txt（https://salt.security/platform）。正文及页面内的 Salt Console 演示明确展示统一 graph、agent/MCP/API 资产发现与清单、风险评分、posture gaps、敏感数据泄漏检测、行为型攻击检测和实时阻断；资产清单—安全发现—执行/响应路径成立，commercial 身份一致。",
+      "gap": "未验证价格、实际部署架构或运行时行为；不影响基本类型与真实性判断。"
+    },
+    "application-security-platform": {
+      "status": "passed",
+      "basis": "已读 DefectDojo 的仓库元数据、完整 license API 响应、README 及 Assets/Findings/Engagements 文档快照。仓库 ID 31028375、full_name DefectDojo/django-DefectDojo 与 open_source track 一致；BSD-3-Clause 文件正文包含三条款完整许可；README 正文自述 ASPM、漏洞管理及端到端安全测试编排、漏洞跟踪、去重、修复与报告；文档展示 Asset→Engagement→Test→Finding 结构、Finding 元数据、状态/关闭/重导入流程；README 明确 Community Edition Docker Compose 自托管与 Pro 边界。",
+      "gap": "未执行部署或运行验证；部分资产/Engagement 正文受 HTML 长行读取限制，结论主要依据 README 与 Findngs 正文及文档结构。"
+    },
+    "breach-attack-simulation": {
+      "status": "passed",
+      "basis": "已读 data/collections/sources/e76e98bbfe401c2b8c239e64f0fe2809df2d12a47fb35b7efc360f116ae38bb7.txt（https://cymulate.com/exposure-validation/）。canonical 与标题指向该产品页；正文明确“most comprehensive threat library”“full MITRE ATT&CK coverage”、真实 MITRE ATT&CK 技术与 APT 活动、按日更新的攻击模拟；并明确验证 EDR、SIEM、web/email、WAF、DLP 等控制的预防与检测，识别差距后生成和部署缓解/检测更新，符合 BAS 的模拟—控制响应—处置闭环。",
+      "gap": "页面同时包含 CTEM/Agentic 外层能力，但 BAS 核心仍有独立正文支撑；未验证价格、部署方式或实际运行。"
+    },
+    "dast-iast": {
+      "status": "passed",
+      "basis": "已读 ZAP 的仓库元数据、完整 license API 响应、README、官网 Docs 与 Getting Started 快照。GitHub ID 36817565、zaproxy/zaproxy、open_source track 一致；Apache-2.0 许可证文件完整返回；README 正文说明其自动发现 Web 应用漏洞并支持手工渗透测试；Getting Started 正文展示拦截代理、爬虫/Client Spider、被动与主动扫描、告警详情、报告、Safe Mode，以及桌面、daemon、Docker 和自动化运行方式，运行中目标—测试—运行时发现证据成立。",
+      "gap": "仅主张 DAST，未主张 IAST；未执行实际扫描或部署验证。"
+    }
+  },
+  "limits": "本次为只读初审；未运行任何产品、未重新计算快照哈希、未部署或做运行时验证。HTML 快照的长单行在读取视图中存在截断，结论依据可见正文、关键词命中和文档结构；许可证依据 GitHub license API 的完整响应对象及正文开头核对，未逐字解码全部 base64。未额外抓取、渲染页面或核验价格/架构。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-147/ses_groveopencodegop147review2_1793013096.jsonl",
+  "batch_sha256": "b063b58af34ef5501abf0fd9a36895ed87fc3d883b10140f5d86f752a003ec43",
+  "research_sha256": "37782d2ab178a3ef10f53aef062fafd34edd6a8bd04a0d358f2209766611e52c",
+  "input_sha256": "e106ebd1f161d60fecd01e6adb0d75122641a677135aed8e9b28a3a41f3ddb73"
+}

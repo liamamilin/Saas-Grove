@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "referral-marketing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:referralcandy"
+      ],
+      "query": [
+        "官方站点定位：referralcandy.com 首页产品演示与功能清单",
+        "读取首页，核对专属链接与优惠码、归因与奖励发放"
+      ],
+      "source_urls": [
+        "https://www.referralcandy.com/"
+      ],
+      "note": "ReferralCandy 首页展示专属推荐链接与优惠码、好友首单折扣与推荐人店铺积分的双向奖励、欺诈检查与奖励发放，并给出推荐计划分析，归因与奖励链条完整。首页 FAQ 同时区分 customer referral 与 affiliate 佣金，本案只取前者，不混入 affiliate/loyalty。缺口：首页未细化推荐资格审核窗口与退款取消后的奖励回收规则。",
+      "service_boundary": "品牌自有的客户推荐计划；参与者是既有客户而非外部注册联盟伙伴，也不做双边撮合市场；不含 affiliate 佣金计划与 loyalty 产品线。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：referralcandy.com 首页产品演示与功能清单",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取首页，核对专属链接与优惠码、归因与奖励发放",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.referralcandy.com/",
+          "kind": "homepage",
+          "outcome": "success",
+          "sha256": "9f086c36bd750706155b77682838fd901cac253a2645a25653af8a21f1139363"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "contact-discovery-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:apollo-prospect"
+      ],
+      "query": [
+        "官方站点定位：apollo.io 产品导航 Apollo Data",
+        "读取 Apollo 数据页，核对数据规模、条件检索、验证与交付方式"
+      ],
+      "source_urls": [
+        "https://www.apollo.io/product/search"
+      ],
+      "note": "Apollo 数据页说明以 2.4 亿联系人与 3000 万公司的外部供给做条件检索，实时验证邮箱与电话，并通过 CRM 同步与 REST API 交付记录；页面亦列出浏览器扩展，但其更偏 Prospect Anywhere 外展入口，作为交付通道的证据较弱。缺口：该页强调补全与编排，净新增与去重机制未展开，本关联只取寻源与交付部分。",
+      "service_boundary": "寻源与交付层：不做客户已有记录的补全，也不运行外展序列；记录交付后由客户自有系统承接。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：apollo.io 产品导航 Apollo Data",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取 Apollo 数据页，核对数据规模、条件检索、验证与交付方式",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.apollo.io/product/search",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "12d36a35695bf7c9bbcc088136ce37be79a3202daee0a364c4055d91270e469e"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "lead-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:24459441"
+      ],
+      "query": [
+        "官方站点定位：espocrm.com 文档 User Guide > Sales Management",
+        "读取销售管理文档与 Web-to-Lead 管理文档，核对线索进入、分配与转化",
+        "核对社区版边界：读取 EspoCRM Advanced Pack 官方扩展页，确认 Workflows/BPM 是否属付费扩展",
+        "复核 README 部署说明，删除未出现的官方托管服务断言"
+      ],
+      "source_urls": [
+        "https://raw.githubusercontent.com/espocrm/espocrm/master/README.md",
+        "https://api.github.com/repos/espocrm/espocrm/license",
+        "https://api.github.com/repos/espocrm/espocrm",
+        "https://raw.githubusercontent.com/espocrm/documentation/master/docs/user-guide/sales-management.md",
+        "https://raw.githubusercontent.com/espocrm/documentation/master/docs/administration/web-to-lead.md",
+        "https://www.espocrm.com/extensions/advanced-pack/"
+      ],
+      "note": "EspoCRM 官方文档把 Lead 作为潜客记录，支持表单/API 进入，可归属目标团队与目标列表，转化后保留 Converted 记录，商机支持阶段与多管道。按 Round-Robin/Least-Busy 自动分配依赖 Workflows/BPM，而官方 Advanced Pack 页把 Reports、BPM、Workflows 列为该 official add-on 的内容，需单独授权（付费扩展），故不属 AGPL 社区版自带能力；README 提供脚本/手动/Docker 自托管，未提官方托管服务。缺口：响应时间纪律、不合格/回收处置需自行配置，文档未内置。",
+      "service_boundary": "CRM 的 Lead 模块而非独立 LMP：线索阶段的记录系统，转化为客户、联系人与商机后交由 CRM 主体流程。自动分配依赖付费 Advanced Pack；AGPL 社区版仅含人工/API/表单捕获、目标列表/团队归属与转化，培育自动化需另行配置。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：espocrm.com 文档 User Guide > Sales Management",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取销售管理文档与 Web-to-Lead 管理文档，核对线索进入、分配与转化",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "verification",
+          "query": "核对 Workflows/BPM 是否属 AGPL 社区版：抓取 EspoCRM Advanced Pack 官方扩展页",
+          "result": "成功；官方页称 Advanced Pack 为 official add-on，包含 Reports、Business Process Management、Workflows，并链接独立 Extension License"
+        },
+        {
+          "stage": "verification",
+          "query": "复核官方部署表述：读取 README 的安装与部署段落",
+          "result": "README 仅列脚本、手动与 Docker 部署，未出现官方托管服务；已删除该无来源断言"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://raw.githubusercontent.com/espocrm/espocrm/master/README.md",
+          "kind": "readme",
+          "outcome": "success",
+          "sha256": "7e3594c47d68d8410dd68441df06cd897877b0da21ac479a237ea1a61f9ac6ed"
+        },
+        {
+          "url": "https://api.github.com/repos/espocrm/espocrm/license",
+          "kind": "license",
+          "outcome": "success",
+          "sha256": "da1460df5d1ffeea7af3779a5d4f22797cae1b3c4d7660cb99dafacbdca2ceaa"
+        },
+        {
+          "url": "https://api.github.com/repos/espocrm/espocrm",
+          "kind": "repository_metadata",
+          "outcome": "success",
+          "sha256": "563bd89b1d945a55ac78c7d3f4387d952b4127e6a264bf59964da2acbfbd856c"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/espocrm/documentation/master/docs/user-guide/sales-management.md",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "318d14efa9bc6e42fba5d633590b20a9f1dfaa216623366b8786c27c16c32229"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/espocrm/documentation/master/docs/administration/web-to-lead.md",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "f711adea06a535a26ec160b3bbb969d9a493e8b463fb4f89f3f47955199c9c3f"
+        },
+        {
+          "url": "https://www.espocrm.com/advanced-pack/",
+          "kind": "documentation",
+          "outcome": "failed",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://docs.espocrm.com/administration/advanced-pack/",
+          "kind": "documentation",
+          "outcome": "failed",
+          "error": "HTTP 404"
+        },
+        {
+          "url": "https://www.espocrm.com/extensions/advanced-pack/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "229e025cc219418cb386a8f730c6b294b403416aab4885a6900059a8cab2b7fb"
+        },
+        {
+          "url": "https://www.espocrm.com/extensions/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "efa51312441d6a688369338b4a3fc0aca71b41411ca0397b009b87236951bd8f"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "outreach-sequencing-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:reply-io"
+      ],
+      "query": [
+        "官方站点定位：reply.io 帮助中心 How Reply Works > Behavior",
+        "读取序列执行与序列停止两篇行为说明，另读功能页核对多渠道能力"
+      ],
+      "source_urls": [
+        "https://how.reply.io/behavior/sequence-execution/",
+        "https://how.reply.io/behavior/sequence-stopping/",
+        "https://reply.io/features/"
+      ],
+      "note": "Reply 行为文档明确序列按步骤推进、步骤间延迟、每日新增与发件上限节流，并在回复、退信、退订时停止或排除该联系人；停止页给出六种序列状态与暂停条件。功能页补充多渠道外呼能力（快照 e8cb31…，fetch outcome 已补记）。缺口：条件分支的配置细节未在本批快照中完整覆盖。",
+      "service_boundary": "销售执行层：只运行外联程序；客户关系主数据仍在 CRM，退订等合规状态需与外部系统保持一致。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：reply.io 帮助中心 How Reply Works > Behavior",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取序列执行与序列停止两篇行为说明，另读功能页核对多渠道能力",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "verification",
+          "query": "补记 reply.io/features 的抓取结果，避免 batch 来源无 research 记录",
+          "result": "快照已存在，sha256 e8cb31… 与 REVIEW_SOURCES 一致"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://how.reply.io/behavior/sequence-execution/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "d3f34da72fde42d6c1fcfcf1ad97caa111990868e0b30afc26703cae850679a2"
+        },
+        {
+          "url": "https://how.reply.io/behavior/sequence-stopping/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "ed0a2773dfa48354460676995aafff1135c0ff7278c159f4d539f38b08e02221"
+        },
+        {
+          "url": "https://reply.io/features/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "e8cb315edbd37389b922f601c65b12f976a0d615b31ce796c82cc3719797b85b"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "sales-dialer",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:phoneburner"
+      ],
+      "query": [
+        "官方站点定位：phoneburner.com 产品 Power Dialer",
+        "读取功率拨号器页与平台页，核对逐通外呼、处置回写与通话记录；支持中心报告页因主机校验未采用"
+      ],
+      "source_urls": [
+        "https://www.phoneburner.com/power-dialer/",
+        "https://www.phoneburner.com/platform/"
+      ],
+      "note": "PhoneBurner 产品页说明逐通外呼、保持真人接听、处置按钮回写联系人记录并触发后续动作；平台页补充自定义处置、通话记录与录音，另有团队管理、实时辅导与自动线索分配，这些属承载产品层，不计入单代表拨号器核心。缺口：呼叫合规（勿扰名单、录音同意）与单次通话明细报表的具体实现未在本批保留快照中说明。",
+      "service_boundary": "单个销售代表的出站呼叫工作台；不做团队级呼叫排队与预测式外呼分配，那属于呼叫中心软件。",
+      "search_attempts": [
+        {
+          "stage": "discovery",
+          "query": "官方站点定位：phoneburner.com 产品 Power Dialer",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        },
+        {
+          "stage": "discovery",
+          "query": "读取功率拨号器页与平台页，核对逐通外呼、处置回写与通话记录；支持中心报告页因主机校验未采用",
+          "result": "候选官方页面已抓取，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.phoneburner.com/power-dialer/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "bf28f950f888b8bf9a8fb345a15bed531484e3b38590925e4c9c07abbc93234b"
+        },
+        {
+          "url": "https://www.phoneburner.com/platform/",
+          "kind": "documentation",
+          "outcome": "success",
+          "sha256": "b12faf7c12e57d096460fd097559254e848c8f74baac3dc96b1d2717d2e329fd"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

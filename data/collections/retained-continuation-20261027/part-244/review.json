@@ -1,0 +1,83 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "provenance-research-platform：Authentify Art 的公开定位同时覆盖 RFID 位置追踪、环境监控与艺术品档案，provenance 是数字档案中的模块之一；建议最终文案避免把它写成纯溯源研究工具。",
+    "provenance-research-platform：快照展示了 chain of custody、provenance/title/scholarly research 与交易审计文件，但未展示未知持有人、断链时段或不确定性标记的结构化实现；research.json 已如实说明未主张该规则，保留该留档即可。",
+    "broadcast-management-system：batch 摘要把 proposal→order→scheduling→reconciliation→billing→collections 整链归到 WO Traffic，但该整链表述来自 WO Omni 页面；WO Traffic 页面本身支撑 traffic/billing、订单录入校验与 Digital Log。建议区分产品名，避免把 WO Omni 的能力写成 WO Traffic。",
+    "broadcast-management-system：as-run 主要由 WO Airtimes 的 airtime reports 间接支撑，快照未见逐条实播日志或 makegood 细节；不影响广播管理系统的基本类型匹配。",
+    "coaching-commerce-platform：sales-payments 正文以功能标签（Client Onboarding & Checkout、Unlimited Sales Pages、Secured Client Portal、Assign Packages to Teams）为主，“self-service sign-up and checkout”的完整表述出现在页面结构化数据；建议补充一条正文级的下单—支付—生成履约流程证据。",
+    "coaching-commerce-platform：/webpage 快照实际规范页为 /coaching-landing-page；正文以落地页构建器与 FAQ 呈现“无需编码”，可分享 URL 主要见结构化数据。",
+    "content-distribution-platform：快照未出现 vMVPD/SVOD 字样；batch 摘要中的目的地举例应收敛为来源支持的 FAST/CTV/流媒体平台，或补充相应来源，避免把叶定义的示例当成 Amagi 已证实的目的地类型。",
+    "content-distribution-platform：Amagi CONNECT 同时具有内容获取市场属性，Amagi NOW 也包含 playout；二者均属叶定义列明的非核心能力，匹配时仍应以内容库存→分发产品→目的地→交付/履约跟踪为主干。",
+    "link-in-bio-platform：AGPL-3.0 由 LICENSE 文件全文（34523 字节，base64 内容开头为 GNU AGPL v3）与 README 许可段共同确认；/license 响应是文件对象，可见片段未直接展示 SPDX 字段，research.json 的“SPDX=AGPL-3.0”宜表述为“LICENSE/README 确认 AGPL-3.0”。",
+    "link-in-bio-platform：稳定用户名地址、自定义域名、链接排序与即时发布的直接说明不足，research.json 已如实留档；batch 中“稳定地址”属合理推断，不宜进一步强化。",
+    "input.json 的 progress 仍为采集前状态（not_searched，application_ids/research_records 为空），与 batch.json/research.json 中 5 个案例不一致；建议在写回阶段同步这些字段，不影响本次内容结论。"
+  ],
+  "leaf_checks": {
+    "provenance-research-platform": {
+      "status": "passed",
+      "core_check": "对象锚定的艺术品档案成立：以单件作品为单位建立 digital dossier，正文列出 Provenance、Title、Scholarly Research，并写明 chain of custody 与包含财务、物流、法律、尽调文件的 transactional audit trail，满足对象—事件链—证据锚定的基本类型。",
+      "service_form": "商业平台形态（软件档案/情报平台，并含 RFID 标签与环境监控服务），提供商侧应用，不是交易市场、鉴定机构或纯 SDK。",
+      "evidence": [
+        "batch.json 条目 commercial:authentify-art 及其 leaf_matches。",
+        "首页快照 data/collections/sources/359565999b7e56af358d6d955eb424fae44933278d5c3a769e18db67732e8cba.txt：Digital Dossier、Chain of Custody、Provenance/Title/Scholarly Research、transactional audit trail、环境监控与告警的正文描述。",
+        "art-research 快照 data/collections/sources/e874e570f1fb34f60d99ae9e0acb40df86251750a366785af7ef96857a4d7241.txt：艺术品研究与报告流程，页面另有 Collection Research（coming soon）。"
+      ],
+      "gaps": "公开快照未展示未知持有人、断链时段或不确定性标记的结构化字段；provenance 与位置追踪、环境监控并列，不是唯一产品定位；未做运行时验证。"
+    },
+    "broadcast-management-system": {
+      "status": "passed",
+      "core_check": "线性广播广告业务管理层成立：WO Traffic 作为单一记录系统管理广告销售与库存，订单录入时校验业务规则，配合 Digital Log、排期→对账→计费→收款，WO Airtimes 生成实播报告，覆盖播出日志与结算主干。",
+      "service_form": "面向电视台、广播网与电台的商业企业软件/SaaS，属运营方业务管理层，不是播出设备、素材库或新闻编辑室工具。",
+      "evidence": [
+        "batch.json 条目 commercial:wideorbit 及其 leaf_matches。",
+        "产品页快照 data/collections/sources/5c470104475f12267f8af50cad4d5e1d0c731749ab3aef08c5eb0a5f82a0c130.txt：Broadcast Traffic & Billing、WO Traffic 单一记录系统、Traffic - Order Validation、Digital Orders/Digital Log、WO Omni 的 proposal 至 collections、WO Airtimes 实播报告。",
+        "首页快照 data/collections/sources/154ebf6a4fe6dff460ac28a537503f889f7a165171d53657229d22e45213ddfd.txt：线性媒体变现与 pitch-to-playout-to-payment 描述。"
+      ],
+      "gaps": "as-run 逐条日志、字段级审计与 makegood 细节未在快照展开；proposal→collections 整链部分来自 WO Omni；开源负向核对（OpenBroadcaster）仅有文字留档，未提供对应快照。"
+    },
+    "coaching-commerce-platform": {
+      "status": "passed",
+      "core_check": "教练商务闭环基本成立：教练创建并销售套餐/订阅，公开销售页或落地页配合 Client Onboarding & Checkout，购买后进入客户门户、预约与会话完成度跟踪，覆盖报价—自助购买—履约跟踪。",
+      "service_form": "面向独立教练与教练机构的业务 SaaS，不是通用课程市场、支付链接工具或个人主页工具。",
+      "evidence": [
+        "batch.json 条目 commercial:delenta 及其 leaf_matches。",
+        "首页快照 data/collections/sources/330bfb5dd6dac8227a844c68107e36915e4b04c7a8219e9fb8858ce991c5c2f5.txt：coaching management platform、Sales & Payments、CRM、scheduling、client portals、group programs。",
+        "sales-payments 快照 data/collections/sources/9a3e890ae44a48babef59fdcfea8d9d352f5111c998de77cf4088e3a9c4e9dd8.txt：Unlimited Sales Pages、Client Onboarding & Checkout、Secured Client Portal、Assign Packages to Teams、Automated Invoicing & Payment Tracking、Flexible Payments、group coaching。",
+        "落地页快照 data/collections/sources/a7339b84c61ea409d7907307a8b7516109e755976757823119af117d9444ed70.txt：教练落地页构建器、套餐发布、预约与免编码 FAQ。"
+      ],
+      "gaps": "自助结账的完整流程主要以功能标签和页面结构化数据呈现，正文未逐步描述下单—支付—履约生成；Paperbell 官网 403 已如实记录；未核价、未运行。"
+    },
+    "content-distribution-platform": {
+      "status": "passed",
+      "core_check": "提供商侧内容分发主干成立：Amagi NOW 管理 live/linear/VOD 内容，覆盖 ingest、scheduling、playout、ad delivery、analytics，并接入 170+ 分发平台；Amagi CONNECT 将内容/频道分发到外部平台，实时跟踪 distribution/acquisition 与 delivery/fulfillment 状态，并涉及 rights、localization、billing/reconciliation。",
+      "service_form": "面向内容所有者、广播公司与频道运营商的 B2B 媒体运营/分发平台，不是消费者流媒体服务、CDN 管理或广告服务器。",
+      "evidence": [
+        "batch.json 条目 commercial:amagi 及其 leaf_matches。",
+        "Amagi NOW 快照 data/collections/sources/f8ef03f3f7abe5a4147dfca742151646c15d086552c64a12e91ba002500cace0.txt：glass-to-glass、live/linear/VOD、ingest 至 scheduling/playout/ad delivery/analytics、170+ platforms、FAST/VOD 扩展。",
+        "Amagi CONNECT 快照 data/collections/sources/1984e3a884d37997398fe40d42625a5ab0765ca6f82934685ff316e8cfb7d696.txt：self-service FAST marketplace、内容所有者向平台分发、实时 delivery/fulfillment 跟踪、rights management、localization、Revenue reporting and reconciliation。"
+      ],
+      "gaps": "未展示每个目的地交付记录的状态机（plan/validate/submit/approve/live）细节；vMVPD/SVOD 未在快照出现；CONNECT 兼具内容获取市场属性，NOW 含 playout，均需按非核心能力处理。"
+    },
+    "link-in-bio-platform": {
+      "status": "passed",
+      "core_check": "链接聚合页类型成立：每用户一个平台托管的 profile/链接页，聚合有序外向链接；管理面板、主题与无代码编辑；README 明确其替代社交资料单一链接的定位；可自托管，也可使用社区实例或官方付费托管实例。",
+      "service_form": "开源可自托管 Web 应用，同时提供社区/官方托管实例，属于自助式链接页服务；自托管模式不改变其产品类型。",
+      "evidence": [
+        "仓库元数据快照 data/collections/sources/bcb1773975f6ad14fb784fb1340c49cbf961db44cb5e1b4fb6ce7cb3a4bfc3f5.txt：id=459095253，full_name=LinkStackOrg/LinkStack，描述为个人 profile 页与单一链接替代。",
+        "README 快照 data/collections/sources/385d2b94a3084dcabe27ba652ac4c5949d7968b91e34d7368ccf732498a36d5f.txt：Open-Source Linktree Alternative、用户注册并创建自己的链接、Admin Panel、主题、自托管/免费实例、AGPL-3.0 许可段。",
+        "许可证快照 data/collections/sources/ea0be93071e4aabbacf1547dbe1aab9ea73a1b5a0da8cb18f21ea1612bcad153.txt：LICENSE 全文文件（34523 字节），base64 内容开头为 GNU AFFERO GENERAL PUBLIC LICENSE Version 3。",
+        "官网首页快照 data/collections/sources/99f7a5b513183613d357f1c8e5285f4bba30cdefaeeea2f314fdec3422cc0f3b.txt：profile page、one link on social media、用户注册并创建 profile、analytics、themes、import。",
+        "get-started 快照 data/collections/sources/71d676e0d3c332064760daeb991d396642a5c3b84b5a97559b79d95e6cc801ff.txt：免费社区实例、premium hosted instances、自托管与 Docker。"
+      ],
+      "gaps": "稳定用户名 URL、自定义域名、链接排序与即时发布的直接说明不足（research.json 已留档）；/license 可见片段未直接展示 SPDX 字段，AGPL-3.0 由 LICENSE 全文与 README 确认；单用户模式与 MariaDB 支持未逐项核实。"
+    }
+  },
+  "limits": "本次为只读初审：仅使用本单元 input.json、batch.json、research.json 及 REVIEW_SOURCES.json 指定的 14 个快照，并按要求以 data/collections 为基准读取，未猜测路径。未运行 shell、未重新计算 sha256、未访问实时站点、未部署或运行任何产品、未核价。快照多为 Wix/Webflow/HubSpot 原始 HTML，模板与长行较多，部分段落只能按可见正文片段判断；OpenBroadcaster、Paperbell 等负向检索仅依据 research.json 的记录，未获得对应快照。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-244/ses_groveopencodegop244review2_1793036594.jsonl",
+  "batch_sha256": "82fa7c4209e4f51b238a13f4218e4d85133462fb2051447c7c7172de901acaf4",
+  "research_sha256": "1418b6b8267af35d9f52ebcd9b82129580656b69121a1e80a218354a60ab886e",
+  "input_sha256": "e8a0e8107e8dfd6ac65343089ac0afa3d6f7365944bff6794253625c5cc42342"
+}

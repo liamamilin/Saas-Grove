@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "ticketing-system",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:245541"
+      ],
+      "query": "Request Tracker RT open source ticketing system",
+      "source_urls": [
+        "https://api.github.com/repos/bestpractical/rt",
+        "https://api.github.com/repos/bestpractical/rt/license",
+        "https://raw.githubusercontent.com/bestpractical/rt/stable/README.md",
+        "https://docs.bestpractical.com/rt/6.0.2/",
+        "https://docs.bestpractical.com/rt/6.0.2/working_with_rt.html",
+        "https://docs.bestpractical.com/rt/6.0.2/customizing/lifecycles.html"
+      ],
+      "note": "复用 notes/previous 中 p11 的 ticketing 候选（RT/osTicket/Zammad/Znuny），核对 RT 官方 GitHub 仓库、GPL-2.0 许可证、README 与 6.0.2 文档。README 自述为开源问题与工单跟踪系统；文档展示按队列建单、可配置工单生命周期与状态流转，以及 comment 内部备注不发送给请求者、reply 才对外。GPL-2.0（OSI 认可）、仓库 ID 245541 与正文均已核对，未运行程序；初审指出的许可证缩写误记已按 license API 快照（GNU GPL v2）更正。 本轮修复复核（2026-10-27）：review.json 对该叶无未解决 finding（初审 pass），保留既有仓库/许可证/README/文档核对结论及许可证表述修正，未改动关系与来源。",
+      "service_boundary": "RT 是自托管通用问题/工单跟踪应用，核心为队列、工单生命周期与处理留痕；虽可配置为帮助台，但不限于向请求者交付帮助，也未将任务管理或票务入场券纳入本关系。",
+      "search_attempts": [
+        {
+          "query": "读取 notes/previous/p11-probe.txt、p11-sources.json、p11-fetch-outcomes.json 的 ticketing 旧候选",
+          "result": "定位 bestpractical/rt、osTicket、Zammad、Znuny 等旧 URL；未运行旧脚本"
+        },
+        {
+          "query": "抓取 RT 官方仓库元数据、许可证、README 与 6.0.2 文档",
+          "result": "6 个来源成功，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/bestpractical/rt",
+          "status": "ok",
+          "sha256": "8ff6802a4c7683170559b4b1345fb209b267d0cd2a636ce639962af1b373a9a8"
+        },
+        {
+          "url": "https://api.github.com/repos/bestpractical/rt/license",
+          "status": "ok",
+          "sha256": "545bebc68d9476e95bc4409ea4aef14c8969cc496decf6b4352599e84e362828"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bestpractical/rt/stable/README.md",
+          "status": "ok",
+          "sha256": "23dd4009c0dd4bb6a0514b942c598ea8b79bc5103aa6cd6773f88085584f12a1"
+        },
+        {
+          "url": "https://docs.bestpractical.com/rt/6.0.2/",
+          "status": "ok",
+          "sha256": "5bf1c22685192de6adda1c9fb647e36e7882eecddd5e455b74d7851104063a6e"
+        },
+        {
+          "url": "https://docs.bestpractical.com/rt/6.0.2/working_with_rt.html",
+          "status": "ok",
+          "sha256": "5b2f19f6029bf2e241a3a8f9e0b6031d31175c777a85b6dc84d141d481f63549"
+        },
+        {
+          "url": "https://docs.bestpractical.com/rt/6.0.2/customizing/lifecycles.html",
+          "status": "ok",
+          "sha256": "2b245ea938cac57dc5dea1924ac47696e7cfe126fef67fdc81ea33283d6bafa2"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "workforce-management-for-contact-centers",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:assembled"
+      ],
+      "query": "contact center workforce management forecasting scheduling adherence",
+      "source_urls": [
+        "https://www.assembled.com/features/forecasting",
+        "https://www.assembled.com/features/scheduling",
+        "https://www.assembled.com/features/realtime-management"
+      ],
+      "note": "复用 notes/previous 中 p11 的 WFM 候选（Assembled、injixo、Peopleware）；旧探针曾命中 Assembled 首页与 forecasting/scheduling 页面，/products/scheduling 为 404。本单元抓取 Assembled 官方 forecasting、scheduling 与 realtime-management 三个功能页核对：预测页覆盖可配置预测模型、按团队配置人员；排班页覆盖自动排班、日内调整、自动休假审批、自愿休假/额外工作（extra work）调配，以及休息/加班/班次上限的排班合规检查；实时管理页覆盖坐席状态、遵守度指标、超时遵守警报与日内人员调整。初审指出的“排班发布/审批”在本轮复核的功能正文中无对应证据（页面仅有 Last Published 生成时间；“Managers publish voluntary time off”指自愿休假发布，不是排班表发布），已从 summary/leaf_matches 移除并在本 note 留档；scheduling 正文原文含“automated time off approvals based on staffing thresholds”与“automatic schedule checks for breaks, overtime, and shift limits”；遵守度原仅在排班页以客户案例指标出现，现由 realtime 功能页正文支撑。旧候选均为商业产品，本单元旧线索中未见完整开源 WFM 候选，不作“不存在”的推断。",
+      "service_boundary": "Assembled 是联络中心 WFM 软件，负责需求预测、人员配置、排班与日内遵守度/人员对齐，不处理客户交互本身；质量评估、记分卡与游戏化不在本关系内。",
+      "search_attempts": [
+        {
+          "query": "读取 notes/previous/p11-probe.out、p11-probe2.out 与 p11-sources.json 的 WFM 旧候选",
+          "result": "定位 Assembled、injixo、Peopleware；确认 Assembled /products/scheduling 旧探测为 404"
+        },
+        {
+          "query": "抓取 Assembled 官方 forecasting 与 scheduling 功能页",
+          "result": "2 个来源成功，见 fetch_outcomes"
+        },
+        {
+          "query": "针对初审指出的遵守度/日内追踪证据缺口，补抓 Assembled 官方 realtime-management 功能页",
+          "result": "1 个来源成功；正文含 adherence metrics、live agent states、超时遵守警报与日内人员调整，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.assembled.com/features/forecasting",
+          "status": "ok",
+          "sha256": "62fa6492fbc9917d3ee97086568b3ada65aae1b650d5cdcd0d82ddbc970c148f"
+        },
+        {
+          "url": "https://www.assembled.com/features/scheduling",
+          "status": "ok",
+          "sha256": "fba4d00a90e32419d61b4d09c7d917994fe0530bca34f14ee693369df5d87aaa"
+        },
+        {
+          "url": "https://www.assembled.com/features/realtime-management",
+          "status": "ok",
+          "sha256": "3b911739e19b1300e293e389cb7dd9928e29816e705ff4c3023fd25cce2beff6"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "complaint-escalation-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:ruleguard"
+      ],
+      "query": "complaint escalation management software complaint handling deadlines",
+      "source_urls": [
+        "https://www.ruleguard.com/solutions/complaint-management-software"
+      ],
+      "note": "复用 notes/previous 中 p11 的 Ruleguard 候选，抓取其官方投诉管理方案页（DISP Compliant）。正文覆盖投诉受理、分类、调查、解决，可配置流程阶段、自动通知、截止日期跟踪与升级规则，并提到八周响应窗口、FOS 转介时间线、记录留存、监管报送和根因/趋势分析。仅记录商业产品的基本用途与核心匹配，未深入价格、架构、部署。 本轮修复复核（2026-10-27）：review.json 对该叶无未解决 finding（初审 pass），保留既有 Ruleguard 官方页面核对结论，未改动关系与来源。",
+      "service_boundary": "Ruleguard 是组织侧正式投诉与合规处理平台，核心为投诉记录、受治理响应生命周期和升级路径；普通客服请求、客户之声洞察以及相邻 GRC 模块不纳入本关系。",
+      "search_attempts": [
+        {
+          "query": "读取 notes/previous/p11-probe.out 与 p11-sources.json 的 complaint 旧候选",
+          "result": "定位 Ruleguard 官方投诉管理方案页；未运行旧脚本"
+        },
+        {
+          "query": "抓取 Ruleguard complaint-management-software 官方页面",
+          "result": "1 个来源成功，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.ruleguard.com/solutions/complaint-management-software",
+          "status": "ok",
+          "sha256": "cb8d651e79976c4550b61bc8242fc69bc88e9922b2ad6cd1939a5f7b379b85d4"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "customer-feedback-management",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:79280946"
+      ],
+      "query": "Fider open source customer feedback portal feature requests votes",
+      "source_urls": [
+        "https://api.github.com/repos/getfider/fider",
+        "https://api.github.com/repos/getfider/fider/license",
+        "https://raw.githubusercontent.com/getfider/fider/main/README.md",
+        "https://docs.fider.io/",
+        "https://docs.fider.io/guides/",
+        "https://docs.fider.io/api/",
+        "https://docs.fider.io/api/posts/"
+      ],
+      "note": "复用 notes/previous 中 p11 的 Fider 候选，核对官方 GitHub 仓库、AGPL-3.0 许可证、README 与官方文档/API。API 文档明确帖子是用户提交的主题（建议、功能请求、bug 或投诉），支持相似帖检索、投票、评论、标签、状态 open/started/planned/completed/declined/duplicate、审核、官方回复与用户归属。旧 notes 中的 guides/posts-and-votes 本次 404，已改用官方文档索引与 /api/posts/；失败记录见 fetch_outcomes。 本轮修复复核（2026-10-27）：review.json 对该叶无未解决 finding（初审 pass）；保留既有 Fider 仓库/AGPL-3.0/README/API 核对与 404/308 失败记录，未改动关系与来源。",
+      "service_boundary": "Fider 是厂商侧客户反馈/功能请求门户，反馈条目累积证据但不承载交付计划；公开投票、更新日志和多租户托管属于外围能力。",
+      "search_attempts": [
+        {
+          "query": "读取 notes/previous/p11-probe.txt/10/12/13 与 p11-sources.json 的 feedback 旧候选",
+          "result": "定位 getfider/fider 的 README、docs.fider.io 与 API posts 旧 URL；未运行旧脚本"
+        },
+        {
+          "query": "抓取 Fider 官方仓库/许可证/README 与文档 API 页面",
+          "result": "7 个来源成功；guides/posts-and-votes 与 guides/posts 为 404，api/posts 无斜杠为 308，见 fetch_outcomes"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://api.github.com/repos/getfider/fider",
+          "status": "ok",
+          "sha256": "8e29fdfed55bfd662289651776353ed9e258320fabbd212215a82e48a0e74b40"
+        },
+        {
+          "url": "https://api.github.com/repos/getfider/fider/license",
+          "status": "ok",
+          "sha256": "0282b5a19787837b92d91950ece96248bbc0ab44743b759c77f6e0c448911371"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/getfider/fider/main/README.md",
+          "status": "ok",
+          "sha256": "8a07f0741bd5d3043999db7a1b9b0e2ab04b82d9fb4a4bf791ec58cb1a6e0f59"
+        },
+        {
+          "url": "https://docs.fider.io/",
+          "status": "ok",
+          "sha256": "791b0b2e11f6a567d240b25c94f4a0229fdf9d87d18b6980121a58050cafecfd"
+        },
+        {
+          "url": "https://docs.fider.io/guides/",
+          "status": "ok",
+          "sha256": "9f783d425aa6ca55161a6b0fc513eb12a0040aea5424cd783450edcd30690a48"
+        },
+        {
+          "url": "https://docs.fider.io/api/",
+          "status": "ok",
+          "sha256": "e4dda5d751cb76b353ddf7957530fb04c685173d8c13672001a8daf5edab48bf"
+        },
+        {
+          "url": "https://docs.fider.io/api/posts/",
+          "status": "ok",
+          "sha256": "3a3e31002edb6cb21a310f1935ee982884e22794e2acae35b61755e33f293504"
+        },
+        {
+          "url": "https://docs.fider.io/guides/posts-and-votes",
+          "status": "HTTP 404"
+        },
+        {
+          "url": "https://docs.fider.io/guides/posts",
+          "status": "HTTP 404"
+        },
+        {
+          "url": "https://docs.fider.io/api/posts",
+          "status": "HTTP 308（未跟随重定向）"
+        }
+      ],
+      "archived": false
+    },
+    {
+      "slug": "customer-experience-management-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:medallia-experience-management"
+      ],
+      "query": "Medallia customer experience management platform survey NPS text analytics",
+      "source_urls": [
+        "https://www.medallia.com/platform/",
+        "https://www.medallia.com/platform/signals/",
+        "https://www.medallia.com/platform/text-analytics/"
+      ],
+      "note": "复用 notes/previous 中 p11 的 Medallia 候选（旧候选 Vitally/Gainsight 偏客户成功，未采用）。初审指出 /solutions/customer-experience/ 快照实为 CX 101 教育文章（canonical /experience-101/customer-experience/），不能作为产品页证明问卷投放与闭环。本次改引官方产品页：/platform/ 正文覆盖问卷创建、跨渠道反馈/行为/运营信号采集、Total Experience Profiles 的客户级交互时间线、AI 主题/根因与 CSAT/情感分析、警报与 case management、smart closed-loop 及体验计划；/platform/signals/ 正文覆盖 email/website/mobile/voice 等问卷投放及 survey/voice/chat/social 等多渠道信号；/platform/text-analytics/ 正文覆盖主题/情感/意图、按分类或情感触发警报、路由责任人、优先工单与工作流。CX 101 文章仅保留为概念背景记录，不再作为产品能力证据；未运行产品。 本轮修复复核（2026-10-27）：review.json 对该叶无未解决 finding（初审 pass）；保留官方 /platform/、/platform/signals/、/platform/text-analytics/ 产品正文证据，CX 101 文章仍仅作概念背景，未改动关系与来源。 本轮按共享 application-index.json 复用既有身份 commercial:medallia-experience-management（原草稿误用 commercial:medallia），未改动共享应用核心字段。 另：此前记录的 CX 101 与 /platform/act/ 快照在本单元 sources/ 中缺失，已如实标为 snapshot_missing；二者均未被 batch 引用，CX 101 仍不作产品能力证据。",
+      "service_boundary": "Medallia 是企业客户体验/客户之声平台，核心为组织配置的体验计划、问卷与多渠道反馈/行为信号的采集、测量、警报和闭环跟进；社交/评论与数字行为信号属于同一平台的补充信号源，不将独立社交聆听、员工体验或市场研究方案纳入本关系。",
+      "search_attempts": [
+        {
+          "query": "读取 notes/previous/p11-probe12/13 与 p11-sources.json 的 CEM/CX 旧候选",
+          "result": "定位 Medallia platform 与 customer-experience 方案页；Vitally/Gainsight 判为客户成功方向未采用"
+        },
+        {
+          "query": "抓取 Medallia 官方 customer-experience 与 text-analytics 页面",
+          "result": "2 个来源成功，见 fetch_outcomes"
+        },
+        {
+          "query": "针对初审指出的 CX 101 非产品页，补抓 Medallia 平台、反馈采集与闭环产品页",
+          "result": "成功抓取 /platform/、/platform/signals/、/platform/act/；采用 /platform/、/platform/signals/ 与既有 /platform/text-analytics/ 作为产品正文，CX 101 仅留作概念背景"
+        }
+      ],
+      "fetch_outcomes": [
+        {
+          "url": "https://www.medallia.com/solutions/customer-experience/",
+          "status": "snapshot_missing",
+          "note": "原 fetch 记录指向的快照文件不在本单元 data/collections/sources/，无法复核；该页未被 batch 引用，也不作为当前能力证据。"
+        },
+        {
+          "url": "https://www.medallia.com/platform/text-analytics/",
+          "status": "ok",
+          "sha256": "810b49a114d13baea0e63ba6105ecba11b95b3351bc423e5b63abe1a68959d10"
+        },
+        {
+          "url": "https://www.medallia.com/platform/",
+          "status": "ok",
+          "sha256": "2e9abba3c32161a11cb18d6c63d6861460f78d20f976052e1173f2a05f2ce454"
+        },
+        {
+          "url": "https://www.medallia.com/platform/signals/",
+          "status": "ok",
+          "sha256": "84e67ae4cd10f73630c4c018b8b912529105312f69086622ec080d48eda15cdf"
+        },
+        {
+          "url": "https://www.medallia.com/platform/act/",
+          "status": "snapshot_missing",
+          "note": "原 fetch 记录指向的快照文件不在本单元 data/collections/sources/，无法复核；该页未被 batch 引用，也不作为当前能力证据。"
+        }
+      ],
+      "archived": false
+    }
+  ]
+}

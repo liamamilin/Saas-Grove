@@ -1,0 +1,96 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "student-information-system-sis：核心依据是官方 README 的 Key Features 与仓库描述（学生数据、学校数据、课程管理、排课、出勤、成绩、成绩报告、成绩单），属能力级证据而非工作流级；README 原文未出现 enrollment/入学 字样，batch.json 与 research.json 中“入学”表述属合理推断。建议后续补充注册/学籍状态或 student_enrollment 类文档、代码快照，使“入学绑定+状态门控”有直接证据。",
+    "github:127155347 的 GitHub 仓库元数据 license 字段为 null（License.txt 位于 docs/ 而非仓库根目录，未被自动识别），其 GPL-2.0 结论实际依靠 docs/License.txt 全文与 README License 段；两者均已读取且 GPL-2.0 正文完整，与条目一致，不构成阻断。",
+    "student-billing-system：条目 github:11130811 实为 RosarioSIS（SIS）仓库内的 Student_Billing 模块，名称与摘要宜明确“随 RosarioSIS SIS 分发的计费模块”，以免读者误认为是独立计费产品；research.json 的 service_boundary 已如实披露这一点。",
+    "student-billing-system：对账单（Statements）与每日交易（Daily Transactions）目前仅由 Menu.php 导航条目及 README 段落支持；余额与费用核定有 StudentBalances.php、MassAssignFees.php 源码支持。退款、助学金抵扣、总账导出未见证据，但这些属类型规则/边界能力而非定义性核心，不影响类型判定。",
+    "三个 boundary_unresolved 叶子（student-recruitment-crm 的 canyongbs/advisingapp、student-services-portal 的 uPortal、transcript-management 的 TranscriptKe）在 research.json 中有检索与抓取记录，但本单元未归档对应快照，REVIEW_SOURCES.json 也未列出，故其许可（Elastic License 2.0、Apache-2.0、license null）与内容无法用本单元文件二次复核；排除结论保守、未产生错误收录，建议后续补档。",
+    "许可标识粒度：RosarioSIS README 表述为 GNU GPL version 2，条目记 GPL-2.0 可接受；若需精确 SPDX，可写 GPL-2.0-only。",
+    "input.json 的 progress 仍为 case_status=not_searched、application_ids 与 research_records 为空，与 research.json/batch.json 中两个已建立案例不一致，属清单簿记滞后，建议同步以免下游统计错位。",
+    "RosarioSIS technology_stack 仅列 PHP，README 写明确要求 PostgreSQL 9.2 或 MySQL 5.6/MariaDB，可补全数据库项；快照 kind 将 PHP 源码标为 documentation，建议区分 source_code。"
+  ],
+  "leaf_checks": {
+    "student-billing-system": {
+      "application_ids": [
+        "github:11130811"
+      ],
+      "status": "case_confirmed_module_scope",
+      "evidence": [
+        "仓库元数据（980dfb…）：id 11130811、full_name francoisjacquet/rosariosis、default_branch=mobile、license spdx_id=GPL-2.0、描述为 Student Information System for school management。",
+        "StudentBalances.php（6b9341…）：以 LEFT JOIN 汇总 billing_fees 减 billing_payments，按 STUDENT_ID/SYEAR 计算 BALANCE，并提供跨学年累计余额选项，证明存在持续累积、可查询的学生账户账本。",
+        "MassAssignFees.php（0d07cd…）：向 billing_fees 写入 SYEAR、SCHOOL_ID、STUDENT_ID、TITLE、AMOUNT、DUE_DATE、CREATED_BY，证明机构按学年向学生批量核定费用并可设到期日。",
+        "Menu.php（f51dee…）：admin 与 parent 菜单含 Fees、Payments、Mass Assign Fees、Mass Assign Payments、Student Balances、Daily Transactions、Print Statements；README 亦描述分配费用与对应付款、查询余额、每日交易与打印对账单。",
+        "LICENSE（d954e1…）：完整 GNU GPL v2 全文（含 0–12 条与 END OF TERMS AND CONDITIONS），README 声明 GPL version 2；raw URL 使用 mobile 分支，经元数据确认即默认分支，等同仓库根许可。"
+      ],
+      "core_check": "学生账户（billing_fees/billing_payments 按 STUDENT_ID×SYEAR）、机构费用评估（MassAssignFees 带 SYEAR/AMOUNT/DUE_DATE）、收款循环（付款、余额、对账单、家长/学生视图）三结构均有代码或官方文档支持，类型匹配成立；退款、援助抵扣、总账对接未证明，属规则与边界能力。",
+      "gaps": [
+        "付款录入与对账单生成仅见菜单/README 与余额 SQL，未见 StudentPayments.php、Statements.php 正文。",
+        "案例是 SIS 套件内模块而非独立计费产品，research 已如实记录该边界。",
+        "为自托管开源 Web 应用，无托管 SaaS 形态证据；按 open_source 轨道可接受。"
+      ]
+    },
+    "student-information-system-sis": {
+      "application_ids": [
+        "github:127155347"
+      ],
+      "status": "case_confirmed_capability_level_evidence",
+      "evidence": [
+        "仓库元数据（3e95f2…）：id 127155347、full_name OS4ED/openSIS-Classic、default_branch=master、描述为 Student Information System/School Management Software、Web/PHP/MySQL；metadata 中 license 为 null。",
+        "README（4b2df8…）：openSIS Classic Community Edition version 9.3，定位 K-12、trade schools 与 higher education 的 SIS；Key Features 含 Manage Student Data、Manage Staff Data、Manage School Data、Course Manager、Scheduling、Attendance、Grades、Teacher Gradebook、Progress Reports、Report Cards、Transcripts、Bulk data imports。",
+        "docs/License.txt（224ac3…）：完整 GPL-2.0 正文；README License 段声明为 GNU GPL 并指向该文件；条目名称标注 Community Edition 与 README 版本标识一致，社区版边界清晰。"
+      ],
+      "core_check": "README 功能清单可对应三类结构：在册学生数据（Manage Student Data）、学术结构（School Data/Course Manager/Scheduling）、累积官方记录（Attendance/Grades/Progress Reports/Report Cards/Transcripts），足以确认是 SIS 而非教学平台或单一报告工具；但仅为能力级清单，未展示入学状态迁移与记录累积流程。",
+      "gaps": [
+        "仅有仓库元数据与 README，无手册、功能页或代码级工作流快照。",
+        "README 未直接出现 enrollment/入学，batch 与 research 的“入学”为推断措辞。",
+        "GitHub API 的 license 字段为 null（docs/License.txt 未被识别），许可判定依赖该文件全文与 README 声明。"
+      ]
+    },
+    "student-recruitment-crm": {
+      "application_ids": [],
+      "status": "no_case_documented_boundary_unresolved",
+      "evidence": [
+        "research.json：assessment=boundary_unresolved，3 次检索，抓取 canyongbs/advisingapp 仓库元数据（id 603569762、Elastic License 2.0、topic recruitment-crm）与产品页；因许可非 OSI 开源、定位为更广的学生参与/成功平台、记录级漏斗与活动历史证据不足而未建立批次关系。",
+        "batch.json 无该叶条目，未作类型断言。"
+      ],
+      "gaps": [
+        "Advising App 的元数据与产品页未在本单元归档，REVIEW_SOURCES.json 未列其快照，无法直接复核许可与漏斗描述。",
+        "排除属保守处理，不存在将非开源或边界不清产品错误收录的问题。"
+      ]
+    },
+    "student-services-portal": {
+      "application_ids": [],
+      "status": "no_case_documented_boundary_unresolved",
+      "evidence": [
+        "research.json：assessment=boundary_unresolved，3 次检索，抓取 uPortal（id 2614085，Apache-2.0）元数据与 README；README 定位高校企业开源门户框架，支持 SSO、校园应用与内容聚合，但未证明学生发起请求、机构侧处理与学生可见状态跟踪的双向自助循环。",
+        "batch.json 无该叶条目。"
+      ],
+      "gaps": [
+        "uPortal 快照未归档，无法直接从本单元文件复核 README 内容与许可。",
+        "若未来以 uPortal 类框架收录，需补请求/工单流转与状态可见性的正文或代码证据。"
+      ]
+    },
+    "transcript-management": {
+      "application_ids": [],
+      "status": "no_case_documented_boundary_unresolved",
+      "evidence": [
+        "research.json：assessment=boundary_unresolved；TranscriptKe（mwangisam203/TranscriptKe，id 1285937252）README 描述下单、学术记录匹配、注册官审核、holds、付款/退款、机构生成 PDF、release attestation 与安全递送，但仓库元数据 license=null，缺少开源许可；且未证明官方学术记录由机构 SIS 提供。",
+        "research.json 同时判断 openSIS/RosarioSIS 的 transcripts 属 SIS 报告输出，未证明独立的请求→授权→发布跟踪，故未建立关系。",
+        "batch.json 无该叶条目。"
+      ],
+      "gaps": [
+        "TranscriptKe 的元数据与 README 未归档快照，无法二次复核发布循环细节。",
+        "无许可证使其不能进入开源轨道；如后续按商业轨道评估，需另核许可、服务形态与机构记录来源。",
+        "本叶仅有否定性边界判断，无正面案例，符合“如实记录缺口”的留档要求。"
+      ]
+    }
+  },
+  "limits": "只读审查：未运行 shell、未写文件、未部署或运行任何产品，仅使用本单元 REVIEW_TASK.md、input.json、REVIEW_SOURCES.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 列出的 9 个快照（其中 3 个属 openSIS、6 个属 RosarioSIS）；GitHub 仓库元数据为单行长 JSON，读取显示被截断，仅以定向模式匹配确认 id、default_branch、license 字段（RosarioSIS=default_branch mobile、spdx GPL-2.0；openSIS=default_branch master、license null）。research.json 中三个未收录候选（Advising App、uPortal、TranscriptKe）没有归档快照，其许可与内容无法用本单元文件核验；未核验托管 SaaS、价格、运行时行为、第三方评测，也未补充新的检索或抓取。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-224/ses_groveopencodegop224review1_1793031199.jsonl",
+  "batch_sha256": "b5db0d6d7e3cf620a41b8f64ff3e75cb37515c1846031bf74e0c9aa211d727a8",
+  "research_sha256": "b17a87e44a91a21a75cfebe85d2e4ef043d692cff5af52bb97ad98a1e3c917a5",
+  "input_sha256": "4ae453987883f6711863c5640a9b39033efdfa2876d68eaa2dc9fcddc20a3809"
+}

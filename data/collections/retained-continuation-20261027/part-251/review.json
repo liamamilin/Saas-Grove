@@ -1,0 +1,56 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "sports-court-booking/Playtomic：快照支持按运动、地点、日期时段选择俱乐部球场与时长，支持分摊或全额支付，并显示俱乐部取消政策；但未直接展示实时库存同步、历史预订列表或自助改签/取消流程。research.json 已避免声称这些能力，建议后续表述继续限定在已证实范围。",
+    "sports-facility-management/EZFacility：首页定位为 fitness & sports club management，会员与账单功能占比较高；体育设施类型边界主要由 scheduling-operations 页的 facility scheduling、rentals、multi-sport complex 和防重复预订支撑，引用时不要因会员功能把案例移向 Recreation Center Management。",
+    "tee-time-booking-platform/GolfNow：19,000+ 是 course directory 的目录覆盖量，不等同于 19,000+ 球场均可即时预订；“数千家球场可预订”由 mobile 页支持，建议摘要保持“目录覆盖”与“可预订库存”的区分。",
+    "ai-fitness-coach/Fitbod：首页快照正文较薄，并包含较多模板与 FAQPage 结构化数据；核心闭环主要由 /faqs/ 的可见 FAQ 正文支撑，包括按水平、表现历史、恢复、器械、目标逐次调整，Gym Profile 改目标后自动更新，以及动作视频与文字提示。建议 reason 以 FAQ 正文为主依据。",
+    "corporate-wellness-platform/Wellable：快照证明雇主侧挑战、个人评估反馈与雇主聚合数据、奖励及项目分析，但未展示名册同步、资格校验或逐员工参与记录；对商业案例的基本类型匹配已足够，若需强化定义性核心可补充 enrollment/eligibility 来源。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空且 phase 为 included_without_cases，与 batch.json/research.json 的 case_found 不一致；建议同步流水线元数据，避免后续环节误判本单元无案例。",
+    "websearch 401 及若干主页 403、猜测路径 404 已在 research.json 的 fetch_outcomes/search_attempts 中如实留档；按任务规则不阻断，本次未重新发起网络请求。"
+  ],
+  "leaf_checks": {
+    "sports-court-booking": {
+      "status": "pass",
+      "application_id": "commercial:playtomic",
+      "track": "commercial",
+      "basis": "读取 Playtomic 两篇官方帮助正文：预订流程为选择运动 → 地点/俱乐部/邮编 → 日期与时间 → 球场与时长 → 分摊或全额支付；支付页显示该俱乐部的取消政策，且正文明确价格由各俱乐部单独设定；俱乐部资料页提供 Book（私场预订）与 Open Matches（加入或创建公开比赛）两个入口。可对应球员端可预订场地时段、预订记录与第三方俱乐部中介关系。",
+      "gaps": "快照未直接展示实时可用性同步、历史预订列表、自助改签或取消流程；research.json 已明确不声称这些能力。Playtomic 主页 403 已留档。无开源候选，许可证/社区版不适用。"
+    },
+    "sports-facility-management": {
+      "status": "pass",
+      "application_id": "commercial:ezfacility",
+      "track": "commercial",
+      "basis": "EZFacility 首页正文定位为 sports & fitness facility management software，服务 sports facilities、gyms、fitness centers；scheduling-operations 页正文包含 Facility Scheduling、Rentals & Special Events、防 double-bookings、从单一 field 到 100,000 sq ft multi-sport complex 的排期；billing-payments 页正文包含自定义 membership plans、invoicing & payment tracking、POS、QuickBooks Online 集成和多地点报表。可对应运营方可租赁空间库存、预订交易与资金记录三个结构，且重心在运营方而非球员端市场。",
+      "gaps": "快照未逐项列出 ice arena、turf、batting cage 等全部空间类型；未验证部署形态、实时冲突处理或运行行为。无开源候选，许可证/社区版不适用。"
+    },
+    "tee-time-booking-platform": {
+      "status": "pass",
+      "application_id": "commercial:golfnow",
+      "track": "commercial",
+      "basis": "GolfNow mobile 页正文明确可 24/7 在 worldwide 数千家球场预订 tee time、搜索 Hot Deals、收藏球场、即时预订并赚取/兑换 Rewards；course-directory 页正文说明目录覆盖 over 19,000 golf courses；support/about-us FAQ 正文说明预订位于 Upcoming Reservations，可按提前 24 小时、球场关闭或 GolfPass+ 规则取消/修改，现场支付适用具体球场政策，并可通过 View Reservations 增删球员。可对应球手端跨球场开球时间库存、预订记录与第三方球场中介关系。",
+      "gaps": "快照未展示具体 tee sheet 或实时可用性界面；19,000+ 为目录覆盖量，不能等同于全部可预订；未实际运行预订流程。无开源候选，许可证/社区版不适用。"
+    },
+    "ai-fitness-coach": {
+      "status": "pass",
+      "application_id": "commercial:fitbod",
+      "track": "commercial",
+      "basis": "Fitbod /faqs/ 可见 FAQ 正文说明：根据 goals、fitness level、available equipment 生成个性化力量训练；算法跟踪 logged workout data，并按 fitness level、performance history、recovery status、available equipment、training goals 逐次调整；可在 Gym Profile 修改目标后自动更新计划；每个动作含专业录制视频示范与分步文字提示；支持跳过/手动添加动作，并跟踪 PR、估算力量与训练量。可对应软件自身完成评估 → 计划生成 → 训练引导 → 依据表现与恢复调整的闭环。",
+      "gaps": "首页快照正文证据偏弱且部分为 FAQPage 结构化数据；核心判断以 FAQ 可见正文为准。未验证实际 App 行为。GitHub 检索无完整持续适配的开源教练应用，许可证/社区版不适用。"
+    },
+    "corporate-wellness-platform": {
+      "status": "pass",
+      "application_id": "commercial:wellable",
+      "track": "commercial",
+      "basis": "Wellable 平台页正文定位为 Award-Winning Employee Wellness Platform：employees 参与 challenges、educational content 与 wellness experiences；Personal Wellness Assessment 为员工提供个性化反馈并为雇主聚合可操作数据；另有 Rewards、program analytics/reports、health content 和 customizable program options；首页正文明确面向 employers and employees。可对应组织赞助计划、员工参与、活动目录、个人反馈/奖励与雇主汇总报告。",
+      "gaps": "快照未展示 roster 同步、资格校验、逐员工参与记录或管理控制台细节；商业案例基本类型匹配成立。无开源候选，许可证/社区版不适用。"
+    }
+  },
+  "limits": "本次仅只读检查本单元的 input.json、data/collections/batch.json、data/collections/research.json 及 REVIEW_SOURCES.json 所列 12 个快照；未执行 shell、未写文件、未运行应用、未做实时网络请求或部署测试。大型 HTML 快照按正文段落核对，未渲染 JavaScript；未评估价格、架构、合同或安全认证。5 个案例均为 commercial，故无开源许可证或社区版边界可核；开源检索结论仅依据 research.json 留档。审查范围不覆盖其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-251/ses_groveopencodegop251review2_1793038460.jsonl",
+  "batch_sha256": "ec1b12c9a6a55186da2682a83ab6f78809cafb2db4387fb72edc4a138e0a5665",
+  "research_sha256": "8a1a674ef39762875fd99e475481043fe6cd497282ac7f29ab18214683895bae",
+  "input_sha256": "f1befca46d7d6b055c7835ce9ad9c1820f6369db677128af37b7ea40fa1cd688"
+}

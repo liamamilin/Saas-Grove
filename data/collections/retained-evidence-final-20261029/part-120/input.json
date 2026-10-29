@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "phase": "included_without_cases",
+  "part": 25,
+  "offset": 600,
+  "leaves": [
+    {
+      "progress": {
+        "slug": "load-balancer-management",
+        "name_zh": "负载均衡器管理",
+        "domain_id": "14",
+        "parent_id": "14.03",
+        "case_status": "boundary_unresolved",
+        "application_ids": [],
+        "research_records": [
+          {
+            "record": "retained-continuation-20261027/part-140/research.json",
+            "result": "collector_draft_unapproved",
+            "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+            "query": "官方仓库直查 traefik/traefik（Load Balancing Service 文档）"
+          },
+          {
+            "record": "included-go-followup-final-20261027-research.json#/leaf_cases/56",
+            "result": "boundary_unresolved",
+            "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。",
+            "query": "官方仓库直查 traefik/traefik（Load Balancing Service 文档）"
+          }
+        ],
+        "archived": false,
+        "note": "主会话最终复核：所引正文与部署说明仅证明桌面客户端、CLI/扫描引擎或基础设施控制器，未证明本候选对应完整的持续应用服务；保留来源，不改变类型范围，也不推断不存在SaaS变体。"
+      },
+      "definition": {
+        "slug": "load-balancer-management",
+        "name": "Load Balancer Management",
+        "name_zh": "负载均衡器管理",
+        "aliases_zh": [
+          "负载均衡",
+          "网络负载均衡"
+        ],
+        "overview": "A **Load Balancer Management** application is the operator-facing application for defining, changing, and operating load balancers — the traffic systems that spread incoming service traffic across a set of interchangeable backends. Through this application, operators create a stable client-facing entry point (an address and port), attach a managed set of backend servers to it, configure how traffic is distributed across that set, and keep unavailable backends out of rotation — so that a service appears to clients as one always-available endpoint while capacity is added, removed, and repaired behind it.\n\nThe defining structure is small:\n\n```text\nDistribution point (listener / virtual server: address + port + protocol)\n└── Managed backend set (pool of interchangeable members)\n    └── Distribution policy (algorithm + weights, optionally session persistence)\n    └── Health-gated rotation (unhealthy members receive no traffic)\n```\n\nEverything else commonly associated with the category — TLS termination, content-based routing rules, connection caps, metrics dashboards, autoscaling integration, the balancer's own high availability — is widespread in mature products but is not what makes the application a load balancer manager. Remove health gating and only static traffic-splitting configuration remains; remove the backend set and only a proxy or port-forwarding rule remains; remove the distribution point and only backend monitoring remains.",
+        "overview_zh": "一个**负载均衡器管理**应用程序是面向操作员的应用程序，用于定义、更改和操作负载均衡器——这些流量系统将传入的服务流量分布到一组可互换的后端。通过这个应用程序，操作员创建一个稳定的面向客户端的入口点（一个地址和端口），附加一组受管理的后端服务器到它，配置如何在该组上分布流量，并将不可用的后端排除在轮换之外——这样服务在客户端看来就像一个始终可用的端点，而容量在后面被添加、移除和修复。\n\n其定义结构很小：\n\n```text\n分发点（监听器/虚拟服务器：地址 + 端口 + 协议）\n└── 受管理的后端集（可互换成员的池）\n    └── 分发策略（算法 + 权重，可选会话持久性）\n    └── 健康门控轮换（不健康成员不接收流量）\n```\n\n其他与此类别通常相关的一切——TLS终止、基于内容的路由规则、连接限制、指标仪表板、自动缩放集成、负载均衡器自身的高可用性——在成熟产品中广泛存在，但并非使该应用程序成为负载均衡器管理器的关键。移除健康门控，只剩下静态流量分割配置；移除后端集，只剩下代理或端口转发规则；移除分发点，只剩下后端监控。",
+        "dc": "- **Algorithm breadth** — least-connections/least-outstanding/least-time selection, weighted round robin, hash-based selection (client IP, URL, cookie — including consistent hashing, which minimizes remapping when membership changes), and random with two choices.\n- **Session persistence** — cookie-based affinity, source-address affinity, or server-side session tables, so all requests in a session reach the same member.\n- **Content routing on the listener** — ordered rules that select different backend pools by hostname, URL path, header, method, or query parameters, with a default destination; plus redirects and fixed responses.\n- **TLS termination** — presenting certificates at the listener and decrypting client traffic, with optional re-encryption toward backends.\n- **Per-member capacity controls** — connection limits and queues, slow-start behavior for recovering members.\n- **Membership automation** — backends registered automatically from autoscaling groups or container orchestrators, or derived from DNS records that the balancer re-resolves.\n- **Operational observation** — metrics and logs per listener, pool, and member; health-state surfaces; activity dashboards.\n- **Balancer self-availability** — provider-managed scaling and multi-zone operation in cloud services; paired instances sharing a floating address in self-managed deployments.",
+        "dc_zh": "- **算法广度** — 最少连接/最少未处理/最少时间选择，加权轮询，基于哈希的选择（客户端IP、URL、Cookie——包括一致性哈希，最小化成员变更时的重映射），以及随机两选一。\n- **会话持久性** — 基于Cookie的亲和性、源地址亲和性或服务器端会话表，确保会话中的所有请求到达同一成员。\n- **监听器上的内容路由** — 有序规则，根据主机名、URL路径、头部、方法或查询参数选择不同的后端池，并设置默认目的地；加上重定向和固定响应。\n- **TLS终结** — 在监听器处呈现证书并解密客户端流量，可选择向后端重新加密。\n- **每个成员的容量控制** — 连接限制和队列，恢复成员的慢启动行为。\n- **成员自动化** — 后端从自动扩展组或容器编排器自动注册，或从负载均衡器重新解析的DNS记录派生。\n- **操作观察** — 每个监听器、池和成员的指标和日志；健康状态表面；活动仪表板。\n- **负载均衡器自身可用性** — 云服务中由提供商管理的扩展和多区域操作；自管理部署中配对实例共享浮动地址。",
+        "rules": "- **Only healthy members receive traffic.** The gate is continuous: a member that fails its checks is excluded regardless of the configured algorithm, and stays excluded until it passes again. This, not the algorithm, is the behavior clients depend on.\n- **Membership changes never move the client-facing endpoint.** Adding, removing, weighting, and draining members changes the distribution behind a stable address; DNS and client configuration are untouched.\n- **Removal from rotation is distinct from removal from the record.** A drained or disabled member remains defined in the pool (for later re-admission); a deregistered member leaves the record. Products distinguish these states.\n- **Persistence overrides the algorithm.** When session persistence is configured, an established session keeps going to its member as long as that member is healthy; the algorithm decides only for new sessions.\n- **The balancer sits between both sides.** Clients see the balancer as the service; backends see the balancer as the client. Address-translation and header-preservation behaviors follow from this posture.\n- **Content rules are ordered, with a default.** Listener rules evaluate in defined priority; a default rule or default pool catches unmatched traffic.\n- **Distribution policy is a pool property.** One policy per backend set; products commonly allow a member to be registered with more than one pool, each pool applying its own policy and checks.\n- **The balancer itself must not be a single point of failure.** Self-managed products pair instances behind a floating address; managed services distribute the balancer across availability zones internally. The management surface operates this as configuration, not as an afterthought.\n- **Capacity limits shape distribution.** Per-member connection caps and queues redirect or fail traffic when a member is saturated; some algorithms use live connection counts, making weight and capacity settings interact with the algorithm's behavior.",
+        "rules_zh": "- **只有健康的成员接收流量。** 门控是持续的：检查失败的成员被排除，无论配置的算法如何，并保持排除直到再次通过检查。这是客户端依赖的行为，而非算法。\n- **成员变更从不移动面向客户端的端点。** 添加、移除、加权和排空成员改变稳定地址后的分发；DNS和客户端配置不受影响。\n- **从轮换中移除与从记录中移除不同。** 被排空或禁用的成员仍定义在池中（以便后续重新纳入）；被注销的成员离开记录。产品区分这些状态。\n- **持久性覆盖算法。** 当配置会话持久性时，已建立的会话只要其成员健康就继续访问它；算法只决定新会话。\n- **负载均衡器位于双方之间。** 客户端将负载均衡器视为服务；后端将负载均衡器视为客户端。地址转换和头保留行为源于此姿态。\n- **内容规则是有序的，带有默认值。** 监听器规则按定义优先级评估；默认规则或默认池捕获未匹配的流量。\n- **分发策略是池属性。** 每个后端集一个策略；产品通常允许成员注册到多个池，每个池应用自己的策略和检查。\n- **负载均衡器本身不能是单点故障。** 自管理产品在浮动地址后配对实例；托管服务在内部将负载均衡器分布到可用性区域。管理界面作为配置操作此，而非事后想法。\n- **容量限制塑造分发。** 每个成员连接",
+        "parent_id": "14.03",
+        "domain_id": "14"
+      }
+    }
+  ],
+  "previous_continuation": null,
+  "continuation": {
+    "unit": 120,
+    "phase": "directory",
+    "parent": 120,
+    "slugs": [
+      "load-balancer-management"
+    ],
+    "input_status": "boundary_unresolved",
+    "seed_row_sha256": "8e5568c9a6c4680dd5d5fcc7ed27c3fdb8932b1764280254f8ddf828e3ef15d4"
+  }
+}

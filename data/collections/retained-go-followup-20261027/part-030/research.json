@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "leaf_cases": [
+    {
+      "slug": "hotel-booking-engine",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:45409645"
+      ],
+      "query": "官方 QloApps 用户指南前台预订流程核对：Front Office Home Page、Room Listing、Room Detail、Checkout、Guest Information、Payment Information、Booking Confirmation，以及后台 Book Now 与 Orders；仓库元数据、README、完整许可证复核",
+      "source_urls": [
+        "https://github.com/Qloapps/QloApps",
+        "https://raw.githubusercontent.com/Qloapps/QloApps/develop/README.md",
+        "https://docs.qloapps.com/front_office/room_listing/",
+        "https://docs.qloapps.com/front_office/room_detail/",
+        "https://docs.qloapps.com/front_office/checkout/",
+        "https://docs.qloapps.com/front_office/payment_information/",
+        "https://docs.qloapps.com/hrs/book_now/",
+        "https://docs.qloapps.com/orders/",
+        "https://docs.qloapps.com/front_office/home_page/",
+        "https://docs.qloapps.com/front_office/guest_information/",
+        "https://docs.qloapps.com/front_office/booking_confirmation/"
+      ],
+      "note": "按初审要求重新抓取并阅读 home_page、guest_information、booking_confirmation 三页。2026-10-27 复核时三页均返回与旧快照相同的 sha256，正文实际位于 theme-default-content 中：Home Page 的 Room Search Panel 说明按入住/离店日期与入住人数计算房量；Guest Information 说明 Guest Checkout 收集姓名、邮箱和电话；Booking Confirmation 说明展示所选付款方式、当前付款状态与房费/税费/总额/应付金额摘要。旧初审只看到导航、侧栏和 footer，与初审自述的单行 HTML 2000 字符显示上限一致：正文所在行很长（Home Page 正文行约 28KB），并非正文缺失。为不依赖这类易被截断的页面，本关系的核心证据链改用六页正文：Room Listing 按所选酒店、日期与入住人数列出可订房型、可用状态与每晚房价，支持 Select Occupancy 与 Book Now；Room Detail 的 Booking Summary 显示入住/离店日期、入住人数、房价、附加服务与总计，并有 Book Now 与 Refund Policies；Checkout 复核房型、日期、入住人数、房价、税费与优惠券，点击 Proceed 进入 Guest Information；Payment Information 支持全额/部分付款、条款确认并点击“I confirm my order”；hrs/book_now 说明后台可查看全部房态、用预订日历跟踪和管理预订、为散客建单；Orders 说明订单管理、付款状态更新与房间重新分配。三个定义性属性（自有渠道实时可售、客人自助捕获、预订进入物业后台）均有可核对正文。三页辅证仍保留在条目 sources 与下方 source_urls 中，但不作为关系成立的依据，仅作补充核对记录。许可证边界：核心仓库为 OSL-3.0；README 说明部分 Webkul 模块另有许可、其他模块为 AFL-3.0，官网另有 addons 链接，故不把整个发行版简写为单一 OSL-3.0。",
+      "service_boundary": "QloApps 是可自托管的开源酒店管理套件（核心 OSL-3.0）；本关系只覆盖其酒店自有网站上的预订引擎组件：按日期/入住人数查询房量、展示房价、客人填写信息并确认预订，订单进入同一 QloApps 后台的订单/预订管理。PMS 前台运营、渠道管理器、Webkul 模块与 addons 不作为本关系的核心证据；模块级许可（部分 Webkul 模块另有许可、其他模块 AFL-3.0）与核心 OSL-3.0 分开记录。",
+      "search_attempts": [
+        "GitHub API: GET /search/repositories?q=hotel+booking+engine+in:name,description&sort=stars",
+        "官方仓库 README 与 docs.qloapps.com 用户指南导航核对",
+        "读取旧快照 docs.qloapps.com/introduction/ 与 /hrs/，确认其为介绍/章节入口，不足以支撑预订流程",
+        "按前台章节导航抓取 /front_office/home_page/、/room_listing/、/room_detail/、/checkout/、/guest_information/、/payment_information/、/booking_confirmation/",
+        "抓取后台 /hrs/book_now/ 与 /orders/ 以核对订单/预订管理"
+      ],
+      "fetch_outcomes": [
+        "repository metadata fetched",
+        "license fetched (OSL-3.0)",
+        "README fetched",
+        "docs.qloapps.com/introduction 与 /hrs/ fetched previously; page level is introduction/chapter entry, not used for the core claim",
+        "docs.qloapps.com/sitemap.xml returned HTTP 404; used in-page navigation links instead",
+        "front_office/home_page fetched (HTTP 200, text): room search by dates/occupancy, room rate per night, Book Now",
+        "front_office/room_listing fetched (HTTP 200, text): availability status and room rate per night for selected dates/occupancy",
+        "front_office/room_detail fetched (HTTP 200, text): booking summary with dates, occupancy, room price, extras and Book Now",
+        "front_office/checkout fetched (HTTP 200, text): rooms & price summary, taxes, coupon, proceed to guest information",
+        "front_office/guest_information fetched (HTTP 200, text): guest checkout/login, name/email/phone, booking for someone else",
+        "front_office/payment_information fetched (HTTP 200, text): full/partial payment, terms, confirm order",
+        "front_office/booking_confirmation fetched (HTTP 200, text): payment details and booking summary after placement",
+        "hrs/book_now fetched (HTTP 200, text): room status, booking calendar, back-office walk-in booking flow",
+        "orders fetched (HTTP 200, text): admin manages received orders, payment status and room reallocation",
+        "2026-10-27 re-fetch of front_office/home_page, guest_information and booking_confirmation returned the same sha256 as the retained snapshots; article body is present in theme-default-content, which sits on a single long HTML line (home_page body line ~28KB)",
+        "旧初审仅见导航系阅读器截断，不是正文缺失；核心证据链已改用 room_listing/room_detail/checkout/payment_information/hrs/book_now/orders 六页，三页仅作辅证"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hotel-central-reservation-system-crs",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:agilysys-central-reservations"
+      ],
+      "query": "GitHub API repository search: hotel central reservation system; web search: Sabre SynXis CRS official; web search: Agilysys central reservation official",
+      "source_urls": [
+        "https://www.agilysys.com/en/products/central-reservation/"
+      ],
+      "note": "开源检索只出现教学/演示型 CRS 仓库（如 aws-samples 的 DynamoDB demo），未作为完整可自托管应用。商业侧先读 Aven SynXis CRS 产品页，正文覆盖中央 rates/inventory/availability 与多渠道分销，但未展开预订记录生命周期；改读 Agilysys Central Reservations 官方页，正文明确其为 centralized reservation system，集中管理跨物业/房型/渠道的库存、房价和限制，提供实时预订引擎，支持 call center/front desk 的预订、修改、取消，并与 PMS、channel managers、booking engines 集成。据此保留商业基本关系。 Aven SynXis CRS 仅为 attempted-only 来源（正文未展开预订记录生命周期），未列入 source_urls。",
+      "service_boundary": "Agilysys Central Reservations 是商业中央预订系统；官方页覆盖中央可售库存、预订处理和渠道/PMS 集成。本记录不深入价格、部署或合同，也不把其 PMS/POS 模块当作 CRS 核心。",
+      "search_attempts": [
+        "GitHub API: GET /search/repositories?q=hotel+central+reservation+system&sort=stars",
+        "web search: Sabre SynXis central reservation system CRS official",
+        "Aven SynXis CRS 产品页读取",
+        "web search: Agilysys hotel central reservation official",
+        "Agilysys Central Reservations 官方页抓取"
+      ],
+      "fetch_outcomes": [
+        "GitHub results were demos/teaching projects; no complete self-hostable CRS selected",
+        "Aven SynXis CRS page fetched (HTTP 200, text); attempted-only, reservation lifecycle not detailed",
+        "Agilysys Central Reservations page fetched (HTTP 200, text) with central inventory, reservation handling and integrations"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hotel-channel-manager",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:siteminder-channel-manager"
+      ],
+      "query": "web search: SiteMinder hotel channel manager official; GitHub API repository search: hotel channel manager",
+      "source_urls": [
+        "https://www.siteminder.com/channel-manager/"
+      ],
+      "note": "开源候选（akaniklaus/channelmanager、lowcontext/open-hotel）均只有仓库描述或缺少 README，无法证明多渠 ARI 分发、预订回传与映射层，未作为案例。改以商业基本记录复核 SiteMinder 官方 Channel Manager 产品页：正文说明单一平台连接 500+ 渠道、房型/房价映射、实时同步 rates/availability/restrictions 及 PMS/CRS 集成。页面未展开逐渠道映射和预订回传实现，因此只保留基本商业关系，不写价格、架构或部署细节。",
+      "service_boundary": "SiteMinder Channel Manager 是商业第三方渠道中继；官方页支持多渠发布与实时可用性同步，但本记录不宣称已核实其全部预订/取消回传细节，也不涉及价格或部署。",
+      "search_attempts": [
+        "GitHub API: GET /search/repositories?q=hotel+channel+manager&sort=stars",
+        "web search: SiteMinder hotel channel manager official",
+        "官方产品页正文抓取"
+      ],
+      "fetch_outcomes": [
+        "GitHub candidates akaniklaus/channelmanager (no README) and lowcontext/open-hotel (description-only README) inspected; not eligible",
+        "SiteMinder official channel-manager page fetched (HTTP 200, text)"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hotel-crm-loyalty-platform",
+      "assessment": "case_found",
+      "case_ids": [
+        "commercial:dailypoint"
+      ],
+      "query": "GitHub API repository search: hotel crm loyalty; web search: hotel CRM loyalty official; Cendyn and dailypoint official page checks",
+      "source_urls": [
+        "https://www.dailypoint.com/solutions/loyalty-programs-for-hotels",
+        "https://www.dailypoint.com/the-cdp-for-crm-loyalty"
+      ],
+      "note": "开源检索只得到 0 星左右的 CRM 原型/教学仓库，未证明统一客人档案与忠诚度计划记录，未作为案例。商业侧先尝试 Cendyn，官网返回 HTTP 403/Cloudflare 挑战，无法读取正文；改读 dailypoint 官方两页：一页说明从 200+ 系统收集/合并客人数据为 Central Profiles，另一页说明 points、tiers、status、统一档案及 PMS/POS/CRS/IBE 实时同步。据此保留商业基本关系。 Cendyn 仅为 attempted-only 来源（HTTP 403），未列入 source_urls。",
+      "service_boundary": "dailypoint 是商业酒店 CDP/CRM 与忠诚度平台；官方资料覆盖统一客人档案和忠诚度状态管理。本记录不深入价格、部署或具体客户合同，也不把其 Booking Manager/营销模块当作核心定义。",
+      "search_attempts": [
+        "GitHub API: GET /search/repositories?q=hotel+crm+loyalty&sort=stars",
+        "web search: hotel CRM loyalty platform Cendyn official",
+        "web search: dailypoint hotel CRM loyalty official site",
+        "Cendyn 官网抓取尝试（HTTP 403）",
+        "dailypoint 官方 CRM/CDP 与 Loyalty 页面抓取"
+      ],
+      "fetch_outcomes": [
+        "GitHub results were small CRM prototypes; no eligible complete open-source application",
+        "Cendyn official page blocked by Cloudflare (HTTP 403); attempted-only",
+        "dailypoint CRM/CDP page fetched (HTTP 200, text)",
+        "dailypoint loyalty page fetched (HTTP 200, text)"
+      ],
+      "archived": false
+    },
+    {
+      "slug": "hotel-front-desk-application",
+      "assessment": "case_found",
+      "case_ids": [
+        "github:1289281455"
+      ],
+      "query": "GitHub API repository search: hotel pms front desk folio; Kamra README and license review",
+      "source_urls": [
+        "https://github.com/Kamra-PMS/kamra-pms",
+        "https://raw.githubusercontent.com/Kamra-PMS/kamra-pms/develop/README.md"
+      ],
+      "note": "按定义性核心检索并读取 Kamra PMS 的仓库元数据、完整 AGPL-3.0 许可证和 README。README 明确列出 arrivals/departures、分步 check-in、check-out、folio 拆分与夜审等前台循环，并有 Docker/Bench 自托管说明，作为开源前台应用保留。未运行项目，也未独立验证代码实现。 许可证与版本边界：社区核心为 AGPL-3.0；README 提到企业版路线图及 Frappe Cloud 托管，本记录只按开源社区核心归类，收费实施/支持与托管不作为核心证据。",
+      "service_boundary": "Kamra 是可供酒店/短租物业自托管的前台优先 PMS；本关系只覆盖前台工作循环（到店、入住、在住、离店、账单、夜审），不把其预订引擎、POS、AI/MCP 或渠道集成计为前台系统证据。 社区核心为 AGPL-3.0；企业版路线图与 Frappe Cloud 托管属于收费实施/支持边界，不计入前台核心证据。",
+      "search_attempts": [
+        "GitHub API: GET /search/repositories?q=hotel+pms+front+desk+folio&sort=stars",
+        "README 与许可证快照核对"
+      ],
+      "fetch_outcomes": [
+        "repository metadata fetched",
+        "license fetched (AGPL-3.0, full text)",
+        "README fetched; front-desk workflow confirmed",
+        "candidate repository inspected"
+      ],
+      "archived": false
+    }
+  ]
+}

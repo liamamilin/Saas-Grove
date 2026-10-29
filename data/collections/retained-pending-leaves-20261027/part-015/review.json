@@ -1,0 +1,43 @@
+{
+  "decision": "content_review_passed",
+  "findings": [],
+  "non_blocking_notes": [
+    "REVIEW_SOURCES.json 的 sources 为空；本次只能依据 research.json 的 fetch_outcomes 中显式列出的快照哈希名定位文件。无案例状态下这不阻断，但建议采集侧在留档时补齐快照索引，便于后续复核路径与摘要的一致性。",
+    "本叶三轮检索均围绕单一候选 Superdesk（query: Superdesk newsroom），并未穷举同类的 ENPS、iNews、Dalet、Octopus 等新闻编辑室系统。research.json 只声明该候选不足以建立案例，没有断言品类不存在，表述是克制的；后续重评时建议扩大候选面，避免把单一产品失败误读为品类无案例。",
+    "research.json 将 assessment 记为 insufficient_evidence，但正文实际给出了更强的类型/边界判断（端到端新闻生产发布平台，公共记录生命周期与 News Publishing Platform 重叠）。标签与论述略有错位，建议归档时使用更准确的类型不符/边界冲突标注；不影响本次无案例留档。",
+    "定义中文文本有少量措辞问题：overview_zh 的“通过任务和任务将新闻编辑室的人员与工作绑定”重复“任务”，dc_zh 的“受控的发布生命周期”表述生硬；属风格问题，不影响英文定义与核对结论。",
+    "截至本快照，官方概览页仍链接到不存在的 broadcasting-shows-and-rundowns.md（文档站与 raw 仓库均 404），而 llms-full 的模块表仍引用同一路径。保留 404 快照作为缺口证据是恰当的；这是上游文档自身的链接不一致，不是本单元的采集错误。",
+    "主仓库 AGPL-3.0 LICENSE 全文已取得（34520 字节，标准 AGPL-3.0 文本），仓库身份与描述可核对；Planning 模块仅有 package.json 的 AGPL-3.0 与 setup.py 的 AGPLv3 声明，无独立 LICENSE 全文。因本叶不建立案例，该许可缺口不阻断；若日后恢复案例，需补齐 Planning 的完整许可证文本。"
+  ],
+  "leaf_checks": {
+    "newsroom-management-system": {
+      "result": "pass_without_case",
+      "definition_core": "定义核心为持久化编辑工作项、绑定人员与任务的派工机制、以及计划输出安排（跨平台/版本的日期化发布位或特定节目的定时有序流程表），并明确止于公共记录、发布归 News Publishing Platform。定义自洽，未指定部署形态或协议。",
+      "case_status": "无案例：batch.json 的 entries 为空，input.json 的 application_ids 为空；research.json 的 case_ids 为空，assessment 为 insufficient_evidence，archived 为 false。撤下原候选 github:23570030（Superdesk）与本叶的关系，不以简介、元数据或关键词替代核心正文。",
+      "verified_evidence": [
+        "已读取 batch.json：无条目、无 application/track；无 ID 冲突或类型声明需要核对。",
+        "已读取 research.json 全文，并按其中显式哈希读取实际快照：2a96bd…（官方 sitemap）、f7cfa42e…（llms-full）、da150635…（superdesk-docs-user-guide 递归文件树）、d652b658…（404 页）。",
+        "sitemap 与递归文件树快照中检索 broadcast/rundown 均无命中；llms-full 仅 6 处提及，分别是模块列表、模块/权限表、客户端扩展说明及无关的 Broadcast desk、邮件设置，未见排序、重排、改单传播或定时蓝图正文。",
+        "官方概览页给出的 broadcasting-shows-and-rundowns.md 在文档站与 raw 仓库均返回 404，404 正文快照可核对。",
+        "Superdesk Planning 文档快照（5e9873c2…）明确 Planning Date 为“the intended creation date for the article”，并说明 ASSIGN 时由派工者自行选择 due date；未见截止时间由计划运行时间反推的证据，反而与叶规则“截止日期从安排中推导”相反。",
+        "条目状态文档快照（5b224023… / f7cfa42e…）中 Scheduled 仅为“The item will be published at a set time”，属逐条发布时间，不是跨平台/版本的日期化 slot 或 edition 计划；publishing 文档中的多目的地投递亦不能替代计划输出安排。",
+        "主仓库元数据快照（33b494c6…）自述为 end-to-end news creation, production, curation, distribution, and publishing platform；条目状态与 Legal Archive 正文含 Published、Corrected、Killed、Recalled、Unpublished 等公共记录生命周期，与叶定义“止于公共记录”的边界冲突未被解决。",
+        "许可证：主仓库 LICENSE 全文快照（022cf920…，34520 字节）为完整 AGPL-3.0；Planning 仓库 package.json（f03a4e6…）声明 AGPL-3.0，setup.py（04d1384…）声明 AGPLv3 与 AGPL v3 分类器，但无独立 LICENSE 全文，研究记录已如实保留该缺口。"
+      ],
+      "documented_gaps": [
+        "第三根支柱“计划输出安排”无官方正文可证：无日期化 slot/edition 计划，也无具体节目的定时有序 rundown 正文；Broadcasting 仅有模块名与一句功能概述。",
+        "Planning 的截止时间由派工者手选，不从计划运行时间反推，属于反向证据而非单纯证据缺口。",
+        "候选产品自身承担发布与公共记录生命周期，无法满足本叶“发布归 News Publishing Platform”的边界。",
+        "Planning 模块缺独立许可证全文；Broadcasting 详情页 404；官方索引与文档仓库缺少对应正文。",
+        "未做运行时验证，runtime_tested 保持 false；研究记录未声称已完成运行时核验。"
+      ],
+      "notes": "综合判断：撤下 Superdesk 关系并以无案例留档，符合“资料不足或类型/边界不符时如实记录缺口”的要求；没有用 HTTP 成功、模块名、摘要或导航替代核心工作流证据。无必须修复项。"
+    }
+  },
+  "limits": "本次为只读审查：未运行 shell、未执行部署或运行时测试、未写文件。REVIEW_SOURCES.json 的 sources 数组为空，快照无法按该索引逐条读取，只能依据 research.json 中显式给出的哈希文件名在 data/collections/sources 下定位并读取；GitHub API 快照为单行 JSON，终端展示存在字符截断，未能逐字核对全部字段。仅采用与本叶 Superdesk 相关的快照，未将同目录中其他产品的快照纳入判断，也未读取其他单元。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/pending-leaves-20261027/part-015/ses_groveopencodegop015review2_1793092335.jsonl",
+  "batch_sha256": "d5957af2a08ea46812f69e37f7571b8c6a0211c91ba85cb86de97a10b2a50586",
+  "research_sha256": "98528dda6e71e6245f3fc7b0ff18af2ec987b912357d1f10934c630ced19e1d7",
+  "input_sha256": "f64b51a48f8a62515ea50b779c988ca96342c105bf1e83dd2e944c3aca263194"
+}

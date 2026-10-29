@@ -1,0 +1,73 @@
+{
+  "decision": "changes_required",
+  "findings": [
+    {
+      "slug": "endpoint-management-uem",
+      "application_id": "github:309820286",
+      "issue": "Fleet 的唯一正文来源是官方 README 的产品概述，只说明可做 MDM、补丁、软件部署、合规验证和跨 OS 设备管理；全文未展示“设备注册（enrollment）→ 集中配置/策略定向（targeting）→ 维护/合规→ 退役”的核心工作流。batch 的 leaf_matches 还写了“设备经 agent 上报”和“MDM 配置与策略合规检查”，但 README 未直接支持这些具体说法。现有快照不足以证明端点管理/UEM 的三个定义性结构。",
+      "fix": "补充 Fleet 官方文档中关于设备注册、配置 profiles/policies 与分组定向、合规检查、退役/移除管理的页面快照，并据此改写 leaf_matches 理由；若无法补充，则移除该案例或降级为未核实。"
+    },
+    {
+      "slug": "patch-management",
+      "application_id": "github:143291989",
+      "issue": "Uyuni 的正文证据不足：README 仅说明其为开源 systems management solution、Spacewalk fork；所引 Patch Management 文档正文实际只讨论 retracted patches 与 channel clone 的 Patch Sync，未展示更新目录同步、逐机缺失/已安装/不适用/未知评估、审批后的受控部署及结果/合规记录。batch 所称“评估并部署补丁/更新并记录审计状态”超出快照内容，现有证据不能覆盖补丁管理的四要素。",
+      "fix": "补充 Uyuni 官方文档中关于 update catalog/channel 同步、补丁评估（missing/installed/not applicable/unknown）、受控部署（审批、目标系统、时间窗口、结果）和补丁审计/合规报告的页面快照，并据此收窄 leaf_matches；若无法补充，则移除该案例或降级为未核实。"
+    }
+  ],
+  "non_blocking_notes": [
+    "Istio 摘要写“mTLS 与授权策略”，已读 README/traffic 文档只直接写到 service-to-service authentication、certificate management、authorization（README 提到 security 目录），未逐字展开 mTLS；核心服务网格匹配不受影响，建议补 Security 文档或改为更宽泛措辞。",
+    "Ganeti 快照未覆盖 snapshot/template/clone；batch 的 leaf_matches 已明确不把这些写入断言，当前创建/修改/启停/迁移/故障转移/删除足以支持虚拟化管理核心，非阻断。",
+    "Fleet 的 license 字段写 MIT，但仓库 LICENSE 是复合许可：docs/ 为 CC BY-SA 4.0、ee/ 为单独企业许可、其余为 MIT Expat；batch 的 summary 与 license_review 已说明社区核心边界，建议 license 字段也写明范围，避免被读成整仓 MIT。",
+    "Uyuni 的 license 字段写 GPL-2.0，LICENSE 为 GPLv2 全文但未在快照中区分 only/or-later；建议按 SPDX 精确化，非阻断。",
+    "input.json 的 progress 仍为 not_searched、application_ids 为空，而 batch/research 对五个叶子均记 case_found；建议同步元数据，本次结论以 batch/research 和实际快照为准。",
+    "serverless 叶的旧候选 OpenFaaS 只在 research.fetch_outcomes 中留有抓取记录，未进入 REVIEW_SOURCES/batch；因已排除，不影响本叶结论，但该排除证据未归档快照。"
+  ],
+  "leaf_checks": {
+    "serverless-management-platform": {
+      "application_id": "github:91797088",
+      "track": "open_source",
+      "license": "Apache-2.0",
+      "result": "pass",
+      "basis": "Nuclio 官方 README（28ba0e3750aab0058ed306a4c7cef58384825d986e6783349e156d71655b23f6）的 Quick-start 显示通过 Dashboard 创建 project、添加/部署 function，并用 curl 调用；How it works 显示 event triggers（Kafka/HTTP/timer）、processor、logs/metrics；repository metadata 的 id=91797088 与 batch 一致；license 快照为 Apache License 2.0 全文。",
+      "gap": "未运行或部署；无运行时验证，但不影响核心正文判断。"
+    },
+    "service-mesh-management": {
+      "application_id": "github:74175805",
+      "track": "open_source",
+      "license": "Apache-2.0",
+      "result": "pass",
+      "basis": "Istio README 说明 Istiod control plane、Envoy/ztunnel data plane、service discovery、certificate management、service-to-service authentication/authorization；Traffic Management 文档正文显示 service registry、VirtualService/DestinationRule、按权重分流、retries/timeouts/circuit breakers；repository metadata 的 id=74175805 与 batch 一致；license 快照为 Apache-2.0 全文。",
+      "gap": "已读快照未展开 mTLS/授权策略细节；核心东西向流量治理已由 README 与 traffic 文档支撑，未部署。"
+    },
+    "virtualization-management": {
+      "application_id": "github:25163509",
+      "track": "open_source",
+      "license": "BSD-2-Clause",
+      "result": "pass",
+      "basis": "Ganeti README 定义其为 Xen/KVM 之上的 VM cluster management tool；gnt-instance man page 正文显示 add/modify/start/shutdown/migrate/failover/remove，以及按 node/iallocator 放置；repository metadata 的 id=25163509 与 batch 一致；COPYING 为 BSD 2-clause 全文。",
+      "gap": "快照未覆盖 snapshot/template/clone；batch 已明确不把这些写入断言，创建/配置/启停/迁移/故障转移/删除足以支持核心。"
+    },
+    "endpoint-management-uem": {
+      "application_id": "github:309820286",
+      "track": "open_source",
+      "license": "MIT (community core; ee/ separate enterprise license)",
+      "result": "insufficient_evidence",
+      "basis": "Fleet README 只提供产品概述：跨 OS 设备管理、MDM、补丁、软件部署、合规/可见性；仓库 LICENSE 说明 docs/ 为 CC BY-SA 4.0、ee/ 单独企业许可、其余为 MIT Expat；repository metadata 的 id=309820286 与 batch 一致。",
+      "gap": "缺少设备注册、集中配置/策略定向、设备生命周期（注册→配置→维护→退役）的正文；batch 的“设备经 agent 上报”“MDM 配置与策略合规检查”未被 README 直接支持。"
+    },
+    "patch-management": {
+      "application_id": "github:143291989",
+      "track": "open_source",
+      "license": "GPL-2.0",
+      "result": "insufficient_evidence",
+      "basis": "Uyuni README 仅说明其为开源 systems management solution、Spacewalk fork；Patch Management 文档正文实际讨论 retracted patches 与 channel clone/Patch Sync；repository metadata 的 id=143291989 与 batch 一致；LICENSE 为 GPLv2 全文。",
+      "gap": "缺少 update catalog 同步、逐机 currency assessment（missing/installed/not applicable/unknown）、审批后受控部署及结果/合规审计的核心正文；batch 的“评估并部署补丁/更新并记录审计状态”超出快照。"
+    }
+  },
+  "limits": "本次仅做只读审查，未运行 shell、未写入文件、未读取其他单元；未运行、部署或测试任何产品，未做运行时验证；未重新计算快照 SHA-256，仅按 REVIEW_SOURCES.json 的 path 原样读取并核对内容与文件名哈希；部分 HTML 快照很大，重点读取正文与相关章节，未逐行审阅全部导航；未抓取额外外部资料来填补 Fleet/Uyuni 的正文缺口；本单元无商业条目，故未做商业真实性与类型匹配核对；input.json 的 progress 元数据与 batch/research 不一致，本次以 batch/research 和实际快照为准。",
+  "recorded_by": "queue controller from independent reviewer output",
+  "recorded_from_log": "var/collection/beam-continuation-20261025/part-138/ses_groveopencodegop138review1_1793010383.jsonl",
+  "batch_sha256": "fa016b2d228f98e95bc4bc9f40abc72326be3420c11c4d9880f30388039b4090",
+  "research_sha256": "61520b6420395d793e4c8e0910e44f4e7a8576993be37c6b074aea9881f0ef72",
+  "input_sha256": "3eaf54b5c9f45dc0d236488ea2fb247c25860aabe7b64610832e11aed886a2b8"
+}
