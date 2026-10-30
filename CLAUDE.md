@@ -26,6 +26,8 @@
 
 ## 约定
 
+- 本地选型记录阶段（2026-10-30）：`saas-grove.saved-products.v1` 兼容读取旧 v1/items，首次写入升为 v2 增加 notes/comparisons（旧版 v1 读者拒绝写入，防旧标签页清掉新字段），旧收藏不迁移不改 ID/时间。`web/src/local-data.ts` 负责格式与合并，所有变更校验后一次 setItem，写失败保持原记录；备份冲突当前优先。`workspace.tsx` 提供个人记录、已保存比较与备份界面，个人信息不写正式库；删除收藏不删除备注。`comparison.tsx` 按 URL 保存维度、折叠和产品顺序；`server/comparison.py` 只重组既有 CRM 来源，缺绑定保持未知，未经出处确认的版本/许可边界不补断言。未改正式1440产品/1724关系、历史资料及203无关修改。74后端+28队列+33隔离浏览器+8真实数据浏览器及构建通过，报告docs/LOCAL_DECISIONS_REPORT.md。仍仅本地使用，不部署。历史收藏和发现阶段验收记录保留。
+
 - 本地收藏阶段（2026-10-29）：搜索卡片/详情的收藏按钮共用 `web/src/saved.tsx`，`localStorage` key 为 `saas-grove.saved-products.v1`，仅保存 ID/saved_at，勿随意更名造成旧清单无法读取。`/shortlist` 按当前产品类型交集选择2–4项比较，URL保留筛选与选择，查询失败/缺失ID不自动删除收藏。`/api/products/lookup` 仅只读批查，单次60上限、客户端每批40；正式1440产品/1724关系及全历史原样保留。本轮69后端+28队列+25浏览器回归+2真实桌面手机验收及构建通过。用户最新决定仅本地使用，不配置GitHub Pages或公开部署。见 docs/LOCAL_SHORTLIST_REPORT.md；独立审查继续使用本聊天已授权的Go DeepSeek，只读静态结论与实际测试结果分开。
 
 - 产品发现阶段（2026-10-29）：已增加只读 `server/products.py` 和 `/api/products`、`/api/products/:id`、`/api/compare`，前端 `/search`、`/products/:id`、`/compare`。复用原 SQLite 三表，未重构采集系统。搜索按已有名称/别名/类型检索，许可/部署筛选基于已有事实；来源采集日期不冒充复核日期。比较同类型2–4产品，未知不判不支持。CRM仅为既有EspoCRM增加一条正式关系；现1440产品/1724关系，原产品核心/关系/来源、分类与待确认进度保持。67后端+28队列+14隔离浏览器+4真实目录浏览器测试和构建通过，截图/命令见docs/PRODUCT_DISCOVERY_REPORT.md。OpenCode Go/DeepSeek按本聊天明确授权完成独立只读静态审查；其没有运行测试，测试结果来自本地实际执行。

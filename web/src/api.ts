@@ -24,7 +24,8 @@ export type Application = { id: string; name: string; summary?: string; homepage
 export type ProductType = { slug: string; name: string; name_zh: string; scope: Scope; domain_id: string };
 export type ProductResults = { applications: Application[]; total: number; page: number; pages: number; page_size: number;
   facets: { licenses: { value: string; count: number }[]; deployments: { value: string; label: string; count: number }[] } };
-export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[] };
+export type EvidenceCell = { status: "recorded" | "unknown"; value: string; sources: { url: string; quote: string; sha256: string; fetched_at: string }[] };
+export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[]; crm_rows?: { key: string; label: string; cells: EvidenceCell[] }[] };
 export type ApplicationList = { applications: Application[]; leaf: string; track: Track; total: number };
 
 export function useResource<T>(url: string) {

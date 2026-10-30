@@ -102,6 +102,7 @@ test("real mobile: search, details and comparison operate at 390px", async ({ pa
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `${OUT}/compare-mobile.png`, fullPage: false });
   const region = page.getByRole("region", { name: "产品比较表，可横向滚动" });
+  await page.locator(".comparison-table thead").scrollIntoViewIfNeeded();
   await region.evaluate(el => { el.scrollLeft = el.scrollWidth; });
   await expect(page.getByLabel("替换 EspoCRM", { exact: true })).toBeInViewport();
 });

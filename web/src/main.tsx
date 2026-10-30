@@ -3,8 +3,9 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Browse, LeafPage, NotFound } from "./pages";
-import { ComparePage, ProductPage, SearchPage } from "./products";
+import { ProductPage, SearchPage } from "./products";
 import { SavedNotice, SavedProvider, useSaved } from "./saved";
+import { ComparePage } from "./comparison";
 import { ShortlistPage } from "./shortlist";
 import "./styles.css";
 function App() {

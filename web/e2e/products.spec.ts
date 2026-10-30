@@ -85,6 +85,7 @@ test("mobile search, details and horizontal comparison stay within viewport", as
   const comparison = page.getByRole("region", { name: "产品比较表，可横向滚动" });
   await expect(comparison).toBeVisible();
   await expect.poll(() => comparison.evaluate(el => el.scrollWidth > el.clientWidth)).toBe(true);
+  await page.locator(".comparison-table thead").scrollIntoViewIfNeeded();
   await comparison.evaluate(el => { el.scrollLeft = el.scrollWidth; });
   await expect(page.getByLabel("替换 测试商业产品")).toBeInViewport();
 });

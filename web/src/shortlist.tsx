@@ -4,6 +4,7 @@ import { ArrowRight, Bookmark, Columns3, X } from "lucide-react";
 import type { Application, ProductType } from "./api";
 import { ProductCard } from "./products";
 import { useSaved } from "./saved";
+import { PersonalNoteEditor, SavedComparisons } from "./workspace";
 
 type Lookup = { applications: Application[]; missing_ids: string[] };
 function useSavedCatalog(ids: string[]) {
@@ -69,6 +70,7 @@ export function ShortlistPage() {
   const compareUrl = comparisonType ? `/compare?${new URLSearchParams({ leaf: comparisonType.slug, ids: selected.join(","), from: `/shortlist?${returnParams}` })}` : "";
   return <main id="main" className="page discovery-page shortlist-page">
     <div className="discovery-heading"><div><p className="eyebrow">YOUR NEXT POSSIBILITIES</p><h1>我的候选清单<span className="hero-period">。</span></h1><p>把值得了解的产品先留下，再一起比较。收藏仅保存在当前浏览器。</p></div><Link className="text-action" to="/search">继续发现产品 <ArrowRight size={15} /></Link></div>
+    <SavedComparisons />
     {!items.length ? <div className="message-card shortlist-empty"><Bookmark size={32} /><h2>把第一个选择留在这里</h2><p>在搜索结果或产品详情页点击“收藏”，就能在这里找到它。</p><Link className="button primary-button" to="/search">去发现产品 <ArrowRight size={16} /></Link></div> : error ? <div className="message-card error" role="alert"><h2>收藏产品暂时没有加载成功</h2><p>{error}</p><p>本地收藏记录仍然保留。</p><button className="button" onClick={retry}>重新加载收藏</button></div> : !data ? <div className="loading-box" role="status"><span className="loading-dot" />正在读取收藏产品…</div> : <>
       <div className="shortlist-filters"><p><strong>{items.length}</strong> 个收藏 · 当前显示 {visible.length} 个</p><label>应用类型<select aria-label="清单应用类型" value={type} onChange={e => filter("type", e.target.value)}><option value="">全部类型</option>{groups.map(t => <option key={t.slug} value={t.slug}>{t.name_zh || t.name} ({typeCounts.get(t.slug)})</option>)}</select></label><label>产品分区<select aria-label="清单产品分区" value={track} onChange={e => filter("track", e.target.value)}><option value="all">开源与商业</option><option value="open_source">开源项目</option><option value="commercial">商业产品</option></select></label></div>
       <section className="shortlist-comparison" aria-label="清单比较选择"><div className="shortlist-comparison-top"><h2><Columns3 size={19} />选择同类产品比较</h2><span>{selected.length} / 4 已选</span></div>
@@ -84,6 +86,7 @@ export function ShortlistPage() {
         const reason = checked ? "" : !app.types?.length ? "尚无可比较类型" : !checked && selected.length >= 4 ? "最多选择 4 个产品" : !checked && !compatible ? "与已选产品没有共同类型" : "";
         return <div className={`shortlist-entry ${checked ? "selected" : ""}`} key={app.id}><ProductCard app={app} from={location.pathname + location.search}>
           <div className="shortlist-card-choice"><label><input type="checkbox" aria-label={`选择比较 ${app.name}`} checked={checked} disabled={!!reason} onChange={e => select(e.target.checked ? [...selected, app.id] : selected.filter(id => id !== app.id))} /><span>加入本次比较</span></label>{reason && <small>{reason}</small>}<time dateTime={validTime ? savedAt.get(app.id) : undefined}>收藏于 {validTime ? savedTime.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }) : "时间未记录"}</time></div>
+          <PersonalNoteEditor id={app.id} name={app.name} />
         </ProductCard></div>;
       })}</div> : <div className="message-card"><h2>当前筛选下没有可显示的产品</h2><button className="button" onClick={() => { setDraft([]); setParams({}); }}>查看全部收藏</button></div>}
     </>}

@@ -1,10 +1,10 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Columns3, ExternalLink, Search, X } from "lucide-react";
-import { useResource, type Application, type Comparison, type ProductResults } from "./api";
+import { useResource, type Application, type ProductResults } from "./api";
 import { SaveButton } from "./saved";
+import { PersonalNoteEditor } from "./workspace";
 
-const CRM = "customer-relationship-management-crm";
 const date = (value?: string) => value ? value.slice(0, 10) : "日期未记录";
 const sourceNames: Record<string, string> = { homepage: "官网", documentation: "官方文档", readme: "项目介绍 / README", license: "许可证原文", repository_metadata: "仓库资料" };
 export const productUrl = (id: string, from: string) => `/products/${encodeURIComponent(id)}?${new URLSearchParams({ from })}`;
@@ -99,6 +99,7 @@ export function ProductPage() {
       <section className="reading-section"><p className="eyebrow">WHERE IT FITS</p><h2>所属应用类型</h2><Types app={app} />{!open && <p className="quiet-note">商业产品保留基本索引，深入能力、技术与部署信息尚未核对。</p>}</section>
       <section className="reading-section"><p className="eyebrow">FOLLOW THE EVIDENCE</p><h2>资料来源</h2><Sources app={app} /></section>
     </div>{open && <aside className="product-side-reading"><section className="reading-section"><p className="eyebrow">UNDER THE HOOD</p><h2>技术与部署</h2><h3>技术栈</h3><Facts values={app.technology_stack} /><h3>部署方式</h3><Facts values={app.deployment} /></section><section className="reading-section"><p className="eyebrow">LICENSE</p><h2>{app.license || "许可证待核实"}</h2><span className={`badge ${app.license_status === "reviewed" ? "open-badge" : "conditional"}`}>{app.license_status === "reviewed" ? "已核对许可资料" : "许可资料待核验"}</span>{app.license_review?.rationale && <p className="license-rationale">{app.license_review.rationale}</p>}{(app.license_evidence_url || app.license_review?.source_url) && <a className="text-action" href={app.license_evidence_url || app.license_review?.source_url} target="_blank" rel="noreferrer">查看许可依据 <ArrowUpRight size={14} /></a>}</section></aside>}</div>
+    <section className="product-personal"><PersonalNoteEditor id={app.id} name={app.name} /></section>
     {comparisonType && <section className="next-step"><div><p className="eyebrow">KEEP EXPLORING</p><h2>把选择放在一起看。</h2><p>从同一类型中选择 2–4 个产品，比较已有资料。</p></div><Link className="button" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id, from })}#compare-picker`}>选择比较对象 <ArrowRight size={16} /></Link></section>}
   </main>;
 }
@@ -117,34 +118,4 @@ export function ComparePicker({ leaf, selected, change, from, expanded = false }
       <div className="compare-picker-footer"><span>{draft.length < 2 ? "至少选择 2 个产品" : `已选择 ${draft.length} 个产品`}</span>{draft.length >= 2 ? <Link className="button primary-button" to={compareUrl}>开始比较 <ArrowRight size={15} /></Link> : <button className="button" disabled>开始比较</button>}</div>
     </div>
   </details>;
-}
-
-export function ComparePage() {
-  const [params, setParams] = useSearchParams();
-  const location = useLocation();
-  const selected = (params.get("ids") || "").split(",").filter(Boolean);
-  const leaf = params.get("leaf") || "";
-  const back = context(params.get("from"), leaf ? `/types/${leaf}` : "/search");
-  const { data, error, retry } = useResource<Comparison>(`/api/compare?${new URLSearchParams({ ids: selected.join(","), leaf })}`);
-  useEffect(() => { document.title = "产品比较 · SaaS Grove"; }, []);
-  function change(ids: string[]) { const next = new URLSearchParams(params); next.set("ids", ids.join(",")); if (!leaf && data?.leaf) next.set("leaf", data.leaf.slug); setParams(next); }
-  const from = location.pathname + location.search;
-  return <main id="main" className="page compare-page"><Link className="return-context" to={back}><ArrowLeft size={15} />返回继续选择</Link>
-    <div className="discovery-heading"><div><p className="eyebrow">A CLEARER CHOICE</p><h1>把差异，看清楚。</h1><p>{data?.leaf.name_zh || "同类型产品"} · 只比较已有的可核实资料。</p></div><Link className="text-action" to={`/types/${data?.leaf.slug || leaf || CRM}`}>浏览同类产品 <ArrowUpRight size={15} /></Link></div>
-    <div className="comparison-legend"><span><i className="legend-confirmed" />已记录并核对的事实</span><span><i className="legend-unknown" />资料未提供 / 未核实</span><span><i className="legend-negative" />明确不支持：仅在有直接依据时标注</span><p>没有记录某项能力，不代表产品不支持。商业产品为基本索引，缺项不用于评价优劣。</p></div>
-    {selected.length < 2 ? leaf ? <ComparePicker leaf={leaf} selected={selected} change={() => {}} from={back} expanded /> : <div className="message-card"><h2>先选几个同类产品</h2><p>选择 2–4 个产品，开始一次有依据的比较。</p><Link className="button" to={`/types/${CRM}#compare-picker`}>从 CRM 开始 <ArrowRight size={15} /></Link></div> : error ? <><ErrorState error={error} retry={retry} back={back} />{leaf && <ComparePicker leaf={leaf} selected={[]} change={() => {}} from={back} expanded />}<Link className="text-action" to="/browse">从分类目录重新选择 <ArrowRight size={15} /></Link></> : !data ? <Loading /> : <>
-      <p className="quiet-note comparison-hint">小屏幕可在表格内左右滑动，查看所有产品。</p>
-      <div className="compare-scroll" role="region" aria-label="产品比较表，可横向滚动" tabIndex={0}><table className="comparison-table"><thead><tr><th scope="col">比较维度</th>{data.products.map(app => <th scope="col" key={app.id}><Tracks app={app} /><Link className="compare-product-name" to={productUrl(app.id, from)}>{app.name}<ArrowUpRight size={16} /></Link><div className="compare-column-actions"><select aria-label={`替换 ${app.name}`} value={app.id} onChange={e => change(selected.map(id => id === app.id ? e.target.value : id))}>{data.candidates.filter(a => a.id === app.id || !selected.includes(a.id)).map(a => <option key={a.id} value={a.id}>{a.name}</option>)}</select><button aria-label={`移除 ${app.name}`} title="移除" onClick={() => change(selected.filter(id => id !== app.id))}><X size={16} /></button></div></th>)}</tr></thead><tbody>
-        <tr><th scope="row">主要用途</th>{data.products.map(a => <td key={a.id}>{a.summary || <Unknown />}</td>)}</tr>
-        <tr><th scope="row">所属类型</th>{data.products.map(a => <td key={a.id}><Types app={a} /></td>)}</tr>
-        <tr><th scope="row">已记录的核心能力</th>{data.products.map(a => <td key={a.id}><Facts values={a.features} />{a.unsupported_features?.map(f => <p className="explicit-limit" key={f.name}>明确不支持：{f.name} <a href={f.source_url} target="_blank" rel="noreferrer">依据 <ExternalLink size={12} /></a></p>)}</td>)}</tr>
-        <tr><th scope="row">部署方式</th>{data.products.map(a => <td key={a.id}><Facts values={a.deployment} /></td>)}</tr>
-        <tr><th scope="row">技术栈</th>{data.products.map(a => <td key={a.id}><Facts values={a.technology_stack} /></td>)}</tr>
-        <tr><th scope="row">许可证与核验</th>{data.products.map(a => <td key={a.id}>{a.license ? <><strong>{a.license}</strong><p className="quiet-note">{a.license_status === "reviewed" ? "已核对许可资料" : "许可资料待核验"}</p>{a.license_review?.rationale && <p>{a.license_review.rationale}</p>}</> : <Unknown />}</td>)}</tr>
-        <tr><th scope="row">来源与资料日期</th>{data.products.map(a => <td key={a.id}><Status app={a} /><p>{a.checked_at_basis === "recorded" ? "核对" : "来源采集"} · {date(a.checked_at)}</p><div className="compare-official-links">{a.homepage && <a href={a.homepage} target="_blank" rel="noreferrer">官网 <ArrowUpRight size={13} /></a>}{a.repository_url && <a href={a.repository_url} target="_blank" rel="noreferrer">仓库 <ArrowUpRight size={13} /></a>}<Link to={productUrl(a.id, from)}>全部来源 <ArrowRight size={13} /></Link></div></td>)}</tr>
-        <tr><th scope="row">实际部署测试</th>{data.products.map(a => <td key={a.id}>{a.runtime_tested === true ? "已记录部署测试" : a.runtime_tested === false ? "尚未进行部署测试" : <Unknown />}</td>)}</tr>
-      </tbody></table></div>
-      <ComparePicker leaf={data.leaf.slug} selected={selected} change={() => {}} from={back} />
-    </>}
-  </main>;
 }

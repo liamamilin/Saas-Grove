@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 import re
 import unicodedata
+from .comparison import crm_rows
 
 DEPLOYMENTS = {"self_hosted": "自托管", "docker": "Docker", "managed_cloud": "云部署 / 托管服务"}
 
@@ -172,5 +173,5 @@ class Products:
             leaf = sorted(common)[0]
         else:
             raise ValueError("比较对象没有共同的应用类型，请从类型页重新选择")
-        return {"products": apps, "leaf": self.leaf_ref(leaf),
+        return {"products": apps, "leaf": self.leaf_ref(leaf), "crm_rows": crm_rows(apps, leaf),
                 "candidates": [self.card(a) for a in sorted(by_id.values(), key=lambda a: (normalized(a["name"]), a["id"])) if any(t["slug"] == leaf for t in a["types"])]}

@@ -72,6 +72,7 @@ test("real mobile: save via both entry points, select a pair and compare", async
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: `${OUT}/comparison-mobile.png`, fullPage: false });
   const region = page.getByRole("region", { name: "产品比较表，可横向滚动" });
+  await page.locator(".comparison-table thead").scrollIntoViewIfNeeded();
   await region.evaluate(el => { el.scrollLeft = el.scrollWidth; });
   await expect(page.getByLabel("替换 Twenty", { exact: true })).toBeInViewport();
   await page.getByRole("link", { name: "返回继续选择", exact: true }).click();
