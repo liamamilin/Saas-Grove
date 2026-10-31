@@ -5,6 +5,7 @@ import json
 import re
 import unicodedata
 from .comparison import crm_rows
+from .resources import Resources
 
 DEPLOYMENTS = {"self_hosted": "自托管", "docker": "Docker", "managed_cloud": "云部署 / 托管服务"}
 
@@ -38,14 +39,15 @@ def deployment_options(values):
 
 
 class Products:
-    def __init__(self, store, taxonomy):
+    def __init__(self, store, taxonomy, resources=None):
         self.store, self.taxonomy = store, taxonomy
+        self.resources = resources if resources is not None else Resources()
 
     def leaf_ref(self, slug):
         row = self.taxonomy.leaves[slug]
         return {key: row[key] for key in ("slug", "name", "name_zh", "scope", "domain_id")}
 
-    def records(self, app_id=None, app_ids=None):
+    def records(self, app_id=None, app_ids=None, full=False):
         # 1,440 records fit comfortably in memory. Three SQLite reads avoid N+1 queries,
         # JSON/schema migrations, and a second search index that can drift from imports.
         with self.store.connect() as con:
@@ -75,19 +77,24 @@ class Products:
             license_evidence = app.get("license_evidence_url") or (app.get("license_review") or {}).get("source_url")
             app["license_status"] = "reviewed" if app.get("license") and license_evidence and app.get("verification_status") == "official_sources_reviewed" else "unverified"
             app["deployment_options"] = deployment_options(app.get("deployment", []))
+            self.resources.decorate(app, full)
         return apps
 
     @staticmethod
     def card(app):
         keys = ("id", "name", "summary", "homepage", "repository_url", "tracks", "types", "license",
-                "license_status", "deployment_options", "checked_at", "checked_at_basis", "verification_status", "runtime_tested")
+                "license_status", "deployment_options", "checked_at", "checked_at_basis", "verification_status", "runtime_tested",
+                "logo_url", "resources_curated", "screenshot_count", "ui_screenshot_count")
         return {k: app[k] for k in keys if k in app}
 
     def search(self, query):
         track = query.get("track", "all")
         sort = query.get("sort", "relevance")
         deployment, license_name = query.get("deployment", ""), query.get("license", "")
-        leaf = query.get("leaf", "")
+        leaf, exclude = query.get("leaf", ""), query.get("exclude", "")
+        curated = query.get("curated", "")
+        if curated not in {"", "1"}:
+            raise ValueError("未知的资源筛选")
         if track not in {"all", "open_source", "commercial"}:
             raise ValueError("未知的应用分区")
         if sort not in {"relevance", "name", "checked"}:
@@ -112,7 +119,7 @@ class Products:
             if track != "all" and track not in app["tracks"]:
                 continue
             slugs = [t["slug"] for t in app["types"]]
-            if leaf and leaf not in slugs:
+            if leaf and leaf not in slugs or app["id"] == exclude:
                 continue
             aliases = [app.get("name_en") or "", app.get("english_name") or "", *(app.get("aliases") or []), *(app.get("aliases_zh") or [])]
             name = normalized(" ".join([app["name"], *aliases]))
@@ -124,8 +131,9 @@ class Products:
             ranked.append((app, score))
         licenses = Counter(a.get("license") for a, _ in ranked if a.get("license"))
         deployments = Counter(d for a, _ in ranked for d in a["deployment_options"])
+        curated_count = sum(1 for a, _ in ranked if a["resources_curated"])
         ranked = [(a, s) for a, s in ranked if (not license_name or a.get("license") == license_name)
-                  and (not deployment or deployment in a["deployment_options"])]
+                  and (not deployment or deployment in a["deployment_options"]) and (not curated or a["resources_curated"])]
         def order(item):
             app, score = item
             stable = (normalized(app["name"]), app["id"])
@@ -142,11 +150,15 @@ class Products:
         return {"applications": [self.card(app) for app, _ in ranked[start:start + page_size]],
                 "total": total, "page": page, "page_size": page_size, "pages": pages,
                 "facets": {"licenses": [{"value": v, "count": n} for v, n in sorted(licenses.items())],
-                           "deployments": [{"value": v, "label": label, "count": deployments[v]} for v, label in DEPLOYMENTS.items() if deployments[v]]}}
+                           "deployments": [{"value": v, "label": label, "count": deployments[v]} for v, label in DEPLOYMENTS.items() if deployments[v]],
+                           "curated": curated_count}}
 
     def detail(self, app_id):
-        for app in self.records(app_id):
+        for app in self.records(app_id, full=True):
             if app["id"] == app_id:
+                counts, _ = self.store.counts()
+                for ref in app["types"]:
+                    ref["product_count"] = sum(counts.get(ref["slug"], {}).values())
                 return app
         raise KeyError(app_id)
 

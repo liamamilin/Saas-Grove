@@ -4,7 +4,8 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Boxes, Check, ChevronRig
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useResource, type Application, type ApplicationList, type Domain, type Leaf, type LeafDetail, type Taxonomy, type Track } from "./api";
-import { ComparePicker, ProductSearchForm, productUrl } from "./products";
+import { ComparePicker, CuratedShowcase, ProductSearchForm, productUrl } from "./products";
+import { ProductLogo } from "./media";
 
 const number = (n: number) => n.toLocaleString("zh-CN");
 const text = (value: string) => value.replace(/\*\*|`|^#+\s/gm, "").trim();
@@ -33,6 +34,7 @@ export function Browse() {
       <div className="hero-index" aria-hidden="true"><span className="index-label">THE INDEX / 01</span><div><span>分类</span><i>↘</i><span>叶子类型</span><i>↘</i><span className="index-end">真实应用</span></div><p>清晰的分类，直接的连接。</p></div>
     </section>
     <ProductSearchForm home /><p className="home-search-hint">从一个名字或用途开始。<Link to="/search?q=CRM系统">发现 CRM 产品 <ArrowRight size={13} /></Link></p>
+    {!q && !domainId && <CuratedShowcase />}
     <section className="stats" aria-label="目录统计">
       <div><strong>{data ? number(data.counts.included) : "—"}</strong><span>主目录应用类型</span></div>
       <div><strong>{data ? number(data.counts.conditional) : "—"}</strong><span>待确认类型</span></div>
@@ -96,6 +98,8 @@ export function LeafPage() {
         {listing.error ? <ErrorState error={listing.error} retry={listing.retry} /> : !listing.data ? <Loading /> : listing.data.applications.length > 0 ? <div className="application-grid">{listing.data.applications.map(app => <ApplicationCard key={app.id} app={app} track={track} />)}</div> : <div className="applications-empty"><div className="empty-symbol">{track === "open_source" ? <Code2 size={29} /> : <Boxes size={29} />}</div><span className="eyebrow">{q ? "NO MATCHES" : "ROOM FOR DISCOVERY"}</span><h3>{q ? "没有符合搜索条件的应用" : track === "open_source" ? "这里还没有收录开源项目" : "这里还没有记录商业产品"}</h3><p>{q ? "换个关键词试试，或清除搜索查看全部条目。" : "类型目录已经准备好。找到并整理的真实应用，会在这里逐步补充。"}</p><div className="empty-check"><Check size={14} /><span>资料缺项会明确标注，来源始终可追溯</span></div></div>}
       </div>
     </section>
+    {!!leaf.related?.length && <section className="related-types" aria-label="相关类型"><div className="applications-header"><div><p className="eyebrow">NEARBY TYPES</p><h2>同一分组的相关类型</h2>{leaf.related_total! > leaf.related.length && <p className="track-description">「{leaf.breadcrumbs[1]?.name_zh}」共 {leaf.related_total} 个相关类型，按已收录产品数显示前 {leaf.related.length} 个。</p>}</div><Link to={`/browse?${new URLSearchParams({ domain: leaf.domain_id, ...(leaf.scope === "conditional" ? { scope: "conditional" } : {}) })}`} className="back-link">浏览「{leaf.breadcrumbs[0]?.name_zh || "所属领域"}」全部类型 <ArrowRight size={14} /></Link></div>
+      <div className="leaf-grid">{leaf.related.map(r => <Link className="leaf-card" key={r.slug} to={`/types/${r.slug}`}><div><h4>{r.name_zh || r.name}</h4><p>{r.name}</p></div><div className="leaf-meta">{r.scope === "conditional" ? <span className="badge conditional">待确认</span> : <span>{r.counts.open_source} 开源 · {r.counts.commercial} 商业</span>}<ChevronRight size={16} /></div></Link>)}</div></section>}
   </main>;
 }
 function Markdown({ value }: { value: string }) {
@@ -105,7 +109,7 @@ function ApplicationCard({ app, track }: { app: Application; track: Track }) {
   const location = useLocation();
   const source = app.source_url || app.sources?.find(s => s.kind === "readme" || s.kind === "homepage")?.url;
   const checkedAt = app.checked_at || app.sources?.reduce((latest, s) => Date.parse(s.fetched_at) > Date.parse(latest || "1970-01-01") ? s.fetched_at : latest, "");
-  return <article className="application-card"><div className="application-card-title"><h3><Link to={productUrl(app.id, location.pathname + location.search)}>{app.name}</Link></h3><span className="badge">{track === "open_source" ? "开源项目" : "商业产品"}</span></div><p>{app.summary || "介绍待补充"}</p>{track === "open_source" && app.features?.length ? <ul>{app.features.map(f => <li key={f}>{f}</li>)}</ul> : null}
+  return <article className="application-card"><div className="application-card-title"><ProductLogo app={app} size="small" /><h3><Link to={productUrl(app.id, location.pathname + location.search)}>{app.name}</Link></h3><span className="badge">{track === "open_source" ? "开源项目" : "商业产品"}</span></div><p>{app.summary || "介绍待补充"}</p>{app.resources_curated && <p className="application-media-note">{app.screenshot_count ? `官方资源已整理 · ${app.screenshot_count} 张官方界面图` : "官方资源已整理"}</p>}{track === "open_source" && app.features?.length ? <ul>{app.features.map(f => <li key={f}>{f}</li>)}</ul> : null}
     {track === "open_source" && (app.deployment?.length || app.technology_stack?.length) ? <dl className="application-facts">{app.deployment?.length ? <div><dt>部署</dt><dd>{app.deployment.join(" · ")}</dd></div> : null}{app.technology_stack?.length ? <div><dt>技术</dt><dd>{app.technology_stack.join(" · ")}</dd></div> : null}</dl> : null}
     <div className="application-card-links"><Link to={productUrl(app.id, location.pathname + location.search)}>产品详情 <ArrowRight size={14} /></Link>{app.homepage && <a href={app.homepage} target="_blank" rel="noreferrer">官网 <ArrowUpRight size={14} /></a>}{track === "open_source" && app.repository_url && <a href={app.repository_url} target="_blank" rel="noreferrer">代码仓库 <ArrowUpRight size={14} /></a>}{source && <a href={source} target="_blank" rel="noreferrer">资料来源 <ArrowUpRight size={14} /></a>}</div>
     {track === "open_source" && <p className="source-note">许可证：{app.license || "待核验"}{app.runtime_tested === false && <><br />{app.verification_status === "official_sources_reviewed" ? "已核对官方资料，尚未进行部署测试" : "资料待核对，尚未进行部署测试"}</>}</p>}

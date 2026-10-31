@@ -1,7 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Columns3, ExternalLink, Search, X } from "lucide-react";
-import { useResource, type Application, type ProductResults } from "./api";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Code2, Columns3, ExternalLink, Images, Search, X } from "lucide-react";
+import { useResource, type Application, type ProductResults, type ProductType } from "./api";
+import { DemoActions, ProductLogo, RepositoryFacts, ResourcePanel, ScreenshotGallery } from "./media";
 import { SaveButton } from "./saved";
 import { PersonalNoteEditor } from "./workspace";
 
@@ -33,13 +34,13 @@ export function ProductSearchForm({ initial = "", home = false }: { initial?: st
   </form>;
 }
 
-export function ProductCard({ app, from, children }: { app: Application; from: string; children?: ReactNode }) {
-  return <article className="product-card"><div className="product-card-top"><span className="product-monogram" aria-hidden="true">{app.name.slice(0, 1).toUpperCase()}</span><div className="product-card-actions"><Tracks app={app} /><SaveButton id={app.id} name={app.name} /></div></div>
-    <h2><Link to={productUrl(app.id, from)}>{app.name}<ArrowUpRight size={18} /></Link></h2>
+export function ProductCard({ app, from, children, primaryType }: { app: Application; from: string; children?: ReactNode; primaryType?: string }) {
+  const type = app.types?.find(t => t.slug === primaryType) || app.types?.[0];
+  const open = app.tracks?.includes("open_source");
+  return <article className="product-card"><div className="product-card-head"><ProductLogo app={app} /><div className="product-card-title"><h2><Link to={productUrl(app.id, from)}>{app.name}<ArrowUpRight size={17} /></Link></h2><Tracks app={app} /></div><SaveButton id={app.id} name={app.name} /></div>
     <p className="product-summary">{app.summary || "简介尚未记录"}</p>
-    <div className="product-types">{app.types?.slice(0, 2).map(t => <Link key={t.slug} to={`/types/${t.slug}`}>{t.name_zh || t.name}</Link>)}{(app.types?.length || 0) > 2 && <span>+{app.types!.length - 2} 类型</span>}</div>
-    <div className="product-card-bottom"><span>{app.license || (app.tracks?.includes("open_source") ? "许可待核实" : "商业基本索引")}</span><Link to={productUrl(app.id, from)}>了解产品 <ArrowRight size={14} /></Link></div>
-    <p className="product-date"><Status app={app} /><span>{app.checked_at_basis === "recorded" ? "核对" : "来源"} {date(app.checked_at)}</span></p>
+    <div className="product-tags">{type && <Link className="tag-type" to={`/types/${type.slug}`}>{type.name_zh || type.name}</Link>}{(app.types?.length || 0) > 1 && <span className="tag-more">+{app.types!.length - 1} 类型</span>}<span className="tag-plain">{app.license || (open ? "许可待核实" : "商业基本索引")}</span>{app.resources_curated && <span className="tag-media">{app.screenshot_count ? <><Images size={12} />{app.ui_screenshot_count ? "有界面截图" : "有官方界面图"}</> : "官方资源已整理"}</span>}</div>
+    <div className="product-card-bottom"><span className="product-date"><Status app={app} /><span>{app.checked_at_basis === "recorded" ? "核对" : "来源"} {date(app.checked_at)}</span></span><Link to={productUrl(app.id, from)}>了解产品 <ArrowRight size={14} /></Link></div>
     {children}
   </article>;
 }
@@ -63,6 +64,7 @@ export function SearchPage() {
       <label>产品分区<select aria-label="产品分区" value={params.get("track") || "all"} onChange={e => filter("track", e.target.value)}><option value="all">全部 · 开源优先</option><option value="open_source">开源项目</option><option value="commercial">商业产品</option></select></label>
       <label>许可证<select aria-label="许可证" value={params.get("license") || ""} onChange={e => filter("license", e.target.value)}><option value="">全部许可证</option>{data?.facets.licenses.map(f => <option key={f.value} value={f.value}>{f.value} ({f.count})</option>)}{params.get("license") && !data?.facets.licenses.some(f => f.value === params.get("license")) && <option value={params.get("license")!}>{params.get("license")}</option>}</select></label>
       <label>已记录的部署方式<select aria-label="已记录的部署方式" value={params.get("deployment") || ""} onChange={e => filter("deployment", e.target.value)}><option value="">全部部署方式</option>{data?.facets.deployments.map(f => <option key={f.value} value={f.value}>{f.label} ({f.count})</option>)}{params.get("deployment") && !data?.facets.deployments.some(f => f.value === params.get("deployment")) && <option value={params.get("deployment")!}>{({ self_hosted: "自托管", docker: "Docker", managed_cloud: "云部署 / 托管服务" } as Record<string, string>)[params.get("deployment")!] || params.get("deployment")}</option>}</select></label>
+      <label>官方资源<select aria-label="官方资源" value={params.get("curated") || ""} onChange={e => filter("curated", e.target.value)}><option value="">全部产品</option><option value="1">已整理资源与截图{data ? ` (${data.facets.curated})` : ""}</option></select></label>
       <label>排序<select aria-label="排序" value={params.get("sort") || "relevance"} onChange={e => filter("sort", e.target.value)}><option value="relevance">相关性 · 开源优先</option><option value="name">产品名称 A–Z</option><option value="checked">最近资料日期</option></select></label>
       <button className="text-action clear-filters" onClick={() => setParams({})}>重置筛选</button>
     </div>
@@ -91,17 +93,46 @@ export function ProductPage() {
   const from = location.pathname + location.search;
   const contextLeaf = back.match(/^\/types\/([^?/#]+)/)?.[1] || (back.startsWith("/shortlist") ? new URL(back, window.location.origin).searchParams.get("type") : undefined);
   const comparisonType = app.types?.find(t => t.slug === contextLeaf) || app.types?.[0];
+  const homepage = app.resource_profile?.resources.find(r => r.type === "homepage")?.url || app.homepage;
   return <main id="main" className="page product-page">
     <Link className="return-context" to={back}><ArrowLeft size={15} />{back.startsWith("/shortlist") ? "返回候选清单" : back.startsWith("/types/") ? "返回应用类型" : back.startsWith("/compare") ? "返回产品比较" : "返回产品搜索"}</Link>
-    <header className="product-header"><div><p className="eyebrow">SOFTWARE, WITH SOURCES</p><Tracks app={app} /><h1>{app.name}</h1><p className="product-lede">{app.summary || "简介尚未记录"}</p><div className="product-actions"><SaveButton id={app.id} name={app.name} />{app.homepage && <a className="button primary-button" href={app.homepage} target="_blank" rel="noreferrer">访问官网 <ArrowUpRight size={16} /></a>}{open && app.repository_url && <a className="button" href={app.repository_url} target="_blank" rel="noreferrer"><Code2 size={16} />代码仓库 <ArrowUpRight size={14} /></a>}{comparisonType && <Link className="text-action" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id })}#compare-picker`}><Columns3 size={16} />与同类产品比较</Link>}</div></div><aside className="product-proof"><p className="eyebrow">RESEARCH NOTE</p><EvidenceNote app={app} /><p className="product-date">{app.checked_at_basis === "recorded" ? "最近资料核对" : "最近来源采集"} · {date(app.checked_at)}</p></aside></header>
+    <header className="product-header"><div><div className="product-identity"><ProductLogo app={app} size="large" /><div><p className="eyebrow">SOFTWARE, WITH SOURCES</p><Tracks app={app} /><h1>{app.name}</h1></div></div><p className="product-lede">{app.summary || "简介尚未记录"}</p>
+      {comparisonType && <p className="product-place">所属类型 <Link to={`/types/${comparisonType.slug}`}>{comparisonType.name_zh || comparisonType.name}<ArrowUpRight size={13} /></Link>{(app.types?.length || 0) > 1 && <a href="#types">另有 {app.types!.length - 1} 个类型</a>}</p>}
+      <div className="product-actions"><SaveButton id={app.id} name={app.name} />{homepage && <a className="button primary-button" href={homepage} target="_blank" rel="noreferrer">访问官网 <ArrowUpRight size={16} /></a>}{open && app.repository_url && <a className="button" href={app.repository_url} target="_blank" rel="noreferrer"><Code2 size={16} />代码仓库 <ArrowUpRight size={14} /></a>}<DemoActions app={app} />{comparisonType && <Link className="text-action" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id, from })}#compare-picker`}><Columns3 size={16} />与同类产品比较</Link>}</div></div>
+      <aside className="product-proof"><p className="eyebrow">RESEARCH NOTE</p><EvidenceNote app={app} /><p className="product-date">{app.checked_at_basis === "recorded" ? "最近资料核对" : "最近来源采集"} · {date(app.checked_at)}</p><RepositoryFacts app={app} /></aside></header>
+    <ScreenshotGallery app={app} />
     <div className="product-reading"><div className="product-main-reading">
+      <ResourcePanel app={app} />
       {open && <section className="reading-section"><p className="eyebrow">WHAT IT DOES</p><h2>核心能力</h2><Facts values={app.features} />{!!app.unsupported_features?.length && <div className="explicit-limit"><h3>有明确证据的不支持</h3>{app.unsupported_features.map(f => <p key={f.name}>{f.name} <a href={f.source_url} target="_blank" rel="noreferrer">依据 <ExternalLink size={12} /></a></p>)}</div>}<p className="quiet-note">仅列出已记录的能力与边界，未列出不代表不支持。</p></section>}
-      <section className="reading-section"><p className="eyebrow">WHERE IT FITS</p><h2>所属应用类型</h2><Types app={app} />{!open && <p className="quiet-note">商业产品保留基本索引，深入能力、技术与部署信息尚未核对。</p>}</section>
+      <section className="reading-section" id="types"><p className="eyebrow">WHERE IT FITS</p><h2>所属应用类型</h2><Types app={app} />{!open && <p className="quiet-note">商业产品保留基本索引，深入能力、技术与部署信息尚未核对。</p>}</section>
       <section className="reading-section"><p className="eyebrow">FOLLOW THE EVIDENCE</p><h2>资料来源</h2><Sources app={app} /></section>
     </div>{open && <aside className="product-side-reading"><section className="reading-section"><p className="eyebrow">UNDER THE HOOD</p><h2>技术与部署</h2><h3>技术栈</h3><Facts values={app.technology_stack} /><h3>部署方式</h3><Facts values={app.deployment} /></section><section className="reading-section"><p className="eyebrow">LICENSE</p><h2>{app.license || "许可证待核实"}</h2><span className={`badge ${app.license_status === "reviewed" ? "open-badge" : "conditional"}`}>{app.license_status === "reviewed" ? "已核对许可资料" : "许可资料待核验"}</span>{app.license_review?.rationale && <p className="license-rationale">{app.license_review.rationale}</p>}{(app.license_evidence_url || app.license_review?.source_url) && <a className="text-action" href={app.license_evidence_url || app.license_review?.source_url} target="_blank" rel="noreferrer">查看许可依据 <ArrowUpRight size={14} /></a>}</section></aside>}</div>
+    {comparisonType && <SimilarProducts app={app} initial={app.types?.find(t => t.slug === contextLeaf) || [...(app.types || [])].sort((a, b) => (b.product_count || 0) - (a.product_count || 0))[0] || comparisonType} from={from} />}
     <section className="product-personal"><PersonalNoteEditor id={app.id} name={app.name} /></section>
     {comparisonType && <section className="next-step"><div><p className="eyebrow">KEEP EXPLORING</p><h2>把选择放在一起看。</h2><p>从同一类型中选择 2–4 个产品，比较已有资料。</p></div><Link className="button" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id, from })}#compare-picker`}>选择比较对象 <ArrowRight size={16} /></Link></section>}
   </main>;
+}
+
+function SimilarProducts({ app, initial, from }: { app: Application; initial: ProductType; from: string }) {
+  // Sibling details return to the same place this product came from, so `from` never nests.
+  const back = context(new URLSearchParams(from.split("?")[1] || "").get("from"));
+  const [slug, setSlug] = useState(initial.slug);
+  useEffect(() => { setSlug(initial.slug); }, [app.id, initial.slug]);
+  const type = app.types?.find(t => t.slug === slug) || initial;
+  const { data, error, retry } = useResource<ProductResults>(`/api/products?${new URLSearchParams({ leaf: type.slug, exclude: app.id, page_size: "6" })}`);
+  return <section className="similar-products" aria-label="同类型其他产品"><div className="similar-heading"><div><p className="eyebrow">ALSO IN THIS TYPE</p><h2>同类型的其他选择</h2></div><Link className="text-action" to={`/types/${type.slug}`}>查看“{type.name_zh || type.name}”全部产品 <ArrowRight size={14} /></Link></div>
+    {(app.types?.length || 0) > 1 && <div className="similar-types" role="group" aria-label="选择应用类型">{app.types!.slice(0, 6).map(t => <button key={t.slug} type="button" aria-pressed={t.slug === type.slug} onClick={() => setSlug(t.slug)}>{t.name_zh || t.name}{t.product_count !== undefined && <span>{Math.max(0, t.product_count - 1)}</span>}</button>)}</div>}
+    {error ? <ErrorState error={error} retry={retry} /> : !data ? <Loading /> : data.applications.length ? <div className="similar-grid">{data.applications.map(other => <article className="similar-card" key={other.id}><ProductLogo app={other} size="small" /><div><h3><Link to={productUrl(other.id, back)}>{other.name}</Link></h3><Tracks app={other} /><p>{other.summary || "简介尚未记录"}</p></div><SaveButton id={other.id} name={other.name} /></article>)}</div> : <p className="quiet-note">这个类型暂时没有其他已收录产品。</p>}
+    {!!data?.applications.length && <p className="similar-foot">{data.total > data.applications.length ? `共 ${data.total} 个同类产品，开源优先显示前 ${data.applications.length} 个。` : `共 ${data.total} 个同类产品。`}<Link to={`/types/${type.slug}?${new URLSearchParams({ compare: app.id, from })}#compare-picker`}>和它们一起比较 <Columns3 size={13} /></Link></p>}
+  </section>;
+}
+
+export function CuratedShowcase() {
+  const { data } = useResource<ProductResults>(`/api/products?${new URLSearchParams({ curated: "1", page_size: "12", sort: "name" })}`);
+  if (!data?.applications.length) return null;
+  return <section className="curated-showcase" aria-label="已整理界面与资源的产品"><div className="showcase-heading"><div><p className="eyebrow">SEE REAL PRODUCTS</p><h2>先看看真实界面</h2></div><Link className="text-action" to="/search?curated=1">全部 {data.total} 个已整理产品 <ArrowRight size={14} /></Link></div>
+    <div className="showcase-row">{data.applications.map(app => <Link className="showcase-item" key={app.id} to={productUrl(app.id, "/")}><ProductLogo app={app} /><span><strong>{app.name}</strong><small>{app.types?.[0]?.name_zh || app.types?.[0]?.name || "应用"}{app.screenshot_count ? ` · ${app.screenshot_count} 张界面图` : ""}</small></span></Link>)}</div>
+  </section>;
 }
 
 export function ComparePicker({ leaf, selected, change, from, expanded = false }: { leaf: string; selected: string[]; change: (ids: string[]) => void; from: string; expanded?: boolean }) {

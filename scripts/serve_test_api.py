@@ -18,6 +18,23 @@ with tempfile.TemporaryDirectory(prefix="saas-browser-test-") as directory:
         sys.argv = [sys.argv[0], "--port", "5399"]
         main()
         sys.exit(0)
+    import json
+    # Synthetic resource overlay: one logo that fails (placeholder path) and one local image that loads.
+    local = "http://127.0.0.1:5388/favicon.svg"
+    overlay = {"schema_version": 1, "products": {
+        "fixture-open": {"name": "测试开源项目", "curated_at": "2026-10-31",
+                         "logo": {"url": "http://127.0.0.1:5399/missing-logo.png", "kind": "official_logo", "found_on": "https://example.test/open", "checked_at": "2026-10-31"},
+                         "resources": [{"type": "docs", "url": "https://example.test/open/docs", "label": "测试文档", "found_on": "https://example.test/open", "checked_at": "2026-10-31"},
+                                       {"type": "demo", "url": "https://example.test/open/demo", "label": "测试在线演示", "found_on": "https://example.test/open", "checked_at": "2026-10-31"},
+                                       {"type": "deployment", "url": "https://example.test/open/install", "label": "测试部署指南", "found_on": "https://example.test/open", "checked_at": "2026-10-31"}],
+                         "screenshots": [{"url": local, "caption": "测试主界面", "kind": "ui_screenshot", "found_on": "https://example.test/open", "checked_at": "2026-10-31"},
+                                         {"url": local + "?second", "caption": "测试拼图", "kind": "ui_composite", "found_on": "https://example.test/open", "checked_at": "2026-10-31"}],
+                         "missing": [{"type": "video", "reason": "测试：未找到演示视频"}]},
+        "fixture-replacement": {"name": "候选 CRM", "curated_at": "2026-10-31",
+                                "logo": {"url": local, "kind": "official_logo", "found_on": "https://example.test/replacement", "checked_at": "2026-10-31"},
+                                "resources": [], "screenshots": [], "missing": [{"type": "screenshot", "reason": "测试：没有可靠截图"}]}}}
+    (Path(directory) / "resources.json").write_text(json.dumps(overlay, ensure_ascii=False))
+    os.environ["SAAS_RESOURCES_FILE"] = str(Path(directory) / "resources.json")
     store = Store()
     leaf = "customer-relationship-management-crm"
     store.save({"id": "fixture-open", "name": "测试开源项目", "summary": "测试替身：团队协作与客户记录",

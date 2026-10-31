@@ -11,13 +11,15 @@ from .config import WEB_ROOT
 from .store import Store
 from .taxonomy import Taxonomy
 from .products import Products
+from .resources import Resources
 
 
 class CatalogAPI:
-    def __init__(self, taxonomy=None, store=None):
+    def __init__(self, taxonomy=None, store=None, resources=None):
         self.taxonomy = taxonomy or Taxonomy()
         self.store = store or Store()
-        self.products = Products(self.store, self.taxonomy)
+        self.resources = resources or Resources()
+        self.products = Products(self.store, self.taxonomy, self.resources)
 
     def get(self, path, query):
         q = query.get("q", "").strip()
@@ -32,11 +34,18 @@ class CatalogAPI:
             slug = path.removeprefix("/api/leaves/")
             leaf = self.taxonomy.leaf(slug)
             counts, _ = self.store.counts()
-            return {**leaf, "counts": counts.get(slug, {"open_source": 0, "commercial": 0})}
+            empty = {"open_source": 0, "commercial": 0}
+            # Sibling types in the same group give a sideways path when this type is not quite right.
+            related = [{"slug": r["slug"], "name": r["name"], "name_zh": r["name_zh"], "scope": r["scope"], "counts": counts.get(r["slug"], empty)}
+                       for r in self.taxonomy.leaves.values() if r["parent_id"] == leaf["parent_id"] and r["slug"] != slug and r["scope"] == leaf["scope"]]
+            related.sort(key=lambda r: (-(r["counts"]["open_source"] + r["counts"]["commercial"]), r["name_zh"] or r["name"]))
+            return {**leaf, "counts": counts.get(slug, empty), "related": related[:12], "related_total": len(related)}
         if path == "/api/applications":
             leaf = query.get("leaf", "")
             self.taxonomy.leaf(leaf)
-            return self.store.applications(leaf, query.get("track", "open_source"), q)
+            listing = self.store.applications(leaf, query.get("track", "open_source"), q)
+            listing["applications"] = [self.resources.decorate(app) for app in listing["applications"]]
+            return listing
         if path == "/api/products":
             return self.products.search({**query, "q": q})
         if path == "/api/products/lookup":
@@ -95,7 +104,11 @@ def main():
     parser.add_argument("--port", type=int, default=5299)
     parser.add_argument("--host", default="127.0.0.1")
     args = parser.parse_args()
-    api = CatalogAPI()
+    store = Store()
+    with store.connect() as con:
+        known = {row[0] for row in con.execute("SELECT id FROM application")}
+    # A served catalog refuses an overlay that points at products it does not contain.
+    api = CatalogAPI(store=store, resources=Resources(known_ids=known))
     server = ThreadingHTTPServer((args.host, args.port), partial(Handler, api=api))
     print(f"SaaS catalog: http://{args.host}:{args.port}", flush=True)
     try:
