@@ -33,7 +33,7 @@
 
 **M0/M1 已实现，1,805 个叶子的轻量初判和 548 项复核已完成。** 随后用真实案例累计确认135个待确认类型，当前目录为 **1,646 纳入、53 待确认、106 排除**；源定义和稳定slug全部保留。页面默认主目录，待确认单列。
 
-**当前正式库1,440个产品（546开源、894商业基本索引），覆盖1,593个类型，其中主目录1,592个；主目录仍有54个类型没有正式案例。** 2026-10-29 18:27完成252个留档类型的统一复核入库：新增229产品、补充31个旧产品、新增280关系，补齐203个类型。另29类型继续作为已复核研究留档，20类型待处理（7待复核、13未完成）；原内容过滤5类不动，合计仍待处理25类。所有留档archived:false；53待确认、目录范围、旧1,211产品核心及1,443关系与历史来源保留。详见[本轮复核报告](data/collections/included-retained-final-20261029-report.json)、[25项待处理清单](data/collections/included-retained-final-20261029-pending-all.json)及[29项研究留档](data/collections/included-retained-final-20261029-retained.json)。
+**当前正式库1,520个产品（590开源、930商业基本索引），关系1,816条，覆盖1,593个类型，其中主目录1,592个；主目录仍有54个类型没有正式案例。** 2026-10-31完成10个常用类型的深度补齐（服务台、项目管理、CRM、团队消息、Wiki、问卷、邮件营销、时间记录、无头CMS、视频会议），每类现有4–9个开源、4–5个商业产品；共新增80产品、补11个已有产品关系，6个条目/关系按复核暂缓，Wiki.js因绑错仓库入库后撤回。见[试点报告](docs/DEPTH_FILL_PILOT_REPORT_20261031.md)、[其余9类报告](docs/DEPTH_FILL_RUN_REPORT_20261031.md)与[计划](docs/DEPTH_FILL_PLAN.md)。 2026-10-29 18:27完成252个留档类型的统一复核入库：新增229产品、补充31个旧产品、新增280关系，补齐203个类型。另29类型继续作为已复核研究留档，20类型待处理（7待复核、13未完成）；原内容过滤5类不动，合计仍待处理25类。所有留档archived:false；53待确认、目录范围、旧1,211产品核心及1,443关系与历史来源保留。详见[本轮复核报告](data/collections/included-retained-final-20261029-report.json)、[25项待处理清单](data/collections/included-retained-final-20261029-pending-all.json)及[29项研究留档](data/collections/included-retained-final-20261029-retained.json)。
 
 第5轮此前完成剩余97个待确认类型的第一轮核验；原188池累计135确认、53留档、0未搜索，目录范围仍为1,646 / 53 / 106。原待确认记录、本轮候选、历史来源均保留，没有冷归档。第三方应用均只作资料核对，未部署实测。历史结果见 [第5轮报告](docs/CASE_COLLECTION_ROUND_05.md)，当前进度见 [主目录进度](data/collections/included-coverage-progress.json) 和 [待确认进度](data/collections/conditional-progress.json)。
 

@@ -1,0 +1,657 @@
+{
+  "schema_version": 1,
+  "run_id": "depth-fill-20261031",
+  "baseline": {
+    "applications": 1440,
+    "links": 1724
+  },
+  "catalog_sql_sha256": "87840707370316c08e58dfd90516643c8ba297e8c670d2b534b2ca7987c7f2fa",
+  "backup_sha256": "65a1107b68ef98fd5fb6ac7f160ce0bcc321555c045efc97d6ee45f060ab2d8d",
+  "targets": {
+    "open_source": [
+      6,
+      8
+    ],
+    "commercial": [
+      3,
+      5
+    ]
+  },
+  "units": [
+    {
+      "unit": 1,
+      "slug": "help-desk",
+      "leaf": {
+        "definition": {
+          "slug": "help-desk",
+          "name": "Help Desk",
+          "name_zh": "服务台 (Help Desk)",
+          "aliases_zh": [
+            "帮助台",
+            "工单系统"
+          ],
+          "domain_id": "07",
+          "parent_id": "07.05",
+          "overview": "A **Help Desk** is the support team's operating application. It receives requests for help from an organization's customers, users, or employees over whatever channels the organization offers, records each request as an individually tracked **ticket**, and lets a team of **agents** resolve those tickets by corresponding with the requester — with the whole journey managed through an explicit lifecycle from open to resolved to closed.\n\nThe defining core is small: a requester asks for help, the request becomes a persistent tracked record in a shared agent queue, the agent answers back to the requester on that record, and the record's status advances until the request is resolved. Everything else commonly associated with help desks — omnichannel intake, SLA timers, knowledge bases, self-service portals, satisfaction ratings, automation, AI assistants — makes the loop scalable and measurable, but is not what makes the software a help desk. An email-era desk with nothing but a shared queue, ticket records, and agent replies satisfies the same definition.\n\nWhen the tracked record stops serving a requester (internal work items, engineering defects) the software becomes a generic ticketing or issue-tracking system. When voice call queuing becomes the center, it becomes a contact center. When the desk is wrapped in enterprise layers (workforce management, quality assurance, deep omnichannel orchestration), it is usually sold as a customer service platform.",
+          "overview_zh": "一个**服务台**是支持团队的操作应用程序。它通过组织提供的任何渠道，接收来自组织的客户、用户或员工的帮助请求，将每个请求记录为单独跟踪的**工单**，并让一组**客服人员**通过与请求者沟通来解决这些工单——整个流程通过一个从“开启”到“已解决”再到“已关闭”的明确生命周期进行管理。\n\n其定义的核心很简单：请求者寻求帮助，该请求在共享客服队列中成为一个持久跟踪的记录，客服人员在该记录上回复请求者，记录的状态随之推进，直至请求得到解决。所有其他通常与服务台相关联的功能——全渠道接入、SLA 计时器、知识库、自助服务门户、满意度评分、自动化、AI 助手——使这个循环变得可扩展和可衡量，但并非这些功能使得该软件成为服务台。一个仅有共享队列、工单记录和客服回复的电子邮件时代的桌面，也符合同一定义。\n\n当跟踪的记录不再服务于请求者（例如内部工作项、工程缺陷）时，该软件就变成了通用的工单或问题跟踪系统。当语音呼叫排队成为核心时，它就变成了联络中心。当服务台被包裹上企业层（人员管理、质量保证、深度全渠道协同）时，通常被作为客户服务平台销售。",
+          "dc": "```text\nRequester\n  └── Help request (from any intake channel)\n      └── Ticket (persistent tracked record)\n          ├── Correspondence thread with the requester\n          ├── Attributes: status, priority, assignee, tags/fields\n          └── Lifecycle: open → worked → resolved → closed\n      └── Shared queue processed by a team of agents\n```\n\nFive structural elements. Remove any one and the software stops being a help desk:\n\n- **Requester and help request.** The trigger is always a person outside the support team asking for help. The requester is identified (email, account, portal login), because the desk must answer back to that specific person and often must know their history.\n- **Ticket.** The central object: one persistent, individually identified record per request. It holds the request content, the full correspondence about it, its attributes (status, priority, assignee, categorization), and its history of changes. Whatever the intake channel, the request lands as a ticket — mature products explicitly convert email, form submissions, chat, social messages, calls, and API calls into tickets. The ticket is also the desk's memory: months later, the exchange can be retrieved whole.\n- **Agent team and shared queue.** Tickets are worked from organized lists — queues, views, inboxes — that structure the team's work (by team, topic, urgency, or workload). Each ticket typically has an owner; teams are organized into groups so work can be routed and scoped.\n- **Correspondence as the resolution mechanism.** The primary way a ticket gets done is a conversation between agent and requester attached to the ticket itself. Replies flow back to the requester's channel; the thread stays on the record. Internal colleague-to-colleague discussion happens as a separate, agent-only layer (internal notes) that never reaches the requester.\n- **Managed lifecycle.** A ticket is created, worked, resolved, and closed as tracked state changes — it does not simply fade like an unanswered email. The state machine makes workload visible (\"open\" is work that exists), makes completion accountable (who resolved what, when), and bounds the record's editability (closed tickets are generally terminal).\n\nConcept and implementation are separable at each layer:\n\n```text\nConcept:   request intake        Implementations: email, web form/portal, chat & messaging,\n                                                  social, phone/voice, SMS, API, in-app widget\nConcept:   the queue             Implementations: ticket views, queues, shared inbox, filtered lists\nConcept:   the tracked record    Implementations: \"ticket\", \"conversation\", \"request\"/\"work item\"\nConcept:   requester identity    Implementations: email address, customer account, portal login,\n                                                  employee directory identity\n```\n\nA reader who has only seen one flavor — say, a modern omnichannel ticket desk — should still recognize an email-only help desk, a shared-inbox product, or an internal IT service desk as the same Type.",
+          "dc_zh": "```text\n请求者\n  └── 帮助请求（来自任何接入渠道）\n      └── 工单（持续跟踪记录）\n          ├── 与请求者的通信线程\n          ├── 属性：状态、优先级、处理人、标签/字段\n          └── 生命周期：已开启 → 处理中 → 已解决 → 已关闭\n      └── 由一组服务人员处理的共享队列\n```",
+          "rules": "- **One request, one ticket, across channels.** All communication about a request attaches to the same record; a requester switching from chat to email continues the same ticket. Replies to a closed ticket commonly open a *new* request rather than reopening the old record — some products treat closed tickets as strictly read-only.\n- **Agent-only vs requester-visible is a hard split.** Internal notes, mentions, and internal diagnostics never reach the requester; only replies (and designed notifications) do. This separation is what lets agents think out loud while staying presentable to customers.\n- **The lifecycle bounds editability.** Open tickets move freely; resolved tickets typically await requester confirmation or a waiting period; closed tickets are terminal. The exact state names and transitions are configured per organization — labels vary by product.\n- **SLA clocks run against commitments, not effort.** Time is measured from defined events (request arrival, assignment, status change) against response/resolution targets within business hours; approaching or breaching a target triggers escalation rules automatically. Business hours and calendars are configuration, and clocks pause or shift accordingly.\n- **Ownership routes accountability.** Tickets have an assignable owner (and a group scope); routing rules decide who. Unassigned backlog and at-risk tickets are surfaced because ownership is the mechanism the whole queue system leans on.\n- **Requesters see their own requests, not the desk.** Portal access is scoped to the requester's own records (and sometimes their organization's); agents see the operation. In B2B desks, requesters may be grouped by customer organization so visibility and reporting follow the account.\n- **Every interaction is recorded.** Correspondence, state changes, assignments, and edits accumulate on the ticket, making any resolution explainable after the fact — the property that makes the desk an audit and knowledge asset, not just an inbox.",
+          "rules_zh": "- **一个请求，一个工单，跨渠道。** 关于某个请求的所有沟通都附加在同一记录上；请求者从聊天切换到邮件，继续的是同一个工单。对已关闭工单的回复通常会开启一个*新*请求，而不是重新打开旧记录——某些产品将已关闭的工单严格视为只读。\n- **仅客服可见与请求者可见是严格区分的。** 内部备注、提及和内部诊断永远不会到达请求者；只有回复（以及设计好的通知）会到达。这种分离使得客服人员可以自由思考同时对外保持专业形象。\n- **生命周期限制了可编辑性。** 开启的工单可自由移动；已解决的工单通常等待请求者确认或等待期；已关闭的工单是终态。确切的名称和状态转换由各组织配置——标签因产品而异。\n- **SLA 计时器基于承诺而非工作量运行。** 时间根据定义的事件（请求到达、分配、状态变更）在工作时间内相对于响应/解决目标进行衡量；接近或违反目标会自动触发升级规则。工作时间和日历是配置项，计时器相应暂停或调整。\n- **所有权路由责任归属。** 工单有一个可分配的负责人（以及团队范围）；路由规则决定归属。未分配的积压工单和有风险的工单会被突显出来，因为所有权是整个队列系统所依赖的机制。\n- **请求者只看到自己的请求，而非服务台。** 门户访问范围限定于请求者自身的记录（有时包括其所在组织）；客服人员则看到整体运营情况。在 B2B 服务台中，请求者可能按客户组织分组，以便可见性和报告随客户账户变化。\n- **每次交互都会被记录。** 沟"
+        },
+        "progress": {
+          "slug": "help-desk",
+          "name_zh": "服务台 (Help Desk)",
+          "domain_id": "07",
+          "parent_id": "07.05",
+          "case_status": "covered",
+          "application_ids": [
+            "github:12063996",
+            "github:419635982"
+          ],
+          "research_records": [
+            {
+              "record": "retained-continuation-20261027/part-112/research.json",
+              "result": "collector_draft_unapproved",
+              "note": "已有结构有效草稿，独立初审未通过或调用受阻；保留问题，不作为证据不足或已完成核验。",
+              "query": "Frappe Helpdesk / osTicket / Zammad 开源工单系统（复用 notes/previous 候选与旧抓取列表）"
+            },
+            {
+              "record": "included-go-followup-final-20261027-research.json#/leaf_cases/14",
+              "result": "case_found",
+              "note": "复用 notes/previous 中 frappe/helpdesk、osTicket、zammad 候选。Frappe Helpdesk（id=419635982，AGPL-3.0）README 明确 100% 开源工单管理、客服/客户双门户、自动分配、SLA、知识库与预置回复；osTicket（id=12063996，GPL-2.0）README 直接描述网站/邮件/电话建单、保存并分配给坐席、坐席回复解决的完整流程。两者均满足请求-工单-坐席-生命周期核心。Zammad（id=3898922，AGPL-3.0）也已抓取，但 README 仅定位为多渠道 helpdesk，未展开工单生命周期，本批不建立关系，留作候选而不把无正文支持的能力写实。",
+              "query": "Frappe Helpdesk / osTicket / Zammad 开源工单系统（复用 notes/previous 候选与旧抓取列表）"
+            }
+          ],
+          "archived": false,
+          "note": "复用 notes/previous 中 frappe/helpdesk、osTicket、zammad 候选。Frappe Helpdesk（id=419635982，AGPL-3.0）README 明确 100% 开源工单管理、客服/客户双门户、自动分配、SLA、知识库与预置回复；osTicket（id=12063996，GPL-2.0）README 直接描述网站/邮件/电话建单、保存并分配给坐席、坐席回复解决的完整流程。两者均满足请求-工单-坐席-生命周期核心。Zammad（id=3898922，AGPL-3.0）也已抓取，但 README 仅定位为多渠道 helpdesk，未展开工单生命周期，本批不建立关系，留作候选而不把无正文支持的能力写实。"
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:12063996",
+          "name": "osTicket",
+          "track": "open_source",
+          "homepage": "https://osticket.com/",
+          "repository_url": "https://github.com/osTicket/osTicket"
+        },
+        {
+          "id": "github:419635982",
+          "name": "Frappe Helpdesk",
+          "track": "open_source",
+          "homepage": "https://frappe.io/helpdesk",
+          "repository_url": "https://github.com/frappe/helpdesk"
+        }
+      ],
+      "candidate_leads": [
+        "Zammad",
+        "FreeScout",
+        "UVdesk",
+        "Peppermint",
+        "Zendesk",
+        "Freshdesk",
+        "Help Scout",
+        "Chatwoot（已在库，待核关联）"
+      ]
+    },
+    {
+      "unit": 2,
+      "slug": "project-management-application",
+      "leaf": {
+        "definition": {
+          "slug": "project-management-application",
+          "name": "Project Management Application",
+          "name_zh": "项目管理应用",
+          "aliases_zh": [
+            "项目协作平台",
+            "项目管理工具"
+          ],
+          "domain_id": "03",
+          "parent_id": "03.07",
+          "overview": "A **Project Management Application** is the system of record for planning, executing, and closing a bounded undertaking — a project. It holds the project as a persistent record, holds the project's work as a structured plan of owned, dated, completable tasks, and turns what happens to those tasks into a project-level picture of progress and health that the people accountable use to steer the work to its end.\n\nThe defining core is small:\n\n```text\nProject (bounded undertaking, time span, members)\n└── Plan of work (structured decomposition)\n    └── Tasks — owned, dated, completable\n        └── Track to completion (progress picture at project scope)\n```\n\nEverything else commonly associated with the category — Gantt charts, dependency links, critical paths, baselines, resource leveling, portfolio dashboards — is machinery that mature products frequently add on top, much of it inherited from the classic desktop scheduling lineage. It is characteristic, not definitional: recognized products in this category operate without any of it, running the same core with to-do lists, calendars, and progress reports.\n\nA project here means a **one-off bounded effort with an end** — a product launch, a client engagement, a move to new offices — as distinct from a standing team workflow or an open-ended backlog (that distinction is drawn under Related Application Types).",
+          "overview_zh": "一个**项目管理应用程序**是规划、执行和收尾一项有界工作——即项目——的系统记录。它将项目作为持久化记录保存，将项目的工作保存为拥有明确负责人、日期和可完成状态的结构化任务计划，并将这些任务的实际发生情况转化为项目层面的进度与健康状况视图，供责任人据此引导工作直至结束。\n\n其定义性核心很小：\n\n```text\n项目（有界工作、时间跨度、成员）\n└── 工作计划（结构化分解）\n     └── 任务——有负责人、有日期、可完成\n         └── 追踪至完成（项目范围内的进度视图）\n```\n\n通常与该类别关联的其他所有内容——甘特图、依赖链接、关键路径、基线、资源平衡、项目组合仪表板——都是成熟产品经常在其上添加的机制，其中大部分继承自经典的桌面调度谱系。这是特征性的，而非定义性的：该类别中的公认产品可以在没有任何这些机制的情况下运行，仅使用待办事项列表、日历和进度报告运行相同的核心。\n\n此处所说的项目是指**一次性的有界努力，且有终点**——例如产品发布、客户合作、搬迁至新办公室——区别于常设团队工作流或无限制的待办事项积压（该区别在相关应用程序类型中阐述）。",
+          "dc": "The project is the container and the unit of record. It carries a name, an intended time span (start and target end), the people doing the work, and — in many products — a goal or description. Every task, file, discussion, milestone, and report in the system attaches to a project. Projects accumulate state over their life and are eventually completed and often archived rather than deleted; the completed project record is the durable account of what was done.",
+          "dc_zh": "项目是容器与记录单元。它包含一个名称、计划时间跨度（开始与目标结束时间）、参与工作的人员，以及在许多产品中设定的一个目标或描述。系统中的所有任务、文件、讨论、里程碑与报告均关联至某个项目。项目在其生命周期中会累积状态，最终通常被完成并归档，而非删除；已完成的项目记录是对已完成工作的持久性记录。",
+          "rules": "- **The plan is the record; the loop is the point.** Completion and date changes are not private bookkeeping — they propagate to the project-level picture, which is what the accountable person manages from. A project management application that stops propagating item state upward has stopped being one.\n- **Dependency links constrain execution, not just drawing.** Where dependencies exist, they typically prevent a task from being completed before its predecessors are, in addition to driving schedule recalculation. (Dependent-task completion blocking is documented behavior in scheduling products; lightweight products may omit dependencies entirely.)\n- **Rollup semantics are product-defined.** How subtask progress rolls into parents, whether completed items are included in progress calculations, and whether percentages are duration-weighted all vary. The concept — item facts aggregate to project scope — is shared; the arithmetic is an implementation detail.\n- **Project status is computed from dates and completion.** Late (past due with active work remaining), upcoming (not yet started), completed (explicitly marked) are computed groupings in mature products, though the exact label set varies.\n- **Completion and archiving are distinct.** A project is *completed* (an explicit recorded outcome) and may then be *archived* (withdrawn from active views while retained). Completed work typically drops out of default views but remains retrievable.\n- **Overdue is a first-class condition.** Work past its date with active items is surfaced deliberately — as status, as a dedicated report — because it is the loop's main trigger for intervention.\n- **Visibility follows membership, with an external axis.** Projects are accessible to their members under role rules; client/external participation is a distinct, controlled access concept in products that serve client work.\n- **The plan survives scope change, imperfectly.** Work added or removed mid-flight, dates that slip, and re-assignments are normal operations, not exceptions — the plan of record is expected to move. True exceptions are operational: blocked tasks, over-allocated people, stalled progress, dependencies violated by schedule pressure.",
+          "rules_zh": "- **计划是记录，循环是关键。** 完成状态和日期变更不是私有的簿记——它们传播到项目层面的视图，这是责任人据此进行管理的基础。一个停止将条目状态向上传播的项目管理应用程序，就不再是项目管理应用程序。\n- **依赖链接约束执行，而不仅仅是绘图。** 存在依赖关系时，它们通常防止任务在其前置任务完成前被标记为完成，此外还驱动日程重新计算。（依赖任务完成阻塞是调度产品中的记录行为；轻量级产品可能完全省略依赖关系。）\n- **汇总语义由产品定义。** 子任务进度如何汇总到父任务、已完成条目是否包含在进度计算中、百分比是否基于时长加权，这些各不相同。概念——条目事实聚合到项目范围——是共享的；算术是实施细节。\n- **项目状态由日期和完成状态计算得出。** 逾期（已过期且仍有活跃工作）、即将开始（尚未开始）、已完成（明确标记）在成熟产品中是计算得出的分组，尽管确切的标签集有所不同。\n- **完成与归档是不同的。** 项目是*已完成*（一个明确的记录结果），然后可能被*归档*（从活跃视图中撤回但保留）。已完成的工作通常从默认视图中消失，但仍可检索。\n- **逾期是一等条件。** 超过日期且仍有活跃条目的工作被刻意呈现——作为状态、作为专用报告——因为它是循环中干预的主要触发器。\n- **可见性遵循成员资格，并带有外部轴。** 项目在其成员的角色规则下可访问；客户/外部参与"
+        },
+        "progress": {
+          "slug": "project-management-application",
+          "name_zh": "项目管理应用",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "commercial:asana",
+          "name": "Asana",
+          "track": "commercial",
+          "homepage": "https://asana.com/",
+          "repository_url": null
+        },
+        {
+          "id": "github:568098118",
+          "name": "Plane",
+          "track": "open_source",
+          "homepage": "http://plane.so",
+          "repository_url": "https://github.com/makeplane/plane"
+        },
+        {
+          "id": "github:6899875",
+          "name": "OpenProject",
+          "track": "open_source",
+          "homepage": "https://www.openproject.org",
+          "repository_url": "https://github.com/opf/openproject"
+        }
+      ],
+      "candidate_leads": [
+        "Taiga",
+        "Leantime",
+        "Redmine",
+        "Kanboard",
+        "monday.com",
+        "Jira"
+      ]
+    },
+    {
+      "unit": 3,
+      "slug": "customer-relationship-management-crm",
+      "leaf": {
+        "definition": {
+          "slug": "customer-relationship-management-crm",
+          "name": "Customer Relationship Management / CRM",
+          "name_zh": "客户关系管理 / CRM",
+          "aliases_zh": [
+            "客户管理",
+            "CRM系统"
+          ],
+          "domain_id": "07",
+          "parent_id": "07.08",
+          "overview": "A **Customer Relationship Management (CRM) application** is a selling organization's shared system of record for its customer and prospect relationships. It holds persistent records of the people and organizations the organization does business with — or wants to — attaches a cumulative history of interactions to those records, and manages the commercial progression toward outcomes: deals moving through pipeline stages toward closed-won or closed-lost.\n\nThe defining core is deliberately small: relationship records, interaction history, and managed commercial progression, worked as shared organizational records rather than personal address-book entries. Everything else commonly associated with CRMs — lead objects, forecasting dashboards, email integration, custom objects, AI assistance, whole marketing and service suites — is widely supported by mature products but is not what makes a CRM a CRM. A paper-era sales office (card file of contacts, client folders, correspondence log, forecast board) already contains this core.\n\nWhen the working center shifts to stewarding standing customer organizations rather than the acquisition-to-close selling motion, the product is drifting toward the Account Management CRM Type; when only the deals remain, toward Sales Pipeline Management; when the records serve service recovery rather than commercial progression, toward customer service Types.",
+          "overview_zh": "一个**客户关系管理（CRM）应用**是销售组织用于记录其客户与潜在客户关系的共享系统。它保存着该组织正在或希望与之开展业务往来的人员与组织的持久化记录，为这些记录附加累积的互动历史，并管理通向商业结果的进展过程：交易在管道阶段中推进，直至达成成交（closed-won）或流失（closed-lost）。\n\n其定义性核心被刻意保持精简：关系记录、互动历史以及受管理的商业进展，这些作为共享的组织记录而非个人通讯录条目来运作。通常与CRM关联的其他功能——如线索对象、预测仪表盘、邮件集成、自定义对象、AI辅助、完整的营销与服务套件——虽被成熟产品广泛支持，但并非构成CRM本质的要素。一个纸质时代的销售办公室（联系人卡片档案、客户文件夹、往来信函日志、预测看板）已然包含这一核心。\n\n当工作重心从获取至成交的销售动作转向维护长期客户组织时，该产品便向账户管理CRM类型漂移；当仅保留交易时，则向销售管道管理漂移；当记录服务于服务恢复而非商业进展时，则向客户服务类型漂移。",
+          "dc": "```text\nSelling organization\n└── Relationship records\n    ├── Person records (contacts)\n    ├── Organization records (accounts / companies)\n    │     └── associations bind persons ↔ organizations ↔ deals,\n    │         often with labeled roles (e.g. decision maker)\n    ├── Interaction history on every record\n    │     (calls, emails, meetings, notes, tasks — the record's timeline)\n    └── Shared working\n        (ownership, assignment, permission-scoped visibility, dedup/merge)\n        └── Managed commercial progression\n            └── Deal / opportunity (value, owner, expected close)\n                └── Pipeline = ordered, customer-defined stages\n                    └── open stages → closed-won / closed-lost\n```\n\nFour structures. If any one is removed, the product stops being recognizable as a CRM:\n\n- **Relationship records of record** — persistent, individually identified records for people (contacts) and organizations (accounts or companies) the organization has or pursues commercial relationships with. Records carry their own profile fields and unique identifiers, and are held by the organization: owned, assignable, permission-scoped. Without this, the product is a personal address book or a directory.\n- **Cumulative interaction history** — every touch (call, email, meeting, note, task) is recorded against the relationship as a durable timeline. This history is why the record has value: it is the organization's memory of the relationship, surviving personnel change. Without it, the system is a contact list with no relationship memory.\n- **Managed commercial progression** — the deal (or opportunity): a trackable potential outcome with a value, an owner, and an expected close, moving through the stages of a pipeline until it closes as won or lost. This is the structure that connects the relationship records to the organization's revenue motion. Without it, the product is a contact/account book, not a CRM.\n- **Shared working over the records** — the records are worked collaboratively: each has an owner, visibility follows permission rules, duplicates are found and merged, and records move between people as circumstances change. Without it, the product is single-person contact software.",
+          "dc_zh": "销售组织\n└── 关系记录\n    ├── 人员记录（联系人）\n    ├── 组织记录（客户/公司）\n    │     └── 关联关系连接人员 ↔ 组织 ↔ 交易，\n    │         通常带有角色标签（例如决策者）\n    ├── 每条记录的交互历史\n    │     （通话、邮件、会议、笔记、任务——记录的时间线）\n    └── 共同协作\n        （所有权、分配、基于权限的可见性、去重/合并）\n        └── 管理商业化进程\n            └── 交易/商机（金额、所有者、预计成交时间）\n                └── 销售管道 = 有序的、客户自定义阶段\n                    └── 开放阶段 → 赢单/丢单",
+          "rules": "- **Ownership governs work.** Records and deals have owners; most day-to-day work happens on records a user owns or is granted access to. Visibility and edit rights follow role/team structures, and enterprise implementations expose record-level sharing (grant/modify/revoke access) as first-class machinery.\n- **The pipeline's stages are configuration, not constants.** Stage names, order, and count are defined per organization (and an organization can run several parallel pipelines — new sales and renewals, for instance). The only fixed points in observed products are the terminal outcomes: won and lost.\n- **Closed is a real state.** A deal that closes as won or lost leaves the open pipeline; forecasting counts open deals. Lost deals can typically be reopened, and stage regression is either allowed, flagged, or restricted depending on the product's rules.\n- **Deduplication protects the record.** Because the record is the system of record, duplicate persons/organizations are treated as defects: products detect likely duplicates (using key identifiers) and provide merge machinery that consolidates them without losing history.\n- **History is additive, not a scratchpad.** Logged interactions accumulate as a timeline; the expected behavior is that anyone stepping onto the record can reconstruct the relationship from it.\n- **Records outlive relationships' active phases.** Ended relationships are typically deactivated rather than deleted, preserving history and reporting integrity.\n- **Contact governance lives on the record.** Suppression-style flags (do not email / do not call) can be recorded against the person or organization and are respected by outbound actions — an organizational rule, not merely a setting.",
+          "rules_zh": "- **所有权支配工作。** 记录与交易均有负责人；日常大部分工作发生在用户拥有或被授予访问权限的记录上。可见性与编辑权限遵循角色/团队结构，企业级实现将记录级共享（授予/修改/撤销访问）作为一等机制暴露。\n- **管道阶段是配置，而非常量。** 阶段名称、顺序与数量按组织定义（一个组织可运行多个并行管道——例如新销售与续约）。在观察到的产品中，唯一固定的点是最终结果：成交与流失。\n- **关闭是真实状态。** 以成交或流失关闭的交易离开开放管道；预测统计开放交易。流失交易通常可重新开启，阶段回退则依产品规则被允许、标记或限制。\n- **去重保护记录。** 因记录是系统记录源，重复的人员/组织被视为缺陷：产品检测可能的重复项（使用关键标识符）并提供合并机制，在不丢失历史的前提下整合它们。\n- **历史是累加的，而非草稿纸。** 记录的互动累积为时间线；预期行为是任何接手该记录者均可从中重建关系。\n- **记录存续于关系活跃期之后。** 结束的关系通常被停用而非删除，以保留历史与报告完整性。\n- **联系人治理存在于记录上。** 抑制类标记（勿发邮件/勿致电）可记录在人员或组织上，并被出站动作遵守——这是一项组织规则，而非单纯设置。"
+        },
+        "progress": {
+          "slug": "customer-relationship-management-crm",
+          "name_zh": "客户关系管理 / CRM",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "commercial:salesforce",
+          "name": "Salesforce Sales Cloud",
+          "track": "commercial",
+          "homepage": "https://www.salesforce.com/sales/cloud/",
+          "repository_url": null
+        },
+        {
+          "id": "github:24459441",
+          "name": "EspoCRM",
+          "track": "open_source",
+          "homepage": "https://www.espocrm.com",
+          "repository_url": "https://github.com/espocrm/espocrm"
+        },
+        {
+          "id": "github:572984571",
+          "name": "Twenty",
+          "track": "open_source",
+          "homepage": "https://twenty.com",
+          "repository_url": "https://github.com/twentyhq/twenty"
+        }
+      ],
+      "candidate_leads": [
+        "SuiteCRM",
+        "Krayin",
+        "vtiger",
+        "HubSpot CRM",
+        "Pipedrive"
+      ]
+    },
+    {
+      "unit": 4,
+      "slug": "team-messaging-application",
+      "leaf": {
+        "definition": {
+          "slug": "team-messaging-application",
+          "name": "Team Messaging Application",
+          "name_zh": "团队消息应用",
+          "aliases_zh": [
+            "团队协作工具",
+            "企业通讯平台",
+            "工作群组软件"
+          ],
+          "domain_id": "01",
+          "parent_id": "01.01",
+          "overview": "A **Team Messaging Application** keeps a team's or organization's conversations inside persistent, purpose-organized spaces — channels — that live within a governed organizational container (a workspace, team, or organization) and retain their message history as searchable shared memory.\n\nIts defining core is small:\n\n```text\nGoverned organizational membership container\n└── Persistent purpose-organized conversation spaces (channels)\n    └── Shared message stream as organizational memory\n```\n\nThe organizing principle of the Type: **conversation belongs to the space, and the space belongs to the organization.** Members are admitted to the organization (by invitation, domain, or directory provisioning); conversation happens in named spaces created around topics, projects, or teams rather than around personal relationships; and what is said in a space is kept as the organization's memory, readable by the space's members over time.\n\nEverything else the market associates with these products — direct messages, threads, notification rules, file sharing, calls, bundled documents, task boards, and AI assistants — is standard or optional capability layered onto that core, not what makes the product a team messaging application.",
+          "overview_zh": "一款**团队消息应用**将团队或组织的对话保留在持久化、按用途组织的空间——即频道——之中，这些空间存在于受治理的组织容器（工作区、团队或组织）内，并将其消息历史作为可搜索的共享记忆保留下来。\n\n其定义性的核心很小：\n\n```text\n受治理的组织成员容器\n└── 持久化的按用途组织的对话空间（频道）\n     └── 作为组织记忆的共享消息流\n```\n\n该类型的组织原则是：**对话属于空间，空间属于组织。** 成员通过邀请、域名或目录配置被接纳进入组织；对话发生在围绕主题、项目或团队而非个人关系创建的命名空间中；在空间中所述内容作为组织的记忆被保留，供空间成员随时间阅读。\n\n市场与这些产品关联的一切其他功能——直接消息、线程、通知规则、文件共享、通话、捆绑文档、任务板和 AI 助手——都是叠加在该核心之上的标准或可选能力，而非使该产品成为团队消息应用的原因。",
+          "dc": "Three structures, jointly held. Remove any one and the product stops being recognizable as team messaging:\n\n**1. Governed organizational membership container.** A persistent container — called a workspace, team, or organization depending on the product — whose population is admitted and governed by the organization. Membership is an administrative act (invite, domain signup, directory provisioning), members carry organization-scoped identities and roles, and restricted non-member roles (guests) exist for outsiders. The container, not the individual, defines who can be part of the conversation estate at all.\n\n**2. Persistent purpose-organized conversation spaces.** The **channel** — a named space created around a topic, project, team, or organizational unit. A channel exists before and independently of any particular set of participants: it is created as a place, given a name and purpose, and people come to it (self-join if it is open to the organization, invitation if it is restricted). Each channel carries its own visibility and access rules within the container. Channels persist over time and may be archived when their work concludes.\n\n**3. Shared message stream as organizational memory.** Conversation in a channel is a single, sender-attributed stream of messages retained as history. The history is the property of the space, not of any participant: members can read what was said before they joined, search across past conversation, and rejoin context after absence. This shared memory is the main reason organizations adopt the Type — the conversation accumulates instead of evaporating.\n\n```text\nGoverned organizational membership container\n  (org-admitted members + guests; org-scoped identity; org policy)\n└── Channel — persistent, named, purpose-organized space\n    (own visibility/access rules; exists independent of its participants)\n    └── Shared message stream\n        (sender-attributed, persistent, searchable — organizational memory)\n```",
+          "dc_zh": "三项结构，共同构成，缺一则产品不再可被识别为团队消息应用：1. 受管理的组织成员容器。一个持久性容器（根据产品不同称为工作区、团队或组织），其成员由组织准入与管理。成员身份属于管理行为（邀请、域名注册、目录配置），成员携带组织范围内的身份与角色，并存在针对外部人员的受限非成员角色（访客）。容器本身而非个人，定义了谁能够参与对话空间。2. 持久性的目的化对话空间。即“频道”——一个围绕主题、项目、团队或组织单元创建的命名空间。频道独立于任何特定参与者集合而预先存在：它作为场所被创建，赋予名称和用途，用户可加入（若对组织开放则自选加入，若受限则需邀请）。每个频道在容器内拥有自身的可见性与访问规则。频道可长期存在，并可在其工作结束后归档。3. 作为组织记忆的共享消息流。频道中的对话是一条署名的、作为历史留存的消息单一流。历史是空间的属性而非任何参与者所有：成员可阅读历史记录，且历史不可被个人删除。",
+          "rules": "### Access is a two-level model\n\nBeing in the organization does not mean being in every conversation. Channels carry their own access rules — open to all members, restricted to selected members, or invitation-only — and restricted spaces are typically invisible or semi-visible to non-members. Guests see only what they are explicitly granted. The container sets the outer boundary; the channel sets the inner one.\n\n### Public-channel join is self-service — but only for members\n\nOpen channels commonly let any member discover and join (or even read without joining, in some products). This self-service behavior operates strictly inside the organizational boundary: eligibility to join at all is defined by governed membership, not by open registration. This is a deliberate contrast with community chat platforms, where the *community itself* is joined by anyone.\n\n### Conversation is attributed and retained\n\nMessages are sender-attributed under organization-scoped identities, and the stream persists as the space's record. Editing and deletion are typically allowed but policy-governed (role-restricted, sometimes with edit history retained); archiving freezes a space's record rather than destroying it. Retention can be an explicit administrative policy in enterprise deployments.\n\n### Channels belong to the organization, not their members\n\nA channel outlives any participant: members come and go (join, leave, are added or removed), and the space itself is renamed, re-permissioned, archived, or retired by people with authority over the space. This contrasts with direct conversations and member-defined groups, which live and die with their participants.\n\n### Read/unread state is personal\n\nUnread counts, read markers, and notification levels are per-user views over the shared stream — each member tracks their own position, while the stream itself is single and shared.\n\n### Governance is layered\n\nSpace-level moderation (who may post, who manages membership) and container-level policy (who may create spaces, invite outsiders, how long content is kept) operate at different layers, and both are standard. In enterprise deployments the container layer is where compliance and security policy lives.",
+          "rules_zh": "### 访问是两级模型\n\n在组织中并不意味着在每个对话中。频道携带自己的访问规则——对所有成员开放、限制为选定成员或仅限邀请——受限空间通常对非成员不可见或半可见。访客仅看到明确授予的内容。容器设置外部边界；频道设置内部边界。\n\n### 公共频道加入是自助服务——但仅限成员\n\n开放频道通常允许任何成员发现并加入（在某些产品中甚至无需加入即可阅读）。这种自助行为严格在组织边界内运作：加入资格由受治理的成员身份定义，而非开放注册。这与社区聊天平台形成刻意对比，在后者中*社区本身*由任何人加入。\n\n### 对话被归属并保留\n\n消息在组织范围的身份下被发送者归属，消息流作为空间记录持久化。编辑和删除通常允许但受政策治理（角色限制，有时保留编辑历史）；归档冻结空间记录而非销毁它。保留可以是企业部署中的明确管理政策。\n\n### 频道属于组织，而非其成员\n\n频道比任何参与者都长寿：成员来来去去（加入、离开、被添加或移除），空间本身由对空间有权限的人重命名、重新授权、归档或退役。这与直接对话和成员定义的群组形成对比，后者随参与者而生灭。\n\n### 已读/未读状态是个人化的\n\n未读计数、已读标记和通知级别是共享消息流上的每用户视图——e"
+        },
+        "progress": {
+          "slug": "team-messaging-application",
+          "name_zh": "团队消息应用",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "commercial:slack",
+          "name": "Slack",
+          "track": "commercial",
+          "homepage": "https://slack.com/",
+          "repository_url": null
+        },
+        {
+          "id": "github:43160685",
+          "name": "Zulip",
+          "track": "open_source",
+          "homepage": "https://zulip.com",
+          "repository_url": "https://github.com/zulip/zulip"
+        }
+      ],
+      "candidate_leads": [
+        "Mattermost",
+        "Rocket.Chat",
+        "Element",
+        "Microsoft Teams"
+      ]
+    },
+    {
+      "unit": 5,
+      "slug": "wiki-application",
+      "leaf": {
+        "definition": {
+          "slug": "wiki-application",
+          "name": "Wiki Application",
+          "name_zh": "Wiki应用",
+          "aliases_zh": [
+            "维基",
+            "Wiki"
+          ],
+          "domain_id": "02",
+          "parent_id": "02.06",
+          "overview": "A **Wiki Application** is a system for building and maintaining a corpus of interlinked pages that its users edit directly, where every change is recorded in durable, attributed version history that can be compared and restored.\n\nIt solves a specific problem: a body of knowledge that many people hold pieces of needs a shared home where any of them can improve it directly — without a publication bottleneck, and without fear that an edit destroys something. The wiki pattern answers with three commitments that reinforce each other:\n\n- pages link to pages, so structure grows from use instead of being designed up front;\n- the people reading the pages are the same people who can edit them — authorship is not gated behind a publication pipeline;\n- every change is recorded and reversible, which is what makes open editing safe rather than reckless.\n\nThe boundary: a wiki application is defined by this pattern, not by who uses it or what the pages are about. The same core runs a public reference wiki, a fan-community wiki, a team's documentation wiki, or a personal wiki. When the corpus is scoped to an organization — entered through organizational identity and governed by layered access control — the product is the sibling Type **Enterprise Wiki**. When authorship is reserved to designated editors who curate and review a managed article set, it drifts toward a **Knowledge Base**.",
+          "overview_zh": "一个**Wiki 应用程序**是一个用于构建和维护由用户直接编辑的相互链接页面语料库的系统，其中每一次更改都被记录在持久且带有归属的版本历史中，这些历史可以被比较和恢复。\n\n它解决了一个特定的问题：许多人都掌握部分的知识体系需要一个共享的家园，让其中任何人都能直接对其进行改进——既没有发布的瓶颈，也没有因编辑而破坏内容的恐惧。Wiki 模式通过三个相互强化的承诺来回应：\n\n- 页面链接到页面，因此结构随着使用而生长，而不是预先设计；\n- 阅读页面的人就是可以编辑它们的人——作者身份并不被发布流程所限制；\n- 每一次更改都被记录且可逆，这正是使开放编辑变得安全而非鲁莽的原因。\n\n边界：Wiki 应用程序由这种模式定义，而不是由谁使用它或页面关于什么来定义。相同的核心可以运行公共参考 Wiki、粉丝社区 Wiki、团队文档 Wiki 或个人 Wiki。当语料库的范围限定在一个组织内——通过组织身份进入并由分层访问控制管理——该产品即为兄弟类型**企业 Wiki**。当作者身份保留给负责策划和审查受管理文章集的指定编辑时，它就趋向于**知识库**。",
+          "dc": "```text\nInterlinked page corpus\n├── Page  (the unit of knowledge)\n│   └── Version history  (attributed, diffable, restorable)\n├── Links between pages  (structure emerges from use)\n└── Direct editing by the product's users  (the audience are the authors)\n```\n\nThree properties. If any one is removed, the product is no longer recognizable as a wiki:\n\n- **Interlinked page corpus** — the unit of knowledge is the page. Pages reference each other through links; related topics connect directly; the corpus's structure is emergent, grown by contributors through links and light organization rather than fixed by a schema or a publication pipeline. Without the interlinked corpus, the product is an editable website, a document repository, or a blog.\n- **Direct editing by the product's users** — the wiki's own users create and edit pages in place. There is no separate publication step between writing and reading: the \"Edit\" affordance lives on the page itself. How broad the editor population is — everyone, a community's members, a restricted group of authors, a single person — is set by the wiki's access model and varies by deployment; that editing is direct is the invariant. Without it, the product is a published website, a CMS, or a help center.\n- **Durable version history with restore** — every change is recorded with who changed what and when; revisions can be compared and restored; deleted content is recoverable. This is the mechanism that makes open editing viable: mistakes are recoverable, accountability is visible, and no contributor needs special permission to be trusted with a page. Without it, open editing degrades into a shared notepad.",
+          "dc_zh": "互连的页面集合\n├── 页面（知识单元）\n│   └── 版本历史（可归属、可比较、可恢复）\n├── 页面间的链接（结构从使用中产生）\n└── 产品的用户直接编辑（受众即作者）\n\n三个属性。如果任何一个被移除，产品将不再被识别为wiki：\n\n- **互连的页面集合** — 知识单元是页面。页面通过链接相互引用；相关主题直接连接；集合的结构是涌现的，由贡献者通过链接和轻组织成长，而不是由模式或发布管道固定。没有互连集合，产品是可编辑的网站、文档仓库或博客。\n- **产品的用户直接编辑** — wiki的用户就地创建和编辑页面。没有独立的发布步骤在写作和阅读之间：“编辑”功能存在于页面本身。编辑者群体的广泛程度由wiki的访问模型设定，随部署变化；直接编辑是不变的。没有它，产品是发布的网站、CMS或帮助中心。\n- **持久的版本历史与恢复** — 每个变更都记录谁改变了什么以及何时；修订可以比较和恢复；删除",
+          "rules": "### The access model defines the editor population\n\nA wiki's access settings decide who the \"users who edit directly\" are: everyone (fully open wikis, where editing may not even require an account), a community's registered members, a restricted group of authors, or a single person. The breadth varies deliberately; what does not vary is that editing is direct — the reader's surface and the author's surface are the same pages.\n\n### Every edit is attributed and reversible\n\nEach save creates a revision recording who changed what and when. Revisions can be compared and restored; deletion is normally recoverable. This is not an audit nicety — it is the mechanism that makes open editing safe, and it is why wikis commonly serve as records of decisions and processes.\n\n### Links are the structure\n\nWriting a link to a missing page is how new pages are invited into existence; backlinks show how a page is referenced; renaming a page carries its inbound links with it (where the product supports link-following rename); pages nothing references surface as orphans. The corpus's shape is an emergent property of its links, and the product's machinery treats links as first-class structure.\n\n### Open editing attracts abuse — and the pattern answers it\n\nWikis that accept contributions from the public face spam and vandalism. The standard answers are structural, not social only: spam filtering and blocking, restricted editing rights, and — above all — fast restore of defaced content from history. The pattern's own description treats \"restore what was destroyed\" as a built-in expectation, not an add-on.\n\n### No publication gate\n\nEditing and publishing are the same act. This is the structural contrast with CMS- and knowledge-base-style systems, where a designated author publishes through a review pipeline and readers never touch the record copy. Some public wikis add revision approval as a deliberate exception; the default posture remains direct.\n\n### Concurrency is expected\n\nMultiple people edit the same corpus, sometimes the same page. Mature products handle simultaneous edits (the mechanism varies by product); some also let editors work on drafts before saving.",
+          "rules_zh": "### 访问模型定义编辑者群体\n\nWiki 的访问设置决定了谁是“直接编辑的用户”：所有人（完全开放的 Wiki，其中编辑甚至可能不需要账户）、社区的注册成员、受限的作者群体，或单个人。广度是有意变化的；不变的是编辑是直接的——读者的界面和作者的界面是相同的页面。\n\n### 每次编辑都有归属且可逆\n\n每次保存都会创建一个修订版，记录谁在何时更改了什么。修订版可以被比较和恢复；删除通常是可恢复的。这不仅仅是审计的便利——它是使开放编辑安全的机制，也是 Wiki 常用作决策和流程记录的原因。\n\n### 链接是结构\n\n编写指向缺失页面的链接是新页面被邀请存在的方式；反向链接显示一个页面如何被引用；重命名页面会携带其传入链接（在产品支持链接跟随重命名的情况下）；没有任何引用的页面作为孤儿浮现。语料库的形状是其链接的涌现属性，产品的机制将链接视为一等结构。\n\n### 开放编辑吸引滥用——且模式予以回应\n\n接受公众贡献的 Wiki 面临垃圾邮件和破坏。标准答案是结构性的，而不仅仅是社会性的：垃圾邮件过滤和封锁、受限的编辑权限，以及——最重要的是——从历史中快速恢复被破坏的内容。模式自身的描述将“恢复被破坏的内容”视为内置预期，而非附加功能。\n\n### 无发布门槛\n\n编辑和发布是同一个动作。这是与 CMS 和知识库风格系统的结构性对比，在后者中，指定作者通过一个修订"
+        },
+        "progress": {
+          "slug": "wiki-application",
+          "name_zh": "Wiki应用",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:674295265",
+          "name": "Docmost",
+          "track": "open_source",
+          "homepage": "https://docmost.com",
+          "repository_url": "https://github.com/docmost/docmost"
+        }
+      ],
+      "candidate_leads": [
+        "BookStack",
+        "Wiki.js",
+        "Outline",
+        "XWiki",
+        "Confluence",
+        "Notion"
+      ]
+    },
+    {
+      "unit": 6,
+      "slug": "survey-platform",
+      "leaf": {
+        "definition": {
+          "slug": "survey-platform",
+          "name": "Survey Platform",
+          "name_zh": "问卷调查平台",
+          "aliases_zh": [
+            "在线调查平台",
+            "问卷调查工具",
+            "调查问卷系统"
+          ],
+          "domain_id": "03",
+          "parent_id": "03.11",
+          "overview": "A **Survey Platform** is software for authoring a survey — a structured instrument of questions with defined answer formats — fielding it to a population of respondents, collecting their answers as responses, and compiling those answers into per-question results: the measurement the survey exists to produce.\n\nThe defining loop is small:\n\n```text\nAuthored survey (questions × answer formats, ordered structure, logic)\n└── fielding to respondents (launch, distribution channels, open/close)\n    └── response (one completion's answers, bound to the instrument, with metadata)\n        └── compiled results (per-question aggregates + exportable dataset)\n```\n\nOne naming fact should be stated plainly: this is the same application the market often calls a **Questionnaire Application**. \"Survey\" names the *activity* of fielding an instrument; \"questionnaire\" names the *instrument* itself. The market uses the words interchangeably — products whose object is named \"survey\" describe questionnaire design, products led by the questionnaire word carry exactly the machinery of survey software, and some vendors carry both nouns in a single product title. The directory documents this one Type from two angles — this document from the activity and measurement angle, the Questionnaire Application document from the instrument angle — and readers should treat the two as one application with two names.\n\nEverything else commonly associated with these products — template libraries, question banks, AI drafting, quotas, panel purchasing, dashboards, paper scanning, offline apps — is standard or optional capability that mature products add, not what makes the product a survey platform. A printed questionnaire that is mailed out, filled in, returned, and tabulated by hand satisfies the same defining loop; the software industrializes it.",
+          "overview_zh": "一个**调查平台**是一种软件，用于编写调查——一种具有结构化问题和定义好的答案格式的工具——将其投放给受访者群体，收集他们的回答作为响应，并将这些回答汇编为按问题统计的结果：即调查旨在产生的测量数据。\n\n其核心循环很小：\n\n```text\n编写的调查（问题 × 答案格式，有序结构，逻辑）\n└── 投放给受访者（启动，分发渠道，开放/关闭）\n     └── 响应（一次完成的回答，绑定到工具，附带元数据）\n         └── 汇编结果（按问题聚合 + 可导出数据集）\n```\n\n应明确陈述一个命名事实：这就是市场常称为**问卷应用**的同一款应用。“Survey”（调查）命名的是投放工具的*活动*；“questionnaire”（问卷）命名的是*工具*本身。市场互换使用这两个词——对象名为“survey”的产品描述的是问卷设计，以“questionnaire”为主导词的产品携带着完全相同的调查软件机制，有些供应商在单个产品标题中同时使用这两个名词。本目录从两个角度记录这一类型——本文档从活动和测量角度，问卷应用文档从工具角度——读者应将两者视为一款拥有两个名称的应用。\n\n通常与这些产品关联的其他所有内容——模板库、题库、AI 起草、配额、样本组购买、仪表盘、纸质扫描、离线应用——是成熟产品添加的标准或可选功能，而非使产品成为调查平台的原因。一份邮寄出去、填写、返回并手工统计的纸质问卷满足相同的核心循环；软件将其工业化。",
+          "dc": "Four structures. If any one is removed, the product is no longer recognizable as a survey platform:\n\n- **The authored survey** — a stored, named, re-editable instrument: a set of questions, each with a defined answer format, organized into an ordered structure (pages, sections, blocks, or question groups), carrying presentation settings and response-shaping logic. Without it, there is nothing to field and nothing to measure.\n- **Fielding to respondents** — the survey is put to a population: it is launched or published, distributed through channels (links, email or SMS invitations, embeds, panels, kiosks, enumerator devices), and collection can open and close. Without it, the survey is a design document with no one to answer it.\n- **The response** — each person's completion is captured as a record of answers bound to the questions that were asked, with metadata such as time, completion state, and whatever identity posture applies. Without it, answers are ephemeral and nothing accumulates.\n- **The compiled results** — responses are aggregated into per-question results and an exportable dataset. This is the deliverable the loop exists to produce: not the individual filings, but what the population's answers say. Without it, the product keeps records but never measures.",
+          "dc_zh": "四个结构。如果任何一个被移除，产品将不再被识别为调查平台：\n\n- **已创建的调查** — 一个存储的、命名的、可重新编辑的工具：一组问题，每个问题有定义的答案格式，组织成有序结构（页面、部分、块或问题组），携带展示设置和响应塑造逻辑。没有它，就没有可实施的内容和可测量的内容。\n- **向受访者实施** — 调查被推向人群：它被启动或发布，通过渠道分发（链接、电子邮件或短信邀请、嵌入、面板、信息亭、调查员设备），并且收集可以开启和关闭。没有它，调查只是一个没有人在回答的设计文档。\n- **响应** — 每个人的完成被捕获为与所问问题绑定的答案记录，带有元数据，如时间、完成状态和适用的身份姿态。没有它，答案是短暂的，什么都不会积累。\n- **编译的结果** — 响应被聚合成每个问题的结果和一个可导出的数据集。这是循环存在的目的交付物：不是单独的归档，而是人群答案所表达的内容。没有它，产品保存记录但从不测量。",
+          "rules": "### The instrument and its data are coupled\n\nA survey is not a free-form document: questions, their order, and their answer formats define the shape of every response collected against them. Products therefore treat structural changes to a live survey with care — some require an explicit publish step that controls when edits go live, some restrict changes while collection is running, and products generally warn against deleting questions or answer options that already hold collected data (hiding them is the safe alternative). The shared rule beneath the varying strictness: collected responses are only as consistent as the instrument that asked them.\n\n### Attribution is a design decision with consequences\n\nThe author chooses between open anonymous collection and tracked collection against known respondents. The choice trades reach (anonymity encourages candor) against follow-up (tracking enables reminders, non-response chasing, and segmented results). Mature products make the choice per survey, not per account, and research products add consent framing — the instrument can carry an information and consent page as part of ethical fielding.\n\n### The default is accountless participation\n\nRespondents normally answer through the provisioned fill surface without registering. Identity, where needed, enters through invitation tokens, contact lists, embedded URL parameters, or verification steps rather than respondent accounts.\n\n### A fielded survey can be closed but rarely un-asked\n\nCollection can be stopped (deadline, quota, manual close), and products commonly prevent further responses with a configurable closed message. But responses already collected belong to the survey's record; the normal way to run an altered instrument is to duplicate and re-field, not to mutate the live one.\n\n### Results aggregate by question, not by submission\n\nThe results layer's center of gravity is per-question compilation — what the population answered — with individual responses available for inspection or follow-up. Products differ in how much aggregate analysis happens in-product versus in exported statistical software, but per-question results are the constant deliverable.",
+          "rules_zh": "### 工具与其数据是耦合的\n\n调查不是自由格式文档：问题、其顺序及其答案格式定义了针对它们收集的每个响应的形状。因此，产品谨慎对待对实时调查的结构更改——有些需要明确的发布步骤以控制编辑何时上线，有些在收集运行时限制更改，产品通常警告不要删除已持有收集数据的问题或答案选项（隐藏它们是安全替代方案）。不同严格程度下的共同规则：收集的响应仅与询问它们的工具一样一致。\n\n### 归属是一个具有后果的设计决策\n\n作者在开放匿名收集和针对已知受访者的跟踪收集之间选择。该选择以覆盖范围（匿名鼓励坦率）换取后续跟进（跟踪启用提醒、非响应追踪和分段结果）。成熟产品按调查而非按账户做出选择，研究产品添加同意框架——工具可以携带信息和同意页面作为伦理投放的一部分。\n\n### 默认是无账户参与\n\n受访者通常通过配置的填写界面回答，无需注册。身份在需要时通过邀请令牌、联系人列表、嵌入 URL 参数或验证步骤进入，而非受访者账户。\n\n### 已投放的调查可以关闭但很少能撤销\n\n收集可以停止（截止日期，配额，手动关闭），产品通常通过可配置的关闭消息防止进一步响应。但已收集的响应属于调查记录；运行修改后工具的正常方式是复制并重新投放，而非变更实时"
+        },
+        "progress": {
+          "slug": "survey-platform",
+          "name_zh": "问卷调查平台",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "commercial:typeform",
+          "name": "Typeform",
+          "track": "commercial",
+          "homepage": "https://www.typeform.com/",
+          "repository_url": null
+        },
+        {
+          "id": "github:500289888",
+          "name": "Formbricks",
+          "track": "open_source",
+          "homepage": "https://formbricks.com",
+          "repository_url": "https://github.com/formbricks/formbricks"
+        }
+      ],
+      "candidate_leads": [
+        "OpnForm",
+        "HeyForm",
+        "SurveyMonkey",
+        "LimeSurvey（已在库，待核关联）"
+      ]
+    },
+    {
+      "unit": 7,
+      "slug": "email-marketing-platform",
+      "leaf": {
+        "definition": {
+          "slug": "email-marketing-platform",
+          "name": "Email Marketing Platform",
+          "name_zh": "电子邮件营销平台",
+          "aliases_zh": [
+            "邮件营销系统",
+            "EDM平台"
+          ],
+          "domain_id": "06",
+          "parent_id": "06.03",
+          "overview": "An **Email Marketing Platform** is the marketer-side system for sending commercial email campaigns to an opt-in audience of contacts. Its defining core is small and stable:\n\n```text\nOpt-in contact audience of record\n└── Campaign (a discrete composed email send)\n    └── Bulk delivery through the platform's sending infrastructure\n        └── Per-send measurement feeding back into audience health\n```\n\nThe platform holds the audience — identified email recipients with consent state, who join and leave under their own control — and manages each send as a distinct campaign: composed content and sender identity, recipients selected from the audience, scheduled or sent immediately, then measured (deliveries, bounces, opens, clicks, unsubscribes, and commonly downstream conversion). Everything else commonly associated with the category — drag-and-drop editors, dynamic segments, automation journeys, signup forms, multi-channel extensions such as SMS — is standard or optional capability layered on this core.\n\nThe boundary to hold: this Type centers **campaigns as discrete bulk sends to managed contact audiences**. A product whose center is a standing publication sent to one audience is a Newsletter Marketing Platform; one whose center is multi-step automated programs with per-contact progress is a Marketing Automation Platform; one whose center is individual, action-triggered, expected messages is transactional email infrastructure.",
+          "overview_zh": "一个**电子邮件营销平台**是营销人员一侧的系统，用于向已选择加入（opt-in）的联系人群体发送商业电子邮件活动。其定义性的核心结构小而稳定：\n\n```text\n已选择加入的联系人群体记录\n└── 活动（一次独立的、已编排的电子邮件发送）\n     └── 通过平台的发送基础设施进行批量投递\n         └── 每次发送的测量反馈至人群健康度\n```\n\n该平台持有受众——即具有同意状态的已识别电子邮件收件人，他们自行控制加入和离开——并将每次发送管理为一个独立的活动：编排的内容和发件人身份，从受众中选择的收件人，计划发送或立即发送，然后进行测量（投递、退信、打开、点击、退订，以及常见的下游转化）。通常与该类别关联的其他所有内容——拖放编辑器、动态细分、自动化旅程、注册表单、如 SMS 等多渠道扩展——都是叠加在此核心之上的标准或可选功能。\n\n需要把握的边界：此类型以**向受管理的联系人群体进行独立的批量发送活动**为中心。如果一个产品的中心是发送给单一受众的定期出版物，则是 Newsletter Marketing Platform；如果一个产品的中心是具有每个联系人进度的多步骤自动化程序，则是 Marketing Automation Platform；如果一个产品的中心是独立的、由操作触发、预期内的消息，则是事务性电子邮件基础设施。",
+          "dc": "The platform's foundation is a standing database of identified email-address recipients. Each contact record carries:",
+          "dc_zh": "平台的基石是一个已识别的电子邮件地址收件人的持久数据库。每个联系人记录包含：",
+          "rules": "**Consent and unsubscribe are platform-enforced.** The platform requires unsubscribe handling on marketing sends (a visible unsubscribe path, honored and made permanent in the contact's consent state) and treats the recipient's consent state as authoritative: opted-out and suppressed contacts are stripped from every send regardless of how recipients were selected. Anti-spam and permission requirements constrain acquisition and content.\n\n**A sent campaign is immutable.** Drafts and scheduled sends can be edited, paused, or canceled; once a send has completed it can no longer be stopped, edited, or unsent. This is why pre-send testing is a documented stage of the lifecycle in every researched product.\n\n**Recipient resolution happens at send time.** The estimated audience is provisional; the actual send resolves against current consent state, duplicates, suppressions, and (where enabled) recency-protection rules at the moment of sending. A campaign can be auto-cancelled if its resolved recipient set is empty.\n\n**Engagement drives reach.** Deliverability is not a fixed setting: sends to unengaged or stale audiences damage the sending domain's reputation, which in turn degrades future delivery. This couples audience hygiene to channel health — a structural feedback loop, not an optional best practice.\n\n**Bounces carry consequences.** Permanently failed addresses are recorded on the contact and commonly remove the address from future sends; repeated high bounce rates can trigger warnings or suspension in some products.\n\n**Marketing email is not transactional email.** The platform's campaign machinery is for bulk, consented, unsubscribe-bearing messages. Individual, action-triggered, expected messages (order confirmations, password resets) are a different message class — in products that support them, they live on structurally separate machinery with different rules (no unsubscribe requirement, API-triggered).",
+          "rules_zh": "**同意和退订由平台强制执行。** 平台要求营销发送具备退订处理（一个可见的退订路径，在联系人的同意状态中被尊重并永久化），并将收件人的同意状态视为权威：已退出和已抑制的联系人无论收件人如何选择，都从每次发送中移除。反垃圾邮件和权限要求限制获取和内容。\n\n**已发送的活动是不可变的。** 草稿和计划发送可以编辑、暂停或取消；一旦发送完成，就无法再停止、编辑或撤回。这就是为什么发送前测试是每个研究产品中记录的生命周期阶段。\n\n**收件人解析发生在发送时。** 估算的受众是临时的；实际发送在发送时刻针对当前同意状态、重复项、抑制项和（如启用）近期性保护规则进行解析。如果解析后的收件人集合为空，活动可以自动取消。\n\n**参与度驱动触达。** 可投递性不是固定设置：向不活跃或过时的受众发送会损害发送域名的声誉，进而降低未来的投递。这将受众卫生与渠道健康耦合——这是一个结构性反馈循环，而非可选的最佳实践。\n\n**退信带来后果。** 永久失败的地址记录在联系人上，通常将该地址从未来发送中移除；重复的高退信率可能在某些产品中触发警告或暂停。\n\n**营销电子邮件不是事务性电子邮件。** 平台的活动机制用于批量、已同意、带退订的消息。独立的、由操作触发、预期内的消息（订单确认、密码重置）是另一类消息——在 pr"
+        },
+        "progress": {
+          "slug": "email-marketing-platform",
+          "name_zh": "电子邮件营销平台",
+          "domain_id": "06",
+          "parent_id": "06.03",
+          "case_status": "covered",
+          "application_ids": [
+            "github:32042787"
+          ],
+          "research_records": [
+            {
+              "record": "retained-go-20261025/part-008/research.json",
+              "result": "collector_draft_unapproved",
+              "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+              "query": [
+                "phpList open source email marketing manager campaigns bounce processing self-hosted"
+              ]
+            },
+            {
+              "record": "included-continuation-final-20261027-research.json#/leaf_cases/192",
+              "result": "case_found",
+              "note": "已读仓库 metadata、许可证 API 与 README：订阅者与列表、campaign 创建与批量发送、退信处理、打开/点击统计与队列管理均有正文依据；未安装运行。",
+              "query": [
+                "phpList open source email marketing manager campaigns bounce processing self-hosted"
+              ]
+            }
+          ],
+          "archived": false,
+          "note": "已读仓库 metadata、许可证 API 与 README：订阅者与列表、campaign 创建与批量发送、退信处理、打开/点击统计与队列管理均有正文依据；未安装运行。"
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:32042787",
+          "name": "phpList",
+          "track": "open_source",
+          "homepage": "https://www.phplist.org",
+          "repository_url": "https://github.com/phpList/phplist3"
+        }
+      ],
+      "candidate_leads": [
+        "Keila",
+        "Mailchimp",
+        "Brevo",
+        "Mautic（已在库，待核关联）",
+        "listmonk（已在库，待核关联）"
+      ]
+    },
+    {
+      "unit": 8,
+      "slug": "time-tracking-application",
+      "leaf": {
+        "definition": {
+          "slug": "time-tracking-application",
+          "name": "Time Tracking Application",
+          "name_zh": "时间跟踪应用",
+          "aliases_zh": [
+            "时间追踪软件",
+            "工时管理工具"
+          ],
+          "domain_id": "03",
+          "parent_id": "03.14",
+          "overview": "A **Time Tracking Application** is the record-keeper of time spent on work: it captures how long work took as individual, persistent time entries, attributes each entry to a piece of work structure — a project, task, client, or matter — and turns the accumulated record into timesheets, reports, and billable hours.\n\nThe defining core is small:\n\n```text\nTime entry (a persistent, addressable record of a duration)\n└── attributed to a work structure (project / task / client / matter)\n    └── formed by a user act (timer, manual input, timesheet cell, or confirmed suggestion)\n```\n\nEverything else commonly associated with the category — billable rates, invoicing, approval workflows, budgets, automatic background capture, calendar integration, capacity planning — is widespread in current products but is not what makes a product a time tracker. A paper timesheet — a professional writing durations against client matters and totaling them for billing — satisfies the core with no software at all.\n\nWhen the record stops being formed by the user's hand and instead accumulates automatically as usage observation, the product is drifting toward a different Application Type (Productivity Activity Tracker). When the record's unit of truth becomes attendance hours for payroll rather than task time for billing and analysis, it drifts toward the Employee Time Clock / Time & Attendance family.",
+          "overview_zh": "一款**时间追踪应用**是工作时间的记录者：它将工作耗时捕获为独立的、持久化的时间条目，将每个条目归属于某个工作结构——项目、任务、客户或案件——并将累积的记录转化为工时表、报告和可计费工时。\n\n其定义性核心很小：\n\n```text\n时间条目（一个持久的、可寻址的时长记录）\n└── 归属于一个工作结构（项目 / 任务 / 客户 / 案件）\n     └── 由用户行为形成（计时器、手动输入、工时表单元格或确认的建议）\n```\n\n通常与该类别关联的其他一切——可计费费率、开票、审批工作流、预算、自动后台捕获、日历集成、产能规划——在当前产品中很普遍，但这并非使一个产品成为时间追踪器的原因。一张纸质工时表——专业人员将时长记录在客户案件旁并为开票进行总计——无需任何软件即可满足核心需求。\n\n当记录不再由用户手动形成，而是作为使用观察自动累积时，该产品正在向另一种应用类型（生产力活动追踪器）漂移。当记录的真实单元变为用于薪资的考勤工时，而非用于计费和分析的任务时间时，它便向员工打卡机 / 考勤与工时家族漂移。",
+          "dc": "Three properties, held together. Remove any one and the product stops being recognizable as a time tracker:\n\n- **The time entry as the unit of record.** A persistent, individually addressable record of a duration of time — carrying its date, its recorder, and typically a short description. The entry survives sessions and accumulates into the user's (or team's) history. Without it there is only a stopwatch with no memory.\n- **Attribution to a work structure.** Each entry is attributed to a target in a user-maintained work hierarchy — most commonly project, with task and client as finer and coarser grains. This is what the record is *about*: work performed, not applications used, and not attendance kept. The hierarchy's depth and how strictly it is enforced vary by product (some require the full client→project→task chain, some require only a project, some leave attribution optional in the quick-timer surface) — but the existence of a user-chosen work-structure target is constant.\n- **User-driven formation of the record.** The entry comes into being through a user act: starting and stopping a timer, typing a duration or start/end times, filling a cell in a timesheet grid, or confirming a suggestion produced by automatic capture. The record is declarative — the user says what the time was for. Where records form without the user's hand, the product has crossed into ambient usage observation.",
+          "dc_zh": "三个属性，紧密结合。移除任何一个，产品就不再被识别为时间跟踪器：\n- **时间条目作为记录单元。** 一个持久、可单独寻址的时间持续记录——包含其日期、记录者，以及通常的一个简短描述。该条目跨越会话存在，并累积到用户（或团队）的历史中。没有它，只有一个没有记忆的秒表。\n- **归因于工作结构。** 每个条目归因于用户维护的工作层次结构中的目标——最常见的是项目，任务和客户作为更细和更粗的粒度。这是记录的*内容*：执行的工作，而非使用的应用，而非考勤。层次结构的深度和严格程度因产品而异（有些要求完整的客户→项目→任务链，有些只要求项目，有些在快速计时器界面中将归因设为可选）——但用户选择的工作结构目标的存在是恒定的。\n- **用户驱动的记录形成。** 条目通过用户行为产生：启动和停止计时器、输入持续时间或开始/结束时间、填写时间表网格中的单元格，或确认自动捕获产生的建议。记录是声明性的——用户说明时间用于什么。当记录在没有用户操作的情况下形成时，产品已跨入环境使用观察领域。",
+          "rules": "### The entry is declarative and user-owned\n\nAn entry exists because a user formed it. Automatic capture, where present, only proposes — its output becomes an entry through user confirmation, and in some products the unconfirmed material stays private to the user, never visible to administrators.\n\n### Attribution strictness is a product choice, not a law\n\nSome products require the full client→project→task chain on every entry; others require only a project; the quick-timer surface of some products allows entries with no attribution at all. The work-structure target is the center; how hard it is enforced varies.\n\n### Submitted and approved periods lock\n\nOnce a timesheet is submitted it becomes read-only to its author; once approved, the whole period locks (including days with no time). Only administrators — or roles with approval permission — can edit locked entries, usually with an explicit warning, and approval can be withdrawn to reopen a period. This locking is what makes the record trustworthy enough to invoice and pay against.\n\n### Approval is optional and organizational\n\nProducts are explicit that a personal tracker needs no approval workflow. It exists for the cases where someone downstream depends on the numbers — client billing, payroll, audits.\n\n### The record fences off surveillance\n\nMainstream time trackers keep the record at the granularity of work attribution. Capturing screenshots, keystrokes, or content crosses into employee monitoring, and leading products either refuse it outright or fence it into a separate module. The presence of deep surveillance capture is a reliable sign that a product has left this Type.\n\n### Money semantics ride on the entry, not inside it\n\nThe billable flag and rate resolution turn entries into invoice lines; the entry itself stays a neutral duration record. Non-billable and internal work is tracked through the same entries with the flag unset or the project marked non-billable.",
+          "rules_zh": "### 条目是声明式的且由用户拥有\n\n条目的存在是因为用户形成了它。自动捕获（如果存在）仅提出建议——其输出通过用户确认成为条目，在某些产品中，未确认的材料对用户保持私密，管理员永远不可见。\n\n### 归属严格性是产品选择，而非法律\n\n某些产品要求每个条目具备完整的客户→项目→任务链；其他产品仅要求项目；某些产品的快速计时器界面允许条目完全没有归属。工作结构目标是中心；其强制执行的力度各不相同。\n\n### 已提交和已批准的周期锁定\n\n一旦工时表被提交，它对作者变为只读；一旦批准，整个周期锁定（包括没有时间的日子）。只有管理员——或具有审批权限的角色——才能编辑锁定条目，通常带有明确警告，且批准可被撤回以重新打开周期。这种锁定使记录足够可信，可用于开票和支付。\n\n### 审批是可选的且属于组织层面\n\n产品明确指出，个人追踪器无需审批工作流。它存在于下游有人依赖这些数字的情况——客户计费、薪资、审计。\n\n### 记录将监控隔离在外\n\n主流时间追踪器将记录保持在工归属的粒度上。捕获屏幕截图、击键或内容则跨入员工监控领域，领先产品要么直接拒绝，要么将其隔离到独立模块中。深度监控捕获的存在是一个可靠信号，表明产品已离开此类型。\n\n### 资金语义依附于条目，而非在其内部\n\n可计费标志和费率解析将条目转化为发票行；条目本身"
+        },
+        "progress": {
+          "slug": "time-tracking-application",
+          "name_zh": "时间跟踪应用",
+          "case_status": "covered",
+          "research_records": []
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:71485542",
+          "name": "Kimai",
+          "track": "open_source",
+          "homepage": "https://www.kimai.org",
+          "repository_url": "https://github.com/kimai/kimai"
+        }
+      ],
+      "candidate_leads": [
+        "TimeTagger",
+        "solidtime",
+        "Toggl Track",
+        "Harvest",
+        "Clockify"
+      ]
+    },
+    {
+      "unit": 9,
+      "slug": "headless-cms",
+      "leaf": {
+        "definition": {
+          "slug": "headless-cms",
+          "name": "Headless CMS",
+          "name_zh": "无头CMS",
+          "aliases_zh": [
+            "无头内容管理系统",
+            "Headless内容管理平台",
+            "去耦合CMS"
+          ],
+          "domain_id": "02",
+          "parent_id": "02.07",
+          "overview": "A **Headless CMS** is a content management system that stores and manages structured content in a repository that is deliberately decoupled from presentation. Content is created against a customer-defined content model, and delivered to websites, apps, and other digital channels through APIs — while the end-user-facing interface (the \"head\") is built outside the product by the consuming team.\n\nIt solves a specific problem: organizations whose content must flow into multiple, independently built digital properties (websites, mobile apps, kiosks, in-store screens) need a single place where content is structured, authored, reviewed, and published — without that place also owning how pages look. A traditional CMS couples the content repository with page rendering; a headless CMS removes the rendering half and exposes the repository through APIs instead.\n\nThe defining structure is small:\n\n```text\nContent model (content types with typed fields — defined by the customer)\n└── Content entries stored against the model\n    ├── References between entries\n    └── Media assets\n        ↓ delivered as\nRead APIs (published content)  ← consumed by  →  External frontends (built outside)\nManagement APIs (create/update/publish)\n```\n\nEverything else commonly associated with the category — CDN delivery, GraphQL, visual editing, AI assistance, app marketplaces — is widespread in current products but is not what makes the product a headless CMS.",
+          "overview_zh": "一个 **Headless CMS** 是一种内容管理系统，它将结构化内容存储并管理在一个刻意与展示层解耦的存储库中。内容基于客户定义的内容模型进行创建，并通过 API 交付到网站、应用程序及其他数字渠道——而面向最终用户的界面（即“头部”）则由消费方团队在产品外部构建。\n\n它解决了一个特定问题：那些内容必须流入多个独立构建的数字资产（网站、移动应用、自助终端、店内屏幕）的组织，需要一个单一的地方来结构化、编写、审核和发布内容——而这个地方不负责页面的外观。传统 CMS 将内容存储库与页面渲染耦合在一起；Headless CMS 则去除了渲染部分，转而通过 API 暴露存储库。\n\n其定义性结构很小：\n\n```text\n内容模型（具有类型化字段的内容类型——由客户定义）\n└── 基于模型存储的内容条目\n     ├── 条目之间的引用\n     └── 媒体资产\n         ↓ 交付为\n读取 API（已发布内容）   ← 被消费于   →  外部前端（在外部构建）\n管理 API（创建/更新/发布）\n```\n\n通常与该类别相关联的其他一切——CDN 交付、GraphQL、可视化编辑、AI 辅助、应用市场——在当前产品中很普遍，但这并不是使该产品成为 Headless CMS 的原因。",
+          "dc": "Four structures. If any one is removed, the product is no longer recognizable as a headless CMS:\n\n- **Content model** — a schema of *content types* (for example: article, product page, author, navigation menu), each made of *typed fields* (text, rich text, numbers, dates, locations, media, references to other entries) with validation rules. The model is defined by the implementing team, not fixed by the product, and is defined independently of any page design. Without it, the product is a generic database.\n- **Content entries** — the items of content created and stored against the model. Entries link to each other through *reference fields* (an article references its author; a page references its components) and to *media assets* (images, video, documents) held in an attached asset store. Entries — not pages — are the system of record.\n- **API delivery** — published content is retrieved programmatically through a read API by the external frontends; content is created and managed through a management API (which the product's own editorial application typically uses as well). The API is the primary delivery surface.\n- **Decoupled presentation** — the product does not render the end-user experience. Frontends are built outside it. Preview and visual-editing features render the *external* frontend showing draft content; they assist editing but are not the delivery surface.",
+          "dc_zh": "四大结构。移除任何一项，该产品将不再被识别为无头CMS：\n- **内容模型** — 一种定义内容类型模式的架构（例如：文章、产品页面、作者、导航菜单），每种类型由具有验证规则的类型化字段（文本、富文本、数字、日期、位置、媒体、其他条目的引用）组成。该模型由实施团队定义，而非由产品固定，且独立于任何页面设计。若无此模型，该产品即为通用数据库。\n- **内容条目** — 基于模型创建和存储的内容项目。条目通过引用字段相互关联（一篇文章引用其作者；一个页面引用其组成部分），并与存储在附加资产库中的媒体资产（图像、视频、文档）关联。条目（而非页面）才是系统的记录本源。\n- **API交付** — 已发布的内容通过读取API供外部前端以编程方式获取；内容通过管理API创建和管理（产品自身的编辑应用程序通常也使用此API）。API是主要的交付界面。\n- **表现层解耦** — 该产品不渲染最终用户体验。前端在其外部构建。预览和可视化编辑功能渲染显示草稿内容的外部前端；它们辅助编辑但并非交付界面。",
+          "rules": "- **Publish is the delivery gate.** The public read API serves published content only. Drafts are never exposed through it; they are visible only inside the editorial application (and through authenticated preview mechanisms).\n- **Draft and published versions coexist.** Editing a published entry creates draft changes while the published version keeps serving; publishing applies the draft. Unpublishing withdraws the public version, with products differing on whether the last draft is kept or replaced.\n- **Model changes reach into existing content.** Adding a field makes it available on existing entries (typically empty until filled); required-field validation usually applies at the next edit/publish of an old entry rather than retroactively breaking it. Deleting a model element is guarded — products commonly require a disable/deactivate step first, because consuming frontends depend on the shape of the API response.\n- **References must be published to resolve.** An entry referencing an unpublished entry may deliver without the referenced content; publishing related content together (or via releases) is a routine operational concern.\n- **Edit and publish are separately permissioned.** The classic role split — writers draft, editors/publishers release — is supported through roles in mature products; API credentials are scoped separately from user accounts.\n- **Webhooks report content changes.** External systems learn about publishes, unpublishes, and other changes through webhook events; delivery caching is the frontend's responsibility to invalidate.\n- **Containers isolate change.** Model and content changes made in a staging container do not affect production until promoted; the container mechanism (environments, datasets, instances) varies but the isolation behavior is standard.",
+          "rules_zh": "- **发布是交付关口。** 公共读取 API 仅提供已发布内容。草稿永远不会通过它暴露；它们仅在编辑应用程序内部（以及通过经过身份验证的预览机制）可见。\n- **草稿和已发布版本共存。** 编辑已发布条目会创建草稿更改，而已发布版本继续提供服务；发布应用草稿。取消发布会撤回公共版本，产品在是否保留或替换最后一个草稿方面存在差异。\n- **模型更改影响现有内容。** 添加字段使其在现有条目上可用（通常为空直到填写）；必填字段验证通常在旧条目的下一次编辑/发布时应用，而不是追溯性地破坏它。删除模型元素受到保护——产品通常要求先执行禁用/停用步骤，因为消费前端依赖于 API 响应的结构。\n- **引用必须发布才能解析。** 引用未发布条目的条目可能在交付时不包含被引用内容；一起发布相关内容（或通过发布）是常规的运营关注点。\n- **编辑和发布具有单独的权限。** 经典的角色划分——编写者起草，编辑/发布者发布——在成熟产品中通过角色得到支持；API 凭据与用户账户分开限定范围。\n- **Webhooks 报告内容更改。** 外部系统通过 webhook 事件了解发布、取消发布和其他更改；交付缓存的失效是前端的职责。\n- **容器隔离更改。** 在预发布容器中进行的模型和内容更改在提升之前不会影响生产环境；容器机制（环境、数据集、实例）各不相同，但隔离行为是"
+        },
+        "progress": {
+          "slug": "headless-cms",
+          "name_zh": "无头CMS",
+          "domain_id": "02",
+          "parent_id": "02.07",
+          "case_status": "covered",
+          "application_ids": [
+            "github:43441403"
+          ],
+          "research_records": [
+            {
+              "record": "retained-go-20261025/part-002/research.json",
+              "result": "collector_draft_unapproved",
+              "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+              "query": "Strapi official documentation (legacy-round-06)"
+            },
+            {
+              "record": "included-continuation-final-20261027-research.json#/leaf_cases/27",
+              "result": "case_found",
+              "note": "官方README将Strapi定义为开源headless CMS，并直接描述内容建模与API；许可文件将ee目录排除，条目标注MIT社区开源核心。",
+              "query": "Strapi official documentation (legacy-round-06)"
+            }
+          ],
+          "archived": false,
+          "note": "官方README将Strapi定义为开源headless CMS，并直接描述内容建模与API；许可文件将ee目录排除，条目标注MIT社区开源核心。"
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:43441403",
+          "name": "Strapi",
+          "track": "open_source",
+          "homepage": "https://strapi.io",
+          "repository_url": "https://github.com/strapi/strapi"
+        }
+      ],
+      "candidate_leads": [
+        "Directus",
+        "Payload",
+        "Contentful",
+        "Sanity",
+        "Ghost（已在库，待核关联）"
+      ]
+    },
+    {
+      "unit": 10,
+      "slug": "video-conferencing-application",
+      "leaf": {
+        "definition": {
+          "slug": "video-conferencing-application",
+          "name": "Video Conferencing Application",
+          "name_zh": "视频会议应用",
+          "aliases_zh": [
+            "视频会议软件",
+            "视频会议平台"
+          ],
+          "domain_id": "01",
+          "parent_id": "01.04",
+          "overview": "A **Video Conferencing Application** is a live multi-party audiovisual meeting service: it convenes a session that participants join through a shared address, in which they see and hear each other in real time, talk, present content, and collaborate as a group.\n\nThe defining structure is small:\n\n```text\nConvened addressable meeting\n└── (meeting ID / join link / room address, distributed by invitation)\n    └── Live real-time session\n        └── Multiple participants, seen and heard together\n            └── Shared stage: conversation + presented content\n```\n\nEverything else commonly associated with modern meeting products — host controls, screen sharing, chat, lobby admission, recording, breakout rooms, captions, virtual backgrounds, dial-in phone audio, calendar integration — is widespread in current products but is not what makes the product a video conferencing application. The room-system era of videoconferencing (dedicated room endpoints dialing each other through a bridge, with none of those extras) satisfies the same definition, and so does a bare open-source room joined by nothing more than a URL.\n\nWhen the primary surface becomes an audio bridge with phone-keypad control, the product belongs to a different Application Type (Conference Calling Application). When the session becomes a one-to-many broadcast with registration and audience management, it belongs to another (Webinar Platform).",
+          "overview_zh": "一个**视频会议应用**是一种实时的多方音视频会议服务：它召集一个会话，参与者通过共享地址加入，在其中实时看到并听到彼此，进行交谈、展示内容并作为群体进行协作。\n\n其定义性结构很小：\n\n```text\n已召集的可寻址会议\n└── (会议 ID / 加入链接 / 房间地址，通过邀请分发)\n     └── 实时会话\n         └── 多个参与者，共同被看到和听到\n             └── 共享舞台：对话 + 展示内容\n```\n\n现代会议产品通常关联的其他一切——主持人控制、屏幕共享、聊天、等候室准入、录制、分组讨论室、字幕、虚拟背景、电话拨入音频、日历集成——在当前产品中很普遍，但这并不是使该产品成为视频会议应用的原因。视频会议的房间系统时代（专用房间终端通过桥接相互拨入，没有那些额外功能）满足相同的定义，仅通过 URL 加入的裸开源房间也是如此。\n\n当主要界面变为带有电话按键控制的音频桥接时，该产品属于另一种应用类型（会议电话应用）。当会话变为带有注册和观众管理的一对多广播时，它属于另一种类型（网络研讨会平台）。",
+          "dc": "Three structures, held together. Remove any one and the product stops being recognizable as this Type:\n\n- **The convened addressable meeting** — the session exists as an entity with its own address: a meeting identifier, a join link, a room name, or a room-system address. The meeting is created ahead of the live connection (scheduled) or on the spot (instant), and it is distributed to participants by invitation or link. Participants join the *meeting*, not a person. Without this, the product is person-to-person video calling.\n- **The live real-time session** — while the meeting runs, participants exchange live audio and video. The visual meeting is the medium of record: what distinguishes this Type from audio conference calling is that participants see each other and a shared visual stage. Without this, the product is a conference call.\n- **The multi-party shared session** — the meeting is a common space that mixes more than two simultaneous participants. Everyone in the session perceives the same shared situation: who is present, who is speaking, what is being shown. Without this, the product is a paired call.",
+          "dc_zh": "三个结构，必须同时存在，移除任何一个，产品就不再被认为是此类型：\n1. **可召集的可寻址会议** — 会议作为一个实体存在，拥有自己的地址：会议标识符、加入链接、会议室名称或房间系统地址。会议在实时连接之前创建（预定）或即时创建，并通过邀请或链接分发给参与者。参与者加入的是*会议*，而不是个人。如果没有这个，产品就是点对点视频通话。\n2. **实时会话** — 会议运行时，参与者交换实时音频和视频。视觉会议是记录介质：与此类型区别于音频会议通话的是参与者互相看到对方和一个共享的视觉舞台。如果没有这个，产品就是会议通话。\n3. **多方共享会话** — 会议是一个公共空间，混合了两个以上的同步参与者。会话中的每个人感知到相同的共享情况：谁在场、谁在发言、什么正在被展示。如果没有这个，产品就是配对通话。",
+          "rules": "### The invitation is the credential\n\nAttendance normally requires the meeting's address plus whatever gate the host set — and most products explicitly allow joining an invited meeting **without an account**, as a guest identified only by a display name. The meeting address, not a membership relationship, is what confers access. This is a defining behavioral contrast with workspace- or contact-graph-based communication Types.\n\n### Admission is gated, and the gate has variants\n\nThe same concept — controlling who enters — is implemented as a lobby the host admits from, a meeting password, a requirement that a designated organizer authenticate to open the room, or no gate at all. Lobby behavior interacts with identity: organizations commonly configure different admission rules for internal users, guests, trusted external organizations, anonymous participants, and telephone dial-ins.\n\n### Roles gate powers\n\nWhat a participant may do is a function of role. Hosts (and their delegates) admit, mute others, remove, record, and assign roles; presenters put content on the shared stage; attendees control their own audio and video. In organizationally deployed products, administrator policies sit above the host and can fix what any meeting in the organization may do — who can record, who can bypass the lobby, whether captions or transcription exist — with the host choosing within that envelope.\n\n### One presenter at a time\n\nThe shared stage carries one presentation at a time; presenting is a transferable role rather than a free-for-all. This single-stream convention is what keeps a multi-party session legible.\n\n### Audio path is a per-participant choice\n\nEach participant independently chooses how they connect audio — computer, telephone call-back, telephone dial-in, or none (joining only to watch and share content, for example from inside a physical conference room). Dial-in participants are commonly audio-only: they hear the meeting but cannot see participants or shared content, and their phone connection may appear in the roster separately from their name unless they identify themselves.\n\n### Recording is permission-gated and announced\n\nRecording is restricted to the host and permitted delegates, may be further constrained by administrator policy or plan, and is visibly announced to participants while active. The recording lands in the product's storage estate with its own permission and retention behavior.\n\n### Host muting is one-directional in some products\n\nWhere a host or moderator can mute other participants, some products deliberately do not let them force-unmute: the muted participant unmutes themselves. Control over one's own microphone is treated as personal, with the host holding collective-silence powers only.\n\n### The meeting is ephemeral; artifacts persist\n\nThe live session has no life between its start and end. What survives is what the product stores: recordings, chat, attendance, recaps. Meetings are not places one returns to (that is the workspace or channel model); they are events that leave records.",
+          "rules_zh": "### 邀请是凭证\n\n出席通常需要会议地址加上主持人设置的任何关卡——大多数产品明确允许**无需账户**作为仅由显示名称标识的访客加入受邀会议。会议地址，而非成员关系，是授予访问权限的东西。这是与基于工作区或联系人图的通信类型之间的定义性行为对比。\n\n### 准入是受控的，且关卡有变体\n\n同一概念——控制谁进入——实现为主持人从中准入的等候室、会议密码、要求指定组织者身份验证以打开房间，或根本没有关卡。等候室行为与身份交互：组织通常为内部用户、访客、受信任的外部组织、匿名参与者和电话拨入配置不同的准入规则。\n\n### 角色限制权限\n\n参与者可以做什么取决于角色。主持人（及其代理人）准入、静音他人、移除、录制并分配角色；演讲者将内容放在共享舞台上；与会者控制自己的音频和视频。在组织部署的产品中，管理员策略位于主持人之上，可以固定组织中任何会议可以做什么——谁可以录制、谁可以绕过等候室、是否存在字幕或转录——主持人在此范围内选择。\n\n### 一次一个演讲者\n\n共享舞台一次承载一个演示；展示是一个可转移的角色，而非自由竞争。这种单流约定保持了多方会话的可读性。\n\n### 音频路径是每位参与者的选择\n\n每位参与者独立选择如何连接音频——计算机、电话回拨、电话拨入或无（加入"
+        },
+        "progress": {
+          "slug": "video-conferencing-application",
+          "name_zh": "视频会议应用",
+          "domain_id": "01",
+          "parent_id": "01.04",
+          "case_status": "covered",
+          "application_ids": [
+            "github:15225670"
+          ],
+          "research_records": [
+            {
+              "record": "retained-go-20261025/part-001/research.json",
+              "result": "collector_draft_unapproved",
+              "note": "已有结构有效草稿，独立初审问题未关闭，尚未进入本次正式库。",
+              "query": [
+                "site:github.com/jitsi/jitsi-meet Jitsi Meet open source video conferencing Apache license official"
+              ]
+            },
+            {
+              "record": "included-continuation-final-20261027-research.json#/leaf_cases/14",
+              "result": "case_found",
+              "note": "Jitsi Meet README 与官网说明可创建/加入房间链接进行多人实时音视频与内容共享；可寻址会议、实时会话与多方共享三项成立。",
+              "query": [
+                "site:github.com/jitsi/jitsi-meet Jitsi Meet open source video conferencing Apache license official"
+              ]
+            }
+          ],
+          "archived": false,
+          "note": "Jitsi Meet README 与官网说明可创建/加入房间链接进行多人实时音视频与内容共享；可寻址会议、实时会话与多方共享三项成立。"
+        }
+      },
+      "definition_source": {
+        "path": "data/taxonomy/catalog.json",
+        "sha256": "a5e2c5ae1b7fb23dadbaa8ba34424ffe30cf3883a3aee5d614e09f8e13f743aa"
+      },
+      "existing_products": [
+        {
+          "id": "github:15225670",
+          "name": "Jitsi Meet",
+          "track": "open_source",
+          "homepage": "https://jitsi.org/jitsi-meet/",
+          "repository_url": "https://github.com/jitsi/jitsi-meet"
+        }
+      ],
+      "candidate_leads": [
+        "Galène",
+        "Zoom",
+        "Google Meet",
+        "BigBlueButton（已在库，待核关联）"
+      ]
+    }
+  ],
+  "created_at": "2026-10-31T07:33:38+00:00",
+  "publication_allowed": false
+}
