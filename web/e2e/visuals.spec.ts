@@ -71,6 +71,26 @@ test("detail leads to same-type products, the type page, saving and comparison",
   await expect(page.locator(".application-card .product-logo").first()).toBeVisible();
 });
 
+test("search suggests matching types and comparison shows activity and trial rows", async ({ page }) => {
+  await page.goto("/search?q=客户管理");
+  const types = page.getByRole("navigation", { name: "相关应用类型" });
+  await expect(types.getByRole("link", { name: /客户关系管理/ })).toContainText("2 开源 · 1 商业");
+  await types.getByRole("link", { name: /客户关系管理/ }).click();
+  await expect(page).toHaveURL(new RegExp(`${CRM}$`));
+  await page.goto(`/compare?leaf=customer-relationship-management-crm&ids=fixture-open,fixture-replacement`);
+  const activity = page.locator('tr[data-dimension="activity"] td');
+  await expect(activity.nth(0)).toContainText("v9.0-beta.1（预发布）");
+  await expect(activity.nth(0)).toContainText("最近代码推送：2026-10-30");
+  await expect(activity.nth(1)).toContainText("资料未提供 / 未核实");
+  const trial = page.locator('tr[data-dimension="trial"] td');
+  await expect(trial.nth(0).getByRole("link", { name: /在线演示 \/ 试用 · 测试在线演示/ })).toHaveAttribute("href", "https://example.test/open/demo");
+  await expect(trial.nth(0).getByRole("link", { name: /部署指南/ })).toBeVisible();
+  await expect(trial.nth(1)).toContainText("资料未提供 / 未核实");
+  await page.getByRole("checkbox", { name: "维护活跃度" }).uncheck();
+  await expect(page.locator('tr[data-dimension="activity"]')).toHaveCount(0);
+  await expect(page).toHaveURL(/dims=/);
+});
+
 test("mobile detail and search stay within the viewport", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   for (const url of ["/products/fixture-open", "/search?q=CRM系统", CRM, "/"]) {

@@ -10,6 +10,13 @@ from .resources import Resources
 DEPLOYMENTS = {"self_hosted": "自托管", "docker": "Docker", "managed_cloud": "云部署 / 托管服务"}
 
 
+def mentions(word, text):
+    """Latin words match at a word start ("erp" is not inside "enterprise"); Chinese matches as a substring."""
+    if re.fullmatch(r"[a-z0-9]+", word):
+        return re.search(r"(?<![a-z0-9])" + re.escape(word), text) is not None
+    return word in text
+
+
 def normalized(value):
     return unicodedata.normalize("NFKC", value or "").casefold().strip()
 
@@ -125,9 +132,12 @@ class Products:
             name = normalized(" ".join([app["name"], *aliases]))
             summary = normalized(app.get("summary", ""))
             types = " ".join(self.taxonomy.search[slug] for slug in slugs)
+            type_names = " ".join(self.taxonomy.names[slug] for slug in slugs)
             if not all(w in name or w in summary or w in types for w in words):
                 continue
-            score = (100 if q and q == normalized(app["name"]) else 0) + sum(20 if w in name else 5 if w in summary else 1 for w in words)
+            # A match on the product's own type name or alias outranks a passing mention in the summary
+            # ("工单" should surface help desks before car-repair work orders).
+            score = (100 if q and q == normalized(app["name"]) else 0) + sum(20 if w in name else 15 if mentions(w, type_names) else 5 if w in summary else 1 for w in words)
             ranked.append((app, score))
         licenses = Counter(a.get("license") for a, _ in ranked if a.get("license"))
         deployments = Counter(d for a, _ in ranked for d in a["deployment_options"])
@@ -151,7 +161,21 @@ class Products:
                 "total": total, "page": page, "page_size": page_size, "pages": pages,
                 "facets": {"licenses": [{"value": v, "count": n} for v, n in sorted(licenses.items())],
                            "deployments": [{"value": v, "label": label, "count": deployments[v]} for v, label in DEPLOYMENTS.items() if deployments[v]],
-                           "curated": curated_count}}
+                           "curated": curated_count},
+                "suggested_types": self.suggested_types(words) if words and not leaf and len("".join(words)) >= 2 else []}
+
+    def suggested_types(self, words, limit=4):
+        """Main-directory types whose own name or alias contains every query word and that have products."""
+        counts, _ = self.store.counts()
+        found = []
+        for slug, row in self.taxonomy.leaves.items():
+            total = sum(counts.get(slug, {}).values())
+            if row["scope"] == "included" and total and all(mentions(w, self.taxonomy.names[slug]) for w in words):
+                own = [row["name"].casefold(), row["name_zh"].casefold()]
+                exact = " ".join(words) in [*own, *(a.casefold() for a in row["aliases_zh"])]
+                tier = 0 if exact else 1 if all(any(mentions(w, n) for n in own) for w in words) else 2  # exact, own name, alias only
+                found.append((tier, -total, row["name"], {**self.leaf_ref(slug), "counts": counts.get(slug, {"open_source": 0, "commercial": 0}), "product_count": total}))
+        return [item[-1] for item in sorted(found, key=lambda t: t[:3])[:limit]]
 
     def detail(self, app_id):
         for app in self.records(app_id, full=True):
@@ -176,6 +200,8 @@ class Products:
             raise ValueError("请选择 2–4 个不同产品进行比较")
         by_id = {app["id"]: app for app in self.records()}
         apps = [by_id[app_id] for app_id in ids]  # A missing ID is a real 404.
+        full = {app["id"]: app for app in self.records(app_ids=ids, full=True)}
+        apps = [full[app["id"]] for app in apps]  # resource profiles feed the activity and trial rows
         common = set.intersection(*({t["slug"] for t in app["types"]} for app in apps))
         if leaf:
             self.taxonomy.leaf(leaf)

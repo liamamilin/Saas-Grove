@@ -35,7 +35,8 @@ export type ResourceProfile = { curated: boolean; curated_at: string; refreshed_
   history: { at: string; changes: string[] }[] };
 export type ProductType = { slug: string; name: string; name_zh: string; scope: Scope; domain_id: string; product_count?: number };
 export type ProductResults = { applications: Application[]; total: number; page: number; pages: number; page_size: number;
-  facets: { licenses: { value: string; count: number }[]; deployments: { value: string; label: string; count: number }[]; curated: number } };
+  facets: { licenses: { value: string; count: number }[]; deployments: { value: string; label: string; count: number }[]; curated: number };
+  suggested_types?: (ProductType & { counts: { open_source: number; commercial: number }; product_count: number })[] };
 export type EvidenceCell = { status: "recorded" | "unknown"; value: string; sources: { url: string; quote: string; sha256: string; fetched_at: string }[] };
 export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[]; crm_rows?: { key: string; label: string; cells: EvidenceCell[] }[] };
 export type ApplicationList = { applications: Application[]; leaf: string; track: Track; total: number };

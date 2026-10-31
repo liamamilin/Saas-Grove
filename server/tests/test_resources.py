@@ -114,6 +114,28 @@ class ResourceApiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate(overlay({"github:404": entry()}), {"github:1"})
 
+    def test_type_name_matches_outrank_summary_mentions_and_suggest_types(self):
+        self.store.save({"id": "aardvark", "name": "Aardvark", "summary": "汽修工单，也做客户管理"}, ["help-desk"], ["open_source"])
+        result = self.api.get("/api/products", {"q": "客户管理"})
+        self.assertEqual([a["id"] for a in result["applications"]], ["github:1", "beta", "aardvark"])
+        suggested = result["suggested_types"]
+        self.assertEqual(suggested[0]["slug"], CRM)
+        self.assertEqual((suggested[0]["product_count"], suggested[0]["counts"]), (2, {"open_source": 1, "commercial": 1}))
+        self.store.save({"id": "erp", "name": "Ledger", "summary": "资源计划"}, ["enterprise-resource-planning-erp"], ["open_source"])
+        self.store.save({"id": "wiki", "name": "Pages", "summary": "知识库"}, ["enterprise-wiki"], ["open_source"])
+        self.assertEqual([t["slug"] for t in self.api.get("/api/products", {"q": "ERP"})["suggested_types"]], ["enterprise-resource-planning-erp"])  # not "enterprise"
+        self.assertEqual(self.api.get("/api/products", {"q": "工单"})["suggested_types"][0]["slug"], "help-desk")
+        self.assertEqual(self.api.get("/api/products", {"q": "客户管理", "leaf": CRM})["suggested_types"], [])
+        self.assertEqual(self.api.get("/api/products", {"q": ""})["suggested_types"], [])
+        self.assertEqual(self.api.get("/api/products", {"q": "c"})["suggested_types"], [])  # one letter is too vague
+
+    def test_compare_carries_resource_profiles_for_activity_and_trial_rows(self):
+        comparison = self.api.get("/api/compare", {"ids": "github:1,beta"})
+        alpha, beta = comparison["products"]
+        self.assertEqual([r["type"] for r in alpha["resource_profile"]["resources"]], ["homepage", "repository", "docs"])
+        self.assertIsNone(beta["resource_profile"])
+        self.assertTrue(all("resource_profile" not in c for c in comparison["candidates"]))
+
     def test_stale_overlay_id_is_set_aside_instead_of_blocking_startup(self):
         self.path.write_text(json.dumps(overlay({"github:1": entry(), "github:gone": entry(name="Gone")}), ensure_ascii=False))
         resources = Resources(self.path, {"github:1", "beta"})

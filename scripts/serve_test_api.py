@@ -29,7 +29,10 @@ with tempfile.TemporaryDirectory(prefix="saas-browser-test-") as directory:
                                        {"type": "deployment", "url": "https://example.test/open/install", "label": "测试部署指南", "found_on": "https://example.test/open", "checked_at": "2026-10-31"}],
                          "screenshots": [{"url": local, "caption": "测试主界面", "kind": "ui_screenshot", "found_on": "https://example.test/open", "checked_at": "2026-10-31"},
                                          {"url": local + "?second", "caption": "测试拼图", "kind": "ui_composite", "found_on": "https://example.test/open", "checked_at": "2026-10-31"}],
-                         "missing": [{"type": "video", "reason": "测试：未找到演示视频"}]},
+                         "missing": [{"type": "video", "reason": "测试：未找到演示视频"}],
+                         "repository_facts": {"source_url": "https://example.test/api/open", "fetched_at": "2026-10-31T10:00:00+08:00", "archived": False,
+                                              "pushed_at": "2026-10-30T02:00:00Z", "latest_release": {"tag": "v9.0-beta.1", "published_at": "2026-10-20T00:00:00Z",
+                                                                                                      "url": "https://example.test/open/releases/v9", "prerelease": True}}},
         "fixture-replacement": {"name": "候选 CRM", "curated_at": "2026-10-31",
                                 "logo": {"url": local, "kind": "official_logo", "found_on": "https://example.test/replacement", "checked_at": "2026-10-31"},
                                 "resources": [], "screenshots": [], "missing": [{"type": "screenshot", "reason": "测试：没有可靠截图"}]}}}

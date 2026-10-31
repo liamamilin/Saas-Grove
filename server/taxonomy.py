@@ -108,8 +108,10 @@ class Taxonomy:
         self.categories = {r["id"]: r for r in self.catalog["categories"]}
         self.leaves = {r["slug"]: r for r in self.catalog["leaves"]}
         self.details = {r["slug"]: r for r in self.source["leaves"]}
-        self.search = {}
+        self.search, self.names = {}, {}
         for slug, row in self.leaves.items():
+            # Own names and aliases only; `search` also carries the group and domain names.
+            self.names[slug] = " ".join([row["name"], row["name_zh"], *row["aliases_zh"]]).casefold()
             group = self.categories[row["parent_id"]]
             domain = self.categories[row["domain_id"]]
             self.search[slug] = " ".join([row["name"], row["name_zh"], slug, *row["aliases_zh"],

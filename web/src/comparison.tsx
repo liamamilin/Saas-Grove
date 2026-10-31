@@ -6,7 +6,7 @@ import { ComparePicker, productUrl } from "./products";
 import { ProductLogo } from "./media";
 import { PersonalNoteEditor, SaveComparisonForm } from "./workspace";
 const CRM="customer-relationship-management-crm";
-const DIMENSIONS = [["purpose","主要用途"],["openness","开源情况"],["types","所属类型"],["crm","CRM 关键能力"],["features","核心能力原记录"],["deployment","部署方式"],["technology","技术栈"],["license","许可证"],["sources","来源与日期"],["runtime","部署实测"]];
+const DIMENSIONS = [["purpose","主要用途"],["openness","开源情况"],["types","所属类型"],["crm","CRM 关键能力"],["features","核心能力原记录"],["deployment","部署方式"],["technology","技术栈"],["license","许可证"],["activity","维护活跃度"],["trial","试用与文档"],["sources","来源与日期"],["runtime","部署实测"]];
 const unknown=<span className="unknown-fact">资料未提供 / 未核实</span>;
 const list=(v?:string[])=>v?.length?<ul className="fact-list">{v.map((s,i)=><li key={i}>{s}</li>)}</ul>:unknown;
 const date=(v?:string)=>v?.slice(0,10)||"未记录日期";
@@ -46,6 +46,8 @@ export function ComparePage() {
     row("deployment","部署方式",a=>({value:a.deployment?.length?[...a.deployment].sort():null,content:<>{list(a.deployment)}{!!a.deployment?.length&&<SourceLinks app={a} kind="readme"/>}</>}));
     row("technology","技术栈",a=>({value:a.technology_stack?.length?[...a.technology_stack].sort():null,content:<>{list(a.technology_stack)}{!!a.technology_stack?.length&&<SourceLinks app={a}/>}</>}));
     row("license","许可证与核验",a=>({value:a.license&&a.license_status==="reviewed"?[a.license,a.license_status,a.license_review?.rationale||""]:null,content:a.license?<><strong>{a.license}</strong><p>{a.license_status==="reviewed"?"已核对许可资料":"许可资料待核验"}</p>{a.license_review?.rationale&&<p>{a.license_review.rationale}</p>}<SourceLinks app={a} kind="license"/></>:unknown}));
+    row("activity","维护活跃度",a=>{const f=a.resource_profile?.repository_facts;const r=f?.latest_release;return {value:f?[f.archived,r?.tag||""]:null,content:f?<>{f.archived&&<p className="explicit-limit">GitHub 显示仓库已归档（只读）</p>}<p>最新发布：{r?<a href={r.url} target="_blank" rel="noreferrer">{r.tag}</a>:"无正式发布"}{r?.prerelease&&"（预发布）"}{r&&` · ${date(r.published_at)}`}</p><p>最近代码推送：{date(f.pushed_at)}</p><small>GitHub 仓库信息 · {date(f.fetched_at)} 获取</small></>:unknown};},false);
+    row("trial","试用与文档",a=>{const res=(a.resource_profile?.resources||[]).filter(r=>(r.type==="demo"||r.type==="docs"||r.type==="deployment")&&r.status!=="unreachable");const gaps=(a.resource_profile?.missing||[]).filter(m=>m.type==="demo");return {value:res.length||gaps.length?[...res.map(r=>r.url).sort(),...gaps.map(()=>"no-demo")]:null,content:res.length||gaps.length?<>{res.length>0&&<ul className="fact-list">{res.map(r=><li key={r.url}><a href={r.url} target="_blank" rel="noreferrer">{({demo:"在线演示 / 试用",docs:"文档",deployment:"部署指南"} as Record<string,string>)[r.type]}{r.label?` · ${r.label}`:""} <ExternalLink size={11}/></a>{r.type==="demo"&&r.note&&<small> {r.note}</small>}</li>)}</ul>}{gaps.map(m=><p key={m.reason} className="quiet-note">未找到演示：{m.reason}</p>)}</>:unknown};},false);
     row("sources","来源与资料日期",a=>({value:a.sources?.length?a.sources.map(s=>s.url).sort():null,content:<><p>{a.verification_status==="official_sources_reviewed"?"官方资料已核对":"资料待核对"}</p><p>{a.checked_at_basis==="recorded"?"核对":"来源采集"} · {date(a.checked_at)}</p><SourceLinks app={a}/><Link to={productUrl(a.id,from)}>全部来源 <ArrowRight size={13}/></Link></>}),false);
     row("runtime","实际部署测试",a=>({value:a.runtime_tested??null,content:a.runtime_tested===true?"已记录部署测试":a.runtime_tested===false?"尚未进行部署测试":unknown}),false);
   }
