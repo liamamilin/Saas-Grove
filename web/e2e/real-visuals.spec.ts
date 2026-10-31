@@ -47,14 +47,14 @@ test("real catalog: discovery from home, search filter and type page to a visual
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
   const showcase = page.getByRole("region", { name: "已整理界面与资源的产品" });
-  await expect(showcase.locator(".showcase-item")).toHaveCount(10);
+  await expect(showcase.locator(".showcase-item")).toHaveCount(12);
   await loaded(page, ".showcase-item img");
   await page.screenshot({ path: `${OUT}/home-desktop.png` });
   await page.goto("/search?q=CRM");
   await loaded(page, ".product-card .product-logo img");
   await page.screenshot({ path: `${OUT}/search-cards-desktop.png` });
   await page.getByLabel("官方资源", { exact: true }).selectOption("1");
-  await expect(page.locator(".product-card")).toHaveCount(2);
+  await expect(page.locator(".product-card")).toHaveCount(3);
   await page.goto("/types/customer-relationship-management-crm");
   await expect(page.getByRole("region", { name: "相关类型" })).toBeVisible();
   await page.locator(".application-card").filter({ hasText: "Twenty" }).getByRole("link", { name: "Twenty", exact: true }).click();
@@ -82,4 +82,25 @@ test("real catalog: mobile detail, gallery and search stay readable", async ({ p
   await page.goto("/search?q=CRM");
   await loaded(page, ".product-card .product-logo img");
   await page.screenshot({ path: `${OUT}/search-cards-mobile.png` });
+});
+
+const SECOND_BATCH = ["github:6899875", "github:674295265", "github:1529160", "github:78243781", "github:266033395", "github:419635982", "github:12063996", "github:14346979", "github:39182755", "github:12204147", "github:32042787", "github:3305384", "github:664013991", "github:542931741", "github:486815039", "github:21298446", "github:1864233", "github:501292795", "github:9852918", "github:43441403", "github:8162715", "github:479657569", "github:111364256", "github:9193949", "github:382496361", "github:72495579", "github:642497346", "github:24594933", "github:203587744", "github:60243197", "github:15225670"];
+
+test("real catalog: second batch products show logos, screenshots, docs and deployment resources", async ({ page }) => {
+  test.setTimeout(600_000);
+  const errors: string[] = [];
+  page.on("pageerror", e => errors.push(e.message));
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  for (const id of SECOND_BATCH) {
+    await page.goto(`/products/${encodeURIComponent(id)}`);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await loaded(page, ".product-header .product-logo img");
+    await loaded(page, ".screenshot-grid img");
+    const kinds = await page.locator("#resources .resource-card strong").allInnerTexts();
+    expect(kinds).toEqual(expect.arrayContaining(["官网", "代码仓库", "文档", "部署指南"]));
+    const hrefs = await page.locator("#resources .resource-card").evaluateAll((links: HTMLAnchorElement[]) => links.map(a => a.href));
+    expect(new Set(hrefs).size).toBe(hrefs.length);
+    await expect(page.locator(".repo-facts")).toContainText("GitHub 仓库信息");
+  }
+  expect(errors).toEqual([]);
 });

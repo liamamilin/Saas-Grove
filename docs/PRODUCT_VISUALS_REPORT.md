@@ -85,3 +85,85 @@
   - 产品同时属于开源和商业两个分区时，计数会重复（目前没有这种产品）；
   - listmonk 的最新发布是预发布版本，页面没有标出；
   - 若干补充测试：图片 404、恢复可访问、429、发布接口 404，以及 Token 只发往 api.github.com 的范围。
+
+
+---
+
+# 第二批官方资源整理（2026-10-31）
+
+在首批 10 个产品之后，再为 31 个开源产品补充官方资源、Logo 和真实界面截图，共 41 个已整理产品。只写 `data/product-resources.json`；正式 1,440 产品／1,724 关系、`data/catalog.sql`、`data/catalog-snapshot.json`、`var/catalog.sqlite` 的 SHA 与整理前一致。
+
+## 做法
+
+- 名单来自本地 README 快照中带候选界面图的开源产品，偏重常见品类，仓库均未归档、近期有推送。
+- 每个资源链接、Logo 和截图都在 2026-10-31 实际打开：网页 HTTP 200 且最终地址与写入一致，图片 `Content-Type` 为 `image/*`。每张截图下载后转成缩略图逐张看过，再决定 `ui_screenshot` 或 `ui_composite`。
+- README 没有真实界面图的产品，改从官网、官方文档或帮助中心取图；仍找不到的写进 `missing` 并写明原因。Grist、Mautic、Strapi、Unleash 的截图来自官方文档页。
+- Logo：优先官方文件（Linkwarden、Uptime Kuma、Etherpad、Postiz）；其余用官方 GitHub 组织头像，账号类型逐个用 API 确认为 Organization。Frappe Helpdesk、ERPNext、Frappe HR 共用 Frappe 组织头像。
+- 31 个产品逐个执行 `python3 -B -m server.refresh <id>`，预览后 `--apply`，无告警（ERPNext 预览时出现过一次瞬时 SSL 错误，重试通过）。
+
+## 31 个产品的资源表
+
+（由脚本从 `data/product-resources.json` 生成。“—”表示未找到，原因见下一节。）
+
+| 产品 | Logo | 截图 | 文档 | 演示/试用 | 部署 | 功能 | 更新记录 | 视频 | 最新发布（GitHub） |
+|---|---|---|---|---|---|---|---|---|---|
+| OpenProject | GitHub 组织头像 | 1 | [✓](https://www.openproject.org/docs/) | — | [✓](https://www.openproject.org/docs/installation-and-operations/installation/docker-compose/) | [✓](https://www.openproject.org/collaboration-software-features/) | [✓](https://www.openproject.org/docs/release-notes/) | — | v17.9.6 |
+| Docmost | GitHub 组织头像 | 2 | [✓](https://docmost.com/docs/) | — | [✓](https://docmost.com/docs/installation) | — | [✓](https://github.com/docmost/docmost/releases) | — | v0.97.0 |
+| Etherpad | 官方文件 | 2 | [✓](https://docs.etherpad.org/) | — | [✓](https://docs.etherpad.org/docker.html) | — | [✓](https://github.com/ether/etherpad/blob/develop/CHANGELOG.md) | — | v3.3.12 |
+| Super Productivity | GitHub 组织头像 | 2 | [✓](https://github.com/super-productivity/super-productivity/wiki) | [✓](https://app.super-productivity.com) | [✓](https://super-productivity.com/download/) | — | [✓](https://github.com/super-productivity/super-productivity/releases) | — | v19.3.1 |
+| Grist | GitHub 组织头像 | 2 | [✓](https://support.getgrist.com) | — | [✓](https://support.getgrist.com/self-managed/) | — | [✓](https://github.com/gristlabs/grist-core/releases) | — | v1.7.22 |
+| Frappe Helpdesk | GitHub 组织头像 | 2（拼图 1） | [✓](https://docs.frappe.io/helpdesk/your-first-steps-with-frappe-helpdesk) | — | [✓](https://docs.frappe.io/helpdesk/installation) | — | [✓](https://github.com/frappe/helpdesk/releases) | — | v1.31.1 |
+| osTicket | GitHub 组织头像 | 2 | [✓](https://docs.osticket.com/en/latest/) | — | [✓](https://docs.osticket.com/en/latest/Getting%20Started/Installation.html) | [✓](https://osticket.com/features/) | [✓](https://github.com/osTicket/osTicket/releases) | — | v1.18.4 |
+| Snipe-IT | GitHub 组织头像 | 2 | [✓](https://snipe-it.readme.io/docs/introduction) | [✓](https://demo.snipeitapp.com/login) | [✓](https://snipe-it.readme.io/docs/docker) | [✓](https://snipeitapp.com/product) | [✓](https://github.com/grokability/snipe-it/releases) | — | v8.8.3 |
+| GLPI | GitHub 组织头像 | 2 | [✓](https://glpi-user-documentation.readthedocs.io/fr/latest/) | — | [✓](https://glpi-install.readthedocs.io/en/latest/install/index.html) | [✓](https://www.glpi-project.org/en/features/) | [✓](https://github.com/glpi-project/glpi/releases) | — | 12.0.1 |
+| Mautic | GitHub 组织头像 | 1 | [✓](https://docs.mautic.org/en/latest/) | [✓](https://mautic.org/start-using-mautic/try-mautic/) | [✓](https://docs.mautic.org/en/latest/getting_started/how_to_install_mautic.html) | [✓](https://mautic.org/features/) | [✓](https://mautic.org/releases/) | — | 7.2.2 |
+| phpList | GitHub 组织头像 | 1 | [✓](https://www.phplist.org/documentation/) | [✓](https://demo.phplist.org/lists/admin/) | [✓](https://www.phplist.org/manual/books/phplist-manual/page/installing-phplist-manually) | [✓](https://www.phplist.org/features/) | [✓](https://github.com/phpList/phplist3/releases) | — | v3.6.17 |
+| LimeSurvey | GitHub 组织头像 | 2（拼图 2） | [✓](https://www.limesurvey.org/manual/) | — | [✓](https://www.limesurvey.org/manual/Installation) | — | [✓](https://github.com/LimeSurvey/LimeSurvey/releases) | — | 无正式发布 |
+| Postiz | 官方文件 | 1（拼图 1） | [✓](https://docs.postiz.com/general/introduction) | — | [✓](https://docs.postiz.com/self-host/installation/overview) | — | [✓](https://github.com/gitroomhq/postiz-app/releases) | — | v2.25.3 |
+| Apache Answer | GitHub 组织头像 | 1（拼图 1） | [✓](https://answer.apache.org/docs/) | — | [✓](https://answer.apache.org/docs/installation/) | — | [✓](https://github.com/apache/answer/releases) | — | v2.0.3 |
+| Actual Budget | GitHub 组织头像 | 1 | [✓](https://actualbudget.org/docs/) | [✓](https://demo.actualbudget.org/) | [✓](https://actualbudget.org/docs/install/docker/) | [✓](https://actualbudget.org/docs/tour/) | [✓](https://github.com/actualbudget/actual/releases) | — | v26.10.0 |
+| Firefly III | GitHub 组织头像 | 2（拼图 2） | [✓](https://docs.firefly-iii.org/) | [✓](https://demo.firefly-iii.org/login) | [✓](https://docs.firefly-iii.org/how-to/firefly-iii/installation/docker/) | — | [✓](https://github.com/firefly-iii/firefly-iii/releases) | — | v6.7.9 |
+| ERPNext | GitHub 组织头像 | 2 | [✓](https://docs.frappe.io/erpnext/introduction) | — | [✓](https://github.com/frappe/frappe_docker) | — | [✓](https://github.com/frappe/erpnext/releases) | — | v15.124.3 |
+| Frappe HR | GitHub 组织头像 | 1（拼图 1） | [✓](https://docs.frappe.io/hr/introduction) | — | [✓](https://docs.frappe.io/framework/user/en/installation) | — | [✓](https://github.com/frappe/hrms/releases) | — | v16.53.0 |
+| Ghost | GitHub 组织头像 | 1（拼图 1） | [✓](https://docs.ghost.org/) | — | [✓](https://docs.ghost.org/install) | — | [✓](https://ghost.org/changelog/) | — | v6.73.0 |
+| Strapi | GitHub 组织头像 | 2 | [✓](https://docs.strapi.io/cms/intro) | [✓](https://strapi.io/demo) | [✓](https://docs.strapi.io/cms/installation/docker) | [✓](https://strapi.io/features) | [✓](https://feedback.strapi.io/changelog) | — | v5.60.0 |
+| Saleor | GitHub 组织头像 | 1（拼图 1） | [✓](https://docs.saleor.io/) | [✓](https://demo.saleor.io/en/default) | [✓](https://docs.saleor.io/setup/docker-compose) | — | [✓](https://github.com/saleor/saleor/releases) | — | 3.23.45 |
+| Linkwarden | 官方文件 | 1（拼图 1） | [✓](https://docs.linkwarden.app/) | [✓](https://demo.linkwarden.app/login) | [✓](https://docs.linkwarden.app/self-hosting/installation/) | — | [✓](https://github.com/linkwarden/linkwarden/releases) | — | v2.16.3 |
+| Miniflux | GitHub 组织头像 | 1 | [✓](https://miniflux.app/docs/index.html) | — | [✓](https://miniflux.app/docs/installation.html) | [✓](https://miniflux.app/features.html) | [✓](https://github.com/miniflux/v2/releases) | — | 2.3.4 |
+| wallabag | GitHub 组织头像 | 1 | [✓](https://doc.wallabag.org/) | — | [✓](https://doc.wallabag.org/admin/installation/installation/) | — | [✓](https://github.com/wallabag/wallabag/releases) | — | 2.6.15 |
+| Uptime Kuma | 官方文件 | 2 | [✓](https://uptime.kuma.pet/docs/) | [✓](https://demo.kuma.pet/start-demo) | [✓](https://github.com/louislam/uptime-kuma/wiki/%F0%9F%94%A7-How-to-Install) | — | [✓](https://github.com/louislam/uptime-kuma/releases) | — | 2.5.8 |
+| Gitea | GitHub 组织头像 | 2 | [✓](https://docs.gitea.com/) | [✓](https://demo.gitea.com/) | [✓](https://docs.gitea.com/installation/install-with-docker/) | [✓](https://about.gitea.com/products/gitea/) | [✓](https://github.com/go-gitea/gitea/releases) | — | v28.2.0 |
+| Langfuse | GitHub 组织头像 | 1 | [✓](https://langfuse.com/docs) | [✓](https://langfuse.com/docs/demo) | [✓](https://langfuse.com/self-hosting/deployment/docker-compose) | — | [✓](https://langfuse.com/changelog) | — | v4.72.0 |
+| Unleash | GitHub 组织头像 | 2 | [✓](https://docs.getunleash.io/) | [✓](https://app.unleash-hosted.com/demo/login) | [✓](https://docs.getunleash.io/deploy/getting-started) | — | [✓](https://docs.getunleash.io/release-notes) | — | v8.3.1 |
+| Hoppscotch | GitHub 组织头像 | 1 | [✓](https://docs.hoppscotch.io/) | — | [✓](https://docs.hoppscotch.io/documentation/self-host/getting-started) | — | [✓](https://github.com/hoppscotch/hoppscotch/releases) | — | 2026.10.0 |
+| Nextcloud Server | GitHub 组织头像 | 1（拼图 1） | [✓](https://docs.nextcloud.com/server/latest/admin_manual/) | [✓](https://nextcloud.com/instant-trial/) | [✓](https://docs.nextcloud.com/server/latest/admin_manual/installation/index.html) | [✓](https://nextcloud.com/features/) | [✓](https://nextcloud.com/changelog/) | — | v33.0.10 |
+| Jitsi Meet | GitHub 组织头像 | 1（拼图 1） | [✓](https://jitsi.github.io/handbook/docs/intro/) | [✓](https://meet.jit.si/) | [✓](https://jitsi.github.io/handbook/docs/devops-guide/) | — | [✓](https://jitsi.github.io/handbook/docs/releases/) | — | stable/jitsi-meet_11248 |
+
+## 缺失项（原因记录在各产品的 `missing` 中）
+
+- **视频**：31 个产品都没有在 README 和官网首页找到具体产品演示视频（只有频道链接的不算）。
+- **演示/试用缺失**：OpenProject、Docmost、Etherpad、Grist、Frappe Helpdesk、osTicket（演示站 SSL 握手失败）、GLPI、LimeSurvey（只有销售预约页）、Postiz、Apache Answer、ERPNext、Frappe HR（官网入口指向 Frappe CRM）、Ghost（试用需绑定付费计划）、Hoppscotch（官网首页本身就是在线应用，不重复收录）。
+- **功能页缺失**：Docmost、Etherpad、Super Productivity、Grist、Frappe Helpdesk、LimeSurvey（404）、Postiz（跳到智能体页）、Apache Answer、Firefly III、ERPNext（软 404）、Frappe HR、Ghost（跳回首页）、Saleor、Linkwarden、wallabag、Uptime Kuma、Langfuse、Unleash、Hoppscotch、Jitsi Meet 等。
+- **演示标注**：免登录演示站（Snipe-IT、Firefly III、phpList 登录页公布演示账号）、官方测试实例（Gitea，页面注明随时可能被清空）、限时演示（Uptime Kuma）、官方公共实例（Jitsi）、可浏览店面（Saleor）与需注册／申请的试用（Mautic、Nextcloud、Strapi 需提交表单）在 label 或 note 中分开写明；Linkwarden、Unleash、Langfuse 的演示入口是否需要注册未能确认，如实写在 note 里。
+- 截图 `ui_composite`（官方营销排版或设备外框中的界面）：Frappe Helpdesk 1、LimeSurvey 2、Postiz 1、Apache Answer 1、Firefly III 2、Frappe HR 1、Ghost 1、Saleor 1、Linkwarden 1、Nextcloud 1、Jitsi Meet 1。
+
+## 测试与浏览器验收
+
+| 项目 | 结果 |
+|---|---|
+| 后端 `python3 -B -m unittest discover -s server/tests -t .` | 83 通过 |
+| 队列 `python3 -B -m unittest discover -s tests` | 28 通过 |
+| 隔离浏览器 `cd web && npx playwright test` | 38 通过（12 项真实数据测试跳过） |
+| 真实数据浏览器 `cd web && SAAS_E2E_REAL=1 npx playwright test` | 12 通过（新增 1 项：31 个新产品的 Logo、截图实际加载，且含官网、仓库、文档、部署指南、无重复链接） |
+| 构建 `cd web && npm run build` | 通过 |
+| 内置浏览器 | 实际打开 OpenProject、Uptime Kuma、wallabag、Gitea 详情页，手机宽度（375px）无横向溢出，Logo 与截图可加载 |
+
+对 `web/e2e/real-visuals.spec.ts` 只做了两处与新数据对应的数字调整，没有放宽断言：首页“已整理产品”展示上限为 12（原先只有 10 个产品）；搜索 “CRM” 且开启官方资源筛选后结果为 3 个（新增 Ghost，其内容提到 CRM）。没有改 `server/` 或 `web/src`。真实套件会覆盖历史验收截图，跑完已用 `git checkout` 恢复。审查后删除 Mautic 一张示意图并补两条 note，只改了资源文件，之后重跑了 `test_resources`（9 项通过）。
+
+## 独立审查
+
+独立的只读审查会话（不参与构建）实际检查了全部 197 个 URL（31 个 Logo、全部资源链接和截图）：状态码均为 200，图片类型均为 `image/*`；27 个组织头像账号逐个用 API 确认为 Organization；约 46 张截图和 29 个 Logo 逐张看过；同产品内无重复链接，资源也未与正式记录的官网或仓库重复；每个产品的各类资源要么有链接、要么有 `missing` 原因，抽查的“404／跳回首页／无法连接”断言属实；正式数据 SHA 未变；`test_resources` 9 项通过。结论：无高危问题。
+
+- **中危（已处理）**：Mautic 的 `campaign_events.png` 是概念示意图（文字卡片），不是真实界面，已删除，Mautic 保留 1 张真实表单构建器截图。
+- **低危（已处理）**：Strapi 的演示页实际要提交表单，Actual Budget 的演示缺说明，均已补 note。
+- **低危（记录）**：Jitsi Meet、Frappe HR 的官方营销拼图里有真人头像，属官方产品展示，kind 标为 `ui_composite`；Etherpad 与 Postiz 的 SVG Logo 审查端无法渲染，构建端已用 `qlmanage` 看过。
