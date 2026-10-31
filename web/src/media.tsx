@@ -56,7 +56,7 @@ export function RepositoryFacts({ app }: { app: Application }) {
   if (!facts) return null;
   return <div className="repo-facts">
     {facts.archived && <p className="repo-archived">GitHub 显示该仓库已归档（只读）</p>}
-    <dl>{facts.latest_release && <div><dt>最新发布</dt><dd><a href={facts.latest_release.url} target="_blank" rel="noreferrer">{facts.latest_release.tag}</a> · {day(facts.latest_release.published_at)}</dd></div>}
+    <dl>{facts.latest_release && <div><dt>最新发布</dt><dd><a href={facts.latest_release.url} target="_blank" rel="noreferrer">{facts.latest_release.tag}</a>{facts.latest_release.prerelease && "（预发布）"} · {day(facts.latest_release.published_at)}</dd></div>}
       {facts.pushed_at && <div><dt>最近代码推送</dt><dd>{day(facts.pushed_at)}</dd></div>}</dl>
     <small>GitHub 仓库信息 · {day(facts.fetched_at)} 获取</small>
   </div>;

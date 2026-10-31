@@ -50,7 +50,7 @@ def http_fetch(url, timeout=15, limit=512_000):
             return Fetched(response.status, response.geturl(), response.headers.get("Content-Type", ""), response.read(limit))
     except HTTPError as error:
         return Fetched(error.code, url, error.headers.get("Content-Type", "") if error.headers else "")
-    except (URLError, TimeoutError, OSError) as error:
+    except (URLError, TimeoutError, OSError, ValueError) as error:
         raise ConnectionError(f"{url}: {getattr(error, 'reason', error)}") from error
 
 
@@ -61,9 +61,44 @@ def github_repo(url):
 
 def same_site(a, b):
     def key(value):
-        parsed = urlparse(value or "")
+        value = value or ""
+        # GitHub homepages are sometimes written without a scheme ("osticket.com").
+        parsed = urlparse(value if "://" in value else f"https://{value}")
         return (parsed.netloc.lower().removeprefix("www."), parsed.path.rstrip("/"))
     return key(a) == key(b)
+
+
+def site_domain(url):
+    """Registrable domain, roughly: about.gitea.com -> gitea.com, shop.example.co.uk -> example.co.uk."""
+    labels = (urlparse(url if "://" in url else f"https://{url}").hostname or "").split(".")
+    size = 3 if len(labels) >= 3 and len(labels[-1]) == 2 and labels[-2] in {"co", "com", "org", "net", "ac", "gov", "edu"} else 2
+    return ".".join(labels[-size:])
+
+
+def same_destination(a, b, fetch, warnings):
+    """Two homepage spellings count as one when both redirect to the same page on one of their own domains
+    (gitea.io and gitea.com both land on about.gitea.com). A shared parking or login page elsewhere does not count."""
+    if same_site(a, b):
+        return True
+    try:
+        first, second = fetch(a if "://" in a else f"https://{a}"), fetch(b if "://" in b else f"https://{b}")
+    except ConnectionError as error:
+        warnings.append(f"无法确认主页 {a} 与 {b} 是否指向同一页面，按差异处理：{error}")
+        return False
+    return (first.status == second.status == 200 and bool(first.url) and same_site(first.url, second.url)
+            and site_domain(first.url) in {site_domain(a), site_domain(b)})
+
+
+def is_prerelease(release):
+    return bool(release.get("prerelease")) or bool(re.search(r"[-.](alpha|beta|rc|pre|preview)[-.\d]*$", release.get("tag_name") or "", re.I))
+
+
+def bounced_home(requested, final):
+    """A deep link whose redirect lands on the site root is treated as a likely soft 404."""
+    if not final:
+        return False
+    asked, landed = urlparse(requested), urlparse(final)
+    return asked.path.strip("/") != "" and landed.path.strip("/") == "" and not landed.query
 
 
 def load_app(store, app_id):
@@ -98,6 +133,8 @@ def plan(app, entry, fetch, now):
             if latest.status == 200:
                 r = latest.json()
                 release = {"tag": r.get("tag_name") or r.get("name") or "", "published_at": r.get("published_at") or "", "url": r.get("html_url") or ""}
+                if is_prerelease(r):
+                    release["prerelease"] = True
             elif latest.status not in GONE:
                 warnings.append(f"最新发布暂时无法确认（HTTP {latest.status}），沿用旧记录")
                 release = (entry.get("repository_facts") or {}).get("latest_release")
@@ -119,12 +156,16 @@ def plan(app, entry, fetch, now):
         spdx = facts["license_spdx"]
         if spdx and spdx != "NOASSERTION" and app.get("license") and spdx.casefold() != app["license"].casefold():
             flags.append({"field": "license", "recorded": app["license"], "observed": spdx, "source_url": api, "observed_at": today})
-        if facts["homepage"] and app.get("homepage") and not same_site(facts["homepage"], app["homepage"]):
+        if facts["homepage"] and app.get("homepage") and not same_destination(facts["homepage"], app["homepage"], fetch, warnings):
             flags.append({"field": "homepage", "recorded": app["homepage"], "observed": facts["homepage"], "source_url": api, "observed_at": today})
         old_flags = {(f["field"], f["observed"]) for f in entry.get("review_flags", [])}
         for flag in flags:
             if (flag["field"], flag["observed"]) not in old_flags:
                 changes.append(f"待复核：GitHub {flag['field']} 为 {flag['observed']}，正式记录为 {flag['recorded']}（不自动覆写）")
+        still = {f["field"] for f in flags}  # a changed observation is reported as a new 待复核 line, not as resolved
+        for flag in entry.get("review_flags", []):
+            if flag["field"] not in still:
+                changes.append(f"复核项已解除：GitHub {flag['field']} {flag['observed']} 与正式记录 {flag['recorded']} 不再视为差异")
         entry["review_flags"] = flags
 
         releases_url = f"https://github.com/{repo[0]}/{repo[1]}/releases"
@@ -159,7 +200,9 @@ def check_link(item, fetch, today, changes, warnings, label, image=False):
     except ConnectionError as error:
         warnings.append(f"{label} 暂时无法连接，保留原状态：{error}")
         return
-    if 200 <= result.status < 400 and (not image or result.content_type.startswith("image/")):
+    if 200 <= result.status < 400 and bounced_home(item["url"], result.url):
+        warnings.append(f"{label} 跳转到了网站首页（{result.url}），可能已失效，保留原状态，请人工复核")
+    elif 200 <= result.status < 400 and (not image or result.content_type.startswith("image/")):
         if item.get("status") == "unreachable":
             changes.append(f"{label} 已恢复可访问")
             item.pop("status")
@@ -199,7 +242,11 @@ def run(app_id, apply=False, path=None, store=None, fetch=http_fetch, now=None, 
         return 1
     document = read(path)
     with store.connect() as con:
-        validate(document, {row[0] for row in con.execute("SELECT id FROM application")})
+        known = {row[0] for row in con.execute("SELECT id FROM application")}
+    validate(document)
+    stale = sorted(set(document["products"]) - known)
+    if stale:
+        out(f"注意：资源文件中有 {len(stale)} 个正式库已不存在的产品 ID，原样保留未处理：{', '.join(stale)}")
     now = now or datetime.now(timezone.utc).astimezone()
     try:
         entry, changes, warnings = plan(app, document["products"].get(app_id), fetch, now)

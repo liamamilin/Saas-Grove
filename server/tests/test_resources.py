@@ -114,6 +114,15 @@ class ResourceApiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate(overlay({"github:404": entry()}), {"github:1"})
 
+    def test_stale_overlay_id_is_set_aside_instead_of_blocking_startup(self):
+        self.path.write_text(json.dumps(overlay({"github:1": entry(), "github:gone": entry(name="Gone")}), ensure_ascii=False))
+        resources = Resources(self.path, {"github:1", "beta"})
+        self.assertEqual(resources.unknown, ["github:gone"])
+        self.assertEqual(set(resources.products), {"github:1"})
+        self.path.write_text(json.dumps(overlay({"github:gone": entry(logo={"url": "ftp://x"})}), ensure_ascii=False))
+        with self.assertRaises(ValueError):
+            Resources(self.path, {"github:1"})
+
 
 class RefreshTests(unittest.TestCase):
     def setUp(self):
@@ -192,6 +201,61 @@ class RefreshTests(unittest.TestCase):
         app = Resources(self.path).decorate({"id": "github:1", "homepage": "https://alpha.test"}, full=True)
         self.assertFalse(app["resources_curated"])
         self.assertFalse(app["resource_profile"]["curated"])
+
+    def test_homepage_spellings_that_reach_the_same_page_are_not_flagged_and_resolution_is_recorded(self):
+        old = {"field": "homepage", "recorded": "https://alpha.test", "observed": "alpha.test", "source_url": "https://api.github.com/repos/alpha/alpha", "observed_at": "2026-10-31"}
+        self.path.write_text(json.dumps(overlay({"github:1": entry(review_flags=[old])}), ensure_ascii=False))
+        meta = json.loads(self.pages["https://api.github.com/repos/alpha/alpha"].body)
+        for homepage, extra in (("alpha.test", {}), ("https://alpha.example", {"https://alpha.example": Fetched(200, "https://www.alpha.test/", "text/html"),
+                                                                          "https://alpha.test": Fetched(200, "https://alpha.test/", "text/html")})):
+            with self.subTest(homepage=homepage):
+                meta.update(homepage=homepage, license={"spdx_id": "MIT"})
+                self.pages["https://api.github.com/repos/alpha/alpha"] = Fetched(200, "", "application/json", json.dumps(meta).encode())
+                self.pages.update(extra)
+                self.assertEqual(self.run_refresh(True), 0)
+                item = json.loads(self.path.read_text())["products"]["github:1"]
+                self.assertEqual(item["review_flags"], [])
+        self.assertTrue(any("复核项已解除" in c and "alpha.test" in c for c in item["history"][0]["changes"]))
+        # Two unrelated domains landing on one shared page elsewhere (parking, login) stay a difference.
+        meta["homepage"] = "https://parked.example"
+        self.pages["https://api.github.com/repos/alpha/alpha"] = Fetched(200, "", "application/json", json.dumps(meta).encode())
+        self.pages["https://parked.example"] = Fetched(200, "https://parking.invalid/", "text/html")
+        self.pages["https://alpha.test"] = Fetched(200, "https://parking.invalid/", "text/html")
+        self.assertEqual(self.run_refresh(True), 0)
+        self.assertEqual([f["observed"] for f in json.loads(self.path.read_text())["products"]["github:1"]["review_flags"]], ["https://parked.example"])
+        meta["homepage"] = "https://other.example"
+        self.pages["https://api.github.com/repos/alpha/alpha"] = Fetched(200, "", "application/json", json.dumps(meta).encode())
+        self.pages["https://other.example"] = Fetched(200, "https://other.example/", "text/html")
+        self.assertEqual(self.run_refresh(True), 0)
+        item = json.loads(self.path.read_text())["products"]["github:1"]
+        self.assertEqual([f["observed"] for f in item["review_flags"]], ["https://other.example"])
+        self.assertFalse(any("已解除" in c for c in item["history"][-1]["changes"]))  # A→B is a new difference, not a resolution
+
+    def test_deep_link_that_redirects_to_the_site_root_is_a_warning_not_a_pass(self):
+        stale = entry()
+        stale["resources"][0].update(checked_at="2026-01-01", http_status=301)
+        self.path.write_text(json.dumps(overlay({"github:1": stale}), ensure_ascii=False))
+        self.pages["https://example.test/docs"] = Fetched(200, "https://example.test/", "text/html")
+        self.assertEqual(self.run_refresh(True), 0)
+        docs = next(r for r in json.loads(self.path.read_text())["products"]["github:1"]["resources"] if r["type"] == "docs")
+        self.assertEqual((docs["checked_at"], docs["http_status"]), ("2026-01-01", 301))  # not re-stamped as a pass
+        self.assertNotIn("status", docs)
+        self.assertTrue(any("跳转到了网站首页" in l for l in self.lines if l.startswith("  !")))
+
+    def test_prerelease_tags_are_labelled(self):
+        for tag, flag, expected in (("v7.0.0-beta.1", False, True), ("v2.0", True, True), ("v2.0", False, False), ("stable/jitsi-meet_11248", False, False)):
+            with self.subTest(tag=tag, flag=flag):
+                self.pages["https://api.github.com/repos/alpha/alpha/releases/latest"] = Fetched(200, "", "application/json", json.dumps({
+                    "tag_name": tag, "prerelease": flag, "published_at": "2026-10-20T00:00:00Z", "html_url": "https://github.com/alpha/alpha/releases/tag/x"}).encode())
+                self.assertEqual(self.run_refresh(True), 0)
+                release = json.loads(self.path.read_text())["products"]["github:1"]["repository_facts"]["latest_release"]
+                self.assertEqual(release.get("prerelease", False), expected)
+
+    def test_refresh_keeps_stale_entries_and_reports_them(self):
+        self.path.write_text(json.dumps(overlay({"github:1": entry(), "github:gone": entry(name="Gone")}), ensure_ascii=False))
+        self.assertEqual(self.run_refresh(True), 0)
+        self.assertIn("github:gone", json.loads(self.path.read_text())["products"])
+        self.assertTrue(any("github:gone" in l for l in self.lines))
 
 
 if __name__ == "__main__":

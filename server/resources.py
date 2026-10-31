@@ -21,7 +21,9 @@ def web_url(value):
 
 
 def validate(document, known_ids=None):
-    """Reject the whole overlay on any invalid entry instead of showing half-checked links."""
+    """Reject the whole overlay on any invalid entry instead of showing half-checked links.
+
+    With known_ids, an entry for a product the formal catalog lacks is also an error."""
     if document.get("schema_version") != 1 or not isinstance(document.get("products"), dict):
         raise ValueError("资源文件格式无效")
     for app_id, entry in document["products"].items():
@@ -59,7 +61,10 @@ def read(path=None):
 class Resources:
     def __init__(self, path=None, known_ids=None):
         self.path = Path(path or default_path())
-        self.products = validate(read(self.path), known_ids)["products"]
+        products = validate(read(self.path))["products"]
+        # A stale ID (product removed from the formal catalog) must not stop the server; it is set aside and reported.
+        self.unknown = sorted(set(products) - set(known_ids)) if known_ids is not None else []
+        self.products = {k: v for k, v in products.items() if k not in self.unknown}
 
     def logo(self, app_id):
         logo = (self.products.get(app_id) or {}).get("logo")

@@ -107,8 +107,10 @@ def main():
     store = Store()
     with store.connect() as con:
         known = {row[0] for row in con.execute("SELECT id FROM application")}
-    # A served catalog refuses an overlay that points at products it does not contain.
-    api = CatalogAPI(store=store, resources=Resources(known_ids=known))
+    resources = Resources(known_ids=known)
+    if resources.unknown:
+        print(f"注意：资源文件中 {len(resources.unknown)} 个产品 ID 不在正式库中，已忽略：{', '.join(resources.unknown)}", flush=True)
+    api = CatalogAPI(store=store, resources=resources)
     server = ThreadingHTTPServer((args.host, args.port), partial(Handler, api=api))
     print(f"SaaS catalog: http://{args.host}:{args.port}", flush=True)
     try:

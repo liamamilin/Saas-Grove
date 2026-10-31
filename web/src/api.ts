@@ -28,7 +28,7 @@ export type ProductResource = { type: ResourceType; url: string; label: string; 
   http_status?: number; note?: string; status?: "unreachable"; from_formal_record?: boolean };
 export type Screenshot = { url: string; caption: string; kind: "ui_screenshot" | "ui_composite"; found_on: string; checked_at: string; width?: number; height?: number };
 export type RepositoryFacts = { source_url: string; fetched_at: string; archived?: boolean; pushed_at?: string; license_spdx?: string | null;
-  latest_release?: { tag: string; published_at: string; url: string } | null };
+  latest_release?: { tag: string; published_at: string; url: string; prerelease?: boolean } | null };
 export type ResourceProfile = { curated: boolean; curated_at: string; refreshed_at: string; logo?: { url: string; kind: string; found_on: string }; resources: ProductResource[];
   screenshots: Screenshot[]; missing: { type: string; reason: string }[]; repository_facts?: RepositoryFacts | null;
   review_flags: { field: string; recorded: string; observed: string; source_url: string; observed_at: string }[];
