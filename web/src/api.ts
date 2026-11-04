@@ -22,6 +22,7 @@ export type Application = { id: string; name: string; summary?: string; homepage
   deployment_options?: string[]; checked_at_basis?: "recorded" | "source_fetched";
   unsupported_features?: { name: string; source_url: string }[];
   sources?: { url: string; kind: string; fetched_at: string }[];
+  catalog_note?: { text: string; url: string } | null;
   logo_url?: string | null; resources_curated?: boolean; screenshot_count?: number; ui_screenshot_count?: number; resource_profile?: ResourceProfile | null };
 export type ResourceType = "homepage" | "repository" | "docs" | "demo" | "deployment" | "features" | "changelog" | "video";
 export type ProductResource = { type: ResourceType; url: string; label: string; found_on: string; checked_at?: string;
@@ -37,8 +38,8 @@ export type ProductType = { slug: string; name: string; name_zh: string; scope: 
 export type ProductResults = { applications: Application[]; total: number; page: number; pages: number; page_size: number;
   facets: { licenses: { value: string; count: number }[]; deployments: { value: string; label: string; count: number }[]; curated: number };
   suggested_types?: (ProductType & { counts: { open_source: number; commercial: number }; product_count: number })[] };
-export type EvidenceCell = { status: "recorded" | "unknown"; value: string; sources: { url: string; quote: string; sha256: string; fetched_at: string }[] };
-export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[]; crm_rows?: { key: string; label: string; cells: EvidenceCell[] }[] };
+export type EvidenceCell = { status: "recorded" | "unknown" | "unsupported"; value: string; sources: { url: string; quote: string; sha256: string; fetched_at: string }[] };
+export type Comparison = { products: Application[]; leaf: ProductType; candidates: Application[]; selection_rows?: { key: string; label: string; cells: EvidenceCell[] }[]; crm_rows?: { key: string; label: string; cells: EvidenceCell[] }[] };
 export type ApplicationList = { applications: Application[]; leaf: string; track: Track; total: number };
 
 export function useResource<T>(url: string) {

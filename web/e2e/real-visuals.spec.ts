@@ -54,7 +54,7 @@ test("real catalog: discovery from home, search filter and type page to a visual
   await loaded(page, ".product-card .product-logo img");
   await page.screenshot({ path: `${OUT}/search-cards-desktop.png` });
   await page.getByLabel("官方资源", { exact: true }).selectOption("1");
-  await expect(page.locator(".product-card")).toHaveCount(3);
+  await expect(page.locator(".product-card")).toHaveCount(8);
   await page.goto("/types/customer-relationship-management-crm");
   await expect(page.getByRole("region", { name: "相关类型" })).toBeVisible();
   await page.locator(".application-card").filter({ hasText: "Twenty" }).getByRole("link", { name: "Twenty", exact: true }).click();

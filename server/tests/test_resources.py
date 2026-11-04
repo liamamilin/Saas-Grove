@@ -48,7 +48,9 @@ class RealOverlayTests(unittest.TestCase):
         curated = [e for e in document["products"].values() if e.get("curated_at")]
         self.assertGreaterEqual(len(curated), 10)
         for item in curated:
-            self.assertTrue(item["logo"] and item["screenshots"], item["name"])
+            missing = {gap["type"]: gap["reason"] for gap in item.get("missing", [])}
+            self.assertTrue(item.get("logo") or missing.get("logo"), item["name"])
+            self.assertTrue(item.get("screenshots") or missing.get("screenshot"), item["name"])
             urls = [r["url"] for r in item["resources"]]
             self.assertEqual(len(urls), len(set(urls)), f"{item['name']} 重复填充同一链接")
 

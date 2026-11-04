@@ -38,7 +38,7 @@ export function ProductCard({ app, from, children, primaryType }: { app: Applica
   const type = app.types?.find(t => t.slug === primaryType) || app.types?.[0];
   const open = app.tracks?.includes("open_source");
   return <article className="product-card"><div className="product-card-head"><ProductLogo app={app} /><div className="product-card-title"><h2><Link to={productUrl(app.id, from)}>{app.name}<ArrowUpRight size={17} /></Link></h2><Tracks app={app} /></div><SaveButton id={app.id} name={app.name} /></div>
-    <p className="product-summary">{app.summary || "简介尚未记录"}</p>
+    <p className="product-summary">{app.summary || "简介尚未记录"}</p>{app.catalog_note&&<p className="catalog-note">目录说明：{app.catalog_note.text} <a href={app.catalog_note.url} target="_blank" rel="noreferrer">依据</a></p>}
     <div className="product-tags">{type && <Link className="tag-type" to={`/types/${type.slug}`}>{type.name_zh || type.name}</Link>}{(app.types?.length || 0) > 1 && <span className="tag-more">+{app.types!.length - 1} 类型</span>}<span className="tag-plain">{app.license || (open ? "许可待核实" : "商业基本索引")}</span>{app.resources_curated && <span className="tag-media">{app.screenshot_count ? <><Images size={12} />{app.ui_screenshot_count ? "有界面截图" : "有官方界面图"}</> : "官方资源已整理"}</span>}</div>
     <div className="product-card-bottom"><span className="product-date"><Status app={app} /><span>{app.checked_at_basis === "recorded" ? "核对" : "来源"} {date(app.checked_at)}</span></span><Link to={productUrl(app.id, from)}>了解产品 <ArrowRight size={14} /></Link></div>
     {children}
@@ -46,6 +46,7 @@ export function ProductCard({ app, from, children, primaryType }: { app: Applica
 }
 
 export function SearchPage() {
+  const [filtersOpen,setFiltersOpen]=useState(false);
   const [params, setParams] = useSearchParams();
   const location = useLocation();
   const q = params.get("q") || "";
@@ -56,11 +57,20 @@ export function SearchPage() {
     if (value) next.set(key, value); else next.delete(key);
     setParams(next);
   }
+  const activeFilters=[
+    ["track",params.get("track")&&params.get("track")!=="all"?(params.get("track")==="open_source"?"开源项目":"商业产品"):""],
+    ["license",params.get("license")||""],
+    ["deployment",({self_hosted:"自托管",docker:"Docker",managed_cloud:"云部署 / 托管服务"} as Record<string,string>)[params.get("deployment")||""]||""],
+    ["curated",params.get("curated")==="1"?"已整理官方资源":""],
+    ["leaf",params.get("leaf")?data?.applications.flatMap(a=>a.types||[]).find(t=>t.slug===params.get("leaf"))?.name_zh||"指定类型":""]
+  ].filter(([,label])=>label);
   function pageUrl(page: number) { const next = new URLSearchParams(params); next.set("page", String(page)); return `/search?${next}`; }
   return <main id="main" className="page discovery-page">
     <div className="discovery-heading"><div><p className="eyebrow">FIND YOUR NEXT SOFTWARE</p><h1>发现值得了解的软件<span className="hero-period">。</span></h1><p>从真实产品出发，了解用途、核对来源，再做选择。</p></div><Link className="text-action" to="/browse">按分类浏览 <ArrowUpRight size={15} /></Link></div>
     <ProductSearchForm initial={q} />
-    <div className="product-filters" aria-label="筛选产品">
+    <div className="mobile-filter-bar"><button className="button" aria-expanded={filtersOpen} aria-controls="product-filter-controls" onClick={()=>setFiltersOpen(!filtersOpen)}>{filtersOpen?"收起筛选":"筛选与排序"}{activeFilters.length?` · ${activeFilters.length} 项`:""}</button><span>筛选保存在当前链接</span></div>
+    {!!activeFilters.length&&<div className="active-product-filters" aria-label="已选筛选">{activeFilters.map(([key,label])=><button key={key} onClick={()=>filter(key,"")} aria-label={`移除筛选 ${label}`}>{label}<X size={12}/></button>)}</div>}
+    <div id="product-filter-controls" className={`product-filters ${filtersOpen?"is-open":""}`} aria-label="筛选产品">
       <label>产品分区<select aria-label="产品分区" value={params.get("track") || "all"} onChange={e => filter("track", e.target.value)}><option value="all">全部 · 开源优先</option><option value="open_source">开源项目</option><option value="commercial">商业产品</option></select></label>
       <label>许可证<select aria-label="许可证" value={params.get("license") || ""} onChange={e => filter("license", e.target.value)}><option value="">全部许可证</option>{data?.facets.licenses.map(f => <option key={f.value} value={f.value}>{f.value} ({f.count})</option>)}{params.get("license") && !data?.facets.licenses.some(f => f.value === params.get("license")) && <option value={params.get("license")!}>{params.get("license")}</option>}</select></label>
       <label>已记录的部署方式<select aria-label="已记录的部署方式" value={params.get("deployment") || ""} onChange={e => filter("deployment", e.target.value)}><option value="">全部部署方式</option>{data?.facets.deployments.map(f => <option key={f.value} value={f.value}>{f.label} ({f.count})</option>)}{params.get("deployment") && !data?.facets.deployments.some(f => f.value === params.get("deployment")) && <option value={params.get("deployment")!}>{({ self_hosted: "自托管", docker: "Docker", managed_cloud: "云部署 / 托管服务" } as Record<string, string>)[params.get("deployment")!] || params.get("deployment")}</option>}</select></label>
@@ -70,7 +80,7 @@ export function SearchPage() {
     </div>
     <div className="results-caption"><p role="status">{data ? <><strong>{data.total.toLocaleString("zh-CN")}</strong> 个产品{q && <>与“{q}”相关</>}</> : "读取搜索结果…"}</p><span>筛选仅依据已记录资料，缺项不代表不支持</span></div>
     {!!data?.suggested_types?.length && <nav className="type-suggestions" aria-label="相关应用类型"><span>按类型查看</span>{data.suggested_types.map(t => <Link key={t.slug} to={`/types/${t.slug}`}>{t.name_zh || t.name}<small>{t.counts.open_source} 开源 · {t.counts.commercial} 商业</small></Link>)}</nav>}
-    {error ? <ErrorState error={error} retry={retry} /> : !data ? <Loading /> : data.total ? <><div className="product-grid">{data.applications.map(app => <ProductCard key={app.id} app={app} from={location.pathname + location.search} />)}</div><nav className="pagination" aria-label="产品搜索分页">{data.page > 1 ? <Link className="button" to={pageUrl(data.page - 1)}><ArrowLeft size={15} />上一页</Link> : <span className="button disabled" aria-disabled="true">上一页</span>}<span>第 {data.page} / {data.pages} 页</span>{data.page < data.pages ? <Link className="button" to={pageUrl(data.page + 1)}>下一页<ArrowRight size={15} /></Link> : <span className="button disabled" aria-disabled="true">下一页</span>}</nav></> : <div className="message-card"><Search size={30} /><h2>没有找到匹配的产品</h2><p>尝试产品英文名、更短的用途关键词，或减少筛选条件。</p><button className="button" onClick={() => setParams({})}>查看全部产品</button><Link to={`/browse?${new URLSearchParams({ q })}`}>也可以搜索应用类型</Link></div>}
+    {error ? <ErrorState error={error} retry={retry} /> : !data ? <Loading /> : data.total ? <><div className="product-grid">{data.applications.map(app => <ProductCard key={app.id} app={app} from={location.pathname + location.search} primaryType={params.get("leaf")||undefined} />)}</div><nav className="pagination" aria-label="产品搜索分页">{data.page > 1 ? <Link className="button" to={pageUrl(data.page - 1)}><ArrowLeft size={15} />上一页</Link> : <span className="button disabled" aria-disabled="true">上一页</span>}<span>第 {data.page} / {data.pages} 页</span>{data.page < data.pages ? <Link className="button" to={pageUrl(data.page + 1)}>下一页<ArrowRight size={15} /></Link> : <span className="button disabled" aria-disabled="true">下一页</span>}</nav></> : <div className="message-card"><Search size={30} /><h2>没有找到匹配的产品</h2><p>尝试产品英文名、更短的用途关键词，或减少筛选条件。</p><button className="button" onClick={() => setParams({})}>查看全部产品</button><Link to={`/browse?${new URLSearchParams({ q })}`}>也可以搜索应用类型</Link></div>}
   </main>;
 }
 
@@ -109,6 +119,7 @@ export function ProductPage() {
       <section className="reading-section"><p className="eyebrow">FOLLOW THE EVIDENCE</p><h2>资料来源</h2><Sources app={app} /></section>
     </div>{open && <aside className="product-side-reading"><section className="reading-section"><p className="eyebrow">UNDER THE HOOD</p><h2>技术与部署</h2><h3>技术栈</h3><Facts values={app.technology_stack} /><h3>部署方式</h3><Facts values={app.deployment} /></section><section className="reading-section"><p className="eyebrow">LICENSE</p><h2>{app.license || "许可证待核实"}</h2><span className={`badge ${app.license_status === "reviewed" ? "open-badge" : "conditional"}`}>{app.license_status === "reviewed" ? "已核对许可资料" : "许可资料待核验"}</span>{app.license_review?.rationale && <p className="license-rationale">{app.license_review.rationale}</p>}{(app.license_evidence_url || app.license_review?.source_url) && <a className="text-action" href={app.license_evidence_url || app.license_review?.source_url} target="_blank" rel="noreferrer">查看许可依据 <ArrowUpRight size={14} /></a>}</section></aside>}</div>
     {comparisonType && <SimilarProducts app={app} initial={app.types?.find(t => t.slug === contextLeaf) || [...(app.types || [])].sort((a, b) => (b.product_count || 0) - (a.product_count || 0))[0] || comparisonType} from={from} />}
+    {app.catalog_note&&<aside className="catalog-note">目录说明：{app.catalog_note.text} <a href={app.catalog_note.url} target="_blank" rel="noreferrer">官方依据</a></aside>}
     <section className="product-personal"><PersonalNoteEditor id={app.id} name={app.name} /></section>
     {comparisonType && <section className="next-step"><div><p className="eyebrow">KEEP EXPLORING</p><h2>把选择放在一起看。</h2><p>从同一类型中选择 2–4 个产品，比较已有资料。</p></div><Link className="button" to={`/types/${comparisonType.slug}?${new URLSearchParams({ compare: app.id, from })}#compare-picker`}>选择比较对象 <ArrowRight size={16} /></Link></section>}
   </main>;

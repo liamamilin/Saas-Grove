@@ -6,6 +6,7 @@ import re
 import unicodedata
 from .comparison import crm_rows
 from .resources import Resources
+from .selection import Selection
 
 DEPLOYMENTS = {"self_hosted": "自托管", "docker": "Docker", "managed_cloud": "云部署 / 托管服务"}
 
@@ -49,6 +50,7 @@ class Products:
     def __init__(self, store, taxonomy, resources=None):
         self.store, self.taxonomy = store, taxonomy
         self.resources = resources if resources is not None else Resources()
+        self.selection = Selection()
 
     def leaf_ref(self, slug):
         row = self.taxonomy.leaves[slug]
@@ -85,13 +87,14 @@ class Products:
             app["license_status"] = "reviewed" if app.get("license") and license_evidence and app.get("verification_status") == "official_sources_reviewed" else "unverified"
             app["deployment_options"] = deployment_options(app.get("deployment", []))
             self.resources.decorate(app, full)
+            self.selection.decorate(app)
         return apps
 
     @staticmethod
     def card(app):
         keys = ("id", "name", "summary", "homepage", "repository_url", "tracks", "types", "license",
                 "license_status", "deployment_options", "checked_at", "checked_at_basis", "verification_status", "runtime_tested",
-                "logo_url", "resources_curated", "screenshot_count", "ui_screenshot_count")
+                "logo_url", "resources_curated", "screenshot_count", "ui_screenshot_count", "catalog_note")
         return {k: app[k] for k in keys if k in app}
 
     def search(self, query):
@@ -211,5 +214,5 @@ class Products:
             leaf = sorted(common)[0]
         else:
             raise ValueError("比较对象没有共同的应用类型，请从类型页重新选择")
-        return {"products": apps, "leaf": self.leaf_ref(leaf), "crm_rows": crm_rows(apps, leaf),
+        return {"products": apps, "leaf": self.leaf_ref(leaf), "crm_rows": crm_rows(apps, leaf), "selection_rows": self.selection.rows(apps, leaf),
                 "candidates": [self.card(a) for a in sorted(by_id.values(), key=lambda a: (normalized(a["name"]), a["id"])) if any(t["slug"] == leaf for t in a["types"])]}
