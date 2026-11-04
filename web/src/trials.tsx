@@ -1,10 +1,10 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ExternalLink, Plus } from "lucide-react";
 import { useResource, type Application, type Comparison, type EvidenceCell } from "./api";
 import { useSaved } from "./saved";
 import { type SavedComparison } from "./local-data";
-import { CRM, CRM_CHECKS, createTrial, currentResult, evidenceUrl, latestResult, trialProgress, trialNames, trialLabel,
+import { CRM, CRM_CHECKS, createTrial, currentResult, evidenceUrl, latestResult, trialProgress, trialNames, trialLabel, trialCompareUrl,
   type TrialCheck, type TrialDecision, type TrialMethod, type TrialPlan, type TrialResult, type TrialStatus } from "./trial-data";
 
 const statusNames:Record<TrialStatus,string>={pending:"待验证",passed:"通过",failed:"未通过",na:"不适用"};
@@ -12,7 +12,7 @@ const methodNames={documentation:"资料核对",hands_on:"实际操作"};
 const now=()=>new Date().toISOString();
 const today=()=>new Date().toLocaleDateString("sv-SE");
 const date=(v:string)=>new Date(v).toLocaleString("zh-CN");
-const comparePath=(p:TrialPlan)=>`/compare?${new URLSearchParams({leaf:p.leaf,ids:p.ids.join(","),from:`/trials/${p.id}`})}`;
+const comparePath=trialCompareUrl;
 const emptyRecord=(product:string,c:TrialCheck):TrialResult=>({id:"",product_id:product,check_id:c.id,check_title:c.title,criterion:c.criterion,status:"pending",method:"",version:"",environment:"",tested_on:today(),notes:"",evidence_url:"",image_data:"",updated_at:""});
 
 export function TrialStarter({comparison}:{comparison:SavedComparison}) {
@@ -40,7 +40,7 @@ function TrialCreateForm({comparison}:{comparison:SavedComparison}) {
 export function TrialPlans() {
   const {trials,deleteTrial,saving}=useSaved();const [deleteError,setDeleteError]=useState("");
   return <section className="trial-plans"><div className="local-section-heading"><div><p className="eyebrow">TRY BEFORE YOU DECIDE</p><h2>试用与最终选择 <span>{trials.length}</span></h2></div></div>
-    {!trials.length?<p className="quiet-note">先保存一次 CRM 比较，再生成试用清单。<Link to={`/compare?leaf=${CRM}&ids=github%3A572984571,github%3A24459441&from=%2Fshortlist`}>从 Twenty 与 EspoCRM 开始 <ArrowRight size={13}/></Link></p>:<div className="trial-plan-list">{trials.map(p=><article key={p.id}><div><Link to={`/trials/${p.id}`}>{p.name}<ArrowRight size={15}/></Link><p>{p.ids.length} 个候选 · {p.checks.filter(c=>c.active).length} 个检查项 · {p.decisions.length?"已留下个人选择":"尚未留下最终选择"}</p><p>{p.goal}</p><small>更新于 {date(p.updated_at)}</small></div><button className="text-action" disabled={saving} aria-label={`删除试用计划 ${p.name}`} onClick={async()=>{setDeleteError("");if(window.confirm(`删除“${p.name}”及其全部验证记录、截图和选择历史？建议先从本地备份导出，删除后无法撤销。`)){if(!await deleteTrial(p.id))setDeleteError("试用计划未删除，原计划及全部历史保持不变，请检查本地存储后重试。");}}}>删除计划</button></article>)}</div>}
+    {!trials.length?<p className="quiet-note">先保存一次 CRM 比较，再生成试用清单。<Link to={`/compare?leaf=${CRM}&ids=github%3A572984571,github%3A24459441&from=%2Fshortlist`}>从 Twenty 与 EspoCRM 开始 <ArrowRight size={13}/></Link></p>:<div className="trial-plan-list">{trials.map(p=><article key={p.id}><div><Link to={`/trials/${p.id}`}>{p.name}<ArrowRight size={15}/></Link><p>{p.ids.length} 个候选 · {p.checks.filter(c=>c.active).length} 个检查项 · {p.decisions.length?"已留下个人选择":"尚未留下最终选择"}</p><p>{p.goal}</p><small>更新于 {date(p.updated_at)}</small><Link className="text-action" to={trialCompareUrl(p,"/shortlist")}>并排查看验证 <ArrowRight size={13}/></Link></div><button className="text-action" disabled={saving} aria-label={`删除试用计划 ${p.name}`} onClick={async()=>{setDeleteError("");if(window.confirm(`删除“${p.name}”及其全部验证记录、截图和选择历史？建议先从本地备份导出，删除后无法撤销。`)){if(!await deleteTrial(p.id))setDeleteError("试用计划未删除，原计划及全部历史保持不变，请检查本地存储后重试。");}}}>删除计划</button></article>)}</div>}
     {deleteError&&<p role="alert">{deleteError}</p>}
   </section>;
 }
@@ -53,7 +53,7 @@ function ResultHistory({records,plan,names}:{records:TrialResult[];plan:TrialPla
   if(!records.length)return null;
   return <details className="trial-history"><summary>查看验证历史（{records.length} 条）</summary>{records.map(r=><div key={r.id}><p>候选：{trialLabel(plan,r.product_id,names)}</p><strong>{statusNames[r.status]}{r.method&&` · ${methodNames[r.method]}`}</strong><small>{date(r.updated_at)}</small><p>{r.check_title} · 当时要求：{r.criterion}</p><p>版本：{r.version||"未记录"} · 条件：{r.environment||"未记录"} · 验证日期：{r.tested_on||"未记录"}</p><p className="personal-text">{r.notes||"未补充说明"}</p>{r.evidence_url&&<a href={r.evidence_url} target="_blank" rel="noreferrer">当时记录的证据链接</a>}{r.image_data&&<details><summary>查看当时截图</summary><img className="trial-proof" src={r.image_data} alt="个人验证历史截图"/></details>}</div>)}</details>;
 }
-function ResultEditor({plan,check,app,cell,first}:{plan:TrialPlan;check:TrialCheck;app:Application;cell?:EvidenceCell;first:boolean}) {
+function ResultEditor({plan,check,app,cell,first,focused}:{plan:TrialPlan;check:TrialCheck;app:Application;cell?:EvidenceCell;first:boolean;focused?:boolean}) {
   const {updateTrial,saving}=useSaved();const latest=latestResult(plan,app.id,check);const current=currentResult(plan,app.id,check);
   const [draft,setDraft]=useState<TrialResult>(()=>current||emptyRecord(app.id,check)),[message,setMessage]=useState(""),[error,setError]=useState("");
   useEffect(()=>{setDraft(current||emptyRecord(app.id,check));},[latest?.id,app.id,check.id,check.title,check.criterion]);
@@ -67,7 +67,7 @@ function ResultEditor({plan,check,app,cell,first}:{plan:TrialPlan;check:TrialChe
     if(draft.status==="na"&&!draft.notes.trim()){setError("请说明这项要求为什么不适用。");return;}
     const stamp=now();const record={...draft,id:crypto.randomUUID(),check_title:check.title,criterion:check.criterion,updated_at:stamp};
     if(await updateTrial(plan.id,p=>({...p,results:[record,...p.results],updated_at:stamp})))setMessage("验证记录已保存，旧版本保留在历史中。");else setError("验证记录未保存，原记录保持不变。请检查页面提示，或导出备份并减少截图后重试。");}
-  return <details className="trial-check" open={first||undefined}><summary><span>{check.title}<small>{check.required?"必需项":"可选项"}</small></span><span className={`trial-status ${current?.status||"pending"}`}>{statusNames[current?.status||"pending"]}</span></summary>
+  return <details id={`trial-check-${app.id}-${check.id}`} className="trial-check" open={first||focused||undefined}><summary><span>{check.title}<small>{check.required?"必需项":"可选项"}</small></span><span className={`trial-status ${current?.status||"pending"}`}>{statusNames[current?.status||"pending"]}</span></summary>
     <p className="trial-criterion">本次验收要求：{check.criterion}</p>{latest&&!current&&<p className="trial-warning">要求已修改，原结果仅供历史参考，请按新要求重新验证。</p>}
     <OfficialReference app={app} cell={cell} from={`/trials/${plan.id}`}/>
     <form className="trial-result-form" aria-label={`${app.name} · ${check.title} · 个人验证`} onSubmit={submit}><p className="personal-label">个人验证记录 · 不修改官方信息</p>
@@ -119,14 +119,18 @@ export function TrialPage() {
 }
 function TrialWorkspace({plan}:{plan:TrialPlan}) {
   const {data,error,retry}=useResource<Comparison>(`/api/compare?${new URLSearchParams({leaf:plan.leaf,ids:plan.ids.join(",")})}`);
-  const [active,setActive]=useState(plan.ids[0]);const checks=plan.checks.filter(c=>c.active);
+  const [params]=useSearchParams();const product=params.get("product")||"",check=params.get("check")||"";
+  const [active,setActive]=useState(plan.ids.includes(product)?product:plan.ids[0]);const checks=plan.checks.filter(c=>c.active);
+  const inputBack=params.get("from");const back=inputBack?.startsWith("/compare?")?inputBack:"/shortlist";
+  useEffect(()=>{if(plan.ids.includes(product))setActive(product);},[product,plan.ids.join("|")]);
+  useEffect(()=>{if(data&&plan.ids.includes(product)&&checks.some(c=>c.id===check))document.getElementById(`trial-check-${product}-${check}`)?.scrollIntoView({block:"start"});},[data,product,check]);
   const rows=data?.selection_rows||data?.crm_rows||[];const names=trialNames(plan,data?.products||[]);
-  return <main id="main" className="page trial-page"><Link className="return-context" to="/shortlist"><ArrowLeft size={14}/>返回候选清单与备份</Link><div className="discovery-heading"><div><p className="eyebrow">A PERSONAL TRIAL WORKSPACE</p><h1>{plan.name}</h1><p>{plan.goal}</p></div><Link className="text-action" to={comparePath(plan)}>查看当前官方比较 <ArrowRight size={14}/></Link></div>
+  return <main id="main" className="page trial-page"><Link className="return-context" to={back}><ArrowLeft size={14}/>{back==="/shortlist"?"返回候选清单与备份":"返回试用结果比较"}</Link><div className="discovery-heading"><div><p className="eyebrow">A PERSONAL TRIAL WORKSPACE</p><h1>{plan.name}</h1><p>{plan.goal}</p></div><Link className="text-action" to={comparePath(plan)}>查看官方与个人比较 <ArrowRight size={14}/></Link></div>
     <div className="trial-separation"><strong>个人试用 · 仅保存在本浏览器</strong><p>官方资料只作参考。资料核对、本人实际操作和最终选择分别记录，均不改写正式目录的“部署实测”状态。浏览器存储可能被清除，请定期从候选清单导出完整备份。</p></div>
     <section className="trial-progress" aria-label="候选验证进度">{plan.ids.map(product=>{const p=trialProgress(plan,product);return <div key={product}><strong>{trialLabel(plan,product,names)}</strong><p>必需项已记录通过 {p.passed}/{p.total}</p><small>实际操作 {p.handsOn} · 资料核对 {p.documentation} · 未通过 {p.failed} · 待验证/不适用 {p.unresolved}</small></div>;})}</section>
     <ChecklistEditor plan={plan}/>
     {error?<div className="message-card" role="alert"><h2>暂时无法读取当前官方资料</h2><p>{error}</p><p>个人计划和全部历史仍保留；{plan.ids.every(id=>names.has(id))?"可继续查看原有记录并留下选择。":"可查看历史，需恢复官方资料后才能保存新的最终选择。"}</p><button className="button" onClick={retry}>重新读取官方资料</button>{plan.results.length?<ResultHistory records={plan.results} plan={plan} names={names}/>:<p>尚未保存验证记录。</p>}</div>:!data?<p role="status">正在读取候选资料…</p>:<><div className="trial-tabs" role="tablist" aria-label="选择验证产品">{data.products.map(app=><button key={app.id} type="button" role="tab" id={`trial-tab-${app.id}`} aria-selected={active===app.id} aria-controls={`trial-panel-${app.id}`} onClick={()=>setActive(app.id)}>{app.name}</button>)}</div>
-      {data.products.map((app,index)=><section id={`trial-panel-${app.id}`} key={app.id} role="tabpanel" aria-labelledby={`trial-tab-${app.id}`} hidden={active!==app.id}><h2>{app.name} · 个人验证</h2><p className="quiet-note">先核对资料，再按自己的条件操作。不要在没有验证时记录通过。</p>{checks.map((c,i)=><ResultEditor key={c.id} plan={plan} check={c} app={app} cell={rows.find(r=>r.key===c.dimension)?.cells[index]} first={i===0}/>)}</section>)}
+      {data.products.map((app,index)=><section id={`trial-panel-${app.id}`} key={app.id} role="tabpanel" aria-labelledby={`trial-tab-${app.id}`} hidden={active!==app.id}><h2>{app.name} · 个人验证</h2><p className="quiet-note">先核对资料，再按自己的条件操作。不要在没有验证时记录通过。</p>{checks.map((c,i)=><ResultEditor key={c.id} plan={plan} check={c} app={app} cell={rows.find(r=>r.key===c.dimension)?.cells[index]} first={i===0} focused={app.id===product&&c.id===check}/>)}</section>)}
     </>}
     <FinalDecision plan={plan} apps={data?.products||[]}/>
     {!!plan.checks.some(c=>!c.active)&&<details className="trial-history"><summary>已停用检查项的历史</summary>{plan.checks.filter(c=>!c.active).map(c=><div key={c.id}><strong>{c.title}</strong><ResultHistory records={plan.results.filter(r=>r.check_id===c.id)} plan={plan} names={names}/></div>)}</details>}

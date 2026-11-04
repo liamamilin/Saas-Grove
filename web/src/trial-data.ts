@@ -71,6 +71,7 @@ export function createTrial(comparison: SavedComparison, name: string, goal: str
   return parseTrials([{id:crypto.randomUUID(),name:name.trim(),goal:goal.trim(),comparison_id:comparison.id,leaf:comparison.leaf,ids:[...comparison.ids],
     candidate_labels:labels.map(l=>({id:l.id,name:l.name})),checks:checks.map(c=>({...c,id:crypto.randomUUID()})),results:[],decisions:[],created_at:now,updated_at:now}])[0];
 }
+// History is saved newest-first. Do not revive an older matching result after requirements change.
 export function latestResult(plan: TrialPlan, product: string, check: TrialCheck) {
   return plan.results.find(r=>r.product_id===product && r.check_id===check.id);
 }
@@ -94,4 +95,8 @@ export function trialNames(plan: TrialPlan, apps: {id:string;name:string}[] = []
 }
 export function trialLabel(plan: TrialPlan, id: string, names: Map<string,string>) {
   return names.get(id) || `候选 ${plan.ids.indexOf(id)+1} · ${id}`;
+}
+
+export function trialCompareUrl(plan: TrialPlan, from = `/trials/${plan.id}`) {
+  return `/compare?${new URLSearchParams({leaf:plan.leaf,ids:plan.ids.join(","),trial:plan.id,from})}#trial-overview`;
 }
