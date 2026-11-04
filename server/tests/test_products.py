@@ -146,7 +146,7 @@ class ProductTests(unittest.TestCase):
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(Handler, api=self.api, web_root=root))
         threading.Thread(target=server.serve_forever, daemon=True).start()
         self.addCleanup(server.server_close); self.addCleanup(server.shutdown)
-        for route in ['/search?q=CRM', '/products/github%3Aalpha', '/compare?ids=beta,github%3Aalpha', '/shortlist']:
+        for route in ['/search?q=CRM', '/products/github%3Aalpha', '/compare?ids=beta,github%3Aalpha', '/shortlist', '/trials/local-plan-1']:
             client = http.client.HTTPConnection('127.0.0.1', server.server_port)
             client.request('GET', route); r = client.getresponse()
             self.assertEqual((r.status, r.read()), (200, b'<html>products</html>')); client.close()

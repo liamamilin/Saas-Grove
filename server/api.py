@@ -92,7 +92,7 @@ class Handler(BaseHTTPRequestHandler):
         target = (self.web_root / path.lstrip("/")).resolve()
         if not target.is_relative_to(self.web_root) or any(p.startswith(".") for p in Path(path).parts if p != "/"):
             return self.send(404, {"error": "页面不存在"})
-        if not target.is_file() and (path in {"/", "/browse", "/search", "/compare", "/shortlist"} or path.startswith(("/types/", "/products/"))):
+        if not target.is_file() and (path in {"/", "/browse", "/search", "/compare", "/shortlist"} or path.startswith(("/types/", "/products/", "/trials/"))):
             target = self.web_root / "index.html"
         if target.is_file():
             return self.send(200, target.read_bytes(), mimetypes.guess_type(target.name)[0] or "application/octet-stream")

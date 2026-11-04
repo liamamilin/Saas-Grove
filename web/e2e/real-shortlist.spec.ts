@@ -7,6 +7,7 @@ async function saveFromSearch(page: Page, name: string) {
   await page.goto(`/search?${new URLSearchParams({ q: name })}`);
   await page.getByRole("button", { name: `收藏 ${name}`, exact: true }).click();
   await expect(page.getByRole("button", { name: `取消收藏 ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: `取消收藏 ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true");
 }
 
 test("real desktop: collect four products, compare CRM only, return and persist", async ({ page }) => {
@@ -21,6 +22,7 @@ test("real desktop: collect four products, compare CRM only, return and persist"
   await page.goto("/search?q=Salesforce");
   await page.getByRole("heading", { name: "Salesforce Sales Cloud", exact: true }).getByRole("link").click();
   await page.getByRole("button", { name: "收藏 Salesforce Sales Cloud", exact: true }).click();
+  await expect(page.getByRole("button", { name: "取消收藏 Salesforce Sales Cloud", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.reload();
   await expect(page.getByRole("button", { name: "取消收藏 Salesforce Sales Cloud", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.screenshot({ path: `${OUT}/saved-detail-desktop.png`, fullPage: true });

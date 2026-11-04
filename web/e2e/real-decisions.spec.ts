@@ -2,7 +2,7 @@ import {test,expect,type Page} from "@playwright/test";
 import {mkdir,readFile} from "node:fs/promises";
 test.skip(!process.env.SAAS_E2E_REAL,"Real CRM selection against a temporary formal-catalog copy");
 const CRM="customer-relationship-management-crm",OUT="../docs/local-decisions",KEY="saas-grove.saved-products.v1";
-async function save(page:Page,name:string) {await page.goto(`/search?${new URLSearchParams({q:name})}`);await page.getByRole("button",{name:`收藏 ${name}`,exact:true}).click();}
+async function save(page:Page,name:string) {await page.goto(`/search?${new URLSearchParams({q:name})}`);await page.getByRole("button",{name:`收藏 ${name}`,exact:true}).click();await expect(page.getByRole("button",{name:`取消收藏 ${name}`,exact:true})).toHaveAttribute("aria-pressed","true");}
 async function select(page:Page,names:string[]) {await page.goto(`/shortlist?type=${CRM}`);for(const name of names)await page.getByRole("checkbox",{name:`选择比较 ${name}`,exact:true}).check();await page.getByRole("link",{name:"开始比较",exact:true}).click();}
 
 test("real desktop CRM: evidence, personal reasoning, saved focus and full backup round trip",async({page,browser})=>{

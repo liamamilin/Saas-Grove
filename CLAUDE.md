@@ -26,6 +26,8 @@
 
 ## 约定
 
+- CRM试用闭环（2026-11-04）：`trial-data.ts`/`trials.tsx` 与 `/trials/:id`，从保存的CRM比较生成六项清单，逐项保存个人验证历史与最终选择；官方与个人分开，不改runtime_tested。读取旧本地v1/v2不写回，首次保存用同键v3防旧标签覆写；完整备份v2接受旧备份v1，冲突保留当前整个计划。所有本地写入在同一Web Locks锁内重读（旧环境仅单标签回退），结果/选择追加历史；收藏按点击意图幂等，比较防重复提交。创建时仅缓存候选显示名供离线辨识，要求改变后旧记录仅供历史参考；删除计划先确认，失败提示保留原数据。首试点Twenty/EspoCRM，验收样例不代表第三方部署。正式1520产品/1816关系及204无关修改保持。详见docs/CRM_TRIAL_REPORT.md。
+
 - 选型体验（2026-11-04）：`server/selection.py` 与 `data/selection-evidence.json` 提供来源 SHA 绑定的 CRM/服务台专项比较，82 条已核对事实，商业专项保持未知。优先类型只重排已有关系，不能新增关联；SuiteCRM 7.x/Buzz 形态说明不覆盖正式条目。资源层累计51产品，缺图/Logo须写missing原因，不能收示意图。手机筛选默认折叠、条件保留URL；旧个人存储格式不变。正式1520产品/1816关系保持，当前任务批量整理与独立审查用用户指定Open Design / DeepSeek V4.1 Flash，未切provider。详见docs/SELECTION_EVIDENCE_REPORT.md。
 
 - 常用类型深度补齐（2026-10-31）：计划docs/DEPTH_FILL_PLAN.md，契约docs/DEPTH_FILL_CONTRACT_20261031.md+初审附加docs/DEPTH_FILL_REVIEW_ADDENDUM_20261031.md；`scripts/fill_type_depth.py prepare|check|run --units N` 用Go DeepSeek、并发4，运行目录var/collection/depth-fill-20261031/，10类冻结计划data/collections/depth-fill-20261031-plan.json。已有产品只补关系：`scripts/publish_depth_fill.py`（默认演练，`--apply`入库）导入前用正式记录重建条目，避免`_merge_entry`覆盖核心字段；已发布单元状态为published，回执或备份已存在时拒绝再次`--apply`。试点服务台第1单元先入库，用户确认后第2–10单元统一复核一次入库：正式1521产品/1817关系；独立审查后用`publish_depth_fill.py --withdraw`撤回绑错2.x维护仓库的Wiki.js（github:1350990006，主仓库requarks/wiki待重收），当前1520产品/590开源/930商业/1816关系，10个单元全部published，不要重跑。主会话复核决定（暂缓Timewarrior/TimeScribe/Zoom关系/问卷3项、Nextcloud Talk两单元合并）在data/collections/depth-fill-20261031-decisions.json，导入脚本据此执行；needs_attention单元只有在初审全部问题条目都被暂缓时才可发布。下一单元起点用published_baseline()按最近发布快照计算，共享索引过期须移开common/重建。GitHub匿名API每小时60次，并发4会耗尽，续跑用并发2；`--extra-correction`再给一轮修订，`--review-only`只重做初审。去重：仓库不同时官网相同不算重复。报告docs/DEPTH_FILL_PILOT_REPORT_20261031.md、docs/DEPTH_FILL_RUN_REPORT_20261031.md。

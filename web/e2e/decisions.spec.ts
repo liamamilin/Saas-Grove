@@ -19,10 +19,10 @@ test("legacy favorites survive notes, refresh, unfavorite and a second tab",asyn
   await page.getByLabel("测试开源项目 个人备注").fill("个人观点，不修改官方简介");
   await page.getByRole("button",{name:"保存个人记录",exact:true}).click();
   await expect(other.getByLabel("测试开源项目 个人备注")).toHaveValue("个人观点，不修改官方简介");
-  await page.getByRole("button",{name:"取消收藏 测试开源项目",exact:true}).click();await page.reload();
+  await page.getByRole("button",{name:"取消收藏 测试开源项目",exact:true}).click();await expect(page.getByRole("button",{name:"收藏 测试开源项目",exact:true})).toBeVisible();await page.reload();
   await page.getByText("我的选型记录 · 准备试用",{exact:true}).click();
   await expect(page.getByLabel("测试开源项目 个人备注")).toHaveValue("个人观点，不修改官方简介");
-  const v=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!),KEY);expect(v.version).toBe(2);expect(v.notes).toHaveLength(1);expect(v.items).toHaveLength(0);
+  const v=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!),KEY);expect(v.version).toBe(3);expect(v.notes).toHaveLength(1);expect(v.items).toHaveLength(0);
 });
 
 test("named comparison restores focus, order and conclusion and can update",async({page})=>{

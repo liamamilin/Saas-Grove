@@ -2,7 +2,7 @@ import {test,expect,type Page} from "@playwright/test";
 import {mkdir} from "node:fs/promises";
 test.skip(!process.env.SAAS_E2E_REAL,"Real catalog selection acceptance");
 const OUT="../docs/selection-evidence",CRM="customer-relationship-management-crm",KEY="saas-grove.saved-products.v1";
-async function save(page:Page,name:string){await page.goto(`/search?${new URLSearchParams({q:name})}`);await page.getByRole("button",{name:`收藏 ${name}`,exact:true}).click();}
+async function save(page:Page,name:string){await page.goto(`/search?${new URLSearchParams({q:name})}`);await page.getByRole("button",{name:`收藏 ${name}`,exact:true}).click();await expect(page.getByRole("button",{name:`取消收藏 ${name}`,exact:true})).toHaveAttribute("aria-pressed","true");}
 async function compare(page:Page,leaf:string,names:string[]){await page.goto(`/shortlist?type=${leaf}`);for(const n of names)await page.getByRole("checkbox",{name:`选择比较 ${n}`,exact:true}).check();await page.getByRole("link",{name:"开始比较",exact:true}).click();await expect(page.locator(".comparison-table thead th")).toHaveCount(names.length+1);}
 
 test("real desktop CRM: four products, explicit negative, edition and source, saved conclusion",async({page})=>{
@@ -16,7 +16,7 @@ test("real desktop CRM: four products, explicit negative, edition and source, sa
  await page.getByRole("checkbox",{name:"技术栈",exact:true}).uncheck();await page.reload();await expect(page.getByRole("checkbox",{name:"技术栈",exact:true})).not.toBeChecked();
  await page.getByLabel("比较名称",{exact:true}).fill("CRM 二轮候选");await page.getByLabel("我的选型结论",{exact:true}).fill("需要内置 REST API 的场景先不选 Django CRM；其他接口与版本待实际试用。");await page.getByRole("button",{name:"保存比较",exact:true}).click();
  await page.getByRole("link",{name:"查看已保存比较",exact:true}).click();await page.getByRole("link",{name:"CRM 二轮候选",exact:true}).click();await page.reload();await expect(page.getByLabel("我的选型结论",{exact:true})).toHaveValue(/内置 REST API/);
- const stored=await page.evaluate(k=>JSON.parse(localStorage.getItem(k)!),KEY);expect(stored.items).toHaveLength(4);expect(stored.comparisons).toHaveLength(1);expect(stored.version).toBe(2);expect(errors).toEqual([]);
+ const stored=await page.evaluate(k=>JSON.parse(localStorage.getItem(k)!),KEY);expect(stored.items).toHaveLength(4);expect(stored.comparisons).toHaveLength(1);expect(stored.version).toBe(3);expect(errors).toEqual([]);
 });
 
 test("real mobile help desk: compact search, source-bound SLA, unknown add-ons, note and saved selection",async({page})=>{

@@ -16,6 +16,7 @@ test("save from search and detail, refresh, compare and remove", async ({ page }
   await expect(page.getByRole("button", { name: "取消收藏 测试开源项目", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("heading", { name: "测试商业产品", exact: true }).getByRole("link").click();
   await page.getByRole("button", { name: "收藏 测试商业产品", exact: true }).click();
+  await expect(page.getByRole("button", { name: "取消收藏 测试商业产品", exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.reload();
   await expect(page.getByRole("button", { name: "取消收藏 测试商业产品", exact: true })).toHaveAttribute("aria-pressed", "true");
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), KEY);
@@ -99,7 +100,7 @@ test("comparison selection requires a common type across all products and caps a
 
 test("failed removal keeps all existing records saved", async ({ page }) => {
   await page.goto("/search?q=CRM系统");
-  for (const name of ["测试开源项目", "测试商业产品"]) await page.getByRole("button", { name: `收藏 ${name}`, exact: true }).click();
+  for (const name of ["测试开源项目", "测试商业产品"]) { await page.getByRole("button", { name: `收藏 ${name}`, exact: true }).click(); await expect(page.getByRole("button", { name: `取消收藏 ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true"); }
   await page.evaluate(key => {
     const original = Storage.prototype.setItem;
     Storage.prototype.setItem = function (name, value) { if (name === key) throw new DOMException("full", "QuotaExceededError"); original.call(this, name, value); };
